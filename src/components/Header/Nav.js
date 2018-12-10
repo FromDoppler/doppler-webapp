@@ -7,7 +7,7 @@ export default class HeaderNav extends Component {
     return (
       <nav>
         <ul>
-          <li></li>
+          <li />
         </ul>
       </nav>
     );
