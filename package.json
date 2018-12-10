@@ -11,8 +11,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build eclint",
-    "test": "react-scripts test",
+    "build": "react-scripts build && yarn eclint && yarn test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js"
   },
