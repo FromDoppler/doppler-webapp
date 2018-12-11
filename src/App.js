@@ -4,7 +4,6 @@ import './App.css';
 
 import HeaderNav from './components/Header/Nav';
 
-
 class App extends Component {
   render() {
     return (
