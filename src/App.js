@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Translate} from 'react-translated';
 
 import HeaderNav from './components/Header/Nav';
 
@@ -12,7 +13,7 @@ class App extends Component {
           <HeaderNav />
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            <Translate text='Edit' /> <code>src/App.js</code> <Translate text='and save to reload.' />
           </p>
           <a
             className="App-link"
@@ -20,7 +21,7 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            <Translate text='Learn React' />
           </a>
         </header>
       </div>
