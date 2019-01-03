@@ -14,6 +14,7 @@ docker run --rm \
     -p 3000:3000 \
     -v `pwd`:/work \
     -w /work \
+    -e CHOKIDAR_USEPOLLING=true \ #hot reload, beware of CPU usage
     node:8 \
     /bin/sh -c "\
         yarn \
