@@ -10,11 +10,12 @@ cd $(dirname $0)
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
+# -e CHOKIDAR_USEPOLLING=true \ --> hot reload, beware of CPU usage
 docker run --rm \
     -p 3000:3000 \
     -v `pwd`:/work \
     -w /work \
-    -e CHOKIDAR_USEPOLLING=true \ #hot reload, beware of CPU usage
+    -e CHOKIDAR_USEPOLLING=true \
     node:8 \
     /bin/sh -c "\
         yarn \
