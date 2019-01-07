@@ -12,7 +12,7 @@ class App extends Component {
           <HeaderNav />
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload. Test Pr builder.
+            Edit <code>src/App.js</code> and save to reload. Test Pr builder. PR.
           </p>
           <a
             className="App-link"
