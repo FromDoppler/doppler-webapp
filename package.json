@@ -10,6 +10,7 @@
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1"
   },
+  "homepage": "https://cdn.fromdoppler.com/doppler-webapp/latest",
   "scripts": {
     "start": "react-scripts start",
     "build": "yarn prettier-check && react-scripts build && yarn eclint && yarn test",
