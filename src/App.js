@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { FormattedHTMLMessage } from 'react-intl';
+import { addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import es from 'react-intl/locale-data/es';
 
 import HeaderNav from './components/Header/Nav';
+
+addLocaleData([...en, ...es]);
 
 class App extends Component {
   render() {
@@ -12,7 +18,7 @@ class App extends Component {
           <HeaderNav />
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            <FormattedHTMLMessage id="app.title" />
           </p>
           <a
             className="App-link"
@@ -20,7 +26,7 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            <FormattedHTMLMessage id="app.link" />
           </a>
         </header>
       </div>
