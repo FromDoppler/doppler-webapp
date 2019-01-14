@@ -11,7 +11,7 @@ export default class HeaderNav extends Component {
   }
 
   componentWillMount() {
-    fetch('http://localhost:52191/Reports/Reports/GetUserData', {
+    fetch(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
       mode: 'cors',
       credentials: 'include',
     })
@@ -20,6 +20,9 @@ export default class HeaderNav extends Component {
       })
       .then((data) => {
         this.setState({ data: data.user });
+      })
+      .catch((error) => {
+        window.location.href = process.env.REACT_APP_API_URL + '/SignIn/index';
       });
   }
 
