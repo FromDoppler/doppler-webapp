@@ -5,6 +5,7 @@
   "dependencies": {
     "eclint": "^2.8.1",
     "g": "^2.0.1",
+    "jwt-decode": "^2.2.0",
     "prettier-check": "^2.0.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
