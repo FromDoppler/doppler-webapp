@@ -5,12 +5,77 @@ import { FormattedHTMLMessage } from 'react-intl';
 import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
+import jwt_decode from 'jwt-decode';
 
 import HeaderNav from './components/Header/Nav';
 
 addLocaleData([...en, ...es]);
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: {},
+      loginSession: {},
+    };
+  }
+
+  componentWillMount() {
+    var encodedToken = localStorage.getItem('jwtToken');
+    if (encodedToken) {
+      try {
+        this.setState({ loginSession: this.decodeLoginSession(encodedToken) });
+        // TO DO add doppler session
+        var storedSession = {};
+        !storedSession && this.saveStoredSession(this.state.loginSession);
+      } catch (error) {
+        this.logOut();
+        return;
+      }
+    }
+    this.getUserData();
+  }
+
+  getUserData() {
+    fetch(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
+      mode: 'cors',
+      credentials: 'include',
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.jwtToken) {
+          this.logOut();
+        } else {
+          this.setState({ user: data.user });
+          this.saveStoredSession({ token: data.jwtToken });
+        }
+      })
+      .catch((error) => {
+        this.logOut();
+      });
+  }
+
+  decodeLoginSession(jwtToken) {
+    var decodedToken = jwt_decode(jwtToken);
+    return {
+      token: jwtToken,
+      email: decodedToken.email,
+      name: decodedToken.name,
+      lang: decodedToken.lang,
+    };
+  }
+
+  saveStoredSession(loginSession) {
+    localStorage.setItem('jwtToken', loginSession.token);
+  }
+
+  logOut() {
+    localStorage.removeItem('jwtToken');
+    window.location.href = process.env.REACT_APP_API_URL + '/SignIn/index';
+  }
+
   render() {
     return (
       <div className="App">
