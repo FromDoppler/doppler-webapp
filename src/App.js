@@ -26,7 +26,7 @@ class App extends Component {
       try {
         this.setState({ loginSession: this.decodeLoginSession(encodedToken) });
         // TO DO add doppler session
-        var storedSession = {};
+        var storedSession = localStorage.getItem('dopplerCookie');
         !storedSession && this.saveStoredSession(this.state.loginSession);
       } catch (error) {
         this.logOut();
@@ -49,7 +49,7 @@ class App extends Component {
           this.logOut();
         } else {
           this.setState({ user: data.user });
-          this.saveStoredSession({ token: data.jwtToken });
+          this.saveStoredSession({ token: data.jwtToken, dopplerCookie: data.cookieValue });
         }
       })
       .catch((error) => {
@@ -69,10 +69,12 @@ class App extends Component {
 
   saveStoredSession(loginSession) {
     localStorage.setItem('jwtToken', loginSession.token);
+    localStorage.setItem('dopplerCookie', loginSession.dopplerCookie);
   }
 
   logOut() {
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('dopplerCookie');
     window.location.href = process.env.REACT_APP_API_URL + '/SignIn/index';
   }
 
