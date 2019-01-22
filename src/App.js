@@ -21,6 +21,10 @@ class App extends Component {
   }
 
   componentWillMount() {
+    this.getUserData();
+  }
+
+  manageJwtToken() {
     var encodedToken = localStorage.getItem('jwtToken');
     if (encodedToken) {
       try {
@@ -30,8 +34,21 @@ class App extends Component {
         this.logOut();
         return;
       }
+    } else {
+      fetch(process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken', {
+        mode: 'cors',
+        credentials: 'include',
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.saveStoredSession({ token: data.jwtToken });
+        })
+        .catch((error) => {
+          this.logOut();
+        });
     }
-    this.getUserData();
   }
 
   getUserData() {
@@ -43,12 +60,9 @@ class App extends Component {
         return response.json();
       })
       .then((data) => {
-        if (!data.jwtToken) {
-          this.logOut();
-        } else {
-          this.setState({ user: data.user });
-          this.saveStoredSession({ token: data.jwtToken });
-        }
+        this.setState({ user: data.user });
+        this.manageJwtToken();
+        this.saveStoredSession({ token: data.jwtToken });
       })
       .catch((error) => {
         this.logOut();
