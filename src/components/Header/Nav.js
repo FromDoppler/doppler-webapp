@@ -7,7 +7,7 @@ export default class HeaderNav extends Component {
     return (
       <nav>
         <ul>
-          <li />
+          <li>{this.props.user.Email}</li>
         </ul>
       </nav>
     );
