@@ -22,6 +22,13 @@ class App extends Component {
 
   componentWillMount() {
     this.getUserData();
+    this.interval = setInterval(() => {
+      this.getUserData();
+    }, 60000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   manageJwtToken() {
@@ -29,7 +36,9 @@ class App extends Component {
     if (encodedToken) {
       try {
         this.setState({ loginSession: this.decodeLoginSession(encodedToken) });
-        this.saveStoredSession(this.state.loginSession);
+        if (this.state.user.Email !== this.state.loginSession.email) {
+          this.saveStoredSession(this.state.loginSession);
+        }
       } catch (error) {
         this.logOut();
         return;
@@ -62,7 +71,6 @@ class App extends Component {
       .then((data) => {
         this.setState({ user: data.user });
         this.manageJwtToken();
-        this.saveStoredSession({ token: data.jwtToken });
       })
       .catch((error) => {
         this.logOut();
