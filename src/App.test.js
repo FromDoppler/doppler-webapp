@@ -1,6 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import 'react-testing-library/cleanup-after-each';
+import { render } from 'react-testing-library';
+// this adds jest-dom's custom assertions
+import 'jest-dom/extend-expect';
 import App from './App';
+import HeaderNav from './components/Header/Nav';
+
 import { IntlProvider } from 'react-intl';
 import messages_es from './i18n/es.json';
 import messages_en from './i18n/en.json';
@@ -10,15 +15,11 @@ const messages = {
   en: messages_en,
 };
 
-const language = 'en';
-
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <IntlProvider locale={language} messages={messages[language]}>
+it('renders welcome message', () => {
+  const { getByText } = render(
+    <IntlProvider locale="en" messages={messages['en']}>
       <App />
     </IntlProvider>,
-    div,
   );
-  ReactDOM.unmountComponentAtNode(div);
+  expect(getByText('Learn React')).toBeInTheDocument();
 });
