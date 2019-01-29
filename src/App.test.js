@@ -1,10 +1,8 @@
 import React from 'react';
 import 'react-testing-library/cleanup-after-each';
 import { render } from 'react-testing-library';
-// this adds jest-dom's custom assertions
 import 'jest-dom/extend-expect';
 import App from './App';
-import HeaderNav from './components/Header/Nav';
 
 import { IntlProvider } from 'react-intl';
 import messages_es from './i18n/es.json';
