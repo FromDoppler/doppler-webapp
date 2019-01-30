@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "eclint": "^2.8.1",
     "g": "^2.0.1",
     "jest-dom": "^3.0.0",
