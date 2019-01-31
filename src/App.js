@@ -6,6 +6,7 @@ import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 import HeaderNav from './components/Header/Nav';
 
@@ -61,15 +62,12 @@ class App extends Component {
   }
 
   getUserData() {
-    fetch(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
-      mode: 'cors',
-      credentials: 'include',
-    })
-      .then((response) => {
-        return response.json();
+    axios
+      .get(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
+        withCredentials: 'include',
       })
-      .then((data) => {
-        this.setState({ user: data.user });
+      .then((response) => {
+        this.setState({ user: response.data.user });
         this.manageJwtToken();
       })
       .catch((error) => {
@@ -113,6 +111,7 @@ class App extends Component {
           >
             <FormattedHTMLMessage id="app.link" />
           </a>
+          <p>{this.state.user ? this.state.user.Email : ''}</p>
         </header>
       </div>
     );

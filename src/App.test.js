@@ -1,7 +1,8 @@
 import React from 'react';
-import 'react-testing-library/cleanup-after-each';
-import { render } from 'react-testing-library';
+import axios from 'axios';
+import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
+
 import App from './App';
 
 import { IntlProvider } from 'react-intl';
@@ -13,11 +14,41 @@ const messages = {
   en: messages_en,
 };
 
-it('renders welcome message', () => {
-  const { getByText } = render(
-    <IntlProvider locale="en" messages={messages['en']}>
-      <App />
-    </IntlProvider>,
-  );
-  expect(getByText('Learn React')).toBeInTheDocument();
+const response = {
+  data: {
+    user: {
+      Email: 'fcoronel@makingsense.com',
+    },
+  },
+};
+
+describe('App component', () => {
+  afterEach(cleanup);
+
+  beforeEach(() => {
+    axios.get = jest.fn(() => Promise.resolve(response));
+  });
+
+  it('renders welcome message', () => {
+    const { getByText } = render(
+      <IntlProvider locale="en" messages={messages['en']}>
+        <App />
+      </IntlProvider>,
+    );
+    expect(getByText('Learn React')).toBeInTheDocument();
+  });
+
+  it('fetches user and display user data', async () => {
+    const { getByText } = render(
+      <IntlProvider locale="en" messages={messages['en']}>
+        <App />
+      </IntlProvider>,
+    );
+
+    await wait(() => getByText(response.data.user.Email));
+
+    const userEmail = getByText(response.data.user.Email);
+
+    expect(userEmail).toBeDefined();
+  });
 });
