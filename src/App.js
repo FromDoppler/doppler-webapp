@@ -45,15 +45,12 @@ class App extends Component {
         return;
       }
     } else {
-      fetch(process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken', {
-        mode: 'cors',
-        credentials: 'include',
-      })
-        .then((response) => {
-          return response.json();
+      axios
+        .get(process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken', {
+          withCredentials: 'include',
         })
-        .then((data) => {
-          this.saveStoredSession({ token: data.jwtToken });
+        .then((response) => {
+          this.saveStoredSession({ token: response.data.jwtToken });
         })
         .catch((error) => {
           this.logOut();
