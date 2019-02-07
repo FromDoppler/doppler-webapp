@@ -8,7 +8,8 @@ import es from 'react-intl/locale-data/es';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
-import HeaderNav from './components/Header/Nav';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 addLocaleData([...en, ...es]);
 
@@ -94,22 +95,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          {this.state.user ? <HeaderNav user={this.state.user} /> : null}
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            <FormattedHTMLMessage id="app.title" />
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FormattedHTMLMessage id="app.link" />
-          </a>
-          <p>{this.state.user ? this.state.user.Email : ''}</p>
-        </header>
+        {this.state.user ? <Header className="App-header" user={this.state.user} /> : null}
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          <FormattedHTMLMessage id="app.title" />
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FormattedHTMLMessage id="app.link" />
+        </a>
+        <Footer />
       </div>
     );
   }
