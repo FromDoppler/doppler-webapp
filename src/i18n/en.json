@@ -1,4 +1,8 @@
 {
-    "app.title": "Edit <code>src/App.js</code> and save to reload",
-    "app.link": "Learn React"
+  "app.title": "Edit <code>src/App.js</code> and save to reload",
+  "app.link": "Learn React",
+  "footer.allRightReserved" : "All rights reserved",
+  "footer.iso" : "ISO Quality Certification 9001:2008",
+  "footer.privacy": "Privacy Policy & Legals.",
+  "footer.privacy_link": "https://fromdoppler.com/en/privacy-policy"
 }
