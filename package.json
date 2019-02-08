@@ -15,7 +15,7 @@
     "react-scripts": "2.1.1",
     "react-testing-library": "^5.4.4"
   },
-  "homepage": "https://cdn.fromdoppler.com/doppler-webapp/latest",
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "yarn prettier-check && react-scripts build && yarn eclint && yarn test",
