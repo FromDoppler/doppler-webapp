@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { IntlProvider } from 'react-intl';
 import messages_es from './i18n/es.json';
 import messages_en from './i18n/en.json';
+import { flattenMessages } from './utils';
 
 const messages = {
   es: messages_es,
@@ -16,7 +17,7 @@ const messages = {
 const language = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
 
 ReactDOM.render(
-  <IntlProvider locale={language} messages={messages[language]}>
+  <IntlProvider locale={language} messages={flattenMessages(messages[language])}>
     <App />
   </IntlProvider>,
   document.getElementById('root'),

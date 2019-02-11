@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, cleanup, wait } from 'react-testing-library';
+import { render, cleanup } from 'react-testing-library';
 import 'jest-dom/extend-expect';
+import { flattenMessages } from '../../utils';
 
 import Footer from './Footer';
 
@@ -18,7 +19,7 @@ describe('Footer component', () => {
 
   it('renders footer rights reserverd message', () => {
     const { getByText } = render(
-      <IntlProvider locale="en" messages={messages['en']}>
+      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
         <Footer />
       </IntlProvider>,
     );

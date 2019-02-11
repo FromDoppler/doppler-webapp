@@ -1,19 +1,18 @@
 import React from 'react';
-import { FormattedHTMLMessage } from 'react-intl';
-import './Footer.css';
+import { FormattedMessage } from 'react-intl';
 
 const Footer = () => (
-  <footer className="main-footer">
-    <div className="wrapper">
+  <footer>
+    <div>
       <p>
         <span>
-          <FormattedHTMLMessage id="footer.iso" />
+          <FormattedMessage id="footer.iso" />
         </span>
         <span>
           &copy; {new Date().getFullYear()} Doppler LLC.{' '}
-          <FormattedHTMLMessage id="footer.allRightReserved" />.{' '}
-          <a className="link--default" href="https://fromdoppler.com/privacidad">
-            <FormattedHTMLMessage id="footer.privacy" />
+          <FormattedMessage id="footer.allRightReserved" />.{' '}
+          <a href="https://fromdoppler.com/privacidad">
+            <FormattedMessage id="footer.privacy" />
           </a>
         </span>
       </p>
