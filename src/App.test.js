@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { flattenMessages } from './utils';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 
@@ -53,13 +54,12 @@ describe('App component', () => {
     });
   });
 
-  it('renders welcome message', () => {
+  it('renders app component', () => {
     const { getByText } = render(
-      <IntlProvider locale="en" messages={messages['en']}>
+      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
         <App />
       </IntlProvider>,
     );
-    expect(getByText('Learn React')).toBeInTheDocument();
   });
 
   it('fetches user and display user data', async () => {
@@ -72,7 +72,7 @@ describe('App component', () => {
     jwt_decode.mockResolvedValue(tokenDecodeData);
 
     const { getByText } = render(
-      <IntlProvider locale="en" messages={messages['en']}>
+      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
         <App />
       </IntlProvider>,
     );

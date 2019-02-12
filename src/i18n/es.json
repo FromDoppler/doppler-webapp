@@ -1,8 +1,8 @@
 {
-  "app.title": "Edita <code>src/App.js</code> y guarda para recargar la página",
-  "app.link": "Aprende React",
-  "footer.allRightReserved" : "Todos los derechos reservados",
-  "footer.iso" : "Certificación de Calidad ISO 9001:2008",
-  "footer.privacy": "Políticas de privacidad y legales.",
-  "footer.privacy_link": "https://fromdoppler.com/privacidad"
+  "footer": {
+    "allRightReserved": "Todos los derechos reservados",
+    "iso": "Certificación de Calidad ISO 9001:2008",
+    "privacy": "Políticas de privacidad y legales.",
+    "privacy_url": "https://fromdoppler.com/privacidad"
+  }
 }

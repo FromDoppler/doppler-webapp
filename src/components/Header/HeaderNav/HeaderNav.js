@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './HeaderNav.css';
-
 const HeaderNav = (props) => {
   return (
     <nav>
