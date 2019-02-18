@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "eclint": "^2.8.1",
+    "env-cmd": "^8.0.2",
     "g": "^2.0.1",
     "jest-dom": "^3.0.0",
     "jwt-decode": "^2.2.0",
