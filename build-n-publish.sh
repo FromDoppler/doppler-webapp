@@ -11,6 +11,7 @@ set -e
 # reference: http://www.ostricher.com/2014/10/the-right-way-to-get-the-directory-of-a-bash-script/
 cd $(dirname $0)
 
+sh ./verify-w-docker.sh
 sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl
 
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
