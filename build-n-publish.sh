@@ -3,6 +3,9 @@
 pkgName="doppler-webapp"
 pkgVersion=${1:-"v0.0.0-build0"}
 cdnBaseUrl=${2:-"//cdn.fromdoppler.com/$pkgName"}
+pkgVersionQa="qa-$pkgVersion"
+pkgVersionInt="int-$pkgVersion"
+pkgVersionDevelopment="dev-$pkgVersion"
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
@@ -12,11 +15,11 @@ set -e
 cd $(dirname $0)
 
 sh ./verify-w-docker.sh
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl
 
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
 docker pull dopplerrelay/doppler-relay-akamai-publish
 
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl production
 docker run --rm \
     -e AKAMAI_CDN_HOSTNAME \
     -e AKAMAI_CDN_USERNAME \
@@ -24,5 +27,38 @@ docker run --rm \
     -e AKAMAI_CDN_CPCODE \
     -e "PROJECT_NAME=$pkgName" \
     -e "VERSION_NAME=$pkgVersion" \
+    -v /`pwd`/build:/source \
+    dopplerrelay/doppler-relay-akamai-publish
+
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl qa
+docker run --rm \
+    -e AKAMAI_CDN_HOSTNAME \
+    -e AKAMAI_CDN_USERNAME \
+    -e AKAMAI_CDN_PASSWORD \
+    -e AKAMAI_CDN_CPCODE \
+    -e "PROJECT_NAME=$pkgName" \
+    -e "VERSION_NAME=$pkgVersionQa" \
+    -v /`pwd`/build:/source \
+    dopplerrelay/doppler-relay-akamai-publish
+
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl int
+docker run --rm \
+    -e AKAMAI_CDN_HOSTNAME \
+    -e AKAMAI_CDN_USERNAME \
+    -e AKAMAI_CDN_PASSWORD \
+    -e AKAMAI_CDN_CPCODE \
+    -e "PROJECT_NAME=$pkgName" \
+    -e "VERSION_NAME=$pkgVersionInt" \
+    -v /`pwd`/build:/source \
+    dopplerrelay/doppler-relay-akamai-publish
+
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl development
+docker run --rm \
+    -e AKAMAI_CDN_HOSTNAME \
+    -e AKAMAI_CDN_USERNAME \
+    -e AKAMAI_CDN_PASSWORD \
+    -e AKAMAI_CDN_CPCODE \
+    -e "PROJECT_NAME=$pkgName" \
+    -e "VERSION_NAME=$pkgVersionDevelopment" \
     -v /`pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
