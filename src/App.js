@@ -16,7 +16,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: {},
+      user: null,
       loginSession: {},
     };
   }
@@ -92,13 +92,18 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Header user={this.state.user} />
-        <img src={logo} alt="logo" />
-        <Footer />
-      </div>
-    );
+    const isLoggedIn = !!this.state.user;
+    if (isLoggedIn) {
+      return (
+        <div>
+          <Header />
+          <img src={logo} alt="logo" />
+          <Footer />
+        </div>
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
   }
 }
 
