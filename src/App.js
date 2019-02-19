@@ -88,7 +88,10 @@ class App extends Component {
 
   logOut() {
     localStorage.removeItem('jwtToken');
-    window.location.href = process.env.REACT_APP_API_URL + '/SignIn/index?redirect=/webapp';
+    const currentUrlEncoded = encodeURI(window.location.href);
+    // TODO: only use redirect on login, not in logout
+    const loginUrl = `${process.env.REACT_APP_API_URL}/SignIn/index?redirect=${currentUrlEncoded}`;
+    window.location.href = loginUrl;
   }
 
   render() {
