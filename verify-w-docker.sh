@@ -1,9 +1,5 @@
 #!/bin/sh
 
-pkgVersion=${1:-"v0.0.0-build0"}
-cdnBaseUrl=${2:-"//cdn.fromdoppler.com/$pkgName"}
-environment=${3:-"production"}
-
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
@@ -20,5 +16,5 @@ docker run --rm \
     node:8 \
     /bin/sh -c "\
         yarn \
-        && yarn run build:$environment \
+        && yarn verify \
     "

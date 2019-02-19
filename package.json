@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "eclint": "^2.8.1",
+    "env-cmd": "^8.0.2",
     "g": "^2.0.1",
     "jest-dom": "^3.0.0",
     "jwt-decode": "^2.2.0",
@@ -19,6 +20,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "yarn prettier-check && react-scripts build && yarn eclint && yarn test",
+    "verify": "yarn prettier-check && yarn eclint && yarn test", 
+    "build:production": "env-cmd .env.production yarn build",
+    "build:qa": "env-cmd .env.qa yarn build",
+    "build:int": "env-cmd .env.int yarn build",
+    "build:development": "env-cmd .env.development yarn build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js",
