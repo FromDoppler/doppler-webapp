@@ -2,13 +2,13 @@
   "nav":[
     {
       "title":"Campañas",
-      "url":"https://app2.fromdoppler.com/Campaigns/Draft/",
+      "url":"https://appint.fromdoppler.net/Campaigns/Draft/",
       "isEnabled":false,
       "isSelected":false,
       "subNav":[
         {
           "title":"Borradores",
-          "url":"https://app2.fromdoppler.com/Campaigns/Draft/",
+          "url":"https://appint.fromdoppler.net/Campaigns/Draft/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"campaignDraftMenu",
@@ -16,7 +16,7 @@
         },
         {
           "title":"Programadas",
-          "url":"https://app2.fromdoppler.com/Campaigns/Scheduled/",
+          "url":"https://appint.fromdoppler.net/Campaigns/Scheduled/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"campaignScheduledMenu",
@@ -24,7 +24,7 @@
         },
         {
           "title":"Enviadas",
-          "url":"https://app2.fromdoppler.com/Campaigns/Sent/",
+          "url":"https://appint.fromdoppler.net/Campaigns/Sent/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"campaignSentMenu",
@@ -32,7 +32,7 @@
         },
         {
           "title":"Test A/B",
-          "url":"https://app2.fromdoppler.com/Campaigns/TestAB/",
+          "url":"https://appint.fromdoppler.net/Campaigns/TestAB/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"campaignTestABMenu",
@@ -44,13 +44,13 @@
     },
     {
       "title":"Listas",
-      "url":"https://app2.fromdoppler.com/Lists/SubscribersList",
+      "url":"https://appint.fromdoppler.net/Lists/SubscribersList",
       "isEnabled":false,
       "isSelected":false,
       "subNav":[
         {
           "title":"Listas Principales",
-          "url":"https://app2.fromdoppler.com/Lists/SubscribersList/",
+          "url":"https://appint.fromdoppler.net/Lists/SubscribersList/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"listMainMenu",
@@ -58,7 +58,7 @@
         },
         {
           "title":"Segmentos",
-          "url":"https://app2.fromdoppler.com/Lists/Segment/",
+          "url":"https://appint.fromdoppler.net/Lists/Segment/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"listSegmentMenu",
@@ -66,7 +66,7 @@
         },
         {
           "title":"Suscriptores",
-          "url":"https://app2.fromdoppler.com/Lists/MasterSubscriber/",
+          "url":"https://appint.fromdoppler.net/Lists/MasterSubscriber/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"listMasterSubscriberMenu",
@@ -74,7 +74,7 @@
         },
         {
           "title":"Campos Personalizados",
-          "url":"https://app2.fromdoppler.com/Lists/MasterCustomFields/",
+          "url":"https://appint.fromdoppler.net/Lists/MasterCustomFields/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"listCustomFieldMenu",
@@ -82,7 +82,7 @@
         },
         {
           "title":"Formularios",
-          "url":"https://app2.fromdoppler.com/Lists/Form/",
+          "url":"https://appint.fromdoppler.net/Lists/Form/",
           "isEnabled":false,
           "isSelected":false,
           "idHTML":"listFormMenu",
@@ -94,7 +94,7 @@
     },
     {
       "title":"Automation",
-      "url":"https://app2.fromdoppler.com/Automation/Automation/AutomationApp/",
+      "url":"https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
       "isEnabled":false,
       "isSelected":false,
       "subNav":[
@@ -105,7 +105,7 @@
     },
     {
       "title":"Reportes",
-      "url":"https://app2.fromdoppler.com/Campaigns/Reports/",
+      "url":"https://appint.fromdoppler.net/Campaigns/Reports/",
       "isEnabled":false,
       "isSelected":false,
       "subNav":[
@@ -116,7 +116,7 @@
     },
     {
       "title":"Plantillas",
-      "url":"https://app2.fromdoppler.com/Templates/Main/",
+      "url":"https://appint.fromdoppler.net/Templates/Main/",
       "isEnabled":false,
       "isSelected":true,
       "idHTML":"templateMenu",
@@ -133,17 +133,17 @@
       "maxSubscribers":"0",
       "remainingCredits":"85899",
       "buttonText":"COMPRAR",
-      "buttonUrl":"https://app2.fromdoppler.com/ControlPanel/AccountPreferences/BuyCreditsStep1"
+      "buttonUrl":"https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1"
     },
     "lang":"es",
     "avatar":{
-      "text":"CS",
+      "text":"FC",
       "color":"#EE9C70"
     },
     "nav":[
       {
         "title":"Panel de Control",
-        "url":"https://app2.fromdoppler.com/ControlPanel/ControlPanel/",
+        "url":"https://appint.fromdoppler.net/ControlPanel/ControlPanel/",
         "isEnabled":false,
         "isSelected":false,
         "idHTML":"controlPanel",
@@ -151,7 +151,7 @@
       },
       {
         "title":"Centro de descargas",
-        "url":"https://app2.fromdoppler.com/DownloadCenter/DownloadCenter",
+        "url":"https://appint.fromdoppler.net/DownloadCenter/DownloadCenter",
         "isEnabled":false,
         "isSelected":false,
         "idHTML":"downloadCenter",
@@ -159,7 +159,7 @@
       },
       {
         "title":"Primeros pasos en Doppler",
-        "url":"https://app2.fromdoppler.com/Steps/FirstSteps",
+        "url":"https://appint.fromdoppler.net/Steps/FirstSteps",
         "isEnabled":false,
         "isSelected":false,
         "idHTML":"firstSteps",
@@ -167,7 +167,7 @@
       },
       {
         "title":"Salir",
-        "url":"https://app2.fromdoppler.com/SignIn/SignOut",
+        "url":"https://appint.fromdoppler.net/SignIn/SignOut",
         "isEnabled":false,
         "isSelected":false,
         "idHTML":"signOut",
