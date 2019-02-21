@@ -19,7 +19,7 @@
   "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
-    "build": "yarn prettier-check && react-scripts build && yarn eclint && yarn test",
+    "build": "react-scripts build",
     "verify": "yarn prettier-check && yarn eclint && yarn test", 
     "build:production": "env-cmd .env.production yarn build",
     "build:qa": "env-cmd .env.qa yarn build",
