@@ -97,9 +97,6 @@
       "url":"https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
       "isEnabled":false,
       "isSelected":false,
-      "subNav":[
-
-      ],
       "idHTML":"automationMenu",
       "$$hashKey":"object:8"
     },
@@ -108,9 +105,6 @@
       "url":"https://appint.fromdoppler.net/Campaigns/Reports/",
       "isEnabled":false,
       "isSelected":false,
-      "subNav":[
-
-      ],
       "idHTML":"reportMenu",
       "$$hashKey":"object:9"
     },
@@ -118,9 +112,16 @@
       "title":"Plantillas",
       "url":"https://appint.fromdoppler.net/Templates/Main/",
       "isEnabled":false,
-      "isSelected":true,
+      "isSelected":false,
       "idHTML":"templateMenu",
       "$$hashKey":"object:10"
+    },
+    {
+      "title":"Doppler Data Hub",
+      "url":"https://cdn.fromdoppler.com/doppler-webapp/int-latest/",
+      "isEnabled":false,
+      "isSelected":true,
+      "idHTML":"dopplerDataHubMenu"
     }
   ],
   "user":{

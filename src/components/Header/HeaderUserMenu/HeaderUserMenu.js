@@ -9,7 +9,7 @@ const HeaderUserMenu = (props) => {
           {user.avatar.text}
         </span>
       </span>
-      <div class="user-menu">
+      <div className="user-menu">
         <header>
           <span className="user-avatar--menu" style={{ background: user.avatar.color }}>
             {user.avatar.text}
