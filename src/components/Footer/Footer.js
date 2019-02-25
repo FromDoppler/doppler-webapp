@@ -10,9 +10,13 @@ const Footer = () => (
       <span>
         &copy; {new Date().getFullYear()} Doppler LLC.{' '}
         <FormattedMessage id="footer.allRightReserved" />.{' '}
-        <a className="link--default" href="https://fromdoppler.com/privacidad">
-          <FormattedMessage id="footer.privacy" />
-        </a>
+        <FormattedMessage id="footer.privacy_url">
+          {(url) => (
+            <a className="link--default" href={url}>
+              <FormattedMessage id="footer.privacy" />
+            </a>
+          )}
+        </FormattedMessage>
       </span>
     </div>
   </footer>
