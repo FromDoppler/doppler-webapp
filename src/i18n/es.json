@@ -1,4 +1,7 @@
 {
+  "header": {
+    "help_url": "https://help.fromdoppler.com/es/"
+  },
   "footer": {
     "allRightReserved": "Todos los derechos reservados",
     "iso": "Certificación de Calidad ISO 9001:2008",
