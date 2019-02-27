@@ -7,20 +7,22 @@
     "eclint": "^2.8.1",
     "env-cmd": "^8.0.2",
     "g": "^2.0.1",
-    "jest-dom": "^3.0.0",
+    "jest-dom": "^3.1.2",
     "jwt-decode": "^2.2.0",
+    "prettier": "^1.16.4",
     "prettier-check": "^2.0.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-intl": "^2.7.2",
-    "react-scripts": "2.1.1",
-    "react-testing-library": "^5.4.4"
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-intl": "^2.8.0",
+    "react-scripts": "^2.1.5",
+    "react-testing-library": "^6.0.0",
+    "typescript": "^3.3.3333"
   },
   "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "verify": "yarn prettier-check && yarn eclint && yarn test", 
+    "verify": "yarn prettier-check && yarn eclint && yarn test",
     "build:production": "env-cmd .env.production yarn build",
     "build:qa": "env-cmd .env.qa yarn build",
     "build:int": "env-cmd .env.int yarn build",
@@ -45,8 +47,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "prettier": "1.15.3"
-  }
+  ]
 }
