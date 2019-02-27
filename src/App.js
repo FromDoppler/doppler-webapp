@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { addLocaleData, IntlProvider } from 'react-intl';
+import { addLocaleData, FormattedMessage, IntlProvider } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import messages_es from './i18n/es.json';
@@ -120,7 +120,9 @@ class App extends Component {
             <Footer />
           </div>
         ) : (
-          <div>Loading...</div>
+          <div>
+            <FormattedMessage id="loading" />
+          </div>
         )}
       </IntlProvider>
     );
