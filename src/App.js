@@ -1,23 +1,37 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { addLocaleData } from 'react-intl';
+import { addLocaleData, FormattedMessage, IntlProvider } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
+import messages_es from './i18n/es.json';
+import messages_en from './i18n/en.json';
+import { flattenMessages } from './utils';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+const messages = {
+  es: messages_es,
+  en: messages_en,
+};
+
 addLocaleData([...en, ...es]);
 
 class App extends Component {
   constructor() {
     super();
+    //TODO: this hardcoded data will depend by the app language
+    const locale = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
     this.state = {
       user: null,
       loginSession: {},
+      i18n: {
+        locale: locale,
+        messages: flattenMessages(messages[locale]),
+      },
     };
   }
 
@@ -96,17 +110,22 @@ class App extends Component {
 
   render() {
     const isLoggedIn = !!this.state.user;
-    if (isLoggedIn) {
-      return (
-        <div>
-          <Header />
-          <img src={logo} alt="logo" />
-          <Footer />
-        </div>
-      );
-    } else {
-      return <div>Loading...</div>;
-    }
+    const i18n = this.state.i18n;
+    return (
+      <IntlProvider locale={i18n.locale} messages={i18n.messages}>
+        {isLoggedIn ? (
+          <>
+            <Header />
+            <img src={logo} alt="logo" />
+            <Footer />
+          </>
+        ) : (
+          <div>
+            <FormattedMessage id="loading" />
+          </div>
+        )}
+      </IntlProvider>
+    );
   }
 }
 
