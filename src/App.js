@@ -114,11 +114,11 @@ class App extends Component {
     return (
       <IntlProvider locale={i18n.locale} messages={i18n.messages}>
         {isLoggedIn ? (
-          <div>
+          <>
             <Header />
             <img src={logo} alt="logo" />
             <Footer />
-          </div>
+          </>
         ) : (
           <div>
             <FormattedMessage id="loading" />
