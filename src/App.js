@@ -7,10 +7,9 @@ import es from 'react-intl/locale-data/es';
 import messages_es from './i18n/es.json';
 import messages_en from './i18n/en.json';
 import { flattenMessages } from './utils';
-import axios from 'axios';
-
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import { OnlineSessionManager } from './services/session-manager';
 
 const messages = {
   es: messages_es,
@@ -23,8 +22,12 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.updateSession = this.updateSession.bind(this);
+
+    this.sessionManager = new OnlineSessionManager();
+
     this.state = {
-      user: null,
+      dopplerSession: this.sessionManager.session,
       i18n: {
         locale: props.locale,
         messages: flattenMessages(messages[props.locale]),
@@ -32,40 +35,20 @@ class App extends Component {
     };
   }
 
-  componentWillMount() {
-    this.getUserData();
-    this.interval = setInterval(() => {
-      this.getUserData();
-    }, 60000);
+  componentDidMount() {
+    this.sessionManager.initialize(this.updateSession);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    this.sessionManager.finalize();
   }
 
-  async getUserData() {
-    try {
-    const response = await axios
-      .get(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
-        withCredentials: true,
-      })
-
-      this.setState({ user: response.data.user });
-      this.manageJwtToken();
-    } catch(error) {
-      this.logOut();
-    }
-  }
-
-  logOut() {
-    const currentUrlEncoded = encodeURI(window.location.href);
-    // TODO: only use redirect on login, not in logout
-    const loginUrl = `${process.env.REACT_APP_API_URL}/SignIn/index?redirect=${currentUrlEncoded}`;
-    window.location.href = loginUrl;
+  updateSession(dopplerSession) {
+    this.setState({ dopplerSession: dopplerSession });
   }
 
   render() {
-    const isLoggedIn = !!this.state.user;
+    const isLoggedIn = this.state.dopplerSession.status === 'authenticated';
     const i18n = this.state.i18n;
     return (
       <IntlProvider locale={i18n.locale} messages={i18n.messages}>
