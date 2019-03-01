@@ -43,18 +43,18 @@ class App extends Component {
     clearInterval(this.interval);
   }
 
-  getUserData() {
-    axios
+  async getUserData() {
+    try {
+    const response = await axios
       .get(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
-        withCredentials: 'include',
+        withCredentials: true,
       })
-      .then((response) => {
-        this.setState({ user: response.data.user });
-        this.manageJwtToken();
-      })
-      .catch((error) => {
-        this.logOut();
-      });
+
+      this.setState({ user: response.data.user });
+      this.manageJwtToken();
+    } catch(error) {
+      this.logOut();
+    }
   }
 
   logOut() {

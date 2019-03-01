@@ -48,7 +48,7 @@ describe('App component', () => {
       expect(axios.get).toHaveBeenCalledWith(
         process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
         {
-          withCredentials: 'include',
+          withCredentials: true,
         },
       );
     });
