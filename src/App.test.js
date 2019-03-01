@@ -1,23 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { flattenMessages } from './utils';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
-
 import App from './App';
-
-import { IntlProvider } from 'react-intl';
-import messages_es from './i18n/es.json';
-import messages_en from './i18n/en.json';
 import jwt_decode from 'jwt-decode';
 
 //Add mock to decode jwt token and not fail
 jest.mock('jwt-decode');
-
-const messages = {
-  es: messages_es,
-  en: messages_en,
-};
 
 const response = {
   data: {
@@ -55,11 +44,7 @@ describe('App component', () => {
   });
 
   it('renders app component', () => {
-    const { getByText } = render(
-      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
-        <App />
-      </IntlProvider>,
-    );
+    const { getByText } = render(<App />);
   });
 
   it('fetches user and display user data', async () => {
@@ -71,11 +56,7 @@ describe('App component', () => {
 
     jwt_decode.mockResolvedValue(tokenDecodeData);
 
-    const { getByText } = render(
-      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
-        <App />
-      </IntlProvider>,
-    );
+    const { getByText } = render(<App />);
 
     await wait(() => getByText(response.data.user.Email));
 
