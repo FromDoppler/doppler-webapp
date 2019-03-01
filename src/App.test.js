@@ -43,8 +43,14 @@ describe('App component', () => {
     });
   });
 
-  it('renders app component', () => {
-    const { getByText } = render(<App />);
+  it('renders loading text in English', () => {
+    const { getByText } = render(<App locale="en" />);
+    getByText('Loading...');
+  });
+
+  it('renders loading text in Spanish', () => {
+    const { getByText } = render(<App locale="es" />);
+    getByText('Cargando...');
   });
 
   it('fetches user and display user data', async () => {
@@ -56,7 +62,7 @@ describe('App component', () => {
 
     jwt_decode.mockResolvedValue(tokenDecodeData);
 
-    const { getByText } = render(<App />);
+    const { getByText } = render(<App locale="en" />);
 
     await wait(() => getByText(response.data.user.Email));
 

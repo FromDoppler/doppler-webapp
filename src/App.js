@@ -21,16 +21,15 @@ const messages = {
 addLocaleData([...en, ...es]);
 
 class App extends Component {
-  constructor() {
-    super();
-    //TODO: this hardcoded data will depend by the app language
-    const locale = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
+  constructor(props) {
+    super(props);
+
     this.state = {
       user: null,
       loginSession: {},
       i18n: {
-        locale: locale,
-        messages: flattenMessages(messages[locale]),
+        locale: props.locale,
+        messages: flattenMessages(messages[props.locale]),
       },
     };
   }
