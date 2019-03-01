@@ -21,13 +21,6 @@ describe('App component', () => {
     const email = 'fcoronel@makingsense.com';
 
     beforeEach(() => {
-      // prepare localStorage double
-      global.localStorage = {
-        getItem: jest.fn(),
-        setItem: jest.fn(),
-        removeItem: jest.fn(),
-      };
-
       // prepare backend double
       const responseOfGetUserData = {
         data: {
@@ -37,17 +30,9 @@ describe('App component', () => {
         },
       };
 
-      const responseOfGetToken = {
-        data: {
-          jwtToken: 'token',
-        },
-      };
-
       axios.get = jest.fn((url) => {
         if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData') {
           return Promise.resolve(responseOfGetUserData);
-        } else if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken') {
-          return Promise.resolve(responseOfGetToken);
         } else {
           return Promise.reject('Unexpected call to backend');
         }
@@ -59,15 +44,9 @@ describe('App component', () => {
 
       await wait(() => getByText(email));
 
-      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(axios.get).toHaveBeenCalledTimes(1);
       expect(axios.get).toHaveBeenCalledWith(
         process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
-        {
-          withCredentials: 'include',
-        },
-      );
-      expect(axios.get).toHaveBeenCalledWith(
-        process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken',
         {
           withCredentials: 'include',
         },
