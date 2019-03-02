@@ -3,10 +3,6 @@ import axios from 'axios';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
-import jwt_decode from 'jwt-decode';
-
-//Add mock to decode jwt token and not fail
-jest.mock('jwt-decode');
 
 const response = {
   data: {
@@ -54,14 +50,6 @@ describe('App component', () => {
   });
 
   it('fetches user and display user data', async () => {
-    const tokenDecodeData = {
-      email: 'fcoronel@makingsense',
-      name: 'fede',
-      lang: 'es',
-    };
-
-    jwt_decode.mockResolvedValue(tokenDecodeData);
-
     const { getByText } = render(<App locale="en" />);
 
     await wait(() => getByText(response.data.user.Email));
