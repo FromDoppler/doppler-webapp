@@ -28,6 +28,7 @@
     "build:int": "env-cmd .env.int yarn build",
     "build:development": "env-cmd .env.development yarn build",
     "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js",
     "prettier": "prettier --write src/**/*.js src/**/*.ts",
