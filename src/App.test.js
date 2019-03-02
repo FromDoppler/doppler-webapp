@@ -4,40 +4,8 @@ import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
 
-const response = {
-  data: {
-    user: {
-      Email: 'fcoronel@makingsense.com',
-    },
-  },
-};
-
-const responseToken = {
-  data: {
-    jwtToken: 'token',
-  },
-};
-
-//Local storage mock
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-};
-global.localStorage = localStorageMock;
-
 describe('App component', () => {
   afterEach(cleanup);
-
-  beforeEach(() => {
-    axios.get = jest.fn((url) => {
-      if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData') {
-        return Promise.resolve(response);
-      } else {
-        return Promise.resolve(responseToken);
-      }
-    });
-  });
 
   it('renders loading text in English', () => {
     const { getByText } = render(<App locale="en" />);
@@ -49,20 +17,61 @@ describe('App component', () => {
     getByText('Cargando...');
   });
 
-  it('fetches user and display user data', async () => {
-    const { getByText } = render(<App locale="en" />);
+  describe('in normal backend behavior', () => {
+    const email = 'fcoronel@makingsense.com';
 
-    await wait(() => getByText(response.data.user.Email));
+    beforeEach(() => {
+      // prepare localStorage double
+      global.localStorage = {
+        getItem: jest.fn(),
+        setItem: jest.fn(),
+        removeItem: jest.fn(),
+      };
 
-    const userEmail = getByText(response.data.user.Email);
+      // prepare backend double
+      const responseOfGetUserData = {
+        data: {
+          user: {
+            Email: email,
+          },
+        },
+      };
 
-    expect(userEmail).toBeDefined();
-    expect(axios.get).toHaveBeenCalledTimes(1);
-    expect(axios.get).toHaveBeenCalledWith(
-      process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
-      {
-        withCredentials: 'include',
-      },
-    );
+      const responseOfGetToken = {
+        data: {
+          jwtToken: 'token',
+        },
+      };
+
+      axios.get = jest.fn((url) => {
+        if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData') {
+          return Promise.resolve(responseOfGetUserData);
+        } else if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken') {
+          return Promise.resolve(responseOfGetToken);
+        } else {
+          return Promise.reject('Unexpected call to backend');
+        }
+      });
+    });
+
+    it('displays user data and fetches user data and token', async () => {
+      const { getByText } = render(<App locale="en" />);
+
+      await wait(() => getByText(email));
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(axios.get).toHaveBeenCalledWith(
+        process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
+        {
+          withCredentials: 'include',
+        },
+      );
+      expect(axios.get).toHaveBeenCalledWith(
+        process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken',
+        {
+          withCredentials: 'include',
+        },
+      );
+    });
   });
 });
