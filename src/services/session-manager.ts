@@ -1,19 +1,20 @@
 import { DopplerMvcClient } from './doppler-mvc-client';
 
-type SessionStatus = 'unknown' | 'authenticated' | 'non-authenticated';
-
-interface AppSession {
-  status: SessionStatus;
-}
+type AppSession =
+  | { status: 'unknown' }
+  | { status: 'non-authenticated' }
+  | {
+      status: 'authenticated';
+    };
 
 const noop = () => {};
 
-const defaultSession: AppSession = {
-  status: 'unknown',
-};
+const defaultSession: AppSession = { status: 'unknown' };
 
 export interface SessionManager {
   session: AppSession;
+  initialize: (handler: (s: AppSession) => void) => void;
+  finalize: () => void;
 }
 
 export class OnlineSessionManager implements SessionManager {
@@ -42,8 +43,8 @@ export class OnlineSessionManager implements SessionManager {
     }
   }
 
-  private dispatch(data: any) {
-    this.currentSession = { ...defaultSession, ...data };
+  private dispatch(session: AppSession) {
+    this.currentSession = session;
     this.handler(this.currentSession);
   }
 
@@ -57,6 +58,7 @@ export class OnlineSessionManager implements SessionManager {
       // TODO: get other data related to user
       this.dispatch({ status: 'authenticated' });
     } catch (error) {
+      console.log(error);
       this.logOut();
     }
   }
