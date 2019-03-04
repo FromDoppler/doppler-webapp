@@ -16,6 +16,15 @@ function createDoubleSessionManager() {
   return double;
 }
 
+function createDoubleDopplerMvcClient() {
+  const double = {
+    getUserData: () => ({
+      email: 'fcoronel@makingsense.com',
+    }),
+  };
+  return double;
+}
+
 describe('App component', () => {
   afterEach(cleanup);
 
@@ -63,5 +72,23 @@ describe('App component', () => {
     // Assert
     getByText(expectedEmail);
     // TODO: test session manager behavior
+  });
+
+  it('updates content after successful authentication (at DopplerMvcClient level)', async () => {
+    // Arrange
+    const expectedEmail = 'fcoronel@makingsense.com';
+
+    const dependencies = {
+      dopplerMvcClient: createDoubleDopplerMvcClient(),
+    };
+
+    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+    getByText('Loading...');
+
+    // Act
+    // Act is already happening after mounting App
+
+    // Assert
+    await wait(() => getByText(expectedEmail));
   });
 });

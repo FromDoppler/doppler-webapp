@@ -29,7 +29,8 @@ class App extends Component {
     this.sessionManager =
       (props.dependencies && props.dependencies.sessionManager) ||
       new OnlineSessionManager(
-        new HttpDopplerMvcClient(axios, process.env.REACT_APP_API_URL),
+        (props.dependencies && props.dependencies.dopplerMvcClient) ||
+          new HttpDopplerMvcClient(axios, process.env.REACT_APP_API_URL),
         60000,
       );
 
