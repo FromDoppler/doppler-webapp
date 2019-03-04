@@ -1,7 +1,6 @@
 import React from 'react';
 
-const HeaderUserMenu = (props) => {
-  const user = props.user;
+const HeaderUserMenu = ({ user }) => {
   return (
     <div>
       <span id="user-menu--open">

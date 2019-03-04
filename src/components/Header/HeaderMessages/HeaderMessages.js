@@ -1,7 +1,6 @@
 import React from 'react';
 
-const HeaderMessages = (props) => {
-  const alert = props.alert;
+const HeaderMessages = ({ alert }) => {
   return (
     <div className={'messages-container ' + alert.type}>
       <div className="wrapper">
