@@ -8,5 +8,14 @@
     "iso": "Certificación de Calidad ISO 9001:2008",
     "privacy": "Políticas de privacidad y legales.",
     "privacy_url": "https://fromdoppler.com/privacidad"
+  },
+  "upgradePlanForm": {
+    "title": "Solicita una actualización de tu plan",
+    "plan_select": "Selecciona el Plan"
+  },
+  "common": {
+    "message": "Mensaje",
+    "send": "Enviar",
+    "cancel": "Cancelar"
   }
 }
