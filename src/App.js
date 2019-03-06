@@ -24,6 +24,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.updateSession = this.updateSession.bind(this);
+
     // TODO: Consider continue determining here default instance or moving all upside,
     // forcing inject dependencies always
     this.sessionManager =
@@ -43,10 +45,23 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    this.sessionManager.initialize((s) => {
-      this.setState({ dopplerSession: s });
+  updateSession(dopplerSession) {
+    const locale =
+      (dopplerSession.userData &&
+        dopplerSession.userData.user &&
+        dopplerSession.userData.user.lang) ||
+      this.props.locale;
+    this.setState({
+      dopplerSession: dopplerSession,
+      i18n: {
+        locale: locale,
+        messages: flattenMessages(messages[locale]),
+      },
     });
+  }
+
+  componentDidMount() {
+    this.sessionManager.initialize(this.updateSession);
   }
 
   componentWillUnmount() {

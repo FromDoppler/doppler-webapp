@@ -95,4 +95,51 @@ describe('App component', () => {
     // Assert
     await wait(() => getByText(expectedEmail));
   });
+
+  it('updates language based on userData', async () => {
+    // Arrange
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
+
+    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+
+    getByText('Loading...');
+
+    // Act
+    dependencies.sessionManager.updateAppSession({
+      status: 'authenticated',
+      userData: {
+        user: {
+          lang: 'es',
+          email: 'fcoronel@makingsense.com',
+          plan: {},
+          avatar: {},
+          nav: [],
+        },
+        nav: [],
+      },
+    });
+
+    // Assert
+    getByText('Políticas de privacidad y legales.');
+
+    // Act
+    dependencies.sessionManager.updateAppSession({
+      status: 'authenticated',
+      userData: {
+        user: {
+          lang: 'en',
+          email: 'fcoronel@makingsense.com',
+          plan: {},
+          avatar: {},
+          nav: [],
+        },
+        nav: [],
+      },
+    });
+
+    // Assert
+    getByText('Privacy Policy & Legals.');
+  });
 });
