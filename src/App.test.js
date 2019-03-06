@@ -2,6 +2,7 @@ import React from 'react';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
+import { HardcodedDopplerMvcClient } from './services/doppler-mvc-client.doubles';
 
 function createDoubleSessionManager() {
   const double = {
@@ -12,15 +13,6 @@ function createDoubleSessionManager() {
     session: {
       status: 'non-authenticated',
     },
-  };
-  return double;
-}
-
-function createDoubleDopplerMvcClient() {
-  const double = {
-    getUserData: () => ({
-      email: 'fcoronel@makingsense.com',
-    }),
   };
   return double;
 }
@@ -67,7 +59,18 @@ describe('App component', () => {
     getByText('Loading...');
 
     // Act
-    dependencies.sessionManager.updateAppSession({ status: 'authenticated' });
+    dependencies.sessionManager.updateAppSession({
+      status: 'authenticated',
+      userData: {
+        user: {
+          email: 'fcoronel@makingsense.com',
+          plan: {},
+          avatar: {},
+          nav: [],
+        },
+        nav: [],
+      },
+    });
 
     // Assert
     getByText(expectedEmail);
@@ -77,9 +80,10 @@ describe('App component', () => {
   it('updates content after successful authentication (at DopplerMvcClient level)', async () => {
     // Arrange
     const expectedEmail = 'fcoronel@makingsense.com';
+    const dopplerMvcClient = new HardcodedDopplerMvcClient(expectedEmail);
 
     const dependencies = {
-      dopplerMvcClient: createDoubleDopplerMvcClient(),
+      dopplerMvcClient,
     };
 
     const { getByText } = render(<App locale="en" dependencies={dependencies} />);

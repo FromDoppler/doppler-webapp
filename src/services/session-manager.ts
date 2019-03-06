@@ -1,10 +1,12 @@
 import { DopplerMvcClient } from './doppler-mvc-client';
+import { DopplerMvcUserData } from './doppler-mvc-client';
 
 type AppSession =
   | { status: 'unknown' }
   | { status: 'non-authenticated' }
   | {
       status: 'authenticated';
+      userData: DopplerMvcUserData;
     };
 
 const noop = () => {};
@@ -51,12 +53,11 @@ export class OnlineSessionManager implements SessionManager {
   private async update() {
     try {
       const dopplerUserData = await this.dopplerMvcClient.getUserData();
-
       // TODO: do something with dopplerUserData
 
       // TODO: deal with JWT Token
       // TODO: get other data related to user
-      this.dispatch({ status: 'authenticated' });
+      this.dispatch({ status: 'authenticated', userData: dopplerUserData });
     } catch (error) {
       console.log(error);
       this.logOut();
