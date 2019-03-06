@@ -7,9 +7,11 @@ import es from 'react-intl/locale-data/es';
 import messages_es from './i18n/es.json';
 import messages_en from './i18n/en.json';
 import { flattenMessages } from './utils';
+import axios from 'axios';
+import { HttpDopplerMvcClient } from './services/doppler-mvc-client';
+import { OnlineSessionManager } from './services/session-manager';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { DopplerSessionManager } from './services/dopplerSession';
 
 const messages = {
   es: messages_es,
@@ -22,7 +24,14 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.sessionManager = new DopplerSessionManager();
+    // TODO: Consider continue determining here default instance or moving all upside,
+    // forcing inject dependencies always
+    this.sessionManager =
+      (props.dependencies && props.dependencies.sessionManager) ||
+      new OnlineSessionManager(
+        new HttpDopplerMvcClient(axios, process.env.REACT_APP_API_URL),
+        60000,
+      );
 
     this.state = {
       dopplerSession: this.sessionManager.session,

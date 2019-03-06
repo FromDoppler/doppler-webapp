@@ -1,56 +1,67 @@
 import React from 'react';
-import axios from 'axios';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
+
+function createDoubleSessionManager() {
+  const double = {
+    initialize: (handler) => {
+      double.updateAppSession = handler;
+    },
+    finalize: () => {},
+    session: {
+      status: 'non-authenticated',
+    },
+  };
+  return double;
+}
 
 describe('App component', () => {
   afterEach(cleanup);
 
   it('renders loading text in English', () => {
-    const { getByText } = render(<App locale="en" />);
+    // Arrange
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
+
+    // Act
+    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+
+    // Assert
     getByText('Loading...');
   });
 
   it('renders loading text in Spanish', () => {
-    const { getByText } = render(<App locale="es" />);
+    // Arrange
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
+
+    // Act
+    const { getByText } = render(<App locale="es" dependencies={dependencies} />);
+
+    // Assert
     getByText('Cargando...');
   });
 
-  describe('in normal backend behavior', () => {
-    const email = 'fcoronel@makingsense.com';
+  it('updates content after successful authentication', async () => {
+    // Arrange
+    const expectedEmail = 'fcoronel@makingsense.com';
 
-    beforeEach(() => {
-      // prepare backend double
-      const responseOfGetUserData = {
-        data: {
-          user: {
-            Email: email,
-          },
-        },
-      };
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
 
-      axios.get = jest.fn((url) => {
-        if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData') {
-          return Promise.resolve(responseOfGetUserData);
-        } else {
-          return Promise.reject('Unexpected call to backend');
-        }
-      });
-    });
+    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
 
-    it('displays user data and fetches user data and token', async () => {
-      const { getByText } = render(<App locale="en" />);
+    getByText('Loading...');
 
-      await wait(() => getByText(email));
+    // Act
+    dependencies.sessionManager.updateAppSession({ status: 'authenticated' });
 
-      expect(axios.get).toHaveBeenCalledTimes(1);
-      expect(axios.get).toHaveBeenCalledWith(
-        process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
-        {
-          withCredentials: true,
-        },
-      );
-    });
+    // Assert
+    getByText(expectedEmail);
+    // TODO: test session manager behavior
   });
 });
