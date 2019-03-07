@@ -130,7 +130,7 @@
     "plan":{
       "planType":"3",
       "description":"Créditos disponibles",
-      "isSubscribers":"false",
+      "isSubscribers":"true",
       "maxSubscribers":"0",
       "remainingCredits":"85899",
       "buttonText":"COMPRAR",

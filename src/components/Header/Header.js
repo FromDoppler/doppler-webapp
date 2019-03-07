@@ -16,7 +16,7 @@ const Header = (props) => {
           </div>
           <HeaderNav nav={headerData.nav} />
           <nav className="nav-right-main">
-            <ul>
+            <ul className="nav-right-main--list">
               <li>
                 <span className="active" data-count="1">
                   <span className="ms-icon icon-notification" />
