@@ -5,7 +5,7 @@ import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import headerData from '../../headerData.json';
 import { FormattedMessage } from 'react-intl';
 
-const Header = (props) => {
+const Header = () => {
   return (
     <div>
       {headerData.alert ? <HeaderMessages alert={headerData.alert} /> : null}
