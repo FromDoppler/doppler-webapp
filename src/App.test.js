@@ -58,7 +58,18 @@ describe('App component', () => {
     getByText('Loading...');
 
     // Act
-    dependencies.sessionManager.updateAppSession({ status: 'authenticated' });
+    dependencies.sessionManager.updateAppSession({
+      status: 'authenticated',
+      userData: {
+        user: {
+          email: expectedEmail,
+          avatar: {},
+          plan: {},
+          nav: [],
+        },
+        nav: [],
+      },
+    });
 
     // Assert
     getByText(expectedEmail);
