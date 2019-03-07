@@ -31,7 +31,7 @@ class App extends Component {
       new OnlineSessionManager(
         (props.dependencies && props.dependencies.dopplerLegacyClient) ||
           new HttpDopplerLegacyClient(axios, process.env.REACT_APP_API_URL),
-        60000,
+        process.env.REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS,
       );
 
     this.state = {
