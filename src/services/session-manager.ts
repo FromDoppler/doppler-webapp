@@ -1,11 +1,11 @@
-import { DopplerLegacyClient } from './doppler-legacy-client';
+import { DopplerLegacyClient, DopplerLegacyUserData } from './doppler-legacy-client';
 
 type AppSession =
   | { status: 'unknown' }
   | { status: 'non-authenticated' }
   | {
       status: 'authenticated';
-      // TODO: add here more data for authenticated session
+      userData: DopplerLegacyUserData;
     };
 
 const noop = () => {};
@@ -60,7 +60,10 @@ export class OnlineSessionManager implements SessionManager {
 
       // TODO: deal with JWT Token
       // TODO: get other data related to user
-      this.updateSession({ status: 'authenticated' });
+      this.updateSession({
+        status: 'authenticated',
+        userData: dopplerUserData,
+      });
     } catch (error) {
       this.logOut();
     }

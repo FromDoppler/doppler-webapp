@@ -1,7 +1,10 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
 
-export interface DopplerLegacyUserData {
+interface UserEntry {
   email: string;
+}
+export interface DopplerLegacyUserData {
+  user: UserEntry;
 }
 
 export interface DopplerLegacyClient {
@@ -25,7 +28,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return {
-      email: response.data.Email,
+      user: {
+        email: response.data.Email,
+      },
     };
   }
 }
