@@ -9,6 +9,8 @@ import messages_en from './i18n/en.json';
 import { flattenMessages } from './utils';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import axios from 'axios';
+import { HttpDopplerLegacyClient } from './services/doppler-legacy-client';
 import { OnlineSessionManager } from './services/session-manager';
 
 const messages = {
@@ -24,7 +26,13 @@ class App extends Component {
 
     this.updateSession = this.updateSession.bind(this);
 
-    this.sessionManager = new OnlineSessionManager();
+    this.sessionManager =
+      (props.dependencies && props.dependencies.sessionManager) ||
+      new OnlineSessionManager(
+        (props.dependencies && props.dependencies.dopplerLegacyClient) ||
+          new HttpDopplerLegacyClient(axios, process.env.REACT_APP_API_URL),
+        60000,
+      );
 
     this.state = {
       dopplerSession: this.sessionManager.session,

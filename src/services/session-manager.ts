@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { DopplerLegacyClient } from './doppler-legacy-client';
 
 type AppSession =
   | { status: 'unknown' }
@@ -23,7 +23,10 @@ export class OnlineSessionManager implements SessionManager {
   private handler: (s: AppSession) => void = noop;
   private dopplerInterval: number | null = null;
 
-  constructor(private keepAliveMilliseconds: number = 60000) {}
+  constructor(
+    private dopplerLegacyClient: DopplerLegacyClient,
+    private keepAliveMilliseconds: number,
+  ) {}
 
   public get session() {
     return this.currentSession;
@@ -51,7 +54,7 @@ export class OnlineSessionManager implements SessionManager {
 
   private async update() {
     try {
-      const dopplerUserData = await this.getDopplerUserData();
+      const dopplerUserData = await this.dopplerLegacyClient.getUserData();
 
       // TODO: do something with dopplerUserData
 
@@ -77,22 +80,5 @@ export class OnlineSessionManager implements SessionManager {
       // Redirecting in a timeout in order to allow React to update UI
       window.location.href = loginUrl;
     }, 0);
-  }
-
-  private async getDopplerUserData() {
-    const response = await axios.get(
-      process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
-      {
-        withCredentials: true,
-      },
-    );
-
-    if (!response || !response.data || response.data.Email) {
-      throw new Error('Empty Doppler response');
-    }
-
-    return {
-      email: response.data.Email,
-    };
   }
 }
