@@ -1,77 +1,67 @@
 import React from 'react';
-import axios from 'axios';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
+
+function createDoubleSessionManager() {
+  const double = {
+    initialize: (handler) => {
+      double.updateAppSession = handler;
+    },
+    finalize: () => {},
+    session: {
+      status: 'non-authenticated',
+    },
+  };
+  return double;
+}
 
 describe('App component', () => {
   afterEach(cleanup);
 
   it('renders loading text in English', () => {
-    const { getByText } = render(<App locale="en" />);
+    // Arrange
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
+
+    // Act
+    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+
+    // Assert
     getByText('Loading...');
   });
 
   it('renders loading text in Spanish', () => {
-    const { getByText } = render(<App locale="es" />);
+    // Arrange
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
+
+    // Act
+    const { getByText } = render(<App locale="es" dependencies={dependencies} />);
+
+    // Assert
     getByText('Cargando...');
   });
 
-  describe('in normal backend behavior', () => {
-    const email = 'fcoronel@makingsense.com';
+  it('updates content after successful authentication', async () => {
+    // Arrange
+    const expectedEmail = 'fcoronel@makingsense.com';
 
-    beforeEach(() => {
-      // prepare localStorage double
-      global.localStorage = {
-        getItem: jest.fn(),
-        setItem: jest.fn(),
-        removeItem: jest.fn(),
-      };
+    const dependencies = {
+      sessionManager: createDoubleSessionManager(),
+    };
 
-      // prepare backend double
-      const responseOfGetUserData = {
-        data: {
-          user: {
-            Email: email,
-          },
-        },
-      };
+    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
 
-      const responseOfGetToken = {
-        data: {
-          jwtToken: 'token',
-        },
-      };
+    getByText('Loading...');
 
-      axios.get = jest.fn((url) => {
-        if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData') {
-          return Promise.resolve(responseOfGetUserData);
-        } else if (url === process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken') {
-          return Promise.resolve(responseOfGetToken);
-        } else {
-          return Promise.reject('Unexpected call to backend');
-        }
-      });
-    });
+    // Act
+    dependencies.sessionManager.updateAppSession({ status: 'authenticated' });
 
-    it('displays user data and fetches user data and token', async () => {
-      const { getByText } = render(<App locale="en" />);
-
-      await wait(() => getByText(email));
-
-      expect(axios.get).toHaveBeenCalledTimes(2);
-      expect(axios.get).toHaveBeenCalledWith(
-        process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData',
-        {
-          withCredentials: 'include',
-        },
-      );
-      expect(axios.get).toHaveBeenCalledWith(
-        process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken',
-        {
-          withCredentials: 'include',
-        },
-      );
-    });
+    // Assert
+    getByText(expectedEmail);
+    // TODO: test session manager behavior
   });
 });

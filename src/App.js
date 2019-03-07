@@ -7,11 +7,11 @@ import es from 'react-intl/locale-data/es';
 import messages_es from './i18n/es.json';
 import messages_en from './i18n/en.json';
 import { flattenMessages } from './utils';
-import jwt_decode from 'jwt-decode';
-import axios from 'axios';
-
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import axios from 'axios';
+import { HttpDopplerLegacyClient } from './services/doppler-legacy-client';
+import { OnlineSessionManager } from './services/session-manager';
 
 const messages = {
   es: messages_es,
@@ -24,9 +24,18 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.updateSession = this.updateSession.bind(this);
+
+    this.sessionManager =
+      (props.dependencies && props.dependencies.sessionManager) ||
+      new OnlineSessionManager(
+        (props.dependencies && props.dependencies.dopplerLegacyClient) ||
+          new HttpDopplerLegacyClient(axios, process.env.REACT_APP_API_URL),
+        process.env.REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS,
+      );
+
     this.state = {
-      user: null,
-      loginSession: {},
+      dopplerSession: this.sessionManager.session,
       i18n: {
         locale: props.locale,
         messages: flattenMessages(messages[props.locale]),
@@ -34,81 +43,20 @@ class App extends Component {
     };
   }
 
-  componentWillMount() {
-    this.getUserData();
-    this.interval = setInterval(() => {
-      this.getUserData();
-    }, 60000);
+  componentDidMount() {
+    this.sessionManager.initialize(this.updateSession);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval);
+    this.sessionManager.finalize();
   }
 
-  manageJwtToken() {
-    var encodedToken = localStorage.getItem('jwtToken');
-    if (encodedToken) {
-      try {
-        this.setState({ loginSession: this.decodeLoginSession(encodedToken) });
-        if (this.state.user.Email !== this.state.loginSession.email) {
-          this.saveStoredSession(this.state.loginSession);
-        }
-      } catch (error) {
-        this.logOut();
-        return;
-      }
-    } else {
-      axios
-        .get(process.env.REACT_APP_API_URL + '/Reports/Reports/GetJwtToken', {
-          withCredentials: 'include',
-        })
-        .then((response) => {
-          this.saveStoredSession({ token: response.data.jwtToken });
-        })
-        .catch((error) => {
-          this.logOut();
-        });
-    }
-  }
-
-  getUserData() {
-    axios
-      .get(process.env.REACT_APP_API_URL + '/Reports/Reports/GetUserData', {
-        withCredentials: 'include',
-      })
-      .then((response) => {
-        this.setState({ user: response.data.user });
-        this.manageJwtToken();
-      })
-      .catch((error) => {
-        this.logOut();
-      });
-  }
-
-  decodeLoginSession(jwtToken) {
-    var decodedToken = jwt_decode(jwtToken);
-    return {
-      token: jwtToken,
-      email: decodedToken.email,
-      name: decodedToken.name,
-      lang: decodedToken.lang,
-    };
-  }
-
-  saveStoredSession(loginSession) {
-    localStorage.setItem('jwtToken', loginSession.token);
-  }
-
-  logOut() {
-    localStorage.removeItem('jwtToken');
-    const currentUrlEncoded = encodeURI(window.location.href);
-    // TODO: only use redirect on login, not in logout
-    const loginUrl = `${process.env.REACT_APP_API_URL}/SignIn/index?redirect=${currentUrlEncoded}`;
-    window.location.href = loginUrl;
+  updateSession(dopplerSession) {
+    this.setState({ dopplerSession: dopplerSession });
   }
 
   render() {
-    const isLoggedIn = !!this.state.user;
+    const isLoggedIn = this.state.dopplerSession.status === 'authenticated';
     const i18n = this.state.i18n;
     return (
       <IntlProvider locale={i18n.locale} messages={i18n.messages}>
