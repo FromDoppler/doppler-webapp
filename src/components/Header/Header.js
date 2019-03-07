@@ -35,6 +35,8 @@ const Header = (props) => {
                 <HeaderUserMenu user={headerData.user} />
               </li>
             </ul>
+            <span id="open-menu" className="ms-icon icon-menu desktop-hd-hidden" />
+            <span id="close-menu" className="ms-icon icon-close desktop-hd-hidden" />
           </nav>
         </div>
       </header>
