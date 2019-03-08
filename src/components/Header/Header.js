@@ -2,19 +2,18 @@ import React from 'react';
 import HeaderNav from './HeaderNav/HeaderNav';
 import HeaderMessages from './HeaderMessages/HeaderMessages';
 import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
-import headerData from '../../headerData.json';
 import { FormattedMessage } from 'react-intl';
 
-const Header = () => {
+const Header = ({ userData: { user, nav, alert } }) => {
   return (
     <div>
-      {headerData.alert ? <HeaderMessages alert={headerData.alert} /> : null}
+      {alert ? <HeaderMessages alert={alert} /> : null}
       <header className="header-main">
         <div className="header-wrapper">
           <div className="logo">
             <span className="ms-icon icon-doppler-logo" />
           </div>
-          <HeaderNav nav={headerData.nav} />
+          <HeaderNav nav={nav} />
           <nav className="nav-right-main">
             <ul className="nav-right-main--list">
               <li>
@@ -32,7 +31,7 @@ const Header = () => {
                 </FormattedMessage>
               </li>
               <li>
-                <HeaderUserMenu user={headerData.user} />
+                <HeaderUserMenu user={user} />
               </li>
             </ul>
             <span id="open-menu" className="ms-icon icon-menu desktop-hd-hidden" />

@@ -35,7 +35,7 @@ class HeaderUserMenu extends React.Component {
           </header>
           <div className="user-plan--container">
             <div className="user-plan--type">
-              {user.plan.isSubscribers === 'true' || user.plan.isMonthlyByEmail === 'true' ? (
+              {user.plan.isSubscribers || user.plan.isMonthlyByEmail ? (
                 <p className="user-plan--monthly-text">
                   <span>{user.plan.planName}</span> |{' '}
                   <strong>
@@ -50,25 +50,21 @@ class HeaderUserMenu extends React.Component {
                 {user.plan.description}
               </p>
             </div>
-            {user.clientManager &&
-            user.plan.buttonUrl &&
-            user.plan.pendingFreeUpgrade !== 'true' ? (
+            {user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
               <a className="buy-plan" href={user.plan.buttonUrl}>
                 {user.plan.buttonText}
               </a>
             ) : (
               ''
             )}
-            {!user.clientManager &&
-            user.plan.buttonUrl &&
-            user.plan.pendingFreeUpgrade !== 'true' ? (
+            {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
               <button onClick={this.handleOpenBuyModal} className="user-plan">
                 {user.plan.buttonText}
               </button>
             ) : (
               ''
             )}
-            {!user.clientManager && !user.plan.buttonUrl ? (
+            {!user.hasClientManager && !user.plan.buttonUrl ? (
               <button onClick={this.handleOpenBuyModal} className="user-plan">
                 {user.plan.buttonText}
               </button>
@@ -90,7 +86,7 @@ class HeaderUserMenu extends React.Component {
           handleClose={this.handleCloseBuyModal}
         >
           <UpgradePlanForm
-            isSubscriber={user.plan.isSubscribers === 'true'}
+            isSubscriber={user.plan.isSubscribers}
             handleClose={this.handleCloseBuyModal}
           />
         </Modal>
