@@ -19,30 +19,32 @@ function createDoubleSessionManager() {
 describe('App component', () => {
   afterEach(cleanup);
 
-  it('renders loading text in English', () => {
-    // Arrange
-    const dependencies = {
-      sessionManager: createDoubleSessionManager(),
-    };
+  describe('language', () => {
+    it('should make honor to locale="en"', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
 
-    // Act
-    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+      // Act
+      const { getByText } = render(<App locale="en" dependencies={dependencies} />);
 
-    // Assert
-    getByText('Loading...');
-  });
+      // Assert
+      getByText('Loading...');
+    });
 
-  it('renders loading text in Spanish', () => {
-    // Arrange
-    const dependencies = {
-      sessionManager: createDoubleSessionManager(),
-    };
+    it('should make honor to locale="es"', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
 
-    // Act
-    const { getByText } = render(<App locale="es" dependencies={dependencies} />);
+      // Act
+      const { getByText } = render(<App locale="es" dependencies={dependencies} />);
 
-    // Assert
-    getByText('Cargando...');
+      // Assert
+      getByText('Cargando...');
+    });
   });
 
   it('updates content after successful authentication', async () => {
