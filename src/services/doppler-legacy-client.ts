@@ -66,13 +66,13 @@ function mapPlanEntry(json: any): PlanEntry {
     buttonText: json.buttonText,
     buttonUrl: json.buttonUrl,
     description: json.description,
-    isMonthlyByEmail: JSON.parse(json.isMonthlyByEmail),
-    isSubscribers: JSON.parse(json.isSubscribers),
+    isMonthlyByEmail: (json.isMonthlyByEmail && JSON.parse(json.isMonthlyByEmail)) || false,
+    isSubscribers: (json.isSubscribers && JSON.parse(json.isSubscribers)) || false,
     itemDescription: json.itemDescription,
-    maxSubscribers: JSON.parse(json.maxSubscribers),
-    pendingFreeUpgrade: JSON.parse(json.pendingFreeUpgrade),
+    maxSubscribers: (json.maxSubscribers && JSON.parse(json.maxSubscribers)) || 0,
+    pendingFreeUpgrade: (json.pendingFreeUpgrade && JSON.parse(json.pendingFreeUpgrade)) || false,
     planName: json.planName,
-    remainingCredits: JSON.parse(json.remainingCredits),
+    remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
   };
 }
 
