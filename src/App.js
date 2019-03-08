@@ -1,24 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { addLocaleData, FormattedMessage, IntlProvider } from 'react-intl';
-import en from 'react-intl/locale-data/en';
-import es from 'react-intl/locale-data/es';
-import messages_es from './i18n/es.json';
-import messages_en from './i18n/en.json';
-import { flattenMessages } from './utils';
+import DopplerIntlProvider from './DopplerIntlProvider';
+import { FormattedMessage } from 'react-intl';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import axios from 'axios';
 import { HttpDopplerLegacyClient } from './services/doppler-legacy-client';
 import { OnlineSessionManager } from './services/session-manager';
-
-const messages = {
-  es: messages_es,
-  en: messages_en,
-};
-
-addLocaleData([...en, ...es]);
 
 class App extends Component {
   constructor(props) {
@@ -36,10 +25,7 @@ class App extends Component {
 
     this.state = {
       dopplerSession: this.sessionManager.session,
-      i18n: {
-        locale: props.locale,
-        messages: flattenMessages(messages[props.locale]),
-      },
+      i18nLocale: props.locale,
     };
   }
 
@@ -58,10 +44,10 @@ class App extends Component {
   render() {
     const {
       dopplerSession: { status: sessionStatus, userData },
-      i18n,
+      i18nLocale,
     } = this.state;
     return (
-      <IntlProvider locale={i18n.locale} messages={i18n.messages}>
+      <DopplerIntlProvider locale={i18nLocale}>
         {sessionStatus === 'authenticated' ? (
           <>
             <Header userData={userData} />
@@ -73,7 +59,7 @@ class App extends Component {
             <FormattedMessage id="loading" />
           </div>
         )}
-      </IntlProvider>
+      </DopplerIntlProvider>
     );
   }
 }
