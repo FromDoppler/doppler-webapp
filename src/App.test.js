@@ -45,6 +45,75 @@ describe('App component', () => {
       // Assert
       getByText('Cargando...');
     });
+
+    it("should be updated based on user's data", () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
+
+      const { getByText, getAllByText } = render(<App locale="en" dependencies={dependencies} />);
+      getByText('Loading...');
+
+      // Act
+      dependencies.sessionManager.updateAppSession({
+        status: 'authenticated',
+        userData: {
+          user: {
+            lang: 'es',
+            avatar: {},
+            plan: {},
+            nav: [],
+          },
+          nav: [],
+        },
+      });
+
+      // Assert
+      getByText('Políticas de privacidad y legales.');
+
+      // Act
+      dependencies.sessionManager.updateAppSession({
+        status: 'authenticated',
+        userData: {
+          user: {
+            lang: 'en',
+            avatar: {},
+            plan: {},
+            nav: [],
+          },
+          nav: [],
+        },
+      });
+
+      // Assert
+      getByText('Privacy Policy & Legals.');
+
+      // Act
+      dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
+
+      // Assert
+      // Language should not be changed on logout
+      getByText('Loading...');
+
+      // Act
+      dependencies.sessionManager.updateAppSession({
+        status: 'authenticated',
+        userData: {
+          user: {
+            lang: 'es',
+            avatar: {},
+            plan: {},
+            nav: [],
+          },
+          nav: [],
+        },
+      });
+      dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
+
+      // Assert
+      getByText('Cargando...');
+    });
   });
 
   it('updates content after successful authentication', async () => {
@@ -68,6 +137,7 @@ describe('App component', () => {
           avatar: {},
           plan: {},
           nav: [],
+          lang: 'en',
         },
         nav: [],
       },

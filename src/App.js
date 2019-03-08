@@ -38,7 +38,15 @@ class App extends Component {
   }
 
   updateSession(dopplerSession) {
-    this.setState({ dopplerSession: dopplerSession });
+    const stateChanges = { dopplerSession: dopplerSession };
+    if (
+      dopplerSession.userData &&
+      dopplerSession.userData.user &&
+      dopplerSession.userData.user.lang
+    ) {
+      stateChanges.i18nLocale = dopplerSession.userData.user.lang;
+    }
+    this.setState(stateChanges);
   }
 
   render() {
