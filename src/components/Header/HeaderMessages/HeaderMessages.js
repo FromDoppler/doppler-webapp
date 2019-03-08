@@ -1,23 +1,22 @@
 import React from 'react';
 
-const HeaderMessages = (props) => {
-  const alert = props.alert;
+const HeaderMessages = ({ alert: { type, message, button } }) => {
   return (
-    <div className={'messages-container ' + alert.type}>
+    <div className={'messages-container ' + type}>
       <div className="wrapper">
-        <p>{alert.message}</p>
-        {alert.button ? (
-          alert.button.url ? (
+        <p>{message}</p>
+        {button ? (
+          button.url ? (
             <a
-              href={alert.button.url}
+              href={button.url}
               className="button button--light button--tiny"
               data-testid="linkButton"
             >
-              {alert.button.text}
+              {button.text}
             </a>
           ) : (
             <button className="button button--light button--tiny" data-testid="actionButton">
-              {alert.button.text}
+              {button.text}
             </button>
           )
         ) : null}

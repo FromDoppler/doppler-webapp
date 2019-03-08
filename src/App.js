@@ -56,11 +56,13 @@ class App extends Component {
   }
 
   render() {
-    const isLoggedIn = this.state.dopplerSession.status === 'authenticated';
-    const i18n = this.state.i18n;
+    const {
+      dopplerSession: { status: sessionStatus },
+      i18n,
+    } = this.state;
     return (
       <IntlProvider locale={i18n.locale} messages={i18n.messages}>
-        {isLoggedIn ? (
+        {sessionStatus === 'authenticated' ? (
           <>
             <Header />
             <img src={logo} alt="logo" />
