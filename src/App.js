@@ -46,6 +46,10 @@ class App extends Component {
       dopplerSession: { status: sessionStatus, userData },
       i18nLocale,
     } = this.state;
+    console.log('app render');
+    console.log(sessionStatus);
+    console.log(userData);
+    alert('test');
     return (
       <DopplerIntlProvider locale={i18nLocale}>
         {sessionStatus === 'authenticated' ? (
