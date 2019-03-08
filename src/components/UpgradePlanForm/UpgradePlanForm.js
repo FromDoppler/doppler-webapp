@@ -14,7 +14,7 @@ class UpgradePlanForm extends React.Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const idUserType = this.props.isSubscriber ? 4 : 2;
     const response = await axios.get(
       process.env.REACT_APP_API_URL +
@@ -28,7 +28,7 @@ class UpgradePlanForm extends React.Component {
   }
 
   async submitForm() {
-    //TODO research axios cancel request
+    // TODO: research why axios is cancelling the requests
 
     await fetch(
       process.env.REACT_APP_API_URL + '/SendUpgradePlanContactEmail/SendEmailUpgradePlan',
@@ -60,67 +60,70 @@ class UpgradePlanForm extends React.Component {
   };
 
   render() {
-    const isUserDataLoaded = !!this.state.userPlanModel;
-    if (isUserDataLoaded) {
+    if (!this.state.userPlanModel) {
       return (
-        <>
-          <h2 className="modal-title">
-            <FormattedMessage id="upgradePlanForm.title" />
-          </h2>
-          <form action="#" className="form-request">
-            <fieldset>
-              <ul>
-                <li>
-                  <label htmlFor="plan">
-                    <FormattedMessage id="upgradePlanForm.plan_select" />
-                  </label>
-                  <span className="dropdown-arrow" />
-                  <select
-                    value={this.state.userPlanModel.IdClientTypePlanSelected || -1}
-                    name="IdClientTypePlanSelected"
-                    onChange={this.changeHandler}
-                  >
-                    {this.state.userPlanModel.ClientTypePlans.map((item, index) => (
-                      <option key={index} value={item.IdUserTypePlan}>
-                        {item.Description}
-                      </option>
-                    ))}
-                  </select>
-                </li>
-                <li>
-                  <label htmlFor="message">
-                    <FormattedMessage id="common.message" />
-                  </label>
-                  <textarea
-                    onChange={this.changeHandler}
-                    value={this.state.userPlanModel.Detail || ''}
-                    name="Detail"
-                    placeholder="Tu mensage"
-                  />
-                </li>
-              </ul>
-            </fieldset>
-            <fieldset className="fieldset-cta">
-              <button
-                className="dp-button primary-brown button-small"
-                onClick={this.props.handleClose}
-              >
-                <FormattedMessage id="common.cancel" />
-              </button>
-              <button
-                className="dp-button primary-green button-small"
-                onClick={this.submitForm}
-                disabled={!this.state.formIsValid}
-              >
-                <FormattedMessage id="common.send" />
-              </button>
-            </fieldset>
-          </form>
-        </>
+        <div>
+          <FormattedMessage id="loading" />
+        </div>
       );
-    } else {
-      return <div>Loading...</div>;
     }
+
+    return (
+      <>
+        <h2 className="modal-title">
+          <FormattedMessage id="upgradePlanForm.title" />
+        </h2>
+        <form action="#" className="form-request">
+          <fieldset>
+            <ul>
+              <li>
+                <label htmlFor="plan">
+                  <FormattedMessage id="upgradePlanForm.plan_select" />
+                </label>
+                <span className="dropdown-arrow" />
+                <select
+                  value={this.state.userPlanModel.IdClientTypePlanSelected || -1}
+                  name="IdClientTypePlanSelected"
+                  onChange={this.changeHandler}
+                >
+                  {this.state.userPlanModel.ClientTypePlans.map((item, index) => (
+                    <option key={index} value={item.IdUserTypePlan}>
+                      {item.Description}
+                    </option>
+                  ))}
+                </select>
+              </li>
+              <li>
+                <label htmlFor="message">
+                  <FormattedMessage id="common.message" />
+                </label>
+                <textarea
+                  onChange={this.changeHandler}
+                  value={this.state.userPlanModel.Detail || ''}
+                  name="Detail"
+                  placeholder="Tu mensage"
+                />
+              </li>
+            </ul>
+          </fieldset>
+          <fieldset className="fieldset-cta">
+            <button
+              className="dp-button primary-brown button-small"
+              onClick={this.props.handleClose}
+            >
+              <FormattedMessage id="common.cancel" />
+            </button>
+            <button
+              className="dp-button primary-green button-small"
+              onClick={this.submitForm}
+              disabled={!this.state.formIsValid}
+            >
+              <FormattedMessage id="common.send" />
+            </button>
+          </fieldset>
+        </form>
+      </>
+    );
   }
 }
 
