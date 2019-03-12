@@ -13,6 +13,19 @@
     "title": "Solicita una actualización de tu plan",
     "plan_select": "Select Plan"
   },
+  "reports_filters": {
+    "title": "Optimize your Digital Marketing strategy",
+    "description": "Find conversion opportunities, analyze each piece within your strategy. Follow the steps that your users perform within your journey and correct those that have problems.",
+    "domain": "Domain",
+    "verified_domain": "Verified domain",
+    "verify_again": "Verify again",
+    "pages": "Pages",
+    "rank_time": "Rank time",
+    "rank_time_item1": "Last week",
+    "rank_time_item2": "Last month",
+    "rank_time_item3": "Last 3 months",
+    "rank_time_item4": "Last 6 months"
+  },
   "common": {
     "message": "Message",
     "send": "Send",

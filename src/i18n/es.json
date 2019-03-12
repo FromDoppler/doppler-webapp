@@ -13,6 +13,19 @@
     "title": "Solicita una actualización de tu plan",
     "plan_select": "Selecciona el Plan"
   },
+  "reports_filters": {
+    "title": "Optimiza tu estrategia de Marketing Digital",
+    "description": "Encuentra oportunidades de conversión, analiza cada pieza dentro de tu estrategia. Sigue los pasos que tus usuarios realizan dentro de tu journey y corrige aquellos que presentan inconvenientes.",
+    "domain": "Dominio",
+    "verified_domain": "Dominio verificado",
+    "verify_again": "Verificar Nuevamente",
+    "pages": "Páginas",
+    "rank_time": "Rango de tiempo",
+    "rank_time_item1": "última semana",
+    "rank_time_item2": "último mes",
+    "rank_time_item3": "últimos 3 meses",
+    "rank_time_item4": "últimos 6 meses"
+  },
   "common": {
     "message": "Mensaje",
     "send": "Enviar",

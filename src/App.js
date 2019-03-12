@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
 import { FormattedMessage } from 'react-intl';
@@ -8,6 +7,7 @@ import Footer from './components/Footer/Footer';
 import axios from 'axios';
 import { HttpDopplerLegacyClient } from './services/doppler-legacy-client';
 import { OnlineSessionManager } from './services/session-manager';
+import Reports from './components/Reports/Reports';
 
 class App extends Component {
   constructor(props) {
@@ -59,7 +59,7 @@ class App extends Component {
         {sessionStatus === 'authenticated' ? (
           <>
             <Header userData={userData} />
-            <img src={logo} alt="logo" />
+            <Reports />
             <Footer />
           </>
         ) : (
