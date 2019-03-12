@@ -4,28 +4,20 @@ import DopplerIntlProvider from './DopplerIntlProvider';
 import { FormattedMessage } from 'react-intl';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import axios from 'axios';
-import { HttpDopplerLegacyClient } from './services/doppler-legacy-client';
-import { OnlineSessionManager } from './services/session-manager';
 import Reports from './components/Reports/Reports';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor({ locale, dependencies: { sessionManager } }) {
+    super();
 
     this.updateSession = this.updateSession.bind(this);
 
-    this.sessionManager =
-      (props.dependencies && props.dependencies.sessionManager) ||
-      new OnlineSessionManager(
-        (props.dependencies && props.dependencies.dopplerLegacyClient) ||
-          new HttpDopplerLegacyClient(axios, process.env.REACT_APP_API_URL),
-        process.env.REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS,
-      );
+    /** @type { import('./services/session-manager').SessionManager } */
+    this.sessionManager = sessionManager;
 
     this.state = {
       dopplerSession: this.sessionManager.session,
-      i18nLocale: props.locale,
+      i18nLocale: locale,
     };
   }
 
