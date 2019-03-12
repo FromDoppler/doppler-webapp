@@ -1,6 +1,5 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { Color } from 'csstype';
-import headerDataJson from '../headerData.json';
 
 interface NavEntry {
   isSelected: boolean;
@@ -98,13 +97,13 @@ export function mapHeaderDataJson(json: any) {
         text: json.alert.button.text,
         url: json.alert.button.url,
       },
-      message: json.alert.type,
+      message: json.alert.message,
       type: json.alert.type,
     },
     nav: (json.nav && json.nav.map(mapNavMainEntry)) || [],
     user: {
       avatar: json.user.avatar,
-      email: json.email,
+      email: json.user.email,
       fullname: json.user.fullname,
       hasClientManager: !!json.clientManager,
       lang: json.user.lang,
@@ -125,21 +124,14 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async getUserData() {
-    var response = await this.axios.get('/Reports/Reports/GetUserData');
-    if (!response || !response.data || response.data.Email) {
+    var response = await this.axios.get('/WebApp/GetUserData');
+    if (!response || !response.data) {
       throw new Error('Empty Doppler response');
     }
+    if (response.data.error) {
+      throw new Error(`Doppler Error: ${response.data.error}`);
+    }
 
-    // TODO: get this data from backend
-    const { alert, nav, user } = mapHeaderDataJson(headerDataJson);
-
-    return {
-      alert: alert,
-      nav: nav,
-      user: {
-        ...user,
-        email: response.data.email,
-      },
-    };
+    return mapHeaderDataJson(response.data);
   }
 }
