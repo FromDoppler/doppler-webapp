@@ -1,6 +1,7 @@
 import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
+import { createContext } from 'react';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -61,3 +62,9 @@ export class AppCompositionRoot implements AppServices {
     );
   }
 }
+
+const AppServicesContext = createContext({});
+
+export const AppServicesProvider = AppServicesContext.Provider;
+export const AppServicesResolver = AppServicesContext.Consumer;
+

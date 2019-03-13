@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { AppCompositionRoot } from './services/pure-di';
+import { AppCompositionRoot, AppServicesProvider, AppServicesResolver } from './services/pure-di';
 
 // Only used in development environment, it does not affect production build
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
@@ -20,7 +20,11 @@ const appCompositionRoot =
     : new AppCompositionRoot();
 
 ReactDOM.render(
-  <App locale={locale} dependencies={appCompositionRoot} />,
+  <AppServicesProvider value={appCompositionRoot}>
+    <AppServicesResolver>
+      {(services) => <App locale={locale} dependencies={services} />}
+    </AppServicesResolver>
+  </AppServicesProvider>,
   document.getElementById('root'),
 );
 
