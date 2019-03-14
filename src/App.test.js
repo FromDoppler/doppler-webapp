@@ -2,6 +2,7 @@ import React from 'react';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
+import { AppServicesProvider } from './services/pure-di';
 
 function createDoubleSessionManager() {
   const double = {
@@ -27,7 +28,11 @@ describe('App component', () => {
       };
 
       // Act
-      const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <App locale="en" />
+        </AppServicesProvider>
+      );
 
       // Assert
       getByText('Loading...');
@@ -40,7 +45,11 @@ describe('App component', () => {
       };
 
       // Act
-      const { getByText } = render(<App locale="es" dependencies={dependencies} />);
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <App locale="es" />
+        </AppServicesProvider>
+      );
 
       // Assert
       getByText('Cargando...');
@@ -52,7 +61,11 @@ describe('App component', () => {
         sessionManager: createDoubleSessionManager(),
       };
 
-      const { getByText, getAllByText } = render(<App locale="en" dependencies={dependencies} />);
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <App locale="en" />
+        </AppServicesProvider>);
+
       getByText('Loading...');
 
       // Act
@@ -124,7 +137,11 @@ describe('App component', () => {
       sessionManager: createDoubleSessionManager(),
     };
 
-    const { getByText } = render(<App locale="en" dependencies={dependencies} />);
+    const { getByText } = render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <App locale="en" />
+      </AppServicesProvider>
+    );
 
     getByText('Loading...');
 
