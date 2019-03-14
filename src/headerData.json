@@ -175,5 +175,17 @@
         "$$hashKey":"object:26"
       }
     ]
+  },
+  "alert":{
+    "type":"blocker",
+    "message":"Para que puedas enviar tu próxima Campaña, antes necesitamos verificar el origen de tus Suscriptores.",
+    "button":{
+      "action":"validateSubscribersPopup",
+      "text":"Verificar Ahora"
+    },
+    "nextAlert":{
+      "type":"warning",
+      "message":"Estamos verificando el origen de tus Suscriptores. Te contactaremos para que puedas continuar con tu Campaña."
+    }
   }
 }
