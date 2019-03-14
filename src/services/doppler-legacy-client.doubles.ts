@@ -1,10 +1,12 @@
 import { DopplerLegacyClient, mapHeaderDataJson } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
+import { timeout } from '../utils';
 
 export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public constructor(public readonly email = 'hardcoded@email.com') {}
 
   public async getUserData() {
+    await timeout(3000);
     const { user, nav, alert } = mapHeaderDataJson(headerDataJson);
 
     return {

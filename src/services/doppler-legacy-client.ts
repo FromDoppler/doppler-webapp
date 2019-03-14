@@ -1,6 +1,11 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { Color } from 'csstype';
 
+export interface DopplerLegacyClient {
+  getUserData(): Promise<DopplerLegacyUserData>;
+}
+
+/* #region DopplerLegacyUserData data types */
 interface NavEntry {
   isSelected: boolean;
   title: string;
@@ -55,11 +60,9 @@ export interface DopplerLegacyUserData {
   nav: MainNavEntry[];
   user: UserEntry;
 }
+/* #endregion */
 
-export interface DopplerLegacyClient {
-  getUserData(): Promise<DopplerLegacyUserData>;
-}
-
+/* #region DopplerLegacyUserData mappings */
 function mapPlanEntry(json: any): PlanEntry {
   return {
     buttonText: json.buttonText,
@@ -112,6 +115,7 @@ export function mapHeaderDataJson(json: any) {
     },
   };
 }
+/* #endregion */
 
 export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   private readonly axios: AxiosInstance;
