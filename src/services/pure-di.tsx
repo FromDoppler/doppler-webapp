@@ -2,6 +2,8 @@ import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode } from 'react';
+import { DatahubClient } from './datahub-client';
+import { HardcodedDatahubClient } from './datahub-client.doubles';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -14,6 +16,7 @@ interface AppConfiguration {
 export interface AppServices {
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
+  datahubClient: DatahubClient;
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
 }
@@ -48,6 +51,10 @@ export class AppCompositionRoot implements AppServices {
       dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
         .REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string),
     }));
+  }
+
+  get datahubClient() {
+    return this.singleton('datahubClient', () => new HardcodedDatahubClient());
   }
 
   get dopplerLegacyClient() {

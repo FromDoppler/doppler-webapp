@@ -1,10 +1,13 @@
 import React from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
-import { getDomains, getPagesByDomainId } from './ReportsService';
+import { InjectAppServices } from '../../services/pure-di';
 
 class Reports extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor({ dependencies: { datahubClient }}) {
+    super();
+
+    /** @type { import('../../services/datahub-client').DatahubClient } */
+    this.datahubClient = datahubClient;
 
     this.state = {
       domains: [],
@@ -18,10 +21,10 @@ class Reports extends React.Component {
   }
 
   async componentDidMount() {
-    const domains = await getDomains();
+    const domains = await this.datahubClient.getAccountDomains();
     if (domains.length) {
       const domainSelected = domains[0];
-      const pages = await getPagesByDomainId(domainSelected.id);
+      const pages = await this.datahubClient.getPagesByDomainId(domainSelected.id);
       const pageSelected = pages.length ? pages[0] : null;
       this.setState({
         domains: domains,
@@ -34,7 +37,7 @@ class Reports extends React.Component {
 
   changeDomain = async (id) => {
     const domainFound = this.state.domains.find((item) => item.id === id);
-    const pages = await getPagesByDomainId(id);
+    const pages = await this.datahubClient.getPagesByDomainId(id);
     const pageSelected = pages.length ? pages[0] : null;
     this.setState({ domainSelected: domainFound, pages: pages, pageSelected: pageSelected });
   };
@@ -61,4 +64,4 @@ class Reports extends React.Component {
   }
 }
 
-export default Reports;
+export default InjectAppServices(Reports);
