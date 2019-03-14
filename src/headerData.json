@@ -1,179 +1,191 @@
 {
-  "nav":[
+  "nav": [
     {
-      "title":"Campañas",
-      "url":"https://appint.fromdoppler.net/Campaigns/Draft/",
-      "isEnabled":false,
-      "isSelected":false,
-      "subNav":[
+      "title": "Campañas",
+      "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
         {
-          "title":"Borradores",
-          "url":"https://appint.fromdoppler.net/Campaigns/Draft/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"campaignDraftMenu",
-          "$$hashKey":"object:32"
+          "title": "Borradores",
+          "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignDraftMenu",
+          "$$hashKey": "object:32"
         },
         {
-          "title":"Programadas",
-          "url":"https://appint.fromdoppler.net/Campaigns/Scheduled/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"campaignScheduledMenu",
-          "$$hashKey":"object:33"
+          "title": "Programadas",
+          "url": "https://appint.fromdoppler.net/Campaigns/Scheduled/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignScheduledMenu",
+          "$$hashKey": "object:33"
         },
         {
-          "title":"Enviadas",
-          "url":"https://appint.fromdoppler.net/Campaigns/Sent/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"campaignSentMenu",
-          "$$hashKey":"object:34"
+          "title": "Enviadas",
+          "url": "https://appint.fromdoppler.net/Campaigns/Sent/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignSentMenu",
+          "$$hashKey": "object:34"
         },
         {
-          "title":"Test A/B",
-          "url":"https://appint.fromdoppler.net/Campaigns/TestAB/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"campaignTestABMenu",
-          "$$hashKey":"object:35"
+          "title": "Test A/B",
+          "url": "https://appint.fromdoppler.net/Campaigns/TestAB/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignTestABMenu",
+          "$$hashKey": "object:35"
         }
       ],
-      "idHTML":"campaignMenu",
-      "$$hashKey":"object:6"
+      "idHTML": "campaignMenu",
+      "$$hashKey": "object:6"
     },
     {
-      "title":"Listas",
-      "url":"https://appint.fromdoppler.net/Lists/SubscribersList",
-      "isEnabled":false,
-      "isSelected":false,
-      "subNav":[
+      "title": "Listas",
+      "url": "https://appint.fromdoppler.net/Lists/SubscribersList",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
         {
-          "title":"Listas Principales",
-          "url":"https://appint.fromdoppler.net/Lists/SubscribersList/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"listMainMenu",
-          "$$hashKey":"object:41"
+          "title": "Listas Principales",
+          "url": "https://appint.fromdoppler.net/Lists/SubscribersList/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listMainMenu",
+          "$$hashKey": "object:41"
         },
         {
-          "title":"Segmentos",
-          "url":"https://appint.fromdoppler.net/Lists/Segment/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"listSegmentMenu",
-          "$$hashKey":"object:42"
+          "title": "Segmentos",
+          "url": "https://appint.fromdoppler.net/Lists/Segment/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listSegmentMenu",
+          "$$hashKey": "object:42"
         },
         {
-          "title":"Suscriptores",
-          "url":"https://appint.fromdoppler.net/Lists/MasterSubscriber/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"listMasterSubscriberMenu",
-          "$$hashKey":"object:43"
+          "title": "Suscriptores",
+          "url": "https://appint.fromdoppler.net/Lists/MasterSubscriber/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listMasterSubscriberMenu",
+          "$$hashKey": "object:43"
         },
         {
-          "title":"Campos Personalizados",
-          "url":"https://appint.fromdoppler.net/Lists/MasterCustomFields/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"listCustomFieldMenu",
-          "$$hashKey":"object:44"
+          "title": "Campos Personalizados",
+          "url": "https://appint.fromdoppler.net/Lists/MasterCustomFields/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listCustomFieldMenu",
+          "$$hashKey": "object:44"
         },
         {
-          "title":"Formularios",
-          "url":"https://appint.fromdoppler.net/Lists/Form/",
-          "isEnabled":false,
-          "isSelected":false,
-          "idHTML":"listFormMenu",
-          "$$hashKey":"object:45"
+          "title": "Formularios",
+          "url": "https://appint.fromdoppler.net/Lists/Form/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listFormMenu",
+          "$$hashKey": "object:45"
         }
       ],
-      "idHTML":"listMenu",
-      "$$hashKey":"object:7"
+      "idHTML": "listMenu",
+      "$$hashKey": "object:7"
     },
     {
-      "title":"Automation",
-      "url":"https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
-      "isEnabled":false,
-      "isSelected":false,
-      "idHTML":"automationMenu",
-      "$$hashKey":"object:8"
+      "title": "Automation",
+      "url": "https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "automationMenu",
+      "$$hashKey": "object:8"
     },
     {
-      "title":"Reportes",
-      "url":"https://appint.fromdoppler.net/Campaigns/Reports/",
-      "isEnabled":false,
-      "isSelected":false,
-      "idHTML":"reportMenu",
-      "$$hashKey":"object:9"
+      "title": "Reportes",
+      "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "reportMenu",
+      "$$hashKey": "object:9"
     },
     {
-      "title":"Plantillas",
-      "url":"https://appint.fromdoppler.net/Templates/Main/",
-      "isEnabled":false,
-      "isSelected":false,
-      "idHTML":"templateMenu",
-      "$$hashKey":"object:10"
+      "title": "Plantillas",
+      "url": "https://appint.fromdoppler.net/Templates/Main/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "templateMenu",
+      "$$hashKey": "object:10"
     },
     {
-      "title":"Doppler Data Hub",
-      "url":"https://cdn.fromdoppler.com/doppler-webapp/int-latest/",
-      "isEnabled":false,
-      "isSelected":true,
-      "idHTML":"dopplerDataHubMenu"
+      "title": "Doppler Data Hub",
+      "url": "https://cdn.fromdoppler.com/doppler-webapp/int-latest/",
+      "isEnabled": false,
+      "isSelected": true,
+      "idHTML": "dopplerDataHubMenu"
     }
   ],
-  "user":{
-    "email":"fcoronel@makingsense.com",
-    "fullname":"Federico Coronel",
-    "plan":{
-      "planType":"3",
-      "description":"Créditos disponibles",
-      "isSubscribers":"true",
-      "maxSubscribers":"0",
-      "remainingCredits":"85899",
-      "buttonText":"COMPRAR",
-      "buttonUrl":"https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1"
+  "user": {
+    "email": "fcoronel@makingsense.com",
+    "fullname": "Federico Coronel",
+    "plan": {
+      "planType": "3",
+      "description": "Créditos disponibles",
+      "isSubscribers": "true",
+      "maxSubscribers": "0",
+      "remainingCredits": "85899",
+      "buttonText": "COMPRAR",
+      "buttonUrl": "https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1"
     },
-    "lang":"es",
-    "avatar":{
-      "text":"FC",
-      "color":"#EE9C70"
+    "lang": "es",
+    "avatar": {
+      "text": "FC",
+      "color": "#EE9C70"
     },
-    "nav":[
+    "nav": [
       {
-        "title":"Panel de Control",
-        "url":"https://appint.fromdoppler.net/ControlPanel/ControlPanel/",
-        "isEnabled":false,
-        "isSelected":false,
-        "idHTML":"controlPanel",
-        "$$hashKey":"object:23"
+        "title": "Panel de Control",
+        "url": "https://appint.fromdoppler.net/ControlPanel/ControlPanel/",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "controlPanel",
+        "$$hashKey": "object:23"
       },
       {
-        "title":"Centro de descargas",
-        "url":"https://appint.fromdoppler.net/DownloadCenter/DownloadCenter",
-        "isEnabled":false,
-        "isSelected":false,
-        "idHTML":"downloadCenter",
-        "$$hashKey":"object:24"
+        "title": "Centro de descargas",
+        "url": "https://appint.fromdoppler.net/DownloadCenter/DownloadCenter",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "downloadCenter",
+        "$$hashKey": "object:24"
       },
       {
-        "title":"Primeros pasos en Doppler",
-        "url":"https://appint.fromdoppler.net/Steps/FirstSteps",
-        "isEnabled":false,
-        "isSelected":false,
-        "idHTML":"firstSteps",
-        "$$hashKey":"object:25"
+        "title": "Primeros pasos en Doppler",
+        "url": "https://appint.fromdoppler.net/Steps/FirstSteps",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "firstSteps",
+        "$$hashKey": "object:25"
       },
       {
-        "title":"Salir",
-        "url":"https://appint.fromdoppler.net/SignIn/SignOut",
-        "isEnabled":false,
-        "isSelected":false,
-        "idHTML":"signOut",
-        "$$hashKey":"object:26"
+        "title": "Salir",
+        "url": "https://appint.fromdoppler.net/SignIn/SignOut",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "signOut",
+        "$$hashKey": "object:26"
       }
     ]
+  },
+  "alert": {
+    "type": "blocker",
+    "message": "Para que puedas enviar tu próxima Campaña, antes necesitamos verificar el origen de tus Suscriptores.",
+    "button": {
+      "action": "validateSubscribersPopup",
+      "text": "Verificar Ahora"
+    },
+    "nextAlert": {
+      "type": "warning",
+      "message": "Estamos verificando el origen de tus Suscriptores. Te contactaremos para que puedas continuar con tu Campaña."
+    }
   }
 }
