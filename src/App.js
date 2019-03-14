@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
+import { InjectAppServices } from './services/pure-di';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {
@@ -64,4 +65,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default InjectAppServices(App);

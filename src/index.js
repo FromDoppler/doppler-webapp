@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { AppCompositionRoot, AppServicesProvider, AppServicesResolver } from './services/pure-di';
+import { AppServicesProvider } from './services/pure-di';
 
 // Only used in development environment, it does not affect production build
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
@@ -12,18 +12,16 @@ import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.d
 const locale = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
 
 // Only used in development environment, it does not affect production build
-const appCompositionRoot =
+const forcedServices =
   process.env.NODE_ENV === 'development'
-    ? new AppCompositionRoot({
+    ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
-      })
-    : new AppCompositionRoot();
+      }
+    : {};
 
 ReactDOM.render(
-  <AppServicesProvider value={appCompositionRoot}>
-    <AppServicesResolver>
-      {(services) => <App locale={locale} dependencies={services} />}
-    </AppServicesResolver>
+  <AppServicesProvider forcedServices={forcedServices}>
+    <App locale={locale} />
   </AppServicesProvider>,
   document.getElementById('root'),
 );
