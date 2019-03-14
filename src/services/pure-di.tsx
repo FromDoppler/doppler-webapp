@@ -1,12 +1,16 @@
 import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
+import React, { createContext, ReactNode } from 'react';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
   dopplerLegacyKeepAliveMilliseconds: number;
 }
 
+/**
+ * Services able to be injected
+ */
 export interface AppServices {
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
@@ -14,6 +18,9 @@ export interface AppServices {
   sessionManager: SessionManager;
 }
 
+/**
+ * Application composition root for AppServices
+ */
 export class AppCompositionRoot implements AppServices {
   private readonly instances: Partial<AppServices>;
 
@@ -60,4 +67,42 @@ export class AppCompositionRoot implements AppServices {
         ),
     );
   }
+}
+
+const AppServicesContext = createContext({});
+const AppServicesResolver = AppServicesContext.Consumer;
+
+/**
+ * Define AppServicesProvider context in order to inject dependencies in elements decorated with InjectAppServices
+ * @param props
+ */
+export function AppServicesProvider({
+  forcedServices,
+  children,
+}: {
+  forcedServices?: Partial<AppServices>;
+  children?: ReactNode;
+}) {
+  return (
+    <AppServicesContext.Provider value={new AppCompositionRoot(forcedServices)}>
+      {children}
+    </AppServicesContext.Provider>
+  );
+}
+
+/**
+ * Decorate input component, injecting dependencies from AppServicesProvider (if it is defined)
+ * @param Component
+ */
+export function InjectAppServices(Component: any) {
+  // TODO: Use the right type for Component parameter. `() => JSX.Element` is only valid
+  // for function components, not for class ones.
+  return (props: any) =>
+    props.dependencies ? (
+      <Component {...props} />
+    ) : (
+      <AppServicesResolver>
+        {(services) => <Component dependencies={services} {...props} />}
+      </AppServicesResolver>
+    );
 }

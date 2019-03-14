@@ -35,8 +35,8 @@
     "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js",
-    "prettier": "prettier --write src/**/*.js src/**/*.ts",
-    "prettier-check": "prettier-check src/**/*.js src/**/*.ts"
+    "prettier": "prettier --write src/**/*.js src/**/*.ts src/**/*.tsx",
+    "prettier-check": "prettier-check src/**/*.js src/**/*.ts src/**/*.tsx"
   },
   "prettier": {
     "semi": true,
