@@ -146,7 +146,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async getUserData() {
-    var response = await this.axios.get('/WebApp/GetUserData');
+    const response = await this.axios.get('/WebApp/GetUserData');
     if (!response || !response.data) {
       throw new Error('Empty Doppler response');
     }
