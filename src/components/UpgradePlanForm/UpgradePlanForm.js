@@ -1,10 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 import { FormattedMessage } from 'react-intl';
+import { InjectAppServices } from '../../services/pure-di';
 
 class UpgradePlanForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor({ dependencies: { dopplerLegacyClient } }) {
+    super();
+
+    /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
+    this.dopplerLegacyClient = dopplerLegacyClient;
 
     this.state = {
       userPlanModel: null,
@@ -15,34 +18,12 @@ class UpgradePlanForm extends React.Component {
   }
 
   async componentWillMount() {
-    const idUserType = this.props.isSubscriber ? 4 : 2;
-    const response = await axios.get(
-      process.env.REACT_APP_API_URL +
-        '/SendUpgradePlanContactEmail/GetUpgradePlanData?idUserType=' +
-        idUserType,
-      {
-        withCredentials: true,
-      },
-    );
-    this.setState({ userPlanModel: response.data.data });
+    const result = await this.dopplerLegacyClient.getUpgradePlanData(this.props.isSubscriber);
+    this.setState({ userPlanModel: result });
   }
 
   async submitForm() {
-    //TODO research axios cancel request
-
-    await fetch(
-      process.env.REACT_APP_API_URL + '/SendUpgradePlanContactEmail/SendEmailUpgradePlan',
-      {
-        method: 'post',
-        crossDomain: true,
-        body: JSON.stringify(this.state.userPlanModel),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        credentials: 'include',
-      },
-    );
-
+    await this.dopplerLegacyClient.sendEmailUpgradePlan(this.state.userPlanModel);
     this.props.handleClose();
   }
 
@@ -124,4 +105,4 @@ class UpgradePlanForm extends React.Component {
   }
 }
 
-export default UpgradePlanForm;
+export default InjectAppServices(UpgradePlanForm);

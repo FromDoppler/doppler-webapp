@@ -1,6 +1,13 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { Color } from 'csstype';
 
+export interface DopplerLegacyClient {
+  getUserData(): Promise<DopplerLegacyUserData>;
+  getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyUpgradePlanData>;
+  sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
+}
+
+/* #region DopplerLegacyUserData data types */
 interface NavEntry {
   isSelected: boolean;
   title: string;
@@ -55,11 +62,9 @@ export interface DopplerLegacyUserData {
   nav: MainNavEntry[];
   user: UserEntry;
 }
+/* #endregion */
 
-export interface DopplerLegacyClient {
-  getUserData(): Promise<DopplerLegacyUserData>;
-}
-
+/* #region DopplerLegacyUserData mappings */
 function mapPlanEntry(json: any): PlanEntry {
   return {
     buttonText: json.buttonText,
@@ -112,11 +117,28 @@ export function mapHeaderDataJson(json: any) {
     },
   };
 }
+/* #endregion */
+
+/* #region Upgrade Plan data types */
+export interface DopplerLegacyUpgradePlanData {
+  ClientTypePlans: {
+    IdUserTypePlan: number;
+    Description: string;
+  }[];
+}
+
+export interface DopplerLegacyUpgradePlanContactModel {
+  Detail: string;
+  IdClientTypePlanSelected: number;
+}
+/* #endregion */
 
 export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   private readonly axios: AxiosInstance;
+  private readonly baseUrl: string;
 
   constructor(axiosStatic: AxiosStatic, baseUrl: string) {
+    this.baseUrl = baseUrl;
     this.axios = axiosStatic.create({
       baseURL: baseUrl,
       withCredentials: true,
@@ -124,7 +146,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async getUserData() {
-    var response = await this.axios.get('/WebApp/GetUserData');
+    const response = await this.axios.get('/WebApp/GetUserData');
     if (!response || !response.data) {
       throw new Error('Empty Doppler response');
     }
@@ -133,5 +155,36 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return mapHeaderDataJson(response.data);
+  }
+
+  public async getUpgradePlanData(isSubscriberPlan: boolean) {
+    const idUserType = isSubscriberPlan ? 4 : 2;
+    const response = await this.axios.get(
+      `/SendUpgradePlanContactEmail/GetUpgradePlanData?idUserType=${idUserType}`,
+    );
+    if (!response || !response.data || !response.data.data || !response.data.data.ClientTypePlans) {
+      throw new Error('Empty Doppler response');
+    }
+    if (response.data.error) {
+      throw new Error(`Doppler Error: ${response.data.error}`);
+    }
+
+    return response.data.data.ClientTypePlans.map((x: any) => ({
+      IdUserTypePlan: x.IdUserTypePlan,
+      Description: x.Description,
+    }));
+  }
+
+  public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
+    // TODO: research why axios cancels this request. In the meantime, we are using fetch.
+    await fetch(this.baseUrl + '/SendUpgradePlanContactEmail/SendEmailUpgradePlan', {
+      method: 'post',
+      body: JSON.stringify(planModel),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      credentials: 'include',
+    });
+    // TODO: handle error responses
   }
 }
