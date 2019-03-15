@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 
 const ReportsFilters = ({
   domains,
@@ -39,10 +39,7 @@ const ReportsFilters = ({
             {domainSelected ? (
               <span className="verified--domain">
                 <FormattedMessage id="reports_filters.verified_domain" />{' '}
-                {domainSelected.verified_date}
-                <span className="dp-button check--again">
-                  <FormattedMessage id="reports_filters.verify_again" />
-                </span>
+                <FormattedDate value={domainSelected.verified_date} />
               </span>
             ) : null}
           </fieldset>

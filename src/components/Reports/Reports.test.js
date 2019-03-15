@@ -2,50 +2,47 @@ import React from 'react';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import DopplerIntlProvider from '../../DopplerIntlProvider.double-with-ids-as-values';
-
-import { getDomains, getPagesByDomainId } from './ReportsService';
 import Reports from './Reports';
-
-jest.mock('./ReportsService');
 
 const fakeData = [
   {
     id: 1,
     name: 'www.fromdoppler.com',
-    verified_date: '17/12/2017',
+    verified_date: new Date('2017-12-17'),
   },
   {
     id: 2,
     name: 'www.makingsense.com',
-    verified_date: '17/12/2020',
+    verified_date: new Date('2010-12-17'),
   },
 ];
 
-const fakePages = [{ id: '1', name: 'productos2' }, { id: '2', name: 'servicios2' }];
+const fakePages = [{ id: 1, name: 'productos2' }, { id: 2, name: 'servicios2' }];
 
 describe('Reports page', () => {
   afterEach(cleanup);
 
-  beforeEach(() => {
-    getDomains.mockClear();
-    getPagesByDomainId.mockClear();
-  });
-
   it('render page without domain', () => {
-    getDomains.mockImplementation(() => []);
-    const { getByText } = render(
+    const datahubClientDouble = {
+      getAccountDomains: async () => []
+    };
+
+    render(
       <DopplerIntlProvider>
-        <Reports />
+        <Reports dependencies={{ datahubClient: datahubClientDouble }} />
       </DopplerIntlProvider>,
     );
   });
 
   it('should render domains without pages', async () => {
-    getDomains.mockImplementation(() => fakeData);
-    getPagesByDomainId.mockImplementation(() => []);
+    const datahubClientDouble = {
+      getAccountDomains: async () => fakeData,
+      getPagesByDomainId: async () => [],
+    };
+
     const { getByText } = render(
       <DopplerIntlProvider>
-        <Reports />
+        <Reports dependencies={{ datahubClient: datahubClientDouble }} />
       </DopplerIntlProvider>,
     );
 
@@ -59,11 +56,14 @@ describe('Reports page', () => {
   });
 
   it('should render domains with pages', async () => {
-    getDomains.mockImplementation(() => fakeData);
-    getPagesByDomainId.mockImplementation(() => fakePages);
+    const datahubClientDouble = {
+      getAccountDomains: async () => fakeData,
+      getPagesByDomainId: async () => fakePages,
+    };
+
     const { getByText } = render(
       <DopplerIntlProvider>
-        <Reports />
+        <Reports dependencies={{ datahubClient: datahubClientDouble }} />
       </DopplerIntlProvider>,
     );
 
