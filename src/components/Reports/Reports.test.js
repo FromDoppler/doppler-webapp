@@ -8,16 +8,16 @@ const fakeData = [
   {
     id: 1,
     name: 'www.fromdoppler.com',
-    verified_date: '17/12/2017',
+    verified_date: new Date('2017-12-17'),
   },
   {
     id: 2,
     name: 'www.makingsense.com',
-    verified_date: '17/12/2020',
+    verified_date: new Date('2010-12-17'),
   },
 ];
 
-const fakePages = [{ id: '1', name: 'productos2' }, { id: '2', name: 'servicios2' }];
+const fakePages = [{ id: 1, name: 'productos2' }, { id: 2, name: 'servicios2' }];
 
 describe('Reports page', () => {
   afterEach(cleanup);

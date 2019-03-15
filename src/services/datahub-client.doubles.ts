@@ -6,24 +6,24 @@ const fakeData = [
   {
     id: 1,
     name: 'www.fromdoppler.com',
-    verified_date: '17/12/2017',
+    verified_date: new Date('2017-12-17'),
     pages: [
-      { id: '1', name: 'productos' },
-      { id: '2', name: 'servicios' },
-      { id: '3', name: 'funcionalidades' },
-      { id: '4', name: 'contacto' },
+      { id: 1, name: 'productos' },
+      { id: 2, name: 'servicios' },
+      { id: 3, name: 'funcionalidades' },
+      { id: 4, name: 'contacto' },
     ],
   },
   {
     id: 2,
     name: 'www.makingsense.com',
-    verified_date: '17/12/2020',
-    pages: [{ id: '1', name: 'productos2' }, { id: '2', name: 'servicios2' }],
+    verified_date: new Date('2010-12-17'),
+    pages: [{ id: 1, name: 'productos2' }, { id: 2, name: 'servicios2' }],
   },
   {
     id: 3,
     name: 'www.google.com',
-    verified_date: '17/12/2019',
+    verified_date: new Date('2017-12-17'),
     pages: [],
   },
 ];

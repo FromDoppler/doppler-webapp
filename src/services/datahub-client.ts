@@ -1,12 +1,12 @@
 interface PageEntry {
-  id: any;
+  id: number;
   name: string;
 }
 
 interface DomainEntry {
   id: number;
   name: string;
-  verified_date: any;
+  verified_date: Date;
 }
 
 export interface DatahubClient {
