@@ -40,9 +40,6 @@ const ReportsFilters = ({
               <span className="verified--domain">
                 <FormattedMessage id="reports_filters.verified_domain" />{' '}
                 <FormattedDate value={domainSelected.verified_date} />
-                <span className="dp-button check--again">
-                  <FormattedMessage id="reports_filters.verify_again" />
-                </span>
               </span>
             ) : null}
           </fieldset>
