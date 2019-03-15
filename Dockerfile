@@ -1,19 +1,17 @@
-#get node image, comes with yarn preinstalled
-
 FROM node:10 As build
 WORKDIR /app
 COPY package.json yarn.lock ./
 
-#make yarn process packages
+# Make yarn process packages
 RUN yarn install
 
-#get all files
+# Get all files
 COPY . .
 
-#Build project
+# Build project
 RUN yarn build
 
-#host project in nginx
+# Host project in nginx
 FROM nginx
 WORKDIR /app
 COPY --from=build /app/build /usr/share/nginx/html
