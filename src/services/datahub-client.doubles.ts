@@ -30,11 +30,13 @@ const fakeData = [
 
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains() {
+    console.log('getAccountDomains');
     await timeout(3000);
     return fakeData.map((x) => ({ id: x.id, name: x.name, verified_date: x.verified_date }));
   }
 
   public async getPagesByDomainId(domainId: number) {
+    console.log('getPagesByDomainId', { domainId });
     await timeout(2000);
     const domain = fakeData.find((x) => x.id === domainId);
     if (!domain) {

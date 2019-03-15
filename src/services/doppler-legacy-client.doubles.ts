@@ -10,6 +10,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public constructor(public readonly email = 'hardcoded@email.com') {}
 
   public async getUserData() {
+    console.log('getUserData');
     await timeout(3000);
     const { user, nav, alert } = mapHeaderDataJson(headerDataJson);
 
@@ -24,6 +25,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async getUpgradePlanData(isSubscriberPlan: boolean) {
+    console.log('getUpgradePlanData', { isSubscriberPlan });
     await timeout(3000);
     return {
       ClientTypePlans: [
@@ -56,6 +58,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
+    console.log('sendEmailUpgradePlan', { planModel });
     await timeout(3000);
   }
 }
