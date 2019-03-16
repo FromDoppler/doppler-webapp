@@ -14,7 +14,7 @@ class UpgradePlanForm extends React.Component {
       formIsValid: false,
     };
 
-    this.submitForm = this.submitForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async componentWillMount() {
@@ -22,7 +22,8 @@ class UpgradePlanForm extends React.Component {
     this.setState({ userPlanModel: result });
   }
 
-  async submitForm() {
+  async handleSubmit(event) {
+    event.preventDefault();
     await this.dopplerLegacyClient.sendEmailUpgradePlan(this.state.userPlanModel);
     this.props.handleClose();
   }
@@ -48,7 +49,7 @@ class UpgradePlanForm extends React.Component {
           <h2 className="modal-title">
             <FormattedMessage id="upgradePlanForm.title" />
           </h2>
-          <form action="#" className="form-request">
+          <form className="form-request" onSubmit={this.handleSubmit}>
             <fieldset>
               <ul>
                 <li>
@@ -89,8 +90,8 @@ class UpgradePlanForm extends React.Component {
                 <FormattedMessage id="common.cancel" />
               </button>
               <button
+                type="submit"
                 className="dp-button primary-green button-small"
-                onClick={this.submitForm}
                 disabled={!this.state.formIsValid}
               >
                 <FormattedMessage id="common.send" />
