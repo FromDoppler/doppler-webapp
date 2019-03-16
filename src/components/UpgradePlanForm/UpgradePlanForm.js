@@ -64,6 +64,7 @@ class UpgradePlanForm extends React.Component {
                   <select
                     value={this.state.userPlanModel.IdClientTypePlanSelected || -1}
                     name="IdClientTypePlanSelected"
+                    id="IdClientTypePlanSelected"
                     onChange={this.changeHandler}
                   >
                     {this.state.userPlanModel.ClientTypePlans.map((item, index) => (
@@ -81,6 +82,7 @@ class UpgradePlanForm extends React.Component {
                     onChange={this.changeHandler}
                     value={this.state.userPlanModel.Detail || ''}
                     name="Detail"
+                    id="Detail"
                     placeholder="Tu mensage"
                   />
                 </li>
