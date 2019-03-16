@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Formik } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 
 const fieldNames = {
@@ -69,16 +69,8 @@ class UpgradePlanForm extends React.Component {
             validate={validate}
             onSubmit={onSubmit}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <form className="form-request" onSubmit={handleSubmit}>
+            {({ isSubmitting }) => (
+              <Form className="form-request">
                 <fieldset>
                   <ul>
                     <li>
@@ -86,19 +78,17 @@ class UpgradePlanForm extends React.Component {
                         <FormattedMessage id="upgradePlanForm.plan_select" />
                       </label>
                       <span className="dropdown-arrow" />
-                      <select
-                        value={values[fieldNames.selectedPlanId]}
+                      <Field
+                        component="select"
                         name={fieldNames.selectedPlanId}
                         id={fieldNames.selectedPlanId}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
                       >
                         {availablePlans.map((item, index) => (
                           <option key={index} value={item.IdUserTypePlan}>
                             {item.Description}
                           </option>
                         ))}
-                      </select>
+                      </Field>
                     </li>
                     <li>
                       <label htmlFor={fieldNames.message}>
@@ -106,10 +96,8 @@ class UpgradePlanForm extends React.Component {
                       </label>
                       <FormattedMessage id="upgradePlanForm.message_placeholder">
                         {(placeholderText) => (
-                          <textarea
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values[fieldNames.message]}
+                          <Field
+                            component="textarea"
                             name={fieldNames.message}
                             id={fieldNames.message}
                             placeholder={placeholderText}
@@ -117,7 +105,7 @@ class UpgradePlanForm extends React.Component {
                         )}
                       </FormattedMessage>
                       {/* TODO: Add the right styles */}
-                      {touched[fieldNames.message] && errors[fieldNames.message]}
+                      <ErrorMessage name={fieldNames.message} component="div" />
                     </li>
                   </ul>
                 </fieldset>
@@ -133,7 +121,7 @@ class UpgradePlanForm extends React.Component {
                     <FormattedMessage id="common.send" />
                   </button>
                 </fieldset>
-              </form>
+              </Form>
             )}
           </Formik>
         </>
