@@ -111,7 +111,11 @@ class UpgradePlanForm extends React.Component {
         </>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <div>
+          <FormattedMessage id="loading" />
+        </div>
+      );
     }
   }
 }
