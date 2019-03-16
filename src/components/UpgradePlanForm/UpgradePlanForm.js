@@ -37,7 +37,11 @@ class UpgradePlanForm extends React.Component {
         ...prevState.userPlanModel,
         [name]: value,
       },
-      formIsValid: !!this.state.userPlanModel.Detail,
+    }));
+
+    // In a different setState to be sure of merging old state with the new changes
+    this.setState((prevState) => ({
+      formIsValid: !!prevState.userPlanModel.Detail,
     }));
   };
 
