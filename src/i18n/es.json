@@ -11,7 +11,8 @@
   },
   "upgradePlanForm": {
     "title": "Solicita una actualización de tu plan",
-    "plan_select": "Selecciona el Plan"
+    "plan_select": "Selecciona el Plan",
+    "message_placeholder": "Tu mensaje"
   },
   "reports_filters": {
     "title": "Optimiza tu estrategia de Marketing Digital",

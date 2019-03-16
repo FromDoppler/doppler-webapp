@@ -78,13 +78,17 @@ class UpgradePlanForm extends React.Component {
                   <label htmlFor="message">
                     <FormattedMessage id="common.message" />
                   </label>
-                  <textarea
-                    onChange={this.changeHandler}
-                    value={this.state.userPlanModel.Detail || ''}
-                    name="Detail"
-                    id="Detail"
-                    placeholder="Tu mensage"
-                  />
+                  <FormattedMessage id="upgradePlanForm.message_placeholder">
+                    {(placeholderText) => (
+                      <textarea
+                        onChange={this.changeHandler}
+                        value={this.state.userPlanModel.Detail || ''}
+                        name="Detail"
+                        id="Detail"
+                        placeholder={placeholderText}
+                      />
+                    )}
+                  </FormattedMessage>
                 </li>
               </ul>
             </fieldset>
