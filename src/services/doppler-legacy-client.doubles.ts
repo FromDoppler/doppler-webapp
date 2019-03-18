@@ -11,7 +11,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
 
   public async getUserData() {
     console.log('getUserData');
-    await timeout(3000);
+    await timeout(1500);
     const { user, nav, alert } = mapHeaderDataJson(headerDataJson);
 
     return {
@@ -59,6 +59,6 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
 
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
     console.log('sendEmailUpgradePlan', { planModel });
-    await timeout(3000);
+    await timeout(1500);
   }
 }
