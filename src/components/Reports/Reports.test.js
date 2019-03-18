@@ -27,7 +27,7 @@ describe('Reports page', () => {
 
   it('render page without domain', () => {
     const datahubClientDouble = {
-      getAccountDomains: async () => []
+      getAccountDomains: async () => [],
     };
 
     render(
