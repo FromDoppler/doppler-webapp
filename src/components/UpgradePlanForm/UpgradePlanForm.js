@@ -110,12 +110,12 @@ class UpgradePlanForm extends React.Component {
               </ul>
             </fieldset>
             <fieldset className="fieldset-cta">
-              <button className="dp-button primary-brown button-small" onClick={handleClose}>
+              <button className="dp-button button-medium primary-grey" onClick={handleClose}>
                 <FormattedMessage id="common.cancel" />
               </button>
               <button
                 type="submit"
-                className="dp-button primary-green button-small"
+                className="dp-button button-medium primary-green"
                 disabled={!formIsValid}
               >
                 <FormattedMessage id="common.send" />
