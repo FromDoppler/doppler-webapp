@@ -57,6 +57,8 @@ class UpgradePlanForm extends React.Component {
       props: { handleClose },
     } = this;
     const isUserDataLoaded = !!availablePlans;
+    // TODO: what happens when availablePlans is an empty array?
+    const firstPlanId = availablePlans && availablePlans.length && availablePlans[0].IdUserTypePlan;
 
     if (isUserDataLoaded) {
       return (
@@ -65,7 +67,7 @@ class UpgradePlanForm extends React.Component {
             <FormattedMessage id="upgradePlanForm.title" />
           </h2>
           <Formik
-            initialValues={{ [fieldNames.selectedPlanId]: -1, [fieldNames.message]: '' }}
+            initialValues={{ [fieldNames.selectedPlanId]: firstPlanId, [fieldNames.message]: '' }}
             validate={validate}
             onSubmit={onSubmit}
           >
