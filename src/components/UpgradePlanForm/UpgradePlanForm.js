@@ -117,7 +117,10 @@ class UpgradePlanForm extends React.Component {
                   </button>
                   <button
                     type="submit"
-                    className="dp-button button-medium primary-green"
+                    className={
+                      'dp-button button-medium primary-green' +
+                      ((isSubmitting && ' button--loading') || '')
+                    }
                     disabled={isSubmitting}
                   >
                     <FormattedMessage id="common.send" />
