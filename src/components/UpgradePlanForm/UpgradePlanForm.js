@@ -2,6 +2,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 
+const fieldNames = {
+  selectedPlanId: 'selectedPlanId',
+  message: 'message',
+};
+
 class UpgradePlanForm extends React.Component {
   constructor({ dependencies: { dopplerLegacyClient } }) {
     super();
@@ -10,20 +15,27 @@ class UpgradePlanForm extends React.Component {
     this.dopplerLegacyClient = dopplerLegacyClient;
 
     this.state = {
-      userPlanModel: null,
+      formData: {},
+      availablePlans: null,
       formIsValid: false,
     };
 
-    this.submitForm = this.submitForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   async componentWillMount() {
-    const result = await this.dopplerLegacyClient.getUpgradePlanData(this.props.isSubscriber);
-    this.setState({ userPlanModel: result });
+    const { ClientTypePlans } = await this.dopplerLegacyClient.getUpgradePlanData(
+      this.props.isSubscriber,
+    );
+    this.setState({ availablePlans: ClientTypePlans });
   }
 
-  async submitForm() {
-    await this.dopplerLegacyClient.sendEmailUpgradePlan(this.state.userPlanModel);
+  async handleSubmit(event) {
+    event.preventDefault();
+    await this.dopplerLegacyClient.sendEmailUpgradePlan({
+      IdClientTypePlanSelected: this.state.formData[fieldNames.selectedPlanId],
+      Detail: this.state.formData[fieldNames.message],
+    });
     this.props.handleClose();
   }
 
@@ -32,36 +44,47 @@ class UpgradePlanForm extends React.Component {
     const value = event.target.value;
 
     this.setState((prevState) => ({
-      userPlanModel: {
-        ...prevState.userPlanModel,
+      formData: {
+        ...prevState.formData,
         [name]: value,
       },
-      formIsValid: !!this.state.userPlanModel.Detail,
+    }));
+
+    this.setState((prevState) => ({
+      formIsValid: !!prevState.formData[fieldNames.message],
     }));
   };
 
   render() {
-    const isUserDataLoaded = !!this.state.userPlanModel;
+    const {
+      changeHandler,
+      handleSubmit,
+      state: { availablePlans, formIsValid, formData },
+      props: { handleClose },
+    } = this;
+    const isUserDataLoaded = !!availablePlans;
+
     if (isUserDataLoaded) {
       return (
         <>
           <h2 className="modal-title">
             <FormattedMessage id="upgradePlanForm.title" />
           </h2>
-          <form action="#" className="form-request">
+          <form className="form-request" onSubmit={handleSubmit}>
             <fieldset>
               <ul>
                 <li>
-                  <label htmlFor="plan">
+                  <label htmlFor={fieldNames.selectedPlanId}>
                     <FormattedMessage id="upgradePlanForm.plan_select" />
                   </label>
                   <span className="dropdown-arrow" />
                   <select
-                    value={this.state.userPlanModel.IdClientTypePlanSelected || -1}
-                    name="IdClientTypePlanSelected"
-                    onChange={this.changeHandler}
+                    value={formData[fieldNames.selectedPlanId] || -1}
+                    name={fieldNames.selectedPlanId}
+                    id={fieldNames.selectedPlanId}
+                    onChange={changeHandler}
                   >
-                    {this.state.userPlanModel.ClientTypePlans.map((item, index) => (
+                    {availablePlans.map((item, index) => (
                       <option key={index} value={item.IdUserTypePlan}>
                         {item.Description}
                       </option>
@@ -69,29 +92,31 @@ class UpgradePlanForm extends React.Component {
                   </select>
                 </li>
                 <li>
-                  <label htmlFor="message">
+                  <label htmlFor={fieldNames.message}>
                     <FormattedMessage id="common.message" />
                   </label>
-                  <textarea
-                    onChange={this.changeHandler}
-                    value={this.state.userPlanModel.Detail || ''}
-                    name="Detail"
-                    placeholder="Tu mensage"
-                  />
+                  <FormattedMessage id="upgradePlanForm.message_placeholder">
+                    {(placeholderText) => (
+                      <textarea
+                        onChange={changeHandler}
+                        value={formData[fieldNames.message] || ''}
+                        name={fieldNames.message}
+                        id={fieldNames.message}
+                        placeholder={placeholderText}
+                      />
+                    )}
+                  </FormattedMessage>
                 </li>
               </ul>
             </fieldset>
             <fieldset className="fieldset-cta">
-              <button
-                className="dp-button primary-brown button-small"
-                onClick={this.props.handleClose}
-              >
+              <button className="dp-button primary-brown button-small" onClick={handleClose}>
                 <FormattedMessage id="common.cancel" />
               </button>
               <button
+                type="submit"
                 className="dp-button primary-green button-small"
-                onClick={this.submitForm}
-                disabled={!this.state.formIsValid}
+                disabled={!formIsValid}
               >
                 <FormattedMessage id="common.send" />
               </button>
@@ -100,7 +125,11 @@ class UpgradePlanForm extends React.Component {
         </>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <div>
+          <FormattedMessage id="loading" />
+        </div>
+      );
     }
   }
 }
