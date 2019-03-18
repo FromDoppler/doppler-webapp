@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
 import { FormattedMessage } from 'react-intl';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
@@ -47,14 +48,19 @@ class App extends Component {
       dopplerSession: { status: sessionStatus, userData },
       i18nLocale,
     } = this.state;
+    const redirectToReports = () => <Redirect to={{ pathname: '/reports' }} />;
+
     return (
       <DopplerIntlProvider locale={i18nLocale}>
         {sessionStatus === 'authenticated' ? (
-          <>
-            <Header userData={userData} />
-            <Reports />
-            <Footer />
-          </>
+          <Router>
+            <div>
+              <Header userData={userData} />
+              <Route path="/" exact component={redirectToReports} />
+              <Route path="/reports/" exact component={Reports} />
+              <Footer />
+            </div>
+          </Router>
         ) : (
           <div>
             <FormattedMessage id="loading" />
