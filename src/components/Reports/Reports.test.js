@@ -4,16 +4,19 @@ import 'jest-dom/extend-expect';
 import DopplerIntlProvider from '../../DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
 
+const verifiedDateAsEngString = '12/17/2017';
+const verifiedDateAsDate = new Date('2017-12-17');
+
 const fakeData = [
   {
     id: 1,
     name: 'www.fromdoppler.com',
-    verified_date: new Date('2017-12-17'),
+    verified_date: verifiedDateAsDate,
   },
   {
     id: 2,
     name: 'www.makingsense.com',
-    verified_date: new Date('2010-12-17'),
+    verified_date: verifiedDateAsDate,
   },
 ];
 
@@ -46,9 +49,9 @@ describe('Reports page', () => {
       </DopplerIntlProvider>,
     );
 
-    await wait(() => getByText(fakeData[0].verified_date));
+    await wait(() => getByText(verifiedDateAsEngString));
 
-    const verifiedDate = getByText(fakeData[0].verified_date);
+    const verifiedDate = getByText(verifiedDateAsEngString);
     const domain = getByText(fakeData[1].name);
 
     expect(verifiedDate).toBeDefined();
