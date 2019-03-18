@@ -31,7 +31,7 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <App locale="en" />
-        </AppServicesProvider>
+        </AppServicesProvider>,
       );
 
       // Assert
@@ -48,7 +48,7 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <App locale="es" />
-        </AppServicesProvider>
+        </AppServicesProvider>,
       );
 
       // Assert
@@ -64,7 +64,8 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <App locale="en" />
-        </AppServicesProvider>);
+        </AppServicesProvider>,
+      );
 
       getByText('Loading...');
 
@@ -140,7 +141,7 @@ describe('App component', () => {
     const { getByText } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <App locale="en" />
-      </AppServicesProvider>
+      </AppServicesProvider>,
     );
 
     getByText('Loading...');

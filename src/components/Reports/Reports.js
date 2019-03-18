@@ -3,7 +3,7 @@ import ReportsFilters from './ReportsFilters/ReportsFilters';
 import { InjectAppServices } from '../../services/pure-di';
 
 class Reports extends React.Component {
-  constructor({ dependencies: { datahubClient }}) {
+  constructor({ dependencies: { datahubClient } }) {
     super();
 
     /** @type { import('../../services/datahub-client').DatahubClient } */
