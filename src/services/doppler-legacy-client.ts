@@ -101,6 +101,7 @@ export function mapHeaderDataJson(json: any) {
       button: json.alert.button && {
         text: json.alert.button.text,
         url: json.alert.button.url,
+        action: json.alert.button.action,
       },
       message: json.alert.message,
       type: json.alert.type,
