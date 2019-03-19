@@ -31,5 +31,8 @@
     "send": "Send",
     "cancel": "Cancel"
   },
-  "reports_title": "Doppler | Reports"
+  "reports_title": "Doppler | Reports",
+  "validation_messages": {
+    "error_required_field": "Ouch! The field is empty."
+  }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 
@@ -9,11 +9,12 @@ const fieldNames = {
 };
 
 class UpgradePlanForm extends React.Component {
-  constructor({ dependencies: { dopplerLegacyClient } }) {
+  constructor({ dependencies: { dopplerLegacyClient }, intl }) {
     super();
 
     /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
     this.dopplerLegacyClient = dopplerLegacyClient;
+    this.intl = intl;
 
     this.state = {
       availablePlans: null,
@@ -43,8 +44,9 @@ class UpgradePlanForm extends React.Component {
   validate(values) {
     const errors = {};
     if (!values[fieldNames.message]) {
-      // TODO: translate it, here or in the markup
-      errors[fieldNames.message] = 'Required';
+      errors[fieldNames.message] = this.intl.formatMessage({
+        id: 'validation_messages.error_required_field',
+      });
     }
     return errors;
   }
@@ -141,4 +143,4 @@ class UpgradePlanForm extends React.Component {
   }
 }
 
-export default InjectAppServices(UpgradePlanForm);
+export default InjectAppServices(injectIntl(UpgradePlanForm));
