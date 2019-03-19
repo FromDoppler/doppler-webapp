@@ -73,11 +73,11 @@ class UpgradePlanForm extends React.Component {
             validate={validate}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, errors, touched }) => (
               <Form className="form-request">
                 <fieldset>
-                  <ul>
-                    <li>
+                  <ul className="field-group">
+                    <li className="field-item">
                       <label htmlFor={fieldNames.selectedPlanId}>
                         <FormattedMessage id="upgradePlanForm.plan_select" />
                       </label>
@@ -94,7 +94,12 @@ class UpgradePlanForm extends React.Component {
                         ))}
                       </Field>
                     </li>
-                    <li>
+                    <li
+                      className={
+                        'field-item' +
+                        (touched[fieldNames.message] && errors[fieldNames.message] ? ' error' : '')
+                      }
+                    >
                       <label htmlFor={fieldNames.message}>
                         <FormattedMessage id="common.message" />
                       </label>
@@ -108,8 +113,13 @@ class UpgradePlanForm extends React.Component {
                           />
                         )}
                       </FormattedMessage>
-                      {/* TODO: Add the right styles */}
-                      <ErrorMessage name={fieldNames.message} component="div" />
+                      <ErrorMessage name={fieldNames.message}>
+                        {(msg) => (
+                          <div className="wrapper-errors">
+                            <p className="error-message">{msg}</p>
+                          </div>
+                        )}
+                      </ErrorMessage>
                     </li>
                   </ul>
                 </fieldset>
