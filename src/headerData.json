@@ -180,8 +180,8 @@
     "type": "blocker",
     "message": "Para que puedas enviar tu próxima Campaña, antes necesitamos verificar el origen de tus Suscriptores.",
     "button": {
-      "action": "validateSubscribersPopup",
-      "text": "Verificar Ahora"
+      "action": "updatePlanPopup",
+      "text": "Actualizar plan"
     },
     "nextAlert": {
       "type": "warning",

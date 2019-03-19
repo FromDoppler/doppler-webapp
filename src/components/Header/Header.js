@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 const Header = ({ userData: { user, nav, alert } }) => {
   return (
     <div>
-      {alert ? <HeaderMessages alert={alert} /> : null}
+      {alert ? <HeaderMessages alert={alert} user={user} /> : null}
       <header className="header-main">
         <div className="header-wrapper">
           <div className="logo">
