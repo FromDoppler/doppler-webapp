@@ -1,4 +1,4 @@
-# Any change to this file should be replecated in dockerfile.int and dockerfile.qa
+# Any change to this file should be replecated in dockerfile.qa and dockerfile
 FROM node:10 As build
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -10,7 +10,7 @@ RUN yarn install
 COPY . .
 
 # Build project
-RUN yarn build
+RUN yarn build:int
 
 # Host project in nginx
 FROM nginx
