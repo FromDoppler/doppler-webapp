@@ -27,34 +27,32 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public async getUpgradePlanData(isSubscriberPlan: boolean) {
     console.log('getUpgradePlanData', { isSubscriberPlan });
     await timeout(3000);
-    return {
-      ClientTypePlans: [
-        {
-          IdUserTypePlan: 1,
-          Description: 'Plan 1 Descripción',
-          EmailQty: 12345,
-          Fee: 678.9,
-          ExtraEmailCost: 0.0123,
-          SubscribersQty: 456,
-        },
-        {
-          IdUserTypePlan: 2,
-          Description: 'Plan 2 Descripción',
-          EmailQty: null,
-          Fee: 678.9,
-          ExtraEmailCost: null,
-          SubscribersQty: 456,
-        },
-        {
-          IdUserTypePlan: 3,
-          Description: 'Plan 3 Descripción',
-          EmailQty: 12345,
-          Fee: 678.9,
-          ExtraEmailCost: 0.0123,
-          SubscribersQty: null,
-        },
-      ],
-    };
+    return [
+      {
+        IdUserTypePlan: 1,
+        Description: 'Plan 1 Descripción',
+        EmailQty: 12345,
+        Fee: 678.9,
+        ExtraEmailCost: 0.0123,
+        SubscribersQty: 456,
+      },
+      {
+        IdUserTypePlan: 2,
+        Description: 'Plan 2 Descripción',
+        EmailQty: null,
+        Fee: 678.9,
+        ExtraEmailCost: null,
+        SubscribersQty: 456,
+      },
+      {
+        IdUserTypePlan: 3,
+        Description: 'Plan 3 Descripción',
+        EmailQty: 12345,
+        Fee: 678.9,
+        ExtraEmailCost: 0.0123,
+        SubscribersQty: null,
+      },
+    ];
   }
 
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
