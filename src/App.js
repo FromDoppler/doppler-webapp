@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
 import { FormattedMessage } from 'react-intl';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
