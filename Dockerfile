@@ -1,3 +1,4 @@
+# Any change to this file should be replecated in dockerfile.int and dockerfile.qa
 FROM node:10 As build
 WORKDIR /app
 COPY package.json yarn.lock ./
