@@ -18,7 +18,7 @@ class HeaderMessages extends React.Component {
     const alert = this.props.alert;
     const user = this.props.user;
     //TODO implement max subscribers modal
-    if (alert.button && alert.button.action !== 'updatePlanPopup') {
+    if (alert.button && alert.button.action && alert.button.action !== 'updatePlanPopup') {
       return <></>;
     } else {
       return (

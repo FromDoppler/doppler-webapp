@@ -4,6 +4,12 @@ import 'jest-dom/extend-expect';
 
 import HeaderMessages from './HeaderMessages';
 
+const user = {
+  plan: {
+    isSubscribers: true,
+  },
+};
+
 describe('Header Messages component', () => {
   afterEach(cleanup);
 
@@ -17,7 +23,7 @@ describe('Header Messages component', () => {
       message: 'Posees una cuenta gratis de 500 Suscriptores.',
     };
 
-    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} />);
+    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} user={user} />);
     const linkButton = getByTestId('linkButton');
 
     expect(linkButton).toBeDefined();
@@ -33,7 +39,7 @@ describe('Header Messages component', () => {
       },
       message: 'Has alcanzado el límite de tu cuenta',
     };
-    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} />);
+    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} user={user} />);
 
     const actionButton = getByTestId('actionButton');
 
@@ -47,7 +53,7 @@ describe('Header Messages component', () => {
       type: 'error',
       message: 'Has solicitado la cancelación de tu cuenta.',
     };
-    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} />);
+    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} user={user} />);
 
     expect(getByText('Has solicitado la cancelación de tu cuenta.')).toBeInTheDocument();
   });
