@@ -3,7 +3,7 @@ import { Color } from 'csstype';
 
 export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
-  getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyUpgradePlanData>;
+  getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyClientTypePlan[]>;
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
 }
 
@@ -121,11 +121,9 @@ export function mapHeaderDataJson(json: any) {
 /* #endregion */
 
 /* #region Upgrade Plan data types */
-export interface DopplerLegacyUpgradePlanData {
-  ClientTypePlans: {
-    IdUserTypePlan: number;
-    Description: string;
-  }[];
+export interface DopplerLegacyClientTypePlan {
+  IdUserTypePlan: number;
+  Description: string;
 }
 
 export interface DopplerLegacyUpgradePlanContactModel {

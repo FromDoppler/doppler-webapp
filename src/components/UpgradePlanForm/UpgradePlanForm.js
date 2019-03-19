@@ -24,10 +24,10 @@ class UpgradePlanForm extends React.Component {
   }
 
   async componentWillMount() {
-    const { ClientTypePlans } = await this.dopplerLegacyClient.getUpgradePlanData(
+    const availablePlans = await this.dopplerLegacyClient.getUpgradePlanData(
       this.props.isSubscriber,
     );
-    this.setState({ availablePlans: ClientTypePlans });
+    this.setState({ availablePlans: availablePlans });
   }
 
   async handleSubmit(event) {
