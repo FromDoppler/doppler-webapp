@@ -30,5 +30,6 @@
     "message": "Mensaje",
     "send": "Enviar",
     "cancel": "Cancelar"
-  }
+  },
+  "reports_title": "Doppler | Reportes"
 }

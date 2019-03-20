@@ -1,6 +1,7 @@
 import React from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
 import { InjectAppServices } from '../../services/pure-di';
+import { FormattedMessage } from 'react-intl';
 
 class Reports extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
@@ -50,6 +51,15 @@ class Reports extends React.Component {
   render() {
     return (
       <>
+        <FormattedMessage id="reports_title">
+          {(message) => {
+            if (document.title !== message) {
+              document.title = message;
+            }
+
+            return null;
+          }}
+        </FormattedMessage>
         <ReportsFilters
           changeDomain={this.changeDomain}
           domains={this.state.domains}
