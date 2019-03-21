@@ -46,7 +46,7 @@ class HeaderUserMenu extends React.Component {
                 ''
               )}
               <p>
-                <strong>{user.plan.remainingCredits}</strong>
+                <strong>{user.plan.remainingCredits}</strong>{' '}
                 {user.plan.description}
               </p>
             </div>
