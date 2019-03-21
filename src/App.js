@@ -7,6 +7,12 @@ import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
+// If we want to use Internal Login
+// import { RedirectToInternalLogin as RedirectToLogin } from './components/RedirectToLogin';
+
+// If we want to use redirect to Doppler Legacy Login
+import { RedirectToLegacyLoginFactory } from './components/RedirectToLogin';
+const RedirectToLogin = RedirectToLegacyLoginFactory(process.env.REACT_APP_API_URL, window);
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {
@@ -76,7 +82,7 @@ class App extends Component {
                 <Footer />
               </>
             ) : (
-              <this.RedirectToLogin from={props.location} />
+              <RedirectToLogin from={props.location} />
             )
           }
         />

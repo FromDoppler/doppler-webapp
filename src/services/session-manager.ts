@@ -61,14 +61,7 @@ export class OnlineSessionManager implements SessionManager {
         userData: dopplerUserData,
       });
     } catch (error) {
-      this.redirectToLogin();
+      this.updateSession({ status: 'non-authenticated' });
     }
-  }
-
-  // TODO: move into a dependency
-  private redirectToLogin() {
-    const currentUrlEncoded = encodeURI(window.location.href);
-    const loginUrl = `${process.env.REACT_APP_API_URL}/SignIn/index?redirect=${currentUrlEncoded}`;
-    window.location.href = loginUrl;
   }
 }
