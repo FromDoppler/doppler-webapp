@@ -31,5 +31,8 @@
     "send": "Enviar",
     "cancel": "Cancelar"
   },
-  "reports_title": "Doppler | Reportes"
+  "reports_title": "Doppler | Reportes",
+  "validation_messages": {
+    "error_required_field": "¡Ouch! El campo está vacío."
+  }
 }

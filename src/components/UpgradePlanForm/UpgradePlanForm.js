@@ -1,5 +1,6 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 
 const fieldNames = {
@@ -8,19 +9,20 @@ const fieldNames = {
 };
 
 class UpgradePlanForm extends React.Component {
-  constructor({ dependencies: { dopplerLegacyClient } }) {
+  constructor({ dependencies: { dopplerLegacyClient }, intl }) {
     super();
 
     /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
     this.dopplerLegacyClient = dopplerLegacyClient;
+    this.intl = intl;
 
     this.state = {
-      formData: {},
       availablePlans: null,
       formIsValid: false,
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.validate = this.validate.bind(this);
   }
 
   async componentWillMount() {
@@ -30,39 +32,35 @@ class UpgradePlanForm extends React.Component {
     this.setState({ availablePlans: availablePlans });
   }
 
-  async handleSubmit(event) {
-    event.preventDefault();
+  async onSubmit(values, { setSubmitting }) {
     await this.dopplerLegacyClient.sendEmailUpgradePlan({
-      IdClientTypePlanSelected: this.state.formData[fieldNames.selectedPlanId],
-      Detail: this.state.formData[fieldNames.message],
+      IdClientTypePlanSelected: values[fieldNames.selectedPlanId],
+      Detail: values[fieldNames.message],
     });
+    setSubmitting(false);
     this.props.handleClose();
   }
 
-  changeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState((prevState) => ({
-      formData: {
-        ...prevState.formData,
-        [name]: value,
-      },
-    }));
-
-    this.setState((prevState) => ({
-      formIsValid: !!prevState.formData[fieldNames.message],
-    }));
-  };
+  validate(values) {
+    const errors = {};
+    if (!values[fieldNames.message]) {
+      errors[fieldNames.message] = this.intl.formatMessage({
+        id: 'validation_messages.error_required_field',
+      });
+    }
+    return errors;
+  }
 
   render() {
     const {
-      changeHandler,
-      handleSubmit,
-      state: { availablePlans, formIsValid, formData },
+      onSubmit,
+      validate,
+      state: { availablePlans },
       props: { handleClose },
     } = this;
     const isUserDataLoaded = !!availablePlans;
+    // TODO: what happens when availablePlans is an empty array?
+    const firstPlanId = availablePlans && availablePlans.length && availablePlans[0].IdUserTypePlan;
 
     if (isUserDataLoaded) {
       return (
@@ -70,58 +68,79 @@ class UpgradePlanForm extends React.Component {
           <h2 className="modal-title">
             <FormattedMessage id="upgradePlanForm.title" />
           </h2>
-          <form className="form-request" onSubmit={handleSubmit}>
-            <fieldset>
-              <ul>
-                <li>
-                  <label htmlFor={fieldNames.selectedPlanId}>
-                    <FormattedMessage id="upgradePlanForm.plan_select" />
-                  </label>
-                  <span className="dropdown-arrow" />
-                  <select
-                    value={formData[fieldNames.selectedPlanId] || -1}
-                    name={fieldNames.selectedPlanId}
-                    id={fieldNames.selectedPlanId}
-                    onChange={changeHandler}
+          <Formik
+            initialValues={{ [fieldNames.selectedPlanId]: firstPlanId, [fieldNames.message]: '' }}
+            validate={validate}
+            onSubmit={onSubmit}
+          >
+            {({ isSubmitting, errors, touched }) => (
+              <Form className="form-request">
+                <fieldset>
+                  <ul className="field-group">
+                    <li className="field-item">
+                      <label htmlFor={fieldNames.selectedPlanId}>
+                        <FormattedMessage id="upgradePlanForm.plan_select" />
+                      </label>
+                      <span className="dropdown-arrow" />
+                      <Field
+                        component="select"
+                        name={fieldNames.selectedPlanId}
+                        id={fieldNames.selectedPlanId}
+                      >
+                        {availablePlans.map((item, index) => (
+                          <option key={index} value={item.IdUserTypePlan}>
+                            {item.Description}
+                          </option>
+                        ))}
+                      </Field>
+                    </li>
+                    <li
+                      className={
+                        'field-item' +
+                        (touched[fieldNames.message] && errors[fieldNames.message] ? ' error' : '')
+                      }
+                    >
+                      <label htmlFor={fieldNames.message}>
+                        <FormattedMessage id="common.message" />
+                      </label>
+                      <FormattedMessage id="upgradePlanForm.message_placeholder">
+                        {(placeholderText) => (
+                          <Field
+                            component="textarea"
+                            name={fieldNames.message}
+                            id={fieldNames.message}
+                            placeholder={placeholderText}
+                          />
+                        )}
+                      </FormattedMessage>
+                      <ErrorMessage name={fieldNames.message}>
+                        {(msg) => (
+                          <div className="wrapper-errors">
+                            <p className="error-message">{msg}</p>
+                          </div>
+                        )}
+                      </ErrorMessage>
+                    </li>
+                  </ul>
+                </fieldset>
+                <fieldset className="fieldset-cta">
+                  <button className="dp-button button-medium primary-grey" onClick={handleClose}>
+                    <FormattedMessage id="common.cancel" />
+                  </button>
+                  <button
+                    type="submit"
+                    className={
+                      'dp-button button-medium primary-green' +
+                      ((isSubmitting && ' button--loading') || '')
+                    }
+                    disabled={isSubmitting}
                   >
-                    {availablePlans.map((item, index) => (
-                      <option key={index} value={item.IdUserTypePlan}>
-                        {item.Description}
-                      </option>
-                    ))}
-                  </select>
-                </li>
-                <li>
-                  <label htmlFor={fieldNames.message}>
-                    <FormattedMessage id="common.message" />
-                  </label>
-                  <FormattedMessage id="upgradePlanForm.message_placeholder">
-                    {(placeholderText) => (
-                      <textarea
-                        onChange={changeHandler}
-                        value={formData[fieldNames.message] || ''}
-                        name={fieldNames.message}
-                        id={fieldNames.message}
-                        placeholder={placeholderText}
-                      />
-                    )}
-                  </FormattedMessage>
-                </li>
-              </ul>
-            </fieldset>
-            <fieldset className="fieldset-cta">
-              <button className="dp-button button-medium primary-grey" onClick={handleClose}>
-                <FormattedMessage id="common.cancel" />
-              </button>
-              <button
-                type="submit"
-                className="dp-button button-medium primary-green"
-                disabled={!formIsValid}
-              >
-                <FormattedMessage id="common.send" />
-              </button>
-            </fieldset>
-          </form>
+                    <FormattedMessage id="common.send" />
+                  </button>
+                </fieldset>
+              </Form>
+            )}
+          </Formik>
         </>
       );
     } else {
@@ -134,4 +153,4 @@ class UpgradePlanForm extends React.Component {
   }
 }
 
-export default InjectAppServices(UpgradePlanForm);
+export default InjectAppServices(injectIntl(UpgradePlanForm));
