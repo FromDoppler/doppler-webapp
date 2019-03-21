@@ -130,39 +130,41 @@ describe('App component', () => {
     });
   });
 
-  it('updates content after successful authentication', async () => {
-    // Arrange
-    const expectedEmail = 'fcoronel@makingsense.com';
+  describe('authentication', () => {
+    it('updates content after successful authentication', async () => {
+      // Arrange
+      const expectedEmail = 'fcoronel@makingsense.com';
 
-    const dependencies = {
-      sessionManager: createDoubleSessionManager(),
-    };
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
 
-    const { getByText } = render(
-      <AppServicesProvider forcedServices={dependencies}>
-        <App locale="en" />
-      </AppServicesProvider>,
-    );
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <App locale="en" />
+        </AppServicesProvider>,
+      );
 
-    getByText('Loading...');
+      getByText('Loading...');
 
-    // Act
-    dependencies.sessionManager.updateAppSession({
-      status: 'authenticated',
-      userData: {
-        user: {
-          email: expectedEmail,
-          avatar: {},
-          plan: {},
+      // Act
+      dependencies.sessionManager.updateAppSession({
+        status: 'authenticated',
+        userData: {
+          user: {
+            email: expectedEmail,
+            avatar: {},
+            plan: {},
+            nav: [],
+            lang: 'en',
+          },
           nav: [],
-          lang: 'en',
         },
-        nav: [],
-      },
-    });
+      });
 
-    // Assert
-    getByText(expectedEmail);
-    // TODO: test session manager behavior
+      // Assert
+      getByText(expectedEmail);
+      // TODO: test session manager behavior
+    });
   });
 });
