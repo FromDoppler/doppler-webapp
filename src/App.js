@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
-import { FormattedMessage } from 'react-intl';
 import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
+import Loading from './components/Loading';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {
@@ -62,9 +62,7 @@ class App extends Component {
             </div>
           </Router>
         ) : (
-          <div>
-            <FormattedMessage id="loading" />
-          </div>
+          <Loading />
         )}
       </DopplerIntlProvider>
     );
