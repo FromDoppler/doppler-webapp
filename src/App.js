@@ -52,7 +52,9 @@ class App extends Component {
 
     return (
       <DopplerIntlProvider locale={i18nLocale}>
-        {sessionStatus === 'authenticated' ? (
+        {sessionStatus === 'unknown' ? (
+          <Loading />
+        ) : sessionStatus === 'authenticated' ? (
           <Router>
             <div>
               <Header userData={userData} />
@@ -62,7 +64,7 @@ class App extends Component {
             </div>
           </Router>
         ) : (
-          <Loading />
+          <div>Not implemented</div>
         )}
       </DopplerIntlProvider>
     );

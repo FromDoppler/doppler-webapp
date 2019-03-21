@@ -11,7 +11,7 @@ function createDoubleSessionManager() {
     },
     finalize: () => {},
     session: {
-      status: 'non-authenticated',
+      status: 'unknown',
     },
   };
   return double;
@@ -104,7 +104,7 @@ describe('App component', () => {
       getByText('Privacy Policy & Legals.');
 
       // Act
-      dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
+      dependencies.sessionManager.updateAppSession({ status: 'unknown' });
 
       // Assert
       // Language should not be changed on logout
@@ -123,7 +123,7 @@ describe('App component', () => {
           nav: [],
         },
       });
-      dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
+      dependencies.sessionManager.updateAppSession({ status: 'unknown' });
 
       // Assert
       getByText('Cargando...');
