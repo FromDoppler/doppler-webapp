@@ -166,5 +166,42 @@ describe('App component', () => {
       getByText(expectedEmail);
       // TODO: test session manager behavior
     });
+
+    describe('not authenticated user', () => {
+      it('should be redirected to Legacy Doppler Login after open /reports (when using RedirectToLegacyLoginFactory)', () => {
+        const dependencies = {
+          appConfiguration: {
+            dopplerLegacyUrl: 'http://legacyUrl.localhost',
+          },
+          window: {
+            location: {
+              protocol: 'http:',
+              host: 'webapp.localhost',
+              pathname: '/path1/path2/',
+              href: 'unset',
+            },
+          },
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const { getByText } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <App locale="en" />
+          </AppServicesProvider>,
+        );
+
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(dependencies.window.location.href).toEqual(
+          'http://legacyUrl.localhost/SignIn/index?redirect=http://webapp.localhost/path1/path2/#/reports',
+        );
+      });
+    });
   });
 });
