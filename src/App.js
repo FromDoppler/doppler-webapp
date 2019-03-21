@@ -2,23 +2,20 @@ import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
 import { HashRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
+import PrivateRoute from './components/PrivateRoute';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
 import Login from './components/Login/Login';
 
 class App extends Component {
-  constructor({ locale, dependencies: { sessionManager, RedirectToLogin } }) {
+  constructor({ locale, dependencies: { sessionManager } }) {
     super();
 
     this.updateSession = this.updateSession.bind(this);
 
     /** @type { import('./services/session-manager').SessionManager } */
     this.sessionManager = sessionManager;
-    /** @type { import('./components/RedirectToLogin').RedirectToLogin } */
-    this.RedirectToLogin = RedirectToLogin;
 
     this.state = {
       dopplerSession: this.sessionManager.session,
@@ -52,25 +49,6 @@ class App extends Component {
       i18nLocale,
     } = this.state;
 
-    const PrivateRoute = ({ component: Component, ...rest }) => {
-      return (
-        <Route
-          {...rest}
-          render={(props) =>
-            sessionStatus === 'authenticated' ? (
-              <>
-                <Header userData={userData} />
-                <Component {...props} />
-                <Footer />
-              </>
-            ) : (
-              <this.RedirectToLogin from={props.location} />
-            )
-          }
-        />
-      );
-    };
-
     return (
       <DopplerIntlProvider locale={i18nLocale}>
         {sessionStatus === 'unknown' ? (
@@ -79,7 +57,13 @@ class App extends Component {
           <Router>
             <Switch>
               <Route path="/" exact component={() => <Redirect to={{ pathname: '/reports' }} />} />
-              <PrivateRoute path="/reports/" exact component={Reports} />
+              <PrivateRoute
+                path="/reports/"
+                exact
+                component={Reports}
+                userData={userData}
+                sessionStatus={sessionStatus}
+              />
               <Route path="/login/" exact component={Login} />
               {/* TODO: Implement NotFound page in place of redirect all to reports */}
               {/* <Route component={NotFound} /> */}
