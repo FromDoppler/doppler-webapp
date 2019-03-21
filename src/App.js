@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
+import Login from './components/Login/Login';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager, RedirectToLogin } }) {
@@ -50,21 +51,6 @@ class App extends Component {
       dopplerSession: { status: sessionStatus, userData },
       i18nLocale,
     } = this.state;
-
-    const Login = ({ location }) => (
-      <div>
-        {/* TODO: implement login */}
-        LOGIN. After login, redirect to{' '}
-        {location.state && location.state.from
-          ? `${location.state.from.pathname}${location.state.from.search}${
-              location.state.from.hash
-            }`
-          : '/'}
-        <code>
-          <pre>{JSON.stringify(location, null, 2)}</pre>
-        </code>
-      </div>
-    );
 
     const PrivateRoute = ({ component: Component, ...rest }) => {
       return (
