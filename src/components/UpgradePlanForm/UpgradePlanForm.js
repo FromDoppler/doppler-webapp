@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
+import Loading from '../../components/Loading';
 
 const fieldNames = {
   selectedPlanId: 'selectedPlanId',
@@ -144,11 +145,7 @@ class UpgradePlanForm extends React.Component {
         </>
       );
     } else {
-      return (
-        <div>
-          <FormattedMessage id="loading" />
-        </div>
-      );
+      return <Loading />;
     }
   }
 }
