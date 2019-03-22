@@ -46,8 +46,7 @@ class HeaderUserMenu extends React.Component {
                 ''
               )}
               <p>
-                <strong>{user.plan.remainingCredits}</strong>{' '}
-                {user.plan.description}
+                <strong>{user.plan.remainingCredits}</strong> {user.plan.description}
               </p>
             </div>
             {user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
