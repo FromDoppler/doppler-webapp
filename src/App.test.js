@@ -3,6 +3,8 @@ import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
+import { RedirectToInternalLogin } from './components/RedirectToLogin';
+import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 
 function createDoubleSessionManager() {
   const double = {
@@ -16,6 +18,13 @@ function createDoubleSessionManager() {
   };
   return double;
 }
+
+const RouterInspector = withRouter(({ match, location, history, target }) => {
+  target.match = match;
+  target.location = location;
+  target.history = history;
+  return null;
+});
 
 describe('App component', () => {
   afterEach(cleanup);
@@ -63,7 +72,9 @@ describe('App component', () => {
 
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <App locale="en" />
+          <Router>
+            <App locale="en" />
+          </Router>
         </AppServicesProvider>,
       );
 
@@ -130,39 +141,308 @@ describe('App component', () => {
     });
   });
 
-  it('updates content after successful authentication', async () => {
-    // Arrange
-    const expectedEmail = 'fcoronel@makingsense.com';
+  describe('authentication', () => {
+    it('updates content after successful authentication', async () => {
+      // Arrange
+      const expectedEmail = 'fcoronel@makingsense.com';
 
-    const dependencies = {
-      sessionManager: createDoubleSessionManager(),
-    };
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
 
-    const { getByText } = render(
-      <AppServicesProvider forcedServices={dependencies}>
-        <App locale="en" />
-      </AppServicesProvider>,
-    );
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
 
-    getByText('Loading...');
+      getByText('Loading...');
 
-    // Act
-    dependencies.sessionManager.updateAppSession({
-      status: 'authenticated',
-      userData: {
-        user: {
-          email: expectedEmail,
-          avatar: {},
-          plan: {},
+      // Act
+      dependencies.sessionManager.updateAppSession({
+        status: 'authenticated',
+        userData: {
+          user: {
+            email: expectedEmail,
+            avatar: {},
+            plan: {},
+            nav: [],
+            lang: 'en',
+          },
           nav: [],
-          lang: 'en',
         },
-        nav: [],
-      },
+      });
+
+      // Assert
+      getByText(expectedEmail);
+      // TODO: test session manager behavior
     });
 
-    // Assert
-    getByText(expectedEmail);
-    // TODO: test session manager behavior
+    describe('not authenticated user', () => {
+      it('should be redirected to Legacy Doppler Login after open /reports (when using RedirectToLegacyLoginFactory)', () => {
+        const dependencies = {
+          appConfiguration: {
+            dopplerLegacyUrl: 'http://legacyUrl.localhost',
+          },
+          window: {
+            location: {
+              protocol: 'http:',
+              host: 'webapp.localhost',
+              pathname: '/path1/path2/',
+              href: 'unset',
+            },
+          },
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const { getByText } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router>
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(dependencies.window.location.href).toEqual(
+          'http://legacyUrl.localhost/SignIn/index?redirect=http://webapp.localhost/path1/path2/#/reports',
+        );
+      });
+
+      it('should be redirected to Internal Login after open /reports (when using RedirectToInternalLogin)', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/reports?param1=value1#hash']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.hash).toEqual('#hash');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        expect(currentRouteState.location.state).toBeDefined();
+        expect(currentRouteState.location.state.from).toBeDefined();
+        expect(currentRouteState.location.state.from.pathname).toEqual('/reports');
+        expect(currentRouteState.location.state.from.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.state.from.hash).toEqual('#hash');
+        expect(currentRouteState.history.length).toEqual(1); // because the URL has been replaced in the redirect
+        expect(currentRouteState.history.action).toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).toBeNull();
+      });
+
+      it('should not be redirected after open /login', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/login']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        expect(currentRouteState.location.state).toBeUndefined();
+        expect(currentRouteState.history.length).toEqual(1);
+        expect(currentRouteState.history.action).not.toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).toBeNull();
+      });
+
+      it('should be redirected to /login when route does not exists', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/this/route/does/not/exist']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/this/route/does/not/exist');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        expect(currentRouteState.location.state).toBeDefined();
+        expect(currentRouteState.location.state.from).toBeDefined();
+        expect(currentRouteState.location.state.from.pathname).toEqual('/reports'); // because before redirecting to login, it redirected to reports
+        expect(currentRouteState.history.length).toEqual(1); // because the URL has been replaced in the redirect
+        expect(currentRouteState.history.action).toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).toBeNull();
+      });
+    });
+
+    describe('authenticated user', () => {
+      it('should not be redirected after open /reports', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/this/route/does/not/exist?param1=value1#hash']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/this/route/does/not/exist');
+        expect(currentRouteState.location.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.hash).toEqual('#hash');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              lang: 'es',
+              avatar: {},
+              plan: {},
+              nav: [],
+            },
+            nav: [],
+          },
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('');
+        expect(currentRouteState.location.hash).toEqual('');
+        expect(currentRouteState.location.state).toBeUndefined();
+        expect(currentRouteState.history.length).toEqual(1);
+        expect(currentRouteState.history.action).toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).not.toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).not.toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).not.toBeNull();
+      });
+
+      it('should be redirected to /reports when route does not exists', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/reports?param1=value1#hash']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.hash).toEqual('#hash');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              lang: 'es',
+              avatar: {},
+              plan: {},
+              nav: [],
+            },
+            nav: [],
+          },
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.hash).toEqual('#hash');
+        expect(currentRouteState.location.state).toBeUndefined();
+        expect(currentRouteState.history.length).toEqual(1);
+        expect(currentRouteState.history.action).not.toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).not.toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).not.toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).not.toBeNull();
+      });
+    });
   });
 });

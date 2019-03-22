@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppServicesProvider } from './services/pure-di';
+import { RedirectToInternalLogin } from './components/RedirectToLogin';
+import { HashRouter as Router } from 'react-router-dom';
 
 // Only used in development environment, it does not affect production build
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
@@ -16,12 +18,15 @@ const forcedServices =
   process.env.NODE_ENV === 'development'
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
+        RedirectToLogin: RedirectToInternalLogin,
       }
     : {};
 
 ReactDOM.render(
   <AppServicesProvider forcedServices={forcedServices}>
-    <App locale={locale} />
+    <Router>
+      <App locale={locale} />
+    </Router>
   </AppServicesProvider>,
   document.getElementById('root'),
 );

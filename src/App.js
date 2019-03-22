@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
-import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
+import Login from './components/Login/Login';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {
@@ -48,23 +48,26 @@ class App extends Component {
       dopplerSession: { status: sessionStatus, userData },
       i18nLocale,
     } = this.state;
-    const redirectToReports = () => <Redirect to={{ pathname: '/reports' }} />;
 
     return (
       <DopplerIntlProvider locale={i18nLocale}>
         {sessionStatus === 'unknown' ? (
           <Loading />
-        ) : sessionStatus === 'authenticated' ? (
-          <Router>
-            <div>
-              <Header userData={userData} />
-              <Route path="/" exact component={redirectToReports} />
-              <Route path="/reports/" exact component={Reports} />
-              <Footer />
-            </div>
-          </Router>
         ) : (
-          <div>Not implemented</div>
+          <Switch>
+            <Route path="/" exact component={() => <Redirect to={{ pathname: '/reports' }} />} />
+            <PrivateRoute
+              path="/reports/"
+              exact
+              component={Reports}
+              userData={userData}
+              sessionStatus={sessionStatus}
+            />
+            <Route path="/login/" exact component={Login} />
+            {/* TODO: Implement NotFound page in place of redirect all to reports */}
+            {/* <Route component={NotFound} /> */}
+            <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
+          </Switch>
         )}
       </DopplerIntlProvider>
     );

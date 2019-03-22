@@ -4,6 +4,11 @@ import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode } from 'react';
 import { DatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
+import {
+  RedirectToLegacyLoginFactory,
+  RedirectToInternalLogin,
+  RedirectToLogin,
+} from '../components/RedirectToLogin';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -14,11 +19,13 @@ interface AppConfiguration {
  * Services able to be injected
  */
 export interface AppServices {
+  window: Window;
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
   datahubClient: DatahubClient;
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
+  RedirectToLogin: RedirectToLogin;
 }
 
 /**
@@ -72,6 +79,22 @@ export class AppCompositionRoot implements AppServices {
           this.dopplerLegacyClient,
           this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
         ),
+    );
+  }
+
+  get window() {
+    return this.singleton('window', () => window);
+  }
+
+  // To Setup Internal Login
+  // get RedirectToLogin() {
+  //   return this.singleton('RedirectToLogin', () => RedirectToInternalLogin);
+  // }
+
+  // To Setup Doppler Legacy Login
+  get RedirectToLogin() {
+    return this.singleton('RedirectToLogin', () =>
+      RedirectToLegacyLoginFactory(this.appConfiguration.dopplerLegacyUrl, this.window),
     );
   }
 }
