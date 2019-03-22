@@ -1,5 +1,6 @@
 import React from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
+import ReportsBox from './ReportsBox/ReportsBox';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 
@@ -15,10 +16,12 @@ class Reports extends React.Component {
       domainSelected: null,
       pages: [],
       pageSelected: null,
+      periodSelectedDays: 7,
     };
 
     this.changeDomain = this.changeDomain.bind(this);
     this.changePage = this.changePage.bind(this);
+    this.changePeriod = this.changePeriod.bind(this);
   }
 
   async componentDidMount() {
@@ -48,6 +51,10 @@ class Reports extends React.Component {
     this.setState({ pageSelected: pageFound });
   };
 
+  changePeriod = (days) => {
+    this.setState({ periodSelectedDays: days });
+  };
+
   render() {
     return (
       <>
@@ -67,8 +74,17 @@ class Reports extends React.Component {
           pages={this.state.pages}
           pageSelected={this.state.pageSelected}
           changePage={this.changePage}
+          periodSelectedDays={this.state.periodSelectedDays}
+          changePeriod={this.changePeriod}
         />
-        <div>Data</div>
+        <div className="reports-data--wrapper">
+          {this.state.domainSelected ? (
+            <ReportsBox
+              domainName={this.state.domainSelected.name}
+              periodSelectedDays={this.state.periodSelectedDays}
+            />
+          ) : null}
+        </div>
       </>
     );
   }

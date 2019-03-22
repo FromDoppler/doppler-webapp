@@ -6,7 +6,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
-import Loading from './components/Loading';
+import Loading from './components/Loading/Loading';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {

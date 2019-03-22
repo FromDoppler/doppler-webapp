@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
-import Loading from '../../components/Loading';
+import Loading from '../../components/Loading/Loading';
 
 const fieldNames = {
   selectedPlanId: 'selectedPlanId',
