@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './DopplerIntlProvider';
-import { HashRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
@@ -54,22 +54,20 @@ class App extends Component {
         {sessionStatus === 'unknown' ? (
           <Loading />
         ) : (
-          <Router>
-            <Switch>
-              <Route path="/" exact component={() => <Redirect to={{ pathname: '/reports' }} />} />
-              <PrivateRoute
-                path="/reports/"
-                exact
-                component={Reports}
-                userData={userData}
-                sessionStatus={sessionStatus}
-              />
-              <Route path="/login/" exact component={Login} />
-              {/* TODO: Implement NotFound page in place of redirect all to reports */}
-              {/* <Route component={NotFound} /> */}
-              <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
-            </Switch>
-          </Router>
+          <Switch>
+            <Route path="/" exact component={() => <Redirect to={{ pathname: '/reports' }} />} />
+            <PrivateRoute
+              path="/reports/"
+              exact
+              component={Reports}
+              userData={userData}
+              sessionStatus={sessionStatus}
+            />
+            <Route path="/login/" exact component={Login} />
+            {/* TODO: Implement NotFound page in place of redirect all to reports */}
+            {/* <Route component={NotFound} /> */}
+            <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
+          </Switch>
         )}
       </DopplerIntlProvider>
     );

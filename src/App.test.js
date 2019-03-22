@@ -3,6 +3,7 @@ import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
+import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 
 function createDoubleSessionManager() {
   const double = {
@@ -63,7 +64,9 @@ describe('App component', () => {
 
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <App locale="en" />
+          <Router>
+            <App locale="en" />
+          </Router>
         </AppServicesProvider>,
       );
 
@@ -141,7 +144,9 @@ describe('App component', () => {
 
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <App locale="en" />
+          <Router>
+            <App locale="en" />
+          </Router>
         </AppServicesProvider>,
       );
 
@@ -186,7 +191,9 @@ describe('App component', () => {
 
         const { getByText } = render(
           <AppServicesProvider forcedServices={dependencies}>
-            <App locale="en" />
+            <Router>
+              <App locale="en" />
+            </Router>
           </AppServicesProvider>,
         );
 
