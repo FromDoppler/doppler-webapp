@@ -52,7 +52,7 @@ class App extends Component {
     return (
       <DopplerIntlProvider locale={i18nLocale}>
         {sessionStatus === 'unknown' ? (
-          <Loading />
+          <Loading page />
         ) : (
           <Switch>
             <Route path="/" exact component={() => <Redirect to={{ pathname: '/reports' }} />} />
