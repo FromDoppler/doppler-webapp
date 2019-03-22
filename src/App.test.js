@@ -299,6 +299,46 @@ describe('App component', () => {
         const footerEl = container.querySelector('.footer-main');
         expect(footerEl).toBeNull();
       });
+
+      it('should be redirected to /login when route does not exists', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/this/route/does/not/exist']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/this/route/does/not/exist');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        expect(currentRouteState.location.state).toBeDefined();
+        expect(currentRouteState.location.state.from).toBeDefined();
+        expect(currentRouteState.location.state.from.pathname).toEqual('/reports'); // because before redirecting to login, it redirected to reports
+        expect(currentRouteState.history.length).toEqual(1); // because the URL has been replaced in the redirect
+        expect(currentRouteState.history.action).toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).toBeNull();
+      });
     });
   });
 });
