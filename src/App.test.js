@@ -261,6 +261,44 @@ describe('App component', () => {
         const footerEl = container.querySelector('.footer-main');
         expect(footerEl).toBeNull();
       });
+
+      it('should not be redirected after open /login', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/login']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/login');
+        expect(currentRouteState.location.state).toBeUndefined();
+        expect(currentRouteState.history.length).toEqual(1);
+        expect(currentRouteState.history.action).not.toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).toBeNull();
+      });
     });
   });
 });
