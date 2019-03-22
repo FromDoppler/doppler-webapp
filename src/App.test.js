@@ -340,5 +340,58 @@ describe('App component', () => {
         expect(footerEl).toBeNull();
       });
     });
+
+    describe('authenticated user', () => {
+      it('should not be redirected after open /reports', () => {
+        const dependencies = {
+          RedirectToLogin: RedirectToInternalLogin,
+          sessionManager: createDoubleSessionManager(),
+        };
+
+        const currentRouteState = {};
+
+        const { getByText, container } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/reports?param1=value1#hash']}>
+              <RouterInspector target={currentRouteState} />
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.hash).toEqual('#hash');
+        getByText('Loading...');
+
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              lang: 'es',
+              avatar: {},
+              plan: {},
+              nav: [],
+            },
+            nav: [],
+          },
+        });
+
+        // Assert
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('?param1=value1');
+        expect(currentRouteState.location.hash).toEqual('#hash');
+        expect(currentRouteState.location.state).toBeUndefined();
+        expect(currentRouteState.history.length).toEqual(1);
+        expect(currentRouteState.history.action).not.toEqual('REPLACE');
+        const headerEl = container.querySelector('.header-main');
+        expect(headerEl).not.toBeNull();
+        const menuEl = container.querySelector('.menu-main');
+        expect(menuEl).not.toBeNull();
+        const footerEl = container.querySelector('.footer-main');
+        expect(footerEl).not.toBeNull();
+      });
+    });
   });
 });
