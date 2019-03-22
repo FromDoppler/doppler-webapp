@@ -8,6 +8,8 @@ const ReportsFilters = ({
   changeDomain,
   pageSelected,
   changePage,
+  changePeriod,
+  periodSelectedDays,
 }) => {
   return (
     <header className="report-filters">
@@ -67,18 +69,22 @@ const ReportsFilters = ({
               <FormattedMessage id="reports_filters.rank_time" />
             </label>
             <span className="dropdown-arrow" />
-            <select id="range_time" className="">
+            <select
+              id="range_time"
+              value={periodSelectedDays}
+              onChange={(event) => changePeriod(parseInt(event.target.value))}
+            >
               <FormattedMessage id="reports_filters.rank_time_item1">
-                {(message) => <option value="1">{message}</option>}
+                {(message) => <option value="7">{message}</option>}
               </FormattedMessage>
               <FormattedMessage id="reports_filters.rank_time_item2">
-                {(message) => <option value="2">{message}</option>}
+                {(message) => <option value="30">{message}</option>}
               </FormattedMessage>
               <FormattedMessage id="reports_filters.rank_time_item3">
-                {(message) => <option value="3">{message}</option>}
+                {(message) => <option value="90">{message}</option>}
               </FormattedMessage>
               <FormattedMessage id="reports_filters.rank_time_item4">
-                {(message) => <option value="4">{message}</option>}
+                {(message) => <option value="180">{message}</option>}
               </FormattedMessage>
             </select>
           </fieldset>

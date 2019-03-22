@@ -32,6 +32,11 @@
     "cancel": "Cancel"
   },
   "reports_title": "Doppler | Reports",
+  "reports_box": {
+    "visits": "Total Visits",
+    "visits_description": "This report shows the total number of visits in the selected time period",
+    "to": "to"
+  },
   "validation_messages": {
     "error_required_field": "Ouch! The field is empty."
   }
