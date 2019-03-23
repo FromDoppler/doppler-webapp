@@ -17,6 +17,8 @@ class Reports extends React.Component {
       pages: [],
       pageSelected: null,
       periodSelectedDays: 7,
+      dateTo: new Date(),
+      dateFrom: null,
     };
 
     this.changeDomain = this.changeDomain.bind(this);
@@ -30,11 +32,14 @@ class Reports extends React.Component {
       const domainSelected = domains[0];
       const pages = await this.datahubClient.getPagesByDomainId(domainSelected.id);
       const pageSelected = pages.length ? pages[0] : null;
+      let dateFrom = new Date();
+      dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
       this.setState({
         domains: domains,
         domainSelected: domainSelected,
         pages: pages,
         pageSelected: pageSelected,
+        dateFrom: dateFrom,
       });
     }
   }
@@ -52,7 +57,9 @@ class Reports extends React.Component {
   };
 
   changePeriod = (days) => {
-    this.setState({ periodSelectedDays: days });
+    let dateFrom = new Date();
+    dateFrom.setDate(dateFrom.getDate() - days);
+    this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: new Date() });
   };
 
   render() {
@@ -81,7 +88,8 @@ class Reports extends React.Component {
           {this.state.domainSelected ? (
             <ReportsBox
               domainName={this.state.domainSelected.name}
-              periodSelectedDays={this.state.periodSelectedDays}
+              dateTo={this.state.dateTo}
+              dateFrom={this.state.dateFrom}
             />
           ) : null}
         </div>

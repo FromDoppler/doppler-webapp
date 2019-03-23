@@ -12,42 +12,64 @@ class ReportsBox extends React.Component {
     this.datahubClient = datahubClient;
 
     this.state = {
-      isLoading: true,
-      dateTo: new Date(),
+      visits: null,
     };
 
-    this.getVisitsByPeriod = this.getVisitsByPeriod.bind(this);
+    this.fetchVisitsByPeriod = this.fetchVisitsByPeriod.bind(this);
   }
 
-  async getVisitsByPeriod(domainName, periodSelectedDays) {
-    let dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - parseInt(periodSelectedDays));
-
-    const visits = await this.datahubClient.getVisitsByPeriod(domainName, dateFrom);
+  async fetchVisitsByPeriod(domainName, dateFrom) {
+    this.asyncRequest = this.datahubClient.getVisitsByPeriod(domainName, dateFrom);
+    const visits = await this.asyncRequest;
+    this.asyncRequest = null;
     this.setState({
       visits: visits,
-      dateFrom: new Date(dateFrom),
-      dateTo: new Date(),
-      isLoading: false,
     });
   }
 
-  componentDidMount() {
-    this.getVisitsByPeriod(this.props.domainName, this.props.periodSelectedDays);
+  componentWillUnmount() {
+    if (this.asyncRequest) {
+      this.asyncRequest.cancel();
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.getVisitsByPeriod(nextProps.domainName, nextProps.periodSelectedDays);
+  componentDidMount() {
+    this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (
+      props.domainName !== state.prevDomainName ||
+      props.dateFrom !== state.prevDateFrom ||
+      props.dateTo !== state.prevDateTo
+    ) {
+      return {
+        visits: null,
+        prevDomainName: props.domainName,
+        prevDateFrom: props.dateFrom,
+        prevDateTo: props.dateTo,
+      };
+    }
+
+    // No state update necessary
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.visits === null) {
+      this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom);
+    }
   }
 
   render() {
     const {
-      state: { visits, dateFrom, dateTo, isLoading },
+      state: { visits },
+      props: { dateFrom, dateTo },
     } = this;
 
     return (
       <>
-        {isLoading ? (
+        {visits === null ? (
           <Loading />
         ) : (
           <div className="reports-box--container">
