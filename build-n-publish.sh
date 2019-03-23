@@ -19,16 +19,22 @@ sh ./verify-w-docker.sh
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
 docker pull dopplerrelay/doppler-relay-akamai-publish
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl production
-docker run --rm \
-    -e AKAMAI_CDN_HOSTNAME \
-    -e AKAMAI_CDN_USERNAME \
-    -e AKAMAI_CDN_PASSWORD \
-    -e AKAMAI_CDN_CPCODE \
-    -e "PROJECT_NAME=$pkgName" \
-    -e "VERSION_NAME=$pkgVersion" \
-    -v /`pwd`/build:/source \
-    dopplerrelay/doppler-relay-akamai-publish
+# By the moment we are not using this files, because in prod we are using
+# our Dockerfile file build and our swarm hosting.
+# TODO: a possible improvement could be publish this files againg,
+# and, in prod only having an HTML with a link to these files.
+# in that way we will take advantage of our CDN and.
+#
+#     sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl production
+#     docker run --rm \
+#         -e AKAMAI_CDN_HOSTNAME \
+#         -e AKAMAI_CDN_USERNAME \
+#         -e AKAMAI_CDN_PASSWORD \
+#         -e AKAMAI_CDN_CPCODE \
+#         -e "PROJECT_NAME=$pkgName" \
+#         -e "VERSION_NAME=$pkgVersion" \
+#         -v /`pwd`/build:/source \
+#         dopplerrelay/doppler-relay-akamai-publish
 
 sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl qa
 docker run --rm \
