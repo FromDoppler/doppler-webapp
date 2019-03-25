@@ -1,8 +1,14 @@
 {
   "common": {
     "cancel": "Cancelar",
+    "help": "Ayuda",
     "message": "Mensaje",
     "send": "Enviar"
+  },
+  "feature_panel": {
+    "email_editor": "Editor de Emails",
+    "email_editor_description": "Crea Emails en minutos y accede a nuestra Galería de Plantillas",
+    "email_editor_remarks": "Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML."
   },
   "footer": {
     "allRightReserved": "Todos los derechos reservados",
@@ -33,6 +39,29 @@
     "verified_domain": "Dominio verificado"
   },
   "reports_title": "Doppler | Reportes",
+  "signup": {
+    "button_signup": "Crear cuenta",
+    "copyright": "© {year} Doppler LLC. Todos los derechos reservados.",
+    "do_you_already_have_an_account": "¿Ya tienes una cuenta?",
+    "label_email": "Email: ",
+    "label_firstname": "Nombre: ",
+    "label_lastname": "Apellido: ",
+    "label_password": "Contraseña: ",
+    "label_phone": "Teléfono: ",
+    "legal_HTML": "\n<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a class=\"link-green\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
+    "log_in": "Ingresa",
+    "placeholder_email": "Tu Email será tu nombre de usuario",
+    "placeholder_firstname": "Nombre",
+    "placeholder_lastname": "Apellido",
+    "placeholder_password": "Escribe tu clave secreta",
+    "placeholder_phone": "9 11 2345-6789",
+    "privacy_policy_consent_HTML": "Acepto la <a class=\"link-green\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad</a> de Doppler.",
+    "promotion_code_help_url": "https://help.fromdoppler.com/es/como-activo-mi-descuento-en-doppler/",
+    "promotion_code_reminder": "Pst! si tienes un código promocional podrás ingresarlo al confirmar tu cuenta.",
+    "promotions_consent": "Acepto recibir las promociones de Doppler y sus aliados.",
+    "sign_up": "Regístrate",
+    "sign_up_sub": "Crea una cuenta GRATIS hasta 500 Suscriptores."
+  },
   "upgradePlanForm": {
     "message_placeholder": "Tu mensaje",
     "plan_select": "Selecciona el Plan",
