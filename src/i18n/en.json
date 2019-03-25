@@ -68,6 +68,7 @@
     "title": "Solicita una actualización de tu plan"
   },
   "validation_messages": {
+    "error_invalid_email_address": "Ouch! Invalid email address",
     "error_required_field": "Ouch! The field is empty."
   }
 }
