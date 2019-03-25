@@ -86,11 +86,21 @@ class Reports extends React.Component {
         />
         <div className="reports-data--wrapper">
           {this.state.domainSelected ? (
-            <ReportsBox
-              domainName={this.state.domainSelected.name}
-              dateTo={this.state.dateTo}
-              dateFrom={this.state.dateFrom}
-            />
+            <>
+              <ReportsBox
+                domainName={this.state.domainSelected.name}
+                periodSelectedDays={this.state.periodSelectedDays}
+                dateTo={this.state.dateTo}
+                dateFrom={this.state.dateFrom}
+                isVisitsWithEmail={false}
+              />
+              <ReportsBox
+                domainName={this.state.domainSelected.name}
+                dateTo={this.state.dateTo}
+                dateFrom={this.state.dateFrom}
+                isVisitsWithEmail={true}
+              />
+            </>
           ) : null}
         </div>
       </>

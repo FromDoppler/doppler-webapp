@@ -45,8 +45,8 @@ export class HardcodedDatahubClient implements DatahubClient {
     return domain.pages;
   }
 
-  public async getVisitsByPeriod(domainName: number, dateFrom: Date) {
-    console.log('getVisitsByPeriod', { domainName, dateFrom });
+  public async getVisitsByPeriod(domainName: number, dateFrom: Date, isVisitsWithEmail: boolean) {
+    console.log('getVisitsByPeriod', { domainName, dateFrom, isVisitsWithEmail });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
