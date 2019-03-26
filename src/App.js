@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import DopplerIntlProvider from './DopplerIntlProvider';
+import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Reports from './components/Reports/Reports';
