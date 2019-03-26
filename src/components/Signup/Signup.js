@@ -75,7 +75,7 @@ export default injectIntl(function({ intl }) {
     <main className="panel-wrapper">
       <article className="main-panel">
         <header>
-          <img src="img/doppler-logo.svg" className="logo-doppler" alt="Doppler" />
+          <h1 className="logo-doppler-new">Doppler</h1>
           <small className="content-signin">
             {_('signup.do_you_already_have_an_account')}{' '}
             <Link to="/login" className="link-green uppercase">
