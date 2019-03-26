@@ -7,6 +7,7 @@ import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
 import Login from './components/Login/Login';
+import Signup from './components/Signup/Signup';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {
@@ -64,6 +65,7 @@ class App extends Component {
               sessionStatus={sessionStatus}
             />
             <Route path="/login/" exact component={Login} />
+            <Route path="/signup/" exact component={Signup} />
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
             <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />

@@ -1,8 +1,14 @@
 {
   "common": {
     "cancel": "Cancel",
+    "help": "Help",
     "message": "Message",
     "send": "Send"
+  },
+  "feature_panel": {
+    "email_editor": "Emails Editor",
+    "email_editor_description": "Crea Emails en minutos y accede a nuestra Galería de Plantillas",
+    "email_editor_remarks": "Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML."
   },
   "footer": {
     "allRightReserved": "All rights reserved",
@@ -33,12 +39,36 @@
     "verified_domain": "Verified domain"
   },
   "reports_title": "Doppler | Reports",
+  "signup": {
+    "button_signup": "Sign Up",
+    "copyright": "© {year} Doppler LLC. Todos los derechos reservados.",
+    "do_you_already_have_an_account": "Already have an account?",
+    "label_email": "Email: ",
+    "label_firstname": "Name: ",
+    "label_lastname": "Lastname: ",
+    "label_password": "Password: ",
+    "label_phone": "Phone: ",
+    "legal_HTML": "\n<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a class=\"link-green\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy Policy</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
+    "log_in": "Log In",
+    "placeholder_email": "Your Email will be your Username",
+    "placeholder_firstname": "Name",
+    "placeholder_lastname": "Lastname",
+    "placeholder_password": "Enter your secret key",
+    "placeholder_phone": "9 11 2345-6789",
+    "privacy_policy_consent_HTML": "I accept Doppler's <a class=\"link-green\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy Policy</a>.",
+    "promotion_code_help_url": "https://help.fromdoppler.com/en/how-to-activate-my-promo-code",
+    "promotion_code_reminder": "Pst! si tienes un código promocional podrás ingresarlo al confirmar tu cuenta.",
+    "promotions_consent": "Sign me up for promotions about Doppler and its partners.",
+    "sign_up": "Sign Up",
+    "sign_up_sub": "No contracts or credit cards required, up to 500 Subscribers."
+  },
   "upgradePlanForm": {
     "message_placeholder": "Your mensaje",
     "plan_select": "Select Plan",
     "title": "Solicita una actualización de tu plan"
   },
   "validation_messages": {
+    "error_invalid_email_address": "Ouch! Invalid email address",
     "error_required_field": "Ouch! The field is empty."
   }
 }
