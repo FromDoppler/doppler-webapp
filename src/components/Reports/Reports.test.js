@@ -3,6 +3,7 @@ import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
+import { AppServicesProvider } from '../../services/pure-di';
 
 const verifiedDateAsEngString = '12/17/2017';
 const verifiedDateAsDate = new Date('2017-12-17');
@@ -31,9 +32,11 @@ describe('Reports page', () => {
     };
 
     render(
-      <DopplerIntlProvider>
-        <Reports dependencies={{ datahubClient: datahubClientDouble }} />
-      </DopplerIntlProvider>,
+      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
+        <DopplerIntlProvider>
+          <Reports dependencies={{ datahubClient: datahubClientDouble }} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
     );
   });
 
@@ -41,12 +44,15 @@ describe('Reports page', () => {
     const datahubClientDouble = {
       getAccountDomains: async () => fakeData,
       getPagesByDomainId: async () => [],
+      getVisitsByPeriod: async () => 0,
     };
 
     const { getByText } = render(
-      <DopplerIntlProvider>
-        <Reports dependencies={{ datahubClient: datahubClientDouble }} />
-      </DopplerIntlProvider>,
+      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
     );
 
     await wait(() => getByText(verifiedDateAsEngString));
@@ -62,12 +68,15 @@ describe('Reports page', () => {
     const datahubClientDouble = {
       getAccountDomains: async () => fakeData,
       getPagesByDomainId: async () => fakePages,
+      getVisitsByPeriod: async () => 0,
     };
 
     const { getByText } = render(
-      <DopplerIntlProvider>
-        <Reports dependencies={{ datahubClient: datahubClientDouble }} />
-      </DopplerIntlProvider>,
+      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
     );
 
     await wait(() => getByText(fakePages[0].name));
