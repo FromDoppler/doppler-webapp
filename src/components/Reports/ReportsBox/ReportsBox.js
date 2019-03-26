@@ -19,7 +19,11 @@ class ReportsBox extends React.Component {
   }
 
   async fetchVisitsByPeriod(domainName, dateFrom) {
-    this.asyncRequest = this.datahubClient.getVisitsByPeriod(domainName, dateFrom);
+    this.asyncRequest = this.datahubClient.getVisitsByPeriod(
+      domainName,
+      dateFrom,
+      this.props.isVisitsWithEmail,
+    );
     const visits = await this.asyncRequest;
     this.asyncRequest = null;
     this.setState({
@@ -75,7 +79,11 @@ class ReportsBox extends React.Component {
           <div className="reports-box--container">
             <p className="title">{visits}</p>
             <small className="text--uppercase">
-              <FormattedMessage id="reports_box.visits" />
+              {this.props.isVisitsWithEmail ? (
+                <FormattedMessage id="reports_box.visits_with_email" />
+              ) : (
+                <FormattedMessage id="reports_box.visits_without_emails" />
+              )}
             </small>
             <p className="small">
               <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
