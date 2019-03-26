@@ -1,8 +1,6 @@
 import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import Loading from '../../Loading/Loading';
-import './ReportsBox.css';
 
 class ReportsBox extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
@@ -72,31 +70,30 @@ class ReportsBox extends React.Component {
     } = this;
 
     return (
-      <>
+      <div className={visits === 0 ? 'reports-box warning--kpi' : 'reports-box'}>
         {visits === null ? (
-          <Loading />
+          <div className="loading-box" />
         ) : (
-          <div className="reports-box--container">
-            <p className="title">{visits}</p>
-            <small className="text--uppercase">
+          <>
+            <h3 className="number-kpi">{visits}</h3>
+            <h6 className="subtitle-kpi">
               {this.props.isVisitsWithEmail ? (
                 <FormattedMessage id="reports_box.visits_with_email" />
               ) : (
                 <FormattedMessage id="reports_box.visits_without_emails" />
               )}
-            </small>
-            <p className="small">
+            </h6>
+            <small className="date-range">
               <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
               <FormattedMessage id="reports_box.to" />{' '}
               <FormattedDate value={dateTo} timeZone="UTC" />
-            </p>
-            <hr />
-            <small>
-              <FormattedMessage id="reports_box.visits_description" />
             </small>
-          </div>
+            <p className="text-kpi">
+              <FormattedMessage id="reports_box.visits_description" />
+            </p>
+          </>
         )}
-      </>
+      </div>
     );
   }
 }
