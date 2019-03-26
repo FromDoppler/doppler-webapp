@@ -1,6 +1,7 @@
 import React from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
+import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 
@@ -84,9 +85,10 @@ class Reports extends React.Component {
           periodSelectedDays={this.state.periodSelectedDays}
           changePeriod={this.changePeriod}
         />
-        <div className="reports-data--wrapper">
-          {this.state.domainSelected ? (
-            <>
+
+        {this.state.domainSelected ? (
+          <section className="reports-main--container">
+            <div className="reports-data--wrapper">
               <ReportsBox
                 domainName={this.state.domainSelected.name}
                 periodSelectedDays={this.state.periodSelectedDays}
@@ -100,9 +102,16 @@ class Reports extends React.Component {
                 dateFrom={this.state.dateFrom}
                 isVisitsWithEmail={true}
               />
-            </>
-          ) : null}
-        </div>
+            </div>
+            <ReportsPageRanking
+              domainName={this.state.domainSelected.name}
+              dateTo={this.state.dateTo}
+              dateFrom={this.state.dateFrom}
+            />
+          </section>
+        ) : (
+          <div className="loading-box" />
+        )}
       </>
     );
   }

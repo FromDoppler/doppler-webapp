@@ -1,7 +1,9 @@
 /*TODO Add final styles*/
-.reports-data--wrapper {
+.reports-main--container {
   max-width: 1200px;
   margin: 50px auto;
+}
+.reports-data--wrapper {
   display: flex;
 }
 

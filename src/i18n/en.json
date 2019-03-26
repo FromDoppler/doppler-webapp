@@ -70,5 +70,9 @@
   "validation_messages": {
     "error_invalid_email_address": "Ouch! Invalid email address",
     "error_required_field": "Ouch! The field is empty."
+  },
+  "reports_pageranking": {
+    "top_pages": "Top pages most visited",
+    "total_visits": "Total Visits"
   }
 }

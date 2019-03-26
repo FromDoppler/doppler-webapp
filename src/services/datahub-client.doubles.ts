@@ -28,6 +28,29 @@ const fakeData = [
   },
 ];
 
+const fakePagesData = [
+  {
+    name: 'https://www.fromdoppler.com/email-marketing',
+    totalVisits: 10122,
+  },
+  {
+    name: 'https://www.fromdoppler.com/precios',
+    totalVisits: 9000,
+  },
+  {
+    name: 'https://www.fromdoppler.com/login',
+    totalVisits: 5001,
+  },
+  {
+    name: 'https://www.fromdoppler.com/productos',
+    totalVisits: 3800,
+  },
+  {
+    name: 'https://www.fromdoppler.com/servicios',
+    totalVisits: 1023,
+  },
+];
+
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains() {
     console.log('getAccountDomains');
@@ -50,5 +73,11 @@ export class HardcodedDatahubClient implements DatahubClient {
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
+  }
+
+  public async getPagesRankingByPeriod(domainName: number, dateFrom: Date) {
+    console.log('getPagesRankingByPeriod', { domainName, dateFrom });
+    await timeout(1500);
+    return fakePagesData.map((x) => ({ name: x.name, totalVisits: x.totalVisits }));
   }
 }
