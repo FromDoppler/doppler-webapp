@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
+import { FieldGroup, InputFieldItem, CheckboxFieldItem } from '../form-helpers/form-helpers';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -85,164 +86,63 @@ export default injectIntl(function({ intl }) {
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">{_('signup.sign_up_sub')}</p>
         <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
-          {({ errors, touched }) => (
           <Form className="signup-form">
             <fieldset>
-              <ul className="field-group">
-                <li
-                  className={
-                    'field-item field-item--50' +
-                    (touched[fieldNames.firstname] && errors[fieldNames.firstname]
-                      ? ' error'
-                      : '')
-                  }
-                >
-                  <label htmlFor={fieldNames.firstname}>{_('signup.label_firstname')}</label>
-                  <Field
-                    type="text"
-                    name={fieldNames.firstname}
-                    id={fieldNames.firstname}
-                    placeholder={_('signup.placeholder_firstname')}
-                  />
-                  {touched[fieldNames.firstname] && errors[fieldNames.firstname] ? (
-                    <div className="wrapper-errors">
-                      <p className="error-message">{errors[fieldNames.firstname]}</p>
-                    </div>
-                  ) : null}
-                </li>
-
-                <li
-                  className={
-                    'field-item field-item--50' +
-                    (touched[fieldNames.lastname] && errors[fieldNames.lastname] ? ' error' : '')
-                  }
-                >
-                  <label htmlFor={fieldNames.lastname}>{_('signup.label_lastname')}</label>
-                  <Field
-                    type="text"
-                    name={fieldNames.lastname}
-                    id={fieldNames.lastname}
-                    placeholder={_('signup.placeholder_lastname')}
-                  />
-                  {touched[fieldNames.lastname] && errors[fieldNames.lastname] ? (
-                    <div className="wrapper-errors">
-                      <p className="error-message">{errors[fieldNames.lastname]}</p>
-                    </div>
-                  ) : null}
-                </li>
-                <li
-                  className={
-                    'field-item' +
-                    (touched[fieldNames.phone] && errors[fieldNames.phone] ? ' error' : '')
-                  }
-                >
-                  <label htmlFor={fieldNames.phone}>{_('signup.label_phone')}</label>
-                  <Field
-                    type="tel"
-                    name={fieldNames.phone}
-                    id={fieldNames.phone}
-                    placeholder={_('signup.placeholder_phone')}
-                  />
-                  {touched[fieldNames.phone] && errors[fieldNames.phone] ? (
-                    <div className="wrapper-errors">
-                      <p className="error-message">{errors[fieldNames.phone]}</p>
-                    </div>
-                  ) : null}
-                </li>
-              </ul>
+              <FieldGroup>
+                <InputFieldItem
+                  className="field-item--50"
+                  fieldName={fieldNames.firstname}
+                  label={_('signup.label_firstname')}
+                  type="text"
+                  placeholder={_('signup.placeholder_firstname')}
+                />
+                <InputFieldItem
+                  className="field-item--50"
+                  fieldName={fieldNames.lastname}
+                  label={_('signup.label_lastname')}
+                  type="text"
+                  placeholder={_('signup.placeholder_lastname')}
+                />
+                <InputFieldItem
+                  fieldName={fieldNames.phone}
+                  label={_('signup.label_phone')}
+                  type="tel"
+                  placeholder={_('signup.placeholder_phone')}
+                />
+              </FieldGroup>
             </fieldset>
             <fieldset>
-              <ul className="field-group">
-                <li
-                  className={
-                    'field-item' +
-                    (touched[fieldNames.email] && errors[fieldNames.email] ? ' error' : '')
-                  }
-                >
-                  <label htmlFor={fieldNames.email}>{_('signup.label_email')}</label>
-                  <Field
-                    type="email"
-                    name={fieldNames.email}
-                    id={fieldNames.email}
-                    placeholder={_('signup.placeholder_email')}
-                  />
-                  {touched[fieldNames.email] && errors[fieldNames.email] ? (
-                    <div className="wrapper-errors">
-                      <p className="error-message">{errors[fieldNames.email]}</p>
-                    </div>
-                  ) : null}
-                </li>
-                <li
-                  className={
-                    'field-item' +
-                    (touched[fieldNames.password] && errors[fieldNames.password] ? ' error' : '')
-                  }
-                >
-                  <label htmlFor={fieldNames.password}>{_('signup.label_password')}</label>
-                  <Field
-                    type="password"
-                    name={fieldNames.password}
-                    id={fieldNames.password}
-                    placeholder={_('signup.placeholder_password')}
-                  />
-                  {touched[fieldNames.password] && errors[fieldNames.password] ? (
-                    <div className="wrapper-errors">
-                      <p className="error-message">{errors[fieldNames.password]}</p>
-                    </div>
-                  ) : null}
-                </li>
-              </ul>
+              <FieldGroup>
+                <InputFieldItem
+                  fieldName={fieldNames.email}
+                  label={_('signup.label_email')}
+                  type="email"
+                  placeholder={_('signup.placeholder_email')}
+                />
+                <InputFieldItem
+                  fieldName={fieldNames.password}
+                  label={_('signup.label_password')}
+                  type="password"
+                  placeholder={_('signup.placeholder_password')}
+                />
+              </FieldGroup>
             </fieldset>
             <fieldset>
-              <ul className="field-group">
-                <li
-                  className={
-                    'field-item field-item__checkbox' +
-                    (touched[fieldNames.accept_privacy_policies] &&
-                    errors[fieldNames.accept_privacy_policies]
-                      ? ' error'
-                      : '')
-                  }
-                >
-                  <Field
-                    type="checkbox"
-                    name={fieldNames.accept_privacy_policies}
-                    id={fieldNames.accept_privacy_policies}
-                  />
-                  <span className="checkmark" />
-                  <label htmlFor={fieldNames.accept_privacy_policies}>
-                    {' '}
-                    <FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />
-                  </label>
-                  {touched[fieldNames.password] && errors[fieldNames.accept_privacy_policies] ? (
-                    <div className="wrapper-errors">
-                      <p className="error-message">
-                        {errors[fieldNames.accept_privacy_policies]}
-                      </p>
-                    </div>
-                  ) : null}
-                </li>
-                <li className="field-item field-item__checkbox">
-                  <Field
-                    type="checkbox"
-                    name={fieldNames.accept_promotions}
-                    id={fieldNames.accept_promotions}
-                  />
-                  <span className="checkmark" />
-                  <label htmlFor={fieldNames.accept_promotions}>
-                    {_('signup.promotions_consent')}
-                  </label>
-                </li>
-              </ul>
-              <button
-                type="submit"
-                className="dp-button button--round button-medium primary-green"
-              >
+              <FieldGroup>
+                <CheckboxFieldItem
+                  fieldName={fieldNames.accept_privacy_policies}
+                  label={<FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />}
+                />
+                <CheckboxFieldItem
+                  fieldName={fieldNames.accept_promotions}
+                  label={_('signup.promotions_consent')}
+                />
+              </FieldGroup>
+              <button type="submit" className="dp-button button--round button-medium primary-green">
                 {_('signup.button_signup')}
               </button>
             </fieldset>
           </Form>
-          )}
         </Formik>
         <div className="content-legal">
           <FormattedHTMLMessage id="signup.legal_HTML" />
