@@ -70,5 +70,9 @@
   "validation_messages": {
     "error_invalid_email_address": "¡Ouch! El formato del email es incorrecto",
     "error_required_field": "¡Ouch! El campo está vacío."
+  },
+  "reports_pageranking": {
+    "top_pages": "Top paginas mas visitadas",
+    "total_visits": "Visitas Totales"
   }
 }
