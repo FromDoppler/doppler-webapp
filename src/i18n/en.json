@@ -1,7 +1,8 @@
 {
-  "loading": "Loading...",
-  "header": {
-    "help_url": "https://help.fromdoppler.com/en/"
+  "common": {
+    "cancel": "Cancel",
+    "message": "Message",
+    "send": "Send"
   },
   "footer": {
     "allRightReserved": "All rights reserved",
@@ -9,34 +10,33 @@
     "privacy": "Privacy Policy & Legals.",
     "privacy_url": "https://fromdoppler.com/en/privacy-policy"
   },
-  "upgradePlanForm": {
-    "title": "Solicita una actualización de tu plan",
-    "plan_select": "Select Plan",
-    "message_placeholder": "Your mensaje"
+  "header": {
+    "help_url": "https://help.fromdoppler.com/en/"
+  },
+  "loading": "Loading...",
+  "reports_box": {
+    "to": "to",
+    "visits_description": "This report shows the total number of visits in the selected time period",
+    "visits_with_email": "Visits with emails",
+    "visits_without_emails": "Visits without emails"
   },
   "reports_filters": {
-    "title": "Optimize your Digital Marketing strategy",
     "description": "Find conversion opportunities, analyze each piece within your strategy. Follow the steps that your users perform within your journey and correct those that have problems.",
     "domain": "Domain",
-    "verified_domain": "Verified domain",
     "pages": "Pages",
     "rank_time": "Rank time",
     "rank_time_item1": "Last week",
     "rank_time_item2": "Last month",
     "rank_time_item3": "Last 3 months",
-    "rank_time_item4": "Last 6 months"
-  },
-  "common": {
-    "message": "Message",
-    "send": "Send",
-    "cancel": "Cancel"
+    "rank_time_item4": "Last 6 months",
+    "title": "Optimize your Digital Marketing strategy",
+    "verified_domain": "Verified domain"
   },
   "reports_title": "Doppler | Reports",
-  "reports_box": {
-    "visits_with_email": "Visits with emails",
-    "visits_description": "This report shows the total number of visits in the selected time period",
-    "to": "to",
-    "visits_without_emails": "Visits without emails"
+  "upgradePlanForm": {
+    "message_placeholder": "Your mensaje",
+    "plan_select": "Select Plan",
+    "title": "Solicita una actualización de tu plan"
   },
   "validation_messages": {
     "error_required_field": "Ouch! The field is empty."

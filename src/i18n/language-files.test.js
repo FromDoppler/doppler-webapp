@@ -19,7 +19,15 @@ describe('language files', () => {
     expect(sortedKeysEn).toEqual(sortedKeysEs);
   });
 
-  it('should have the keys in the same order', () => {
-    expect(unsortedKeysEn).toEqual(unsortedKeysEs);
+  describe('en', () => {
+    it('should sort the keys alphabetically', () => {
+      expect(unsortedKeysEn).toEqual(sortedKeysEn);
+    });
+  });
+
+  describe('es', () => {
+    it('should sort the keys alphabetically', () => {
+      expect(unsortedKeysEs).toEqual(sortedKeysEs);
+    });
   });
 });

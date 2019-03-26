@@ -1,7 +1,8 @@
 {
-  "loading": "Cargando...",
-  "header": {
-    "help_url": "https://help.fromdoppler.com/es/"
+  "common": {
+    "cancel": "Cancelar",
+    "message": "Mensaje",
+    "send": "Enviar"
   },
   "footer": {
     "allRightReserved": "Todos los derechos reservados",
@@ -9,34 +10,33 @@
     "privacy": "Políticas de privacidad y legales.",
     "privacy_url": "https://fromdoppler.com/privacidad"
   },
-  "upgradePlanForm": {
-    "title": "Solicita una actualización de tu plan",
-    "plan_select": "Selecciona el Plan",
-    "message_placeholder": "Tu mensaje"
+  "header": {
+    "help_url": "https://help.fromdoppler.com/es/"
+  },
+  "loading": "Cargando...",
+  "reports_box": {
+    "to": "a",
+    "visits_description": "Este reporte muestra el total de visitas en el período de tiempo seleccionado",
+    "visits_with_email": "Visitas con emails",
+    "visits_without_emails": "Visitas sin emails"
   },
   "reports_filters": {
-    "title": "Optimiza tu estrategia de Marketing Digital",
     "description": "Encuentra oportunidades de conversión, analiza cada pieza dentro de tu estrategia. Sigue los pasos que tus usuarios realizan dentro de tu journey y corrige aquellos que presentan inconvenientes.",
     "domain": "Dominio",
-    "verified_domain": "Dominio verificado",
     "pages": "Páginas",
     "rank_time": "Rango de tiempo",
     "rank_time_item1": "última semana",
     "rank_time_item2": "último mes",
     "rank_time_item3": "últimos 3 meses",
-    "rank_time_item4": "últimos 6 meses"
-  },
-  "common": {
-    "message": "Mensaje",
-    "send": "Enviar",
-    "cancel": "Cancelar"
+    "rank_time_item4": "últimos 6 meses",
+    "title": "Optimiza tu estrategia de Marketing Digital",
+    "verified_domain": "Dominio verificado"
   },
   "reports_title": "Doppler | Reportes",
-  "reports_box": {
-    "visits_with_email": "Visitas con emails",
-    "visits_description": "Este reporte muestra el total de visitas en el período de tiempo seleccionado",
-    "to": "a",
-    "visits_without_emails": "Visitas sin emails"
+  "upgradePlanForm": {
+    "message_placeholder": "Tu mensaje",
+    "plan_select": "Selecciona el Plan",
+    "title": "Solicita una actualización de tu plan"
   },
   "validation_messages": {
     "error_required_field": "¡Ouch! El campo está vacío."
