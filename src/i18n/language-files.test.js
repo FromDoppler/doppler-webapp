@@ -7,8 +7,8 @@ const flattenEs = flattenMessages(messages_es);
 const flattenEn = flattenMessages(messages_en);
 const unsortedKeysEn = Object.keys(flattenEn);
 const unsortedKeysEs = Object.keys(flattenEs);
-const sortedKeysEn = unsortedKeysEn.sort();
-const sortedKeysEs = unsortedKeysEs.sort();
+const sortedKeysEn = Object.keys(flattenEn).sort();
+const sortedKeysEs = Object.keys(flattenEs).sort();
 
 describe('language files', () => {
   it('should have the same number of keys', () => {
