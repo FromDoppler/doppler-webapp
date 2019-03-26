@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
-import DopplerIntlProvider from '../../DopplerIntlProvider.double-with-ids-as-values';
+import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
 
 const verifiedDateAsEngString = '12/17/2017';
