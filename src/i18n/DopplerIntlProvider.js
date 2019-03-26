@@ -4,7 +4,7 @@ import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import messages_es from './es.json';
 import messages_en from './en.json';
-import { flattenMessages } from '../utils';
+import { flattenMessages } from './utils';
 
 const messages = {
   es: messages_es,

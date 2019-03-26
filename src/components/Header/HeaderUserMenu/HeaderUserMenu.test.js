@@ -1,18 +1,8 @@
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
 import 'jest-dom/extend-expect';
-import { flattenMessages } from '../../../utils';
-
 import HeaderUserMenu from './HeaderUserMenu';
-
-import { IntlProvider } from 'react-intl';
-import messages_es from '../../../i18n/es.json';
-import messages_en from '../../../i18n/en.json';
-
-const messages = {
-  es: messages_es,
-  en: messages_en,
-};
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const userData = {
   fullname: 'John Miller',
@@ -40,7 +30,7 @@ describe('Header user menu', () => {
 
   it('renders user menu and display user data', () => {
     const { getByText } = render(
-      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
+      <IntlProvider>
         <HeaderUserMenu user={userData} />
       </IntlProvider>,
     );
@@ -59,7 +49,7 @@ describe('Header user menu', () => {
     };
 
     const { getByText } = render(
-      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
+      <IntlProvider>
         <HeaderUserMenu user={userData} />
       </IntlProvider>,
     );
@@ -75,7 +65,7 @@ describe('Header user menu', () => {
     };
 
     const { getByText } = render(
-      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
+      <IntlProvider>
         <HeaderUserMenu user={userData} />
       </IntlProvider>,
     );

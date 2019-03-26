@@ -1,28 +1,19 @@
 import React from 'react';
 import { render, cleanup } from 'react-testing-library';
 import 'jest-dom/extend-expect';
-import { flattenMessages } from '../../utils';
+import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 import Footer from './Footer';
-
-import { IntlProvider } from 'react-intl';
-import messages_es from '../../i18n/es.json';
-import messages_en from '../../i18n/en.json';
-
-const messages = {
-  es: messages_es,
-  en: messages_en,
-};
 
 describe('Footer component', () => {
   afterEach(cleanup);
 
-  it('renders footer rights reserverd message', () => {
+  it('renders footer rights reserved message', () => {
     const { getByText } = render(
-      <IntlProvider locale="en" messages={flattenMessages(messages['en'])}>
+      <IntlProvider>
         <Footer />
       </IntlProvider>,
     );
-    expect(getByText('All rights reserved')).toBeInTheDocument();
+    expect(getByText('footer.allRightReserved')).toBeInTheDocument();
   });
 });
