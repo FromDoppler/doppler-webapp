@@ -3,7 +3,12 @@ import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
-import { FieldGroup, InputFieldItem, CheckboxFieldItem } from '../form-helpers/form-helpers';
+import {
+  FieldGroup,
+  InputFieldItem,
+  CheckboxFieldItem,
+  PasswordFieldItem,
+} from '../form-helpers/form-helpers';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -119,10 +124,9 @@ export default injectIntl(function({ intl }) {
                   type="email"
                   placeholder={_('signup.placeholder_email')}
                 />
-                <InputFieldItem
+                <PasswordFieldItem
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
-                  type="password"
                   placeholder={_('signup.placeholder_password')}
                 />
               </FieldGroup>

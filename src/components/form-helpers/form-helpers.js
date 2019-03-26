@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, Field } from 'formik';
 
 function concatClasses(...args) {
@@ -30,6 +30,40 @@ export const InputFieldItem = ({ className, fieldName, label, type, placeholder 
     <Field type={type} name={fieldName} id={fieldName} placeholder={placeholder} />
   </FieldItem>
 );
+
+export const PasswordFieldItem = ({ className, fieldName, label, placeholder }) => {
+  const [passVisible, setPassVisible] = useState(false);
+  const type = passVisible ? 'text' : 'password';
+  const autocomplete = passVisible ? 'off' : 'current-password';
+  const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
+
+  return (
+    <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+      <label htmlFor={fieldName}>
+        {label}{' '}
+        <button
+          type="button"
+          className={buttonClasses}
+          onClick={() => {
+            setPassVisible((current) => !current);
+          }}
+        >
+          <span className="content-eye" />
+        </button>
+      </label>
+      <Field
+        type={type}
+        name={fieldName}
+        autoComplete={autocomplete}
+        id={fieldName}
+        placeholder={placeholder}
+        spellCheck="false"
+        badinput="false"
+        autoCapitalize="off"
+      />
+    </FieldItem>
+  );
+};
 
 export const CheckboxFieldItem = ({ className, fieldName, label }) => (
   <FieldItem
