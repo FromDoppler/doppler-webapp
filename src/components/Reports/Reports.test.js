@@ -45,6 +45,7 @@ describe('Reports page', () => {
       getAccountDomains: async () => fakeData,
       getPagesByDomainId: async () => [],
       getVisitsByPeriod: async () => 0,
+      getPagesRankingByPeriod: async () => [],
     };
 
     const { getByText } = render(
@@ -69,6 +70,7 @@ describe('Reports page', () => {
       getAccountDomains: async () => fakeData,
       getPagesByDomainId: async () => fakePages,
       getVisitsByPeriod: async () => 0,
+      getPagesRankingByPeriod: async () => [],
     };
 
     const { getByText } = render(
