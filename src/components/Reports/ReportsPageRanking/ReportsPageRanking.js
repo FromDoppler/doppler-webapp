@@ -1,7 +1,6 @@
 import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
-import Loading from '../../Loading/Loading';
 
 class ReportsPageRanking extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
