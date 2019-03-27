@@ -2,7 +2,6 @@ import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import Loading from '../../Loading/Loading';
-import './ReportsPageRanking.css';
 
 class ReportsPageRanking extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
@@ -69,24 +68,26 @@ class ReportsPageRanking extends React.Component {
     return (
       <>
         {pages === null ? (
-          <Loading />
+          <div className="loading-box" />
         ) : (
-          <div className="page-ranking--container">
-            <header>
-              <FormattedMessage id="reports_pageranking.top_pages" />
-            </header>
-            {pages.map((item, index) => (
-              <div key={index} className="page-ranking--item">
-                <strong>{index + 1}</strong>
-                <p className="page-name">{item.name}</p>
-                <p className="visits">
-                  <strong>
-                    {item.totalVisits} <FormattedMessage id="reports_pageranking.total_visits" />
-                  </strong>
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className="wrapper-ranking">
+          <div className="reports-box">
+              <small className="title-ranking">
+                <FormattedMessage id="reports_pageranking.top_pages" />
+              </small>
+              {pages.map((item, index) => (
+                <div key={index} className="page-ranking--item">
+                  <p className="text-ranking"><strong>{index + 1}</strong></p>
+                  <a className="link-ranking" href="" target="_blank">{item.name}</a>
+                  <p className="text-ranking">
+                    <strong>
+                      {item.totalVisits} <FormattedMessage id="reports_pageranking.total_visits" />
+                    </strong>
+                  </p>
+                </div>
+              ))}
+            </div>
+        </div>
         )}
       </>
     );
