@@ -89,7 +89,7 @@ class ReportsPageRanking extends React.Component {
                     {item.name}
                   </a>
                   <p className="text-ranking">
-                    <strong>{item.totalVisits}</strong>
+                    <strong>{item.totalVisits}</strong>{' '}
                     <FormattedMessage id="reports_pageranking.total_visits" />
                   </p>
                 </div>
