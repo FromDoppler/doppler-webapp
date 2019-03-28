@@ -87,7 +87,7 @@ class Reports extends React.Component {
         />
 
         {this.state.domainSelected ? (
-          <section className="container-kpi">
+          <section className="container-reports">
             <div className="wrapper-kpi">
               <ReportsBox
                 domainName={this.state.domainSelected.name}
