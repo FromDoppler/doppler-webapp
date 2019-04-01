@@ -12,7 +12,7 @@ const Footer = () => (
         <FormattedMessage id="footer.allRightReserved" />.{' '}
         <FormattedMessage id="footer.privacy_url">
           {(url) => (
-            <a className="link--default" href={url}>
+            <a href={url}>
               <FormattedMessage id="footer.privacy" />
             </a>
           )}
