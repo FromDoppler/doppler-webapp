@@ -26,9 +26,8 @@ class ReportsPageRanking extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.asyncRequest) {
-      this.asyncRequest.cancel();
-    }
+    // TODO: abort request or at least side effects after finish
+    this.asyncRequest = null;
   }
 
   componentDidMount() {
