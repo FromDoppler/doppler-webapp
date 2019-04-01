@@ -35,7 +35,7 @@ describe('Reports pages ranking', () => {
     render(
       <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
         <DopplerIntlProvider>
-          <ReportsPageRanking dependencies={{ datahubClient: datahubClientDouble }} />
+          <ReportsPageRanking />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -49,12 +49,7 @@ describe('Reports pages ranking', () => {
     const { getByText } = render(
       <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
         <DopplerIntlProvider>
-          <ReportsPageRanking
-            domainName={domain}
-            dateTo={fakeDate}
-            dateFrom={fakeDate}
-            dependencies={{ datahubClient: datahubClientDouble }}
-          />
+          <ReportsPageRanking domainName={domain} dateTo={fakeDate} dateFrom={fakeDate} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
