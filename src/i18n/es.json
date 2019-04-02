@@ -20,6 +20,15 @@
     "help_url": "https://help.fromdoppler.com/es/"
   },
   "loading": "Cargando...",
+  "login": {
+    "button_login": "Ingresa",
+    "enter_doppler": "Ingresa a Doppler",
+    "enter_doppler_sub": "Disfruta los beneficios del Email Marketing.",
+    "forgot_password": "¿No recuerdas tu contraseña?",
+    "label_user": "Nombre de Usuario: ",
+    "signup": "Régistrate gratis",
+    "you_want_create_account": "¿Aún no tienes una cuenta?"
+  },
   "reports_box": {
     "to": "a",
     "visits_description": "Este reporte muestra el total de visitas en el período de tiempo seleccionado",
