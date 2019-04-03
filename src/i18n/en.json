@@ -27,6 +27,7 @@
     "visits_without_emails": "Visits without emails"
   },
   "reports_filters": {
+    "all_pages": "All pages",
     "description": "Find conversion opportunities, analyze each piece within your strategy. Follow the steps that your users perform within your journey and correct those that have problems.",
     "domain": "Domain",
     "pages": "Pages",

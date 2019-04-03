@@ -7,18 +7,13 @@ const fakeData = [
     id: 1,
     name: 'www.fromdoppler.com',
     verified_date: new Date('2017-12-17'),
-    pages: [
-      { id: 1, name: 'productos' },
-      { id: 2, name: 'servicios' },
-      { id: 3, name: 'funcionalidades' },
-      { id: 4, name: 'contacto' },
-    ],
+    pages: [],
   },
   {
     id: 2,
     name: 'www.makingsense.com',
     verified_date: new Date('2010-12-17'),
-    pages: [{ id: 1, name: 'productos2' }, { id: 2, name: 'servicios2' }],
+    pages: [],
   },
   {
     id: 3,
