@@ -51,12 +51,15 @@ const ReportsFilters = ({
             </label>
             <span className="dropdown-arrow" />
             <select
-              value={pageSelected ? pageSelected.id : ''}
+              value={pageSelected ? pageSelected.id : '-1'}
               id="pages"
               name="pages"
               onChange={(event) => changePage(parseInt(event.target.value))}
               disabled={!pages.length}
             >
+              <FormattedMessage id="reports_filters.all_pages">
+                {(message) => <option value="-1">{message}</option>}
+              </FormattedMessage>
               {pages.map((page, index) => (
                 <option key={index} value={page.id}>
                   {page.name}

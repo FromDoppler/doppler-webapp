@@ -27,6 +27,7 @@
     "visits_without_emails": "Visitas sin emails"
   },
   "reports_filters": {
+    "all_pages": "Todas las paginas",
     "description": "Encuentra oportunidades de conversión, analiza cada pieza dentro de tu estrategia. Sigue los pasos que tus usuarios realizan dentro de tu journey y corrige aquellos que presentan inconvenientes.",
     "domain": "Dominio",
     "pages": "Páginas",
