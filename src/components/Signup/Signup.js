@@ -33,7 +33,7 @@ const getFormInitialValues = () =>
     {},
   );
 
-export default injectIntl(function({ intl }) {
+const Signup = function({ intl }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const onSubmit = async (values, { setSubmitting }) => {
@@ -143,4 +143,6 @@ export default injectIntl(function({ intl }) {
       </section>
     </main>
   );
-});
+};
+
+export default injectIntl(Signup);
