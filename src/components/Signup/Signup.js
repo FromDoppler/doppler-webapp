@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
+import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
   FieldGroup,
@@ -33,7 +34,7 @@ const getFormInitialValues = () =>
     {},
   );
 
-const Signup = function({ intl }) {
+const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const onSubmit = async (values, { setSubmitting }) => {
@@ -145,4 +146,4 @@ const Signup = function({ intl }) {
   );
 };
 
-export default injectIntl(Signup);
+export default InjectAppServices(injectIntl(Signup));
