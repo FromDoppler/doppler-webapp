@@ -31,7 +31,7 @@ export const InputFieldItem = ({ className, fieldName, label, type, placeholder 
   </FieldItem>
 );
 
-export const PasswordFieldItem = ({ className, fieldName, label, placeholder }) => {
+export const PasswordFieldItem = ({ className, fieldName, label, placeholder, helpText }) => {
   const [passVisible, setPassVisible] = useState(false);
   const type = passVisible ? 'text' : 'password';
   const autocomplete = passVisible ? 'off' : 'current-password';
@@ -40,7 +40,7 @@ export const PasswordFieldItem = ({ className, fieldName, label, placeholder }) 
   return (
     <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
       <label htmlFor={fieldName}>
-        {label}{' '}
+        {label}
         <button
           type="button"
           className={buttonClasses}
