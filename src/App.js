@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import DopplerIntlProvider from './i18n/DopplerIntlProvider';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
+import queryString from 'query-string';
 
 class App extends Component {
   constructor({ locale, dependencies: { sessionManager } }) {
@@ -26,14 +27,23 @@ class App extends Component {
 
   componentDidMount() {
     this.sessionManager.initialize(this.updateSession);
+    this.setUrlLanguage();
   }
 
   componentWillUnmount() {
     this.sessionManager.finalize();
   }
 
+  setUrlLanguage() {
+    const params = queryString.parse(this.props.location && this.props.location.search);
+    if (params && params.lang) {
+      this.setState({ i18nLocale: params.lang });
+    }
+  }
+
   updateSession(dopplerSession) {
     const stateChanges = { dopplerSession: dopplerSession };
+
     if (
       dopplerSession.userData &&
       dopplerSession.userData.user &&
@@ -41,6 +51,7 @@ class App extends Component {
     ) {
       stateChanges.i18nLocale = dopplerSession.userData.user.lang;
     }
+
     this.setState(stateChanges);
   }
 
@@ -76,4 +87,4 @@ class App extends Component {
   }
 }
 
-export default InjectAppServices(App);
+export default withRouter(InjectAppServices(App));
