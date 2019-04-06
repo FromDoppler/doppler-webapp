@@ -39,7 +39,9 @@ describe('App component', () => {
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <App locale="en" />
+          <Router>
+            <App locale="en" />
+          </Router>
         </AppServicesProvider>,
       );
 
@@ -56,7 +58,9 @@ describe('App component', () => {
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <App locale="es" />
+          <Router>
+            <App locale="es" />
+          </Router>
         </AppServicesProvider>,
       );
 
