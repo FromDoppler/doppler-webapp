@@ -117,9 +117,12 @@ class Login extends React.Component {
                 >
                   {this._('login.button_login')}
                 </button>
+                {/*
+                // TODO: implement forgot password
                 <a href={this._('login.forgot_password_url')} className="forgot-link">
                   {this._('login.forgot_password')}
                 </a>
+                */}
               </fieldset>
             </Form>
           </Formik>
