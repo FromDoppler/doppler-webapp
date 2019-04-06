@@ -1,4 +1,4 @@
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import { AppCompositionRoot, AppServicesProvider, InjectAppServices } from './pure-di';
 import { render, cleanup } from 'react-testing-library';
 
