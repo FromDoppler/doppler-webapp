@@ -14,11 +14,7 @@ const messages = {
 addLocaleData([...en, ...es]);
 
 export default ({ locale, children }) => (
-  <IntlProvider
-    key={locale || 'en'}
-    locale={locale || 'en'}
-    messages={flattenMessages(messages[locale || 'en'])}
-  >
+  <IntlProvider locale={locale || 'en'} messages={flattenMessages(messages[locale || 'en'])}>
     {children}
   </IntlProvider>
 );
