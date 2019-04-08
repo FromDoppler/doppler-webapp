@@ -19,6 +19,12 @@ const getFormInitialValues = () =>
     {},
   );
 
+/**
+ * Login Page
+ * @param { Object } props - props
+ * @param { import('react-intl').InjectedIntl } props.intl - intl
+ * @param { import('history').Location } props.location - location
+ */
 const Login = ({ intl, location }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
