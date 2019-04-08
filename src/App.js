@@ -27,18 +27,20 @@ class App extends Component {
 
   componentDidMount() {
     this.sessionManager.initialize(this.updateSession);
-    this.setUrlLanguage();
   }
 
   componentWillUnmount() {
     this.sessionManager.finalize();
   }
 
-  setUrlLanguage() {
-    const params = queryString.parse(this.props.location && this.props.location.search);
-    if (params && params.lang) {
-      this.setState({ i18nLocale: params.lang });
+  static getDerivedStateFromProps(props, state) {
+    const { lang: currentLang } =
+      props.location && props.location.search && queryString.parse(props.location.search);
+    if (['es', 'en'].includes(currentLang) && state.i18nLocale !== currentLang) {
+      return { i18nLocale: currentLang };
     }
+    // No state update necessary
+    return null;
   }
 
   updateSession(dopplerSession) {
