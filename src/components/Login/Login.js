@@ -80,15 +80,36 @@ class Login extends React.Component {
         <article className="main-panel">
           <header>
             <h1 className="logo-doppler-new">Doppler</h1>
-            <small className="content-signin">
-              {this._('login.you_want_create_account')}{' '}
-              <Link to="/signup" className="link-green uppercase">
-                {this._('login.signup')}
-              </Link>
-            </small>
+            <div className="language-selector">
+              {this.intl.locale === 'es' ? (
+                <div className="option" id="spanish-selector">
+                  <span>
+                    <strong>ES</strong>
+                  </span>
+                  <Link to="?lang=en" className="option--item">
+                    EN
+                  </Link>
+                </div>
+              ) : (
+                <div className="option" id="spanish-selector">
+                  <span>
+                    <strong>EN</strong>
+                  </span>
+                  <Link to="?lang=es" className="option--item">
+                    ES
+                  </Link>
+                </div>
+              )}
+            </div>
           </header>
           <h5>{this._('login.enter_doppler')}</h5>
           <p className="content-subtitle">{this._('login.enter_doppler_sub')}</p>
+          <p className="content-subtitle">
+            {this._('login.you_want_create_account')}{' '}
+            <Link to="/signup" className="link-green uppercase">
+              {this._('login.signup')}
+            </Link>
+          </p>
           <Formik
             initialValues={getFormInitialValues()}
             validate={this.validate}
@@ -119,9 +140,6 @@ class Login extends React.Component {
                 </button>
                 {/*
                 // TODO: implement forgot password
-                <a href={this._('login.forgot_password_url')} className="forgot-link">
-                  {this._('login.forgot_password')}
-                </a>
                 */}
               </fieldset>
             </Form>
