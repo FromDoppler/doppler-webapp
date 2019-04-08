@@ -106,7 +106,7 @@ class Login extends React.Component {
           <p className="content-subtitle">{this._('login.enter_doppler_sub')}</p>
           <p className="content-subtitle">
             {this._('login.you_want_create_account')}{' '}
-            <Link to="/signup" className="link-green uppercase">
+            <Link to="/signup" className="uppercase">
               {this._('login.signup')}
             </Link>
           </p>

@@ -81,15 +81,36 @@ export default injectIntl(function({ intl }) {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
-          <small className="content-signin">
-            {_('signup.do_you_already_have_an_account')}{' '}
-            <Link to="/login" className="link-green uppercase">
-              {_('signup.log_in')}
-            </Link>
-          </small>
+          <div className="language-selector">
+            {intl.locale === 'es' ? (
+              <div className="option" id="spanish-selector">
+                <span>
+                  <strong>ES</strong>
+                </span>
+                <Link to="?lang=en" className="option--item">
+                  EN
+                </Link>
+              </div>
+            ) : (
+              <div className="option" id="spanish-selector">
+                <span>
+                  <strong>EN</strong>
+                </span>
+                <Link to="?lang=es" className="option--item">
+                  ES
+                </Link>
+              </div>
+            )}
+          </div>
         </header>
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">{_('signup.sign_up_sub')}</p>
+        <p className="content-subtitle">
+          {_('signup.do_you_already_have_an_account')}{' '}
+          <Link to="/login" className="uppercase">
+            {_('signup.log_in')}
+          </Link>
+        </p>
         <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
           <Form className="signup-form">
             <fieldset>
