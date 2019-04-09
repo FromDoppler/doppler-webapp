@@ -46,6 +46,8 @@ const fakePagesData = [
   },
 ];
 
+type emailFilterOptions = 'with_email' | 'without_email' | null;
+
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains() {
     console.log('getAccountDomains');
@@ -56,13 +58,13 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getVisitsByPeriod({
     domainName,
     dateFrom,
-    isVisitsWithEmail,
+    emailFilter,
   }: {
     domainName: number;
     dateFrom: Date;
-    isVisitsWithEmail: boolean;
+    emailFilter: emailFilterOptions;
   }) {
-    console.log('getVisitsByPeriod', { domainName, dateFrom, isVisitsWithEmail });
+    console.log('getVisitsByPeriod', { domainName, dateFrom, emailFilter });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;

@@ -94,13 +94,13 @@ class Reports extends React.Component {
                 periodSelectedDays={this.state.periodSelectedDays}
                 dateTo={this.state.dateTo}
                 dateFrom={this.state.dateFrom}
-                isVisitsWithEmail={false}
+                withoutEmail
               />
               <ReportsBox
                 domainName={this.state.domainSelected.name}
                 dateTo={this.state.dateTo}
                 dateFrom={this.state.dateFrom}
-                isVisitsWithEmail={true}
+                withEmail
               />
             </div>
             <ReportsPageRanking

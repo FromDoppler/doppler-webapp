@@ -20,7 +20,11 @@ class ReportsBox extends React.Component {
     this.asyncRequest = this.datahubClient.getVisitsByPeriod({
       domainName: domainName,
       dateFrom: dateFrom,
-      isVisitsWithEmail: this.props.isVisitsWithEmail,
+      emailFilter: this.props.withEmail
+        ? 'with_email'
+        : this.props.withoutEmail
+        ? 'without_email'
+        : null,
     });
     const visits = await this.asyncRequest;
     this.asyncRequest = null;
@@ -76,10 +80,12 @@ class ReportsBox extends React.Component {
           <>
             <h3 className="number-kpi">{visits}</h3>
             <h6 className="subtitle-kpi">
-              {this.props.isVisitsWithEmail ? (
+              {this.props.withEmail ? (
                 <FormattedMessage id="reports_box.visits_with_email" />
-              ) : (
+              ) : this.props.withoutEmail ? (
                 <FormattedMessage id="reports_box.visits_without_emails" />
+              ) : (
+                <span>Unexpected error</span>
               )}
             </h6>
             <small className="date-range">
