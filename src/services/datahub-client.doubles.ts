@@ -53,16 +53,6 @@ export class HardcodedDatahubClient implements DatahubClient {
     return fakeData.map((x) => ({ id: x.id, name: x.name, verified_date: x.verified_date }));
   }
 
-  public async getPagesByDomainId(domainId: number) {
-    console.log('getPagesByDomainId', { domainId });
-    await timeout(1500);
-    const domain = fakeData.find((x) => x.id === domainId);
-    if (!domain) {
-      throw new Error(`Domain with id ${domainId} does not exist`);
-    }
-    return domain.pages;
-  }
-
   public async getVisitsByPeriod(domainName: number, dateFrom: Date, isVisitsWithEmail: boolean) {
     console.log('getVisitsByPeriod', { domainName, dateFrom, isVisitsWithEmail });
     await timeout(1500);

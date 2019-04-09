@@ -31,7 +31,7 @@ class Reports extends React.Component {
     const domains = await this.datahubClient.getAccountDomains();
     if (domains.length) {
       const domainSelected = domains[0];
-      const pages = await this.datahubClient.getPagesByDomainId(domainSelected.id);
+      const pages = [];
       const pageSelected = pages.length ? pages[0] : null;
       let dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
@@ -47,7 +47,7 @@ class Reports extends React.Component {
 
   changeDomain = async (id) => {
     const domainFound = this.state.domains.find((item) => item.id === id);
-    const pages = await this.datahubClient.getPagesByDomainId(id);
+    const pages = [];
     const pageSelected = pages.length ? pages[0] : null;
     this.setState({ domainSelected: domainFound, pages: pages, pageSelected: pageSelected });
   };
