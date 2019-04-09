@@ -60,7 +60,7 @@ export class AppCompositionRoot implements AppServices {
 
   get appConfiguration() {
     return this.singleton('appConfiguration', () => ({
-      dopplerLegacyUrl: process.env.REACT_APP_API_URL as string,
+      dopplerLegacyUrl: process.env.REACT_APP_DOPPLER_LEGACY_URL as string,
       dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
         .REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string),
     }));
