@@ -1,4 +1,4 @@
-import { DatahubClient } from './datahub-client';
+import { DatahubClient, emailFilterOptions, DomainEntry } from './datahub-client';
 import { timeout } from '../utils';
 
 // TODO: use more realistic data
@@ -46,10 +46,8 @@ const fakePagesData = [
   },
 ];
 
-type emailFilterOptions = 'with_email' | 'without_email' | null;
-
 export class HardcodedDatahubClient implements DatahubClient {
-  public async getAccountDomains() {
+  public async getAccountDomains(): Promise<DomainEntry[]> {
     console.log('getAccountDomains');
     await timeout(1500);
     return fakeData.map((x) => ({ id: x.id, name: x.name, verified_date: x.verified_date }));
@@ -63,7 +61,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     domainName: number;
     dateFrom: Date;
     emailFilter: emailFilterOptions;
-  }) {
+  }): Promise<number> {
     console.log('getVisitsByPeriod', { domainName, dateFrom, emailFilter });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
@@ -76,7 +74,7 @@ export class HardcodedDatahubClient implements DatahubClient {
   }: {
     domainName: number;
     dateFrom: Date;
-  }) {
+  }): Promise<{ name: string; totalVisits: number }[]> {
     console.log('getPagesRankingByPeriod', { domainName, dateFrom });
     await timeout(1500);
     return fakePagesData.map((x) => ({ name: x.name, totalVisits: x.totalVisits }));
