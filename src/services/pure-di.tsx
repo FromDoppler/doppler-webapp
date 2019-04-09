@@ -1,7 +1,7 @@
 import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
-import React, { createContext, ReactNode } from 'react';
+import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
 import { DatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
 import {
@@ -9,6 +9,7 @@ import {
   RedirectToInternalLogin,
   RedirectToLogin,
 } from '../components/RedirectToLogin';
+import { AppSession, createAppSessionRef } from './app-session';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -20,6 +21,7 @@ interface AppConfiguration {
  */
 export interface AppServices {
   window: Window;
+  appSessionRef: RefObject<AppSession>;
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
   datahubClient: DatahubClient;
@@ -46,6 +48,10 @@ export class AppCompositionRoot implements AppServices {
       this.instances[name] = factory();
     }
     return this.instances[name] as T;
+  }
+
+  get appSessionRef() {
+    return this.singleton('appSessionRef', () => createAppSessionRef());
   }
 
   get axiosStatic() {
@@ -76,6 +82,8 @@ export class AppCompositionRoot implements AppServices {
       'sessionManager',
       () =>
         new OnlineSessionManager(
+          // Casting because only he will be allowed to update session
+          this.appSessionRef as MutableRefObject<AppSession>,
           this.dopplerLegacyClient,
           this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
         ),

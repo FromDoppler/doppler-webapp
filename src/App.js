@@ -12,16 +12,20 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import queryString from 'query-string';
 
 class App extends Component {
-  constructor({ locale, dependencies: { sessionManager } }) {
+  /**
+   * @param { Object } props - props
+   * @param { string } props.locale - locale
+   * @param { import('./services/pure-di').AppServices } props.dependencies - dependencies
+   */
+  constructor({ locale, dependencies: { appSessionRef, sessionManager } }) {
     super();
 
     this.updateSession = this.updateSession.bind(this);
 
-    /** @type { import('./services/session-manager').SessionManager } */
     this.sessionManager = sessionManager;
 
     this.state = {
-      dopplerSession: this.sessionManager.session,
+      dopplerSession: appSessionRef.current,
       i18nLocale: locale,
     };
   }
