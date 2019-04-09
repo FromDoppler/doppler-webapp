@@ -17,7 +17,10 @@ class ReportsPageRanking extends React.Component {
   }
 
   async fetchPagesRankingByPeriod(domainName, dateFrom) {
-    this.asyncRequest = this.datahubClient.getPagesRankingByPeriod(domainName, dateFrom);
+    this.asyncRequest = this.datahubClient.getPagesRankingByPeriod({
+      domainName: domainName,
+      dateFrom: dateFrom,
+    });
     const pages = await this.asyncRequest;
     this.asyncRequest = null;
     this.setState({

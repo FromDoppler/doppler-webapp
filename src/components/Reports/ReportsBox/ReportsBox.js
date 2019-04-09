@@ -17,11 +17,11 @@ class ReportsBox extends React.Component {
   }
 
   async fetchVisitsByPeriod(domainName, dateFrom) {
-    this.asyncRequest = this.datahubClient.getVisitsByPeriod(
-      domainName,
-      dateFrom,
-      this.props.isVisitsWithEmail,
-    );
+    this.asyncRequest = this.datahubClient.getVisitsByPeriod({
+      domainName: domainName,
+      dateFrom: dateFrom,
+      isVisitsWithEmail: this.props.isVisitsWithEmail,
+    });
     const visits = await this.asyncRequest;
     this.asyncRequest = null;
     this.setState({

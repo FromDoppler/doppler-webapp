@@ -53,14 +53,28 @@ export class HardcodedDatahubClient implements DatahubClient {
     return fakeData.map((x) => ({ id: x.id, name: x.name, verified_date: x.verified_date }));
   }
 
-  public async getVisitsByPeriod(domainName: number, dateFrom: Date, isVisitsWithEmail: boolean) {
+  public async getVisitsByPeriod({
+    domainName,
+    dateFrom,
+    isVisitsWithEmail,
+  }: {
+    domainName: number;
+    dateFrom: Date;
+    isVisitsWithEmail: boolean;
+  }) {
     console.log('getVisitsByPeriod', { domainName, dateFrom, isVisitsWithEmail });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
   }
 
-  public async getPagesRankingByPeriod(domainName: number, dateFrom: Date) {
+  public async getPagesRankingByPeriod({
+    domainName,
+    dateFrom,
+  }: {
+    domainName: number;
+    dateFrom: Date;
+  }) {
     console.log('getPagesRankingByPeriod', { domainName, dateFrom });
     await timeout(1500);
     return fakePagesData.map((x) => ({ name: x.name, totalVisits: x.totalVisits }));
