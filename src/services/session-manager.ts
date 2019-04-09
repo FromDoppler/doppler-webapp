@@ -58,6 +58,8 @@ export class OnlineSessionManager implements SessionManager {
       this.updateSession({
         status: 'authenticated',
         userData: dopplerUserData,
+        datahubCustomerId: 'NOT IMPLEMENTED',
+        jwtToken: 'NOT IMPLEMENTED',
       });
     } catch (error) {
       this.updateSession({ status: 'non-authenticated' });
