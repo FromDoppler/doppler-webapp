@@ -34,11 +34,20 @@ class App extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { lang: currentLang } =
+    const { lang: langFromUrl } =
       props.location && props.location.search && queryString.parse(props.location.search);
-    if (['es', 'en'].includes(currentLang) && state.i18nLocale !== currentLang) {
-      return { i18nLocale: currentLang };
+
+    const expectedLang = ['es', 'en'].includes(langFromUrl) ? langFromUrl : null;
+
+    if (state.langFromUrl !== expectedLang) {
+      return expectedLang
+        ? {
+            langFromUrl: expectedLang,
+            i18nLocale: expectedLang,
+          }
+        : { langFromUrl: null };
     }
+
     // No state update necessary
     return null;
   }
@@ -47,6 +56,7 @@ class App extends Component {
     const stateChanges = { dopplerSession: dopplerSession };
 
     if (
+      !this.state.langFromUrl &&
       dopplerSession.userData &&
       dopplerSession.userData.user &&
       dopplerSession.userData.user.lang
