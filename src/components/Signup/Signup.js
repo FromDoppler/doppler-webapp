@@ -8,6 +8,7 @@ import {
   InputFieldItem,
   CheckboxFieldItem,
   PasswordFieldItem,
+  PhoneFieldItem,
 } from '../form-helpers/form-helpers';
 
 const fieldNames = {
@@ -129,10 +130,9 @@ export default injectIntl(function({ intl }) {
                   type="text"
                   placeholder={_('signup.placeholder_lastname')}
                 />
-                <InputFieldItem
+                <PhoneFieldItem
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
-                  type="tel"
                   placeholder={_('signup.placeholder_phone')}
                 />
               </FieldGroup>

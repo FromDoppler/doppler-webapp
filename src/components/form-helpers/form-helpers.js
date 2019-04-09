@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field } from 'formik';
+import intlTelInput from 'intl-tel-input';
+// This import is required to add window.intlTelInputUtils, otherwise phone validation does not work
+import 'intl-tel-input/build/js/utils';
+// TODO: it seems that these styles are making my input shorter, need to fix that.
+import 'intl-tel-input/build/css/intlTelInput.min.css';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -23,6 +28,79 @@ export const FieldItem = connect(
     </li>
   ),
 );
+
+/**
+ * Phone Field Item Component
+ * @param { Object } props - props
+ * @param { import('formik').FormikProps<Values> } props.formik - formik
+ * @param { string } props.className - className
+ * @param { string } props.fieldName - fieldName
+ * @param { string } props.label - label
+ * @param { string } props.placeholder - placeholder
+ */
+const _PhoneFieldItem = ({
+  className,
+  fieldName,
+  label,
+  placeholder,
+  formik: { values, handleChange, handleBlur, setFieldValue },
+}) => {
+  const inputElRef = useRef(null);
+  const intlTelInputRef = useRef(null);
+
+  const formatFieldValueAsInternationalNumber = () => {
+    const iti = intlTelInputRef.current;
+    if (iti.isValidNumber()) {
+      // It updates the value with international number
+      // If we do not do it, we need to ensure to read intlTelInputRef value before submitting
+      setFieldValue(fieldName, iti.getNumber(1));
+    }
+  };
+
+  useEffect(() => {
+    const iti = intlTelInput(inputElRef.current, {
+      // It is to accept national numbers, not only formating
+      nationalMode: true,
+      separateDialCode: false,
+      autoPlaceholder: 'aggressive',
+      preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
+      initialCountry: 'auto',
+      geoIpLookup: (callback) => {
+        // TODO: determine current country using geolocation
+        callback('ar');
+      },
+    });
+    inputElRef.current.addEventListener('countrychange', handleChange);
+    intlTelInputRef.current = iti;
+    // It is to force international number on reload by language change, in another case
+    // it uses national mode because of nationalMode
+    formatFieldValueAsInternationalNumber();
+    return () => {
+      iti.destroy();
+    };
+  }, []);
+
+  return (
+    <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+      <label htmlFor={fieldName}>{label}</label>
+      <input
+        type="tel"
+        ref={inputElRef}
+        name={fieldName}
+        id={fieldName}
+        placeholder={placeholder}
+        onChange={handleChange}
+        onBlur={(e) => {
+          formatFieldValueAsInternationalNumber();
+          handleBlur(e);
+        }}
+        value={values[fieldName]}
+      />
+    </FieldItem>
+  );
+};
+
+export const PhoneFieldItem = connect(_PhoneFieldItem);
 
 export const InputFieldItem = ({ className, fieldName, label, type, placeholder }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
