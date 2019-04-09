@@ -136,7 +136,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
 
-  constructor(axiosStatic: AxiosStatic, baseUrl: string) {
+  constructor({ axiosStatic, baseUrl }: { axiosStatic: AxiosStatic; baseUrl: string }) {
     this.baseUrl = baseUrl;
     this.axios = axiosStatic.create({
       baseURL: baseUrl,

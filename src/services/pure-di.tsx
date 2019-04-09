@@ -73,7 +73,11 @@ export class AppCompositionRoot implements AppServices {
   get dopplerLegacyClient() {
     return this.singleton(
       'dopplerLegacyClient',
-      () => new HttpDopplerLegacyClient(this.axiosStatic, this.appConfiguration.dopplerLegacyUrl),
+      () =>
+        new HttpDopplerLegacyClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerLegacyUrl,
+        }),
     );
   }
 
@@ -81,12 +85,12 @@ export class AppCompositionRoot implements AppServices {
     return this.singleton(
       'sessionManager',
       () =>
-        new OnlineSessionManager(
+        new OnlineSessionManager({
           // Casting because only he will be allowed to update session
-          this.appSessionRef as MutableRefObject<AppSession>,
-          this.dopplerLegacyClient,
-          this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
-        ),
+          appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
+          dopplerLegacyClient: this.dopplerLegacyClient,
+          keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
+        }),
     );
   }
 

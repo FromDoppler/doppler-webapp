@@ -10,14 +10,26 @@ export interface SessionManager {
 }
 
 export class OnlineSessionManager implements SessionManager {
+  private readonly appSessionRef: MutableRefObject<AppSession>;
+  private readonly dopplerLegacyClient: DopplerLegacyClient;
+  private readonly keepAliveMilliseconds: number;
+
   private handler: (s: AppSession) => void = noop;
   private dopplerInterval: number | null = null;
 
-  constructor(
-    private appSessionRef: MutableRefObject<AppSession>,
-    private dopplerLegacyClient: DopplerLegacyClient,
-    private keepAliveMilliseconds: number,
-  ) {}
+  constructor({
+    appSessionRef,
+    dopplerLegacyClient,
+    keepAliveMilliseconds,
+  }: {
+    appSessionRef: MutableRefObject<AppSession>;
+    dopplerLegacyClient: DopplerLegacyClient;
+    keepAliveMilliseconds: number;
+  }) {
+    this.appSessionRef = appSessionRef;
+    this.dopplerLegacyClient = dopplerLegacyClient;
+    this.keepAliveMilliseconds = keepAliveMilliseconds;
+  }
 
   public initialize(handler: (s: AppSession) => void) {
     this.handler = handler;
