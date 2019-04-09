@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
@@ -8,6 +8,7 @@ import {
   InputFieldItem,
   CheckboxFieldItem,
   PasswordFieldItem,
+  PhoneFieldItem,
 } from '../form-helpers/form-helpers';
 
 const fieldNames = {
@@ -32,6 +33,10 @@ const getFormInitialValues = () =>
 export default injectIntl(function({ intl }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  // It is necessary to access to IntlTelInput information during validation or submit
+  // TODO: find a better way to access to this object.
+  const phoneIntlTelInputRef = useRef(null);
+
   const validate = (values) => {
     const errors = {};
     if (!values[fieldNames.firstname]) {
@@ -45,7 +50,20 @@ export default injectIntl(function({ intl }) {
     if (!values[fieldNames.phone]) {
       errors[fieldNames.phone] = _('validation_messages.error_required_field');
     } else {
-      // TODO: validate phone
+      // TODO: make this code reusable
+      const iti = phoneIntlTelInputRef.current;
+      if (iti && !iti.isValidNumber()) {
+        const errorCode = iti.getValidationError();
+        errors[fieldNames.phone] = _(
+          errorCode === 1
+            ? 'validation_messages.error_phone_invalid_country'
+            : errorCode === 2
+            ? 'validation_messages.error_phone_too_short'
+            : errorCode === 3
+            ? 'validation_messages.error_phone_too_long'
+            : 'validation_messages.error_phone_invalid',
+        );
+      }
     }
 
     if (!values[fieldNames.email]) {
@@ -129,11 +147,11 @@ export default injectIntl(function({ intl }) {
                   type="text"
                   placeholder={_('signup.placeholder_lastname')}
                 />
-                <InputFieldItem
+                <PhoneFieldItem
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
-                  type="tel"
                   placeholder={_('signup.placeholder_phone')}
+                  intlTelInputRef={phoneIntlTelInputRef}
                 />
               </FieldGroup>
             </fieldset>

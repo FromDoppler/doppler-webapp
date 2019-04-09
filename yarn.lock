@@ -987,6 +987,11 @@
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
   integrity sha512-ui3WwXmjTaY73fOQ3/m3nnajU/Orhi6cEu5rzX+BrAAJxa3eITXZ5ch9suPqtM03OWhAHhPSyBGCN4UKoxO20Q==
 
+"@types/intl-tel-input@^14.0.1":
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/@types/intl-tel-input/-/intl-tel-input-14.0.1.tgz#f38f78b67823e79f31c7630ec7922410ef484119"
+  integrity sha512-1capY11Or9BlC9vqzPBYMVvn0sVSyzPb/dO0RcudX0nOS1WZ2VkhdZupHj7SwsKlcn7/L8xpKg+IlPpayJMcmA==
+
 "@types/jest-diff@*":
   version "20.0.1"
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
@@ -1030,6 +1035,11 @@
   integrity sha512-HF5hD5YR3z9Mn6kXcW1VKe4AQ04ZlZj1EdLBae61hzQ3eEWWxMgNLUbIxeZp40BnSxqY1eAYLsH9QopQcxzScA==
   dependencies:
     "@types/react" "*"
+
+"@types/react-intl@^2.3.17":
+  version "2.3.17"
+  resolved "https://registry.yarnpkg.com/@types/react-intl/-/react-intl-2.3.17.tgz#e1fc6e46e8af58bdef9531259d509380a8a99e8e"
+  integrity sha512-FGd6J1GQ7zvl1GZ3BBev83B7nfak8dqoR2PZ+l5MoisKMpd4xOLhZJC1ugpmk3Rz5F85t6HbOg9mYqXW97BsNA==
 
 "@types/react-router-dom@^4.3.1":
   version "4.3.1"
@@ -5330,6 +5340,11 @@ intl-relativeformat@^2.1.0:
   integrity sha1-AQ8RBYAiUfQKxH0OPhogE0iiVd8=
   dependencies:
     intl-messageformat "^2.0.0"
+
+intl-tel-input@^15.0.1:
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-15.0.1.tgz#85ec43e13a5a6f7ca6fb2cba6879b45ca1278f08"
+  integrity sha512-k6z6Xaz1hF3bjJSl+kLy49dDpbH92NGcfpcDecQbBW0rn8erWXfWGBdEk7IqloNHk2eOb+rVmJ/bFrkXdG26zA==
 
 invariant@^2.1.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
