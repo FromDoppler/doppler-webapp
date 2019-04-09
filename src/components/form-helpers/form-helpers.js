@@ -7,7 +7,7 @@ import countriesLocalized from '../../i18n/countries-localized.json';
 import intlTelInput from 'intl-tel-input';
 // This import is required to add window.intlTelInputUtils, otherwise phone validation does not work
 import 'intl-tel-input/build/js/utils';
-// TODO: it seems that these styles are making my input shorter, need to fix that.
+import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
 
 function concatClasses(...args) {

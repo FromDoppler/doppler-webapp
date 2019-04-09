@@ -1,0 +1,11 @@
+.intl-tel-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.intl-tel-input .country-list {
+  font-family: proxima-nova, Helvetica;
+  font-size: 14px;
+  width: 414px;
+}
