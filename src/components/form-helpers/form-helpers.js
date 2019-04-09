@@ -37,16 +37,20 @@ export const FieldItem = connect(
  * @param { string } props.fieldName - fieldName
  * @param { string } props.label - label
  * @param { string } props.placeholder - placeholder
+ * @param { React.MutableRefObject<import('intl-tel-input').Plugin> } props.intlTelInputRef - intlTelInputRef
  */
 const _PhoneFieldItem = ({
   className,
   fieldName,
   label,
   placeholder,
+  // It allows us to access IntlTelInput information during validation or submit
+  // TODO: find a better way to share or inject this object.
+  intlTelInputRef,
   formik: { values, handleChange, handleBlur, setFieldValue },
 }) => {
   const inputElRef = useRef(null);
-  const intlTelInputRef = useRef(null);
+  intlTelInputRef = intlTelInputRef || useRef(null);
 
   const formatFieldValueAsInternationalNumber = () => {
     const iti = intlTelInputRef.current;
