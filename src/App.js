@@ -73,14 +73,11 @@ class App extends Component {
   }
 
   render() {
-    const {
-      dopplerSession: { status: sessionStatus, userData },
-      i18nLocale,
-    } = this.state;
+    const { dopplerSession, i18nLocale } = this.state;
 
     return (
       <DopplerIntlProvider locale={i18nLocale}>
-        {sessionStatus === 'unknown' ? (
+        {dopplerSession.status === 'unknown' ? (
           <Loading page />
         ) : (
           <Switch>
@@ -88,9 +85,9 @@ class App extends Component {
             <PrivateRoute
               path="/reports/"
               exact
+              requireDatahub
               component={Reports}
-              userData={userData}
-              sessionStatus={sessionStatus}
+              dopplerSession={dopplerSession}
             />
             <Route path="/login/" exact component={Login} />
             <Route path="/signup/" exact component={Signup} />
