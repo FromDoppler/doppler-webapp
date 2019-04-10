@@ -11,3 +11,7 @@ indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.{js,ts}]
+block_comment_start = /*
+block_comment_end = */
