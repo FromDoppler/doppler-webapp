@@ -61,6 +61,8 @@ export interface DopplerLegacyUserData {
   alert: AlertEntry | undefined;
   nav: MainNavEntry[];
   user: UserEntry;
+  jwtToken: string;
+  datahubCustomerId: string | null;
 }
 /* #endregion */
 
@@ -116,6 +118,8 @@ export function mapHeaderDataJson(json: any) {
       nav: (json.user.nav && json.user.nav.map(mapNavEntry)) || [],
       plan: mapPlanEntry(json.user.plan),
     },
+    jwtToken: json.jwtToken,
+    datahubCustomerId: json.datahubCustomerId || null,
   };
 }
 /* #endregion */

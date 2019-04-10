@@ -54,13 +54,14 @@ export class OnlineSessionManager implements SessionManager {
   private async update() {
     try {
       const dopplerUserData = await this.dopplerLegacyClient.getUserData();
-      // TODO: deal with JWT Token
-      this.updateSession({
-        status: 'authenticated',
-        userData: dopplerUserData,
-        datahubCustomerId: 'NOT IMPLEMENTED',
-        jwtToken: 'NOT IMPLEMENTED',
-      });
+      this.updateSession(
+        {
+          status: 'authenticated',
+          userData: dopplerUserData,
+          datahubCustomerId: dopplerUserData.datahubCustomerId,
+          jwtToken: dopplerUserData.jwtToken,
+        } as AppSession, // Cast required because TS cannot resolve datahubCustomerId complexity
+      );
     } catch (error) {
       this.updateSession({ status: 'non-authenticated' });
     }

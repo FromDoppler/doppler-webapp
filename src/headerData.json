@@ -187,5 +187,7 @@
       "type": "warning",
       "message": "Estamos verificando el origen de tus Suscriptores. Te contactaremos para que puedas continuar con tu Campaña."
     }
-  }
+  },
+  "datahubCustomerId": "1057",
+  "jwtToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1NVIjpmYWxzZSwiY3VzdG9tZXJJZCI6IjEwNTciLCJpYXQiOjE1NTM3ODQ3MjUsImV4cCI6MTU2OTMzNjcyNX0.NNLt0BWHkAqOd2Nd8xH7nDcrfSTmq8MuAMRdIXTUU9FcTnlGy66Lwst8HSmVH1y4qoluNtCi0ZeuUddRFRUrzA"
 }
