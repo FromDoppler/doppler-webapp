@@ -93,7 +93,7 @@ const Login = ({ intl, location }) => {
         <p className="content-subtitle">{_('login.enter_doppler_sub')}</p>
         <p className="content-subtitle">
           {_('login.you_want_create_account')}{' '}
-          <Link to="/signup" className="uppercase">
+          <Link to="/signup" className="link--title">
             {_('login.signup')}
           </Link>
         </p>
@@ -118,9 +118,9 @@ const Login = ({ intl, location }) => {
               <button type="submit" className="dp-button button--round button-medium primary-green">
                 {_('login.button_login')}
               </button>
-              {/*
-                // TODO: implement forgot password
-                */}
+              <Link to="/forgot-password" className="forgot-link">
+                {_('login.forgot_password')}
+              </Link>
             </fieldset>
           </Form>
         </Formik>

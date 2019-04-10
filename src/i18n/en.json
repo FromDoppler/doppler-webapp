@@ -16,6 +16,11 @@
     "privacy": "Privacy Policy & Legals.",
     "privacy_url": "https://fromdoppler.com/en/privacy-policy"
   },
+  "forgot_password": {
+    "back_login": "Did you remember your password and want to return?",
+    "description": "Do not worry! It happens to everyone.",
+    "description2": "Enter your email and we will help you"
+  },
   "header": {
     "help_url": "https://help.fromdoppler.com/en/"
   },
