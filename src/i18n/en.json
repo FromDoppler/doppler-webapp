@@ -35,7 +35,8 @@
     "you_want_create_account": "Do not you have an account yet?"
   },
   "reports": {
-    "datahub_not_active_HTML": "This feature is not enabled, please check <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking preferences</a>."
+    "datahub_not_active_HTML": "This feature is not enabled, please check <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking preferences</a>.",
+    "no_domains_HTML": "There are not configured domains, please check <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking preferences</a>."
   },
   "reports_box": {
     "to": "to",

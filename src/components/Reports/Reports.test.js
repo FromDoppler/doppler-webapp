@@ -34,7 +34,12 @@ describe('Reports page', () => {
     render(
       <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
         <DopplerIntlProvider>
-          <Reports dependencies={{ datahubClient: datahubClientDouble }} />
+          <Reports
+            dependencies={{
+              datahubClient: datahubClientDouble,
+              appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+            }}
+          />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -48,7 +53,12 @@ describe('Reports page', () => {
     };
 
     const { getByText } = render(
-      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: datahubClientDouble,
+          appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+        }}
+      >
         <DopplerIntlProvider>
           <Reports />
         </DopplerIntlProvider>
@@ -62,5 +72,39 @@ describe('Reports page', () => {
 
     expect(verifiedDate).toBeDefined();
     expect(domain).toBeDefined();
+  });
+
+  it('should show "no domains" message when the domain list is empty', async () => {
+    // Arrange
+    let resolveGetAccountDomainsPromise = null;
+    const getAccountDomainsPromise = new Promise((r) => {
+      resolveGetAccountDomainsPromise = () => r([]);
+    });
+    const datahubClientDouble = {
+      getAccountDomains: () => getAccountDomainsPromise,
+      getVisitsByPeriod: async () => 0,
+      getPagesRankingByPeriod: async () => [],
+    };
+
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: datahubClientDouble,
+          appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+        }}
+      >
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+    expect(container.querySelectorAll('.loading-box')).toHaveLength(1);
+
+    // Act
+    resolveGetAccountDomainsPromise();
+
+    // Assert
+    await wait(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
+    getByText('reports.no_domains_HTML');
   });
 });
