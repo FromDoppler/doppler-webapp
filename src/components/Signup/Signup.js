@@ -74,11 +74,16 @@ export default injectIntl(function({ intl }) {
       errors[fieldNames.email] = _(emailMsgError);
     }
 
+    const digitRegex = /[0-9]/;
     if (!values[fieldNames.password]) {
-      // TODO: I think that password validation has a different format
-      errors[fieldNames.password] = _('validation_messages.error_required_field');
-    } else {
-      // TODO: validate password
+      errors[fieldNames.password] = { empty: true };
+    } else if (values[fieldNames.password].length < 8) {
+      errors[fieldNames.password] = { charLength: true };
+      if (!digitRegex.test(values[fieldNames.password])) {
+        errors[fieldNames.password] = { charLength: true, digit: true };
+      }
+    } else if (!digitRegex.test(values[fieldNames.password])) {
+      errors[fieldNames.password] = { digit: true };
     }
 
     if (!values[fieldNames.accept_privacy_policies]) {
