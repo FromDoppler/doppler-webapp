@@ -3,10 +3,13 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 
 class ReportsBox extends React.Component {
+  /**
+   * @param { Object } props - props
+   * @param { import('../../../services/pure-di').AppServices } props.dependencies
+   */
   constructor({ dependencies: { datahubClient } }) {
     super();
 
-    /** @type { import('../../services/datahub-client').DatahubClient } */
     this.datahubClient = datahubClient;
 
     this.state = {
