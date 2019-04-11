@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { FieldGroup, InputFieldItem, PasswordFieldItem } from '../form-helpers/form-helpers';
+import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
   user: 'user',
@@ -67,27 +68,7 @@ const Login = ({ intl, location }) => {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
-          <div className="language-selector">
-            {intl.locale === 'es' ? (
-              <div className="option" id="spanish-selector">
-                <span>
-                  <strong>ES</strong>
-                </span>
-                <Link to="?lang=en" className="option--item">
-                  EN
-                </Link>
-              </div>
-            ) : (
-              <div className="option" id="spanish-selector">
-                <span>
-                  <strong>EN</strong>
-                </span>
-                <Link to="?lang=es" className="option--item">
-                  ES
-                </Link>
-              </div>
-            )}
-          </div>
+          <LanguageSelector />
         </header>
         <h5>{_('login.enter_doppler')}</h5>
         <p className="content-subtitle">{_('login.enter_doppler_sub')}</p>

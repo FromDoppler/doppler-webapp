@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { FieldGroup, InputFieldItem } from '../form-helpers/form-helpers';
+import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
   email: 'email',
@@ -45,31 +46,7 @@ const ForgotPassword = ({ intl }) => {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
-          <div className="language-selector">
-            {intl.locale === 'es' ? (
-              <>
-                <div className="lang-option option--selector">
-                  <button className="lang--es">ES</button>
-                </div>
-                <div className="lang-option">
-                  <Link to="?lang=en" className="lang--en">
-                    EN
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="lang-option option--selector">
-                  <button className="lang--en">EN</button>
-                </div>
-                <div className="lang-option">
-                  <Link to="?lang=es" className="lang--es">
-                    ES
-                  </Link>
-                </div>
-              </>
-            )}
-          </div>
+          <LanguageSelector />
         </header>
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>

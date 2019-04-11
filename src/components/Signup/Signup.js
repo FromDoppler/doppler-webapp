@@ -10,6 +10,7 @@ import {
   PasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
+import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -99,27 +100,7 @@ export default injectIntl(function({ intl }) {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
-          <div className="language-selector">
-            {intl.locale === 'es' ? (
-              <div className="option" id="spanish-selector">
-                <span>
-                  <strong>ES</strong>
-                </span>
-                <Link to="?lang=en" className="option--item">
-                  EN
-                </Link>
-              </div>
-            ) : (
-              <div className="option" id="spanish-selector">
-                <span>
-                  <strong>EN</strong>
-                </span>
-                <Link to="?lang=es" className="option--item">
-                  ES
-                </Link>
-              </div>
-            )}
-          </div>
+          <LanguageSelector />
         </header>
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">{_('signup.sign_up_sub')}</p>
