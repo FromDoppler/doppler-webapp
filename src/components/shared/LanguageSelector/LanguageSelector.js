@@ -1,7 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
 
-const LanguageSelector = ({ lang }) => {
+/**
+ * LanguageSelector
+ * @param { Object } props
+ * @param { import('react-intl').InjectedIntl } props.intl
+ */
+const LanguageSelector = ({ intl }) => {
+  const lang = intl.locale;
   return (
     <div className="language-selector">
       {lang === 'es' ? (
@@ -31,4 +38,4 @@ const LanguageSelector = ({ lang }) => {
   );
 };
 
-export default LanguageSelector;
+export default injectIntl(LanguageSelector);

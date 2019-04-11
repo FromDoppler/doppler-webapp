@@ -68,7 +68,7 @@ const Login = ({ intl, location }) => {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
-          <LanguageSelector lang={intl.locale} />
+          <LanguageSelector />
         </header>
         <h5>{_('login.enter_doppler')}</h5>
         <p className="content-subtitle">{_('login.enter_doppler_sub')}</p>

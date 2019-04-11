@@ -100,7 +100,7 @@ export default injectIntl(function({ intl }) {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
-          <LanguageSelector lang={intl.locale} />
+          <LanguageSelector />
         </header>
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">{_('signup.sign_up_sub')}</p>
