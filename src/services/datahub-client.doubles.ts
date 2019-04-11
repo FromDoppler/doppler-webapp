@@ -1,4 +1,4 @@
-import { DatahubClient } from './datahub-client';
+import { DatahubClient, emailFilterOptions, DomainEntry } from './datahub-client';
 import { timeout } from '../utils';
 
 // TODO: use more realistic data
@@ -47,30 +47,34 @@ const fakePagesData = [
 ];
 
 export class HardcodedDatahubClient implements DatahubClient {
-  public async getAccountDomains() {
+  public async getAccountDomains(): Promise<DomainEntry[]> {
     console.log('getAccountDomains');
     await timeout(1500);
     return fakeData.map((x) => ({ id: x.id, name: x.name, verified_date: x.verified_date }));
   }
 
-  public async getPagesByDomainId(domainId: number) {
-    console.log('getPagesByDomainId', { domainId });
-    await timeout(1500);
-    const domain = fakeData.find((x) => x.id === domainId);
-    if (!domain) {
-      throw new Error(`Domain with id ${domainId} does not exist`);
-    }
-    return domain.pages;
-  }
-
-  public async getVisitsByPeriod(domainName: number, dateFrom: Date, isVisitsWithEmail: boolean) {
-    console.log('getVisitsByPeriod', { domainName, dateFrom, isVisitsWithEmail });
+  public async getVisitsByPeriod({
+    domainName,
+    dateFrom,
+    emailFilter,
+  }: {
+    domainName: number;
+    dateFrom: Date;
+    emailFilter: emailFilterOptions;
+  }): Promise<number> {
+    console.log('getVisitsByPeriod', { domainName, dateFrom, emailFilter });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
   }
 
-  public async getPagesRankingByPeriod(domainName: number, dateFrom: Date) {
+  public async getPagesRankingByPeriod({
+    domainName,
+    dateFrom,
+  }: {
+    domainName: number;
+    dateFrom: Date;
+  }): Promise<{ name: string; totalVisits: number }[]> {
     console.log('getPagesRankingByPeriod', { domainName, dateFrom });
     await timeout(1500);
     return fakePagesData.map((x) => ({ name: x.name, totalVisits: x.totalVisits }));

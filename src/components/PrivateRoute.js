@@ -3,11 +3,19 @@ import { Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import { InjectAppServices } from '../services/pure-di';
+import DatahubRequired from './DatahubRequired/DatahubRequired';
 
-export default InjectAppServices(function({
+/**
+ * @param { Object } props
+ * @param { React.Component } props.component
+ * @param { Boolean } props.requireDatahub
+ * @param { import('../services/app-session').AppSession } props.dopplerSession
+ * @param { import('../services/pure-di').AppServices } props.dependencies
+ */
+function PrivateRoute({
   component: Component,
-  userData,
-  sessionStatus,
+  requireDatahub,
+  dopplerSession,
   dependencies: { RedirectToLogin },
   ...rest
 }) {
@@ -15,10 +23,14 @@ export default InjectAppServices(function({
     <Route
       {...rest}
       render={(props) =>
-        sessionStatus === 'authenticated' ? (
+        dopplerSession.status === 'authenticated' ? (
           <>
-            <Header userData={userData} />
-            <Component {...props} />
+            <Header userData={dopplerSession.userData} />
+            {!requireDatahub || dopplerSession.datahubCustomerId ? (
+              <Component {...props} />
+            ) : (
+              <DatahubRequired />
+            )}
             <Footer />
           </>
         ) : (
@@ -27,4 +39,6 @@ export default InjectAppServices(function({
       }
     />
   );
-});
+}
+
+export default InjectAppServices(PrivateRoute);

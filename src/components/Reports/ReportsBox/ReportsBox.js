@@ -3,10 +3,13 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 
 class ReportsBox extends React.Component {
+  /**
+   * @param { Object } props - props
+   * @param { import('../../../services/pure-di').AppServices } props.dependencies
+   */
   constructor({ dependencies: { datahubClient } }) {
     super();
 
-    /** @type { import('../../services/datahub-client').DatahubClient } */
     this.datahubClient = datahubClient;
 
     this.state = {
@@ -17,11 +20,15 @@ class ReportsBox extends React.Component {
   }
 
   async fetchVisitsByPeriod(domainName, dateFrom) {
-    this.asyncRequest = this.datahubClient.getVisitsByPeriod(
-      domainName,
-      dateFrom,
-      this.props.isVisitsWithEmail,
-    );
+    this.asyncRequest = this.datahubClient.getVisitsByPeriod({
+      domainName: domainName,
+      dateFrom: dateFrom,
+      emailFilter: this.props.withEmail
+        ? 'with_email'
+        : this.props.withoutEmail
+        ? 'without_email'
+        : null,
+    });
     const visits = await this.asyncRequest;
     this.asyncRequest = null;
     this.setState({
@@ -76,10 +83,12 @@ class ReportsBox extends React.Component {
           <>
             <h3 className="number-kpi">{visits}</h3>
             <h6 className="subtitle-kpi">
-              {this.props.isVisitsWithEmail ? (
+              {this.props.withEmail ? (
                 <FormattedMessage id="reports_box.visits_with_email" />
-              ) : (
+              ) : this.props.withoutEmail ? (
                 <FormattedMessage id="reports_box.visits_without_emails" />
+              ) : (
+                <span>Unexpected error</span>
               )}
             </h6>
             <small className="date-range">

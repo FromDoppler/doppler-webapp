@@ -43,7 +43,6 @@ describe('Reports page', () => {
   it('should render domains without pages', async () => {
     const datahubClientDouble = {
       getAccountDomains: async () => fakeData,
-      getPagesByDomainId: async () => [],
       getVisitsByPeriod: async () => 0,
       getPagesRankingByPeriod: async () => [],
     };
@@ -63,28 +62,5 @@ describe('Reports page', () => {
 
     expect(verifiedDate).toBeDefined();
     expect(domain).toBeDefined();
-  });
-
-  it('should render domains with pages', async () => {
-    const datahubClientDouble = {
-      getAccountDomains: async () => fakeData,
-      getPagesByDomainId: async () => fakePages,
-      getVisitsByPeriod: async () => 0,
-      getPagesRankingByPeriod: async () => [],
-    };
-
-    const { getByText } = render(
-      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
-        <DopplerIntlProvider>
-          <Reports />
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
-    );
-
-    await wait(() => getByText(fakePages[0].name));
-
-    const page = getByText(fakePages[0].name);
-
-    expect(page).toBeDefined();
   });
 });

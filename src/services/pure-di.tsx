@@ -1,17 +1,19 @@
 import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
-import React, { createContext, ReactNode } from 'react';
-import { DatahubClient } from './datahub-client';
+import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
+import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
 import {
   RedirectToLegacyLoginFactory,
   RedirectToInternalLogin,
   RedirectToLogin,
 } from '../components/RedirectToLogin';
+import { AppSession, createAppSessionRef } from './app-session';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
+  datahubUrl: string;
   dopplerLegacyKeepAliveMilliseconds: number;
 }
 
@@ -20,6 +22,7 @@ interface AppConfiguration {
  */
 export interface AppServices {
   window: Window;
+  appSessionRef: RefObject<AppSession>;
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
   datahubClient: DatahubClient;
@@ -48,26 +51,43 @@ export class AppCompositionRoot implements AppServices {
     return this.instances[name] as T;
   }
 
+  get appSessionRef() {
+    return this.singleton('appSessionRef', () => createAppSessionRef());
+  }
+
   get axiosStatic() {
     return this.singleton('axiosStatic', () => axios);
   }
 
   get appConfiguration() {
     return this.singleton('appConfiguration', () => ({
-      dopplerLegacyUrl: process.env.REACT_APP_API_URL as string,
+      dopplerLegacyUrl: process.env.REACT_APP_DOPPLER_LEGACY_URL as string,
+      datahubUrl: process.env.REACT_APP_DATAHUB_URL as string,
       dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
         .REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string),
     }));
   }
 
   get datahubClient() {
-    return this.singleton('datahubClient', () => new HardcodedDatahubClient());
+    return this.singleton(
+      'datahubClient',
+      () =>
+        new HttpDatahubClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.datahubUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
   }
 
   get dopplerLegacyClient() {
     return this.singleton(
       'dopplerLegacyClient',
-      () => new HttpDopplerLegacyClient(this.axiosStatic, this.appConfiguration.dopplerLegacyUrl),
+      () =>
+        new HttpDopplerLegacyClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerLegacyUrl,
+        }),
     );
   }
 
@@ -75,10 +95,12 @@ export class AppCompositionRoot implements AppServices {
     return this.singleton(
       'sessionManager',
       () =>
-        new OnlineSessionManager(
-          this.dopplerLegacyClient,
-          this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
-        ),
+        new OnlineSessionManager({
+          // Casting because only he will be allowed to update session
+          appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
+          dopplerLegacyClient: this.dopplerLegacyClient,
+          keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
+        }),
     );
   }
 

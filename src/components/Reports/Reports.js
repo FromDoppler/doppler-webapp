@@ -6,10 +6,13 @@ import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 
 class Reports extends React.Component {
+  /**
+   * @param { Object } props
+   * @param { import('../../services/pure-di').AppServices } props.dependencies
+   */
   constructor({ dependencies: { datahubClient } }) {
     super();
 
-    /** @type { import('../../services/datahub-client').DatahubClient } */
     this.datahubClient = datahubClient;
 
     this.state = {
@@ -31,7 +34,7 @@ class Reports extends React.Component {
     const domains = await this.datahubClient.getAccountDomains();
     if (domains.length) {
       const domainSelected = domains[0];
-      const pages = await this.datahubClient.getPagesByDomainId(domainSelected.id);
+      const pages = [];
       const pageSelected = pages.length ? pages[0] : null;
       let dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
@@ -47,7 +50,7 @@ class Reports extends React.Component {
 
   changeDomain = async (id) => {
     const domainFound = this.state.domains.find((item) => item.id === id);
-    const pages = await this.datahubClient.getPagesByDomainId(id);
+    const pages = [];
     const pageSelected = pages.length ? pages[0] : null;
     this.setState({ domainSelected: domainFound, pages: pages, pageSelected: pageSelected });
   };
@@ -94,13 +97,13 @@ class Reports extends React.Component {
                 periodSelectedDays={this.state.periodSelectedDays}
                 dateTo={this.state.dateTo}
                 dateFrom={this.state.dateFrom}
-                isVisitsWithEmail={false}
+                withoutEmail
               />
               <ReportsBox
                 domainName={this.state.domainSelected.name}
                 dateTo={this.state.dateTo}
                 dateFrom={this.state.dateFrom}
-                isVisitsWithEmail={true}
+                withEmail
               />
             </div>
             <ReportsPageRanking

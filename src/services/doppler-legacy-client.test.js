@@ -68,7 +68,10 @@ describe('Doppler legacy client', () => {
 
   it('should throw error, when receives an error from doppler', async () => {
     // Arrange
-    const sut = new HttpDopplerLegacyClient(axios, 'http://localhost:52191');
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
     axios.get.mockImplementation(() => ({
       data: {
         success: false,
@@ -84,7 +87,10 @@ describe('Doppler legacy client', () => {
 
   it('should throw error, when response is empty', async () => {
     // Arrange
-    const sut = new HttpDopplerLegacyClient(axios, 'http://localhost:52191');
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
     axios.get.mockImplementation(() => {});
     // Act
     const action = async () => {
@@ -96,7 +102,10 @@ describe('Doppler legacy client', () => {
 
   it('should return data, when logged into doppler and there are no errors', async () => {
     // Arrange
-    const sut = new HttpDopplerLegacyClient(axios, 'http://localhost:52191');
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
     axios.get.mockImplementation(() => userData);
     // Act
     const action = await sut.getUserData();

@@ -12,16 +12,20 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import queryString from 'query-string';
 
 class App extends Component {
-  constructor({ locale, dependencies: { sessionManager } }) {
+  /**
+   * @param { Object } props - props
+   * @param { string } props.locale - locale
+   * @param { import('./services/pure-di').AppServices } props.dependencies - dependencies
+   */
+  constructor({ locale, dependencies: { appSessionRef, sessionManager } }) {
     super();
 
     this.updateSession = this.updateSession.bind(this);
 
-    /** @type { import('./services/session-manager').SessionManager } */
     this.sessionManager = sessionManager;
 
     this.state = {
-      dopplerSession: this.sessionManager.session,
+      dopplerSession: appSessionRef.current,
       i18nLocale: locale,
     };
   }
@@ -69,14 +73,11 @@ class App extends Component {
   }
 
   render() {
-    const {
-      dopplerSession: { status: sessionStatus, userData },
-      i18nLocale,
-    } = this.state;
+    const { dopplerSession, i18nLocale } = this.state;
 
     return (
       <DopplerIntlProvider locale={i18nLocale}>
-        {sessionStatus === 'unknown' ? (
+        {dopplerSession.status === 'unknown' ? (
           <Loading page />
         ) : (
           <Switch>
@@ -84,9 +85,9 @@ class App extends Component {
             <PrivateRoute
               path="/reports/"
               exact
+              requireDatahub
               component={Reports}
-              userData={userData}
-              sessionStatus={sessionStatus}
+              dopplerSession={dopplerSession}
             />
             <Route path="/login/" exact component={Login} />
             <Route path="/signup/" exact component={Signup} />

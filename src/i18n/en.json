@@ -34,6 +34,9 @@
     "signup": "Sign up free",
     "you_want_create_account": "Do not you have an account yet?"
   },
+  "reports": {
+    "datahub_not_active_HTML": "This feature is not enabled, please check <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking preferences</a>."
+  },
   "reports_box": {
     "to": "to",
     "visits_description": "This report shows the total number of visits in the selected time period",

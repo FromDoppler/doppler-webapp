@@ -1,35 +1,34 @@
 import { DopplerLegacyClient, DopplerLegacyUserData } from './doppler-legacy-client';
-
-type AppSession =
-  | { status: 'unknown' }
-  | { status: 'non-authenticated' }
-  | {
-      status: 'authenticated';
-      userData: DopplerLegacyUserData;
-    };
+import { AppSession } from './app-session';
+import { MutableRefObject } from 'react';
 
 const noop = () => {};
 
-const defaultSession: AppSession = { status: 'unknown' };
-
 export interface SessionManager {
-  session: AppSession;
   initialize: (handler: (s: AppSession) => void) => void;
   finalize: () => void;
 }
 
 export class OnlineSessionManager implements SessionManager {
-  private currentSession: AppSession = { ...defaultSession };
+  private readonly appSessionRef: MutableRefObject<AppSession>;
+  private readonly dopplerLegacyClient: DopplerLegacyClient;
+  private readonly keepAliveMilliseconds: number;
+
   private handler: (s: AppSession) => void = noop;
   private dopplerInterval: number | null = null;
 
-  constructor(
-    private dopplerLegacyClient: DopplerLegacyClient,
-    private keepAliveMilliseconds: number,
-  ) {}
-
-  public get session() {
-    return this.currentSession;
+  constructor({
+    appSessionRef,
+    dopplerLegacyClient,
+    keepAliveMilliseconds,
+  }: {
+    appSessionRef: MutableRefObject<AppSession>;
+    dopplerLegacyClient: DopplerLegacyClient;
+    keepAliveMilliseconds: number;
+  }) {
+    this.appSessionRef = appSessionRef;
+    this.dopplerLegacyClient = dopplerLegacyClient;
+    this.keepAliveMilliseconds = keepAliveMilliseconds;
   }
 
   public initialize(handler: (s: AppSession) => void) {
@@ -48,18 +47,21 @@ export class OnlineSessionManager implements SessionManager {
   }
 
   private updateSession(session: AppSession) {
-    this.currentSession = session;
-    this.handler(this.currentSession);
+    this.appSessionRef.current = session;
+    this.handler(session);
   }
 
   private async update() {
     try {
       const dopplerUserData = await this.dopplerLegacyClient.getUserData();
-      // TODO: deal with JWT Token
-      this.updateSession({
-        status: 'authenticated',
-        userData: dopplerUserData,
-      });
+      this.updateSession(
+        {
+          status: 'authenticated',
+          userData: dopplerUserData,
+          datahubCustomerId: dopplerUserData.datahubCustomerId,
+          jwtToken: dopplerUserData.jwtToken,
+        } as AppSession, // Cast required because TS cannot resolve datahubCustomerId complexity
+      );
     } catch (error) {
       this.updateSession({ status: 'non-authenticated' });
     }
