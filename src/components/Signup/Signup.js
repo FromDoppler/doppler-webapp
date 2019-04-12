@@ -7,7 +7,7 @@ import {
   FieldGroup,
   InputFieldItem,
   CheckboxFieldItem,
-  PasswordValidatedFieldItem,
+  ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
 import { validateEmail, validateRequiredField } from '../../validations';
@@ -149,7 +149,7 @@ export default injectIntl(function({ intl }) {
                   type="email"
                   placeholder={_('signup.placeholder_email')}
                 />
-                <PasswordValidatedFieldItem
+                <ValidatedPasswordFieldItem
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
                   placeholder={_('signup.placeholder_password')}
