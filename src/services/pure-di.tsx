@@ -15,6 +15,11 @@ interface AppConfiguration {
   dopplerLegacyUrl: string;
   datahubUrl: string;
   dopplerLegacyKeepAliveMilliseconds: number;
+  useLegacy?: {
+    login: boolean;
+    signup: boolean;
+    forgotPassword: boolean;
+  };
 }
 
 /**
@@ -65,6 +70,11 @@ export class AppCompositionRoot implements AppServices {
       datahubUrl: process.env.REACT_APP_DATAHUB_URL as string,
       dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
         .REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string),
+      useLegacy: {
+        login: process.env.REACT_APP_USE_DOPPLER_LEGACY_LOGIN === 'true',
+        signup: process.env.REACT_APP_USE_DOPPLER_LEGACY_SIGNUP === 'true',
+        forgotPassword: process.env.REACT_APP_USE_DOPPLER_LEGACY_FORGOTPASSWORD === 'true',
+      },
     }));
   }
 
