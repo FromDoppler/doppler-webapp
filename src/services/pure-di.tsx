@@ -4,11 +4,6 @@ import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
-import {
-  RedirectToLegacyLoginFactory,
-  RedirectToInternalLogin,
-  RedirectToLogin,
-} from '../components/RedirectToLogin';
 import { AppSession, createAppSessionRef } from './app-session';
 
 interface AppConfiguration {
@@ -33,7 +28,6 @@ export interface AppServices {
   datahubClient: DatahubClient;
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
-  RedirectToLogin: RedirectToLogin;
 }
 
 /**
@@ -116,18 +110,6 @@ export class AppCompositionRoot implements AppServices {
 
   get window() {
     return this.singleton('window', () => window);
-  }
-
-  // To Setup Internal Login
-  // get RedirectToLogin() {
-  //   return this.singleton('RedirectToLogin', () => RedirectToInternalLogin);
-  // }
-
-  // To Setup Doppler Legacy Login
-  get RedirectToLogin() {
-    return this.singleton('RedirectToLogin', () =>
-      RedirectToLegacyLoginFactory(this.appConfiguration.dopplerLegacyUrl, this.window),
-    );
   }
 }
 

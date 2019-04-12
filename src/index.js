@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppServicesProvider } from './services/pure-di';
-import { RedirectToInternalLogin } from './components/RedirectToLogin';
 import { HashRouter as Router } from 'react-router-dom';
 
 // Only used in development environment, it does not affect production build
@@ -20,7 +19,6 @@ const forcedServices =
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
         datahubClient: new HardcodedDatahubClient(),
-        RedirectToLogin: RedirectToInternalLogin,
       }
     : {};
 
