@@ -10,7 +10,7 @@ import {
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
-import { validateEmail, validateRequiredField } from '../../validations';
+import { validateEmail, validateRequiredField, validatePassword } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -74,17 +74,7 @@ export default injectIntl(function({ intl }) {
       errors[fieldNames.email] = _(emailMsgError);
     }
 
-    const digitRegex = /[0-9]/;
-    if (!values[fieldNames.password]) {
-      errors[fieldNames.password] = { empty: true };
-    } else if (values[fieldNames.password].length < 8) {
-      errors[fieldNames.password] = { charLength: true };
-      if (!digitRegex.test(values[fieldNames.password])) {
-        errors[fieldNames.password] = { charLength: true, digit: true };
-      }
-    } else if (!digitRegex.test(values[fieldNames.password])) {
-      errors[fieldNames.password] = { digit: true };
-    }
+    errors[fieldNames.password] = validatePassword(values[fieldNames.password]);
 
     if (!values[fieldNames.accept_privacy_policies]) {
       // TODO: show the right message
