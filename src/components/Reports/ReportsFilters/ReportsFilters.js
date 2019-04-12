@@ -29,14 +29,15 @@ const ReportsFilters = ({
             <select
               onChange={(event) => changeDomain(parseInt(event.target.value))}
               id="domain"
-              disabled={!domains.length}
+              disabled={!domains || !domains.length}
               value={domainSelected ? domainSelected.id : ''}
             >
-              {domains.map((domain, index) => (
-                <option key={index} value={domain.id}>
-                  {domain.name}
-                </option>
-              ))}
+              {domains &&
+                domains.map((domain, index) => (
+                  <option key={index} value={domain.id}>
+                    {domain.name}
+                  </option>
+                ))}
             </select>
             {domainSelected ? (
               <span className="verified--domain">
@@ -55,16 +56,17 @@ const ReportsFilters = ({
               id="pages"
               name="pages"
               onChange={(event) => changePage(parseInt(event.target.value))}
-              disabled={!pages.length}
+              disabled={!pages || !pages.length}
             >
               <FormattedMessage id="reports_filters.all_pages">
                 {(message) => <option value="-1">{message}</option>}
               </FormattedMessage>
-              {pages.map((page, index) => (
-                <option key={index} value={page.id}>
-                  {page.name}
-                </option>
-              ))}
+              {pages &&
+                pages.map((page, index) => (
+                  <option key={index} value={page.id}>
+                    {page.name}
+                  </option>
+                ))}
             </select>
           </fieldset>
           <fieldset className="filter">
@@ -75,6 +77,7 @@ const ReportsFilters = ({
             <select
               id="range_time"
               value={periodSelectedDays}
+              disabled={!domains || !domains.length}
               onChange={(event) => changePeriod(parseInt(event.target.value))}
             >
               <FormattedMessage id="reports_filters.rank_time_item1">
