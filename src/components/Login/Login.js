@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
+import { Helmet } from 'react-helmet';
 import {
   EmailFieldItem,
   FieldGroup,
@@ -58,6 +59,10 @@ const Login = ({ intl, location }) => {
 
   return (
     <main className="panel-wrapper">
+      <Helmet>
+        <title>{_('login.head_title')}</title>
+        <meta name="description" content={_('login.head_description')} />
+      </Helmet>
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>

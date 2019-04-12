@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "cancel": "Cancelar",
     "help": "Ayuda",
@@ -32,6 +32,8 @@
     "enter_doppler": "Ingresa a Doppler",
     "enter_doppler_sub": "Disfruta los beneficios del Email Marketing.",
     "forgot_password": "¿No recuerdas tu contraseña?",
+    "head_description": "Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!",
+    "head_title": "Email Marketing Automation gratis y con envíos ilimitados | Doppler",
     "label_user": "Nombre de Usuario: ",
     "signup": "Régistrate gratis",
     "you_want_create_account": "¿Aún no tienes una cuenta?"
@@ -75,6 +77,8 @@
     "copyright": "© {year} Doppler LLC. Todos los derechos reservados. <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad y Legales.</a>",
     "do_you_already_have_an_account": "¿Ya tienes una cuenta?",
     "email_not_received": "¿No has recibido el Email?",
+    "head_description": "Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!",
+    "head_title": "Email Marketing Automation gratis y con envíos ilimitados | Doppler",
     "label_email": "Email: ",
     "label_firstname": "Nombre: ",
     "label_lastname": "Apellido: ",
