@@ -88,6 +88,17 @@ function PublicRouteWithLegacyFallback({
 
         const redirectionData = page.legacyRedirectDataResolver(props, location);
 
+        // TODO: improve this parsing code and logic
+        // TODO: consider send language, lang and id parameters based on current locale
+        if (
+          props.location.search &&
+          props.location.search.length &&
+          props.location.search[0] === '?'
+        ) {
+          const currentParameters = props.location.search.substring(1);
+          redirectionData.parameters.push(currentParameters);
+        }
+
         const parametersString = redirectionData.parameters.filter((x) => !!x).join('&');
         const destinationUrl =
           `${dopplerLegacyUrl}${redirectionData.page}` +
