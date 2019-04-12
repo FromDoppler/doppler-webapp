@@ -184,43 +184,43 @@ describe('App component', () => {
     });
 
     describe('not authenticated user', () => {
-      // TODO: fix it
-      //   it('should be redirected to Legacy Doppler Login after open /reports (when using RedirectToLegacyLoginFactory)', () => {
-      //     const dependencies = {
-      //       appConfiguration: {
-      //         dopplerLegacyUrl: 'http://legacyUrl.localhost',
-      //       },
-      //       window: {
-      //         location: {
-      //           protocol: 'http:',
-      //           host: 'webapp.localhost',
-      //           pathname: '/path1/path2/',
-      //           href: 'unset',
-      //         },
-      //       },
-      //       sessionManager: createDoubleSessionManager(),
-      //     };
+      it('should be redirected to Legacy Doppler Login after open /reports when useLegacy.login is active', () => {
+        const dependencies = {
+          appConfiguration: {
+            dopplerLegacyUrl: 'http://legacyUrl.localhost',
+            useLegacy: { login: true },
+          },
+          window: {
+            location: {
+              protocol: 'http:',
+              host: 'webapp.localhost',
+              pathname: '/path1/path2/',
+              href: 'unset',
+            },
+          },
+          sessionManager: createDoubleSessionManager(),
+        };
 
-      //     const { getByText } = render(
-      //       <AppServicesProvider forcedServices={dependencies}>
-      //         <Router>
-      //           <App locale="en" />
-      //         </Router>
-      //       </AppServicesProvider>,
-      //     );
+        const { getByText } = render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router>
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
 
-      //     getByText('Loading...');
+        getByText('Loading...');
 
-      //     // Act
-      //     dependencies.sessionManager.updateAppSession({
-      //       status: 'not-authenticated',
-      //     });
+        // Act
+        dependencies.sessionManager.updateAppSession({
+          status: 'not-authenticated',
+        });
 
-      //     // Assert
-      //     expect(dependencies.window.location.href).toEqual(
-      //       'http://legacyUrl.localhost/SignIn/index?redirect=http://webapp.localhost/path1/path2/#/reports',
-      //     );
-      //   });
+        // Assert
+        expect(dependencies.window.location.href).toEqual(
+          'http://legacyUrl.localhost/SignIn/?redirect=http://webapp.localhost/path1/path2/#/reports',
+        );
+      });
 
       it('should be redirected to Internal Login after open /reports (when using RedirectToInternalLogin)', () => {
         const dependencies = {
