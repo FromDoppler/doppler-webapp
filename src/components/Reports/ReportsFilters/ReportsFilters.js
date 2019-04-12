@@ -41,8 +41,14 @@ const ReportsFilters = ({
             </select>
             {domainSelected ? (
               <span className="verified--domain">
-                <FormattedMessage id="reports_filters.verified_domain" />{' '}
-                <FormattedDate value={domainSelected.verified_date} timeZone="UTC" />
+                {domainSelected.verified_date ? (
+                  <>
+                    <FormattedMessage id="reports_filters.verified_domain" />{' '}
+                    <FormattedDate value={domainSelected.verified_date} timeZone="UTC" />
+                  </>
+                ) : (
+                  <FormattedMessage id="reports_filters.domain_not_verified" />
+                )}
               </span>
             ) : null}
           </fieldset>
