@@ -5,7 +5,30 @@ export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
   getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyClientTypePlan[]>;
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
+  registerUser(userRegistrationModel: UserRegistrationModel): Promise<void>;
 }
+
+/* #region Registration data types */
+export interface UserRegistrationModel {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  email: string;
+  password: string;
+  accept_privacy_policies: boolean;
+  accept_promotions: boolean;
+  /*
+  // TODO: take into account the following data
+    ClientTimeZoneOffset=-180
+    FingerPrint=317203850
+    origin=login
+    Language=en
+    showCaptcha=False
+    IdCountry=10
+*/
+}
+
+/* #endregion */
 
 /* #region DopplerLegacyUserData data types */
 interface NavEntry {
@@ -158,6 +181,18 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return mapHeaderDataJson(response.data);
+  }
+
+  public async registerUser(model: UserRegistrationModel) {
+    const response = await this.axios.post(`WebAppPublic/CreateUser`, {
+      Name: model.firstname,
+      LastName: model.lastname,
+      Phone: model.phone,
+      Email: model.email,
+      NewPassword: model.password,
+      TermsAndConditionsActive: model.accept_privacy_policies,
+      PromotionsEnabled: model.accept_promotions,
+    });
   }
 
   public async getUpgradePlanData(isSubscriberPlan: boolean) {

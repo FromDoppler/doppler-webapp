@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
-import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import {
@@ -44,9 +43,13 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const onSubmit = async (values, { setSubmitting }) => {
-    // TODO: implement it
-    await timeout(1500);
-    setSubmitting(false);
+    try {
+      await dopplerLegacyClient.registerUser(values);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
