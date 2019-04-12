@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { FieldGroup, InputFieldItem, PasswordFieldItem } from '../form-helpers/form-helpers';
+import { validateEmail, validateRequiredField } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -33,11 +34,10 @@ const Login = ({ intl, location }) => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values[fieldNames.user]) {
-      errors[fieldNames.user] = _('validation_messages.error_required_field');
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values[fieldNames.user])) {
-      // TODO: review if this is our desired validation
-      errors[fieldNames.user] = _('validation_messages.error_invalid_email_address');
+    const emailMsgError =
+      validateRequiredField(values[fieldNames.user]) || validateEmail(values[fieldNames.user]);
+    if (emailMsgError) {
+      errors[fieldNames.user] = _(emailMsgError);
     }
 
     if (!values[fieldNames.password]) {

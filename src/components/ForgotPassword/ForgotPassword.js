@@ -4,6 +4,7 @@ import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { FieldGroup, InputFieldItem } from '../form-helpers/form-helpers';
+import { validateEmail, validateRequiredField } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -25,11 +26,10 @@ const ForgotPassword = ({ intl }) => {
   const validate = (values) => {
     const errors = {};
 
-    if (!values[fieldNames.email]) {
-      errors[fieldNames.email] = _('validation_messages.error_required_field');
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values[fieldNames.email])) {
-      // TODO: review if this is our desired validation
-      errors[fieldNames.email] = _('validation_messages.error_invalid_email_address');
+    const emailMsgError =
+      validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
+    if (emailMsgError) {
+      errors[fieldNames.email] = _(emailMsgError);
     }
 
     return errors;
@@ -64,7 +64,7 @@ const ForgotPassword = ({ intl }) => {
                 <InputFieldItem
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
-                  type="email"
+                  type="text"
                   placeholder={_('signup.placeholder_email')}
                 />
               </FieldGroup>
@@ -74,7 +74,7 @@ const ForgotPassword = ({ intl }) => {
                 {_('login.button_login')}
               </button>
               <Link to="/login" className="forgot-link">
-                <span class="triangle-right" />
+                <span className="triangle-right" />
                 {_('forgot_password.back_login')}
               </Link>
             </fieldset>

@@ -10,6 +10,7 @@ import {
   PasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
+import { validateEmail, validateRequiredField } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -67,11 +68,10 @@ export default injectIntl(function({ intl }) {
       }
     }
 
-    if (!values[fieldNames.email]) {
-      errors[fieldNames.email] = _('validation_messages.error_required_field');
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values[fieldNames.email])) {
-      // TODO: review if this is our desired validation
-      errors[fieldNames.email] = _('validation_messages.error_invalid_email_address');
+    const emailMsgError =
+      validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
+    if (emailMsgError) {
+      errors[fieldNames.email] = _(emailMsgError);
     }
 
     if (!values[fieldNames.password]) {
