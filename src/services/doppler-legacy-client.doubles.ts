@@ -15,6 +15,11 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await timeout(1500);
   }
 
+  public async resendRegistrationEmail(email: string) {
+    console.log(this.resendRegistrationEmail, email);
+    await timeout(1500);
+  }
+
   public async getUserData() {
     console.log('getUserData');
     await timeout(1500);

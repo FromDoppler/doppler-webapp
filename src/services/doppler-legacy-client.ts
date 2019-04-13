@@ -6,6 +6,7 @@ export interface DopplerLegacyClient {
   getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyClientTypePlan[]>;
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
   registerUser(userRegistrationModel: UserRegistrationModel): Promise<void>;
+  resendRegistrationEmail(email: string): Promise<void>;
 }
 
 /* #region Registration data types */
@@ -193,6 +194,11 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       TermsAndConditionsActive: model.accept_privacy_policies,
       PromotionsEnabled: model.accept_promotions,
     });
+    // TODO: parse validation errors in response
+  }
+
+  public async resendRegistrationEmail(email: string) {
+    await this.axios.post(`WebAppPublic/ResendRegistrationEmail`, { Email: email });
   }
 
   public async getUpgradePlanData(isSubscriberPlan: boolean) {

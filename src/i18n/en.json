@@ -70,6 +70,7 @@
     "check_inbox_icon_description": "Check your inbox",
     "copyright": "© {year} Doppler LLC. All rights reserved.",
     "do_you_already_have_an_account": "Already have an account?",
+    "email_not_received": "Haven't you received the Email?",
     "label_email": "Email: ",
     "label_firstname": "Name: ",
     "label_lastname": "Lastname: ",
@@ -77,6 +78,7 @@
     "label_phone": "Phone: ",
     "legal_HTML": "\n<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a class=\"link-green\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy Policy</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
     "log_in": "Log In",
+    "no_more_resend": "You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact support",
     "placeholder_email": "Your Email will be your Username",
     "placeholder_firstname": "Name",
     "placeholder_lastname": "Lastname",
@@ -86,6 +88,7 @@
     "promotion_code_help_url": "https://help.fromdoppler.com/en/how-to-activate-my-promo-code",
     "promotion_code_reminder": "Pst! si tienes un código promocional podrás ingresarlo al confirmar tu cuenta.",
     "promotions_consent": "Sign me up for promotions about Doppler and its partners.",
+    "resend_email": "Resent it",
     "sign_up": "Sign Up",
     "sign_up_sub": "No contracts or credit cards required, up to 500 Subscribers.",
     "thanks_for_registering": "Thank you for registering"
