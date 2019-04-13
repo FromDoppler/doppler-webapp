@@ -139,7 +139,7 @@ export default injectIntl(function({ intl }) {
                 <InputFieldItem
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
-                  type="email"
+                  type="text"
                   placeholder={_('signup.placeholder_email')}
                 />
                 <ValidatedPasswordFieldItem

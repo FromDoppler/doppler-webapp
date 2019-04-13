@@ -85,7 +85,7 @@ const Login = ({ intl, location }) => {
                 <InputFieldItem
                   fieldName={fieldNames.user}
                   label={_('login.label_user')}
-                  type="email"
+                  type="text"
                   placeholder={_('signup.placeholder_email')}
                 />
                 <PasswordFieldItem
