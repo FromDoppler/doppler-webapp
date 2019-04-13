@@ -81,7 +81,10 @@ function PublicRouteWithLegacyFallback({
     <Route
       {...rest}
       render={(props) => {
-        if (!useLegacy || !useLegacy[page.name]) {
+        const forceWebapp = /[?&]force-webapp(&.*)?$/.test(props.location.search);
+        const forceLegacy = /[?&]force-legacy(&.*)?$/.test(props.location.search);
+
+        if (forceWebapp || (!forceLegacy && (!useLegacy || !useLegacy[page.name]))) {
           const Component = page.webAppComponent;
           return <Component {...props} />;
         }
