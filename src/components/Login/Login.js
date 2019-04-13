@@ -3,8 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
-import { FieldGroup, InputFieldItem, PasswordFieldItem } from '../form-helpers/form-helpers';
-import { validateEmail, validateRequiredField } from '../../validations';
+import { EmailFieldItem, FieldGroup, PasswordFieldItem } from '../form-helpers/form-helpers';
+import { validateRequiredField } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -34,8 +34,7 @@ const Login = ({ intl, location }) => {
   const validate = (values) => {
     const errors = {};
 
-    const emailMsgError =
-      validateRequiredField(values[fieldNames.user]) || validateEmail(values[fieldNames.user]);
+    const emailMsgError = validateRequiredField(values[fieldNames.user]);
     if (emailMsgError) {
       errors[fieldNames.user] = emailMsgError;
     }
@@ -82,10 +81,9 @@ const Login = ({ intl, location }) => {
           <Form className="login-form">
             <fieldset>
               <FieldGroup>
-                <InputFieldItem
+                <EmailFieldItem
                   fieldName={fieldNames.user}
                   label={_('login.label_user')}
-                  type="email"
                   placeholder={_('signup.placeholder_email')}
                 />
                 <PasswordFieldItem

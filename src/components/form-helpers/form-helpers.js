@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field } from 'formik';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { validateEmail } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
 import countriesLocalized from '../../i18n/countries-localized.json';
@@ -194,6 +195,19 @@ export const InputFieldItem = ({ className, fieldName, label, type, placeholder 
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <label htmlFor={fieldName}>{label}</label>
     <Field type={type} name={fieldName} id={fieldName} placeholder={placeholder} />
+  </FieldItem>
+);
+
+export const EmailFieldItem = ({ className, fieldName, label, type, placeholder }) => (
+  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <label htmlFor={fieldName}>{label}</label>
+    <Field
+      type="text"
+      name={fieldName}
+      id={fieldName}
+      placeholder={placeholder}
+      validate={validateEmail}
+    />
   </FieldItem>
 );
 

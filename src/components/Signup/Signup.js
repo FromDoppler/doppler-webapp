@@ -4,13 +4,14 @@ import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import {
+  EmailFieldItem,
   FieldGroup,
   InputFieldItem,
   CheckboxFieldItem,
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
-import { validateEmail, validateRequiredField, validatePassword } from '../../validations';
+import { validateRequiredField, validatePassword } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -49,8 +50,7 @@ export default injectIntl(function({ intl }) {
       errors[fieldNames.phone] = 'validation_messages.error_required_field';
     }
 
-    const emailMsgError =
-      validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
+    const emailMsgError = validateRequiredField(values[fieldNames.email]);
     if (emailMsgError) {
       errors[fieldNames.email] = emailMsgError;
     }
@@ -116,10 +116,9 @@ export default injectIntl(function({ intl }) {
             </fieldset>
             <fieldset>
               <FieldGroup>
-                <InputFieldItem
+                <EmailFieldItem
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
-                  type="email"
                   placeholder={_('signup.placeholder_email')}
                 />
                 <ValidatedPasswordFieldItem
