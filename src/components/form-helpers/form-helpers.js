@@ -37,19 +37,19 @@ export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
 );
 
-export const FieldItem = connect(
-  ({ className, fieldName, children, formik: { errors, touched } }) => (
+export const FieldItem = injectIntl(
+  connect(({ intl, className, fieldName, children, formik: { errors, touched } }) => (
     <li
       className={concatClasses(className, touched[fieldName] && errors[fieldName] ? 'error' : '')}
     >
       {children}
       {touched[fieldName] && errors[fieldName] ? (
         <div className="wrapper-errors">
-          <p className="error-message">{errors[fieldName]}</p>
+          <p className="error-message">{intl.formatMessage({ id: errors[fieldName] })}</p>
         </div>
       ) : null}
     </li>
-  ),
+  )),
 );
 
 const PasswordWrapper = connect(

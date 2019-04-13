@@ -37,12 +37,12 @@ const Login = ({ intl, location }) => {
     const emailMsgError =
       validateRequiredField(values[fieldNames.user]) || validateEmail(values[fieldNames.user]);
     if (emailMsgError) {
-      errors[fieldNames.user] = _(emailMsgError);
+      errors[fieldNames.user] = emailMsgError;
     }
 
     if (!values[fieldNames.password]) {
       // TODO: I think that password validation has a different format
-      errors[fieldNames.password] = _('validation_messages.error_required_field');
+      errors[fieldNames.password] = 'validation_messages.error_required_field';
     } else {
       // TODO: validate password
     }

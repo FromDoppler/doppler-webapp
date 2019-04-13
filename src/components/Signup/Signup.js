@@ -42,36 +42,35 @@ export default injectIntl(function({ intl }) {
   const validate = (values) => {
     const errors = {};
     if (!values[fieldNames.firstname]) {
-      errors[fieldNames.firstname] = _('validation_messages.error_required_field');
+      errors[fieldNames.firstname] = 'validation_messages.error_required_field';
     }
 
     if (!values[fieldNames.lastname]) {
-      errors[fieldNames.lastname] = _('validation_messages.error_required_field');
+      errors[fieldNames.lastname] = 'validation_messages.error_required_field';
     }
 
     if (!values[fieldNames.phone]) {
-      errors[fieldNames.phone] = _('validation_messages.error_required_field');
+      errors[fieldNames.phone] = 'validation_messages.error_required_field';
     } else {
       // TODO: make this code reusable
       const iti = phoneIntlTelInputRef.current;
       if (iti && !iti.isValidNumber()) {
         const errorCode = iti.getValidationError();
-        errors[fieldNames.phone] = _(
+        errors[fieldNames.phone] =
           errorCode === 1
             ? 'validation_messages.error_phone_invalid_country'
             : errorCode === 2
             ? 'validation_messages.error_phone_too_short'
             : errorCode === 3
             ? 'validation_messages.error_phone_too_long'
-            : 'validation_messages.error_phone_invalid',
-        );
+            : 'validation_messages.error_phone_invalid';
       }
     }
 
     const emailMsgError =
       validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
     if (emailMsgError) {
-      errors[fieldNames.email] = _(emailMsgError);
+      errors[fieldNames.email] = emailMsgError;
     }
 
     const passwordMsgError = validatePassword(values[fieldNames.password]);
@@ -81,7 +80,7 @@ export default injectIntl(function({ intl }) {
 
     if (!values[fieldNames.accept_privacy_policies]) {
       // TODO: show the right message
-      errors[fieldNames.accept_privacy_policies] = _('validation_messages.error_required_field');
+      errors[fieldNames.accept_privacy_policies] = 'validation_messages.error_required_field';
     }
 
     return errors;

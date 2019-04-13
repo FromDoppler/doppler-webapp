@@ -29,7 +29,7 @@ const ForgotPassword = ({ intl }) => {
     const emailMsgError =
       validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
     if (emailMsgError) {
-      errors[fieldNames.email] = _(emailMsgError);
+      errors[fieldNames.email] = emailMsgError;
     }
 
     return errors;
