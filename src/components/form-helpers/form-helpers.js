@@ -153,9 +153,9 @@ const _PhoneFieldItem = ({
   return (
     <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
       <label htmlFor={fieldName}>{label}</label>
-      <input
+      <Field
         type="tel"
-        ref={inputElRef}
+        innerRef={inputElRef}
         name={fieldName}
         id={fieldName}
         placeholder={placeholder}
