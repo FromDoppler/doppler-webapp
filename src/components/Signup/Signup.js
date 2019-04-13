@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
@@ -35,10 +35,6 @@ const getFormInitialValues = () =>
 export default injectIntl(function({ intl }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  // It is necessary to access to IntlTelInput information during validation or submit
-  // TODO: find a better way to access to this object.
-  const phoneIntlTelInputRef = useRef(null);
-
   const validate = (values) => {
     const errors = {};
     if (!values[fieldNames.firstname]) {
@@ -51,20 +47,6 @@ export default injectIntl(function({ intl }) {
 
     if (!values[fieldNames.phone]) {
       errors[fieldNames.phone] = 'validation_messages.error_required_field';
-    } else {
-      // TODO: make this code reusable
-      const iti = phoneIntlTelInputRef.current;
-      if (iti && !iti.isValidNumber()) {
-        const errorCode = iti.getValidationError();
-        errors[fieldNames.phone] =
-          errorCode === 1
-            ? 'validation_messages.error_phone_invalid_country'
-            : errorCode === 2
-            ? 'validation_messages.error_phone_too_short'
-            : errorCode === 3
-            ? 'validation_messages.error_phone_too_long'
-            : 'validation_messages.error_phone_invalid';
-      }
     }
 
     const emailMsgError =
@@ -129,7 +111,6 @@ export default injectIntl(function({ intl }) {
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
                   placeholder={_('signup.placeholder_phone')}
-                  intlTelInputRef={phoneIntlTelInputRef}
                 />
               </FieldGroup>
             </fieldset>

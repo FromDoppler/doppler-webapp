@@ -109,13 +109,10 @@ const _PhoneFieldItem = ({
   fieldName,
   label,
   placeholder,
-  // It allows us to access IntlTelInput information during validation or submit
-  // TODO: find a better way to share or inject this object.
-  intlTelInputRef,
   formik: { values, handleChange, handleBlur, setFieldValue },
 }) => {
   const inputElRef = useRef(null);
-  intlTelInputRef = intlTelInputRef || useRef(null);
+  const intlTelInputRef = useRef(null);
 
   const formatFieldValueAsInternationalNumber = () => {
     const iti = intlTelInputRef.current;
@@ -124,6 +121,26 @@ const _PhoneFieldItem = ({
       // If we do not do it, we need to ensure to read intlTelInputRef value before submitting
       setFieldValue(fieldName, iti.getNumber(1));
     }
+  };
+
+  const validatePhone = (value) => {
+    if (!value) {
+      return null;
+    }
+
+    const iti = intlTelInputRef.current;
+    if (iti && !iti.isValidNumber()) {
+      const errorCode = iti.getValidationError();
+      return errorCode === 1
+        ? 'validation_messages.error_phone_invalid_country'
+        : errorCode === 2
+        ? 'validation_messages.error_phone_too_short'
+        : errorCode === 3
+        ? 'validation_messages.error_phone_too_long'
+        : 'validation_messages.error_phone_invalid';
+    }
+
+    return null;
   };
 
   useEffect(() => {
@@ -165,6 +182,7 @@ const _PhoneFieldItem = ({
           handleBlur(e);
         }}
         value={values[fieldName]}
+        validate={validatePhone}
       />
     </FieldItem>
   );
