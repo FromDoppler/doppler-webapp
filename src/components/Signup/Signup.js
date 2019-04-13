@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { Formik, Form } from 'formik';
@@ -13,6 +13,7 @@ import {
   SubmitButton,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
+import SignupConfirmation from './SignupConfirmation';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -42,9 +43,20 @@ const getFormInitialValues = () =>
 const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const [registeredUser, setRegisteredUser] = useState(null);
+
+  if (registeredUser) {
+    const resend = () => dopplerLegacyClient.resendRegistrationEmail(registeredUser);
+    return <SignupConfirmation resend={resend} />;
+  }
+
   const onSubmit = async (values, { setSubmitting }) => {
     try {
       await dopplerLegacyClient.registerUser(values);
+      // TODO: deal with returned errors, we can get, for example:
+      // setErrors({email: "Already exists an account with that name."});
+      // If there are no errors:
+      setRegisteredUser(values[fieldNames.email]);
     } catch (e) {
       console.error(e);
     } finally {

@@ -64,7 +64,10 @@
   },
   "reports_title": "Doppler | Reportes",
   "signup": {
+    "activate_account_instructions": "* Al hacer click en el botón que aparece en el Email, activarás tu cuenta y estarás listo para disfrutar todos los beneficios de Doppler.",
     "button_signup": "Crear cuenta",
+    "check_inbox": "Revisa tu casilla. ¡Tienes un Email!",
+    "check_inbox_icon_description": "Fíjate en tu correo electrónico",
     "copyright": "© {year} Doppler LLC. Todos los derechos reservados.",
     "do_you_already_have_an_account": "¿Ya tienes una cuenta?",
     "label_email": "Email: ",
@@ -84,7 +87,8 @@
     "promotion_code_reminder": "Pst! si tienes un código promocional podrás ingresarlo al confirmar tu cuenta.",
     "promotions_consent": "Acepto recibir las promociones de Doppler y sus aliados.",
     "sign_up": "Regístrate",
-    "sign_up_sub": "Crea una cuenta GRATIS hasta 500 Suscriptores."
+    "sign_up_sub": "Crea una cuenta GRATIS hasta 500 Suscriptores.",
+    "thanks_for_registering": "Gracias por registrarte"
   },
   "upgradePlanForm": {
     "message_placeholder": "Tu mensaje",
