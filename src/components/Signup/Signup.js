@@ -10,6 +10,7 @@ import {
   CheckboxFieldItem,
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
+  SubmitButton,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
@@ -110,9 +111,7 @@ export default injectIntl(function({ intl }) {
                   label={_('signup.promotions_consent')}
                 />
               </FieldGroup>
-              <button type="submit" className="dp-button button--round button-medium primary-green">
-                {_('signup.button_signup')}
-              </button>
+              <SubmitButton>{_('signup.button_signup')}</SubmitButton>
             </fieldset>
           </Form>
         </Formik>
