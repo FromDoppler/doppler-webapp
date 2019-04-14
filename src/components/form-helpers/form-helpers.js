@@ -133,6 +133,7 @@ const _PhoneFieldItem = ({
   placeholder,
   required,
   formik: { values, handleChange, handleBlur, setFieldValue },
+  ...rest
 }) => {
   const inputElRef = useRef(null);
   const intlTelInputRef = useRef(null);
@@ -206,6 +207,7 @@ const _PhoneFieldItem = ({
         }}
         value={values[fieldName]}
         validate={combineValidations(createRequiredValidation(required), validatePhone)}
+        {...rest}
       />
     </FieldItem>
   );
@@ -213,7 +215,15 @@ const _PhoneFieldItem = ({
 
 export const PhoneFieldItem = injectIntl(connect(_PhoneFieldItem));
 
-export const InputFieldItem = ({ className, fieldName, label, type, placeholder, required }) => (
+export const InputFieldItem = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  required,
+  ...rest
+}) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <label htmlFor={fieldName}>{label}</label>
     <Field
@@ -222,11 +232,20 @@ export const InputFieldItem = ({ className, fieldName, label, type, placeholder,
       id={fieldName}
       placeholder={placeholder}
       validate={createRequiredValidation(required)}
+      {...rest}
     />
   </FieldItem>
 );
 
-export const EmailFieldItem = ({ className, fieldName, label, type, placeholder, required }) => (
+export const EmailFieldItem = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  required,
+  ...rest
+}) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <label htmlFor={fieldName}>{label}</label>
     <Field
@@ -235,11 +254,12 @@ export const EmailFieldItem = ({ className, fieldName, label, type, placeholder,
       id={fieldName}
       placeholder={placeholder}
       validate={combineValidations(createRequiredValidation(required), validateEmail)}
+      {...rest}
     />
   </FieldItem>
 );
 
-const BasePasswordFieldItem = ({ fieldName, label, placeholder, required }) => {
+const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...rest }) => {
   const [passVisible, setPassVisible] = useState(false);
   const type = passVisible ? 'text' : 'password';
   const autocomplete = passVisible ? 'off' : 'current-password';
@@ -269,29 +289,41 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required }) => {
         badinput="false"
         autoCapitalize="off"
         validate={createRequiredValidation(required)}
+        {...rest}
       />
     </>
   );
 };
 
-export const PasswordFieldItem = ({ className, fieldName, label, placeholder, required }) => (
+export const PasswordFieldItem = ({ className, fieldName, label, placeholder, ...rest }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <BasePasswordFieldItem
       fieldName={fieldName}
       label={label}
       placeholder={placeholder}
-      required={required}
+      {...rest}
     />
   </FieldItem>
 );
 
-export const ValidatedPasswordFieldItem = ({ className, fieldName, label, placeholder }) => (
+export const ValidatedPasswordFieldItem = ({
+  className,
+  fieldName,
+  label,
+  placeholder,
+  ...rest
+}) => (
   <PasswordWrapper className={concatClasses('field-item', className)} fieldName={fieldName}>
-    <BasePasswordFieldItem fieldName={fieldName} label={label} placeholder={placeholder} />
+    <BasePasswordFieldItem
+      fieldName={fieldName}
+      label={label}
+      placeholder={placeholder}
+      {...rest}
+    />
   </PasswordWrapper>
 );
 
-export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired }) => (
+export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, ...rest }) => (
   <FieldItem
     className={concatClasses('field-item field-item__checkbox', className)}
     fieldName={fieldName}
@@ -301,6 +333,7 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired }
       name={fieldName}
       id={fieldName}
       validate={(value) => checkRequired && validateCheckRequired(value)}
+      {...rest}
     />
     <span className="checkmark" />
     <label htmlFor={fieldName}> {label}</label>
