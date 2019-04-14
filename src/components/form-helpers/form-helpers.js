@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field } from 'formik';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { validateEmail } from '../../validations';
+import { validateEmail, validateRequiredCheck } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
 import countriesLocalized from '../../i18n/countries-localized.json';
@@ -44,7 +44,7 @@ export const FieldItem = injectIntl(
       className={concatClasses(className, touched[fieldName] && errors[fieldName] ? 'error' : '')}
     >
       {children}
-      {touched[fieldName] && errors[fieldName] ? (
+      {touched[fieldName] && errors[fieldName] && typeof errors[fieldName] === 'string' ? (
         <div className="wrapper-errors">
           <p className="error-message">{intl.formatMessage({ id: errors[fieldName] })}</p>
         </div>
@@ -257,12 +257,17 @@ export const ValidatedPasswordFieldItem = ({ className, fieldName, label, placeh
   </PasswordWrapper>
 );
 
-export const CheckboxFieldItem = ({ className, fieldName, label }) => (
+export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired }) => (
   <FieldItem
     className={concatClasses('field-item field-item__checkbox', className)}
     fieldName={fieldName}
   >
-    <Field type="checkbox" name={fieldName} id={fieldName} />
+    <Field
+      type="checkbox"
+      name={fieldName}
+      id={fieldName}
+      validate={(value) => checkRequired && validateRequiredCheck(value)}
+    />
     <span className="checkmark" />
     <label htmlFor={fieldName}> {label}</label>
   </FieldItem>

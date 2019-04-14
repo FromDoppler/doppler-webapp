@@ -31,3 +31,11 @@ export function validatePassword(value) {
     return { digit: true };
   }
 }
+
+export function validateRequiredCheck(value) {
+  if (!value) {
+    return true;
+  }
+
+  return null;
+}

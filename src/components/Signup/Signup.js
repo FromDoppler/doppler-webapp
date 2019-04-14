@@ -60,11 +60,6 @@ export default injectIntl(function({ intl }) {
       errors[fieldNames.password] = passwordMsgError;
     }
 
-    if (!values[fieldNames.accept_privacy_policies]) {
-      // TODO: show the right message
-      errors[fieldNames.accept_privacy_policies] = 'validation_messages.error_required_field';
-    }
-
     return errors;
   };
 
@@ -133,6 +128,7 @@ export default injectIntl(function({ intl }) {
                 <CheckboxFieldItem
                   fieldName={fieldNames.accept_privacy_policies}
                   label={<FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />}
+                  checkRequired
                 />
                 <CheckboxFieldItem
                   fieldName={fieldNames.accept_promotions}
