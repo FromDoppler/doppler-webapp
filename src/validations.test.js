@@ -68,6 +68,29 @@ describe('validations', () => {
       // Assert
       expect(result).toEqual('validation_messages.error_invalid_email_address');
     });
+
+    it('should not accept an email address with spaces', () => {
+      // Arrange
+      const emailAddress = 'te st@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_email_address');
+    });
+
+    it('should return a custom error', () => {
+      // Arrange
+      const emailAddress = 'invalid email address';
+      const customKey = 'custom-key';
+
+      // Act
+      const result = validateEmail(emailAddress, customKey);
+
+      // Assert
+      expect(result).toEqual(customKey);
+    });
   });
 
   describe('validateRequiredField', () => {
@@ -179,6 +202,18 @@ describe('validations', () => {
       // Assert
       expect(result).toEqual('validation_messages.error_required_field');
     });
+
+    it('should return a custom error', () => {
+      // Arrange
+      const value = '';
+      const customKey = 'custom-key';
+
+      // Act
+      const result = validateRequiredField(value, customKey);
+
+      // Assert
+      expect(result).toEqual(customKey);
+    });
   });
 
   describe('validateCheckRequired', () => {
@@ -234,6 +269,16 @@ describe('validations', () => {
       expect(result).toStrictEqual(true);
     });
 
+    it('should return a custom error', () => {
+      // Arrange
+      const value = '';
+      const customKey = 'custom-key';
 
+      // Act
+      const result = validateCheckRequired(value, customKey);
+
+      // Assert
+      expect(result).toEqual(customKey);
+    });
   });
 });

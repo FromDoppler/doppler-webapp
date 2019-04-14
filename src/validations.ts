@@ -1,18 +1,24 @@
-export function validateEmail(value: string): string | null {
+export function validateEmail(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_email_address',
+): true | string | null {
   if (!value) {
     return null;
   }
 
   if (!/^([a-z\d[\]])([\w\-.+\][]*)@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i.test(value)) {
-    return 'validation_messages.error_invalid_email_address';
+    return commonErrorKey;
   }
 
   return null;
 }
 
-export function validateRequiredField(value: any): string | null {
+export function validateRequiredField(
+  value: any,
+  commonErrorKey: true | string = 'validation_messages.error_required_field',
+): true | string | null {
   if (value === undefined || value === null || value === '') {
-    return 'validation_messages.error_required_field';
+    return commonErrorKey;
   }
 
   return null;
@@ -43,9 +49,12 @@ export function validatePassword(
   return null;
 }
 
-export function validateCheckRequired(value: any): true | null {
+export function validateCheckRequired(
+  value: any,
+  commonErrorKey: true | string = true,
+): true | string | null {
   if (!value) {
-    return true;
+    return commonErrorKey;
   }
 
   return null;
