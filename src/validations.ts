@@ -11,7 +11,7 @@ export function validateEmail(value: string): string | null {
 }
 
 export function validateRequiredField(value: any): string | null {
-  if (!value && value !== false) {
+  if (value === undefined || value === null || value === '') {
     return 'validation_messages.error_required_field';
   }
 
