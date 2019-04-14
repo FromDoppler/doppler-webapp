@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field } from 'formik';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { validateEmail, validateCheckRequired, validateRequiredField } from '../../validations';
+import {
+  validateEmail,
+  validateCheckRequired,
+  validateRequiredField,
+  combineValidations,
+} from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
 import countriesLocalized from '../../i18n/countries-localized.json';
@@ -32,6 +37,22 @@ function translateIntlTelInputCountryNames(language) {
           : nameInCurrentLanguage;
     }
   }
+}
+
+/**
+ * Creates a validation function based on required prop
+ * @param { string | boolean } requiredProp
+ */
+function createRequiredValidation(requiredProp) {
+  if (!requiredProp) {
+    return () => null;
+  }
+
+  if (requiredProp === true) {
+    return (value) => validateRequiredField(value);
+  }
+
+  return (value) => validateRequiredField(value, requiredProp);
 }
 
 export const FieldGroup = ({ className, children }) => (
@@ -184,7 +205,7 @@ const _PhoneFieldItem = ({
           handleBlur(e);
         }}
         value={values[fieldName]}
-        validate={(value) => (required && validateRequiredField(value)) || validatePhone(value)}
+        validate={combineValidations(createRequiredValidation(required), validatePhone)}
       />
     </FieldItem>
   );
@@ -200,7 +221,7 @@ export const InputFieldItem = ({ className, fieldName, label, type, placeholder,
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}
-      validate={required ? validateRequiredField : null}
+      validate={createRequiredValidation(required)}
     />
   </FieldItem>
 );
@@ -213,7 +234,7 @@ export const EmailFieldItem = ({ className, fieldName, label, type, placeholder,
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}
-      validate={(value) => (required && validateRequiredField(value)) || validateEmail(value)}
+      validate={combineValidations(createRequiredValidation(required), validateEmail)}
     />
   </FieldItem>
 );
@@ -247,7 +268,7 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required }) => {
         spellCheck="false"
         badinput="false"
         autoCapitalize="off"
-        validate={required ? validateRequiredField : null}
+        validate={createRequiredValidation(required)}
       />
     </>
   );

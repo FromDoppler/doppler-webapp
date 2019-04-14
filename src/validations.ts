@@ -59,3 +59,17 @@ export function validateCheckRequired(
 
   return null;
 }
+
+export function combineValidations(
+  ...validateFunctions: [(value: any) => true | string | null]
+): (value: any) => true | string | null {
+  return (value) => {
+    for (let validate of validateFunctions) {
+      const result = validate(value);
+      if (result) {
+        return result;
+      }
+    }
+    return null;
+  };
+}
