@@ -4,7 +4,6 @@ import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { EmailFieldItem, FieldGroup } from '../form-helpers/form-helpers';
-import { validateRequiredField } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -22,17 +21,6 @@ const getFormInitialValues = () =>
 
 const ForgotPassword = ({ intl }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const validate = (values) => {
-    const errors = {};
-
-    const emailMsgError = validateRequiredField(values[fieldNames.email]);
-    if (emailMsgError) {
-      errors[fieldNames.email] = emailMsgError;
-    }
-
-    return errors;
-  };
 
   const onSubmit = async (values, { setSubmitting }) => {
     // TODO: implement login submit
@@ -56,13 +44,14 @@ const ForgotPassword = ({ intl }) => {
             {_('login.signup')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
+        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
           <Form className="login-form">
             <fieldset>
               <FieldGroup>
                 <EmailFieldItem
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
+                  required
                   placeholder={_('signup.placeholder_email')}
                 />
               </FieldGroup>

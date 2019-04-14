@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field } from 'formik';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { validateEmail, validateRequiredCheck } from '../../validations';
+import { validateEmail, validateCheckRequired, validateRequiredField } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
 import countriesLocalized from '../../i18n/countries-localized.json';
@@ -110,6 +110,7 @@ const _PhoneFieldItem = ({
   fieldName,
   label,
   placeholder,
+  required,
   formik: { values, handleChange, handleBlur, setFieldValue },
 }) => {
   const inputElRef = useRef(null);
@@ -183,7 +184,7 @@ const _PhoneFieldItem = ({
           handleBlur(e);
         }}
         value={values[fieldName]}
-        validate={validatePhone}
+        validate={(value) => (required && validateRequiredField(value)) || validatePhone(value)}
       />
     </FieldItem>
   );
@@ -191,14 +192,20 @@ const _PhoneFieldItem = ({
 
 export const PhoneFieldItem = injectIntl(connect(_PhoneFieldItem));
 
-export const InputFieldItem = ({ className, fieldName, label, type, placeholder }) => (
+export const InputFieldItem = ({ className, fieldName, label, type, placeholder, required }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <label htmlFor={fieldName}>{label}</label>
-    <Field type={type} name={fieldName} id={fieldName} placeholder={placeholder} />
+    <Field
+      type={type}
+      name={fieldName}
+      id={fieldName}
+      placeholder={placeholder}
+      validate={required ? validateRequiredField : null}
+    />
   </FieldItem>
 );
 
-export const EmailFieldItem = ({ className, fieldName, label, type, placeholder }) => (
+export const EmailFieldItem = ({ className, fieldName, label, type, placeholder, required }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <label htmlFor={fieldName}>{label}</label>
     <Field
@@ -206,12 +213,12 @@ export const EmailFieldItem = ({ className, fieldName, label, type, placeholder 
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}
-      validate={validateEmail}
+      validate={(value) => (required && validateRequiredField(value)) || validateEmail(value)}
     />
   </FieldItem>
 );
 
-const BasePasswordFieldItem = ({ fieldName, label, placeholder }) => {
+const BasePasswordFieldItem = ({ fieldName, label, placeholder, required }) => {
   const [passVisible, setPassVisible] = useState(false);
   const type = passVisible ? 'text' : 'password';
   const autocomplete = passVisible ? 'off' : 'current-password';
@@ -240,14 +247,20 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder }) => {
         spellCheck="false"
         badinput="false"
         autoCapitalize="off"
+        validate={required ? validateRequiredField : null}
       />
     </>
   );
 };
 
-export const PasswordFieldItem = ({ className, fieldName, label, placeholder }) => (
+export const PasswordFieldItem = ({ className, fieldName, label, placeholder, required }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
-    <BasePasswordFieldItem fieldName={fieldName} label={label} placeholder={placeholder} />
+    <BasePasswordFieldItem
+      fieldName={fieldName}
+      label={label}
+      placeholder={placeholder}
+      required={required}
+    />
   </FieldItem>
 );
 
@@ -266,7 +279,7 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired }
       type="checkbox"
       name={fieldName}
       id={fieldName}
-      validate={(value) => checkRequired && validateRequiredCheck(value)}
+      validate={(value) => checkRequired && validateCheckRequired(value)}
     />
     <span className="checkmark" />
     <label htmlFor={fieldName}> {label}</label>

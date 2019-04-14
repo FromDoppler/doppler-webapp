@@ -32,7 +32,7 @@ export function validatePassword(value) {
   }
 }
 
-export function validateRequiredCheck(value) {
+export function validateCheckRequired(value) {
   if (!value) {
     return true;
   }

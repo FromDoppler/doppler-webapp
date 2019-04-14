@@ -4,7 +4,6 @@ import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { EmailFieldItem, FieldGroup, PasswordFieldItem } from '../form-helpers/form-helpers';
-import { validateRequiredField } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -30,24 +29,6 @@ const getFormInitialValues = () =>
 const Login = ({ intl, location }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const validate = (values) => {
-    const errors = {};
-
-    const emailMsgError = validateRequiredField(values[fieldNames.user]);
-    if (emailMsgError) {
-      errors[fieldNames.user] = emailMsgError;
-    }
-
-    if (!values[fieldNames.password]) {
-      // TODO: I think that password validation has a different format
-      errors[fieldNames.password] = 'validation_messages.error_required_field';
-    } else {
-      // TODO: validate password
-    }
-
-    return errors;
-  };
 
   const onSubmit = async (values, { setSubmitting }) => {
     // TODO: implement login submit
@@ -77,19 +58,21 @@ const Login = ({ intl, location }) => {
             {_('login.signup')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
+        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
           <Form className="login-form">
             <fieldset>
               <FieldGroup>
                 <EmailFieldItem
                   fieldName={fieldNames.user}
                   label={_('login.label_user')}
+                  required
                   placeholder={_('signup.placeholder_email')}
                 />
                 <PasswordFieldItem
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
                   placeholder={_('signup.placeholder_password')}
+                  required
                 />
               </FieldGroup>
             </fieldset>

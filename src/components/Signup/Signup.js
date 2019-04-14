@@ -11,7 +11,7 @@ import {
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
-import { validateRequiredField, validatePassword } from '../../validations';
+import { validatePassword } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -38,22 +38,6 @@ export default injectIntl(function({ intl }) {
 
   const validate = (values) => {
     const errors = {};
-    if (!values[fieldNames.firstname]) {
-      errors[fieldNames.firstname] = 'validation_messages.error_required_field';
-    }
-
-    if (!values[fieldNames.lastname]) {
-      errors[fieldNames.lastname] = 'validation_messages.error_required_field';
-    }
-
-    if (!values[fieldNames.phone]) {
-      errors[fieldNames.phone] = 'validation_messages.error_required_field';
-    }
-
-    const emailMsgError = validateRequiredField(values[fieldNames.email]);
-    if (emailMsgError) {
-      errors[fieldNames.email] = emailMsgError;
-    }
 
     const passwordMsgError = validatePassword(values[fieldNames.password]);
     if (passwordMsgError) {
@@ -93,6 +77,7 @@ export default injectIntl(function({ intl }) {
                   fieldName={fieldNames.firstname}
                   label={_('signup.label_firstname')}
                   type="text"
+                  required
                   placeholder={_('signup.placeholder_firstname')}
                 />
                 <InputFieldItem
@@ -100,12 +85,14 @@ export default injectIntl(function({ intl }) {
                   fieldName={fieldNames.lastname}
                   label={_('signup.label_lastname')}
                   type="text"
+                  required
                   placeholder={_('signup.placeholder_lastname')}
                 />
                 <PhoneFieldItem
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
                   placeholder={_('signup.placeholder_phone')}
+                  required
                 />
               </FieldGroup>
             </fieldset>
