@@ -27,14 +27,14 @@ const ReportsFilters = ({
             </label>
             <span className="dropdown-arrow" />
             <select
-              onChange={(event) => changeDomain(parseInt(event.target.value))}
+              onChange={(event) => changeDomain(event.target.value)}
               id="domain"
               disabled={!domains || !domains.length}
-              value={domainSelected ? domainSelected.id : ''}
+              value={domainSelected ? domainSelected.name : ''}
             >
               {domains &&
                 domains.map((domain, index) => (
-                  <option key={index} value={domain.id}>
+                  <option key={index} value={domain.name}>
                     {domain.name}
                   </option>
                 ))}

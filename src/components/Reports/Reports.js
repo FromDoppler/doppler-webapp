@@ -47,8 +47,8 @@ class Reports extends React.Component {
     });
   }
 
-  changeDomain = async (id) => {
-    const domainFound = this.state.domains.find((item) => item.id === id);
+  changeDomain = async (name) => {
+    const domainFound = this.state.domains.find((item) => item.name === name);
     const pages = [];
     const pageSelected = pages.length ? pages[0] : null;
     this.setState({ domainSelected: domainFound, pages: pages, pageSelected: pageSelected });
