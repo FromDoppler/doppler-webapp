@@ -64,9 +64,13 @@
   },
   "reports_title": "Doppler | Reportes",
   "signup": {
+    "activate_account_instructions": "* Al hacer click en el botón que aparece en el Email, activarás tu cuenta y estarás listo para disfrutar todos los beneficios de Doppler.",
     "button_signup": "Crear cuenta",
+    "check_inbox": "Revisa tu casilla. ¡Tienes un Email!",
+    "check_inbox_icon_description": "Fíjate en tu correo electrónico",
     "copyright": "© {year} Doppler LLC. Todos los derechos reservados.",
     "do_you_already_have_an_account": "¿Ya tienes una cuenta?",
+    "email_not_received": "¿No has recibido el Email?",
     "label_email": "Email: ",
     "label_firstname": "Nombre: ",
     "label_lastname": "Apellido: ",
@@ -74,6 +78,7 @@
     "label_phone": "Teléfono: ",
     "legal_HTML": "\n<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a class=\"link-green\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
     "log_in": "Ingresa",
+    "no_more_resend": "¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor contáctate con soporte",
     "placeholder_email": "Tu Email será tu nombre de usuario",
     "placeholder_firstname": "Nombre",
     "placeholder_lastname": "Apellido",
@@ -83,8 +88,10 @@
     "promotion_code_help_url": "https://help.fromdoppler.com/es/como-activo-mi-descuento-en-doppler/",
     "promotion_code_reminder": "Pst! si tienes un código promocional podrás ingresarlo al confirmar tu cuenta.",
     "promotions_consent": "Acepto recibir las promociones de Doppler y sus aliados.",
+    "resend_email": "Reenvíalo",
     "sign_up": "Regístrate",
-    "sign_up_sub": "Crea una cuenta GRATIS hasta 500 Suscriptores."
+    "sign_up_sub": "Crea una cuenta GRATIS hasta 500 Suscriptores.",
+    "thanks_for_registering": "Gracias por registrarte"
   },
   "upgradePlanForm": {
     "message_placeholder": "Tu mensaje",

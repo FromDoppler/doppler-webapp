@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
-import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
+import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
   FieldGroup,
@@ -13,6 +13,7 @@ import {
   SubmitButton,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
+import SignupConfirmation from './SignupConfirmation';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -33,13 +34,34 @@ const getFormInitialValues = () =>
     {},
   );
 
-export default injectIntl(function({ intl }) {
+/**
+ * Signup Page
+ * @param { Object } props
+ * @param { import('react-intl').InjectedIntl } props.intl
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
+ */
+const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const [registeredUser, setRegisteredUser] = useState(null);
+
+  if (registeredUser) {
+    const resend = () => dopplerLegacyClient.resendRegistrationEmail(registeredUser);
+    return <SignupConfirmation resend={resend} />;
+  }
+
   const onSubmit = async (values, { setSubmitting }) => {
-    // TODO: implement it
-    await timeout(1500);
-    setSubmitting(false);
+    try {
+      await dopplerLegacyClient.registerUser(values);
+      // TODO: deal with returned errors, we can get, for example:
+      // setErrors({email: "Already exists an account with that name."});
+      // If there are no errors:
+      setRegisteredUser(values[fieldNames.email]);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -143,4 +165,6 @@ export default injectIntl(function({ intl }) {
       </section>
     </main>
   );
-});
+};
+
+export default InjectAppServices(injectIntl(Signup));

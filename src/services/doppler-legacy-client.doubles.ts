@@ -2,12 +2,23 @@ import {
   DopplerLegacyClient,
   mapHeaderDataJson,
   DopplerLegacyUpgradePlanContactModel,
+  UserRegistrationModel,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
 
 export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public constructor(public readonly email = 'hardcoded@email.com') {}
+
+  public async registerUser(model: UserRegistrationModel) {
+    console.log(this.registerUser, model);
+    await timeout(1500);
+  }
+
+  public async resendRegistrationEmail(email: string) {
+    console.log(this.resendRegistrationEmail, email);
+    await timeout(1500);
+  }
 
   public async getUserData() {
     console.log('getUserData');
