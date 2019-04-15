@@ -35,8 +35,11 @@
     "you_want_create_account": "¿Aún no tienes una cuenta?"
   },
   "reports": {
-    "datahub_not_active_HTML": "Esta funcionalidad no está habilitada, por favor revisa las <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">preferencias de Seguimiento en Sitio</a>.",
-    "no_domains_HTML": "No hay dominios configurados, por favor revisa las <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">preferencias de Seguimiento en Sitio</a>."
+    "datahub_not_active_HTML": "<p>Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora!</p><p>Aún no has habilitado la funcionalidad de Comportamiento en Sitio. Puedes hacerlo desde la opción de <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">Seguimiento en Sitio</a> en el Panel de Control.</p>",
+    "datahub_not_active_title": "Trackea el comportamiento de los usuarios y optimiza tus acciones",
+    "no_domains_HTML": "<p>Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora!</p><p>Aún no has agregado un dominio. Puedes hacerlo desde la opción de <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">Seguimiento en Sitio</a> en el Panel de Control.</p>",
+    "datahub_not_domains_title":"Trackea el comportamiento de los usuarios y optimiza tus acciones"
+
   },
   "reports_box": {
     "to": "a",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { InjectAppServices } from '../../services/pure-di';
-import { FormattedHTMLMessage } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
 
 /**
  * @param { Object } props
@@ -14,11 +14,14 @@ function DatahubRequired({
   return (
     <section className="container-reports">
       <div className="wrapper-kpi">
-        {/* TODO: review this solution, probably styles, content and behavior are wrong */}
-        <FormattedHTMLMessage
-          id="reports.datahub_not_active_HTML"
-          values={{ dopplerBaseUrl: dopplerLegacyUrl }}
-        />
+        <div>
+          <FormattedMessage tagName="h4" id="reports.datahub_not_active_title" />
+          <FormattedHTMLMessage
+            tagName="div"
+            id="reports.datahub_not_active_HTML"
+            values={{ dopplerBaseUrl: dopplerLegacyUrl }}
+          />
+        </div>
       </div>
     </section>
   );
