@@ -74,7 +74,10 @@ export default injectIntl(function({ intl }) {
       errors[fieldNames.email] = _(emailMsgError);
     }
 
-    errors[fieldNames.password] = validatePassword(values[fieldNames.password]);
+    const passwordMsgError = validatePassword(values[fieldNames.password]);
+    if (passwordMsgError) {
+      errors[fieldNames.password] = passwordMsgError;
+    }
 
     if (!values[fieldNames.accept_privacy_policies]) {
       // TODO: show the right message
