@@ -3,7 +3,6 @@ import { render, cleanup, wait } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
-import { RedirectToInternalLogin } from './components/RedirectToLogin';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 
 function createDoubleSessionManager() {
@@ -185,10 +184,11 @@ describe('App component', () => {
     });
 
     describe('not authenticated user', () => {
-      it('should be redirected to Legacy Doppler Login after open /reports (when using RedirectToLegacyLoginFactory)', () => {
+      it('should be redirected to Legacy Doppler Login after open /reports when useLegacy.login is active', () => {
         const dependencies = {
           appConfiguration: {
             dopplerLegacyUrl: 'http://legacyUrl.localhost',
+            useLegacy: { login: true },
           },
           window: {
             location: {
@@ -218,13 +218,12 @@ describe('App component', () => {
 
         // Assert
         expect(dependencies.window.location.href).toEqual(
-          'http://legacyUrl.localhost/SignIn/index?redirect=http://webapp.localhost/path1/path2/#/reports',
+          'http://legacyUrl.localhost/SignIn/?redirect=http://webapp.localhost/path1/path2/#/reports',
         );
       });
 
       it('should be redirected to Internal Login after open /reports (when using RedirectToInternalLogin)', () => {
         const dependencies = {
-          RedirectToLogin: RedirectToInternalLogin,
           sessionManager: createDoubleSessionManager(),
         };
 
@@ -268,7 +267,6 @@ describe('App component', () => {
 
       it('should not be redirected after open /login', () => {
         const dependencies = {
-          RedirectToLogin: RedirectToInternalLogin,
           sessionManager: createDoubleSessionManager(),
         };
 
@@ -306,7 +304,6 @@ describe('App component', () => {
 
       it('should be redirected to /login when route does not exists', () => {
         const dependencies = {
-          RedirectToLogin: RedirectToInternalLogin,
           sessionManager: createDoubleSessionManager(),
         };
 
@@ -348,7 +345,6 @@ describe('App component', () => {
     describe('authenticated user', () => {
       it('should not be redirected after open /reports', () => {
         const dependencies = {
-          RedirectToLogin: RedirectToInternalLogin,
           sessionManager: createDoubleSessionManager(),
         };
 
@@ -399,7 +395,6 @@ describe('App component', () => {
 
       it('should be redirected to /reports when route does not exists', () => {
         const dependencies = {
-          RedirectToLogin: RedirectToInternalLogin,
           sessionManager: createDoubleSessionManager(),
         };
 

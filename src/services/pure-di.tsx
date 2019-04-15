@@ -4,17 +4,17 @@ import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
-import {
-  RedirectToLegacyLoginFactory,
-  RedirectToInternalLogin,
-  RedirectToLogin,
-} from '../components/RedirectToLogin';
 import { AppSession, createAppSessionRef } from './app-session';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
   datahubUrl: string;
   dopplerLegacyKeepAliveMilliseconds: number;
+  useLegacy?: {
+    login: boolean;
+    signup: boolean;
+    forgotPassword: boolean;
+  };
 }
 
 /**
@@ -28,7 +28,6 @@ export interface AppServices {
   datahubClient: DatahubClient;
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
-  RedirectToLogin: RedirectToLogin;
 }
 
 /**
@@ -65,6 +64,11 @@ export class AppCompositionRoot implements AppServices {
       datahubUrl: process.env.REACT_APP_DATAHUB_URL as string,
       dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
         .REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string),
+      useLegacy: {
+        login: process.env.REACT_APP_USE_DOPPLER_LEGACY_LOGIN === 'true',
+        signup: process.env.REACT_APP_USE_DOPPLER_LEGACY_SIGNUP === 'true',
+        forgotPassword: process.env.REACT_APP_USE_DOPPLER_LEGACY_FORGOTPASSWORD === 'true',
+      },
     }));
   }
 
@@ -106,18 +110,6 @@ export class AppCompositionRoot implements AppServices {
 
   get window() {
     return this.singleton('window', () => window);
-  }
-
-  // To Setup Internal Login
-  // get RedirectToLogin() {
-  //   return this.singleton('RedirectToLogin', () => RedirectToInternalLogin);
-  // }
-
-  // To Setup Doppler Legacy Login
-  get RedirectToLogin() {
-    return this.singleton('RedirectToLogin', () =>
-      RedirectToLegacyLoginFactory(this.appConfiguration.dopplerLegacyUrl, this.window),
-    );
   }
 }
 

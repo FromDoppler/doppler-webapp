@@ -3,12 +3,10 @@ import './App.css';
 import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import PublicRouteWithLegacyFallback from './components/PublicRouteWithLegacyFallback';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
-import Login from './components/Login/Login';
-import Signup from './components/Signup/Signup';
-import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import queryString from 'query-string';
 
 class App extends Component {
@@ -89,9 +87,9 @@ class App extends Component {
               component={Reports}
               dopplerSession={dopplerSession}
             />
-            <Route path="/login/" exact component={Login} />
-            <Route path="/signup/" exact component={Signup} />
-            <Route path="/forgot-password/" exact component={ForgotPassword} />
+            <PublicRouteWithLegacyFallback exact path="/login" />
+            <PublicRouteWithLegacyFallback exact path="/signup" />
+            <PublicRouteWithLegacyFallback exact path="/forgot-password" />
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
             <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
