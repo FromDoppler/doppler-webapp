@@ -93,6 +93,9 @@
   },
   "validation_messages": {
     "error_invalid_email_address": "Ouch! Invalid email address",
+    "error_password_character_length": "At least 8 characters",
+    "error_password_digit": "One digit",
+    "error_password_safe": "Your password is safe!",
     "error_phone_invalid": "Ouch! The phone number is not valid",
     "error_phone_invalid_country": "Ouch! The country code is not valid",
     "error_phone_too_long": "Ouch! The phone number is too long",

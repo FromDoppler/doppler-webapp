@@ -7,10 +7,10 @@ import {
   FieldGroup,
   InputFieldItem,
   CheckboxFieldItem,
-  PasswordFieldItem,
+  ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
-import { validateEmail, validateRequiredField } from '../../validations';
+import { validateEmail, validateRequiredField, validatePassword } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -74,12 +74,7 @@ export default injectIntl(function({ intl }) {
       errors[fieldNames.email] = _(emailMsgError);
     }
 
-    if (!values[fieldNames.password]) {
-      // TODO: I think that password validation has a different format
-      errors[fieldNames.password] = _('validation_messages.error_required_field');
-    } else {
-      // TODO: validate password
-    }
+    errors[fieldNames.password] = validatePassword(values[fieldNames.password]);
 
     if (!values[fieldNames.accept_privacy_policies]) {
       // TODO: show the right message
@@ -144,7 +139,7 @@ export default injectIntl(function({ intl }) {
                   type="email"
                   placeholder={_('signup.placeholder_email')}
                 />
-                <PasswordFieldItem
+                <ValidatedPasswordFieldItem
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
                   placeholder={_('signup.placeholder_password')}

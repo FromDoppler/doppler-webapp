@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field } from 'formik';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
 import countriesLocalized from '../../i18n/countries-localized.json';
@@ -50,6 +50,46 @@ export const FieldItem = connect(
       ) : null}
     </li>
   ),
+);
+
+const PasswordWrapper = connect(
+  ({ className, fieldName, children, formik: { errors, touched } }) => {
+    const fieldError = errors[fieldName];
+    const touchedField = touched[fieldName];
+    const passwordMessageCharClass = !touchedField
+      ? 'waiting-message'
+      : fieldError && (fieldError.charLength || fieldError.empty)
+      ? 'lack-message'
+      : 'complete-message';
+    const passwordMessageDigitClass = !touchedField
+      ? 'waiting-message'
+      : fieldError && (fieldError.digit || fieldError.empty)
+      ? 'lack-message'
+      : 'complete-message';
+    return (
+      <li className={concatClasses(className, touchedField && fieldError ? 'error' : '')}>
+        {children}
+        <div className="wrapper-password">
+          {!touchedField || fieldError ? (
+            <p className="password-message">
+              <span className={passwordMessageCharClass}>
+                <FormattedMessage id="validation_messages.error_password_character_length" />
+              </span>
+              <span className={passwordMessageDigitClass}>
+                <FormattedMessage id="validation_messages.error_password_digit" />
+              </span>
+            </p>
+          ) : (
+            <p className="password-message">
+              <span class="secure-message">
+                <FormattedMessage id="validation_messages.error_password_safe" />
+              </span>
+            </p>
+          )}
+        </div>
+      </li>
+    );
+  },
 );
 
 /**
@@ -139,14 +179,14 @@ export const InputFieldItem = ({ className, fieldName, label, type, placeholder 
   </FieldItem>
 );
 
-export const PasswordFieldItem = ({ className, fieldName, label, placeholder, helpText }) => {
+const BasePasswordFieldItem = ({ fieldName, label, placeholder }) => {
   const [passVisible, setPassVisible] = useState(false);
   const type = passVisible ? 'text' : 'password';
   const autocomplete = passVisible ? 'off' : 'current-password';
   const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
 
   return (
-    <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <>
       <label htmlFor={fieldName}>
         {label}
         <button
@@ -169,9 +209,21 @@ export const PasswordFieldItem = ({ className, fieldName, label, placeholder, he
         badinput="false"
         autoCapitalize="off"
       />
-    </FieldItem>
+    </>
   );
 };
+
+export const PasswordFieldItem = ({ className, fieldName, label, placeholder }) => (
+  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <BasePasswordFieldItem fieldName={fieldName} label={label} placeholder={placeholder} />
+  </FieldItem>
+);
+
+export const ValidatedPasswordFieldItem = ({ className, fieldName, label, placeholder }) => (
+  <PasswordWrapper className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <BasePasswordFieldItem fieldName={fieldName} label={label} placeholder={placeholder} />
+  </PasswordWrapper>
+);
 
 export const CheckboxFieldItem = ({ className, fieldName, label }) => (
   <FieldItem
