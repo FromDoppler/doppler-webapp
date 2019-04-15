@@ -3,6 +3,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import Loading from '../../components/Loading/Loading';
+import { SubmitButton } from '../form-helpers/form-helpers';
 
 const fieldNames = {
   selectedPlanId: 'selectedPlanId',
@@ -126,16 +127,9 @@ class UpgradePlanForm extends React.Component {
                   <button className="dp-button button-medium primary-grey" onClick={handleClose}>
                     <FormattedMessage id="common.cancel" />
                   </button>
-                  <button
-                    type="submit"
-                    className={
-                      'dp-button button-medium primary-green' +
-                      ((isSubmitting && ' button--loading') || '')
-                    }
-                    disabled={isSubmitting}
-                  >
+                  <SubmitButton>
                     <FormattedMessage id="common.send" />
-                  </button>
+                  </SubmitButton>
                 </fieldset>
               </Form>
             )}

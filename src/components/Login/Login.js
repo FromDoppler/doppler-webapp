@@ -3,7 +3,12 @@ import { Link, Redirect } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
-import { EmailFieldItem, FieldGroup, PasswordFieldItem } from '../form-helpers/form-helpers';
+import {
+  EmailFieldItem,
+  FieldGroup,
+  PasswordFieldItem,
+  SubmitButton,
+} from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -77,9 +82,7 @@ const Login = ({ intl, location }) => {
               </FieldGroup>
             </fieldset>
             <fieldset>
-              <button type="submit" className="dp-button button--round button-medium primary-green">
-                {_('login.button_login')}
-              </button>
+              <SubmitButton>{_('login.button_login')}</SubmitButton>
               <Link to="/forgot-password" className="forgot-link">
                 {_('login.forgot_password')}
               </Link>
