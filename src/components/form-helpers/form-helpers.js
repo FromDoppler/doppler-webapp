@@ -81,7 +81,7 @@ const PasswordWrapper = connect(
             </p>
           ) : (
             <p className="password-message">
-              <span class="secure-message">
+              <span className="secure-message">
                 <FormattedMessage id="validation_messages.error_password_safe" />
               </span>
             </p>
