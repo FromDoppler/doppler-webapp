@@ -45,9 +45,7 @@ class UpgradePlanForm extends React.Component {
   validate(values) {
     const errors = {};
     if (!values[fieldNames.message]) {
-      errors[fieldNames.message] = this.intl.formatMessage({
-        id: 'validation_messages.error_required_field',
-      });
+      errors[fieldNames.message] = 'validation_messages.error_required_field';
     }
     return errors;
   }
@@ -115,9 +113,9 @@ class UpgradePlanForm extends React.Component {
                         )}
                       </FormattedMessage>
                       <ErrorMessage name={fieldNames.message}>
-                        {(msg) => (
+                        {(err) => (
                           <div className="wrapper-errors">
-                            <p className="error-message">{msg}</p>
+                            <p className="error-message">{this.intl.formatMessage({ id: err })}</p>
                           </div>
                         )}
                       </ErrorMessage>

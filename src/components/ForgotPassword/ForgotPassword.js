@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
-import { FieldGroup, InputFieldItem } from '../form-helpers/form-helpers';
-import { validateEmail, validateRequiredField } from '../../validations';
+import { EmailFieldItem, FieldGroup } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -22,18 +21,6 @@ const getFormInitialValues = () =>
 
 const ForgotPassword = ({ intl }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const validate = (values) => {
-    const errors = {};
-
-    const emailMsgError =
-      validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
-    if (emailMsgError) {
-      errors[fieldNames.email] = _(emailMsgError);
-    }
-
-    return errors;
-  };
 
   const onSubmit = async (values, { setSubmitting }) => {
     // TODO: implement login submit
@@ -57,14 +44,14 @@ const ForgotPassword = ({ intl }) => {
             {_('login.signup')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
+        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
           <Form className="login-form">
             <fieldset>
               <FieldGroup>
-                <InputFieldItem
+                <EmailFieldItem
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
-                  type="text"
+                  required
                   placeholder={_('signup.placeholder_email')}
                 />
               </FieldGroup>

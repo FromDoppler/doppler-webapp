@@ -1,16 +1,16 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import {
+  EmailFieldItem,
   FieldGroup,
   InputFieldItem,
   CheckboxFieldItem,
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
-import { validateEmail, validateRequiredField, validatePassword } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -35,58 +35,6 @@ const getFormInitialValues = () =>
 export default injectIntl(function({ intl }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  // It is necessary to access to IntlTelInput information during validation or submit
-  // TODO: find a better way to access to this object.
-  const phoneIntlTelInputRef = useRef(null);
-
-  const validate = (values) => {
-    const errors = {};
-    if (!values[fieldNames.firstname]) {
-      errors[fieldNames.firstname] = _('validation_messages.error_required_field');
-    }
-
-    if (!values[fieldNames.lastname]) {
-      errors[fieldNames.lastname] = _('validation_messages.error_required_field');
-    }
-
-    if (!values[fieldNames.phone]) {
-      errors[fieldNames.phone] = _('validation_messages.error_required_field');
-    } else {
-      // TODO: make this code reusable
-      const iti = phoneIntlTelInputRef.current;
-      if (iti && !iti.isValidNumber()) {
-        const errorCode = iti.getValidationError();
-        errors[fieldNames.phone] = _(
-          errorCode === 1
-            ? 'validation_messages.error_phone_invalid_country'
-            : errorCode === 2
-            ? 'validation_messages.error_phone_too_short'
-            : errorCode === 3
-            ? 'validation_messages.error_phone_too_long'
-            : 'validation_messages.error_phone_invalid',
-        );
-      }
-    }
-
-    const emailMsgError =
-      validateRequiredField(values[fieldNames.email]) || validateEmail(values[fieldNames.email]);
-    if (emailMsgError) {
-      errors[fieldNames.email] = _(emailMsgError);
-    }
-
-    const passwordMsgError = validatePassword(values[fieldNames.password]);
-    if (passwordMsgError) {
-      errors[fieldNames.password] = passwordMsgError;
-    }
-
-    if (!values[fieldNames.accept_privacy_policies]) {
-      // TODO: show the right message
-      errors[fieldNames.accept_privacy_policies] = _('validation_messages.error_required_field');
-    }
-
-    return errors;
-  };
-
   const onSubmit = async (values, { setSubmitting }) => {
     // TODO: implement it
     await timeout(1500);
@@ -108,7 +56,7 @@ export default injectIntl(function({ intl }) {
             {_('signup.log_in')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
+        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
           <Form className="signup-form">
             <fieldset>
               <FieldGroup>
@@ -117,6 +65,7 @@ export default injectIntl(function({ intl }) {
                   fieldName={fieldNames.firstname}
                   label={_('signup.label_firstname')}
                   type="text"
+                  required
                   placeholder={_('signup.placeholder_firstname')}
                 />
                 <InputFieldItem
@@ -124,22 +73,22 @@ export default injectIntl(function({ intl }) {
                   fieldName={fieldNames.lastname}
                   label={_('signup.label_lastname')}
                   type="text"
+                  required
                   placeholder={_('signup.placeholder_lastname')}
                 />
                 <PhoneFieldItem
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
                   placeholder={_('signup.placeholder_phone')}
-                  intlTelInputRef={phoneIntlTelInputRef}
+                  required
                 />
               </FieldGroup>
             </fieldset>
             <fieldset>
               <FieldGroup>
-                <InputFieldItem
+                <EmailFieldItem
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
-                  type="email"
                   placeholder={_('signup.placeholder_email')}
                 />
                 <ValidatedPasswordFieldItem
@@ -154,6 +103,7 @@ export default injectIntl(function({ intl }) {
                 <CheckboxFieldItem
                   fieldName={fieldNames.accept_privacy_policies}
                   label={<FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />}
+                  checkRequired
                 />
                 <CheckboxFieldItem
                   fieldName={fieldNames.accept_promotions}
