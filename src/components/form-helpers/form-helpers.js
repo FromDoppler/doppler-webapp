@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import {
   validateEmail,
   validateCheckRequired,
+  validatePassword,
   validateRequiredField,
   combineValidations,
 } from '../../validations';
@@ -318,6 +319,7 @@ export const ValidatedPasswordFieldItem = ({
       fieldName={fieldName}
       label={label}
       placeholder={placeholder}
+      validate={validatePassword}
       {...rest}
     />
   </PasswordWrapper>

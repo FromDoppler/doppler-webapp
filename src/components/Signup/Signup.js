@@ -11,7 +11,6 @@ import {
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
 } from '../form-helpers/form-helpers';
-import { validatePassword } from '../../validations';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -36,17 +35,6 @@ const getFormInitialValues = () =>
 export default injectIntl(function({ intl }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const validate = (values) => {
-    const errors = {};
-
-    const passwordMsgError = validatePassword(values[fieldNames.password]);
-    if (passwordMsgError) {
-      errors[fieldNames.password] = passwordMsgError;
-    }
-
-    return errors;
-  };
-
   const onSubmit = async (values, { setSubmitting }) => {
     // TODO: implement it
     await timeout(1500);
@@ -68,7 +56,7 @@ export default injectIntl(function({ intl }) {
             {_('signup.log_in')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} validate={validate} onSubmit={onSubmit}>
+        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
           <Form className="signup-form">
             <fieldset>
               <FieldGroup>
