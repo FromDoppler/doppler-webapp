@@ -52,13 +52,12 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
 
   const onSubmit = async (values, { setSubmitting }) => {
     try {
-      await dopplerLegacyClient.registerUser(values);
-      // TODO: deal with returned errors, we can get, for example:
-      // setErrors({email: "Already exists an account with that name."});
-      // If there are no errors:
-      setRegisteredUser(values[fieldNames.email]);
-    } catch (e) {
-      console.error(e);
+      const result = await dopplerLegacyClient.registerUser(values);
+      if (result.success) {
+        setRegisteredUser(values[fieldNames.email]);
+      } else {
+        console.log('Unexpected error', result);
+      }
     } finally {
       setSubmitting(false);
     }
