@@ -201,7 +201,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         PromotionsEnabled: model.accept_promotions,
       });
 
-      if (!response.data.success && response.data.emailAlreadyExists) {
+      if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
         return { success: false, unexpectedError: false, emailAlreadyExists: true };
       }
 

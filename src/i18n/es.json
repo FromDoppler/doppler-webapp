@@ -101,6 +101,7 @@
     "title": "Solicita una actualización de tu plan"
   },
   "validation_messages": {
+    "error_email_already_exists": "¡Ouch! Ya posees una cuenta en Doppler.",
     "error_invalid_email_address": "¡Ouch! El formato del email es incorrecto",
     "error_password_character_length": "8 caracteres como mínimo",
     "error_password_digit": "Un número",
