@@ -35,8 +35,10 @@
     "you_want_create_account": "Do not you have an account yet?"
   },
   "reports": {
-    "datahub_not_active_HTML": "This feature is not enabled, please check <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking preferences</a>.",
-    "no_domains_HTML": "There are not configured domains, please check <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking preferences</a>."
+    "datahub_not_active_HTML": "<p>How do users behave on your Website or E-commerce? Track their behavior for a period of time and find out which are the most visited pages, how many of those visits have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement!</p><p>You haven’t enabled On-Site Tracking yet. You can trigger it from the <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking</a> option in the Control Panel.</p>",
+    "datahub_not_active_title":"Track user behavior and optimize your Marketing actions",
+    "datahub_not_domains_title":"Track user behavior and optimize your Marketing actions",
+    "no_domains_HTML": "<p>How do users behave on your Website or E-commerce? Track their behavior for a period of time and find out which are the most visited pages, how many of those visits have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement!</p><p>You haven’t added a domain yet. You can do so in the <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking</a> option in the Control Panel.</p>"
   },
   "reports_box": {
     "to": "to",
