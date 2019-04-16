@@ -26,8 +26,9 @@ export function validateRequiredField(
 
 export function validatePassword(
   value: string,
-): { empty: true } | { charLength?: boolean; digit?: boolean } | null {
+): { empty: true } | { charLength?: boolean; digit?: boolean; letter?: boolean } | null {
   const digitRegex = /[0-9]/;
+  const letterRegex = /[a-zA-Z]/;
 
   if (!value) {
     return { empty: true };
@@ -35,15 +36,10 @@ export function validatePassword(
 
   const charError = value.length < 8;
   const digitError = !digitRegex.test(value);
+  const letterError = !letterRegex.test(value);
 
-  if (charError && digitError) {
-    return { charLength: true, digit: true };
-  }
-  if (charError) {
-    return { charLength: true };
-  }
-  if (digitError) {
-    return { digit: true };
+  if (charError || digitError || letterError) {
+    return { charLength: charError, digit: digitError, letter: letterError };
   }
 
   return null;
