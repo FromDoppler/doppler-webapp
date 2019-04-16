@@ -19,44 +19,30 @@ class Reports extends React.Component {
     this.state = {
       domains: null,
       domainSelected: null,
-      pages: null,
-      pageSelected: null,
       periodSelectedDays: 7,
       dateTo: new Date(),
       dateFrom: null,
     };
 
     this.changeDomain = this.changeDomain.bind(this);
-    this.changePage = this.changePage.bind(this);
     this.changePeriod = this.changePeriod.bind(this);
   }
 
   async componentDidMount() {
     const domains = await this.datahubClient.getAccountDomains();
     const domainSelected = domains.length ? domains[0] : null;
-    const pages = [];
-    const pageSelected = pages.length ? pages[0] : null;
     let dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
     this.setState({
       domains: domains,
       domainSelected: domainSelected,
-      pages: pages,
-      pageSelected: pageSelected,
       dateFrom: dateFrom,
     });
   }
 
-  changeDomain = async (id) => {
-    const domainFound = this.state.domains.find((item) => item.id === id);
-    const pages = [];
-    const pageSelected = pages.length ? pages[0] : null;
-    this.setState({ domainSelected: domainFound, pages: pages, pageSelected: pageSelected });
-  };
-
-  changePage = (id) => {
-    const pageFound = this.state.pages.find((item) => item.id === id);
-    this.setState({ pageSelected: pageFound });
+  changeDomain = async (name) => {
+    const domainFound = this.state.domains.find((item) => item.name === name);
+    this.setState({ domainSelected: domainFound });
   };
 
   changePeriod = (days) => {
@@ -81,9 +67,6 @@ class Reports extends React.Component {
           changeDomain={this.changeDomain}
           domains={this.state.domains}
           domainSelected={this.state.domainSelected}
-          pages={this.state.pages}
-          pageSelected={this.state.pageSelected}
-          changePage={this.changePage}
           periodSelectedDays={this.state.periodSelectedDays}
           changePeriod={this.changePeriod}
         />

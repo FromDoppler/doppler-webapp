@@ -4,10 +4,7 @@ import { FormattedMessage, FormattedDate } from 'react-intl';
 const ReportsFilters = ({
   domains,
   domainSelected,
-  pages,
   changeDomain,
-  pageSelected,
-  changePage,
   changePeriod,
   periodSelectedDays,
 }) => {
@@ -27,14 +24,14 @@ const ReportsFilters = ({
             </label>
             <span className="dropdown-arrow" />
             <select
-              onChange={(event) => changeDomain(parseInt(event.target.value))}
+              onChange={(event) => changeDomain(event.target.value)}
               id="domain"
               disabled={!domains || !domains.length}
-              value={domainSelected ? domainSelected.id : ''}
+              value={domainSelected ? domainSelected.name : ''}
             >
               {domains &&
                 domains.map((domain, index) => (
-                  <option key={index} value={domain.id}>
+                  <option key={index} value={domain.name}>
                     {domain.name}
                   </option>
                 ))}
@@ -57,22 +54,10 @@ const ReportsFilters = ({
               <FormattedMessage id="reports_filters.pages" />
             </label>
             <span className="dropdown-arrow" />
-            <select
-              value={pageSelected ? pageSelected.id : '-1'}
-              id="pages"
-              name="pages"
-              onChange={(event) => changePage(parseInt(event.target.value))}
-              disabled={!pages || !pages.length}
-            >
+            <select value="-1" id="pages" name="pages" disabled="disabled">
               <FormattedMessage id="reports_filters.all_pages">
                 {(message) => <option value="-1">{message}</option>}
               </FormattedMessage>
-              {pages &&
-                pages.map((page, index) => (
-                  <option key={index} value={page.id}>
-                    {page.name}
-                  </option>
-                ))}
             </select>
           </fieldset>
           <fieldset className="filter">
