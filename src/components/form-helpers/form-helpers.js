@@ -353,19 +353,31 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, 
 /**
  * Submit Button Component
  * @param { Object } props
+ * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('formik').FormikProps<Values> } props.formik
  * @param { string } props.className
  */
-const _SubmitButton = ({ children, formik: { isSubmitting } }) => (
-  <button
-    type="submit"
-    disabled={isSubmitting}
-    className={
-      'dp-button button-medium primary-green' + ((isSubmitting && ' button--loading') || '')
-    }
-  >
-    {children}
-  </button>
-);
+const _SubmitButton = ({ children, intl, formik: { isSubmitting, errors } }) => {
+  return (
+    <>
+      {errors && errors['_general'] ? (
+        <div className="error">
+          <div className="wrapper-errors">
+            <p className="error-message">{intl.formatMessage({ id: errors['_general'] })}</p>
+          </div>
+        </div>
+      ) : null}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className={
+          'dp-button button-medium primary-green' + ((isSubmitting && ' button--loading') || '')
+        }
+      >
+        {children}
+      </button>
+    </>
+  );
+};
 
-export const SubmitButton = connect(_SubmitButton);
+export const SubmitButton = injectIntl(connect(_SubmitButton));

@@ -50,13 +50,14 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
     return <SignupConfirmation resend={resend} />;
   }
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     try {
       const result = await dopplerLegacyClient.registerUser(values);
       if (result.success) {
         setRegisteredUser(values[fieldNames.email]);
       } else {
         console.log('Unexpected error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
       }
     } finally {
       setSubmitting(false);
