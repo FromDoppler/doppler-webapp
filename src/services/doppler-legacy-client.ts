@@ -193,13 +193,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
     try {
       const response = await this.axios.post(`WebAppPublic/CreateUser`, {
-        Name: model.firstname,
+        FirstName: model.firstname,
         LastName: model.lastname,
         Phone: model.phone,
         Email: model.email,
-        NewPassword: model.password,
+        Password: model.password,
         TermsAndConditionsActive: model.accept_privacy_policies,
         PromotionsEnabled: model.accept_promotions,
+        ClientTimeZoneOffset: model.clientTimeZoneOffset || 0,
+        Origin: model.origin || 'login',
       });
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
