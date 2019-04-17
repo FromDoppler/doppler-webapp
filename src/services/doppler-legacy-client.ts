@@ -27,12 +27,9 @@ export interface UserRegistrationModel {
   /*
   // TODO: take into account the following data
     ClientTimeZoneOffset=-180
-    FingerPrint=317203850
     origin=login
-    Language=en
-    showCaptcha=False
-    IdCountry=10
 */
+  language: string;
 }
 
 /* #endregion */
@@ -202,6 +199,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         PromotionsEnabled: model.accept_promotions,
         ClientTimeZoneOffset: model.clientTimeZoneOffset || 0,
         Origin: model.origin || 'login',
+        Language: model.language || 'es',
       });
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
