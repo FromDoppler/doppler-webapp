@@ -24,10 +24,7 @@ export interface UserRegistrationModel {
   password: string;
   accept_privacy_policies: boolean;
   accept_promotions: boolean;
-  /*
-  // TODO: take into account the following data
-    origin=login
-*/
+  origin?: boolean;
   language: string;
 }
 
