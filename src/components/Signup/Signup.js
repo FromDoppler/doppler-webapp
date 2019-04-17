@@ -170,8 +170,8 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
                   label={_('signup.promotions_consent')}
                 />
               </FieldGroup>
-              <SubmitButton>{_('signup.button_signup')}</SubmitButton>
             </fieldset>
+            <SubmitButton>{_('signup.button_signup')}</SubmitButton>
           </Form>
         </Formik>
         <div className="content-legal">

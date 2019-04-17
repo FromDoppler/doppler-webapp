@@ -361,10 +361,8 @@ const _SubmitButton = ({ children, intl, formik: { isSubmitting, errors } }) => 
   return (
     <>
       {errors && errors['_general'] ? (
-        <div className="error">
-          <div className="wrapper-errors">
-            <p className="error-message">{intl.formatMessage({ id: errors['_general'] })}</p>
-          </div>
+        <div className="unexpected-message">
+          <span>{intl.formatMessage({ id: errors['_general'] })}</span>
         </div>
       ) : null}
       <button
