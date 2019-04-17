@@ -177,20 +177,12 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
         <div className="content-legal">
           <FormattedHTMLMessage id="signup.legal_HTML" />
         </div>
-        <p className="content-promotion">
-          {' '}
-          {_('signup.promotion_code_reminder')}{' '}
-          <a
-            href={_('signup.promotion_code_help_url')}
-            className="link-green uppercase"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {_('common.help')}
-          </a>
-        </p>
         <footer>
-          <small>{_('signup.copyright', { year: 2019 })}</small>
+          <FormattedHTMLMessage
+            tagName="small"
+            id="signup.copyright"
+            values={{ year: new Date().getFullYear() }}
+          />
         </footer>
       </article>
       <section className="feature-panel">
