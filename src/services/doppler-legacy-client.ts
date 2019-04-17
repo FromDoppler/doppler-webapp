@@ -26,7 +26,6 @@ export interface UserRegistrationModel {
   accept_promotions: boolean;
   /*
   // TODO: take into account the following data
-    ClientTimeZoneOffset=-180
     origin=login
 */
   language: string;
@@ -197,7 +196,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         Password: model.password,
         TermsAndConditionsActive: model.accept_privacy_policies,
         PromotionsEnabled: model.accept_promotions,
-        ClientTimeZoneOffset: model.clientTimeZoneOffset || 0,
+        ClientTimeZoneOffset: -new Date().getTimezoneOffset(),
         Origin: model.origin || 'login',
         Language: model.language || 'es',
       });
