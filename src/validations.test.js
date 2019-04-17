@@ -1,5 +1,10 @@
 import 'jest';
-import { validateEmail, validateRequiredField, validateCheckRequired } from './validations';
+import {
+  validateEmail,
+  validateRequiredField,
+  validateCheckRequired,
+  validatePassword,
+} from './validations';
 
 describe('validations', () => {
   describe('validateEmail', () => {
@@ -279,6 +284,84 @@ describe('validations', () => {
 
       // Assert
       expect(result).toEqual(customKey);
+    });
+  });
+  describe('validatePassword', () => {
+    it('should not accept empty passwords', () => {
+      // Arrange
+      const value = '';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ empty: true });
+    });
+
+    it('should not accept numeric only passwords', () => {
+      // Arrange
+      const value = '123456789';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ charLength: false, digit: false, letter: true });
+    });
+
+    it('should not accept letter only', () => {
+      // Arrange
+      const value = 'qazwsxedc';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ charLength: false, digit: true, letter: false });
+    });
+
+    it('should not accept less than 8 chars', () => {
+      // Arrange
+      const value = 'qa3zw';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ charLength: true, digit: false, letter: false });
+    });
+
+    it('should not accept numbers and char length less than 8', () => {
+      // Arrange
+      const value = '999';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ charLength: true, digit: false, letter: true });
+    });
+
+    it('should not accept password with no digits and no letters and more than 8 characters', () => {
+      // Arrange
+      const value = '*********';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ letter: true, digit: true, charLength: false });
+    });
+
+    it('should not accept password with no digits and no letters and with less length than 8', () => {
+      // Arrange
+      const value = '***';
+
+      // Act
+      const result = validatePassword(value);
+
+      // Assert
+      expect(result).toEqual({ charLength: true, letter: true, digit: true });
     });
   });
 });

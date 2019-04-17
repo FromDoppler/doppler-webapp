@@ -103,7 +103,8 @@
   "validation_messages": {
     "error_invalid_email_address": "¡Ouch! El formato del email es incorrecto",
     "error_password_character_length": "8 caracteres como mínimo",
-    "error_password_digit": "Un dígito",
+    "error_password_digit": "Un número",
+    "error_password_letter": "Una letra",
     "error_password_safe": "¡Tu contraseña es segura!",
     "error_phone_invalid": "¡Ouch! El número de teléfono no es válido",
     "error_phone_invalid_country": "¡Ouch! El código de país no es válido",

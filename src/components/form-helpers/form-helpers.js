@@ -89,6 +89,11 @@ const PasswordWrapper = connect(
       : fieldError && (fieldError.digit || fieldError.empty)
       ? 'lack-message'
       : 'complete-message';
+    const passwordMessageLetterClass = !touchedField
+      ? 'waiting-message'
+      : fieldError && (fieldError.letter || fieldError.empty)
+      ? 'lack-message'
+      : 'complete-message';
     return (
       <li className={concatClasses(className, touchedField && fieldError ? 'error' : '')}>
         {children}
@@ -97,6 +102,9 @@ const PasswordWrapper = connect(
             <p className="password-message">
               <span className={passwordMessageCharClass}>
                 <FormattedMessage id="validation_messages.error_password_character_length" />
+              </span>
+              <span className={passwordMessageLetterClass}>
+                <FormattedMessage id="validation_messages.error_password_letter" />
               </span>
               <span className={passwordMessageDigitClass}>
                 <FormattedMessage id="validation_messages.error_password_digit" />
