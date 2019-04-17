@@ -3,6 +3,7 @@ import {
   mapHeaderDataJson,
   DopplerLegacyUpgradePlanContactModel,
   UserRegistrationModel,
+  UserRegistrationResult,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -10,9 +11,10 @@ import { timeout } from '../utils';
 export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public constructor(public readonly email = 'hardcoded@email.com') {}
 
-  public async registerUser(model: UserRegistrationModel) {
+  public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
     console.log(this.registerUser, model);
     await timeout(1500);
+    return { success: true };
   }
 
   public async resendRegistrationEmail(email: string) {

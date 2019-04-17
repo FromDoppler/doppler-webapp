@@ -5,9 +5,15 @@ export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
   getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyClientTypePlan[]>;
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
-  registerUser(userRegistrationModel: UserRegistrationModel): Promise<void>;
+  registerUser(userRegistrationModel: UserRegistrationModel): Promise<UserRegistrationResult>;
   resendRegistrationEmail(email: string): Promise<void>;
 }
+
+export type UserRegistrationResult =
+  | { success: true }
+  | { success: false; unexpectedError?: false; emailAlreadyExists: true; blockedDomain?: false }
+  | { success: false; unexpectedError?: false; emailAlreadyExists?: false; blockedDomain: true }
+  | { success: false; unexpectedError: true; message: string | null; error?: any };
 
 /* #region Registration data types */
 export interface UserRegistrationModel {
@@ -184,17 +190,43 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     return mapHeaderDataJson(response.data);
   }
 
-  public async registerUser(model: UserRegistrationModel) {
-    const response = await this.axios.post(`WebAppPublic/CreateUser`, {
-      Name: model.firstname,
-      LastName: model.lastname,
-      Phone: model.phone,
-      Email: model.email,
-      NewPassword: model.password,
-      TermsAndConditionsActive: model.accept_privacy_policies,
-      PromotionsEnabled: model.accept_promotions,
-    });
-    // TODO: parse validation errors in response
+  public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
+    try {
+      const response = await this.axios.post(`WebAppPublic/CreateUser`, {
+        Name: model.firstname,
+        LastName: model.lastname,
+        Phone: model.phone,
+        Email: model.email,
+        NewPassword: model.password,
+        TermsAndConditionsActive: model.accept_privacy_policies,
+        PromotionsEnabled: model.accept_promotions,
+      });
+
+      if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
+        return { success: false, unexpectedError: false, emailAlreadyExists: true };
+      }
+
+      if (!response.data.success && response.data.error == 'BlockedDomain') {
+        return { success: false, unexpectedError: false, blockedDomain: true };
+      }
+
+      if (!response.data.success) {
+        return {
+          success: false,
+          unexpectedError: true,
+          message: response.data.error || null,
+        };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        unexpectedError: true,
+        message: error.message || null,
+        error: error,
+      };
+    }
   }
 
   public async resendRegistrationEmail(email: string) {

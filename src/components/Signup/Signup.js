@@ -44,21 +44,58 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const [registeredUser, setRegisteredUser] = useState(null);
+  const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
+  const [blockedDomains, setBlockedDomains] = useState([]);
+
+  const addExistentEmailAddress = (email) => {
+    setAlreadyExistentAddresses((x) => [...x, email]);
+  };
+
+  const extractDomain = (email) => {
+    const regexResult = /.+@(.+)/.exec(email);
+    return (regexResult && regexResult.length === 2 && regexResult[1]) || null;
+  };
+
+  const addBlockedDomain = (domain) => {
+    setBlockedDomains((x) => [...x, domain]);
+  };
 
   if (registeredUser) {
     const resend = () => dopplerLegacyClient.resendRegistrationEmail(registeredUser);
     return <SignupConfirmation resend={resend} />;
   }
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const validate = (values) => {
+    const errors = {};
+
+    const email = values[fieldNames.email];
+    const domain = email && extractDomain(email);
+
+    if (email && alreadyExistentAddresses.includes(email)) {
+      errors[fieldNames.email] = 'validation_messages.error_email_already_exists';
+    } else if (domain && blockedDomains.includes(domain)) {
+      errors[fieldNames.email] = 'validation_messages.error_invalid_domain_to_register_account';
+    }
+
+    return errors;
+  };
+
+  const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     try {
-      await dopplerLegacyClient.registerUser(values);
-      // TODO: deal with returned errors, we can get, for example:
-      // setErrors({email: "Already exists an account with that name."});
-      // If there are no errors:
-      setRegisteredUser(values[fieldNames.email]);
-    } catch (e) {
-      console.error(e);
+      const result = await dopplerLegacyClient.registerUser(values);
+      if (result.success) {
+        setRegisteredUser(values[fieldNames.email]);
+      } else if (!result.unexpectedError && result.emailAlreadyExists) {
+        addExistentEmailAddress(values[fieldNames.email]);
+        validateForm();
+      } else if (!result.unexpectedError && result.blockedDomain) {
+        const domain = extractDomain(values[fieldNames.email]);
+        addBlockedDomain(domain);
+        validateForm();
+      } else {
+        console.log('Unexpected error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
+      }
     } finally {
       setSubmitting(false);
     }
@@ -79,7 +116,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
             {_('signup.log_in')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
+        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit} validate={validate}>
           <Form className="signup-form">
             <fieldset>
               <FieldGroup>
@@ -133,8 +170,8 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
                   label={_('signup.promotions_consent')}
                 />
               </FieldGroup>
-              <SubmitButton>{_('signup.button_signup')}</SubmitButton>
             </fieldset>
+            <SubmitButton>{_('signup.button_signup')}</SubmitButton>
           </Form>
         </Formik>
         <div className="content-legal">
