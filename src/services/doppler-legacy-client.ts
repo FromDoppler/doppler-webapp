@@ -11,7 +11,8 @@ export interface DopplerLegacyClient {
 
 export type UserRegistrationResult =
   | { success: true }
-  | { success: false; unexpectedError?: false; emailAlreadyExists: true }
+  | { success: false; unexpectedError?: false; emailAlreadyExists: true; blockedDomain?: false }
+  | { success: false; unexpectedError?: false; emailAlreadyExists?: false; blockedDomain: true }
   | { success: false; unexpectedError: true; message: string | null; error?: any };
 
 /* #region Registration data types */
@@ -203,6 +204,10 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
         return { success: false, unexpectedError: false, emailAlreadyExists: true };
+      }
+
+      if (!response.data.success && response.data.error == 'BlockedDomain') {
+        return { success: false, unexpectedError: false, blockedDomain: true };
       }
 
       if (!response.data.success) {

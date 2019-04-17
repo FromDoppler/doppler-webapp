@@ -45,9 +45,19 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
 
   const [registeredUser, setRegisteredUser] = useState(null);
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
+  const [blockedDomains, setBlockedDomains] = useState([]);
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
+  };
+
+  const extractDomain = (email) => {
+    const regexResult = /.+@(.+)/.exec(email);
+    return (regexResult && regexResult.length === 2 && regexResult[1]) || null;
+  };
+
+  const addBlockedDomain = (domain) => {
+    setBlockedDomains((x) => [...x, domain]);
   };
 
   if (registeredUser) {
@@ -59,8 +69,12 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
     const errors = {};
 
     const email = values[fieldNames.email];
+    const domain = email && extractDomain(email);
+
     if (email && alreadyExistentAddresses.includes(email)) {
       errors[fieldNames.email] = 'validation_messages.error_email_already_exists';
+    } else if (domain && blockedDomains.includes(domain)) {
+      errors[fieldNames.email] = 'validation_messages.error_invalid_domain_to_register_account';
     }
 
     return errors;
@@ -73,6 +87,10 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
         setRegisteredUser(values[fieldNames.email]);
       } else if (!result.unexpectedError && result.emailAlreadyExists) {
         addExistentEmailAddress(values[fieldNames.email]);
+        validateForm();
+      } else if (!result.unexpectedError && result.blockedDomain) {
+        const domain = extractDomain(values[fieldNames.email]);
+        addBlockedDomain(domain);
         validateForm();
       } else {
         console.log('Unexpected error', result);
