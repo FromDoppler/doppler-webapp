@@ -28,6 +28,7 @@ export interface AppServices {
   datahubClient: DatahubClient;
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
+  localStorage: Storage;
 }
 
 /**
@@ -110,6 +111,10 @@ export class AppCompositionRoot implements AppServices {
 
   get window() {
     return this.singleton('window', () => window);
+  }
+
+  get localStorage() {
+    return this.singleton('localStorage', () => this.window.localStorage);
   }
 }
 
