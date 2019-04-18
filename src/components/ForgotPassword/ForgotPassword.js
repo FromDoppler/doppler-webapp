@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { injectIntl } from 'react-intl';
+import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
 import { EmailFieldItem, FieldGroup, SubmitButton } from '../form-helpers/form-helpers';
@@ -66,7 +66,11 @@ const ForgotPassword = ({ intl }) => {
           </Form>
         </Formik>
         <footer>
-          <small>{_('signup.copyright', { year: 2019 })}</small>
+          <FormattedHTMLMessage
+            tagName="small"
+            id="signup.copyright"
+            values={{ year: new Date().getFullYear() }}
+          />
         </footer>
       </article>
       <section className="feature-panel">

@@ -273,6 +273,7 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...res
   const type = passVisible ? 'text' : 'password';
   const autocomplete = passVisible ? 'off' : 'current-password';
   const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
+  const buttonTextId = passVisible ? 'common.hide' : 'common.show';
 
   return (
     <>
@@ -285,7 +286,10 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...res
             setPassVisible((current) => !current);
           }}
         >
-          <span className="content-eye" />
+          <span className="content-eye">
+            {' '}
+            <FormattedMessage id={buttonTextId} />
+          </span>
         </button>
       </label>
       <Field
@@ -369,7 +373,8 @@ const _SubmitButton = ({ children, intl, formik: { isSubmitting, errors } }) => 
         type="submit"
         disabled={isSubmitting}
         className={
-          'dp-button button-medium primary-green' + ((isSubmitting && ' button--loading') || '')
+          'dp-button button--round button-medium primary-green' +
+          ((isSubmitting && ' button--loading') || '')
         }
       >
         {children}
