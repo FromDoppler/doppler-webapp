@@ -22,10 +22,19 @@ const getFormInitialValues = () =>
 const ForgotPassword = ({ intl }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const onSubmit = async (values, { setSubmitting }) => {
-    // TODO: implement login submit
-    await timeout(1500);
-    setSubmitting(false);
+  const onSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      // TODO: implement forgot password submit
+      const result = await timeout(1500);
+      if (result && result.success) {
+        // TODO: show OK message
+      } else {
+        console.log('Unexpected error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
