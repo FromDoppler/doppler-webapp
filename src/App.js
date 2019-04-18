@@ -8,7 +8,7 @@ import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
 import queryString from 'query-string';
-import { OriginCatcher } from './services/origin-manager';
+import { OriginCatcher } from './services/origin-management';
 
 class App extends Component {
   /**

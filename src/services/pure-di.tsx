@@ -5,7 +5,7 @@ import React, { createContext, ReactNode, RefObject, MutableRefObject } from 're
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
 import { AppSession, createAppSessionRef } from './app-session';
-import { OriginResolver } from './origin-manager';
+import { OriginResolver } from './origin-management';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
