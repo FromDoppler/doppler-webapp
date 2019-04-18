@@ -11,9 +11,9 @@ export interface DopplerLegacyClient {
 
 export type UserRegistrationResult =
   | { success: true }
-  | { success: false; unexpectedError?: false; emailAlreadyExists: true; blockedDomain?: false }
-  | { success: false; unexpectedError?: false; emailAlreadyExists?: false; blockedDomain: true }
-  | { success: false; unexpectedError: true; message: string | null; error?: any };
+  | { success?: false; expectedError: { emailAlreadyExists: true; blockedDomain?: false } }
+  | { success?: false; expectedError: { emailAlreadyExists?: false; blockedDomain: true } }
+  | { success?: false; expectedError?: null; message?: string | null; error?: any };
 
 /* #region Registration data types */
 export interface UserRegistrationModel {
@@ -199,17 +199,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       });
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
-        return { success: false, unexpectedError: false, emailAlreadyExists: true };
+        return { expectedError: { emailAlreadyExists: true } };
       }
 
       if (!response.data.success && response.data.error == 'BlockedDomain') {
-        return { success: false, unexpectedError: false, blockedDomain: true };
+        return { expectedError: { blockedDomain: true } };
       }
 
       if (!response.data.success) {
         return {
-          success: false,
-          unexpectedError: true,
           message: response.data.error || null,
         };
       }
@@ -217,8 +215,6 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       return { success: true };
     } catch (error) {
       return {
-        success: false,
-        unexpectedError: true,
         message: error.message || null,
         error: error,
       };
