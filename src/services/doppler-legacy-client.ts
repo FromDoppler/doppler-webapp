@@ -24,15 +24,8 @@ export interface UserRegistrationModel {
   password: string;
   accept_privacy_policies: boolean;
   accept_promotions: boolean;
-  /*
-  // TODO: take into account the following data
-    ClientTimeZoneOffset=-180
-    FingerPrint=317203850
-    origin=login
-    Language=en
-    showCaptcha=False
-    IdCountry=10
-*/
+  origin?: boolean;
+  language: string;
 }
 
 /* #endregion */
@@ -193,13 +186,16 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
     try {
       const response = await this.axios.post(`WebAppPublic/CreateUser`, {
-        Name: model.firstname,
+        FirstName: model.firstname,
         LastName: model.lastname,
         Phone: model.phone,
         Email: model.email,
-        NewPassword: model.password,
+        Password: model.password,
         TermsAndConditionsActive: model.accept_privacy_policies,
         PromotionsEnabled: model.accept_promotions,
+        ClientTimeZoneOffset: -new Date().getTimezoneOffset(),
+        Origin: model.origin || 'login',
+        Language: model.language || 'es',
       });
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {

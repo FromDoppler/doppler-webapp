@@ -82,7 +82,10 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     try {
-      const result = await dopplerLegacyClient.registerUser(values);
+      const result = await dopplerLegacyClient.registerUser({
+        ...values,
+        language: intl.locale,
+      });
       if (result.success) {
         setRegisteredUser(values[fieldNames.email]);
       } else if (!result.unexpectedError && result.emailAlreadyExists) {
