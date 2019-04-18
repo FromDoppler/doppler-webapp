@@ -9,11 +9,17 @@ export interface DopplerLegacyClient {
   resendRegistrationEmail(email: string): Promise<void>;
 }
 
-export type UserRegistrationResult =
-  | { success: true }
-  | { success?: false; expectedError: { emailAlreadyExists: true; blockedDomain?: false } }
-  | { success?: false; expectedError: { emailAlreadyExists?: false; blockedDomain: true } }
-  | { success?: false; expectedError?: null; message?: string | null; error?: any };
+// TODO: move it a common place if it will be reused
+type UnexpectedError = { success?: false; message?: string | null; error?: any };
+type ErrorResult<TError> = { success?: false; expectedError: TError } | UnexpectedError;
+type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
+type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
+
+type UserRegistrationErrorResult =
+  | { emailAlreadyExists: true; blockedDomain?: false }
+  | { emailAlreadyExists?: false; blockedDomain: true };
+
+export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
 /* #region Registration data types */
 export interface UserRegistrationModel {
