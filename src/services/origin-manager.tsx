@@ -21,6 +21,12 @@ function ensureOriginCache(localStorage: Storage) {
   return originCache;
 }
 
+export class OriginResolver {
+  constructor(private localStorage: Storage) {}
+
+  getOrigin = () => ensureOriginCache(this.localStorage).value;
+}
+
 function _OriginCatcher({
   dependencies: { localStorage },
   location,

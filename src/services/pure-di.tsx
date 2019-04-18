@@ -5,6 +5,7 @@ import React, { createContext, ReactNode, RefObject, MutableRefObject } from 're
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { HardcodedDatahubClient } from './datahub-client.doubles';
 import { AppSession, createAppSessionRef } from './app-session';
+import { OriginResolver } from './origin-manager';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -29,6 +30,7 @@ export interface AppServices {
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
   localStorage: Storage;
+  originResolver: OriginResolver;
 }
 
 /**
@@ -115,6 +117,10 @@ export class AppCompositionRoot implements AppServices {
 
   get localStorage() {
     return this.singleton('localStorage', () => this.window.localStorage);
+  }
+
+  get originResolver() {
+    return this.singleton('originResolver', () => new OriginResolver(this.localStorage));
   }
 }
 
