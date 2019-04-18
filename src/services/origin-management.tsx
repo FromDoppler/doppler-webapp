@@ -27,6 +27,13 @@ export class OriginResolver {
   getOrigin = () => ensureOriginCache(this.localStorage).value;
 }
 
+export function extractOrigin(location: Location | null): string | null {
+  const parsedQuery = location && location.search && queryString.parse(location.search);
+  return ((parsedQuery && (parsedQuery['origin'] || parsedQuery['Origin'])) || null) as
+    | string
+    | null;
+}
+
 function _OriginCatcher({
   dependencies: { localStorage },
   location,
@@ -35,9 +42,8 @@ function _OriginCatcher({
   location: Location;
 }) {
   const output = <></>;
-  const parsedQuery = (location && location.search && queryString.parse(location.search)) || null;
-  const originFromUrl =
-    parsedQuery && ((parsedQuery['origin'] || parsedQuery['Origin']) as string | undefined);
+
+  const originFromUrl = extractOrigin(location);
 
   if (!originFromUrl) {
     return output;
