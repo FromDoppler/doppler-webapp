@@ -88,10 +88,10 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
       });
       if (result.success) {
         setRegisteredUser(values[fieldNames.email]);
-      } else if (!result.unexpectedError && result.emailAlreadyExists) {
+      } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
         addExistentEmailAddress(values[fieldNames.email]);
         validateForm();
-      } else if (!result.unexpectedError && result.blockedDomain) {
+      } else if (result.expectedError && result.expectedError.blockedDomain) {
         const domain = extractDomain(values[fieldNames.email]);
         addBlockedDomain(domain);
         validateForm();

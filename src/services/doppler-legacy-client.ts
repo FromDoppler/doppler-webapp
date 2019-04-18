@@ -9,11 +9,17 @@ export interface DopplerLegacyClient {
   resendRegistrationEmail(email: string): Promise<void>;
 }
 
-export type UserRegistrationResult =
-  | { success: true }
-  | { success: false; unexpectedError?: false; emailAlreadyExists: true; blockedDomain?: false }
-  | { success: false; unexpectedError?: false; emailAlreadyExists?: false; blockedDomain: true }
-  | { success: false; unexpectedError: true; message: string | null; error?: any };
+// TODO: move it a common place if it will be reused
+type UnexpectedError = { success?: false; message?: string | null; error?: any };
+type ErrorResult<TError> = { success?: false; expectedError: TError } | UnexpectedError;
+type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
+type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
+
+type UserRegistrationErrorResult =
+  | { emailAlreadyExists: true; blockedDomain?: false }
+  | { emailAlreadyExists?: false; blockedDomain: true };
+
+export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
 /* #region Registration data types */
 export interface UserRegistrationModel {
@@ -199,17 +205,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       });
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
-        return { success: false, unexpectedError: false, emailAlreadyExists: true };
+        return { expectedError: { emailAlreadyExists: true } };
       }
 
       if (!response.data.success && response.data.error == 'BlockedDomain') {
-        return { success: false, unexpectedError: false, blockedDomain: true };
+        return { expectedError: { blockedDomain: true } };
       }
 
       if (!response.data.success) {
         return {
-          success: false,
-          unexpectedError: true,
           message: response.data.error || null,
         };
       }
@@ -217,8 +221,6 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       return { success: true };
     } catch (error) {
       return {
-        success: false,
-        unexpectedError: true,
         message: error.message || null,
         error: error,
       };
