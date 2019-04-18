@@ -35,11 +35,19 @@ const Login = ({ intl, location }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const onSubmit = async (values, { setSubmitting }) => {
-    // TODO: implement login submit
-    await timeout(1500);
-    setSubmitting(false);
-    setRedirectAfterLogin(true);
+  const onSubmit = async (values, { setSubmitting, setErrors }) => {
+    try {
+      // TODO: implement login submit
+      const result = await timeout(1500);
+      if (result && result.success) {
+        setRedirectAfterLogin(true);
+      } else {
+        console.log('Unexpected error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (redirectAfterLogin) {
