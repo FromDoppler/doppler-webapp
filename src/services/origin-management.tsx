@@ -23,9 +23,13 @@ function ensureFirstOriginCache(localStorage: Storage) {
   return firstOriginCache;
 }
 
-export class OriginResolver {
-  constructor(private localStorage: Storage) {}
+export interface OriginResolver {
+  getFirstOrigin: () => string | undefined;
+  getCurrentOrigin: () => string;
+}
 
+export class LocalStorageOriginResolver implements OriginResolver {
+  constructor(private localStorage: Storage) {}
   getFirstOrigin = () => ensureFirstOriginCache(this.localStorage).value;
   getCurrentOrigin = () => currentOrigin || 'login';
 }
