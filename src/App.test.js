@@ -93,7 +93,7 @@ describe('App component', () => {
 
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <Router>
+          <Router initialEntries={['/reports']}>
             <App locale="en" />
           </Router>
         </AppServicesProvider>,
@@ -173,7 +173,7 @@ describe('App component', () => {
 
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <Router>
+          <Router initialEntries={['/reports']}>
             <App locale="en" />
           </Router>
         </AppServicesProvider>,
@@ -222,7 +222,7 @@ describe('App component', () => {
 
         const { getByText } = render(
           <AppServicesProvider forcedServices={dependencies}>
-            <Router>
+            <Router initialEntries={['/reports']}>
               <App locale="en" />
             </Router>
           </AppServicesProvider>,

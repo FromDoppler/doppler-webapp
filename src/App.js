@@ -9,6 +9,7 @@ import { InjectAppServices } from './services/pure-di';
 import Loading from './components/Loading/Loading';
 import queryString from 'query-string';
 import { OriginCatcher } from './services/origin-management';
+import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
 
 class App extends Component {
   /**
@@ -82,7 +83,9 @@ class App extends Component {
             <Loading page />
           ) : (
             <Switch>
-              <Route path="/" exact component={() => <Redirect to={{ pathname: '/reports' }} />} />
+              <Route path="/" exact>
+                <RedirectToLegacyUrl to="/Campaigns/Draft" />
+              </Route>
               <PrivateRoute
                 path="/reports/"
                 exact
