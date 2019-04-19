@@ -39,7 +39,7 @@ const extractLegacyRedirectUrl = (location) => {
  * @param { import('history').Location } props.location - location
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Login = ({ intl, location, dependencies: { dopplerLegacyClient } }) => {
+const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -51,6 +51,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient } }) => {
       });
 
       if (result.success) {
+        sessionManager.restart();
         setRedirectAfterLogin(true);
       } else if (result.expectedError && result.expectedError.userBlockedByPayment) {
         // TODO: define how this error should be shown
