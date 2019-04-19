@@ -483,10 +483,10 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
-      expect(localStorageItems['dopplerOrigin.value']).toBeDefined();
-      expect(localStorageItems['dopplerOrigin.value']).toEqual('testOrigin');
-      expect(localStorageItems['dopplerOrigin.date']).toBeDefined();
-      const dopplerOriginDate = new Date(localStorageItems['dopplerOrigin.date']);
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toEqual('testOrigin');
+      expect(localStorageItems['dopplerFirstOrigin.date']).toBeDefined();
+      const dopplerOriginDate = new Date(localStorageItems['dopplerFirstOrigin.date']);
       expect(dopplerOriginDate).toBeDefined();
       expect(dopplerOriginDate.getFullYear()).toBeGreaterThan(2018);
     });
@@ -499,7 +499,7 @@ describe('App component', () => {
       };
 
       const oldValue = 'old value';
-      dependencies.localStorage.setItem('dopplerOrigin.value', oldValue);
+      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
 
       // Act
       render(
@@ -512,8 +512,8 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
-      expect(localStorageItems['dopplerOrigin.value']).toBeDefined();
-      expect(localStorageItems['dopplerOrigin.value']).toEqual(oldValue);
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
     });
 
     it('should not be cleaned in local storage when there is not origin URL parameter', () => {
@@ -524,7 +524,7 @@ describe('App component', () => {
       };
 
       const oldValue = 'old value';
-      dependencies.localStorage.setItem('dopplerOrigin.value', oldValue);
+      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
 
       // Act
       render(
@@ -537,8 +537,8 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
-      expect(localStorageItems['dopplerOrigin.value']).toBeDefined();
-      expect(localStorageItems['dopplerOrigin.value']).toEqual(oldValue);
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
     });
 
     it('should not be set in local storage when there is not origin URL parameter', () => {
@@ -559,7 +559,7 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
-      expect(localStorageItems['dopplerOrigin.value']).toBeUndefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeUndefined();
     });
   });
 });

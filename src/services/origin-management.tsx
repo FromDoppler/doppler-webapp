@@ -3,31 +3,34 @@ import { InjectAppServices, AppServices } from './pure-di';
 import { withRouter } from 'react-router';
 import queryString from 'query-string';
 
-const DopplerOriginLocalStorageKey = 'dopplerOrigin.value';
-const DopplerOriginDateLocalStorageKey = 'dopplerOrigin.date';
+const DopplerFirstOriginLocalStorageKey = 'dopplerFirstOrigin.value';
+const DopplerFirstOriginDateLocalStorageKey = 'dopplerFirstOrigin.date';
 
-let originCache:
+let firstOriginCache:
   | { readonly stored: true; readonly value: string; readonly unknown?: false }
   | { readonly stored: false; readonly value?: undefined; readonly unknown?: undefined }
   | { readonly unknown: true } = {
   unknown: true,
 };
 
-function ensureOriginCache(localStorage: Storage) {
-  if (originCache.unknown) {
-    const value = localStorage.getItem(DopplerOriginLocalStorageKey);
-    originCache = value ? { stored: true, value: value } : { stored: false };
+let currentOrigin: string | undefined;
+
+function ensureFirstOriginCache(localStorage: Storage) {
+  if (firstOriginCache.unknown) {
+    const value = localStorage.getItem(DopplerFirstOriginLocalStorageKey);
+    firstOriginCache = value ? { stored: true, value: value } : { stored: false };
   }
-  return originCache;
+  return firstOriginCache;
 }
 
 export class OriginResolver {
   constructor(private localStorage: Storage) {}
 
-  getOrigin = () => ensureOriginCache(this.localStorage).value;
+  getFirstOrigin = () => ensureFirstOriginCache(this.localStorage).value;
+  getCurrentOrigin = () => currentOrigin || 'login';
 }
 
-export function extractOrigin(location: Location | null): string | null {
+function extractOrigin(location: Location | null): string | null {
   const parsedQuery = location && location.search && queryString.parse(location.search);
   return ((parsedQuery && (parsedQuery['origin'] || parsedQuery['Origin'])) || null) as
     | string
@@ -44,18 +47,19 @@ function _OriginCatcher({
   const output = <></>;
 
   const originFromUrl = extractOrigin(location);
-
   if (!originFromUrl) {
     return output;
   }
 
+  currentOrigin = originFromUrl;
+
   // Optimization to avoid too much local storage usage
-  const cache = ensureOriginCache(localStorage);
+  const cache = ensureFirstOriginCache(localStorage);
 
   if (!cache.stored) {
-    localStorage.setItem(DopplerOriginLocalStorageKey, originFromUrl);
-    localStorage.setItem(DopplerOriginDateLocalStorageKey, new Date().toUTCString());
-    originCache = { stored: true, value: originFromUrl };
+    localStorage.setItem(DopplerFirstOriginLocalStorageKey, currentOrigin);
+    localStorage.setItem(DopplerFirstOriginDateLocalStorageKey, new Date().toUTCString());
+    firstOriginCache = { stored: true, value: currentOrigin };
   }
 
   return output;
