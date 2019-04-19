@@ -4,12 +4,22 @@ import {
   DopplerLegacyUpgradePlanContactModel,
   UserRegistrationModel,
   UserRegistrationResult,
+  LoginModel,
+  LoginResult,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
 
 export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public constructor(public readonly email = 'hardcoded@email.com') {}
+
+  public async login(model: LoginModel): Promise<LoginResult> {
+    console.log(this.login, model);
+    await timeout(1500);
+    return { success: true };
+    // return { expectedError: { userBlockedByPayment: true } };
+    // return { expectedError: { userInactive: true } };
+  }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
     console.log(this.registerUser, model);
