@@ -40,7 +40,7 @@ const getFormInitialValues = () =>
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
+const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResolver } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const [registeredUser, setRegisteredUser] = useState(null);
@@ -85,6 +85,8 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient } }) {
       const result = await dopplerLegacyClient.registerUser({
         ...values,
         language: intl.locale,
+        firstOrigin: originResolver.getFirstOrigin(),
+        origin: originResolver.getCurrentOrigin(),
       });
       if (result.success) {
         setRegisteredUser(values[fieldNames.email]);
