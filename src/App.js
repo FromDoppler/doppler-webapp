@@ -6,7 +6,6 @@ import PrivateRoute from './components/PrivateRoute';
 import PublicRouteWithLegacyFallback from './components/PublicRouteWithLegacyFallback';
 import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
-import Loading from './components/Loading/Loading';
 import queryString from 'query-string';
 import { OriginCatcher } from './services/origin-management';
 import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
@@ -79,28 +78,24 @@ class App extends Component {
       <DopplerIntlProvider locale={i18nLocale}>
         <>
           <OriginCatcher />
-          {dopplerSession.status === 'unknown' ? (
-            <Loading page />
-          ) : (
-            <Switch>
-              <Route path="/" exact>
-                <RedirectToLegacyUrl to="/Campaigns/Draft" />
-              </Route>
-              <PrivateRoute
-                path="/reports/"
-                exact
-                requireDatahub
-                component={Reports}
-                dopplerSession={dopplerSession}
-              />
-              <PublicRouteWithLegacyFallback exact path="/login" />
-              <PublicRouteWithLegacyFallback exact path="/signup" />
-              <PublicRouteWithLegacyFallback exact path="/forgot-password" />
-              {/* TODO: Implement NotFound page in place of redirect all to reports */}
-              {/* <Route component={NotFound} /> */}
-              <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
-            </Switch>
-          )}
+          <Switch>
+            <Route path="/" exact>
+              <RedirectToLegacyUrl to="/Campaigns/Draft" />
+            </Route>
+            <PrivateRoute
+              path="/reports/"
+              exact
+              requireDatahub
+              component={Reports}
+              dopplerSession={dopplerSession}
+            />
+            <PublicRouteWithLegacyFallback exact path="/login" />
+            <PublicRouteWithLegacyFallback exact path="/signup" />
+            <PublicRouteWithLegacyFallback exact path="/forgot-password" />
+            {/* TODO: Implement NotFound page in place of redirect all to reports */}
+            {/* <Route component={NotFound} /> */}
+            <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
+          </Switch>
         </>
       </DopplerIntlProvider>
     );

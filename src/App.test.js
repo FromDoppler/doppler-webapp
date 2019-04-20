@@ -56,7 +56,7 @@ describe('App component', () => {
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <Router>
+          <Router initialEntries={['/reports']}>
             <App locale="en" />
           </Router>
         </AppServicesProvider>,
@@ -75,7 +75,7 @@ describe('App component', () => {
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <Router>
+          <Router initialEntries={['/reports']}>
             <App locale="es" />
           </Router>
         </AppServicesProvider>,
@@ -300,8 +300,20 @@ describe('App component', () => {
           </AppServicesProvider>,
         );
 
-        expect(currentRouteState.location.pathname).toEqual('/login');
-        getByText('Loading...');
+        {
+          expect(currentRouteState.location.pathname).toEqual('/login');
+          expect(currentRouteState.location.state).toBeUndefined();
+          expect(currentRouteState.history.length).toEqual(1);
+          expect(currentRouteState.history.action).not.toEqual('REPLACE');
+          const headerEl = container.querySelector('.header-main');
+          expect(headerEl).toBeNull();
+          const menuEl = container.querySelector('.menu-main');
+          expect(menuEl).toBeNull();
+          const footerEl = container.querySelector('.footer-main');
+          expect(footerEl).toBeNull();
+          const passwordEl = container.querySelector('#password');
+          expect(passwordEl).toBeInstanceOf(HTMLInputElement);
+        }
 
         // Act
         dependencies.sessionManager.updateAppSession({
@@ -319,6 +331,8 @@ describe('App component', () => {
         expect(menuEl).toBeNull();
         const footerEl = container.querySelector('.footer-main');
         expect(footerEl).toBeNull();
+        const passwordEl = container.querySelector('#password');
+        expect(passwordEl).toBeInstanceOf(HTMLInputElement);
       });
 
       it('should be redirected to /login when route does not exists', () => {
@@ -337,7 +351,8 @@ describe('App component', () => {
           </AppServicesProvider>,
         );
 
-        expect(currentRouteState.location.pathname).toEqual('/this/route/does/not/exist');
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.state).toBeUndefined();
         getByText('Loading...');
 
         // Act
@@ -362,7 +377,7 @@ describe('App component', () => {
     });
 
     describe('authenticated user', () => {
-      it('should not be redirected after open /reports', () => {
+      it('should be redirected to /reports when route does not exists', () => {
         const dependencies = {
           sessionManager: createDoubleSessionManager(),
         };
@@ -378,9 +393,9 @@ describe('App component', () => {
           </AppServicesProvider>,
         );
 
-        expect(currentRouteState.location.pathname).toEqual('/this/route/does/not/exist');
-        expect(currentRouteState.location.search).toEqual('?param1=value1');
-        expect(currentRouteState.location.hash).toEqual('#hash');
+        expect(currentRouteState.location.pathname).toEqual('/reports');
+        expect(currentRouteState.location.search).toEqual('');
+        expect(currentRouteState.location.hash).toEqual('');
         getByText('Loading...');
 
         // Act
@@ -398,9 +413,6 @@ describe('App component', () => {
         });
 
         // Assert
-        expect(currentRouteState.location.pathname).toEqual('/reports');
-        expect(currentRouteState.location.search).toEqual('');
-        expect(currentRouteState.location.hash).toEqual('');
         expect(currentRouteState.location.state).toBeUndefined();
         expect(currentRouteState.history.length).toEqual(1);
         expect(currentRouteState.history.action).toEqual('REPLACE');
@@ -412,7 +424,7 @@ describe('App component', () => {
         expect(footerEl).not.toBeNull();
       });
 
-      it('should be redirected to /reports when route does not exists', () => {
+      it('should keep /reports path when the authenticated state is verified', () => {
         const dependencies = {
           sessionManager: createDoubleSessionManager(),
         };
