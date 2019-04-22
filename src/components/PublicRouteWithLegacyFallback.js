@@ -5,6 +5,7 @@ import { injectIntl } from 'react-intl';
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
+import RedirectToExternalUrl from './RedirectToExternalUrl';
 
 const pagesByPath = {
   '/login': {
@@ -107,9 +108,7 @@ function PublicRouteWithLegacyFallback({
           `${dopplerLegacyUrl}${redirectionData.page}` +
           (parametersString && '?' + parametersString);
 
-        location.href = destinationUrl;
-
-        return <></>;
+        return <RedirectToExternalUrl to={destinationUrl} />;
       }}
     />
   );
