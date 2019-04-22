@@ -9,6 +9,7 @@ import { InjectAppServices } from './services/pure-di';
 import queryString from 'query-string';
 import { OriginCatcher } from './services/origin-management';
 import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
+import RedirectWithQuery from './components/RedirectWithQuery';
 
 class App extends Component {
   /**
@@ -92,6 +93,8 @@ class App extends Component {
             <PublicRouteWithLegacyFallback exact path="/login" />
             <PublicRouteWithLegacyFallback exact path="/signup" />
             <PublicRouteWithLegacyFallback exact path="/forgot-password" />
+            <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
+            <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
             <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
