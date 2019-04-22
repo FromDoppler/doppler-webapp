@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { Formik, Form } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
@@ -108,6 +109,10 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
 
   return (
     <main className="panel-wrapper">
+      <Helmet>
+        <title>{_('signup.head_title')}</title>
+        <meta name="description" content={_('signup.head_description')} />
+      </Helmet>
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
