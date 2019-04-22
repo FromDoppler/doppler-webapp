@@ -4,6 +4,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import DatahubRequired from './DatahubRequired/DatahubRequired';
 import RedirectToLogin from './RedirectToLogin';
+import Loading from './Loading/Loading';
 
 /**
  * @param { Object } props
@@ -16,7 +17,9 @@ function PrivateRoute({ component: Component, requireDatahub, dopplerSession, ..
     <Route
       {...rest}
       render={(props) =>
-        dopplerSession.status === 'authenticated' ? (
+        dopplerSession.status === 'unknown' ? (
+          <Loading page />
+        ) : dopplerSession.status === 'authenticated' ? (
           <>
             <Header userData={dopplerSession.userData} />
             {!requireDatahub || dopplerSession.datahubCustomerId ? (
