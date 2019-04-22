@@ -18,6 +18,24 @@ function createDoubleSessionManager() {
   return double;
 }
 
+function createLocalStorageDouble() {
+  const items = {};
+  const double = {
+    setItem: (key, value) => {
+      items[key] = value;
+    },
+    getItem: (key) => items[key],
+    removeItem: (key) => {
+      delete items[key];
+    },
+    clear: () => {
+      items = {};
+    },
+    getAllItems: () => ({ ...items }),
+  };
+  return double;
+}
+
 const RouterInspector = withRouter(({ match, location, history, target }) => {
   target.match = match;
   target.location = location;
@@ -199,6 +217,7 @@ describe('App component', () => {
             },
           },
           sessionManager: createDoubleSessionManager(),
+          localStorage: createLocalStorageDouble(),
         };
 
         const { getByText } = render(
@@ -442,6 +461,105 @@ describe('App component', () => {
         const footerEl = container.querySelector('.footer-main');
         expect(footerEl).not.toBeNull();
       });
+    });
+  });
+
+  describe('origin parameter', () => {
+    it('should be stored in the local storage', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/signup?origin=testOrigin']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toEqual('testOrigin');
+      expect(localStorageItems['dopplerFirstOrigin.date']).toBeDefined();
+      const dopplerOriginDate = new Date(localStorageItems['dopplerFirstOrigin.date']);
+      expect(dopplerOriginDate).toBeDefined();
+      expect(dopplerOriginDate.getFullYear()).toBeGreaterThan(2018);
+    });
+
+    it('should not be replaced in local storage if it already exists', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+      };
+
+      const oldValue = 'old value';
+      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/signup?origin=testOrigin']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
+    });
+
+    it('should not be cleaned in local storage when there is not origin URL parameter', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+      };
+
+      const oldValue = 'old value';
+      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/signup']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
+    });
+
+    it('should not be set in local storage when there is not origin URL parameter', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/signup']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      expect(localStorageItems['dopplerFirstOrigin.value']).toBeUndefined();
     });
   });
 });
