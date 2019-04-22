@@ -195,11 +195,11 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           />
         </footer>
       </article>
-      <section className="feature-panel">
+      <section className="feature-panel bg--signup">
         <article className="feature-content">
-          <h6>{_('feature_panel.email_editor')}</h6>
-          <h3>{_('feature_panel.email_editor_description')}</h3>
-          <p>{_('feature_panel.email_editor_remarks')}</p>
+          <h6>{_('feature_panel.email_automation')}</h6>
+          <h1>{_('feature_panel.email_automation_description')}</h1>
+          <p>{_('feature_panel.email_automation_remarks')}</p>
         </article>
       </section>
     </main>

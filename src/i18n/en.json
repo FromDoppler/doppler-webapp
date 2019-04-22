@@ -8,9 +8,15 @@
     "show": "Show"
   },
   "feature_panel": {
+    "email_automation": "Email automation",
+    "email_automation_description": "Right person, right message, right time",
+    "email_automation_remarks": "Send 100% personalized Emails according to the behavior and interests of your Subscribers. Save time and money!",
     "email_editor": "Emails Editor",
     "email_editor_description": "Crea Emails en minutos y accede a nuestra Galería de Plantillas",
-    "email_editor_remarks": "Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML."
+    "email_editor_remarks": "Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML.",
+    "forms": "subscription forms",
+    "forms_description": "Add new contacts to your Lists using custom Forms",
+    "forms_remarks": "Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!"
   },
   "footer": {
     "allRightReserved": "All rights reserved",
