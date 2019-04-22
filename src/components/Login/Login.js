@@ -11,6 +11,7 @@ import {
   SubmitButton,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
+import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
 
 const fieldNames = {
   user: 'user',
@@ -25,6 +26,11 @@ const getFormInitialValues = () =>
     (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
     {},
   );
+
+const extractLegacyRedirectUrl = (location) => {
+  const result = /[&?]redirect=(.*)$/.exec(location.search);
+  return (result && result.length === 2 && result[1] + location.hash) || null;
+};
 
 /**
  * Login Page
@@ -52,9 +58,12 @@ const Login = ({ intl, location }) => {
   };
 
   if (redirectAfterLogin) {
-    //TODO: Also allow redirect to doppler legacy URLs
-    const from = (location.state && location.state.from) || { pathname: '/' };
-    return <Redirect to={from} />;
+    const legacyRedirectUrl = extractLegacyRedirectUrl(location);
+    return legacyRedirectUrl ? (
+      <RedirectToLegacyUrl to={legacyRedirectUrl} />
+    ) : (
+      <Redirect to={(location.state && location.state.from) || { pathname: '/' }} />
+    );
   }
 
   return (
