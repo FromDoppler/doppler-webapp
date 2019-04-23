@@ -80,7 +80,7 @@
     "button_signup": "create your free account",
     "check_inbox": "Check your inbox. You have an email!",
     "check_inbox_icon_description": "Check your inbox",
-    "copyright": "© {year} Doppler LLC. All rights reserved. <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy and Legal Policy.</a>",
+    "copyright_HTML": "© {year} Doppler LLC. All rights reserved. <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy and Legal Policy.</a>",
     "do_you_already_have_an_account": "Already have an account?",
     "email_not_received": "Haven't you received the Email?",
     "head_description": "Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!",

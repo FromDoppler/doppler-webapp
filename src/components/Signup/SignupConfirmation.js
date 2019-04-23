@@ -43,13 +43,13 @@ const SignupConfirmation = function({ resend, intl }) {
         <div className="background bg-c" />
       </main>
       <footer className="confirmation-footer">
-          <FormattedHTMLMessage
-            tagName="small"
-            id="signup.copyright"
-            values={{ year: new Date().getFullYear() }}
-          />
-          <div className="background bg-b" />
-        </footer>
+        <FormattedHTMLMessage
+          tagName="small"
+          id="signup.copyright_HTML"
+          values={{ year: new Date().getFullYear() }}
+        />
+        <div className="background bg-b" />
+      </footer>
     </main>
   );
 };
