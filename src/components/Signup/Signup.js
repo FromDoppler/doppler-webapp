@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
-import { Formik, Form } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
   FieldGroup,
+  FormWithCaptcha,
   InputFieldItem,
   CheckboxFieldItem,
   ValidatedPasswordFieldItem,
@@ -126,64 +126,67 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
             {_('signup.log_in')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit} validate={validate}>
-          <Form className="signup-form">
-            <fieldset>
-              <FieldGroup>
-                <InputFieldItem
-                  className="field-item--50"
-                  fieldName={fieldNames.firstname}
-                  label={_('signup.label_firstname')}
-                  type="text"
-                  required
-                  placeholder={_('signup.placeholder_firstname')}
-                />
-                <InputFieldItem
-                  className="field-item--50"
-                  fieldName={fieldNames.lastname}
-                  label={_('signup.label_lastname')}
-                  type="text"
-                  required
-                  placeholder={_('signup.placeholder_lastname')}
-                />
-                <PhoneFieldItem
-                  fieldName={fieldNames.phone}
-                  label={_('signup.label_phone')}
-                  placeholder={_('signup.placeholder_phone')}
-                  required
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FieldGroup>
-                <EmailFieldItem
-                  fieldName={fieldNames.email}
-                  label={_('signup.label_email')}
-                  placeholder={_('signup.placeholder_email')}
-                />
-                <ValidatedPasswordFieldItem
-                  fieldName={fieldNames.password}
-                  label={_('signup.label_password')}
-                  placeholder={_('signup.placeholder_password')}
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FieldGroup>
-                <CheckboxFieldItem
-                  fieldName={fieldNames.accept_privacy_policies}
-                  label={<FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />}
-                  checkRequired
-                />
-                <CheckboxFieldItem
-                  fieldName={fieldNames.accept_promotions}
-                  label={_('signup.promotions_consent')}
-                />
-              </FieldGroup>
-            </fieldset>
-            <SubmitButton>{_('signup.button_signup')}</SubmitButton>
-          </Form>
-        </Formik>
+        <FormWithCaptcha
+          className="signup-form"
+          initialValues={getFormInitialValues()}
+          onSubmit={onSubmit}
+          validate={validate}
+        >
+          <fieldset>
+            <FieldGroup>
+              <InputFieldItem
+                className="field-item--50"
+                fieldName={fieldNames.firstname}
+                label={_('signup.label_firstname')}
+                type="text"
+                required
+                placeholder={_('signup.placeholder_firstname')}
+              />
+              <InputFieldItem
+                className="field-item--50"
+                fieldName={fieldNames.lastname}
+                label={_('signup.label_lastname')}
+                type="text"
+                required
+                placeholder={_('signup.placeholder_lastname')}
+              />
+              <PhoneFieldItem
+                fieldName={fieldNames.phone}
+                label={_('signup.label_phone')}
+                placeholder={_('signup.placeholder_phone')}
+                required
+              />
+            </FieldGroup>
+          </fieldset>
+          <fieldset>
+            <FieldGroup>
+              <EmailFieldItem
+                fieldName={fieldNames.email}
+                label={_('signup.label_email')}
+                placeholder={_('signup.placeholder_email')}
+              />
+              <ValidatedPasswordFieldItem
+                fieldName={fieldNames.password}
+                label={_('signup.label_password')}
+                placeholder={_('signup.placeholder_password')}
+              />
+            </FieldGroup>
+          </fieldset>
+          <fieldset>
+            <FieldGroup>
+              <CheckboxFieldItem
+                fieldName={fieldNames.accept_privacy_policies}
+                label={<FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />}
+                checkRequired
+              />
+              <CheckboxFieldItem
+                fieldName={fieldNames.accept_promotions}
+                label={_('signup.promotions_consent')}
+              />
+            </FieldGroup>
+          </fieldset>
+          <SubmitButton>{_('signup.button_signup')}</SubmitButton>
+        </FormWithCaptcha>
         <div className="content-legal">
           <FormattedHTMLMessage id="signup.legal_HTML" />
         </div>

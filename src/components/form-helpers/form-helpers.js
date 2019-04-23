@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { connect, Field } from 'formik';
+import { connect, Field, Formik, Form } from 'formik';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import {
   validateEmail,
@@ -55,6 +55,25 @@ function createRequiredValidation(requiredProp) {
 
   return (value) => validateRequiredField(value, requiredProp);
 }
+
+/**
+ * Form With Captcha Component
+ * @param { Object } props
+ * @param { string } props.className
+ * @param { Function } props.onSubmit
+ * @param { Function } props.validate
+ * @param { Object } props.initialValues
+ * @param { Object[] } props.children
+ */
+const _FormWithCaptcha = ({ className, onSubmit, validate, initialValues, children, ...rest }) => {
+  return (
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate} {...rest}>
+      <Form className={className}>{children}</Form>
+    </Formik>
+  );
+};
+
+export const FormWithCaptcha = _FormWithCaptcha;
 
 export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
