@@ -190,7 +190,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         <footer>
           <FormattedHTMLMessage
             tagName="small"
-            id="signup.copyright"
+            id="signup.copyright_HTML"
             values={{ year: new Date().getFullYear() }}
           />
         </footer>

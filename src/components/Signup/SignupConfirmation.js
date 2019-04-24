@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { injectIntl } from 'react-intl';
+import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 
 /**
  * Signup Confirmation Page
@@ -43,7 +43,11 @@ const SignupConfirmation = function({ resend, intl }) {
         <div className="background bg-c" />
       </main>
       <footer className="confirmation-footer">
-        <p>{_('signup.copyright', { year: 2019 })}</p>
+        <FormattedHTMLMessage
+          tagName="small"
+          id="signup.copyright_HTML"
+          values={{ year: new Date().getFullYear() }}
+        />
         <div className="background bg-b" />
       </footer>
     </main>
