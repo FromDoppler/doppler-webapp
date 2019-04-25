@@ -8,15 +8,16 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
  */
 function DatahubRequired({
   dependencies: {
+    appSessionRef,
     appConfiguration: { dopplerLegacyUrl },
   },
 }) {
-  const freeAccount = true;
 
+  const isFreeAccount = appSessionRef.current.userData !== undefined ? appSessionRef.current.userData.user.plan.isFreeAccount: false;
   return (
     <section className="container-reports">
       <div className="wrapper-kpi">
-        {freeAccount ? (
+        {isFreeAccount ? (
           <div>
             <FormattedMessage tagName="h3" id="reports.upgrade_account_free_title" />
             <FormattedHTMLMessage
