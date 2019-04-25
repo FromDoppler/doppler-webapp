@@ -16,12 +16,13 @@ const SignupConfirmation = function({ resend, intl }) {
   };
   return (
     <main className="confirmation-wrapper">
+      <div className="background bg-c" />
       <header className="confirmation-header">
         <h1 className="logo-doppler-new">Doppler</h1>
       </header>
       <main className="confirmation-main">
         <article className="confirmation-article">
-          <h2>{_('signup.thanks_for_registering')}</h2>
+          <h1>{_('signup.thanks_for_registering')}</h1>
           <p>{_('signup.check_inbox')}</p>
           <span className="icon-registration m-bottom--lv6">
             {_('signup.check_inbox_icon_description')}
@@ -40,7 +41,6 @@ const SignupConfirmation = function({ resend, intl }) {
           // TODO: review content
           <p>{_('signup.no_more_resend')}</p>
         )}
-        <div className="background bg-c" />
       </main>
       <footer className="confirmation-footer">
         <FormattedHTMLMessage
@@ -48,8 +48,8 @@ const SignupConfirmation = function({ resend, intl }) {
           id="signup.copyright_HTML"
           values={{ year: new Date().getFullYear() }}
         />
-        <div className="background bg-b" />
       </footer>
+      <div className="background bg-b" />
     </main>
   );
 };
