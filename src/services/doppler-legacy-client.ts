@@ -66,6 +66,7 @@ interface PlanEntry {
   pendingFreeUpgrade: boolean;
   planName: string;
   remainingCredits: number;
+  isFreeAccount: boolean;
 }
 
 interface AvatarEntry {
@@ -114,6 +115,7 @@ function mapPlanEntry(json: any): PlanEntry {
     pendingFreeUpgrade: (json.pendingFreeUpgrade && JSON.parse(json.pendingFreeUpgrade)) || false,
     planName: json.planName,
     remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
+    isFreeAccount: json.planType == 1 || json.planType == 7,
   };
 }
 
