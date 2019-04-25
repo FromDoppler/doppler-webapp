@@ -12,8 +12,11 @@ function DatahubRequired({
     appConfiguration: { dopplerLegacyUrl },
   },
 }) {
+  const isFreeAccount =
+    appSessionRef.current.userData !== undefined
+      ? appSessionRef.current.userData.user.plan.isFreeAccount
+      : false;
 
-  const isFreeAccount = appSessionRef.current.userData !== undefined ? appSessionRef.current.userData.user.plan.isFreeAccount: false;
   return (
     <section className="container-reports">
       <div className="wrapper-kpi">
