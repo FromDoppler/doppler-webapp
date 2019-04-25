@@ -100,6 +100,7 @@
     "placeholder_phone": "9 11 2345-6789",
     "privacy_policy_consent_HTML": "I accept Doppler's <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy Policy</a>.",
     "promotions_consent": "Sign me up for promotions about Doppler and its partners.",
+    "recaptcha_legal_HTML": "<p>This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy?hl=en\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms?hl=en\">Terms of Service</a> apply.</p>",
     "resend_email": "Resent it",
     "sign_up": "Sign Up",
     "sign_up_sub": "No contracts or credit cards required, up to 500 Subscribers.",

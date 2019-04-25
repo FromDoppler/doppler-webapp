@@ -189,6 +189,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         </FormWithCaptcha>
         <div className="content-legal">
           <FormattedHTMLMessage id="signup.legal_HTML" />
+          <FormattedHTMLMessage id="signup.recaptcha_legal_HTML" />
         </div>
         <footer>
           <FormattedHTMLMessage
