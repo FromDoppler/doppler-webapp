@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { connect, Field } from 'formik';
+import { connect, Field, Formik, Form } from 'formik';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import {
   validateEmail,
@@ -16,6 +16,8 @@ import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/js/utils';
 import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { InjectAppServices } from '../../services/pure-di';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -55,6 +57,112 @@ function createRequiredValidation(requiredProp) {
 
   return (value) => validateRequiredField(value, requiredProp);
 }
+
+/**
+ * Form With Captcha Component
+ * @param { Object } props
+ * @param { string } props.className
+ * @param { Function } props.onSubmit
+ * @param { Function } props.validate
+ * @param { Object } props.initialValues
+ * @param { Object[] } props.children
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
+ */
+const _FormWithCaptcha = ({
+  className,
+  onSubmit,
+  validate,
+  initialValues,
+  children,
+  dependencies: { appConfiguration },
+  ...rest
+}) => {
+  /** Store original onSubmit because I need to replace it with verifyCaptchaAndSubmit */
+  const originalOnSubmit = onSubmit;
+
+  /** Reference to re-captcha object */
+  const recaptchaRef = useRef();
+
+  /** Reference to what to do after captcha verification, I need override this function in order to resolve verifyCapcha promise */
+  const onCaptchaChangeRef = useRef();
+
+  /** To call current overrode implementation of onCaptchaChange */
+  const onCaptchaChange = (captchaResponseToken) =>
+    onCaptchaChangeRef.current(captchaResponseToken, 'change');
+
+  /** To call current overrode implementation of onCaptchaChange */
+  const onCaptchaErrored = () => onCaptchaChangeRef.current(null, 'error');
+
+  /** Generates a promise that is resolved when captcha is resolved (successfully or not) */
+  function verifyCaptcha() {
+    return new Promise(async (resolve) => {
+      onCaptchaChangeRef.current = async (captchaResponseToken, resultType) => {
+        try {
+          await recaptchaRef.current.reset();
+        } catch (error) {
+          console.log('Error resetting captcha', error);
+        }
+
+        if (resultType === 'error') {
+          resolve({ capchaError: { errorCallback: true } });
+        } else if (!captchaResponseToken) {
+          resolve({ capchaError: { noToken: true } });
+        } else {
+          resolve({ success: true, captchaResponseToken: captchaResponseToken });
+        }
+      };
+
+      try {
+        await recaptchaRef.current.execute();
+        /* nothing to do if it is successful, only wait for onChange. */
+      } catch (error) {
+        console.log('error on captcha execute', error);
+        resolve({ capchaError: { errorExecuting: true } });
+      }
+      // If challenge window is closed, we do not have feedback, so, by the moment,
+      // we will keep the submit button disabled.
+      // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
+    });
+  }
+
+  /** Try to verify captcha, if success run original onSubmit function */
+  const verifyCaptchaAndSubmit = async (values, formikProps) => {
+    const result = await verifyCaptcha();
+    if (result.success) {
+      await originalOnSubmit(
+        { ...values, captchaResponseToken: result.captchaResponseToken },
+        formikProps,
+      );
+    } else {
+      console.log('Capcha error', result);
+      formikProps.setErrors({ _general: 'validation_messages.error_unexpected' });
+      formikProps.setSubmitting(false);
+    }
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={verifyCaptchaAndSubmit}
+      validate={validate}
+      {...rest}
+      render={() => (
+        <Form className={className}>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={appConfiguration.recaptchaPublicKey}
+            size="invisible"
+            onChange={onCaptchaChange}
+            onErrored={onCaptchaErrored}
+          />
+          {children}
+        </Form>
+      )}
+    />
+  );
+};
+
+export const FormWithCaptcha = InjectAppServices(_FormWithCaptcha);
 
 export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>

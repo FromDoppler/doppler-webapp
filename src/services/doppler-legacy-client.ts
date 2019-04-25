@@ -15,14 +15,19 @@ type ErrorResult<TError> = { success?: false; expectedError: TError } | Unexpect
 type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
 type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
 
+interface PayloadWithCaptchaToken {
+  captchaResponseToken: string;
+}
+
+/* #region Registration data types */
+
 type UserRegistrationErrorResult =
   | { emailAlreadyExists: true; blockedDomain?: false }
   | { emailAlreadyExists?: false; blockedDomain: true };
 
 export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
-/* #region Registration data types */
-export interface UserRegistrationModel {
+export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   firstname: string;
   lastname: string;
   phone: string;
@@ -198,12 +203,13 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         Phone: model.phone,
         Email: model.email,
         Password: model.password,
-        TermsAndConditionsActive: model.accept_privacy_policies,
-        PromotionsEnabled: model.accept_promotions,
+        TermsAndConditionsActive: !!model.accept_privacy_policies,
+        PromotionsEnabled: !!model.accept_promotions,
         ClientTimeZoneOffset: -new Date().getTimezoneOffset(),
         FirstOrigin: model.firstOrigin,
         Origin: model.origin,
         Language: model.language || 'es',
+        RecaptchaUserCode: model.captchaResponseToken,
       });
 
       if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
