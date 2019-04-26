@@ -53,11 +53,16 @@ const SignupConfirmation = function({ resend, intl }) {
         )}
       </main>
       <footer className="confirmation-footer">
-        <FormattedHTMLMessage
-          tagName="small"
-          id="signup.copyright_HTML"
-          values={{ year: new Date().getFullYear() }}
-        />
+        <p>
+          <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
+        </p>
+        <p>
+          <FormattedHTMLMessage
+            tagName="small"
+            id="common.copyright_HTML"
+            values={{ year: new Date().getFullYear() }}
+          />
+        </p>
       </footer>
       <div className="background bg-b" />
     </main>

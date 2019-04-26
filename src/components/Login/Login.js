@@ -129,11 +129,16 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </fieldset>
         </FormWithCaptcha>
         <footer>
-          <FormattedHTMLMessage
-            tagName="small"
-            id="signup.copyright_HTML"
-            values={{ year: new Date().getFullYear() }}
-          />
+          <p>
+            <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
+          </p>
+          <p>
+            <FormattedHTMLMessage
+              tagName="small"
+              id="common.copyright_HTML"
+              values={{ year: new Date().getFullYear() }}
+            />
+          </p>
         </footer>
       </article>
       <section className="feature-panel bg--login">

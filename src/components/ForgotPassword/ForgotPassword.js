@@ -76,11 +76,16 @@ const ForgotPassword = ({ intl }) => {
           </Form>
         </Formik>
         <footer>
-          <FormattedHTMLMessage
-            tagName="small"
-            id="signup.copyright_HTML"
-            values={{ year: new Date().getFullYear() }}
-          />
+          <p>
+            <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
+          </p>
+          <p>
+            <FormattedHTMLMessage
+              tagName="small"
+              id="common.copyright_HTML"
+              values={{ year: new Date().getFullYear() }}
+            />
+          </p>
         </footer>
       </article>
       <section className="feature-panel bg--forgot">

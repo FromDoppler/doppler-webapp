@@ -195,14 +195,18 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         </FormWithCaptcha>
         <div className="content-legal">
           <FormattedHTMLMessage id="signup.legal_HTML" />
-          <FormattedHTMLMessage id="signup.recaptcha_legal_HTML" />
         </div>
         <footer>
-          <FormattedHTMLMessage
-            tagName="small"
-            id="signup.copyright_HTML"
-            values={{ year: new Date().getFullYear() }}
-          />
+          <p>
+            <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
+          </p>
+          <p>
+            <FormattedHTMLMessage
+              tagName="small"
+              id="common.copyright_HTML"
+              values={{ year: new Date().getFullYear() }}
+            />
+          </p>
         </footer>
       </article>
       <section className="feature-panel bg--signup">
