@@ -62,7 +62,11 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
   };
 
   if (registeredUser) {
-    const resend = () => dopplerLegacyClient.resendRegistrationEmail(registeredUser);
+    const resend = (captchaResponseToken) =>
+      dopplerLegacyClient.resendRegistrationEmail({
+        email: registeredUser,
+        captchaResponseToken: captchaResponseToken,
+      });
     return <SignupConfirmation resend={resend} />;
   }
 
