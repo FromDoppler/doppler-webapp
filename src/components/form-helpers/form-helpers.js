@@ -119,15 +119,18 @@ const _FormWithCaptcha = ({
         console.log('error on captcha execute', error);
         resolve({ capchaError: { errorExecuting: true } });
       }
-      // If challenge window is closed, we do not have feedback, so, by the moment,
-      // we will keep the submit button disabled.
-      // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
     });
   }
 
   /** Try to verify captcha, if success run original onSubmit function */
   const verifyCaptchaAndSubmit = async (values, formikProps) => {
+    // Disabled submitting state during captcha initialization to avoid dead-end
+    // If challenge window is closed, we do not have feedback, so, by the moment,
+    // we will keep the submit button disabled.
+    // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
+    formikProps.setSubmitting(false);
     const result = await verifyCaptcha();
+    formikProps.setSubmitting(true);
     if (result.success) {
       await originalOnSubmit(
         { ...values, captchaResponseToken: result.captchaResponseToken },
