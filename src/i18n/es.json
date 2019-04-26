@@ -1,9 +1,11 @@
 ﻿{
   "common": {
     "cancel": "Cancelar",
+    "copyright_HTML": "© {year} Doppler LLC. Todos los derechos reservados. <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad y Legales.</a>",
     "help": "Ayuda",
     "hide": "Ocultar",
     "message": "Mensaje",
+    "recaptcha_legal_HTML": "Este sitio es protegido por reCAPTCHA y aplican la <a href=\"https://policies.google.com/privacy?hl=es\">Política de Privacidad</a> y <a href=\"https://policies.google.com/terms?hl=es\">Condiciones del Servicio</a> de Google.",
     "send": "Enviar",
     "show": "Mostrar"
   },
@@ -82,7 +84,6 @@
     "button_signup": "Crea tu cuenta gratis",
     "check_inbox": "Revisa tu casilla. ¡Tienes un Email!",
     "check_inbox_icon_description": "Fíjate en tu correo electrónico",
-    "copyright_HTML": "© {year} Doppler LLC. Todos los derechos reservados. <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad y Legales.</a>",
     "do_you_already_have_an_account": "¿Ya tienes una cuenta?",
     "email_not_received": "¿No has recibido el Email?",
     "head_description": "Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!",
@@ -102,7 +103,6 @@
     "placeholder_phone": "9 11 2345-6789",
     "privacy_policy_consent_HTML": "Acepto la <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad</a> de Doppler.",
     "promotions_consent": "Acepto recibir las promociones de Doppler y sus aliados.",
-    "recaptcha_legal_HTML": "<p>Este sitio es protegido por reCAPTCHA y aplican la <a href=\"https://policies.google.com/privacy?hl=es\">Política de Privacidad</a> y <a href=\"https://policies.google.com/terms?hl=es\">Condiciones del Servicio</a> de Google.</p>",
     "resend_email": "Reenvíalo",
     "sign_up": "Regístrate",
     "sign_up_sub": "Crea una cuenta GRATIS hasta 500 Suscriptores.",
