@@ -6,7 +6,7 @@ export interface DopplerLegacyClient {
   getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyClientTypePlan[]>;
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
   registerUser(userRegistrationModel: UserRegistrationModel): Promise<UserRegistrationResult>;
-  resendRegistrationEmail(email: string): Promise<void>;
+  resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
 }
 
 // TODO: move it a common place if it will be reused
@@ -38,6 +38,10 @@ export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   firstOrigin?: string;
   origin: string;
   language: string;
+}
+
+export interface ResendRegistrationModel extends PayloadWithCaptchaToken {
+  email: string;
 }
 
 /* #endregion */
@@ -237,8 +241,11 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
   }
 
-  public async resendRegistrationEmail(email: string) {
-    await this.axios.post(`WebAppPublic/ResendRegistrationEmail`, { Email: email });
+  public async resendRegistrationEmail(model: ResendRegistrationModel) {
+    await this.axios.post(`WebAppPublic/ResendRegistrationEmail`, {
+      Email: model.email,
+      RecaptchaUserCode: model.captchaResponseToken,
+    });
   }
 
   public async getUpgradePlanData(isSubscriberPlan: boolean) {
