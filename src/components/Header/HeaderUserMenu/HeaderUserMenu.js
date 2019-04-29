@@ -18,7 +18,7 @@ class HeaderUserMenu extends React.Component {
     const user = this.props.user;
     return (
       <div>
-        <span id="user-menu--open">
+        <span className="user-menu--open">
           <span style={{ background: user.avatar.color }} className="user-avatar">
             {user.avatar.text}
           </span>
