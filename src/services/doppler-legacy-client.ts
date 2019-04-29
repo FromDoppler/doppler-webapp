@@ -4,6 +4,7 @@ import { Color } from 'csstype';
 export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
   getUpgradePlanData(isSubscriberPlan: boolean): Promise<DopplerLegacyClientTypePlan[]>;
+  login(loginModel: LoginModel): Promise<LoginResult>;
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
   registerUser(userRegistrationModel: UserRegistrationModel): Promise<UserRegistrationResult>;
   resendRegistrationEmail(email: string): Promise<void>;
@@ -18,6 +19,22 @@ type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
 interface PayloadWithCaptchaToken {
   captchaResponseToken: string;
 }
+
+/* #region Login data types */
+
+export type LoginErrorResult =
+  | { userBlockedByPayment?: false; userInactive?: false }
+  | { userBlockedByPayment: true; userInactive?: false }
+  | { userInactive: true; userBlockedByPayment?: false };
+
+export type LoginResult = EmptyResult<LoginErrorResult>;
+
+export interface LoginModel extends PayloadWithCaptchaToken {
+  username: string;
+  password: string;
+}
+
+/* #endregion */
 
 /* #region Registration data types */
 
@@ -195,6 +212,37 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return mapHeaderDataJson(response.data);
+  }
+
+  public async login(model: LoginModel): Promise<LoginResult> {
+    try {
+      const response = await this.axios.post(`WebAppPublic/Login`, {
+        Username: model.username,
+        Password: model.password,
+        RecaptchaUserCode: model.captchaResponseToken,
+      });
+
+      if (!response.data.success && response.data.error == 'UserBlockedByPayment') {
+        return { expectedError: { userBlockedByPayment: true } };
+      }
+
+      if (!response.data.success && response.data.error == 'UserInactive') {
+        return { expectedError: { userInactive: true } };
+      }
+
+      if (!response.data.success) {
+        return {
+          message: response.data.error || null,
+        };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return {
+        message: error.message || null,
+        error: error,
+      };
+    }
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {

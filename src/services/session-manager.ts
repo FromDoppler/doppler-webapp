@@ -7,6 +7,7 @@ const noop = () => {};
 export interface SessionManager {
   initialize: (handler: (s: AppSession) => void) => void;
   finalize: () => void;
+  restart: () => void;
 }
 
 export class OnlineSessionManager implements SessionManager {
@@ -44,6 +45,13 @@ export class OnlineSessionManager implements SessionManager {
     if (this.dopplerInterval) {
       clearInterval(this.dopplerInterval);
     }
+  }
+
+  public restart() {
+    const previousHandler = this.handler;
+    this.finalize();
+    this.updateSession({ status: 'unknown' });
+    this.initialize(previousHandler);
   }
 
   private updateSession(session: AppSession) {

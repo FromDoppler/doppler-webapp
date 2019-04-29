@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
-import { timeout } from '../../utils';
-import { Formik, Form } from 'formik';
 import { Helmet } from 'react-helmet';
 import {
   EmailFieldItem,
   FieldGroup,
   PasswordFieldItem,
   SubmitButton,
+  FormWithCaptcha,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
+import { InjectAppServices } from '../../services/pure-di';
 
 const fieldNames = {
   user: 'user',
@@ -37,17 +37,30 @@ const extractLegacyRedirectUrl = (location) => {
  * @param { Object } props - props
  * @param { import('react-intl').InjectedIntl } props.intl - intl
  * @param { import('history').Location } props.location - location
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Login = ({ intl, location }) => {
+const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      // TODO: implement login submit
-      const result = await timeout(1500);
-      if (result && result.success) {
+      const result = await dopplerLegacyClient.login({
+        username: values[fieldNames.user],
+        password: values[fieldNames.password],
+      });
+
+      if (result.success) {
+        sessionManager.restart();
         setRedirectAfterLogin(true);
+      } else if (result.expectedError && result.expectedError.userBlockedByPayment) {
+        // TODO: define how this error should be shown
+        console.log('userBlockedByPayment error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
+      } else if (result.expectedError && result.expectedError.userInactive) {
+        // TODO: define how this error should be shown
+        console.log('userInactive error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
       } else {
         console.log('Unexpected error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
@@ -85,32 +98,34 @@ const Login = ({ intl, location }) => {
             {_('login.signup')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
-          <Form className="login-form">
-            <fieldset>
-              <FieldGroup>
-                <EmailFieldItem
-                  fieldName={fieldNames.user}
-                  label={_('login.label_user')}
-                  required
-                  placeholder={_('signup.placeholder_email')}
-                />
-                <PasswordFieldItem
-                  fieldName={fieldNames.password}
-                  label={_('signup.label_password')}
-                  placeholder={_('signup.placeholder_password')}
-                  required
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <SubmitButton>{_('login.button_login')}</SubmitButton>
-              <Link to="/forgot-password" className="forgot-link">
-                {_('login.forgot_password')}
-              </Link>
-            </fieldset>
-          </Form>
-        </Formik>
+        <FormWithCaptcha
+          className="login-form"
+          initialValues={getFormInitialValues()}
+          onSubmit={onSubmit}
+        >
+          <fieldset>
+            <FieldGroup>
+              <EmailFieldItem
+                fieldName={fieldNames.user}
+                label={_('login.label_user')}
+                required
+                placeholder={_('signup.placeholder_email')}
+              />
+              <PasswordFieldItem
+                fieldName={fieldNames.password}
+                label={_('signup.label_password')}
+                placeholder={_('signup.placeholder_password')}
+                required
+              />
+            </FieldGroup>
+          </fieldset>
+          <fieldset>
+            <SubmitButton>{_('login.button_login')}</SubmitButton>
+            <Link to="/forgot-password" className="forgot-link">
+              {_('login.forgot_password')}
+            </Link>
+          </fieldset>
+        </FormWithCaptcha>
         <footer>
           <FormattedHTMLMessage
             tagName="small"
@@ -130,4 +145,4 @@ const Login = ({ intl, location }) => {
   );
 };
 
-export default injectIntl(Login);
+export default InjectAppServices(injectIntl(Login));
