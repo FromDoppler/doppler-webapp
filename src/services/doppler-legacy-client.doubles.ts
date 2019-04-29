@@ -6,6 +6,7 @@ import {
   UserRegistrationResult,
   LoginModel,
   LoginResult,
+  ResendRegistrationModel,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -27,8 +28,8 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     return { success: true };
   }
 
-  public async resendRegistrationEmail(email: string) {
-    console.log(this.resendRegistrationEmail, email);
+  public async resendRegistrationEmail(model: ResendRegistrationModel) {
+    console.log(this.resendRegistrationEmail, model);
     await timeout(1500);
   }
 

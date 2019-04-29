@@ -16,8 +16,7 @@ import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/js/utils';
 import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { InjectAppServices } from '../../services/pure-di';
+import { useCaptcha } from './captcha-utils';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -68,59 +67,18 @@ function createRequiredValidation(requiredProp) {
  * @param { Object[] } props.children
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const _FormWithCaptcha = ({
+export const FormWithCaptcha = ({
   className,
   onSubmit,
   validate,
   initialValues,
   children,
-  dependencies: { appConfiguration },
   ...rest
 }) => {
   /** Store original onSubmit because I need to replace it with verifyCaptchaAndSubmit */
   const originalOnSubmit = onSubmit;
 
-  /** Reference to re-captcha object */
-  const recaptchaRef = useRef();
-
-  /** Reference to what to do after captcha verification, I need override this function in order to resolve verifyCapcha promise */
-  const onCaptchaChangeRef = useRef();
-
-  /** To call current overrode implementation of onCaptchaChange */
-  const onCaptchaChange = (captchaResponseToken) =>
-    onCaptchaChangeRef.current(captchaResponseToken, 'change');
-
-  /** To call current overrode implementation of onCaptchaChange */
-  const onCaptchaErrored = () => onCaptchaChangeRef.current(null, 'error');
-
-  /** Generates a promise that is resolved when captcha is resolved (successfully or not) */
-  function verifyCaptcha() {
-    return new Promise(async (resolve) => {
-      onCaptchaChangeRef.current = async (captchaResponseToken, resultType) => {
-        try {
-          await recaptchaRef.current.reset();
-        } catch (error) {
-          console.log('Error resetting captcha', error);
-        }
-
-        if (resultType === 'error') {
-          resolve({ capchaError: { errorCallback: true } });
-        } else if (!captchaResponseToken) {
-          resolve({ capchaError: { noToken: true } });
-        } else {
-          resolve({ success: true, captchaResponseToken: captchaResponseToken });
-        }
-      };
-
-      try {
-        await recaptchaRef.current.execute();
-        /* nothing to do if it is successful, only wait for onChange. */
-      } catch (error) {
-        console.log('error on captcha execute', error);
-        resolve({ capchaError: { errorExecuting: true } });
-      }
-    });
-  }
+  const [Captcha, verifyCaptcha] = useCaptcha();
 
   /** Try to verify captcha, if success run original onSubmit function */
   const verifyCaptchaAndSubmit = async (values, formikProps) => {
@@ -151,21 +109,13 @@ const _FormWithCaptcha = ({
       {...rest}
       render={() => (
         <Form className={className}>
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={appConfiguration.recaptchaPublicKey}
-            size="invisible"
-            onChange={onCaptchaChange}
-            onErrored={onCaptchaErrored}
-          />
+          <Captcha />
           {children}
         </Form>
       )}
     />
   );
 };
-
-export const FormWithCaptcha = InjectAppServices(_FormWithCaptcha);
 
 export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
