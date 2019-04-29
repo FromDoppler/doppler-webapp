@@ -121,6 +121,19 @@ export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
 );
 
+export const FormErrors = connect(
+  /**
+   * @param { Object } props
+   * @param { import('formik').FormikProps<Values> } props.formik
+   */
+  ({ formik: { errors } }) =>
+    errors && errors['_general'] ? (
+      <div className="unexpected-message">
+        <ErrorMessage error={errors['_general']} />
+      </div>
+    ) : null,
+);
+
 const ErrorMessage = injectIntl(({ intl, error }) =>
   React.isValidElement(error) ? (
     error
@@ -433,14 +446,9 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, 
  * @param { import('formik').FormikProps<Values> } props.formik
  * @param { string } props.className
  */
-const _SubmitButton = ({ children, formik: { isSubmitting, errors } }) => {
+const _SubmitButton = ({ children, formik: { isSubmitting } }) => {
   return (
     <>
-      {errors && errors['_general'] ? (
-        <div className="unexpected-message">
-          <ErrorMessage error={errors['_general']} />
-        </div>
-      ) : null}
       <button
         type="submit"
         disabled={isSubmitting}

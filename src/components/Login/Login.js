@@ -8,6 +8,7 @@ import {
   PasswordFieldItem,
   SubmitButton,
   FormWithCaptcha,
+  FormErrors,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
@@ -103,6 +104,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           initialValues={getFormInitialValues()}
           onSubmit={onSubmit}
         >
+          <FormErrors />
           <fieldset>
             <FieldGroup>
               <EmailFieldItem

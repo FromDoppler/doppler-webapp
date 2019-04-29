@@ -12,6 +12,7 @@ import {
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
   SubmitButton,
+  FormErrors,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SignupConfirmation from './SignupConfirmation';
@@ -136,6 +137,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           onSubmit={onSubmit}
           validate={validate}
         >
+          <FormErrors />
           <fieldset>
             <FieldGroup>
               <InputFieldItem
