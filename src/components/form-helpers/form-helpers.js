@@ -128,8 +128,10 @@ export const FormErrors = connect(
    */
   ({ formik: { errors } }) =>
     errors && errors['_general'] ? (
-      <div className="unexpected-message">
-        <ErrorMessage error={errors['_general']} />
+      <div className="form-message error">
+        <div className="wrapper-errors">
+          <ErrorMessage error={errors['_general']} />
+        </div>
       </div>
     ) : null,
 );
