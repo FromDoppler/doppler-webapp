@@ -121,19 +121,30 @@ export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
 );
 
-export const FieldItem = injectIntl(
-  connect(({ intl, className, fieldName, children, formik: { errors, touched } }) => (
+const ErrorMessage = injectIntl(({ intl, error }) =>
+  React.isValidElement(error) ? (
+    error
+  ) : (
+    // assuming string
+    // TODO: also consider array of errors, and parameters for localization message placeholders
+    <p className="error-message">{intl.formatMessage({ id: error })}</p>
+  ),
+);
+
+export const FieldItem = connect(
+  ({ className, fieldName, children, formik: { errors, touched } }) => (
     <li
       className={concatClasses(className, touched[fieldName] && errors[fieldName] ? 'error' : '')}
     >
       {children}
-      {touched[fieldName] && errors[fieldName] && typeof errors[fieldName] === 'string' ? (
+      {/* Boolean errors will not have message */}
+      {touched[fieldName] && errors[fieldName] && errors[fieldName] !== true ? (
         <div className="wrapper-errors">
-          <p className="error-message">{intl.formatMessage({ id: errors[fieldName] })}</p>
+          <ErrorMessage error={errors[fieldName]} />
         </div>
       ) : null}
     </li>
-  )),
+  ),
 );
 
 const PasswordWrapper = connect(
@@ -422,12 +433,12 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, 
  * @param { import('formik').FormikProps<Values> } props.formik
  * @param { string } props.className
  */
-const _SubmitButton = ({ children, intl, formik: { isSubmitting, errors } }) => {
+const _SubmitButton = ({ children, formik: { isSubmitting, errors } }) => {
   return (
     <>
       {errors && errors['_general'] ? (
         <div className="unexpected-message">
-          <span>{intl.formatMessage({ id: errors['_general'] })}</span>
+          <ErrorMessage error={errors['_general']} />
         </div>
       ) : null}
       <button
@@ -444,4 +455,4 @@ const _SubmitButton = ({ children, intl, formik: { isSubmitting, errors } }) => 
   );
 };
 
-export const SubmitButton = injectIntl(connect(_SubmitButton));
+export const SubmitButton = connect(_SubmitButton);
