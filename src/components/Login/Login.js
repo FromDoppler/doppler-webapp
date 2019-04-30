@@ -68,6 +68,10 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
+      } else if (result.expectedError && result.expectedError.accountNotValidated) {
+        // TODO: define how this error should be shown
+        console.log('accountNotValidated error', result);
+        setErrors({ _general: 'validation_messages.error_unexpected' });
       } else {
         console.log('Unexpected error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });

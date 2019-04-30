@@ -19,7 +19,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await timeout(1500);
     return { success: true };
     // return { expectedError: { blockedAccountNotPayed: true } };
-    // return { expectedError: { userInactive: true } };
+    // return { expectedError: { accountNotValidated: true } };
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
