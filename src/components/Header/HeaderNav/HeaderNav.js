@@ -11,7 +11,7 @@ const HeaderNav = ({ nav }) => {
                 {item.title}
               </a>
               {item.subNav ? (
-                <ul className="sub-menu">
+                <ul className={'sub-menu' + (item.isSelected ? ' open' : '')}>
                   {item.subNav.map((itemSubNav, index) => (
                     <li key={index}>
                       <a className={itemSubNav.isSelected ? 'active' : ''} href={itemSubNav.url}>

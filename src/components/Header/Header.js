@@ -8,7 +8,8 @@ const Header = ({ userData: { user, nav, alert } }) => {
   return (
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}
-      <header className="header-main">
+      {/* //TODO: Refactor backend to send proper active values. Class 'header-is-active' must be removed */}
+      <header className="header-main header-open header-is-active">
         <div className="header-wrapper">
           <div className="logo">
             <span className="ms-icon icon-doppler-logo" />

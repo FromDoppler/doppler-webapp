@@ -1,193 +1,158 @@
 {
-  "nav": [
-    {
-      "title": "Campañas",
+  "nav": [{
+    "title": "Campaigns",
+    "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
+    "isEnabled": false,
+    "isSelected": false,
+    "subNav": [{
+      "title": "Draft",
       "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
       "isEnabled": false,
       "isSelected": false,
-      "subNav": [
-        {
-          "title": "Borradores",
-          "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "campaignDraftMenu",
-          "$$hashKey": "object:32"
-        },
-        {
-          "title": "Programadas",
-          "url": "https://appint.fromdoppler.net/Campaigns/Scheduled/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "campaignScheduledMenu",
-          "$$hashKey": "object:33"
-        },
-        {
-          "title": "Enviadas",
-          "url": "https://appint.fromdoppler.net/Campaigns/Sent/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "campaignSentMenu",
-          "$$hashKey": "object:34"
-        },
-        {
-          "title": "Test A/B",
-          "url": "https://appint.fromdoppler.net/Campaigns/TestAB/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "campaignTestABMenu",
-          "$$hashKey": "object:35"
-        }
-      ],
-      "idHTML": "campaignMenu",
-      "$$hashKey": "object:6"
-    },
-    {
-      "title": "Listas",
-      "url": "https://appint.fromdoppler.net/Lists/SubscribersList",
+      "idHTML": "campaignDraftMenu"
+    }, {
+      "title": "Scheduled",
+      "url": "https://appint.fromdoppler.net/Campaigns/Scheduled/",
       "isEnabled": false,
       "isSelected": false,
-      "subNav": [
-        {
-          "title": "Listas Principales",
-          "url": "https://appint.fromdoppler.net/Lists/SubscribersList/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "listMainMenu",
-          "$$hashKey": "object:41"
-        },
-        {
-          "title": "Segmentos",
-          "url": "https://appint.fromdoppler.net/Lists/Segment/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "listSegmentMenu",
-          "$$hashKey": "object:42"
-        },
-        {
-          "title": "Suscriptores",
-          "url": "https://appint.fromdoppler.net/Lists/MasterSubscriber/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "listMasterSubscriberMenu",
-          "$$hashKey": "object:43"
-        },
-        {
-          "title": "Campos Personalizados",
-          "url": "https://appint.fromdoppler.net/Lists/MasterCustomFields/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "listCustomFieldMenu",
-          "$$hashKey": "object:44"
-        },
-        {
-          "title": "Formularios",
-          "url": "https://appint.fromdoppler.net/Lists/Form/",
-          "isEnabled": false,
-          "isSelected": false,
-          "idHTML": "listFormMenu",
-          "$$hashKey": "object:45"
-        }
-      ],
-      "idHTML": "listMenu",
-      "$$hashKey": "object:7"
-    },
-    {
-      "title": "Automation",
-      "url": "https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
+      "idHTML": "campaignScheduledMenu"
+    }, {
+      "title": "Sent",
+      "url": "https://appint.fromdoppler.net/Campaigns/Sent/",
       "isEnabled": false,
       "isSelected": false,
-      "idHTML": "automationMenu",
-      "$$hashKey": "object:8"
-    },
-    {
-      "title": "Reportes",
+      "idHTML": "campaignSentMenu"
+    }, {
+      "title": "A/B Test",
+      "url": "https://appint.fromdoppler.net/Campaigns/TestAB/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "campaignTestABMenu"
+    }],
+    "idHTML": "campaignMenu"
+  }, {
+    "title": "Lists",
+    "url": "https://appint.fromdoppler.net/Lists/SubscribersList",
+    "isEnabled": false,
+    "isSelected": false,
+    "subNav": [{
+      "title": "Main Lists",
+      "url": "https://appint.fromdoppler.net/Lists/SubscribersList/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "listMainMenu"
+    }, {
+      "title": "Segments",
+      "url": "https://appint.fromdoppler.net/Lists/Segment/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "listSegmentMenu"
+    }, {
+      "title": "Subscribers",
+      "url": "https://appint.fromdoppler.net/Lists/MasterSubscriber/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "listMasterSubscriberMenu"
+    }, {
+      "title": "Custom Fields",
+      "url": "https://appint.fromdoppler.net/Lists/MasterCustomFields/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "listCustomFieldMenu"
+    }, {
+      "title": "Forms",
+      "url": "https://appint.fromdoppler.net/Lists/Form/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "listFormMenu"
+    }],
+    "idHTML": "listMenu"
+  }, {
+    "title": "Reports",
+    "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
+    "isEnabled": false,
+    "isSelected": false,
+    "subNav": [{
+      "title": "Sent Campaigns",
       "url": "https://appint.fromdoppler.net/Campaigns/Reports/",
       "isEnabled": false,
       "isSelected": false,
-      "idHTML": "reportMenu",
-      "$$hashKey": "object:9"
-    },
-    {
-      "title": "Plantillas",
-      "url": "https://appint.fromdoppler.net/Templates/Main/",
+      "idHTML": "reportsSentCampaign"
+    }, {
+      "title": "Subscriber History",
+      "url": "https://appint.fromdoppler.net/Campaigns/Reports/?redirect=subHistory",
       "isEnabled": false,
       "isSelected": false,
-      "idHTML": "templateMenu",
-      "$$hashKey": "object:10"
-    },
-    {
-      "title": "Doppler Data Hub",
-      "url": "https://cdn.fromdoppler.com/doppler-webapp/int-latest/",
+      "idHTML": "reportsSubsHistory"
+    }, {
+      "title": "Advanced",
+      "url": "http://app.fromdoppler.com:8080/#/reports",
       "isEnabled": false,
-      "isSelected": true,
-      "idHTML": "dopplerDataHubMenu"
-    }
-  ],
+      "isSelected": false,
+      "idHTML": "webapp"
+    }],
+    "idHTML": "reportMenu"
+  }, {
+    "title": "Automation",
+    "url": "https://appint.fromdoppler.net/Automation/Automation/AutomationApp/",
+    "isEnabled": false,
+    "isSelected": false,
+    "subNav": [],
+    "idHTML": "automationMenu"
+  }, {
+    "title": "Templates",
+    "url": "https://appint.fromdoppler.net/Templates/Main/",
+    "isEnabled": false,
+    "isSelected": false,
+    "idHTML": "templateMenu"
+  }],
   "user": {
-    "email": "fcoronel@makingsense.com",
-    "fullname": "Federico Coronel",
+    "email": "cbernat@getcs.com",
+    "fullname": "Cecilia Bernat",
     "plan": {
-      "planType": "3",
-      "description": "Créditos disponibles",
-      "isSubscribers": "true",
-      "maxSubscribers": "0",
-      "remainingCredits": "85899",
-      "buttonText": "COMPRAR",
-      "buttonUrl": "https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1"
+      "planType": "2",
+      "description": "Remaining Emails",
+      "itemDescription": "Emails",
+      "planName": "Monthly Plan",
+      "isSubscribers": "false",
+      "isMonthlyByEmail": "true",
+      "maxSubscribers": "1222200",
+      "remainingCredits": "1422100",
+      "buttonText": "UPGRADE"
     },
-    "lang": "es",
+    "lang": "en",
     "avatar": {
-      "text": "FC",
-      "color": "#EE9C70"
+      "text": "CB",
+      "color": "#F4B974"
     },
-    "nav": [
-      {
-        "title": "Panel de Control",
-        "url": "https://appint.fromdoppler.net/ControlPanel/ControlPanel/",
-        "isEnabled": false,
-        "isSelected": false,
-        "idHTML": "controlPanel",
-        "$$hashKey": "object:23"
-      },
-      {
-        "title": "Centro de descargas",
-        "url": "https://appint.fromdoppler.net/DownloadCenter/DownloadCenter",
-        "isEnabled": false,
-        "isSelected": false,
-        "idHTML": "downloadCenter",
-        "$$hashKey": "object:24"
-      },
-      {
-        "title": "Primeros pasos en Doppler",
-        "url": "https://appint.fromdoppler.net/Steps/FirstSteps",
-        "isEnabled": false,
-        "isSelected": false,
-        "idHTML": "firstSteps",
-        "$$hashKey": "object:25"
-      },
-      {
-        "title": "Salir",
-        "url": "https://appint.fromdoppler.net/SignIn/SignOut",
-        "isEnabled": false,
-        "isSelected": false,
-        "idHTML": "signOut",
-        "$$hashKey": "object:26"
-      }
-    ]
+    "nav": [{
+      "title": "Control Panel",
+      "url": "https://appint.fromdoppler.net/ControlPanel/ControlPanel/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "controlPanel"
+    }, {
+      "title": "Download Center",
+      "url": "https://appint.fromdoppler.net/DownloadCenter/DownloadCenter",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "downloadCenter"
+    }, {
+      "title": "Getting Started with Doppler",
+      "url": "https://appint.fromdoppler.net/Steps/FirstSteps",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "firstSteps"
+    }, {
+      "title": "Logout ",
+      "url": "https://appint.fromdoppler.net/SignIn/SignOut",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "signOut"
+    }]
   },
-  "alert": {
-    "type": "blocker",
-    "message": "Para que puedas enviar tu próxima Campaña, antes necesitamos verificar el origen de tus Suscriptores.",
-    "button": {
-      "action": "updatePlanPopup",
-      "text": "Actualizar plan"
-    },
-    "nextAlert": {
-      "type": "warning",
-      "message": "Estamos verificando el origen de tus Suscriptores. Te contactaremos para que puedas continuar con tu Campaña."
-    }
-  },
-  "datahubCustomerId": "1057",
-  "jwtToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1NVIjpmYWxzZSwiY3VzdG9tZXJJZCI6IjEwNTciLCJpYXQiOjE1NTM3ODQ3MjUsImV4cCI6MTU2OTMzNjcyNX0.NNLt0BWHkAqOd2Nd8xH7nDcrfSTmq8MuAMRdIXTUU9FcTnlGy66Lwst8HSmVH1y4qoluNtCi0ZeuUddRFRUrzA"
+  "homeUrl": "https://appint.fromdoppler.net/Campaigns/Draft/",
+  "urlBase": "https://appint.fromdoppler.net/",
+  "datahubCustomerId": "1024",
+  "jwtToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1N1IjpmYWxzZSwic3ViIjoiY2Jlcm5hdEBnZXRjcy5jb20iLCJjdXN0b21lcklkIjoiMTAyNCIsImRhdGFodWJDdXN0b21lcklkIjoiMTAyNCIsImlhdCI6MTU1NjU0NTQ2MSwiZXhwIjoxNTU2NTQ3MjYxfQ.meC1sFsC7m8nGFfcK2oih1hqdKQ4Lj81O5rN_-awOcM_JEe9ddviocPbYAg64L6nC6b0a7J5xmTmiW_-MAIEIg"
 }
