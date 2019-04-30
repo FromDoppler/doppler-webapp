@@ -172,26 +172,30 @@ const PasswordWrapper = connect(
   ({ className, fieldName, children, formik: { errors, touched } }) => {
     const fieldError = errors[fieldName];
     const touchedField = touched[fieldName];
-    const passwordMessageCharClass = !touchedField
-      ? 'waiting-message'
-      : fieldError && (fieldError.charLength || fieldError.empty)
-      ? 'lack-message'
-      : 'complete-message';
-    const passwordMessageDigitClass = !touchedField
-      ? 'waiting-message'
-      : fieldError && (fieldError.digit || fieldError.empty)
-      ? 'lack-message'
-      : 'complete-message';
-    const passwordMessageLetterClass = !touchedField
-      ? 'waiting-message'
-      : fieldError && (fieldError.letter || fieldError.empty)
-      ? 'lack-message'
-      : 'complete-message';
+
+    const passwordMessageCharClass =
+      !touchedField && fieldError && fieldError.empty
+        ? 'waiting-message'
+        : fieldError && (fieldError.charLength || fieldError.empty)
+        ? 'lack-message'
+        : 'complete-message';
+    const passwordMessageDigitClass =
+      !touchedField && fieldError && fieldError.empty
+        ? 'waiting-message'
+        : fieldError && (fieldError.digit || fieldError.empty)
+        ? 'lack-message'
+        : 'complete-message';
+    const passwordMessageLetterClass =
+      !touchedField && fieldError && fieldError.empty
+        ? 'waiting-message'
+        : fieldError && (fieldError.letter || fieldError.empty)
+        ? 'lack-message'
+        : 'complete-message';
     return (
       <li className={concatClasses(className, touchedField && fieldError ? 'error' : '')}>
         {children}
         <div className="wrapper-password">
-          {!touchedField || fieldError ? (
+          {fieldError ? (
             <p className="password-message">
               <span className={passwordMessageCharClass}>
                 <FormattedMessage id="validation_messages.error_password_character_length" />
