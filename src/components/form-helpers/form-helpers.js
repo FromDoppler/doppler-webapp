@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field, Formik, Form } from 'formik';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
 import {
   validateEmail,
   validateCheckRequired,
@@ -56,6 +56,12 @@ function createRequiredValidation(requiredProp) {
 
   return (value) => validateRequiredField(value, requiredProp);
 }
+
+export const CaptchaLegalMessage = () => (
+  <p className="captcha-legal-message">
+    <FormattedHTMLMessage id="common.recaptcha_legal_HTML" />
+  </p>
+);
 
 /**
  * Form With Captcha Component

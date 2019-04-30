@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { timeout } from '../../utils';
 import { Formik, Form } from 'formik';
-import { EmailFieldItem, FieldGroup, SubmitButton, FormErrors } from '../form-helpers/form-helpers';
+import {
+  EmailFieldItem,
+  FieldGroup,
+  SubmitButton,
+  FormErrors,
+  CaptchaLegalMessage,
+} from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 
 const fieldNames = {
@@ -76,9 +82,7 @@ const ForgotPassword = ({ intl }) => {
           </Form>
         </Formik>
         <footer>
-          <p>
-            <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
-          </p>
+          <CaptchaLegalMessage />
           <p>
             <FormattedHTMLMessage
               tagName="small"

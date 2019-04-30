@@ -9,6 +9,7 @@ import {
   SubmitButton,
   FormWithCaptcha,
   FormErrors,
+  CaptchaLegalMessage,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
@@ -129,9 +130,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </fieldset>
         </FormWithCaptcha>
         <footer>
-          <p>
-            <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
-          </p>
+          <CaptchaLegalMessage />
           <p>
             <FormattedHTMLMessage
               tagName="small"

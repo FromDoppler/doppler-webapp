@@ -13,6 +13,7 @@ import {
   PhoneFieldItem,
   SubmitButton,
   FormErrors,
+  CaptchaLegalMessage,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SignupConfirmation from './SignupConfirmation';
@@ -197,9 +198,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           <FormattedHTMLMessage id="signup.legal_HTML" />
         </div>
         <footer>
-          <p>
-            <FormattedHTMLMessage tagName="small" id="common.recaptcha_legal_HTML" />
-          </p>
+          <CaptchaLegalMessage />
           <p>
             <FormattedHTMLMessage
               tagName="small"
