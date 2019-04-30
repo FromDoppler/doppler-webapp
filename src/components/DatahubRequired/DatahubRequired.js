@@ -19,7 +19,7 @@ function DatahubRequired({
   const isTrialEnabled = false;
   return (
     <section className="container-reports">
-      <div className="wrapper-kpi">
+      <div className="dp-datahub-messages">
         {isFreeAccount ? (
           <div>
             <FormattedMessage tagName="h3" id="reports.upgrade_account_free_title" />
@@ -30,12 +30,12 @@ function DatahubRequired({
             />
           </div>
         ) : !isTrialEnabled ? (
-          <div className="dp-datahub-message">
+          <div>
             <FormattedMessage tagName="h3" id="reports.allow_enable_trial_title" />
             <FormattedHTMLMessage tagName="div" id="reports.allow_enable_trial_HTML" />
             <div className="dp-datahub-action">
               <button className="dp-button button-medium primary-green">
-                <FormattedHTMLMessage id="reports.allow_enable_trial_button_HTML" />
+                <FormattedMessage id="reports.allow_enable_trial_button" />
               </button>
             </div>
           </div>
