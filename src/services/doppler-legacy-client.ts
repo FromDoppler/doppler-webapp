@@ -290,7 +290,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async resendRegistrationEmail(model: ResendRegistrationModel) {
-    await this.axios.post(`WebAppPublic/ResendRegistrationEmail`, {
+    await this.axios.post(`WebAppPublic/SendRegistrationEmail`, {
       Email: model.email,
       RecaptchaUserCode: model.captchaResponseToken,
     });
