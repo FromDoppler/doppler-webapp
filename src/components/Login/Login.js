@@ -8,6 +8,7 @@ import {
   PasswordFieldItem,
   SubmitButton,
   FormWithCaptcha,
+  FormErrors,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
@@ -120,6 +121,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
             </FieldGroup>
           </fieldset>
           <fieldset>
+            <FormErrors />
             <SubmitButton>{_('login.button_login')}</SubmitButton>
             <Link to="/forgot-password" className="forgot-link">
               {_('login.forgot_password')}
