@@ -95,7 +95,7 @@ export const FormWithCaptcha = ({
         formikProps,
       );
     } else {
-      console.log('Capcha error', result);
+      console.log('Captcha error', result);
       formikProps.setErrors({ _general: 'validation_messages.error_unexpected' });
       formikProps.setSubmitting(false);
     }
