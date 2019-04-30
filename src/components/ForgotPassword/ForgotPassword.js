@@ -55,7 +55,6 @@ const ForgotPassword = ({ intl }) => {
         </p>
         <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
           <Form className="login-form">
-            <FormErrors />
             <fieldset>
               <FieldGroup>
                 <EmailFieldItem
@@ -67,6 +66,7 @@ const ForgotPassword = ({ intl }) => {
               </FieldGroup>
             </fieldset>
             <fieldset>
+              <FormErrors />
               <SubmitButton>{_('login.button_login')}</SubmitButton>
               <Link to="/login" className="forgot-link">
                 <span className="triangle-right" />

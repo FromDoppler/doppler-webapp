@@ -104,7 +104,6 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           initialValues={getFormInitialValues()}
           onSubmit={onSubmit}
         >
-          <FormErrors />
           <fieldset>
             <FieldGroup>
               <EmailFieldItem
@@ -122,6 +121,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
             </FieldGroup>
           </fieldset>
           <fieldset>
+            <FormErrors />
             <SubmitButton>{_('login.button_login')}</SubmitButton>
             <Link to="/forgot-password" className="forgot-link">
               {_('login.forgot_password')}

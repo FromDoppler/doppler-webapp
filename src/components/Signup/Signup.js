@@ -137,7 +137,6 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           onSubmit={onSubmit}
           validate={validate}
         >
-          <FormErrors />
           <fieldset>
             <FieldGroup>
               <InputFieldItem
@@ -191,6 +190,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
               />
             </FieldGroup>
           </fieldset>
+          <FormErrors />
           <SubmitButton>{_('signup.button_signup')}</SubmitButton>
         </FormWithCaptcha>
         <div className="content-legal">
