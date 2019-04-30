@@ -30,7 +30,7 @@ function DatahubRequired({
             />
           </div>
         ) : !isTrialEnabled ? (
-          <div>
+          <div className="dp-datahub-message">
             <FormattedMessage tagName="h3" id="reports.allow_enable_trial_title" />
             <FormattedHTMLMessage tagName="div" id="reports.allow_enable_trial_HTML" />
             <div className="dp-datahub-action">
