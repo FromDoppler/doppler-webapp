@@ -170,6 +170,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
                 fieldName={fieldNames.email}
                 label={_('signup.label_email')}
                 placeholder={_('signup.placeholder_email')}
+                required
               />
               <ValidatedPasswordFieldItem
                 fieldName={fieldNames.password}
