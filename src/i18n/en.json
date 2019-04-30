@@ -67,10 +67,9 @@
     "domain_not_verified": "Not verified domain",
     "pages": "Pages",
     "rank_time": "Rank time",
-    "rank_time_item1": "Last week",
-    "rank_time_item2": "Last month",
-    "rank_time_item3": "Last 3 months",
-    "rank_time_item4": "Last 6 months",
+    "rank_time_item1": "1 week",
+    "rank_time_item2": "2 weeks",
+    "rank_time_item3": "3 weeks",
     "title": "Optimize your Digital Marketing strategy",
     "verified_domain": "Verified domain"
   },

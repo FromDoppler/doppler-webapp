@@ -75,13 +75,10 @@ const ReportsFilters = ({
                 {(message) => <option value="7">{message}</option>}
               </FormattedMessage>
               <FormattedMessage id="reports_filters.rank_time_item2">
-                {(message) => <option value="30">{message}</option>}
+                {(message) => <option value="14">{message}</option>}
               </FormattedMessage>
               <FormattedMessage id="reports_filters.rank_time_item3">
-                {(message) => <option value="90">{message}</option>}
-              </FormattedMessage>
-              <FormattedMessage id="reports_filters.rank_time_item4">
-                {(message) => <option value="180">{message}</option>}
+                {(message) => <option value="21">{message}</option>}
               </FormattedMessage>
             </select>
           </fieldset>

@@ -67,10 +67,9 @@
     "domain_not_verified": "Dominio no verificado",
     "pages": "Páginas",
     "rank_time": "Rango de tiempo",
-    "rank_time_item1": "última semana",
-    "rank_time_item2": "último mes",
-    "rank_time_item3": "últimos 3 meses",
-    "rank_time_item4": "últimos 6 meses",
+    "rank_time_item1": "1 semana",
+    "rank_time_item2": "2 semanas",
+    "rank_time_item3": "3 semanas",
     "title": "Optimiza tu estrategia de Marketing Digital",
     "verified_domain": "Dominio verificado"
   },
