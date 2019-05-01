@@ -42,7 +42,7 @@ const SignupConfirmation = function({ resend, intl }) {
             <Captcha />
             <p>
               {_('signup.email_not_received')}{' '}
-              <button className="link-green" onClick={incrementAndResend}>
+              <button type="button" className="link-green" onClick={incrementAndResend}>
                 {_('signup.resend_email')}
               </button>
               .
