@@ -50,6 +50,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       const result = await dopplerLegacyClient.login({
         username: values[fieldNames.user],
         password: values[fieldNames.password],
+        captchaResponseToken: values['captchaResponseToken'],
       });
 
       if (result.success) {

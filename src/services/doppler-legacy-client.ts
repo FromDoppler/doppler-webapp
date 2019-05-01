@@ -290,10 +290,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async resendRegistrationEmail(model: ResendRegistrationModel) {
-    await this.axios.post(`WebAppPublic/ResendRegistrationEmail`, {
-      Email: model.email,
-      RecaptchaUserCode: model.captchaResponseToken,
-    });
+    try {
+      await this.axios.post(`WebAppPublic/SendRegistrationEmail`, {
+        Email: model.email,
+        RecaptchaUserCode: model.captchaResponseToken,
+      });
+    } catch (e) {
+      // TODO: deal with this error in a better way
+      console.log('Error resending registration email', e);
+    }
   }
 
   public async getUpgradePlanData(isSubscriberPlan: boolean) {

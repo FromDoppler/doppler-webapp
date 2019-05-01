@@ -3,7 +3,11 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { InjectAppServices, AppServices } from '../../services/pure-di';
 
 type CaptchaUtils = Readonly<
-  [(props: any) => JSX.Element, () => Promise<CaptchaVerificationResult>]
+  [
+    (props: any) => JSX.Element,
+    () => Promise<CaptchaVerificationResult>,
+    React.RefObject<ReCAPTCHA>
+  ]
 >;
 
 type CaptchaVerificationResult = Readonly<
@@ -91,5 +95,5 @@ function createCaptchaUtils(): CaptchaUtils {
     ),
   );
 
-  return [Captcha, verifyCaptcha];
+  return [Captcha, verifyCaptcha, recaptchaRef];
 }
