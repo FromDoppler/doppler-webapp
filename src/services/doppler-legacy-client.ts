@@ -23,9 +23,9 @@ interface PayloadWithCaptchaToken {
 /* #region Login data types */
 
 export type LoginErrorResult =
-  | { userBlockedByPayment?: false; userInactive?: false }
-  | { userBlockedByPayment: true; userInactive?: false }
-  | { userInactive: true; userBlockedByPayment?: false };
+  | { blockedAccountNotPayed?: false; userInactive?: false }
+  | { blockedAccountNotPayed: true; userInactive?: false }
+  | { userInactive: true; blockedAccountNotPayed?: false };
 
 export type LoginResult = EmptyResult<LoginErrorResult>;
 
@@ -226,8 +226,8 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         RecaptchaUserCode: model.captchaResponseToken,
       });
 
-      if (!response.data.success && response.data.error == 'UserBlockedByPayment') {
-        return { expectedError: { userBlockedByPayment: true } };
+      if (!response.data.success && response.data.error == 'BlockedAccountNotPayed') {
+        return { expectedError: { blockedAccountNotPayed: true } };
       }
 
       if (!response.data.success && response.data.error == 'UserInactive') {

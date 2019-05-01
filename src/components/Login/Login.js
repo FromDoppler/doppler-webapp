@@ -56,7 +56,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       if (result.success) {
         sessionManager.restart();
         setRedirectAfterLogin(true);
-      } else if (result.expectedError && result.expectedError.userBlockedByPayment) {
+      } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
         // TODO: define how this error should be shown
         console.log('userBlockedByPayment error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
