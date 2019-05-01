@@ -6,7 +6,7 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
  * @param { Object } props
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-function DatahubRequired({
+function SiteTrackingRequired({
   dependencies: {
     appSessionRef,
     appConfiguration: { dopplerLegacyUrl },
@@ -44,4 +44,4 @@ function DatahubRequired({
   );
 }
 
-export default InjectAppServices(DatahubRequired);
+export default InjectAppServices(SiteTrackingRequired);

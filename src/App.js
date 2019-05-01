@@ -84,7 +84,7 @@ class App extends Component {
             <Route path="/" exact>
               <RedirectToLegacyUrl to="/Campaigns/Draft" />
             </Route>
-            <PrivateRoute path="/reports/" exact requireDatahub component={Reports} />
+            <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
             <PublicRouteWithLegacyFallback exact path="/login" />
             <PublicRouteWithLegacyFallback exact path="/signup" />
             <PublicRouteWithLegacyFallback exact path="/forgot-password" />

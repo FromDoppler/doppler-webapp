@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import DatahubRequired from './DatahubRequired/DatahubRequired';
+import SiteTrackingRequired from './SiteTrackingRequired/SiteTrackingRequired';
 import RedirectToLogin from './RedirectToLogin';
 import Loading from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
@@ -11,12 +11,12 @@ export default InjectAppServices(
   /**
    * @param { Object } props
    * @param { React.Component } props.component
-   * @param { Boolean } props.requireDatahub
+   * @param { Boolean } props.requireSiteTracking
    * @param { import('../services/pure-di').AppServices } props.dependencies
    */
   ({
     component: Component,
-    requireDatahub,
+    requireSiteTracking,
     dependencies: {
       appSessionRef: { current: dopplerSession },
     },
@@ -30,10 +30,10 @@ export default InjectAppServices(
         ) : dopplerSession.status === 'authenticated' ? (
           <>
             <Header userData={dopplerSession.userData} />
-            {!requireDatahub || dopplerSession.datahubCustomerId ? (
+            {!requireSiteTracking || dopplerSession.datahubCustomerId ? (
               <Component {...props} />
             ) : (
-              <DatahubRequired />
+              <SiteTrackingRequired />
             )}
             <Footer />
           </>
