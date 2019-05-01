@@ -5,10 +5,15 @@ import App from './App';
 import { AppServicesProvider } from './services/pure-di';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 
-function createDoubleSessionManager() {
+function createDoubleSessionManager(appSessionRef) {
   const double = {
     initialize: (handler) => {
-      double.updateAppSession = handler;
+      double.updateAppSession = (session) => {
+        if (appSessionRef) {
+          appSessionRef.current = session;
+        }
+        handler(session);
+      };
     },
     finalize: () => {},
     session: {
@@ -87,8 +92,10 @@ describe('App component', () => {
 
     it("should be updated based on user's data", () => {
       // Arrange
+      const appSessionRef = { current: { status: 'unknown' } };
       const dependencies = {
-        sessionManager: createDoubleSessionManager(),
+        appSessionRef: appSessionRef,
+        sessionManager: createDoubleSessionManager(appSessionRef),
       };
 
       const { getByText } = render(
@@ -112,6 +119,12 @@ describe('App component', () => {
             nav: [],
           },
           nav: [],
+          features: {
+            siteTrackingEnabled: false,
+            siteTrackingActive: false,
+            emailParameterEnabled: false,
+            emailParameterActive: false,
+          },
         },
       });
 
@@ -129,6 +142,12 @@ describe('App component', () => {
             nav: [],
           },
           nav: [],
+          features: {
+            siteTrackingEnabled: false,
+            siteTrackingActive: false,
+            emailParameterEnabled: false,
+            emailParameterActive: false,
+          },
         },
       });
 
@@ -153,6 +172,12 @@ describe('App component', () => {
             nav: [],
           },
           nav: [],
+          features: {
+            siteTrackingEnabled: false,
+            siteTrackingActive: false,
+            emailParameterEnabled: false,
+            emailParameterActive: false,
+          },
         },
       });
       dependencies.sessionManager.updateAppSession({ status: 'unknown' });
@@ -167,8 +192,10 @@ describe('App component', () => {
       // Arrange
       const expectedEmail = 'fcoronel@makingsense.com';
 
+      const appSessionRef = { current: { status: 'unknown' } };
       const dependencies = {
-        sessionManager: createDoubleSessionManager(),
+        appSessionRef: appSessionRef,
+        sessionManager: createDoubleSessionManager(appSessionRef),
       };
 
       const { getByText } = render(
@@ -193,6 +220,12 @@ describe('App component', () => {
             lang: 'en',
           },
           nav: [],
+          features: {
+            siteTrackingEnabled: false,
+            siteTrackingActive: false,
+            emailParameterEnabled: false,
+            emailParameterActive: false,
+          },
         },
       });
 
@@ -203,7 +236,9 @@ describe('App component', () => {
 
     describe('not authenticated user', () => {
       it('should be redirected to Legacy Doppler Login after open /reports when useLegacy.login is active', () => {
+        const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
+          appSessionRef: appSessionRef,
           appConfiguration: {
             dopplerLegacyUrl: 'http://legacyUrl.localhost',
             useLegacy: { login: true },
@@ -216,7 +251,7 @@ describe('App component', () => {
               href: 'unset',
             },
           },
-          sessionManager: createDoubleSessionManager(),
+          sessionManager: createDoubleSessionManager(appSessionRef),
           localStorage: createLocalStorageDouble(),
         };
 
@@ -242,8 +277,10 @@ describe('App component', () => {
       });
 
       it('should be redirected to Internal Login after open /reports (when using RedirectToInternalLogin)', () => {
+        const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
-          sessionManager: createDoubleSessionManager(),
+          appSessionRef: appSessionRef,
+          sessionManager: createDoubleSessionManager(appSessionRef),
         };
 
         const currentRouteState = {};
@@ -336,8 +373,10 @@ describe('App component', () => {
       });
 
       it('should be redirected to /login when route does not exists', () => {
+        const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
-          sessionManager: createDoubleSessionManager(),
+          appSessionRef: appSessionRef,
+          sessionManager: createDoubleSessionManager(appSessionRef),
         };
 
         const currentRouteState = {};
@@ -378,8 +417,10 @@ describe('App component', () => {
 
     describe('authenticated user', () => {
       it('should be redirected to /reports when route does not exists', () => {
+        const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
-          sessionManager: createDoubleSessionManager(),
+          appSessionRef: appSessionRef,
+          sessionManager: createDoubleSessionManager(appSessionRef),
         };
 
         const currentRouteState = {};
@@ -409,6 +450,12 @@ describe('App component', () => {
               nav: [],
             },
             nav: [],
+            features: {
+              siteTrackingEnabled: false,
+              siteTrackingActive: false,
+              emailParameterEnabled: false,
+              emailParameterActive: false,
+            },
           },
         });
 
@@ -425,8 +472,10 @@ describe('App component', () => {
       });
 
       it('should keep /reports path when the authenticated state is verified', () => {
+        const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
-          sessionManager: createDoubleSessionManager(),
+          appSessionRef: appSessionRef,
+          sessionManager: createDoubleSessionManager(appSessionRef),
         };
 
         const currentRouteState = {};
@@ -456,6 +505,12 @@ describe('App component', () => {
               nav: [],
             },
             nav: [],
+            features: {
+              siteTrackingEnabled: false,
+              siteTrackingActive: false,
+              emailParameterEnabled: false,
+              emailParameterActive: false,
+            },
           },
         });
 
