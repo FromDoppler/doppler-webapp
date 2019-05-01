@@ -115,12 +115,22 @@ interface AlertEntry {
   type: string;
 }
 
+interface DopplerFeatures {
+  /** Site tracking trial accepted or not */
+  siteTrackingEnabled: boolean;
+  /** Site tracking feature active or disabled */
+  siteTrackingActive: boolean;
+  emailParameterEnabled: boolean;
+  emailParameterActive: boolean;
+}
+
 export interface DopplerLegacyUserData {
   alert: AlertEntry | undefined;
   nav: MainNavEntry[];
   user: UserEntry;
   jwtToken: string;
   datahubCustomerId: string | null;
+  features: DopplerFeatures;
 }
 /* #endregion */
 
@@ -179,6 +189,12 @@ export function mapHeaderDataJson(json: any) {
     },
     jwtToken: json.jwtToken,
     datahubCustomerId: json.datahubCustomerId || null,
+    features: {
+      siteTrackingEnabled: !!(json.features && json.features.siteTrackingEnabled),
+      siteTrackingActive: !!(json.features && json.features.siteTrackingActive),
+      emailParameterEnabled: !!(json.features && json.features.emailParameterEnabled),
+      emailParameterActive: !!(json.features && json.features.emailParameterActive),
+    },
   };
 }
 /* #endregion */
