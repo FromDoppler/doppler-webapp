@@ -34,6 +34,12 @@ const extractLegacyRedirectUrl = (location) => {
   return (result && result.length === 2 && result[1] + location.hash) || null;
 };
 
+const LoginErrorBlockedAccountNotPayed = () => (
+  <p>
+    <FormattedHTMLMessage id="login.error_payment" />
+  </p>
+);
+
 /**
  * Login Page
  * @param { Object } props - props
@@ -57,9 +63,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         sessionManager.restart();
         setRedirectAfterLogin(true);
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
-        // TODO: define how this error should be shown
-        console.log('userBlockedByPayment error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({ _general: <LoginErrorBlockedAccountNotPayed /> });
       } else if (result.expectedError && result.expectedError.userInactive) {
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
