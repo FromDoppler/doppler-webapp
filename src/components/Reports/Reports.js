@@ -3,7 +3,11 @@ import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 import { InjectAppServices } from '../../services/pure-di';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import {
+  SiteTrackingRequired,
+  SiteTrackingNotAvailableReasons,
+} from '../SiteTrackingRequired/SiteTrackingRequired';
 
 class Reports extends React.Component {
   /**
@@ -52,6 +56,9 @@ class Reports extends React.Component {
   };
 
   render() {
+    if (this.state.domains && !this.state.domainSelected) {
+      return <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.thereAreNotDomains} />;
+    }
     return (
       <>
         <FormattedMessage id="reports_title">
@@ -70,20 +77,8 @@ class Reports extends React.Component {
           periodSelectedDays={this.state.periodSelectedDays}
           changePeriod={this.changePeriod}
         />
-
         {!this.state.domains ? (
           <div className="loading-box" />
-        ) : !this.state.domainSelected ? (
-          <section className="container-reports">
-            <div className="wrapper-kpi">
-              {/* TODO: review this solution, probably styles, content and behavior are wrong */}
-              <FormattedHTMLMessage
-                className="patch-no-domains"
-                id="reports.no_domains_HTML"
-                values={{ dopplerBaseUrl: this.appConfiguration.dopplerLegacyUrl }}
-              />
-            </div>
-          </section>
         ) : (
           <section className="container-reports">
             <div className="wrapper-kpi">

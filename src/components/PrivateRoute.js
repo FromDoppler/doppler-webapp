@@ -2,7 +2,10 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import SiteTrackingRequired from './SiteTrackingRequired/SiteTrackingRequired';
+import {
+  SiteTrackingRequired,
+  SiteTrackingNotAvailableReasons,
+} from './SiteTrackingRequired/SiteTrackingRequired';
 import RedirectToLogin from './RedirectToLogin';
 import Loading from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
@@ -30,10 +33,20 @@ export default InjectAppServices(
         ) : dopplerSession.status === 'authenticated' ? (
           <>
             <Header userData={dopplerSession.userData} />
-            {!requireSiteTracking || dopplerSession.datahubCustomerId ? (
-              <Component {...props} />
+            {requireSiteTracking &&
+            !dopplerSession.userData.features.siteTrackingEnabled &&
+            !dopplerSession.userData.user.plan.isFreeAccount ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.trialNotAccepted} />
+            ) : requireSiteTracking &&
+              !dopplerSession.userData.features.siteTrackingEnabled &&
+              dopplerSession.userData.user.plan.isFreeAccount ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.freeAccount} />
+            ) : requireSiteTracking && !dopplerSession.userData.datahubCustomerId ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.noDatahubId} />
+            ) : requireSiteTracking && !dopplerSession.userData.features.siteTrackingActive ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.featureDisabled} />
             ) : (
-              <SiteTrackingRequired />
+              <Component {...props} />
             )}
             <Footer />
           </>

@@ -48,6 +48,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     console.log('getAccountDomains');
     await timeout(1500);
     return fakeData.map((x) => ({ name: x.name, verified_date: x.verified_date }));
+    // return [];
   }
 
   public async getVisitsByPeriod({
