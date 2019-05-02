@@ -22,27 +22,29 @@ export const SiteTrackingRequired = InjectAppServices(
     },
   }) => (
     <section className="container-reports">
-      <div className="wrapper-kpi">
+      <div className="dp-wrapper-messages">
         {reason === SiteTrackingNotAvailableReasons.freeAccount ? (
           // Free accounts cannot enable trial, they should buy
-          <div>
+          <>
             <FormattedMessage tagName="h3" id="reports.upgrade_account_free_title" />
             <FormattedHTMLMessage
               tagName="div"
               id="reports.upgrade_account_free_HTML"
               values={{ dopplerBaseUrl: dopplerLegacyUrl }}
             />
-          </div>
+          </>
         ) : reason === SiteTrackingNotAvailableReasons.trialNotAccepted ? (
           // Any paid account can enable the trial
-          <div>
-            <FormattedMessage tagName="h3" id="reports.datahub_not_active_title" />
-            <FormattedHTMLMessage
-              tagName="div"
-              id="reports.datahub_not_active_HTML"
-              values={{ dopplerBaseUrl: dopplerLegacyUrl }}
-            />
-          </div>
+          <>
+            <FormattedMessage tagName="h3" id="reports.allow_enable_trial_title" />
+            <FormattedHTMLMessage tagName="div" id="reports.allow_enable_trial_HTML" />
+            <div className="dp-messages-actions">
+              {/* TODO: implement this action DBR-227 */}
+              <button className="dp-button button-medium primary-green">
+                <FormattedMessage id="reports.allow_enable_trial_button" />
+              </button>
+            </div>
+          </>
         ) : (
           // SiteTrackingNotAvailableReasons.featureDisabled
           // SiteTrackingNotAvailableReasons.thereAreNotDomains
