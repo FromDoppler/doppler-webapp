@@ -48,6 +48,9 @@
     "you_want_create_account": "Do not you have an account yet?"
   },
   "reports": {
+    "allow_enable_trial_HTML": "<p>Target users based on their behavior on your website or E-commerce. Thanks to this feature you can send automatic and 100% personalized Emails to the users who visit a specific page. For example, you can send a discount to users who view a particular product page.</p><h4>When does the free trial end?</h4><p>Our goal is that you can see how to use this feature in your business and check its benefits, so for the moment you can use it with no restrictions.</p><h4>What will happen to the Automations created when the free trial ends?</h4><p>They'll remain inactive, and you won't be able to edit them until you hire the special module which includes this service.</p>",
+    "allow_enable_trial_button": "Activate free trial",
+    "allow_enable_trial_title": "Try On-Site Tracking Automation for FREE",
     "datahub_not_active_HTML": "<p>How do users behave on your Website or E-commerce? Track their behavior for a period of time and find out which are the most visited pages, how many of those visits have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement!</p><p>You haven’t enabled On-Site Tracking yet. You can trigger it from the <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking</a> option in the Control Panel.</p>",
     "datahub_not_active_title":"Track user behavior and optimize your Marketing actions",
     "datahub_not_domains_title":"Track user behavior and optimize your Marketing actions",

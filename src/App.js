@@ -25,6 +25,7 @@ class App extends Component {
     this.sessionManager = sessionManager;
 
     this.state = {
+      // TODO: consider removing dopplerSession from the state
       dopplerSession: appSessionRef.current,
       i18nLocale: locale,
     };
@@ -73,7 +74,7 @@ class App extends Component {
   }
 
   render() {
-    const { dopplerSession, i18nLocale } = this.state;
+    const { i18nLocale } = this.state;
 
     return (
       <DopplerIntlProvider locale={i18nLocale}>
@@ -83,13 +84,7 @@ class App extends Component {
             <Route path="/" exact>
               <RedirectToLegacyUrl to="/Campaigns/Draft" />
             </Route>
-            <PrivateRoute
-              path="/reports/"
-              exact
-              requireDatahub
-              component={Reports}
-              dopplerSession={dopplerSession}
-            />
+            <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
             <PublicRouteWithLegacyFallback exact path="/login" />
             <PublicRouteWithLegacyFallback exact path="/signup" />
             <PublicRouteWithLegacyFallback exact path="/forgot-password" />
