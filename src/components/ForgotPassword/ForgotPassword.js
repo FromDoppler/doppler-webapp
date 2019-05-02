@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
-import { timeout } from '../../utils';
-import { Formik, Form } from 'formik';
 import {
   EmailFieldItem,
   FieldGroup,
   SubmitButton,
   FormErrors,
   CaptchaLegalMessage,
+  FormWithCaptcha,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
+import { InjectAppServices } from '../../services/pure-di';
 
 const fieldNames = {
   email: 'email',
@@ -25,14 +25,23 @@ const getFormInitialValues = () =>
     {},
   );
 
-const ForgotPassword = ({ intl }) => {
+/**
+ *
+ * @param { Object } props
+ * @param { import('react-intl').InjectedIntl } props.intl
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
+ */
+const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      // TODO: implement forgot password submit
-      const result = await timeout(1500);
-      if (result && result.success) {
+      const result = await dopplerLegacyClient.sendResetPasswordEmail({
+        email: values[fieldNames.email],
+        captchaResponseToken: values['captchaResponseToken'],
+      });
+
+      if (result.success) {
         // TODO: show OK message
       } else {
         console.log('Unexpected error', result);
@@ -59,8 +68,11 @@ const ForgotPassword = ({ intl }) => {
             {_('login.signup')}
           </Link>
         </p>
-        <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
-          <Form className="login-form">
+        <FormWithCaptcha
+          className="login-form"
+          initialValues={getFormInitialValues()}
+          onSubmit={onSubmit}
+        >
             <fieldset>
               <FieldGroup>
                 <EmailFieldItem
@@ -79,8 +91,7 @@ const ForgotPassword = ({ intl }) => {
                 {_('forgot_password.back_login')}
               </Link>
             </fieldset>
-          </Form>
-        </Formik>
+        </FormWithCaptcha>
         <footer>
           <CaptchaLegalMessage />
           <p>
@@ -103,4 +114,4 @@ const ForgotPassword = ({ intl }) => {
   );
 };
 
-export default injectIntl(ForgotPassword);
+export default InjectAppServices(injectIntl(ForgotPassword));
