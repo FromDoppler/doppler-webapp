@@ -9,6 +9,7 @@ export interface DopplerLegacyClient {
   registerUser(userRegistrationModel: UserRegistrationModel): Promise<UserRegistrationResult>;
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
   activateSiteTrackingTrial(): Promise<void>;
+  sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
 }
 
 // TODO: move it a common place if it will be reused
@@ -16,10 +17,25 @@ type UnexpectedError = { success?: false; message?: string | null; error?: any }
 type ErrorResult<TError> = { success?: false; expectedError: TError } | UnexpectedError;
 type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
 type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
+// It does not work:
+// type EmptyResult = { success: true } | UnexpectedError;
+// Duplicate identifier 'EmptyResult'.ts(2300)
+// TODO: Research how to fix it and rename EmptyResultWithoutExpectedErrors as EmptyResult
+type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedError;
 
 interface PayloadWithCaptchaToken {
   captchaResponseToken: string;
 }
+
+/* #region Forgot Password data types */
+
+export interface ForgotPasswordModel extends PayloadWithCaptchaToken {
+  email: string;
+}
+
+export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
+
+/* #endregion */
 
 /* #region Login data types */
 
@@ -360,6 +376,28 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
     if (!response.data.success) {
       throw new Error(`Doppler Error: ${response.data.error}`);
+    }
+  }
+
+  public async sendResetPasswordEmail(model: ForgotPasswordModel): Promise<ForgotPasswordResult> {
+    try {
+      const response = await this.axios.post('/WebAppPublic/SendResetPasswordEmail', {
+        Email: model.email,
+        RecaptchaUserCode: model.captchaResponseToken,
+      });
+
+      if (!response.data.success) {
+        return {
+          message: response.data.error || null,
+        };
+      }
+
+      return { success: true };
+    } catch (error) {
+      return {
+        message: error.message || null,
+        error: error,
+      };
     }
   }
 }
