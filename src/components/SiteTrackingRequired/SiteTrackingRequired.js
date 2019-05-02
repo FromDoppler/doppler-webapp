@@ -26,7 +26,7 @@ export const SiteTrackingRequired = InjectAppServices(
         {reason === SiteTrackingNotAvailableReasons.freeAccount ? (
           // Free accounts cannot enable trial, they should buy
           <>
-            <FormattedMessage tagName="h3" id="reports.upgrade_account_free_title" />
+            <FormattedMessage tagName="h2" id="reports.upgrade_account_free_title" />
             <FormattedHTMLMessage
               tagName="div"
               id="reports.upgrade_account_free_HTML"
@@ -36,7 +36,7 @@ export const SiteTrackingRequired = InjectAppServices(
         ) : reason === SiteTrackingNotAvailableReasons.trialNotAccepted ? (
           // Any paid account can enable the trial
           <>
-            <FormattedMessage tagName="h3" id="reports.allow_enable_trial_title" />
+            <FormattedMessage tagName="h2" id="reports.allow_enable_trial_title" />
             <FormattedHTMLMessage tagName="div" id="reports.allow_enable_trial_HTML" />
             <div className="dp-messages-actions">
               {/* TODO: implement this action DBR-227 */}
