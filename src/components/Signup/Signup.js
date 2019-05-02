@@ -77,11 +77,14 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
 
     const email = values[fieldNames.email];
     const domain = email && extractDomain(email);
+    const checkbox = values[fieldNames.accept_privacy_policies];
 
     if (email && alreadyExistentAddresses.includes(email)) {
       errors[fieldNames.email] = 'validation_messages.error_email_already_exists';
     } else if (domain && blockedDomains.includes(domain)) {
       errors[fieldNames.email] = 'validation_messages.error_invalid_domain_to_register_account';
+    } else if (!checkbox) {
+      errors[fieldNames.accept_privacy_policies] = 'validation_messages.error_checkbox_policy';
     }
 
     return errors;
