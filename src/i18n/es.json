@@ -67,11 +67,9 @@
     "domain_not_verified": "Dominio no verificado",
     "pages": "Páginas",
     "rank_time": "Rango de tiempo",
-    "rank_time_item1": "1 semana",
-    "rank_time_item2": "2 semanas",
-    "rank_time_item3": "3 semanas",
     "title": "Optimiza tu estrategia de Marketing Digital",
-    "verified_domain": "Dominio verificado"
+    "verified_domain": "Dominio verificado",
+    "week_with_plural": "{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }"
   },
   "reports_pageranking": {
     "top_pages": "Top paginas mas visitadas",
