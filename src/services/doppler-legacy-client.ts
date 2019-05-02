@@ -8,6 +8,7 @@ export interface DopplerLegacyClient {
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
   registerUser(userRegistrationModel: UserRegistrationModel): Promise<UserRegistrationResult>;
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
+  activateSiteTrackingTrial(): Promise<void>;
 }
 
 // TODO: move it a common place if it will be reused
@@ -330,5 +331,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       credentials: 'include',
     });
     // TODO: handle error responses
+  }
+
+  public async activateSiteTrackingTrial() {
+    const response = await this.axios.get('/WebApp/ActivateSiteTrackingTrial');
+    if (!response || !response.data) {
+      throw new Error('Empty Doppler response');
+    }
+    if (!response.data.success) {
+      throw new Error(`Doppler Error: ${response.data.error}`);
+    }
   }
 }
