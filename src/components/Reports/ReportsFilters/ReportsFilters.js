@@ -71,17 +71,14 @@ const ReportsFilters = ({
               disabled={!domains || !domains.length}
               onChange={(event) => changePeriod(parseInt(event.target.value))}
             >
-              <FormattedMessage id="reports_filters.rank_time_item1">
+              <FormattedMessage id="reports_filters.week_with_plural" values={{ weeksCount: 1 }}>
                 {(message) => <option value="7">{message}</option>}
               </FormattedMessage>
-              <FormattedMessage id="reports_filters.rank_time_item2">
-                {(message) => <option value="30">{message}</option>}
+              <FormattedMessage id="reports_filters.week_with_plural" values={{ weeksCount: 2 }}>
+                {(message) => <option value="14">{message}</option>}
               </FormattedMessage>
-              <FormattedMessage id="reports_filters.rank_time_item3">
-                {(message) => <option value="90">{message}</option>}
-              </FormattedMessage>
-              <FormattedMessage id="reports_filters.rank_time_item4">
-                {(message) => <option value="180">{message}</option>}
+              <FormattedMessage id="reports_filters.week_with_plural" values={{ weeksCount: 3 }}>
+                {(message) => <option value="21">{message}</option>}
               </FormattedMessage>
             </select>
           </fieldset>
