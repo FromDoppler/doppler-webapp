@@ -139,10 +139,10 @@ function mapPlanEntry(json: any): PlanEntry {
     isFreeAccount: json.planType == 1 || json.planType == 7,
   };
 }
-
+//TODO: Refactor backend to send proper active values
 function mapNavEntry(json: any): NavEntry {
   return {
-    isSelected: json.isSelected,
+    isSelected: ['Reports', 'Advanced', 'Reportes', 'Avanzados'].includes(json.title),
     title: json.title,
     url: json.url,
   };
