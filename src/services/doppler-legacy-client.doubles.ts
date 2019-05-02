@@ -85,4 +85,9 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     console.log('sendEmailUpgradePlan', { planModel });
     await timeout(1500);
   }
+
+  public async activateSiteTrackingTrial() {
+    console.log('activateSiteTrackingTrial');
+    await timeout(1500);
+  }
 }
