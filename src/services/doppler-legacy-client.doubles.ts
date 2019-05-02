@@ -18,7 +18,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     console.log(this.login, model);
     await timeout(1500);
     return { success: true };
-    // return { expectedError: { userBlockedByPayment: true } };
+    // return { expectedError: { blockedAccountNotPayed: true } };
     // return { expectedError: { userInactive: true } };
   }
 
