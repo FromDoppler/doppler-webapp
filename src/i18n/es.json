@@ -46,9 +46,9 @@
     "you_want_create_account": "¿Aún no tienes una cuenta?"
   },
   "reports": {
-    "allow_enable_trial_HTML": "<p>Envía Emails automáticos y 100% personalizados a quienes visiten una página específica de tu sitio web o tienda online. Por ejemplo, puedes enviar un descuento a los usuarios que visitaron la página de un producto en particular para hacer que regresen a comprarlo.</p><h4>¿Cuándo finaliza el periodo de prueba?</h4><p>Nuestro objetivo es que puedas ver de qué forma utilizar esta funcionalidad en tu negocio y comprobar sus beneficios, por lo que por el momento podrás utilizarla sin limitaciones.</p><h4>¿Qué sucederá con las Automations creadas cuando finalice el periodo de prueba?</h4><p>Permanecerán inactivas, y no podrás editarlas hasta que contrates el módulo especial que incluye este servicio.</p>",
-    "allow_enable_trial_button": "Activar período de prueba",
-    "allow_enable_trial_title": "Prueba Automation por Comportamiento GRATIS",
+    "allow_enable_trial_HTML": "<p>Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no.</p>",
+    "allow_enable_trial_button": "Activa período de prueba",
+    "allow_enable_trial_title": "Prueba Automation de Comportamiento en Sitio por tiempo limitado",
     "datahub_not_active_HTML": "<p>Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora!</p><p>Aún no has habilitado la funcionalidad de Comportamiento en Sitio. Puedes hacerlo desde la opción de <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">Seguimiento en Sitio</a> en el Panel de Control.</p>",
     "datahub_not_active_title": "Trackea el comportamiento de los usuarios y optimiza tus acciones",
     "datahub_not_domains_title":"Trackea el comportamiento de los usuarios y optimiza tus acciones",
