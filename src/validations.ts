@@ -1,3 +1,5 @@
+const emailRegex = /^([a-z\d[\]])(\.?([\w\-+\][]*)([a-z\d[\]]))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i;
+
 export function validateEmail(
   value: string,
   commonErrorKey: true | string = 'validation_messages.error_invalid_email_address',
@@ -6,11 +8,7 @@ export function validateEmail(
     return null;
   }
 
-  if (
-    !/^([a-z\d[\]])(\.?([\w\-+\][]*)([a-z\d[\]]))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i.test(
-      value,
-    )
-  ) {
+  if (!emailRegex.test(value)) {
     return commonErrorKey;
   }
 
