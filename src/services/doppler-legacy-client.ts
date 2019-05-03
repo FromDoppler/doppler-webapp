@@ -24,9 +24,9 @@ interface PayloadWithCaptchaToken {
 /* #region Login data types */
 
 export type LoginErrorResult =
-  | { blockedAccountNotPayed?: false; accountNotValidated?: false }
-  | { blockedAccountNotPayed: true; accountNotValidated?: false }
-  | { accountNotValidated: true; blockedAccountNotPayed?: false };
+  | { blockedAccountNotPayed: true; accountNotValidated?: false; cancelatedAccount?: false }
+  | { accountNotValidated: true; cancelatedAccount?: false; blockedAccountNotPayed?: false }
+  | { cancelatedAccount: true; blockedAccountNotPayed?: false; accountNotValidated?: false };
 
 export type LoginResult = EmptyResult<LoginErrorResult>;
 
@@ -249,6 +249,10 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
       if (!response.data.success && response.data.error == 'AccountNotValidated') {
         return { expectedError: { accountNotValidated: true } };
+      }
+
+      if (!response.data.success && response.data.error == 'CancelatedAccount') {
+        return { expectedError: { cancelatedAccount: true } };
       }
 
       if (!response.data.success) {
