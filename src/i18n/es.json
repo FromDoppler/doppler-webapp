@@ -53,8 +53,8 @@
     "datahub_not_active_title": "Trackea el comportamiento de los usuarios y optimiza tus acciones",
     "datahub_not_domains_title":"Trackea el comportamiento de los usuarios y optimiza tus acciones",
     "no_domains_HTML": "<p>Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora!</p><p>Aún no has agregado un dominio. Puedes hacerlo desde la opción de <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">Seguimiento en Sitio</a> en el Panel de Control.</p>",
-    "upgrade_account_free_HTML": "<p>Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora!</p><p>Esta funcionalidad está habilitada solo para cuentas con <a href=\"https://app2.fromdoppler.com/ControlPanel/AccountPreferences/UpgradeAccount?Plan=monthly\">Plan Pago</a></p>",
-    "upgrade_account_free_title": "Trackea el comportamiento de los usuarios y optimiza tus acciones"
+    "upgrade_account_free_HTML": "<p>Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no.</p><p>Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo limitado. <a href=\"https://app2.fromdoppler.com/ControlPanel/AccountPreferences/UpgradeAccount?Plan=monthly\">COMPRA AHORA</a></p>",
+    "upgrade_account_free_title": "Analiza el comportamiento de los usuarios y optimiza tu estrategia"
   },
   "reports_box": {
     "to": "a",
