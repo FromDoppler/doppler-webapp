@@ -7,7 +7,9 @@ export function validateEmail(
   }
 
   if (
-    !/^([a-z\d[\]])([\w\-.+\][]*)([a-z\d[\]])@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i.test(value)
+    !/^([a-z\d[\]])(\.?([\w\-+\][]*)([a-z\d[\]]))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i.test(
+      value,
+    )
   ) {
     return commonErrorKey;
   }
