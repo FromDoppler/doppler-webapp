@@ -46,7 +46,7 @@
     "you_want_create_account": "¿Aún no tienes una cuenta?"
   },
   "reports": {
-    "allow_enable_trial_HTML": "<p>Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no.</p>",
+    "allow_enable_trial_HTML": "<p>Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no.</p><p>¿Necesitas ayuda? Presiona <a target=\"_blank\" href=\"https://help.fromdoppler.com/es/reportes-avanzados\">HELP.</a></p>",
     "allow_enable_trial_button": "Activa período de prueba",
     "allow_enable_trial_title": "Prueba Automation de Comportamiento en Sitio por tiempo limitado",
     "datahub_not_active_HTML": "<p>Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora!</p><p>Aún no has habilitado la funcionalidad de Comportamiento en Sitio. Puedes hacerlo desde la opción de <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">Seguimiento en Sitio</a> en el Panel de Control.</p>",
