@@ -1,4 +1,4 @@
-const emailRegex = /^([a-z\d[\]])(\.?([\w\-+\][]*)([a-z\d[\]]))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i;
+const emailRegex = /^([a-zñ\d[\]])(\.?([\wñ&/~\-+\][]+))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i;
 
 export function validateEmail(
   value: string,

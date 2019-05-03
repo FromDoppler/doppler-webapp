@@ -41,9 +41,42 @@ describe('validations', () => {
       expect(result).toBeNull();
     });
 
+    it('should accept an email address with /', () => {
+      // Arrange
+      const emailAddress = 'te/st@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email address with &', () => {
+      // Arrange
+      const emailAddress = 'a&test&@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email address with ~', () => {
+      // Arrange
+      const emailAddress = 'a~test~@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
     it('should accept an email address with ñ', () => {
       // Arrange
-      const emailAddress = 'test@testñ.com';
+      const emailAddress = 'testñ@testñ.com';
 
       // Act
       const result = validateEmail(emailAddress);
