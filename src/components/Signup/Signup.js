@@ -17,6 +17,7 @@ import {
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SignupConfirmation from './SignupConfirmation';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -204,10 +205,11 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         <footer>
           <CaptchaLegalMessage />
           <p>
-            <FormattedHTMLMessage
-              tagName="small"
-              id="common.copyright_HTML"
+            <FormattedMessageMarkdown
+              container="small"
+              id="common.copyright_MD"
               values={{ year: new Date().getFullYear() }}
+              options={{ linkTarget: '_blank' }}
             />
           </p>
         </footer>

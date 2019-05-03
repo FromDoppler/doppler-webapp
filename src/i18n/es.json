@@ -1,7 +1,7 @@
 ﻿{
   "common": {
     "cancel": "Cancelar",
-    "copyright_HTML": "© {year} Doppler LLC. Todos los derechos reservados. <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad y Legales.</a>",
+    "copyright_MD": "© {year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](https://www.fromdoppler.com/legales/privacidad).",
     "help": "Ayuda",
     "hide": "Ocultar",
     "message": "Mensaje",

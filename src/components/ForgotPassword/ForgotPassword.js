@@ -12,6 +12,7 @@ import {
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { InjectAppServices } from '../../services/pure-di';
 import './ForgotPassword.css';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const fieldNames = {
   email: 'email',
@@ -103,10 +104,11 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         <footer>
           <CaptchaLegalMessage />
           <p>
-            <FormattedHTMLMessage
-              tagName="small"
-              id="common.copyright_HTML"
+            <FormattedMessageMarkdown
+              container="small"
+              id="common.copyright_MD"
               values={{ year: new Date().getFullYear() }}
+              options={{ linkTarget: '_blank' }}
             />
           </p>
         </footer>
