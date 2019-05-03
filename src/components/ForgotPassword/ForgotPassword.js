@@ -11,6 +11,7 @@ import {
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { InjectAppServices } from '../../services/pure-di';
+import './ForgotPassword.css';
 
 const fieldNames = {
   email: 'email',
