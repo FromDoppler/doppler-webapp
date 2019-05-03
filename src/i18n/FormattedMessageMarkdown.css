@@ -1,0 +1,4 @@
+/* This is <p> are not making honor to parent styles */
+small p {
+  font: inherit;
+}

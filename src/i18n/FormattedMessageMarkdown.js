@@ -2,6 +2,7 @@
 import React from 'react';
 import Markdown from 'react-remarkable';
 import { injectIntl } from 'react-intl';
+import './FormattedMessageMarkdown.css';
 
 // TODO: do something to build markdown files inside es.json and en.json
 // to edit it in a more friendly way, or at least use a different format
