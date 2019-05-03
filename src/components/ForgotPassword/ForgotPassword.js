@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import {
@@ -34,6 +34,7 @@ const getFormInitialValues = () =>
  */
 const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const [sentTimes, setSentTimes] = useState(0);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -43,7 +44,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
       });
 
       if (result.success) {
-        // TODO: show OK message
+        setSentTimes((x) => x + 1);
       } else {
         console.log('Unexpected error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
@@ -69,11 +70,16 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
             {_('login.signup')}
           </Link>
         </p>
-        <FormWithCaptcha
-          className="login-form"
-          initialValues={getFormInitialValues()}
-          onSubmit={onSubmit}
-        >
+        {sentTimes > 0 ? (
+          <div className="forgot-message bounceIn">
+            <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
+          </div>
+        ) : (
+          <FormWithCaptcha
+            className="login-form"
+            initialValues={getFormInitialValues()}
+            onSubmit={onSubmit}
+          >
             <fieldset>
               <FieldGroup>
                 <EmailFieldItem
@@ -92,7 +98,8 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
                 {_('forgot_password.back_login')}
               </Link>
             </fieldset>
-        </FormWithCaptcha>
+          </FormWithCaptcha>
+        )}
         <footer>
           <CaptchaLegalMessage />
           <p>

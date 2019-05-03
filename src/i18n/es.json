@@ -28,6 +28,7 @@
   },
   "forgot_password": {
     "back_login": "¿Recordaste tu contraseña y quieres regresar?",
+    "confirmation_message_HTML": "<p>¡Revisa tu casilla!</p><p>Encontrarás un Email con los pasos a Seguir.</p>",
     "description": "¡No te preocupes! Nos sucede a todos.",
     "description2": "Ingresa tu Email y te ayudaremos."
   },
