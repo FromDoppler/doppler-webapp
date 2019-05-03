@@ -20,6 +20,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     return { success: true };
     // return { expectedError: { blockedAccountNotPayed: true } };
     // return { expectedError: { accountNotValidated: true } };
+    // return { expectedError: { cancelatedAccount: true } };
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {

@@ -115,6 +115,7 @@
     "title": "Solicita una actualización de tu plan"
   },
   "validation_messages": {
+    "error_account_is_canceled_HTML" : "Tu cuenta se encuentra cancelada. Para más información <a target=\"_blank\" href=\"http://www.fromdoppler.com/en/contact.html\">contáctanos</a>.",
     "error_checkbox_policy": "¡Ouch! No has aceptado la Política de Privacidad de Doppler.",
     "error_email_already_exists": "¡Ouch! Ya posees una cuenta en Doppler.",
     "error_invalid_domain_to_register_account": "¡Ouch! Email inválido para crear una cuenta.",

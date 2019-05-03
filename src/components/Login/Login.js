@@ -15,6 +15,7 @@ import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
 import { InjectAppServices } from '../../services/pure-di';
 import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
+import LoginErrorCancelatedAccount from './LoginErrorCancelatedAccount';
 
 const fieldNames = {
   user: 'user',
@@ -71,6 +72,8 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         setErrors({ _general: 'validation_messages.error_unexpected' });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({ _general: <LoginErrorAccountNotValidated email={values[fieldNames.user]} /> });
+      } else if (result.expectedError && result.expectedError.cancelatedAccount) {
+        setErrors({ _general: <LoginErrorCancelatedAccount /> });
       } else {
         console.log('Unexpected error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
