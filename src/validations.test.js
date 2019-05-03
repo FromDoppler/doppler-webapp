@@ -63,6 +63,17 @@ describe('validations', () => {
       expect(result).toEqual('validation_messages.error_invalid_email_address');
     });
 
+    it('should accept an email address with multiple levels of subdomains', () => {
+      // Arrange
+      const emailAddress = 'test@test.test.com.ar';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
     it('should not accept an email address starting with dot (.)', () => {
       // Arrange
       const emailAddress = '.test@test.com';
