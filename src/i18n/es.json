@@ -5,7 +5,7 @@
     "help": "Ayuda",
     "hide": "Ocultar",
     "message": "Mensaje",
-    "recaptcha_legal_HTML": "Este sitio es protegido por reCAPTCHA y aplican la <a href=\"https://policies.google.com/privacy?hl=es\">Política de Privacidad</a> y <a href=\"https://policies.google.com/terms?hl=es\">Condiciones del Servicio</a> de Google.",
+    "recaptcha_legal_HTML": "Sitio protegido por reCAPTCHA. <a href=\"https://policies.google.com/privacy?hl=es\">Política de Privacidad</a> y <a href=\"https://policies.google.com/terms?hl=es\">Condiciones del Servicio</a> de Google.",
     "send": "Enviar",
     "show": "Mostrar"
   },
@@ -94,7 +94,7 @@
     "label_lastname": "Apellido: ",
     "label_password": "Contraseña: ",
     "label_phone": "Teléfono: ",
-    "legal_HTML": "<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
+    "legal_HTML": "<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Google como proveedor del servicio de reCAPTCHA, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a target=\"_blank\" href=\"https://www.fromdoppler.com/legales/privacidad\">Política de Privacidad</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
     "log_in": "Ingresa",
     "no_more_resend": "¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor contáctate con soporte",
     "placeholder_email": "Tu Email será tu nombre de usuario",

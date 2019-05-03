@@ -5,7 +5,7 @@
     "help": "Help",
     "hide": "Hide",
     "message": "Message",
-    "recaptcha_legal_HTML": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy?hl=en\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms?hl=en\">Terms of Service</a> apply.",
+    "recaptcha_legal_HTML": "Site protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy?hl=en\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms?hl=en\">Terms of Service</a>.",
     "send": "Send",
     "show": "Show"
   },
@@ -94,7 +94,7 @@
     "label_lastname": "Lastname: ",
     "label_password": "Password: ",
     "label_phone": "Phone: ",
-    "legal_HTML": "<p>Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.</p>\n<p><strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras.</p>\n<p><strong>Legitimación:</strong> Consentimiento del interesado.</p>\n<p><strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.</p>\n<p><strong>Información adicional:</strong> En la <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy Policy</a> de Doppler encontrarás información adicional sobre la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación, seguridad, transferencias transfronterizas y otros temas.</p>",
+    "legal_HTML": "<p>Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.</p>\n<p><strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.</p>\n<p><strong>Legitimation:</strong> Consent of the applicant.</p>\n<p><strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.</p>\n<p><strong>Additional information:</strong> In Doppler's <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup\">Privacy Policy</a> you'll find additional information about the data storage and use of your personal information, including information on access, conservation, rectification, deletion, security, cross-border data transfers and other issues.</p>",
     "log_in": "Log In",
     "no_more_resend": "You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact support",
     "placeholder_email": "Your Email will be your Username",
@@ -102,7 +102,7 @@
     "placeholder_lastname": "Lastname",
     "placeholder_password": "Enter your secret key",
     "placeholder_phone": "9 11 2345-6789",
-    "privacy_policy_consent_HTML": "I accept Doppler's <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy Policy</a>.",
+    "privacy_policy_consent_HTML": "I accept Doppler's <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup\">Privacy Policy</a>.",
     "promotions_consent": "Sign me up for promotions about Doppler and its partners.",
     "resend_email": "Resent it",
     "sign_up": "Sign Up",
@@ -110,9 +110,9 @@
     "thanks_for_registering": "Thank you for registering"
   },
   "upgradePlanForm": {
-    "message_placeholder": "Your mensaje",
+    "message_placeholder": "Your message",
     "plan_select": "Select Plan",
-    "title": "Solicita una actualización de tu plan"
+    "title": "Request an update of your plan"
   },
   "validation_messages": {
     "error_account_is_canceled_HTML" : "Your account has been cancelled. To know more please <a target=\"_blank\" href=\"http://www.fromdoppler.com/en/contact.html\">contact us</a>.",
