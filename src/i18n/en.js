@@ -1,4 +1,4 @@
-{
+export default {
   "common": {
     "cancel": "Cancel",
     "copyright_MD": "© {year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](https://www.fromdoppler.com/en/legal/privacy-policy).",

@@ -1,6 +1,6 @@
 import 'jest';
-import messages_es from './es.json';
-import messages_en from './en.json';
+import messages_es from './es';
+import messages_en from './en';
 import { flattenMessages } from './utils';
 
 const flattenEs = flattenMessages(messages_es);
