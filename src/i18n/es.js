@@ -1,9 +1,23 @@
+// Basic constants
+const year = new Date().getFullYear();
+const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlSite = `https://www.fromdoppler.com`;
+const urlHelp = `https://help.fromdoppler.com/es/`;
+
+// Common URLs
+const urlPrivacy = `${urlSite}/legales/privacidad`;
+const urlPrivacyWithQueryString = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlContact = `${urlSite}/contacto`;
+const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
+const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
+const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
+
 export default {
   common: {
     cancel: `Cancelar`,
     copyright_MD: `
-© {year} Doppler LLC. Todos los derechos reservados.
-[Política de Privacidad y Legales](https://www.fromdoppler.com/legales/privacidad).
+© ${year} Doppler LLC. Todos los derechos reservados.
+[Política de Privacidad y Legales](${urlPrivacy}).
 `,
     help: `Ayuda`,
     hide: `Ocultar`,
@@ -44,7 +58,7 @@ export default {
     description2: `Ingresa tu Email y te ayudaremos.`,
   },
   header: {
-    help_url: `https://help.fromdoppler.com/es/`,
+    help_url: `${urlHelp}`,
   },
   loading: `Cargando...`,
   login: {
@@ -77,10 +91,8 @@ export default {
         puntos de fuga y oportunidades de mejora!
       </p>
       <p>
-        Aún no has habilitado la funcionalidad de Comportamiento en Sitio. Puedes hacerlo desde la
-        opción de
-        <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">Seguimiento en Sitio</a>
-        en el Panel de Control.
+        Aún no has habilitado la funcionalidad de Comportamiento en Sitio. Puedes hacerlo desde la opción
+        de <a href="${urlSiteTracking}">Seguimiento en Sitio</a> en el Panel de Control.
       </p>
       `,
     datahub_not_active_title: `Trackea el comportamiento de los usuarios y optimiza tus acciones`,
@@ -90,10 +102,10 @@ export default {
         Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
         detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
-        <a target="_blank" href="https://help.fromdoppler.com/es/reportes-avanzados">HELP.</a>
+        <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
       </p>
       <p>
-        <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">Agrega tu dominio</a>.
+        <a href="${urlSiteTracking}">Agrega tu dominio</a>.
       </p>
       `,
     upgrade_account_free_HTML: `
@@ -101,15 +113,14 @@ export default {
         Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
         tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes
         poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? Presiona
-        <a target="_blank" href="https://help.fromdoppler.com/es/reportes-avanzados">HELP.</a>
+        <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
       </p>
       <p>
         Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo
-        limitado.
-        <a href="{dopplerBaseUrl}/ControlPanel/AccountPreferences/UpgradeAccount?Plan=monthly">COMPRA AHORA.</a>
+        limitado. <a href="${urlBuyMonthly}">COMPRA AHORA</a>.
       </p>
       `,
-    upgrade_account_free_title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,
+    upgrade_account_free_title: `Analiza el comportamiento de los usuarios y optimiza tus acciones`,
   },
   reports_box: {
     to: `a`,
@@ -125,7 +136,7 @@ export default {
         Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
         los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona
-        <a target="_blank" href="https://help.fromdoppler.com/es/reportes-avanzados">HELP</a>.
+        <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
       </p>
       `,
     domain: `Dominio`,
@@ -174,9 +185,10 @@ export default {
         hosting.
       </p>
       <p>
-        <strong>Información adicional:</strong> En la <a target="_blank" href="https://www.fromdoppler.com/legales/privacidad">Política de Privacidad</a>
-        de Doppler encontrarás información adicional sobre la recopilación y el uso de su información
-        personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación,
+        <strong>Información adicional:</strong> En la
+        <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a> de Doppler
+        encontrarás información adicional sobre la recopilación y el uso de su información personal
+        por parte de Doppler, incluida información sobre acceso, conservación, rectificación,
         eliminación, seguridad, transferencias transfronterizas y otros temas.
       </p>
       `,
@@ -188,7 +200,8 @@ export default {
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
-      Acepto la <a target="_blank" href="https://www.fromdoppler.com/legales/privacidad">Política de Privacidad</a> de Doppler.
+      Acepto la <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a>
+      de Doppler.
       `,
     promotions_consent: `Acepto recibir las promociones de Doppler y sus aliados.`,
     resend_email: `Reenvíalo`,
@@ -204,11 +217,11 @@ export default {
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       Por seguridad hemos bloqueado tu cuenta momentáneamente.
-      <a href="http://www.fromdoppler.com/contacto" target="_blank">Contáctanos<a>.
+      <a href="${urlContact}" target="_blank">Contáctanos<a>.
       `,
     error_account_is_canceled_HTML: `
       Tu cuenta se encuentra cancelada. Para más información
-      <a target="_blank" href="http://www.fromdoppler.com/contacto">contáctanos</a>.
+      <a target="_blank" href="${urlContact}">contáctanos</a>.
       `,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,

@@ -1,16 +1,28 @@
+// Basic constants
+const year = new Date().getFullYear();
+const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlSite = `https://www.fromdoppler.com`;
+const urlHelp = `https://help.fromdoppler.com/en/`;
+
+// Common URLs
+const urlPrivacy = `${urlSite}/en/legal/privacy`;
+const urlPrivacyWithQueryString = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlContact = `${urlSite}/en/contact`;
+const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
+const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
+const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
+
 export default {
   common: {
     cancel: `Cancel`,
     copyright_MD: `
-© {year} Doppler LLC. All rights reserved.
-[Privacy and Legal Policy](https://www.fromdoppler.com/en/legal/privacy-policy).
+© ${year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](${urlPrivacy}).
 `,
     help: `Help`,
     hide: `Hide`,
     message: `Message`,
     recaptcha_legal_HTML: `
-      Site protected by reCAPTCHA and the Google
-      <a href="https://policies.google.com/privacy?hl=en">Privacy Policy</a>
+      Site protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy?hl=en">Privacy Policy</a>
       and <a href="https://policies.google.com/terms?hl=en">Terms of Service</a>.
       `,
     send: `Send`,
@@ -45,7 +57,7 @@ export default {
     description2: `Enter your email and we will help you`,
   },
   header: {
-    help_url: `https://help.fromdoppler.com/en/`,
+    help_url: `${urlHelp}`,
   },
   loading: `Loading...`,
   login: {
@@ -66,10 +78,10 @@ export default {
         Activate the trial period and access detailed Reports on the behavior of users inside your
         Website or E-commerce. Discover which are the most visited pages, how many visitors have an
         Email identified by Doppler and how many don't. Any doubts? Press
-        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.
+        <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
       </p>
       `,
-    allow_enable_trial_button: `Start the free trial`,
+    allow_enable_trial_button: `Start the trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
     datahub_not_active_HTML: `
       <p>
@@ -80,8 +92,7 @@ export default {
       </p>
       <p>
         You haven’t enabled On-Site Tracking yet. You can trigger it from the
-        <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">On-Site Tracking</a>
-        option in the Control Panel.
+        <a href="${urlSiteTracking}">On-Site Tracking</a> option in the Control Panel.
       </p>
       `,
     datahub_not_active_title: `Track user behavior and optimize your Marketing actions`,
@@ -91,10 +102,10 @@ export default {
         Register the domain (s) you want to track and access to detailed Reports. Discover which are the
         most visited pages of your Website or E-commerce, how many visitors have been identified by
         Doppler and how many have not. Any doubts? Press
-        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.
+        <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
       </p>
       <p>
-        <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">Add your domain</a>.
+        <a href="${urlSiteTracking}">Add your domain</a>.
       </p>
       `,
     upgrade_account_free_HTML: `
@@ -102,11 +113,11 @@ export default {
         Upgrade your account and access detailed Reports on the behavior of users on your Website or
         E-commerce. Discover which are the most visited pages, how many visitors have an Email that
         Doppler has identified and how many don't. Any doubts? Press
-        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP.</a>
+        <a target="_blank" href="${urlHelp}/en/advanced-reports">HELP</a>.
       </p>
       <p>
         By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
-        <a href="{dopplerBaseUrl}/ControlPanel/AccountPreferences/UpgradeAccount?Plan=monthly">UPGRADE NOW</a>.
+        <a href="${urlBuyMonthly}">UPGRADE NOW</a>.
       </p>
       `,
     upgrade_account_free_title: `Analyze your Subscriber's behaviour and improve your strategy`,
@@ -125,14 +136,14 @@ export default {
         Find out which are the most visited pages, how many of those visitors already have an Email
         identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to
         detect vanishing points and opportunities for improvement! If you have any doubts, press
-        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.
+        <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
       </p>
       `,
     domain: `Domain`,
     domain_not_verified: `Not verified domain`,
     pages: `Pages`,
     rank_time: `Time period`,
-    title: `Track users behavior, analize it and optimize your Marketing actions`,
+    title: `Track users behavior, analyze it and optimize your Marketing actions`,
     verified_domain: `Verified domain`,
     week_with_plural: `{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }`,
   },
@@ -173,10 +184,10 @@ export default {
       </p>
       <p>
         <strong>Additional information:</strong> In Doppler's
-        <a target="_blank" href="https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup">Privacy Policy</a>
-        you'll find additional information about the data storage and use of your personal information,
-        including information on access, conservation, rectification, deletion, security, cross-border
-        data transfers and other issues.
+        <a target="_blank" href="${urlPrivacyWithQueryString}">Privacy Policy</a>
+        you'll find additional information about the data storage and use of your personal
+        information, including information on access, conservation, rectification, deletion,
+        security, cross-border data transfers and other issues.
       </p>
       `,
     log_in: `Log In`,
@@ -187,7 +198,8 @@ export default {
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
-      I accept Doppler's <a target="_blank" href="https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup">Privacy Policy</a>.
+      I accept Doppler's
+      <a target="_blank" href="${urlPrivacyWithQueryString}">Privacy Policy</a>.
       `,
     promotions_consent: `Sign me up for promotions about Doppler and its partners.`,
     resend_email: `Resent it`,
@@ -203,11 +215,11 @@ export default {
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       For security reasons we've temporarily disabled your account.
-      <a href="http://www.fromdoppler.com/en/contact" target="_blank">Contact us</a>.
+      <a href="${urlContact}" target="_blank">Contact us</a>.
       `,
     error_account_is_canceled_HTML: `
       Your account has been cancelled. To know more please
-      <a target="_blank" href="http://www.fromdoppler.com/en/contact">contact us</a>.
+      <a target="_blank" href="${urlContact}">contact us</a>.
       `,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
