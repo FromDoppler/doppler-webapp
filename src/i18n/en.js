@@ -1,11 +1,18 @@
 export default {
   common: {
     cancel: `Cancel`,
-    copyright_MD: `© {year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](https://www.fromdoppler.com/en/legal/privacy-policy).`,
+    copyright_MD: `
+© {year} Doppler LLC. All rights reserved.
+[Privacy and Legal Policy](https://www.fromdoppler.com/en/legal/privacy-policy).
+`,
     help: `Help`,
     hide: `Hide`,
     message: `Message`,
-    recaptcha_legal_HTML: `Site protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy?hl=en">Privacy Policy</a> and <a href="https://policies.google.com/terms?hl=en">Terms of Service</a>.`,
+    recaptcha_legal_HTML: `
+      Site protected by reCAPTCHA and the Google
+      <a href="https://policies.google.com/privacy?hl=en">Privacy Policy</a>
+      and <a href="https://policies.google.com/terms?hl=en">Terms of Service</a>.
+      `,
     send: `Send`,
     show: `Show`,
   },
@@ -26,7 +33,14 @@ export default {
   forgot_password: {
     back_login: `Did you remember your password and want to return?`,
     back_login_after_forgot: `Return to login`,
-    confirmation_message_HTML: `<p>Check your inbox!</p><p> You’ll find an Email with steps to follow.</p>`,
+    confirmation_message_HTML: `
+      <p>
+        Check your inbox!
+      </p>
+      <p>
+        You’ll find an Email with steps to follow.
+      </p>
+      `,
     description: `Do not worry! It happens to everyone.`,
     description2: `Enter your email and we will help you`,
   },
@@ -47,14 +61,54 @@ export default {
     you_want_create_account: `Do not you have an account yet?`,
   },
   reports: {
-    allow_enable_trial_HTML: `<p>Activate the trial period and access detailed Reports on the behavior of users inside your Website or E-commerce. Discover which are the most visited pages, how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP.</a></p>`,
+    allow_enable_trial_HTML: `
+      <p>
+        Activate the trial period and access detailed Reports on the behavior of users inside your
+        Website or E-commerce. Discover which are the most visited pages, how many visitors have an
+        Email identified by Doppler and how many don't. Any doubts? Press
+        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.
+      </p>
+      `,
     allow_enable_trial_button: `Start the free trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
-    datahub_not_active_HTML: `<p>How do users behave on your Website or E-commerce? Track their behavior for a period of time and find out which are the most visited pages, how many of those visits have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement!</p><p>You haven’t enabled On-Site Tracking yet. You can trigger it from the <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">On-Site Tracking</a> option in the Control Panel.</p>`,
+    datahub_not_active_HTML: `
+      <p>
+        How do users behave on your Website or E-commerce? Track their behavior for a period of time and
+        find out which are the most visited pages, how many of those visits have an Email identified by
+        Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing
+        points and opportunities for improvement!
+      </p>
+      <p>
+        You haven’t enabled On-Site Tracking yet. You can trigger it from the
+        <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">On-Site Tracking</a>
+        option in the Control Panel.
+      </p>
+      `,
     datahub_not_active_title: `Track user behavior and optimize your Marketing actions`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
-    no_domains_HTML: `<p>Register the domain (s) you want to track and access to detailed Reports. Discover which are the most visited pages of your Website or E-commerce, how many visitors have been identified by Doppler and how many have not. Any doubts? Press <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.</p><p><a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">Add your domain</a>.</p>`,
-    upgrade_account_free_HTML: `<p>Upgrade your account and access detailed Reports on the behavior of users on your Website or E-commerce. Discover which are the most visited pages, how many visitors have an Email that Doppler has identified and how many don't. Any doubts? Press <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP.</a></p><p>By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only. <a href="{dopplerBaseUrl}/ControlPanel/AccountPreferences/UpgradeAccount?Plan=monthly">UPGRADE NOW</a>.</p>`,
+    no_domains_HTML: `
+      <p>
+        Register the domain (s) you want to track and access to detailed Reports. Discover which are the
+        most visited pages of your Website or E-commerce, how many visitors have been identified by
+        Doppler and how many have not. Any doubts? Press
+        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.
+      </p>
+      <p>
+        <a href="{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings">Add your domain</a>.
+      </p>
+      `,
+    upgrade_account_free_HTML: `
+      <p>
+        Upgrade your account and access detailed Reports on the behavior of users on your Website or
+        E-commerce. Discover which are the most visited pages, how many visitors have an Email that
+        Doppler has identified and how many don't. Any doubts? Press
+        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP.</a>
+      </p>
+      <p>
+        By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
+        <a href="{dopplerBaseUrl}/ControlPanel/AccountPreferences/UpgradeAccount?Plan=monthly">UPGRADE NOW</a>.
+      </p>
+      `,
     upgrade_account_free_title: `Analyze your Subscriber's behaviour and improve your strategy`,
   },
   reports_box: {
@@ -66,7 +120,14 @@ export default {
   },
   reports_filters: {
     all_pages: `All pages`,
-    description_HTML: `<p>Find out which are the most visited pages, how many of those visitors already have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.</p>`,
+    description_HTML: `
+      <p>
+        Find out which are the most visited pages, how many of those visitors already have an Email
+        identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to
+        detect vanishing points and opportunities for improvement! If you have any doubts, press
+        <a target="_blank" href="https://help.fromdoppler.com/en/advanced-reports">HELP</a>.
+      </p>
+      `,
     domain: `Domain`,
     domain_not_verified: `Not verified domain`,
     pages: `Pages`,
@@ -95,7 +156,29 @@ export default {
     label_lastname: `Lastname: `,
     label_password: `Password: `,
     label_phone: `Phone: `,
-    legal_HTML: `<p>Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.</p><p><strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.</p><p><strong>Legitimation:</strong> Consent of the applicant.</p><p><strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.</p><p><strong>Additional information:</strong> In Doppler's <a target="_blank" href="https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup">Privacy Policy</a> you'll find additional information about the data storage and use of your personal information, including information on access, conservation, rectification, deletion, security, cross-border data transfers and other issues.</p>`,
+    legal_HTML: `
+      <p>
+        Doppler informs you that the personal data you provide by completing this form will be treated by
+        Doppler LLC as responsible for this web site.
+      </p>
+      <p>
+        <strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.
+      </p>
+      <p>
+        <strong>Legitimation:</strong> Consent of the applicant.
+      </p>
+      <p>
+        <strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the
+        provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
+      </p>
+      <p>
+        <strong>Additional information:</strong> In Doppler's
+        <a target="_blank" href="https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup">Privacy Policy</a>
+        you'll find additional information about the data storage and use of your personal information,
+        including information on access, conservation, rectification, deletion, security, cross-border
+        data transfers and other issues.
+      </p>
+      `,
     log_in: `Log In`,
     no_more_resend: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact support`,
     placeholder_email: `Your Email will be your Username`,
@@ -103,7 +186,9 @@ export default {
     placeholder_lastname: `Lastname`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
-    privacy_policy_consent_HTML: `I accept Doppler's <a target="_blank" href="https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup">Privacy Policy</a>.`,
+    privacy_policy_consent_HTML: `
+      I accept Doppler's <a target="_blank" href="https://www.fromdoppler.com/en/privacy-policy?utm_source=app&utm_medium=landing&utm_campaign=signup">Privacy Policy</a>.
+      `,
     promotions_consent: `Sign me up for promotions about Doppler and its partners.`,
     resend_email: `Resent it`,
     sign_up: `Sign Up`,
@@ -116,8 +201,14 @@ export default {
     title: `Request an update of your plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_HTML: `For security reasons we've temporarily disabled your account. <a href="http://www.fromdoppler.com/en/contact" target="_blank">Contact us</a>.`,
-    error_account_is_canceled_HTML: `Your account has been cancelled. To know more please <a target="_blank" href="http://www.fromdoppler.com/en/contact.html">contact us</a>.`,
+    error_account_is_blocked_invalid_pass_HTML: `
+      For security reasons we've temporarily disabled your account.
+      <a href="http://www.fromdoppler.com/en/contact" target="_blank">Contact us</a>.
+      `,
+    error_account_is_canceled_HTML: `
+      Your account has been cancelled. To know more please
+      <a target="_blank" href="http://www.fromdoppler.com/en/contact">contact us</a>.
+      `,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
