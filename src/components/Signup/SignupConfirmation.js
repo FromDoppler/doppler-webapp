@@ -60,7 +60,6 @@ const SignupConfirmation = function({ resend, intl }) {
           <FormattedMessageMarkdown
             container="small"
             id="common.copyright_MD"
-            values={{ year: new Date().getFullYear() }}
             options={{ linkTarget: '_blank' }}
           />
         </p>

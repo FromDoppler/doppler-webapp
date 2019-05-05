@@ -111,7 +111,6 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
             <FormattedMessageMarkdown
               container="small"
               id="common.copyright_MD"
-              values={{ year: new Date().getFullYear() }}
               options={{ linkTarget: '_blank' }}
             />
           </p>

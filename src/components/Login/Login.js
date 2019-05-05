@@ -167,7 +167,6 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
             <FormattedMessageMarkdown
               container="small"
               id="common.copyright_MD"
-              values={{ year: new Date().getFullYear() }}
               options={{ linkTarget: '_blank' }}
             />
           </p>
