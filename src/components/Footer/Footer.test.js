@@ -14,6 +14,6 @@ describe('Footer component', () => {
         <Footer />
       </IntlProvider>,
     );
-    expect(getByText('footer.allRightReserved')).toBeInTheDocument();
+    expect(getByText('common.copyright_MD')).toBeInTheDocument();
   });
 });

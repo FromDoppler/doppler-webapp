@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const Footer = () => (
   <footer className="footer-main">
@@ -7,17 +8,11 @@ const Footer = () => (
       <span>
         <FormattedMessage id="footer.iso" />
       </span>
-      <span>
-        &copy; {new Date().getFullYear()} Doppler LLC.{' '}
-        <FormattedMessage id="footer.allRightReserved" />.{' '}
-        <FormattedMessage id="footer.privacy_url">
-          {(url) => (
-            <a href={url}>
-              <FormattedMessage id="footer.privacy" />
-            </a>
-          )}
-        </FormattedMessage>
-      </span>
+      <FormattedMessageMarkdown
+        id="common.copyright_MD"
+        values={{ year: new Date().getFullYear() }}
+        options={{ linkTarget: '_blank' }}
+      />
     </div>
   </footer>
 );

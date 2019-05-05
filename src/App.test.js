@@ -129,7 +129,7 @@ describe('App component', () => {
       });
 
       // Assert
-      getByText('Políticas de privacidad y legales.');
+      getByText('Política de Privacidad y Legales');
 
       // Act
       dependencies.sessionManager.updateAppSession({
@@ -152,7 +152,7 @@ describe('App component', () => {
       });
 
       // Assert
-      getByText('Privacy Policy & Legals.');
+      getByText('Privacy and Legal Policy');
 
       // Act
       dependencies.sessionManager.updateAppSession({ status: 'unknown' });

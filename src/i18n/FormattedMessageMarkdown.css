@@ -2,3 +2,7 @@
 small p {
   font: inherit;
 }
+
+.footer-wrapper p {
+  font: inherit;
+}
