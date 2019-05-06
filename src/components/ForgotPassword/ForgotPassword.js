@@ -74,6 +74,10 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         {sentTimes > 0 ? (
           <div className="forgot-message bounceIn">
             <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
+            <Link to="/login" className="forgot-link">
+              <span className="triangle-right" />
+              {_('forgot_password.back_login_after_forgot')}
+            </Link>
           </div>
         ) : (
           <FormWithCaptcha
