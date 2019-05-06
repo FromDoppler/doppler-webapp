@@ -46,7 +46,7 @@
     "you_want_create_account": "Do not you have an account yet?"
   },
   "reports": {
-    "allow_enable_trial_HTML": "<p>Activate the trial period and access Detailed reports on the behavior of users inside your Website or E-commerce. Discover which are the most visited pages, how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press <a target=\"_blank\" href=\"https://help.fromdoppler.com/en/advanced-reports\">HELP.</a></p>",
+    "allow_enable_trial_HTML": "<p>Activate the trial period and access Detailed Reports on the behavior of users inside your Website or E-commerce. Discover which are the most visited pages, how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press <a target=\"_blank\" href=\"https://help.fromdoppler.com/en/advanced-reports\">HELP.</a></p>",
     "allow_enable_trial_button": "Start the free trial",
     "allow_enable_trial_title": "Try On-Site Tracking Automation for a limited time",
     "datahub_not_active_HTML": "<p>How do users behave on your Website or E-commerce? Track their behavior for a period of time and find out which are the most visited pages, how many of those visits have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement!</p><p>You haven’t enabled On-Site Tracking yet. You can trigger it from the <a href=\"{dopplerBaseUrl}/ControlPanel/CampaignsPreferences/SiteTrackingSettings\">On-Site Tracking</a> option in the Control Panel.</p>",
