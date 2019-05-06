@@ -76,7 +76,7 @@ export type LoginErrorResult =
       cancelatedAccount?: false;
     };
 
-export type LoginResult = EmptyResult<LoginErrorResult>;
+export type LoginResult = Result<{ redirectUrl?: string }, LoginErrorResult>;
 
 export interface LoginModel extends PayloadWithCaptchaToken {
   username: string;
@@ -317,7 +317,14 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         };
       }
 
-      return { success: true };
+      if (response.data.returnTo) {
+        return {
+          success: true,
+          value: { redirectUrl: response.data.returnTo },
+        };
+      }
+
+      return { success: true, value: {} };
     } catch (error) {
       return {
         message: error.message || null,

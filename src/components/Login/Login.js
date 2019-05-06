@@ -51,6 +51,7 @@ const LoginErrorBlockedAccountNotPayed = () => (
  */
 const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
+  const [redirectToUrl, setRedirectToUrl] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -63,7 +64,11 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
 
       if (result.success) {
         sessionManager.restart();
-        setRedirectAfterLogin(true);
+        if (result.redirectUrl) {
+          setRedirectToUrl('/' + result.redirectUrl);
+        } else {
+          setRedirectAfterLogin(true);
+        }
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
         setErrors({ _general: <LoginErrorBlockedAccountNotPayed /> });
       } else if (result.expectedError && result.expectedError.userInactive) {
@@ -94,6 +99,10 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       setSubmitting(false);
     }
   };
+
+  if (redirectToUrl) {
+    return <RedirectToLegacyUrl to={redirectToUrl} />;
+  }
 
   if (redirectAfterLogin) {
     const legacyRedirectUrl = extractLegacyRedirectUrl(location);
