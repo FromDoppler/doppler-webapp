@@ -58,24 +58,26 @@
   },
   "reports_box": {
     "to": "a",
-    "visits_description": "Este reporte muestra el total de visitas en el período de tiempo seleccionado",
-    "visits_with_email": "Visitas con emails",
-    "visits_without_emails": "Visitas sin emails"
+    "visits_description_with_email": "Número total de usuarios que visitaron tu Sitio Web y cuyo Correo Electrónico ha sido identificado por Doppler. Si un usuario ingresó varias veces, solo se contabilizará una.",
+    "visits_description_without_emails": "Número total de usuarios que visitaron tu Sitio Web y cuyo Correo Electrónico no ha sido identificado por Doppler. Si un usuario ingresó varias veces, solo se contabilizará una.",
+    "visits_with_email": "Usuarios con emails",
+    "visits_without_emails": "Usuarios sin email"
   },
   "reports_filters": {
     "all_pages": "Todas las paginas",
-    "description": "Encuentra oportunidades de conversión, analiza cada pieza dentro de tu estrategia. Sigue los pasos que tus usuarios realizan dentro de tu journey y corrige aquellos que presentan inconvenientes.",
+    "description_HTML": "<p>Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona <a target=\"_blank\" href=\"https://help.fromdoppler.com/es/reportes-avanzados\">HELP.</a></p>",
     "domain": "Dominio",
     "domain_not_verified": "Dominio no verificado",
-    "pages": "Páginas",
-    "rank_time": "Rango de tiempo",
-    "title": "Optimiza tu estrategia de Marketing Digital",
+    "pages": "Página",
+    "rank_time": "Período de tiempo analizado",
+    "title": "Analiza el comportamiento de los usuarios y optimiza tu estrategia",
     "verified_domain": "Dominio verificado",
     "week_with_plural": "{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }"
   },
   "reports_pageranking": {
-    "top_pages": "Top paginas mas visitadas",
-    "total_visits": "Visitas Totales"
+    "top_pages": "Páginas más visitadas",
+    "top_pages_sub_head":"Las Sesiones comprenden el número total de visitas registradas durante el periodo. Si un usuario ingresó varias veces, se contabilizarán todas.",
+    "total_visits": "Sesiones"
   },
   "reports_title": "Doppler | Reportes",
   "signup": {

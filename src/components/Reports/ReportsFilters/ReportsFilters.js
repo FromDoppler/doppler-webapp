@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedHTMLMessage, FormattedMessage, FormattedDate } from 'react-intl';
 
 const ReportsFilters = ({
   domains,
@@ -14,9 +14,7 @@ const ReportsFilters = ({
         <h3>
           <FormattedMessage id="reports_filters.title" />
         </h3>
-        <p>
-          <FormattedMessage id="reports_filters.description" />
-        </p>
+        <FormattedHTMLMessage id="reports_filters.description_HTML" />
         <form action="#" className="form-filters">
           <fieldset className="filter">
             <label htmlFor="domain">

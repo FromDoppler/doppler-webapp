@@ -73,9 +73,13 @@ class ReportsPageRanking extends React.Component {
         ) : (
           <div className="wrapper-ranking">
             <div className="reports-box">
-              <small className="title-ranking">
+              <h4 className="title-ranking">
                 <FormattedMessage id="reports_pageranking.top_pages" />
-              </small>
+                <small>
+                  <FormattedMessage id="reports_pageranking.top_pages_sub_head" />
+                </small>
+              </h4>
+
               {pages.map((item, index) => (
                 <div key={index} className="page-ranking--item">
                   <p className="text-ranking">
