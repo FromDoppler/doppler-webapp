@@ -22,23 +22,23 @@ const fakeData = [
 
 const fakePagesData = [
   {
-    name: 'https://www.fromdoppler.com/email-marketing',
+    name: '/email-marketing',
     totalVisits: 10122,
   },
   {
-    name: 'https://www.fromdoppler.com/precios',
+    name: '/precios',
     totalVisits: 9000,
   },
   {
-    name: 'https://www.fromdoppler.com/login',
+    name: '/login',
     totalVisits: 5001,
   },
   {
-    name: 'https://www.fromdoppler.com/productos',
+    name: '/productos',
     totalVisits: 3800,
   },
   {
-    name: 'https://www.fromdoppler.com/servicios',
+    name: '/servicios',
     totalVisits: 1023,
   },
 ];
@@ -72,9 +72,13 @@ export class HardcodedDatahubClient implements DatahubClient {
   }: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisits: number }[]> {
+  }): Promise<{ name: string; totalVisits: number; url: string }[]> {
     console.log('getPagesRankingByPeriod', { domainName, dateFrom });
     await timeout(1500);
-    return fakePagesData.map((x) => ({ name: x.name, totalVisits: x.totalVisits }));
+    return fakePagesData.map((x) => ({
+      name: x.name,
+      totalVisits: x.totalVisits,
+      url: `http://${domainName}${x.name}`,
+    }));
   }
 }

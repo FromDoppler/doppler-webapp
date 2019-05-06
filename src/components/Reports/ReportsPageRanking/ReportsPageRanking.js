@@ -87,7 +87,7 @@ class ReportsPageRanking extends React.Component {
                   </p>
                   <a
                     className="link-ranking"
-                    href={item.name}
+                    href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
