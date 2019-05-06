@@ -116,11 +116,13 @@
     "title": "Request an update of your plan"
   },
   "validation_messages": {
+    "error_account_is_blocked_invalid_pass_HTML" : "For security reasons we've temporarily disabled your account. <a href=\"http://www.fromdoppler.com/en/contact\" target=\"_blank\">Contact Us.<a>",
     "error_account_is_canceled_HTML" : "Your account has been cancelled. To know more please <a target=\"_blank\" href=\"http://www.fromdoppler.com/en/contact.html\">contact us</a>.",
     "error_checkbox_policy": "Ouch! You haven't accepted the Doppler's Privacy Policy.",
     "error_email_already_exists": "Ouch! You already have a Doppler account.",
     "error_invalid_domain_to_register_account": "Ouch! Invalid Email to create an account.",
     "error_invalid_email_address": "Ouch! Invalid email address",
+    "error_invalid_login" : "Ouch! There is an error in your Username or Password. Please, try again.",
     "error_password_character_length": "At least 8 characters",
     "error_password_digit": "One number",
     "error_password_letter": "One letter",

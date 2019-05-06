@@ -40,9 +40,41 @@ export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
 /* #region Login data types */
 
 export type LoginErrorResult =
-  | { blockedAccountNotPayed: true; accountNotValidated?: false; cancelatedAccount?: false }
-  | { accountNotValidated: true; cancelatedAccount?: false; blockedAccountNotPayed?: false }
-  | { cancelatedAccount: true; blockedAccountNotPayed?: false; accountNotValidated?: false };
+  | {
+      blockedAccountNotPayed: true;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+      blockedAccountInvalidPassword?: false;
+      invalidLogin?: false;
+    }
+  | {
+      accountNotValidated: true;
+      cancelatedAccount?: false;
+      blockedAccountNotPayed?: false;
+      blockedAccountInvalidPassword?: false;
+      invalidLogin?: false;
+    }
+  | {
+      cancelatedAccount: true;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      blockedAccountInvalidPassword?: false;
+      invalidLogin?: false;
+    }
+  | {
+      blockedAccountInvalidPassword: true;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+      invalidLogin?: false;
+    }
+  | {
+      invalidLogin: true;
+      blockedAccountInvalidPassword?: false;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+    };
 
 export type LoginResult = EmptyResult<LoginErrorResult>;
 
@@ -269,6 +301,14 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
       if (!response.data.success && response.data.error == 'CancelatedAccount') {
         return { expectedError: { cancelatedAccount: true } };
+      }
+
+      if (!response.data.success && response.data.error == 'BlockedAccountInvalidPassword') {
+        return { expectedError: { blockedAccountInvalidPassword: true } };
+      }
+
+      if (!response.data.success && response.data.error == 'InvalidLogin') {
+        return { expectedError: { invalidLogin: true } };
       }
 
       if (!response.data.success) {

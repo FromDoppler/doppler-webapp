@@ -15,7 +15,6 @@ import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
 import { InjectAppServices } from '../../services/pure-di';
 import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
-import LoginErrorCancelatedAccount from './LoginErrorCancelatedAccount';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const fieldNames = {
@@ -74,7 +73,19 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({ _general: <LoginErrorAccountNotValidated email={values[fieldNames.user]} /> });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
-        setErrors({ _general: <LoginErrorCancelatedAccount /> });
+        setErrors({
+          _general: (
+            <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />
+          ),
+        });
+      } else if (result.expectedError && result.expectedError.blockedAccountInvalidPassword) {
+        setErrors({
+          _general: (
+            <FormattedHTMLMessage id="validation_messages.error_account_is_blocked_invalid_pass_HTML" />
+          ),
+        });
+      } else if (result.expectedError && result.expectedError.invalidLogin) {
+        setErrors({ _general: 'validation_messages.error_invalid_login' });
       } else {
         console.log('Unexpected error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
