@@ -70,11 +70,14 @@ export const SiteTrackingRequired = InjectAppServices(
             // SiteTrackingNotAvailableReasons.featureDisabled
             // SiteTrackingNotAvailableReasons.thereAreNotDomains
             // SiteTrackingNotAvailableReasons.noDatahubId
-            <FormattedHTMLMessage
-              className="patch-no-domains"
-              id="reports.no_domains_HTML"
-              values={{ dopplerBaseUrl: dopplerLegacyUrl }}
-            />
+            <>
+              <FormattedMessage tagName="h2" id="reports.datahub_not_domains_title" />
+              <FormattedHTMLMessage
+                className="patch-no-domains"
+                id="reports.no_domains_HTML"
+                values={{ dopplerBaseUrl: dopplerLegacyUrl }}
+              />
+            </>
           )}
         </div>
       </section>
