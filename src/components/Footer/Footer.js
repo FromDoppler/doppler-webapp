@@ -8,11 +8,7 @@ const Footer = () => (
       <span>
         <FormattedMessage id="footer.iso" />
       </span>
-      <FormattedMessageMarkdown
-        id="common.copyright_MD"
-        values={{ year: new Date().getFullYear() }}
-        options={{ linkTarget: '_blank' }}
-      />
+      <FormattedMessageMarkdown id="common.copyright_MD" options={{ linkTarget: '_blank' }} />
     </div>
   </footer>
 );
