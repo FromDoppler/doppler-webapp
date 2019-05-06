@@ -25,6 +25,7 @@
   },
   "forgot_password": {
     "back_login": "Did you remember your password and want to return?",
+    "back_login_after_forgot": "Return to login",
     "confirmation_message_HTML": "<p>Check your inbox!</p><p> You’ll find an Email with steps to follow.</p>",
     "description": "Do not worry! It happens to everyone.",
     "description2": "Enter your email and we will help you"
