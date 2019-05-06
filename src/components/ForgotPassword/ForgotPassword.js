@@ -94,13 +94,13 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
             <fieldset>
               <FormErrors />
               <SubmitButton>{_('login.button_login')}</SubmitButton>
-              <Link to="/login" className="forgot-link">
-                <span className="triangle-right" />
-                {_('forgot_password.back_login')}
-              </Link>
             </fieldset>
           </FormWithCaptcha>
         )}
+        <Link to="/login" className="forgot-link">
+          <span className="triangle-right" />
+          {_('forgot_password.back_login')}
+        </Link>
         <footer>
           <CaptchaLegalMessage />
           <p>
