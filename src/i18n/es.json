@@ -58,7 +58,6 @@
   },
   "reports_box": {
     "to": "a",
-    "visits_description": "Este reporte muestra el total de visitas en el período de tiempo seleccionado",
     "visits_description_with_email": "Número total de usuarios que visitaron tu Sitio Web y cuyo Correo Electrónico ha sido identificado por Doppler. Si un usuario ingresó varias veces, solo se contabilizará una.",
     "visits_description_without_emails": "Número total de usuarios que visitaron tu Sitio Web y cuyo Correo Electrónico no ha sido identificado por Doppler. Si un usuario ingresó varias veces, solo se contabilizará una.",
     "visits_with_email": "Usuarios con emails",

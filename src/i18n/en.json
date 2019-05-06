@@ -58,7 +58,6 @@
   },
   "reports_box": {
     "to": "to",
-    "visits_description": "Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.",
     "visits_description_with_email": "Total number of users who visited your Website and whose Email has been identified by Doppler. If a user entered several times, only one will be counted.",
     "visits_description_without_emails": "Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.",
     "visits_with_email": "Users with emails",
