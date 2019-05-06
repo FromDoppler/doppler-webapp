@@ -59,17 +59,17 @@
   "reports_box": {
     "to": "a",
     "visits_description": "Este reporte muestra el total de visitas en el período de tiempo seleccionado",
-    "visits_with_email": "Visitas con emails",
-    "visits_without_emails": "Visitas sin emails"
+    "visits_with_email": "Usuarios con emails",
+    "visits_without_emails": "Usuarios sin email"
   },
   "reports_filters": {
     "all_pages": "Todas las paginas",
-    "description": "Encuentra oportunidades de conversión, analiza cada pieza dentro de tu estrategia. Sigue los pasos que tus usuarios realizan dentro de tu journey y corrige aquellos que presentan inconvenientes.",
+    "description": "Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona <a target=\"_blank\" href=\"https://help.fromdoppler.com/es/reportes-avanzados\">HELP.</a>",
     "domain": "Dominio",
     "domain_not_verified": "Dominio no verificado",
-    "pages": "Páginas",
-    "rank_time": "Rango de tiempo",
-    "title": "Optimiza tu estrategia de Marketing Digital",
+    "pages": "Página",
+    "rank_time": "Período de tiempo analizado",
+    "title": "Analiza el comportamiento de los usuarios y optimiza tu estrategia",
     "verified_domain": "Dominio verificado",
     "week_with_plural": "{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }"
   },
