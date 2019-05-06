@@ -41,9 +41,108 @@ describe('validations', () => {
       expect(result).toBeNull();
     });
 
+    it('should accept an email address with /', () => {
+      // Arrange
+      const emailAddress = 'te/st@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email address with &', () => {
+      // Arrange
+      const emailAddress = 'a&test&@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email address with ~', () => {
+      // Arrange
+      const emailAddress = 'a~test~@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
     it('should accept an email address with ñ', () => {
       // Arrange
-      const emailAddress = 'test@testñ.com';
+      const emailAddress = 'testñ@testñ.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should not accept an email address with dot (.) before @', () => {
+      // Arrange
+      const emailAddress = 'test.@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_email_address');
+    });
+
+    it('should accept an email address with multiple levels of subdomains', () => {
+      // Arrange
+      const emailAddress = 'test@test.test.com.ar';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should not accept an email address starting with dot (.)', () => {
+      // Arrange
+      const emailAddress = '.test@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_email_address');
+    });
+
+    it('should not accept an email address with two dots (.) together', () => {
+      // Arrange
+      const emailAddress = 'te..st@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_email_address');
+    });
+
+    it('should accept an email only a character before @', () => {
+      // Arrange
+      const emailAddress = 'a@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email with dot separated sections before @', () => {
+      // Arrange
+      const emailAddress = 'test.test.test@test.com';
 
       // Act
       const result = validateEmail(emailAddress);
