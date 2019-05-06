@@ -16,6 +16,7 @@ import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
 import { InjectAppServices } from '../../services/pure-di';
 import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
 import LoginErrorCancelatedAccount from './LoginErrorCancelatedAccount';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const fieldNames = {
   user: 'user',
@@ -143,10 +144,11 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         <footer>
           <CaptchaLegalMessage />
           <p>
-            <FormattedHTMLMessage
-              tagName="small"
-              id="common.copyright_HTML"
+            <FormattedMessageMarkdown
+              container="small"
+              id="common.copyright_MD"
               values={{ year: new Date().getFullYear() }}
+              options={{ linkTarget: '_blank' }}
             />
           </p>
         </footer>

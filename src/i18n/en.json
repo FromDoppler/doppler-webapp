@@ -1,7 +1,7 @@
 {
   "common": {
     "cancel": "Cancel",
-    "copyright_HTML": "© {year} Doppler LLC. All rights reserved. <a target=\"_blank\" href=\"https://www.fromdoppler.com/en/legal/privacy-policy\">Privacy and Legal Policy.</a>",
+    "copyright_MD": "© {year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](https://www.fromdoppler.com/en/legal/privacy-policy).",
     "help": "Help",
     "hide": "Hide",
     "message": "Message",
@@ -21,10 +21,7 @@
     "forms_remarks": "Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!"
   },
   "footer": {
-    "allRightReserved": "All rights reserved",
-    "iso": "ISO Quality Certification 9001:2008",
-    "privacy": "Privacy Policy & Legals.",
-    "privacy_url": "https://fromdoppler.com/en/privacy-policy"
+    "iso": "ISO Quality Certification 9001:2008"
   },
   "forgot_password": {
     "back_login": "Did you remember your password and want to return?",
