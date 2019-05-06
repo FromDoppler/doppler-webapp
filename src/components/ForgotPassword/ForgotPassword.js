@@ -79,7 +79,6 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
               {_('forgot_password.back_login_after_forgot')}
             </Link>
           </div>
-
         ) : (
           <FormWithCaptcha
             className="login-form"
