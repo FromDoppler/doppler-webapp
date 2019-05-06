@@ -19,7 +19,8 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public async login(model: LoginModel): Promise<LoginResult> {
     console.log(this.login, model);
     await timeout(1500);
-    return { success: true };
+    return { success: true, value: {} };
+    // return { success: true, value: { redirectUrl: 'Integration/Integration/TiendaNubeIntegration' } };
     // return { expectedError: { blockedAccountNotPayed: true } };
     // return { expectedError: { accountNotValidated: true } };
     // return { expectedError: { cancelatedAccount: true } };
