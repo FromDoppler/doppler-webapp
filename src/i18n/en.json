@@ -59,12 +59,14 @@
   "reports_box": {
     "to": "to",
     "visits_description": "Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.",
+    "visits_description_with_email": "Total number of users who visited your Website and whose Email has been identified by Doppler. If a user entered several times, only one will be counted.",
+    "visits_description_without_emails": "Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.",
     "visits_with_email": "Users with emails",
     "visits_without_emails": "Users without email"
   },
   "reports_filters": {
     "all_pages": "All pages",
-    "description": "Find out which are the most visited pages, how many of those visitors already have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press <a target=\"_blank\" href=\"https://help.fromdoppler.com/en/advanced-reports\">HELP.</a>",
+    "description_HTML": "<p>Find out which are the most visited pages, how many of those visitors already have an Email identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press <a target=\"_blank\" href=\"https://help.fromdoppler.com/en/advanced-reports\">HELP.</a></p>",
     "domain": "Domain",
     "domain_not_verified": "Not verified domain",
     "pages": "Pages",
@@ -74,8 +76,10 @@
     "week_with_plural": "{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }"
   },
   "reports_pageranking": {
-    "top_pages": "Top pages most visited",
-    "total_visits": "Total Visits"
+    "top_pages": "Most visited pages",
+    "top_pages_sub_head":"Sessions are the total number of registered visits during the period. If a user entered several times, all of them will be counted.",
+    "total_visits": "Sessions"
+
   },
   "reports_title": "Doppler | Reports",
   "signup": {
