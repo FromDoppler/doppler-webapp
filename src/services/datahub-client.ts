@@ -19,7 +19,7 @@ export interface DatahubClient {
   getPagesRankingByPeriod(query: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisits: number }[]>;
+  }): Promise<{ name: string; totalVisits: number; url: string }[]>;
 }
 
 export class HttpDatahubClient implements DatahubClient {
@@ -101,13 +101,22 @@ export class HttpDatahubClient implements DatahubClient {
   }: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisits: number }[]> {
+  }): Promise<{ name: string; totalVisits: number; url: string }[]> {
     const response = await this.customerGet<{ items: { page: string; count: number }[] }>(
       `domains/${domainName}/events/summarized-by-page`,
       {
         startDate: dateFrom.toISOString(),
       },
     );
-    return response.data.items.map((x) => ({ name: x.page, totalVisits: x.count }));
+
+    // By the moment we are hard-coding it because DataHub does not have this
+    // information. I am looking you Leo :P
+    const urlSchema = 'http://';
+
+    return response.data.items.map((x) => ({
+      name: x.page,
+      totalVisits: x.count,
+      url: `${urlSchema}${domainName}${x.page}`,
+    }));
   }
 }
