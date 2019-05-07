@@ -62,15 +62,15 @@ export default {
   loading: `Loading...`,
   login: {
     button_login: `Request`,
-    enter_doppler: `Enter Doppler`,
-    enter_doppler_sub: `Enjoy the benefits of Email Marketing.`,
+    enter_doppler: `Log In`,
+    enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
     error_payment: `Account blocked, please contact Support.`,
     forgot_password: `Did you forgot your password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
     label_user: `Username: `,
-    signup: `Sign up free`,
-    you_want_create_account: `Do not you have an account yet?`,
+    signup: `Sign up for free`,
+    you_want_create_account: `Don't have an account yet?`,
   },
   reports: {
     allow_enable_trial_HTML: `

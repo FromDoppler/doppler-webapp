@@ -63,8 +63,8 @@ export default {
   loading: `Cargando...`,
   login: {
     button_login: `Solicitar`,
-    enter_doppler: `Ingresa a Doppler`,
-    enter_doppler_sub: `Disfruta los beneficios del Email Marketing.`,
+    enter_doppler: `Ingresa a tu cuenta`,
+    enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
     error_payment: `La cuenta está bloqueda, por favor contáctate con Soporte.`,
     forgot_password: `¿No recuerdas tu contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
