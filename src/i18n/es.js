@@ -44,7 +44,7 @@ export default {
     iso: `Certificación de Calidad ISO 9001:2008`,
   },
   forgot_password: {
-    back_login: `¿Recordaste tu contraseña y quieres regresar?`,
+    back_login: `¿Recordaste tu contraseña? ¡Haz clic aquí y vuelve atrás!`,
     back_login_after_forgot: `Volver al login`,
     confirmation_message_HTML: `
       <p>
@@ -62,7 +62,7 @@ export default {
   },
   loading: `Cargando...`,
   login: {
-    button_login: `Ingresa`,
+    button_login: `Solicitar`,
     enter_doppler: `Ingresa a Doppler`,
     enter_doppler_sub: `Disfruta los beneficios del Email Marketing.`,
     error_payment: `La cuenta está bloqueda, por favor contáctate con Soporte.`,
