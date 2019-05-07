@@ -8,6 +8,7 @@ import {
   SiteTrackingRequired,
   SiteTrackingNotAvailableReasons,
 } from '../SiteTrackingRequired/SiteTrackingRequired';
+import { Helmet } from 'react-helmet';
 
 class Reports extends React.Component {
   /**
@@ -55,57 +56,56 @@ class Reports extends React.Component {
     this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: new Date() });
   };
 
-  render() {
-    if (this.state.domains && !this.state.domainSelected) {
-      return <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.thereAreNotDomains} />;
-    }
-    return (
-      <>
-        <FormattedMessage id="reports_title">
-          {(message) => {
-            if (document.title !== message) {
-              document.title = message;
-            }
-
-            return null;
-          }}
-        </FormattedMessage>
-        <ReportsFilters
-          changeDomain={this.changeDomain}
-          domains={this.state.domains}
-          domainSelected={this.state.domainSelected}
-          periodSelectedDays={this.state.periodSelectedDays}
-          changePeriod={this.changePeriod}
-        />
-        {!this.state.domains ? (
-          <div className="loading-box" />
-        ) : (
-          <section className="container-reports">
-            <div className="wrapper-kpi">
-              <ReportsBox
-                domainName={this.state.domainSelected.name}
-                periodSelectedDays={this.state.periodSelectedDays}
-                dateTo={this.state.dateTo}
-                dateFrom={this.state.dateFrom}
-                withoutEmail
-              />
-              <ReportsBox
-                domainName={this.state.domainSelected.name}
-                dateTo={this.state.dateTo}
-                dateFrom={this.state.dateFrom}
-                withEmail
-              />
-            </div>
-            <ReportsPageRanking
-              domainName={this.state.domainSelected.name}
-              dateTo={this.state.dateTo}
-              dateFrom={this.state.dateFrom}
-            />
-          </section>
+  render = () => (
+    <>
+      <FormattedMessage id="reports_title">
+        {(reports_title) => (
+          <Helmet>
+            <title>{reports_title}</title>
+          </Helmet>
         )}
-      </>
-    );
-  }
+      </FormattedMessage>
+      {this.state.domains && !this.state.domainSelected ? (
+        <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.thereAreNotDomains} />
+      ) : (
+        <>
+          <ReportsFilters
+            changeDomain={this.changeDomain}
+            domains={this.state.domains}
+            domainSelected={this.state.domainSelected}
+            periodSelectedDays={this.state.periodSelectedDays}
+            changePeriod={this.changePeriod}
+          />
+          {!this.state.domains ? (
+            <div className="loading-box" />
+          ) : (
+            <section className="container-reports">
+              <div className="wrapper-kpi">
+                <ReportsBox
+                  domainName={this.state.domainSelected.name}
+                  periodSelectedDays={this.state.periodSelectedDays}
+                  dateTo={this.state.dateTo}
+                  dateFrom={this.state.dateFrom}
+                  withoutEmail
+                />
+                <ReportsBox
+                  domainName={this.state.domainSelected.name}
+                  dateTo={this.state.dateTo}
+                  dateFrom={this.state.dateFrom}
+                  withEmail
+                />
+              </div>
+              <ReportsPageRanking
+                domainName={this.state.domainSelected.name}
+                dateTo={this.state.dateTo}
+                dateFrom={this.state.dateFrom}
+              />
+            </section>
+          )}
+        </>
+      )}
+    </>
+  );
 }
 
 export default InjectAppServices(Reports);

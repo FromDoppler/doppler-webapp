@@ -13,6 +13,7 @@ import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { InjectAppServices } from '../../services/pure-di';
 import './ForgotPassword.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { Helmet } from 'react-helmet';
 
 const fieldNames = {
   email: 'email',
@@ -57,6 +58,10 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
 
   return (
     <main className="panel-wrapper">
+      <Helmet>
+        <title>{_('login.head_title')}</title>
+        <meta name="description" content={_('login.head_description')} />
+      </Helmet>
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">Doppler</h1>
