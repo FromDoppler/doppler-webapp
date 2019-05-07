@@ -10,6 +10,7 @@ import queryString from 'query-string';
 import { OriginCatcher } from './services/origin-management';
 import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
 import RedirectWithQuery from './components/RedirectWithQuery';
+import { Helmet } from 'react-helmet';
 
 class App extends Component {
   /**
@@ -79,6 +80,9 @@ class App extends Component {
     return (
       <DopplerIntlProvider locale={i18nLocale}>
         <>
+          <Helmet>
+            <html lang={i18nLocale} />
+          </Helmet>
           <OriginCatcher />
           <Switch>
             <Route path="/" exact>
