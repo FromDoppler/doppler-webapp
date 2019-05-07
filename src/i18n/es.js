@@ -169,8 +169,8 @@ export default {
     label_phone: `Teléfono: `,
     legal_HTML: `
       <p>
-        Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el
-        presente formulario serán tratados por Making Sense LLC (Doppler) como responsable de esta web.
+        Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente
+        formulario serán tratados por Doppler LLC como responsable de esta web.
       </p>
       <p>
         <strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos
@@ -180,33 +180,31 @@ export default {
         <strong>Legitimación:</strong> Consentimiento del interesado.
       </p>
       <p>
-        <strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Google como
-        proveedor del servicio de reCAPTCHA, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de
-        hosting.
+        <strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM,
+        Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.
       </p>
       <p>
         <strong>Información adicional:</strong> En la
         <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a> de Doppler
-        encontrarás información adicional sobre la recopilación y el uso de su información personal
-        por parte de Doppler, incluida información sobre acceso, conservación, rectificación,
-        eliminación, seguridad, transferencias transfronterizas y otros temas.
+        encontrarás información adicional sobre la recopilación y el uso de su información personal por
+        parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación,
+        seguridad, transferencias transfronterizas y otros temas.
       </p>
       `,
     log_in: `Ingresa`,
     no_more_resend: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor contáctate con soporte`,
     placeholder_email: `Tu Email será tu nombre de usuario`,
-    placeholder_firstname: `Nombre`,
-    placeholder_lastname: `Apellido`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
+    placeholder_phone: `Teléfono`,
     privacy_policy_consent_HTML: `
       Acepto la <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a>
       de Doppler.
       `,
-    promotions_consent: `Acepto recibir las promociones de Doppler y sus aliados.`,
+    promotions_consent: `Quiero recibir promociones de Doppler y sus aliados.`,
     resend_email: `Reenvíalo`,
-    sign_up: `Regístrate`,
-    sign_up_sub: `Crea una cuenta GRATIS hasta 500 Suscriptores.`,
+    sign_up: `Email, Automation & Data Marketing`,
+    sign_up_sub: `Atrae, Convierte y Fideliza. Envíos ilimitados y gratis hasta 500 Suscriptores.`,
     thanks_for_registering: `Gracias por registrarte`,
   },
   upgradePlanForm: {

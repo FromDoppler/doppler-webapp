@@ -155,7 +155,7 @@ export default {
   reports_title: `Doppler | Reports`,
   signup: {
     activate_account_instructions: `* By clicking on the button from the Email, you will activate your account and you will be ready to enjoy all the benefits of Doppler.`,
-    button_signup: `create your free account`,
+    button_signup: `Sign up for free`,
     check_inbox: `Check your inbox. You have an email!`,
     check_inbox_icon_description: `Check your inbox`,
     do_you_already_have_an_account: `Already have an account?`,
@@ -169,8 +169,8 @@ export default {
     label_phone: `Phone: `,
     legal_HTML: `
       <p>
-        Doppler informs you that the personal data you provide by completing this form will be treated by
-        Doppler LLC as responsible for this web site.
+        Doppler informs you that the personal data you provide by completing this form will be
+        treated by Doppler LLC as responsible for this web site.
       </p>
       <p>
         <strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.
@@ -179,32 +179,30 @@ export default {
         <strong>Legitimation:</strong> Consent of the applicant.
       </p>
       <p>
-        <strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the
-        provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
+        <strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM,
+        Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
       </p>
       <p>
         <strong>Additional information:</strong> In Doppler's
         <a target="_blank" href="${urlPrivacyWithQueryString}">Privacy Policy</a>
-        you'll find additional information about the data storage and use of your personal
-        information, including information on access, conservation, rectification, deletion,
-        security, cross-border data transfers and other issues.
+        you’ll find additional information about the data storage and use of your
+        personal information, including information on access, conservation, rectification,
+        deletion, security, cross-border data transfers and other issues.
       </p>
       `,
     log_in: `Log In`,
     no_more_resend: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact support`,
     placeholder_email: `Your Email will be your Username`,
-    placeholder_firstname: `Name`,
-    placeholder_lastname: `Lastname`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
       I accept Doppler's
       <a target="_blank" href="${urlPrivacyWithQueryString}">Privacy Policy</a>.
       `,
-    promotions_consent: `Sign me up for promotions about Doppler and its partners.`,
+    promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
-    sign_up: `Sign Up`,
-    sign_up_sub: `No contracts or credit cards required, up to 500 Subscribers.`,
+    sign_up: `Email, Automation & Data Marketing`,
+    sign_up_sub: `Attrack, Engage and Convert. Send unlimited Emails up to 500 Subscribers for free.`,
     thanks_for_registering: `Thank you for registering`,
   },
   upgradePlanForm: {
@@ -224,12 +222,12 @@ export default {
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
-    error_invalid_email_address: `Ouch! Invalid email address`,
+    error_invalid_email_address: `Ouch! Enter a valid Email.`,
     error_invalid_login: `Ouch! There is an error in your Username or Password. Please, try again.`,
-    error_password_character_length: `At least 8 characters`,
+    error_password_character_length: `8 characters minimum`,
     error_password_digit: `One number`,
     error_password_letter: `One letter`,
-    error_password_safe: `Your password is safe!`,
+    error_password_safe: `Your password is secure!`,
     error_phone_invalid: `Ouch! The phone number is not valid`,
     error_phone_invalid_country: `Ouch! The country code is not valid`,
     error_phone_too_long: `Ouch! The phone number is too long`,

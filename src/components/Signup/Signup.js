@@ -150,7 +150,6 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
                 label={_('signup.label_firstname')}
                 type="text"
                 required
-                placeholder={_('signup.placeholder_firstname')}
               />
               <InputFieldItem
                 className="field-item--50"
@@ -158,7 +157,6 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
                 label={_('signup.label_lastname')}
                 type="text"
                 required
-                placeholder={_('signup.placeholder_lastname')}
               />
               <PhoneFieldItem
                 fieldName={fieldNames.phone}
