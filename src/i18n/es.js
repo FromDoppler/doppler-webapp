@@ -196,7 +196,6 @@ export default {
     placeholder_email: `Tu Email será tu nombre de usuario`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
-    placeholder_phone: `Teléfono`,
     privacy_policy_consent_HTML: `
       Acepto la <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a>
       de Doppler.
