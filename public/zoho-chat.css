@@ -52,3 +52,19 @@
 .zsiq_floatmain.siq_bR .zsiq_cnt #zsiq_byline {
   display: none;
 }
+
+.zsiq_floatmain.siq_bR .zsiq_cnt:after{
+  display: none;
+}
+.zsiq_floatmain.siq_bR .zsiq_cnt:before{
+    content: '';
+    position: absolute;
+    transform: rotate(45deg);
+    width: 10px;
+    height: 14px;
+    right: 23px;
+    bottom: -6px;
+    background: #FFF;
+    z-index: 2;
+    box-shadow: none;
+}
