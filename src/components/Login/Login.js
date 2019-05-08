@@ -155,7 +155,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </fieldset>
           <fieldset>
             <FormErrors />
-            <SubmitButton>{_('login.button_login')}</SubmitButton>
+            <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
             <Link to="/forgot-password" className="forgot-link">
               {_('login.forgot_password')}
             </Link>

@@ -197,7 +197,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
             </FieldGroup>
           </fieldset>
           <FormErrors />
-          <SubmitButton>{_('signup.button_signup')}</SubmitButton>
+          <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
         </FormWithCaptcha>
         <div className="content-legal">
           <FormattedHTMLMessage id="signup.legal_HTML" />
