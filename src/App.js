@@ -91,9 +91,11 @@ class App extends Component {
             <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
             <PublicRouteWithLegacyFallback exact path="/login" />
             <PublicRouteWithLegacyFallback exact path="/signup" />
-            <PublicRouteWithLegacyFallback exact path="/forgot-password" />
+            <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
             <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
             <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
+            <RedirectWithQuery exact from="/ingresa/cambiar-clave" to="/forgot-password?lang=es" />
+            <RedirectWithQuery exact from="/forgot-password" to="/login/reset-password" />
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
             <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
