@@ -46,6 +46,7 @@ export default {
   forgot_password: {
     back_login: `¿Recordaste tu Contraseña? ¡Haz clic aquí y vuelve atrás!`,
     back_login_after_forgot: `Volver al login`,
+    button_request: `Solicitar`,
     confirmation_message_HTML: `
       <p>
         ¡Revisa tu casilla!

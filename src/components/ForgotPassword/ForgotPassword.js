@@ -102,7 +102,9 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
             </fieldset>
             <fieldset>
               <FormErrors />
-              <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
+              <SubmitButton className="button--round">
+                {_('forgot_password.button_request')}
+              </SubmitButton>
               <Link to="/login" className="forgot-link">
                 <span className="triangle-right" />
                 {_('forgot_password.back_login')}

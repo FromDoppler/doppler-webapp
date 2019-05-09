@@ -45,6 +45,7 @@ export default {
   forgot_password: {
     back_login: `Did you remember your Password? Go back to Log in.`,
     back_login_after_forgot: `Return to login`,
+    button_request: `Request`,
     confirmation_message_HTML: `
       <p>
         Check your inbox!
@@ -61,7 +62,7 @@ export default {
   },
   loading: `Loading...`,
   login: {
-    button_login: `Request`,
+    button_login: `Log In`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
     error_payment: `Account blocked, please contact Support.`,
