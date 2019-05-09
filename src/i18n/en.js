@@ -98,8 +98,6 @@ export default {
       `,
     datahub_not_active_title: `Track user behavior and optimize your Marketing actions`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
-    no_domains_button: `Add your domain`,
-    no_domains_button_destination: `${urlSiteTracking}`,
     no_domains_HTML: `
       <p>
         Register the domain (s) you want to track and access to detailed Reports. Discover which are the
@@ -108,6 +106,8 @@ export default {
         <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
       </p>
       `,
+    no_domains_button: `Add your domain`,
+    no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_HTML: `
       <p>
         Upgrade your account and access detailed Reports on the behavior of users on your Website or

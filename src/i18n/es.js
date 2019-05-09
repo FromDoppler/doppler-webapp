@@ -98,8 +98,6 @@ export default {
       `,
     datahub_not_active_title: `Trackea el comportamiento de los usuarios y optimiza tus acciones`,
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
-    no_domains_button: `Agrega tu dominio`,
-    no_domains_button_destination: `${urlSiteTracking}`,
     no_domains_HTML: `
       <p>
         Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
@@ -108,6 +106,8 @@ export default {
         <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
       </p>
       `,
+    no_domains_button: `Agrega tu dominio`,
+    no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_HTML: `
       <p>
         Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
