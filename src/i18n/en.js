@@ -29,7 +29,7 @@ export default {
     show: `Show`,
   },
   feature_panel: {
-    email_automation: `Email automation`,
+    email_automation: `Email Automation`,
     email_automation_description: `Right person, right message, right time`,
     email_automation_remarks: `Send 100% personalized Emails according to the behavior and interests of your Subscribers. Save time and money!`,
     email_editor: `Emails Editor`,
@@ -50,11 +50,11 @@ export default {
         Check your inbox!
       </p>
       <p>
-        You’ll find an Email with steps to follow.
+        You'll find an Email with steps to follow.
       </p>
       `,
     description: `Do not worry! It happens to everyone.`,
-    description2: `Enter your email and we will help you`,
+    description2: `Enter your Email and we will help you`,
   },
   header: {
     help_url: `${urlHelp}`,
@@ -64,7 +64,7 @@ export default {
     button_login: `Enter`,
     enter_doppler: `Enter Doppler`,
     enter_doppler_sub: `Enjoy the benefits of Email Marketing.`,
-    error_payment: `Account blocked, please contact support.`,
+    error_payment: `Account blocked, please contact Support.`,
     forgot_password: `Do not you remember your password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
@@ -87,11 +87,11 @@ export default {
       <p>
         How do users behave on your Website or E-commerce? Track their behavior for a period of time and
         find out which are the most visited pages, how many of those visits have an Email identified by
-        Doppler and how many don’t. By tracking the user’s journey you'll be able to detect vanishing
+        Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing
         points and opportunities for improvement!
       </p>
       <p>
-        You haven’t enabled On-Site Tracking yet. You can trigger it from the
+        You haven't enabled On-Site Tracking yet. You can trigger it from the
         <a href="${urlSiteTracking}">On-Site Tracking</a> option in the Control Panel.
       </p>
       `,
@@ -126,15 +126,15 @@ export default {
     to: `to`,
     visits_description_with_email: `Total number of users who visited your Website and whose Email has been identified by Doppler. If a user entered several times, only one will be counted.`,
     visits_description_without_emails: `Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.`,
-    visits_with_email: `Users with emails`,
-    visits_without_emails: `Users without email`,
+    visits_with_email: `Users with Email`,
+    visits_without_emails: `Users without Email`,
   },
   reports_filters: {
     all_pages: `All pages`,
     description_HTML: `
       <p>
         Find out which are the most visited pages, how many of those visitors already have an Email
-        identified by Doppler and how many don’t. By tracking the user’s journey you'll be able to
+        identified by Doppler and how many don't. By tracking the user's journey you'll be able to
         detect vanishing points and opportunities for improvement! If you have any doubts, press
         <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
       </p>
@@ -155,8 +155,8 @@ export default {
   reports_title: `Doppler | Reports`,
   signup: {
     activate_account_instructions: `* By clicking on the button from the Email, you will activate your account and you will be ready to enjoy all the benefits of Doppler.`,
-    button_signup: `create your free account`,
-    check_inbox: `Check your inbox. You have an email!`,
+    button_signup: `Sign up for free`,
+    check_inbox: `Check your inbox. You have an Email!`,
     check_inbox_icon_description: `Check your inbox`,
     do_you_already_have_an_account: `Already have an account?`,
     email_not_received: `Haven't you received the Email?`,
@@ -169,8 +169,8 @@ export default {
     label_phone: `Phone: `,
     legal_HTML: `
       <p>
-        Doppler informs you that the personal data you provide by completing this form will be treated by
-        Doppler LLC as responsible for this web site.
+        Doppler informs you that the personal data you provide by completing this form will be
+        treated by Doppler LLC as responsible for this web site.
       </p>
       <p>
         <strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.
@@ -185,32 +185,30 @@ export default {
       <p>
         <strong>Additional information:</strong> In Doppler's
         <a target="_blank" href="${urlPrivacyWithQueryString}">Privacy Policy</a>
-        you'll find additional information about the data storage and use of your personal
-        information, including information on access, conservation, rectification, deletion,
-        security, cross-border data transfers and other issues.
+        you'll find additional information about the data storage and use of your
+        personal information, including information on access, conservation, rectification,
+        deletion, security, cross-border data transfers and other issues.
       </p>
       `,
     log_in: `Log In`,
-    no_more_resend: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact support`,
+    no_more_resend: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact Support`,
     placeholder_email: `Your Email will be your Username`,
-    placeholder_firstname: `Name`,
-    placeholder_lastname: `Lastname`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
       I accept Doppler's
       <a target="_blank" href="${urlPrivacyWithQueryString}">Privacy Policy</a>.
       `,
-    promotions_consent: `Sign me up for promotions about Doppler and its partners.`,
+    promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
-    sign_up: `Sign Up`,
-    sign_up_sub: `No contracts or credit cards required, up to 500 Subscribers.`,
+    sign_up: `Email, Automation & Data Marketing`,
+    sign_up_sub: `Attrack, Engage and Convert. Send unlimited Emails up to 500 Subscribers for free.`,
     thanks_for_registering: `Thank you for registering`,
   },
   upgradePlanForm: {
     message_placeholder: `Your message`,
     plan_select: `Select Plan`,
-    title: `Request an update of your plan`,
+    title: `Request an update of your Plan`,
   },
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
@@ -224,17 +222,17 @@ export default {
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
-    error_invalid_email_address: `Ouch! Invalid email address`,
+    error_invalid_email_address: `Ouch! Enter a valid Email.`,
     error_invalid_login: `Ouch! There is an error in your Username or Password. Please, try again.`,
-    error_password_character_length: `At least 8 characters`,
+    error_password_character_length: `8 characters minimum`,
     error_password_digit: `One number`,
     error_password_letter: `One letter`,
-    error_password_safe: `Your password is safe!`,
-    error_phone_invalid: `Ouch! The phone number is not valid`,
-    error_phone_invalid_country: `Ouch! The country code is not valid`,
-    error_phone_too_long: `Ouch! The phone number is too long`,
-    error_phone_too_short: `Ouch! The phone number is too short`,
+    error_password_safe: `Your password is secure!`,
+    error_phone_invalid: `Ouch! Enter a valid phone number.`,
+    error_phone_invalid_country: `Ouch! The country code is not valid.`,
+    error_phone_too_long: `Ouch! The phone number is too long.`,
+    error_phone_too_short: `Ouch! The phone number is too short.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected: `Unexpected error. Please try again or contact support.`,
+    error_unexpected: `Unexpected error. Please try again or contact Support.`,
   },
 };
