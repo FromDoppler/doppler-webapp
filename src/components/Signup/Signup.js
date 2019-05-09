@@ -129,9 +129,8 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           <LanguageSelector />
         </header>
         <h5>{_('signup.sign_up')}</h5>
-        <p className="content-subtitle">{_('signup.sign_up_sub')}</p>
         <p className="content-subtitle">
-          {_('signup.do_you_already_have_an_account')}{' '}
+          {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
           <Link to="/login" className="link--title">
             {_('signup.log_in')}
           </Link>
