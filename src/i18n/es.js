@@ -44,7 +44,7 @@ export default {
     iso: `Certificación de Calidad ISO 9001:2008`,
   },
   forgot_password: {
-    back_login: `¿Recordaste tu contraseña? ¡Haz clic aquí y vuelve atrás!`,
+    back_login: `¿Recordaste tu Contraseña? ¡Haz clic aquí y vuelve atrás!`,
     back_login_after_forgot: `Volver al login`,
     confirmation_message_HTML: `
       <p>
@@ -66,7 +66,7 @@ export default {
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
     error_payment: `La cuenta está bloqueda, por favor contáctate con Soporte.`,
-    forgot_password: `¿No recuerdas tu contraseña?`,
+    forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
     label_user: `Nombre de Usuario: `,
@@ -228,7 +228,7 @@ export default {
     error_password_character_length: `8 caracteres como mínimo`,
     error_password_digit: `Un número`,
     error_password_letter: `Una letra`,
-    error_password_safe: `¡Tu contraseña es segura!`,
+    error_password_safe: `¡Tu Contraseña es segura!`,
     error_phone_invalid: `¡Ouch! Escribe un teléfono válido.`,
     error_phone_invalid_country: `¡Ouch! El código de país no es válido.`,
     error_phone_too_long: `¡Ouch! El número de teléfono es demasiado largo.`,
