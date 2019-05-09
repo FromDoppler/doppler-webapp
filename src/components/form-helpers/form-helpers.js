@@ -458,15 +458,16 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, 
  * @param { import('formik').FormikProps<Values> } props.formik
  * @param { string } props.className
  */
-const _SubmitButton = ({ children, formik: { isSubmitting } }) => {
+const _SubmitButton = ({ children, formik: { isSubmitting }, className }) => {
   return (
     <>
       <button
         type="submit"
         disabled={isSubmitting}
         className={
-          'dp-button button--round button-medium primary-green' +
-          ((isSubmitting && ' button--loading') || '')
+          'dp-button button-medium primary-green' +
+          ((isSubmitting && ' button--loading') || '') +
+          ((className && ` ${className}`) || '')
         }
       >
         {children}
