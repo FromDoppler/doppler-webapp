@@ -98,15 +98,14 @@ export default {
       `,
     datahub_not_active_title: `Trackea el comportamiento de los usuarios y optimiza tus acciones`,
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
+    no_domains_button: `Agrega tu dominio`,
+    no_domains_button_destination: `${urlSiteTracking}`,
     no_domains_HTML: `
       <p>
         Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
         detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
         <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
-      </p>
-      <p>
-        <a href="${urlSiteTracking}">Agrega tu dominio</a>.
       </p>
       `,
     upgrade_account_free_HTML: `

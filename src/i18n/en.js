@@ -98,15 +98,14 @@ export default {
       `,
     datahub_not_active_title: `Track user behavior and optimize your Marketing actions`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
+    no_domains_button: `Add your domain`,
+    no_domains_button_destination: `${urlSiteTracking}`,
     no_domains_HTML: `
       <p>
         Register the domain (s) you want to track and access to detailed Reports. Discover which are the
         most visited pages of your Website or E-commerce, how many visitors have been identified by
         Doppler and how many have not. Any doubts? Press
         <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
-      </p>
-      <p>
-        <a href="${urlSiteTracking}">Add your domain</a>.
       </p>
       `,
     upgrade_account_free_HTML: `
