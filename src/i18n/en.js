@@ -43,7 +43,7 @@ export default {
     iso: `ISO Quality Certification 9001:2008`,
   },
   forgot_password: {
-    back_login: `Did you remember your password and want to return?`,
+    back_login: `Did you remember your password? Go back to Log in.`,
     back_login_after_forgot: `Return to login`,
     confirmation_message_HTML: `
       <p>
@@ -53,19 +53,19 @@ export default {
         You'll find an Email with steps to follow.
       </p>
       `,
-    description: `Do not worry! It happens to everyone.`,
-    description2: `Enter your Email and we will help you`,
+    description: `Don't worry! It happens.`,
+    description2: `Enter your Email and well be glad to help you.`,
   },
   header: {
     help_url: `${urlHelp}`,
   },
   loading: `Loading...`,
   login: {
-    button_login: `Enter`,
+    button_login: `Request`,
     enter_doppler: `Enter Doppler`,
     enter_doppler_sub: `Enjoy the benefits of Email Marketing.`,
     error_payment: `Account blocked, please contact Support.`,
-    forgot_password: `Do not you remember your password?`,
+    forgot_password: `Did you forgot your password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
     label_user: `Username: `,
