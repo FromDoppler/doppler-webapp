@@ -128,7 +128,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
-            <a href={_('signup.url_site')}>Doppler</a>
+            <a target="_blank" href={_('signup.url_site')}>Doppler</a>
           </h1>
           <LanguageSelector />
         </header>
