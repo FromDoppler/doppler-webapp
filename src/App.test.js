@@ -61,14 +61,14 @@ describe('App component', () => {
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <Router initialEntries={['/reports']}>
+          <Router initialEntries={['/login']}>
             <App locale="en" />
           </Router>
         </AppServicesProvider>,
       );
 
       // Assert
-      getByText('Loading...');
+      getByText('Privacy and Legal Policy');
     });
 
     it('should make honor to locale="es"', () => {
@@ -80,14 +80,14 @@ describe('App component', () => {
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
-          <Router initialEntries={['/reports']}>
+          <Router initialEntries={['/login']}>
             <App locale="es" />
           </Router>
         </AppServicesProvider>,
       );
 
       // Assert
-      getByText('Cargando...');
+      getByText('Política de Privacidad y Legales');
     });
 
     it("should be updated based on user's data", () => {
@@ -98,7 +98,7 @@ describe('App component', () => {
         sessionManager: createDoubleSessionManager(appSessionRef),
       };
 
-      const { getByText } = render(
+      const { getByText, container } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/reports']}>
             <App locale="en" />
@@ -106,7 +106,10 @@ describe('App component', () => {
         </AppServicesProvider>,
       );
 
-      getByText('Loading...');
+      // I cannot verify the language when the state is loading,
+      // assuming English.
+      const loadingEl = container.querySelector('.loading-page');
+      expect(loadingEl).not.toBeNull();
 
       // Act
       dependencies.sessionManager.updateAppSession({
@@ -155,11 +158,11 @@ describe('App component', () => {
       getByText('Privacy and Legal Policy');
 
       // Act
-      dependencies.sessionManager.updateAppSession({ status: 'unknown' });
+      dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
 
       // Assert
       // Language should not be changed on logout
-      getByText('Loading...');
+      getByText('Privacy and Legal Policy');
 
       // Act
       dependencies.sessionManager.updateAppSession({
@@ -180,10 +183,9 @@ describe('App component', () => {
           },
         },
       });
-      dependencies.sessionManager.updateAppSession({ status: 'unknown' });
 
       // Assert
-      getByText('Cargando...');
+      getByText('Política de Privacidad y Legales');
     });
   });
 
@@ -198,7 +200,7 @@ describe('App component', () => {
         sessionManager: createDoubleSessionManager(appSessionRef),
       };
 
-      const { getByText } = render(
+      const { getByText, container } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/reports']}>
             <App locale="en" />
@@ -206,7 +208,8 @@ describe('App component', () => {
         </AppServicesProvider>,
       );
 
-      getByText('Loading...');
+      const loadingEl = container.querySelector('.loading-page');
+      expect(loadingEl).not.toBeNull();
 
       // Act
       dependencies.sessionManager.updateAppSession({
@@ -255,7 +258,7 @@ describe('App component', () => {
           localStorage: createLocalStorageDouble(),
         };
 
-        const { getByText } = render(
+        const { container } = render(
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/reports']}>
               <App locale="en" />
@@ -263,7 +266,8 @@ describe('App component', () => {
           </AppServicesProvider>,
         );
 
-        getByText('Loading...');
+        const loadingEl = container.querySelector('.loading-page');
+        expect(loadingEl).not.toBeNull();
 
         // Act
         dependencies.sessionManager.updateAppSession({
@@ -297,7 +301,8 @@ describe('App component', () => {
         expect(currentRouteState.location.pathname).toEqual('/reports');
         expect(currentRouteState.location.search).toEqual('?param1=value1');
         expect(currentRouteState.location.hash).toEqual('#hash');
-        getByText('Loading...');
+        const loadingEl = container.querySelector('.loading-page');
+        expect(loadingEl).not.toBeNull();
 
         // Act
         dependencies.sessionManager.updateAppSession({
@@ -392,7 +397,8 @@ describe('App component', () => {
 
         expect(currentRouteState.location.pathname).toEqual('/reports');
         expect(currentRouteState.location.state).toBeUndefined();
-        getByText('Loading...');
+        const loadingEl = container.querySelector('.loading-page');
+        expect(loadingEl).not.toBeNull();
 
         // Act
         dependencies.sessionManager.updateAppSession({
@@ -437,7 +443,8 @@ describe('App component', () => {
         expect(currentRouteState.location.pathname).toEqual('/reports');
         expect(currentRouteState.location.search).toEqual('');
         expect(currentRouteState.location.hash).toEqual('');
-        getByText('Loading...');
+        const loadingEl = container.querySelector('.loading-page');
+        expect(loadingEl).not.toBeNull();
 
         // Act
         dependencies.sessionManager.updateAppSession({
@@ -492,7 +499,8 @@ describe('App component', () => {
         expect(currentRouteState.location.pathname).toEqual('/reports');
         expect(currentRouteState.location.search).toEqual('?param1=value1');
         expect(currentRouteState.location.hash).toEqual('#hash');
-        getByText('Loading...');
+        const loadingEl = container.querySelector('.loading-page');
+        expect(loadingEl).not.toBeNull();
 
         // Act
         dependencies.sessionManager.updateAppSession({
