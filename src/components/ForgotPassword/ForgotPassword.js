@@ -64,7 +64,9 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
       </Helmet>
       <article className="main-panel">
         <header>
-          <h1 className="logo-doppler-new">Doppler</h1>
+          <h1 className="logo-doppler-new">
+            <a href={_('forgot_password.url_site')}>Doppler</a>
+          </h1>
           <LanguageSelector />
         </header>
         <h5>{_('login.forgot_password')}</h5>

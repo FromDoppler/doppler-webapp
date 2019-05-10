@@ -11,6 +11,9 @@ const urlContact = `${urlSite}/contacto`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
+const urlSiteFromSignup = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlSiteFromLogin = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=login`;
+const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 
 export default {
   common: {
@@ -57,6 +60,7 @@ export default {
       `,
     description: `¡No te preocupes! Nos sucede a todos.`,
     description2: `Ingresa tu Email y te ayudaremos.`,
+    url_site: `${urlSiteFromForgot}`,
   },
   header: {
     help_url: `${urlHelp}`,
@@ -72,6 +76,7 @@ export default {
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
     label_user: `Nombre de Usuario: `,
     signup: `Régistrate gratis`,
+    url_site: `${urlSiteFromLogin}`,
     you_want_create_account: `¿Aún no tienes una cuenta?`,
   },
   reports: {
@@ -205,6 +210,7 @@ export default {
     sign_up: `Email, Automation & Data Marketing`,
     sign_up_sub: `Atrae, Convierte y Fideliza. Envíos ilimitados y gratis hasta 500 Suscriptores.`,
     thanks_for_registering: `Gracias por registrarte`,
+    url_site: `${urlSiteFromSignup}`,
   },
   upgradePlanForm: {
     message_placeholder: `Tu mensaje`,
