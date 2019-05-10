@@ -65,7 +65,9 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('forgot_password.url_site')}>Doppler</a>
+            <a target="_blank" href={_('forgot_password.url_site')}>
+              Doppler
+            </a>
           </h1>
           <LanguageSelector />
         </header>
