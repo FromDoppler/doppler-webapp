@@ -18,7 +18,7 @@ const pagesByPath = {
     webAppComponent: Signup,
     legacyRedirectDataResolver: signupRedirectionDataResolver,
   },
-  '/forgot-password': {
+  '/login/reset-password': {
     name: 'forgotPassword',
     webAppComponent: ForgotPassword,
     legacyRedirectDataResolver: forgotPasswordRedirectionDataResolver,
