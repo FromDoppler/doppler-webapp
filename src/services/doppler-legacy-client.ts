@@ -88,8 +88,9 @@ export interface LoginModel extends PayloadWithCaptchaToken {
 /* #region Registration data types */
 
 type UserRegistrationErrorResult =
-  | { emailAlreadyExists: true; blockedDomain?: false }
-  | { emailAlreadyExists?: false; blockedDomain: true };
+  | { emailAlreadyExists: true; blockedDomain?: false; registerDenied?: false }
+  | { emailAlreadyExists?: false; blockedDomain: true; registerDenied?: false }
+  | { emailAlreadyExists?: false; blockedDomain?: false; registerDenied: true };
 
 export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
@@ -291,30 +292,29 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         RecaptchaUserCode: model.captchaResponseToken,
       });
 
-      if (!response.data.success && response.data.error == 'BlockedAccountNotPayed') {
-        return { expectedError: { blockedAccountNotPayed: true } };
-      }
-
-      if (!response.data.success && response.data.error == 'AccountNotValidated') {
-        return { expectedError: { accountNotValidated: true } };
-      }
-
-      if (!response.data.success && response.data.error == 'CancelatedAccount') {
-        return { expectedError: { cancelatedAccount: true } };
-      }
-
-      if (!response.data.success && response.data.error == 'BlockedAccountInvalidPassword') {
-        return { expectedError: { blockedAccountInvalidPassword: true } };
-      }
-
-      if (!response.data.success && response.data.error == 'InvalidLogin') {
-        return { expectedError: { invalidLogin: true } };
-      }
-
       if (!response.data.success) {
-        return {
-          message: response.data.error || null,
-        };
+        switch (response.data.error) {
+          case 'BlockedAccountNotPayed': {
+            return { expectedError: { blockedAccountNotPayed: true } };
+          }
+          case 'AccountNotValidated': {
+            return { expectedError: { accountNotValidated: true } };
+          }
+          case 'CancelatedAccount': {
+            return { expectedError: { cancelatedAccount: true } };
+          }
+          case 'BlockedAccountInvalidPassword': {
+            return { expectedError: { blockedAccountInvalidPassword: true } };
+          }
+          case 'InvalidLogin': {
+            return { expectedError: { invalidLogin: true } };
+          }
+          default: {
+            return {
+              message: response.data.error || null,
+            };
+          }
+        }
       }
 
       if (response.data.returnTo) {
@@ -350,18 +350,23 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         RecaptchaUserCode: model.captchaResponseToken,
       });
 
-      if (!response.data.success && response.data.error == 'EmailAlreadyExists') {
-        return { expectedError: { emailAlreadyExists: true } };
-      }
-
-      if (!response.data.success && response.data.error == 'BlockedDomain') {
-        return { expectedError: { blockedDomain: true } };
-      }
-
       if (!response.data.success) {
-        return {
-          message: response.data.error || null,
-        };
+        switch (response.data.error) {
+          case 'EmailAlreadyExists': {
+            return { expectedError: { emailAlreadyExists: true } };
+          }
+          case 'BlockedDomain': {
+            return { expectedError: { blockedDomain: true } };
+          }
+          case 'RegisterDenied': {
+            return { expectedError: { registerDenied: true } };
+          }
+          default: {
+            return {
+              message: response.data.error || null,
+            };
+          }
+        }
       }
 
       return { success: true };

@@ -233,6 +233,7 @@ export default {
     error_phone_invalid_country: `Ouch! The country code is not valid.`,
     error_phone_too_long: `Ouch! The phone number is too long.`,
     error_phone_too_short: `Ouch! The phone number is too short.`,
+    error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
     error_unexpected: `Unexpected error. Please try again or contact Support.`,
   },

@@ -234,6 +234,7 @@ export default {
     error_phone_invalid_country: `¡Ouch! El código de país no es válido.`,
     error_phone_too_long: `¡Ouch! El número de teléfono es demasiado largo.`,
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
+    error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
     error_unexpected: `Error inesperado. Por favor, intenta nuevamente o contacta a Soporte.`,
   },

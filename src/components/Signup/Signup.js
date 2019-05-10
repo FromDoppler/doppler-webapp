@@ -108,6 +108,8 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         const domain = extractDomain(values[fieldNames.email]);
         addBlockedDomain(domain);
         validateForm();
+      } else if (result.expectedError && result.expectedError.registerDenied) {
+        setErrors({ _general: 'validation_messages.error_register_denied' });
       } else {
         console.log('Unexpected error', result);
         setErrors({ _general: 'validation_messages.error_unexpected' });
