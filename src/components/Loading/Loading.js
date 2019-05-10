@@ -6,7 +6,9 @@ export default function({ page }) {
     return (
       <div className="wrapper-loading">
         <div className="loading-page">
-          <FormattedMessage id="loading" tagName="p" className="flash" />
+          <p id="loading" className="flash">
+            &nbsp;
+          </p>
         </div>
       </div>
     );
