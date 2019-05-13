@@ -6,11 +6,11 @@ const HeaderNav = ({ nav }) => {
       <div className="menu-main--container">
         <ul className="menu-main">
           {nav.map((item, index) => (
-            <li className="submenu-item" key={index}>
+            <li className={item.subNav.length ? 'submenu-item' : ''} key={index}>
               <a className={item.isSelected ? 'active' : ''} href={item.url}>
                 {item.title}
               </a>
-              {item.subNav ? (
+              {item.subNav.length ? (
                 <ul className={'sub-menu' + (item.isSelected ? ' open' : '')}>
                   {item.subNav.map((itemSubNav, index) => (
                     <li key={index}>
