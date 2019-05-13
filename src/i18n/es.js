@@ -145,11 +145,11 @@ export default {
       </p>
       `,
     domain: `Dominio`,
-    domain_not_verified: `Dominio no verificado`,
+    domain_not_verified: `Sin visitas registradas`,
     pages: `Página`,
     rank_time: `Período de tiempo analizado`,
     title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,
-    verified_domain: `Dominio verificado`,
+    verified_domain: `Última visita registrada:`,
     week_with_plural: `{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }`,
   },
   reports_pageranking: {
