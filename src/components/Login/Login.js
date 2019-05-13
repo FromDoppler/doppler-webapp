@@ -121,7 +121,11 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       </Helmet>
       <article className="main-panel">
         <header>
-          <h1 className="logo-doppler-new">Doppler</h1>
+          <h1 className="logo-doppler-new">
+            <a target="_blank" href={_('login.url_site')}>
+              Doppler
+            </a>
+          </h1>
           <LanguageSelector />
         </header>
         <h5>{_('login.enter_doppler')}</h5>

@@ -11,6 +11,9 @@ const urlContact = `${urlSite}/en/contact`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
+const urlSiteFromSignup = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlSiteFromLogin = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=login`;
+const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 
 export default {
   common: {
@@ -56,6 +59,7 @@ export default {
       `,
     description: `Don't worry! It happens.`,
     description2: `Enter your Email and well be glad to help you.`,
+    url_site: `${urlSiteFromForgot}`,
   },
   header: {
     help_url: `${urlHelp}`,
@@ -71,6 +75,7 @@ export default {
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
     label_user: `Username: `,
     signup: `Sign up for free`,
+    url_site: `${urlSiteFromLogin}`,
     you_want_create_account: `Don't have an account yet?`,
   },
   reports: {
@@ -204,6 +209,7 @@ export default {
     sign_up: `Email, Automation & Data Marketing`,
     sign_up_sub: `Attrack, Engage and Convert. Send unlimited Emails up to 500 Subscribers for free.`,
     thanks_for_registering: `Thank you for registering`,
+    url_site: `${urlSiteFromSignup}`,
   },
   upgradePlanForm: {
     message_placeholder: `Your message`,
