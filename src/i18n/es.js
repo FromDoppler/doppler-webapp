@@ -1,3 +1,7 @@
+import signupBanner from '../img/signup-es.png';
+import loginBanner from '../img/login-es.png';
+import forgotPasswordBanner from '../img/login-es.png';
+
 // Basic constants
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
@@ -60,6 +64,7 @@ export default {
       `,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
     description: `¡No te preocupes! Nos sucede a todos. Ingresa tu Email y te ayudaremos a recuperarla.`,
+    image_path: `${forgotPasswordBanner}`,
     placeholder_email: `¡Psst! Es el Email con el que creaste tu cuenta`,
     url_site: `${urlSiteFromForgot}`,
   },
@@ -76,6 +81,7 @@ export default {
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
+    image_path: `${loginBanner}`,
     label_user: `Nombre de Usuario: `,
     placeholder_email: `¡Psst! Es tu Email`,
     signup: `Regístrate gratis`,
@@ -171,6 +177,7 @@ export default {
     email_not_received: `¿No has recibido el Email?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
+    image_path: `${signupBanner}`,
     label_email: `Email: `,
     label_firstname: `Nombre: `,
     label_lastname: `Apellido: `,
