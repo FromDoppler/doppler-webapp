@@ -59,8 +59,8 @@ export default {
       </p>
       `,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
-    description: `Don't worry! It happens.`,
-    description2: `Enter your Email and well be glad to help you.`,
+    description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
+    placeholder_email: `Psst! Is the same Email you used to create your account`,
     url_site: `${urlSiteFromForgot}`,
   },
   header: {

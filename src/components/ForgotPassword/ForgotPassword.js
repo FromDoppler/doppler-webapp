@@ -73,13 +73,6 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         </header>
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>
-        <p className="content-subtitle">{_('forgot_password.description2')}</p>
-        <p className="content-subtitle">
-          {_('login.you_want_create_account')}{' '}
-          <Link to="/signup" className="link--title">
-            {_('login.signup')}
-          </Link>
-        </p>
         {sentTimes > 0 ? (
           <div className="forgot-message bounceIn">
             <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
@@ -100,7 +93,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
                   required
-                  placeholder={_('login.placeholder_email')}
+                  placeholder={_('forgot_password.placeholder_email')}
                 />
               </FieldGroup>
             </fieldset>
