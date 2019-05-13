@@ -3,10 +3,13 @@ const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es/`;
+const patchForBlank = `rel="noopener noreferrer"`;
 
 // Common URLs
 const urlPrivacy = `${urlSite}/legales/privacidad`;
-const urlPrivacyWithQueryString = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
+const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const urlContact = `${urlSite}/contacto`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
@@ -18,10 +21,7 @@ const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_cam
 export default {
   common: {
     cancel: `Cancelar`,
-    copyright_MD: `
-© ${year} Doppler LLC. Todos los derechos reservados.
-[Política de Privacidad y Legales](${urlPrivacy}).
-`,
+    copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
     help: `Ayuda`,
     hide: `Ocultar`,
     message: `Mensaje`,
@@ -58,6 +58,7 @@ export default {
         Encontrarás un Email con los pasos a Seguir.
       </p>
       `,
+    copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
     description: `¡No te preocupes! Nos sucede a todos.`,
     description2: `Ingresa tu Email y te ayudaremos.`,
     url_site: `${urlSiteFromForgot}`,
@@ -68,6 +69,7 @@ export default {
   loading: `Cargando...`,
   login: {
     button_login: `Ingresa`,
+    copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
     error_payment: `La cuenta está bloqueda, por favor contáctate con Soporte.`,
@@ -109,7 +111,7 @@ export default {
         Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
         detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
-        <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
+        <a target="_blank" href="${urlHelp}/reportes-avanzados" ${patchForBlank}>HELP</a>.
       </p>
       `,
     no_domains_button: `Agrega tu dominio`,
@@ -119,7 +121,7 @@ export default {
         Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
         tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes
         poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? Presiona
-        <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
+        <a target="_blank" href="${urlHelp}/reportes-avanzados" ${patchForBlank}>HELP</a>.
       </p>
       <p>
         Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo
@@ -142,7 +144,7 @@ export default {
         Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
         los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona
-        <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
+        <a target="_blank" href="${urlHelp}/reportes-avanzados" ${patchForBlank}>HELP</a>.
       </p>
       `,
     domain: `Dominio`,
@@ -164,6 +166,7 @@ export default {
     button_signup: `Crea tu cuenta gratis`,
     check_inbox: `Revisa tu casilla. ¡Tienes un Email!`,
     check_inbox_icon_description: `Fíjate en tu correo electrónico`,
+    copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromSignup}).`,
     do_you_already_have_an_account: `¿Tienes una cuenta?`,
     email_not_received: `¿No has recibido el Email?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
@@ -191,7 +194,7 @@ export default {
       </p>
       <p>
         <strong>Información adicional:</strong> En la
-        <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a> de Doppler
+        <a target="_blank" href="${urlPrivacyFromSignup}" ${patchForBlank}>Política de Privacidad</a> de Doppler
         encontrarás información adicional sobre la recopilación y el uso de su información personal por
         parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación,
         seguridad, transferencias transfronterizas y otros temas.
@@ -203,7 +206,7 @@ export default {
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
-      Acepto la <a target="_blank" href="${urlPrivacyWithQueryString}">Política de Privacidad</a>
+      Acepto la <a target="_blank" href="${urlPrivacyFromSignup}" ${patchForBlank}>Política de Privacidad</a>
       de Doppler.
       `,
     promotions_consent: `Quiero recibir promociones de Doppler y sus aliados.`,
@@ -221,11 +224,11 @@ export default {
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       Por seguridad hemos bloqueado tu cuenta momentáneamente.
-      <a href="${urlContact}" target="_blank">Contáctanos<a>.
+      <a href="${urlContact}" target="_blank" ${patchForBlank}>Contáctanos<a>.
       `,
     error_account_is_canceled_HTML: `
       Tu cuenta se encuentra cancelada. Para más información
-      <a target="_blank" href="${urlContact}">contáctanos</a>.
+      <a target="_blank" href="${urlContact}" ${patchForBlank}>contáctanos</a>.
       `,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,

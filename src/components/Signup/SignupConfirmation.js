@@ -59,7 +59,7 @@ const SignupConfirmation = function({ resend, intl }) {
         <p>
           <FormattedMessageMarkdown
             container="small"
-            id="common.copyright_MD"
+            id="signup.copyright_MD"
             options={{ linkTarget: '_blank' }}
           />
         </p>

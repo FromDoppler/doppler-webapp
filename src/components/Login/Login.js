@@ -122,7 +122,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('login.url_site')}>
+            <a target="_blank" href={_('login.url_site')} rel="noopener noreferrer">
               Doppler
             </a>
           </h1>
@@ -170,7 +170,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           <p>
             <FormattedMessageMarkdown
               container="small"
-              id="common.copyright_MD"
+              id="login.copyright_MD"
               options={{ linkTarget: '_blank' }}
             />
           </p>
