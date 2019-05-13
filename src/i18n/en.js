@@ -1,6 +1,5 @@
-import signupBanner from '../img/signup-en.png';
-import loginBanner from '../img/login-en.png';
-import forgotPasswordBanner from '../img/login-en.png';
+import signupBannerImagePath from '../img/signup-en.png';
+import loginBannerImagePath from '../img/login-en.png';
 
 // Basic constants
 const year = new Date().getFullYear();
@@ -64,7 +63,7 @@ export default {
       `,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
-    image_path: `${forgotPasswordBanner}`,
+    image_path: `${loginBannerImagePath}`,
     placeholder_email: `Psst! Is the same Email you used to create your account`,
     url_site: `${urlSiteFromForgot}`,
   },
@@ -81,7 +80,7 @@ export default {
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
-    image_path: `${loginBanner}`,
+    image_path: `${loginBannerImagePath}`,
     label_user: `Username: `,
     placeholder_email: `Psst! It's your Email`,
     signup: `Sign up for free`,
@@ -178,7 +177,7 @@ export default {
     email_not_received: `Haven't you received the Email?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
-    image_path: `${signupBanner}`,
+    image_path: `${signupBannerImagePath}`,
     label_email: `Email: `,
     label_firstname: `Name: `,
     label_lastname: `Lastname: `,
