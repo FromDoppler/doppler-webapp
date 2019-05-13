@@ -48,7 +48,7 @@ export default {
   },
   forgot_password: {
     back_login: `Did you remember your Password? Go back to Log in.`,
-    back_login_after_forgot: `Return to login`,
+    back_login_after_forgot: `Back to Log in`,
     button_request: `Request`,
     confirmation_message_HTML: `
       <p>

@@ -48,14 +48,14 @@ export default {
   },
   forgot_password: {
     back_login: `¿Recordaste tu Contraseña? ¡Haz clic aquí y vuelve atrás!`,
-    back_login_after_forgot: `Volver al login`,
+    back_login_after_forgot: `Volver al Log in`,
     button_request: `Solicitar`,
     confirmation_message_HTML: `
       <p>
         ¡Revisa tu casilla!
       </p>
       <p>
-        Encontrarás un Email con los pasos a Seguir.
+        Encontrarás un Email con los pasos a seguir.
       </p>
       `,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
