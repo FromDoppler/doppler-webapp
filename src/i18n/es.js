@@ -6,7 +6,7 @@ const urlHelp = `https://help.fromdoppler.com/es/`;
 const patchForBlank = `rel="noopener noreferrer"`;
 
 // Common URLs
-const urlPrivacy = `${urlSite}/legales/privacidad`;
+const urlPrivacy = `${urlSite}/legal/privacidad`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
