@@ -54,7 +54,7 @@ const SignupConfirmation = function({ resend, intl }) {
           </>
         ) : (
           // TODO: review content
-          <p>{_('signup.no_more_resend')}</p>
+          <p>{_('signup.no_more_resend_HTML')}</p>
         )}
       </main>
       <footer className="confirmation-footer">

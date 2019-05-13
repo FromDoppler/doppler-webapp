@@ -111,7 +111,9 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         setErrors({ _general: 'validation_messages.error_register_denied' });
       } else {
         console.log('Unexpected error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({
+          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
       }
     } finally {
       setSubmitting(false);

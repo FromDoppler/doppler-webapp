@@ -38,7 +38,7 @@ const extractLegacyRedirectUrl = (location) => {
 
 const LoginErrorBlockedAccountNotPayed = () => (
   <p>
-    <FormattedHTMLMessage id="login.error_payment" />
+    <FormattedHTMLMessage id="login.error_payment_HTML" />
   </p>
 );
 
@@ -74,7 +74,9 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
       } else if (result.expectedError && result.expectedError.userInactive) {
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({
+          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({ _general: <LoginErrorAccountNotValidated email={values[fieldNames.user]} /> });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
@@ -93,7 +95,9 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         setErrors({ _general: 'validation_messages.error_invalid_login' });
       } else {
         console.log('Unexpected error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({
+          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
       }
     } finally {
       setSubmitting(false);

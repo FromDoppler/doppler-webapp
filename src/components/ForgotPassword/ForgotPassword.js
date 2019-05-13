@@ -49,7 +49,9 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         setSentTimes((x) => x + 1);
       } else {
         console.log('Unexpected error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({
+          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
       }
     } finally {
       setSubmitting(false);

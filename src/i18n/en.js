@@ -10,7 +10,7 @@ const urlPrivacy = `${urlSite}/en/legal/privacy`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
-const urlContact = `${urlSite}/en/contact`;
+const mailtoSupport = `mailto:support@fromdoppler.com`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -72,7 +72,7 @@ export default {
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment: `Account blocked, please contact Support.`,
+    error_payment_HTML: `Account blocked, please <a href="${mailtoSupport}">contact Support</a>.`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
@@ -201,7 +201,7 @@ export default {
       </p>
       `,
     log_in: `Log In`,
-    no_more_resend: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please contact Support`,
+    no_more_resend_HTML: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please <a href="${mailtoSupport}">contact Support</a>.`,
     placeholder_email: `Your Email will be your Username`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
@@ -224,11 +224,11 @@ export default {
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       For security reasons we've temporarily disabled your account.
-      <a href="${urlContact}" target="_blank" ${patchForBlank}>Contact us</a>.
+      <a href="${mailtoSupport}">Contact us</a>.
       `,
     error_account_is_canceled_HTML: `
       Your account has been cancelled. To know more please
-      <a target="_blank" href="${urlContact}" ${patchForBlank}>contact us</a>.
+      <a href="${mailtoSupport}">contact us</a>.
       `,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
@@ -245,6 +245,6 @@ export default {
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected: `Unexpected error. Please try again or contact Support.`,
+    error_unexpected_HTML: `Unexpected error. Please try again or <a href="${mailtoSupport}">contact Support</a>.`,
   },
 };

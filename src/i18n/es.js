@@ -10,7 +10,7 @@ const urlPrivacy = `${urlSite}/legal/privacidad`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
-const urlContact = `${urlSite}/contacto`;
+const mailtoSupport = `mailto:support@fromdoppler.com`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -72,7 +72,7 @@ export default {
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
-    error_payment: `La cuenta está bloqueda, por favor contáctate con Soporte.`,
+    error_payment_HTML: `La cuenta está bloqueda, por favor <a href="${mailtoSupport}">contáctate con Soporte</a>.`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
@@ -202,7 +202,7 @@ export default {
       </p>
       `,
     log_in: `Ingresa`,
-    no_more_resend: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor contáctate con Soporte`,
+    no_more_resend_HTML: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor <a href="${mailtoSupport}">contáctate con Soporte</a>.`,
     placeholder_email: `Tu Email será tu Nombre de Usuario`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
@@ -225,11 +225,11 @@ export default {
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       Por seguridad hemos bloqueado tu cuenta momentáneamente.
-      <a href="${urlContact}" target="_blank" ${patchForBlank}>Contáctanos<a>.
+      <a href="${mailtoSupport}">Contáctanos<a>.
       `,
     error_account_is_canceled_HTML: `
       Tu cuenta se encuentra cancelada. Para más información
-      <a target="_blank" href="${urlContact}" ${patchForBlank}>contáctanos</a>.
+      <a target="_blank" href="${mailtoSupport}">contáctanos</a>.
       `,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
@@ -246,6 +246,6 @@ export default {
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected: `Error inesperado. Por favor, intenta nuevamente o contacta a Soporte.`,
+    error_unexpected_HTML: `Error inesperado. Por favor, intenta nuevamente o <a href="${mailtoSupport}">contacta a Soporte</a>.`,
   },
 };
