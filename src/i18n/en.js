@@ -70,7 +70,7 @@ export default {
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
     error_payment: `Account blocked, please contact Support.`,
-    forgot_password: `Did you forgot your Password?`,
+    forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
     label_user: `Username: `,
