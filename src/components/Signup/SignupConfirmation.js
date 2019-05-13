@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { injectIntl } from 'react-intl';
 import { useCaptcha } from '../form-helpers/captcha-utils';
-import { CaptchaLegalMessage } from '../form-helpers/form-helpers';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 /**
@@ -55,7 +54,6 @@ const SignupConfirmation = function({ resend, intl }) {
         )}
       </main>
       <footer className="confirmation-footer">
-        <CaptchaLegalMessage />
         <p>
           <FormattedMessageMarkdown
             container="small"

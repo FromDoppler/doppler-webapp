@@ -189,8 +189,9 @@ export default {
         <strong>Legitimación:</strong> Consentimiento del interesado.
       </p>
       <p>
-        <strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM,
-        Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.
+        <strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Google como
+        proveedor del servicio de reCAPTCHA, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de
+        hosting.
       </p>
       <p>
         <strong>Información adicional:</strong> En la
