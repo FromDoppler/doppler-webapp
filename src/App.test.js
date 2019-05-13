@@ -68,7 +68,7 @@ describe('App component', () => {
       );
 
       // Assert
-      getByText('Privacy and Legal Policy');
+      getByText('Privacy Policy & Legals');
     });
 
     it('should make honor to locale="es"', () => {
@@ -155,14 +155,14 @@ describe('App component', () => {
       });
 
       // Assert
-      getByText('Privacy and Legal Policy');
+      getByText('Privacy Policy & Legals');
 
       // Act
       dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
 
       // Assert
       // Language should not be changed on logout
-      getByText('Privacy and Legal Policy');
+      getByText('Privacy Policy & Legals');
 
       // Act
       dependencies.sessionManager.updateAppSession({

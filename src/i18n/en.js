@@ -21,7 +21,7 @@ const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_
 export default {
   common: {
     cancel: `Cancel`,
-    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](${urlPrivacy}).`,
+    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
     help: `Help`,
     hide: `Hide`,
     message: `Message`,
@@ -58,7 +58,7 @@ export default {
         You'll find an Email with steps to follow.
       </p>
       `,
-    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](${urlPrivacyFromForgot}).`,
+    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens.`,
     description2: `Enter your Email and well be glad to help you.`,
     url_site: `${urlSiteFromForgot}`,
@@ -69,7 +69,7 @@ export default {
   loading: `Loading...`,
   login: {
     button_login: `Log In`,
-    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](${urlPrivacyFromLogin}).`,
+    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
     error_payment: `Account blocked, please contact Support.`,
@@ -167,7 +167,7 @@ export default {
     button_signup: `Sign up for free`,
     check_inbox: `Check your inbox. You have an Email!`,
     check_inbox_icon_description: `Check your inbox`,
-    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](${urlPrivacy}).`,
+    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
     do_you_already_have_an_account: `Already have an account?`,
     email_not_received: `Haven't you received the Email?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
