@@ -105,10 +105,9 @@ export default {
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
         <a target="_blank" href="${urlHelp}/reportes-avanzados">HELP</a>.
       </p>
-      <p>
-        <a href="${urlSiteTracking}">Agrega tu dominio</a>.
-      </p>
       `,
+    no_domains_button: `Agrega tu dominio`,
+    no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_HTML: `
       <p>
         Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en

@@ -105,10 +105,9 @@ export default {
         Doppler and how many have not. Any doubts? Press
         <a target="_blank" href="${urlHelp}/advanced-reports">HELP</a>.
       </p>
-      <p>
-        <a href="${urlSiteTracking}">Add your domain</a>.
-      </p>
       `,
+    no_domains_button: `Add your domain`,
+    no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_HTML: `
       <p>
         Upgrade your account and access detailed Reports on the behavior of users on your Website or
