@@ -100,7 +100,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
                   required
-                  placeholder={_('signup.placeholder_email')}
+                  placeholder={_('login.placeholder_email')}
                 />
               </FieldGroup>
             </fieldset>

@@ -76,6 +76,7 @@ export default {
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
     label_user: `Nombre de Usuario: `,
     signup: `Régistrate gratis`,
+    placeholder_email: `¡Psst! Es tu Email`,
     url_site: `${urlSiteFromLogin}`,
     you_want_create_account: `¿Aún no tienes una cuenta?`,
   },

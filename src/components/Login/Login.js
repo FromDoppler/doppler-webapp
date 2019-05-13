@@ -147,7 +147,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
                 fieldName={fieldNames.user}
                 label={_('login.label_user')}
                 required
-                placeholder={_('signup.placeholder_email')}
+                placeholder={_('login.placeholder_email')}
               />
               <PasswordFieldItem
                 fieldName={fieldNames.password}

@@ -74,6 +74,7 @@ export default {
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
     label_user: `Username: `,
+    placeholder_email: `Psst! It's your Email`,
     signup: `Sign up for free`,
     url_site: `${urlSiteFromLogin}`,
     you_want_create_account: `Don't have an account yet?`,
