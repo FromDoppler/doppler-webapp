@@ -26,7 +26,11 @@ const SignupConfirmation = function({ resend, intl }) {
     <main className="confirmation-wrapper">
       <div className="background bg-c" />
       <header className="confirmation-header">
-        <h1 className="logo-doppler-new">Doppler</h1>
+        <h1 className="logo-doppler-new">
+          <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
+            Doppler
+          </a>
+        </h1>
       </header>
       <main className="confirmation-main">
         <article className="confirmation-article">
