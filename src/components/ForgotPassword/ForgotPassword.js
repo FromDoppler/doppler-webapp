@@ -129,7 +129,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
           <p>{_('feature_panel.forms_remarks')}</p>
         </article>
         <figure class="content-img">
-          <img src={_('forgot_password.image_path')} alt="Forms" />
+          <img src={_('forgot_password.image_path')} alt="Subscription Forms" />
         </figure>
       </section>
     </main>

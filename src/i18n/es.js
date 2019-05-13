@@ -38,7 +38,7 @@ export default {
   },
   feature_panel: {
     email_automation: `Email Automation`,
-    email_automation_description: `Llega con el mensaje adecuado en el momento justo.`,
+    email_automation_description: `Llega con el mensaje adecuado en el momento justo`,
     email_automation_remarks: `Envía Emails 100% personalizados de acuerdo al comportamiento y los intereses de tus Suscriptores. ¡Gana tiempo y ahorra dinero!`,
     email_editor: `Editor de Emails`,
     email_editor_description: `Crea Emails en minutos y accede a nuestra Galería de Plantillas`,
