@@ -67,7 +67,7 @@ export default {
   },
   loading: `Cargando...`,
   login: {
-    button_login: `Solicitar`,
+    button_login: `Ingresa`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
     error_payment: `La cuenta está bloqueda, por favor contáctate con Soporte.`,
