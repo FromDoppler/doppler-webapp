@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedHTMLMessage } from 'react-intl';
 import { useCaptcha } from '../form-helpers/captcha-utils';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
@@ -53,8 +53,7 @@ const SignupConfirmation = function({ resend, intl }) {
             </p>
           </>
         ) : (
-          // TODO: review content
-          <p>{_('signup.no_more_resend_HTML')}</p>
+          <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML"/>
         )}
       </main>
       <footer className="confirmation-footer">
