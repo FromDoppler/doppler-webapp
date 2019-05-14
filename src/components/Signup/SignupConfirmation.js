@@ -53,7 +53,7 @@ const SignupConfirmation = function({ resend, intl }) {
             </p>
           </>
         ) : (
-          <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML"/>
+          <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML" />
         )}
       </main>
       <footer className="confirmation-footer">
