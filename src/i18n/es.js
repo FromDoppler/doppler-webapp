@@ -10,7 +10,7 @@ const urlPrivacy = `${urlSite}/legal/privacidad`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
-const mailtoSupport = `mailto:support@fromdoppler.com`;
+const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
