@@ -151,6 +151,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           <fieldset>
             <FieldGroup>
               <InputFieldItem
+                autoFocus
                 className="field-item--50"
                 fieldName={fieldNames.firstname}
                 label={_('signup.label_firstname')}

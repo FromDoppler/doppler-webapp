@@ -148,6 +148,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           <fieldset>
             <FieldGroup>
               <EmailFieldItem
+                autoFocus
                 fieldName={fieldNames.user}
                 label={_('login.label_user')}
                 required
