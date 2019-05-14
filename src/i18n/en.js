@@ -167,7 +167,7 @@ export default {
     button_signup: `Sign up for free`,
     check_inbox: `Check your inbox. You have an Email!`,
     check_inbox_icon_description: `Check your inbox`,
-    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
+    copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromSignup}).`,
     do_you_already_have_an_account: `Already have an account?`,
     email_not_received: `Haven't you received the Email?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
