@@ -13,6 +13,7 @@ const RedirectWithQuery = ({ exact, from, to }) => (
     exact={exact}
     path={from}
     component={({ location: { search } }) => {
+      // TODO: it is loosing state and others location parameters
       const parsedTo = parse(to);
       const parsedCurrent = parse(search);
       const newSearch =

@@ -14,19 +14,11 @@ import { InjectAppServices } from '../../services/pure-di';
 import './ForgotPassword.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Helmet } from 'react-helmet';
+import { connect } from 'formik';
 
 const fieldNames = {
   email: 'email',
 };
-
-/** Prepare empty values for all fields
- * It is required because in another way, the fields are not marked as touched.
- */
-const getFormInitialValues = () =>
-  Object.keys(fieldNames).reduce(
-    (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
-    {},
-  );
 
 /**
  *
@@ -34,9 +26,24 @@ const getFormInitialValues = () =>
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
+const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const [sentTimes, setSentTimes] = useState(0);
+  const [sentEmail, setSentEmail] = useState(null);
+
+  /** Prepare empty values for all fields
+   * It is required because in another way, the fields are not marked as touched.
+   */
+  const getFormInitialValues = () => {
+    const values = Object.keys(fieldNames).reduce(
+      (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
+      {},
+    );
+    if (location.state && location.state.email) {
+      values[fieldNames.email] = location.state.email;
+    }
+
+    return values;
+  };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -46,7 +53,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
       });
 
       if (result.success) {
-        setSentTimes((x) => x + 1);
+        setSentEmail(values[fieldNames.email]);
       } else {
         console.log('Unexpected error', result);
         setErrors({
@@ -56,6 +63,29 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const LinkToLogin = connect(({ formik: { values: { email } } }) => {
+    return <LinkCommon email={email} />;
+  });
+
+  const LinkToLoginSuccess = () => {
+    return <LinkCommon email={sentEmail} />;
+  };
+
+  const LinkCommon = ({ email }) => {
+    return (
+      <Link
+        to={{
+          pathname: '/login',
+          state: { email: email },
+        }}
+        className="forgot-link"
+      >
+        <span className="triangle-right" />
+        {sentEmail ? _('forgot_password.back_login_after_forgot') : _('forgot_password.back_login')}
+      </Link>
+    );
   };
 
   return (
@@ -75,13 +105,10 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         </header>
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>
-        {sentTimes > 0 ? (
+        {sentEmail ? (
           <div className="forgot-message bounceIn">
             <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
-            <Link to="/login" className="forgot-link">
-              <span className="triangle-right" />
-              {_('forgot_password.back_login_after_forgot')}
-            </Link>
+            <LinkToLoginSuccess />
           </div>
         ) : (
           <FormWithCaptcha
@@ -105,10 +132,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
               <SubmitButton className="button--round">
                 {_('forgot_password.button_request')}
               </SubmitButton>
-              <Link to="/login" className="forgot-link">
-                <span className="triangle-right" />
-                {_('forgot_password.back_login')}
-              </Link>
+              <LinkToLogin />
             </fieldset>
           </FormWithCaptcha>
         )}

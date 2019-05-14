@@ -16,20 +16,12 @@ import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
 import { InjectAppServices } from '../../services/pure-di';
 import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { connect } from 'formik';
 
 const fieldNames = {
   user: 'user',
   password: 'password',
 };
-
-/** Prepare empty values for all fields
- * It is required because in another way, the fields are not marked as touched.
- */
-const getFormInitialValues = () =>
-  Object.keys(fieldNames).reduce(
-    (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
-    {},
-  );
 
 const extractLegacyRedirectUrl = (location) => {
   const result = /[&?]redirect=(.*)$/.exec(location.search);
@@ -53,6 +45,21 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  /** Prepare empty values for all fields
+   * It is required because in another way, the fields are not marked as touched.
+   */
+  const getFormInitialValues = () => {
+    const values = Object.keys(fieldNames).reduce(
+      (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
+      {},
+    );
+    if (location.state && location.state.email) {
+      values[fieldNames.user] = location.state.email;
+    }
+
+    return values;
+  };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -117,6 +124,20 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
     );
   }
 
+  const LinkToForgotPassword = connect(({ formik: { values: { user } } }) => {
+    return (
+      <Link
+        to={{
+          pathname: '/login/reset-password',
+          state: { email: user },
+        }}
+        className="forgot-link"
+      >
+        {_('login.forgot_password')}
+      </Link>
+    );
+  });
+
   return (
     <main className="panel-wrapper">
       <Helmet>
@@ -165,9 +186,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           <fieldset>
             <FormErrors />
             <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
-            <Link to="/forgot-password" className="forgot-link">
-              {_('login.forgot_password')}
-            </Link>
+            <LinkToForgotPassword />
           </fieldset>
         </FormWithCaptcha>
         <footer>
