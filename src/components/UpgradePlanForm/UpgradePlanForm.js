@@ -83,6 +83,7 @@ class UpgradePlanForm extends React.Component {
                       </label>
                       <span className="dropdown-arrow" />
                       <Field
+                        autoFocus
                         component="select"
                         name={fieldNames.selectedPlanId}
                         id={fieldNames.selectedPlanId}

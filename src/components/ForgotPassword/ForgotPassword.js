@@ -92,6 +92,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
             <fieldset>
               <FieldGroup>
                 <EmailFieldItem
+                  autoFocus
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
                   required
