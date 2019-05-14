@@ -124,14 +124,14 @@ class UpgradePlanForm extends React.Component {
                     </li>
                   </ul>
                 </fieldset>
-                <fieldset className="fieldset-cta">
+                <div className="container-buttons">
                   <button className="dp-button button-medium primary-grey" onClick={handleClose}>
                     <FormattedMessage id="common.cancel" />
                   </button>
                   <SubmitButton>
                     <FormattedMessage id="common.send" />
                   </SubmitButton>
-                </fieldset>
+                </div>
               </Form>
             )}
           </Formik>
