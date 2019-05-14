@@ -223,7 +223,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           <h1>{_('feature_panel.email_automation_description')}</h1>
           <p>{_('feature_panel.email_automation_remarks')}</p>
         </article>
-        <figure class="content-img">
+        <figure className="content-img">
           <img src={_('signup.image_path')} alt="Automation" />
         </figure>
       </section>

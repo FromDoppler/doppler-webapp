@@ -187,7 +187,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           <h1>{_('feature_panel.forms_description')}</h1>
           <p>{_('feature_panel.forms_remarks')}</p>
         </article>
-        <figure class="content-img">
+        <figure className="content-img">
           <img src={_('login.image_path')} alt="Subscription Forms" />
         </figure>
       </section>
