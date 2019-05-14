@@ -384,6 +384,10 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...res
           onClick={() => {
             setPassVisible((current) => !current);
           }}
+          // By the moment we will make it not accessible using keyboard
+          // In the future, we could move after the password input as,
+          // for example, Google does
+          tabIndex="-1"
         >
           <span className="content-eye">
             {' '}
