@@ -83,7 +83,7 @@ indentation level inside the value.
     export default {
       common: {
         copyright_MD: `
-    © ${year} Doppler LLC. All rights reserved. [Privacy and Legal Policy](${urlPrivacy}).
+    © ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).
     `,
         // . . .
     ```
@@ -96,7 +96,7 @@ indentation level inside the value.
         copyright_MD: `
           <p>
             © ${year} Doppler LLC. All rights reserved.
-            <a href="${urlPrivacy}">Privacy and Legal Policy</a>.
+            <a href="${urlPrivacy}">Privacy Policy & Legals</a>.
           </p>
         `,
         // . . .

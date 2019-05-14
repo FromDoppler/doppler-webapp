@@ -13,7 +13,6 @@ import {
   PhoneFieldItem,
   SubmitButton,
   FormErrors,
-  CaptchaLegalMessage,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SignupConfirmation from './SignupConfirmation';
@@ -112,7 +111,9 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         setErrors({ _general: 'validation_messages.error_register_denied' });
       } else {
         console.log('Unexpected error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({
+          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
       }
     } finally {
       setSubmitting(false);
@@ -128,7 +129,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('signup.url_site')}>
+            <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
               Doppler
             </a>
           </h1>
@@ -206,11 +207,10 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           <FormattedHTMLMessage id="signup.legal_HTML" />
         </div>
         <footer>
-          <CaptchaLegalMessage />
           <p>
             <FormattedMessageMarkdown
               container="small"
-              id="common.copyright_MD"
+              id="signup.copyright_MD"
               options={{ linkTarget: '_blank' }}
             />
           </p>

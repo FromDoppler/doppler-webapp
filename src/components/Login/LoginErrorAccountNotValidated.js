@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCaptcha } from '../form-helpers/captcha-utils';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedHTMLMessage } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 
 export const LoginErrorAccountNotValidated = injectIntl(
@@ -39,8 +39,7 @@ export const LoginErrorAccountNotValidated = injectIntl(
           </p>
         </>
       ) : (
-        // TODO: review content
-        <p>{intl.formatMessage({ id: 'signup.no_more_resend' })}</p>
+        <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML" />
       );
     },
   ),

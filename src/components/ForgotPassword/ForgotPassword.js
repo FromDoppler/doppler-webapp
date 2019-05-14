@@ -49,7 +49,9 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         setSentTimes((x) => x + 1);
       } else {
         console.log('Unexpected error', result);
-        setErrors({ _general: 'validation_messages.error_unexpected' });
+        setErrors({
+          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
       }
     } finally {
       setSubmitting(false);
@@ -65,7 +67,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
       <article className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('forgot_password.url_site')}>
+            <a target="_blank" href={_('forgot_password.url_site')} rel="noopener noreferrer">
               Doppler
             </a>
           </h1>
@@ -73,13 +75,6 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
         </header>
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>
-        <p className="content-subtitle">{_('forgot_password.description2')}</p>
-        <p className="content-subtitle">
-          {_('login.you_want_create_account')}{' '}
-          <Link to="/signup" className="link--title">
-            {_('login.signup')}
-          </Link>
-        </p>
         {sentTimes > 0 ? (
           <div className="forgot-message bounceIn">
             <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
@@ -100,7 +95,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
                   required
-                  placeholder={_('signup.placeholder_email')}
+                  placeholder={_('forgot_password.placeholder_email')}
                 />
               </FieldGroup>
             </fieldset>
@@ -121,7 +116,7 @@ const ForgotPassword = ({ intl, dependencies: { dopplerLegacyClient } }) => {
           <p>
             <FormattedMessageMarkdown
               container="small"
-              id="common.copyright_MD"
+              id="forgot_password.copyright_MD"
               options={{ linkTarget: '_blank' }}
             />
           </p>

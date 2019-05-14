@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedHTMLMessage } from 'react-intl';
 import { useCaptcha } from '../form-helpers/captcha-utils';
-import { CaptchaLegalMessage } from '../form-helpers/form-helpers';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 /**
@@ -27,7 +26,11 @@ const SignupConfirmation = function({ resend, intl }) {
     <main className="confirmation-wrapper">
       <div className="background bg-c" />
       <header className="confirmation-header">
-        <h1 className="logo-doppler-new">Doppler</h1>
+        <h1 className="logo-doppler-new">
+          <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
+            Doppler
+          </a>
+        </h1>
       </header>
       <main className="confirmation-main">
         <article className="confirmation-article">
@@ -50,16 +53,14 @@ const SignupConfirmation = function({ resend, intl }) {
             </p>
           </>
         ) : (
-          // TODO: review content
-          <p>{_('signup.no_more_resend')}</p>
+          <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML" />
         )}
       </main>
       <footer className="confirmation-footer">
-        <CaptchaLegalMessage />
         <p>
           <FormattedMessageMarkdown
             container="small"
-            id="common.copyright_MD"
+            id="signup.copyright_MD"
             options={{ linkTarget: '_blank' }}
           />
         </p>
