@@ -11,6 +11,7 @@ import ReactGA from 'react-ga';
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
 import { HardcodedDatahubClient } from './services/datahub-client.doubles';
 import { polyfill } from 'es6-object-assign';
+import 'polyfill-array-includes';
 
 polyfill();
 
