@@ -12,6 +12,10 @@ import ReactGA from 'react-ga';
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
 import { HardcodedDatahubClient } from './services/datahub-client.doubles';
 
+if (document.querySelector('body').setActive) {
+  document.querySelector('body').setActive();
+}
+
 // TODO: this hardcoded data will depend by the app language
 const locale = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
 
