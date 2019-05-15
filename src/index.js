@@ -12,6 +12,7 @@ import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.d
 import { HardcodedDatahubClient } from './services/datahub-client.doubles';
 import { polyfill } from 'es6-object-assign';
 import 'polyfill-array-includes';
+import 'promise-polyfill/src/polyfill';
 
 polyfill();
 
