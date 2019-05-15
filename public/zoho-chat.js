@@ -23,7 +23,7 @@ $zoho.salesiq = $zoho.salesiq ||
     widgetcode: "44b76224430b91326cb02039d609a5e008e7fe0266102a0ce5060b5c1ff1e0ee",
     values: {},
     ready: function() {
-      var lang = 'en'; /*change this in the future*/ 
+      var lang = 'es'; /*change this in the future*/
       var chatResources = lang === 'en' ? langRes.en : langRes.es;
       $zoho.salesiq.language('es'); //we need this hardcoded, only the bubble changes languages
       $zoho.salesiq.chatbutton.texts([
