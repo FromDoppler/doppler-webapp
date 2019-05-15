@@ -36,7 +36,7 @@ export const SiteTrackingRequired = InjectAppServices(
     };
 
     return (
-      <section className="container-reports">
+      <section className="container-reports bg-message--grey">
         <div className="dp-wrapper-messages">
           {reason === SiteTrackingNotAvailableReasons.freeAccount ? (
             // Free accounts cannot enable trial, they should buy
