@@ -7,10 +7,12 @@ import { AppServicesProvider } from './services/pure-di';
 import { HashRouter as Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import ReactGA from 'react-ga';
-
 // Only used in development environment, it does not affect production build
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
 import { HardcodedDatahubClient } from './services/datahub-client.doubles';
+import { polyfill } from 'es6-object-assign';
+
+polyfill();
 
 if (document.querySelector('body').setActive) {
   document.querySelector('body').setActive();
