@@ -5,10 +5,11 @@ import loginBannerImagePath from '../img/login-en.png';
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
-const urlHelp = `https://help.fromdoppler.com/en/`;
+const urlHelp = `https://help.fromdoppler.com/en`;
 const patchForBlank = `rel="noopener noreferrer"`;
 
 // Common URLs
+const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
 const urlPrivacy = `${urlSite}/en/legal/privacy`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
@@ -25,7 +26,6 @@ export default {
   common: {
     cancel: `Cancel`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
-    help: `Help`,
     hide: `Hide`,
     message: `Message`,
     recaptcha_legal_HTML: `
@@ -39,9 +39,6 @@ export default {
     email_automation: `Email Automation`,
     email_automation_description: `Right person, right message, right time`,
     email_automation_remarks: `Send 100% personalized Emails according to the behavior and interests of your Subscribers. Save time and money!`,
-    email_editor: `Emails Editor`,
-    email_editor_description: `Crea Emails en minutos y accede a nuestra Galería de Plantillas`,
-    email_editor_remarks: `Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML.`,
     forms: `subscription forms`,
     forms_description: `Add new contacts to your Lists using custom Forms`,
     forms_remarks: `Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!`,
@@ -93,31 +90,18 @@ export default {
         Activate the trial period and access detailed Reports on the behavior of users inside your
         Website or E-commerce. Discover which are the most visited pages, how many visitors have an
         Email identified by Doppler and how many don't. Any doubts? Press
-        <a target="_blank" href="${urlHelp}/advanced-reports" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       `,
     allow_enable_trial_button: `Start the trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
-    datahub_not_active_HTML: `
-      <p>
-        How do users behave on your Website or E-commerce? Track their behavior for a period of time and
-        find out which are the most visited pages, how many of those visits have an Email identified by
-        Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing
-        points and opportunities for improvement!
-      </p>
-      <p>
-        You haven't enabled On-Site Tracking yet. You can trigger it from the
-        <a href="${urlSiteTracking}">On-Site Tracking</a> option in the Control Panel.
-      </p>
-      `,
-    datahub_not_active_title: `Track user behavior and optimize your Marketing actions`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
     no_domains_HTML: `
       <p>
         Register the domain (s) you want to track and access to detailed Reports. Discover which are the
         most visited pages of your Website or E-commerce, how many visitors have been identified by
         Doppler and how many have not. Any doubts? Press
-        <a target="_blank" href="${urlHelp}/advanced-reports" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       `,
     no_domains_button: `Add your domain`,
@@ -127,7 +111,7 @@ export default {
         Upgrade your account and access detailed Reports on the behavior of users on your Website or
         E-commerce. Discover which are the most visited pages, how many visitors have an Email that
         Doppler has identified and how many don't. Any doubts? Press
-        <a target="_blank" href="${urlHelp}/en/advanced-reports" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       <p>
         By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
@@ -150,7 +134,7 @@ export default {
         Find out which are the most visited pages, how many of those visitors already have an Email
         identified by Doppler and how many don't. By tracking the user's journey you'll be able to
         detect vanishing points and opportunities for improvement! If you have any doubts, press
-        <a target="_blank" href="${urlHelp}/advanced-reports" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       `,
     domain: `Domain`,
