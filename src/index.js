@@ -38,12 +38,11 @@ ReactGA.initialize('UA-532159-1');
 const history = createBrowserHistory();
 
 // Get the current location
-history.listen((location, action) => {
+history.listen((location) => {
   const locationPage = location.hash && location.hash[0] === '#' && location.hash.slice(1);
-
   ReactGA.set({ page: locationPage });
   ReactGA.pageview(locationPage);
-  console.log(locationPage);
+  // TODO: Also notify navigation to DataHub (DataHub does not have this feature yet)
 });
 
 ReactDOM.render(
