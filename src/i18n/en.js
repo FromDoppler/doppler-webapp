@@ -26,7 +26,6 @@ export default {
   common: {
     cancel: `Cancel`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
-    help: `Help`,
     hide: `Hide`,
     message: `Message`,
     recaptcha_legal_HTML: `
@@ -40,9 +39,6 @@ export default {
     email_automation: `Email Automation`,
     email_automation_description: `Right person, right message, right time`,
     email_automation_remarks: `Send 100% personalized Emails according to the behavior and interests of your Subscribers. Save time and money!`,
-    email_editor: `Emails Editor`,
-    email_editor_description: `Crea Emails en minutos y accede a nuestra Galería de Plantillas`,
-    email_editor_remarks: `Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML.`,
     forms: `subscription forms`,
     forms_description: `Add new contacts to your Lists using custom Forms`,
     forms_remarks: `Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!`,
@@ -99,19 +95,6 @@ export default {
       `,
     allow_enable_trial_button: `Start the trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
-    datahub_not_active_HTML: `
-      <p>
-        How do users behave on your Website or E-commerce? Track their behavior for a period of time and
-        find out which are the most visited pages, how many of those visits have an Email identified by
-        Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing
-        points and opportunities for improvement!
-      </p>
-      <p>
-        You haven't enabled On-Site Tracking yet. You can trigger it from the
-        <a href="${urlSiteTracking}">On-Site Tracking</a> option in the Control Panel.
-      </p>
-      `,
-    datahub_not_active_title: `Track user behavior and optimize your Marketing actions`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
     no_domains_HTML: `
       <p>

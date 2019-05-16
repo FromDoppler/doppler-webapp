@@ -26,7 +26,6 @@ export default {
   common: {
     cancel: `Cancelar`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
-    help: `Ayuda`,
     hide: `Ocultar`,
     message: `Mensaje`,
     recaptcha_legal_HTML: `
@@ -40,9 +39,6 @@ export default {
     email_automation: `Email Automation`,
     email_automation_description: `Llega con el mensaje adecuado en el momento justo`,
     email_automation_remarks: `Envía Emails 100% personalizados de acuerdo al comportamiento y los intereses de tus Suscriptores. ¡Gana tiempo y ahorra dinero!`,
-    email_editor: `Editor de Emails`,
-    email_editor_description: `Crea Emails en minutos y accede a nuestra Galería de Plantillas`,
-    email_editor_remarks: `Nuestras Plantillas para Email son totalmente Responsive y fácilmente editables desde nuestro Editor HTML.`,
     forms: `Formularios de suscripción`,
     forms_description: `Suma contactos a tus Listas con Formularios personalizados`,
     forms_remarks: `Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!`,
@@ -98,19 +94,6 @@ export default {
       `,
     allow_enable_trial_button: `Activa período de prueba`,
     allow_enable_trial_title: `Prueba Automation de Comportamiento en Sitio por tiempo limitado`,
-    datahub_not_active_HTML: `
-      <p>
-        Accede a Reportes sobre el comportamiento de los usuarios en tu Sitio Web o E-commerce durante un
-        periodo de tiempo. Descubre cuáles son las páginas más visitadas, cuántas de esas visitas poseen
-        un Email que Doppler ha identificado y cuántas no. ¡Sigue el recorrido de los usuarios, detecta
-        puntos de fuga y oportunidades de mejora!
-      </p>
-      <p>
-        Aún no has habilitado la funcionalidad de Comportamiento en Sitio. Puedes hacerlo desde la opción
-        de <a href="${urlSiteTracking}">Seguimiento en Sitio</a> en el Panel de Control.
-      </p>
-      `,
-    datahub_not_active_title: `Trackea el comportamiento de los usuarios y optimiza tus acciones`,
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
     no_domains_HTML: `
       <p>
