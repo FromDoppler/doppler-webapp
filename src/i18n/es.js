@@ -5,10 +5,11 @@ import loginBannerImagePath from '../img/login-es.png';
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
-const urlHelp = `https://help.fromdoppler.com/es/`;
+const urlHelp = `https://help.fromdoppler.com/es`;
 const patchForBlank = `rel="noopener noreferrer"`;
 
 // Common URLs
+const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
 const urlPrivacy = `${urlSite}/legal/privacidad`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
@@ -116,7 +117,7 @@ export default {
         Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
         detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
-        <a target="_blank" href="${urlHelp}/reportes-avanzados" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       `,
     no_domains_button: `Agrega tu dominio`,
@@ -126,7 +127,7 @@ export default {
         Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
         tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes
         poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? Presiona
-        <a target="_blank" href="${urlHelp}/reportes-avanzados" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       <p>
         Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo
@@ -149,7 +150,7 @@ export default {
         Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
         visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
         los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona
-        <a target="_blank" href="${urlHelp}/reportes-avanzados" ${patchForBlank}>HELP</a>.
+        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
       </p>
       `,
     domain: `Dominio`,
