@@ -49,14 +49,14 @@ class HeaderUserMenu extends React.Component {
                 <strong>{user.plan.remainingCredits}</strong> {user.plan.description}
               </p>
             </div>
-            {user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
-              <a className="buy-plan" href={user.plan.buttonUrl}>
+            {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
+              <a className="user-plan" href={user.plan.buttonUrl}>
                 {user.plan.buttonText}
               </a>
             ) : (
               ''
             )}
-            {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
+            {!user.hasClientManager && user.plan.buttonUrl && user.plan.pendingFreeUpgrade ? (
               <button onClick={this.handleOpenBuyModal} className="user-plan">
                 {user.plan.buttonText}
               </button>
