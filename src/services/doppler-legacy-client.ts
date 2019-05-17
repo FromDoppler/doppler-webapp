@@ -231,7 +231,7 @@ export function mapHeaderDataJson(json: any) {
       avatar: json.user.avatar,
       email: json.user.email,
       fullname: json.user.fullname,
-      hasClientManager: !!json.clientManager,
+      hasClientManager: !!json.user.clientManager,
       lang: json.user.lang,
       nav: (json.user.nav && json.user.nav.map(mapNavEntry)) || [],
       plan: mapPlanEntry(json.user.plan),
