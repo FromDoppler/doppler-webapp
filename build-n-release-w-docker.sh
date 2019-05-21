@@ -34,6 +34,8 @@ docker run --rm \
 # read pkgVersion from version.txt (see package.json => $.release.prepare[?(@.path=="@semantic-release/exec")])
 pkgVersion=v$(cat build/version.txt)
 
+# TODO: generate docker image here
+
 echo Publishing to Akamai...
 echo pkgName: $pkgName
 echo pkgVersion: $pkgVersion
