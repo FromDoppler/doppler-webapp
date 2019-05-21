@@ -73,7 +73,7 @@ class UpgradePlanForm extends React.Component {
             validate={validate}
             onSubmit={onSubmit}
           >
-            {({ isSubmitting, errors, touched }) => (
+            {({ errors, touched, submitCount }) => (
               <Form className="form-request">
                 <fieldset>
                   <ul className="field-group">
@@ -98,7 +98,9 @@ class UpgradePlanForm extends React.Component {
                     <li
                       className={
                         'field-item' +
-                        (touched[fieldNames.message] && errors[fieldNames.message] ? ' error' : '')
+                        (submitCount && touched[fieldNames.message] && errors[fieldNames.message]
+                          ? ' error'
+                          : '')
                       }
                     >
                       <label htmlFor={fieldNames.message}>

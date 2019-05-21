@@ -155,13 +155,16 @@ const ErrorMessage = injectIntl(({ intl, error }) =>
 );
 
 export const FieldItem = connect(
-  ({ className, fieldName, children, formik: { errors, touched } }) => (
+  ({ className, fieldName, children, formik: { errors, touched, submitCount } }) => (
     <li
-      className={concatClasses(className, touched[fieldName] && errors[fieldName] ? 'error' : '')}
+      className={concatClasses(
+        className,
+        submitCount && touched[fieldName] && errors[fieldName] ? 'error' : '',
+      )}
     >
       {children}
       {/* Boolean errors will not have message */}
-      {touched[fieldName] && errors[fieldName] && errors[fieldName] !== true ? (
+      {submitCount && touched[fieldName] && errors[fieldName] && errors[fieldName] !== true ? (
         <div className="wrapper-errors">
           <ErrorMessage error={errors[fieldName]} />
         </div>
