@@ -15,3 +15,7 @@
   line-height: 16px;
   font-family: proxima-nova, Helvetica;
 }
+
+.captcha-legal-message a {
+  color: inherit;
+}
