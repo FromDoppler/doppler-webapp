@@ -108,6 +108,24 @@ describe('App component', () => {
       // Assert
       getByText('Política de Privacidad y Legales');
     });
+
+    it('should use Spanish when language is not defined', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
+
+      // Act
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login']}>
+            <App />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      getByText('Política de Privacidad y Legales');
     });
 
     it("should be updated based on user's data", () => {
