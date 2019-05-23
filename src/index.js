@@ -21,7 +21,9 @@ if (document.querySelector('body').setActive) {
 }
 
 // TODO: this hardcoded data will depend by the app language
-const locale = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
+const localeFromNavigator = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
+// TODO: remove language validation code
+const locale = ['es', 'en'].includes(localeFromNavigator) ? localeFromNavigator : 'en';
 
 // Only used in development environment, it does not affect production build
 const forcedServices =
