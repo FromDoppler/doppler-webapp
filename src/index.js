@@ -13,6 +13,7 @@ import { HardcodedDatahubClient } from './services/datahub-client.doubles';
 import { polyfill } from 'es6-object-assign';
 import 'polyfill-array-includes';
 import 'promise-polyfill/src/polyfill';
+import { availableLanguageOrDefault } from './i18n/utils';
 
 polyfill();
 
@@ -20,10 +21,7 @@ if (document.querySelector('body').setActive) {
   document.querySelector('body').setActive();
 }
 
-// TODO: this hardcoded data will depend by the app language
-const localeFromNavigator = navigator.language.toLowerCase().split(/[_-]+/)[0] || 'en';
-// TODO: remove language validation code
-const locale = ['es', 'en'].includes(localeFromNavigator) ? localeFromNavigator : 'en';
+const locale = availableLanguageOrDefault(navigator.language.toLowerCase().split(/[_-]+/)[0]);
 
 // Only used in development environment, it does not affect production build
 const forcedServices =
