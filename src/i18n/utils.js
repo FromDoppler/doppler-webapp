@@ -13,7 +13,7 @@ export function flattenMessages(nestedMessages, prefix = '') {
   }, {});
 }
 
-export const defaultLanguage = 'en';
+export const defaultLanguage = 'es';
 
 export const availableLanguageOrNull = (lang) =>
   (lang && ['es', 'en'].includes(lang) && lang) || null;

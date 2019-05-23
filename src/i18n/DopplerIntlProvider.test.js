@@ -25,12 +25,13 @@ describe('DopplerIntlProvider', () => {
     getByText('Cargando...');
   });
 
-  it('should render loading in English when language is unexpected', () => {
+  it('should render loading in Spanish when language is unexpected', () => {
     const { getByText } = render(
       <DopplerIntlProvider locale="fr">
         <FormattedMessage id="loading" />
       </DopplerIntlProvider>,
     );
-    getByText('Loading...');
+    getByText('Cargando...');
+  });
   });
 });

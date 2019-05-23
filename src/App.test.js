@@ -90,7 +90,7 @@ describe('App component', () => {
       getByText('Política de Privacidad y Legales');
     });
 
-    it('should use English when language is not supported', () => {
+    it('should use Spanish when language is not supported', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
@@ -106,7 +106,8 @@ describe('App component', () => {
       );
 
       // Assert
-      getByText('Privacy Policy & Legals');
+      getByText('Política de Privacidad y Legales');
+    });
     });
 
     it("should be updated based on user's data", () => {
