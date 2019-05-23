@@ -9,6 +9,7 @@ import {
   SiteTrackingNotAvailableReasons,
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { Helmet } from 'react-helmet';
+import Loading from '../Loading/Loading';
 
 class Reports extends React.Component {
   /**
@@ -77,7 +78,7 @@ class Reports extends React.Component {
             changePeriod={this.changePeriod}
           />
           {!this.state.domains ? (
-            <div className="loading-box" />
+            <Loading />
           ) : (
             <section className="container-reports">
               <div className="wrapper-kpi">

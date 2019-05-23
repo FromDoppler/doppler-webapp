@@ -1,6 +1,7 @@
 import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
+import Loading from '../../Loading/Loading';
 
 class ReportsPageRanking extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
@@ -68,10 +69,10 @@ class ReportsPageRanking extends React.Component {
 
     return (
       <>
-        {pages === null ? (
-          <div className="loading-box" />
-        ) : (
-          <div className="wrapper-ranking">
+        <div className="wrapper-ranking">
+          {pages === null ? (
+            <Loading />
+          ) : (
             <div className="reports-box">
               <h4 className="title-ranking">
                 <FormattedMessage id="reports_pageranking.top_pages" />
@@ -100,8 +101,8 @@ class ReportsPageRanking extends React.Component {
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </>
     );
   }
