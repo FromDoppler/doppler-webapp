@@ -1,7 +1,7 @@
 #!/bin/sh
 
 pkgName="doppler-webapp"
-cdnBaseUrl=${2:-"//cdn.fromdoppler.com/$pkgName"}
+cdnBaseUrl=${1:-"//cdn.fromdoppler.com/$pkgName"}
 pkgVersionQaPrefix="qa-"
 pkgVersionIntPrefix="int-"
 pkgVersionDevelopmentPrefix="dev-"
@@ -23,6 +23,8 @@ export MSYS2_ARG_CONV_EXCL="*"
 
 # build production package and generate version number
 docker run --rm \
+    -e GH_TOKEN \
+    -e "NPM_TOKEN=00000000-0000-0000-0000-000000000000" \
     -v `pwd`:/work \
     -w /work \
     node:10 \
