@@ -11,6 +11,7 @@ import { OriginCatcher } from './services/origin-management';
 import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
 import RedirectWithQuery from './components/RedirectWithQuery';
 import { Helmet } from 'react-helmet';
+import { availableLanguageOrNull } from './i18n/utils';
 
 class App extends Component {
   /**
@@ -44,7 +45,7 @@ class App extends Component {
     const { lang: langFromUrl } =
       props.location && props.location.search && queryString.parse(props.location.search);
 
-    const expectedLang = ['es', 'en'].includes(langFromUrl) ? langFromUrl : null;
+    const expectedLang = availableLanguageOrNull(langFromUrl);
 
     if (state.langFromUrl !== expectedLang) {
       return expectedLang

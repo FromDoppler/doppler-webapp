@@ -4,7 +4,7 @@ import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 import messages_es from './es';
 import messages_en from './en';
-import { flattenMessages } from './utils';
+import { flattenMessages, availableLanguageOrDefault } from './utils';
 
 const messages = {
   es: messages_es,
@@ -13,11 +13,11 @@ const messages = {
 
 addLocaleData([...en, ...es]);
 
-export default ({ locale, children }) => (
-  <IntlProvider
-    locale={locale || 'en'}
-    messages={flattenMessages(messages[locale || 'en'] || messages['en'])}
-  >
-    {children}
-  </IntlProvider>
-);
+export default ({ locale, children }) => {
+  const sanitizedLocale = availableLanguageOrDefault(locale);
+  return (
+    <IntlProvider locale={sanitizedLocale} messages={flattenMessages(messages[sanitizedLocale])}>
+      {children}
+    </IntlProvider>
+  );
+};

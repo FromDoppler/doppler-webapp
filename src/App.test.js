@@ -90,6 +90,44 @@ describe('App component', () => {
       getByText('Política de Privacidad y Legales');
     });
 
+    it('should use Spanish when language is not supported', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
+
+      // Act
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login']}>
+            <App locale="fr" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      getByText('Política de Privacidad y Legales');
+    });
+
+    it('should use Spanish when language is not defined', () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+      };
+
+      // Act
+      const { getByText } = render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login']}>
+            <App />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      getByText('Política de Privacidad y Legales');
+    });
+
     it("should be updated based on user's data", () => {
       // Arrange
       const appSessionRef = { current: { status: 'unknown' } };
