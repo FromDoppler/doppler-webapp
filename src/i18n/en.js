@@ -225,6 +225,7 @@ export default {
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
     error_invalid_email_address: `Ouch! Enter a valid Email.`,
     error_invalid_login: `Ouch! There is an error in your Username or Password. Please, try again.`,
+    error_invalid_name: `Ouch! Enter a valid Name.`,
     error_password_character_length: `8 characters minimum`,
     error_password_digit: `One number`,
     error_password_letter: `One letter`,

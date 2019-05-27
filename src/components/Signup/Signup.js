@@ -7,8 +7,8 @@ import {
   EmailFieldItem,
   FieldGroup,
   FormWithCaptcha,
-  InputFieldItem,
   CheckboxFieldItem,
+  InputFieldItem,
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
   SubmitButton,
@@ -152,18 +152,20 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
             <FieldGroup>
               <InputFieldItem
                 autoFocus
+                type="text"
                 className="field-item--50"
                 fieldName={fieldNames.firstname}
                 label={_('signup.label_firstname')}
-                type="text"
                 required
+                isValidateName
               />
               <InputFieldItem
+                type="text"
                 className="field-item--50"
                 fieldName={fieldNames.lastname}
                 label={_('signup.label_lastname')}
-                type="text"
                 required
+                isValidateName
               />
               <PhoneFieldItem
                 fieldName={fieldNames.phone}

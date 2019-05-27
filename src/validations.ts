@@ -1,4 +1,5 @@
 const emailRegex = /^([a-zñ\d[\]])(\.?([\wñ&/~\-+\][]+))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i;
+const nameRegex = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w][^#&<>[\](\)\"~;+@:*$^%{}?]{1,}$/i;
 
 export function validateEmail(
   value: string,
@@ -13,6 +14,17 @@ export function validateEmail(
   }
 
   return null;
+}
+
+export function validateName(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_name',
+): true | string | null {
+  if (!value || nameRegex.test(value)) {
+    return null;
+  } else {
+    return commonErrorKey;
+  }
 }
 
 export function validateRequiredField(

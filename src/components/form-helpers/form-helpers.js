@@ -6,6 +6,7 @@ import {
   validateCheckRequired,
   validatePassword,
   validateRequiredField,
+  validateName,
   combineValidations,
 } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
@@ -334,6 +335,7 @@ export const InputFieldItem = ({
   type,
   placeholder,
   required,
+  isValidateName,
   ...rest
 }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
@@ -343,7 +345,11 @@ export const InputFieldItem = ({
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}
-      validate={createRequiredValidation(required)}
+      validate={
+        isValidateName
+          ? combineValidations(createRequiredValidation(required), validateName)
+          : createRequiredValidation(required)
+      }
       {...rest}
     />
   </FieldItem>
