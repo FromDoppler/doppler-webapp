@@ -106,9 +106,11 @@ const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } 
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>
         {sentEmail ? (
-          <div className="forgot-message bounceIn">
-            <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
-            <LinkToLoginSuccess />
+          <div className="forgot-message">
+            <div className="form-message dp-ok-message bounceIn">
+              <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
+              <LinkToLoginSuccess />
+            </div>
           </div>
         ) : (
           <FormWithCaptcha

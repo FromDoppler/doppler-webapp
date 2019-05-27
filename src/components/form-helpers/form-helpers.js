@@ -143,8 +143,8 @@ export const FormErrors = connect(
    */
   ({ formik: { errors } }) =>
     errors && errors['_general'] ? (
-      <div className="form-message error">
-        <div className="wrapper-errors">
+      <div className="form-message dp-error bounceIn">
+        <div>
           <ErrorMessage error={errors['_general']} />
         </div>
       </div>
@@ -157,7 +157,7 @@ const ErrorMessage = injectIntl(({ intl, error }) =>
   ) : (
     // assuming string
     // TODO: also consider array of errors, and parameters for localization message placeholders
-    <p className="error-message">{intl.formatMessage({ id: error })}</p>
+    <p>{intl.formatMessage({ id: error })}</p>
   ),
 );
 
@@ -172,7 +172,7 @@ export const FieldItem = connect(
       {children}
       {/* Boolean errors will not have message */}
       {submitCount && touched[fieldName] && errors[fieldName] && errors[fieldName] !== true ? (
-        <div className="wrapper-errors">
+        <div className="dp-message dp-error-form">
           <ErrorMessage error={errors[fieldName]} />
         </div>
       ) : null}
