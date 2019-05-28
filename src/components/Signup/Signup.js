@@ -7,8 +7,8 @@ import {
   EmailFieldItem,
   FieldGroup,
   FormWithCaptcha,
-  CheckboxFieldItem,
   InputFieldItem,
+  CheckboxFieldItem,
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
   SubmitButton,
@@ -26,6 +26,11 @@ const fieldNames = {
   password: 'password',
   accept_privacy_policies: 'accept_privacy_policies',
   accept_promotions: 'accept_promotions',
+};
+
+const minLength = {
+  min: 2,
+  errorMessageKey: 'validation_messages.error_min_length_2',
 };
 
 /** Prepare empty values for all fields
@@ -152,20 +157,22 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
             <FieldGroup>
               <InputFieldItem
                 autoFocus
-                type="text"
                 className="field-item--50"
                 fieldName={fieldNames.firstname}
                 label={_('signup.label_firstname')}
+                type="text"
+                minLength={minLength}
                 required
-                isValidateName
+                withNameValidation
               />
               <InputFieldItem
-                type="text"
                 className="field-item--50"
                 fieldName={fieldNames.lastname}
                 label={_('signup.label_lastname')}
+                type="text"
+                minLength={minLength}
                 required
-                isValidateName
+                withNameValidation
               />
               <PhoneFieldItem
                 fieldName={fieldNames.phone}

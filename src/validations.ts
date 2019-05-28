@@ -1,5 +1,5 @@
 const emailRegex = /^([a-zñ\d[\]])(\.?([\wñ&/~\-+\][]+))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i;
-const nameRegex = /^[\u00BF-\u1FFF\u2C00-\uD7FF\w][^#&<>[\](\)\"~;+@:*$^%{}?]{1,}$/i;
+const nameRegex = /^[\u00C0-\u1FFF\u2C00-\uD7FF\w][\u00C0-\u1FFF\u2C00-\uD7FF\w'`\-\.\ ]+$/i;
 
 export function validateEmail(
   value: string,
@@ -36,6 +36,18 @@ export function validateRequiredField(
   }
 
   return null;
+}
+
+export function validateMinLength(
+  value: any,
+  minLength: number,
+  commonErrorKey: true | string = 'validation_messages.error_min_length',
+): true | string | null {
+  if (!value || value.length >= minLength) {
+    return null;
+  }
+
+  return commonErrorKey;
 }
 
 export function validatePassword(
