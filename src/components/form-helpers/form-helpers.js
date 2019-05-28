@@ -39,6 +39,7 @@ function translateIntlTelInputCountryNames(language) {
           : nameInCurrentLanguage;
     }
   }
+  countryData.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 }
 
 /**
