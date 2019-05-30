@@ -40,7 +40,7 @@ export function validateRequiredField(
 
 export function validateMinLength(
   value: any,
-  minLength: number,
+  minLength: true | number = 2,
   commonErrorKey: true | string = 'validation_messages.error_min_length',
 ): true | string | null {
   if (!value || value.length >= minLength) {
