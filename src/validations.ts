@@ -40,7 +40,7 @@ export function validateRequiredField(
 
 export function validateMinLength(
   value: any,
-  minLength: number,
+  minLength: true | number = 2,
   commonErrorKey: true | string = 'validation_messages.error_min_length',
 ): true | string | null {
   if (!value || value.length >= minLength) {
@@ -83,11 +83,11 @@ export function validateCheckRequired(
 }
 
 export function combineValidations(
-  ...validateFunctions: [(value: any) => true | string | null]
+  ...validateFunctions: [((value: any) => true | string | null) | undefined | false | null]
 ): (value: any) => true | string | null {
   return (value) => {
     for (let validate of validateFunctions) {
-      const result = validate(value);
+      const result = validate && validate(value);
       if (result) {
         return result;
       }

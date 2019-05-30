@@ -5,6 +5,7 @@ import {
   validateCheckRequired,
   validatePassword,
   validateName,
+  validateMinLength,
 } from './validations';
 
 describe('validations', () => {
@@ -673,6 +674,78 @@ describe('validations', () => {
 
       // Assert
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('validateMinLength', () => {
+    it('should accept empty value', () => {
+      // Arrange
+      const value = '';
+
+      // Act
+      const result = validateMinLength(value);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept value with equal length than default min length', () => {
+      // Arrange
+      const value = 'pp';
+
+      // Act
+      const result = validateMinLength(value);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept value with equal length than min length', () => {
+      // Arrange
+      const value = 'aa';
+      const minLength = 2;
+
+      // Act
+      const result = validateMinLength(value, minLength);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should not accept with a length value less than min length', () => {
+      // Arrange
+      const value = 'aa';
+      const minLength = 3;
+
+      // Act
+      const result = validateMinLength(value, minLength);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_min_length');
+    });
+
+    it('should not accept with a length value less than min length and custom message value', () => {
+      // Arrange
+      const value = 'p';
+      const minLength = 2;
+      const customMessageKey = 'validation_messages.error_min_length_2';
+
+      // Act
+      const result = validateMinLength(value, minLength, customMessageKey);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_min_length_2');
+    });
+
+    it('should not accept with a length value less than default min length', () => {
+      // Arrange
+      const value = 'p';
+
+      // Act
+      const result = validateMinLength(value);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_min_length');
     });
   });
 });
