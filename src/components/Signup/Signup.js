@@ -28,6 +28,11 @@ const fieldNames = {
   accept_promotions: 'accept_promotions',
 };
 
+const minLength = {
+  min: 2,
+  errorMessageKey: 'validation_messages.error_min_length_2',
+};
+
 /** Prepare empty values for all fields
  * It is required because in another way, the fields are not marked as touched.
  */
@@ -156,14 +161,18 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
                 fieldName={fieldNames.firstname}
                 label={_('signup.label_firstname')}
                 type="text"
+                minLength={minLength}
                 required
+                withNameValidation
               />
               <InputFieldItem
                 className="field-item--50"
                 fieldName={fieldNames.lastname}
                 label={_('signup.label_lastname')}
                 type="text"
+                minLength={minLength}
                 required
+                withNameValidation
               />
               <PhoneFieldItem
                 fieldName={fieldNames.phone}

@@ -6,7 +6,9 @@ import {
   validateCheckRequired,
   validatePassword,
   validateRequiredField,
+  validateName,
   combineValidations,
+  validateMinLength,
 } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
@@ -56,6 +58,10 @@ function createRequiredValidation(requiredProp) {
   }
 
   return (value) => validateRequiredField(value, requiredProp);
+}
+
+function createMinLengthValidation(minLength) {
+  return (value) => validateMinLength(value, minLength.min, minLength.errorMessageKey);
 }
 
 export const CaptchaLegalMessage = () => (
@@ -334,6 +340,8 @@ export const InputFieldItem = ({
   type,
   placeholder,
   required,
+  withNameValidation,
+  minLength,
   ...rest
 }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
@@ -343,7 +351,11 @@ export const InputFieldItem = ({
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}
-      validate={createRequiredValidation(required)}
+      validate={combineValidations(
+        createRequiredValidation(required),
+        minLength && createMinLengthValidation(minLength),
+        withNameValidation && validateName,
+      )}
       {...rest}
     />
   </FieldItem>

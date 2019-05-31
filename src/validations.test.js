@@ -4,6 +4,8 @@ import {
   validateRequiredField,
   validateCheckRequired,
   validatePassword,
+  validateName,
+  validateMinLength,
 } from './validations';
 
 describe('validations', () => {
@@ -461,6 +463,289 @@ describe('validations', () => {
 
       // Assert
       expect(result).toEqual({ charLength: true, letter: true, digit: true });
+    });
+  });
+
+  describe('validateName', () => {
+    it('should accept an empty name', () => {
+      // Arrange
+      const name = '';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should not accept a name with one char', () => {
+      // Arrange
+      const name = 'a';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_name');
+    });
+
+    it('should accept a name with two chars', () => {
+      // Arrange
+      const name = 'Fe';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept a name with more than one char in chinese language', () => {
+      // Arrange
+      const name = '陸軍上校';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept a name with point', () => {
+      // Arrange
+      const name = 'A.';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept a name with spaces', () => {
+      // Arrange
+      const name = 'John Snow';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept names with single quotes', () => {
+      // Arrange
+      const name = "D'onofrio";
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should not accept names starting with apostrophe', () => {
+      // Arrange
+      const name = '`A';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_name');
+    });
+
+    it('should not accept names with emojis', () => {
+      // Arrange
+      const name = 'a😀';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_name');
+    });
+
+    it('should not accept names starting with single quotes', () => {
+      // Arrange
+      const name = "'A";
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_name');
+    });
+
+    it('should not accept a name with point in the beginning', () => {
+      // Arrange
+      const name = '.A';
+
+      // Act
+      const result = validateName(name);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_name');
+    });
+
+    it('should return a custom error', () => {
+      // Arrange
+      const name = 'Jon+';
+      const customError = 'validation_messages.error_invalid_name_custom';
+
+      // Act
+      const result = validateEmail(name, customError);
+
+      // Assert
+      expect(result).toEqual(customError);
+    });
+
+    it('should not accept a name with special character', () => {
+      // Arrange
+      const characters = [
+        'a¿',
+        'a$',
+        'a*',
+        'a#',
+        'a&',
+        'a<',
+        'a>',
+        'a[',
+        'a]',
+        'a(',
+        'a)',
+        'a"',
+        'a~',
+        'a;',
+        'a+',
+        'a@',
+        'a:',
+        'a*',
+        'a$',
+        'a^',
+        'a%',
+        'a{',
+        'a}',
+        'a?',
+        'a!',
+        'a,',
+        'a=',
+      ];
+
+      // Act
+      const result = characters.find((item) => {
+        return validateName(item) === null;
+      });
+
+      // Assert
+      expect(result).toBeUndefined();
+    });
+
+    it('should accept other languages', () => {
+      // Arrange
+      const languages = [
+        'Español',
+        'Français',
+        '日本語',
+        'Português',
+        'Русский',
+        'Tiếng Việt',
+        '中文',
+        'Български',
+        'Bân-lâm-gú',
+        'Беларуская',
+        'Акадэмічная',
+        'Català',
+        'Čeština',
+        'Ελληνικά',
+        'فارسی',
+        'Հայերեն',
+        'Română',
+        'Slovenščina',
+        'Српски',
+        'Српскохрватски',
+        'Türkçe',
+      ];
+
+      // Act
+      const result = languages.find((item) => {
+        return validateName(item) !== null;
+      });
+
+      // Assert
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('validateMinLength', () => {
+    it('should accept empty value', () => {
+      // Arrange
+      const value = '';
+
+      // Act
+      const result = validateMinLength(value);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept value with equal length than default min length', () => {
+      // Arrange
+      const value = 'pp';
+
+      // Act
+      const result = validateMinLength(value);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept value with equal length than min length', () => {
+      // Arrange
+      const value = 'aa';
+      const minLength = 2;
+
+      // Act
+      const result = validateMinLength(value, minLength);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should not accept with a length value less than min length', () => {
+      // Arrange
+      const value = 'aa';
+      const minLength = 3;
+
+      // Act
+      const result = validateMinLength(value, minLength);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_min_length');
+    });
+
+    it('should not accept with a length value less than min length and custom message value', () => {
+      // Arrange
+      const value = 'p';
+      const minLength = 2;
+      const customMessageKey = 'validation_messages.error_min_length_2';
+
+      // Act
+      const result = validateMinLength(value, minLength, customMessageKey);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_min_length_2');
+    });
+
+    it('should not accept with a length value less than default min length', () => {
+      // Arrange
+      const value = 'p';
+
+      // Act
+      const result = validateMinLength(value);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_min_length');
     });
   });
 });

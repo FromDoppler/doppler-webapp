@@ -1,4 +1,5 @@
 const emailRegex = /^([a-zñ\d[\]])(\.?([\wñ&/~\-+\][]+))*@([ñ\w.\-\][]+)\.[\w\-\][.]{2,}(\?)?.*$/i;
+const nameRegex = /^[\u00C0-\u1FFF\u2C00-\uD7FF\w][\u00C0-\u1FFF\u2C00-\uD7FF\w'`\-\.\ ]+$/i;
 
 export function validateEmail(
   value: string,
@@ -15,6 +16,17 @@ export function validateEmail(
   return null;
 }
 
+export function validateName(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_name',
+): true | string | null {
+  if (!value || nameRegex.test(value)) {
+    return null;
+  } else {
+    return commonErrorKey;
+  }
+}
+
 export function validateRequiredField(
   value: any,
   commonErrorKey: true | string = 'validation_messages.error_required_field',
@@ -24,6 +36,18 @@ export function validateRequiredField(
   }
 
   return null;
+}
+
+export function validateMinLength(
+  value: any,
+  minLength: true | number = 2,
+  commonErrorKey: true | string = 'validation_messages.error_min_length',
+): true | string | null {
+  if (!value || value.length >= minLength) {
+    return null;
+  }
+
+  return commonErrorKey;
 }
 
 export function validatePassword(
@@ -59,11 +83,11 @@ export function validateCheckRequired(
 }
 
 export function combineValidations(
-  ...validateFunctions: [(value: any) => true | string | null]
+  ...validateFunctions: [((value: any) => true | string | null) | undefined | false | null]
 ): (value: any) => true | string | null {
   return (value) => {
     for (let validate of validateFunctions) {
-      const result = validate(value);
+      const result = validate && validate(value);
       if (result) {
         return result;
       }
