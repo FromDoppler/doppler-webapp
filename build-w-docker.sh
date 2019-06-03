@@ -3,6 +3,9 @@
 pkgVersion=${1:-"v0.0.0-build0"}
 cdnBaseUrl=${2:-"//cdn.fromdoppler.com/$pkgName"}
 environment=${3:-"production"}
+versionFull=${4:-$pkgVersion}
+pkgBuild=${5:-0}
+pkgCommitId=${6:-0}
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
@@ -21,4 +24,5 @@ docker run --rm \
     /bin/sh -c "\
         yarn \
         && yarn run build:$environment \
+        && printf \"$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId\" > build/version.txt \
     "
