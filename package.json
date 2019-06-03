@@ -90,13 +90,6 @@
     "generateNotes": [
       "@semantic-release/release-notes-generator"
     ],
-    "prepare": [
-      {
-        "path": "@semantic-release/exec",
-        "__comment": "Running compile-prod here allow us to inject release version if need.",
-        "cmd": "echo ${nextRelease.version} > build/version.txt && export pkgVersion=v${nextRelease.version} && yarn run build:production"
-      }
-    ],
     "publish": [
       {
         "path": "@semantic-release/github"
