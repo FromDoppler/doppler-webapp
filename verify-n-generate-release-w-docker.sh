@@ -15,6 +15,8 @@ cd $(dirname $0)
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
+sh ./verify-w-docker.sh
+
 # build production package and generate version number
 docker run --rm \
     -e GH_TOKEN \
