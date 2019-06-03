@@ -58,7 +58,7 @@ docker run --rm \
     -e AKAMAI_CDN_CPCODE \
     -e "PROJECT_NAME=$pkgName" \
     -e "VERSION_NAME=$pkgVersion" \
-    -v /`pwd`/build:/source \
+    -v `pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
 
 sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl qa $versionFull $pkgBuild $pkgCommitId
@@ -69,7 +69,7 @@ docker run --rm \
     -e AKAMAI_CDN_CPCODE \
     -e "PROJECT_NAME=$pkgName" \
     -e "VERSION_NAME=$pkgVersionQaPrefix$pkgVersion" \
-    -v /`pwd`/build:/source \
+    -v `pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
 
 sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl int $versionFull $pkgBuild $pkgCommitId
@@ -80,7 +80,7 @@ docker run --rm \
     -e AKAMAI_CDN_CPCODE \
     -e "PROJECT_NAME=$pkgName" \
     -e "VERSION_NAME=$pkgVersionIntPrefix$pkgVersion" \
-    -v /`pwd`/build:/source \
+    -v `pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
 
 sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl development $versionFull $pkgBuild $pkgCommitId
@@ -91,5 +91,5 @@ docker run --rm \
     -e AKAMAI_CDN_CPCODE \
     -e "PROJECT_NAME=$pkgName" \
     -e "VERSION_NAME=$pkgVersionDevelopmentPrefix$pkgVersion" \
-    -v /`pwd`/build:/source \
+    -v `pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
