@@ -6,6 +6,8 @@ cdnBaseUrl=${2:-"//cdn.fromdoppler.com/$pkgName"}
 pkgVersionQa="qa-$pkgVersion"
 pkgVersionInt="int-$pkgVersion"
 pkgVersionDevelopment="dev-$pkgVersion"
+pkgBuild=${4:-0}
+pkgCommitId=${5:-$(git rev-parse HEAD)}
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
@@ -19,7 +21,7 @@ sh ./verify-w-docker.sh
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
 docker pull dopplerrelay/doppler-relay-akamai-publish
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl production
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl production $pkgVersion $pkgBuild $pkgCommitId
 docker run --rm \
     -e AKAMAI_CDN_HOSTNAME \
     -e AKAMAI_CDN_USERNAME \
@@ -30,7 +32,7 @@ docker run --rm \
     -v /`pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl qa
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl qa $pkgVersion $pkgBuild $pkgCommitId
 docker run --rm \
     -e AKAMAI_CDN_HOSTNAME \
     -e AKAMAI_CDN_USERNAME \
@@ -41,7 +43,7 @@ docker run --rm \
     -v /`pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl int
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl int $pkgVersion $pkgBuild $pkgCommitId
 docker run --rm \
     -e AKAMAI_CDN_HOSTNAME \
     -e AKAMAI_CDN_USERNAME \
@@ -52,7 +54,7 @@ docker run --rm \
     -v /`pwd`/build:/source \
     dopplerrelay/doppler-relay-akamai-publish
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl development
+sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl development $pkgVersion $pkgBuild $pkgCommitId
 docker run --rm \
     -e AKAMAI_CDN_HOSTNAME \
     -e AKAMAI_CDN_USERNAME \
