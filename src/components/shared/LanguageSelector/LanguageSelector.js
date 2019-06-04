@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 
@@ -9,29 +9,52 @@ import { injectIntl } from 'react-intl';
  */
 const LanguageSelector = ({ intl }) => {
   const lang = intl.locale;
+  const languageDropdown = useRef(null);
+
+  useEffect(() => {
+    const menubutton = new window.Menubutton(languageDropdown.current);
+    menubutton.init();
+  }, [languageDropdown]);
+
   return (
-    <div className="language-selector">
+    <div className="dp-c-dropdown language-selector">
       {lang === 'es' ? (
         <>
-          <div className="lang-option option--selector">
-            <button className="lang--es">ES</button>
-          </div>
-          <div className="lang-option">
-            <Link to="?lang=en" className="lang--en">
-              EN
-            </Link>
-          </div>
+          <button
+            className="lang--es"
+            id="menubutton"
+            aria-haspopup="true"
+            aria-controls="menu2"
+            ref={languageDropdown}
+          >
+            ES
+          </button>
+          <ul id="menu2" role="menu" aria-labelledby="menubutton">
+            <li role="none">
+              <Link to="?lang=en" className="lang--en" role="menuitem">
+                EN
+              </Link>
+            </li>
+          </ul>
         </>
       ) : (
         <>
-          <div className="lang-option option--selector">
-            <button className="lang--en">EN</button>
-          </div>
-          <div className="lang-option">
-            <Link to="?lang=es" className="lang--es">
-              ES
-            </Link>
-          </div>
+          <button
+            className="lang--en"
+            id="menubutton"
+            aria-haspopup="true"
+            aria-controls="menu2"
+            ref={languageDropdown}
+          >
+            EN
+          </button>
+          <ul id="menu2" role="menu" aria-labelledby="menubutton">
+            <li role="none">
+              <Link to="?lang=es" className="lang--es" role="menuitem">
+                ES
+              </Link>
+            </li>
+          </ul>
         </>
       )}
     </div>
