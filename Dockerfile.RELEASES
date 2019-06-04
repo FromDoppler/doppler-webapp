@@ -1,0 +1,56 @@
+## Build layer
+FROM node:10 as build
+WORKDIR /app
+COPY package.json yarn.lock ./
+
+# Download dependencies
+RUN yarn
+
+# Copy source files
+COPY . .
+
+# Run tests and verify other requirements
+RUN yarn verify
+
+# Build project
+ARG environment
+RUN yarn build:$environment
+
+## Publish to CDN layer
+FROM dopplerrelay/doppler-relay-akamai-publish
+COPY --from=build /app/build /source
+ARG cdnBaseUrl
+ARG environment
+ARG pkgVersion
+ARG versionFull
+ARG pkgBuild
+ARG pkgCommitId
+# Create version.txt file (WARNING: duplicated code for optimizing build)
+RUN printf "$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId" > /source/version.txt
+ARG cdn_hostname
+ARG cdn_username
+ARG cdn_password
+ARG cdn_cpcode
+RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
+  AKAMAI_CDN_USERNAME=$cdn_username \
+  AKAMAI_CDN_PASSWORD=$cdn_password \
+  AKAMAI_CDN_CPCODE=$cdn_cpcode \
+  node cdn-uploader.js /source doppler-webapp ${environment}-${pkgVersion}
+
+
+# Runtime layer (Host project in nginx)
+FROM nginx
+WORKDIR /app
+COPY --from=build /app/build /usr/share/nginx/html
+
+ARG cdnBaseUrl
+ARG environment
+ARG pkgVersion
+ARG versionFull
+ARG pkgBuild
+ARG pkgCommitId
+# Create version.txt file (WARNING: duplicated code for optimizing build)
+RUN printf "$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId" > /usr/share/nginx/html/version.txt
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+EXPOSE 80 443

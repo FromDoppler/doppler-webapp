@@ -16,6 +16,7 @@ pkgVersionDevelopmentPrefix="dev-"
 versionPatch="$(echo $versionFull | cut -d'-' -f1)" # v0.0.0 (ignoring `-` if exists)
 versionMayor="$(echo $versionPatch | cut -d'.' -f1)" # v0
 versionMinor="$versionMayor.$(echo $versionPatch | cut -d'.' -f2)" # v0.0
+environments="int qa production"
 
 # Stop script on NZEC
 set -e
@@ -38,7 +39,7 @@ export MSYS2_ARG_CONV_EXCL="*"
 # or even minor version, so fixes will always be applied
 pkgVersion=$versionPatch
 
-echo Publishing to Akamai...
+echo Publishing to Docker and Akamai...
 echo pkgName: $pkgName
 echo cdnBaseUrl: $cdnBaseUrl
 echo versionPatch: $versionPatch
@@ -50,46 +51,33 @@ echo pkgCommitId: $pkgCommitId
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
 docker pull dopplerrelay/doppler-relay-akamai-publish
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl production $versionFull $pkgBuild $pkgCommitId
-docker run --rm \
-    -e AKAMAI_CDN_HOSTNAME \
-    -e AKAMAI_CDN_USERNAME \
-    -e AKAMAI_CDN_PASSWORD \
-    -e AKAMAI_CDN_CPCODE \
-    -e "PROJECT_NAME=$pkgName" \
-    -e "VERSION_NAME=$pkgVersion" \
-    -v `pwd`/build:/source \
-    dopplerrelay/doppler-relay-akamai-publish
+for environment in ${environments}; do
+    echo Publishing ${environment}...
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl qa $versionFull $pkgBuild $pkgCommitId
-docker run --rm \
-    -e AKAMAI_CDN_HOSTNAME \
-    -e AKAMAI_CDN_USERNAME \
-    -e AKAMAI_CDN_PASSWORD \
-    -e AKAMAI_CDN_CPCODE \
-    -e "PROJECT_NAME=$pkgName" \
-    -e "VERSION_NAME=$pkgVersionQaPrefix$pkgVersion" \
-    -v `pwd`/build:/source \
-    dopplerrelay/doppler-relay-akamai-publish
+    docker build --pull \
+        -t darosw/doppler-webapp:$environment \
+        -t darosw/doppler-webapp:$environment-$versionMayor \
+        -t darosw/doppler-webapp:$environment-$versionMinor \
+        -t darosw/doppler-webapp:$environment-$versionPatch \
+        -t darosw/doppler-webapp:$environment-$versionFull \
+        --build-arg environment=$environment \
+        --build-arg cdnBaseUrl=$cdnBaseUrl \
+        --build-arg pkgVersion=$pkgVersion \
+        --build-arg versionFull=$versionFull \
+        --build-arg pkgBuild=$pkgBuild \
+        --build-arg pkgCommitId=$pkgCommitId \
+        --build-arg cdn_hostname=$AKAMAI_CDN_HOSTNAME \
+        --build-arg cdn_username=$AKAMAI_CDN_USERNAME \
+        --build-arg cdn_password=$AKAMAI_CDN_PASSWORD \
+        --build-arg cdn_cpcode=$AKAMAI_CDN_CPCODE \
+        -f Dockerfile.RELEASES \
+        .
 
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl int $versionFull $pkgBuild $pkgCommitId
-docker run --rm \
-    -e AKAMAI_CDN_HOSTNAME \
-    -e AKAMAI_CDN_USERNAME \
-    -e AKAMAI_CDN_PASSWORD \
-    -e AKAMAI_CDN_CPCODE \
-    -e "PROJECT_NAME=$pkgName" \
-    -e "VERSION_NAME=$pkgVersionIntPrefix$pkgVersion" \
-    -v `pwd`/build:/source \
-    dopplerrelay/doppler-relay-akamai-publish
-
-sh ./build-w-docker.sh $pkgVersion $cdnBaseUrl development $versionFull $pkgBuild $pkgCommitId
-docker run --rm \
-    -e AKAMAI_CDN_HOSTNAME \
-    -e AKAMAI_CDN_USERNAME \
-    -e AKAMAI_CDN_PASSWORD \
-    -e AKAMAI_CDN_CPCODE \
-    -e "PROJECT_NAME=$pkgName" \
-    -e "VERSION_NAME=$pkgVersionDevelopmentPrefix$pkgVersion" \
-    -v `pwd`/build:/source \
-    dopplerrelay/doppler-relay-akamai-publish
+    # TODO: change by:
+    # docker push docker.pkg.github.com/fromdoppler/doppler-webapp/doppler-webapp
+    docker push darosw/doppler-webapp:$environment
+    docker push darosw/doppler-webapp:$environment-$versionMayor
+    docker push darosw/doppler-webapp:$environment-$versionMinor
+    docker push darosw/doppler-webapp:$environment-$versionPatch
+    docker push darosw/doppler-webapp:$environment-$versionFull
+done
