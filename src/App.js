@@ -12,6 +12,7 @@ import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
 import RedirectWithQuery from './components/RedirectWithQuery';
 import { Helmet } from 'react-helmet';
 import { availableLanguageOrNull } from './i18n/utils';
+import Shopify from './components/Integrations/Shopify/Shopify';
 
 class App extends Component {
   /**
@@ -90,6 +91,7 @@ class App extends Component {
               <RedirectToLegacyUrl to="/Campaigns/Draft" />
             </Route>
             <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
+            <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
             <PublicRouteWithLegacyFallback exact path="/login" />
             <PublicRouteWithLegacyFallback exact path="/signup" />
             <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
