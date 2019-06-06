@@ -24,45 +24,26 @@ const LanguageSelector = ({
 
   return (
     <div className="dp-c-dropdown language-selector">
-      {lang === 'es' ? (
-        <>
-          <button
-            className="lang--es"
-            id="menubutton"
-            aria-haspopup="true"
-            aria-controls="menu2"
-            ref={languageDropdown}
+      <button
+        className={'lang--' + lang}
+        id="menubutton"
+        aria-haspopup="true"
+        aria-controls="menu2"
+        ref={languageDropdown}
+      >
+        {lang.toLocaleUpperCase()}
+      </button>
+      <ul id="menu2" role="menu" aria-labelledby="menubutton">
+        <li role="none">
+          <Link
+            to={'?lang=' + (lang === 'en' ? 'es' : 'en')}
+            className={'lang--' + (lang === 'en' ? 'es' : 'en')}
+            role="menuitem"
           >
-            ES
-          </button>
-          <ul id="menu2" role="menu" aria-labelledby="menubutton">
-            <li role="none">
-              <Link to="?lang=en" className="lang--en" role="menuitem">
-                EN
-              </Link>
-            </li>
-          </ul>
-        </>
-      ) : (
-        <>
-          <button
-            className="lang--en"
-            id="menubutton"
-            aria-haspopup="true"
-            aria-controls="menu2"
-            ref={languageDropdown}
-          >
-            EN
-          </button>
-          <ul id="menu2" role="menu" aria-labelledby="menubutton">
-            <li role="none">
-              <Link to="?lang=es" className="lang--es" role="menuitem">
-                ES
-              </Link>
-            </li>
-          </ul>
-        </>
-      )}
+            {lang === 'en' ? 'ES' : 'EN'}
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 };
