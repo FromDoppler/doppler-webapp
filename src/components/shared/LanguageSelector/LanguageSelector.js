@@ -1,18 +1,24 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
+import { InjectAppServices } from '../../../services/pure-di';
 
 /**
  * LanguageSelector
  * @param { Object } props
  * @param { import('react-intl').InjectedIntl } props.intl
  */
-const LanguageSelector = ({ intl }) => {
+const LanguageSelector = ({
+  intl,
+  dependencies: {
+    window: { Menubutton },
+  },
+}) => {
   const lang = intl.locale;
   const languageDropdown = useRef(null);
 
   useEffect(() => {
-    const menubutton = new window.Menubutton(languageDropdown.current);
+    const menubutton = new Menubutton(languageDropdown.current);
     menubutton.init();
   }, [languageDropdown]);
 
@@ -61,4 +67,4 @@ const LanguageSelector = ({ intl }) => {
   );
 };
 
-export default injectIntl(LanguageSelector);
+export default InjectAppServices(injectIntl(LanguageSelector));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait } from 'react-testing-library';
+import { render, cleanup } from 'react-testing-library';
 import 'jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
@@ -48,6 +48,10 @@ const RouterInspector = withRouter(({ match, location, history, target }) => {
   return null;
 });
 
+class MenubuttonFake {
+  init() {}
+}
+
 describe('App component', () => {
   afterEach(cleanup);
 
@@ -56,6 +60,9 @@ describe('App component', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       // Act
@@ -75,6 +82,9 @@ describe('App component', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       // Act
@@ -94,6 +104,9 @@ describe('App component', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       // Act
@@ -113,6 +126,9 @@ describe('App component', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       // Act
@@ -134,6 +150,9 @@ describe('App component', () => {
       const dependencies = {
         appSessionRef: appSessionRef,
         sessionManager: createDoubleSessionManager(appSessionRef),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       const { getByText, container } = render(
@@ -323,6 +342,9 @@ describe('App component', () => {
         const dependencies = {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
+          window: {
+            Menubutton: MenubuttonFake,
+          },
         };
 
         const currentRouteState = {};
@@ -367,6 +389,9 @@ describe('App component', () => {
       it('should not be redirected after open /login', () => {
         const dependencies = {
           sessionManager: createDoubleSessionManager(),
+          window: {
+            Menubutton: MenubuttonFake,
+          },
         };
 
         const currentRouteState = {};
@@ -420,6 +445,9 @@ describe('App component', () => {
         const dependencies = {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
+          window: {
+            Menubutton: MenubuttonFake,
+          },
         };
 
         const currentRouteState = {};
@@ -583,6 +611,9 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       // Act
@@ -609,6 +640,9 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       const oldValue = 'old value';
@@ -634,6 +668,9 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       const oldValue = 'old value';
@@ -659,6 +696,9 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
+        window: {
+          Menubutton: MenubuttonFake,
+        },
       };
 
       // Act
