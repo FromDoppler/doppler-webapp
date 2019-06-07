@@ -422,7 +422,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async activateSiteTrackingTrial() {
-    const response = await this.axios.get('/WebApp/ActivateSiteTrackingTrial');
+    const response = await this.axios.post('/WebApp/EnableSiteTrackingTrial');
     if (!response || !response.data) {
       throw new Error('Empty Doppler response');
     }
