@@ -6,6 +6,7 @@ import Login from './Login/Login';
 import Signup from './Signup/Signup';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import RedirectToExternalUrl from './RedirectToExternalUrl';
+import Helmet from 'react-helmet';
 
 const pagesByPath = {
   '/login': {
@@ -79,38 +80,43 @@ function PublicRouteWithLegacyFallback({
   }
 
   return (
-    <Route
-      {...rest}
-      render={(props) => {
-        const forceWebapp = /[?&]force-webapp(&.*)?$/.test(props.location.search);
-        const forceLegacy = /[?&]force-legacy(&.*)?$/.test(props.location.search);
+    <>
+      <Helmet>
+        <body className="showZohoTitleDiv" />
+      </Helmet>
+      <Route
+        {...rest}
+        render={(props) => {
+          const forceWebapp = /[?&]force-webapp(&.*)?$/.test(props.location.search);
+          const forceLegacy = /[?&]force-legacy(&.*)?$/.test(props.location.search);
 
-        if (forceWebapp || (!forceLegacy && (!useLegacy || !useLegacy[page.name]))) {
-          const Component = page.webAppComponent;
-          return <Component {...props} />;
-        }
+          if (forceWebapp || (!forceLegacy && (!useLegacy || !useLegacy[page.name]))) {
+            const Component = page.webAppComponent;
+            return <Component {...props} />;
+          }
 
-        const redirectionData = page.legacyRedirectDataResolver(props, location);
+          const redirectionData = page.legacyRedirectDataResolver(props, location);
 
-        // TODO: improve this parsing code and logic
-        // TODO: consider send language, lang and id parameters based on current locale
-        if (
-          props.location.search &&
-          props.location.search.length &&
-          props.location.search[0] === '?'
-        ) {
-          const currentParameters = props.location.search.substring(1);
-          redirectionData.parameters.push(currentParameters);
-        }
+          // TODO: improve this parsing code and logic
+          // TODO: consider send language, lang and id parameters based on current locale
+          if (
+            props.location.search &&
+            props.location.search.length &&
+            props.location.search[0] === '?'
+          ) {
+            const currentParameters = props.location.search.substring(1);
+            redirectionData.parameters.push(currentParameters);
+          }
 
-        const parametersString = redirectionData.parameters.filter((x) => !!x).join('&');
-        const destinationUrl =
-          `${dopplerLegacyUrl}${redirectionData.page}` +
-          (parametersString && '?' + parametersString);
+          const parametersString = redirectionData.parameters.filter((x) => !!x).join('&');
+          const destinationUrl =
+            `${dopplerLegacyUrl}${redirectionData.page}` +
+            (parametersString && '?' + parametersString);
 
-        return <RedirectToExternalUrl to={destinationUrl} />;
-      }}
-    />
+          return <RedirectToExternalUrl to={destinationUrl} />;
+        }}
+      />
+    </>
   );
 }
 
