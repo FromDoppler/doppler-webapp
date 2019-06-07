@@ -34,3 +34,12 @@
 .grecaptcha-badge {
   visibility: hidden;
 }
+
+/*Zoho styles*/
+#titlediv {
+  visibility: hidden;
+}
+
+.showZohoTitleDiv #titlediv {
+  visibility: visible;
+}
