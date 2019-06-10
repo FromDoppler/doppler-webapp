@@ -9,7 +9,21 @@ const Header = ({ userData: { user, nav, alert } }) => {
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}
       {/* //TODO: Refactor backend to send proper active values. Class 'header-is-active' must be removed */}
-      <header className="header-main header-open">
+      <header
+        className={
+          user.clientManager ? 'header-main header-open dp-header--cm' : 'header-main header-open'
+        }
+      >
+        {user.clientManager ? (
+          <div className="dp-logo--cm">
+            {user.clientManager.logo ? (
+              <img src={user.clientManager.logo} />
+            ) : (
+              <span>{user.clientManager.companyName}</span>
+            )}
+          </div>
+        ) : null}
+
         <div className="header-wrapper">
           <div className="logo">
             <span className="ms-icon icon-doppler-logo" />

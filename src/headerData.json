@@ -120,6 +120,10 @@
       "remainingCredits": "1422100",
       "buttonText": "UPGRADE"
     },
+    "clientManager": {
+      "logo": "https://via.placeholder.com/180x50",
+      "companyName": "YourCompanyName"
+    },
     "lang": "en",
     "avatar": {
       "text": "CB",
