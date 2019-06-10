@@ -1,3 +1,28 @@
+@media (max-width: 480px) {
+  .zsiq_theme1.zsiq_floatmain.siq_bR .zsiq_flt_rel {
+    width: 50px;
+    height: 50px;
+  }
+
+  .zsiq_theme1.zsiq_floatmain.siq_bR {
+    bottom: 15px;
+    right: 5px;
+  }
+
+  .zsiq_floatmain.siq_bR .zsiq_cnt {
+    visibility: hidden !important;
+  }
+
+  .zsiq_theme1.zsiq_floatmain.siq_bR .zsiq_flt_rel .siqico-chat:before {
+    font-size: 23px;
+    line-height: 50px;
+  }
+  
+  body .zsiq-mobhgt[embedtheme].siqembed {
+    height: 60% !important;
+  }
+}
+
 .zsiq_floatmain.siq_bR {
   bottom: 56px;
   right: 40px;
