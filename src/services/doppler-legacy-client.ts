@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { Color } from 'csstype';
+import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 
 export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
@@ -11,17 +12,6 @@ export interface DopplerLegacyClient {
   activateSiteTrackingTrial(): Promise<void>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
 }
-
-// TODO: move it a common place if it will be reused
-type UnexpectedError = { success?: false; message?: string | null; error?: any };
-type ErrorResult<TError> = { success?: false; expectedError: TError } | UnexpectedError;
-type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
-type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
-// It does not work:
-// type EmptyResult = { success: true } | UnexpectedError;
-// Duplicate identifier 'EmptyResult'.ts(2300)
-// TODO: Research how to fix it and rename EmptyResultWithoutExpectedErrors as EmptyResult
-type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedError;
 
 interface PayloadWithCaptchaToken {
   captchaResponseToken: string;
