@@ -7,13 +7,22 @@ const shopifyClient = new HardcodedShopifyClient();
 
 const Shopify = () => {
   const [shopName, setShopName] = useState(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
-      if (result.length) {
-        setShopName(result[0].shopName);
-      } else {
+      if (result.success && result.value.length) {
+        setShopName(result.value[0].shopName);
+      } else if (result.success) {
         setShopName('');
+      } else if (
+        !result.success &&
+        result.expectedError &&
+        result.expectedError.cannotConnectToAPI
+      ) {
+        setError('Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego.');
+      } else {
+        setError('Error: Error inesperado.');
       }
     };
     getData();
@@ -27,12 +36,14 @@ const Shopify = () => {
       <section style={{ width: '100%', padding: '60px 30px' }}>
         Panel de control | Integraciones y preferencias avanzadas
         <h1>Panel de Control - Shopify</h1>
-        {shopName === null ? (
+        {shopName === null && error === null ? (
           <Loading />
-        ) : shopName.length ? (
+        ) : shopName !== null && shopName.length ? (
           'Shopify conectado a tienda: ' + shopName
-        ) : (
+        ) : error === null ? (
           'Shopify desconectado'
+        ) : (
+          error
         )}
       </section>
     </>

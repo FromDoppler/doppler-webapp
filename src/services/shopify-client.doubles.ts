@@ -1,5 +1,11 @@
-import { ShopifyClient, SubscriberListState, ConnectedShops } from './shopify-client';
+import {
+  ShopifyClient,
+  SubscriberListState,
+  ConnectedShop,
+  ShopifyErrorResult,
+} from './shopify-client';
 import { timeout } from '../utils';
+import { Result } from '../doppler-types';
 
 const fakeData = [
   {
@@ -15,9 +21,11 @@ const fakeData = [
 ];
 
 export class HardcodedShopifyClient implements ShopifyClient {
-  public async getShopifyData(): Promise<ConnectedShops[]> {
+  public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
     console.log('getShopifyData');
     await timeout(1500);
-    return fakeData;
+    //return {success: false, message: 'Some random error'};
+    //return {success: false, expectedError: {cannotConnectToAPI: true}};
+    return { success: true, value: fakeData };
   }
 }

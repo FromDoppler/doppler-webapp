@@ -1,3 +1,4 @@
+import { Result } from '../doppler-types';
 export enum SubscriberListState {
   ready,
   synchronizingContacts,
@@ -10,12 +11,13 @@ export interface SubscriberList {
   state: SubscriberListState;
 }
 
-export interface ConnectedShops {
+export interface ConnectedShop {
   shopName: string;
   synchronization_date: Date | null;
   list: SubscriberList;
 }
 
+export type ShopifyErrorResult = { cannotConnectToAPI: true };
 export interface ShopifyClient {
-  getShopifyData(): Promise<ConnectedShops[]>;
+  getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>>;
 }
