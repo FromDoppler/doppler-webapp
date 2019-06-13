@@ -17,7 +17,7 @@ const Header = ({ userData: { user, nav, alert } }) => {
         {user.clientManager ? (
           <div className="dp-logo--cm">
             {user.clientManager.logo ? (
-              <img src={user.clientManager.logo} />
+              <img alt="" src={user.clientManager.logo} />
             ) : (
               <span>{user.clientManager.companyName}</span>
             )}
