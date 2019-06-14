@@ -11,6 +11,7 @@ export interface DopplerLegacyClient {
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
   activateSiteTrackingTrial(): Promise<void>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
+  getBannerData(lang: string, type: string, page: string): Promise<any>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -174,6 +175,24 @@ export interface DopplerLegacyUserData {
   features: DopplerFeatures;
 }
 /* #endregion */
+
+export interface Promotions {
+  title: string;
+  functionality: string;
+  description: string;
+  imageUrl: string;
+  backgroundUrl: string;
+}
+
+export function mapPromotionsJson(json: any): Promotions {
+  return {
+    title: json.title,
+    functionality: json.functionality,
+    description: json.description,
+    imageUrl: json.image_url,
+    backgroundUrl: json.background_url,
+  };
+}
 
 /* #region DopplerLegacyUserData mappings */
 function mapPlanEntry(json: any): PlanEntry {
@@ -447,5 +466,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         error: error,
       };
     }
+  }
+
+  public async getBannerData(lang: string, type: string, page?: string | null) {
+    const response = await this.axios.get(
+      `https://qa.fromdoppler.com/wp-json/doppler2019/v1/getbanner?filter[lang]=${lang}&filter[type]=${type}&filter[page]=${page || ''}`,
+    );
+    if (!response || !response.data) {
+      throw new Error('Empty Site response');
+    }
+    return mapHeaderDataJson(response.data);
   }
 }
