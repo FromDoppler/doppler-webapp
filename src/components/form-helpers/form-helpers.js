@@ -141,14 +141,21 @@ export const FormErrors = connect(
    * @param { Object } props
    * @param { import('formik').FormikProps<Values> } props.formik
    */
-  ({ formik: { errors } }) =>
-    errors && errors['_general'] ? (
-      <div className="form-message dp-error bounceIn">
+  ({ formik: { errors } }) => {
+    const formError =
+      errors && errors['_general']
+        ? { message: errors['_general'], className: 'dp-error' }
+        : errors && errors['_generalWarning']
+        ? { message: errors['_generalWarning'], className: 'dp-warning-message' }
+        : null;
+    return formError ? (
+      <div className={`form-message bounceIn ${formError.className}`}>
         <div>
-          <ErrorMessage error={errors['_general']} />
+          <ErrorMessage error={formError.message} />
         </div>
       </div>
-    ) : null,
+    ) : null;
+  },
 );
 
 const ErrorMessage = injectIntl(({ intl, error }) =>
