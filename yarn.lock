@@ -954,13 +954,13 @@
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-2.2.0.tgz#ee9d5a09c9969eade1ec864776aeda5c5cddbbf0"
   integrity sha512-9Tj/qn+y2j+sjCI3Jd+qseGtHjOAeg7dU2/lVcqIQ9TV3QDaDXDYXcoOHU+7o2Hwh8L8ymL4gfuO7KxDs3q2zg==
 
-"@semantic-release/exec@^3.3.2":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@semantic-release/exec/-/exec-3.3.2.tgz#33fb6001ddeaed4364975fa981bfd7306db7eabb"
-  integrity sha512-CzJnsTXYKY4LZ16WVEq/bt4OLzoiFf0DymCeMUZ5fthPHDbKprzky4+VIwaSDbRgLVEqRVeUD4gYVmlAeaWNCA==
+"@semantic-release/exec@^3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@semantic-release/exec/-/exec-3.3.3.tgz#5c915d289aa88492bc9f6b6fb62eb94701476005"
+  integrity sha512-cYmQZHlOda8XbGWfdDqQnnxFBAnxYE+heiNQUduAn7y1qRVKTBalXae/hzEucsBI9XK8NKYK55mgLqzzY21YUg==
   dependencies:
     "@semantic-release/error" "^2.1.0"
-    aggregate-error "^2.0.0"
+    aggregate-error "^3.0.0"
     debug "^4.0.0"
     execa "^1.0.0"
     lodash "^4.17.4"
