@@ -85,7 +85,9 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
-        setErrors({ _general: <LoginErrorAccountNotValidated email={values[fieldNames.user]} /> });
+        setErrors({
+          _generalWarning: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
+        });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
           _general: (
