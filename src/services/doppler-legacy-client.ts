@@ -196,7 +196,8 @@ function mapPlanEntry(json: any): PlanEntry {
     pendingFreeUpgrade: (json.pendingFreeUpgrade && JSON.parse(json.pendingFreeUpgrade)) || false,
     planName: json.planName,
     remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
-    isFreeAccount: json.planType == 1 || json.planType == 7,
+    isFreeAccount:
+      json.planType === 1 || json.planType === 7 || json.planType === '1' || json.planType === '7',
   };
 }
 //TODO: Refactor backend to send proper active values

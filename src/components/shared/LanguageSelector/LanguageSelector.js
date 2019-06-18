@@ -20,7 +20,7 @@ const LanguageSelector = ({
   useEffect(() => {
     const menubutton = new Menubutton(languageDropdown.current);
     menubutton.init();
-  }, [languageDropdown]);
+  }, [languageDropdown, Menubutton]);
 
   return (
     <div className="dp-c-dropdown language-selector">

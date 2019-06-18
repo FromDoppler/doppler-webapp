@@ -14,7 +14,7 @@ function RedirectToExternalUrl({
 }) {
   useLayoutEffect(() => {
     location.href = to;
-  }, [to]);
+  }, [to, location]);
   return <></>;
 }
 
