@@ -6,7 +6,7 @@ import Loading from '../../Loading/Loading';
 const shopifyClient = new HardcodedShopifyClient();
 
 const Shopify = () => {
-  const [shopName, setShopName] = useState('');
+  const [shops, setShops] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +16,7 @@ const Shopify = () => {
       const result = await shopifyClient.getShopifyData();
       if (result.success && result.value.length) {
         setIsConnected(true);
-        setShopName(result.value[0].shopName);
+        setShops(result.value);
       } else if (
         !result.success &&
         result.expectedError &&
@@ -42,7 +42,14 @@ const Shopify = () => {
         ) : error ? (
           error
         ) : isConnected ? (
-          'Shopify conectado a tienda: ' + shopName
+          <>
+            <p>Shopify conectado a: </p>
+            <ul>
+              {shops.map((shop) => (
+                <li> {shop.shopName} </li>
+              ))}{' '}
+            </ul>
+          </>
         ) : (
           'Shopify desconectado'
         )}
