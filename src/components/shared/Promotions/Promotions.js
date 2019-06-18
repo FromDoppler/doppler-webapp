@@ -9,14 +9,14 @@ import Loading from '../../Loading/Loading';
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Promotions = function({ intl, type, page, dependencies: { dopplerLegacyClient } }) {
+const Promotions = function({ intl, type, page, dependencies: { dopplerSitesClient } }) {
   const [bannerData, setBannerData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const bannerData = await dopplerLegacyClient.getBannerData(intl.locale, type, page || '');
+      const bannerData = await dopplerSitesClient.getBannerData(intl.locale, type, page || '');
       setBannerData(bannerData);
       setIsLoading(false);
     };

@@ -9,7 +9,6 @@ import {
   ResendRegistrationModel,
   ForgotPasswordModel,
   ForgotPasswordResult,
-  mapPromotionsJson,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -117,16 +116,4 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     return { success: true };
   }
 
-  public async getBannerData(lang: string, type: string, page: string) {
-    console.log('getBannerData');
-    const response = {
-      title: 'mi funcionalidad',
-      functionality: 'mi funcionalidad',
-      description: 'mi descripcion',
-      image_url: 'https://qa.fromdoppler.com/wp-content/uploads/2019/06/login-es.746bf048.png',
-      background_url: 'https://qa.fromdoppler.com/wp-content/uploads/2019/06/violet-yellow.png',
-    };
-    await timeout(1500);
-    return mapPromotionsJson(response);
-  }
 }

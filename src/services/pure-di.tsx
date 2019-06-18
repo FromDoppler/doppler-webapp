@@ -6,10 +6,12 @@ import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
 import { ShopifyClient } from './shopify-client';
+import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { HardcodedShopifyClient } from './shopify-client.doubles';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
+  dopplerSitesUrl: string;
   datahubUrl: string;
   dopplerLegacyKeepAliveMilliseconds: number;
   recaptchaPublicKey: string;
@@ -34,6 +36,7 @@ export interface AppServices {
   localStorage: Storage;
   originResolver: OriginResolver;
   shopifyClient: ShopifyClient;
+  dopplerSitesClient: DopplerSitesClient;
 }
 
 /**
@@ -67,6 +70,7 @@ export class AppCompositionRoot implements AppServices {
   get appConfiguration() {
     return this.singleton('appConfiguration', () => ({
       dopplerLegacyUrl: process.env.REACT_APP_DOPPLER_LEGACY_URL as string,
+      dopplerSitesUrl: process.env.REACT_APP_DOPPLER_SITES_URL as string,
       datahubUrl: process.env.REACT_APP_DATAHUB_URL as string,
       recaptchaPublicKey: process.env.REACT_APP_RECAPTCHA_PUBLIC_KEY as string,
       dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
@@ -98,6 +102,17 @@ export class AppCompositionRoot implements AppServices {
         new HttpDopplerLegacyClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerLegacyUrl,
+        }),
+    );
+  }
+
+  get dopplerSitesClient() {
+    return this.singleton(
+      'dopplerSitesClient',
+      () =>
+        new HttpDopplerSitesClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerSitesUrl
         }),
     );
   }

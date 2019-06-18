@@ -10,6 +10,7 @@ import ReactGA from 'react-ga';
 // Only used in development environment, it does not affect production build
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
 import { HardcodedDatahubClient } from './services/datahub-client.doubles';
+import { HardcodedDopplerSitesClient } from './services/doppler-sites-client.doubles';
 import { polyfill } from 'es6-object-assign';
 import 'polyfill-array-includes';
 import 'promise-polyfill/src/polyfill';
@@ -29,6 +30,7 @@ const forcedServices =
   process.env.NODE_ENV === 'development'
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
+        dopplerSitesClient: new HardcodedDopplerSitesClient(),
         datahubClient: new HardcodedDatahubClient(),
         shopifyClient: new HardcodedShopifyClient(),
       }
