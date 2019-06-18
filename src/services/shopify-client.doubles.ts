@@ -27,5 +27,6 @@ export class HardcodedShopifyClient implements ShopifyClient {
     //return {success: false, message: 'Some random error'};
     //return {success: false, expectedError: {cannotConnectToAPI: true}};
     return { success: true, value: fakeData };
+    //return { success: true, value:[]};
   }
 }
