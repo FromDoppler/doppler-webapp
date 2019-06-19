@@ -14,6 +14,7 @@ import { polyfill } from 'es6-object-assign';
 import 'polyfill-array-includes';
 import 'promise-polyfill/src/polyfill';
 import { availableLanguageOrDefault } from './i18n/utils';
+import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 
 polyfill();
 
@@ -29,6 +30,7 @@ const forcedServices =
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
         datahubClient: new HardcodedDatahubClient(),
+        shopifyClient: new HardcodedShopifyClient()
       }
     : {};
 

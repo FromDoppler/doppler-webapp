@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { HardcodedShopifyClient } from '../../../services/shopify-client.doubles';
 import Loading from '../../Loading/Loading';
+import {InjectAppServices} from '../../../services/pure-di'
 
-const shopifyClient = new HardcodedShopifyClient();
-
-const Shopify = () => {
+const Shopify = ({dependencies: {shopifyClient} }) => {
   const [shops, setShops] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState(null);
@@ -58,4 +56,4 @@ const Shopify = () => {
   );
 };
 
-export default Shopify;
+export default InjectAppServices(Shopify);
