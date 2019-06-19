@@ -239,6 +239,16 @@ const PasswordWrapper = connect(
   },
 );
 
+// This function is here, in global scope, to allow reusing without breaking dependencies of useEffect.
+// See https://reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functions-from-the-list-of-dependencies
+const _formatFieldValueAsInternationalNumber = (iti, fieldName, setFieldValue) => {
+  if (iti.isValidNumber()) {
+    // It updates the value with international number
+    // If we do not do it, we need to ensure to read intlTelInputRef value before submitting
+    setFieldValue(fieldName, iti.getNumber(1));
+  }
+};
+
 /**
  * Phone Field Item Component
  * @param { Object } props - props
@@ -263,14 +273,8 @@ const _PhoneFieldItem = ({
   const inputElRef = useRef(null);
   const intlTelInputRef = useRef(null);
 
-  const formatFieldValueAsInternationalNumber = () => {
-    const iti = intlTelInputRef.current;
-    if (iti.isValidNumber()) {
-      // It updates the value with international number
-      // If we do not do it, we need to ensure to read intlTelInputRef value before submitting
-      setFieldValue(fieldName, iti.getNumber(1));
-    }
-  };
+  const formatFieldValueAsInternationalNumber = () =>
+    _formatFieldValueAsInternationalNumber(intlTelInputRef.current, fieldName, setFieldValue);
 
   const validatePhone = (value) => {
     if (!value) {
@@ -308,13 +312,11 @@ const _PhoneFieldItem = ({
     });
     inputElRef.current.addEventListener('countrychange', handleChange);
     intlTelInputRef.current = iti;
-    // It is to force international number on reload by language change, in another case
-    // it uses national mode because of nationalMode
-    formatFieldValueAsInternationalNumber();
+    _formatFieldValueAsInternationalNumber(iti, fieldName, setFieldValue);
     return () => {
       iti.destroy();
     };
-  }, [intl.locale]);
+  }, [intl.locale, handleChange, fieldName, setFieldValue]);
 
   return (
     <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>

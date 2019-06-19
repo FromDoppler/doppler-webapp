@@ -1,4 +1,4 @@
-import { DopplerLegacyClient, DopplerLegacyUserData } from './doppler-legacy-client';
+import { DopplerLegacyClient } from './doppler-legacy-client';
 import { AppSession } from './app-session';
 import { MutableRefObject } from 'react';
 

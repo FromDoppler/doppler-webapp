@@ -3,7 +3,6 @@ import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-c
 import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
-import { HardcodedDatahubClient } from './datahub-client.doubles';
 import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
 
