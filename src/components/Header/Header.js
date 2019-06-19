@@ -4,14 +4,20 @@ import HeaderMessages from './HeaderMessages/HeaderMessages';
 import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
 
-const Header = ({ userData: { user, nav, alert } }) => {
+const Header = ({ userData: { user, nav, alert }, location: {pathname} }) => {
+  const inactiveSection = pathname.match(/^\/integrations\/*/) !== null; 
   return (
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}
       {/* //TODO: Refactor backend to send proper active values. Class 'header-is-active' must be removed */}
       <header
         className={
-          user.clientManager ? 'header-main header-open dp-header--cm' : 'header-main header-open'
+          'header-main' +
+          (!inactiveSection
+            ? user.clientManager
+              ? ' header-open dp-header--cm'
+              : ' header-open'
+            : '')
         }
       >
         {user.clientManager ? (
@@ -28,7 +34,7 @@ const Header = ({ userData: { user, nav, alert } }) => {
           <div className="logo">
             <span className="ms-icon icon-doppler-logo" />
           </div>
-          <HeaderNav nav={nav} />
+          <HeaderNav nav={nav} inactiveSection={inactiveSection} />
           <nav className="nav-right-main">
             <ul className="nav-right-main--list">
               <li>

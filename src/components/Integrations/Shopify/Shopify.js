@@ -46,7 +46,7 @@ const Shopify = () => {
             <p>Shopify conectado a: </p>
             <ul>
               {shops.map((shop) => (
-                <li> {shop.shopName} </li>
+                <li key={shop.shopName}> {shop.shopName} </li>
               ))}{' '}
             </ul>
           </>
