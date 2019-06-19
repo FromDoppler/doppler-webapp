@@ -6,7 +6,7 @@ type CaptchaUtils = Readonly<
   [
     (props: any) => JSX.Element,
     () => Promise<CaptchaVerificationResult>,
-    React.RefObject<ReCAPTCHA>
+    React.RefObject<ReCAPTCHA>,
   ]
 >;
 
