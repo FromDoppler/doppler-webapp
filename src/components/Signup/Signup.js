@@ -226,15 +226,22 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           </p>
         </footer>
       </article>
-      <section className="feature-panel bg--signup">
-        <article className="feature-content">
-          <h6>{_('feature_panel.email_automation')}</h6>
-          <h1>{_('feature_panel.email_automation_description')}</h1>
-          <p>{_('feature_panel.email_automation_remarks')}</p>
-        </article>
-        <figure className="content-img">
-          <img src={_('signup.image_path')} alt="Automation" />
-        </figure>
+      <section className="feature-panel">
+        <div
+          className="feature-panel--bg"
+          style={{
+            backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
+          }}
+        >
+          <article className="feature-content">
+            <h6>{_('feature_panel.email_automation')}</h6>
+            <h1>{_('feature_panel.email_automation_description')}</h1>
+            <p>{_('feature_panel.email_automation_remarks')}</p>
+          </article>
+          <figure className="content-img">
+            <img src={_('signup.image_path')} alt="Automation" />
+          </figure>
+        </div>
       </section>
     </main>
   );

@@ -202,15 +202,22 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </p>
         </footer>
       </article>
-      <section className="feature-panel bg--login">
-        <article className="feature-content">
-          <h6>{_('feature_panel.forms')}</h6>
-          <h1>{_('feature_panel.forms_description')}</h1>
-          <p>{_('feature_panel.forms_remarks')}</p>
-        </article>
-        <figure className="content-img">
-          <img src={_('login.image_path')} alt="Subscription Forms" />
-        </figure>
+      <section className="feature-panel">
+        <div
+          className="feature-panel--bg"
+          style={{
+            backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
+          }}
+        >
+          <article className="feature-content">
+            <h6>{_('feature_panel.forms')}</h6>
+            <h1>{_('feature_panel.forms_description')}</h1>
+            <p>{_('feature_panel.forms_remarks')}</p>
+          </article>
+          <figure className="content-img">
+            <img src={_('login.image_path')} alt="Subscription Forms" />
+          </figure>
+        </div>
       </section>
     </main>
   );
