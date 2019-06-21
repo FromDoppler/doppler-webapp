@@ -103,11 +103,7 @@ export class AppCompositionRoot implements AppServices {
   }
 
   get shopifyClient() {
-    return this.singleton(
-      'shopifyClient',
-      () =>
-        new HardcodedShopifyClient(),
-    );
+    return this.singleton('shopifyClient', () => new HardcodedShopifyClient());
   }
 
   get sessionManager() {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
-import {InjectAppServices} from '../../../services/pure-di'
+import { InjectAppServices } from '../../../services/pure-di';
 
-const Shopify = ({dependencies: {shopifyClient} }) => {
+const Shopify = ({ dependencies: { shopifyClient } }) => {
   const [shops, setShops] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState(null);
@@ -38,7 +38,7 @@ const Shopify = ({dependencies: {shopifyClient} }) => {
         {isLoading ? (
           <Loading />
         ) : error ? (
-          error
+          <p>{error}</p>
         ) : isConnected ? (
           <>
             <p>Shopify conectado a: </p>
@@ -49,7 +49,7 @@ const Shopify = ({dependencies: {shopifyClient} }) => {
             </ul>
           </>
         ) : (
-          'Shopify desconectado'
+          <p>Shopify desconectado</p>
         )}
       </section>
     </>

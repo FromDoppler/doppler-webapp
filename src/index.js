@@ -30,7 +30,7 @@ const forcedServices =
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
         datahubClient: new HardcodedDatahubClient(),
-        shopifyClient: new HardcodedShopifyClient()
+        shopifyClient: new HardcodedShopifyClient(),
       }
     : {};
 

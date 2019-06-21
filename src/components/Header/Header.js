@@ -4,8 +4,8 @@ import HeaderMessages from './HeaderMessages/HeaderMessages';
 import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
 
-const Header = ({ userData: { user, nav, alert }, location: {pathname} }) => {
-  const inactiveSection = pathname.match(/^\/integrations\/*/) !== null; 
+const Header = ({ userData: { user, nav, alert }, location: { pathname } }) => {
+  const inactiveSection = pathname.match(/^\/integrations\/*/) !== null;
   return (
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}

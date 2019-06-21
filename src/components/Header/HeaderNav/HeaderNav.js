@@ -11,10 +11,13 @@ const HeaderNav = ({ nav, inactiveSection }) => {
                 {item.title}
               </a>
               {item.subNav.length ? (
-                <ul className={'sub-menu' + (item.isSelected && !inactiveSection  ? ' open' : '')}>
+                <ul className={'sub-menu' + (item.isSelected && !inactiveSection ? ' open' : '')}>
                   {item.subNav.map((itemSubNav, index) => (
                     <li key={index}>
-                      <a className={itemSubNav.isSelected && !inactiveSection ? 'active' : ''} href={itemSubNav.url}>
+                      <a
+                        className={itemSubNav.isSelected && !inactiveSection ? 'active' : ''}
+                        href={itemSubNav.url}
+                      >
                         {itemSubNav.title}
                       </a>
                     </li>
