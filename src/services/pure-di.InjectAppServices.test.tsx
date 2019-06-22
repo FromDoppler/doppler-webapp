@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppCompositionRoot, AppServicesProvider, InjectAppServices } from './pure-di';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup } from '@testing-library/react';
 
 describe('Component with injected services', () => {
   const TestComponentWithInjectedServices = InjectAppServices(

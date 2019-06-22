@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import HeaderUserMenu from './HeaderUserMenu';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -29,14 +29,14 @@ describe('Header user menu', () => {
   afterEach(cleanup);
 
   it('renders user menu and display user data', () => {
-    const { getByText } = render(
+    const { getByText, getAllByText } = render(
       <IntlProvider>
         <HeaderUserMenu user={userData} />
       </IntlProvider>,
     );
     expect(getByText('John Miller')).toBeInTheDocument();
     expect(getByText('john@doppler.com')).toBeInTheDocument();
-    expect(getByText('JM')).toBeInTheDocument();
+    expect(getAllByText('JM')).toHaveLength(2);
     expect(getByText('Panel de Control')).toBeInTheDocument();
   });
 

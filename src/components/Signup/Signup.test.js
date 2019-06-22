@@ -1,6 +1,6 @@
 import React from 'react';
 import Signup from './Signup';
-import { render, cleanup, waitForDomChange } from 'react-testing-library';
+import { render, cleanup, waitForDomChange } from '@testing-library/react';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
