@@ -27,7 +27,7 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
       setIsLoading(false);
     };
     getData();
-  }, []);
+  }, [shopifyClient]);
 
   return (
     <>

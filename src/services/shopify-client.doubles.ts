@@ -20,7 +20,7 @@ const oneShop = [
   },
 ];
 
-const twoShops = [
+/*const twoShops = [
   {
     shopName: 'myshop.com',
     synchronization_date: new Date('2017-12-17'),
@@ -41,7 +41,7 @@ const twoShops = [
       state: SubscriberListState.ready,
     },
   },
-];
+];*/
 
 export class HardcodedShopifyClient implements ShopifyClient {
   public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange, wait, act } from 'react-testing-library';
+import { render, cleanup, waitForDomChange } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
