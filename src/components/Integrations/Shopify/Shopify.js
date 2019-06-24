@@ -12,17 +12,13 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
   useEffect(() => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
-      if (result.success && result.value.length) {
-        setIsConnected(true);
-        setShops(result.value);
-      } else if (
-        !result.success &&
-        result.expectedError &&
-        result.expectedError.cannotConnectToAPI
-      ) {
+      if (result.expectedError && result.expectedError.cannotConnectToAPI) {
         setError('Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego.');
       } else if (!result.success) {
         setError('Error: Error inesperado.');
+      } else if (result.value.length) {
+        setIsConnected(true);
+        setShops(result.value);
       }
       setIsLoading(false);
     };
@@ -32,6 +28,7 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
   return (
     <>
       <Helmet title={'Doppler | Shopify'} />
+      {/* inline style will be removed in next PR */}
       <section style={{ width: '100%', padding: '60px 30px' }}>
         Panel de control | Integraciones y preferencias avanzadas
         <h1>Panel de Control - Shopify</h1>
