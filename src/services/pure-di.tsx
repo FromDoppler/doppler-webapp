@@ -5,6 +5,8 @@ import React, { createContext, ReactNode, RefObject, MutableRefObject } from 're
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
+import { ShopifyClient } from './shopify-client';
+import { HardcodedShopifyClient } from './shopify-client.doubles';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -31,6 +33,7 @@ export interface AppServices {
   sessionManager: SessionManager;
   localStorage: Storage;
   originResolver: OriginResolver;
+  shopifyClient: ShopifyClient;
 }
 
 /**
@@ -97,6 +100,10 @@ export class AppCompositionRoot implements AppServices {
           baseUrl: this.appConfiguration.dopplerLegacyUrl,
         }),
     );
+  }
+
+  get shopifyClient() {
+    return this.singleton('shopifyClient', () => new HardcodedShopifyClient());
   }
 
   get sessionManager() {

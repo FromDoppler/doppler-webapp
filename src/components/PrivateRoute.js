@@ -32,7 +32,7 @@ export default InjectAppServices(
           <Loading page />
         ) : dopplerSession.status === 'authenticated' ? (
           <>
-            <Header userData={dopplerSession.userData} />
+            <Header userData={dopplerSession.userData} location={props.location} />
             {requireSiteTracking &&
             !dopplerSession.userData.features.siteTrackingEnabled &&
             !dopplerSession.userData.user.plan.isFreeAccount ? (
