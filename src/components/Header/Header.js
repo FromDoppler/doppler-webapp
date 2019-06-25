@@ -5,7 +5,7 @@ import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
 import Notifications from './Notifications';
 
-const Header = ({ userData: { user, nav, alert, notifications }, location: { pathname } }) => {
+const Header = ({ userData: { user, nav, alert, notifications, emptyNotificationText }, location: { pathname } }) => {
   const inactiveSection = pathname.match(/^\/integrations\/*/) !== null;
   return (
     <div>
@@ -39,7 +39,7 @@ const Header = ({ userData: { user, nav, alert, notifications }, location: { pat
           <nav className="nav-right-main">
             <ul className="nav-right-main--list">
               <li>
-                <Notifications plan={user.plan} notifications={notifications} />
+                <Notifications plan={user.plan} notifications={notifications} emptyNotificationText={emptyNotificationText} />
               </li>
               <li>
                 <FormattedMessage id="header.help_url">
