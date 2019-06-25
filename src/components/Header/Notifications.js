@@ -13,12 +13,12 @@ const Notifications = ({ plan /*, notifications*/ }) => {
       </span>
       <div className="user-menu helper--right dp-notifications">
         <div className="dp-msj-notif">
-        {/* revisar si siempre vamos a mostrar las notificaciones */}
-        {!plan.isFreeAccount || !notifications.length ? (
-          <i>{emptyNotificationText}</i>
-        ) : (
-          <div dangerouslySetInnerHTML={{ __html: notifications[0] }} />
-        )}
+          {/* revisar si siempre vamos a mostrar las notificaciones */}
+          {!plan.isFreeAccount || !notifications.length ? (
+            <i>{emptyNotificationText}</i>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: notifications[0] }} />
+          )}
         </div>
       </div>
     </>
