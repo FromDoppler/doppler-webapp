@@ -36,6 +36,7 @@ export default {
     show: `Mostrar`,
   },
   empty_notification_text: `No tienes notificaciones pendientes.`,
+    title: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
   feature_panel: {
     email_automation: `Email Automation`,
     email_automation_description: `Llega con el mensaje adecuado en el momento justo`,

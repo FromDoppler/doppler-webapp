@@ -1,4 +1,9 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
+import {
+  ResultWithoutExpectedErrors,
+  EmptyResult,
+  EmptyResultWithoutExpectedErrors,
+} from '../doppler-types';
 
 export interface DopplerSitesClient {
     getBannerData(lang: string, type: string, page?: string | null): Promise<any>;
@@ -10,6 +15,7 @@ export interface Promotions {
     description: string;
     imageUrl: string;
     backgroundUrl: string;
+  fontColor: string;
 }
 
 export class HttpDopplerSitesClient implements DopplerSitesClient {
@@ -38,6 +44,7 @@ export class HttpDopplerSitesClient implements DopplerSitesClient {
             description: response.description,
             imageUrl: response.image_url,
             backgroundUrl: response.background_url,
+          fontColor: response.font_color,
         };
     }
 }

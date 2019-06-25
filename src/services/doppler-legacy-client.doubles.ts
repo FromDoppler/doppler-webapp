@@ -115,5 +115,4 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await timeout(1500);
     return { success: true };
   }
-
 }
