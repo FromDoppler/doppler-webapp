@@ -5,7 +5,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 
 const Shopify = ({ dependencies: { shopifyClient } }) => {
   const [shops, setShops] = useState([]);
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,6 +18,11 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
         setError('Error: Error inesperado.');
       } else if (result.value.length) {
         setIsConnected(true);
+        setShops(result.value);
+        setError(null);
+      } else {
+        setIsConnected(false);
+        setError(null);
         setShops(result.value);
       }
       setIsLoading(false);
