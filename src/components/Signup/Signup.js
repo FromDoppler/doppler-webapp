@@ -151,7 +151,9 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">
           {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
-          <Link to="/login">{_('signup.log_in')}</Link>
+          <Link to="/login" className="link--title">
+            {_('signup.log_in')}
+          </Link>
         </p>
         <FormWithCaptcha
           className="signup-form"
@@ -233,14 +235,13 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
         </footer>
       </article>
       <Promotions type="signup" page={extractPage(location)} />
-        <div
-          className="feature-panel--bg"
-          style={{
-            backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
+      <div
+        className="feature-panel--bg"
+        style={{
+          backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
             color: `#FFFFFF`,
-          }}
-        >
-        </div>
+        }}
+      ></div>
     </main>
   );
 };

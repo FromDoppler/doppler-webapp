@@ -1,9 +1,5 @@
 import { AxiosInstance, AxiosStatic } from 'axios';
-import {
-  ResultWithoutExpectedErrors,
-  EmptyResult,
-  EmptyResultWithoutExpectedErrors,
-} from '../doppler-types';
+import { ResultWithoutExpectedErrors } from '../doppler-types';
 
 export interface DopplerSitesClient {
     getBannerData(lang: string, type: string, page?: string | null): Promise<any>;

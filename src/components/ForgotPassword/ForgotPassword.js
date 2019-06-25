@@ -151,13 +151,12 @@ const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } 
         </footer>
       </article>
       <Promotions type="login" />
-        <div
-          className="feature-panel--bg"
-          style={{
-            backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
-          }}
-        >
-        </div>
+      <div
+        className="feature-panel--bg"
+        style={{
+          backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
+        }}
+      ></div>
     </main>
   );
 };

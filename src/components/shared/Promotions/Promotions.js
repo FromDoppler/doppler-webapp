@@ -30,7 +30,7 @@ const Promotions = function({ intl, type, page, dependencies: { dopplerSitesClie
 
       fetchData();
     }
-  }, []);
+  }, [defaultBannerData, dopplerSitesClient, page, intl, type]);
 
   return (
     <section className="feature-panel" style={{ position: 'relative' }}>
