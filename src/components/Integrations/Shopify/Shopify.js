@@ -30,29 +30,116 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
     getData();
   }, [shopifyClient]);
 
+  const shopifyHeader = (
+    <>
+      <div className="block">
+        <h2>Panel de Control - Shopify</h2>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur facere velit
+          officia quibusdam perspiciatis impedit veritatis et, ducimus dolorem{' '}
+          <a href="http://fromdoppler.com">corporis</a>.
+        </p>
+      </div>
+      <hr />
+    </>
+  );
+
   return (
     <>
       <Helmet title={'Doppler | Shopify'} />
-      {/* inline style will be removed in next PR */}
-      <section style={{ width: '100%', padding: '60px 30px' }}>
+      {/* inline styles will be removed when breadcrum is ready in ui library */}
+      <section className="page-wrapper" style={{ marginTop: '20px', marginBottom: '20px' }}>
         Panel de control | Integraciones y preferencias avanzadas
-        <h1>Panel de Control - Shopify</h1>
-        {isLoading ? (
-          <Loading />
-        ) : error ? (
-          <p>{error}</p>
-        ) : isConnected ? (
-          <>
-            <p>Shopify conectado a: </p>
-            <ul>
-              {shops.map((shop) => (
-                <li key={shop.shopName}> {shop.shopName} </li>
-              ))}{' '}
-            </ul>
-          </>
-        ) : (
-          <p>Shopify desconectado</p>
-        )}
+        <div className="dp-integration" style={{ marginTop: '20px' }}>
+          {isLoading ? (
+            <>
+              <div className="dp-integration__block">
+                {shopifyHeader}
+                <div className="block"></div>
+              </div>
+              <Loading />
+            </>
+          ) : error ? (
+            <div className="dp-integration__block">
+              {shopifyHeader}
+              <div className="block">
+                <p>{error}</p>
+              </div>
+            </div>
+          ) : isConnected ? (
+            <>
+              <div className="dp-integration__block">
+                {shopifyHeader}
+                <div className="block dp-integration__status">
+                  <div className="status__info">
+                    <div>
+                      {/*<img src="img/integration__logo.png" alt="Shopify logo"/> this should be added as a class, and will be added later*/}
+                      <div className="status__data">
+                        <p>
+                          Ultima fecha de sincronización: <time>22/06/2019</time>
+                        </p>
+                        <ul>
+                          {shops.map((shop) => (
+                            <li key={shop.shopName}>
+                              <p>
+                                Nombre de la tienda: <strong> {shop.shopName} </strong>
+                              </p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" className="dp-button button-big primary-green">
+                    Desconectar
+                  </button>
+                </div>
+              </div>
+              <div className="dp-integration__block dp-integration--info">
+                <header className="block">
+                  <div>
+                    <h2>Listas creadas</h2>
+                    <p>
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et praesentium
+                      distinctio obcaecati.
+                    </p>
+                  </div>
+                  {/*<button className="dp-button button--has-icon"><span class="ms-icon icon-reload"></span></button> TODO: enable this button when ready*/}
+                </header>
+                <hr />
+                <div className="block">
+                  <ul>
+                    {shops.map((shop) => (
+                      <li key={shop.list.id}>
+                        <p>
+                          Nombre de la lista: <strong> {shop.list.name} </strong>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="dp-integration__block">
+                {shopifyHeader}
+                <div class="block">
+                  Parece que aun no has conectado tu cuenta. Haz click en conectar.
+                </div>
+              </div>
+
+              <footer className="dp-integration__actions">
+                <button type="button" className="dp-button button-big primary-grey">
+                  Atrás
+                </button>
+                <button type="button" className="dp-button button-big primary-green">
+                  Conectar
+                </button>
+              </footer>
+            </>
+          )}
+        </div>
       </section>
     </>
   );
