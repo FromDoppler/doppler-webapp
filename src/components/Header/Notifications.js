@@ -11,7 +11,7 @@ const Notifications = ({ plan , notifications, emptyNotificationText }) => {
       </span>
       <div className="user-menu helper--right dp-notifications">
         <div className="dp-msj-notif">
-          {/* revisar si siempre vamos a mostrar las notificaciones */}
+          {/* check if we're always going to show notifications */}
           {!plan.isFreeAccount || !notifications.length ? (
             <i>{emptyNotificationText}</i>
           ) : (
