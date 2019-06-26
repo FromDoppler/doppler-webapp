@@ -37,7 +37,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.0.1",
     "@testing-library/react": "^8.0.4",
-    "semantic-release": "^15.13.12",
+    "semantic-release": "^15.13.17",
     "typescript": "^3.5.2"
   },
   "homepage": ".",
