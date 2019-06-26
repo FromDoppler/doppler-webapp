@@ -6242,10 +6242,10 @@ intl-relativeformat@^2.1.0:
   dependencies:
     intl-messageformat "^2.0.0"
 
-intl-tel-input@^15.0.1:
-  version "15.1.2"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-15.1.2.tgz#a673cf190a6eecad98790ed83d53d37dbc48ebf5"
-  integrity sha512-LizeF3myZbS4+DOE19qt/1pEHbJhKKdNQucuSa7dmr0qpi/fJX37a3UsZNkFTDja1OSsfhUapqZvO4H4nHjEwA==
+intl-tel-input@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.0.tgz#cc83032f33e332f38a006c3b89d61090e39db23f"
+  integrity sha512-heUnW2I7/zQCnaTEb6hyVQKanEy+wjssWr0gO7BeyaHAaEuB+X9zpur0Vgqp00JLkHKj1xECgOTkupZoVP3V7Q==
 
 into-stream@^5.0.0:
   version "5.1.0"
