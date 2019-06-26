@@ -39,7 +39,11 @@ const Header = ({ userData: { user, nav, alert, notifications, emptyNotification
           <nav className="nav-right-main">
             <ul className="nav-right-main--list">
               <li>
-                <Notifications plan={user.plan} notifications={notifications} emptyNotificationText={emptyNotificationText} />
+                <Notifications
+                  plan={user.plan}
+                  notifications={notifications}
+                  emptyNotificationText={emptyNotificationText}
+                />
               </li>
               <li>
                 <FormattedMessage id="header.help_url">

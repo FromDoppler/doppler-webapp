@@ -1,17 +1,17 @@
 import React from 'react';
 
-const Notifications = ({ plan , notifications, emptyNotificationText }) => {
-  let dataCount = [];
-  dataCount = notifications.length? dataCount['data-count'] = notifications.length:'';
+const Notifications = ({ plan, notifications, emptyNotificationText }) => {
+  // check if we're always going to show notifications
+  const showNotifications = plan.isFreeAccount && notifications.length;
+  const dataCountAttr = showNotifications ? { 'data-count': notifications.length } : {};
   return (
     <>
-      <span className="user-menu--open active" {...dataCount}>
+      <span className="user-menu--open active" {...dataCountAttr}>
         <span className="ms-icon icon-notification"></span>
       </span>
       <div className="user-menu helper--right dp-notifications">
         <div className="dp-msj-notif">
-          {/* check if we're always going to show notifications */}
-          {!plan.isFreeAccount || !notifications.length ? (
+          {!showNotifications ? (
             <i>{emptyNotificationText}</i>
           ) : (
             <div dangerouslySetInnerHTML={{ __html: notifications[0] }} />
