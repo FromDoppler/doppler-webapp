@@ -168,7 +168,7 @@ export interface DopplerLegacyUserData {
   nav: MainNavEntry[];
   user: UserEntry;
   jwtToken: string;
-  notifications: string [];
+  notifications: string[];
   emptyNotificationText: string;
   datahubCustomerId: string | null;
   features: DopplerFeatures;
@@ -231,8 +231,8 @@ export function mapHeaderDataJson(json: any) {
       plan: mapPlanEntry(json.user.plan),
     },
     jwtToken: json.jwtToken,
-    notifications: json.notifications,
-    emptyNotificationText: json.emptyNotificationText,
+    notifications: json.notifications || [],
+    emptyNotificationText: json.emptyNotificationText || '',
     datahubCustomerId: json.datahubCustomerId || null,
     features: {
       siteTrackingEnabled: !!(json.features && json.features.siteTrackingEnabled),

@@ -3,7 +3,6 @@ import React from 'react';
 const Notifications = ({ plan , notifications, emptyNotificationText }) => {
   let dataCount = [];
   dataCount = notifications.length? dataCount['data-count'] = notifications.length:'';
-  console.log(plan, notifications);
   return (
     <>
       <span className="user-menu--open active" {...dataCount}>
