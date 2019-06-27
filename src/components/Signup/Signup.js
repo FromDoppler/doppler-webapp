@@ -234,14 +234,7 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
           </p>
         </footer>
       </article>
-      <Promotions type="signup" page={extractPage(location)} />
-      <div
-        className="feature-panel--bg"
-        style={{
-          backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
-            color: `#FFFFFF`,
-        }}
-      ></div>
+      <Promotions type="signup" page={extractPage(location)} disabledSitesContent />
     </main>
   );
 };

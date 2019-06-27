@@ -3,7 +3,18 @@ import { injectIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import Loading from '../../Loading/Loading';
 
-const enableSitesContent = false;
+const getDefaultBannerData = (intl) => {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return {
+    title: _('default_banner_data.title'),
+    description: _('default_banner_data.description'),
+    backgroundUrl: _('default_banner_data.background_url'),
+    imageUrl: _('default_banner_data.image_url'),
+    functionality: _('default_banner_data.functionality'),
+    fontColor: '#000',
+  };
+};
 
 /**
  * Promotions
@@ -11,37 +22,46 @@ const enableSitesContent = false;
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Promotions = function({ intl, type, page, dependencies: { dopplerSitesClient } }) {
+const Promotions = function({
+  intl,
+  type,
+  page,
+  disabledSitesContent,
+  dependencies: { dopplerSitesClient },
+}) {
   const [bannerData, setBannerData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-    fontColor: '#000',
 
   useEffect(() => {
-    if (!enableSitesContent) {
-      setBannerData(defaultBannerData);
+    if (disabledSitesContent) {
+      setBannerData(getDefaultBannerData(intl));
       setIsLoading(false);
     } else {
       const fetchData = async () => {
         setIsLoading(true);
         const bannerData = await dopplerSitesClient.getBannerData(intl.locale, type, page || '');
-        setBannerData(bannerData.success ? bannerData.value : defaultBannerData);
+        setBannerData(
+          bannerData.success && bannerData.value ? bannerData.value : getDefaultBannerData(intl),
+        );
         setIsLoading(false);
       };
 
       fetchData();
     }
-  }, [defaultBannerData, dopplerSitesClient, page, intl, type]);
-
+  }, [disabledSitesContent, dopplerSitesClient, page, intl, type]);
+  
   return (
     <section className="feature-panel" style={{ position: 'relative' }}>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="feature-panel--bg" style={{ backgroundImage: `url(${bannerData.backgroundUrl})` }}>
+        <div
+          className="feature-panel--bg"
           style={{
             backgroundImage: `url(${bannerData.backgroundUrl})`,
             color: bannerData.fontColor,
           }}
+        >
           <article className="feature-content">
             <h6>{bannerData.functionality}</h6>
             <h1>{bannerData.title}</h1>
