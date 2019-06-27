@@ -66,7 +66,7 @@ describe('Shopify Component', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('Shopify desconectado'));
+    expect(getByText('Parece que aun no has conectado tu cuenta. Haz click en conectar.'));
   });
 
   it('should manage expected error', async () => {

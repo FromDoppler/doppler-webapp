@@ -47,10 +47,10 @@ export class HardcodedShopifyClient implements ShopifyClient {
   public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
     console.log('getShopifyData');
     await timeout(1500);
-    //return {success: false, message: 'Some random error'};
-    //return {success: false, expectedError: {cannotConnectToAPI: true}};
-    //return { success: true, value: twoShops };
-    return { success: true, value: oneShop };
-    //return { success: true, value:[]};
+    //return {success: false, message: 'Some random error'}; // Unexpected error
+    //return {success: false, expectedError: {cannotConnectToAPI: true}}; // Expected error
+    //return { success: true, value: twoShops }; // Shopify connected with more than one shop
+    return { success: true, value: oneShop }; // Shopify connected to one shop
+    //return { success: true, value:[]}; // Shopify disconnected
   }
 }
