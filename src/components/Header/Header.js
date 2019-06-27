@@ -5,7 +5,10 @@ import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
 import Notifications from './Notifications';
 
-const Header = ({ userData: { user, nav, alert, notifications, emptyNotificationText }, location: { pathname } }) => {
+const Header = ({
+  userData: { user, nav, alert, notifications, emptyNotificationText },
+  location: { pathname },
+}) => {
   const inactiveSection = pathname.match(/^\/integrations\/*/) !== null;
   return (
     <div>
