@@ -12,7 +12,7 @@ const getDefaultBannerData = (intl) => {
     backgroundUrl: _('default_banner_data.background_url'),
     imageUrl: _('default_banner_data.image_url'),
     functionality: _('default_banner_data.functionality'),
-    fontColor: '#000',
+    fontColor: '#FFF',
   };
 };
 
