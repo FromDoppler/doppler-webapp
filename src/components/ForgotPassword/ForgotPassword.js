@@ -15,6 +15,7 @@ import './ForgotPassword.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Helmet } from 'react-helmet';
 import { connect } from 'formik';
+import Promotions from '../shared/Promotions/Promotions';
 
 const fieldNames = {
   email: 'email',
@@ -149,23 +150,7 @@ const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } 
           </p>
         </footer>
       </article>
-      <section className="feature-panel">
-        <div
-          className="feature-panel--bg"
-          style={{
-            backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
-          }}
-        >
-          <article className="feature-content">
-            <h6>{_('feature_panel.forms')}</h6>
-            <h1>{_('feature_panel.forms_description')}</h1>
-            <p>{_('feature_panel.forms_remarks')}</p>
-          </article>
-          <figure className="content-img">
-            <img src={_('forgot_password.image_path')} alt="Subscription Forms" />
-          </figure>
-        </div>
-      </section>
+      <Promotions type="login" disabledSitesContent />
     </main>
   );
 };

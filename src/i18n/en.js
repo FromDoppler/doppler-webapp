@@ -35,6 +35,13 @@ export default {
     send: `Send`,
     show: `Show`,
   },
+  default_banner_data: {
+    background_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png',
+    description: 'Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!',
+    functionality: 'subscription forms',
+    image_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/login-en.png',
+    title: 'Add new contacts to your Lists using custom Forms',
+  },
   empty_notification_text: `You don't have pending notifications.`,
   feature_panel: {
     email_automation: `Email Automation`,

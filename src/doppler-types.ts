@@ -1,6 +1,9 @@
 export type UnexpectedError = { success?: false; message?: string | null; error?: any };
 export type ErrorResult<TError> = { success?: false; expectedError: TError } | UnexpectedError;
 export type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
+export type ResultWithoutExpectedErrors<TResult> =
+  | { success: true; value: TResult }
+  | UnexpectedError;
 export type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
 // It does not work:
 // type EmptyResult = { success: true } | UnexpectedError;

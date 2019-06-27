@@ -17,6 +17,8 @@ import {
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SignupConfirmation from './SignupConfirmation';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import Promotions from '../shared/Promotions/Promotions';
+import queryString from 'query-string';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -33,6 +35,12 @@ const minLength = {
   errorMessageKey: 'validation_messages.error_min_length_2',
 };
 
+/** Extract the page parameter from url*/
+function extractPage(location) {
+  const parsedQuery = location && location.search && queryString.parse(location.search);
+  return (parsedQuery && (parsedQuery['page'] || parsedQuery['Page'])) || null;
+}
+
 /** Prepare empty values for all fields
  * It is required because in another way, the fields are not marked as touched.
  */
@@ -48,7 +56,7 @@ const getFormInitialValues = () =>
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResolver } }) {
+const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, originResolver } }) {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const [registeredUser, setRegisteredUser] = useState(null);
@@ -143,7 +151,9 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">
           {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
-          <Link to="/login">{_('signup.log_in')}</Link>
+          <Link to="/login" className="link--title">
+            {_('signup.log_in')}
+          </Link>
         </p>
         <FormWithCaptcha
           className="signup-form"
@@ -224,24 +234,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           </p>
         </footer>
       </article>
-      <section className="feature-panel">
-        <div
-          className="feature-panel--bg"
-          style={{
-            backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
-            color: `#FFFFFF`,
-          }}
-        >
-          <article className="feature-content">
-            <h6>{_('feature_panel.email_automation')}</h6>
-            <h1>{_('feature_panel.email_automation_description')}</h1>
-            <p>{_('feature_panel.email_automation_remarks')}</p>
-          </article>
-          <figure className="content-img">
-            <img src={_('signup.image_path')} alt="Automation" />
-          </figure>
-        </div>
-      </section>
+      <Promotions type="signup" page={extractPage(location)} disabledSitesContent />
     </main>
   );
 };
