@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const Notifications = ({ plan, notifications }) => {
+const Notifications = ({ plan, notifications, emptyNotificationText }) => {
   // check if we're always going to show notifications
   const showNotifications = plan.isFreeAccount && notifications.length;
   const dataCountAttr = showNotifications ? { 'data-count': notifications.length } : {};
@@ -14,7 +14,11 @@ const Notifications = ({ plan, notifications }) => {
         <div className="dp-msj-notif">
           {!showNotifications ? (
             <i>
-              <FormattedMessage id="empty_notification_text" />
+              {emptyNotificationText ? (
+                emptyNotificationText
+              ) : (
+                <FormattedMessage id="empty_notification_text" />
+              )}
             </i>
           ) : (
             <div dangerouslySetInnerHTML={{ __html: notifications[0] }} />
