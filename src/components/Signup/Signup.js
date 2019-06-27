@@ -229,6 +229,7 @@ const Signup = function({ intl, dependencies: { dopplerLegacyClient, originResol
           className="feature-panel--bg"
           style={{
             backgroundImage: `url('https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png')`,
+            color: `#FFFFFF`,
           }}
         >
           <article className="feature-content">
