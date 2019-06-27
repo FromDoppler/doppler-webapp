@@ -112,7 +112,7 @@ export class AppCompositionRoot implements AppServices {
       () =>
         new HttpDopplerSitesClient({
           axiosStatic: this.axiosStatic,
-          baseUrl: this.appConfiguration.dopplerSitesUrl
+          baseUrl: this.appConfiguration.dopplerSitesUrl,
         }),
     );
   }

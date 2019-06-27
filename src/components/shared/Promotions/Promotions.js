@@ -49,7 +49,7 @@ const Promotions = function({
       fetchData();
     }
   }, [disabledSitesContent, dopplerSitesClient, page, intl, type]);
-  
+
   return (
     <section className="feature-panel" style={{ position: 'relative' }}>
       {isLoading ? (

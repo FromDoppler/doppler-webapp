@@ -40,7 +40,7 @@ export default {
     description: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
     image_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/login-es.png',
     title: 'Suma contactos a tus Listas con Formularios personalizados',
-  },   
+  },
   feature_panel: {
     email_automation: `Email Automation`,
     email_automation_description: `Llega con el mensaje adecuado en el momento justo`,

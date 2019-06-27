@@ -448,5 +448,4 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       };
     }
   }
-
 }

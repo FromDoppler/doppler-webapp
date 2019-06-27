@@ -24,7 +24,6 @@ export class HttpDopplerSitesClient implements DopplerSitesClient {
     this.baseUrl = baseUrl;
     this.axios = axiosStatic.create({
       baseURL: baseUrl,
-      withCredentials: true,
     });
   }
 
@@ -35,9 +34,10 @@ export class HttpDopplerSitesClient implements DopplerSitesClient {
   ): Promise<PromotionsResult> {
     try {
       const response: any = await this.axios.get(
-        this.baseUrl +
-          `/wp-json/doppler2019/v1/getbanner?filter[lang]=${lang}&filter[type]=${type}&filter[page]=${page ||
-            ''}`,
+        `${
+          this.baseUrl
+        }/wp-json/doppler2019/v1/getbanner?filter[lang]=${lang}&filter[type]=${type}&filter[page]=${page ||
+          ''}`,
       );
       if (!response || !response.data) {
         throw new Error('Empty Site response');
