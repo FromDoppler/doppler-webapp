@@ -162,6 +162,5 @@
   },
   "loginUrl": "https://app.fromdoppler.com/#/login?lang=es",
   "notifications": [],
-  "emptyNotificationText": "No tienes notificaciones pendientes.",
   "jwtToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1N1IjpmYWxzZSwic3ViIjoiY2Jlcm5hdEBnZXRjcy5jb20iLCJjdXN0b21lcklkIjoiMTAyNCIsImRhdGFodWJDdXN0b21lcklkIjoiMTAyNCIsImlhdCI6MTU1NjU0NTQ2MSwiZXhwIjoxNTU2NTQ3MjYxfQ.meC1sFsC7m8nGFfcK2oih1hqdKQ4Lj81O5rN_-awOcM_JEe9ddviocPbYAg64L6nC6b0a7J5xmTmiW_-MAIEIg"
 }
