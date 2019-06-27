@@ -43,9 +43,16 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public async getUserData() {
     console.log('getUserData');
     await timeout(1500);
-    const { user, nav, alert, datahubCustomerId, features, jwtToken } = mapHeaderDataJson(
-      headerDataJson,
-    );
+    const {
+      user,
+      nav,
+      alert,
+      datahubCustomerId,
+      features,
+      jwtToken,
+      notifications,
+      emptyNotificationText,
+    } = mapHeaderDataJson(headerDataJson);
 
     return {
       user: {
@@ -57,6 +64,8 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
       datahubCustomerId,
       features,
       jwtToken,
+      notifications,
+      emptyNotificationText,
     };
   }
 

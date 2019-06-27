@@ -35,6 +35,7 @@ export default {
     send: `Send`,
     show: `Show`,
   },
+  empty_notification_text: `You don't have pending notifications.`,
   feature_panel: {
     email_automation: `Email Automation`,
     email_automation_description: `Right person, right message, right time`,

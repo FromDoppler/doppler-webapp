@@ -3,8 +3,12 @@ import HeaderNav from './HeaderNav/HeaderNav';
 import HeaderMessages from './HeaderMessages/HeaderMessages';
 import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
+import Notifications from './Notifications';
 
-const Header = ({ userData: { user, nav, alert }, location: { pathname } }) => {
+const Header = ({
+  userData: { user, nav, alert, notifications, emptyNotificationText },
+  location: { pathname },
+}) => {
   const inactiveSection = pathname.match(/^\/integrations\/*/) !== null;
   return (
     <div>
@@ -38,9 +42,11 @@ const Header = ({ userData: { user, nav, alert }, location: { pathname } }) => {
           <nav className="nav-right-main">
             <ul className="nav-right-main--list">
               <li>
-                <span className="active" data-count="1">
-                  <span className="ms-icon icon-notification" />
-                </span>
+                <Notifications
+                  plan={user.plan}
+                  notifications={notifications}
+                  emptyNotificationText={emptyNotificationText}
+                />
               </li>
               <li>
                 <FormattedMessage id="header.help_url">

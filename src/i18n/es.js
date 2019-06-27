@@ -35,6 +35,7 @@ export default {
     send: `Enviar`,
     show: `Mostrar`,
   },
+  empty_notification_text: `No tienes notificaciones pendientes.`,
   feature_panel: {
     email_automation: `Email Automation`,
     email_automation_description: `Llega con el mensaje adecuado en el momento justo`,
