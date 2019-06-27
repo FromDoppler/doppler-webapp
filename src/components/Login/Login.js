@@ -158,10 +158,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         <h5>{_('login.enter_doppler')}</h5>
         <p className="content-subtitle">{_('login.enter_doppler_sub')}</p>
         <p className="content-subtitle">
-          {_('login.you_want_create_account')}{' '}
-          <Link to="/signup" className="link--title">
-            {_('login.signup')}
-          </Link>
+          {_('login.you_want_create_account')} <Link to="/signup">{_('login.signup')}</Link>
         </p>
         <FormWithCaptcha
           className="login-form"
