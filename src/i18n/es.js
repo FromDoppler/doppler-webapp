@@ -37,7 +37,9 @@ export default {
   },
   empty_notification_text: `No tienes notificaciones pendientes.`,
   default_banner_data: {
+    background_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png',
     description: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
+    functionality: 'Formularios de suscripción',
     image_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/login-es.png',
     title: 'Suma contactos a tus Listas con Formularios personalizados',
   },
