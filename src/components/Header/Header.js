@@ -17,11 +17,8 @@ const Header = ({
       <header
         className={
           'header-main' +
-          (!inactiveSection
-            ? user.clientManager
-              ? ' header-open dp-header--cm'
-              : ' header-open'
-            : '')
+          (inactiveSection ? ' ' : ' header-open') +
+          (user.clientManager ? ' dp-header--cm' : ' ')
         }
       >
         {user.clientManager ? (
