@@ -1,0 +1,194 @@
+{
+  "nav": [
+    {
+      "title": "Campañas",
+      "url": "https://app2.fromdoppler.com/Campaigns/Draft/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
+        {
+          "title": "Borradores",
+          "url": "https://app2.fromdoppler.com/Campaigns/Draft/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignDraftMenu"
+        },
+        {
+          "title": "Programadas",
+          "url": "https://app2.fromdoppler.com/Campaigns/Scheduled/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignScheduledMenu"
+        },
+        {
+          "title": "Enviadas",
+          "url": "https://app2.fromdoppler.com/Campaigns/Sent/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignSentMenu"
+        },
+        {
+          "title": "Test A/B",
+          "url": "https://app2.fromdoppler.com/Campaigns/TestAB/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "campaignTestABMenu"
+        }
+      ],
+      "idHTML": "campaignMenu"
+    },
+    {
+      "title": "Listas",
+      "url": "https://app2.fromdoppler.com/Lists/SubscribersList",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
+        {
+          "title": "Listas Principales",
+          "url": "https://app2.fromdoppler.com/Lists/SubscribersList/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listMainMenu"
+        },
+        {
+          "title": "Segmentos",
+          "url": "https://app2.fromdoppler.com/Lists/Segment/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listSegmentMenu"
+        },
+        {
+          "title": "Suscriptores",
+          "url": "https://app2.fromdoppler.com/Lists/MasterSubscriber/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listMasterSubscriberMenu"
+        },
+        {
+          "title": "Campos Personalizados",
+          "url": "https://app2.fromdoppler.com/Lists/MasterCustomFields/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listCustomFieldMenu"
+        },
+        {
+          "title": "Formularios",
+          "url": "https://app2.fromdoppler.com/Lists/Form/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "listFormMenu"
+        }
+      ],
+      "idHTML": "listMenu"
+    },
+    {
+      "title": "Reportes",
+      "url": "https://app2.fromdoppler.com/Campaigns/Reports/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [
+        {
+          "title": "Campañas Enviadas",
+          "url": "https://app2.fromdoppler.com/Campaigns/Reports/",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "reportsSentCampaign"
+        },
+        {
+          "title": "Historial del Suscriptor",
+          "url": "https://app2.fromdoppler.com/Campaigns/Reports/?redirect=subHistory",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "reportsSubsHistory"
+        },
+        {
+          "title": "Avanzados",
+          "url": "https://app.fromdoppler.com/#/reports",
+          "isEnabled": false,
+          "isSelected": false,
+          "idHTML": "webapp"
+        }
+      ],
+      "idHTML": "reportMenu"
+    },
+    {
+      "title": "Automation",
+      "url": "https://app2.fromdoppler.com/Automation/Automation/AutomationApp/",
+      "isEnabled": false,
+      "isSelected": false,
+      "subNav": [],
+      "idHTML": "automationMenu"
+    },
+    {
+      "title": "Plantillas",
+      "url": "https://app2.fromdoppler.com/Templates/Main/",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "templateMenu"
+    }
+  ],
+  "user": {
+    "email": "cbernat@getcs.com",
+    "fullname": "Cecilia Bernat",
+    "plan": {
+      "planType": "5",
+      "description": "Emails disponibles",
+      "itemDescription": "Emails",
+      "planName": "Plan Mensual ",
+      "isSubscribers": "false",
+      "isMonthlyByEmail": "true",
+      "maxSubscribers": "0",
+      "remainingCredits": "0",
+      "buttonText": "COMPRAR"
+    },
+    "lang": "es",
+    "clientManager": {
+      "logo": "https://app2.dopplerfiles.com/ClientManagers/6/ClientLogo/logo_6.png",
+      "companyName": "Making Sense Tandil",
+      "isCmReseller": false
+    },
+    "avatar": {
+      "text": "CB",
+      "color": "#B58FC1"
+    },
+    "nav": [
+      {
+        "title": "Panel de Control",
+        "url": "https://app2.fromdoppler.com/ControlPanel/ControlPanel/",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "controlPanel"
+      },
+      {
+        "title": "Centro de descargas",
+        "url": "https://app2.fromdoppler.com/DownloadCenter/DownloadCenter",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "downloadCenter"
+      },
+      {
+        "title": "Primeros pasos en Doppler",
+        "url": "https://app2.fromdoppler.com/Steps/FirstSteps",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "firstSteps"
+      },
+      {
+        "title": "Salir",
+        "url": "https://app2.fromdoppler.com/SignIn/SignOut",
+        "isEnabled": false,
+        "isSelected": false,
+        "idHTML": "signOut"
+      }
+    ]
+  },
+  "homeUrl": "https://app2.fromdoppler.com/Campaigns/Draft/",
+  "urlBase": "https://app2.fromdoppler.com/",
+  "features": {
+    "siteTrackingEnabled": false,
+    "siteTrackingActive": false,
+    "emailParameterEnabled": false,
+    "emailParameterActive": false
+  },
+  "jwtToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc1N1IjpmYWxzZSwic3ViIjoiY2Jlcm5hdEBnZXRjcy5jb20iLCJjdXN0b21lcklkIjpudWxsLCJkYXRhaHViQ3VzdG9tZXJJZCI6bnVsbCwiaWF0IjoxNTYxOTgyMjA1LCJleHAiOjE1NjE5ODQwMDV9.RFZSbqCQ0AlG1vcOAvq_24LH8vcp7yd3K6j9kOxMQz67WoeVVcx5fXus_iTDi8rOoJYrLPOEMXI419bU5eQ0sw"
+}
