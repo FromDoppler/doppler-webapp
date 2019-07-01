@@ -23,23 +23,23 @@ const fakeData = [
 const fakePagesData = [
   {
     name: '/email-marketing',
-    totalVisits: 10122,
+    totalVisitors: 10122,
   },
   {
     name: '/precios',
-    totalVisits: 9000,
+    totalVisitors: 9000,
   },
   {
     name: '/login',
-    totalVisits: 5001,
+    totalVisitors: 5001,
   },
   {
     name: '/productos',
-    totalVisits: 3800,
+    totalVisitors: 3800,
   },
   {
     name: '/servicios',
-    totalVisits: 1023,
+    totalVisitors: 1023,
   },
 ];
 
@@ -72,12 +72,12 @@ export class HardcodedDatahubClient implements DatahubClient {
   }: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisits: number; url: string }[]> {
+  }): Promise<{ name: string; totalVisitors: number; url: string }[]> {
     console.log('getPagesRankingByPeriod', { domainName, dateFrom });
     await timeout(1500);
     return fakePagesData.map((x) => ({
       name: x.name,
-      totalVisits: x.totalVisits,
+      totalVisitors: x.totalVisitors,
       url: `http://${domainName}${x.name}`,
     }));
   }
