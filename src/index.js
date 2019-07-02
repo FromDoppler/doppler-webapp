@@ -46,7 +46,7 @@ history.listen((location) => {
   const locationPage = location.hash && location.hash[0] === '#' && location.hash.slice(1);
   ReactGA.set({ page: locationPage });
   ReactGA.pageview(locationPage);
-  // TODO: Also notify navigation to DataHub (DataHub does not have this feature yet)
+  window._dha && window._dha.track({ navigatedPage: locationPage });
 });
 
 ReactDOM.render(
