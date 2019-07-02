@@ -155,8 +155,7 @@ export default {
   },
   reports_pageranking: {
     top_pages: `Most visited pages`,
-    top_pages_sub_head: `Sessions are the total number of registered visits during the period. If a user entered several times, all of them will be counted.`,
-    total_visits: `Sessions`,
+    total_visits: `Unique visitors`,
   },
   reports_title: `Doppler | Reports`,
   signup: {
