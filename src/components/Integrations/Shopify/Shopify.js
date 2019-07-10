@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
+import logo from './logo.svg';
+import './Shopify.css';
 
 const Shopify = ({ dependencies: { shopifyClient } }) => {
   const [shops, setShops] = useState([]);
@@ -73,7 +75,7 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
                 <div className="block dp-integration__status">
                   <div className="status__info">
                     <div>
-                      {/*<img src="img/integration__logo.png" alt="Shopify logo"/> this should be added as a class, and will be added later*/}
+                      <img class="shopify-logo" src={logo} alt="Shopify logo" />
                       <div className="status__data">
                         <p>
                           Ultima fecha de sincronización: <time>22/06/2019</time>
