@@ -38,7 +38,7 @@
     "react-scripts": "^3.0.1",
     "@testing-library/react": "^8.0.4",
     "semantic-release": "^15.13.18",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "homepage": ".",
   "scripts": {
