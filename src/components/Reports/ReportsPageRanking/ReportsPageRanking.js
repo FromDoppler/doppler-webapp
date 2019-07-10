@@ -76,9 +76,6 @@ class ReportsPageRanking extends React.Component {
             <div className="reports-box">
               <h4 className="title-ranking">
                 <FormattedMessage id="reports_pageranking.top_pages" />
-                <small>
-                  <FormattedMessage id="reports_pageranking.top_pages_sub_head" />
-                </small>
               </h4>
 
               {pages.map((item, index) => (
