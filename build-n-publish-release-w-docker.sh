@@ -48,6 +48,9 @@ echo pkgVersion: $pkgVersion
 echo pkgBuild: $pkgBuild
 echo pkgCommitId: $pkgCommitId
 
+# TODO: It could break concurrent deployments with different docker accounts
+docker login -u="$DOCKER_WEBAPP_USERNAME" -p="$DOCKER_WEBAPP_PASSWORD"
+
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
 docker pull dopplerrelay/doppler-relay-akamai-publish
 
