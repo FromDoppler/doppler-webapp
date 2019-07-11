@@ -41,12 +41,18 @@ ReactGA.initialize('UA-532159-1');
 
 const history = createBrowserHistory();
 
-// Get the current location
-history.listen((location) => {
+const trackNavigation = (location) => {
   const locationPage = location.hash && location.hash[0] === '#' && location.hash.slice(1);
   ReactGA.set({ page: locationPage });
   ReactGA.pageview(locationPage);
   window._dha && window._dha.track({ navigatedPage: locationPage });
+};
+
+trackNavigation(window.location);
+
+// Get the current location
+history.listen((location) => {
+  trackNavigation(location);
 });
 
 ReactDOM.render(
