@@ -62,6 +62,7 @@ export default {
   forgot_password: {
     back_login: `Did you remember your Password? Go back to Log in.`,
     back_login_after_forgot: `Back to Log in`,
+    blocked_account: `Your account has been cancelled. To know more please `,
     button_request: `Request`,
     confirmation_message_HTML: `
       <p>
@@ -73,7 +74,10 @@ export default {
       `,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
+    expired_link: `Link expired, please click on Forgot your Password? to request a new one.`,
     image_path: `${loginBannerImagePath}`,
+    max_attempts_sec_question: `You didn't response correctly. Please, start again the process to reset your Doppler password.`,
+    pass_reset_ok: `Your Password has been changed successfully!`,
     placeholder_email: `Psst! Is the same Email you used to create your account`,
     url_site: `${urlSiteFromForgot}`,
   },

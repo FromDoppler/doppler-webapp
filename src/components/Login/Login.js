@@ -18,6 +18,7 @@ import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
+import queryString from 'query-string';
 
 const fieldNames = {
   user: 'user',
@@ -28,6 +29,24 @@ const extractLegacyRedirectUrl = (location) => {
   const result = /[&?]redirect=(.*)$/.exec(location.search);
   return (result && result.length === 2 && result[1] + location.hash) || null;
 };
+
+function getForgotErrorMessage(location, intl) {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  let parsedQuery = location && location.search && queryString.parse(location.search);
+  parsedQuery = (parsedQuery && (parsedQuery['message'])) || null;
+  switch(parsedQuery) {
+    case 'ExpiredLink':
+      return _('forgot_password.expired_link');
+    case 'PassResetOk':
+      return _('forgot_password.pass_reset_ok');
+    case 'BlockedAccount':
+      return _('forgot_password.blocked_account');
+    case 'MaxAttemptsSecQuestion':
+      return _('forgot_password.max_attempts_sec_question');  
+    default:
+      return null;
+  }
+}
 
 const LoginErrorBlockedAccountNotPayed = () => (
   <p>
@@ -45,6 +64,7 @@ const LoginErrorBlockedAccountNotPayed = () => (
 const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   /** Prepare empty values for all fields
@@ -61,6 +81,13 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
 
     return values;
   };
+
+  if(!errorMessage) {
+    const errorText = getForgotErrorMessage(location, intl);
+    if(errorText) {
+      setErrorMessage(errorText)
+    }
+  }  
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -185,6 +212,9 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </fieldset>
           <fieldset>
             <FormErrors />
+            {errorMessage ? (
+              <span>{errorMessage}</span>
+            ) : null }
             <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
             <LinkToForgotPassword />
           </fieldset>
