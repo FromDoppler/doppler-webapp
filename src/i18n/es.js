@@ -24,8 +24,13 @@ const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_cam
 
 export default {
   common: {
+    advanced_preferences: `Integraciones y Preferencias Avanazadas`,
+    back: `Atrás`,
     cancel: `Cancelar`,
+    connect: `Conectar`,
+    control_panel: `Panel de Control`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
+    disconnect: `Desconectar`,
     hide: `Ocultar`,
     message: `Mensaje`,
     recaptcha_legal_HTML: `
@@ -158,6 +163,20 @@ export default {
     total_visits: `Visitantes únicos`,
   },
   reports_title: `Doppler | Reportes`,
+  shopify: {
+    error_cannot_access_api: `Ouch! No pudimos conectar con la API de Shopify, por favor vuelve a intentarlo luego.`,
+    header_disconnected_warning: `Parece que aun no has conectado con tu tienda. Haz click en Conectar para comenzar.`,
+    header_store: `Nombre de la cuenta:`,
+    header_subtitle: `Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
+    Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona <a target="_blank" href="${urlHelp}/como-integrar-doppler-y-shopify/" ${patchForBlank}>HELP</a>.`,
+    header_synchronization_date: `Fecha de última sincronización:`,
+    header_title: `Conecta Doppler con tu tienda Shopify`,
+    list_subtitle: `Puedes sincronizar los datos manualmente cuando gustes.`,
+    list_title: `Lista sincronizada`,
+    table_list: `Nombre de la Lista`,
+    table_subscribers_count: `Suscriptores`,
+    title: `Doppler | Shopify`,
+  },
   signup: {
     activate_account_instructions: `* Al hacer click en el botón que aparece en el Email, activarás tu cuenta y estarás listo para disfrutar todos los beneficios de Doppler.`,
     button_signup: `Crea tu cuenta gratis`,

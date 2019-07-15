@@ -66,7 +66,7 @@ describe('Shopify Component', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('Parece que aun no has conectado tu cuenta. Haz click en conectar.'));
+    expect(getByText('shopify.header_disconnected_warning'));
   });
 
   it('should manage expected error', async () => {
@@ -86,9 +86,7 @@ describe('Shopify Component', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(
-      getByText('Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego.'),
-    );
+    expect(getByText('shopify.error_cannot_access_api'));
   });
 
   it('should get connected user with one shop', async () => {
@@ -149,6 +147,6 @@ describe('Shopify Component', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('Error: Error inesperado.'));
+    expect(getByText('validation_messages.error_unexpected_HTML'));
   });
 });
