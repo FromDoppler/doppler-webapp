@@ -8,7 +8,7 @@ import {
   PasswordFieldItem,
   SubmitButton,
   FormWithCaptcha,
-  FormErrors,
+  FormMessages,
   CaptchaLegalMessage,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
@@ -35,14 +35,14 @@ function getForgotErrorMessage(location) {
   parsedQuery = (parsedQuery && parsedQuery['message']) || null;
   switch (parsedQuery) {
     case 'ExpiredLink':
-      return { _generalWarning: 'forgot_password.expired_link' };
+      return { _warning: 'forgot_password.expired_link' };
     // case 'PassResetOk':
     //   // TODO: add success message format /
     //   return 'forgot_password.pass_reset_ok';
     case 'BlockedAccount':
-      return { _general: 'forgot_password.blocked_account' };
+      return { _error: 'forgot_password.blocked_account' };
     case 'MaxAttemptsSecQuestion':
-      return { _general: 'forgot_password.max_attempts_sec_question' };
+      return { _error: 'forgot_password.max_attempts_sec_question' };
     default:
       return null;
   }
@@ -81,7 +81,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
     return values;
   };
 
-  const errorMessage = useMemo(() => getForgotErrorMessage(location), [location]);
+  const formMessage = useMemo(() => getForgotErrorMessage(location), [location]);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -99,35 +99,35 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           setRedirectAfterLogin(true);
         }
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
-        setErrors({ _general: <LoginErrorBlockedAccountNotPayed /> });
+        setErrors({ _error: <LoginErrorBlockedAccountNotPayed /> });
       } else if (result.expectedError && result.expectedError.userInactive) {
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
         setErrors({
-          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({
-          _generalWarning: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
+          _warning: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _general: (
+          _error: (
             <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />
           ),
         });
       } else if (result.expectedError && result.expectedError.blockedAccountInvalidPassword) {
         setErrors({
-          _general: (
+          _error: (
             <FormattedHTMLMessage id="validation_messages.error_account_is_blocked_invalid_pass_HTML" />
           ),
         });
       } else if (result.expectedError && result.expectedError.invalidLogin) {
-        setErrors({ _general: 'validation_messages.error_invalid_login' });
+        setErrors({ _error: 'validation_messages.error_invalid_login' });
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       }
     } finally {
@@ -185,7 +185,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         <FormWithCaptcha
           className="login-form"
           initialValues={getFormInitialValues()}
-          initialErrorMessage={errorMessage}
+          initialFormMessage={formMessage}
           onSubmit={onSubmit}
         >
           <fieldset>
@@ -206,7 +206,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
             </FieldGroup>
           </fieldset>
           <fieldset>
-            <FormErrors />
+            <FormMessages />
             <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
             <LinkToForgotPassword />
           </fieldset>
