@@ -87,7 +87,7 @@ describe('Shopify Component', () => {
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
     expect(
-      getByText('Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego.'),
+      getByText('Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego. Texto nuevo.'),
     );
   });
 
