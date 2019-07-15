@@ -15,7 +15,9 @@ const Shopify = ({ dependencies: { shopifyClient } }) => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
       if (result.expectedError && result.expectedError.cannotConnectToAPI) {
-        setError('Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego.');
+        setError(
+          'Error: No hemos podido conectar con la Api de Shopify, vuelve a intentar luego. Texto nuevo.',
+        );
       } else if (!result.success) {
         setError('Error: Error inesperado.');
       } else if (result.value.length) {
