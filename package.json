@@ -16,7 +16,7 @@
     "eclint": "^2.8.1",
     "env-cmd": "^9.0.3",
     "es6-object-assign": "^1.1.0",
-    "formik": "^1.5.2",
+    "formik": "^1.5.8",
     "g": "^2.0.1",
     "history": "^4.9.0",
     "intl-tel-input": "^16.0.2",
