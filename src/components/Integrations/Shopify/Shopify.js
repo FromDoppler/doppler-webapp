@@ -62,12 +62,19 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               <Loading />
             </>
           ) : error ? (
-            <div className="dp-integration__block">
-              {shopifyHeader}
-              <div className="block">
-                <p>{error}</p>
+            <>
+              <div className="dp-integration__block">
+                {shopifyHeader}
+                <div className="block">
+                  <p>{error}</p>
+                </div>
               </div>
-            </div>
+              <footer className="dp-integration__actions">
+                <button type="button" className="dp-button button-big primary-grey">
+                  {_('common.back')}
+                </button>
+              </footer>
+            </>
           ) : isConnected ? (
             <>
               <div className="dp-integration__block">
