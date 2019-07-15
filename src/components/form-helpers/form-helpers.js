@@ -85,6 +85,7 @@ export const FormWithCaptcha = ({
   onSubmit,
   validate,
   initialValues,
+  initialErrorMessage,
   children,
   ...rest
 }) => {
@@ -125,6 +126,7 @@ export const FormWithCaptcha = ({
       render={() => (
         <Form className={className}>
           <Captcha />
+          <SetFormError error={initialErrorMessage} />
           {children}
         </Form>
       )}
@@ -135,6 +137,16 @@ export const FormWithCaptcha = ({
 export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
 );
+
+const SetFormError = connect(({ formik: { setErrors }, error }) => {
+  useEffect(() => {
+    if (error) {
+      setErrors(error);
+    }
+  }, [error, setErrors]);
+
+  return null;
+});
 
 export const FormErrors = connect(
   /**

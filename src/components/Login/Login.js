@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -30,19 +30,19 @@ const extractLegacyRedirectUrl = (location) => {
   return (result && result.length === 2 && result[1] + location.hash) || null;
 };
 
-function getForgotErrorMessage(location, intl) {
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+function getForgotErrorMessage(location) {
   let parsedQuery = location && location.search && queryString.parse(location.search);
-  parsedQuery = (parsedQuery && (parsedQuery['message'])) || null;
-  switch(parsedQuery) {
+  parsedQuery = (parsedQuery && parsedQuery['message']) || null;
+  switch (parsedQuery) {
     case 'ExpiredLink':
-      return _('forgot_password.expired_link');
-    case 'PassResetOk':
-      return _('forgot_password.pass_reset_ok');
+      return { _generalWarning: 'forgot_password.expired_link' };
+    // case 'PassResetOk':
+    //   // TODO: add success message format /
+    //   return 'forgot_password.pass_reset_ok';
     case 'BlockedAccount':
-      return _('forgot_password.blocked_account');
+      return { _general: 'forgot_password.blocked_account' };
     case 'MaxAttemptsSecQuestion':
-      return _('forgot_password.max_attempts_sec_question');  
+      return { _general: 'forgot_password.max_attempts_sec_question' };
     default:
       return null;
   }
@@ -64,7 +64,6 @@ const LoginErrorBlockedAccountNotPayed = () => (
 const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   /** Prepare empty values for all fields
@@ -82,12 +81,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
     return values;
   };
 
-  if(!errorMessage) {
-    const errorText = getForgotErrorMessage(location, intl);
-    if(errorText) {
-      setErrorMessage(errorText)
-    }
-  }  
+  const errorMessage = useMemo(() => getForgotErrorMessage(location), [location]);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
@@ -191,6 +185,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         <FormWithCaptcha
           className="login-form"
           initialValues={getFormInitialValues()}
+          initialErrorMessage={errorMessage}
           onSubmit={onSubmit}
         >
           <fieldset>
@@ -212,9 +207,6 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </fieldset>
           <fieldset>
             <FormErrors />
-            {errorMessage ? (
-              <span>{errorMessage}</span>
-            ) : null }
             <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
             <LinkToForgotPassword />
           </fieldset>
