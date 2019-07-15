@@ -24,8 +24,13 @@ const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_
 
 export default {
   common: {
+    advanced_preferences: `Integrations and Advanced Preferences`,
+    back: `Back`,
     cancel: `Cancel`,
+    connect: `Connect`,
+    control_panel: `Control Panel`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
+    disconnect: `Disconnect`,
     hide: `Hide`,
     message: `Message`,
     recaptcha_legal_HTML: `
@@ -158,6 +163,20 @@ export default {
     total_visits: `Unique visitors`,
   },
   reports_title: `Doppler | Reports`,
+  shopify: {
+    error_cannot_access_api: `Oops! We could not connect to Shopify API, please try again later.`,
+    header_disconnected_warning: `Seems you are not connected yet. Click on connect button to start.`,
+    header_store: `Account name:`,
+    header_subtitle: `Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
+    and create Abandoned Cart and Retargeting Product Automations. Any questions? Press <a target="_blank" href="${urlHelp}/how-to-integrate-doppler-with-shopify/" ${patchForBlank}>HELP</a>.`,
+    header_synchronization_date: `Last synchronization date:`,
+    header_title: `Connect Doppler with your Shopify store`,
+    list_subtitle: `You can synchronize the data manually whenever you want.`,
+    list_title: `Synchronized List`,
+    table_list: `List Name`,
+    table_subscribers_count: `Subscribers`,
+    title: `Doppler | Shopify`,
+  },
   signup: {
     activate_account_instructions: `* By clicking on the button from the Email, you will activate your account and you will be ready to enjoy all the benefits of Doppler.`,
     button_signup: `Sign up for free`,
