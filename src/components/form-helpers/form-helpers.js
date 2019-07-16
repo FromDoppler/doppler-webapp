@@ -85,6 +85,7 @@ export const FormWithCaptcha = ({
   onSubmit,
   validate,
   initialValues,
+  initialFormMessage,
   children,
   ...rest
 }) => {
@@ -110,7 +111,7 @@ export const FormWithCaptcha = ({
     } else {
       console.log('Captcha error', result);
       formikProps.setErrors({
-        _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
       });
       formikProps.setSubmitting(false);
     }
@@ -125,6 +126,7 @@ export const FormWithCaptcha = ({
       render={() => (
         <Form className={className}>
           <Captcha />
+          <SetFormMessage message={initialFormMessage} />
           {children}
         </Form>
       )}
@@ -136,35 +138,47 @@ export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>
 );
 
-export const FormErrors = connect(
+const SetFormMessage = connect(({ formik: { setErrors }, message }) => {
+  useEffect(() => {
+    if (message) {
+      setErrors(message);
+    }
+  }, [message, setErrors]);
+
+  return null;
+});
+
+export const FormMessages = connect(
   /**
    * @param { Object } props
    * @param { import('formik').FormikProps<Values> } props.formik
    */
   ({ formik: { errors } }) => {
-    const formError =
-      errors && errors['_general']
-        ? { message: errors['_general'], className: 'dp-error' }
-        : errors && errors['_generalWarning']
-        ? { message: errors['_generalWarning'], className: 'dp-warning-message' }
+    const formMessages =
+      errors && errors['_error']
+        ? { message: errors['_error'], className: 'dp-error' }
+        : errors && errors['_warning']
+        ? { message: errors['_warning'], className: 'dp-warning-message' }
+        : errors && errors['_success']
+        ? { message: errors['_success'], className: 'dp-ok-message' }
         : null;
-    return formError ? (
-      <div className={`form-message bounceIn ${formError.className}`}>
+    return formMessages ? (
+      <div className={`form-message bounceIn ${formMessages.className}`}>
         <div>
-          <ErrorMessage error={formError.message} />
+          <Message message={formMessages.message} />
         </div>
       </div>
     ) : null;
   },
 );
 
-const ErrorMessage = injectIntl(({ intl, error }) =>
-  React.isValidElement(error) ? (
-    error
+const Message = injectIntl(({ intl, message }) =>
+  React.isValidElement(message) ? (
+    message
   ) : (
     // assuming string
     // TODO: also consider array of errors, and parameters for localization message placeholders
-    <p>{intl.formatMessage({ id: error })}</p>
+    <p>{intl.formatMessage({ id: message })}</p>
   ),
 );
 
@@ -180,7 +194,7 @@ export const FieldItem = connect(
       {/* Boolean errors will not have message */}
       {submitCount && touched[fieldName] && errors[fieldName] && errors[fieldName] !== true ? (
         <div className="dp-message dp-error-form">
-          <ErrorMessage error={errors[fieldName]} />
+          <Message message={errors[fieldName]} />
         </div>
       ) : null}
     </li>

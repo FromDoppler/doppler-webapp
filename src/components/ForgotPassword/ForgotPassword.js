@@ -5,7 +5,7 @@ import {
   EmailFieldItem,
   FieldGroup,
   SubmitButton,
-  FormErrors,
+  FormMessages,
   CaptchaLegalMessage,
   FormWithCaptcha,
 } from '../form-helpers/form-helpers';
@@ -58,7 +58,7 @@ const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } 
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       }
     } finally {
@@ -131,7 +131,7 @@ const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } 
               </FieldGroup>
             </fieldset>
             <fieldset>
-              <FormErrors />
+              <FormMessages />
               <SubmitButton className="button--round">
                 {_('forgot_password.button_request')}
               </SubmitButton>

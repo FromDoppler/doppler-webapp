@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -8,7 +8,7 @@ import {
   PasswordFieldItem,
   SubmitButton,
   FormWithCaptcha,
-  FormErrors,
+  FormMessages,
   CaptchaLegalMessage,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
@@ -18,6 +18,7 @@ import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
+import queryString from 'query-string';
 
 const fieldNames = {
   user: 'user',
@@ -28,6 +29,23 @@ const extractLegacyRedirectUrl = (location) => {
   const result = /[&?]redirect=(.*)$/.exec(location.search);
   return (result && result.length === 2 && result[1] + location.hash) || null;
 };
+
+function getForgotErrorMessage(location) {
+  let parsedQuery = location && location.search && queryString.parse(location.search);
+  parsedQuery = (parsedQuery && parsedQuery['message']) || null;
+  switch (parsedQuery) {
+    case 'ExpiredLink':
+      return { _warning: 'forgot_password.expired_link' };
+    case 'PassResetOk':
+      return { _success: 'forgot_password.pass_reset_ok' };
+    case 'BlockedAccount':
+      return { _error: <FormattedMessageMarkdown id="forgot_password.blocked_account_MD" /> };
+    case 'MaxAttemptsSecQuestion':
+      return { _error: 'forgot_password.max_attempts_sec_question' };
+    default:
+      return null;
+  }
+}
 
 const LoginErrorBlockedAccountNotPayed = () => (
   <p>
@@ -62,6 +80,8 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
     return values;
   };
 
+  const formMessage = useMemo(() => getForgotErrorMessage(location), [location]);
+
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       const result = await dopplerLegacyClient.login({
@@ -78,35 +98,33 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           setRedirectAfterLogin(true);
         }
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
-        setErrors({ _general: <LoginErrorBlockedAccountNotPayed /> });
+        setErrors({ _error: <LoginErrorBlockedAccountNotPayed /> });
       } else if (result.expectedError && result.expectedError.userInactive) {
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
         setErrors({
-          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({
-          _generalWarning: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
+          _warning: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _general: (
-            <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />
-          ),
+          _error: <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />,
         });
       } else if (result.expectedError && result.expectedError.blockedAccountInvalidPassword) {
         setErrors({
-          _general: (
+          _error: (
             <FormattedHTMLMessage id="validation_messages.error_account_is_blocked_invalid_pass_HTML" />
           ),
         });
       } else if (result.expectedError && result.expectedError.invalidLogin) {
-        setErrors({ _general: 'validation_messages.error_invalid_login' });
+        setErrors({ _error: 'validation_messages.error_invalid_login' });
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       }
     } finally {
@@ -164,6 +182,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         <FormWithCaptcha
           className="login-form"
           initialValues={getFormInitialValues()}
+          initialFormMessage={formMessage}
           onSubmit={onSubmit}
         >
           <fieldset>
@@ -184,7 +203,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
             </FieldGroup>
           </fieldset>
           <fieldset>
-            <FormErrors />
+            <FormMessages />
             <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
             <LinkToForgotPassword />
           </fieldset>

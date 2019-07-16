@@ -12,7 +12,7 @@ import {
   ValidatedPasswordFieldItem,
   PhoneFieldItem,
   SubmitButton,
-  FormErrors,
+  FormMessages,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SignupConfirmation from './SignupConfirmation';
@@ -121,11 +121,11 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
         addBlockedDomain(domain);
         validateForm();
       } else if (result.expectedError && result.expectedError.registerDenied) {
-        setErrors({ _general: 'validation_messages.error_register_denied' });
+        setErrors({ _error: 'validation_messages.error_register_denied' });
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _general: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
       }
     } finally {
@@ -218,7 +218,7 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
               />
             </FieldGroup>
           </fieldset>
-          <FormErrors />
+          <FormMessages />
           <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
         </FormWithCaptcha>
         <div className="content-legal">
