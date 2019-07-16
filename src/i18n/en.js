@@ -21,6 +21,7 @@ const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSet
 const urlSiteFromSignup = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=signup`;
 const urlSiteFromLogin = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
+const urlSiteContact = `${urlSite}/en/contact/`;
 
 export default {
   common: {
@@ -62,7 +63,7 @@ export default {
   forgot_password: {
     back_login: `Did you remember your Password? Go back to Log in.`,
     back_login_after_forgot: `Back to Log in`,
-    blocked_account: `Your account has been cancelled. To know more please `,
+    blocked_account_MD: `Your account has been cancelled. To know more please [contact us](${urlSiteContact}).`,
     button_request: `Request`,
     confirmation_message_HTML: `
       <p>

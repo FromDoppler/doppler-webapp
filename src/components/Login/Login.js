@@ -39,7 +39,7 @@ function getForgotErrorMessage(location) {
     case 'PassResetOk':
       return { _success: 'forgot_password.pass_reset_ok' };
     case 'BlockedAccount':
-      return { _error: 'forgot_password.blocked_account' };
+      return { _error: <FormattedMessageMarkdown id="forgot_password.blocked_account_MD" /> };
     case 'MaxAttemptsSecQuestion':
       return { _error: 'forgot_password.max_attempts_sec_question' };
     default:
