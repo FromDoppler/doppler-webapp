@@ -36,9 +36,8 @@ function getForgotErrorMessage(location) {
   switch (parsedQuery) {
     case 'ExpiredLink':
       return { _warning: 'forgot_password.expired_link' };
-    // case 'PassResetOk':
-    //   // TODO: add success message format /
-    //   return 'forgot_password.pass_reset_ok';
+    case 'PassResetOk':
+      return { _success: 'forgot_password.pass_reset_ok' };
     case 'BlockedAccount':
       return { _error: 'forgot_password.blocked_account' };
     case 'MaxAttemptsSecQuestion':
@@ -112,9 +111,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _error: (
-            <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />
-          ),
+          _error: <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />,
         });
       } else if (result.expectedError && result.expectedError.blockedAccountInvalidPassword) {
         setErrors({

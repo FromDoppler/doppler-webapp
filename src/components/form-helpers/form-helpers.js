@@ -159,6 +159,8 @@ export const FormMessages = connect(
         ? { message: errors['_error'], className: 'dp-error' }
         : errors && errors['_warning']
         ? { message: errors['_warning'], className: 'dp-warning-message' }
+        : errors && errors['_success']
+        ? { message: errors['_success'], className: 'dp-ok-message' }
         : null;
     return formMessages ? (
       <div className={`form-message bounceIn ${formMessages.className}`}>
