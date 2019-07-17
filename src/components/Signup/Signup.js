@@ -234,7 +234,7 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
           </p>
         </footer>
       </article>
-      <Promotions type="signup" page={extractPage(location)} disabledSitesContent />
+      <Promotions type="signup" page={extractPage(location)} />
     </main>
   );
 };
