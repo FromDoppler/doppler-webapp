@@ -150,7 +150,7 @@ const ForgotPassword = ({ intl, location, dependencies: { dopplerLegacyClient } 
           </p>
         </footer>
       </article>
-      <Promotions type="login" disabledSitesContent />
+      <Promotions type="login" />
     </main>
   );
 };

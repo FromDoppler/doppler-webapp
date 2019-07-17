@@ -219,7 +219,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
           </p>
         </footer>
       </article>
-      <Promotions type="login" disabledSitesContent />
+      <Promotions type="login" />
     </main>
   );
 };
