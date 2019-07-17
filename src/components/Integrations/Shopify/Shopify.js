@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import logo from './logo.svg';
-import './Shopify.css';
 import { FormattedHTMLMessage, FormattedMessage, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 
@@ -18,6 +17,8 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   );
   const StyledShopifyLogo = styled(ShopifyLogo)`
     width: 80px;
+    @media only screen and (max-width: 600px) {
+      display: none;
     }
   `;
 
