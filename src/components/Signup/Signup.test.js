@@ -4,7 +4,7 @@ import { render, cleanup, waitForDomChange } from '@testing-library/react';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 class MenubuttonFake {
   init() {}
