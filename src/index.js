@@ -16,6 +16,7 @@ import 'polyfill-array-includes';
 import 'promise-polyfill/src/polyfill';
 import { availableLanguageOrDefault } from './i18n/utils';
 import { HardcodedShopifyClient } from './services/shopify-client.doubles';
+import urlParse from 'url-parse';
 
 polyfill();
 
@@ -41,33 +42,17 @@ ReactGA.initialize('UA-532159-1');
 
 const history = createBrowserHistory();
 
-const parseUrl = (partialUrl) => {
-  const hash =
-    partialUrl.indexOf('#') !== -1
-      ? partialUrl.substring(partialUrl.indexOf('#') + 1, partialUrl.length)
-      : '';
-  const search =
-    partialUrl.indexOf('?') !== -1
-      ? hash.length
-        ? partialUrl.substring(partialUrl.indexOf('?') + 1, partialUrl.indexOf('#'))
-        : partialUrl.substring(partialUrl.indexOf('?') + 1, partialUrl.length)
-      : '';
-  const page =
-    partialUrl.split('?').length >= 2
-      ? partialUrl.split('?')[0]
-      : partialUrl.split('#').length >= 2
-      ? partialUrl.split('#')[0]
-      : partialUrl;
-  return { hash, search, page };
-};
-
 const trackNavigation = (location) => {
   const locationPage = location.hash && location.hash[0] === '#' && location.hash.slice(1);
   ReactGA.set({ page: locationPage });
   ReactGA.pageview(locationPage);
-  const result = parseUrl(locationPage);
+  const parsedUrl = urlParse(locationPage, false);
   window._dha &&
-    window._dha.track({ navigatedPage: result.page, hash: result.hash, search: result.search });
+    window._dha.track({
+      navigatedPage: parsedUrl.pathname,
+      hash: parsedUrl.hash,
+      search: parsedUrl.query,
+    });
 };
 
 trackNavigation(window.location);
