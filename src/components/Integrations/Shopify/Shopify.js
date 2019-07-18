@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import logo from './logo.svg';
-import './Shopify.css';
 import { FormattedHTMLMessage, FormattedMessage, injectIntl } from 'react-intl';
+import styled from 'styled-components';
 
 const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   const [shops, setShops] = useState([]);
@@ -12,6 +12,15 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const ShopifyLogo = ({ className }) => (
+    <img className={className} src={logo} alt="Shopify logo" />
+  );
+  const StyledShopifyLogo = styled(ShopifyLogo)`
+    width: 80px;
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  `;
 
   useEffect(() => {
     const getData = async () => {
@@ -82,7 +91,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                 <div className="block dp-integration__status">
                   <div className="status__info">
                     <div>
-                      <img className="shopify-logo" src={logo} alt="Shopify logo" />
+                      <StyledShopifyLogo />
                       <div className="status__data">
                         <p>
                           {_('shopify.header_synchronization_date')} <time>22/06/2019</time>
