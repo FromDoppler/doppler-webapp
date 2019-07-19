@@ -113,7 +113,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     domainName,
     dateFrom,
   }: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
   }): Promise<TrafficSource[]> {
     console.log('getTrafficSourcesByPeriod', { domainName, dateFrom });

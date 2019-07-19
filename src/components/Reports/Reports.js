@@ -2,6 +2,7 @@ import React from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
+import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -96,6 +97,10 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
+              <ReportsTrafficSources
+                domainName={this.state.domainSelected.name}
+                dateFrom={this.state.dateFrom}
+              />
               <ReportsPageRanking
                 domainName={this.state.domainSelected.name}
                 dateTo={this.state.dateTo}

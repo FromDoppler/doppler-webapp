@@ -237,6 +237,9 @@ export default {
     thanks_for_registering: `Thank you for registering`,
     url_site: `${urlSiteFromSignup}`,
   },
+  trafficSources: {
+    title: `Traffic sources`,
+  },
   upgradePlanForm: {
     message_placeholder: `Your message`,
     plan_select: `Select Plan`,

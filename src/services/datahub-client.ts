@@ -26,7 +26,7 @@ export interface DatahubClient {
     dateFrom: Date;
   }): Promise<{ name: string; totalVisitors: number; url: string }[]>;
   getTrafficSourcesByPeriod(query: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
   }): Promise<TrafficSource[]>;
 }
@@ -133,7 +133,7 @@ export class HttpDatahubClient implements DatahubClient {
     domainName,
     dateFrom,
   }: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
   }): Promise<TrafficSource[]> {
     const response = await this.customerGet<{ items: TrafficSource[] }>(
