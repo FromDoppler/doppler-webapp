@@ -39,7 +39,8 @@
     "react-scripts": "^3.0.1",
     "semantic-release": "^15.13.18",
     "styled-components": "^4.3.2",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "url-parse": "^1.4.7"
   },
   "homepage": ".",
   "scripts": {

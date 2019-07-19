@@ -16,6 +16,7 @@ import 'polyfill-array-includes';
 import 'promise-polyfill/src/polyfill';
 import { availableLanguageOrDefault } from './i18n/utils';
 import { HardcodedShopifyClient } from './services/shopify-client.doubles';
+import { getDataHubParams } from './utils';
 
 polyfill();
 
@@ -45,7 +46,8 @@ const trackNavigation = (location) => {
   const locationPage = location.hash && location.hash[0] === '#' && location.hash.slice(1);
   ReactGA.set({ page: locationPage });
   ReactGA.pageview(locationPage);
-  window._dha && window._dha.track({ navigatedPage: locationPage });
+  const dataHubParams = getDataHubParams(locationPage);
+  window._dha && window._dha.track(dataHubParams);
 };
 
 trackNavigation(window.location);
