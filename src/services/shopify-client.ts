@@ -54,15 +54,33 @@ export class HttpShopifyClient implements ShopifyClient {
     return connectionData;
   }
 
+  private mapShop(response: any): ConnectedShop {
+    return {
+      shopName: response.shopName,
+      synchronization_date: response.connectedOn,
+      list: {
+        id: response.dopplerListId,
+        name: 'MyList',
+        amountSubscribers: response.importedCustomersCount,
+        state:
+          response.syncProcessInProgress === true
+            ? SubscriberListState.synchronizingContacts
+            : SubscriberListState.ready,
+      },
+    };
+  }
+
   public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
     const { jwtToken } = this.getShopifyConnectionData();
-    const response = await this.axios.request<Result<ConnectedShop[], ShopifyErrorResult>>({
+    const response = await this.axios.request({
       method: 'GET',
       url: `/me/shops`,
       headers: { Authorization: `token ${jwtToken}` },
     });
+    if (response.data.shopName) {
+      const connectedShop = this.mapShop(response.data);
+      return { success: true, value: [connectedShop] };
+    }
     return response.data;
   }
-
-  // GET https://sfy.fromdoppler.com:4433/me/shops
 }

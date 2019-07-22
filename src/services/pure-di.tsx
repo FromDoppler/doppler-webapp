@@ -79,6 +79,7 @@ export class AppCompositionRoot implements AppServices {
         signup: process.env.REACT_APP_USE_DOPPLER_LEGACY_SIGNUP === 'true',
         forgotPassword: process.env.REACT_APP_USE_DOPPLER_LEGACY_FORGOTPASSWORD === 'true',
       },
+      shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
     }));
   }
 
