@@ -71,16 +71,25 @@ export class HttpShopifyClient implements ShopifyClient {
   }
 
   public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
-    const { jwtToken } = this.getShopifyConnectionData();
-    const response = await this.axios.request({
-      method: 'GET',
-      url: `/me/shops`,
-      headers: { Authorization: `token ${jwtToken}` },
-    });
-    if (response.data.shopName) {
-      const connectedShop = this.mapShop(response.data);
-      return { success: true, value: [connectedShop] };
+    let jwtToken;
+    try {
+      jwtToken = this.getShopifyConnectionData();
+    } catch (error) {
+      return { success: false, expectedError: error };
     }
-    return response.data;
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/me/shops`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+      if (response.data.shopName) {
+        const connectedShop = this.mapShop(response.data);
+        return { success: true, value: [connectedShop] };
+      }
+    } catch (error) {
+      return { success: false, error: { cannotConnectToAPI: true } };
+    }
+    return { success: false };
   }
 }
