@@ -16,6 +16,10 @@ export interface DatahubConnectionData {
   jwtToken: string;
 }
 
+export interface ShopifyConnectionData {
+  jwtToken: string;
+}
+
 interface AuthenticatedAppSessionWithDatahub
   extends DatahubConnectionData,
     AuthenticatedAppSession {}
