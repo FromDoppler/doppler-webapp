@@ -1,4 +1,4 @@
-import { DatahubClient, emailFilterOptions, DomainEntry } from './datahub-client';
+import { DatahubClient, emailFilterOptions, DomainEntry, TrafficSource } from './datahub-client';
 import { timeout } from '../utils';
 
 // TODO: use more realistic data
@@ -43,6 +43,33 @@ const fakePagesData = [
   },
 ];
 
+const fakeTrafficSourcesData = [
+  {
+    sourceName: 'Email',
+    quantity: 2000,
+  },
+  {
+    sourceName: 'Social',
+    quantity: 1000,
+  },
+  {
+    sourceName: 'Paid',
+    quantity: 250,
+  },
+  {
+    sourceName: 'Organic',
+    quantity: 100,
+  },
+  {
+    sourceName: 'Referal',
+    quantity: 50,
+  },
+  {
+    sourceName: 'Direct',
+    quantity: 100,
+  },
+];
+
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains(): Promise<DomainEntry[]> {
     console.log('getAccountDomains');
@@ -79,6 +106,21 @@ export class HardcodedDatahubClient implements DatahubClient {
       name: x.name,
       totalVisitors: x.totalVisitors,
       url: `http://${domainName}${x.name}`,
+    }));
+  }
+
+  public async getTrafficSourcesByPeriod({
+    domainName,
+    dateFrom,
+  }: {
+    domainName: number;
+    dateFrom: Date;
+  }): Promise<TrafficSource[]> {
+    console.log('getTrafficSourcesByPeriod', { domainName, dateFrom });
+    await timeout(1000);
+    return fakeTrafficSourcesData.map((x) => ({
+      sourceName: x.sourceName,
+      quantity: x.quantity,
     }));
   }
 }

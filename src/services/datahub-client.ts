@@ -7,6 +7,11 @@ export interface DomainEntry {
   verified_date: Date | null;
 }
 
+export interface TrafficSource {
+  sourceName: string;
+  quantity: number;
+}
+
 export type emailFilterOptions = 'with_email' | 'without_email' | null;
 
 export interface DatahubClient {
@@ -20,6 +25,10 @@ export interface DatahubClient {
     domainName: number;
     dateFrom: Date;
   }): Promise<{ name: string; totalVisitors: number; url: string }[]>;
+  getTrafficSourcesByPeriod(query: {
+    domainName: number;
+    dateFrom: Date;
+  }): Promise<TrafficSource[]>;
 }
 
 export class HttpDatahubClient implements DatahubClient {
@@ -117,6 +126,26 @@ export class HttpDatahubClient implements DatahubClient {
       name: x.page,
       totalVisitors: x.visitorsQuantity,
       url: `${urlSchema}${domainName}${x.page}`,
+    }));
+  }
+
+  public async getTrafficSourcesByPeriod({
+    domainName,
+    dateFrom,
+  }: {
+    domainName: number;
+    dateFrom: Date;
+  }): Promise<TrafficSource[]> {
+    const response = await this.customerGet<{ items: TrafficSource[] }>(
+      `domains/${domainName}/events/summarized-by-source`,
+      {
+        startDate: dateFrom.toISOString(),
+      },
+    );
+
+    return response.data.items.map((x) => ({
+      sourceName: x.sourceName,
+      quantity: x.quantity,
     }));
   }
 }
