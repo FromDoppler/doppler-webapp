@@ -122,7 +122,7 @@ export class AppCompositionRoot implements AppServices {
       () =>
         new HttpShopifyClient({
           axiosStatic: this.axiosStatic,
-          baseUrl: 'https://sfy.fromdoppler.com:4433',
+          baseUrl: this.appConfiguration.shopifyUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );
