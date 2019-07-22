@@ -29,6 +29,7 @@ class Reports extends React.Component {
       periodSelectedDays: 7,
       dateTo: new Date(),
       dateFrom: null,
+      disableTrafficSources: true,
     };
 
     this.changeDomain = this.changeDomain.bind(this);
@@ -97,10 +98,13 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
-              <ReportsTrafficSources
-                domainName={this.state.domainSelected.name}
-                dateFrom={this.state.dateFrom}
-              />
+              {// TODO: Remove when component and datahub finish /
+              !this.state.disableTrafficSources ? (
+                <ReportsTrafficSources
+                  domainName={this.state.domainSelected.name}
+                  dateFrom={this.state.dateFrom}
+                />
+              ) : null}
               <ReportsPageRanking
                 domainName={this.state.domainSelected.name}
                 dateTo={this.state.dateTo}

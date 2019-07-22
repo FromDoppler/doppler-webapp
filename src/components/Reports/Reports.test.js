@@ -50,7 +50,7 @@ describe('Reports page', () => {
       getAccountDomains: async () => fakeData,
       getVisitsByPeriod: async () => 0,
       getPagesRankingByPeriod: async () => [],
-      //getTrafficSourcesByPeriod: async () => [],
+      getTrafficSourcesByPeriod: async () => [],
     };
 
     const { getByText } = render(

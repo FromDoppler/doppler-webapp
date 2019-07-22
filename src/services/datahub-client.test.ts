@@ -91,10 +91,10 @@ describe('HttpDataHubClient', () => {
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
         }),
       );
-      expect(response).toEqual([
-        { sourceName: 'Email', quantity: 2000 },
-        { sourceName: 'Social', quantity: 1000 },
-      ]);
+      expect(response).toEqual({
+        success: true,
+        value: [{ sourceName: 'Email', quantity: 2000 }, { sourceName: 'Social', quantity: 1000 }],
+      });
     });
   });
 });
