@@ -5,9 +5,8 @@ import React, { createContext, ReactNode, RefObject, MutableRefObject } from 're
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
-import { ShopifyClient } from './shopify-client';
+import { ShopifyClient, HttpShopifyClient } from './shopify-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
-import { HardcodedShopifyClient } from './shopify-client.doubles';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -80,6 +79,7 @@ export class AppCompositionRoot implements AppServices {
         signup: process.env.REACT_APP_USE_DOPPLER_LEGACY_SIGNUP === 'true',
         forgotPassword: process.env.REACT_APP_USE_DOPPLER_LEGACY_FORGOTPASSWORD === 'true',
       },
+      shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
     }));
   }
 
@@ -118,7 +118,15 @@ export class AppCompositionRoot implements AppServices {
   }
 
   get shopifyClient() {
-    return this.singleton('shopifyClient', () => new HardcodedShopifyClient());
+    return this.singleton(
+      'shopifyClient',
+      () =>
+        new HttpShopifyClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.shopifyUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
   }
 
   get sessionManager() {
