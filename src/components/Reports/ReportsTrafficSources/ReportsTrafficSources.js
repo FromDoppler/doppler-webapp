@@ -55,7 +55,7 @@ const ReportsTrafficSources = function({
                 <span>
                   {trafficSource.quantity} (
                   <FormattedNumber
-                    value={(trafficSource.quantity * 100) / state.trafficSources.total}
+                    value={trafficSource.quantity / state.trafficSources.total}
                     {...numberFormatOptions}
                   />
                   )
@@ -63,7 +63,9 @@ const ReportsTrafficSources = function({
               </div>
               // TODO: Add message or something more prettier when service fail
             ))
-          ) : null}
+          ) : (
+            <FormattedMessage id="trafficSources.error" />
+          )}
         </div>
       </div>
     </div>

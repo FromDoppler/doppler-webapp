@@ -238,6 +238,7 @@ export default {
     url_site: `${urlSiteFromSignup}`,
   },
   trafficSources: {
+    error: `Ouch! An unexpected error occurred, try again`,
     title: `Traffic sources`,
   },
   upgradePlanForm: {
