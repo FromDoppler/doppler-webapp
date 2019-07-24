@@ -109,11 +109,12 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                       </div>
                     </div>
                   </div>
-                  {/*<button type="button" className="dp-button button-big primary-green">
-                    {_('common.disconnect')}
-                          </button>
-                    TODO: uncomment when disconnect is implemented
-                  */}
+                  <a
+                    href={_('shopify.admin_apps_url')}
+                    className="dp-button button-big primary-green"
+                  >
+                    {_('shopify.admin_apps')}
+                  </a>
                 </div>
               </div>
               <div className="dp-integration__block dp-integration--info">
@@ -147,12 +148,15 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               </div>
 
               <footer className="dp-integration__actions">
-                <button type="button" className="dp-button button-big primary-grey">
+                <a
+                  href={_('common.control_panel_url')}
+                  className="dp-button button-big primary-grey"
+                >
                   {_('common.back')}
-                </button>
-                <button type="button" className="dp-button button-big primary-green">
+                </a>
+                <a href={_('shopify.connect_url')} className="dp-button button-big primary-green">
                   {_('common.connect')}
-                </button>
+                </a>
               </footer>
             </>
           )}

@@ -7,6 +7,7 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
 const patchForBlank = `rel="noopener noreferrer"`;
+const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
@@ -30,8 +31,8 @@ export default {
     cancel: `Cancelar`,
     connect: `Conectar`,
     control_panel: `Panel de Control`,
+    control_panel_url: `${urlControlPanel}/ControlPanel`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
-    disconnect: `Desconectar`,
     hide: `Ocultar`,
     message: `Mensaje`,
     recaptcha_legal_HTML: `
@@ -169,6 +170,9 @@ export default {
   },
   reports_title: `Doppler | Reportes`,
   shopify: {
+    admin_apps: `Panel de control de Shopify`,
+    admin_apps_url: `${urlShopify}/admin/apps`,
+    connect_url: `${urlShopify}/install`,
     error_cannot_access_api: `Ouch! No pudimos conectar con la API de Shopify, por favor vuelve a intentarlo luego.`,
     header_disconnected_warning: `Parece que aun no has conectado con tu tienda. Haz click en Conectar para comenzar.`,
     header_store: `Nombre de la cuenta:`,
