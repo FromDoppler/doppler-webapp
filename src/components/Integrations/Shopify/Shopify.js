@@ -131,8 +131,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                     {shops.map((shop) => (
                       <li key={shop.list.id}>
                         <p>
-                          {/*{_('shopify.table_list')}: <strong> {shop.list.name} </strong> TODO: enable when we have listname as data*/}
-                          Id: <strong> {shop.list.id} </strong>
+                          {_('shopify.table_list')}: <strong> {shop.list.name} </strong>
                         </p>
                       </li>
                     ))}

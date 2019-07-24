@@ -59,7 +59,7 @@ export class HttpShopifyClient implements ShopifyClient {
       synchronization_date: response.connectedOn,
       list: {
         id: response.dopplerListId,
-        name: 'MyList',
+        name: response.dopplerListName,
         amountSubscribers: response.importedCustomersCount,
         state:
           response.syncProcessInProgress === true
