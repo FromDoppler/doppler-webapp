@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import logo from './logo.svg';
-import { FormattedHTMLMessage, injectIntl } from 'react-intl';
+import { FormattedHTMLMessage, injectIntl, FormattedDate } from 'react-intl';
 import styled from 'styled-components';
 
 const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
@@ -91,12 +91,15 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                     <div>
                       <StyledShopifyLogo />
                       <div className="status__data">
-                        <p>
-                          {_('shopify.header_synchronization_date')} <time>22/06/2019</time>
-                        </p>
                         <ul>
                           {shops.map((shop) => (
                             <li key={shop.shopName}>
+                              <p>
+                                {_('shopify.header_synchronization_date')}{' '}
+                                <strong>
+                                  <FormattedDate value={shop.synchronization_date} timeZone="UTC" />
+                                </strong>
+                              </p>
                               <p>
                                 {_('shopify.header_store')} <strong> {shop.shopName} </strong>
                               </p>
@@ -106,9 +109,11 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                       </div>
                     </div>
                   </div>
-                  <button type="button" className="dp-button button-big primary-green">
+                  {/*<button type="button" className="dp-button button-big primary-green">
                     {_('common.disconnect')}
-                  </button>
+                          </button>
+                    TODO: uncomment when disconnect is implemented
+                  */}
                 </div>
               </div>
               <div className="dp-integration__block dp-integration--info">
@@ -125,7 +130,8 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                     {shops.map((shop) => (
                       <li key={shop.list.id}>
                         <p>
-                          {_('shopify.table_list')}: <strong> {shop.list.name} </strong>
+                          {/*{_('shopify.table_list')}: <strong> {shop.list.name} </strong> TODO: enable when we have listname as data*/}
+                          Id: <strong> {shop.list.id} </strong>
                         </p>
                       </li>
                     ))}
