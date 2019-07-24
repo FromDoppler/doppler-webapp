@@ -1,4 +1,9 @@
-import { DatahubClient, emailFilterOptions, DomainEntry, TrafficSource } from './datahub-client';
+import {
+  DatahubClient,
+  emailFilterOptions,
+  DomainEntry,
+  TrafficSourceResult,
+} from './datahub-client';
 import { timeout } from '../utils';
 
 // TODO: use more realistic data
@@ -113,14 +118,24 @@ export class HardcodedDatahubClient implements DatahubClient {
     domainName,
     dateFrom,
   }: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
-  }): Promise<TrafficSource[]> {
+  }): Promise<TrafficSourceResult> {
     console.log('getTrafficSourcesByPeriod', { domainName, dateFrom });
     await timeout(1000);
-    return fakeTrafficSourcesData.map((x) => ({
+    const trafficSources = fakeTrafficSourcesData.map((x) => ({
       sourceName: x.sourceName,
       quantity: x.quantity,
     }));
+
+    return {
+      success: true,
+      value: trafficSources,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
   }
 }

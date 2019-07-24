@@ -1,6 +1,7 @@
 import { AxiosInstance, AxiosStatic, AxiosPromise } from 'axios';
 import { RefObject } from 'react';
 import { AppSession, DatahubConnectionData } from './app-session';
+import { ResultWithoutExpectedErrors } from '../doppler-types';
 
 export interface DomainEntry {
   name: string;
@@ -26,10 +27,12 @@ export interface DatahubClient {
     dateFrom: Date;
   }): Promise<{ name: string; totalVisitors: number; url: string }[]>;
   getTrafficSourcesByPeriod(query: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
-  }): Promise<TrafficSource[]>;
+  }): Promise<TrafficSourceResult>;
 }
+
+export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
 
 export class HttpDatahubClient implements DatahubClient {
   private readonly axios: AxiosInstance;
@@ -133,19 +136,31 @@ export class HttpDatahubClient implements DatahubClient {
     domainName,
     dateFrom,
   }: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
-  }): Promise<TrafficSource[]> {
-    const response = await this.customerGet<{ items: TrafficSource[] }>(
-      `domains/${domainName}/events/summarized-by-source`,
-      {
-        startDate: dateFrom.toISOString(),
-      },
-    );
+  }): Promise<TrafficSourceResult> {
+    try {
+      const response = await this.customerGet<{ items: TrafficSource[] }>(
+        `domains/${domainName}/events/summarized-by-source`,
+        {
+          startDate: dateFrom.toISOString(),
+        },
+      );
 
-    return response.data.items.map((x) => ({
-      sourceName: x.sourceName,
-      quantity: x.quantity,
-    }));
+      const trafficSources = response.data.items.map((x) => ({
+        sourceName: x.sourceName,
+        quantity: x.quantity,
+      }));
+
+      return {
+        success: true,
+        value: trafficSources,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
   }
 }

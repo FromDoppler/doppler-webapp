@@ -239,6 +239,10 @@ export default {
     thanks_for_registering: `Gracias por registrarte`,
     url_site: `${urlSiteFromSignup}`,
   },
+  trafficSources: {
+    error: `¡Ouch! Ocurrio un error inesperado, vuelva a intentar nuevamente`,
+    title: `Fuentes de trafico`,
+  },
   upgradePlanForm: {
     message_placeholder: `Tu mensaje`,
     plan_select: `Selecciona el Plan`,

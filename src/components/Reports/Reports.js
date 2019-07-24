@@ -2,6 +2,7 @@ import React from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
+import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -28,6 +29,7 @@ class Reports extends React.Component {
       periodSelectedDays: 7,
       dateTo: new Date(),
       dateFrom: null,
+      disableTrafficSources: true,
     };
 
     this.changeDomain = this.changeDomain.bind(this);
@@ -96,6 +98,13 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
+              {// TODO: Remove when component and datahub finish /
+              !this.state.disableTrafficSources ? (
+                <ReportsTrafficSources
+                  domainName={this.state.domainSelected.name}
+                  dateFrom={this.state.dateFrom}
+                />
+              ) : null}
               <ReportsPageRanking
                 domainName={this.state.domainSelected.name}
                 dateTo={this.state.dateTo}
