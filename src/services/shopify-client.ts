@@ -71,13 +71,8 @@ export class HttpShopifyClient implements ShopifyClient {
   }
 
   public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
-    let jwtToken;
     try {
-      jwtToken = this.getShopifyConnectionData();
-    } catch (error) {
-      return { success: false, expectedError: error };
-    }
-    try {
+      const { jwtToken } = this.getShopifyConnectionData();
       const response = await this.axios.request({
         method: 'GET',
         url: `/me/shops`,
