@@ -1,4 +1,4 @@
-import { Result } from '../doppler-types';
+import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession, ShopifyConnectionData } from './app-session';
 import { RefObject } from 'react';
@@ -20,9 +20,8 @@ export interface ConnectedShop {
   list: SubscriberList;
 }
 
-export type ShopifyErrorResult = { cannotConnectToAPI: true };
 export interface ShopifyClient {
-  getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>>;
+  getShopifyData(): Promise<ResultWithoutExpectedErrors<ConnectedShop[]>>;
 }
 
 export class HttpShopifyClient implements ShopifyClient {
@@ -70,7 +69,7 @@ export class HttpShopifyClient implements ShopifyClient {
     };
   }
 
-  public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
+  public async getShopifyData(): Promise<ResultWithoutExpectedErrors<ConnectedShop[]>> {
     try {
       const { jwtToken } = this.getShopifyConnectionData();
       const response = await this.axios.request({

@@ -43,7 +43,6 @@ const twoShops = [
 const emptyResponse = { success: true, value: [] };
 const oneShopConnected = { success: true, value: oneShop };
 const moreThanOneShopConnected = { success: true, value: twoShops };
-const expectedErrorResponse = { success: false, expectedError: { cannotConnectToAPI: true } };
 const unexpectedErrorResponse = { success: false, message: 'Some random error' };
 
 describe('Shopify Component', () => {
@@ -67,26 +66,6 @@ describe('Shopify Component', () => {
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
     expect(getByText('shopify.header_disconnected_warning'));
-  });
-
-  it('should manage expected error', async () => {
-    const shopifyClientDouble = {
-      getShopifyData: async () => expectedErrorResponse,
-    };
-    const { container, getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          shopifyClient: shopifyClientDouble,
-        }}
-      >
-        <DopplerIntlProvider>
-          <Shopify />
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
-    );
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('shopify.error_cannot_access_api'));
   });
 
   it('should get connected user with one shop', async () => {

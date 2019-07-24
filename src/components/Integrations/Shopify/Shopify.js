@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import logo from './logo.svg';
-import { FormattedHTMLMessage, FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import styled from 'styled-components';
 
 const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
@@ -25,9 +25,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   useEffect(() => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
-      if (result.expectedError && result.expectedError.cannotConnectToAPI) {
-        setError(<FormattedMessage id="shopify.error_cannot_access_api" />);
-      } else if (!result.success) {
+      if (!result.success) {
         setError(<FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />);
       } else if (result.value.length) {
         setIsConnected(true);
