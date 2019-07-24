@@ -81,7 +81,7 @@ export class HttpShopifyClient implements ShopifyClient {
         const connectedShops = response.data.map((shop: any) => {
           return this.mapShop(shop);
         });
-        return { success: true, value: connectedShops[0] };
+        return { success: true, value: connectedShops };
       } else {
         return { success: true, value: [] };
       }
