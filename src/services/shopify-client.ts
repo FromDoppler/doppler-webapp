@@ -83,7 +83,8 @@ export class HttpShopifyClient implements ShopifyClient {
         return { success: true, value: [connectedShop] };
       }
     } catch (error) {
-      return { success: false, error: { cannotConnectToAPI: true } };
+      console.error(error);
+      return { success: false, error: error };
     }
     return { success: false };
   }
