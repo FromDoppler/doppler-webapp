@@ -126,7 +126,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                       </div>
                     </div>
                     <a
-                      href={'https://' + shop.shopName + '/admin/apps'}
+                      href={_('shopify.admin_apps_url', { shopName: shop.shopName })}
                       className="dp-button button-big primary-green"
                     >
                       {_('shopify.admin_apps')}
