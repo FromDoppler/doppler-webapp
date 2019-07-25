@@ -21,7 +21,24 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       display: none;
     }
   `;
+  const Breadcrum = ({ className }) => (
+    <span className={className}>
+      <a className="main-section" href={_('common.control_panel_advanced_pref_url')}>
+        {_('common.control_panel')}
+      </a>{' '}
+      <span>&lt;</span>{' '}
+      <span className="secondary-section">{_('common.advanced_preferences')}</span>
+    </span>
+  );
 
+  const StyledBreadcrum = styled(Breadcrum)`
+    color: #999999;
+    font-family: Helvetica;
+    font-size: 13px;
+    line-height: 22px .main-section {
+      color: #33ad73;
+    }
+  `;
   useEffect(() => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
@@ -58,8 +75,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       <Helmet title={_('shopify.title')} />
       {/* inline styles will be removed when breadcrum is ready in ui library */}
       <section className="page-wrapper" style={{ marginTop: '20px', marginBottom: '20px' }}>
-        <a href={_('common.control_panel_advanced_pref_url')}>{_('common.control_panel')}</a> >{' '}
-        {_('common.advanced_preferences')}
+        <StyledBreadcrum />
         <div className="dp-integration" style={{ marginTop: '20px' }}>
           {isLoading ? (
             <>
