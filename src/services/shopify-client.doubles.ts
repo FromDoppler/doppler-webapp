@@ -1,11 +1,6 @@
-import {
-  ShopifyClient,
-  SubscriberListState,
-  ConnectedShop,
-  ShopifyErrorResult,
-} from './shopify-client';
+import { ShopifyClient, SubscriberListState, ConnectedShop } from './shopify-client';
 import { timeout } from '../utils';
-import { Result } from '../doppler-types';
+import { ResultWithoutExpectedErrors } from '../doppler-types';
 
 const oneShop = [
   {
@@ -44,13 +39,12 @@ const oneShop = [
 ];*/
 
 export class HardcodedShopifyClient implements ShopifyClient {
-  public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
+  public async getShopifyData(): Promise<ResultWithoutExpectedErrors<ConnectedShop[]>> {
     console.log('getShopifyData');
     await timeout(1500);
-    //return {success: false, message: 'Some random error'}; // Unexpected error
-    //return {success: false, expectedError: {cannotConnectToAPI: true}}; // Expected error
+    //return { success: false, message: 'Some random error' }; // Unexpected error
     //return { success: true, value: twoShops }; // Shopify connected with more than one shop
     return { success: true, value: oneShop }; // Shopify connected to one shop
-    //return { success: true, value:[]}; // Shopify disconnected
+    //return { success: true, value: [] }; // Shopify disconnected
   }
 }

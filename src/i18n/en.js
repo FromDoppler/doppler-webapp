@@ -7,6 +7,7 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const patchForBlank = `rel="noopener noreferrer"`;
+const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -22,6 +23,7 @@ const urlSiteFromSignup = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_
 const urlSiteFromLogin = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 const urlSiteContact = `${urlSite}/en/contact/`;
+const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
   common: {
@@ -30,8 +32,9 @@ export default {
     cancel: `Cancel`,
     connect: `Connect`,
     control_panel: `Control Panel`,
+    control_panel_advanced_pref_url: `${urlControlPanelMain}?section=AdvancedPreferences`,
+    control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
-    disconnect: `Disconnect`,
     hide: `Hide`,
     message: `Message`,
     recaptcha_legal_HTML: `
@@ -169,6 +172,9 @@ export default {
   },
   reports_title: `Doppler | Reports`,
   shopify: {
+    admin_apps: `Shopify control panel`,
+    admin_apps_url: `https://{shopName}/admin/apps`,
+    connect_url: `${urlShopify}/install`,
     error_cannot_access_api: `Oops! We could not connect to Shopify API, please try again later.`,
     header_disconnected_warning: `Seems you are not connected yet. Click on connect button to start.`,
     header_store: `Account name:`,

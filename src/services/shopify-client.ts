@@ -1,4 +1,4 @@
-import { Result } from '../doppler-types';
+import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession, ShopifyConnectionData } from './app-session';
 import { RefObject } from 'react';
@@ -20,9 +20,8 @@ export interface ConnectedShop {
   list: SubscriberList;
 }
 
-export type ShopifyErrorResult = { cannotConnectToAPI: true };
 export interface ShopifyClient {
-  getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>>;
+  getShopifyData(): Promise<ResultWithoutExpectedErrors<ConnectedShop[]>>;
 }
 
 export class HttpShopifyClient implements ShopifyClient {
@@ -60,7 +59,7 @@ export class HttpShopifyClient implements ShopifyClient {
       synchronization_date: response.connectedOn,
       list: {
         id: response.dopplerListId,
-        name: 'MyList',
+        name: response.dopplerListName,
         amountSubscribers: response.importedCustomersCount,
         state:
           response.syncProcessInProgress === true
@@ -70,26 +69,25 @@ export class HttpShopifyClient implements ShopifyClient {
     };
   }
 
-  public async getShopifyData(): Promise<Result<ConnectedShop[], ShopifyErrorResult>> {
-    let jwtToken;
+  public async getShopifyData(): Promise<ResultWithoutExpectedErrors<ConnectedShop[]>> {
     try {
-      jwtToken = this.getShopifyConnectionData();
-    } catch (error) {
-      return { success: false, expectedError: error };
-    }
-    try {
+      const { jwtToken } = this.getShopifyConnectionData();
       const response = await this.axios.request({
         method: 'GET',
         url: `/me/shops`,
         headers: { Authorization: `token ${jwtToken}` },
       });
-      if (response.data.shopName) {
-        const connectedShop = this.mapShop(response.data);
-        return { success: true, value: [connectedShop] };
+      if (response.data.length) {
+        const connectedShops = response.data.map((shop: any) => {
+          return this.mapShop(shop);
+        });
+        return { success: true, value: connectedShops };
+      } else {
+        return { success: true, value: [] };
       }
     } catch (error) {
-      return { success: false, error: { cannotConnectToAPI: true } };
+      console.error(error);
+      return { success: false, error: error };
     }
-    return { success: false };
   }
 }
