@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, injectIntl, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
+import {Container, TrafficSourceContainer, TrafficSourceHeader} from './ReportsTrafficSources.styles';
 
 const ReportsTrafficSources = function({
   domainName,
@@ -45,28 +46,31 @@ const ReportsTrafficSources = function({
         <h4 className="title-ranking">
           <FormattedMessage id="trafficSources.title" />
         </h4>
-        <div>
+        <Container>
           {state.loading ? (
             <Loading />
           ) : state.trafficSources ? (
             state.trafficSources.items.map((trafficSource, index) => (
-              <div key={index}>
-                <span>{trafficSource.sourceName}</span>
-                <span>
-                  {trafficSource.quantity} (
-                  <FormattedNumber
-                    value={trafficSource.quantity / state.trafficSources.total}
-                    {...numberFormatOptions}
-                  />
-                  )
-                </span>
-              </div>
+              <TrafficSourceContainer key={index}>
+                <TrafficSourceHeader>
+                  <h6>{trafficSource.sourceName}</h6>
+                  <span>
+                    {trafficSource.quantity} (
+                    <FormattedNumber
+                      value={trafficSource.quantity / state.trafficSources.total}
+                      {...numberFormatOptions}
+                    />
+                    )
+                  </span>
+                </TrafficSourceHeader>
+                  
+              </TrafficSourceContainer>
               // TODO: Add message or something more prettier when service fail
             ))
           ) : (
             <FormattedMessage id="trafficSources.error" />
           )}
-        </div>
+        </Container>
       </div>
     </div>
   );
