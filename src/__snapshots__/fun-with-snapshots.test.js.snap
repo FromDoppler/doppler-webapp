@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Jest Snapshots Diff of components should work with not inline snapshots 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+  <div
+-   className=\\"loading-box\\"
++   className=\\"wrapper-loading\\"
++ >
++   <div
++     className=\\"loading-page\\"
+    />
++ </div>"
+`;
+
+exports[`Jest Snapshots Diff of objects should work with not inline snapshots 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+  Object {
+    \\"a\\": 1,
+    \\"b\\": 2,
+    \\"c\\": 3,
++   \\"d\\": undefined,
+  }"
+`;
+
+exports[`Jest Snapshots of components should work with not inline snapshots 1`] = `
+<div
+  className="wrapper-loading"
+>
+  <div
+    className="loading-page"
+  />
+</div>
+`;
+
+exports[`Jest Snapshots of objects should work with not inline snapshots 1`] = `
+Object {
+  "a": 1,
+  "b": [Function],
+  "c": [Function],
+}
+`;
