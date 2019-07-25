@@ -58,7 +58,8 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       <Helmet title={_('shopify.title')} />
       {/* inline styles will be removed when breadcrum is ready in ui library */}
       <section className="page-wrapper" style={{ marginTop: '20px', marginBottom: '20px' }}>
-        {_('common.control_panel')} | {_('common.advanced_preferences')}
+        <a href={_('common.control_panel_advanced_pref_url')}>{_('common.control_panel')}</a> >{' '}
+        {_('common.advanced_preferences')}
         <div className="dp-integration" style={{ marginTop: '20px' }}>
           {isLoading ? (
             <>
@@ -86,13 +87,13 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
             <>
               <div className="dp-integration__block">
                 {shopifyHeader}
-                <div className="block dp-integration__status">
-                  <div className="status__info">
-                    <div>
-                      <StyledShopifyLogo />
-                      <div className="status__data">
-                        <ul>
-                          {shops.map((shop) => (
+                {shops.map((shop) => (
+                  <div className="block dp-integration__status">
+                    <div className="status__info">
+                      <div>
+                        <StyledShopifyLogo />
+                        <div className="status__data">
+                          <ul>
                             <li key={shop.shopName}>
                               <p>
                                 {_('shopify.header_synchronization_date')}{' '}
@@ -104,18 +105,18 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                                 {_('shopify.header_store')} <strong> {shop.shopName} </strong>
                               </p>
                             </li>
-                          ))}
-                        </ul>
+                          </ul>
+                        </div>
                       </div>
                     </div>
+                    <a
+                      href={'https://' + shop.shopName + '/admin/apps'}
+                      className="dp-button button-big primary-green"
+                    >
+                      {_('shopify.admin_apps')}
+                    </a>
                   </div>
-                  <a
-                    href={_('shopify.admin_apps_url')}
-                    className="dp-button button-big primary-green"
-                  >
-                    {_('shopify.admin_apps')}
-                  </a>
-                </div>
+                ))}
               </div>
               <div className="dp-integration__block dp-integration--info">
                 <header className="block">

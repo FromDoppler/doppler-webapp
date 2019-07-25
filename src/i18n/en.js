@@ -23,6 +23,7 @@ const urlSiteFromSignup = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_
 const urlSiteFromLogin = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 const urlSiteContact = `${urlSite}/en/contact/`;
+const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
   common: {
@@ -31,7 +32,8 @@ export default {
     cancel: `Cancel`,
     connect: `Connect`,
     control_panel: `Control Panel`,
-    control_panel_url: `${urlControlPanel}/ControlPanel`,
+    control_panel_url: `${urlControlPanelMain}`,
+    control_panel_advanced_pref_url: `${urlControlPanelMain}?section=AdvancedPreferences`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
     hide: `Hide`,
     message: `Message`,
@@ -171,7 +173,6 @@ export default {
   reports_title: `Doppler | Reports`,
   shopify: {
     admin_apps: `Shopify control panel`,
-    admin_apps_url: `${urlShopify}/admin/apps`,
     connect_url: `${urlShopify}/install`,
     error_cannot_access_api: `Oops! We could not connect to Shopify API, please try again later.`,
     header_disconnected_warning: `Seems you are not connected yet. Click on connect button to start.`,
