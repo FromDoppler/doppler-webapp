@@ -69,14 +69,14 @@ class ReportsPageRanking extends React.Component {
 
     return (
       <>
-        <div className="wrapper-ranking">
+        <div className="wrapper-reports-box">
           {pages === null ? (
             <Loading />
           ) : (
             <div className="reports-box">
-              <h4 className="title-ranking">
+              <small className="title-reports-box">
                 <FormattedMessage id="reports_pageranking.top_pages" />
-              </h4>
+              </small>
 
               {pages.map((item, index) => (
                 <div key={index} className="page-ranking--item">
