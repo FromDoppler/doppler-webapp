@@ -43,6 +43,7 @@ export default {
       `,
     send: `Send`,
     show: `Show`,
+    synchronizing: `Synchronizing`,
   },
   default_banner_data: {
     background_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png',
@@ -185,7 +186,7 @@ export default {
     list_subtitle: `You can synchronize the data manually whenever you want.`,
     list_title: `Synchronized List`,
     table_list: `List Name`,
-    table_subscribers_count: `Subscribers`,
+    table_subscribers_count: `Shopify customers`,
     title: `Doppler | Shopify`,
   },
   signup: {
