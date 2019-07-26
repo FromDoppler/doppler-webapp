@@ -81,30 +81,35 @@ class ReportsBox extends React.Component {
           <div className="loading-box" />
         ) : this.props.withEmail ? (
           <>
-            <h3 className="number-kpi">{visits}</h3>
-            <h6 className="subtitle-kpi">
-              <FormattedMessage id="reports_box.visits_with_email" />
-            </h6>
-            <small className="date-range">
-              <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
-              <FormattedMessage id="reports_box.to" />{' '}
-              <FormattedDate value={dateTo} timeZone="UTC" />
-            </small>
+            <div className="box-border--bottom">
+              <h3 className="number-kpi">{visits}</h3>
+              <h6 className="subtitle-kpi">
+                <FormattedMessage id="reports_box.visits_with_email" />
+              </h6>
+              <small className="date-range">
+                <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
+                <FormattedMessage id="reports_box.to" />{' '}
+                <FormattedDate value={dateTo} timeZone="UTC" />
+              </small>
+            </div>
+
             <p className="text-kpi">
               <FormattedMessage id="reports_box.visits_description_with_email" />
             </p>
           </>
         ) : this.props.withoutEmail ? (
           <>
-            <h3 className="number-kpi">{visits}</h3>
-            <h6 className="subtitle-kpi">
-              <FormattedMessage id="reports_box.visits_without_emails" />
-            </h6>
-            <small className="date-range">
-              <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
-              <FormattedMessage id="reports_box.to" />{' '}
-              <FormattedDate value={dateTo} timeZone="UTC" />
-            </small>
+            <div className="box-border--bottom">
+              <h3 className="number-kpi">{visits}</h3>
+              <h6 className="subtitle-kpi">
+                <FormattedMessage id="reports_box.visits_without_emails" />
+              </h6>
+              <small className="date-range">
+                <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
+                <FormattedMessage id="reports_box.to" />{' '}
+                <FormattedDate value={dateTo} timeZone="UTC" />
+              </small>
+            </div>
             <p className="text-kpi">
               <FormattedMessage id="reports_box.visits_description_without_emails" />
             </p>
