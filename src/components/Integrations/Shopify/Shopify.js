@@ -5,6 +5,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import logo from './logo.svg';
 import { FormattedHTMLMessage, injectIntl, FormattedDate } from 'react-intl';
 import styled from 'styled-components';
+import { SubscriberListState } from '../../../services/shopify-client';
 
 const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   const [shops, setShops] = useState([]);
@@ -12,6 +13,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   const ShopifyLogo = ({ className }) => (
     <img className={className} src={logo} alt="Shopify logo" />
   );
@@ -21,6 +23,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       display: none;
     }
   `;
+
   const Breadcrum = ({ className }) => (
     <span className={className}>
       <a className="main-section" href={_('common.control_panel_advanced_pref_url')}>
@@ -30,7 +33,6 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       <span className="secondary-section">{_('common.advanced_preferences')}</span>
     </span>
   );
-
   const StyledBreadcrum = styled(Breadcrum)`
     color: #999999;
     font-family: Helvetica;
@@ -39,6 +41,33 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       color: #33ad73;
     }
   `;
+
+  const Table = ({ list }) => (
+    <table className="dp-c-table">
+      <thead>
+        <tr>
+          <th>{_('shopify.table_list')} </th>
+          <th> {_('shopify.table_shopify_customers_count')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {list.state === SubscriberListState.ready ? (
+          <tr>
+            <td>{list.name}</td>
+            <td>{list.amountSubscribers}</td>
+          </tr>
+        ) : (
+          <tr className="sync">
+            <td>{list.name}</td>
+            <td className="text-sync">
+              <span className="ms-icon icon-clock"></span>
+              {_('common.synchronizing')}
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
   useEffect(() => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
@@ -104,7 +133,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               <div className="dp-integration__block">
                 {shopifyHeader}
                 {shops.map((shop) => (
-                  <div className="block dp-integration__status">
+                  <div key={shop.shopName} className="block dp-integration__status">
                     <div className="status__info">
                       <div>
                         <StyledShopifyLogo />
@@ -147,9 +176,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                   <ul>
                     {shops.map((shop) => (
                       <li key={shop.list.id}>
-                        <p>
-                          {_('shopify.table_list')}: <strong> {shop.list.name} </strong>
-                        </p>
+                        <Table list={shop.list} />
                       </li>
                     ))}
                   </ul>
