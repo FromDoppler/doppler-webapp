@@ -61,7 +61,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
             <td>{list.name}</td>
             <td className="text-sync">
               <span className="ms-icon icon-clock"></span>
-              {_('shopify.synchronizing')}
+              {_('common.synchronizing')}
             </td>
           </tr>
         )}
