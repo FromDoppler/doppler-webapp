@@ -47,7 +47,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       <thead>
         <tr>
           <th>{_('shopify.table_list')} </th>
-          <th> {_('shopify.table_subscribers_count')}</th>
+          <th> {_('shopify.table_shopify_customers_count')}</th>
         </tr>
       </thead>
       <tbody>

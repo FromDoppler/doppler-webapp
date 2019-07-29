@@ -186,7 +186,7 @@ export default {
     list_subtitle: `Puedes sincronizar los datos manualmente cuando gustes.`,
     list_title: `Lista sincronizada`,
     table_list: `Nombre de la Lista`,
-    table_subscribers_count: `Clientes de Shopify`,
+    table_shopify_customers_count: `Clientes de Shopify`,
     title: `Doppler | Shopify`,
   },
   signup: {

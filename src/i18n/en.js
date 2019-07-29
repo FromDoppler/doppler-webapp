@@ -186,7 +186,7 @@ export default {
     list_subtitle: `You can synchronize the data manually whenever you want.`,
     list_title: `Synchronized List`,
     table_list: `List Name`,
-    table_subscribers_count: `Shopify customers`,
+    table_shopify_customers_count: `Shopify customers`,
     title: `Doppler | Shopify`,
   },
   signup: {
