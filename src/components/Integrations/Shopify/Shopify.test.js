@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 import Shopify from './Shopify';
+import { SubscriberListState } from '../../../services/shopify-client';
 
 const oneShop = [
   {
@@ -86,6 +87,29 @@ describe('Shopify Component', () => {
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
     expect(getByText(oneShopConnected.value[0].shopName));
+  });
+
+  it('should get connected user with one shop and one list in sync state', async () => {
+    let syncList = { ...oneShopConnected };
+    syncList.list = { ...oneShopConnected.list };
+    syncList.list.state = SubscriberListState.synchronizingContacts;
+    const shopifyClientDouble = {
+      getShopifyData: async () => oneShopConnected,
+    };
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          shopifyClient: shopifyClientDouble,
+        }}
+      >
+        <DopplerIntlProvider>
+          <Shopify />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    await waitForDomChange();
+    expect(getByText('common.synchronizing'));
   });
 
   it('should get connected user with more than one shop', async () => {
