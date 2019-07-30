@@ -16,7 +16,7 @@ export const TrafficSourceContainer = styled.div`
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
-  padding: 40px 30px 70px;
+  padding: 40px 30px;
 `;
 
 export const TrafficSourceHeader = styled.header`

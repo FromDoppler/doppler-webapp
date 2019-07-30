@@ -56,19 +56,17 @@ const ReportsTrafficSources = function({
           ) : state.trafficSources ? (
             state.trafficSources.items.map((trafficSource, index) => (
               <TrafficSourceContainer key={index}>
-                <div className="box-border--bottom">
-                  <TrafficSourceHeader>
-                    <h6>{trafficSource.sourceName}</h6>
-                    <span>
-                      {trafficSource.quantity} (
-                      <FormattedNumber
-                        value={trafficSource.quantity / state.trafficSources.total}
-                        {...numberFormatOptions}
-                      />
-                      )
-                    </span>
-                  </TrafficSourceHeader>
-                </div>
+                <TrafficSourceHeader>
+                  <h6>{trafficSource.sourceName}</h6>
+                  <span>
+                    {trafficSource.quantity} (
+                    <FormattedNumber
+                      value={trafficSource.quantity / state.trafficSources.total}
+                      {...numberFormatOptions}
+                    />
+                    )
+                  </span>
+                </TrafficSourceHeader>
               </TrafficSourceContainer>
               // TODO: Add message or something more prettier when service fail
             ))
