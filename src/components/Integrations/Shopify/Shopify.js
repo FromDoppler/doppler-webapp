@@ -157,6 +157,8 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                     <a
                       href={_('shopify.admin_apps_url', { shopName: shop.shopName })}
                       className="dp-button button-big primary-green"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       {_('shopify.admin_apps')}
                     </a>
@@ -197,7 +199,12 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                 >
                   {_('common.back')}
                 </a>
-                <a href={_('shopify.connect_url')} className="dp-button button-big primary-green">
+                <a
+                  href={_('shopify.connect_url')}
+                  className="dp-button button-big primary-green"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {_('common.connect')}
                 </a>
               </footer>
