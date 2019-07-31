@@ -177,7 +177,7 @@ export default {
     admin_apps_url: `https://{shopName}/admin/apps`,
     connect_url: `${urlShopify}/install`,
     error_cannot_access_api: `Ouch! No pudimos conectar con la API de Shopify, por favor vuelve a intentarlo luego.`,
-    header_disconnected_warning: `Parece que aun no has conectado con tu tienda. Haz click en Conectar para comenzar.`,
+    header_disconnected_warning: `Al presionar "Conectar" serás redirigido a Shopify, donde podrás realizar todos los pasos necesarios para integrar.`,
     header_store: `Nombre de la cuenta:`,
     header_subtitle: `Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
     Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona <a target="_blank" href="${urlHelp}/como-integrar-doppler-y-shopify/" ${patchForBlank}>HELP</a>.`,
