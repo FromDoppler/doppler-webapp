@@ -24,23 +24,16 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
     }
   `;
 
-  const Breadcrum = ({ className }) => (
-    <span className={className}>
-      <a className="main-section" href={_('common.control_panel_advanced_pref_url')}>
-        {_('common.control_panel')}
-      </a>{' '}
-      <span>&lt;</span>{' '}
-      <span className="secondary-section">{_('common.advanced_preferences')}</span>
-    </span>
+  const Breadcrumb = () => (
+    <nav className="dp-breadcrumb">
+      <ul>
+        <li>
+          <a href={_('common.control_panel_advanced_pref_url')}>{_('common.control_panel')}</a>
+        </li>
+        <li>{_('common.advanced_preferences')}</li>
+      </ul>
+    </nav>
   );
-  const StyledBreadcrum = styled(Breadcrum)`
-    color: #999999;
-    font-family: Helvetica;
-    font-size: 13px;
-    line-height: 22px .main-section {
-      color: #33ad73;
-    }
-  `;
 
   const Table = ({ list }) => (
     <table className="dp-c-table">
@@ -104,7 +97,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       <Helmet title={_('shopify.title')} />
       {/* inline styles will be removed when breadcrum is ready in ui library */}
       <section className="page-wrapper" style={{ marginTop: '20px', marginBottom: '20px' }}>
-        <StyledBreadcrum />
+        <Breadcrumb />
         <div className="dp-integration" style={{ marginTop: '20px' }}>
           {isLoading ? (
             <>
