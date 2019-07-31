@@ -112,7 +112,9 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               <div className="dp-integration__block">
                 {shopifyHeader}
                 <div className="block">
-                  <p>{error}</p>
+                  <div className="dp-msj-error bounceIn">
+                    <p>{error}</p>
+                  </div>
                 </div>
               </div>
               <footer className="dp-integration__actions">
