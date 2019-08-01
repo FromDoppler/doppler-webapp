@@ -15,10 +15,10 @@ import {
   FormMessages,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
-import SignupConfirmation from './SignupConfirmation';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
+import { Redirect } from 'react-router-dom';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -82,7 +82,7 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
         email: registeredUser,
         captchaResponseToken: captchaResponseToken,
       });
-    return <SignupConfirmation resend={resend} />;
+    return <Redirect to={{ pathname: '/signup/confirmation', state: { resend: resend } }} />;
   }
 
   const validate = (values) => {

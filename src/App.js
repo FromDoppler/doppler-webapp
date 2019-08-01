@@ -13,6 +13,7 @@ import RedirectWithQuery from './components/RedirectWithQuery';
 import { Helmet } from 'react-helmet';
 import { availableLanguageOrNull } from './i18n/utils';
 import Shopify from './components/Integrations/Shopify/Shopify';
+import SignupConfirmation from './components/Signup/SignupConfirmation';
 
 class App extends Component {
   /**
@@ -95,6 +96,7 @@ class App extends Component {
             <PublicRouteWithLegacyFallback exact path="/login" />
             <PublicRouteWithLegacyFallback exact path="/signup" />
             <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
+            <Route path="/signup/confirmation" exact component={SignupConfirmation} />
             <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
             <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
             <RedirectWithQuery exact from="/ingresa/cambiar-clave" to="/forgot-password?lang=es" />
