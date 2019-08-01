@@ -118,7 +118,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                 </div>
               </div>
               <footer className="dp-integration__actions">
-                <button type="button" className="dp-button button-big primary-grey">
+                <button type="button" className="dp-button button-medium primary-grey">
                   {_('common.back')}
                 </button>
               </footer>
@@ -151,7 +151,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                     </div>
                     <a
                       href={_('shopify.admin_apps_url', { shopName: shop.shopName })}
-                      className="dp-button button-big primary-green"
+                      className="dp-button button-medium primary-green"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -190,13 +190,13 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               <footer className="dp-integration__actions">
                 <a
                   href={_('common.control_panel_url')}
-                  className="dp-button button-big primary-grey"
+                  className="dp-button button-medium primary-grey"
                 >
                   {_('common.back')}
                 </a>
                 <a
                   href={_('shopify.connect_url')}
-                  className="dp-button button-big primary-green"
+                  className="dp-button button-medium primary-green"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
