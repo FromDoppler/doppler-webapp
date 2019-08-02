@@ -61,6 +61,13 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       </tbody>
     </table>
   );
+
+  const backButton = (
+    <a href={_('common.control_panel_url')} className="dp-button button-medium primary-grey">
+      {_('common.back')}
+    </a>
+  );
+
   useEffect(() => {
     const getData = async () => {
       const result = await shopifyClient.getShopifyData();
@@ -117,11 +124,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                   </div>
                 </div>
               </div>
-              <footer className="dp-integration__actions">
-                <button type="button" className="dp-button button-medium primary-grey">
-                  {_('common.back')}
-                </button>
-              </footer>
+              <footer className="dp-integration__actions">{backButton}</footer>
             </>
           ) : isConnected ? (
             <>
@@ -188,12 +191,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               </div>
 
               <footer className="dp-integration__actions">
-                <a
-                  href={_('common.control_panel_url')}
-                  className="dp-button button-medium primary-grey"
-                >
-                  {_('common.back')}
-                </a>
+                {backButton}
                 <a
                   href={_('shopify.connect_url')}
                   className="dp-button button-medium primary-green"
