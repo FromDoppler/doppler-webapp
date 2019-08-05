@@ -102,10 +102,9 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
   return (
     <>
       <Helmet title={_('shopify.title')} />
-      {/* inline styles will be removed when breadcrum is ready in ui library */}
-      <section className="page-wrapper" style={{ marginTop: '20px', marginBottom: '20px' }}>
+      <section className="dp-page-wrapper">
         <Breadcrumb />
-        <div className="dp-integration" style={{ marginTop: '20px' }}>
+        <div className="dp-integration">
           {isLoading ? (
             <>
               <div className="dp-integration__block">
