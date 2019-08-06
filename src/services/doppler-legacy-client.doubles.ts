@@ -9,6 +9,7 @@ import {
   ResendRegistrationModel,
   ForgotPasswordModel,
   ForgotPasswordResult,
+  ActivateSiteTrackingTrialResult,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -105,9 +106,10 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await timeout(1500);
   }
 
-  public async activateSiteTrackingTrial() {
+  public async activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult> {
     console.log('activateSiteTrackingTrial');
     await timeout(1500);
+    return { success: true };
   }
 
   public async sendResetPasswordEmail(model: ForgotPasswordModel): Promise<ForgotPasswordResult> {
