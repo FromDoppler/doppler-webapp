@@ -67,7 +67,11 @@ const LoginErrorBlockedAccountNotPayed = () => (
  * @param { import('history').Location } props.location - location
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
+const Login = ({
+  intl,
+  location,
+  dependencies: { dopplerLegacyClient, sessionManager, window },
+}) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -93,7 +97,7 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
     if (isActivactionInProgress(location) && typeof window.gtag === 'function') {
       window.gtag('event', 'conversion', { send_to: 'AW-1065197040/ZA62CKv_gZEBEPC79vsD' });
     }
-  }, [location]);
+  }, [location, window]);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
