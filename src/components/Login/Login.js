@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { FormattedHTMLMessage, injectIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -47,6 +47,13 @@ function getForgotErrorMessage(location) {
   }
 }
 
+const isActivactionInProgress = (location) => {
+  let params = location && location.search && location.search.replace(/%20/g, '');
+  let parsedQuery = queryString.parse(params);
+  parsedQuery = (parsedQuery && parsedQuery['activationInProgress']) || null;
+  return parsedQuery && parsedQuery === 'true';
+};
+
 const LoginErrorBlockedAccountNotPayed = () => (
   <p>
     <FormattedHTMLMessage id="login.error_payment_HTML" />
@@ -60,7 +67,11 @@ const LoginErrorBlockedAccountNotPayed = () => (
  * @param { import('history').Location } props.location - location
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionManager } }) => {
+const Login = ({
+  intl,
+  location,
+  dependencies: { dopplerLegacyClient, sessionManager, window },
+}) => {
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -81,6 +92,12 @@ const Login = ({ intl, location, dependencies: { dopplerLegacyClient, sessionMan
   };
 
   const formMessage = useMemo(() => getForgotErrorMessage(location), [location]);
+
+  useEffect(() => {
+    if (isActivactionInProgress(location) && typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', { send_to: 'AW-1065197040/ZA62CKv_gZEBEPC79vsD' });
+    }
+  }, [location, window]);
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {

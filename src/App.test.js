@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
+import Login from './components/Login/Login';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -713,6 +714,118 @@ describe('App component', () => {
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
       expect(localStorageItems['dopplerFirstOrigin.value']).toBeUndefined();
+    });
+  });
+
+  describe('google adwords', () => {
+    it('should be called when query string contains activationInProgress%20=%20true', () => {
+      // Arrange
+      const dependencies = {
+        window: {
+          gtag: jest.fn(),
+          Menubutton: MenubuttonFake,
+        },
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login?activationInProgress%20=%20true']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(dependencies.window.gtag).toBeCalledTimes(1);
+    });
+
+    it('should not be called when query string does not contain activationInProgress parameter.', () => {
+      // Arrange
+      const dependencies = {
+        window: {
+          gtag: jest.fn(),
+          Menubutton: MenubuttonFake,
+        },
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(dependencies.window.gtag).not.toBeCalled();
+    });
+
+    it('should be called when query string contains activationInProgress=true', () => {
+      // Arrange
+      const dependencies = {
+        window: {
+          gtag: jest.fn(),
+          Menubutton: MenubuttonFake,
+        },
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login?activationInProgress=true']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(dependencies.window.gtag).toBeCalledTimes(1);
+    });
+
+    it('should not be called when query string activationInProgress parameter is not true', () => {
+      // Arrange
+      const dependencies = {
+        window: {
+          gtag: jest.fn(),
+          Menubutton: MenubuttonFake,
+        },
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login?activationInProgress=false']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(dependencies.window.gtag).not.toBeCalled();
+    });
+
+    it('should not be called when query string activationInProgress has no value.', () => {
+      // Arrange
+      const dependencies = {
+        window: {
+          gtag: jest.fn(),
+          Menubutton: MenubuttonFake,
+        },
+      };
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login?activationInProgress']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(dependencies.window.gtag).not.toBeCalled();
     });
   });
 });
