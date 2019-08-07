@@ -23,7 +23,7 @@ export const SiteTrackingRequired = InjectAppServices(
       dopplerLegacyClient,
     },
   }) => {
-    const [state, setState] = useState({ isLoading: false });
+    const [state, setState] = useState({});
 
     if (state.isActivatedTrial) {
       return <RedirectToLegacyUrl to="/ControlPanel/CampaignsPreferences/SiteTrackingSettings" />;
@@ -33,7 +33,7 @@ export const SiteTrackingRequired = InjectAppServices(
       setState({ isLoading: true });
       try {
         const isActivatedTrial = await dopplerLegacyClient.activateSiteTrackingTrial();
-        if (isActivatedTrial) {
+        if (isActivatedTrial.success) {
           setState({ isActivatedTrial: true });
         }
       } finally {
