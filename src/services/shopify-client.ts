@@ -5,6 +5,7 @@ import { RefObject } from 'react';
 export enum SubscriberListState {
   ready,
   synchronizingContacts,
+  notAvailable,
 }
 
 export interface SubscriberList {
@@ -62,9 +63,11 @@ export class HttpShopifyClient implements ShopifyClient {
         name: response.dopplerListName,
         amountSubscribers: response.importedCustomersCount,
         state:
-          response.syncProcessInProgress === true
+          !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
             ? SubscriberListState.synchronizingContacts
-            : SubscriberListState.ready,
+            : !!response.dopplerListId
+            ? SubscriberListState.ready
+            : SubscriberListState.notAvailable,
       },
     };
   }

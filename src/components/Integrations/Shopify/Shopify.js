@@ -53,11 +53,19 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
           </tr>
         ) : (
           <tr className="sync">
-            <td>{list.name}</td>
-            <td className="text-sync">
-              <span className="ms-icon icon-clock"></span>
-              {_('common.synchronizing')}
-            </td>
+            {list.state !== SubscriberListState.notAvailable ? (
+              <>
+                <td>{list.name}</td>
+                <td className="text-sync">
+                  <span className="ms-icon icon-clock"></span>
+                  {_('common.synchronizing')}
+                </td>
+              </>
+            ) : (
+              <td colSpan="2" className="text-sync">
+                {_('shopify.no_list_available')}
+              </td>
+            )}
           </tr>
         )}
       </tbody>

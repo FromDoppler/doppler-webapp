@@ -94,7 +94,7 @@ describe('Shopify Component', () => {
     syncList.list = { ...oneShopConnected.list };
     syncList.list.state = SubscriberListState.synchronizingContacts;
     const shopifyClientDouble = {
-      getShopifyData: async () => oneShopConnected,
+      getShopifyData: async () => syncList,
     };
     const { container, getByText } = render(
       <AppServicesProvider
