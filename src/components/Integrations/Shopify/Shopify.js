@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -6,12 +6,13 @@ import logo from './logo.svg';
 import { FormattedHTMLMessage, injectIntl, FormattedDate } from 'react-intl';
 import styled from 'styled-components';
 import { SubscriberListState } from '../../../services/shopify-client';
+import { useInterval } from '../../../utils';
 
 const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
-  const [shops, setShops] = useState([]);
-  const [isConnected, setIsConnected] = useState(null);
+  const [connectionData, setConnectionData] = useState({ shops: [], isConnected: false });
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isConnecting, setIsConnecting] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const ShopifyLogo = ({ className }) => (
@@ -67,7 +68,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       {_('common.back')}
     </a>
   );
-  
+
   const shopifyHeader = (
     <>
       <div className="block">
@@ -80,24 +81,30 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
     </>
   );
 
-  useEffect(() => {
-    const getData = async () => {
-      const result = await shopifyClient.getShopifyData();
-      if (!result.success) {
-        setError(<FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />);
-      } else if (result.value.length) {
-        setIsConnected(true);
-        setShops(result.value);
-        setError(null);
-      } else {
-        setIsConnected(false);
-        setError(null);
-        setShops(result.value);
-      }
+  const getData = useCallback(async () => {
+    const result = await shopifyClient.getShopifyData();
+    if (!result.success) {
+      setError(<FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />);
+    } else if (result.value.length) {
+      setConnectionData({ shops: result.value, isConnected: true });
+      setIsConnecting(false);
+      setError(null);
+    } else {
+      setConnectionData({ shops: result.value, isConnected: false });
+      setError(null);
+    }
+    if (!isConnecting) {
       setIsLoading(false);
-    };
+    }
+  }, [isConnecting, shopifyClient]);
+
+  useEffect(() => {
     getData();
-  }, [shopifyClient]);
+  }, [getData]);
+
+  useInterval(() => {
+    getData();
+  }, 20000);
 
   return (
     <>
@@ -125,11 +132,11 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
               </div>
               <footer className="dp-integration__actions">{backButton}</footer>
             </>
-          ) : isConnected ? (
+          ) : connectionData.isConnected ? (
             <>
               <div className="dp-integration__block">
                 {shopifyHeader}
-                {shops.map((shop) => (
+                {connectionData.shops.map((shop) => (
                   <div key={shop.shopName} className="block dp-integration__status">
                     <div className="status__info">
                       <div>
@@ -173,7 +180,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                 <hr />
                 <div className="block">
                   <ul>
-                    {shops.map((shop) => (
+                    {connectionData.shops.map((shop) => (
                       <li key={shop.list.id}>
                         <Table list={shop.list} />
                       </li>
@@ -196,6 +203,10 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
                   className="dp-button button-medium primary-green"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => {
+                    setIsConnecting(true);
+                    setIsLoading(true);
+                  }}
                 >
                   {_('common.connect')}
                 </a>
