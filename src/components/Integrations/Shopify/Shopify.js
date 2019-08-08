@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -81,30 +81,26 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
     </>
   );
 
-  const getData = useCallback(async () => {
-    const result = await shopifyClient.getShopifyData();
-    if (!result.success) {
-      setError(<FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />);
-    } else if (result.value.length) {
-      setConnectionData({ shops: result.value, isConnected: true });
-      setIsConnecting(false);
-      setError(null);
-    } else {
-      setConnectionData({ shops: result.value, isConnected: false });
-      setError(null);
-    }
-    if (!isConnecting) {
-      setIsLoading(false);
-    }
-  }, [isConnecting, shopifyClient]);
-
-  useEffect(() => {
-    getData();
-  }, [getData]);
-
-  useInterval(() => {
-    getData();
-  }, 20000);
+  useInterval({
+    runOnStart: true,
+    delay: 20000,
+    callback: async () => {
+      const result = await shopifyClient.getShopifyData();
+      if (!result.success) {
+        setError(<FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />);
+      } else if (result.value.length) {
+        setConnectionData({ shops: result.value, isConnected: true });
+        setIsConnecting(false);
+        setError(null);
+      } else {
+        setConnectionData({ shops: result.value, isConnected: false });
+        setError(null);
+      }
+      if (!isConnecting) {
+        setIsLoading(false);
+      }
+    },
+  });
 
   return (
     <>

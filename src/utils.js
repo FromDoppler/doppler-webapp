@@ -14,7 +14,7 @@ export function getDataHubParams(partialUrl) {
   };
 }
 
-export function useInterval(callback, delay) {
+export function useInterval({ callback, delay, runOnStart }) {
   const savedCallback = useRef();
 
   useEffect(() => {
@@ -26,8 +26,11 @@ export function useInterval(callback, delay) {
       savedCallback.current();
     }
     if (delay !== null) {
+      if (runOnStart) {
+        savedCallback.current();
+      }
       const id = setInterval(tick, delay);
       return () => clearInterval(id);
     }
-  }, [delay]);
+  }, [delay, runOnStart]);
 }
