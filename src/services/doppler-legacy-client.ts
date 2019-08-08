@@ -9,7 +9,7 @@ export interface DopplerLegacyClient {
   sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel): Promise<void>;
   registerUser(userRegistrationModel: UserRegistrationModel): Promise<UserRegistrationResult>;
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
-  activateSiteTrackingTrial(): Promise<void>;
+  activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
 }
 
@@ -24,6 +24,8 @@ export interface ForgotPasswordModel extends PayloadWithCaptchaToken {
 }
 
 export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
+
+export type ActivateSiteTrackingTrialResult = EmptyResultWithoutExpectedErrors;
 
 /* #endregion */
 
@@ -417,13 +419,20 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     // TODO: handle error responses
   }
 
-  public async activateSiteTrackingTrial() {
-    const response = await this.axios.post('/WebApp/EnableSiteTrackingTrial');
-    if (!response || !response.data) {
-      throw new Error('Empty Doppler response');
-    }
-    if (!response.data.success) {
-      throw new Error(`Doppler Error: ${response.data.error}`);
+  public async activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult> {
+    try {
+      const response = await this.axios.post('/WebApp/EnableSiteTrackingTrial');
+      if (!response.data.success) {
+        return {
+          message: response.data.error || null,
+        };
+      }
+      return { success: true };
+    } catch (error) {
+      return {
+        message: error.message || null,
+        error: error,
+      };
     }
   }
 

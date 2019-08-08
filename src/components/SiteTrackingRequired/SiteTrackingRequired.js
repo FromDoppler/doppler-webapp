@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
 
 export const SiteTrackingNotAvailableReasons = {
   freeAccount: 'freeAccount',
@@ -20,18 +21,23 @@ export const SiteTrackingRequired = InjectAppServices(
     dependencies: {
       appConfiguration: { dopplerLegacyUrl },
       dopplerLegacyClient,
-      sessionManager,
     },
   }) => {
-    const [isActivatingTrial, setIsActivatingTrial] = useState(false);
+    const [state, setState] = useState({});
+
+    if (state.isActivatedTrial) {
+      return <RedirectToLegacyUrl to="/ControlPanel/CampaignsPreferences/SiteTrackingSettings" />;
+    }
 
     const activateTrial = async () => {
-      setIsActivatingTrial(true);
+      setState({ isLoading: true });
       try {
-        await dopplerLegacyClient.activateSiteTrackingTrial();
-        sessionManager.restart();
+        const isActivatedTrial = await dopplerLegacyClient.activateSiteTrackingTrial();
+        if (isActivatedTrial.success) {
+          setState({ isActivatedTrial: true });
+        }
       } finally {
-        setIsActivatingTrial(false);
+        setState({ isLoading: false });
       }
     };
 
@@ -54,9 +60,9 @@ export const SiteTrackingRequired = InjectAppServices(
                   onClick={activateTrial}
                   className={
                     'dp-button button-medium primary-green' +
-                    ((isActivatingTrial && ' button--loading') || '')
+                    ((state.isLoading && ' button--loading') || '')
                   }
-                  disabled={isActivatingTrial}
+                  disabled={state.isLoading}
                 >
                   <FormattedMessage id="reports.allow_enable_trial_button" />
                 </button>
