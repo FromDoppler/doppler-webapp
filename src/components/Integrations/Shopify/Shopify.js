@@ -96,9 +96,7 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
         setConnectionData({ shops: result.value, isConnected: false });
         setError(null);
       }
-      if (!isConnecting) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     },
   });
 
@@ -194,18 +192,30 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
 
               <footer className="dp-integration__actions">
                 {backButton}
-                <a
-                  href={_('shopify.connect_url')}
-                  className="dp-button button-medium primary-green"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    setIsConnecting(true);
-                    setIsLoading(true);
-                  }}
-                >
-                  {_('common.connect')}
-                </a>
+                {!isConnecting ? (
+                  <a
+                    href={_('shopify.connect_url')}
+                    className={
+                      isConnecting
+                        ? 'dp-button button-medium primary-green button--loading'
+                        : 'dp-button button-medium primary-green'
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      setIsConnecting(true);
+                    }}
+                  >
+                    {_('common.connect')}
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="dp-button button-medium primary-green button--loading"
+                  >
+                    {_('common.connect')}
+                  </button>
+                )}
               </footer>
             </>
           )}
