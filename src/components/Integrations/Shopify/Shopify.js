@@ -67,6 +67,18 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
       {_('common.back')}
     </a>
   );
+  
+  const shopifyHeader = (
+    <>
+      <div className="block">
+        <h2>{_('shopify.header_title')}</h2>
+        <p>
+          <FormattedHTMLMessage id="shopify.header_subtitle" />
+        </p>
+      </div>
+      <hr />
+    </>
+  );
 
   useEffect(() => {
     const getData = async () => {
@@ -86,18 +98,6 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
     };
     getData();
   }, [shopifyClient]);
-
-  const shopifyHeader = (
-    <>
-      <div className="block">
-        <h2>{_('shopify.header_title')}</h2>
-        <p>
-          <FormattedHTMLMessage id="shopify.header_subtitle" />
-        </p>
-      </div>
-      <hr />
-    </>
-  );
 
   return (
     <>
