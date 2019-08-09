@@ -50,10 +50,6 @@ const RouterInspector = withRouter(({ match, location, history, target }) => {
   return null;
 });
 
-class MenubuttonFake {
-  init() {}
-}
-
 const emptyResponse = { success: false, error: new Error('Dummy error') };
 
 const dopplerSitesClientDouble = {
@@ -65,9 +61,6 @@ const dopplerSitesClientDouble = {
 
 const defaultDependencies = {
   sessionManager: createDoubleSessionManager(),
-  window: {
-    Menubutton: MenubuttonFake,
-  },
   dopplerSitesClient: dopplerSitesClientDouble,
 };
 
@@ -149,9 +142,6 @@ describe('App component', () => {
       const dependencies = {
         appSessionRef: appSessionRef,
         sessionManager: createDoubleSessionManager(appSessionRef),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
@@ -344,9 +334,6 @@ describe('App component', () => {
         const dependencies = {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
-          window: {
-            Menubutton: MenubuttonFake,
-          },
           dopplerSitesClient: dopplerSitesClientDouble,
         };
 
@@ -443,9 +430,6 @@ describe('App component', () => {
         const dependencies = {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
-          window: {
-            Menubutton: MenubuttonFake,
-          },
           dopplerSitesClient: dopplerSitesClientDouble,
         };
 
@@ -612,9 +596,6 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
@@ -642,9 +623,6 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
@@ -671,9 +649,6 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
@@ -700,9 +675,6 @@ describe('App component', () => {
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
@@ -727,7 +699,6 @@ describe('App component', () => {
       const dependencies = {
         window: {
           gtag: jest.fn(),
-          Menubutton: MenubuttonFake,
         },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
@@ -750,7 +721,6 @@ describe('App component', () => {
       const dependencies = {
         window: {
           gtag: jest.fn(),
-          Menubutton: MenubuttonFake,
         },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
@@ -773,7 +743,6 @@ describe('App component', () => {
       const dependencies = {
         window: {
           gtag: jest.fn(),
-          Menubutton: MenubuttonFake,
         },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
@@ -796,7 +765,6 @@ describe('App component', () => {
       const dependencies = {
         window: {
           gtag: jest.fn(),
-          Menubutton: MenubuttonFake,
         },
         dopplerSitesClient: dopplerSitesClientDouble,
       };
@@ -819,7 +787,6 @@ describe('App component', () => {
       const dependencies = {
         window: {
           gtag: jest.fn(),
-          Menubutton: MenubuttonFake,
         },
         dopplerSitesClient: dopplerSitesClientDouble,
       };

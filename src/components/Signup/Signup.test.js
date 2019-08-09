@@ -8,16 +8,9 @@ import '@testing-library/jest-dom/extend-expect';
 import { HardcodedDopplerSitesClient } from '../../services/doppler-sites-client.doubles';
 import { timeout } from '../../utils';
 
-class MenubuttonFake {
-  init() {}
-}
-
 const emptyResponse = { success: false, error: new Error('Dummy error') };
 
 const defaultDependencies = {
-  window: {
-    Menubutton: MenubuttonFake,
-  },
   dopplerSitesClient: {
     getBannerData: async () => {
       await timeout(0);
