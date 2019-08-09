@@ -18,8 +18,10 @@ const LanguageSelector = ({
   const languageDropdown = useRef(null);
 
   useEffect(() => {
-    const menubutton = new Menubutton(languageDropdown.current);
-    menubutton.init();
+    if (Menubutton) {
+      const menubutton = new Menubutton(languageDropdown.current);
+      menubutton.init();
+    }
   }, [languageDropdown, Menubutton]);
 
   return (

@@ -5,21 +5,26 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
+import { HardcodedDopplerSitesClient } from '../../services/doppler-sites-client.doubles';
+import { timeout } from '../../utils';
 
-class MenubuttonFake {
-  init() {}
-}
+const emptyResponse = { success: false, error: new Error('Dummy error') };
+
+const defaultDependencies = {
+  dopplerSitesClient: {
+    getBannerData: async () => {
+      await timeout(0);
+      return emptyResponse;
+    },
+  },
+};
 
 describe('Signup', () => {
   beforeEach(cleanup);
 
   it('should not show errors on blur but after first submit', async () => {
     // Arrange
-    const dependencies = {
-      window: {
-        Menubutton: MenubuttonFake,
-      },
-    };
+    const dependencies = defaultDependencies;
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider>
@@ -48,11 +53,7 @@ describe('Signup', () => {
 
   it('should show Argentina below Argelia when selected language is ES', () => {
     // Arrange
-    const dependencies = {
-      window: {
-        Menubutton: MenubuttonFake,
-      },
-    };
+    const dependencies = defaultDependencies;
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="es">
@@ -69,11 +70,7 @@ describe('Signup', () => {
 
   it('should show Territorio Palestino, Ocupado below Territorio Britanico del Oceano Indico when selected language is ES', () => {
     // Arrange
-    const dependencies = {
-      window: {
-        Menubutton: MenubuttonFake,
-      },
-    };
+    const dependencies = defaultDependencies;
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="es">
@@ -90,11 +87,7 @@ describe('Signup', () => {
 
   it('should show American Samoa below Algeria when selected language is EN', () => {
     // Arrange
-    const dependencies = {
-      window: {
-        Menubutton: MenubuttonFake,
-      },
-    };
+    const dependencies = defaultDependencies;
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="en">
@@ -111,11 +104,7 @@ describe('Signup', () => {
 
   it('should show Brunel below British Indian Ocean when selected language is EN', () => {
     // Arrange
-    const dependencies = {
-      window: {
-        Menubutton: MenubuttonFake,
-      },
-    };
+    const dependencies = defaultDependencies;
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="en">
