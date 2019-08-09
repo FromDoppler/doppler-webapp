@@ -185,6 +185,7 @@ export default {
     header_title: `Connect Doppler with your Shopify store`,
     list_subtitle: `You can synchronize the data manually whenever you want.`,
     list_title: `Synchronized List`,
+    no_list_available: `Waiting for List...`,
     table_list: `List Name`,
     table_shopify_customers_count: `Shopify customers`,
     title: `Doppler | Shopify`,
