@@ -5,6 +5,7 @@ import App from './App';
 import { AppServicesProvider } from './services/pure-di';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 import Login from './components/Login/Login';
+import { timeout } from './utils';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -53,18 +54,30 @@ class MenubuttonFake {
   init() {}
 }
 
+const emptyResponse = { success: false, error: new Error('Dummy error') };
+
+const dopplerSitesClientDouble = {
+  getBannerData: async () => {
+    await timeout(0);
+    return emptyResponse;
+  },
+};
+
+const defaultDependencies = {
+  sessionManager: createDoubleSessionManager(),
+  window: {
+    Menubutton: MenubuttonFake,
+  },
+  dopplerSitesClient: dopplerSitesClientDouble,
+};
+
 describe('App component', () => {
   afterEach(cleanup);
 
   describe('language', () => {
     it('should make honor to locale="en"', () => {
       // Arrange
-      const dependencies = {
-        sessionManager: createDoubleSessionManager(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
-      };
+      const dependencies = defaultDependencies;
 
       // Act
       const { getByText } = render(
@@ -81,12 +94,7 @@ describe('App component', () => {
 
     it('should make honor to locale="es"', () => {
       // Arrange
-      const dependencies = {
-        sessionManager: createDoubleSessionManager(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
-      };
+      const dependencies = defaultDependencies;
 
       // Act
       const { getByText } = render(
@@ -103,12 +111,7 @@ describe('App component', () => {
 
     it('should use Spanish when language is not supported', () => {
       // Arrange
-      const dependencies = {
-        sessionManager: createDoubleSessionManager(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
-      };
+      const dependencies = defaultDependencies;
 
       // Act
       const { getByText } = render(
@@ -125,12 +128,7 @@ describe('App component', () => {
 
     it('should use Spanish when language is not defined', () => {
       // Arrange
-      const dependencies = {
-        sessionManager: createDoubleSessionManager(),
-        window: {
-          Menubutton: MenubuttonFake,
-        },
-      };
+      const dependencies = defaultDependencies;
 
       // Act
       const { getByText } = render(
@@ -154,6 +152,7 @@ describe('App component', () => {
         window: {
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       const { getByText, container } = render(
@@ -256,6 +255,7 @@ describe('App component', () => {
       const dependencies = {
         appSessionRef: appSessionRef,
         sessionManager: createDoubleSessionManager(appSessionRef),
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       const { getByText, container } = render(
@@ -314,6 +314,7 @@ describe('App component', () => {
           },
           sessionManager: createDoubleSessionManager(appSessionRef),
           localStorage: createLocalStorageDouble(),
+          dopplerSitesClient: dopplerSitesClientDouble,
         };
 
         const { container } = render(
@@ -346,6 +347,7 @@ describe('App component', () => {
           window: {
             Menubutton: MenubuttonFake,
           },
+          dopplerSitesClient: dopplerSitesClientDouble,
         };
 
         const currentRouteState = {};
@@ -388,12 +390,7 @@ describe('App component', () => {
       });
 
       it('should not be redirected after open /login', () => {
-        const dependencies = {
-          sessionManager: createDoubleSessionManager(),
-          window: {
-            Menubutton: MenubuttonFake,
-          },
-        };
+        const dependencies = defaultDependencies;
 
         const currentRouteState = {};
 
@@ -449,6 +446,7 @@ describe('App component', () => {
           window: {
             Menubutton: MenubuttonFake,
           },
+          dopplerSitesClient: dopplerSitesClientDouble,
         };
 
         const currentRouteState = {};
@@ -494,6 +492,7 @@ describe('App component', () => {
         const dependencies = {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
+          dopplerSitesClient: dopplerSitesClientDouble,
         };
 
         const currentRouteState = {};
@@ -550,6 +549,7 @@ describe('App component', () => {
         const dependencies = {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
+          dopplerSitesClient: dopplerSitesClientDouble,
         };
 
         const currentRouteState = {};
@@ -615,6 +615,7 @@ describe('App component', () => {
         window: {
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
@@ -644,6 +645,7 @@ describe('App component', () => {
         window: {
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       const oldValue = 'old value';
@@ -672,6 +674,7 @@ describe('App component', () => {
         window: {
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       const oldValue = 'old value';
@@ -700,6 +703,7 @@ describe('App component', () => {
         window: {
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
@@ -725,6 +729,7 @@ describe('App component', () => {
           gtag: jest.fn(),
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
@@ -747,6 +752,7 @@ describe('App component', () => {
           gtag: jest.fn(),
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
@@ -769,6 +775,7 @@ describe('App component', () => {
           gtag: jest.fn(),
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
@@ -791,6 +798,7 @@ describe('App component', () => {
           gtag: jest.fn(),
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
@@ -813,6 +821,7 @@ describe('App component', () => {
           gtag: jest.fn(),
           Menubutton: MenubuttonFake,
         },
+        dopplerSitesClient: dopplerSitesClientDouble,
       };
 
       // Act
