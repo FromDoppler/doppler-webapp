@@ -1541,10 +1541,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-google-recaptcha@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-1.0.0.tgz#f0831066d082b7dcb3613c2ce361ff96fbc1b567"
-  integrity sha512-NhHWdRzRt766Zw+e5qvEAP0dVPHX9RDcv9BCrQ3GWXbN5qUjUe7ZSSpwa1lftVzjt4vD9755uBsSJ668rJpOHQ==
+"@types/react-google-recaptcha@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-1.1.0.tgz#427c8397591eb18843982e28ad8c232a0a2c5944"
+  integrity sha512-ffa7wAdB5zuoys7wlpyXRMqgk0EsB8Vot9oAHQ78J8dPC+MQYn1kgNuUQNMQGhuOx8kViKUeT2VwUpybUUPRpQ==
   dependencies:
     "@types/react" "*"
 
