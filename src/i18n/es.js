@@ -13,6 +13,7 @@ const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
 const urlPrivacy = `${urlSite}/legal/privacidad`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_medium=landing&amp;utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
@@ -225,7 +226,7 @@ export default {
       </p>
       <p>
         <strong>Información adicional:</strong> En la
-        <a target="_blank" href="${urlPrivacyFromSignup}" ${patchForBlank}>Política de Privacidad</a> de Doppler
+        <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Política de Privacidad</a> de Doppler
         encontrarás información adicional sobre la recopilación y el uso de su información personal por
         parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación,
         seguridad, transferencias transfronterizas y otros temas.
@@ -237,7 +238,7 @@ export default {
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
-      Acepto la <a target="_blank" href="${urlPrivacyFromSignup}" ${patchForBlank}>Política de Privacidad</a>
+      Acepto la <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Política de Privacidad</a>
       de Doppler.
       `,
     promotions_consent: `Quiero recibir promociones de Doppler y sus aliados.`,

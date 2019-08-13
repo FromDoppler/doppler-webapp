@@ -39,7 +39,9 @@ const ReportsFilters = ({
                 {domainSelected.verified_date ? (
                   <>
                     <FormattedMessage id="reports_filters.verified_domain" />{' '}
-                    <FormattedDate value={domainSelected.verified_date} timeZone="UTC" />
+                    <span>
+                      <FormattedDate value={domainSelected.verified_date} timeZone="UTC" />
+                    </span>
                   </>
                 ) : (
                   <FormattedMessage id="reports_filters.domain_not_verified" />
