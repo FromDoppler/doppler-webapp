@@ -1,7 +1,5 @@
 import React from 'react';
-import { addLocaleData, IntlProvider } from 'react-intl';
-import en from 'react-intl/locale-data/en';
-import es from 'react-intl/locale-data/es';
+import { IntlProvider } from 'react-intl';
 import messages_es from './es';
 import messages_en from './en';
 import { flattenMessages, availableLanguageOrDefault } from './utils';
@@ -11,12 +9,14 @@ const messages = {
   en: messages_en,
 };
 
-addLocaleData([...en, ...es]);
-
 export default ({ locale, children }) => {
   const sanitizedLocale = availableLanguageOrDefault(locale);
   return (
-    <IntlProvider locale={sanitizedLocale} messages={flattenMessages(messages[sanitizedLocale])}>
+    <IntlProvider
+      locale={sanitizedLocale}
+      defaultLocale={locale}
+      messages={flattenMessages(messages[sanitizedLocale])}
+    >
       {children}
     </IntlProvider>
   );

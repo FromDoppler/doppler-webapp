@@ -5,7 +5,6 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
-import { HardcodedDopplerSitesClient } from '../../services/doppler-sites-client.doubles';
 import { timeout } from '../../utils';
 
 const emptyResponse = { success: false, error: new Error('Dummy error') };

@@ -60,10 +60,12 @@ const ReportsTrafficSources = function({
                   <h6>{trafficSource.sourceName}</h6>
                   <span>
                     {trafficSource.quantity} (
-                    <FormattedNumber
-                      value={trafficSource.quantity / state.trafficSources.total}
-                      {...numberFormatOptions}
-                    />
+                    <span>
+                      <FormattedNumber
+                        value={trafficSource.quantity / state.trafficSources.total}
+                        {...numberFormatOptions}
+                      />
+                    </span>
                     )
                   </span>
                 </TrafficSourceHeader>

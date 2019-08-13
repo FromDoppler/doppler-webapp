@@ -13,6 +13,7 @@ const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
 const urlPrivacy = `${urlSite}/en/legal/privacy`;
 const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_medium=landing&amp;utm_campaign=signup`;
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 const mailtoSupport = `mailto:support@fromdoppler.com`;
@@ -223,7 +224,7 @@ export default {
       </p>
       <p>
         <strong>Additional information:</strong> In Doppler's
-        <a target="_blank" href="${urlPrivacyFromSignup}" ${patchForBlank}>Privacy Policy</a>
+        <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Privacy Policy</a>
         you'll find additional information about the data storage and use of your
         personal information, including information on access, conservation, rectification,
         deletion, security, cross-border data transfers and other issues.
@@ -236,8 +237,8 @@ export default {
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
       I accept Doppler's
-      <a target="_blank" href="${urlPrivacyFromSignup}" ${patchForBlank}>Privacy Policy</a>.
-      `,
+      <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Privacy Policy</a>.
+    `,
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
     sign_up: `Email, Automation & Data Marketing`,
