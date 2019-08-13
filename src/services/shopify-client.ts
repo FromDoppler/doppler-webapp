@@ -80,7 +80,7 @@ export class HttpShopifyClient implements ShopifyClient {
         url: `/me/shops`,
         headers: { Authorization: `token ${jwtToken}` },
       });
-      if (response.data.length) {
+      if (response.data && response.data.length) {
         const connectedShops = response.data.map((shop: any) => {
           return this.mapShop(shop);
         });
