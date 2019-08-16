@@ -138,60 +138,63 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
             </>
           ) : shopifyState.isConnected ? (
             <>
-              <div className="dp-integration__block">
-                {shopifyHeader}
-                {shopifyState.shops.map((shop) => (
-                  <div key={shop.shopName} className="block dp-integration__status">
-                    <div className="status__info">
-                      <div>
-                        <StyledShopifyLogo />
-                        <div className="status__data">
-                          <ul>
-                            <li key={shop.shopName}>
-                              <p>
-                                {_('shopify.header_synchronization_date')}{' '}
-                                <strong>
-                                  <FormattedDate value={shop.synchronization_date} timeZone="UTC" />
-                                </strong>
-                              </p>
-                              <p>
-                                {_('shopify.header_store')} <strong> {shop.shopName} </strong>
-                              </p>
-                            </li>
-                          </ul>
+              {shopifyState.shops.map((shop) => (
+                <div key={shop.shopName}>
+                  <div className="dp-integration__block">
+                    {shopifyHeader}
+                    <div className="block dp-integration__status">
+                      <div className="status__info">
+                        <div>
+                          <StyledShopifyLogo />
+                          <div className="status__data">
+                            <ul>
+                              <li>
+                                <p>
+                                  {_('shopify.header_synchronization_date')}{' '}
+                                  <strong>
+                                    <FormattedDate
+                                      value={shop.synchronization_date}
+                                      timeZone="UTC"
+                                    />
+                                  </strong>
+                                </p>
+                                <p>
+                                  {_('shopify.header_store')} <strong> {shop.shopName} </strong>
+                                </p>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
+                      <a
+                        href={_('shopify.admin_apps_url', { shopName: shop.shopName })}
+                        className="dp-button button-medium primary-green"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {_('shopify.admin_apps')}
+                      </a>
                     </div>
-                    <a
-                      href={_('shopify.admin_apps_url', { shopName: shop.shopName })}
-                      className="dp-button button-medium primary-green"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {_('shopify.admin_apps')}
-                    </a>
                   </div>
-                ))}
-              </div>
-              <div className="dp-integration__block dp-integration--info">
-                <header className="block">
-                  <div>
-                    <h2>{_('shopify.list_title')}</h2>
-                    <p>{_('shopify.list_subtitle')}</p>
+                  <div className="dp-integration__block dp-integration--info">
+                    <header className="block">
+                      <div>
+                        <h2>{_('shopify.list_title')}</h2>
+                        <p>{_('shopify.list_subtitle')}</p>
+                      </div>
+                      {/*<button className="dp-button button--has-icon"><span class="ms-icon icon-reload"></span></button> TODO: enable this button when ready*/}
+                    </header>
+                    <hr />
+                    <div className="block">
+                      <ul>
+                        <li key={shop.list.id}>
+                          <Table list={shop.list} />
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                  {/*<button className="dp-button button--has-icon"><span class="ms-icon icon-reload"></span></button> TODO: enable this button when ready*/}
-                </header>
-                <hr />
-                <div className="block">
-                  <ul>
-                    {shopifyState.shops.map((shop) => (
-                      <li key={shop.list.id}>
-                        <Table list={shop.list} />
-                      </li>
-                    ))}
-                  </ul>
                 </div>
-              </div>
+              ))}
             </>
           ) : (
             <>
