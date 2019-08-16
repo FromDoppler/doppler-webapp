@@ -13,6 +13,13 @@ export interface TrafficSource {
   quantity: number;
 }
 
+export interface DailyVisits {
+  periodNumber: number;
+  from: string;
+  to: string;
+  quantity: number;
+}
+
 export type emailFilterOptions = 'with_email' | 'without_email' | null;
 
 export interface DatahubClient {
@@ -30,9 +37,12 @@ export interface DatahubClient {
     domainName: string;
     dateFrom: Date;
   }): Promise<TrafficSourceResult>;
+  getDailyVisitsByPeriod(query: { domainName: string; dateFrom: Date }): Promise<DailyVisitsResult>;
 }
 
 export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
+
+export type DailyVisitsResult = ResultWithoutExpectedErrors<DailyVisits[]>;
 
 export class HttpDatahubClient implements DatahubClient {
   private readonly axios: AxiosInstance;
@@ -155,6 +165,41 @@ export class HttpDatahubClient implements DatahubClient {
       return {
         success: true,
         value: trafficSources,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getDailyVisitsByPeriod({
+    domainName,
+    dateFrom,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+  }): Promise<DailyVisitsResult> {
+    try {
+      const response = await this.customerGet<any>(
+        `domains/${domainName}/events/quantity-summarized-by-period`,
+        {
+          startDate: dateFrom.toISOString(),
+          periodBy: 'days',
+        },
+      );
+
+      const dailyVisits = response.data.periods.map((x: any) => ({
+        periodNumber: x.periodNumber,
+        from: x.from,
+        to: x.to,
+        quantity: x.quantity,
+      }));
+
+      return {
+        success: true,
+        value: dailyVisits,
       };
     } catch (error) {
       return {

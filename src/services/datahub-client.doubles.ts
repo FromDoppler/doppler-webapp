@@ -3,6 +3,7 @@ import {
   emailFilterOptions,
   DomainEntry,
   TrafficSourceResult,
+  DailyVisitsResult,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -75,6 +76,33 @@ const fakeTrafficSourcesData = [
   },
 ];
 
+const fakeDailyVisitsData = [
+  {
+    periodNumber: 0,
+    from: '2018-10-10T03:00:00.000Z',
+    to: '2018-10-11T03:00:00.000Z',
+    quantity: 20,
+  },
+  {
+    periodNumber: 1,
+    from: '2018-10-11T03:00:00.000Z',
+    to: '2018-10-12T03:00:00.000Z',
+    quantity: 40,
+  },
+  {
+    periodNumber: 2,
+    from: '2018-10-12T03:00:00.000Z',
+    to: '2018-10-13T03:00:00.000Z',
+    quantity: 70,
+  },
+  {
+    periodNumber: 3,
+    from: '2018-10-13T03:00:00.000Z',
+    to: '2018-10-14T03:00:00.000Z',
+    quantity: 80,
+  },
+];
+
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains(): Promise<DomainEntry[]> {
     console.log('getAccountDomains');
@@ -131,6 +159,33 @@ export class HardcodedDatahubClient implements DatahubClient {
     return {
       success: true,
       value: trafficSources,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
+  }
+
+  public async getDailyVisitsByPeriod({
+    domainName,
+    dateFrom,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+  }): Promise<DailyVisitsResult> {
+    console.log('getDailyVisitsByPeriod', { domainName, dateFrom });
+    await timeout(1000);
+    const dailyVisits = fakeDailyVisitsData.map((x) => ({
+      periodNumber: x.periodNumber,
+      from: x.from,
+      to: x.to,
+      quantity: x.quantity,
+    }));
+
+    return {
+      success: true,
+      value: dailyVisits,
     };
 
     //return {
