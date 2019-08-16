@@ -150,6 +150,9 @@ export default {
     visits_with_email: `Usuarios con Email`,
     visits_without_emails: `Usuarios sin Email`,
   },
+  reports_daily_visits: {
+    title: `Visitas diarias`,
+  },
   reports_filters: {
     all_pages: `Todas las paginas`,
     description_HTML: `

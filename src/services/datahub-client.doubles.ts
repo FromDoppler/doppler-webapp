@@ -178,8 +178,8 @@ export class HardcodedDatahubClient implements DatahubClient {
     await timeout(1000);
     const dailyVisits = fakeDailyVisitsData.map((x) => ({
       periodNumber: x.periodNumber,
-      from: x.from,
-      to: x.to,
+      from: new Date(x.from),
+      to: new Date(x.to),
       quantity: x.quantity,
     }));
 

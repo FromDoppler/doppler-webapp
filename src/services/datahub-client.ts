@@ -15,8 +15,8 @@ export interface TrafficSource {
 
 export interface DailyVisits {
   periodNumber: number;
-  from: string;
-  to: string;
+  from: Date;
+  to: Date;
   quantity: number;
 }
 
@@ -192,8 +192,8 @@ export class HttpDatahubClient implements DatahubClient {
 
       const dailyVisits = response.data.periods.map((x: any) => ({
         periodNumber: x.periodNumber,
-        from: x.from,
-        to: x.to,
+        from: new Date(x.from),
+        to: new Date(x.to),
         quantity: x.quantity,
       }));
 

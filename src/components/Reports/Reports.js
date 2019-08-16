@@ -3,6 +3,8 @@ import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
+// TODO: Remove when finish feature or add experimental feature
+// import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -97,6 +99,11 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
+              {/* TODO: Remove when is ready or add experimental feature 
+              <ReportsDailyVisits
+                domainName={this.state.domainSelected.name}
+                dateFrom={this.state.dateFrom}
+              /> */}
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}
                 dateFrom={this.state.dateFrom}
