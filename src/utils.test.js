@@ -1,7 +1,6 @@
 import 'jest';
-import { getDataHubParams } from './utils';
-import { useInterval } from './utils';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { getDataHubParams, useInterval } from './utils';
+import { renderHook } from '@testing-library/react-hooks';
 
 describe('utils', () => {
   describe('getDataHubParams', () => {
