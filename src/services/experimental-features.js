@@ -5,19 +5,12 @@ export class ExperimentalFeatures {
       ? JSON.parse(this.storage.getItem('dopplerExpermiental'))
       : null;
   }
-  getExperimentalFeatures() {
-    return this.features;
-  }
   isFeatureEnabled(feature) {
-    const experimentalFeatures = this.getExperimentalFeatures();
-    return experimentalFeatures && !!experimentalFeatures[feature];
+    return this.features && !!this.features[feature];
   }
   getFeatureValue(feature, param) {
-    const experimentalFeatures = this.getExperimentalFeatures();
-    return experimentalFeatures &&
-      !!experimentalFeatures[feature] &&
-      experimentalFeatures[feature][param]
-      ? experimentalFeatures[feature][param]
+    return this.features && !!this.features[feature] && this.features[feature][param]
+      ? this.features[feature][param]
       : null;
   }
 }
