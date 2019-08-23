@@ -1,4 +1,5 @@
 import { ExperimentalFeatures } from './experimental-features';
+import { FakeLocalStorage } from './local-storage-double';
 
 describe('experimental features', () => {
   const experimentalFeaturesData = {
@@ -8,8 +9,9 @@ describe('experimental features', () => {
       apikey: 'myApiKey',
     },
   };
-  localStorage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
-  const experimentalFeatures = new ExperimentalFeatures(localStorage);
+  const storage = new FakeLocalStorage();
+  storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+  const experimentalFeatures = new ExperimentalFeatures(storage);
 
   it('should validate if a feature is enabled', () => {
     // Arrange
