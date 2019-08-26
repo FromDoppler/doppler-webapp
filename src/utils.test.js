@@ -1,7 +1,6 @@
 import 'jest';
-import { getDataHubParams } from './utils';
-import { useInterval } from './utils';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { getDataHubParams, useInterval } from './utils';
+import { renderHook } from '@testing-library/react-hooks';
 
 describe('utils', () => {
   describe('getDataHubParams', () => {
@@ -68,6 +67,8 @@ describe('utils', () => {
       // Arrange
       jest.useFakeTimers();
       let counter = 0;
+
+      // Act
       renderHook(() =>
         useInterval({
           runOnStart: false,
@@ -77,8 +78,6 @@ describe('utils', () => {
           },
         }),
       );
-
-      // Act
       jest.runOnlyPendingTimers();
 
       // Assert
@@ -89,6 +88,7 @@ describe('utils', () => {
       // Arrange
       jest.useFakeTimers();
       let counter = 0;
+      // Act
       const { rerender } = renderHook(
         ({ delay }) =>
           useInterval({
@@ -100,11 +100,10 @@ describe('utils', () => {
           }),
         { initialProps: { delay: 100 } },
       );
-      // Act
+      // Assert
       jest.advanceTimersByTime(600);
       rerender({ delay: null });
       jest.advanceTimersByTime(800);
-      // Assert
       expect(counter).toBe(6);
     });
 
@@ -112,6 +111,7 @@ describe('utils', () => {
       // Arrange
       jest.useFakeTimers();
       let counter = 0;
+      // Act
       renderHook(() =>
         useInterval({
           runOnStart: true,
@@ -121,9 +121,8 @@ describe('utils', () => {
           },
         }),
       );
-      // Assert
       expect(counter).toBe(1);
-      // Act
+
       jest.advanceTimersByTime(200);
       // Assert
       expect(counter).toBe(3);

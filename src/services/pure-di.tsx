@@ -7,6 +7,7 @@ import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
 import { ShopifyClient, HttpShopifyClient } from './shopify-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
+import { ExperimentalFeatures } from './experimental-features';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -36,6 +37,7 @@ export interface AppServices {
   originResolver: OriginResolver;
   shopifyClient: ShopifyClient;
   dopplerSitesClient: DopplerSitesClient;
+  experimentalFeatures: ExperimentalFeatures;
 }
 
 /**
@@ -139,6 +141,13 @@ export class AppCompositionRoot implements AppServices {
           dopplerLegacyClient: this.dopplerLegacyClient,
           keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
         }),
+    );
+  }
+
+  get experimentalFeatures() {
+    return this.singleton(
+      'experimentalFeatures',
+      () => new ExperimentalFeatures(this.localStorage),
     );
   }
 
