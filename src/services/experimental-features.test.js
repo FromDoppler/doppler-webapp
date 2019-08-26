@@ -1,5 +1,5 @@
 import { ExperimentalFeatures } from './experimental-features';
-import { FakeLocalStorage } from './local-storage-double';
+import { FakeLocalStorage } from './test-utils/local-storage-double';
 
 describe('experimental features', () => {
   it('should validate if a feature is enabled', () => {
@@ -61,5 +61,29 @@ describe('experimental features', () => {
 
     // Assert
     expect(value).toBe(undefined);
+  });
+});
+
+describe.each`
+  featureValue
+  ${null}
+  ${0}
+  ${false}
+  ${''}
+`('should return null when feature value is falsy', ({ featureValue }) => {
+  test(`(feature value is ${featureValue})`, () => {
+    // Arrange
+    const experimentalFeaturesData = {
+      feature1: featureValue,
+    };
+    const storage = new FakeLocalStorage();
+    storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+    const experimentalFeatures = new ExperimentalFeatures(storage);
+
+    // Act
+    const value = experimentalFeatures.getFeature('feature1');
+
+    // Assert
+    expect(value).toBeNull;
   });
 });

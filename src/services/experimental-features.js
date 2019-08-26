@@ -5,6 +5,6 @@ export class ExperimentalFeatures {
       : null;
   }
   getFeature(featureName) {
-    return this.features && !!this.features[featureName] ? this.features[featureName] : null;
+    return (this.features && this.features[featureName]) || null;
   }
 }
