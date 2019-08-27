@@ -186,14 +186,14 @@ describe('HttpDataHubClient', () => {
         value: [
           {
             periodNumber: 0,
-            from: '2018-10-10T03:00:00.000Z',
-            to: '2018-10-11T03:00:00.000Z',
+            from: new Date('2018-10-10T03:00:00.000Z'),
+            to: new Date('2018-10-11T03:00:00.000Z'),
             quantity: 20,
           },
           {
             periodNumber: 1,
-            from: '2018-10-11T03:00:00.000Z',
-            to: '2018-10-12T03:00:00.000Z',
+            from: new Date('2018-10-11T03:00:00.000Z'),
+            to: new Date('2018-10-12T03:00:00.000Z'),
             quantity: 40,
           },
         ],

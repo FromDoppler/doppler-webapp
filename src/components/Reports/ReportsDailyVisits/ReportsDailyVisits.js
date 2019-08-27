@@ -25,6 +25,20 @@ let chartConfig = {
       },
     },
   },
+  color: {
+    pattern: ['#B58FC1'],
+  },
+  point: {
+    r: 5,
+  },
+  grid: {
+    x: {
+      show: true,
+    },
+    y: {
+      show: true,
+    },
+  },
 };
 
 const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {

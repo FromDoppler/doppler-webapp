@@ -1,5 +1,6 @@
 import c3 from 'c3';
 import React, { useState, useEffect } from 'react';
+import './C3Chart.css';
 
 const C3Chart = ({ config }) => {
   const [chart, setChart] = useState();
@@ -17,7 +18,7 @@ const C3Chart = ({ config }) => {
     }
   }, [config, chart]);
 
-  return <div className="c3-chart" id='c3chart' />;
+  return <div className="c3-chart" id="c3chart" />;
 };
 
 export default C3Chart;
