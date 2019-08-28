@@ -4,23 +4,23 @@
   margin: 20px 0px 20px 12px;
 }
 
-
 .c3-chart svg {
-  font: 400 11px "Proxima-Nova", sans-serif;
-  color: #CCC;
+  font: 400 11px 'Proxima-Nova', sans-serif;
+  color: #ccc;
 }
 
 .c3-chart .tick {
   fill: #666;
-  font: 400 11px "Proxima-Nova", sans-serif;
+  font: 400 11px 'Proxima-Nova', sans-serif;
 }
 
 .c3-chart .domain {
-  stroke: #CCC;
+  stroke: #ccc;
 }
-.c3-chart path, .c3-chart line {
+.c3-chart path,
+.c3-chart line {
   fill: none;
-  stroke: #CCC;
+  stroke: #ccc;
 }
 
 .c3-chart .c3-line {
@@ -33,31 +33,31 @@
   stroke-width: 7px;
 }
 
-.c3-xgrid,.c3-ygrid {
+.c3-xgrid,
+.c3-ygrid {
   stroke-dasharray: 3 3;
 }
 
 .c3-xgrid-focus {
-  stroke: #B58FC1 !important;
+  stroke: #b58fc1 !important;
   transition: all 1s ease-in-out;
 }
 
 .c3-shape {
-  stroke: #B58FC1 !important;
-  fill: #B58FC1;
+  stroke: #b58fc1 !important;
+  fill: #b58fc1;
 }
-
 
 /*-- Tooltip --*/
 
 .c3-tooltip-container {
-  background: #FFF;
+  background: #fff;
   padding: 24px 30px;
   min-width: 180px;
   color: #333;
-  font: 400 12px "Proxima-Nova", sans-serif !important;
+  font: 400 12px 'Proxima-Nova', sans-serif !important;
   z-index: 10;
-  box-shadow: 0 0 0 4px rgba(204,204,204,.3);
+  box-shadow: 0 0 0 4px rgba(204, 204, 204, 0.3);
   border: 1px solid #ccc;
   position: relative;
 }
@@ -92,10 +92,8 @@
 }
 
 @media (max-width: 768px) {
-
-  .c3-chart, .c3 {
+  .c3-chart,
+  .c3 {
     width: 95%;
   }
-
 }
-
