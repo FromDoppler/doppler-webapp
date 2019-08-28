@@ -98,10 +98,10 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
-                <ReportsDailyVisits
-                  domainName={this.state.domainSelected.name}
-                  dateFrom={this.state.dateFrom}
-                />
+              <ReportsDailyVisits
+                domainName={this.state.domainSelected.name}
+                dateFrom={this.state.dateFrom}
+              />
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}
                 dateFrom={this.state.dateFrom}
