@@ -18,7 +18,7 @@ class Reports extends React.Component {
    * @param { Object } props
    * @param { import('../../services/pure-di').AppServices } props.dependencies
    */
-  constructor({ dependencies: { datahubClient, appConfiguration, experimentalFeatures } }) {
+  constructor({ dependencies: { datahubClient, appConfiguration } }) {
     super();
 
     this.datahubClient = datahubClient;
@@ -30,8 +30,6 @@ class Reports extends React.Component {
       periodSelectedDays: 7,
       dateTo: new Date(),
       dateFrom: null,
-      isEnabledDailyVisits:
-        experimentalFeatures && experimentalFeatures.getFeature('ReportsDailyVisits'),
     };
 
     this.changeDomain = this.changeDomain.bind(this);
@@ -100,12 +98,10 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
-              {this.state.isEnabledDailyVisits ? (
                 <ReportsDailyVisits
                   domainName={this.state.domainSelected.name}
                   dateFrom={this.state.dateFrom}
                 />
-              ) : null}
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}
                 dateFrom={this.state.dateFrom}
