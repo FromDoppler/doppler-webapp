@@ -28,6 +28,20 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
         },
       },
     },
+    color: {
+      pattern: ['#B58FC1'],
+    },
+    point: {
+      r: 5,
+    },
+    grid: {
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
   });
 
   useEffect(() => {

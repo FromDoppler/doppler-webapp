@@ -1,6 +1,7 @@
 import './SVGPathElement.patch';
 import c3 from 'c3';
 import React, { useEffect, useRef } from 'react';
+import './C3Chart.css';
 
 const C3Chart = ({ config, dataOptions, data }) => {
   const chartEl = useRef(null);
