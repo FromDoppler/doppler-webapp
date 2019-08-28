@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
 import { AppServicesProvider } from '../../services/pure-di';
+import { async } from 'q';
 
 const verifiedDateAsEngString = '12/17/2017';
 const verifiedDateAsDate = new Date('2017-12-17');
@@ -51,6 +52,7 @@ describe('Reports page', () => {
       getVisitsByPeriod: async () => 0,
       getPagesRankingByPeriod: async () => [],
       getTrafficSourcesByPeriod: async () => [],
+      getDailyVisitsByPeriod: async () => [],
     };
 
     const { getByText } = render(
