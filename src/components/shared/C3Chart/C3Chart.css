@@ -10,12 +10,12 @@
   color: #CCC;
 }
 
-.c3-chart .tick{
+.c3-chart .tick {
   fill: #666;
   font: 400 11px "Proxima-Nova", sans-serif;
 }
 
-.c3-chart .domain{
+.c3-chart .domain {
   stroke: #CCC;
 }
 .c3-chart path, .c3-chart line {
@@ -24,17 +24,17 @@
 }
 
 .c3-chart .c3-line {
-  stroke-width:4px;
+  stroke-width: 4px;
   position: relative;
   transition: all 2s ease-in-out;
 }
 
 .c3-chart .c3-event-rect {
-  stroke-width:7px;
+  stroke-width: 7px;
 }
 
 .c3-xgrid,.c3-ygrid {
-  stroke-dasharray:3 3;
+  stroke-dasharray: 3 3;
 }
 
 .c3-xgrid-focus {
@@ -42,7 +42,7 @@
   transition: all 1s ease-in-out;
 }
 
-.c3-shape{
+.c3-shape {
   stroke: #B58FC1 !important;
   fill: #B58FC1;
 }
@@ -91,7 +91,7 @@
   line-height: 16px;
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
 
   .c3-chart, .c3 {
     width: 95%;
