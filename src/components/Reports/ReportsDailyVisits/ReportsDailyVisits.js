@@ -6,7 +6,6 @@ import C3Chart from '../../shared/C3Chart/C3Chart';
 
 const chartDataOptions = {
   json: {},
-  type: 'spline',
 };
 
 const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
@@ -26,6 +25,20 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
             return intl.formatDate(x, { timeZone: 'UTC' });
           },
         },
+      },
+    },
+    color: {
+      pattern: ['#B58FC1'],
+    },
+    point: {
+      r: 5,
+    },
+    grid: {
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
       },
     },
   });
