@@ -3,6 +3,7 @@ import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
+import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -17,7 +18,7 @@ class Reports extends React.Component {
    * @param { Object } props
    * @param { import('../../services/pure-di').AppServices } props.dependencies
    */
-  constructor({ dependencies: { datahubClient, appConfiguration } }) {
+  constructor({ dependencies: { datahubClient, appConfiguration, experimentalFeatures } }) {
     super();
 
     this.datahubClient = datahubClient;
@@ -29,6 +30,8 @@ class Reports extends React.Component {
       periodSelectedDays: 7,
       dateTo: new Date(),
       dateFrom: null,
+      isEnabledDailyVisits:
+        experimentalFeatures && experimentalFeatures.getFeature('ReportsDailyVisits'),
     };
 
     this.changeDomain = this.changeDomain.bind(this);
@@ -97,6 +100,12 @@ class Reports extends React.Component {
                   withEmail
                 />
               </div>
+              {this.state.isEnabledDailyVisits ? (
+                <ReportsDailyVisits
+                  domainName={this.state.domainSelected.name}
+                  dateFrom={this.state.dateFrom}
+                />
+              ) : null}
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}
                 dateFrom={this.state.dateFrom}

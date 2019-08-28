@@ -8,7 +8,7 @@ describe('experimental features', () => {
       feature1: true,
     };
     const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
     const experimentalFeatures = new ExperimentalFeatures(storage);
     // Act
     const enabled = !!experimentalFeatures.getFeature('feature1');
@@ -22,7 +22,7 @@ describe('experimental features', () => {
       feature1: true,
     };
     const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
     const experimentalFeatures = new ExperimentalFeatures(storage);
     // Act
     const enabled = !!experimentalFeatures.getFeature('feature4');
@@ -38,7 +38,7 @@ describe('experimental features', () => {
       },
     };
     const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
     const experimentalFeatures = new ExperimentalFeatures(storage);
     // Act
     const value = experimentalFeatures.getFeature('feature3').apikey;
@@ -54,7 +54,7 @@ describe('experimental features', () => {
       },
     };
     const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
     const experimentalFeatures = new ExperimentalFeatures(storage);
     // Act
     const value = experimentalFeatures.getFeature('feature1').apikey1;
@@ -77,7 +77,7 @@ describe.each`
       feature1: featureValue,
     };
     const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExpermiental', JSON.stringify(experimentalFeaturesData));
+    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
     const experimentalFeatures = new ExperimentalFeatures(storage);
 
     // Act

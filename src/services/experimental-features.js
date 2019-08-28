@@ -1,7 +1,7 @@
 export class ExperimentalFeatures {
   constructor(storage) {
-    this.features = storage.getItem('dopplerExpermiental')
-      ? JSON.parse(storage.getItem('dopplerExpermiental'))
+    this.features = storage.getItem('dopplerExperimental')
+      ? JSON.parse(storage.getItem('dopplerExperimental'))
       : null;
   }
   getFeature(featureName) {
