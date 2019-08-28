@@ -6,7 +6,6 @@ import C3Chart from '../../shared/C3Chart/C3Chart';
 
 const chartDataOptions = {
   json: {},
-  type: 'spline',
 };
 
 const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
