@@ -252,7 +252,13 @@ export default {
     url_site: `${urlSiteFromSignup}`,
   },
   trafficSources: {
+    direct: `Directo`,
+    email: `Email`,
     error: `¡Ouch! Ocurrio un error inesperado, vuelva a intentar nuevamente`,
+    organic: `Organico`,
+    paid: `Pago`,
+    referral: `Referido`,
+    social: `Social`,
     title: `Fuentes de trafico`,
   },
   upgradePlanForm: {

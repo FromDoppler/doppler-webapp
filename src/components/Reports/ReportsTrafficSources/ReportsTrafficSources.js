@@ -8,12 +8,7 @@ import {
   TrafficSourceHeader,
 } from './ReportsTrafficSources.styles';
 
-const ReportsTrafficSources = function({
-  domainName,
-  dateFrom,
-  intl,
-  dependencies: { datahubClient },
-}) {
+const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { datahubClient } }) {
   const [state, setState] = useState({ loading: true });
 
   const numberFormatOptions = {
@@ -57,7 +52,12 @@ const ReportsTrafficSources = function({
             state.trafficSources.items.map((trafficSource, index) => (
               <TrafficSourceContainer key={index}>
                 <TrafficSourceHeader>
-                  <h6>{trafficSource.sourceName}</h6>
+                  <h6>
+                    <FormattedMessage
+                      defaultMessage={trafficSource.sourceName}
+                      id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
+                    />
+                  </h6>
                   <span>
                     {trafficSource.quantity} (
                     <span>
@@ -70,10 +70,13 @@ const ReportsTrafficSources = function({
                   </span>
                 </TrafficSourceHeader>
               </TrafficSourceContainer>
-              // TODO: Add message or something more prettier when service fail
             ))
           ) : (
-            <FormattedMessage id="trafficSources.error" />
+            <div className="dp-msj-error bounceIn">
+              <p>
+                <FormattedMessage id="trafficSources.error" />
+              </p>
+            </div>
           )}
         </Container>
       </div>

@@ -67,8 +67,8 @@ describe('reports traffic sources', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText(fullResponse.value[0].sourceName));
-    expect(getByText(fullResponse.value[1].sourceName));
+    expect(getByText('trafficSources.email'));
+    expect(getByText('trafficSources.social'));
     // TODO: for now only can check english language local because for local has small-icu and need full-icu
     expect(getByText('66.67%'));
   });
