@@ -67,7 +67,7 @@ const fakeTrafficSourcesData = [
     quantity: 100,
   },
   {
-    sourceName: 'Referal',
+    sourceName: 'Referral',
     quantity: 50,
   },
   {
