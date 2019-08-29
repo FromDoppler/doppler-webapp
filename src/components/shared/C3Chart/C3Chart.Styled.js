@@ -1,35 +1,37 @@
-/*.c3-chart {
-  display: block;
-  width: 97%;
-  margin: 20px 0px 20px 12px;
-}
+import styled from 'styled-components';
 
-.c3-chart svg {
+export const C3ChartStyled = styled.div`
+
+display: block;
+width: 97%;
+margin: 20px 0px 20px 12px;
+
+svg {
   font: 400 11px 'Proxima-Nova', sans-serif;
   color: #ccc;
 }
 
-.c3-chart .tick {
+.tick {
   fill: #666;
   font: 400 11px 'Proxima-Nova', sans-serif;
 }
 
-.c3-chart .domain {
+.domain {
   stroke: #ccc;
 }
-.c3-chart path,
-.c3-chart line {
+path,
+line {
   fill: none;
   stroke: #ccc;
 }
 
-.c3-chart .c3-line {
+.c3-line {
   stroke-width: 4px;
   position: relative;
   transition: all 2s ease-in-out;
 }
 
-.c3-chart .c3-event-rect {
+.c3-event-rect {
   stroke-width: 7px;
 }
 
@@ -43,12 +45,9 @@
   transition: all 1s ease-in-out;
 }
 
-.c3-shape {
-  stroke: #b58fc1 !important;
-  fill: #b58fc1;
+.c3-shapes-quantity {
+  fill: #b58fc1 !important;
 }
-
-
 
 .c3-tooltip-container {
   background: #fff;
@@ -92,9 +91,9 @@
 }
 
 @media (max-width: 768px) {
-  .c3-chart,
-  .c3 {
+  .c3-chart {
     width: 95%;
   }
 }
-*/
+
+`;
