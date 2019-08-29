@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import colors from './Colors';
+
 export const C3ChartStyled = styled.div`
   display: block;
   width: 97%;
@@ -7,21 +9,22 @@ export const C3ChartStyled = styled.div`
 
   svg {
     font: 400 11px 'Proxima-Nova', sans-serif;
-    color: #ccc;
+    color: ${colors.SoftGrey};
   }
 
   .tick {
-    fill: #666;
+    fill: ${colors.LightGrey};
     font: 400 11px 'Proxima-Nova', sans-serif;
   }
 
   .domain {
-    stroke: #ccc;
+    stroke: ${colors.SoftGrey};
   }
+
   path,
   line {
     fill: none;
-    stroke: #ccc;
+    stroke: ${colors.SoftGrey};
   }
 
   .c3-line {
@@ -40,23 +43,23 @@ export const C3ChartStyled = styled.div`
   }
 
   .c3-xgrid-focus {
-    stroke: #b58fc1 !important;
+    stroke: ${colors.DarkPurple};
     transition: all 1s ease-in-out;
   }
 
   .c3-shapes-quantity {
-    fill: #b58fc1 !important;
+    fill: ${colors.DarkPurple};
   }
 
   .c3-tooltip-container {
-    background: #fff;
+    background: ${colors.White};
     padding: 24px 30px;
     min-width: 180px;
-    color: #333;
-    font: 400 12px 'Proxima-Nova', sans-serif !important;
+    color: ${colors.DarkGrey};
+    font: 400 12px 'Proxima-Nova', sans-serif;
     z-index: 10;
     box-shadow: 0 0 0 4px rgba(204, 204, 204, 0.3);
-    border: 1px solid #ccc;
+    border: 1px solid ${colors.SoftGrey};
     position: relative;
   }
 
@@ -71,7 +74,7 @@ export const C3ChartStyled = styled.div`
     font-size: 11px;
     padding: 2px 5px;
     text-align: left;
-    color: #666;
+    color: ${colors.LightGrey};
     font-weight: normal;
     line-height: 13px;
   }
@@ -83,7 +86,7 @@ export const C3ChartStyled = styled.div`
   .c3-tooltip td {
     font-size: 13px;
     padding: 3px 6px;
-    color: #333;
+    color: ${colors.DarkGrey};
     font-weight: bold;
     width: auto;
     line-height: 16px;

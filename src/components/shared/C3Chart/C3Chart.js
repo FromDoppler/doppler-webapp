@@ -1,8 +1,7 @@
 import './SVGPathElement.patch';
 import c3 from 'c3';
 import React, { useEffect, useRef } from 'react';
-import './C3Chart.css';
-import { C3ChartStyled } from './C3Chart.Styled';
+import { C3ChartStyled } from './C3Chart.styles';
 
 const C3Chart = ({ config, dataOptions, data }) => {
   const chartEl = useRef(null);
@@ -28,7 +27,7 @@ const C3Chart = ({ config, dataOptions, data }) => {
     };
   }, [data]);
 
-  return <C3ChartStyled ref={chartEl} className="c3-chart" />;
+  return <C3ChartStyled ref={chartEl} />;
 };
 
 export default C3Chart;
