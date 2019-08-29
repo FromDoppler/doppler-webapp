@@ -2,7 +2,7 @@ import './SVGPathElement.patch';
 import c3 from 'c3';
 import React, { useEffect, useRef } from 'react';
 import './C3Chart.css';
-import {C3ChartStyled} from './C3Chart.Styled';
+import { C3ChartStyled } from './C3Chart.Styled';
 
 const C3Chart = ({ config, dataOptions, data }) => {
   const chartEl = useRef(null);
