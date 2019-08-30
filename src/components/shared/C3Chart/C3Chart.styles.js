@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import colors from './Colors';
+import colors from './C3Chart.colors';
 
 export const C3ChartStyled = styled.div`
   display: block;
