@@ -25,7 +25,7 @@ class ReportsPageRanking extends React.Component {
     const pages = await this.asyncRequest;
     this.asyncRequest = null;
     this.setState({
-      pages: pages,
+      pages: pages.value,
     });
   }
 

@@ -50,7 +50,9 @@ describe('Reports page', () => {
     const datahubClientDouble = {
       getAccountDomains: async () => fakeData,
       getVisitsByPeriod: async () => 0,
-      getPagesRankingByPeriod: async () => [],
+      getPagesRankingByPeriod: async () => {
+        return { success: false, value: [] };
+      },
       getTrafficSourcesByPeriod: async () => [],
       getDailyVisitsByPeriod: async () => [],
     };

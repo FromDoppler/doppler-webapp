@@ -4,6 +4,7 @@ import {
   DomainEntry,
   TrafficSourceResult,
   DailyVisitsResult,
+  PageRankingResult,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -30,22 +31,27 @@ const fakePagesData = [
   {
     name: '/email-marketing',
     totalVisitors: 10122,
+    withEmail: 400,
   },
   {
     name: '/precios',
     totalVisitors: 9000,
+    withEmail: 300,
   },
   {
     name: '/login',
     totalVisitors: 5001,
+    withEmail: 900,
   },
   {
     name: '/productos',
     totalVisitors: 3800,
+    withEmail: 1000,
   },
   {
     name: '/servicios',
     totalVisitors: 1023,
+    withEmail: 500,
   },
 ];
 
@@ -132,14 +138,25 @@ export class HardcodedDatahubClient implements DatahubClient {
   }: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisitors: number; url: string }[]> {
+  }): Promise<PageRankingResult> {
     console.log('getPagesRankingByPeriod', { domainName, dateFrom });
     await timeout(1500);
-    return fakePagesData.map((x) => ({
+    const pages = fakePagesData.map((x) => ({
       name: x.name,
       totalVisitors: x.totalVisitors,
       url: `http://${domainName}${x.name}`,
+      withEmail: x.withEmail,
     }));
+
+    return {
+      success: true,
+      value: pages,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
   }
 
   public async getTrafficSourcesByPeriod({

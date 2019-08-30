@@ -8,6 +8,13 @@ export interface DomainEntry {
   verified_date: Date | null;
 }
 
+export interface Page {
+  name: string;
+  totalVisitors: number;
+  url: string;
+  withEmail: number;
+}
+
 export interface TrafficSource {
   sourceName: string;
   quantity: number;
@@ -32,7 +39,7 @@ export interface DatahubClient {
   getPagesRankingByPeriod(query: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisitors: number; url: string }[]>;
+  }): Promise<PageRankingResult>;
   getTrafficSourcesByPeriod(query: {
     domainName: string;
     dateFrom: Date;
@@ -43,6 +50,8 @@ export interface DatahubClient {
 export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
 
 export type DailyVisitsResult = ResultWithoutExpectedErrors<DailyVisits[]>;
+
+export type PageRankingResult = ResultWithoutExpectedErrors<Page[]>;
 
 export class HttpDatahubClient implements DatahubClient {
   private readonly axios: AxiosInstance;
@@ -123,23 +132,37 @@ export class HttpDatahubClient implements DatahubClient {
   }: {
     domainName: number;
     dateFrom: Date;
-  }): Promise<{ name: string; totalVisitors: number; url: string }[]> {
-    const response = await this.customerGet<{
-      items: { page: string; visitorsQuantity: number }[];
-    }>(`domains/${domainName}/events/summarized-by-page`, {
-      startDate: dateFrom.toISOString(),
-      sortBy: 'visitors',
-    });
+  }): Promise<PageRankingResult> {
+    try {
+      const response = await this.customerGet<any>(
+        `domains/${domainName}/events/summarized-by-page`,
+        {
+          startDate: dateFrom.toISOString(),
+          sortBy: 'visitors',
+        },
+      );
 
-    // By the moment we are hard-coding it because DataHub does not have this
-    // information. I am looking you Leo :P
-    const urlSchema = 'http://';
+      // By the moment we are hard-coding it because DataHub does not have this
+      // information. I am looking you Leo :P
+      const urlSchema = 'http://';
 
-    return response.data.items.map((x) => ({
-      name: x.page,
-      totalVisitors: x.visitorsQuantity,
-      url: `${urlSchema}${domainName}${x.page}`,
-    }));
+      const pages = response.data.items.map((x: any) => ({
+        name: x.page,
+        totalVisitors: x.visitorsQuantity,
+        url: `${urlSchema}${domainName}${x.page}`,
+        withEmail: x.withEmail,
+      }));
+
+      return {
+        success: true,
+        value: pages,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
   }
 
   public async getTrafficSourcesByPeriod({
