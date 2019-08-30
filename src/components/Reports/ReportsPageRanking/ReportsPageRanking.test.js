@@ -9,27 +9,38 @@ const fakeDate = new Date();
 
 const domain = 'www.fromdoppler.com';
 
-const fakePagesData = [
-  {
-    name: 'https://www.fromdoppler.com/email-marketing',
-    totalVisits: 10122,
-  },
-  {
-    name: 'https://www.fromdoppler.com/precios',
-    totalVisits: 9000,
-  },
-  {
-    name: 'https://www.fromdoppler.com/login',
-    totalVisits: 5001,
-  },
-];
+const fakePagesData = {
+  success: true,
+  value: [
+    {
+      name: 'https://www.fromdoppler.com/email-marketing',
+      totalVisits: 10122,
+      withEmail: 200,
+    },
+    {
+      name: 'https://www.fromdoppler.com/precios',
+      totalVisits: 9000,
+      withEmail: 200,
+    },
+    {
+      name: 'https://www.fromdoppler.com/login',
+      totalVisits: 5001,
+      withEmail: 200,
+    },
+  ],
+};
+
+const emptyResponse = {
+  success: false,
+  value: [],
+};
 
 describe('Reports pages ranking', () => {
   afterEach(cleanup);
 
   it('render component without pages', () => {
     const datahubClientDouble = {
-      getPagesRankingByPeriod: async () => [],
+      getPagesRankingByPeriod: async () => emptyResponse,
     };
 
     render(
@@ -54,9 +65,9 @@ describe('Reports pages ranking', () => {
       </AppServicesProvider>,
     );
 
-    await wait(() => getByText(fakePagesData[0].name));
+    await wait(() => getByText('https://www.fromdoppler.com/email-marketing'));
 
-    const pageName = getByText(fakePagesData[0].name);
+    const pageName = getByText('https://www.fromdoppler.com/email-marketing');
 
     expect(pageName).toBeDefined();
   });
