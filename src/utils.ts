@@ -1,11 +1,11 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
 
-export function timeout(ms) {
+export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function getDataHubParams(partialUrl) {
+export function getDataHubParams(partialUrl: string) {
   const parsedUrl = urlParse(partialUrl, false);
   return {
     navigatedPage: parsedUrl.pathname,
@@ -14,8 +14,16 @@ export function getDataHubParams(partialUrl) {
   };
 }
 
-export function useInterval({ callback, delay, runOnStart }) {
-  const savedCallback = useRef();
+export function useInterval({
+  callback,
+  delay,
+  runOnStart,
+}: {
+  callback: () => void;
+  delay: number;
+  runOnStart: boolean;
+}) {
+  const savedCallback = useRef<() => void>();
 
   useEffect(() => {
     savedCallback.current = callback;
@@ -23,11 +31,11 @@ export function useInterval({ callback, delay, runOnStart }) {
 
   useEffect(() => {
     function tick() {
-      savedCallback.current();
+      savedCallback.current && savedCallback.current();
     }
     if (delay !== null) {
       if (runOnStart) {
-        savedCallback.current();
+        savedCallback.current && savedCallback.current();
       }
       const id = setInterval(tick, delay);
       return () => clearInterval(id);
