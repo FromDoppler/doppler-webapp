@@ -86,7 +86,7 @@ class ReportsPageRanking extends React.Component {
               </small>
 
               {pages.map((item, index) => (
-                <PageRankingItem index={index}>
+                <PageRankingItem key={index}>
                   <div>
                     <PageRankingItemText>
                       <strong>{index + 1}</strong>
