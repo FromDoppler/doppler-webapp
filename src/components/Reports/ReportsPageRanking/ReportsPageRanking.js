@@ -1,91 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
-import { PageRankingItem, PageRankingItemText, PageRankingBreakdown } from './ReportsPageRanking.styles';
+import {
+  PageRankingItem,
+  PageRankingItemText,
+  PageRankingBreakdown,
+} from './ReportsPageRanking.styles';
 
-class ReportsPageRanking extends React.Component {
-  constructor({ dependencies: { datahubClient } }) {
-    super();
+const numberFormatOptions = {
+  style: 'percent',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+};
 
-    /** @type { import('../../services/datahub-client').DatahubClient } */
-    this.datahubClient = datahubClient;
+const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
+  const [state, setState] = useState({ loading: true });
 
-    this.state = {
-      pages: null,
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await datahubClient.getPagesRankingByPeriod({
+        domainName: domainName,
+        dateFrom: dateFrom,
+      });
+      if (!result.success) {
+        setState({ loading: false });
+      } else {
+        setState({
+          loading: false,
+          pages: result.value,
+        });
+      }
     };
 
-    this.numberFormatOptions = {
-      style: 'percent',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    };
+    fetchData();
+  }, [datahubClient, domainName, dateFrom]);
 
-    this.fetchPagesRankingByPeriod = this.fetchPagesRankingByPeriod.bind(this);
-  }
+  return (
+    <div className="wrapper-reports-box">
+      {state.loading ? (
+        <Loading />
+      ) : (
+        <div className="reports-box">
+          <small className="title-reports-box">
+            <FormattedMessage id="reports_pageranking.top_pages" />
+          </small>
 
-  async fetchPagesRankingByPeriod(domainName, dateFrom) {
-    this.asyncRequest = this.datahubClient.getPagesRankingByPeriod({
-      domainName: domainName,
-      dateFrom: dateFrom,
-    });
-    const pages = await this.asyncRequest;
-    this.asyncRequest = null;
-    this.setState({
-      pages: pages.value,
-    });
-  }
-
-  componentWillUnmount() {
-    // TODO: abort request or at least side effects after finish
-    this.asyncRequest = null;
-  }
-
-  componentDidMount() {
-    this.fetchPagesRankingByPeriod(this.props.domainName, this.props.dateFrom);
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (
-      props.domainName !== state.prevDomainName ||
-      props.dateFrom !== state.prevDateFrom ||
-      props.dateTo !== state.prevDateTo
-    ) {
-      return {
-        pages: null,
-        prevDomainName: props.domainName,
-        prevDateFrom: props.dateFrom,
-        prevDateTo: props.dateTo,
-      };
-    }
-
-    // No state update necessary
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.pages === null) {
-      this.fetchPagesRankingByPeriod(this.props.domainName, this.props.dateFrom);
-    }
-  }
-
-  render() {
-    const {
-      state: { pages },
-    } = this;
-
-    return (
-      <>
-        <div className="wrapper-reports-box">
-          {pages === null ? (
-            <Loading />
-          ) : (
-            <div className="reports-box">
-              <small className="title-reports-box">
-                <FormattedMessage id="reports_pageranking.top_pages" />
-              </small>
-
-              {pages.map((item, index) => (
+          {state.pages
+            ? state.pages.map((item, index) => (
                 <PageRankingItem key={index}>
                   <div>
                     <PageRankingItemText>
@@ -108,7 +70,7 @@ class ReportsPageRanking extends React.Component {
                       <span>
                         <FormattedNumber
                           value={item.withEmail / item.totalVisitors}
-                          {...this.numberFormatOptions}
+                          {...numberFormatOptions}
                         />
                       </span>
                       )
@@ -121,20 +83,19 @@ class ReportsPageRanking extends React.Component {
                       <span>
                         <FormattedNumber
                           value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
-                          {...this.numberFormatOptions}
+                          {...numberFormatOptions}
                         />
                       </span>
                       )
                     </p>
                   </PageRankingBreakdown>
                 </PageRankingItem>
-              ))}
-            </div>
-          )}
+              ))
+            : null}
         </div>
-      </>
-    );
-  }
-}
+      )}
+    </div>
+  );
+};
 
 export default InjectAppServices(ReportsPageRanking);
