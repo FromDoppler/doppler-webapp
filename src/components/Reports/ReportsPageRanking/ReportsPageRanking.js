@@ -1,8 +1,8 @@
 import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
-import { PageRankingItem, PageRankingItemText } from './ReportsPageRanking.styles';
+import { PageRankingItem, PageRankingItemText, PageRankingBreakdown } from './ReportsPageRanking.styles';
 
 class ReportsPageRanking extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
@@ -13,6 +13,12 @@ class ReportsPageRanking extends React.Component {
 
     this.state = {
       pages: null,
+    };
+
+    this.numberFormatOptions = {
+      style: 'percent',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     };
 
     this.fetchPagesRankingByPeriod = this.fetchPagesRankingByPeriod.bind(this);
@@ -93,6 +99,34 @@ class ReportsPageRanking extends React.Component {
                       <FormattedMessage id="reports_pageranking.total_visits" />
                     </PageRankingItemText>
                   </div>
+                  <PageRankingBreakdown>
+                    <p className="visits--withemail">
+                      <FormattedMessage id="reports_pageranking.visits_with_email" />
+                    </p>
+                    <p>
+                      {item.withEmail}(
+                      <span>
+                        <FormattedNumber
+                          value={item.withEmail / item.totalVisitors}
+                          {...this.numberFormatOptions}
+                        />
+                      </span>
+                      )
+                    </p>
+                    <p className="visits--withoutemail">
+                      <FormattedMessage id="reports_pageranking.visits_without_email" />
+                    </p>
+                    <p>
+                      {item.totalVisitors - item.withEmail}(
+                      <span>
+                        <FormattedNumber
+                          value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
+                          {...this.numberFormatOptions}
+                        />
+                      </span>
+                      )
+                    </p>
+                  </PageRankingBreakdown>
                 </PageRankingItem>
               ))}
             </div>
