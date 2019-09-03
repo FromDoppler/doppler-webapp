@@ -2,6 +2,7 @@ import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import Loading from '../../Loading/Loading';
+import { PageRankingItem, PageRankingItemText } from './ReportsPageRanking.styles';
 
 class ReportsPageRanking extends React.Component {
   constructor({ dependencies: { datahubClient } }) {
@@ -79,23 +80,20 @@ class ReportsPageRanking extends React.Component {
               </small>
 
               {pages.map((item, index) => (
-                <div key={index} className="page-ranking--item">
-                  <p className="text-ranking">
-                    <strong>{index + 1}</strong>
-                  </p>
-                  <a
-                    className="link-ranking"
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {item.name}
-                  </a>
-                  <p className="text-ranking">
-                    <strong>{item.totalVisitors}</strong>{' '}
-                    <FormattedMessage id="reports_pageranking.total_visits" />
-                  </p>
-                </div>
+                <PageRankingItem index={index}>
+                  <div>
+                    <PageRankingItemText>
+                      <strong>{index + 1}</strong>
+                    </PageRankingItemText>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer">
+                      {item.name}
+                    </a>
+                    <PageRankingItemText>
+                      <strong>{item.totalVisitors}</strong>{' '}
+                      <FormattedMessage id="reports_pageranking.total_visits" />
+                    </PageRankingItemText>
+                  </div>
+                </PageRankingItem>
               ))}
             </div>
           )}
