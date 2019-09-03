@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PageRankingItem = styled.div`
+export const StyledPageRankingItem = styled.div`
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   background: #f2f2f2;
@@ -16,32 +16,20 @@ export const PageRankingItem = styled.div`
   a {
     font-size: 13px;
   }
+
+  .page-ranking--breakdown {
+    background: #fff;
+    width: 30%;
+    text-align: right;
+
+    p {
+      font-weight: bold;
+    }
+  }
 `;
 
-export const PageRankingItemText = styled.p`
-  margin: 5px;
+export const StyledParagraph = styled.p`
   font-size: 13px;
-  color: #333;
-  transition: all 0.25s ease;
-`;
-
-export const PageRankingBreakdown = styled.div`
-  background: #fff;
-  width: 30%;
-  text-align: right;
-
-  p {
-    font-size: 13px;
-    font-weight: bold;
-    margin: 5px;
-  }
-
-  .visits--withemail {
-    color: #b591c3;
-  }
-
-  p.visits--withoutemail {
-    margin-top: 15px;
-    color: #fbb224;
-  }
+  margin: ${({ margin }) => (margin ? margin : '5px')};
+  color: ${({ color }) => (color ? color : '#333')};
 `;

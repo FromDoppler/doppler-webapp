@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
-import {
-  PageRankingItem,
-  PageRankingItemText,
-  PageRankingBreakdown,
-} from './ReportsPageRanking.styles';
+import { StyledPageRankingItem, StyledParagraph } from './ReportsPageRanking.styles';
 
 const numberFormatOptions = {
   style: 'percent',
@@ -46,52 +42,58 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
             <FormattedMessage id="reports_pageranking.top_pages" />
           </small>
 
-          {state.pages
-            ? state.pages.map((item, index) => (
-                <PageRankingItem key={index}>
-                  <div>
-                    <PageRankingItemText>
-                      <strong>{index + 1}</strong>
-                    </PageRankingItemText>
-                    <a href={item.url} target="_blank" rel="noopener noreferrer">
-                      {item.name}
-                    </a>
-                    <PageRankingItemText>
-                      <strong>{item.totalVisitors}</strong>{' '}
-                      <FormattedMessage id="reports_pageranking.total_visits" />
-                    </PageRankingItemText>
-                  </div>
-                  <PageRankingBreakdown>
-                    <p className="visits--withemail">
-                      <FormattedMessage id="reports_pageranking.visits_with_email" />
-                    </p>
-                    <p>
-                      {item.withEmail}(
-                      <span>
-                        <FormattedNumber
-                          value={item.withEmail / item.totalVisitors}
-                          {...numberFormatOptions}
-                        />
-                      </span>
-                      )
-                    </p>
-                    <p className="visits--withoutemail">
-                      <FormattedMessage id="reports_pageranking.visits_without_email" />
-                    </p>
-                    <p>
-                      {item.totalVisitors - item.withEmail}(
-                      <span>
-                        <FormattedNumber
-                          value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
-                          {...numberFormatOptions}
-                        />
-                      </span>
-                      )
-                    </p>
-                  </PageRankingBreakdown>
-                </PageRankingItem>
-              ))
-            : null}
+          {state.pages ? (
+            state.pages.map((item, index) => (
+              <StyledPageRankingItem key={index}>
+                <div>
+                  <StyledParagraph>
+                    <strong>{index + 1}</strong>
+                  </StyledParagraph>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    {item.name}
+                  </a>
+                  <StyledParagraph>
+                    <strong>{item.totalVisitors}</strong>{' '}
+                    <FormattedMessage id="reports_pageranking.total_visits" />
+                  </StyledParagraph>
+                </div>
+                <div className="page-ranking--breakdown">
+                  <StyledParagraph color={'#b591c3'}>
+                    <FormattedMessage id="reports_pageranking.visits_with_email" />
+                  </StyledParagraph>
+                  <StyledParagraph>
+                    {item.withEmail}(
+                    <span>
+                      <FormattedNumber
+                        value={item.withEmail / item.totalVisitors}
+                        {...numberFormatOptions}
+                      />
+                    </span>
+                    )
+                  </StyledParagraph>
+                  <StyledParagraph color={'#fbb100'} margin={'15px 0 0 0'}>
+                    <FormattedMessage id="reports_pageranking.visits_without_email" />
+                  </StyledParagraph>
+                  <StyledParagraph>
+                    {item.totalVisitors - item.withEmail}(
+                    <span>
+                      <FormattedNumber
+                        value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
+                        {...numberFormatOptions}
+                      />
+                    </span>
+                    )
+                  </StyledParagraph>
+                </div>
+              </StyledPageRankingItem>
+            ))
+          ) : (
+            <div className="dp-msj-error bounceIn">
+              <p>
+                <FormattedMessage id="trafficSources.error" />
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>
