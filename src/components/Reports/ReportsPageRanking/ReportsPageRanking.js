@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
-import { StyledPageRankingItem, StyledParagraph } from './ReportsPageRanking.styles';
+import * as S from './ReportsPageRanking.styles';
 
 const numberFormatOptions = {
   style: 'percent',
@@ -37,31 +37,31 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
       {state.loading ? (
         <Loading />
       ) : (
-        <div className="reports-box">
+        <S.ReportBox>
           <small className="title-reports-box">
             <FormattedMessage id="reports_pageranking.top_pages" />
           </small>
 
           {state.pages ? (
             state.pages.map((item, index) => (
-              <StyledPageRankingItem key={index}>
-                <div>
-                  <StyledParagraph>
+              <S.PageListItem key={index}>
+                <S.PageListItemColumn>
+                  <p>
                     <strong>{index + 1}</strong>
-                  </StyledParagraph>
+                  </p>
                   <a href={item.url} target="_blank" rel="noopener noreferrer">
                     {item.name}
                   </a>
-                  <StyledParagraph>
+                  <p>
                     <strong>{item.totalVisitors}</strong>{' '}
                     <FormattedMessage id="reports_pageranking.total_visits" />
-                  </StyledParagraph>
-                </div>
-                <div className="page-ranking--breakdown">
-                  <StyledParagraph color={'#b591c3'}>
+                  </p>
+                </S.PageListItemColumn>
+                <S.PageListItemRightColumn>
+                  <p className="visits--withemail">
                     <FormattedMessage id="reports_pageranking.visits_with_email" />
-                  </StyledParagraph>
-                  <StyledParagraph>
+                  </p>
+                  <p>
                     {item.withEmail}(
                     <span>
                       <FormattedNumber
@@ -70,11 +70,11 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                       />
                     </span>
                     )
-                  </StyledParagraph>
-                  <StyledParagraph color={'#fbb100'} margin={'15px 0 0 0'}>
+                  </p>
+                  <p className="visits--withoutemail">
                     <FormattedMessage id="reports_pageranking.visits_without_email" />
-                  </StyledParagraph>
-                  <StyledParagraph>
+                  </p>
+                  <p>
                     {item.totalVisitors - item.withEmail}(
                     <span>
                       <FormattedNumber
@@ -83,9 +83,9 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                       />
                     </span>
                     )
-                  </StyledParagraph>
-                </div>
-              </StyledPageRankingItem>
+                  </p>
+                </S.PageListItemRightColumn>
+              </S.PageListItem>
             ))
           ) : (
             <div className="dp-msj-error bounceIn">
@@ -94,7 +94,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
               </p>
             </div>
           )}
-        </div>
+        </S.ReportBox>
       )}
     </div>
   );
