@@ -17,6 +17,7 @@ import 'promise-polyfill/src/polyfill';
 import { availableLanguageOrDefault } from './i18n/utils';
 import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 import { getDataHubParams } from './utils';
+import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
 
 polyfill();
 
@@ -34,6 +35,7 @@ const forcedServices =
         dopplerSitesClient: new HardcodedDopplerSitesClient(),
         datahubClient: new HardcodedDatahubClient(),
         shopifyClient: new HardcodedShopifyClient(),
+        dopplerAPIClient: new HardcodedDopplerApiClient(),
       }
     : {};
 
