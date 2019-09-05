@@ -8,7 +8,10 @@ import styled from 'styled-components';
 import { SubscriberListState } from '../../../services/shopify-client';
 import { useInterval } from '../../../utils';
 
-const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
+const Shopify = ({
+  intl,
+  dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures },
+}) => {
   const [shopifyState, setShopifyState] = useState({
     isLoading: true,
   });
@@ -90,16 +93,43 @@ const Shopify = ({ intl, dependencies: { shopifyClient } }) => {
     </>
   );
 
+  const getSubscribersAmountFromAPI = async (listId, apikey) => {
+    const resultAPI = await dopplerApiClient.getListData(listId, apikey);
+    if (resultAPI.success) {
+      return resultAPI.value.amountSubscribers;
+    } else {
+      return null;
+    }
+  };
+
+  const updateSubscriberCount = async (list) => {
+    const dopplerAPIFeature = experimentalFeatures && experimentalFeatures.getFeature('DopplerAPI');
+    if (list && dopplerAPIFeature) {
+      const subscribersCount = await getSubscribersAmountFromAPI(list.id);
+      list.amountSubscribers = subscribersCount != null ? subscribersCount : list.amountSubscribers;
+    }
+    return list;
+  };
+
+  const getShopifyData = async () => {
+    const shopifyResult = await shopifyClient.getShopifyData();
+    if (shopifyResult.value && shopifyResult.value.length) {
+      //updates only first shop
+      shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
+    }
+    return shopifyResult;
+  };
+
   useInterval({
     runOnStart: true,
     delay: 20000,
     callback: async () => {
-      const result = await shopifyClient.getShopifyData();
+      const result = await getShopifyData();
       if (!result.success) {
         setShopifyState({
           error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
-      } else if (result.value.length) {
+      } else if (result.value && result.value.length) {
         setShopifyState({
           shops: result.value,
           isConnected: true,

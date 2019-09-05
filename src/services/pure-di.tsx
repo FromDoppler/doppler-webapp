@@ -6,6 +6,7 @@ import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
 import { ShopifyClient, HttpShopifyClient } from './shopify-client';
+import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { ExperimentalFeatures } from './experimental-features';
 
@@ -38,6 +39,7 @@ export interface AppServices {
   shopifyClient: ShopifyClient;
   dopplerSitesClient: DopplerSitesClient;
   experimentalFeatures: ExperimentalFeatures;
+  dopplerApiClient: DopplerApiClient;
 }
 
 /**
@@ -82,6 +84,7 @@ export class AppCompositionRoot implements AppServices {
         forgotPassword: process.env.REACT_APP_USE_DOPPLER_LEGACY_FORGOTPASSWORD === 'true',
       },
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
+      dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
     }));
   }
 
@@ -127,6 +130,19 @@ export class AppCompositionRoot implements AppServices {
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.shopifyUrl,
           connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerApiClient() {
+    return this.singleton(
+      'dopplerApiClient',
+      () =>
+        new HttpDopplerApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerApiUrl,
+          connectionDataRef: this.appSessionRef,
+          experimentalFeatures: this.experimentalFeatures,
         }),
     );
   }
