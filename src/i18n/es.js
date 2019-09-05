@@ -151,7 +151,7 @@ export default {
     visits_without_emails: `Usuarios sin Email`,
   },
   reports_daily_visits: {
-    title: `Reportes de visitas diarias`,
+    title: `Páginas vistas únicas`,
   },
   reports_filters: {
     all_pages: `Todas las paginas`,
