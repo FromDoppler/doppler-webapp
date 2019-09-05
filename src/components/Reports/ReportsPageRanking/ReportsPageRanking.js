@@ -57,34 +57,36 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                     <FormattedMessage id="reports_pageranking.total_visits" />
                   </p>
                 </S.ListItemColumn>
-                <S.ListItemRightColumn>
-                  <p className="visits--withemail">
-                    <FormattedMessage id="reports_pageranking.visits_with_email" />
-                  </p>
-                  <p>
-                    {item.withEmail}(
-                    <span>
-                      <FormattedNumber
-                        value={item.withEmail / item.totalVisitors}
-                        {...numberFormatOptions}
-                      />
-                    </span>
-                    )
-                  </p>
-                  <p className="visits--withoutemail">
-                    <FormattedMessage id="reports_pageranking.visits_without_email" />
-                  </p>
-                  <p>
-                    {item.totalVisitors - item.withEmail}(
-                    <span>
-                      <FormattedNumber
-                        value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
-                        {...numberFormatOptions}
-                      />
-                    </span>
-                    )
-                  </p>
-                </S.ListItemRightColumn>
+                {item.withEmail || item.withEmail === 0 ? (
+                  <S.ListItemRightColumn>
+                    <p className="visits--withemail">
+                      <FormattedMessage id="reports_pageranking.visits_with_email" />
+                    </p>
+                    <p>
+                      {item.withEmail}(
+                      <span>
+                        <FormattedNumber
+                          value={item.withEmail / item.totalVisitors}
+                          {...numberFormatOptions}
+                        />
+                      </span>
+                      )
+                    </p>
+                    <p className="visits--withoutemail">
+                      <FormattedMessage id="reports_pageranking.visits_without_email" />
+                    </p>
+                    <p>
+                      {item.totalVisitors - item.withEmail}(
+                      <span>
+                        <FormattedNumber
+                          value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
+                          {...numberFormatOptions}
+                        />
+                      </span>
+                      )
+                    </p>
+                  </S.ListItemRightColumn>
+                ) : null}
               </S.ListItem>
             ))
           ) : (
