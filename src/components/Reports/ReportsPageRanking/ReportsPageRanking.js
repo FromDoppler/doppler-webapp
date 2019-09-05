@@ -44,8 +44,8 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
 
           {state.pages ? (
             state.pages.map((item, index) => (
-              <S.PageListItem key={index}>
-                <S.PageListItemColumn>
+              <S.ListItem key={index}>
+                <S.ListItemColumn>
                   <p>
                     <strong>{index + 1}</strong>
                   </p>
@@ -56,8 +56,8 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                     <strong>{item.totalVisitors}</strong>{' '}
                     <FormattedMessage id="reports_pageranking.total_visits" />
                   </p>
-                </S.PageListItemColumn>
-                <S.PageListItemRightColumn>
+                </S.ListItemColumn>
+                <S.ListItemRightColumn>
                   <p className="visits--withemail">
                     <FormattedMessage id="reports_pageranking.visits_with_email" />
                   </p>
@@ -84,8 +84,8 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                     </span>
                     )
                   </p>
-                </S.PageListItemRightColumn>
-              </S.PageListItem>
+                </S.ListItemRightColumn>
+              </S.ListItem>
             ))
           ) : (
             <div className="dp-msj-error bounceIn">

@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import colors from '../../shared/Colors';
 
 export const ReportBox = ({ children }) => <div className="reports-box">{children}</div>;
 
-export const PageListItem = styled.div`
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  background: #f2f2f2;
+export const ListItem = styled.div`
+  border-top: 1px solid ${colors.SoftGrey};
+  border-bottom: 1px solid ${colors.SoftGrey};
+  background: ${colors.GhostGrey};
   margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
@@ -15,7 +16,7 @@ export const PageListItem = styled.div`
   p {
     font-size: 13px;
     margin: '5px';
-    color: '#333';
+    color: ${colors.DarkGrey};
   }
 
   a {
@@ -23,22 +24,22 @@ export const PageListItem = styled.div`
   }
 `;
 
-export const PageListItemColumn = styled.div`
+export const ListItemColumn = styled.div`
   padding: 20px 30px;
 `;
 
-export const PageListItemRightColumn = styled(PageListItemColumn)`
-  background: #fff;
+export const ListItemRightColumn = styled(ListItemColumn)`
+  background: ${colors.White};
   width: 30%;
   text-align: right;
 
   p {
     font-weight: bold;
     &.visits--withemail {
-      color: #b591c3;
+      color: ${colors.DarkPurple};
     }
     &.visits--withoutemail {
-      color: #fbb100;
+      color: ${colors.DarkYellow};
       margin-top: 15px;
     }
   }
