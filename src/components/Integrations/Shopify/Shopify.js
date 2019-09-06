@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
-import logo from './logo.svg';
 import { FormattedHTMLMessage, injectIntl, FormattedDate } from 'react-intl';
-import styled from 'styled-components';
 import { SubscriberListState } from '../../../services/shopify-client';
 import { useInterval } from '../../../utils';
+import { StyledShopifyLogo } from './Shopify.styles';
 
 const Shopify = ({
   intl,
@@ -17,17 +16,6 @@ const Shopify = ({
   });
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const ShopifyLogo = ({ className }) => (
-    <img className={className} src={logo} alt="Shopify logo" />
-  );
-
-  const StyledShopifyLogo = styled(ShopifyLogo)`
-    width: 80px;
-    @media only screen and (max-width: 600px) {
-      display: none;
-    }
-  `;
 
   const Breadcrumb = () => (
     <nav className="dp-breadcrumb">
