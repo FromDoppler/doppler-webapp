@@ -21,8 +21,9 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
       x: {
         type: 'timeseries',
         tick: {
+          culling: false,
           format: (x) => {
-            return intl.formatDate(x, { timeZone: 'UTC' });
+            return intl.formatDate(x, { timeZone: 'UTC', month: 'short', day: '2-digit' });
           },
         },
       },
