@@ -6,4 +6,6 @@ export default {
   White: '#ffffff',
   Black: '#000000',
   SmoothGrey: '#f6f6f6',
+  DarkYellow: '#fbb100',
+  GhostGrey: '#f2f2f2',
 };
