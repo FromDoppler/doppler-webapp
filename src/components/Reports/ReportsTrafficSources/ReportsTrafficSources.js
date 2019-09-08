@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { FormattedMessage, injectIntl, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
 import {
   Container,
@@ -84,4 +84,4 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
   );
 };
 
-export default InjectAppServices(injectIntl(ReportsTrafficSources));
+export default InjectAppServices(ReportsTrafficSources);

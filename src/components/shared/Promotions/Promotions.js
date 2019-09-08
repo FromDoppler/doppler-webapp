@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import Loading from '../../Loading/Loading';
 
@@ -23,12 +23,12 @@ const getDefaultBannerData = (intl) => {
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
 const Promotions = function({
-  intl,
   type,
   page,
   disabledSitesContent,
   dependencies: { dopplerSitesClient },
 }) {
+  const intl = useIntl();
   const [bannerData, setBannerData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -76,4 +76,4 @@ const Promotions = function({
   );
 };
 
-export default InjectAppServices(injectIntl(Promotions));
+export default InjectAppServices(Promotions);

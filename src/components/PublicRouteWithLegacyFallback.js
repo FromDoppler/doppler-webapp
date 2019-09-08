@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { InjectAppServices } from '../services/pure-di';
-import { injectIntl } from 'react-intl';
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
@@ -67,7 +66,6 @@ function forgotPasswordRedirectionDataResolver() {
  */
 function PublicRouteWithLegacyFallback({
   path,
-  intl,
   dependencies: {
     appConfiguration: { dopplerLegacyUrl, useLegacy },
     window: { location },
@@ -120,4 +118,4 @@ function PublicRouteWithLegacyFallback({
   );
 }
 
-export default InjectAppServices(injectIntl(PublicRouteWithLegacyFallback));
+export default InjectAppServices(PublicRouteWithLegacyFallback);

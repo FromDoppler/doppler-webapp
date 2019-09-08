@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field, Formik, Form } from 'formik';
-import { FormattedMessage, injectIntl, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage, useIntl } from 'react-intl';
 import {
   validateEmail,
   validateCheckRequired,
@@ -172,16 +172,16 @@ export const FormMessages = connect(
   },
 );
 
-const Message = injectIntl(({ intl, message }) =>
-  React.isValidElement(message) ? (
+const Message = ({ message }) => {
+  const intl = useIntl();
+  return React.isValidElement(message) ? (
     message
   ) : (
     // assuming string
     // TODO: also consider array of errors, and parameters for localization message placeholders
     <p>{intl.formatMessage({ id: message })}</p>
-  ),
-);
-
+  );
+};
 export const FieldItem = connect(
   ({ className, fieldName, children, formik: { errors, touched, submitCount } }) => (
     <li
@@ -275,7 +275,6 @@ const _formatFieldValueAsInternationalNumber = (iti, fieldName, setFieldValue) =
  * @param { React.MutableRefObject<import('intl-tel-input').Plugin> } props.intlTelInputRef - intlTelInputRef
  */
 const _PhoneFieldItem = ({
-  intl,
   className,
   fieldName,
   label,
@@ -284,6 +283,7 @@ const _PhoneFieldItem = ({
   formik: { values, handleChange, handleBlur, setFieldValue },
   ...rest
 }) => {
+  const intl = useIntl();
   const inputElRef = useRef(null);
   const intlTelInputRef = useRef(null);
 
@@ -354,7 +354,7 @@ const _PhoneFieldItem = ({
   );
 };
 
-export const PhoneFieldItem = injectIntl(connect(_PhoneFieldItem));
+export const PhoneFieldItem = connect(_PhoneFieldItem);
 
 export const InputFieldItem = ({
   className,
