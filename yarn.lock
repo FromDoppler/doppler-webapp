@@ -6797,10 +6797,10 @@ intl-messageformat@^7.1.0:
     intl-format-cache "^4.1.15"
     intl-messageformat-parser "^3.0.7"
 
-intl-tel-input@^16.0.2:
-  version "16.0.2"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.2.tgz#2ad5fa4d6f2c3022d5abc34a6f2002ff20ec9c4c"
-  integrity sha512-HKElXcK7ksfuzLz0ZFt6E2DjB0MJ3xKazHDLN4I8zglKuXN762WLx9T21ZGDKRxLrlhPgiSxw7nS83vpG+WH7Q==
+intl-tel-input@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.3.tgz#b8cd991486de61f01b2279db57fbfc2785c898db"
+  integrity sha512-GXibKQolfIO1b5dFQgBk9GBdfdU4KXliuaZqDPplw8caXFUBBgJE8+LXBBfQHGGXMSMpssIZeQoizjmT7WkU0g==
 
 into-stream@^5.0.0:
   version "5.1.0"
