@@ -33,10 +33,12 @@ const fullTrafficSourceResponse = {
       {
         sourceName: 'Email',
         quantity: 2000,
+        withEmail: 500,
       },
       {
         sourceName: 'Social',
         quantity: 1000,
+        withEmail: 500,
       },
     ],
   },
@@ -118,7 +120,10 @@ describe('HttpDataHubClient', () => {
       );
       expect(response).toEqual({
         success: true,
-        value: [{ sourceName: 'Email', quantity: 2000 }, { sourceName: 'Social', quantity: 1000 }],
+        value: [
+          { sourceName: 'Email', quantity: 2000, withEmail: 500 },
+          { sourceName: 'Social', quantity: 1000, withEmail: 500 },
+        ],
       });
     });
   });
