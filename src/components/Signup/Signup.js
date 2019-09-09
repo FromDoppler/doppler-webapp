@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { FormattedHTMLMessage, injectIntl } from 'react-intl';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
@@ -56,7 +56,8 @@ const getFormInitialValues = () =>
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, originResolver } }) {
+const Signup = function({ location, dependencies: { dopplerLegacyClient, originResolver } }) {
+  const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const [registeredUser, setRegisteredUser] = useState(null);
@@ -239,4 +240,4 @@ const Signup = function({ intl, location, dependencies: { dopplerLegacyClient, o
   );
 };
 
-export default InjectAppServices(injectIntl(Signup));
+export default InjectAppServices(Signup);

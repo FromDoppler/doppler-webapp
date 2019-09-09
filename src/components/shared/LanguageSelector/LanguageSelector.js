@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 
 /**
@@ -9,11 +9,11 @@ import { InjectAppServices } from '../../../services/pure-di';
  * @param { import('react-intl').InjectedIntl } props.intl
  */
 const LanguageSelector = ({
-  intl,
   dependencies: {
     window: { Menubutton },
   },
 }) => {
+  const intl = useIntl();
   const lang = intl.locale;
   const languageDropdown = useRef(null);
 
@@ -50,4 +50,4 @@ const LanguageSelector = ({
   );
 };
 
-export default InjectAppServices(injectIntl(LanguageSelector));
+export default InjectAppServices(LanguageSelector);

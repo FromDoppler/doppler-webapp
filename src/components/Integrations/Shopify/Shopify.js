@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Loading from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
-import { FormattedHTMLMessage, injectIntl, FormattedDate } from 'react-intl';
+import { FormattedHTMLMessage, FormattedDate, useIntl } from 'react-intl';
 import { SubscriberListState } from '../../../services/shopify-client';
 import { useInterval } from '../../../utils';
 import { StyledShopifyLogo } from './Shopify.styles';
 
-const Shopify = ({
-  intl,
-  dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures },
-}) => {
+const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures } }) => {
+  const intl = useIntl();
+
   const [shopifyState, setShopifyState] = useState({
     isLoading: true,
   });
@@ -252,4 +251,4 @@ const Shopify = ({
   );
 };
 
-export default InjectAppServices(injectIntl(Shopify));
+export default InjectAppServices(Shopify);

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { FormattedHTMLMessage, injectIntl } from 'react-intl';
+import { FormattedHTMLMessage, useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
   EmailFieldItem,
@@ -67,11 +67,8 @@ const LoginErrorBlockedAccountNotPayed = () => (
  * @param { import('history').Location } props.location - location
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Login = ({
-  intl,
-  location,
-  dependencies: { dopplerLegacyClient, sessionManager, window },
-}) => {
+const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, window } }) => {
+  const intl = useIntl();
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -241,4 +238,4 @@ const Login = ({
   );
 };
 
-export default InjectAppServices(injectIntl(Login));
+export default InjectAppServices(Login);

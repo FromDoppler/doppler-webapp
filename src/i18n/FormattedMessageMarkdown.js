@@ -1,7 +1,7 @@
 // Based on https://github.com/yahoo/react-intl/issues/513#issuecomment-252083860-permalink
 import React from 'react';
 import Markdown from 'react-remarkable';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import './FormattedMessageMarkdown.css';
 
 // TODO: do something to build markdown files inside es.json and en.json
@@ -13,8 +13,9 @@ import './FormattedMessageMarkdown.css';
 // into account the message in the memoization.
 // TODO: also consider using always a linkTarget option as function detecting
 // not webapp nor doppler legacy links and apply _blank target to them.
-export const FormattedMessageMarkdown = injectIntl(
-  ({ id, defaultMessage, values, description, intl: { formatMessage }, ...rest }) => (
-    <Markdown source={formatMessage({ id, defaultMessage, description }, values)} {...rest} />
-  ),
+export const FormattedMessageMarkdown = ({ id, defaultMessage, values, description, ...rest }) => (
+  <Markdown
+    source={useIntl().formatMessage({ id, defaultMessage, description }, values)}
+    {...rest}
+  />
 );
