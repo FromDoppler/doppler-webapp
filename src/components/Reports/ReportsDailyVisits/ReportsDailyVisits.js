@@ -35,9 +35,6 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
       r: 5,
     },
     grid: {
-      x: {
-        show: true,
-      },
       y: {
         show: true,
       },
