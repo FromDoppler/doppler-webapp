@@ -18,6 +18,7 @@ export interface Page {
 export interface TrafficSource {
   sourceName: string;
   quantity: number;
+  withEmail: number;
 }
 
 export interface DailyVisits {
@@ -183,6 +184,7 @@ export class HttpDatahubClient implements DatahubClient {
       const trafficSources = response.data.items.map((x) => ({
         sourceName: x.sourceName,
         quantity: x.quantity,
+        withEmail: x.withEmail,
       }));
 
       return {

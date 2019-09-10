@@ -59,26 +59,32 @@ const fakeTrafficSourcesData = [
   {
     sourceName: 'Email',
     quantity: 2000,
+    withEmail: 500,
   },
   {
     sourceName: 'Social',
     quantity: 1000,
+    withEmail: 800,
   },
   {
     sourceName: 'Paid',
     quantity: 250,
+    withEmail: 50,
   },
   {
     sourceName: 'Organic',
     quantity: 100,
+    withEmail: 10,
   },
   {
     sourceName: 'Referral',
     quantity: 50,
+    withEmail: 40,
   },
   {
     sourceName: 'Direct',
     quantity: 100,
+    withEmail: 0,
   },
 ];
 
@@ -171,6 +177,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     const trafficSources = fakeTrafficSourcesData.map((x) => ({
       sourceName: x.sourceName,
       quantity: x.quantity,
+      withEmail: x.withEmail,
     }));
 
     return {
