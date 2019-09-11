@@ -42,3 +42,31 @@ export function useInterval({
     }
   }, [delay, runOnStart]);
 }
+
+interface ResponseWithEtag {
+  headers: { [key: string]: string };
+}
+
+export class ResponseCache {
+  private _cachedResults: { [key: string]: { etag: string; value: any } } = {};
+  public getCachedOrMap<TResponse extends ResponseWithEtag, TResult>(
+    func: Function,
+    response: TResponse,
+    mapFunction: (r: TResponse) => TResult,
+  ) {
+    if (!response.headers.etag) {
+      return mapFunction(response);
+    }
+    const functionName = func.name;
+    if (
+      response.headers.etag !==
+      (this._cachedResults[functionName] && this._cachedResults[functionName].etag)
+    ) {
+      this._cachedResults[functionName] = {
+        value: mapFunction(response),
+        etag: response.headers.etag,
+      };
+    }
+    return this._cachedResults[functionName].value;
+  }
+}

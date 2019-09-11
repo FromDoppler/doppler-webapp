@@ -112,17 +112,15 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
     delay: 20000,
     callback: async () => {
       const result = await getShopifyData();
-      if (!result.success) {
+      if (!result.success && !shopifyState.error) {
         setShopifyState({
           error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
         });
-      } else if (result.value && result.value.length) {
+      } else if (result.value !== shopifyState.shops) {
         setShopifyState({
           shops: result.value,
-          isConnected: true,
+          isConnected: !!result.value.length,
         });
-      } else {
-        setShopifyState({ shops: [] });
       }
     },
   });

@@ -2,6 +2,7 @@ import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession, ShopifyConnectionData } from './app-session';
 import { RefObject } from 'react';
+import { ResponseCache } from './../utils';
 export enum SubscriberListState {
   ready,
   synchronizingContacts,
@@ -29,6 +30,7 @@ export class HttpShopifyClient implements ShopifyClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
   private readonly connectionDataRef: RefObject<AppSession>;
+  private readonly responseCache = new ResponseCache();
 
   constructor({
     axiosStatic,
@@ -80,14 +82,12 @@ export class HttpShopifyClient implements ShopifyClient {
         url: `/me/shops`,
         headers: { Authorization: `token ${jwtToken}` },
       });
-      if (response.data && response.data.length) {
-        const connectedShops = response.data.map((shop: any) => {
-          return this.mapShop(shop);
-        });
-        return { success: true, value: connectedShops };
-      } else {
-        return { success: true, value: [] };
-      }
+
+      return this.responseCache.getCachedOrMap(this.getShopifyData, response, (r) => {
+        return r.data && r.data.length
+          ? { success: true, value: r.data.map(this.mapShop) }
+          : { success: true, value: [] };
+      });
     } catch (error) {
       console.error(error);
       return { success: false, error: error };
