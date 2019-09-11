@@ -49,12 +49,12 @@ describe('Reports page', () => {
   it('should render domains without pages', async () => {
     const datahubClientDouble = {
       getAccountDomains: async () => fakeData,
-      getVisitsByPeriod: async () => 0,
+      getTotalVisitsOfPeriod: async () => 0,
       getPagesRankingByPeriod: async () => {
         return { success: false, value: [] };
       },
       getTrafficSourcesByPeriod: async () => [],
-      getDailyVisitsByPeriod: async () => [],
+      getVisitsQuantitySummarizedByPeriod: async () => [],
     };
 
     const { getByText } = render(
@@ -87,7 +87,7 @@ describe('Reports page', () => {
     });
     const datahubClientDouble = {
       getAccountDomains: () => getAccountDomainsPromise,
-      getVisitsByPeriod: async () => 0,
+      getTotalVisitsOfPeriod: async () => 0,
       getPagesRankingByPeriod: async () => [],
       getPagesTrafficSourcesByPeriod: async () => [],
     };

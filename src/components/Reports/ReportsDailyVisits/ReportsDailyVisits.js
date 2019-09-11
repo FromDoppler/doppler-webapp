@@ -64,9 +64,10 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const dailyVisitsData = await datahubClient.getDailyVisitsByPeriod({
+      const dailyVisitsData = await datahubClient.getVisitsQuantitySummarizedByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
+        periodBy: 'days',
       });
       if (!dailyVisitsData.success) {
         setState({ loading: false });

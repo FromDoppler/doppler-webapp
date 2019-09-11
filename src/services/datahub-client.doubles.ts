@@ -3,8 +3,9 @@ import {
   emailFilterOptions,
   DomainEntry,
   TrafficSourceResult,
-  DailyVisitsResult,
+  VisitsQuantitySummarizedResult,
   PageRankingResult,
+  filterByPeriodOptions,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -123,7 +124,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     // return [];
   }
 
-  public async getVisitsByPeriod({
+  public async getTotalVisitsOfPeriod({
     domainName,
     dateFrom,
     emailFilter,
@@ -132,7 +133,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     dateFrom: Date;
     emailFilter: emailFilterOptions;
   }): Promise<number> {
-    console.log('getVisitsByPeriod', { domainName, dateFrom, emailFilter });
+    console.log('getTotalVisitsOfPeriod', { domainName, dateFrom, emailFilter });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
@@ -191,16 +192,18 @@ export class HardcodedDatahubClient implements DatahubClient {
     //};
   }
 
-  public async getDailyVisitsByPeriod({
+  public async getVisitsQuantitySummarizedByPeriod({
     domainName,
     dateFrom,
+    periodBy,
   }: {
     domainName: string;
     dateFrom: Date;
-  }): Promise<DailyVisitsResult> {
-    console.log('getDailyVisitsByPeriod', { domainName, dateFrom });
+    periodBy: filterByPeriodOptions;
+  }): Promise<VisitsQuantitySummarizedResult> {
+    console.log('getVisitsQuantitySummarizedByPeriod', { domainName, dateFrom });
     await timeout(1000);
-    const dailyVisits = fakeDailyVisitsData.map((x) => ({
+    const visitsByPeriod = fakeDailyVisitsData.map((x) => ({
       periodNumber: x.periodNumber,
       from: new Date(x.from),
       to: new Date(x.to),
@@ -209,7 +212,7 @@ export class HardcodedDatahubClient implements DatahubClient {
 
     return {
       success: true,
-      value: dailyVisits,
+      value: visitsByPeriod,
     };
 
     //return {

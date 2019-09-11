@@ -20,7 +20,7 @@ class ReportsBox extends React.Component {
   }
 
   async fetchVisitsByPeriod(domainName, dateFrom) {
-    this.asyncRequest = this.datahubClient.getVisitsByPeriod({
+    this.asyncRequest = this.datahubClient.getTotalVisitsOfPeriod({
       domainName: domainName,
       dateFrom: dateFrom,
       emailFilter: this.props.withEmail
