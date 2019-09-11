@@ -65,6 +65,62 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                     )
                   </span>
                 </S.ListItemHeader>
+                {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
+                  <S.ListItemDetail>
+                    <div>
+                      <div>
+                        <p>
+                          <FormattedMessage id="trafficSources.users_with_email" />
+                        </p>
+                        <S.Bar
+                          primary
+                          style={{
+                            width: (trafficSource.withEmail / trafficSource.quantity) * 100 + '%',
+                          }}
+                        />
+                      </div>
+                      <span>
+                        {trafficSource.withEmail} (
+                        <span>
+                          <FormattedNumber
+                            value={trafficSource.withEmail / trafficSource.quantity}
+                            {...numberFormatOptions}
+                          />
+                        </span>
+                        )
+                      </span>
+                    </div>
+                    <div>
+                      <div>
+                        <p>
+                          <FormattedMessage id="trafficSources.users_without_email" />
+                        </p>
+                        <S.Bar
+                          style={{
+                            width:
+                              ((trafficSource.quantity - trafficSource.withEmail) /
+                                trafficSource.quantity) *
+                                100 +
+                              '%',
+                          }}
+                        />
+                      </div>
+                      <span>
+                        {trafficSource.withEmail} (
+                        <span>
+                          <FormattedNumber
+                            value={
+                              (trafficSource.quantity - trafficSource.withEmail) /
+                              trafficSource.quantity
+                            }
+                            {...numberFormatOptions}
+                          />
+                        </span>
+                        )
+                      </span>
+                    </div>
+                  </S.ListItemDetail>
+                ) : null}
               </S.ListItem>
             ))
           ) : (
