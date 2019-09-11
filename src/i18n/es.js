@@ -262,6 +262,8 @@ export default {
     referral: `Referencia`,
     social: `Redes Sociales`,
     title: `Fuentes de trafico`,
+    users_with_email: `Usuarios con email`,
+    users_without_email: `Usuarios sin email`,
   },
   upgradePlanForm: {
     message_placeholder: `Tu mensaje`,

@@ -260,6 +260,8 @@ export default {
     referral: `Referral`,
     social: `Social`,
     title: `Traffic sources`,
+    users_with_email: `Users with email`,
+    users_without_email: `Users without email`,
   },
   upgradePlanForm: {
     message_placeholder: `Your message`,
