@@ -152,6 +152,7 @@ export default {
   },
   reports_daily_visits: {
     title: `Unique Page views`,
+    tooltip_page_views: `Pageviews: `,
   },
   reports_filters: {
     all_pages: `All pages`,

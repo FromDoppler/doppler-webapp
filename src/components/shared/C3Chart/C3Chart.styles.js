@@ -79,6 +79,10 @@ export const C3ChartStyled = styled.div`
     line-height: 13px;
   }
 
+  .c3-tooltip th::first-letter {
+    text-transform: capitalize;
+  }
+
   .c3-tooltip .name {
     display: none;
   }
