@@ -152,6 +152,7 @@ export default {
   },
   reports_daily_visits: {
     title: `Páginas vistas únicas`,
+    tooltip_page_views: `Páginas vistas: `,
   },
   reports_filters: {
     all_pages: `Todas las paginas`,

@@ -17,6 +17,26 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
     legend: {
       show: false,
     },
+    tooltip: {
+      format: {
+        title: (date) => {
+          return intl.formatDate(date, {
+            timeZone: 'UTC',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            weekday: 'long',
+          });
+        },
+        value: (value) => {
+          return (
+            intl.formatMessage({
+              id: 'reports_daily_visits.tooltip_page_views',
+            }) + value
+          );
+        },
+      },
+    },
     axis: {
       x: {
         type: 'timeseries',
