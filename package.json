@@ -44,7 +44,7 @@
     "react-test-renderer": "^16.9.0",
     "semantic-release": "^15.13.24",
     "styled-components": "^4.3.2",
-    "typescript": "^3.6.2",
+    "typescript": "^3.6.3",
     "url-parse": "^1.4.7"
   },
   "homepage": ".",
