@@ -21,7 +21,7 @@ export interface TrafficSource {
   withEmail: number;
 }
 
-export interface DailyVisits {
+export interface VisitsQuantitySummarized {
   periodNumber: number;
   from: Date;
   to: Date;
@@ -30,12 +30,14 @@ export interface DailyVisits {
 
 export type emailFilterOptions = 'with_email' | 'without_email' | null;
 
+export type filterByPeriodOptions = 'days' | 'hours';
+
 export interface DatahubClient {
   getAccountDomains(): Promise<DomainEntry[]>;
-  getVisitsByPeriod(query: {
+  getTotalVisitsOfPeriod(query: {
     domainName: number;
     dateFrom: Date;
-    emailFilter: emailFilterOptions;
+    emailFilter?: emailFilterOptions;
   }): Promise<number>;
   getPagesRankingByPeriod(query: {
     domainName: number;
@@ -45,12 +47,18 @@ export interface DatahubClient {
     domainName: string;
     dateFrom: Date;
   }): Promise<TrafficSourceResult>;
-  getDailyVisitsByPeriod(query: { domainName: string; dateFrom: Date }): Promise<DailyVisitsResult>;
+  getVisitsQuantitySummarizedByPeriod(query: {
+    domainName: string;
+    dateFrom: Date;
+    periodBy: filterByPeriodOptions;
+  }): Promise<VisitsQuantitySummarizedResult>;
 }
 
 export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
 
-export type DailyVisitsResult = ResultWithoutExpectedErrors<DailyVisits[]>;
+export type VisitsQuantitySummarizedResult = ResultWithoutExpectedErrors<
+  VisitsQuantitySummarized[]
+>;
 
 export type PageRankingResult = ResultWithoutExpectedErrors<Page[]>;
 
@@ -108,7 +116,7 @@ export class HttpDatahubClient implements DatahubClient {
       }));
   }
 
-  public async getVisitsByPeriod({
+  public async getTotalVisitsOfPeriod({
     domainName,
     dateFrom,
     emailFilter,
@@ -199,23 +207,25 @@ export class HttpDatahubClient implements DatahubClient {
     }
   }
 
-  public async getDailyVisitsByPeriod({
+  public async getVisitsQuantitySummarizedByPeriod({
     domainName,
     dateFrom,
+    periodBy,
   }: {
     domainName: string;
     dateFrom: Date;
-  }): Promise<DailyVisitsResult> {
+    periodBy: filterByPeriodOptions;
+  }): Promise<VisitsQuantitySummarizedResult> {
     try {
       const response = await this.customerGet<any>(
         `domains/${domainName}/events/quantity-summarized-by-period`,
         {
           startDate: dateFrom.toISOString(),
-          periodBy: 'days',
+          periodBy: periodBy,
         },
       );
 
-      const dailyVisits = response.data.periods.map((x: any) => ({
+      const visitsByPeriod = response.data.periods.map((x: any) => ({
         periodNumber: x.periodNumber,
         from: new Date(x.from),
         to: new Date(x.to),
@@ -224,7 +234,7 @@ export class HttpDatahubClient implements DatahubClient {
 
       return {
         success: true,
-        value: dailyVisits,
+        value: visitsByPeriod,
       };
     } catch (error) {
       return {

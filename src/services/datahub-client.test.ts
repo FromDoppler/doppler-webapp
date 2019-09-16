@@ -138,9 +138,10 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
+      const periodBy = 'days';
 
       // Act
-      await dataHubClient.getDailyVisitsByPeriod({ domainName, dateFrom });
+      await dataHubClient.getVisitsQuantitySummarizedByPeriod({ domainName, dateFrom, periodBy });
 
       // Assert
       expect(request).toBeCalledTimes(1);
@@ -167,9 +168,14 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
+      const periodBy = 'days';
 
       // Act
-      const response = await dataHubClient.getDailyVisitsByPeriod({ domainName, dateFrom });
+      const response = await dataHubClient.getVisitsQuantitySummarizedByPeriod({
+        domainName,
+        dateFrom,
+        periodBy,
+      });
       // Assert
       expect(request).toBeCalledTimes(1);
       expect(request).toBeCalledWith(
@@ -219,9 +225,14 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
+      const periodBy = 'days';
 
       // Act
-      const response = await dataHubClient.getDailyVisitsByPeriod({ domainName, dateFrom });
+      const response = await dataHubClient.getVisitsQuantitySummarizedByPeriod({
+        domainName,
+        dateFrom,
+        periodBy,
+      });
 
       // Assert
       expect(request).toBeCalledTimes(1);
