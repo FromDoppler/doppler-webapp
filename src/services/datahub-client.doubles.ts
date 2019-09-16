@@ -95,24 +95,28 @@ const fakeDailyVisitsData = [
     from: '2018-10-10T03:00:00.000Z',
     to: '2018-10-11T03:00:00.000Z',
     quantity: 20,
+    withEmail: 3,
   },
   {
     periodNumber: 1,
     from: '2018-10-11T03:00:00.000Z',
     to: '2018-10-12T03:00:00.000Z',
     quantity: 40,
+    withEmail: 10,
   },
   {
     periodNumber: 2,
     from: '2018-10-12T03:00:00.000Z',
     to: '2018-10-13T03:00:00.000Z',
     quantity: 70,
+    withEmail: 2,
   },
   {
     periodNumber: 3,
     from: '2018-10-13T03:00:00.000Z',
     to: '2018-10-14T03:00:00.000Z',
     quantity: 80,
+    withEmail: 40,
   },
 ];
 
@@ -208,6 +212,8 @@ export class HardcodedDatahubClient implements DatahubClient {
       from: new Date(x.from),
       to: new Date(x.to),
       quantity: x.quantity,
+      withEmail: x.withEmail,
+      withoutEmail: x.quantity - x.withEmail,
     }));
 
     return {
