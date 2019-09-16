@@ -153,6 +153,8 @@ export default {
   reports_daily_visits: {
     title: `Unique Page views`,
     tooltip_page_views: `Pageviews: `,
+    tooltip_with_email: `Users with Email: `,
+    tooltip_without_email: `Users without Email: `,
   },
   reports_filters: {
     all_pages: `All pages`,

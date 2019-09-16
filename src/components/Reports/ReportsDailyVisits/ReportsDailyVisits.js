@@ -28,12 +28,27 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
             weekday: 'long',
           });
         },
-        value: (value) => {
-          return (
-            intl.formatMessage({
-              id: 'reports_daily_visits.tooltip_page_views',
-            }) + value
-          );
+        value: (value, ratio, id) => {
+          switch (id) {
+            case 'quantity':
+              return (
+                intl.formatMessage({
+                  id: 'reports_daily_visits.tooltip_page_views',
+                }) + value
+              );
+            case 'withEmail':
+              return (
+                intl.formatMessage({
+                  id: 'reports_daily_visits.tooltip_with_email',
+                }) + value
+              );
+            case 'withoutEmail':
+              return (
+                intl.formatMessage({
+                  id: 'reports_daily_visits.tooltip_without_email',
+                }) + value
+              );
+          }
         },
       },
     },
@@ -78,7 +93,11 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
             json: dailyVisitsData.value,
             keys: {
               x: 'from',
-              value: ['quantity'],
+              value: ['quantity', 'withEmail', 'withoutEmail'],
+            },
+            classes: {
+              withEmail: 'hide-graph',
+              withoutEmail: 'hide-graph',
             },
           },
         });

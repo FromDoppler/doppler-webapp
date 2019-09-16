@@ -95,6 +95,10 @@ export const C3ChartStyled = styled.div`
     line-height: 16px;
   }
 
+  .c3-target-hide-graph {
+    display: none;
+  }
+
   @media (max-width: 768px) {
     .c3-chart {
       width: 95%;
