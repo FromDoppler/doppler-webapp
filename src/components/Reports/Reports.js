@@ -4,6 +4,7 @@ import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
+import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -104,6 +105,11 @@ class Reports extends React.Component {
               />
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}
+                dateFrom={this.state.dateFrom}
+              />
+              <ReportsHoursVisits
+                domainName={this.state.domainSelected.name}
+                dateTo={this.state.dateTo}
                 dateFrom={this.state.dateFrom}
               />
               <ReportsPageRanking

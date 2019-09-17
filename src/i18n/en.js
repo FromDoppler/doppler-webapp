@@ -174,6 +174,9 @@ export default {
     verified_domain: `Last registered visit:`,
     week_with_plural: `{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }`,
   },
+  reports_hours_visits: {
+    title: `Days and Hours`,
+  },
   reports_pageranking: {
     top_pages: `Most visited pages`,
     total_visits: `Unique visitors`,
