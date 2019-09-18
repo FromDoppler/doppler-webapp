@@ -125,25 +125,31 @@ const fakeHoursVisitsData = [
     periodNumber: 0,
     from: '2018-10-10T03:00:00.000Z',
     to: '2018-10-10T04:00:00.000Z',
-    quantity: 20,
+    quantity: 300,
   },
   {
     periodNumber: 1,
     from: '2018-10-10T04:00:00.000Z',
     to: '2018-10-10T05:00:00.000Z',
-    quantity: 40,
+    quantity: 400,
   },
   {
     periodNumber: 2,
     from: '2018-10-10T05:00:00.000Z',
     to: '2018-10-10T06:00:00.000Z',
-    quantity: 70,
+    quantity: 900,
   },
   {
     periodNumber: 3,
     from: '2018-10-10T06:00:00.000Z',
     to: '2018-10-10T07:00:00.000Z',
-    quantity: 80,
+    quantity: 800,
+  },
+  {
+    periodNumber: 4,
+    from: '2018-10-11T02:00:00.000Z',
+    to: '2018-10-11T03:00:00.000Z',
+    quantity: 800,
   },
 ];
 
