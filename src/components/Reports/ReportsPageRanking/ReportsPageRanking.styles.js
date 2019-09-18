@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { colors } from '../../styles/styles';
+import colors from '../../styles/colors';
 
 export const ReportBox = ({ children }) => <div className="reports-box">{children}</div>;
 

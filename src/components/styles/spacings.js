@@ -1,0 +1,20 @@
+/* Spacings for margenes and paddings */
+export default {
+  spacesLvl0: '0',
+  spacesLvl1: '6px',
+  spacesLvl2: '12px',
+  spacesLvl3: '18px',
+  spacesLvl4: '24px',
+  spacesLvl5: '30px',
+  spacesLvl6: '36px',
+  spacesLvl7: '42px',
+  spacesLvl8: '48px',
+  spacesLvl9: '54px',
+  spacesLvl10: '60px',
+  spacesLvl11: '66px',
+  spacesLvl12: '72px',
+  spacesLvl13: '78px',
+  spacesLvl14: '84px',
+  spacesLvl15: '90px',
+  spacesLvl16: '96px',
+};
