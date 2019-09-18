@@ -1,17 +1,5 @@
-import styled, { css, keyframes } from 'styled-components';
-import colors from '../../styles/colors';
-import fonts from '../../styles/fonts';
-import spacings from '../../styles/spacings';
-
-const progressBar = keyframes`
-  0% {
-    transform: scaleX(0);
-  }
-
-  100% {
-    transform: scaleX(1);
-  }
-`;
+import styled, { css } from 'styled-components';
+import { spacings, fonts, colors, slowGrowing } from '../../styles/styles';
 
 export const ListContainer = styled.div`
   display: flex;
@@ -99,7 +87,7 @@ export const Bar = styled.div`
   height: 16px;
   transform-origin: left;
   transition: all ease-in-out forwards;
-  animation: ${progressBar} 7s;
+  animation: ${slowGrowing} 7s;
   width: ${({ width }) => (width ? width : '0')};
   background: ${colors.darkYellow};
   ${(props) =>

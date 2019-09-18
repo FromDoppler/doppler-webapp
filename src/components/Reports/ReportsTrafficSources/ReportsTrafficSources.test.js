@@ -69,7 +69,5 @@ describe('reports traffic sources', () => {
     await waitForDomChange();
     expect(getByText('trafficSources.email'));
     expect(getByText('trafficSources.social'));
-    // TODO: for now only can check english language local because for local has small-icu and need full-icu
-    // expect(getByText('66.67%'));
   });
 });
