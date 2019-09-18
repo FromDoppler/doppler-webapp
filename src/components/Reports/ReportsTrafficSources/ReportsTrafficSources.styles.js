@@ -1,5 +1,17 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import colors from '../../styles/colors';
+import spacings from '../../styles/spacings';
+import fonts from '../../styles/fonts';
+
+const slowGrowing = keyframes`
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+`;
 
 export const ListContainer = styled.div`
   display: flex;
@@ -8,7 +20,7 @@ export const ListContainer = styled.div`
     background: ${colors.smoothGrey};
   }
   & > div:nth-child(n + 4) {
-    margin-top: 10px;
+    margin-top: ${spacings.spacesLvl2};
   }
 `;
 
@@ -17,50 +29,75 @@ export const ListItem = styled.div`
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid ${colors.softGrey};
   border-top: 1px solid ${colors.softGrey};
-  padding: 40px 30px;
+  padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5} ${spacings.spacesLvl7};
 `;
 
 export const ListItemHeader = styled.header`
   display: flex;
   justify-content: space-between;
-  font-weight: bold;
-  padding-bottom: 50px;
+  font-weight: ${fonts.fontStrong};
+  padding-bottom: ${spacings.spacesLvl6};
   color: ${colors.darkGrey};
 
   h6 {
     line-height: 1;
-    margin: 0;
+    margin: ${spacings.spacesLvl0};
+    position: relative;
+    font-weight: ${fonts.fontStrong};
   }
+
+  h6:before {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 95px;
+    top: 30px;
+    left: 0;
+    border: 1px solid ${colors.faintGrey};
+  }
+
+  span {
+    font-size: ${fonts.fontLvl3};
+    span {
+       margin-left: ${spacings.spacesLvl1};
+    }
 `;
 
 export const ListItemDetail = styled.div`
   p,
   span {
-    font-weight: bold;
+    font-weight: ${fonts.fontStrong};
   }
   p {
-    font-size: 11px;
+    font-size: ${fonts.fontLvl1};
     color: ${colors.lightGrey};
-    margin: 0;
+    margin: ${spacings.spacesLvl0};
   }
   span {
     color: ${colors.darkGrey};
-    font-size: 13px;
+    font-size: ${fonts.fontLvl3};
   }
   & > div {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 15px;
+    margin-top: ${spacings.spacesLvl5};
     & > div {
       width: 70%;
+    }
+
+    span span {
+      margin-left: ${spacings.spacesLvl1};
     }
   }
 `;
 
 export const Bar = styled.div`
-  margin-top: 5px;
-  height: 10px;
+  margin-top: ${spacings.spacesLvl1};
+  height: 16px;
+  transform-origin: left;
+  transition: all ease-in-out forwards;
+  animation: ${slowGrowing} 7s;
   width: ${({ width }) => (width ? width : '0')};
   background: ${colors.darkYellow};
   ${(props) =>
