@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
+import spacings from '../../styles/spacings';
+import fonts from '../../styles/fonts';
 
 export const ReportBox = ({ children }) => <div className="reports-box">{children}</div>;
 
@@ -8,24 +10,24 @@ export const ListItem = styled.div`
   border-top: 1px solid ${colors.softGrey};
   border-bottom: 1px solid ${colors.softGrey};
   background: ${colors.ghostGrey};
-  margin-bottom: 5px;
+  margin-bottom: ${spacings.spacesLvl1};
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   p {
-    font-size: 13px;
-    margin: '5px';
+    font-size: ${fonts.fontLvl3};
+    margin: ${spacings.spacesLvl1};
     color: ${colors.darkGrey};
   }
 
   a {
-    font-size: 13px;
+    font-size: ${fonts.fontLvl3};
   }
 `;
 
 export const ListItemColumn = styled.div`
-  padding: 20px 30px;
+  padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5};
 `;
 
 export const ListItemRightColumn = styled(ListItemColumn)`
@@ -34,13 +36,14 @@ export const ListItemRightColumn = styled(ListItemColumn)`
   text-align: right;
 
   p {
-    font-weight: bold;
+    font-weight: ${fonts.fontStrong};
+    margin: ${spacings.spacesLvl0};
     &.visits--withemail {
       color: ${colors.darkPurple};
     }
     &.visits--withoutemail {
       color: ${colors.darkYellow};
-      margin-top: 15px;
+      margin-top: ${spacings.spacesLvl3};
     }
   }
 `;
