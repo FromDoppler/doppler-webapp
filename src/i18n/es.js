@@ -175,8 +175,8 @@ export default {
   reports_pageranking: {
     top_pages: `Páginas más visitadas`,
     total_visits: `Visitantes únicos`,
-    visits_with_email: `Visitas con email`,
-    visits_without_email: `Visitas sin email`,
+    visits_with_email: `Usuarios con email`,
+    visits_without_email: `Usuarios sin email`,
   },
   reports_title: `Doppler | Reportes`,
   shopify: {
