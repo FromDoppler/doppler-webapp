@@ -55,14 +55,15 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                     />
                   </h6>
                   <span>
-                    {trafficSource.quantity} (
+                    {trafficSource.quantity}
                     <span>
+                      (
                       <FormattedNumber
                         value={trafficSource.quantity / state.trafficSources.total}
                         {...numberFormatOptions}
                       />
+                      )
                     </span>
-                    )
                   </span>
                 </S.ListItemHeader>
                 {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
@@ -80,14 +81,15 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                         />
                       </div>
                       <span>
-                        {trafficSource.withEmail} (
+                        {trafficSource.withEmail}
                         <span>
+                          (
                           <FormattedNumber
                             value={trafficSource.withEmail / trafficSource.quantity}
                             {...numberFormatOptions}
                           />
+                          )
                         </span>
-                        )
                       </span>
                     </div>
                     <div>
@@ -106,8 +108,9 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                         />
                       </div>
                       <span>
-                        {trafficSource.withEmail} (
+                        {trafficSource.withEmail}
                         <span>
+                          (
                           <FormattedNumber
                             value={
                               (trafficSource.quantity - trafficSource.withEmail) /
@@ -115,8 +118,8 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                             }
                             {...numberFormatOptions}
                           />
+                          )
                         </span>
-                        )
                       </span>
                     </div>
                   </S.ListItemDetail>
