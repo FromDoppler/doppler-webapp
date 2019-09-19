@@ -230,6 +230,8 @@ export class HttpDatahubClient implements DatahubClient {
         from: new Date(x.from),
         to: new Date(x.to),
         quantity: x.quantity,
+        withEmail: x.withEmail,
+        withoutEmail: x.withEmail !== undefined ? x.quantity - x.withEmail : x.withEmail,
       }));
 
       return {

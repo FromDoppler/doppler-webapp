@@ -18,23 +18,52 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
       show: false,
     },
     tooltip: {
-      format: {
-        title: (date) => {
-          return intl.formatDate(date, {
+      contents: function(data) {
+        if (data.length) {
+          const date = intl.formatDate(data[0].x, {
             timeZone: 'UTC',
             day: 'numeric',
             month: 'long',
             year: 'numeric',
             weekday: 'long',
           });
-        },
-        value: (value) => {
-          return (
-            intl.formatMessage({
-              id: 'reports_daily_visits.tooltip_page_views',
-            }) + value
-          );
-        },
+
+          const tooltipData = data.reduce((accumulator, item) => {
+            accumulator[item.id] = item.value;
+            return accumulator;
+          }, {});
+
+          tooltipData.quantity_label = intl.formatMessage({
+            id: 'reports_daily_visits.tooltip_page_views',
+          });
+          tooltipData.withEmail_label = intl.formatMessage({
+            id: 'reports_daily_visits.tooltip_with_email',
+          });
+          tooltipData.withoutEmail_label = intl.formatMessage({
+            id: 'reports_daily_visits.tooltip_without_email',
+          });
+
+          const valueTemplate = (value) => {
+            return `<div class='tooltip-value'>${value}</div>`;
+          };
+
+          return `
+          <div class="c3-tooltip">
+            <div class='tooltip-title'>${date}</div>
+            ${
+              tooltipData.withEmail === null
+                ? valueTemplate(tooltipData.quantity_label + tooltipData.quantity)
+                : ''
+            }
+            ${
+              tooltipData.withEmail !== null
+                ? valueTemplate(tooltipData.withEmail_label + tooltipData.withEmail) +
+                  valueTemplate(tooltipData.withoutEmail_label + tooltipData.withoutEmail)
+                : ''
+            }
+          </div>`;
+        }
+        return '';
       },
     },
     axis: {
@@ -78,7 +107,11 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
             json: dailyVisitsData.value,
             keys: {
               x: 'from',
-              value: ['quantity'],
+              value: ['quantity', 'withEmail', 'withoutEmail'],
+            },
+            classes: {
+              withEmail: 'hide-graph',
+              withoutEmail: 'hide-graph',
             },
           },
         });

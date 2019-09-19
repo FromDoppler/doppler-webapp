@@ -69,7 +69,8 @@ export const C3ChartStyled = styled.div`
     opacity: 0.9;
   }
 
-  .c3-tooltip th {
+  .c3-tooltip th,
+  .c3-tooltip .tooltip-title {
     font-size: 11px;
     padding: 2px 5px;
     text-align: left;
@@ -78,7 +79,8 @@ export const C3ChartStyled = styled.div`
     line-height: 13px;
   }
 
-  .c3-tooltip th::first-letter {
+  .c3-tooltip th::first-letter,
+  .c3-tooltip .tooltip-title::first-letter {
     text-transform: capitalize;
   }
 
@@ -86,13 +88,18 @@ export const C3ChartStyled = styled.div`
     display: none;
   }
 
-  .c3-tooltip td {
+  .c3-tooltip td,
+  .c3-tooltip .tooltip-value {
     font-size: 13px;
     padding: 3px 6px;
     color: ${colors.darkGrey};
     font-weight: bold;
     width: auto;
     line-height: 16px;
+  }
+
+  .c3-target-hide-graph {
+    display: none;
   }
 
   @media (max-width: 768px) {
