@@ -45,6 +45,7 @@ $zoho.salesiq = $zoho.salesiq || {
     });
     $zoho.salesiq.floatwindow.onlinetitle('¿En qué podemos ayudarte?');
     $zoho.salesiq.floatwindow.offlinetitle('¿En qué podemos ayudarte?');
+    $zoho.salesiq.domain('fromdoppler.com');
     $zoho.salesiq.chatbutton.width('205');
   },
 };
