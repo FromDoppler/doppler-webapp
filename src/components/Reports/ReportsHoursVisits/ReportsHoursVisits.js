@@ -6,6 +6,10 @@ import * as S from './ReportsHoursVisits.styles';
 
 const createEmptyWeekDayHoursMatrix = () => [...Array(7)].map(() => [...Array(24)].map(() => 0));
 
+const hoursLegend = [...Array(12)].map((_, index) => {
+  return index * 2 + 'h';
+});
+
 const FormatWeekDayIndex = ({ value }) => {
   return (
     <FormattedDateParts value={new Date(1971, 1, value)} weekday="short">
@@ -47,9 +51,32 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
   return (
     <div className="wrapper-reports-box">
       <div className="reports-box" style={{ width: '900px' }}>
-        <small className="title-reports-box">
-          <FormattedMessage id="reports_hours_visits.title" />
-        </small>
+        <S.Header>
+          <small className="title-reports-box">
+            <FormattedMessage id="reports_hours_visits.title" />
+          </small>
+          <div>
+            <div>
+              <S.Circle />
+              <p>
+                <FormattedMessage id="reports_hours_visits.few_visits" />
+              </p>
+            </div>
+            <div>
+              <S.Circle medium />
+              <p>
+                <FormattedMessage id="reports_hours_visits.medium_visits" />
+              </p>
+            </div>
+            <div>
+              <S.Circle big />
+              <p>
+                <FormattedMessage id="reports_hours_visits.lot_visits" />
+              </p>
+            </div>
+          </div>
+        </S.Header>
+
         {state.loading ? (
           <Loading />
         ) : state.visits ? (
@@ -81,6 +108,11 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                 <S.Dash>- - -</S.Dash>
               </S.Row>
             ))}
+            <S.Legend>
+              {hoursLegend.map((hour, index) => (
+                <div key={index}>{hour}</div>
+              ))}
+            </S.Legend>
           </S.List>
         ) : (
           <div className="dp-msj-error bounceIn">

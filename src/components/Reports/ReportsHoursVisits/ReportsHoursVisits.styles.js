@@ -55,3 +55,30 @@ export const Circle = styled.span`
       height: 31px;
     `}
 `;
+
+export const Legend = styled.div`
+  margin: 0 30px 18px 65px;
+  display: flex;
+  div {
+    text-indent: 6px;
+    width: 62px;
+    font-size: 9px;
+    color: ${colors.lightGrey};
+  }
+`;
+
+export const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  & > div {
+    display: flex;
+    align-items: baseline;
+    margin: 18px 30px;
+    div {
+      margin-right: 6px;
+    }
+  }
+  p {
+    font-size: 11px;
+  }
+`;

@@ -175,6 +175,9 @@ export default {
     week_with_plural: `{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }`,
   },
   reports_hours_visits: {
+    few_visits: `0 a 300`,
+    lot_visits: `600 a 1k`,
+    medium_visits: `300 a 600`,
     title: `Horas y dias`,
   },
   reports_pageranking: {

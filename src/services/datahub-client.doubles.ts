@@ -120,38 +120,18 @@ const fakeDailyVisitsData = [
   },
 ];
 
-const fakeHoursVisitsData = [
-  {
-    periodNumber: 0,
-    from: '2018-10-10T03:00:00.000Z',
-    to: '2018-10-10T04:00:00.000Z',
-    quantity: 300,
-  },
-  {
-    periodNumber: 1,
-    from: '2018-10-10T04:00:00.000Z',
-    to: '2018-10-10T05:00:00.000Z',
-    quantity: 400,
-  },
-  {
-    periodNumber: 2,
-    from: '2018-10-10T05:00:00.000Z',
-    to: '2018-10-10T06:00:00.000Z',
-    quantity: 900,
-  },
-  {
-    periodNumber: 3,
-    from: '2018-10-10T06:00:00.000Z',
-    to: '2018-10-10T07:00:00.000Z',
-    quantity: 800,
-  },
-  {
-    periodNumber: 4,
-    from: '2018-10-11T02:00:00.000Z',
-    to: '2018-10-11T03:00:00.000Z',
-    quantity: 800,
-  },
-];
+const getFakeHoursVisitsData = () => {
+  let date = new Date(1970, 1, 1);
+  return [...Array(168)].map((index) => {
+    date.setHours(date.getHours() + 1);
+    return {
+      periodNumber: index,
+      from: date.toString(),
+      to: date.toString(),
+      quantity: Math.floor(Math.random() * 1000),
+    };
+  });
+};
 
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains(): Promise<DomainEntry[]> {
@@ -241,7 +221,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     console.log('getVisitsQuantitySummarizedByPeriod', { domainName, dateFrom });
     await timeout(1000);
 
-    const data = periodBy === 'days' ? fakeDailyVisitsData : fakeHoursVisitsData;
+    const data = periodBy === 'days' ? fakeDailyVisitsData : getFakeHoursVisitsData();
 
     const visitsByPeriod = data.map((x) => ({
       periodNumber: x.periodNumber,
