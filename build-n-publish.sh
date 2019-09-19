@@ -5,7 +5,7 @@ pkgVersion=${1:-"v0.0.0-build0"}
 cdnBaseUrl=${2:-"//cdn.fromdoppler.com/$pkgName"}
 pkgBuild=${4:-0}
 pkgCommitId=${5:-$(git rev-parse HEAD)}
-environments="int qa development production"
+environments="int qa development production demo"
 
 # Exit immediately if a command exits with a non-zero status.
 set -e

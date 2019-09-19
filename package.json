@@ -56,6 +56,7 @@
     "build:qa": "env-cmd -f .env.qa yarn build",
     "build:int": "env-cmd -f .env.int yarn build",
     "build:development": "env-cmd -f .env.development yarn build",
+    "build:demo": "env-cmd -f .env.demo yarn build",
     "test:ci": "CI=true react-scripts test",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
