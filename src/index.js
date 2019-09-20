@@ -27,9 +27,9 @@ if (document.querySelector('body').setActive) {
 
 const locale = availableLanguageOrDefault(navigator.language.toLowerCase().split(/[_-]+/)[0]);
 
-// Only used in development environment, it does not affect production build
+// Only used in development and demo environments, it does not affect production build
 const forcedServices =
-  process.env.NODE_ENV === 'development'
+  process.env.NODE_ENV === 'development' || process.env.REACT_APP_IS_DEMO_ENABLED
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
         dopplerSitesClient: new HardcodedDopplerSitesClient(),
