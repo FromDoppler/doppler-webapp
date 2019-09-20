@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import Loading from '../../Loading/Loading';
 import * as S from './ReportsTrafficSources.styles';
+import { BoxMessage } from '../../styles/messages';
 
 const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { datahubClient } }) {
   const [state, setState] = useState({ loading: true });
@@ -127,11 +128,11 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
               </S.ListItem>
             ))
           ) : (
-            <div className="dp-msj-error bounceIn">
+            <BoxMessage className="dp-msj-error bounceIn">
               <p>
                 <FormattedMessage id="trafficSources.error" />
               </p>
-            </div>
+            </BoxMessage>
           )}
         </S.ListContainer>
       </div>
