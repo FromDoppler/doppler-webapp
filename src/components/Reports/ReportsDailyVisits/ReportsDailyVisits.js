@@ -51,12 +51,12 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
           <div class="c3-tooltip">
             <div class='tooltip-title'>${date}</div>
             ${
-              tooltipData.withEmail === null
+              tooltipData.withEmail == null
                 ? valueTemplate(tooltipData.quantity_label + tooltipData.quantity)
                 : ''
             }
             ${
-              tooltipData.withEmail !== null
+              tooltipData.withEmail != null
                 ? valueTemplate(tooltipData.withEmail_label + tooltipData.withEmail) +
                   valueTemplate(tooltipData.withoutEmail_label + tooltipData.withoutEmail)
                 : ''
