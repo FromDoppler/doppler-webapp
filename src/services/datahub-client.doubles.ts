@@ -129,6 +129,7 @@ const getFakeHoursVisitsData = () => {
       from: date.toString(),
       to: date.toString(),
       quantity: Math.floor(Math.random() * 1000),
+      withEmail: 1,
     };
   });
 };
