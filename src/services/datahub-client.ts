@@ -153,7 +153,7 @@ export class HttpDatahubClient implements DatahubClient {
 
       // By the moment we are hard-coding it because DataHub does not have this
       // information. I am looking you Leo :P
-      const urlSchema = 'http://';
+      const urlSchema = response.data.protocol || 'http://';
 
       const pages = response.data.items.map((x: any) => ({
         name: x.page,
