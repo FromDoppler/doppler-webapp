@@ -196,7 +196,7 @@ export default {
     list_title: `Synchronized List`,
     no_list_available: `Waiting for List...`,
     table_list: `List Name`,
-    table_shopify_customers_count: `Shopify customers`,
+    table_shopify_customers_count: `Subscribers`,
     title: `Doppler | Shopify`,
   },
   signup: {

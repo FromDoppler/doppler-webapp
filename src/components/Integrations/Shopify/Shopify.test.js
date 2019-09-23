@@ -170,14 +170,8 @@ describe('Shopify Component', () => {
     expect(getByText('validation_messages.error_unexpected_HTML'));
   });
 
-  it('should use DopplerAPI client when feature is enabled with apikey', async () => {
+  it('should use DopplerAPI client when there is a list associated', async () => {
     // Arrange
-    const experimentalFeaturesData = {
-      DopplerAPI: { apikey: 'myapikey', listId: 455222 },
-    };
-    const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
-    const experimentalFeatures = new ExperimentalFeatures(storage);
     const listExist = {
       success: true,
       value: {
@@ -201,54 +195,6 @@ describe('Shopify Component', () => {
         forcedServices={{
           shopifyClient: shopifyClientDouble,
           dopplerApiClient: dopplerAPIClientDouble,
-          experimentalFeatures: experimentalFeatures,
-        }}
-      >
-        <DopplerIntlProvider>
-          <Shopify />
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
-    );
-
-    // Assert
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(container.querySelector('.dp-integration__status')).toBeInTheDocument();
-    expect(getByText(listExist.value.amountSubscribers.toString()));
-  });
-
-  it('should work ok whith api client with token when feature is enabled without apikey', async () => {
-    // Arrange
-    const experimentalFeaturesData = {
-      DopplerAPI: { listId: 455222 },
-    };
-    const storage = new FakeLocalStorage();
-    storage.setItem('dopplerExperimental', JSON.stringify(experimentalFeaturesData));
-    const experimentalFeatures = new ExperimentalFeatures(storage);
-    const listExist = {
-      success: true,
-      value: {
-        name: 'Shopify Contacto',
-        id: 27311899,
-        amountSubscribers: 200,
-        state: SubscriberListState.ready,
-      },
-    };
-
-    const shopifyClientDouble = {
-      getShopifyData: async () => oneShopConnected,
-    };
-    const dopplerAPIClientDouble = {
-      getListData: async () => listExist,
-    };
-
-    // Act
-    const { container, getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          shopifyClient: shopifyClientDouble,
-          dopplerApiClient: dopplerAPIClientDouble,
-          experimentalFeatures: experimentalFeatures,
         }}
       >
         <DopplerIntlProvider>

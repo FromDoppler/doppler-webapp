@@ -3,7 +3,6 @@ import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 import { SubscriberList, SubscriberListState } from './shopify-client';
-import { ExperimentalFeatures } from './experimental-features';
 
 export interface DopplerApiClient {
   getListData(idList: number, apikey: string): Promise<ResultWithoutExpectedErrors<SubscriberList>>;
@@ -17,25 +16,21 @@ export class HttpDopplerApiClient implements DopplerApiClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
   private readonly connectionDataRef: RefObject<AppSession>;
-  private readonly experimentalFeatures?: ExperimentalFeatures;
 
   constructor({
     axiosStatic,
     baseUrl,
     connectionDataRef,
-    experimentalFeatures,
   }: {
     axiosStatic: AxiosStatic;
     baseUrl: string;
     connectionDataRef: RefObject<AppSession>;
-    experimentalFeatures?: ExperimentalFeatures;
   }) {
     this.baseUrl = baseUrl;
     this.axios = axiosStatic.create({
       baseURL: this.baseUrl,
     });
     this.connectionDataRef = connectionDataRef;
-    this.experimentalFeatures = experimentalFeatures;
   }
 
   private getDopplerApiConnectionData(): DopplerApiConnectionData {
@@ -68,19 +63,11 @@ export class HttpDopplerApiClient implements DopplerApiClient {
 
   public async getListData(listId: number): Promise<ResultWithoutExpectedErrors<SubscriberList>> {
     try {
-      const dopplerAPIFeature =
-        this.experimentalFeatures && this.experimentalFeatures.getFeature('DopplerAPI');
-      const apikey =
-        dopplerAPIFeature && dopplerAPIFeature.apikey ? dopplerAPIFeature.apikey : null;
-
-      const { userAccount } = this.getDopplerApiConnectionData();
-      const jwtToken = apikey ? apikey : this.getDopplerApiConnectionData().jwtToken;
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${userAccount}/lists/${
-          dopplerAPIFeature && dopplerAPIFeature.listId ? dopplerAPIFeature.listId : listId
-        }`,
+        url: `/accounts/${userAccount}/lists/${listId}`,
         headers: { Authorization: `token ${jwtToken}` },
       });
 

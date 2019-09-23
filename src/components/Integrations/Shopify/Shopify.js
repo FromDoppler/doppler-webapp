@@ -80,8 +80,8 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
     </>
   );
 
-  const getSubscribersAmountFromAPI = async (listId, apikey) => {
-    const resultAPI = await dopplerApiClient.getListData(listId, apikey);
+  const getSubscribersAmountFromAPI = async (listId) => {
+    const resultAPI = await dopplerApiClient.getListData(listId);
     if (resultAPI.success) {
       return resultAPI.value.amountSubscribers;
     } else {
@@ -90,8 +90,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
   };
 
   const updateSubscriberCount = async (list) => {
-    const dopplerAPIFeature = experimentalFeatures && experimentalFeatures.getFeature('DopplerAPI');
-    if (list && dopplerAPIFeature) {
+    if (list) {
       const subscribersCount = await getSubscribersAmountFromAPI(list.id);
       list.amountSubscribers = subscribersCount != null ? subscribersCount : list.amountSubscribers;
     }
