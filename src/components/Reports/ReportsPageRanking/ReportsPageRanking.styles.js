@@ -39,7 +39,7 @@ export const ListItemRightColumn = styled(ListItemColumn)`
     font-weight: ${fonts.fontStrong};
     margin: ${spacings.spacesLvl0};
     &.visits--withemail {
-      color: ${colors.darkPurple};
+      color: ${colors.purple3};
     }
     &.visits--withoutemail {
       color: ${colors.darkYellow};

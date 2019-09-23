@@ -43,18 +43,18 @@ export const Circle = styled.span`
   border-radius: 100%;
   width: 11px;
   height: 11px;
-  background-color: #d4bddb;
+  background-color: ${colors.purple1};
   ${(props) =>
     props.medium &&
     css`
-      background-color: #bc9ac7;
+      background-color: ${colors.purple2};
       width: 21px;
       height: 21px;
     `}
   ${(props) =>
     props.big &&
     css`
-      background-color: #9b7ba6;
+      background-color: ${colors.purple3};
       width: 31px;
       height: 31px;
     `}
