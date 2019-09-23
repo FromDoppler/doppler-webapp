@@ -10,9 +10,9 @@ const hoursLegend = [...Array(12)].map((_, index) => {
   return index * 2 + 'h';
 });
 
-const FormatWeekDayIndex = ({ value }) => {
+const FormatWeekDayIndex = ({ value, format }) => {
   return (
-    <FormattedDateParts value={new Date(1971, 1, value)} weekday="short">
+    <FormattedDateParts value={new Date(1971, 1, value)} weekday={format}>
       {(parts) => <span>{parts[0].value}</span>}
     </FormattedDateParts>
   );
@@ -85,7 +85,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
               <S.Row key={weekDayIndex}>
                 <div className="weekday">
                   <p>
-                    <FormatWeekDayIndex value={weekDayIndex} />
+                    <FormatWeekDayIndex value={weekDayIndex} format={'short'} />
                   </p>
                   <S.Dash>- - -</S.Dash>
                 </div>
@@ -103,6 +103,15 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                     ) : (
                       <S.Circle big />
                     )}
+                    <S.Tooltip>
+                      <p>
+                        <FormatWeekDayIndex value={weekDayIndex} format={'long'} />
+                        <span>{hour}h</span>
+                      </p>
+                      <strong>
+                        <FormattedMessage id="reports_hours_visits.users" /> <i>{quantity}</i>
+                      </strong>
+                    </S.Tooltip>
                   </S.Column>
                 ))}
                 <S.Dash>- - -</S.Dash>

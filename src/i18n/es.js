@@ -176,9 +176,10 @@ export default {
   },
   reports_hours_visits: {
     few_visits: `0 a 300`,
-    lot_visits: `600 a 1k`,
+    lot_visits: `+600`,
     medium_visits: `300 a 600`,
-    title: `Horas y dias`,
+    title: `Días de semana y horas`,
+    users: `Páginas vistas:`,
   },
   reports_pageranking: {
     top_pages: `Páginas más visitadas`,

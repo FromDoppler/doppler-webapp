@@ -72,6 +72,42 @@ describe('reports weekday and hours visits', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('2h'));
+  });
+
+  it('should show the graphic and check specific data', async () => {
+    const fakeHoursVisits = {
+      success: true,
+      value: [
+        {
+          periodNumber: 0,
+          from: new Date(),
+          to: new Date(),
+          quantity: 593,
+          withEmail: 1,
+        },
+      ],
+    };
+
+    const dataHubClientDouble = {
+      getVisitsQuantitySummarizedByPeriod: async () => fakeHoursVisits,
+    };
+
+    const domainName = 'doppler.test';
+    const dateFrom = new Date('2019-01-01');
+
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: dataHubClientDouble,
+        }}
+      >
+        <DopplerIntlProvider locale="en">
+          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    await waitForDomChange();
+    expect(getByText('593'));
   });
 });

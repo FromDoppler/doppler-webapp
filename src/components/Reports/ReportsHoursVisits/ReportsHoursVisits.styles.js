@@ -16,15 +16,15 @@ export const Row = styled.div`
   .weekday {
     width: 65px;
     display: inline-block;
-  }
-  p {
-    display: inline-block;
-    font-size: 9px;
-    color: ${colors.lightGrey};
-    text-transform: uppercase;
-    width: 25px;
-    text-align: right;
-    margin-right: 12px;
+    p {
+      display: inline-block;
+      font-size: 9px;
+      color: ${colors.lightGrey};
+      text-transform: uppercase;
+      width: 25px;
+      text-align: right;
+      margin-right: 12px;
+    }
   }
 `;
 
@@ -32,6 +32,10 @@ export const Column = styled.div`
   display: inline-block;
   width: 31px;
   vertical-align: middle;
+  position: relative;
+  &:hover div {
+    display: block;
+  }
 `;
 
 export const Circle = styled.span`
@@ -80,5 +84,32 @@ export const Header = styled.header`
   }
   p {
     font-size: 11px;
+  }
+`;
+
+export const Tooltip = styled.div`
+  background: ${colors.white};
+  border-radius: 3px;
+  border: 1px solid ${colors.softGrey};
+  display: none;
+  position: absolute;
+  padding: 20px;
+  z-index: 1;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  p {
+    margin-bottom: 6px;
+    margin-top: 0;
+    font-size: 11px;
+    color: ${colors.lightGrey};
+  }
+  strong {
+    font-size: 13px;
+    color: ${colors.darkGrey};
+  }
+  span {
+    margin-left: 3px;
   }
 `;
