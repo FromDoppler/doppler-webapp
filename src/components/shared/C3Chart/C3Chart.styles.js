@@ -58,7 +58,6 @@ export const C3ChartStyled = styled.div`
   }
 
   .c3-target-withEmail {
-    fill: ${colors.darkPurple};
   }
 
   .c3-target-withoutEmail {
