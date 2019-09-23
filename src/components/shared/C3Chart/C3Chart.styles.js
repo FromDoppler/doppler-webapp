@@ -27,9 +27,9 @@ export const C3ChartStyled = styled.div`
   }
 
   .c3-line {
-    stroke-width: 4px;
+    stroke-width: 2px;
     position: relative;
-    transition: all 2s ease-in-out;
+    transition: all 0.5s ease-in-out;
   }
 
   .c3-event-rect {
@@ -44,9 +44,24 @@ export const C3ChartStyled = styled.div`
   .c3-xgrid-focus {
     stroke: ${colors.darkPurple};
     transition: all 1s ease-in-out;
+    opacity: 1;
   }
 
   .c3-shapes-quantity {
+    fill: ${colors.darkPurple};
+    opacity: 1;
+  }
+
+  .c3-areas {
+    fill: ${colors.darkPurple};
+    opacity: 0.3;
+  }
+
+  .c3-target-withEmail {
+    fill: ${colors.darkPurple};
+  }
+
+  .c3-target-withoutEmail {
     fill: ${colors.darkPurple};
   }
 
