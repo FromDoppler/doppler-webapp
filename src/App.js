@@ -88,9 +88,17 @@ class App extends Component {
           </Helmet>
           <OriginCatcher />
           <Switch>
-            <Route path="/" exact>
-              <RedirectToLegacyUrl to="/Campaigns/Draft" />
-            </Route>
+            <Route
+              exact
+              path="/"
+              render={({ location }) =>
+                location.hash.length ? (
+                  <Redirect to={location.hash.replace('#', '')} />
+                ) : (
+                  <RedirectToLegacyUrl to="/Campaigns/Draft" />
+                )
+              }
+            />
             <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
             <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
             <PublicRouteWithLegacyFallback exact path="/login" />
