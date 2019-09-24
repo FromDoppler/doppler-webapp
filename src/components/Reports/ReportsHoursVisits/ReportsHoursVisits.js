@@ -4,7 +4,16 @@ import { FormattedMessage, FormattedDateParts } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsHoursVisits.styles';
 
-const createEmptyWeekDayHoursMatrix = () => [...Array(7)].map(() => [...Array(24)].map(() => 0));
+const createEmptyWeekDayHoursMatrix = () =>
+  [...Array(7)].map(() =>
+    [...Array(24)].map(() => {
+      return {
+        quantity: 0,
+        withEmail: 0,
+        withoutEmail: 0,
+      };
+    }),
+  );
 
 const hoursLegend = [...Array(12)].map((_, index) => {
   return index * 2 + 'h';
@@ -35,7 +44,11 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
         const visitsByWeekDayAndHour = hoursVisitsdata.value.reduce((accumulator, item) => {
           const weekDay = item.from.getUTCDay();
           const hour = item.from.getUTCHours();
-          accumulator[weekDay][hour] += item.quantity;
+          accumulator[weekDay][hour].quantity += item.quantity;
+          if (item.withEmail || item.withEmail === 0) {
+            accumulator[weekDay][hour].withEmail += item.withEmail;
+            accumulator[weekDay][hour].withoutEmail += item.withoutEmail;
+          }
           return accumulator;
         }, createEmptyWeekDayHoursMatrix());
         setState({
@@ -95,13 +108,13 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                   </p>
                 </div>
 
-                {weekDays.map((quantity, hour) => (
+                {weekDays.map((item, hour) => (
                   <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
-                    {quantity <= 300 ? (
+                    {item.quantity <= 300 ? (
                       <>
                         <S.Circle />
                       </>
-                    ) : quantity <= 600 ? (
+                    ) : item.quantity <= 600 ? (
                       <S.Circle medium />
                     ) : (
                       <S.Circle big />
@@ -111,10 +124,23 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                         <FormatWeekDayIndex value={weekDayIndex} format={'long'} />
                         <span>{hour}h</span>
                       </p>
-                      <span>
-                        <FormattedMessage id="reports_hours_visits.users" />
-                        {quantity}
-                      </span>
+                      {item.withEmail || item.withoutEmail ? (
+                        <>
+                          <strong>
+                            <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
+                            <i>{item.withEmail}</i>
+                          </strong>
+                          <strong>
+                            <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
+                            <i>{item.withoutEmail}</i>
+                          </strong>
+                        </>
+                      ) : (
+                        <strong>
+                          <FormattedMessage id="reports_hours_visits.users" />{' '}
+                          <i>{item.quantity}</i>
+                        </strong>
+                      )}
                     </S.Tooltip>
                   </S.Column>
                 ))}

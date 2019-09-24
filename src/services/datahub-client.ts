@@ -26,6 +26,8 @@ export interface VisitsQuantitySummarized {
   from: Date;
   to: Date;
   quantity: number;
+  withEmail: number;
+  withoutEmail: number;
 }
 
 export type emailFilterOptions = 'with_email' | 'without_email' | null;

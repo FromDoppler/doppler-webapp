@@ -180,6 +180,8 @@ export default {
     medium_visits: `300 a 600`,
     title: `Días de semana y horas`,
     users: `Páginas vistas:`,
+    users_with_email: `Usuarios con email:`,
+    users_without_email: `Usuarios sin email:`,
   },
   reports_pageranking: {
     top_pages: `Páginas más visitadas`,

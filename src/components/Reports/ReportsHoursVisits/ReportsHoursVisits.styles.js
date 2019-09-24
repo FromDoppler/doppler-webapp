@@ -130,6 +130,8 @@ export const Tooltip = styled.div`
       font-weight: normal;
       color: ${colors.lightGrey};
     }
+    display: block;
+    line-height: 18px;
   }
 
   span {
