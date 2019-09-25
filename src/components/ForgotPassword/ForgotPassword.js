@@ -11,11 +11,11 @@ import {
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { InjectAppServices } from '../../services/pure-di';
-import './ForgotPassword.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Helmet } from 'react-helmet';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
+import * as S from './ForgotPassword.styles';
 
 const fieldNames = {
   email: 'email',
@@ -108,12 +108,12 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>
         {sentEmail ? (
-          <div className="forgot-message">
+          <S.MessageSuccess>
             <div className="form-message dp-ok-message bounceIn">
               <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
               <LinkToLoginSuccess />
             </div>
-          </div>
+          </S.MessageSuccess>
         ) : (
           <FormWithCaptcha
             className="login-form"
