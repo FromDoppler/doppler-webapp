@@ -11,7 +11,7 @@ import {
   SiteTrackingNotAvailableReasons,
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { Helmet } from 'react-helmet';
-import Loading from '../Loading/Loading';
+import { Loading } from '../Loading/Loading';
 
 class Reports extends React.Component {
   /**

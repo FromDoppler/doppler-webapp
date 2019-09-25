@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function({ page }) {
+export const Loading = ({ page }) => {
   if (page) {
     return (
       <div className="wrapper-loading">
@@ -9,4 +9,4 @@ export default function({ page }) {
     );
   }
   return <div className="loading-box" />;
-}
+};

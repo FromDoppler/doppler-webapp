@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
-import Loading from '../../components/Loading/Loading';
+import { Loading } from '../../components/Loading/Loading';
 import { SubmitButton } from '../form-helpers/form-helpers';
 
 const fieldNames = {

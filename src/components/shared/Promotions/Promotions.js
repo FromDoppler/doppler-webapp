@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
-import Loading from '../../Loading/Loading';
+import { Loading } from '../../Loading/Loading';
 
 const getDefaultBannerData = (intl) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);

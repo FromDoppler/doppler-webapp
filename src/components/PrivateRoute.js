@@ -7,7 +7,7 @@ import {
   SiteTrackingNotAvailableReasons,
 } from './SiteTrackingRequired/SiteTrackingRequired';
 import RedirectToLogin from './RedirectToLogin';
-import Loading from './Loading/Loading';
+import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
 
 export default InjectAppServices(
