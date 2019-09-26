@@ -167,7 +167,7 @@ export default {
       </p>
       `,
     domain: `Dominio`,
-    domain_not_verified: `Sin visitas registradas`,
+    domain_not_verified_MD: `Sin visitas registradas [Verificar dominio](${urlSiteTracking}).`,
     pages: `Página`,
     rank_time: `Período de tiempo analizado`,
     title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,
