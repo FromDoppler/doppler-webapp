@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Loading from '../../Loading/Loading';
+import { Loading } from '../../Loading/Loading';
 import C3Chart from '../../shared/C3Chart/C3Chart';
 
 const chartDataOptions = {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
-import Loading from '../../Loading/Loading';
+import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsTrafficSources.styles';
 import { BoxMessage } from '../../styles/messages';
 

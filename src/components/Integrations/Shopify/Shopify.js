@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import Loading from '../../Loading/Loading';
+import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedHTMLMessage, FormattedDate, useIntl } from 'react-intl';
 import { SubscriberListState } from '../../../services/shopify-client';
