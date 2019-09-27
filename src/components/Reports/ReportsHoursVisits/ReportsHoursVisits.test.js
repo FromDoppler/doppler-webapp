@@ -83,7 +83,7 @@ describe('reports weekday and hours visits', () => {
           from: new Date(),
           to: new Date(),
           quantity: 593,
-          withEmail: 1,
+          withEmail: 0,
         },
       ],
     };
@@ -108,6 +108,5 @@ describe('reports weekday and hours visits', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('593'));
   });
 });

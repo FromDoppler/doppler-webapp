@@ -57,19 +57,25 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
           </small>
           <div>
             <div>
-              <S.Circle />
+              <div>
+                <S.Circle />
+              </div>
               <p>
                 <FormattedMessage id="reports_hours_visits.few_visits" />
               </p>
             </div>
             <div>
-              <S.Circle medium />
+              <div>
+                <S.Circle medium />
+              </div>
               <p>
                 <FormattedMessage id="reports_hours_visits.medium_visits" />
               </p>
             </div>
             <div>
-              <S.Circle big />
+              <div>
+                <S.Circle big />
+              </div>
               <p>
                 <FormattedMessage id="reports_hours_visits.lot_visits" />
               </p>
@@ -87,39 +93,36 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                   <p>
                     <FormatWeekDayIndex value={weekDayIndex} format={'short'} />
                   </p>
-                  <S.Dash>- - -</S.Dash>
                 </div>
 
                 {weekDays.map((quantity, hour) => (
-                  <S.Column key={'' + weekDayIndex + '' + hour}>
+                  <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
                     {quantity <= 300 ? (
                       <>
-                        <S.Dash>-</S.Dash>
                         <S.Circle />
-                        <S.Dash>-</S.Dash>
                       </>
                     ) : quantity <= 600 ? (
                       <S.Circle medium />
                     ) : (
                       <S.Circle big />
                     )}
-                    <S.Tooltip>
+                    <S.Tooltip className="dp-tooltip-chart">
                       <p>
                         <FormatWeekDayIndex value={weekDayIndex} format={'long'} />
                         <span>{hour}h</span>
                       </p>
-                      <strong>
-                        <FormattedMessage id="reports_hours_visits.users" /> <i>{quantity}</i>
-                      </strong>
+                      <span>
+                        <FormattedMessage id="reports_hours_visits.users" />
+                        {quantity}
+                      </span>
                     </S.Tooltip>
                   </S.Column>
                 ))}
-                <S.Dash>- - -</S.Dash>
               </S.Row>
             ))}
             <S.Legend>
               {hoursLegend.map((hour, index) => (
-                <div key={index}>{hour}</div>
+                <span key={index}>{hour}</span>
               ))}
             </S.Legend>
           </S.List>

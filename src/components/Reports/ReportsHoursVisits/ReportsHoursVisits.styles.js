@@ -1,49 +1,61 @@
 import styled, { css } from 'styled-components';
 import colors from '../../styles/colors';
-
-export const Dash = styled.span`
-  font-size: 16px;
-  color: #d4bddb;
-`;
+import spacings from '../../styles/spacings';
+import fonts from '../../styles/fonts';
 
 export const List = styled.div`
-  padding: 0 30px 12px;
+  padding: ${spacings.spacesLvl3} ${spacings.spacesLvl6} ${spacings.spacesLvl5};
 `;
 
 export const Row = styled.div`
-  margin-bottom: 18px;
+  margin-bottom: ${spacings.spacesLvl3};
   height: 31px;
+  display: flex;
+  align-items: center;
+  position: relative;
+
   .weekday {
-    width: 65px;
-    display: inline-block;
+    width: 40px;
+    margin-right: ${spacings.spacesLvl3};
+    display: flex;
+    background: ${colors.white};
+    z-index: 1;
+
     p {
-      display: inline-block;
       font-size: 9px;
       color: ${colors.lightGrey};
       text-transform: uppercase;
-      width: 25px;
-      text-align: right;
-      margin-right: 12px;
     }
+  }
+
+  &:before {
+    content: '';
+    border-top: 2px dashed ${colors.softGrey};
+    width: 100%;
+    top: 14px;
+    position: absolute;
   }
 `;
 
 export const Column = styled.div`
-  display: inline-block;
   width: 31px;
-  vertical-align: middle;
+  height: 31px;
   position: relative;
-  &:hover div {
-    display: block;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Circle = styled.span`
   display: inline-block;
+  position: relative;
   border-radius: 100%;
   width: 11px;
   height: 11px;
   background-color: ${colors.purple1};
+  box-shadow: 0px 0px 0px 30px rgba(255, 255, 255, 0);
+  transition: box-shadow 0.4s;
+
   ${(props) =>
     props.medium &&
     css`
@@ -58,14 +70,21 @@ export const Circle = styled.span`
       width: 31px;
       height: 31px;
     `}
+
+   &:hover {
+    box-shadow: 0px 0px 0px 0px rgba(212, 189, 219, 0.6);
+  }
 `;
 
 export const Legend = styled.div`
-  margin: 0 30px 18px 65px;
   display: flex;
-  div {
-    text-indent: 6px;
-    width: 62px;
+  width: 743px;
+  margin-left: 56px;
+
+  span {
+    width: 31px;
+    margin-right: 31px;
+    text-align: center;
     font-size: 9px;
     color: ${colors.lightGrey};
   }
@@ -74,42 +93,48 @@ export const Legend = styled.div`
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
+
   & > div {
     display: flex;
-    align-items: baseline;
-    margin: 18px 30px;
+    align-items: end;
+    margin: ${spacings.spacesLvl4} ${spacings.spacesLvl0};
+    display: flex;
+
     div {
-      margin-right: 6px;
+      margin-right: ${spacings.spacesLvl4};
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      div {
+        height: 31px;
+        margin: ${spacings.spacesLvl0} auto;
+      }
     }
   }
+
   p {
-    font-size: 11px;
+    font-size: ${fonts.fontLvl1};
+    margin: ${spacings.spacesLvl0};
   }
 `;
 
 export const Tooltip = styled.div`
-  background: ${colors.white};
-  border-radius: 3px;
-  border: 1px solid ${colors.softGrey};
-  display: none;
-  position: absolute;
-  padding: 20px;
-  z-index: 1;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
   p {
-    margin-bottom: 6px;
-    margin-top: 0;
-    font-size: 11px;
-    color: ${colors.lightGrey};
+    margin: ${spacings.spacesLvl0};
+    span {
+      margin: ${spacings.spacesLvl0} ${spacings.spacesLvl0} ${spacings.spacesLvl1};
+      font-size: ${fonts.fontLvl1};
+      font-weight: normal;
+      color: ${colors.lightGrey};
+    }
   }
-  strong {
-    font-size: 13px;
-    color: ${colors.darkGrey};
-  }
+
   span {
-    margin-left: 3px;
+    font-size: ${fonts.fontLvl3};
+    color: ${colors.darkGrey};
+    font-weight: bold;
   }
 `;
