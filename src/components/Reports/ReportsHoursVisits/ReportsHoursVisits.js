@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDateParts } from 'react-intl';
-import Loading from '../../Loading/Loading';
+import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsHoursVisits.styles';
 
 const createEmptyWeekDayHoursMatrix = () => [...Array(7)].map(() => [...Array(24)].map(() => 0));
