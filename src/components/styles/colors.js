@@ -9,6 +9,8 @@ export default {
   white: '#ffffff',
   black: '#000000',
   darkYellow: '#fbb100',
-  darkPurple: '#b58fc1',
+  purple1: '#D4BDDB',
   green: '#33ad73',
+  purple2: '#BC9AC7',
+  purple3: '#9B7BA6',
 };

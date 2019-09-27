@@ -120,6 +120,20 @@ const fakeDailyVisitsData = [
   },
 ];
 
+const getFakeHoursVisitsData = () => {
+  let date = new Date(1970, 1, 1);
+  return [...Array(168)].map((index) => {
+    date.setHours(date.getHours() + 1);
+    return {
+      periodNumber: index,
+      from: date.toString(),
+      to: date.toString(),
+      quantity: Math.floor(Math.random() * 1000),
+      withEmail: 1,
+    };
+  });
+};
+
 export class HardcodedDatahubClient implements DatahubClient {
   public async getAccountDomains(): Promise<DomainEntry[]> {
     console.log('getAccountDomains');
@@ -164,10 +178,10 @@ export class HardcodedDatahubClient implements DatahubClient {
       value: pages,
     };
 
-    //return {
-    //  success: false,
-    //  error: new Error('Dummy error'),
-    //};
+    // return {
+    //   success: false,
+    //   error: new Error('Dummy error'),
+    // };
   }
 
   public async getTrafficSourcesByPeriod({
@@ -207,7 +221,10 @@ export class HardcodedDatahubClient implements DatahubClient {
   }): Promise<VisitsQuantitySummarizedResult> {
     console.log('getVisitsQuantitySummarizedByPeriod', { domainName, dateFrom });
     await timeout(1000);
-    const visitsByPeriod = fakeDailyVisitsData.map((x) => ({
+
+    const data = periodBy === 'days' ? fakeDailyVisitsData : getFakeHoursVisitsData();
+
+    const visitsByPeriod = data.map((x) => ({
       periodNumber: x.periodNumber,
       from: new Date(x.from),
       to: new Date(x.to),

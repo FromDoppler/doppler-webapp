@@ -174,6 +174,13 @@ export default {
     verified_domain: `Last registered visit:`,
     week_with_plural: `{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }`,
   },
+  reports_hours_visits: {
+    few_visits: `0 to 300`,
+    lot_visits: `+600`,
+    medium_visits: `300 to 600`,
+    title: `Day of week and hours`,
+    users: `Pages views:`,
+  },
   reports_pageranking: {
     top_pages: `Most visited pages`,
     total_visits: `Unique visitors`,

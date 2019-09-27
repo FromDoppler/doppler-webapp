@@ -42,13 +42,13 @@ export const C3ChartStyled = styled.div`
   }
 
   .c3-xgrid-focus {
-    stroke: ${colors.darkPurple};
+    stroke: ${colors.purple3};
     transition: all 1s ease-in-out;
     opacity: 1;
   }
 
   .c3-shapes-quantity {
-    fill: ${colors.darkPurple};
+    fill: ${colors.purple3};
     opacity: 1;
   }
 
@@ -62,7 +62,6 @@ export const C3ChartStyled = styled.div`
   }
 
   .c3-target-withoutEmail {
-    fill: ${colors.darkPurple};
   }
 
   .c3-tooltip-container {

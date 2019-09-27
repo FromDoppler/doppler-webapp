@@ -103,6 +103,6 @@ export const Bar = styled.div`
   ${(props) =>
     props.primary &&
     css`
-      background: ${colors.darkPurple};
+      background: ${colors.purple3};
     `}
 `;
