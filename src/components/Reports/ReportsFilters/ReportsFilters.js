@@ -1,5 +1,7 @@
 import React from 'react';
 import { FormattedHTMLMessage, FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
+import * as S from './ReportsFilters.styles';
 
 const ReportsFilters = ({
   domains,
@@ -35,7 +37,7 @@ const ReportsFilters = ({
                 ))}
             </select>
             {domainSelected ? (
-              <span className="verified--domain">
+              <S.DropdownLegend>
                 {domainSelected.verified_date ? (
                   <>
                     <FormattedMessage id="reports_filters.verified_domain" />{' '}
@@ -44,9 +46,9 @@ const ReportsFilters = ({
                     </span>
                   </>
                 ) : (
-                  <FormattedMessage id="reports_filters.domain_not_verified" />
+                  <FormattedMessageMarkdown id="reports_filters.domain_not_verified_MD" />
                 )}
-              </span>
+              </S.DropdownLegend>
             ) : null}
           </fieldset>
           <fieldset className="filter">
