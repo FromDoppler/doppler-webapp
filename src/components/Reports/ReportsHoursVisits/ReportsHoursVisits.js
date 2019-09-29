@@ -62,8 +62,8 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
   }, [datahubClient, dateFrom, domainName]);
 
   return (
-    <div className="wrapper-reports-box">
-      <div className="reports-box" style={{ width: '900px' }}>
+    <S.WrapperBoxContainer className="wrapper-reports-box">
+      <div className="reports-box">
         <S.Header>
           <small className="title-reports-box">
             <FormattedMessage id="reports_hours_visits.title" />
@@ -126,20 +126,20 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                       </p>
                       {item.withEmail || item.withoutEmail ? (
                         <>
-                          <strong>
+                          <span>
                             <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
-                            <i>{item.withEmail}</i>
-                          </strong>
-                          <strong>
+                            <span>{item.withEmail}</span>
+                          </span>
+                          <span>
                             <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
-                            <i>{item.withoutEmail}</i>
-                          </strong>
+                            <span>{item.withoutEmail}</span>
+                          </span>
                         </>
                       ) : (
-                        <strong>
+                        <span>
                           <FormattedMessage id="reports_hours_visits.users" />{' '}
-                          <i>{item.quantity}</i>
-                        </strong>
+                          <span>{item.quantity}</span>
+                        </span>
                       )}
                     </S.Tooltip>
                   </S.Column>
@@ -160,7 +160,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
           </div>
         )}
       </div>
-    </div>
+    </S.WrapperBoxContainer>
   );
 };
 

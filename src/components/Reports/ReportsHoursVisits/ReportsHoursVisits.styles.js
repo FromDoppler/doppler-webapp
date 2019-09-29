@@ -3,6 +3,13 @@ import colors from '../../styles/colors';
 import spacings from '../../styles/spacings';
 import fonts from '../../styles/fonts';
 
+export const WrapperBoxContainer = styled.div`
+  .reports-box {
+    width: 900px;
+    overflow: visible;
+  }
+`;
+
 export const List = styled.div`
   padding: ${spacings.spacesLvl3} ${spacings.spacesLvl6} ${spacings.spacesLvl5};
 `;
@@ -53,7 +60,7 @@ export const Circle = styled.span`
   width: 11px;
   height: 11px;
   background-color: ${colors.purple1};
-  box-shadow: 0px 0px 0px 30px rgba(255, 255, 255, 0);
+  box-shadow: 0p 0p 0 30px rgba(255, 255, 255, 0);
   transition: box-shadow 0.4s;
 
   ${(props) =>
@@ -72,7 +79,7 @@ export const Circle = styled.span`
     `}
 
    &:hover {
-    box-shadow: 0px 0px 0px 0px rgba(212, 189, 219, 0.6);
+    box-shadow: 0 0 0 0 rgba(212, 189, 219, 0.6);
   }
 `;
 

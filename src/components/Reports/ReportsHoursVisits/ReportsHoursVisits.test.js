@@ -114,6 +114,7 @@ describe('reports weekday and hours visits', () => {
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
+    expect(getByText('593'));
   });
 
   it('should show the graphic with user with email', async () => {
