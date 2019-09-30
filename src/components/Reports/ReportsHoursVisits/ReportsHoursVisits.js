@@ -121,7 +121,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
                     )}
                     <S.Tooltip className="dp-tooltip-chart">
                       <p>
-                        <FormatWeekDayIndex value={weekDayIndex} format={'long'} />
+                        <FormatWeekDayIndex value={weekDayIndex} format={'long'} />{' '}
                         <span>{hour}h</span>
                       </p>
                       {item.withEmail || item.withoutEmail ? (

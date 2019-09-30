@@ -136,6 +136,7 @@ export const Tooltip = styled.div`
       font-size: ${fonts.fontLvl1};
       font-weight: normal;
       color: ${colors.lightGrey};
+      text-transform: capitalize;
     }
     display: block;
     line-height: 18px;
