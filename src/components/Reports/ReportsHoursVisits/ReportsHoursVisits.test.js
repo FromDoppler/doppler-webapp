@@ -24,17 +24,19 @@ const getFakeHoursVisitsData = () => {
   };
 };
 
+const domainName = 'doppler.test';
+const dateFrom = new Date('2019-01-01');
+
 describe('reports weekday and hours visits', () => {
   afterEach(cleanup);
 
   it('should deal with DataHub failure', async () => {
+    // Arrange
     const dataHubClientDouble = {
       getVisitsQuantitySummarizedByPeriod: async () => errorResponse,
     };
 
-    const domainName = 'doppler.test';
-    const dateFrom = new Date('2019-01-01');
-
+    // Act
     const { container, getByText } = render(
       <AppServicesProvider
         forcedServices={{
@@ -46,19 +48,20 @@ describe('reports weekday and hours visits', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+
+    // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
     expect(getByText('trafficSources.error'));
   });
 
   it('should show the graphic with the data', async () => {
+    // Arrange
     const dataHubClientDouble = {
       getVisitsQuantitySummarizedByPeriod: async () => getFakeHoursVisitsData(),
     };
 
-    const domainName = 'doppler.test';
-    const dateFrom = new Date('2019-01-01');
-
+    // Act
     const { container, getByText } = render(
       <AppServicesProvider
         forcedServices={{
@@ -70,11 +73,14 @@ describe('reports weekday and hours visits', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+
+    // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
   });
 
   it('should show the graphic and check specific data', async () => {
+    // Arrange
     const fakeHoursVisits = {
       success: true,
       value: [
@@ -92,9 +98,7 @@ describe('reports weekday and hours visits', () => {
       getVisitsQuantitySummarizedByPeriod: async () => fakeHoursVisits,
     };
 
-    const domainName = 'doppler.test';
-    const dateFrom = new Date('2019-01-01');
-
+    // Act
     const { container, getByText } = render(
       <AppServicesProvider
         forcedServices={{
@@ -106,7 +110,48 @@ describe('reports weekday and hours visits', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+
+    // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
+    expect(getByText('593'));
+  });
+
+  it('should show the graphic with user with email', async () => {
+    // Arrange
+    const fakeHoursVisits = {
+      success: true,
+      value: [
+        {
+          periodNumber: 0,
+          from: new Date(),
+          to: new Date(),
+          quantity: 593,
+          withEmail: 200,
+        },
+      ],
+    };
+
+    const dataHubClientDouble = {
+      getVisitsQuantitySummarizedByPeriod: async () => fakeHoursVisits,
+    };
+
+    // Act
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: dataHubClientDouble,
+        }}
+      >
+        <DopplerIntlProvider locale="en">
+          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    await waitForDomChange();
+    expect(getByText('200'));
   });
 });
