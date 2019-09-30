@@ -36,6 +36,7 @@ export default {
     control_panel_advanced_pref_url: `${urlControlPanelMain}?section=AdvancedPreferences`,
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
+    empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     hide: `Ocultar`,
     message: `Mensaje`,
     recaptcha_legal_HTML: `

@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDateParts } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsHoursVisits.styles';
+import { BoxMessage } from '../../styles/messages';
 
 const createEmptyWeekDayHoursMatrix = () =>
   [...Array(7)].map(() =>
@@ -95,70 +96,71 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
             </div>
           </div>
         </S.Header>
+        <S.ContentContainer>
+          {state.loading ? (
+            <Loading />
+          ) : state.visits ? (
+            <S.List>
+              {state.visits.map((weekDays, weekDayIndex) => (
+                <S.Row key={weekDayIndex}>
+                  <div className="weekday">
+                    <p>
+                      <FormatWeekDayIndex value={weekDayIndex} format={'short'} />
+                    </p>
+                  </div>
 
-        {state.loading ? (
-          <Loading />
-        ) : state.visits ? (
-          <S.List>
-            {state.visits.map((weekDays, weekDayIndex) => (
-              <S.Row key={weekDayIndex}>
-                <div className="weekday">
-                  <p>
-                    <FormatWeekDayIndex value={weekDayIndex} format={'short'} />
-                  </p>
-                </div>
-
-                {weekDays.map((item, hour) => (
-                  <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
-                    {item.quantity <= 300 ? (
-                      <>
-                        <S.Circle />
-                      </>
-                    ) : item.quantity <= 600 ? (
-                      <S.Circle medium />
-                    ) : (
-                      <S.Circle big />
-                    )}
-                    <S.Tooltip className="dp-tooltip-chart">
-                      <p>
-                        <FormatWeekDayIndex value={weekDayIndex} format={'long'} />{' '}
-                        <span>{hour}h</span>
-                      </p>
-                      {item.withEmail || item.withoutEmail ? (
+                  {weekDays.map((item, hour) => (
+                    <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
+                      {item.quantity <= 300 ? (
                         <>
-                          <span>
-                            <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
-                            <span>{item.withEmail}</span>
-                          </span>
-                          <span>
-                            <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
-                            <span>{item.withoutEmail}</span>
-                          </span>
+                          <S.Circle />
                         </>
+                      ) : item.quantity <= 600 ? (
+                        <S.Circle medium />
                       ) : (
-                        <span>
-                          <FormattedMessage id="reports_hours_visits.users" />{' '}
-                          <span>{item.quantity}</span>
-                        </span>
+                        <S.Circle big />
                       )}
-                    </S.Tooltip>
-                  </S.Column>
-                ))}
-              </S.Row>
-            ))}
-            <S.Legend>
-              {hoursLegend.map((hour, index) => (
-                <span key={index}>{hour}</span>
+                      <S.Tooltip className="dp-tooltip-chart">
+                        <p>
+                          <FormatWeekDayIndex value={weekDayIndex} format={'long'} />{' '}
+                          <span>{hour}h</span>
+                        </p>
+                        {item.withEmail || item.withoutEmail ? (
+                          <>
+                            <span>
+                              <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
+                              <span>{item.withEmail}</span>
+                            </span>
+                            <span>
+                              <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
+                              <span>{item.withoutEmail}</span>
+                            </span>
+                          </>
+                        ) : (
+                          <span>
+                            <FormattedMessage id="reports_hours_visits.users" />{' '}
+                            <span>{item.quantity}</span>
+                          </span>
+                        )}
+                      </S.Tooltip>
+                    </S.Column>
+                  ))}
+                </S.Row>
               ))}
-            </S.Legend>
-          </S.List>
-        ) : (
-          <div className="dp-msj-error bounceIn">
-            <p>
-              <FormattedMessage id="trafficSources.error" />
-            </p>
-          </div>
-        )}
+              <S.Legend>
+                {hoursLegend.map((hour, index) => (
+                  <span key={index}>{hour}</span>
+                ))}
+              </S.Legend>
+            </S.List>
+          ) : (
+            <BoxMessage className="dp-msj-error bounceIn">
+              <p>
+                <FormattedMessage id="trafficSources.error" />
+              </p>
+            </BoxMessage>
+          )}
+        </S.ContentContainer>
       </div>
     </S.WrapperBoxContainer>
   );

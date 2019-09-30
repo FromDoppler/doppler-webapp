@@ -10,6 +10,14 @@ export const WrapperBoxContainer = styled.div`
   }
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > div {
+    width: 100%;
+  }
+`;
+
 export const List = styled.div`
   padding: ${spacings.spacesLvl3} ${spacings.spacesLvl6} ${spacings.spacesLvl5};
 `;

@@ -13,6 +13,14 @@ const slowGrowing = keyframes`
   }
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > div {
+    width: 100%;
+  }
+`;
+
 export const ListContainer = styled.div`
   display: flex;
   flex-flow: wrap;

@@ -6,6 +6,14 @@ import fonts from '../../styles/fonts';
 
 export const ReportBox = ({ children }) => <div className="reports-box">{children}</div>;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > div {
+    width: 100%;
+  }
+`;
+
 export const ListItem = styled.div`
   border-top: 1px solid ${colors.softGrey};
   border-bottom: 1px solid ${colors.softGrey};
