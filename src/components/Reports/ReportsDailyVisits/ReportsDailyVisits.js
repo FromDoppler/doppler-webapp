@@ -3,6 +3,8 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import C3Chart from '../../shared/C3Chart/C3Chart';
+import * as S from './ReportsDailyVisits.styles';
+import { BoxMessage } from '../../styles/messages';
 
 const chartDataOptions = {
   json: {},
@@ -127,17 +129,19 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
         <small className="title-reports-box">
           <FormattedMessage id="reports_daily_visits.title" />
         </small>
-        {state.loading ? (
-          <Loading />
-        ) : !state.chartData ? (
-          <div className="dp-msj-error bounceIn">
-            <p>
-              <FormattedMessage id="trafficSources.error" />
-            </p>
-          </div>
-        ) : (
-          <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />
-        )}
+        <S.ContentContainer>
+          {state.loading ? (
+            <Loading />
+          ) : !state.chartData ? (
+            <BoxMessage className="dp-msj-error bounceIn">
+              <p>
+                <FormattedMessage id="trafficSources.error" />
+              </p>
+            </BoxMessage>
+          ) : (
+            <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />
+          )}
+        </S.ContentContainer>
       </div>
     </div>
   );

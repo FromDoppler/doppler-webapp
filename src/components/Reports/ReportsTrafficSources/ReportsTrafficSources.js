@@ -42,99 +42,107 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
         <small className="title-reports-box">
           <FormattedMessage id="trafficSources.title" />
         </small>
-        <S.ListContainer>
+        <S.ContentContainer>
           {state.loading ? (
             <Loading />
-          ) : state.trafficSources ? (
-            state.trafficSources.items.map((trafficSource, index) => (
-              <S.ListItem key={index}>
-                <S.ListItemHeader>
-                  <h6>
-                    <FormattedMessage
-                      defaultMessage={trafficSource.sourceName}
-                      id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
-                    />
-                  </h6>
-                  <span>
-                    {trafficSource.quantity}
-                    <span>
-                      (
-                      <FormattedNumber
-                        value={trafficSource.quantity / state.trafficSources.total}
-                        {...numberFormatOptions}
-                      />
-                      )
-                    </span>
-                  </span>
-                </S.ListItemHeader>
-                {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
-                  <S.ListItemDetail>
-                    <div>
-                      <div>
-                        <p>
-                          <FormattedMessage id="trafficSources.users_with_email" />
-                        </p>
-                        <S.Bar
-                          primary
-                          style={{
-                            width: (trafficSource.withEmail / trafficSource.quantity) * 100 + '%',
-                          }}
-                        />
-                      </div>
-                      <span>
-                        {trafficSource.withEmail}
-                        <span>
-                          (
-                          <FormattedNumber
-                            value={trafficSource.withEmail / trafficSource.quantity}
-                            {...numberFormatOptions}
-                          />
-                          )
-                        </span>
-                      </span>
-                    </div>
-                    <div>
-                      <div>
-                        <p>
-                          <FormattedMessage id="trafficSources.users_without_email" />
-                        </p>
-                        <S.Bar
-                          style={{
-                            width:
-                              ((trafficSource.quantity - trafficSource.withEmail) /
-                                trafficSource.quantity) *
-                                100 +
-                              '%',
-                          }}
-                        />
-                      </div>
-                      <span>
-                        {trafficSource.withEmail}
-                        <span>
-                          (
-                          <FormattedNumber
-                            value={
-                              (trafficSource.quantity - trafficSource.withEmail) /
-                              trafficSource.quantity
-                            }
-                            {...numberFormatOptions}
-                          />
-                          )
-                        </span>
-                      </span>
-                    </div>
-                  </S.ListItemDetail>
-                ) : null}
-              </S.ListItem>
-            ))
-          ) : (
+          ) : !state.trafficSources ? (
             <BoxMessage className="dp-msj-error bounceIn">
               <p>
                 <FormattedMessage id="trafficSources.error" />
               </p>
             </BoxMessage>
+          ) : state.trafficSources.items.length === 0 ? (
+            <BoxMessage className="dp-msj-user bounceIn">
+              <p>
+                <FormattedMessage id="common.empty_data" />
+              </p>
+            </BoxMessage>
+          ) : (
+            <S.ListContainer>
+              {state.trafficSources.items.map((trafficSource, index) => (
+                <S.ListItem key={index}>
+                  <S.ListItemHeader>
+                    <h6>
+                      <FormattedMessage
+                        defaultMessage={trafficSource.sourceName}
+                        id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
+                      />
+                    </h6>
+                    <span>
+                      {trafficSource.quantity}
+                      <span>
+                        (
+                        <FormattedNumber
+                          value={trafficSource.quantity / state.trafficSources.total}
+                          {...numberFormatOptions}
+                        />
+                        )
+                      </span>
+                    </span>
+                  </S.ListItemHeader>
+                  {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
+                    <S.ListItemDetail>
+                      <div>
+                        <div>
+                          <p>
+                            <FormattedMessage id="trafficSources.users_with_email" />
+                          </p>
+                          <S.Bar
+                            primary
+                            style={{
+                              width: (trafficSource.withEmail / trafficSource.quantity) * 100 + '%',
+                            }}
+                          />
+                        </div>
+                        <span>
+                          {trafficSource.withEmail}
+                          <span>
+                            (
+                            <FormattedNumber
+                              value={trafficSource.withEmail / trafficSource.quantity}
+                              {...numberFormatOptions}
+                            />
+                            )
+                          </span>
+                        </span>
+                      </div>
+                      <div>
+                        <div>
+                          <p>
+                            <FormattedMessage id="trafficSources.users_without_email" />
+                          </p>
+                          <S.Bar
+                            style={{
+                              width:
+                                ((trafficSource.quantity - trafficSource.withEmail) /
+                                  trafficSource.quantity) *
+                                  100 +
+                                '%',
+                            }}
+                          />
+                        </div>
+                        <span>
+                          {trafficSource.withEmail}
+                          <span>
+                            (
+                            <FormattedNumber
+                              value={
+                                (trafficSource.quantity - trafficSource.withEmail) /
+                                trafficSource.quantity
+                              }
+                              {...numberFormatOptions}
+                            />
+                            )
+                          </span>
+                        </span>
+                      </div>
+                    </S.ListItemDetail>
+                  ) : null}
+                </S.ListItem>
+              ))}
+            </S.ListContainer>
           )}
-        </S.ListContainer>
+        </S.ContentContainer>
       </div>
     </div>
   );
