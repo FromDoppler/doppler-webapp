@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppServicesProvider } from './services/pure-di';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as ServerRouter } from 'react-router-dom';
+import { HashRouter as CdnRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import ReactGA from 'react-ga';
 // Only used in development environment, it does not affect production build
@@ -58,6 +59,9 @@ trackNavigation(window.location);
 history.listen((location) => {
   trackNavigation(location);
 });
+
+const isCdn = true;
+const Router = isCdn ? CdnRouter : ServerRouter;
 
 ReactDOM.render(
   <AppServicesProvider forcedServices={forcedServices}>
