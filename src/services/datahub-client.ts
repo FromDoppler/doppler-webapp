@@ -42,8 +42,10 @@ export interface DatahubClient {
     emailFilter?: emailFilterOptions;
   }): Promise<number>;
   getPagesRankingByPeriod(query: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
+    pageSize: number;
+    pageNumber: number;
   }): Promise<PageRankingResult>;
   getTrafficSourcesByPeriod(query: {
     domainName: string;
@@ -140,9 +142,13 @@ export class HttpDatahubClient implements DatahubClient {
   public async getPagesRankingByPeriod({
     domainName,
     dateFrom,
+    pageSize,
+    pageNumber,
   }: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
+    pageSize: number;
+    pageNumber: number;
   }): Promise<PageRankingResult> {
     try {
       const response = await this.customerGet<any>(
@@ -150,6 +156,8 @@ export class HttpDatahubClient implements DatahubClient {
         {
           startDate: dateFrom.toISOString(),
           sortBy: 'visitors',
+          pageSize: pageSize || 0,
+          pageNumber: pageNumber || 0,
         },
       );
 
