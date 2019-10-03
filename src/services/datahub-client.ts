@@ -149,6 +149,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/summarized-by-page`,
         {
           startDate: dateFrom.toISOString(),
+          includeEmailInfo: true,
           sortBy: 'visitors',
         },
       );
@@ -188,6 +189,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/summarized-by-source`,
         {
           startDate: dateFrom.toISOString(),
+          includeEmailInfo: true,
         },
       );
 
@@ -223,6 +225,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/quantity-summarized-by-period`,
         {
           startDate: dateFrom.toISOString(),
+          includeEmailInfo: true,
           periodBy: periodBy,
         },
       );
