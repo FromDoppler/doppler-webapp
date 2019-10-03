@@ -89,6 +89,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            includeEmailInfo: true,
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
@@ -113,6 +114,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            includeEmailInfo: true,
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
@@ -153,6 +155,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            includeEmailInfo: true,
             periodBy: 'days',
           },
           url:
@@ -186,6 +189,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            includeEmailInfo: true,
             periodBy: 'days',
           },
           url:
@@ -244,6 +248,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            includeEmailInfo: true,
             periodBy: 'days',
           },
           url:
