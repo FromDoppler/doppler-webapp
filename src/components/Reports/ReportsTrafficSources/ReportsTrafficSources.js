@@ -5,6 +5,10 @@ import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsTrafficSources.styles';
 import { BoxMessage } from '../../styles/messages';
 
+const SafeDivide = (number, quantity) => {
+  return quantity ? number / quantity : 0;
+};
+
 const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { datahubClient } }) {
   const [state, setState] = useState({ loading: true });
 
@@ -73,7 +77,7 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                       <span>
                         (
                         <FormattedNumber
-                          value={trafficSource.quantity / state.trafficSources.total}
+                          value={SafeDivide(trafficSource.quantity, state.trafficSources.total)}
                           {...numberFormatOptions}
                         />
                         )
@@ -90,7 +94,9 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                           <S.Bar
                             primary
                             style={{
-                              width: (trafficSource.withEmail / trafficSource.quantity) * 100 + '%',
+                              width:
+                                SafeDivide(trafficSource.withEmail, trafficSource.quantity) * 100 +
+                                '%',
                             }}
                           />
                         </div>
@@ -99,7 +105,7 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                           <span>
                             (
                             <FormattedNumber
-                              value={trafficSource.withEmail / trafficSource.quantity}
+                              value={SafeDivide(trafficSource.withEmail, trafficSource.quantity)}
                               {...numberFormatOptions}
                             />
                             )
@@ -114,8 +120,10 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                           <S.Bar
                             style={{
                               width:
-                                ((trafficSource.quantity - trafficSource.withEmail) /
-                                  trafficSource.quantity) *
+                                SafeDivide(
+                                  trafficSource.quantity - trafficSource.withEmail,
+                                  trafficSource.quantity,
+                                ) *
                                   100 +
                                 '%',
                             }}
@@ -126,10 +134,10 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
                           <span>
                             (
                             <FormattedNumber
-                              value={
-                                (trafficSource.quantity - trafficSource.withEmail) /
-                                trafficSource.quantity
-                              }
+                              value={SafeDivide(
+                                trafficSource.quantity - trafficSource.withEmail,
+                                trafficSource.quantity,
+                              )}
                               {...numberFormatOptions}
                             />
                             )
