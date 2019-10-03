@@ -60,8 +60,8 @@ history.listen((location) => {
   trackNavigation(location);
 });
 
-const isCdn = true;
-const Router = isCdn ? CdnRouter : ServerRouter;
+// Choose hash router for cdn only
+const Router = process.env.REACT_APP_CDN_BUILD === 'true' ? CdnRouter : ServerRouter;
 
 ReactDOM.render(
   <AppServicesProvider forcedServices={forcedServices}>
