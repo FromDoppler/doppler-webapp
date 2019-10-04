@@ -21,7 +21,7 @@ function createHttpDataHubClient(axios: any) {
   return dataHubClient;
 }
 
-const emptyTrafficSourceResponse = {
+const emptyCommonResponse = {
   data: {
     items: [],
   },
@@ -69,11 +69,28 @@ const fullDailyVisitsResponse = {
   },
 };
 
+const fullRankingByPeriodResponse = {
+  data: {
+    items: [
+      {
+        page: '/email-marketing',
+        visitorsQuantity: 10122,
+        withEmail: 400,
+      },
+      {
+        page: '/precios',
+        visitorsQuantity: 9000,
+        withEmail: 300,
+      },
+    ],
+  },
+};
+
 describe('HttpDataHubClient', () => {
   describe('getTrafficSourcesByPeriod', () => {
     it('should call datahub with the right url', async () => {
       // Arrange
-      const request = jest.fn(async () => emptyTrafficSourceResponse);
+      const request = jest.fn(async () => emptyCommonResponse);
 
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
@@ -251,6 +268,96 @@ describe('HttpDataHubClient', () => {
         }),
       );
       expect(response.success).toEqual(false);
+    });
+  });
+
+  describe('getPagesRankingByPeriod', () => {
+    it('should call datahub with the right url', async () => {
+      // Arrange
+      const request = jest.fn(async () => {
+        emptyCommonResponse;
+      });
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const pageNumber = 0;
+      const pageSize = 0;
+
+      // Act
+      await dataHubClient.getPagesRankingByPeriod({ domainName, dateFrom, pageNumber, pageSize });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            pageNumber: 0,
+            pageSize: 0,
+            sortBy: 'visitors',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-page',
+        }),
+      );
+    });
+
+    it('should call datahub and return correct data', async () => {
+      // Arrange
+      const request = jest.fn(async () => fullRankingByPeriodResponse);
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const pageNumber = 0;
+      const pageSize = 2;
+
+      // Act
+      const response = await dataHubClient.getPagesRankingByPeriod({
+        domainName,
+        dateFrom,
+        pageNumber,
+        pageSize,
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            pageNumber: 0,
+            pageSize: 2,
+            sortBy: 'visitors',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-page',
+        }),
+      );
+      expect(response).toEqual({
+        success: true,
+        value: [
+          {
+            name: '/email-marketing',
+            totalVisitors: 10122,
+            url: 'http://doppler.test/email-marketing',
+            withEmail: 400,
+          },
+          {
+            name: '/precios',
+            totalVisitors: 9000,
+            url: 'http://doppler.test/precios',
+            withEmail: 300,
+          },
+        ],
+      });
     });
   });
 });
