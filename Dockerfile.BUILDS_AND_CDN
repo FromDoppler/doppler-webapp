@@ -14,7 +14,7 @@ RUN yarn verify
 
 # Build project
 ARG environment
-ENV REACT_APP_CDN_BUILD=true
+ENV REACT_APP_ROUTER=hash
 RUN yarn build:$environment
 
 ## Publish to CDN layer
