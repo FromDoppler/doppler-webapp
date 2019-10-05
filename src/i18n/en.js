@@ -185,6 +185,7 @@ export default {
     users_without_email: `Users without email:`,
   },
   reports_pageranking: {
+    more_results: `Show more results`,
     top_pages: `Most visited pages`,
     total_visits: `Unique visitors`,
     visits_with_email: `Users with email`,
