@@ -160,11 +160,15 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getPagesRankingByPeriod({
     domainName,
     dateFrom,
+    pageSize,
+    pageNumber,
   }: {
-    domainName: number;
+    domainName: string;
     dateFrom: Date;
+    pageSize: number;
+    pageNumber: number;
   }): Promise<PageRankingResult> {
-    console.log('getPagesRankingByPeriod', { domainName, dateFrom });
+    console.log('getPagesRankingByPeriod', { domainName, dateFrom, pageSize, pageNumber });
     await timeout(1500);
     const pages = fakePagesData.map((x) => ({
       name: x.name,
@@ -173,9 +177,19 @@ export class HardcodedDatahubClient implements DatahubClient {
       withEmail: x.withEmail,
     }));
 
+    let pagesSubArray = [];
+
+    if (pageSize) {
+      const indexStart = pageSize * (pageNumber - 1);
+      const indexEnd = indexStart + pageSize - 1;
+      pagesSubArray = pages.slice(indexStart, indexEnd);
+    } else {
+      pagesSubArray = pages;
+    }
+
     return {
       success: true,
-      value: pages,
+      value: pagesSubArray,
     };
 
     // return {

@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppServicesProvider } from './services/pure-di';
-import { HashRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import ReactGA from 'react-ga';
 // Only used in development environment, it does not affect production build
@@ -58,6 +59,9 @@ trackNavigation(window.location);
 history.listen((location) => {
   trackNavigation(location);
 });
+
+// Choose hash router for cdn only
+const Router = process.env.REACT_APP_ROUTER === 'hash' ? HashRouter : BrowserRouter;
 
 ReactDOM.render(
   <AppServicesProvider forcedServices={forcedServices}>
