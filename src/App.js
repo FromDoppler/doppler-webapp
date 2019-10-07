@@ -92,7 +92,7 @@ class App extends Component {
               exact
               path="/"
               render={({ location }) =>
-                location.hash.length ? (
+                location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
                   <Redirect to={location.hash.replace('#', '')} />
                 ) : (
                   <RedirectToLegacyUrl to="/Campaigns/Draft" />
