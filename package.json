@@ -6,7 +6,7 @@
     "@semantic-release/exec": "^3.3.7",
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.2.0",
-    "@testing-library/react-hooks": "^2.0.1",
+    "@testing-library/react-hooks": "^2.0.3",
     "@types/intl-tel-input": "^14.0.1",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.9",
