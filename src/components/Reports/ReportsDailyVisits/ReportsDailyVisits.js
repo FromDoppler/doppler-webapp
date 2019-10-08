@@ -129,19 +129,20 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
         <small className="title-reports-box">
           <FormattedMessage id="reports_daily_visits.title" />
         </small>
-        <S.ContentContainer>
-          {state.loading ? (
-            <Loading />
-          ) : !state.chartData ? (
+
+        {state.loading ? (
+          <Loading />
+        ) : !state.chartData ? (
+          <S.ContentContainer>
             <BoxMessage className="dp-msj-error bounceIn">
               <p>
                 <FormattedMessage id="trafficSources.error" />
               </p>
             </BoxMessage>
-          ) : (
-            <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />
-          )}
-        </S.ContentContainer>
+          </S.ContentContainer>
+        ) : (
+          <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />
+        )}
       </div>
     </div>
   );
