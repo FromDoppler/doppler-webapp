@@ -5,7 +5,6 @@ import fonts from '../../styles/fonts';
 
 export const WrapperBoxContainer = styled.div`
   .reports-box {
-    width: 900px;
     overflow: visible;
   }
 `;
@@ -53,7 +52,7 @@ export const Row = styled.div`
 `;
 
 export const Column = styled.div`
-  width: 31px;
+  width: 46px;
   height: 31px;
   position: relative;
   display: flex;
@@ -68,7 +67,7 @@ export const Circle = styled.span`
   width: 11px;
   height: 11px;
   background-color: ${colors.purple1};
-  box-shadow: 0p 0p 0 30px rgba(255, 255, 255, 0);
+  box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);
   transition: box-shadow 0.4s;
 
   ${(props) =>
@@ -86,19 +85,18 @@ export const Circle = styled.span`
       height: 31px;
     `}
 
-   &:hover {
+  &:hover {
     box-shadow: 0 0 0 0 rgba(212, 189, 219, 0.6);
   }
 `;
 
 export const Legend = styled.div`
   display: flex;
-  width: 743px;
-  margin-left: 56px;
+  margin-left: 58px;
 
   span {
-    width: 31px;
-    margin-right: 31px;
+    width: 46px;
+    margin-right: 46px;
     text-align: center;
     font-size: 9px;
     color: ${colors.lightGrey};
