@@ -55,3 +55,30 @@ export const ListItemRightColumn = styled(ListItemColumn)`
     }
   }
 `;
+
+export const GridFooter = styled.div`
+  text-align: right;
+  padding: ${spacings.spacesLvl2} ${spacings.spacesLvl5} ${spacings.spacesLvl3} 0;
+  font-size: ${fonts.fontLvl3};
+  button {
+    text-transform: uppercase;
+  }
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 6px 0 6px;
+    border-color: ${colors.lightGrey} transparent transparent transparent;
+    margin-left: ${spacings.spacesLvl1};
+    display: inline-block;
+  }
+`;
+
+export const SpinnerContainer = styled.div`
+  position: relative;
+  height: 150px;
+  .loading-box {
+    background: none;
+  }
+`;

@@ -22,6 +22,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
 
   useEffect(() => {
     const fetchData = async () => {
+      setState((prevState) => ({ loading: true, pages: [...prevState.pages] }));
       const result = await datahubClient.getPagesRankingByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
@@ -43,7 +44,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
 
   return (
     <div className="wrapper-reports-box">
-      {state.loading ? (
+      {state.loading && state.pages && state.pages.length === 0 ? (
         <Loading />
       ) : (
         <S.ReportBox>
@@ -111,12 +112,16 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                     ) : null}
                   </S.ListItem>
                 ))}
-                {state.pages.length === pageSize ? (
-                  <div>
+                {state.loading ? (
+                  <S.SpinnerContainer>
+                    <Loading />
+                  </S.SpinnerContainer>
+                ) : state.pages.length === pageSize ? (
+                  <S.GridFooter>
                     <button onClick={showMoreResults}>
                       <FormattedMessage id="reports_pageranking.more_results" />
                     </button>
-                  </div>
+                  </S.GridFooter>
                 ) : null}
               </>
             )}
