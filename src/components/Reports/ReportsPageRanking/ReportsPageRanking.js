@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
@@ -11,10 +11,28 @@ const numberFormatOptions = {
   maximumFractionDigits: 2,
 };
 
+// Hook
+function usePrevious(value) {
+  // The ref object is a generic container whose current property is mutable ...
+  // ... and can hold any value, similar to an instance property on a class
+  const ref = useRef();
+
+  // Store current value in ref
+  useEffect(() => {
+    ref.current = value;
+  }, [value]); // Only re-run if value changes
+
+  // Return previous value (happens before update in useEffect above)
+  return ref.current;
+}
+
 const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
   const [state, setState] = useState({ loading: true, pages: [] });
   const pageSize = 2;
   const [pageNumber, setPageNumber] = useState(1);
+
+  // Get the previous value (was passed into hook on last render)
+  const prevCount = usePrevious(pageNumber);
 
   const showMoreResults = () => {
     setPageNumber(pageNumber + 1);
@@ -39,8 +57,17 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
       }
     };
 
-    fetchData();
-  }, [datahubClient, domainName, dateFrom, pageNumber]);
+    if (prevCount !== pageNumber) {
+      fetchData();
+    }
+
+    return () => {
+      if (pageNumber !== 1 && prevCount === pageNumber) {
+        setPageNumber(1);
+        setState({ pages: [] });
+      }
+    };
+  }, [datahubClient, domainName, dateFrom, pageNumber, prevCount]);
 
   return (
     <div className="wrapper-reports-box">
