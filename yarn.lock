@@ -6930,10 +6930,10 @@ intl-messageformat@^7.3.1:
     intl-format-cache "^4.2.1"
     intl-messageformat-parser "^3.2.0"
 
-intl-tel-input@^16.0.4:
-  version "16.0.4"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.4.tgz#e5bd17a879a0305d3d52e015c6883a1187806b28"
-  integrity sha512-uZ2+LNFa2foTo/aGj1Tkj/CDH5qSrqaLFP+FtuOjjZ9OvBuApEFgq12sMyDl+9Upr9devcbliJuAA4TJ7LsRYA==
+intl-tel-input@^16.0.5:
+  version "16.0.5"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.5.tgz#d02431473a1eecec297cbb416cdd3e80432ec075"
+  integrity sha512-gqgFkKyIj+Tlpd8RzSUV8cFAZ2Y4aPE6sTz7DvdRS7uIVIVr0z+KemIJlhQkn4g4BvJ/jlXjDNfIqF5okr5ArQ==
 
 into-stream@^5.0.0:
   version "5.1.0"
