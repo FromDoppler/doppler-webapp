@@ -28,7 +28,7 @@ const FormatWeekDayIndex = ({ value, format }) => {
   );
 };
 
-const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
+const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { datahubClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   useEffect(() => {
@@ -37,6 +37,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
       const hoursVisitsdata = await datahubClient.getVisitsQuantitySummarizedByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
+        dateTo: dateTo,
         periodBy: 'hours',
       });
       if (!hoursVisitsdata.success) {
@@ -60,7 +61,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dependencies: { datahubClien
     };
 
     fetchData();
-  }, [datahubClient, dateFrom, domainName]);
+  }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
     <S.WrapperBoxContainer className="wrapper-reports-box">

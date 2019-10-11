@@ -40,7 +40,7 @@ class Reports extends React.Component {
   async componentDidMount() {
     const domains = await this.datahubClient.getAccountDomains();
     const domainSelected = domains.length ? domains[0] : null;
-    let dateFrom = new Date();
+    const dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
     this.setState({
       domains: domains,
@@ -55,7 +55,7 @@ class Reports extends React.Component {
   };
 
   changePeriod = (days) => {
-    let dateFrom = new Date();
+    const dateFrom = new Date();
     dateFrom.setDate(dateFrom.getDate() - days);
     this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: new Date() });
   };
@@ -102,6 +102,7 @@ class Reports extends React.Component {
               <ReportsDailyVisits
                 domainName={this.state.domainSelected.name}
                 dateFrom={this.state.dateFrom}
+                dateTo={this.state.dateTo}
               />
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}

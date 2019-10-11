@@ -227,13 +227,15 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getVisitsQuantitySummarizedByPeriod({
     domainName,
     dateFrom,
+    dateTo,
     periodBy,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     periodBy: filterByPeriodOptions;
   }): Promise<VisitsQuantitySummarizedResult> {
-    console.log('getVisitsQuantitySummarizedByPeriod', { domainName, dateFrom });
+    console.log('getVisitsQuantitySummarizedByPeriod', { domainName, dateFrom, dateTo });
     await timeout(1000);
 
     const data = periodBy === 'days' ? fakeDailyVisitsData : getFakeHoursVisitsData();

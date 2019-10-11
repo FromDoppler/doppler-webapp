@@ -220,10 +220,12 @@ export class HttpDatahubClient implements DatahubClient {
   public async getVisitsQuantitySummarizedByPeriod({
     domainName,
     dateFrom,
+    dateTo,
     periodBy,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     periodBy: filterByPeriodOptions;
   }): Promise<VisitsQuantitySummarizedResult> {
     try {
@@ -231,6 +233,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/quantity-summarized-by-period`,
         {
           startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
           periodBy: periodBy,
         },
       );

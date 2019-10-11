@@ -10,7 +10,7 @@ const chartDataOptions = {
   json: {},
 };
 
-const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
+const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { datahubClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   const intl = useIntl();
@@ -98,6 +98,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
       const dailyVisitsData = await datahubClient.getVisitsQuantitySummarizedByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
+        dateTo: dateTo,
         periodBy: 'days',
       });
       if (!dailyVisitsData.success) {
@@ -121,7 +122,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dependencies: { datahubClien
     };
 
     fetchData();
-  }, [datahubClient, dateFrom, domainName]);
+  }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
     <div className="wrapper-reports-box">
