@@ -31,7 +31,7 @@ echo pkgBuild: $pkgBuild
 echo pkgCommitId: $pkgCommitId
 
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
-docker pull dopplerrelay/doppler-relay-akamai-publish
+docker pull dopplerrelay/doppler-relay-akamai-publish || echo WARNING: Cannot pull `doppler-relay-akamai-publish` image from dockerhub
 
 for environment in ${environments}; do
     echo Publishing ${environment}...
