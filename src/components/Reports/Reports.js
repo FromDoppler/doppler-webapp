@@ -13,6 +13,7 @@ import {
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { Helmet } from 'react-helmet';
 import { Loading } from '../Loading/Loading';
+import { addDays } from '../../utils';
 
 class Reports extends React.Component {
   /**
@@ -41,7 +42,7 @@ class Reports extends React.Component {
     const domains = await this.datahubClient.getAccountDomains();
     const domainSelected = domains.length ? domains[0] : null;
     const now = new Date();
-    const dateFrom = this.addDays(now, parseInt(this.state.periodSelectedDays) * -1);
+    const dateFrom = addDays(now, parseInt(this.state.periodSelectedDays) * -1);
     this.setState({
       domains: domains,
       domainSelected: domainSelected,
@@ -55,14 +56,9 @@ class Reports extends React.Component {
     this.setState({ domainSelected: domainFound });
   };
 
-  addDays = (date, days) => {
-    const newDate = new Date(date);
-    return newDate.setDate(date.getDate() + days);
-  };
-
   changePeriod = (days) => {
     const now = new Date();
-    const dateFrom = this.addDays(now, days * -1);
+    const dateFrom = addDays(now, days * -1);
     this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: now });
   };
 
