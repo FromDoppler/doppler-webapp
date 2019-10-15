@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
@@ -11,67 +11,54 @@ const numberFormatOptions = {
   maximumFractionDigits: 2,
 };
 
-// Hook
-function usePrevious(value) {
-  // The ref object is a generic container whose current property is mutable ...
-  // ... and can hold any value, similar to an instance property on a class
-  const ref = useRef();
-
-  // Store current value in ref
-  useEffect(() => {
-    ref.current = value;
-  }, [value]); // Only re-run if value changes
-
-  // Return previous value (happens before update in useEffect above)
-  return ref.current;
-}
+const pageSize = 2;
+const initialState = { pages: [], page: 0, loading: true };
 
 const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
-  const [state, setState] = useState({ loading: true, pages: [] });
-  const pageSize = 2;
-  const [pageNumber, setPageNumber] = useState(1);
+  const [state, dispatchListEvent] = useReducer((prevState, action) => {
+    switch (action.type) {
+      case 'loadingMore':
+        return { ...prevState, loading: true };
+      case 'moreLoaded':
+        return { pages: [...prevState.pages, ...action.pages], page: prevState.page + 1 };
+      case 'errorOnLoad':
+        return { ...prevState, loading: false, error: true };
+      case 'reset':
+      default:
+        return initialState;
+    }
+  }, initialState);
 
-  // Get the previous value (was passed into hook on last render)
-  const prevCount = usePrevious(pageNumber);
+  const fetchData = async (datahubClient, domainName, dateFrom, pageNumber) => {
+    dispatchListEvent({ type: 'loadingMore' });
+    const result = await datahubClient.getPagesRankingByPeriod({
+      domainName: domainName,
+      dateFrom: dateFrom,
+      pageSize: pageSize,
+      pageNumber: pageNumber,
+    });
+    if (!result.success) {
+      dispatchListEvent({ type: 'errorOnLoad' });
+    } else {
+      dispatchListEvent({ type: 'moreLoaded', pages: result.value });
+    }
+  };
 
   const showMoreResults = () => {
-    setPageNumber(pageNumber + 1);
+    fetchData(datahubClient, domainName, dateFrom, state.page + 1);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setState((prevState) => ({ loading: true, pages: [...prevState.pages] }));
-      const result = await datahubClient.getPagesRankingByPeriod({
-        domainName: domainName,
-        dateFrom: dateFrom,
-        pageSize: pageSize,
-        pageNumber: pageNumber,
-      });
-      if (!result.success) {
-        setState({ loading: false });
-      } else {
-        setState((prevState) => ({
-          loading: false,
-          pages: [...prevState.pages, ...result.value],
-        }));
-      }
-    };
-
-    if (prevCount !== pageNumber) {
-      fetchData();
-    }
+    fetchData(datahubClient, domainName, dateFrom, 1);
 
     return () => {
-      if (pageNumber !== 1 && prevCount === pageNumber) {
-        setPageNumber(1);
-        setState({ pages: [] });
-      }
+      dispatchListEvent({ type: 'reset' });
     };
-  }, [datahubClient, domainName, dateFrom, pageNumber, prevCount]);
+  }, [datahubClient, domainName, dateFrom]);
 
   return (
     <div className="wrapper-reports-box">
-      {state.loading && state.pages && state.pages.length === 0 ? (
+      {state.loading && state.pages.length === 0 ? (
         <Loading />
       ) : (
         <S.ReportBox>
@@ -79,18 +66,20 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
             <FormattedMessage id="reports_pageranking.top_pages" />
           </small>
           <S.ContentContainer>
-            {!state.pages ? (
-              <BoxMessage className="dp-msj-error bounceIn">
-                <p>
-                  <FormattedMessage id="trafficSources.error" />
-                </p>
-              </BoxMessage>
-            ) : state.pages.length === 0 ? (
-              <BoxMessage className="dp-msj-user bounceIn">
-                <p>
-                  <FormattedMessage id="common.empty_data" />
-                </p>
-              </BoxMessage>
+            {state.pages.length === 0 ? (
+              !state.error ? (
+                <BoxMessage className="dp-msj-user bounceIn">
+                  <p>
+                    <FormattedMessage id="common.empty_data" />
+                  </p>
+                </BoxMessage>
+              ) : (
+                <BoxMessage className="dp-msj-error bounceIn">
+                  <p>
+                    <FormattedMessage id="trafficSources.error" />
+                  </p>
+                </BoxMessage>
+              )
             ) : (
               <>
                 {state.pages.map((item, index) => (
@@ -143,6 +132,12 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
                   <S.SpinnerContainer>
                     <Loading />
                   </S.SpinnerContainer>
+                ) : state.error ? (
+                  <BoxMessage className="dp-msj-error bounceIn">
+                    <p>
+                      <FormattedMessage id="trafficSources.error" />
+                    </p>
+                  </BoxMessage>
                 ) : state.pages.length === pageSize ? (
                   <S.GridFooter>
                     <button onClick={showMoreResults}>
