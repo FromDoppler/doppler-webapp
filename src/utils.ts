@@ -70,3 +70,8 @@ export class ResponseCache {
     return this._cachedResults[functionName].value;
   }
 }
+
+export function addDays(date: Date, days: number) {
+  const newDate = new Date(date);
+  return newDate.setDate(date.getDate() + days);
+}

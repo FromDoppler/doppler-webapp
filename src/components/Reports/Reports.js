@@ -13,6 +13,7 @@ import {
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { Helmet } from 'react-helmet';
 import { Loading } from '../Loading/Loading';
+import { addDays } from '../../utils';
 
 class Reports extends React.Component {
   /**
@@ -29,7 +30,7 @@ class Reports extends React.Component {
       domains: null,
       domainSelected: null,
       periodSelectedDays: 7,
-      dateTo: new Date(),
+      dateTo: null,
       dateFrom: null,
     };
 
@@ -40,12 +41,13 @@ class Reports extends React.Component {
   async componentDidMount() {
     const domains = await this.datahubClient.getAccountDomains();
     const domainSelected = domains.length ? domains[0] : null;
-    let dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
+    const now = new Date();
+    const dateFrom = addDays(now, parseInt(this.state.periodSelectedDays) * -1);
     this.setState({
       domains: domains,
       domainSelected: domainSelected,
       dateFrom: dateFrom,
+      dateTo: now,
     });
   }
 
@@ -55,9 +57,9 @@ class Reports extends React.Component {
   };
 
   changePeriod = (days) => {
-    let dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - days);
-    this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: new Date() });
+    const now = new Date();
+    const dateFrom = addDays(now, days * -1);
+    this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: now });
   };
 
   render = () => (
@@ -102,6 +104,7 @@ class Reports extends React.Component {
               <ReportsDailyVisits
                 domainName={this.state.domainSelected.name}
                 dateFrom={this.state.dateFrom}
+                dateTo={this.state.dateTo}
               />
               <ReportsTrafficSources
                 domainName={this.state.domainSelected.name}

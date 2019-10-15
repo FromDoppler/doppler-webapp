@@ -155,10 +155,16 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
       const periodBy = 'days';
 
       // Act
-      await dataHubClient.getVisitsQuantitySummarizedByPeriod({ domainName, dateFrom, periodBy });
+      await dataHubClient.getVisitsQuantitySummarizedByPeriod({
+        domainName,
+        dateFrom,
+        dateTo,
+        periodBy,
+      });
 
       // Assert
       expect(request).toBeCalledTimes(1);
@@ -170,6 +176,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
             periodBy: 'days',
           },
           url:
@@ -185,12 +192,14 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
       const periodBy = 'days';
 
       // Act
       const response = await dataHubClient.getVisitsQuantitySummarizedByPeriod({
         domainName,
         dateFrom,
+        dateTo,
         periodBy,
       });
       // Assert
@@ -203,6 +212,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
             periodBy: 'days',
           },
           url:
@@ -242,12 +252,14 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
       const periodBy = 'days';
 
       // Act
       const response = await dataHubClient.getVisitsQuantitySummarizedByPeriod({
         domainName,
         dateFrom,
+        dateTo,
         periodBy,
       });
 
@@ -261,6 +273,7 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
             periodBy: 'days',
           },
           url:
