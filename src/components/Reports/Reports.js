@@ -29,7 +29,7 @@ class Reports extends React.Component {
       domains: null,
       domainSelected: null,
       periodSelectedDays: 7,
-      dateTo: new Date(),
+      dateTo: null,
       dateFrom: null,
     };
 
@@ -40,12 +40,13 @@ class Reports extends React.Component {
   async componentDidMount() {
     const domains = await this.datahubClient.getAccountDomains();
     const domainSelected = domains.length ? domains[0] : null;
-    const dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - parseInt(this.state.periodSelectedDays));
+    const now = new Date();
+    const dateFrom = this.addDays(now, parseInt(this.state.periodSelectedDays) * -1);
     this.setState({
       domains: domains,
       domainSelected: domainSelected,
       dateFrom: dateFrom,
+      dateTo: now,
     });
   }
 
@@ -54,10 +55,15 @@ class Reports extends React.Component {
     this.setState({ domainSelected: domainFound });
   };
 
+  addDays = (date, days) => {
+    const newDate = new Date(date);
+    return newDate.setDate(date.getDate() + days);
+  };
+
   changePeriod = (days) => {
-    const dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - days);
-    this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: new Date() });
+    const now = new Date();
+    const dateFrom = this.addDays(now, days * -1);
+    this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: now });
   };
 
   render = () => (
