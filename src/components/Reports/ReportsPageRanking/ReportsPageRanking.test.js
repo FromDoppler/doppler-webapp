@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait } from '@testing-library/react';
+import { render, cleanup, wait, waitForDomChange } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import ReportsPageRanking from './ReportsPageRanking';
@@ -70,5 +70,45 @@ describe('Reports pages ranking', () => {
     const pageName = getByText('https://www.fromdoppler.com/email-marketing');
 
     expect(pageName).toBeDefined();
+  });
+
+  it('should show error message without pages', async () => {
+    const datahubClientDouble = {
+      getPagesRankingByPeriod: async () => {
+        return { success: false, error: '' };
+      },
+    };
+
+    const { getByText, container } = render(
+      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
+        <DopplerIntlProvider>
+          <ReportsPageRanking domainName={domain} dateTo={fakeDate} dateFrom={fakeDate} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    await waitForDomChange();
+    expect(getByText('trafficSources.error'));
+  });
+
+  it('should show empty message when dont have pages', async () => {
+    const datahubClientDouble = {
+      getPagesRankingByPeriod: async () => {
+        return { success: true, value: [] };
+      },
+    };
+
+    const { getByText, container } = render(
+      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
+        <DopplerIntlProvider>
+          <ReportsPageRanking domainName={domain} dateTo={fakeDate} dateFrom={fakeDate} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    await waitForDomChange();
+    expect(getByText('common.empty_data'));
   });
 });

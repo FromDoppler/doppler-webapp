@@ -44,9 +44,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
     }
   };
 
-  const showMoreResults = () => {
-    fetchData(datahubClient, domainName, dateFrom, state.page + 1);
-  };
+  const showMoreResults = () => fetchData(datahubClient, domainName, dateFrom, state.page + 1);
 
   useEffect(() => {
     fetchData(datahubClient, domainName, dateFrom, 1);
