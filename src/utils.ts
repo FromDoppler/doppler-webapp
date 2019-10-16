@@ -73,5 +73,6 @@ export class ResponseCache {
 
 export function addDays(date: Date, days: number) {
   const newDate = new Date(date);
-  return newDate.setDate(date.getDate() + days);
+  newDate.setDate(date.getDate() + days);
+  return newDate;
 }
