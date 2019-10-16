@@ -1,5 +1,5 @@
 import 'jest';
-import { getDataHubParams, useInterval } from './utils';
+import { getDataHubParams, useInterval, addDays } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 
 describe('utils', () => {
@@ -126,6 +126,27 @@ describe('utils', () => {
       jest.advanceTimersByTime(200);
       // Assert
       expect(counter).toBe(3);
+    });
+  });
+
+  describe('addDays feature', () => {
+    it('should return a valid date, without mutating the base date', () => {
+      // Arrange
+      const initialDate = new Date();
+      // Act
+      const resultDate = addDays(initialDate, 3);
+      // Assert
+      expect(resultDate.toISOString()).toBeDefined();
+      expect(initialDate).not.toEqual(resultDate);
+    });
+
+    it('should add three exact days to start date', () => {
+      // Arrange
+      const initialDate = new Date();
+      // Act
+      const resultDate = addDays(initialDate, 3);
+      // Assert
+      expect(resultDate.getDate() - initialDate.getDate()).toBe(3);
     });
   });
 });
