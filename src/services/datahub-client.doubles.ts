@@ -181,7 +181,7 @@ export class HardcodedDatahubClient implements DatahubClient {
 
     if (pageSize) {
       const indexStart = pageSize * (pageNumber - 1);
-      const indexEnd = indexStart + pageSize - 1;
+      const indexEnd = indexStart + pageSize;
       pagesSubArray = pages.slice(indexStart, indexEnd);
     } else {
       pagesSubArray = pages;
