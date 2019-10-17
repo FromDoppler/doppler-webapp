@@ -235,6 +235,7 @@ export class HttpDatahubClient implements DatahubClient {
           startDate: dateFrom.toISOString(),
           endDate: dateTo.toISOString(),
           periodBy: periodBy,
+          uniqueVisites: true,
         },
       );
 

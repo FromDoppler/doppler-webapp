@@ -178,6 +178,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-08T00:00:00.000Z',
             periodBy: 'days',
+            uniqueVisites: true,
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/quantity-summarized-by-period',
@@ -214,6 +215,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-08T00:00:00.000Z',
             periodBy: 'days',
+            uniqueVisites: true,
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/quantity-summarized-by-period',
@@ -275,6 +277,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-08T00:00:00.000Z',
             periodBy: 'days',
+            uniqueVisites: true,
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/quantity-summarized-by-period',
