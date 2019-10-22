@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
@@ -15,54 +15,51 @@ import { Helmet } from 'react-helmet';
 import { Loading } from '../Loading/Loading';
 import { addDays } from '../../utils';
 
-class Reports extends React.Component {
-  /**
-   * @param { Object } props
-   * @param { import('../../services/pure-di').AppServices } props.dependencies
-   */
-  constructor({ dependencies: { datahubClient, appConfiguration } }) {
-    super();
+const periodSelectedDaysDefault = 7;
 
-    this.datahubClient = datahubClient;
-    this.appConfiguration = appConfiguration;
+/**
+ * @param { Object } props
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
+ */
 
-    this.state = {
-      domains: null,
-      domainSelected: null,
-      periodSelectedDays: 7,
-      dateTo: null,
-      dateFrom: null,
-    };
+const Reports = ({ dependencies: { datahubClient } }) => {
+  const now = new Date();
+  const [state, setState] = useState({
+    periodSelectedDays: periodSelectedDaysDefault,
+    dateFrom: addDays(now, periodSelectedDaysDefault * -1),
+    dateTo: now,
+  });
 
-    this.changeDomain = this.changeDomain.bind(this);
-    this.changePeriod = this.changePeriod.bind(this);
-  }
-
-  async componentDidMount() {
-    const domains = await this.datahubClient.getAccountDomains();
-    const domainSelected = domains.length ? domains[0] : null;
-    const now = new Date();
-    const dateFrom = addDays(now, parseInt(this.state.periodSelectedDays) * -1);
-    this.setState({
-      domains: domains,
-      domainSelected: domainSelected,
-      dateFrom: dateFrom,
-      dateTo: now,
-    });
-  }
-
-  changeDomain = async (name) => {
-    const domainFound = this.state.domains.find((item) => item.name === name);
-    this.setState({ domainSelected: domainFound });
+  const changeDomain = async (name) => {
+    const domainFound = state.domains.find((item) => item.name === name);
+    setState((prevState) => ({ ...prevState, domainSelected: domainFound }));
   };
 
-  changePeriod = (days) => {
+  const changePeriod = (days) => {
     const now = new Date();
     const dateFrom = addDays(now, days * -1);
-    this.setState({ periodSelectedDays: days, dateFrom: dateFrom, dateTo: now });
+    setState((prevState) => ({
+      ...prevState,
+      periodSelectedDays: days,
+      dateFrom: dateFrom,
+      dateTo: now,
+    }));
   };
 
-  render = () => (
+  useEffect(() => {
+    const fetchData = async () => {
+      const domains = await datahubClient.getAccountDomains();
+      setState((prevState) => ({
+        ...prevState,
+        domains: domains,
+        domainSelected: domains.length ? domains[0] : null,
+      }));
+    };
+
+    fetchData();
+  }, [datahubClient]);
+
+  return (
     <>
       <FormattedMessage id="reports_title">
         {(reports_title) => (
@@ -71,54 +68,54 @@ class Reports extends React.Component {
           </Helmet>
         )}
       </FormattedMessage>
-      {this.state.domains && !this.state.domainSelected ? (
+      {state.domains && !state.domainSelected ? (
         <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.thereAreNotDomains} />
       ) : (
         <>
           <ReportsFilters
-            changeDomain={this.changeDomain}
-            domains={this.state.domains}
-            domainSelected={this.state.domainSelected}
-            periodSelectedDays={this.state.periodSelectedDays}
-            changePeriod={this.changePeriod}
+            changeDomain={changeDomain}
+            domains={state.domains}
+            domainSelected={state.domainSelected}
+            periodSelectedDays={state.periodSelectedDays}
+            changePeriod={changePeriod}
           />
-          {!this.state.domains ? (
+          {!state.domains ? (
             <Loading />
           ) : (
             <section className="container-reports">
               <div className="wrapper-kpi">
                 <ReportsBox
-                  domainName={this.state.domainSelected.name}
-                  periodSelectedDays={this.state.periodSelectedDays}
-                  dateTo={this.state.dateTo}
-                  dateFrom={this.state.dateFrom}
+                  domainName={state.domainSelected.name}
+                  periodSelectedDays={state.periodSelectedDays}
+                  dateTo={state.dateTo}
+                  dateFrom={state.dateFrom}
                   withoutEmail
                 />
                 <ReportsBox
-                  domainName={this.state.domainSelected.name}
-                  dateTo={this.state.dateTo}
-                  dateFrom={this.state.dateFrom}
+                  domainName={state.domainSelected.name}
+                  dateTo={state.dateTo}
+                  dateFrom={state.dateFrom}
                   withEmail
                 />
               </div>
               <ReportsDailyVisits
-                domainName={this.state.domainSelected.name}
-                dateFrom={this.state.dateFrom}
-                dateTo={this.state.dateTo}
+                domainName={state.domainSelected.name}
+                dateFrom={state.dateFrom}
+                dateTo={state.dateTo}
               />
               <ReportsTrafficSources
-                domainName={this.state.domainSelected.name}
-                dateFrom={this.state.dateFrom}
+                domainName={state.domainSelected.name}
+                dateFrom={state.dateFrom}
               />
               <ReportsHoursVisits
-                domainName={this.state.domainSelected.name}
-                dateTo={this.state.dateTo}
-                dateFrom={this.state.dateFrom}
+                domainName={state.domainSelected.name}
+                dateTo={state.dateTo}
+                dateFrom={state.dateFrom}
               />
               <ReportsPageRanking
-                domainName={this.state.domainSelected.name}
-                dateTo={this.state.dateTo}
-                dateFrom={this.state.dateFrom}
+                domainName={state.domainSelected.name}
+                dateTo={state.dateTo}
+                dateFrom={state.dateFrom}
               />
             </section>
           )}
@@ -126,6 +123,6 @@ class Reports extends React.Component {
       )}
     </>
   );
-}
+};
 
 export default InjectAppServices(Reports);
