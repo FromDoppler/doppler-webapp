@@ -176,9 +176,9 @@ export default {
     week_with_plural: `{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }`,
   },
   reports_hours_visits: {
-    few_visits: `0 to 300`,
-    lot_visits: `+600`,
-    medium_visits: `300 to 600`,
+    few_visits: '0 to {max}',
+    lot_visits: `+{min}`,
+    medium_visits: `{min} to {max}`,
     title: `Day of week and hours`,
     users: `Pages views:`,
     users_with_email: `Users with email:`,

@@ -43,19 +43,27 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       if (!hoursVisitsdata.success) {
         setState({ loading: false });
       } else {
-        const visitsByWeekDayAndHour = hoursVisitsdata.value.reduce((accumulator, item) => {
-          const weekDay = item.from.getUTCDay();
-          const hour = item.from.getUTCHours();
-          accumulator[weekDay][hour].quantity += item.quantity;
-          if (item.withEmail || item.withEmail === 0) {
-            accumulator[weekDay][hour].withEmail += item.withEmail;
-            accumulator[weekDay][hour].withoutEmail += item.withoutEmail;
-          }
-          return accumulator;
-        }, createEmptyWeekDayHoursMatrix());
+        const processedVisits = hoursVisitsdata.value.reduce(
+          (accumulator, item) => {
+            const weekDay = item.from.getUTCDay();
+            const hour = item.from.getUTCHours();
+            accumulator.byWeekDayAndHour[weekDay][hour].quantity += item.quantity;
+            if (item.withEmail || item.withEmail === 0) {
+              accumulator.byWeekDayAndHour[weekDay][hour].withEmail += item.withEmail;
+              accumulator.byWeekDayAndHour[weekDay][hour].withoutEmail += item.withoutEmail;
+            }
+            if (item.quantity > accumulator.max) {
+              accumulator.max = item.quantity;
+            }
+            return accumulator;
+          },
+          { byWeekDayAndHour: createEmptyWeekDayHoursMatrix(), max: 0 },
+        );
         setState({
           loading: false,
-          visits: visitsByWeekDayAndHour,
+          visits: processedVisits.byWeekDayAndHour,
+          minRange: processedVisits.max / 3,
+          mediumRange: processedVisits.max * (2 / 3),
         });
       }
     };
@@ -76,7 +84,10 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
                 <S.Circle />
               </div>
               <p>
-                <FormattedMessage id="reports_hours_visits.few_visits" />
+                <FormattedMessage
+                  id="reports_hours_visits.few_visits"
+                  values={{ max: Math.floor(state.minRange) }}
+                />
               </p>
             </div>
             <div>
@@ -84,7 +95,10 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
                 <S.Circle medium />
               </div>
               <p>
-                <FormattedMessage id="reports_hours_visits.medium_visits" />
+                <FormattedMessage
+                  id="reports_hours_visits.medium_visits"
+                  values={{ min: Math.floor(state.minRange), max: Math.floor(state.mediumRange) }}
+                />
               </p>
             </div>
             <div>
@@ -92,7 +106,10 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
                 <S.Circle big />
               </div>
               <p>
-                <FormattedMessage id="reports_hours_visits.lot_visits" />
+                <FormattedMessage
+                  id="reports_hours_visits.lot_visits"
+                  values={{ min: Math.floor(state.mediumRange) }}
+                />
               </p>
             </div>
           </div>
@@ -112,11 +129,11 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
 
                   {weekDays.map((item, hour) => (
                     <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
-                      {item.quantity <= 300 ? (
+                      {item.quantity <= state.minRange ? (
                         <>
                           <S.Circle />
                         </>
-                      ) : item.quantity <= 600 ? (
+                      ) : item.quantity <= state.mediumRange ? (
                         <S.Circle medium />
                       ) : (
                         <S.Circle big />
