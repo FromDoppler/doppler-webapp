@@ -6936,10 +6936,10 @@ intl-messageformat@^7.3.1:
     intl-format-cache "^4.2.1"
     intl-messageformat-parser "^3.2.0"
 
-intl-tel-input@^16.0.5:
-  version "16.0.5"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.5.tgz#d02431473a1eecec297cbb416cdd3e80432ec075"
-  integrity sha512-gqgFkKyIj+Tlpd8RzSUV8cFAZ2Y4aPE6sTz7DvdRS7uIVIVr0z+KemIJlhQkn4g4BvJ/jlXjDNfIqF5okr5ArQ==
+intl-tel-input@^16.0.6:
+  version "16.0.6"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-16.0.6.tgz#068ff28ea1c9df035e52a74aaf454701f0c1e815"
+  integrity sha512-bpW5n36iKfTmbaewRgA7i9RsWwfwcU+KqVmVFEgLWxf+HmnkiytzaK2HgbFpFRUFrIgbdKNRA2+hL3eaP6K3VQ==
 
 into-stream@^5.0.0:
   version "5.1.0"
