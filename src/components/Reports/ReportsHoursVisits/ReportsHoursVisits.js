@@ -45,8 +45,8 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       } else {
         const processedVisits = hoursVisitsdata.value.reduce(
           (accumulator, item) => {
-            const weekDay = item.from.getUTCDay();
-            const hour = item.from.getUTCHours();
+            const weekDay = item.from.getDay();
+            const hour = item.from.getHours();
             accumulator.byWeekDayAndHour[weekDay][hour].quantity += item.quantity;
             if (item.withEmail || item.withEmail === 0) {
               accumulator.byWeekDayAndHour[weekDay][hour].withEmail += item.withEmail;

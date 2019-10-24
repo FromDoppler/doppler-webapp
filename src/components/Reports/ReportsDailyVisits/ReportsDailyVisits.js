@@ -23,7 +23,6 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       contents: function(data) {
         if (data.length) {
           const date = intl.formatDate(data[0].x, {
-            timeZone: 'UTC',
             day: 'numeric',
             month: 'long',
             year: 'numeric',
@@ -74,7 +73,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
         tick: {
           culling: false,
           format: (x) => {
-            return intl.formatDate(x, { timeZone: 'UTC', month: 'short', day: '2-digit' });
+            return intl.formatDate(x, { month: 'short', day: '2-digit' });
           },
         },
       },

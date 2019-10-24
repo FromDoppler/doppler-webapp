@@ -87,9 +87,8 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_with_email" />
               </h6>
               <small className="date-range">
-                <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
-                <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} timeZone="UTC" />
+                <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
+                <FormattedDate value={dateTo} />
               </small>
             </div>
 
@@ -105,9 +104,8 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_without_emails" />
               </h6>
               <small className="date-range">
-                <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
-                <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} timeZone="UTC" />
+                <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
+                <FormattedDate value={dateTo} />
               </small>
             </div>
             <p className="text-kpi">

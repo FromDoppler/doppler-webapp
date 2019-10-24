@@ -166,10 +166,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
                                 <p>
                                   {_('shopify.header_synchronization_date')}{' '}
                                   <strong>
-                                    <FormattedDate
-                                      value={shop.synchronization_date}
-                                      timeZone="UTC"
-                                    />
+                                    <FormattedDate value={shop.synchronization_date} />
                                   </strong>
                                 </p>
                                 <p>

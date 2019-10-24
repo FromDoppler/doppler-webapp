@@ -17,17 +17,21 @@ import { addDays } from '../../utils';
 
 const periodSelectedDaysDefault = 7;
 
+const getCurrentDate = (date) => {
+  return new Date(date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear());
+};
+
 /**
  * @param { Object } props
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
 
 const Reports = ({ dependencies: { datahubClient } }) => {
-  const now = new Date();
+  const dateNow = getCurrentDate(new Date());
   const [state, setState] = useState({
     periodSelectedDays: periodSelectedDaysDefault,
-    dateFrom: addDays(now, periodSelectedDaysDefault * -1),
-    dateTo: now,
+    dateFrom: addDays(dateNow, periodSelectedDaysDefault * -1),
+    dateTo: dateNow,
   });
 
   const changeDomain = async (name) => {
@@ -36,13 +40,13 @@ const Reports = ({ dependencies: { datahubClient } }) => {
   };
 
   const changePeriod = (days) => {
-    const now = new Date();
-    const dateFrom = addDays(now, days * -1);
+    const dateNow = getCurrentDate(new Date());
+    const dateFrom = addDays(dateNow, days * -1);
     setState((prevState) => ({
       ...prevState,
       periodSelectedDays: days,
       dateFrom: dateFrom,
-      dateTo: now,
+      dateTo: dateNow,
     }));
   };
 
