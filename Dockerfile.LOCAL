@@ -21,7 +21,7 @@ RUN yarn build:demo
 FROM nginx
 WORKDIR /app
 RUN rm /etc/nginx/conf.d/default.conf
-COPY conf/sitelocal.conf /etc/nginx/conf.d/site.conf
+COPY conf/site-local.conf /etc/nginx/conf.d/site.conf
 COPY --from=build /app/build /usr/share/nginx/html
 
 
