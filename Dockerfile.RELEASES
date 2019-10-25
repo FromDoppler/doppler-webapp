@@ -42,7 +42,7 @@ RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
 FROM nginx
 WORKDIR /app
 ARG environment
-COPY conf/site${environment}.conf /etc/nginx/conf.d/site.conf
+COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
 COPY --from=build /app/build /usr/share/nginx/html
 
 ARG cdnBaseUrl
