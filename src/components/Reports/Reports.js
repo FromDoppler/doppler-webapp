@@ -110,6 +110,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
               <ReportsTrafficSources
                 domainName={state.domainSelected.name}
                 dateFrom={state.dateFrom}
+                dateTo={state.dateTo}
               />
               <ReportsHoursVisits
                 domainName={state.domainSelected.name}

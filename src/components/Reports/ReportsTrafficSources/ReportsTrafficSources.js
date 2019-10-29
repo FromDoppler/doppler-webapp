@@ -9,7 +9,12 @@ const SafeDivide = (number, quantity) => {
   return quantity ? number / quantity : 0;
 };
 
-const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { datahubClient } }) {
+const ReportsTrafficSources = function({
+  domainName,
+  dateFrom,
+  dateTo,
+  dependencies: { datahubClient },
+}) {
   const [state, setState] = useState({ loading: true });
 
   const numberFormatOptions = {
@@ -23,6 +28,7 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
       const trafficSourcesData = await datahubClient.getTrafficSourcesByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
+        dateTo: dateTo,
       });
       if (trafficSourcesData.success && trafficSourcesData.value) {
         const total = trafficSourcesData.value.reduce(function(previous, item) {
@@ -38,7 +44,7 @@ const ReportsTrafficSources = function({ domainName, dateFrom, dependencies: { d
     };
 
     fetchData();
-  }, [datahubClient, dateFrom, domainName]);
+  }, [datahubClient, dateFrom, domainName, dateTo]);
 
   return (
     <div className="wrapper-reports-box">

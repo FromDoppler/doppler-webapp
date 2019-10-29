@@ -145,13 +145,15 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getTotalVisitsOfPeriod({
     domainName,
     dateFrom,
+    dateTo,
     emailFilter,
   }: {
     domainName: number;
     dateFrom: Date;
+    dateTo: Date;
     emailFilter: emailFilterOptions;
   }): Promise<number> {
-    console.log('getTotalVisitsOfPeriod', { domainName, dateFrom, emailFilter });
+    console.log('getTotalVisitsOfPeriod', { domainName, dateFrom, emailFilter, dateTo });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
@@ -201,11 +203,13 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getTrafficSourcesByPeriod({
     domainName,
     dateFrom,
+    dateTo,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
   }): Promise<TrafficSourceResult> {
-    console.log('getTrafficSourcesByPeriod', { domainName, dateFrom });
+    console.log('getTrafficSourcesByPeriod', { domainName, dateFrom, dateTo });
     await timeout(1000);
     const trafficSources = fakeTrafficSourcesData.map((x) => ({
       sourceName: x.sourceName,
