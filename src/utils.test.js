@@ -142,7 +142,7 @@ describe('utils', () => {
 
     it('should add three exact days to start date', () => {
       // Arrange
-      const initialDate = new Date();
+      const initialDate = new Date('01/01/2019');
       // Act
       const resultDate = addDays(initialDate, 3);
       // Assert
