@@ -6,9 +6,12 @@ import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-i
 import { AppServicesProvider } from '../../../services/pure-di';
 
 const errorResponse = { success: false, error: new Error('Dummy error') };
+const domainName = 'doppler.test';
+const dateFrom = new Date('2019-01-01');
+const dateTo = new Date('2019-01-07');
 
 const getFakeHoursVisitsData = () => {
-  let date = new Date(1970, 1, 1);
+  let date = dateFrom;
   return {
     success: true,
     value: [...Array(168)].map((index) => {
@@ -19,13 +22,11 @@ const getFakeHoursVisitsData = () => {
         to: date,
         quantity: Math.floor(Math.random() * 1000),
         withEmail: 1,
+        withoutEmail: 0,
       };
     }),
   };
 };
-
-const domainName = 'doppler.test';
-const dateFrom = new Date('2019-01-01');
 
 describe('reports weekday and hours visits', () => {
   afterEach(cleanup);
@@ -44,7 +45,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="es">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} />
+          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -69,7 +70,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} />
+          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -90,6 +91,7 @@ describe('reports weekday and hours visits', () => {
           to: new Date(),
           quantity: 593,
           withEmail: 0,
+          withoutEmail: 0,
         },
       ],
     };
@@ -106,7 +108,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} />
+          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -128,6 +130,7 @@ describe('reports weekday and hours visits', () => {
           to: new Date(),
           quantity: 593,
           withEmail: 200,
+          withoutEmail: 0,
         },
       ],
     };
@@ -144,7 +147,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} />
+          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );

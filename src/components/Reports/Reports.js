@@ -17,8 +17,8 @@ import { addDays } from '../../utils';
 
 const periodSelectedDaysDefault = 7;
 
-const getCurrentDate = (date) => {
-  return new Date(date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear());
+const getStartOfDate = (date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
 };
 
 /**
@@ -27,7 +27,7 @@ const getCurrentDate = (date) => {
  */
 
 const Reports = ({ dependencies: { datahubClient } }) => {
-  const today = getCurrentDate(new Date());
+  const today = getStartOfDate(new Date());
   const [state, setState] = useState({
     periodSelectedDays: periodSelectedDaysDefault,
     dateFrom: addDays(today, periodSelectedDaysDefault * -1),
@@ -40,7 +40,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
   };
 
   const changePeriod = (days) => {
-    const today = getCurrentDate(new Date());
+    const today = getStartOfDate(new Date());
     const dateFrom = addDays(today, days * -1);
     setState((prevState) => ({
       ...prevState,

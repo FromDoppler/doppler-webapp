@@ -150,7 +150,7 @@ export default {
     visits_description_without_emails: `Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.`,
     visits_with_email: `Users with Email`,
     visits_without_emails: `Users without Email`,
-    without_included: `(without included)`,
+    without_included: `(not included)`,
   },
   reports_daily_visits: {
     title: `Unique Page views`,
