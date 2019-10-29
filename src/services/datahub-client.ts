@@ -45,6 +45,7 @@ export interface DatahubClient {
   getPagesRankingByPeriod(query: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult>;
@@ -147,11 +148,13 @@ export class HttpDatahubClient implements DatahubClient {
   public async getPagesRankingByPeriod({
     domainName,
     dateFrom,
+    dateTo,
     pageSize,
     pageNumber,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult> {
@@ -160,6 +163,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/summarized-by-page`,
         {
           startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
           sortBy: 'visitors',
           pageSize: pageSize || 0,
           pageNumber: pageNumber || 0,
@@ -203,7 +207,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/summarized-by-source`,
         {
           startDate: dateFrom.toISOString(),
-          endDate: dateTo,
+          endDate: dateTo.toISOString(),
         },
       );
 

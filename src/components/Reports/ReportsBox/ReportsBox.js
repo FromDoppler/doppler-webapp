@@ -89,7 +89,8 @@ class ReportsBox extends React.Component {
               </h6>
               <small className="date-range">
                 <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} />
+                <FormattedDate value={dateTo} />{' '}
+                <FormattedMessage id="reports_box.without_included" />
               </small>
             </div>
 
@@ -106,7 +107,8 @@ class ReportsBox extends React.Component {
               </h6>
               <small className="date-range">
                 <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} />
+                <FormattedDate value={dateTo} />{' '}
+                <FormattedMessage id="reports_box.without_included" />
               </small>
             </div>
             <p className="text-kpi">

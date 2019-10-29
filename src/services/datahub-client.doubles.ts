@@ -162,15 +162,17 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getPagesRankingByPeriod({
     domainName,
     dateFrom,
+    dateTo,
     pageSize,
     pageNumber,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult> {
-    console.log('getPagesRankingByPeriod', { domainName, dateFrom, pageSize, pageNumber });
+    console.log('getPagesRankingByPeriod', { domainName, dateFrom, dateTo, pageSize, pageNumber });
     await timeout(1500);
     const pages = fakePagesData.map((x) => ({
       name: x.name,

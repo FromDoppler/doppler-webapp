@@ -27,11 +27,11 @@ const getCurrentDate = (date) => {
  */
 
 const Reports = ({ dependencies: { datahubClient } }) => {
-  const dateNow = getCurrentDate(new Date());
+  const today = getCurrentDate(new Date());
   const [state, setState] = useState({
     periodSelectedDays: periodSelectedDaysDefault,
-    dateFrom: addDays(dateNow, periodSelectedDaysDefault * -1),
-    dateTo: dateNow,
+    dateFrom: addDays(today, periodSelectedDaysDefault * -1),
+    dateTo: today,
   });
 
   const changeDomain = async (name) => {
@@ -40,13 +40,13 @@ const Reports = ({ dependencies: { datahubClient } }) => {
   };
 
   const changePeriod = (days) => {
-    const dateNow = getCurrentDate(new Date());
-    const dateFrom = addDays(dateNow, days * -1);
+    const today = getCurrentDate(new Date());
+    const dateFrom = addDays(today, days * -1);
     setState((prevState) => ({
       ...prevState,
       periodSelectedDays: days,
       dateFrom: dateFrom,
-      dateTo: dateNow,
+      dateTo: today,
     }));
   };
 
