@@ -86,42 +86,56 @@ const Reports = ({ dependencies: { datahubClient } }) => {
           {!state.domains ? (
             <Loading />
           ) : (
-            <section className="container-reports">
-              <div className="wrapper-kpi">
-                <ReportsBox
-                  domainName={state.domainSelected.name}
-                  periodSelectedDays={state.periodSelectedDays}
-                  dateTo={state.dateTo}
-                  dateFrom={state.dateFrom}
-                  withoutEmail
-                />
-                <ReportsBox
-                  domainName={state.domainSelected.name}
-                  dateTo={state.dateTo}
-                  dateFrom={state.dateFrom}
-                  withEmail
-                />
+            <section className="dp-container">
+              <div className="dp-rowflex">
+                <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
+                  <ReportsBox
+                    domainName={state.domainSelected.name}
+                    periodSelectedDays={state.periodSelectedDays}
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                    withoutEmail
+                  />
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
+                  <ReportsBox
+                    domainName={state.domainSelected.name}
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                    withEmail
+                  />
+                </div>
               </div>
-              <ReportsDailyVisits
-                domainName={state.domainSelected.name}
-                dateFrom={state.dateFrom}
-                dateTo={state.dateTo}
-              />
-              <ReportsTrafficSources
-                domainName={state.domainSelected.name}
-                dateFrom={state.dateFrom}
-                dateTo={state.dateTo}
-              />
-              <ReportsHoursVisits
-                domainName={state.domainSelected.name}
-                dateTo={state.dateTo}
-                dateFrom={state.dateFrom}
-              />
-              <ReportsPageRanking
-                domainName={state.domainSelected.name}
-                dateTo={state.dateTo}
-                dateFrom={state.dateFrom}
-              />
+              <div className="dp-rowflex">
+                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                  <ReportsDailyVisits
+                    domainName={state.domainSelected.name}
+                    dateFrom={state.dateFrom}
+                    dateTo={state.dateTo}
+                  />
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                  <ReportsTrafficSources
+                    domainName={state.domainSelected.name}
+                    dateFrom={state.dateFrom}
+                    dateTo={state.dateTo}
+                  />
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                  <ReportsHoursVisits
+                    domainName={state.domainSelected.name}
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                  />
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                  <ReportsPageRanking
+                    domainName={state.domainSelected.name}
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                  />
+                </div>
+              </div>
             </section>
           )}
         </>

@@ -77,7 +77,7 @@ class ReportsBox extends React.Component {
     } = this;
 
     return (
-      <div className={visits === 0 ? 'reports-box warning--kpi' : 'reports-box'}>
+      <div className={visits === 0 ? 'dp-box-shadow warning--kpi' : 'dp-box-shadow'}>
         {visits === null ? (
           <div className="loading-box" />
         ) : this.props.withEmail ? (
@@ -93,7 +93,6 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.without_included" />
               </small>
             </div>
-
             <p className="text-kpi">
               <FormattedMessage id="reports_box.visits_description_with_email" />
             </p>
