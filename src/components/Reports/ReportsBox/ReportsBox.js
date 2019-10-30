@@ -1,7 +1,7 @@
 import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
-import { FormattedDateRangeText } from '../../shared/DateRangeText/DateRangeText';
+import { FormattedDateRangeText } from '../../shared/FormattedDateRangeText/FormattedDateRangeText';
 
 class ReportsBox extends React.Component {
   /**
@@ -74,7 +74,7 @@ class ReportsBox extends React.Component {
   render() {
     const {
       state: { visits },
-      props: { dateFrom, dateTo },
+      props: { dateFrom, dateTo, today },
     } = this;
 
     return (
@@ -89,7 +89,7 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_with_email" />
               </h6>
               <small className="date-range">
-                <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} />
+                <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} today={today} />
               </small>
             </div>
             <p className="text-kpi">
@@ -104,7 +104,7 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_without_emails" />
               </h6>
               <small className="date-range">
-                <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} />
+                <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} today={today} />
               </small>
             </div>
             <p className="text-kpi">

@@ -173,6 +173,7 @@ export default {
     pages: `Pages`,
     rank_time: `Time period`,
     title: `Track users behavior, analyze it and optimize your Marketing actions`,
+    today: `Today`,
     verified_domain: `Last registered visit:`,
     week_with_plural: `{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }`,
   },
