@@ -14,7 +14,7 @@ const numberFormatOptions = {
 const pageSize = 2;
 const initialState = { pages: [], page: 0, loading: true };
 
-const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClient } }) => {
+const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { datahubClient } }) => {
   const [state, dispatchListEvent] = useReducer((prevState, action) => {
     switch (action.type) {
       case 'loadingMore':
@@ -29,11 +29,12 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
     }
   }, initialState);
 
-  const fetchData = async (datahubClient, domainName, dateFrom, pageNumber) => {
+  const fetchData = async (datahubClient, domainName, dateFrom, dateTo, pageNumber) => {
     dispatchListEvent({ type: 'loadingMore' });
     const result = await datahubClient.getPagesRankingByPeriod({
       domainName: domainName,
       dateFrom: dateFrom,
+      dateTo: dateTo,
       pageSize: pageSize,
       pageNumber: pageNumber,
     });
@@ -44,15 +45,16 @@ const ReportsPageRanking = ({ domainName, dateFrom, dependencies: { datahubClien
     }
   };
 
-  const showMoreResults = () => fetchData(datahubClient, domainName, dateFrom, state.page + 1);
+  const showMoreResults = () =>
+    fetchData(datahubClient, domainName, dateFrom, dateTo, state.page + 1);
 
   useEffect(() => {
-    fetchData(datahubClient, domainName, dateFrom, 1);
+    fetchData(datahubClient, domainName, dateFrom, dateTo, 1);
 
     return () => {
       dispatchListEvent({ type: 'reset' });
     };
-  }, [datahubClient, domainName, dateFrom]);
+  }, [datahubClient, domainName, dateFrom, dateTo]);
 
   return (
     <div className="wrapper-reports-box">

@@ -19,10 +19,11 @@ class ReportsBox extends React.Component {
     this.fetchVisitsByPeriod = this.fetchVisitsByPeriod.bind(this);
   }
 
-  async fetchVisitsByPeriod(domainName, dateFrom) {
+  async fetchVisitsByPeriod(domainName, dateFrom, dateTo) {
     this.asyncRequest = this.datahubClient.getTotalVisitsOfPeriod({
       domainName: domainName,
       dateFrom: dateFrom,
+      dateTo: dateTo,
       emailFilter: this.props.withEmail
         ? 'with_email'
         : this.props.withoutEmail
@@ -42,7 +43,7 @@ class ReportsBox extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom);
+    this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom, this.props.dateTo);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -65,7 +66,7 @@ class ReportsBox extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.visits === null) {
-      this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom);
+      this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom, this.props.dateTo);
     }
   }
 
@@ -87,9 +88,9 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_with_email" />
               </h6>
               <small className="date-range">
-                <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
-                <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} timeZone="UTC" />
+                <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
+                <FormattedDate value={dateTo} />{' '}
+                <FormattedMessage id="reports_box.without_included" />
               </small>
             </div>
 
@@ -105,9 +106,9 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_without_emails" />
               </h6>
               <small className="date-range">
-                <FormattedDate value={dateFrom} timeZone="UTC" />{' '}
-                <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} timeZone="UTC" />
+                <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
+                <FormattedDate value={dateTo} />{' '}
+                <FormattedMessage id="reports_box.without_included" />
               </small>
             </div>
             <p className="text-kpi">

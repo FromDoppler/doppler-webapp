@@ -39,17 +39,20 @@ export interface DatahubClient {
   getTotalVisitsOfPeriod(query: {
     domainName: number;
     dateFrom: Date;
+    dateTo: Date;
     emailFilter?: emailFilterOptions;
   }): Promise<number>;
   getPagesRankingByPeriod(query: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult>;
   getTrafficSourcesByPeriod(query: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
   }): Promise<TrafficSourceResult>;
   getVisitsQuantitySummarizedByPeriod(query: {
     domainName: string;
@@ -123,16 +126,19 @@ export class HttpDatahubClient implements DatahubClient {
   public async getTotalVisitsOfPeriod({
     domainName,
     dateFrom,
+    dateTo,
     emailFilter,
   }: {
     domainName: number;
     dateFrom: Date;
     emailFilter: emailFilterOptions;
+    dateTo: Date;
   }): Promise<number> {
     const response = await this.customerGet<{ visitors_quantity: number }>(
       `domains/${domainName}/visitors/quantity`,
       {
         startDate: dateFrom.toISOString(),
+        endDate: dateTo.toISOString(),
         emailFilterBy: emailFilter,
       },
     );
@@ -142,11 +148,13 @@ export class HttpDatahubClient implements DatahubClient {
   public async getPagesRankingByPeriod({
     domainName,
     dateFrom,
+    dateTo,
     pageSize,
     pageNumber,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult> {
@@ -155,6 +163,7 @@ export class HttpDatahubClient implements DatahubClient {
         `domains/${domainName}/events/summarized-by-page`,
         {
           startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
           sortBy: 'visitors',
           pageSize: pageSize || 0,
           pageNumber: pageNumber || 0,
@@ -187,15 +196,18 @@ export class HttpDatahubClient implements DatahubClient {
   public async getTrafficSourcesByPeriod({
     domainName,
     dateFrom,
+    dateTo,
   }: {
     domainName: string;
     dateFrom: Date;
+    dateTo: Date;
   }): Promise<TrafficSourceResult> {
     try {
       const response = await this.customerGet<{ items: TrafficSource[] }>(
         `domains/${domainName}/events/summarized-by-source`,
         {
           startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
         },
       );
 

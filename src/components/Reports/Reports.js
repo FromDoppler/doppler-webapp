@@ -17,17 +17,21 @@ import { addDays } from '../../utils';
 
 const periodSelectedDaysDefault = 7;
 
+const getStartOfDate = (date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
+};
+
 /**
  * @param { Object } props
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
 
 const Reports = ({ dependencies: { datahubClient } }) => {
-  const now = new Date();
+  const today = getStartOfDate(new Date());
   const [state, setState] = useState({
     periodSelectedDays: periodSelectedDaysDefault,
-    dateFrom: addDays(now, periodSelectedDaysDefault * -1),
-    dateTo: now,
+    dateFrom: addDays(today, periodSelectedDaysDefault * -1),
+    dateTo: today,
   });
 
   const changeDomain = async (name) => {
@@ -36,13 +40,13 @@ const Reports = ({ dependencies: { datahubClient } }) => {
   };
 
   const changePeriod = (days) => {
-    const now = new Date();
-    const dateFrom = addDays(now, days * -1);
+    const today = getStartOfDate(new Date());
+    const dateFrom = addDays(today, days * -1);
     setState((prevState) => ({
       ...prevState,
       periodSelectedDays: days,
       dateFrom: dateFrom,
-      dateTo: now,
+      dateTo: today,
     }));
   };
 
@@ -106,6 +110,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
               <ReportsTrafficSources
                 domainName={state.domainSelected.name}
                 dateFrom={state.dateFrom}
+                dateTo={state.dateTo}
               />
               <ReportsHoursVisits
                 domainName={state.domainSelected.name}
