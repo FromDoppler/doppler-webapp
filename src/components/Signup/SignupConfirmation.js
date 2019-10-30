@@ -16,7 +16,7 @@ const SignupConfirmation = function({ location }) {
   const [resentTimes, setResentTimes] = useState(0);
   const [Captcha, verifyCaptcha] = useCaptcha();
 
-  if (!location.state || !location.state.resend) {
+  if (!location.status || !location.status.resend) {
     return <Redirect to="/signup" />;
   }
   const incrementAndResend = async () => {
