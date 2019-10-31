@@ -1,5 +1,5 @@
 import 'jest';
-import { getDataHubParams, useInterval, addDays } from './utils';
+import { getDataHubParams, useInterval, addDays, getStartOfDate } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 
 describe('utils', () => {
@@ -147,6 +147,47 @@ describe('utils', () => {
       const resultDate = addDays(initialDate, 3);
       // Assert
       expect(resultDate.getDate() - initialDate.getDate()).toBe(3);
+    });
+  });
+
+  describe('getStartOfDate function', () => {
+    it('should return a valid date', () => {
+      // Arrange
+      const initialDate = new Date();
+
+      // Act
+      const resultDate = getStartOfDate(initialDate);
+
+      // Assert
+      expect(resultDate.toDateString()).toBeDefined();
+    });
+
+    it('should return empty value when pass type different to Date', () => {
+      // Arrange
+      const initialDate = '20-13-2018';
+
+      // Act
+      const resultDate = getStartOfDate(initialDate);
+
+      // Assert
+      expect(resultDate).not.toBeDefined();
+    });
+
+    it('should return start of date with 0 minutes and 0 seconds', () => {
+      // Arrange
+      const initialDate = new Date('2019-08-15T03:23:59.123');
+
+      // Act
+      const resultDate = getStartOfDate(initialDate);
+
+      // Assert
+      expect(resultDate.toDateString()).toBeDefined();
+      expect(resultDate.getMinutes()).toEqual(0);
+      expect(resultDate.getSeconds()).toEqual(0);
+      expect(resultDate.getMilliseconds()).toEqual(0);
+      expect(resultDate.getFullYear()).toEqual(initialDate.getFullYear());
+      expect(resultDate.getMonth()).toEqual(initialDate.getMonth());
+      expect(resultDate.getDate()).toEqual(initialDate.getDate());
     });
   });
 });

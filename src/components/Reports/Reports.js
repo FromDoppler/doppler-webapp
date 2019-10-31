@@ -13,13 +13,9 @@ import {
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { Helmet } from 'react-helmet';
 import { Loading } from '../Loading/Loading';
-import { addDays } from '../../utils';
+import { addDays, getStartOfDate } from '../../utils';
 
 const periodSelectedDaysDefault = 7;
-
-const getStartOfDate = (date) => {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-};
 
 /**
  * @param { Object } props
