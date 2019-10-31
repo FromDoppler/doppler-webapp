@@ -18,7 +18,7 @@ import { addDays } from '../../utils';
 const periodSelectedDaysDefault = 7;
 
 const getStartOfDate = (date) => {
-  return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
 /**
