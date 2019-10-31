@@ -76,3 +76,9 @@ export function addDays(date: Date, days: number) {
   newDate.setDate(date.getDate() + days);
   return newDate;
 }
+
+export function getStartOfDate(date: Date) {
+  return typeof date.getMonth === 'function'
+    ? new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    : undefined;
+}
