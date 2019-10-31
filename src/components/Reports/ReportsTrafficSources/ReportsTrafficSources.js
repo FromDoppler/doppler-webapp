@@ -48,7 +48,7 @@ const ReportsTrafficSources = function({
 
   return (
     <div className="dp-box-shadow">
-      <div className="col-lg-12 col-md-12 col-sm-12">
+      <div className="col-md-12 col-sm-12">
         <small className="title-reports-box">
           <FormattedMessage id="trafficSources.title" />
         </small>
@@ -71,7 +71,7 @@ const ReportsTrafficSources = function({
         ) : (
           <S.ListContainer>
             {state.trafficSources.items.map((trafficSource, index) => (
-              <S.ListItem key={index} className="col-lg-4 col-md-4 col-sm-12">
+              <S.ListItem key={index} className="col-md-4 col-sm-12">
                 <S.ListItemHeader>
                   <h6>
                     <FormattedMessage
