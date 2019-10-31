@@ -47,117 +47,117 @@ const ReportsTrafficSources = function({
   }, [datahubClient, dateFrom, domainName, dateTo]);
 
   return (
-    <div className="wrapper-reports-box">
-      <div className="reports-box">
+    <div className="dp-box-shadow">
+      <div className="col-lg-12 col-md-12 col-sm-12">
         <small className="title-reports-box">
           <FormattedMessage id="trafficSources.title" />
         </small>
-        <S.ContentContainer>
-          {state.loading ? (
-            <Loading />
-          ) : !state.trafficSources ? (
-            <BoxMessage className="dp-msj-error bounceIn">
-              <p>
-                <FormattedMessage id="trafficSources.error" />
-              </p>
-            </BoxMessage>
-          ) : state.trafficSources.items.length === 0 ? (
-            <BoxMessage className="dp-msj-user bounceIn">
-              <p>
-                <FormattedMessage id="common.empty_data" />
-              </p>
-            </BoxMessage>
-          ) : (
-            <S.ListContainer>
-              {state.trafficSources.items.map((trafficSource, index) => (
-                <S.ListItem key={index}>
-                  <S.ListItemHeader>
-                    <h6>
-                      <FormattedMessage
-                        defaultMessage={trafficSource.sourceName}
-                        id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
-                      />
-                    </h6>
+      </div>
+      <S.ContentContainer>
+        {state.loading ? (
+          <Loading />
+        ) : !state.trafficSources ? (
+          <BoxMessage className="dp-msj-error bounceIn">
+            <p>
+              <FormattedMessage id="trafficSources.error" />
+            </p>
+          </BoxMessage>
+        ) : state.trafficSources.items.length === 0 ? (
+          <BoxMessage className="dp-msj-user bounceIn">
+            <p>
+              <FormattedMessage id="common.empty_data" />
+            </p>
+          </BoxMessage>
+        ) : (
+          <S.ListContainer>
+            {state.trafficSources.items.map((trafficSource, index) => (
+              <S.ListItem key={index} className="col-lg-4 col-md-4 col-sm-12">
+                <S.ListItemHeader>
+                  <h6>
+                    <FormattedMessage
+                      defaultMessage={trafficSource.sourceName}
+                      id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
+                    />
+                  </h6>
+                  <span>
+                    {trafficSource.quantity}
                     <span>
-                      {trafficSource.quantity}
-                      <span>
-                        (
-                        <FormattedNumber
-                          value={SafeDivide(trafficSource.quantity, state.trafficSources.total)}
-                          {...numberFormatOptions}
-                        />
-                        )
-                      </span>
+                      (
+                      <FormattedNumber
+                        value={SafeDivide(trafficSource.quantity, state.trafficSources.total)}
+                        {...numberFormatOptions}
+                      />
+                      )
                     </span>
-                  </S.ListItemHeader>
-                  {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
-                    <S.ListItemDetail>
+                  </span>
+                </S.ListItemHeader>
+                {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
+                  <S.ListItemDetail>
+                    <div>
                       <div>
-                        <div>
-                          <p>
-                            <FormattedMessage id="trafficSources.users_with_email" />
-                          </p>
-                          <S.Bar
-                            primary
-                            style={{
-                              width:
-                                SafeDivide(trafficSource.withEmail, trafficSource.quantity) * 100 +
-                                '%',
-                            }}
-                          />
-                        </div>
-                        <span>
-                          {trafficSource.withEmail}
-                          <span>
-                            (
-                            <FormattedNumber
-                              value={SafeDivide(trafficSource.withEmail, trafficSource.quantity)}
-                              {...numberFormatOptions}
-                            />
-                            )
-                          </span>
-                        </span>
+                        <p>
+                          <FormattedMessage id="trafficSources.users_with_email" />
+                        </p>
+                        <S.Bar
+                          primary
+                          style={{
+                            width:
+                              SafeDivide(trafficSource.withEmail, trafficSource.quantity) * 100 +
+                              '%',
+                          }}
+                        />
                       </div>
-                      <div>
-                        <div>
-                          <p>
-                            <FormattedMessage id="trafficSources.users_without_email" />
-                          </p>
-                          <S.Bar
-                            style={{
-                              width:
-                                SafeDivide(
-                                  trafficSource.quantity - trafficSource.withEmail,
-                                  trafficSource.quantity,
-                                ) *
-                                  100 +
-                                '%',
-                            }}
-                          />
-                        </div>
+                      <span>
+                        {trafficSource.withEmail}
                         <span>
-                          {trafficSource.withEmail}
-                          <span>
-                            (
-                            <FormattedNumber
-                              value={SafeDivide(
+                          (
+                          <FormattedNumber
+                            value={SafeDivide(trafficSource.withEmail, trafficSource.quantity)}
+                            {...numberFormatOptions}
+                          />
+                          )
+                        </span>
+                      </span>
+                    </div>
+                    <div>
+                      <div>
+                        <p>
+                          <FormattedMessage id="trafficSources.users_without_email" />
+                        </p>
+                        <S.Bar
+                          style={{
+                            width:
+                              SafeDivide(
                                 trafficSource.quantity - trafficSource.withEmail,
                                 trafficSource.quantity,
-                              )}
-                              {...numberFormatOptions}
-                            />
-                            )
-                          </span>
-                        </span>
+                              ) *
+                                100 +
+                              '%',
+                          }}
+                        />
                       </div>
-                    </S.ListItemDetail>
-                  ) : null}
-                </S.ListItem>
-              ))}
-            </S.ListContainer>
-          )}
-        </S.ContentContainer>
-      </div>
+                      <span>
+                        {trafficSource.withEmail}
+                        <span>
+                          (
+                          <FormattedNumber
+                            value={SafeDivide(
+                              trafficSource.quantity - trafficSource.withEmail,
+                              trafficSource.quantity,
+                            )}
+                            {...numberFormatOptions}
+                          />
+                          )
+                        </span>
+                      </span>
+                    </div>
+                  </S.ListItemDetail>
+                ) : null}
+              </S.ListItem>
+            ))}
+          </S.ListContainer>
+        )}
+      </S.ContentContainer>
     </div>
   );
 };

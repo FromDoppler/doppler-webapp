@@ -23,20 +23,27 @@ export const ContentContainer = styled.div`
 
 export const ListContainer = styled.div`
   display: flex;
-  flex-flow: wrap;
+  flex-wrap: wrap;
   & > div:nth-child(odd) {
     background: ${colors.smoothGrey};
   }
   & > div:nth-child(n + 4) {
-    margin-top: ${spacings.spacesLvl2};
+    margin-top: ${spacings.spacesLvl0};
+    @media (min-width: 768px) {
+      margin-top: ${spacings.spacesLvl2};
+    }
   }
 `;
 
 export const ListItem = styled.div`
-  flex: calc(100% / 3);
-  border-bottom: 1px solid ${colors.softGrey};
-  border-top: 1px solid ${colors.softGrey};
+  border-top: 1px solid ${colors.softGrey}
   padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5} ${spacings.spacesLvl7};
+
+  @media (min-width: 768px) {
+    border-bottom: 1px solid ${colors.softGrey};
+    border-top: 1px solid ${colors.softGrey};
+  }
+
 `;
 
 export const ListItemHeader = styled.header`
