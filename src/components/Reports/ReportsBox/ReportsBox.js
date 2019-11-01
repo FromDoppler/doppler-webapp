@@ -1,6 +1,7 @@
 import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import { FormattedDateRangeText } from '../../shared/DateRangeText/DateRangeText';
 
 class ReportsBox extends React.Component {
   /**
@@ -64,7 +65,7 @@ class ReportsBox extends React.Component {
     return null;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if (this.state.visits === null) {
       this.fetchVisitsByPeriod(this.props.domainName, this.props.dateFrom, this.props.dateTo);
     }
@@ -88,9 +89,7 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_with_email" />
               </h6>
               <small className="date-range">
-                <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} />{' '}
-                <FormattedMessage id="reports_box.without_included" />
+                <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} />
               </small>
             </div>
             <p className="text-kpi">
@@ -105,9 +104,7 @@ class ReportsBox extends React.Component {
                 <FormattedMessage id="reports_box.visits_without_emails" />
               </h6>
               <small className="date-range">
-                <FormattedDate value={dateFrom} /> <FormattedMessage id="reports_box.to" />{' '}
-                <FormattedDate value={dateTo} />{' '}
-                <FormattedMessage id="reports_box.without_included" />
+                <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} />
               </small>
             </div>
             <p className="text-kpi">
