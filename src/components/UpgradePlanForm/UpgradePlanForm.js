@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../../components/Loading/Loading';
@@ -11,12 +11,12 @@ const fieldNames = {
 };
 
 class UpgradePlanForm extends React.Component {
-  constructor({ dependencies: { dopplerLegacyClient } }) {
+  constructor({ dependencies: { dopplerLegacyClient }, intl }) {
     super();
 
     /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
     this.dopplerLegacyClient = dopplerLegacyClient;
-    this.intl = useIntl();
+    this.intl = intl;
 
     this.state = {
       availablePlans: null,
@@ -145,4 +145,4 @@ class UpgradePlanForm extends React.Component {
   }
 }
 
-export default InjectAppServices(UpgradePlanForm);
+export default InjectAppServices(injectIntl(UpgradePlanForm));
