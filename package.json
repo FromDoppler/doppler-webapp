@@ -43,7 +43,7 @@
     "react-scripts": "^3.2.0",
     "react-test-renderer": "^16.11.0",
     "semantic-release": "^15.13.27",
-    "styled-components": "^4.4.0",
+    "styled-components": "^4.4.1",
     "typescript": "^3.6.4",
     "url-parse": "^1.4.7"
   },
