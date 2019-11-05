@@ -76,7 +76,7 @@ pipeline {
         stage('Publish tag build to DockerHub') {
             when {
                 buildingTag()
-                tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP"
+                tag pattern: "x\\d+\\.\\d+\\.\\d+", comparator: "REGEXP"
             }
             steps {
                 sh 'echo TODO: Add tags for each image and publish to docker hub'
