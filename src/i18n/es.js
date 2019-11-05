@@ -173,6 +173,7 @@ export default {
     pages: `Página`,
     rank_time: `Período de tiempo analizado`,
     title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,
+    today: `Hoy`,
     verified_domain: `Última visita registrada:`,
     week_with_plural: `{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }`,
   },

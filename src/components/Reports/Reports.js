@@ -15,7 +15,8 @@ import { Helmet } from 'react-helmet';
 import { Loading } from '../Loading/Loading';
 import { addDays, getStartOfDate } from '../../utils';
 
-const periodSelectedDaysDefault = 7;
+// This value means the today date
+const periodSelectedDaysDefault = 0;
 
 /**
  * @param { Object } props
@@ -27,7 +28,8 @@ const Reports = ({ dependencies: { datahubClient } }) => {
   const [state, setState] = useState({
     periodSelectedDays: periodSelectedDaysDefault,
     dateFrom: addDays(today, periodSelectedDaysDefault * -1),
-    dateTo: today,
+    dateTo: periodSelectedDaysDefault ? today : new Date(),
+    dailyView: !periodSelectedDaysDefault,
   });
 
   const changeDomain = async (name) => {
@@ -35,14 +37,14 @@ const Reports = ({ dependencies: { datahubClient } }) => {
     setState((prevState) => ({ ...prevState, domainSelected: domainFound }));
   };
 
-  const changePeriod = (days) => {
+  const changePeriod = (daysToFilter) => {
     const today = getStartOfDate(new Date());
-    const dateFrom = addDays(today, days * -1);
     setState((prevState) => ({
       ...prevState,
-      periodSelectedDays: days,
-      dateFrom: dateFrom,
-      dateTo: today,
+      periodSelectedDays: daysToFilter,
+      dateFrom: addDays(today, daysToFilter * -1),
+      dateTo: daysToFilter ? today : new Date(),
+      dailyView: !daysToFilter,
     }));
   };
 
@@ -90,6 +92,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     periodSelectedDays={state.periodSelectedDays}
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
+                    today={state.dailyView}
                     withoutEmail
                   />
                 </div>
@@ -98,18 +101,21 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     domainName={state.domainSelected.name}
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
+                    today={state.dailyView}
                     withEmail
                   />
                 </div>
-              </div>
-              <div className="dp-rowflex">
-                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
-                  <ReportsDailyVisits
-                    domainName={state.domainSelected.name}
-                    dateFrom={state.dateFrom}
-                    dateTo={state.dateTo}
-                  />
-                </div>
+                {!state.dailyView ? (
+                  <div className="dp-rowflex">
+                    <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                      <ReportsDailyVisits
+                        domainName={state.domainSelected.name}
+                        dateFrom={state.dateFrom}
+                        dateTo={state.dateTo}
+                      />
+                    </div>
+                  </div>
+                ) : null}
                 <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
                   <ReportsTrafficSources
                     domainName={state.domainSelected.name}
@@ -117,13 +123,15 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     dateTo={state.dateTo}
                   />
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
-                  <ReportsHoursVisits
-                    domainName={state.domainSelected.name}
-                    dateTo={state.dateTo}
-                    dateFrom={state.dateFrom}
-                  />
-                </div>
+                {!state.dailyView ? (
+                  <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                    <ReportsHoursVisits
+                      domainName={state.domainSelected.name}
+                      dateTo={state.dateTo}
+                      dateFrom={state.dateFrom}
+                    />
+                  </div>
+                ) : null}
                 <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
                   <ReportsPageRanking
                     domainName={state.domainSelected.name}

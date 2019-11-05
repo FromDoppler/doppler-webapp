@@ -82,6 +82,9 @@ const ReportsFilters = ({
                     disabled={!domains || !domains.length}
                     onChange={(event) => changePeriod(parseInt(event.target.value))}
                   >
+                    <FormattedMessage id="reports_filters.today">
+                      {(message) => <option value="0">{message}</option>}
+                    </FormattedMessage>
                     <FormattedMessage
                       id="reports_filters.week_with_plural"
                       values={{ weeksCount: 1 }}
