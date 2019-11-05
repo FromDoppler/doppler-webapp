@@ -13,12 +13,22 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   & > div {
-    width: 100%;
+    /*width: 100%;*/
   }
 `;
 
 export const List = styled.div`
   padding: ${spacings.spacesLvl3} ${spacings.spacesLvl6} ${spacings.spacesLvl5};
+  border: 1px solid red;
+  /*width: 100%;
+  overflow-x: scroll;
+
+  @media (min-width: 1024px) {
+    width: 100%;
+    overflow-x: initial;
+    border: 1px solid purple;
+  }
+
 `;
 
 export const Row = styled.div`
@@ -27,6 +37,13 @@ export const Row = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  width: 925px;
+  border: 1px solid green;
+
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
+
 
   .weekday {
     width: 40px;
@@ -92,7 +109,14 @@ export const Circle = styled.span`
 
 export const Legend = styled.div`
   display: flex;
-  margin-left: 58px;
+  margin-left: ${spacings.spacesLvl10};
+
+  width: 865px;
+  border: 1px solid pink;
+
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
 
   span {
     width: 46px;
@@ -105,13 +129,15 @@ export const Legend = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 
   & > div {
     display: flex;
     align-items: end;
-    margin: ${spacings.spacesLvl4} ${spacings.spacesLvl0};
+    /*margin: ${spacings.spacesLvl4} ${spacings.spacesLvl0};*/
     display: flex;
+    /*justify-content: flex-end;*/
 
     div {
       margin-right: ${spacings.spacesLvl4};
@@ -120,11 +146,28 @@ export const Header = styled.header`
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      border:1px solid red;
+      text-align: center;
+
 
       div {
         height: 31px;
         margin: ${spacings.spacesLvl0} auto;
       }
+    }
+  }
+
+  & > .dp-reference {
+    margin-left: ${spacings.spacesLvl5};
+    justify-content: flex-start;
+    margin-bottom: ${spacings.spacesLvl5};
+  }
+
+  @media (min-width: 1024px) {
+    & > .dp-reference {
+      justify-content: flex-end;
+      margin-left: ${spacings.spacesLvl0};
+      margin-bottom: ${spacings.spacesLvl0};
     }
   }
 
