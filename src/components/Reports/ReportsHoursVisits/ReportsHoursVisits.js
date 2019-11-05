@@ -72,18 +72,13 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
-
-      <div className="dp-box-shadow">
-
-
+    <S.WrapperBoxContainer className="wrapper-reports-box">
+      <div className="reports-box">
         <S.Header>
-        <div className="col-sm-12 col-md-6">
           <small className="title-reports-box">
             <FormattedMessage id="reports_hours_visits.title" />
           </small>
-        </div>
-
-          <div className="col-sm-12 col-md-6 dp-reference">
+          <div>
             <div>
               <div>
                 <S.Circle />
@@ -117,15 +112,8 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
                 />
               </p>
             </div>
-
-
           </div>
         </S.Header>
-
-
-
-
-
         <S.ContentContainer>
           {state.loading ? (
             <Loading />
@@ -192,11 +180,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
           )}
         </S.ContentContainer>
       </div>
-
-
-
-
-
+    </S.WrapperBoxContainer>
   );
 };
 
