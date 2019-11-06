@@ -23,7 +23,11 @@ pipeline {
             }
         }
         stage('Build final version images') {
-            when { allOf { buildingTag(); tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP" } }
+            when {
+                expression {
+                    return !isVersionTag(readCurrentTag())
+                }
+            }
             steps {
                 // TODO: add missing environments (development, qa, int)
                 // TODO: remove build differences based on environments to allow reducing the
@@ -47,7 +51,11 @@ pipeline {
             }
         }
         stage('Publish final version images') {
-            when { allOf { buildingTag(); tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP" } }
+            when {
+                expression {
+                    return !isVersionTag(readCurrentTag())
+                }
+            }
             steps {
                 // TODO: add missing environments (development, qa, int)
                 sh 'sh publish-commit-image-to-dockerhub.sh production ${GIT_COMMIT} ${TAG_NAME}'
@@ -64,4 +72,23 @@ pipeline {
             }
         }
     }
+}
+
+def boolean isVersionTag(String tag) {
+    echo "checking version tag $tag"
+
+    if (tag == null) {
+        return false
+    }
+
+    // use your preferred pattern
+    def tagMatcher = tag =~ /v\d+\.\d+\.\d+/
+
+    return tagMatcher.matches()
+}
+
+// https://stackoverflow.com/questions/56030364/buildingtag-always-returns-false
+// workaround https://issues.jenkins-ci.org/browse/JENKINS-55987
+def String readCurrentTag() {
+    return sh(returnStdout: true, script: "git describe --tags --match v?*.?*.?* --abbrev=0").trim()
 }
