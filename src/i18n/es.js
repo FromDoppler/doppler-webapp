@@ -169,7 +169,7 @@ export default {
       </p>
       `,
     domain: `Dominio`,
-    domain_not_verified_MD: `Sin visitas registradas [Verificar dominio](${urlSiteTracking}).`,
+    domain_not_verified_MD: `Tu dominio no está verificado. Es necesario para comenzar a obtener datos sobre tus visitas. [VERIFICAR DOMINIO](${urlSiteTracking}).`,
     pages: `Página`,
     rank_time: `Período de tiempo analizado`,
     title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,

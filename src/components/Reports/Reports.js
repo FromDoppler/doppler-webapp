@@ -7,6 +7,7 @@ import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import {
   SiteTrackingRequired,
   SiteTrackingNotAvailableReasons,
@@ -14,6 +15,7 @@ import {
 import { Helmet } from 'react-helmet';
 import { Loading } from '../Loading/Loading';
 import { addDays, getStartOfDate } from '../../utils';
+import { BoxMessage } from '../styles/messages';
 
 // This value means the today date
 const periodSelectedDaysDefault = 7;
@@ -85,6 +87,13 @@ const Reports = ({ dependencies: { datahubClient } }) => {
             <Loading />
           ) : (
             <section className="dp-container">
+              {!state.domainSelected.verified_date ? (
+                <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
+                  <p>
+                    <FormattedMessageMarkdown id="reports_filters.domain_not_verified_MD" />
+                  </p>
+                </BoxMessage>
+              ) : null}
               <div className="dp-rowflex">
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
                   <ReportsBox

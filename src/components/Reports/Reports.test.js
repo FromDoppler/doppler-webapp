@@ -75,6 +75,44 @@ describe('Reports page', () => {
     expect(domain).toBeDefined();
   });
 
+  if (
+    ('should show verify domain message',
+    async () => {
+      // Arrange
+      const datahubClientDouble = {
+        getAccountDomains: async () => ({
+          id: 1,
+          name: 'www.fromdoppler.com',
+          verified_date: null,
+        }),
+        getTotalVisitsOfPeriod: async () => 0,
+        getPagesRankingByPeriod: async () => {
+          return { success: false, value: [] };
+        },
+        getTrafficSourcesByPeriod: async () => [],
+        getVisitsQuantitySummarizedByPeriod: async () => [],
+      };
+
+      // Act
+      const { getByText, container } = render(
+        <AppServicesProvider
+          forcedServices={{
+            datahubClient: datahubClientDouble,
+            appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+          }}
+        >
+          <DopplerIntlProvider>
+            <Reports />
+          </DopplerIntlProvider>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      await wait(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
+      expect(getByText('reports_filters.domain_not_verified_MD'));
+    })
+  );
+
   it('should show "no domains" message when the domain list is empty', async () => {
     // Arrange
     let resolveGetAccountDomainsPromise = null;
