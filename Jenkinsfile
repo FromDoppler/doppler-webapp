@@ -23,9 +23,7 @@ pipeline {
             }
         }
         stage('Build final version images') {
-            when {
-                tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP"
-            }
+            when { allOf { buildingTag(); tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP" } }
             steps {
                 // TODO: add missing environments (development, qa, int)
                 // TODO: remove build differences based on environments to allow reducing the
@@ -49,9 +47,7 @@ pipeline {
             }
         }
         stage('Publish final version images') {
-            when {
-                tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP"
-            }
+            when { allOf { buildingTag(); tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP" } }
             steps {
                 // TODO: add missing environments (development, qa, int)
                 sh 'sh publish-commit-image-to-dockerhub.sh production ${GIT_COMMIT} ${TAG_NAME}'
