@@ -16,7 +16,7 @@ import { Loading } from '../Loading/Loading';
 import { addDays, getStartOfDate } from '../../utils';
 
 // This value means the today date
-const periodSelectedDaysDefault = 0;
+const periodSelectedDaysDefault = 7;
 
 /**
  * @param { Object } props
@@ -106,17 +106,15 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                   />
                 </div>
                 {!state.dailyView ? (
-                  <div className="dp-rowflex">
-                    <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
-                      <ReportsDailyVisits
-                        domainName={state.domainSelected.name}
-                        dateFrom={state.dateFrom}
-                        dateTo={state.dateTo}
-                      />
-                    </div>
+                  <div className="col-sm-12 m-b-24">
+                    <ReportsDailyVisits
+                      domainName={state.domainSelected.name}
+                      dateFrom={state.dateFrom}
+                      dateTo={state.dateTo}
+                    />
                   </div>
                 ) : null}
-                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                <div className="col-sm-12 m-b-24">
                   <ReportsTrafficSources
                     domainName={state.domainSelected.name}
                     dateFrom={state.dateFrom}
@@ -124,7 +122,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                   />
                 </div>
                 {!state.dailyView ? (
-                  <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                  <div className="col-sm-12 m-b-24">
                     <ReportsHoursVisits
                       domainName={state.domainSelected.name}
                       dateTo={state.dateTo}
@@ -132,7 +130,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     />
                   </div>
                 ) : null}
-                <div className="col-lg-12 col-md-12 col-sm-12 m-b-24">
+                <div className="col-sm-12 m-b-24">
                   <ReportsPageRanking
                     domainName={state.domainSelected.name}
                     dateTo={state.dateTo}
