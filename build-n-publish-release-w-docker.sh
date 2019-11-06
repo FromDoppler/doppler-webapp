@@ -17,8 +17,6 @@ versionPatch="$(echo $versionFull | cut -d'-' -f1)" # v0.0.0 (ignoring `-` if ex
 versionMayor="$(echo $versionPatch | cut -d'.' -f1)" # v0
 versionMinor="$versionMayor.$(echo $versionPatch | cut -d'.' -f2)" # v0.0
 environments="int qa production"
-dockerhub_writter_username=$DOCKER_WRITTER_USERNAME
-dockerhub_writter_password=$DOCKER_WRITTER_PASSWORD
 
 # Stop script on NZEC
 set -e
@@ -85,38 +83,4 @@ for environment in ${environments}; do
     docker push darosw/doppler-webapp:$environment-$versionMinor
     docker push darosw/doppler-webapp:$environment-$versionPatch
     docker push darosw/doppler-webapp:$environment-$versionFull
-done
-
-for environment in ${environments}; do
-    echo Publishing ${environment} to DockerHub...
-
-    # TODO: It could break concurrent deployments with different docker accounts
-    # It is inside the loop to mitigate collisions
-    docker login -u="$dockerhub_writter_username" -p="$dockerhub_writter_password"
-
-    # TODO: verify if it publish to akamai twice
-    docker build --pull \
-        -t fromdoppler/doppler-webapp:$environment \
-        -t fromdoppler/doppler-webapp:$environment-$versionMayor \
-        -t fromdoppler/doppler-webapp:$environment-$versionMinor \
-        -t fromdoppler/doppler-webapp:$environment-$versionPatch \
-        -t fromdoppler/doppler-webapp:$environment-$versionFull \
-        --build-arg environment=$environment \
-        --build-arg cdnBaseUrl=$cdnBaseUrl \
-        --build-arg pkgVersion=$pkgVersion \
-        --build-arg versionFull=$versionFull \
-        --build-arg pkgBuild=$pkgBuild \
-        --build-arg pkgCommitId=$pkgCommitId \
-        --build-arg cdn_hostname=$AKAMAI_CDN_HOSTNAME \
-        --build-arg cdn_username=$AKAMAI_CDN_USERNAME \
-        --build-arg cdn_password=$AKAMAI_CDN_PASSWORD \
-        --build-arg cdn_cpcode=$AKAMAI_CDN_CPCODE \
-        -f Dockerfile.RELEASES \
-        .
-
-    docker push fromdoppler/doppler-webapp:$environment
-    docker push fromdoppler/doppler-webapp:$environment-$versionMayor
-    docker push fromdoppler/doppler-webapp:$environment-$versionMinor
-    docker push fromdoppler/doppler-webapp:$environment-$versionPatch
-    docker push fromdoppler/doppler-webapp:$environment-$versionFull
 done
