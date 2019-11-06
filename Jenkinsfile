@@ -53,10 +53,9 @@ pipeline {
                 tag pattern: "v\\d+\\.\\d+\\.\\d+", comparator: "REGEXP"
             }
             steps {
-                // TODO: add all required tags depending on version
                 // TODO: add missing environments (development, qa, int)
-                sh 'docker push fromdoppler/doppler-webapp:production-commit-${GIT_COMMIT}'
-                sh 'docker push fromdoppler/doppler-webapp:demo-commit-${GIT_COMMIT}'
+                sh 'sh publish-commit-image-to-dockerhub.sh production ${GIT_COMMIT} ${TAG_NAME}'
+                sh 'sh publish-commit-image-to-dockerhub.sh demo ${GIT_COMMIT} ${TAG_NAME}'
             }
         }
         stage('Generate version') {
