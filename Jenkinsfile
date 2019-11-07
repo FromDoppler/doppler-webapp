@@ -25,7 +25,7 @@ pipeline {
         stage('Build final version images') {
             when {
                 expression {
-                    return !isVersionTag(readCurrentTag())
+                    return isVersionTag(readCurrentTag())
                 }
             }
             steps {
@@ -53,7 +53,7 @@ pipeline {
         stage('Publish final version images') {
             when {
                 expression {
-                    return !isVersionTag(readCurrentTag())
+                    return isVersionTag(readCurrentTag())
                 }
             }
             steps {
