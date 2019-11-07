@@ -25,7 +25,7 @@ pipeline {
         stage('Build final version images') {
             when {
                 expression {
-                    return !isVersionTag(readCurrentTag())
+                    return isVersionTag(readCurrentTag())
                 }
             }
             steps {
@@ -53,7 +53,7 @@ pipeline {
         stage('Publish final version images') {
             when {
                 expression {
-                    return !isVersionTag(readCurrentTag())
+                    return isVersionTag(readCurrentTag())
                 }
             }
             steps {
@@ -90,5 +90,5 @@ def boolean isVersionTag(String tag) {
 // https://stackoverflow.com/questions/56030364/buildingtag-always-returns-false
 // workaround https://issues.jenkins-ci.org/browse/JENKINS-55987
 def String readCurrentTag() {
-    return sh(returnStdout: true, script: "git describe --tags --match v?*.?*.?* --abbrev=0").trim()
+    return sh(returnStdout: true, script: "git describe --tags --match v?*.?*.?* --abbrev=0 --exact-match || echo ''").trim()
 }
