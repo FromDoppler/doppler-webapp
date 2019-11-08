@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedHTMLMessage, FormattedMessage, FormattedDate } from 'react-intl';
-import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import * as S from './ReportsFilters.styles';
 
 const ReportsFilters = ({
@@ -50,9 +49,7 @@ const ReportsFilters = ({
                             <FormattedDate value={domainSelected.verified_date} />
                           </span>
                         </>
-                      ) : (
-                        <FormattedMessageMarkdown id="reports_filters.domain_not_verified_MD" />
-                      )}
+                      ) : null}
                     </S.DropdownLegend>
                   ) : null}
                 </fieldset>

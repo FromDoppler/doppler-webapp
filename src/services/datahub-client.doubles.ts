@@ -13,12 +13,12 @@ import { timeout } from '../utils';
 const fakeData = [
   {
     name: 'www.fromdoppler.com',
-    verified_date: new Date('2017-12-17'),
+    verified_date: new Date('2010-12-17'),
     pages: [],
   },
   {
     name: 'www.makingsense.com',
-    verified_date: new Date('2010-12-17'),
+    verified_date: null,
     pages: [],
   },
   {

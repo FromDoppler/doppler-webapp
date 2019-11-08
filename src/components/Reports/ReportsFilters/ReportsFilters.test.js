@@ -60,6 +60,5 @@ describe('ReportsFilters component', () => {
 
     // Assert
     expect(container).not.toContainHTML('reports_filters.verified_domain');
-    getByText('reports_filters.domain_not_verified_MD');
   });
 });
