@@ -12,13 +12,21 @@ export const WrapperBoxContainer = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  & > div {
-    width: 100%;
-  }
 `;
 
 export const List = styled.div`
-  padding: ${spacings.spacesLvl3} ${spacings.spacesLvl6} ${spacings.spacesLvl5};
+  overflow-x: scroll;
+  padding: ${spacings.spacesLvl3} ${spacings.spacesLvl0} ${spacings.spacesLvl2}
+    ${spacings.spacesLvl0};
+  border-right: 36px solid ${colors.white};
+  border-left: 36px solid ${colors.white};
+  margin-bottom: ${spacings.spacesLvl6};
+
+  @media (min-width: 1024px) {
+    width: 100%;
+    overflow-x: initial;
+    border-right: 36px solid ${colors.white};
+  }
 `;
 
 export const Row = styled.div`
@@ -27,6 +35,11 @@ export const Row = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  width: 925px;
+
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
 
   .weekday {
     width: 40px;
@@ -92,7 +105,12 @@ export const Circle = styled.span`
 
 export const Legend = styled.div`
   display: flex;
-  margin-left: 58px;
+  margin-left: ${spacings.spacesLvl10};
+  width: 865px;
+
+  @media (min-width: 1024px) {
+    width: calc(100% - 60px);
+  }
 
   span {
     width: 46px;
@@ -105,12 +123,12 @@ export const Legend = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 
   & > div {
     display: flex;
     align-items: end;
-    margin: ${spacings.spacesLvl4} ${spacings.spacesLvl0};
     display: flex;
 
     div {
@@ -120,11 +138,26 @@ export const Header = styled.header`
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      text-align: center;
 
       div {
         height: 31px;
         margin: ${spacings.spacesLvl0} auto;
       }
+    }
+  }
+
+  & > .dp-reference {
+    margin-left: ${spacings.spacesLvl5};
+    justify-content: flex-start;
+    margin-bottom: ${spacings.spacesLvl5};
+  }
+
+  @media (min-width: 768px) {
+    & > .dp-reference {
+      justify-content: flex-end;
+      margin-left: ${spacings.spacesLvl0};
+      margin-bottom: ${spacings.spacesLvl0};
     }
   }
 
@@ -137,6 +170,9 @@ export const Header = styled.header`
 export const Tooltip = styled.div`
   p {
     margin: ${spacings.spacesLvl0};
+    display: block;
+    line-height: 18px;
+
     span {
       margin: ${spacings.spacesLvl0} ${spacings.spacesLvl0} ${spacings.spacesLvl1};
       font-size: ${fonts.fontLvl1};
@@ -144,8 +180,6 @@ export const Tooltip = styled.div`
       color: ${colors.lightGrey};
       text-transform: capitalize;
     }
-    display: block;
-    line-height: 18px;
   }
 
   span {
