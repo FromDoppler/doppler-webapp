@@ -71,6 +71,7 @@ const fullDailyVisitsResponse = {
 
 const fullRankingByPeriodResponse = {
   data: {
+    hasMorePages: true,
     items: [
       {
         page: '/email-marketing',
@@ -378,20 +379,23 @@ describe('HttpDataHubClient', () => {
       );
       expect(response).toEqual({
         success: true,
-        value: [
-          {
-            name: '/email-marketing',
-            totalVisitors: 10122,
-            url: 'http://doppler.test/email-marketing',
-            withEmail: 400,
-          },
-          {
-            name: '/precios',
-            totalVisitors: 9000,
-            url: 'http://doppler.test/precios',
-            withEmail: 300,
-          },
-        ],
+        value: {
+          hasMorePages: true,
+          pages: [
+            {
+              name: '/email-marketing',
+              totalVisitors: 10122,
+              url: 'http://doppler.test/email-marketing',
+              withEmail: 400,
+            },
+            {
+              name: '/precios',
+              totalVisitors: 9000,
+              url: 'http://doppler.test/precios',
+              withEmail: 300,
+            },
+          ],
+        },
       });
     });
   });

@@ -11,8 +11,8 @@ const numberFormatOptions = {
   maximumFractionDigits: 2,
 };
 
-const pageSize = 2;
-const initialState = { pages: [], page: 0, loading: true };
+const pageSize = 5;
+const initialState = { pages: [], page: 0, hasMorePages: false, loading: true };
 
 const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { datahubClient } }) => {
   const [state, dispatchListEvent] = useReducer((prevState, action) => {
@@ -20,7 +20,11 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
       case 'loadingMore':
         return { ...prevState, loading: true };
       case 'moreLoaded':
-        return { pages: [...prevState.pages, ...action.pages], page: prevState.page + 1 };
+        return {
+          pages: [...prevState.pages, ...action.pages],
+          page: prevState.page + 1,
+          hasMorePages: action.hasMorePages,
+        };
       case 'errorOnLoad':
         return { ...prevState, loading: false, error: true };
       case 'reset':
@@ -41,7 +45,11 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
     if (!result.success) {
       dispatchListEvent({ type: 'errorOnLoad' });
     } else {
-      dispatchListEvent({ type: 'moreLoaded', pages: result.value });
+      dispatchListEvent({
+        type: 'moreLoaded',
+        pages: result.value.pages,
+        hasMorePages: result.value.hasMorePages,
+      });
     }
   };
 
@@ -138,7 +146,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
                       <FormattedMessage id="trafficSources.error" />
                     </p>
                   </BoxMessage>
-                ) : state.pages.length === pageSize ? (
+                ) : state.hasMorePages ? (
                   <S.GridFooter>
                     <button onClick={showMoreResults}>
                       <FormattedMessage id="reports_pageranking.more_results" />
