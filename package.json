@@ -108,5 +108,9 @@
     "fail": [
       "@semantic-release/github"
     ]
+  },
+  "resolutions": {
+    "react-helmet/react-side-effect": ">=2.1.0",
+    "comment": "Resolution to avoid test warning: [...] Please update the following components: SideEffect(NullComponent)"
   }
 }
