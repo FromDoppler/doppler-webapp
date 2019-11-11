@@ -55,10 +55,6 @@ docker pull dopplerrelay/doppler-relay-akamai-publish
 for environment in ${environments}; do
     echo Publishing ${environment}...
 
-    # TODO: It could break concurrent deployments with different docker accounts
-    # It is inside the loop to mitigate collisions
-    docker login -u="$DOCKER_WEBAPP_USERNAME" -p="$DOCKER_WEBAPP_PASSWORD"
-
     docker build --pull \
         -t darosw/doppler-webapp:$environment \
         -t darosw/doppler-webapp:$environment-$versionMayor \
@@ -77,6 +73,10 @@ for environment in ${environments}; do
         --build-arg cdn_cpcode=$AKAMAI_CDN_CPCODE \
         -f Dockerfile.RELEASES \
         .
+
+    # TODO: It could break concurrent deployments with different docker accounts
+    # It is inside the loop to mitigate collisions
+    docker login -u="$DOCKER_WEBAPP_USERNAME" -p="$DOCKER_WEBAPP_PASSWORD"
 
     docker push darosw/doppler-webapp:$environment
     docker push darosw/doppler-webapp:$environment-$versionMayor
