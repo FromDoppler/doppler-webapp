@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@semantic-release/exec": "^3.3.8",
-    "@testing-library/jest-dom": "^4.1.2",
+    "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/react": "^9.3.2",
     "@testing-library/react-hooks": "^2.0.3",
     "@types/intl-tel-input": "^14.0.1",
