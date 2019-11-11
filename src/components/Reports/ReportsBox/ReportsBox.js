@@ -19,15 +19,13 @@ const ReportsBox = ({
 
   useEffect(() => {
     const fetchVisitsByPeriod = async (domainName, dateFrom, dateTo) => {
-      let asyncRequest = datahubClient.getTotalVisitsOfPeriod({
+      const asyncRequest = await datahubClient.getTotalVisitsOfPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
         dateTo: dateTo,
         emailFilter: emailFilter,
       });
-      const visits = await asyncRequest;
-      asyncRequest = null;
-      setVisits(visits);
+      setVisits(asyncRequest);
     };
     fetchVisitsByPeriod(domainName, dateFrom, dateTo);
   }, [domainName, dateFrom, dateTo, datahubClient, emailFilter]);
