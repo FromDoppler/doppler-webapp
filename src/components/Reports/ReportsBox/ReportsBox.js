@@ -11,8 +11,7 @@ const ReportsBox = ({
   domainName,
   dateFrom,
   dateTo,
-  withEmail,
-  withoutEmail,
+  emailFilter,
   today,
   dependencies: { datahubClient },
 }) => {
@@ -24,20 +23,20 @@ const ReportsBox = ({
         domainName: domainName,
         dateFrom: dateFrom,
         dateTo: dateTo,
-        emailFilter: withEmail ? 'with_email' : withoutEmail ? 'without_email' : null,
+        emailFilter: emailFilter,
       });
       const visits = await asyncRequest;
       asyncRequest = null;
       setVisits(visits);
     };
     fetchVisitsByPeriod(domainName, dateFrom, dateTo);
-  }, [domainName, dateFrom, dateTo, datahubClient, withEmail, withoutEmail]);
+  }, [domainName, dateFrom, dateTo, datahubClient, emailFilter]);
 
   return (
     <div className={visits === 0 ? 'dp-box-shadow warning--kpi' : 'dp-box-shadow'}>
       {visits === null ? (
         <div className="loading-box" />
-      ) : withEmail ? (
+      ) : emailFilter === 'with_email' ? (
         <>
           <div className="box-border--bottom">
             <h3 className="number-kpi">{visits}</h3>
@@ -52,7 +51,7 @@ const ReportsBox = ({
             <FormattedMessage id="reports_box.visits_description_with_email" />
           </p>
         </>
-      ) : withoutEmail ? (
+      ) : emailFilter === 'without_email' ? (
         <>
           <div className="box-border--bottom">
             <h3 className="number-kpi">{visits}</h3>
