@@ -76,8 +76,9 @@ export class AppCompositionRoot implements AppServices {
       dopplerSitesUrl: process.env.REACT_APP_DOPPLER_SITES_URL as string,
       datahubUrl: process.env.REACT_APP_DATAHUB_URL as string,
       recaptchaPublicKey: process.env.REACT_APP_RECAPTCHA_PUBLIC_KEY as string,
-      dopplerLegacyKeepAliveMilliseconds: parseInt(process.env
-        .REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string),
+      dopplerLegacyKeepAliveMilliseconds: parseInt(
+        process.env.REACT_APP_DOPPLER_LEGACY_KEEP_ALIVE_MS as string,
+      ),
       useLegacy: {
         login: process.env.REACT_APP_USE_DOPPLER_LEGACY_LOGIN === 'true',
         signup: process.env.REACT_APP_USE_DOPPLER_LEGACY_SIGNUP === 'true',

@@ -67,9 +67,15 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
     }
   };
 
-  const LinkToLogin = connect(({ formik: { values: { email } } }) => {
-    return <LinkCommon email={email} />;
-  });
+  const LinkToLogin = connect(
+    ({
+      formik: {
+        values: { email },
+      },
+    }) => {
+      return <LinkCommon email={email} />;
+    },
+  );
 
   const LinkToLoginSuccess = () => {
     return <LinkCommon email={sentEmail} />;

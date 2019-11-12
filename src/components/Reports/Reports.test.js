@@ -20,7 +20,10 @@ const fakeData = [
   },
 ];
 
-const fakePages = [{ id: 1, name: 'productos2' }, { id: 2, name: 'servicios2' }];
+const fakePages = [
+  { id: 1, name: 'productos2' },
+  { id: 2, name: 'servicios2' },
+];
 
 describe('Reports page', () => {
   afterEach(cleanup);
