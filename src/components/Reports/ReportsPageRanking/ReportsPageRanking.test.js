@@ -33,27 +33,8 @@ const fakePagesData = {
   },
 };
 
-const emptyResponse = {
-  success: false,
-  value: [],
-};
-
 describe('Reports pages ranking', () => {
   afterEach(cleanup);
-
-  it('render component without pages', () => {
-    const datahubClientDouble = {
-      getPagesRankingByPeriod: async () => emptyResponse,
-    };
-
-    render(
-      <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
-        <DopplerIntlProvider>
-          <ReportsPageRanking />
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
-    );
-  });
 
   it('should render pages ranking', async () => {
     const datahubClientDouble = {
