@@ -15,6 +15,11 @@ export interface Page {
   withEmail: number;
 }
 
+export interface PageRanking {
+  hasMorePages: boolean;
+  pages: Page[];
+}
+
 export interface TrafficSource {
   sourceName: string;
   quantity: number;
@@ -67,7 +72,7 @@ export type VisitsQuantitySummarizedResult = ResultWithoutExpectedErrors<
   VisitsQuantitySummarized[]
 >;
 
-export type PageRankingResult = ResultWithoutExpectedErrors<Page[]>;
+export type PageRankingResult = ResultWithoutExpectedErrors<PageRanking>;
 
 export class HttpDatahubClient implements DatahubClient {
   private readonly axios: AxiosInstance;
@@ -183,7 +188,10 @@ export class HttpDatahubClient implements DatahubClient {
 
       return {
         success: true,
-        value: pages,
+        value: {
+          hasMorePages: response.data.hasMorePages,
+          pages: pages,
+        },
       };
     } catch (error) {
       return {

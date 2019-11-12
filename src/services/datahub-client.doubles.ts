@@ -182,18 +182,23 @@ export class HardcodedDatahubClient implements DatahubClient {
     }));
 
     let pagesSubArray = [];
+    let hasMorePages = false;
 
     if (pageSize) {
       const indexStart = pageSize * (pageNumber - 1);
       const indexEnd = indexStart + pageSize;
       pagesSubArray = pages.slice(indexStart, indexEnd);
+      hasMorePages = indexEnd < pages.length;
     } else {
       pagesSubArray = pages;
     }
 
     return {
       success: true,
-      value: pagesSubArray,
+      value: {
+        hasMorePages: hasMorePages,
+        pages: pagesSubArray,
+      },
     };
 
     // return {
