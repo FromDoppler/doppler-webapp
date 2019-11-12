@@ -65,11 +65,11 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
   }, [datahubClient, domainName, dateFrom, dateTo]);
 
   return (
-    <div className="wrapper-reports-box">
+    <div>
       {state.loading && state.pages.length === 0 ? (
         <Loading />
       ) : (
-        <S.ReportBox>
+        <div className="dp-box-shadow">
           <small className="title-reports-box">
             <FormattedMessage id="reports_pageranking.top_pages" />
           </small>
@@ -91,50 +91,57 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
             ) : (
               <>
                 {state.pages.map((item, index) => (
-                  <S.ListItem key={index}>
-                    <S.ListItemColumn>
-                      <p>
-                        <strong>{index + 1}</strong>
-                      </p>
-                      <a href={item.url} target="_blank" rel="noopener noreferrer">
-                        {item.name}
-                      </a>
-                      <p>
-                        <strong>{item.totalVisitors}</strong>{' '}
-                        <FormattedMessage id="reports_pageranking.total_visits" />
-                      </p>
-                    </S.ListItemColumn>
-                    {item.withEmail || item.withEmail === 0 ? (
-                      <S.ListItemRightColumn>
-                        <p className="visits--withemail">
-                          <FormattedMessage id="reports_pageranking.visits_with_email" />
-                        </p>
-                        <p>
-                          {item.withEmail}(
-                          <span>
-                            <FormattedNumber
-                              value={item.withEmail / item.totalVisitors}
-                              {...numberFormatOptions}
-                            />
-                          </span>
-                          )
-                        </p>
-                        <p className="visits--withoutemail">
-                          <FormattedMessage id="reports_pageranking.visits_without_email" />
-                        </p>
-                        <p>
-                          {item.totalVisitors - item.withEmail}(
-                          <span>
-                            <FormattedNumber
-                              value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
-                              {...numberFormatOptions}
-                            />
-                          </span>
-                          )
-                        </p>
-                      </S.ListItemRightColumn>
-                    ) : null}
-                  </S.ListItem>
+                  <div className="col-sm-12">
+                    <S.ListItem key={index}>
+                      <div className="col-sm-12 col-md-8 col-lg-8">
+                        <S.ListItemColumn>
+                          <p>
+                            <strong>{index + 1}</strong>
+                          </p>
+                          <a href={item.url} target="_blank" rel="noopener noreferrer">
+                            {item.name}
+                          </a>
+                          <p>
+                            <strong>{item.totalVisitors}</strong>{' '}
+                            <FormattedMessage id="reports_pageranking.total_visits" />
+                          </p>
+                        </S.ListItemColumn>
+                      </div>
+
+                      {item.withEmail || item.withEmail === 0 ? (
+                        <div className="col-sm-12 col-md-4 col-lg-4">
+                          <S.ListItemRightColumn>
+                            <p className="visits--withemail">
+                              <FormattedMessage id="reports_pageranking.visits_with_email" />
+                            </p>
+                            <p>
+                              {item.withEmail}(
+                              <span>
+                                <FormattedNumber
+                                  value={item.withEmail / item.totalVisitors}
+                                  {...numberFormatOptions}
+                                />
+                              </span>
+                              )
+                            </p>
+                            <p className="visits--withoutemail">
+                              <FormattedMessage id="reports_pageranking.visits_without_email" />
+                            </p>
+                            <p>
+                              {item.totalVisitors - item.withEmail}(
+                              <span>
+                                <FormattedNumber
+                                  value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
+                                  {...numberFormatOptions}
+                                />
+                              </span>
+                              )
+                            </p>
+                          </S.ListItemRightColumn>
+                        </div>
+                      ) : null}
+                    </S.ListItem>
+                  </div>
                 ))}
                 {state.loading ? (
                   <S.SpinnerContainer>
@@ -156,7 +163,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
               </>
             )}
           </S.ContentContainer>
-        </S.ReportBox>
+        </div>
       )}
     </div>
   );
