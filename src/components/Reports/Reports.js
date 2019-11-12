@@ -102,7 +102,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
                     today={state.dailyView}
-                    withoutEmail
+                    emailFilter={'without_email'}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
@@ -111,7 +111,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
                     today={state.dailyView}
-                    withEmail
+                    emailFilter="with_email"
                   />
                 </div>
                 {!state.dailyView ? (
