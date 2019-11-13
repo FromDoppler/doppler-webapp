@@ -28,12 +28,14 @@ const fakePages = [
 describe('Reports page', () => {
   afterEach(cleanup);
 
-  it('render page without domain', () => {
+  it('render page without domain', async () => {
+    // Arrange
     const datahubClientDouble = {
       getAccountDomains: async () => [],
     };
 
-    render(
+    // Act
+    const { getByText } = render(
       <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
         <DopplerIntlProvider>
           <Reports
@@ -45,6 +47,9 @@ describe('Reports page', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+
+    // Assert
+    await wait(() => expect(getByText('reports.no_domains_HTML')));
   });
 
   it('should render domains without pages', async () => {
