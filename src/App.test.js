@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, wait, waitForDomChange } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
@@ -68,7 +68,7 @@ describe('App component', () => {
   afterEach(cleanup);
 
   describe('language', () => {
-    it('should make honor to locale="en"', () => {
+    it('should make honor to locale="en"', async () => {
       // Arrange
       const dependencies = defaultDependencies;
 
@@ -82,10 +82,10 @@ describe('App component', () => {
       );
 
       // Assert
-      getByText('Privacy Policy & Legals');
+      await wait(() => expect(getByText('Privacy Policy & Legals')));
     });
 
-    it('should make honor to locale="es"', () => {
+    it('should make honor to locale="es"', async () => {
       // Arrange
       const dependencies = defaultDependencies;
 
@@ -99,10 +99,10 @@ describe('App component', () => {
       );
 
       // Assert
-      getByText('Política de Privacidad y Legales');
+      await wait(() => expect(getByText('Política de Privacidad y Legales')));
     });
 
-    it('should use Spanish when language is not supported', () => {
+    it('should use Spanish when language is not supported', async () => {
       // Arrange
       const dependencies = defaultDependencies;
 
@@ -116,10 +116,10 @@ describe('App component', () => {
       );
 
       // Assert
-      getByText('Política de Privacidad y Legales');
+      await wait(() => expect(getByText('Política de Privacidad y Legales')));
     });
 
-    it('should use Spanish when language is not defined', () => {
+    it('should use Spanish when language is not defined', async () => {
       // Arrange
       const dependencies = defaultDependencies;
 
@@ -133,10 +133,10 @@ describe('App component', () => {
       );
 
       // Assert
-      getByText('Política de Privacidad y Legales');
+      await wait(() => expect(getByText('Política de Privacidad y Legales')));
     });
 
-    it("should be updated based on user's data", () => {
+    it("should be updated based on user's data", async () => {
       // Arrange
       const appSessionRef = { current: { status: 'unknown' } };
       const dependencies = {
@@ -157,7 +157,7 @@ describe('App component', () => {
       // assuming English.
       const loadingEl = container.querySelector('.loading-page');
       expect(loadingEl).not.toBeNull();
-
+      await waitForDomChange();
       // Act
       dependencies.sessionManager.updateAppSession({
         status: 'authenticated',
@@ -179,6 +179,7 @@ describe('App component', () => {
       });
 
       // Assert
+      await waitForDomChange();
       getByText('Política de Privacidad y Legales');
 
       // Act
@@ -202,6 +203,7 @@ describe('App component', () => {
       });
 
       // Assert
+      await waitForDomChange();
       getByText('Privacy Policy & Legals');
 
       // Act
@@ -209,6 +211,7 @@ describe('App component', () => {
 
       // Assert
       // Language should not be changed on logout
+      await waitForDomChange();
       getByText('Privacy Policy & Legals');
 
       // Act
@@ -232,6 +235,7 @@ describe('App component', () => {
       });
 
       // Assert
+      await waitForDomChange();
       getByText('Política de Privacidad y Legales');
     });
   });
@@ -286,7 +290,7 @@ describe('App component', () => {
     });
 
     describe('not authenticated user', () => {
-      it('should be redirected to Legacy Doppler Login after open /reports when useLegacy.login is active', () => {
+      it('should be redirected to Legacy Doppler Login after open /reports when useLegacy.login is active', async () => {
         const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
           appSessionRef: appSessionRef,
@@ -317,19 +321,20 @@ describe('App component', () => {
 
         const loadingEl = container.querySelector('.loading-page');
         expect(loadingEl).not.toBeNull();
-
+        await waitForDomChange();
         // Act
         dependencies.sessionManager.updateAppSession({
           status: 'not-authenticated',
         });
 
         // Assert
+        await waitForDomChange();
         expect(dependencies.window.location.href).toEqual(
           'http://legacyUrl.localhost/SignIn/?redirect=http://webapp.localhost/path1/path2/#/reports',
         );
       });
 
-      it('should be redirected to Internal Login after open /reports (when using RedirectToInternalLogin)', () => {
+      it('should be redirected to Internal Login after open /reports (when using RedirectToInternalLogin)', async () => {
         const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
           appSessionRef: appSessionRef,
@@ -353,13 +358,14 @@ describe('App component', () => {
         expect(currentRouteState.location.hash).toEqual('#hash');
         const loadingEl = container.querySelector('.loading-page');
         expect(loadingEl).not.toBeNull();
-
+        await waitForDomChange();
         // Act
         dependencies.sessionManager.updateAppSession({
           status: 'not-authenticated',
         });
 
         // Assert
+        await waitForDomChange();
         expect(currentRouteState.location.pathname).toEqual('/login');
         expect(currentRouteState.location.state).toBeDefined();
         expect(currentRouteState.location.state.from).toBeDefined();
@@ -376,7 +382,7 @@ describe('App component', () => {
         expect(footerEl).toBeNull();
       });
 
-      it('should not be redirected after open /login', () => {
+      it('should not be redirected after open /login', async () => {
         const dependencies = defaultDependencies;
 
         const currentRouteState = {};
@@ -404,13 +410,14 @@ describe('App component', () => {
           const passwordEl = container.querySelector('#password');
           expect(passwordEl).toBeInstanceOf(HTMLInputElement);
         }
-
+        await waitForDomChange();
         // Act
         dependencies.sessionManager.updateAppSession({
           status: 'not-authenticated',
         });
 
         // Assert
+        await waitForDomChange();
         expect(currentRouteState.location.pathname).toEqual('/login');
         expect(currentRouteState.location.state).toBeUndefined();
         expect(currentRouteState.history.length).toEqual(1);
@@ -425,7 +432,7 @@ describe('App component', () => {
         expect(passwordEl).toBeInstanceOf(HTMLInputElement);
       });
 
-      it('should be redirected to /login when route does not exists', () => {
+      it('should be redirected to /login when route does not exists', async () => {
         const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
           appSessionRef: appSessionRef,
@@ -448,13 +455,14 @@ describe('App component', () => {
         expect(currentRouteState.location.state).toBeUndefined();
         const loadingEl = container.querySelector('.loading-page');
         expect(loadingEl).not.toBeNull();
-
+        await waitForDomChange();
         // Act
         dependencies.sessionManager.updateAppSession({
           status: 'not-authenticated',
         });
 
         // Assert
+        await waitForDomChange();
         expect(currentRouteState.location.pathname).toEqual('/login');
         expect(currentRouteState.location.state).toBeDefined();
         expect(currentRouteState.location.state.from).toBeDefined();
@@ -471,7 +479,7 @@ describe('App component', () => {
     });
 
     describe('authenticated user', () => {
-      it('should be redirected to /reports when route does not exists', () => {
+      it('should be redirected to /reports when route does not exists', async () => {
         const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
           appSessionRef: appSessionRef,
@@ -495,7 +503,7 @@ describe('App component', () => {
         expect(currentRouteState.location.hash).toEqual('');
         const loadingEl = container.querySelector('.loading-page');
         expect(loadingEl).not.toBeNull();
-
+        await waitForDomChange();
         // Act
         dependencies.sessionManager.updateAppSession({
           status: 'authenticated',
@@ -515,7 +523,7 @@ describe('App component', () => {
             },
           },
         });
-
+        await waitForDomChange();
         // Assert
         expect(currentRouteState.location.state).toBeUndefined();
         expect(currentRouteState.history.length).toEqual(1);
@@ -528,7 +536,7 @@ describe('App component', () => {
         expect(footerEl).not.toBeNull();
       });
 
-      it('should keep /reports path when the authenticated state is verified', () => {
+      it('should keep /reports path when the authenticated state is verified', async () => {
         const appSessionRef = { current: { status: 'unknown' } };
         const dependencies = {
           appSessionRef: appSessionRef,
@@ -552,7 +560,7 @@ describe('App component', () => {
         expect(currentRouteState.location.hash).toEqual('#hash');
         const loadingEl = container.querySelector('.loading-page');
         expect(loadingEl).not.toBeNull();
-
+        await waitForDomChange();
         // Act
         dependencies.sessionManager.updateAppSession({
           status: 'authenticated',
@@ -574,6 +582,7 @@ describe('App component', () => {
         });
 
         // Assert
+        await waitForDomChange();
         expect(currentRouteState.location.pathname).toEqual('/reports');
         expect(currentRouteState.location.search).toEqual('?param1=value1');
         expect(currentRouteState.location.hash).toEqual('#hash');
@@ -591,7 +600,7 @@ describe('App component', () => {
   });
 
   describe('origin parameter', () => {
-    it('should be stored in the local storage', () => {
+    it('should be stored in the local storage', async () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
@@ -610,6 +619,7 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
+      await waitForDomChange();
       expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
       expect(localStorageItems['dopplerFirstOrigin.value']).toEqual('testOrigin');
       expect(localStorageItems['dopplerFirstOrigin.date']).toBeDefined();
@@ -618,7 +628,7 @@ describe('App component', () => {
       expect(dopplerOriginDate.getFullYear()).toBeGreaterThan(2018);
     });
 
-    it('should not be replaced in local storage if it already exists', () => {
+    it('should not be replaced in local storage if it already exists', async () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
@@ -640,11 +650,12 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
+      await waitForDomChange();
       expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
       expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
     });
 
-    it('should not be cleaned in local storage when there is not origin URL parameter', () => {
+    it('should not be cleaned in local storage when there is not origin URL parameter', async () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
@@ -666,11 +677,12 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
+      await waitForDomChange();
       expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
       expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
     });
 
-    it('should not be set in local storage when there is not origin URL parameter', () => {
+    it('should not be set in local storage when there is not origin URL parameter', async () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
@@ -689,12 +701,12 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
-      expect(localStorageItems['dopplerFirstOrigin.value']).toBeUndefined();
+      await wait(() => expect(localStorageItems['dopplerFirstOrigin.value']).toBeUndefined());
     });
   });
 
   describe('google adwords', () => {
-    it('should be called when query string contains activationInProgress%20=%20true', () => {
+    it('should be called when query string contains activationInProgress%20=%20true', async () => {
       // Arrange
       const dependencies = {
         window: {
@@ -713,10 +725,10 @@ describe('App component', () => {
       );
 
       // Assert
-      expect(dependencies.window.gtag).toBeCalledTimes(1);
+      await wait(() => expect(dependencies.window.gtag).toBeCalledTimes(1));
     });
 
-    it('should not be called when query string does not contain activationInProgress parameter.', () => {
+    it('should not be called when query string does not contain activationInProgress parameter.', async () => {
       // Arrange
       const dependencies = {
         window: {
@@ -735,10 +747,10 @@ describe('App component', () => {
       );
 
       // Assert
-      expect(dependencies.window.gtag).not.toBeCalled();
+      await wait(() => expect(dependencies.window.gtag).not.toBeCalled());
     });
 
-    it('should be called when query string contains activationInProgress=true', () => {
+    it('should be called when query string contains activationInProgress=true', async () => {
       // Arrange
       const dependencies = {
         window: {
@@ -757,10 +769,10 @@ describe('App component', () => {
       );
 
       // Assert
-      expect(dependencies.window.gtag).toBeCalledTimes(1);
+      await wait(() => expect(dependencies.window.gtag).toBeCalledTimes(1));
     });
 
-    it('should not be called when query string activationInProgress parameter is not true', () => {
+    it('should not be called when query string activationInProgress parameter is not true', async () => {
       // Arrange
       const dependencies = {
         window: {
@@ -779,10 +791,10 @@ describe('App component', () => {
       );
 
       // Assert
-      expect(dependencies.window.gtag).not.toBeCalled();
+      await wait(() => expect(dependencies.window.gtag).not.toBeCalled());
     });
 
-    it('should not be called when query string activationInProgress has no value.', () => {
+    it('should not be called when query string activationInProgress has no value.', async () => {
       // Arrange
       const dependencies = {
         window: {
@@ -801,7 +813,7 @@ describe('App component', () => {
       );
 
       // Assert
-      expect(dependencies.window.gtag).not.toBeCalled();
+      await wait(() => expect(dependencies.window.gtag).not.toBeCalled());
     });
   });
 });
