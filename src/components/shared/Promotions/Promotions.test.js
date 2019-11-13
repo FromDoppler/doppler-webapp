@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import Promotions from './Promotions';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
-import { async } from 'q';
 
 const emptyResponse = { success: false, error: new Error('Dummy error') };
 const fullResponse = {
@@ -39,25 +38,6 @@ describe('Promotions Component', () => {
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('default_banner_data.title'));
-  });
-
-  it('should disabled sites content', () => {
-    const dopplerSitesClientDouble = {
-      getBannerData: async () => emptyResponse,
-    };
-
-    const { getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerSitesClient: dopplerSitesClientDouble,
-        }}
-      >
-        <DopplerIntlProvider locale="es">
-          <Promotions type="signup" page="example" disabledSitesContent />
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
-    );
     expect(getByText('default_banner_data.title'));
   });
 
