@@ -1,6 +1,17 @@
 pipeline {
     agent any
     stages {
+        stage('Confirmation') {
+            when {
+                beforeInput true
+                changeRequest author: 'dependabot-preview'
+            }
+            steps {
+                timeout(time: 180, unit: 'SECONDS') {
+                    input('Continue build?')
+                }
+            }
+        }
         stage('Restore') {
             steps {
                 sh 'docker build --target restore -f Dockerfile.swarm .'
