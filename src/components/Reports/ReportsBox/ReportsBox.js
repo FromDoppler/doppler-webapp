@@ -65,7 +65,9 @@ const ReportsBox = ({
           </p>
         </>
       ) : (
-        <span>Unexpected error</span>
+        <p className="dp-boxshadow--error">
+          <FormattedMessage id="trafficSources.error" />
+        </p>
       )}
     </div>
   );
