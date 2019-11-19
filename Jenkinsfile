@@ -9,7 +9,7 @@ pipeline {
         stage('Confirmation') {
             when {
                 beforeInput true
-                changeRequest author: 'dependabot', comparator: "REGEXP"
+                changeRequest author: '.*dependabot.*', comparator: "REGEXP"
             }
             steps {
                 timeout(time: 180, unit: 'SECONDS') {
