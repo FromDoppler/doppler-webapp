@@ -123,14 +123,15 @@ export const FormWithCaptcha = ({
       onSubmit={verifyCaptchaAndSubmit}
       validate={validate}
       {...rest}
-      render={() => (
+    >
+      {() => (
         <Form className={className}>
           <Captcha />
           <SetFormMessage message={initialFormMessage} />
           {children}
         </Form>
       )}
-    />
+    </Formik>
   );
 };
 
@@ -330,7 +331,10 @@ const _PhoneFieldItem = ({
     return () => {
       iti.destroy();
     };
-  }, [intl.locale, handleChange, fieldName, setFieldValue]);
+    // We are not registering handleChange as a dependency since it mutates too much and causes the component to be remade.
+    // We are investigating that problem on the DW-128 ticket
+    // eslint-disable-next-line
+  }, [intl.locale, fieldName, setFieldValue]);
 
   return (
     <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
