@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import { FormattedDateRangeText } from '../../shared/FormattedDateRangeText/FormattedDateRangeText';
+import { Loading } from '../../Loading/Loading';
 
 /**
  * @param { Object } props - props
@@ -33,7 +34,7 @@ const ReportsBox = ({
   return (
     <div className={visits === 0 ? 'dp-box-shadow warning--kpi' : 'dp-box-shadow'}>
       {visits === null ? (
-        <div className="loading-box" />
+        <Loading />
       ) : emailFilter === 'with_email' ? (
         <>
           <div className="box-border--bottom">
@@ -65,7 +66,7 @@ const ReportsBox = ({
           </p>
         </>
       ) : (
-        <p className="dp-boxshadow--error">
+        <p className="dp-boxshadow--error bounceIn">
           <FormattedMessage id="trafficSources.error" />
         </p>
       )}

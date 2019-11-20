@@ -3,7 +3,6 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsPageRanking.styles';
-import { BoxMessage } from '../../styles/messages';
 
 const numberFormatOptions = {
   style: 'percent',
@@ -65,28 +64,24 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
   }, [datahubClient, domainName, dateFrom, dateTo]);
 
   return (
-    <div>
+    <div className="dp-box-shadow">
       {state.loading && state.pages.length === 0 ? (
         <Loading />
       ) : (
-        <div className="dp-box-shadow">
+        <div>
           <small className="title-reports-box">
             <FormattedMessage id="reports_pageranking.top_pages" />
           </small>
           <S.ContentContainer>
             {state.pages.length === 0 ? (
               !state.error ? (
-                <BoxMessage className="dp-msj-user bounceIn">
-                  <p>
-                    <FormattedMessage id="common.empty_data" />
-                  </p>
-                </BoxMessage>
+                <p className="dp-boxshadow--usermsg bounceIn">
+                  <FormattedMessage id="common.empty_data" />
+                </p>
               ) : (
-                <BoxMessage className="dp-msj-error bounceIn">
-                  <p>
-                    <FormattedMessage id="trafficSources.error" />
-                  </p>
-                </BoxMessage>
+                <p className="dp-boxshadow--error bounceIn">
+                  <FormattedMessage id="trafficSources.error" />
+                </p>
               )
             ) : (
               <>
@@ -148,11 +143,9 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
                     <Loading />
                   </S.SpinnerContainer>
                 ) : state.error ? (
-                  <BoxMessage className="dp-msj-error bounceIn">
-                    <p>
-                      <FormattedMessage id="trafficSources.error" />
-                    </p>
-                  </BoxMessage>
+                  <p className="dp-boxshadow--error bounceIn">
+                    <FormattedMessage id="trafficSources.error" />
+                  </p>
                 ) : state.hasMorePages ? (
                   <S.GridFooter>
                     <button onClick={showMoreResults}>
