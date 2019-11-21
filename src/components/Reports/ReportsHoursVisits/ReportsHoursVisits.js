@@ -3,7 +3,6 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDateParts } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsHoursVisits.styles';
-import { BoxMessage } from '../../styles/messages';
 
 const createEmptyWeekDayHoursMatrix = () =>
   [...Array(7)].map(() =>
@@ -173,11 +172,9 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
             </S.Legend>
           </S.List>
         ) : (
-          <BoxMessage className="dp-msj-error bounceIn">
-            <p>
-              <FormattedMessage id="trafficSources.error" />
-            </p>
-          </BoxMessage>
+          <p className="dp-boxshadow--error bounceIn">
+            <FormattedMessage id="trafficSources.error" />
+          </p>
         )}
       </S.ContentContainer>
     </div>

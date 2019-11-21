@@ -3,7 +3,6 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsTrafficSources.styles';
-import { BoxMessage } from '../../styles/messages';
 
 const SafeDivide = (number, quantity) => {
   return quantity ? number / quantity : 0;
@@ -57,17 +56,13 @@ const ReportsTrafficSources = function({
         {state.loading ? (
           <Loading />
         ) : !state.trafficSources ? (
-          <BoxMessage className="dp-msj-error bounceIn">
-            <p>
-              <FormattedMessage id="trafficSources.error" />
-            </p>
-          </BoxMessage>
+          <p className="dp-boxshadow--error bounceIn">
+            <FormattedMessage id="trafficSources.error" />
+          </p>
         ) : state.trafficSources.items.length === 0 ? (
-          <BoxMessage className="dp-msj-user bounceIn">
-            <p>
-              <FormattedMessage id="common.empty_data" />
-            </p>
-          </BoxMessage>
+          <p className="dp-boxshadow--usermsg bounceIn">
+            <FormattedMessage id="common.empty_data" />
+          </p>
         ) : (
           <S.ListContainer>
             {state.trafficSources.items.map((trafficSource, index) => (

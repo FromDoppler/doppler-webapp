@@ -131,7 +131,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       {state.loading ? (
         <Loading />
       ) : !state.chartData ? (
-        <p className="dp-boxshadow--error">
+        <p className="dp-boxshadow--error bounceIn">
           <FormattedMessage id="trafficSources.error" />
         </p>
       ) : (
