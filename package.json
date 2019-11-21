@@ -42,7 +42,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.2.0",
     "react-test-renderer": "^16.11.0",
-    "semantic-release": "^15.13.30",
+    "semantic-release": "^15.13.31",
     "styled-components": "^4.4.1",
     "typescript": "^3.7.2",
     "url-parse": "^1.4.7"
