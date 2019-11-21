@@ -287,6 +287,7 @@ const _PhoneFieldItem = ({
   const intl = useIntl();
   const inputElRef = useRef(null);
   const intlTelInputRef = useRef(null);
+  const [eventListenerSet, setEventListenerSet] = useState(false);
 
   const formatFieldValueAsInternationalNumber = () =>
     _formatFieldValueAsInternationalNumber(intlTelInputRef.current, fieldName, setFieldValue);
@@ -310,7 +311,6 @@ const _PhoneFieldItem = ({
 
     return null;
   };
-
   useEffect(() => {
     translateIntlTelInputCountryNames(intl.locale);
     const iti = intlTelInput(inputElRef.current, {
@@ -325,16 +325,18 @@ const _PhoneFieldItem = ({
         callback('ar');
       },
     });
-    inputElRef.current.addEventListener('countrychange', handleChange);
     intlTelInputRef.current = iti;
     _formatFieldValueAsInternationalNumber(iti, fieldName, setFieldValue);
     return () => {
+      setEventListenerSet(false);
       iti.destroy();
     };
-    // We are not registering handleChange as a dependency since it mutates too much and causes the component to be remade.
-    // We are investigating that problem on the DW-128 ticket
-    // eslint-disable-next-line
   }, [intl.locale, fieldName, setFieldValue]);
+
+  if (!eventListenerSet && inputElRef.current && intlTelInputRef.current) {
+    inputElRef.current.addEventListener('countrychange', handleChange);
+    setEventListenerSet(true);
+  }
 
   return (
     <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
