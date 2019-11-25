@@ -1,62 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
 
-class HeaderMessages extends React.Component {
-  constructor(props) {
-    super(props);
+const HeaderMessages = ({ alert, user }) => {
+  const [buyModalIsOpen, setBuyModalIsOpen] = useState(false);
 
-    this.state = {
-      buyModalIsOpen: false,
-    };
+  const toggleModal = (isOpen) => setBuyModalIsOpen(isOpen);
 
-    this.handleOpenBuyModal = () => this.setState({ buyModalIsOpen: true });
-    this.handleCloseBuyModal = () => this.setState({ buyModalIsOpen: false });
-  }
-
-  render() {
-    const alert = this.props.alert;
-    const user = this.props.user;
-    //TODO implement max subscribers modal
-    if (alert.button && alert.button.action && alert.button.action !== 'updatePlanPopup') {
-      return <></>;
-    } else {
-      return (
-        <div className={'messages-container ' + alert.type}>
-          <div className="wrapper">
-            <p>{alert.message}</p>
-            {alert.button && alert.button.url ? (
-              <a
-                href={alert.button.url}
-                className="button button--light button--tiny"
-                data-testid="linkButton"
-              >
-                {alert.button.text}
-              </a>
-            ) : alert.button ? (
-              <button
-                className="button button--light button--tiny"
-                data-testid="actionButton"
-                onClick={this.handleOpenBuyModal}
-              >
-                {alert.button.text}
-              </button>
-            ) : null}
-          </div>
-          <Modal
-            className="modal"
-            isOpen={this.state.buyModalIsOpen}
-            handleClose={this.handleCloseBuyModal}
+  return alert.button && alert.button.action && alert.button.action !== 'updatePlanPopup' ? null : (
+    <div className={'messages-container ' + alert.type}>
+      <div className="wrapper">
+        <p>{alert.message}</p>
+        {alert.button && alert.button.url ? (
+          <a
+            href={alert.button.url}
+            className="button button--light button--tiny"
+            data-testid="linkButton"
           >
-            <UpgradePlanForm
-              isSubscriber={user.plan.isSubscribers}
-              handleClose={this.handleCloseBuyModal}
-            />
-          </Modal>
-        </div>
-      );
-    }
-  }
-}
+            {alert.button.text}
+          </a>
+        ) : alert.button ? (
+          <button
+            className="button button--light button--tiny"
+            data-testid="actionButton"
+            onClick={() => toggleModal(true)}
+          >
+            {alert.button.text}
+          </button>
+        ) : (
+          <></>
+        )}
+      </div>
+      <Modal className="modal" isOpen={buyModalIsOpen} handleClose={() => toggleModal(false)}>
+        <UpgradePlanForm
+          isSubscriber={user.plan.isSubscribers}
+          handleClose={() => toggleModal(false)}
+        />
+      </Modal>
+    </div>
+  );
+};
 
 export default HeaderMessages;
