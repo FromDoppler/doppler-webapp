@@ -14,7 +14,7 @@ describe('Header Messages component', () => {
   afterEach(cleanup);
 
   it('renders header messages with free account alert', () => {
-    let alert = {
+    const alert = {
       type: 'message',
       button: {
         url: 'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/PreUpgrade',
@@ -32,7 +32,7 @@ describe('Header Messages component', () => {
   });
 
   it('renders header messages with suscribers account limit alert', () => {
-    let alert = {
+    const alert = {
       type: 'warning',
       button: {
         text: 'Actualizar plan',
@@ -49,11 +49,11 @@ describe('Header Messages component', () => {
   });
 
   it('renders header messages with canceled account', () => {
-    let alert = {
+    const alert = {
       type: 'error',
       message: 'Has solicitado la cancelación de tu cuenta.',
     };
-    const { getByText, getByTestId } = render(<HeaderMessages alert={alert} user={user} />);
+    const { getByText } = render(<HeaderMessages alert={alert} user={user} />);
 
     expect(getByText('Has solicitado la cancelación de tu cuenta.')).toBeInTheDocument();
   });
