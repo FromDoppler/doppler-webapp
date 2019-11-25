@@ -39,7 +39,7 @@ RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
 
 
 # Runtime layer (Host project in nginx)
-FROM nginx:1.16-alpine
+FROM nginx:1.17.6-alpine
 WORKDIR /app
 ARG environment
 COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
