@@ -269,6 +269,11 @@ export default {
     thanks_for_registering: `Gracias por registrarte`,
     url_site: `${urlSiteFromSignup}`,
   },
+  subscriber_history: {
+    header_title: `Reporte de Actividad General del Suscriptor`,
+    page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,
+    page_title: `Doppler | Historial por Suscriptor`,
+  },
   trafficSources: {
     direct: `Directo`,
     email: `Email`,
