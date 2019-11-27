@@ -12,6 +12,36 @@ interface DopplerApiConnectionData {
   userAccount: string;
 }
 
+interface Fields {
+  name: string;
+  value: string;
+  predefined: boolean;
+  private: boolean;
+  readonly: boolean;
+  type: string;
+}
+
+interface Links {
+  href: string;
+  description: string;
+  rel: string;
+}
+
+export interface Subscriber {
+  email: string;
+  fields: Fields[];
+  belongsToLists: string[];
+  unsubscribedDate: string;
+  unsubscriptionType: string;
+  manualUnsubscriptionReason: string;
+  unsubscriptionComment: string;
+  status: string;
+  canBeReactivated: boolean;
+  isBeingReactivated: boolean;
+  score: number;
+  links: Links[];
+}
+
 export class HttpDopplerApiClient implements DopplerApiClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
@@ -61,6 +91,25 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     };
   }
 
+  private mapSubscriberFields(data: any): Fields[] {
+    return data.map((x: any) => ({
+      name: x.name,
+      value: x.value,
+      predefined: x.predefined,
+      private: x.private,
+      readonly: x.readonly,
+      type: x.type,
+    }));
+  }
+
+  private mapSubscriberLinks(data: any): Links[] {
+    return data.map((x: any) => ({
+      href: x.href,
+      description: x.description,
+      rel: x.rel,
+    }));
+  }
+
   public async getListData(listId: number): Promise<ResultWithoutExpectedErrors<SubscriberList>> {
     try {
       const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
@@ -78,6 +127,43 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       }
     } catch (error) {
       return { success: false, error: error };
+    }
+  }
+
+  public async getSubscriber(email: string): Promise<ResultWithoutExpectedErrors<Subscriber>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/subscribers/${email}`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      const subscriber = {
+        email: response.data.email,
+        fields: this.mapSubscriberFields(response.data.fields),
+        belongsToLists: response.data.belongsToLists,
+        unsubscribedDate: response.data.unsubscribedDate,
+        unsubscriptionType: response.data.unsubscriptionType,
+        manualUnsubscriptionReason: response.data.manualUnsubscriptionReason,
+        unsubscriptionComment: response.data.unsubscriptionComment,
+        status: response.data.status,
+        canBeReactivated: response.data.canBeReactivated,
+        isBeingReactivated: response.data.isBeingReactivated,
+        score: response.data.score,
+        links: this.mapSubscriberLinks(response.data._links),
+      };
+
+      return {
+        success: true,
+        value: subscriber,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
     }
   }
 }
