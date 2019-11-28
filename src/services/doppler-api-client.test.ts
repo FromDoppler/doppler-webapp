@@ -74,4 +74,67 @@ describe('HttpDopplerApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(false);
   });
+
+  describe('GetSubscriber', () => {
+    it('should get and error', async () => {
+      // Arrange
+      const request = jest.fn(async () => {});
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should get a subscriber', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [
+            {
+              name: 'test',
+              value: 'test',
+              predefined: true,
+              private: true,
+              readonly: true,
+              type: 'boolean',
+            },
+          ],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'hardBounce',
+          manualUnsubscriptionReason: 'administrative',
+          unsubscriptionComment: 'test',
+          status: 'active',
+          canBeReactivated: true,
+          isBeingReactivated: true,
+          score: 0,
+          _links: [
+            {
+              href: 'test.com',
+              description: 'test',
+              rel: 'test',
+            },
+          ],
+        },
+        status: 200,
+      };
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.email).toEqual('test@test.com');
+    });
+  });
 });
