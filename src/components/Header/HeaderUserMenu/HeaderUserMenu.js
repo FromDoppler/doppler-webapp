@@ -9,11 +9,11 @@ const HeaderUserMenu = ({ user }) => {
 
   return (
     <div>
-      <span className="user-menu--open">
+      <button className="user-menu--open">
         <span style={{ background: user.avatar.color }} className="user-avatar">
           {user.avatar.text}
         </span>
-      </span>
+      </button>
       <div className="user-menu">
         <header>
           <span className="user-avatar--menu" style={{ background: user.avatar.color }}>
