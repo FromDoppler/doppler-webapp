@@ -20,30 +20,20 @@ const subscriber = {
   email: 'test@fromdoppler.com',
   fields: [
     {
-      name: 'test',
-      value: 'test',
+      name: 'firstName',
+      value: 'Manuel di Rago',
       predefined: true,
-      private: true,
+      private: false,
       readonly: true,
-      type: 'boolean',
+      type: 'string',
     },
   ],
-  belongsToLists: [],
   unsubscribedDate: '2019-11-27T18:05:40.847Z',
   unsubscriptionType: 'hardBounce',
   manualUnsubscriptionReason: 'administrative',
   unsubscriptionComment: 'test',
   status: 'active',
-  canBeReactivated: true,
-  isBeingReactivated: true,
   score: 0,
-  links: [
-    {
-      href: 'test.com',
-      description: 'test',
-      rel: 'test',
-    },
-  ],
 };
 
 export class HardcodedDopplerApiClient implements DopplerApiClient {
@@ -57,7 +47,10 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     // return listNotExists;
   }
 
-  public async getSubscriber(email: string): Promise<ResultWithoutExpectedErrors<Subscriber>> {
+  public async getSubscriber(
+    email: string,
+    apikey: string,
+  ): Promise<ResultWithoutExpectedErrors<Subscriber>> {
     console.log('getApiSubscriber');
     await timeout(1500);
 

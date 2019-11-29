@@ -3,7 +3,6 @@ import { HttpDopplerApiClient } from './doppler-api-client';
 import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
-import { FakeLocalStorage } from './test-utils/local-storage-double';
 
 const consoleError = console.error;
 
@@ -105,22 +104,12 @@ describe('HttpDopplerApiClient', () => {
               type: 'boolean',
             },
           ],
-          belongsToLists: [],
           unsubscribedDate: '2019-11-27T18:05:40.847Z',
           unsubscriptionType: 'hardBounce',
           manualUnsubscriptionReason: 'administrative',
           unsubscriptionComment: 'test',
           status: 'active',
-          canBeReactivated: true,
-          isBeingReactivated: true,
           score: 0,
-          _links: [
-            {
-              href: 'test.com',
-              description: 'test',
-              rel: 'test',
-            },
-          ],
         },
         status: 200,
       };
