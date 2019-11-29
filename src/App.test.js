@@ -378,7 +378,7 @@ describe('App component', () => {
         expect(headerEl).toBeNull();
         const menuEl = container.querySelector('.menu-main');
         expect(menuEl).toBeNull();
-        const footerEl = container.querySelector('.footer-main');
+        const footerEl = container.querySelector('.dp-footer');
         expect(footerEl).toBeNull();
       });
 
@@ -405,7 +405,7 @@ describe('App component', () => {
           expect(headerEl).toBeNull();
           const menuEl = container.querySelector('.menu-main');
           expect(menuEl).toBeNull();
-          const footerEl = container.querySelector('.footer-main');
+          const footerEl = container.querySelector('.dp-footer');
           expect(footerEl).toBeNull();
           const passwordEl = container.querySelector('#password');
           expect(passwordEl).toBeInstanceOf(HTMLInputElement);
@@ -426,7 +426,7 @@ describe('App component', () => {
         expect(headerEl).toBeNull();
         const menuEl = container.querySelector('.menu-main');
         expect(menuEl).toBeNull();
-        const footerEl = container.querySelector('.footer-main');
+        const footerEl = container.querySelector('.dp-footer');
         expect(footerEl).toBeNull();
         const passwordEl = container.querySelector('#password');
         expect(passwordEl).toBeInstanceOf(HTMLInputElement);
@@ -473,7 +473,7 @@ describe('App component', () => {
         expect(headerEl).toBeNull();
         const menuEl = container.querySelector('.menu-main');
         expect(menuEl).toBeNull();
-        const footerEl = container.querySelector('.footer-main');
+        const footerEl = container.querySelector('.dp-footer');
         expect(footerEl).toBeNull();
       });
     });
@@ -532,7 +532,7 @@ describe('App component', () => {
         expect(headerEl).not.toBeNull();
         const menuEl = container.querySelector('.menu-main');
         expect(menuEl).not.toBeNull();
-        const footerEl = container.querySelector('.footer-main');
+        const footerEl = container.querySelector('.dp-footer');
         expect(footerEl).not.toBeNull();
       });
 
@@ -593,7 +593,7 @@ describe('App component', () => {
         expect(headerEl).not.toBeNull();
         const menuEl = container.querySelector('.menu-main');
         expect(menuEl).not.toBeNull();
-        const footerEl = container.querySelector('.footer-main');
+        const footerEl = container.querySelector('.dp-footer');
         expect(footerEl).not.toBeNull();
       });
     });
