@@ -22,43 +22,53 @@ const getDefaultBannerData = (intl) => {
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Promotions = function({ type, page, dependencies: { dopplerSitesClient } }) {
+const Promotions = function({
+  type,
+  page,
+  disabledSitesContent,
+  dependencies: { dopplerSitesClient },
+}) {
   const intl = useIntl();
-  const [state, setState] = useState({ loading: true });
+  const [bannerData, setBannerData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setState({ loading: true });
-      const bannerData = await dopplerSitesClient.getBannerData(intl.locale, type, page || '');
-      if (!bannerData.success) {
-        setState({ loading: false, bannerData: getDefaultBannerData(intl) });
-      } else {
-        setState({ loading: false, bannerData: bannerData.value });
-      }
-    };
+    if (disabledSitesContent) {
+      setBannerData(getDefaultBannerData(intl));
+      setIsLoading(false);
+    } else {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const bannerData = await dopplerSitesClient.getBannerData(intl.locale, type, page || '');
+        setBannerData(
+          bannerData.success && bannerData.value ? bannerData.value : getDefaultBannerData(intl),
+        );
+        setIsLoading(false);
+      };
 
-    fetchData();
-  }, [dopplerSitesClient, page, intl, type]);
+      fetchData();
+    }
+  }, [disabledSitesContent, dopplerSitesClient, page, intl, type]);
 
   return (
     <section className="feature-panel" style={{ position: 'relative' }}>
-      {state.loading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <div
           className="feature-panel--bg"
           style={{
-            backgroundImage: `url(${state.bannerData.backgroundUrl})`,
-            color: state.bannerData.fontColor,
+            backgroundImage: `url(${bannerData.backgroundUrl})`,
+            color: bannerData.fontColor,
           }}
         >
           <article className="feature-content">
-            <h6>{state.bannerData.functionality}</h6>
-            <h1>{state.bannerData.title}</h1>
-            <p>{state.bannerData.description}</p>
+            <h6>{bannerData.functionality}</h6>
+            <h1>{bannerData.title}</h1>
+            <p>{bannerData.description}</p>
           </article>
           <figure className="content-img">
-            <img src={state.bannerData.imageUrl} alt="" />
+            <img src={bannerData.imageUrl} alt="" />
           </figure>
         </div>
       )}

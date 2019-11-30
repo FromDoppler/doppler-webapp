@@ -11,8 +11,6 @@ export const ContentContainer = styled.div`
   flex-wrap: wrap;
   & > div {
     width: 100%;
-    padding: 0;
-    position: relative;
   }
 `;
 
@@ -22,7 +20,6 @@ export const ListItem = styled.div`
   background: ${colors.ghostGrey};
   margin-bottom: ${spacings.spacesLvl1};
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 
@@ -35,26 +32,16 @@ export const ListItem = styled.div`
   a {
     font-size: ${fonts.fontLvl3};
   }
-
-  .col-md-4,
-  .col-lg-4 {
-    padding: 0;
-  }
 `;
 
 export const ListItemColumn = styled.div`
-  padding: ${spacings.spacesLvl2} ${spacings.spacesLvl0} ${spacings.spacesLvl2}
-    ${spacings.spacesLvl3};
+  padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5};
 `;
 
 export const ListItemRightColumn = styled(ListItemColumn)`
   background: ${colors.white};
-  padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5};
-  text-align: left;
-
-  @media (min-width: 767px) {
-    text-align: right;
-  }
+  width: 30%;
+  text-align: right;
 
   p {
     font-weight: ${fonts.fontStrong};
@@ -71,20 +58,15 @@ export const ListItemRightColumn = styled(ListItemColumn)`
 
 export const GridFooter = styled.div`
   text-align: right;
-  padding: ${spacings.spacesLvl2} ${spacings.spacesLvl5} ${spacings.spacesLvl3}
-    ${spacings.spacesLvl0};
+  padding: ${spacings.spacesLvl2} ${spacings.spacesLvl5} ${spacings.spacesLvl3} 0;
   font-size: ${fonts.fontLvl3};
   button {
     text-transform: uppercase;
-    padding: ${spacings.spacesLvl5} ${spacings.spacesLvl9};
   }
   &::after {
     content: '';
-    width: ${spacings.spacesLvl0};
-    position: absolute;
-    right: ${spacings.spacesLvl6};
-    top: 45%;
-    height: ${spacings.spacesLvl0};
+    width: 0;
+    height: 0;
     border-style: solid;
     border-width: 8px 6px 0 6px;
     border-color: ${colors.lightGrey} transparent transparent transparent;

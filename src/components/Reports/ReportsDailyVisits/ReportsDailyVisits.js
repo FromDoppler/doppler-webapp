@@ -3,6 +3,8 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import C3Chart from '../../shared/C3Chart/C3Chart';
+import * as S from './ReportsDailyVisits.styles';
+import { BoxMessage } from '../../styles/messages';
 
 const chartDataOptions = {
   json: {},
@@ -21,6 +23,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       contents: function(data) {
         if (data.length) {
           const date = intl.formatDate(data[0].x, {
+            timeZone: 'UTC',
             day: 'numeric',
             month: 'long',
             year: 'numeric',
@@ -71,7 +74,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
         tick: {
           culling: false,
           format: (x) => {
-            return intl.formatDate(x, { month: 'short', day: '2-digit' });
+            return intl.formatDate(x, { timeZone: 'UTC', month: 'short', day: '2-digit' });
           },
         },
       },
@@ -122,21 +125,26 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
-    <div className="dp-box-shadow">
-      <div className="col-sm-12">
+    <div className="wrapper-reports-box">
+      <div className="reports-box">
         <small className="title-reports-box">
           <FormattedMessage id="reports_daily_visits.title" />
         </small>
+
+        {state.loading ? (
+          <Loading />
+        ) : !state.chartData ? (
+          <S.ContentContainer>
+            <BoxMessage className="dp-msj-error bounceIn">
+              <p>
+                <FormattedMessage id="trafficSources.error" />
+              </p>
+            </BoxMessage>
+          </S.ContentContainer>
+        ) : (
+          <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />
+        )}
       </div>
-      {state.loading ? (
-        <Loading />
-      ) : !state.chartData ? (
-        <p className="dp-boxshadow--error bounceIn">
-          <FormattedMessage id="trafficSources.error" />
-        </p>
-      ) : (
-        <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />
-      )}
     </div>
   );
 };

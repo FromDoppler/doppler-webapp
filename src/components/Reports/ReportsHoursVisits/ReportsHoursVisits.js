@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDateParts } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsHoursVisits.styles';
+import { BoxMessage } from '../../styles/messages';
 
 const createEmptyWeekDayHoursMatrix = () =>
   [...Array(7)].map(() =>
@@ -44,8 +45,8 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       } else {
         const processedVisits = hoursVisitsdata.value.reduce(
           (accumulator, item) => {
-            const weekDay = item.from.getDay();
-            const hour = item.from.getHours();
+            const weekDay = item.from.getUTCDay();
+            const hour = item.from.getUTCHours();
             accumulator.byWeekDayAndHour[weekDay][hour].quantity += item.quantity;
             if (item.withEmail || item.withEmail === 0) {
               accumulator.byWeekDayAndHour[weekDay][hour].withEmail += item.withEmail;
@@ -71,113 +72,115 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
-    <div className="dp-box-shadow">
-      <S.Header>
-        <div className="col-sm-12 col-md-6">
+    <S.WrapperBoxContainer className="wrapper-reports-box">
+      <div className="reports-box">
+        <S.Header>
           <small className="title-reports-box">
             <FormattedMessage id="reports_hours_visits.title" />
           </small>
-        </div>
-        <div className="col-sm-12 col-md-6 dp-reference">
           <div>
             <div>
-              <S.Circle />
+              <div>
+                <S.Circle />
+              </div>
+              <p>
+                <FormattedMessage
+                  id="reports_hours_visits.few_visits"
+                  values={{ max: Math.floor(state.minRange) }}
+                />
+              </p>
             </div>
-            <p>
-              <FormattedMessage
-                id="reports_hours_visits.few_visits"
-                values={{ max: Math.floor(state.minRange) }}
-              />
-            </p>
-          </div>
-          <div>
             <div>
-              <S.Circle medium />
+              <div>
+                <S.Circle medium />
+              </div>
+              <p>
+                <FormattedMessage
+                  id="reports_hours_visits.medium_visits"
+                  values={{ min: Math.floor(state.minRange), max: Math.floor(state.mediumRange) }}
+                />
+              </p>
             </div>
-            <p>
-              <FormattedMessage
-                id="reports_hours_visits.medium_visits"
-                values={{ min: Math.floor(state.minRange), max: Math.floor(state.mediumRange) }}
-              />
-            </p>
-          </div>
-          <div>
             <div>
-              <S.Circle big />
+              <div>
+                <S.Circle big />
+              </div>
+              <p>
+                <FormattedMessage
+                  id="reports_hours_visits.lot_visits"
+                  values={{ min: Math.floor(state.mediumRange) }}
+                />
+              </p>
             </div>
-            <p>
-              <FormattedMessage
-                id="reports_hours_visits.lot_visits"
-                values={{ min: Math.floor(state.mediumRange) }}
-              />
-            </p>
           </div>
-        </div>
-      </S.Header>
-      <S.ContentContainer>
-        {state.loading ? (
-          <Loading />
-        ) : state.visits ? (
-          <S.List>
-            {state.visits.map((weekDays, weekDayIndex) => (
-              <S.Row key={weekDayIndex}>
-                <div className="weekday">
-                  <p>
-                    <FormatWeekDayIndex value={weekDayIndex} format={'short'} />
-                  </p>
-                </div>
+        </S.Header>
+        <S.ContentContainer>
+          {state.loading ? (
+            <Loading />
+          ) : state.visits ? (
+            <S.List>
+              {state.visits.map((weekDays, weekDayIndex) => (
+                <S.Row key={weekDayIndex}>
+                  <div className="weekday">
+                    <p>
+                      <FormatWeekDayIndex value={weekDayIndex} format={'short'} />
+                    </p>
+                  </div>
 
-                {weekDays.map((item, hour) => (
-                  <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
-                    {item.quantity <= state.minRange ? (
-                      <>
-                        <S.Circle />
-                      </>
-                    ) : item.quantity <= state.mediumRange ? (
-                      <S.Circle medium />
-                    ) : (
-                      <S.Circle big />
-                    )}
-                    <S.Tooltip className="dp-tooltip-chart">
-                      <p>
-                        <FormatWeekDayIndex value={weekDayIndex} format={'long'} />{' '}
-                        <span>{hour}h</span>
-                      </p>
-                      {item.withEmail || item.withoutEmail ? (
+                  {weekDays.map((item, hour) => (
+                    <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
+                      {item.quantity <= state.minRange ? (
                         <>
-                          <span>
-                            <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
-                            <span>{item.withEmail}</span>
-                          </span>
-                          <span>
-                            <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
-                            <span>{item.withoutEmail}</span>
-                          </span>
+                          <S.Circle />
                         </>
+                      ) : item.quantity <= state.mediumRange ? (
+                        <S.Circle medium />
                       ) : (
-                        <span>
-                          <FormattedMessage id="reports_hours_visits.users" />{' '}
-                          <span>{item.quantity}</span>
-                        </span>
+                        <S.Circle big />
                       )}
-                    </S.Tooltip>
-                  </S.Column>
-                ))}
-              </S.Row>
-            ))}
-            <S.Legend>
-              {hoursLegend.map((hour, index) => (
-                <span key={index}>{hour}</span>
+                      <S.Tooltip className="dp-tooltip-chart">
+                        <p>
+                          <FormatWeekDayIndex value={weekDayIndex} format={'long'} />{' '}
+                          <span>{hour}h</span>
+                        </p>
+                        {item.withEmail || item.withoutEmail ? (
+                          <>
+                            <span>
+                              <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
+                              <span>{item.withEmail}</span>
+                            </span>
+                            <span>
+                              <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
+                              <span>{item.withoutEmail}</span>
+                            </span>
+                          </>
+                        ) : (
+                          <span>
+                            <FormattedMessage id="reports_hours_visits.users" />{' '}
+                            <span>{item.quantity}</span>
+                          </span>
+                        )}
+                      </S.Tooltip>
+                    </S.Column>
+                  ))}
+                </S.Row>
               ))}
-            </S.Legend>
-          </S.List>
-        ) : (
-          <p className="dp-boxshadow--error bounceIn">
-            <FormattedMessage id="trafficSources.error" />
-          </p>
-        )}
-      </S.ContentContainer>
-    </div>
+              <S.Legend>
+                {hoursLegend.map((hour, index) => (
+                  <span key={index}>{hour}</span>
+                ))}
+              </S.Legend>
+            </S.List>
+          ) : (
+            <BoxMessage className="dp-msj-error bounceIn">
+              <p>
+                <FormattedMessage id="trafficSources.error" />
+              </p>
+            </BoxMessage>
+          )}
+        </S.ContentContainer>
+      </div>
+    </S.WrapperBoxContainer>
   );
 };
 

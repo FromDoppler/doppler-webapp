@@ -13,12 +13,12 @@ import { timeout } from '../utils';
 const fakeData = [
   {
     name: 'www.fromdoppler.com',
-    verified_date: new Date('2010-12-17'),
+    verified_date: new Date('2017-12-17'),
     pages: [],
   },
   {
     name: 'www.makingsense.com',
-    verified_date: null,
+    verified_date: new Date('2010-12-17'),
     pages: [],
   },
   {
@@ -145,15 +145,13 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getTotalVisitsOfPeriod({
     domainName,
     dateFrom,
-    dateTo,
     emailFilter,
   }: {
     domainName: number;
     dateFrom: Date;
-    dateTo: Date;
     emailFilter: emailFilterOptions;
   }): Promise<number> {
-    console.log('getTotalVisitsOfPeriod', { domainName, dateFrom, emailFilter, dateTo });
+    console.log('getTotalVisitsOfPeriod', { domainName, dateFrom, emailFilter });
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
@@ -162,17 +160,15 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getPagesRankingByPeriod({
     domainName,
     dateFrom,
-    dateTo,
     pageSize,
     pageNumber,
   }: {
     domainName: string;
     dateFrom: Date;
-    dateTo: Date;
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult> {
-    console.log('getPagesRankingByPeriod', { domainName, dateFrom, dateTo, pageSize, pageNumber });
+    console.log('getPagesRankingByPeriod', { domainName, dateFrom, pageSize, pageNumber });
     await timeout(1500);
     const pages = fakePagesData.map((x) => ({
       name: x.name,
@@ -182,23 +178,18 @@ export class HardcodedDatahubClient implements DatahubClient {
     }));
 
     let pagesSubArray = [];
-    let hasMorePages = false;
 
     if (pageSize) {
       const indexStart = pageSize * (pageNumber - 1);
       const indexEnd = indexStart + pageSize;
       pagesSubArray = pages.slice(indexStart, indexEnd);
-      hasMorePages = indexEnd < pages.length;
     } else {
       pagesSubArray = pages;
     }
 
     return {
       success: true,
-      value: {
-        hasMorePages: hasMorePages,
-        pages: pagesSubArray,
-      },
+      value: pagesSubArray,
     };
 
     // return {
@@ -210,13 +201,11 @@ export class HardcodedDatahubClient implements DatahubClient {
   public async getTrafficSourcesByPeriod({
     domainName,
     dateFrom,
-    dateTo,
   }: {
     domainName: string;
     dateFrom: Date;
-    dateTo: Date;
   }): Promise<TrafficSourceResult> {
-    console.log('getTrafficSourcesByPeriod', { domainName, dateFrom, dateTo });
+    console.log('getTrafficSourcesByPeriod', { domainName, dateFrom });
     await timeout(1000);
     const trafficSources = fakeTrafficSourcesData.map((x) => ({
       sourceName: x.sourceName,

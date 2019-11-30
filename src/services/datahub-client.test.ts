@@ -71,7 +71,6 @@ const fullDailyVisitsResponse = {
 
 const fullRankingByPeriodResponse = {
   data: {
-    hasMorePages: true,
     items: [
       {
         page: '/email-marketing',
@@ -96,10 +95,9 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
-      const dateTo = new Date('2019-01-07');
 
       // Act
-      await dataHubClient.getTrafficSourcesByPeriod({ domainName, dateFrom, dateTo });
+      await dataHubClient.getTrafficSourcesByPeriod({ domainName, dateFrom });
 
       // Assert
       expect(request).toBeCalledTimes(1);
@@ -108,7 +106,6 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
-            endDate: '2019-01-07T00:00:00.000Z',
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
@@ -123,14 +120,9 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
-      const dateTo = new Date('2019-01-07');
 
       // Act
-      const response = await dataHubClient.getTrafficSourcesByPeriod({
-        domainName,
-        dateFrom,
-        dateTo,
-      });
+      const response = await dataHubClient.getTrafficSourcesByPeriod({ domainName, dateFrom });
       // Assert
       expect(request).toBeCalledTimes(1);
       expect(request).toBeCalledWith(
@@ -138,7 +130,6 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
-            endDate: '2019-01-07T00:00:00.000Z',
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
@@ -306,18 +297,11 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
-      const dateTo = new Date('2019-01-07');
       const pageNumber = 0;
       const pageSize = 0;
 
       // Act
-      await dataHubClient.getPagesRankingByPeriod({
-        domainName,
-        dateFrom,
-        dateTo,
-        pageNumber,
-        pageSize,
-      });
+      await dataHubClient.getPagesRankingByPeriod({ domainName, dateFrom, pageNumber, pageSize });
 
       // Assert
       expect(request).toBeCalledTimes(1);
@@ -329,7 +313,6 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
-            endDate: '2019-01-07T00:00:00.000Z',
             pageNumber: 0,
             pageSize: 0,
             sortBy: 'visitors',
@@ -346,7 +329,6 @@ describe('HttpDataHubClient', () => {
       const dataHubClient = createHttpDataHubClient({ request });
       const domainName = 'doppler.test';
       const dateFrom = new Date('2019-01-01');
-      const dateTo = new Date('2019-01-07');
       const pageNumber = 0;
       const pageSize = 2;
 
@@ -354,7 +336,6 @@ describe('HttpDataHubClient', () => {
       const response = await dataHubClient.getPagesRankingByPeriod({
         domainName,
         dateFrom,
-        dateTo,
         pageNumber,
         pageSize,
       });
@@ -369,7 +350,6 @@ describe('HttpDataHubClient', () => {
           method: 'GET',
           params: {
             startDate: '2019-01-01T00:00:00.000Z',
-            endDate: '2019-01-07T00:00:00.000Z',
             pageNumber: 0,
             pageSize: 2,
             sortBy: 'visitors',
@@ -379,23 +359,20 @@ describe('HttpDataHubClient', () => {
       );
       expect(response).toEqual({
         success: true,
-        value: {
-          hasMorePages: true,
-          pages: [
-            {
-              name: '/email-marketing',
-              totalVisitors: 10122,
-              url: 'http://doppler.test/email-marketing',
-              withEmail: 400,
-            },
-            {
-              name: '/precios',
-              totalVisitors: 9000,
-              url: 'http://doppler.test/precios',
-              withEmail: 300,
-            },
-          ],
-        },
+        value: [
+          {
+            name: '/email-marketing',
+            totalVisitors: 10122,
+            url: 'http://doppler.test/email-marketing',
+            withEmail: 400,
+          },
+          {
+            name: '/precios',
+            totalVisitors: 9000,
+            url: 'http://doppler.test/precios',
+            withEmail: 300,
+          },
+        ],
       });
     });
   });

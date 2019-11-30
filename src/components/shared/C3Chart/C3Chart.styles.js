@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import colors from '../../styles/colors';
 
 export const C3ChartStyled = styled.div`
-  margin: 0 24px 36px 6px;
+  display: block;
+  width: 97%;
+  margin: 20px 0px 20px 12px;
 
   svg {
     font: 400 11px 'Proxima-Nova', sans-serif;
     color: ${colors.softGrey};
-    width: 100%;
-    display: inline-block;
   }
 
   .tick {
@@ -113,5 +113,11 @@ export const C3ChartStyled = styled.div`
 
   .c3-target-hide-graph {
     display: none;
+  }
+
+  @media (max-width: 768px) {
+    .c3-chart {
+      width: 95%;
+    }
   }
 `;

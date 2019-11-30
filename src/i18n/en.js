@@ -150,7 +150,6 @@ export default {
     visits_description_without_emails: `Total number of users who visited your Website and whose Email has not been identified by Doppler. If a user entered several times, only one will be counted.`,
     visits_with_email: `Users with Email`,
     visits_without_emails: `Users without Email`,
-    without_included: `(not included)`,
   },
   reports_daily_visits: {
     title: `Unique Page views`,
@@ -169,11 +168,10 @@ export default {
       </p>
       `,
     domain: `Domain`,
-    domain_not_verified_MD: `Your domain is not verified. It is necessary to start obtaining data about your visits. [VERIFY DOMAIN](${urlSiteTracking}).`,
+    domain_not_verified_MD: `No registered visits [Verify Domain](${urlSiteTracking}).`,
     pages: `Pages`,
     rank_time: `Time period`,
     title: `Track users behavior, analyze it and optimize your Marketing actions`,
-    today: `Today`,
     verified_domain: `Last registered visit:`,
     week_with_plural: `{weeksCount, plural, =0 {no weeks} one {# week}other {# weeks} }`,
   },
@@ -266,11 +264,6 @@ export default {
     sign_up_sub: `Attract, Engage and Convert. Send unlimited Emails up to 500 Subscribers for free.`,
     thanks_for_registering: `Thank you for registering`,
     url_site: `${urlSiteFromSignup}`,
-  },
-  subscriber_history: {
-    header_title: `Subscriber General Activity Report`,
-    page_description: `Through this report you will be able to know the general activity of a specific subscriber`,
-    page_title: `Doppler | Subscriber History`,
   },
   trafficSources: {
     direct: `Direct`,

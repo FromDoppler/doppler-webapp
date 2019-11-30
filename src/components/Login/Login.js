@@ -159,25 +159,19 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
     );
   }
 
-  const LinkToForgotPassword = connect(
-    ({
-      formik: {
-        values: { user },
-      },
-    }) => {
-      return (
-        <Link
-          to={{
-            pathname: '/login/reset-password',
-            state: { email: user },
-          }}
-          className="forgot-link"
-        >
-          {_('login.forgot_password')}
-        </Link>
-      );
-    },
-  );
+  const LinkToForgotPassword = connect(({ formik: { values: { user } } }) => {
+    return (
+      <Link
+        to={{
+          pathname: '/login/reset-password',
+          state: { email: user },
+        }}
+        className="forgot-link"
+      >
+        {_('login.forgot_password')}
+      </Link>
+    );
+  });
 
   return (
     <main className="panel-wrapper">

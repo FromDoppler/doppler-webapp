@@ -3,5 +3,3 @@ build
 .vscode
 *.log
 .git
-Dockerfile*
-Jenkinsfile

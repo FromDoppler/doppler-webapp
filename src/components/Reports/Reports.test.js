@@ -4,7 +4,9 @@ import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
 import { AppServicesProvider } from '../../services/pure-di';
+import { async } from 'q';
 
+const verifiedDateAsEngString = '12/17/2017';
 const verifiedDateAsDate = new Date('2017-12-17');
 
 const fakeData = [
@@ -20,22 +22,17 @@ const fakeData = [
   },
 ];
 
-const fakePages = [
-  { id: 1, name: 'productos2' },
-  { id: 2, name: 'servicios2' },
-];
+const fakePages = [{ id: 1, name: 'productos2' }, { id: 2, name: 'servicios2' }];
 
 describe('Reports page', () => {
   afterEach(cleanup);
 
-  it('render page without domain', async () => {
-    // Arrange
+  it('render page without domain', () => {
     const datahubClientDouble = {
       getAccountDomains: async () => [],
     };
 
-    // Act
-    const { getByText } = render(
+    render(
       <AppServicesProvider forcedServices={{ datahubClient: datahubClientDouble }}>
         <DopplerIntlProvider>
           <Reports
@@ -47,9 +44,6 @@ describe('Reports page', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
-
-    // Assert
-    await wait(() => expect(getByText('reports.no_domains_HTML')));
   });
 
   it('should render domains without pages', async () => {
@@ -76,50 +70,14 @@ describe('Reports page', () => {
       </AppServicesProvider>,
     );
 
-    await wait(() => getByText('reports_filters.verified_domain'));
+    await wait(() => getByText(verifiedDateAsEngString));
 
+    const verifiedDate = getByText(verifiedDateAsEngString);
     const domain = getByText(fakeData[1].name);
 
+    expect(verifiedDate).toBeDefined();
     expect(domain).toBeDefined();
   });
-
-  if (
-    ('should show verify domain message',
-    async () => {
-      // Arrange
-      const datahubClientDouble = {
-        getAccountDomains: async () => ({
-          id: 1,
-          name: 'www.fromdoppler.com',
-          verified_date: null,
-        }),
-        getTotalVisitsOfPeriod: async () => 0,
-        getPagesRankingByPeriod: async () => {
-          return { success: false, value: [] };
-        },
-        getTrafficSourcesByPeriod: async () => [],
-        getVisitsQuantitySummarizedByPeriod: async () => [],
-      };
-
-      // Act
-      const { getByText, container } = render(
-        <AppServicesProvider
-          forcedServices={{
-            datahubClient: datahubClientDouble,
-            appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
-          }}
-        >
-          <DopplerIntlProvider>
-            <Reports />
-          </DopplerIntlProvider>
-        </AppServicesProvider>,
-      );
-
-      // Assert
-      await wait(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
-      expect(getByText('reports_filters.domain_not_verified_MD'));
-    })
-  );
 
   it('should show "no domains" message when the domain list is empty', async () => {
     // Arrange

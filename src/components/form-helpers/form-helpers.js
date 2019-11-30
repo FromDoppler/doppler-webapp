@@ -123,15 +123,14 @@ export const FormWithCaptcha = ({
       onSubmit={verifyCaptchaAndSubmit}
       validate={validate}
       {...rest}
-    >
-      {() => (
+      render={() => (
         <Form className={className}>
           <Captcha />
           <SetFormMessage message={initialFormMessage} />
           {children}
         </Form>
       )}
-    </Formik>
+    />
   );
 };
 
@@ -287,7 +286,6 @@ const _PhoneFieldItem = ({
   const intl = useIntl();
   const inputElRef = useRef(null);
   const intlTelInputRef = useRef(null);
-  const [eventListenerSet, setEventListenerSet] = useState(false);
 
   const formatFieldValueAsInternationalNumber = () =>
     _formatFieldValueAsInternationalNumber(intlTelInputRef.current, fieldName, setFieldValue);
@@ -311,6 +309,7 @@ const _PhoneFieldItem = ({
 
     return null;
   };
+
   useEffect(() => {
     translateIntlTelInputCountryNames(intl.locale);
     const iti = intlTelInput(inputElRef.current, {
@@ -325,18 +324,13 @@ const _PhoneFieldItem = ({
         callback('ar');
       },
     });
+    inputElRef.current.addEventListener('countrychange', handleChange);
     intlTelInputRef.current = iti;
     _formatFieldValueAsInternationalNumber(iti, fieldName, setFieldValue);
     return () => {
-      setEventListenerSet(false);
       iti.destroy();
     };
-  }, [intl.locale, fieldName, setFieldValue]);
-
-  if (!eventListenerSet && inputElRef.current && intlTelInputRef.current) {
-    inputElRef.current.addEventListener('countrychange', handleChange);
-    setEventListenerSet(true);
-  }
+  }, [intl.locale, handleChange, fieldName, setFieldValue]);
 
   return (
     <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>

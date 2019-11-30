@@ -150,7 +150,6 @@ export default {
     visits_description_without_emails: `Número total de usuarios que visitaron tu Sitio Web y cuyo Correo Electrónico no ha sido identificado por Doppler. Si un usuario ingresó varias veces, solo se contabilizará una.`,
     visits_with_email: `Usuarios con Email`,
     visits_without_emails: `Usuarios sin Email`,
-    without_included: `(sin incluir)`,
   },
   reports_daily_visits: {
     title: `Páginas vistas únicas`,
@@ -169,11 +168,10 @@ export default {
       </p>
       `,
     domain: `Dominio`,
-    domain_not_verified_MD: `Tu dominio no está verificado. Es necesario para comenzar a obtener datos sobre tus visitas. [VERIFICAR DOMINIO](${urlSiteTracking}).`,
+    domain_not_verified_MD: `Sin visitas registradas [Verificar dominio](${urlSiteTracking}).`,
     pages: `Página`,
     rank_time: `Período de tiempo analizado`,
     title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,
-    today: `Hoy`,
     verified_domain: `Última visita registrada:`,
     week_with_plural: `{weeksCount, plural, =0 {sin semanas} one {# semana}other {# semanas} }`,
   },
@@ -268,11 +266,6 @@ export default {
     sign_up_sub: `Atrae, Convierte y Fideliza. Envíos ilimitados y gratis hasta 500 Suscriptores.`,
     thanks_for_registering: `Gracias por registrarte`,
     url_site: `${urlSiteFromSignup}`,
-  },
-  subscriber_history: {
-    header_title: `Reporte de Actividad General del Suscriptor`,
-    page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,
-    page_title: `Doppler | Historial por Suscriptor`,
   },
   trafficSources: {
     direct: `Directo`,

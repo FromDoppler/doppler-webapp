@@ -48,10 +48,12 @@ echo pkgVersion: $pkgVersion
 echo pkgBuild: $pkgBuild
 echo pkgCommitId: $pkgCommitId
 
+# TODO: It could break concurrent deployments with different docker accounts
+docker login -u="$DOCKER_WEBAPP_USERNAME" -p="$DOCKER_WEBAPP_PASSWORD"
+
 # Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
 docker pull dopplerrelay/doppler-relay-akamai-publish
 
-# TODO: Remove these steps in favor of publishing to `fromdoppler` organization.
 for environment in ${environments}; do
     echo Publishing ${environment}...
 
@@ -74,10 +76,8 @@ for environment in ${environments}; do
         -f Dockerfile.RELEASES \
         .
 
-    # TODO: It could break concurrent deployments with different docker accounts
-    # It is inside the loop to mitigate collisions
-    docker login -u="$DOCKER_WEBAPP_USERNAME" -p="$DOCKER_WEBAPP_PASSWORD"
-
+    # TODO: change by:
+    # docker push docker.pkg.github.com/fromdoppler/doppler-webapp/doppler-webapp
     docker push darosw/doppler-webapp:$environment
     docker push darosw/doppler-webapp:$environment-$versionMayor
     docker push darosw/doppler-webapp:$environment-$versionMinor
