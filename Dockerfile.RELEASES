@@ -1,5 +1,5 @@
 ## Build layer
-FROM node:10 as build
+FROM node:10 as verify
 WORKDIR /app
 COPY package.json yarn.lock ./
 
@@ -13,12 +13,20 @@ COPY . .
 RUN yarn verify
 
 # Build project
+FROM verify as build
+ARG environment
+RUN yarn build:$environment
+
+# Build project
+FROM verify as build_cdn
+ENV REACT_APP_ROUTER=hash
+ENV PUBLIC_URL="."
 ARG environment
 RUN yarn build:$environment
 
 ## Publish to CDN layer
 FROM dopplerrelay/doppler-relay-akamai-publish
-COPY --from=build /app/build /source
+COPY --from=build_cdn /app/build /source
 ARG cdnBaseUrl
 ARG environment
 ARG pkgVersion
