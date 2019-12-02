@@ -16,6 +16,31 @@ RUN yarn verify
 ARG environment
 RUN yarn build:$environment
 
+# Runtime layer (Host project in nginx)
+FROM nginx:1.17.6-alpine
+WORKDIR /app
+ARG environment
+COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
+COPY --from=build /app/build /usr/share/nginx/html
+
+ARG cdnBaseUrl
+ARG environment
+ARG pkgVersion
+ARG versionFull
+ARG pkgBuild
+ARG pkgCommitId
+# Create version.txt file (WARNING: duplicated code for optimizing build)
+RUN printf "$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId" > /usr/share/nginx/html/version.txt
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+EXPOSE 80 443
+
+# Rebuild project
+ARG environment
+ENV REACT_APP_ROUTER=hash
+ENV PUBLIC_URL="."
+RUN yarn build:$environment
+
 ## Publish to CDN layer
 FROM dopplerrelay/doppler-relay-akamai-publish
 COPY --from=build /app/build /source
@@ -37,22 +62,3 @@ RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
   AKAMAI_CDN_CPCODE=$cdn_cpcode \
   node cdn-uploader.js /source doppler-webapp ${environment}-${pkgVersion}
 
-
-# Runtime layer (Host project in nginx)
-FROM nginx:1.17.6-alpine
-WORKDIR /app
-ARG environment
-COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
-COPY --from=build /app/build /usr/share/nginx/html
-
-ARG cdnBaseUrl
-ARG environment
-ARG pkgVersion
-ARG versionFull
-ARG pkgBuild
-ARG pkgCommitId
-# Create version.txt file (WARNING: duplicated code for optimizing build)
-RUN printf "$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId" > /usr/share/nginx/html/version.txt
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
-EXPOSE 80 443
