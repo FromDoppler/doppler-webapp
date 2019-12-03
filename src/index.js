@@ -36,7 +36,7 @@ const forcedServices =
         dopplerSitesClient: new HardcodedDopplerSitesClient(),
         datahubClient: new HardcodedDatahubClient(),
         shopifyClient: new HardcodedShopifyClient(),
-        dopplerAPIClient: new HardcodedDopplerApiClient(),
+        dopplerApiClient: new HardcodedDopplerApiClient(),
       }
     : {};
 
