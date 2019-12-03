@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import SubscriberHistoryCurrentSubscriber from './SubscriberHistoryCurrentSubscriber/SubscriberHistoryCurrentSubscriber';
+import SubscriberHistoryCurrentSearch from './SubscriberHistoryCurrentSearch/SubscriberHistoryCurrentSearch';
 
 const SubscriberHistory = () => {
   const intl = useIntl();
@@ -49,7 +49,7 @@ const SubscriberHistory = () => {
         </div>
         <div style={{ padding: '30px' }}>
           {state.showResults ? (
-            <SubscriberHistoryCurrentSubscriber email={state.subscriberEmail} />
+            <SubscriberHistoryCurrentSearch email={state.subscriberEmail} />
           ) : null}
         </div>
       </div>

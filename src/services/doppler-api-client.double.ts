@@ -20,8 +20,16 @@ const subscriber = {
   email: 'test@fromdoppler.com',
   fields: [
     {
-      name: 'firstName',
-      value: 'Manuel di Rago',
+      name: 'FIRSTNAME',
+      value: 'Manuel',
+      predefined: true,
+      private: false,
+      readonly: true,
+      type: 'string',
+    },
+    {
+      name: 'LASTNAME',
+      value: 'di Rago',
       predefined: true,
       private: false,
       readonly: true,
