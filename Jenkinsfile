@@ -89,7 +89,11 @@ pipeline {
         }
     }
     post { 
+        always {
+            sh 'echo always post execution'
+        }
         cleanup { 
+            sh 'echo Cleaning workspace when build finished...'
             cleanWs()
             dir("${env.WORKSPACE}@tmp") {
                 deleteDir()
