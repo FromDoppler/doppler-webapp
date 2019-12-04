@@ -127,12 +127,15 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
   return (
     <>
       <Helmet title={_('shopify.title')} />
-      <section className="dp-page-wrapper">
-        <Breadcrumb />
+      <section className="dp-container">
+        <div className="dp-rowflex">
+        <div className="col-sm-12 m-t-24">
+          <Breadcrumb />
+        </div>
         <div className="dp-integration">
           {shopifyState.isLoading ? (
             <>
-              <div className="dp-integration__block">
+              <div className="dp-box-shadow">
                 {shopifyHeader}
                 <div className="block"></div>
               </div>
@@ -140,7 +143,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
             </>
           ) : shopifyState.error ? (
             <>
-              <div className="dp-integration__block">
+              <div className="dp-box-shadow">
                 {shopifyHeader}
                 <div className="block">
                   <div className="dp-msj-error bounceIn">
@@ -154,7 +157,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
             <>
               {shopifyState.shops.map((shop) => (
                 <div key={shop.shopName}>
-                  <div className="dp-integration__block">
+                  <div className="dp-box-shadow">
                     {shopifyHeader}
                     <div className="block dp-integration__status">
                       <div className="status__info">
@@ -239,6 +242,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
               </footer>
             </>
           )}
+        </div>
         </div>
       </section>
     </>
