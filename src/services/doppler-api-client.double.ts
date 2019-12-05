@@ -106,7 +106,7 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     email: string,
     apikey: string,
   ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>> {
-    console.log('getApiSubscriber');
+    console.log('getSubscriberSentCampaigns');
     await timeout(1500);
 
     return {

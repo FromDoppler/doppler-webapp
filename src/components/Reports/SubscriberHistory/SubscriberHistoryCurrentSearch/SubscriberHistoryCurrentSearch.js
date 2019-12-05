@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage } from 'react-intl';
+import SubscriberHistorySentCampaigns from './SubscriberHistorySentCampaigns/SubscriberHistorySentCampaigns';
 
 const SubscriberHistoryCurrentSearch = ({ email, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
+
+  const showSubscriberCampaigns = () =>
+    setState((prevState) => ({ ...prevState, showSubscriberCampaigns: true }));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,26 +34,33 @@ const SubscriberHistoryCurrentSearch = ({ email, dependencies: { dopplerApiClien
       {state.loading ? (
         <Loading />
       ) : state.subscriber ? (
-        <table className="dp-c-table">
-          <thead>
-            <tr>
-              <th>email</th>
-              <th>nombre</th>
-              <th>apellido</th>
-              <th>ranking</th>
-              <th>status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{state.subscriber.email}</td>
-              <td>{state.subscriber.firstName ? state.subscriber.firstName.value : ''}</td>
-              <td>{state.subscriber.lastName ? state.subscriber.lastName.value : ''}</td>
-              <td>{state.subscriber.score}</td>
-              <td>{state.subscriber.status}</td>
-            </tr>
-          </tbody>
-        </table>
+        <>
+          <table className="dp-c-table">
+            <thead>
+              <tr>
+                <th>email</th>
+                <th>nombre</th>
+                <th>apellido</th>
+                <th>ranking</th>
+                <th>status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span onClick={showSubscriberCampaigns}>{state.subscriber.email}</span>
+                </td>
+                <td>{state.subscriber.firstName ? state.subscriber.firstName.value : ''}</td>
+                <td>{state.subscriber.lastName ? state.subscriber.lastName.value : ''}</td>
+                <td>{state.subscriber.score}</td>
+                <td>{state.subscriber.status}</td>
+              </tr>
+            </tbody>
+          </table>
+          {state.showSubscriberCampaigns ? (
+            <SubscriberHistorySentCampaigns subscriber={state.subscriber} />
+          ) : null}
+        </>
       ) : (
         <p className="dp-boxshadow--error bounceIn">
           <FormattedMessage id="trafficSources.error" />
