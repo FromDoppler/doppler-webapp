@@ -7,6 +7,10 @@ import { SubscriberList, SubscriberListState } from './shopify-client';
 export interface DopplerApiClient {
   getListData(idList: number, apikey: string): Promise<ResultWithoutExpectedErrors<SubscriberList>>;
   getSubscriber(email: string, apikey: string): Promise<ResultWithoutExpectedErrors<Subscriber>>;
+  getSubscriberSentCampaigns(
+    email: string,
+    apikey: string,
+  ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>>;
 }
 interface DopplerApiConnectionData {
   jwtToken: string;
@@ -31,6 +35,21 @@ export interface Subscriber {
   unsubscriptionComment: string;
   status: string;
   score: number;
+}
+
+interface CampaignDelivery {
+  campaignId: number;
+  campaignName: string;
+  campaignSubject: string;
+  clicksCount: number;
+  deliveryStatus: string;
+}
+
+export interface CampaignDeliveryCollection {
+  items: CampaignDelivery[];
+  currentPage: number;
+  itemsCount: number;
+  pagesCount: number;
 }
 
 export class HttpDopplerApiClient implements DopplerApiClient {
@@ -93,6 +112,16 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
+  private mapCampaignsDelivery(data: any): CampaignDelivery[] {
+    return data.map((x: any) => ({
+      campaignId: x.campaignId,
+      campaignName: x.campaignName,
+      campaignSubject: x.campaignSubject,
+      clicksCount: x.clicksCount,
+      deliveryStatus: x.deliveryStatus,
+    }));
+  }
+
   public async getListData(listId: number): Promise<ResultWithoutExpectedErrors<SubscriberList>> {
     try {
       const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
@@ -137,6 +166,37 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: subscriber,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getSubscriberSentCampaigns(
+    email: string,
+  ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/subscribers/${email}/deliveries`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      const campaignsDeliveryCollection = {
+        items: this.mapCampaignsDelivery(data.items),
+        itemsCount: data.itemsCount,
+        currentPage: data.currentPage,
+        pagesCount: data.pagesCount,
+      };
+
+      return {
+        success: true,
+        value: campaignsDeliveryCollection,
       };
     } catch (error) {
       return {

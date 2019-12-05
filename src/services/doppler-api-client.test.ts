@@ -126,4 +126,60 @@ describe('HttpDopplerApiClient', () => {
       expect(result.value.email).toEqual('test@test.com');
     });
   });
+
+  describe('GetCampaignsDelivery', () => {
+    it('should get and error', async () => {
+      // Arrange
+      const request = jest.fn(async () => {});
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriberSentCampaigns('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should get a campaigns deliveries', async () => {
+      // Arrange
+      const campaignsDelivery = {
+        data: {
+          items: [
+            {
+              campaignId: 1,
+              campaignName: 'Campaña estacional de primavera',
+              campaignSubject: '¿Como sacarle provecho a la primavera?',
+              deliveryStatus: 'opened',
+              clicksCount: 2,
+            },
+            {
+              campaignId: 2,
+              campaignName: 'Campaña calendario estacional 2019',
+              campaignSubject: 'El calendario estacional 2019 ya está aquí',
+              deliveryStatus: 'opened',
+              clicksCount: 23,
+            },
+          ],
+          currentPage: 0,
+          itemsCount: 2,
+          pagesCount: 1,
+        },
+        status: 200,
+      };
+      const request = jest.fn(async () => campaignsDelivery);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriberSentCampaigns('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.pagesCount).toEqual(1);
+      expect(result.value.items[0].campaignId).toEqual(1);
+    });
+  });
 });
