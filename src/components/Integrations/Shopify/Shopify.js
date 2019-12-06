@@ -197,7 +197,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
                           </div>
                         </div>
                       </div>
-                      <div className="dp-box-shadow m-t-24">
+                      <div className="dp-box-shadow m-t-24 m-b-24">
                         <div className="dp-integration__block dp-integration--info">
                           <header className="dp-block">
                             <div>
