@@ -38,11 +38,21 @@ const SubscriberHistoryCurrentSearch = ({ email, dependencies: { dopplerApiClien
           <table className="dp-c-table">
             <thead>
               <tr>
-                <th>email</th>
-                <th>nombre</th>
-                <th>apellido</th>
-                <th>ranking</th>
-                <th>status</th>
+                <th>
+                  <FormattedMessage id="subscriber_history_current_search.grid_email" />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriber_history_current_search.grid_firstname" />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriber_history_current_search.grid_lastname" />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriber_history_current_search.grid_ranking" />
+                </th>
+                <th>
+                  <FormattedMessage id="subscriber_history_current_search.grid_status" />
+                </th>
               </tr>
             </thead>
             <tbody>

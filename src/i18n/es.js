@@ -274,6 +274,19 @@ export default {
     page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,
     page_title: `Doppler | Historial por Suscriptor`,
   },
+  subscriber_history_current_search: {
+    grid_email: `Email`,
+    grid_firstname: `Nombre`,
+    grid_lastname: `Apellido`,
+    grid_ranking: `Ranking`,
+    grid_status: `Estado`,
+  },
+  subscriber_history_sent_campaigns: {
+    grid_campaign: `Campaña`,
+    grid_clicks: `Clicks Unicos`,
+    grid_delivery: `Comportamiento`,
+    grid_subject: `Asunto`,
+  },
   trafficSources: {
     direct: `Directo`,
     email: `Email`,
