@@ -57,7 +57,7 @@ const ReportsTrafficSources = function({
           <Loading />
         ) : !state.trafficSources ? (
           <p className="dp-boxshadow--error bounceIn">
-            <FormattedMessage id="trafficSources.error" />
+            <FormattedMessage id="common.unexpected_error" />
           </p>
         ) : state.trafficSources.items.length === 0 ? (
           <p className="dp-boxshadow--usermsg bounceIn">

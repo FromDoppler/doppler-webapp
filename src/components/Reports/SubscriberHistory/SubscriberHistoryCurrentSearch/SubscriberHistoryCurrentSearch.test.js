@@ -71,6 +71,6 @@ describe('SubscriberHistoryCurrentSearch component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('trafficSources.error')).toBeInTheDocument());
+    await wait(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
   });
 });

@@ -173,7 +173,7 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
           </S.List>
         ) : (
           <p className="dp-boxshadow--error bounceIn">
-            <FormattedMessage id="trafficSources.error" />
+            <FormattedMessage id="common.unexpected_error" />
           </p>
         )}
       </S.ContentContainer>

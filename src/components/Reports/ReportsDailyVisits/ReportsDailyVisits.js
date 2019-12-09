@@ -132,7 +132,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
         <Loading />
       ) : !state.chartData ? (
         <p className="dp-boxshadow--error bounceIn">
-          <FormattedMessage id="trafficSources.error" />
+          <FormattedMessage id="common.unexpected_error" />
         </p>
       ) : (
         <C3Chart config={chartConfig} dataOptions={chartDataOptions} data={state.chartData} />

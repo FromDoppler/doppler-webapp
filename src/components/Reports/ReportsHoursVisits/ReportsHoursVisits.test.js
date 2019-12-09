@@ -53,7 +53,7 @@ describe('reports weekday and hours visits', () => {
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('trafficSources.error'));
+    expect(getByText('common.unexpected_error'));
   });
 
   it('should show the graphic with the data', async () => {
