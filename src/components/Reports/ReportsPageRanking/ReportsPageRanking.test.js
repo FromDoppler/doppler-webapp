@@ -73,7 +73,7 @@ describe('Reports pages ranking', () => {
 
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitForDomChange();
-    expect(getByText('trafficSources.error'));
+    expect(getByText('common.unexpected_error'));
   });
 
   it('should show empty message when dont have pages', async () => {

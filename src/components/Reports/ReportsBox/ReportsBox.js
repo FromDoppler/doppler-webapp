@@ -67,7 +67,7 @@ const ReportsBox = ({
         </>
       ) : (
         <p className="dp-boxshadow--error bounceIn">
-          <FormattedMessage id="trafficSources.error" />
+          <FormattedMessage id="common.unexpected_error" />
         </p>
       )}
     </div>

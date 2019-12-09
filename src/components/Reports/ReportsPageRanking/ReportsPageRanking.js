@@ -80,7 +80,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
                 </p>
               ) : (
                 <p className="dp-boxshadow--error bounceIn">
-                  <FormattedMessage id="trafficSources.error" />
+                  <FormattedMessage id="common.unexpected_error" />
                 </p>
               )
             ) : (
@@ -144,7 +144,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
                   </S.SpinnerContainer>
                 ) : state.error ? (
                   <p className="dp-boxshadow--error bounceIn">
-                    <FormattedMessage id="trafficSources.error" />
+                    <FormattedMessage id="common.unexpected_error" />
                   </p>
                 ) : state.hasMorePages ? (
                   <S.GridFooter>

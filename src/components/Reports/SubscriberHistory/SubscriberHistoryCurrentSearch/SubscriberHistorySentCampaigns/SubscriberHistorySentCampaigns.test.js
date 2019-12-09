@@ -74,7 +74,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('trafficSources.error')).toBeInTheDocument());
+    await wait(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
   });
 
   it('should show subscriber firstName', async () => {

@@ -40,12 +40,13 @@ export default {
     hide: `Ocultar`,
     message: `Mensaje`,
     recaptcha_legal_HTML: `
-      Sitio protegido por reCAPTCHA. <a href="https://policies.google.com/privacy?hl=es">Política de Privacidad</a>
-      y <a href="https://policies.google.com/terms?hl=es">Condiciones del Servicio</a> de Google.
-      `,
+    Sitio protegido por reCAPTCHA. <a href="https://policies.google.com/privacy?hl=es">Política de Privacidad</a>
+    y <a href="https://policies.google.com/terms?hl=es">Condiciones del Servicio</a> de Google.
+    `,
     send: `Enviar`,
     show: `Mostrar`,
     synchronizing: `Syncronizando`,
+    unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,
   },
   default_banner_data: {
     background_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png',
@@ -290,7 +291,6 @@ export default {
   trafficSources: {
     direct: `Directo`,
     email: `Email`,
-    error: `¡Ouch! Ocurrio un error inesperado, vuelva a intentar nuevamente`,
     organic: `Búsqueda Orgánica`,
     paid: `Publicidad en Buscadores`,
     referral: `Referencia`,

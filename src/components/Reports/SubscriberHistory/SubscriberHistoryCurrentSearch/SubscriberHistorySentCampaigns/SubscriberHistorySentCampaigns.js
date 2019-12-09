@@ -69,7 +69,7 @@ const SubscriberHistorySentCampaigns = ({ subscriber, dependencies: { dopplerApi
     </div>
   ) : (
     <p className="dp-boxshadow--error bounceIn">
-      <FormattedMessage id="trafficSources.error" />
+      <FormattedMessage id="common.unexpected_error" />
     </p>
   );
 };
