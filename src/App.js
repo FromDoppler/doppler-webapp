@@ -61,9 +61,10 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
     if (!expectedLang) {
       langFromUrl.current = null;
     } else if (!langFromUrl.current || langFromUrl.current !== expectedLang) {
-      setState({
+      setState((prevState) => ({
         i18nLocale: expectedLang,
-      });
+        dopplerSession: prevState.dopplerSession,
+      }));
       langFromUrl.current = expectedLang;
     }
   }, [location]);

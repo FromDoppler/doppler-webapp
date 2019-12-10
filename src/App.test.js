@@ -6,6 +6,7 @@ import { AppServicesProvider } from './services/pure-di';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 import Login from './components/Login/Login';
 import { timeout } from './utils';
+import { act } from 'react-dom/test-utils';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -159,23 +160,25 @@ describe('App component', () => {
       expect(loadingEl).not.toBeNull();
       await waitForDomChange();
       // Act
-      dependencies.sessionManager.updateAppSession({
-        status: 'authenticated',
-        userData: {
-          user: {
-            lang: 'es',
-            avatar: {},
-            plan: {},
+      act(() => {
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              lang: 'es',
+              avatar: {},
+              plan: {},
+              nav: [],
+            },
             nav: [],
+            features: {
+              siteTrackingEnabled: false,
+              siteTrackingActive: false,
+              emailParameterEnabled: false,
+              emailParameterActive: false,
+            },
           },
-          nav: [],
-          features: {
-            siteTrackingEnabled: false,
-            siteTrackingActive: false,
-            emailParameterEnabled: false,
-            emailParameterActive: false,
-          },
-        },
+        });
       });
 
       // Assert
@@ -183,23 +186,25 @@ describe('App component', () => {
       getByText('Política de Privacidad y Legales');
 
       // Act
-      dependencies.sessionManager.updateAppSession({
-        status: 'authenticated',
-        userData: {
-          user: {
-            lang: 'en',
-            avatar: {},
-            plan: {},
+      act(() => {
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              lang: 'en',
+              avatar: {},
+              plan: {},
+              nav: [],
+            },
             nav: [],
+            features: {
+              siteTrackingEnabled: false,
+              siteTrackingActive: false,
+              emailParameterEnabled: false,
+              emailParameterActive: false,
+            },
           },
-          nav: [],
-          features: {
-            siteTrackingEnabled: false,
-            siteTrackingActive: false,
-            emailParameterEnabled: false,
-            emailParameterActive: false,
-          },
-        },
+        });
       });
 
       // Assert
@@ -207,7 +212,9 @@ describe('App component', () => {
       getByText('Privacy Policy & Legals');
 
       // Act
-      dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
+      act(() => {
+        dependencies.sessionManager.updateAppSession({ status: 'non-authenticated' });
+      });
 
       // Assert
       // Language should not be changed on logout
@@ -215,23 +222,25 @@ describe('App component', () => {
       getByText('Privacy Policy & Legals');
 
       // Act
-      dependencies.sessionManager.updateAppSession({
-        status: 'authenticated',
-        userData: {
-          user: {
-            lang: 'es',
-            avatar: {},
-            plan: {},
+      act(() => {
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              lang: 'es',
+              avatar: {},
+              plan: {},
+              nav: [],
+            },
             nav: [],
+            features: {
+              siteTrackingEnabled: false,
+              siteTrackingActive: false,
+              emailParameterEnabled: false,
+              emailParameterActive: false,
+            },
           },
-          nav: [],
-          features: {
-            siteTrackingEnabled: false,
-            siteTrackingActive: false,
-            emailParameterEnabled: false,
-            emailParameterActive: false,
-          },
-        },
+        });
       });
 
       // Assert
@@ -262,30 +271,32 @@ describe('App component', () => {
 
       const loadingEl = container.querySelector('.loading-page');
       expect(loadingEl).not.toBeNull();
-
+      await waitForDomChange();
       // Act
-      dependencies.sessionManager.updateAppSession({
-        status: 'authenticated',
-        userData: {
-          user: {
-            email: expectedEmail,
-            avatar: {},
-            plan: {},
+      act(() => {
+        dependencies.sessionManager.updateAppSession({
+          status: 'authenticated',
+          userData: {
+            user: {
+              email: expectedEmail,
+              avatar: {},
+              plan: {},
+              nav: [],
+              lang: 'en',
+            },
             nav: [],
-            lang: 'en',
+            features: {
+              siteTrackingEnabled: false,
+              siteTrackingActive: false,
+              emailParameterEnabled: false,
+              emailParameterActive: false,
+            },
           },
-          nav: [],
-          features: {
-            siteTrackingEnabled: false,
-            siteTrackingActive: false,
-            emailParameterEnabled: false,
-            emailParameterActive: false,
-          },
-        },
+        });
       });
 
       // Assert
-      getByText(expectedEmail);
+      await wait(() => expect(getByText(expectedEmail)));
       // TODO: test session manager behavior
     });
 
@@ -323,8 +334,10 @@ describe('App component', () => {
         expect(loadingEl).not.toBeNull();
         await waitForDomChange();
         // Act
-        dependencies.sessionManager.updateAppSession({
-          status: 'not-authenticated',
+        act(() => {
+          dependencies.sessionManager.updateAppSession({
+            status: 'not-authenticated',
+          });
         });
 
         // Assert
@@ -360,10 +373,11 @@ describe('App component', () => {
         expect(loadingEl).not.toBeNull();
         await waitForDomChange();
         // Act
-        dependencies.sessionManager.updateAppSession({
-          status: 'not-authenticated',
+        act(() => {
+          dependencies.sessionManager.updateAppSession({
+            status: 'not-authenticated',
+          });
         });
-
         // Assert
         await waitForDomChange();
         expect(currentRouteState.location.pathname).toEqual('/login');
@@ -412,8 +426,10 @@ describe('App component', () => {
         }
         await waitForDomChange();
         // Act
-        dependencies.sessionManager.updateAppSession({
-          status: 'not-authenticated',
+        act(() => {
+          dependencies.sessionManager.updateAppSession({
+            status: 'not-authenticated',
+          });
         });
 
         // Assert
@@ -457,8 +473,10 @@ describe('App component', () => {
         expect(loadingEl).not.toBeNull();
         await waitForDomChange();
         // Act
-        dependencies.sessionManager.updateAppSession({
-          status: 'not-authenticated',
+        act(() => {
+          dependencies.sessionManager.updateAppSession({
+            status: 'not-authenticated',
+          });
         });
 
         // Assert
@@ -505,23 +523,25 @@ describe('App component', () => {
         expect(loadingEl).not.toBeNull();
         await waitForDomChange();
         // Act
-        dependencies.sessionManager.updateAppSession({
-          status: 'authenticated',
-          userData: {
-            user: {
-              lang: 'es',
-              avatar: {},
-              plan: {},
+        act(() => {
+          dependencies.sessionManager.updateAppSession({
+            status: 'authenticated',
+            userData: {
+              user: {
+                lang: 'es',
+                avatar: {},
+                plan: {},
+                nav: [],
+              },
               nav: [],
+              features: {
+                siteTrackingEnabled: false,
+                siteTrackingActive: false,
+                emailParameterEnabled: false,
+                emailParameterActive: false,
+              },
             },
-            nav: [],
-            features: {
-              siteTrackingEnabled: false,
-              siteTrackingActive: false,
-              emailParameterEnabled: false,
-              emailParameterActive: false,
-            },
-          },
+          });
         });
         await waitForDomChange();
         // Assert
@@ -562,23 +582,25 @@ describe('App component', () => {
         expect(loadingEl).not.toBeNull();
         await waitForDomChange();
         // Act
-        dependencies.sessionManager.updateAppSession({
-          status: 'authenticated',
-          userData: {
-            user: {
-              lang: 'es',
-              avatar: {},
-              plan: {},
+        act(() => {
+          dependencies.sessionManager.updateAppSession({
+            status: 'authenticated',
+            userData: {
+              user: {
+                lang: 'es',
+                avatar: {},
+                plan: {},
+                nav: [],
+              },
               nav: [],
+              features: {
+                siteTrackingEnabled: false,
+                siteTrackingActive: false,
+                emailParameterEnabled: false,
+                emailParameterActive: false,
+              },
             },
-            nav: [],
-            features: {
-              siteTrackingEnabled: false,
-              siteTrackingActive: false,
-              emailParameterEnabled: false,
-              emailParameterActive: false,
-            },
-          },
+          });
         });
 
         // Assert
