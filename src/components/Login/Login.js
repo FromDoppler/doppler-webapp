@@ -12,7 +12,7 @@ import {
   CaptchaLegalMessage,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
-import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
+import SafeRedirect from '../SafeRedirect';
 import { InjectAppServices } from '../../services/pure-di';
 import { LoginErrorAccountNotValidated } from './LoginErrorAccountNotValidated';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
@@ -155,13 +155,13 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
   };
 
   if (redirectToUrl) {
-    return <RedirectToLegacyUrl to={redirectToUrl} />;
+    return <SafeRedirect to={redirectToUrl} />;
   }
 
   if (redirectAfterLogin) {
     const legacyRedirectUrl = extractLegacyRedirectUrl(location);
     return legacyRedirectUrl ? (
-      <RedirectToLegacyUrl to={legacyRedirectUrl} />
+      <SafeRedirect to={legacyRedirectUrl} />
     ) : (
       <Redirect to={(location.state && location.state.from) || { pathname: '/' }} />
     );

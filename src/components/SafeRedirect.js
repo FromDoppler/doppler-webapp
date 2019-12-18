@@ -7,8 +7,7 @@ import RedirectToExternalUrl from './RedirectToExternalUrl';
  * @param { string } props.to
  * @param { import('../services/pure-di').AppServices } props.dependencies
  */
-function RedirectToLegacyUrl({ to, dependencies }) {
+function SafeRedirect({ to, dependencies }) {
   return <RedirectToExternalUrl to={dependencies.appConfiguration.dopplerLegacyUrl + to} />;
 }
-
-export default InjectAppServices(RedirectToLegacyUrl);
+export default InjectAppServices(SafeRedirect);
