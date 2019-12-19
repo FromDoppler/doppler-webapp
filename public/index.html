@@ -12,10 +12,10 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link
-    rel="stylesheet"
-    type="text/css"
-    href="https://cdn.fromdoppler.com/doppler-ui-library/v3.25.3/css/styles.css"
-  />
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.fromdoppler.com/doppler-ui-library/v3.25.3/css/styles.css"
+    />
     <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/zoho-chat.css" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -32,6 +32,19 @@
       type="text/javascript"
       enableCustomTracking="true"
     ></script>
+    <script
+      type="text/javascript"
+      src="//cloudfront.loggly.com/js/loggly.tracker-latest.min.js"
+      async
+    ></script>
+    <script>
+      var _LTracker = _LTracker || [];
+      _LTracker.push({
+        logglyKey: '97cc20a4-a0dc-40b0-a74e-9643a9388202',
+        sendConsoleErrors: false,
+        tag: 'loggly-jslogger',
+      });
+    </script>
   </head>
   <body>
     <noscript>
