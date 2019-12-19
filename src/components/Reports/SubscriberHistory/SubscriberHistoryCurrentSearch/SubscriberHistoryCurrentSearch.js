@@ -4,7 +4,7 @@ import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage } from 'react-intl';
 import SubscriberHistorySentCampaigns from './SubscriberHistorySentCampaigns/SubscriberHistorySentCampaigns';
 
-const SubscriberHistoryCurrentSearch = ({ email, dependencies: { dopplerApiClient } }) => {
+const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   const showSubscriberCampaigns = () =>
@@ -13,7 +13,7 @@ const SubscriberHistoryCurrentSearch = ({ email, dependencies: { dopplerApiClien
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const response = await dopplerApiClient.getSubscriber(email);
+      const response = await dopplerApiClient.getSubscriber(searchText);
       if (response.success) {
         const subscriber = {
           ...response.value,
@@ -27,7 +27,7 @@ const SubscriberHistoryCurrentSearch = ({ email, dependencies: { dopplerApiClien
     };
 
     fetchData();
-  }, [dopplerApiClient, email]);
+  }, [dopplerApiClient, searchText]);
 
   return (
     <div>
