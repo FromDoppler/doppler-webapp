@@ -1,6 +1,12 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
 
+declare global {
+  interface Window {
+    _LTracker: any;
+  }
+}
+
 export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -81,4 +87,8 @@ export function getStartOfDate(date: Date) {
   return typeof date.getMonth === 'function'
     ? new Date(date.getFullYear(), date.getMonth(), date.getDate())
     : undefined;
+}
+
+export function addLogEntry(data: any) {
+  window._LTracker.push(data);
 }

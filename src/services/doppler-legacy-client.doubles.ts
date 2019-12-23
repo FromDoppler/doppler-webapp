@@ -27,6 +27,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     // return { expectedError: { cancelatedAccount: true } };
     // return { expectedError: { invalidLogin: true } };
     // return { expectedError: { blockedAccountInvalidPassword: true } };
+    // return { success: false, error: 'Error code' };
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {

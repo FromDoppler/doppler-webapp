@@ -19,6 +19,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
+import { addLogEntry } from '../../utils';
 
 const fieldNames = {
   user: 'user',
@@ -139,6 +140,13 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         console.log('Unexpected error', result);
         setErrors({
           _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        });
+        addLogEntry({
+          account: values[fieldNames.user],
+          origin: window.location.origin,
+          section: 'Login',
+          browser: window.navigator.userAgent,
+          error: result,
         });
       }
     } finally {
