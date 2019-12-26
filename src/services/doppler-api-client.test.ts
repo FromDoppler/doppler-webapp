@@ -182,4 +182,99 @@ describe('HttpDopplerApiClient', () => {
       expect(result.value.items[0].campaignId).toEqual(1);
     });
   });
+
+  describe('GetSubscribers', () => {
+    it('should get and error', async () => {
+      // Arrange
+      const request = jest.fn(async () => {});
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscribers('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should get a subscribers', async () => {
+      // Arrange
+      const subscribers = {
+        data: {
+          items: [
+            {
+              email: 'test@fromdoppler.com',
+              fields: [
+                {
+                  name: 'FIRSTNAME',
+                  value: 'Manuel',
+                  predefined: true,
+                  private: false,
+                  readonly: true,
+                  type: 'string',
+                },
+                {
+                  name: 'LASTNAME',
+                  value: 'di Rago',
+                  predefined: true,
+                  private: false,
+                  readonly: true,
+                  type: 'string',
+                },
+              ],
+              unsubscribedDate: '2019-11-27T18:05:40.847Z',
+              unsubscriptionType: 'hardBounce',
+              manualUnsubscriptionReason: 'administrative',
+              unsubscriptionComment: 'test',
+              status: 'active',
+              score: 0,
+            },
+            {
+              email: 'pepe@fromdoppler.com',
+              fields: [
+                {
+                  name: 'FIRSTNAME',
+                  value: 'Pepe',
+                  predefined: true,
+                  private: false,
+                  readonly: true,
+                  type: 'string',
+                },
+                {
+                  name: 'LASTNAME',
+                  value: 'Gonzales',
+                  predefined: true,
+                  private: false,
+                  readonly: true,
+                  type: 'string',
+                },
+              ],
+              unsubscribedDate: '',
+              unsubscriptionType: '',
+              manualUnsubscriptionReason: '',
+              unsubscriptionComment: '',
+              status: 'active',
+              score: 1,
+            },
+          ],
+          currentPage: 0,
+          itemsCount: 2,
+          pagesCount: 1,
+        },
+      };
+      const request = jest.fn(async () => subscribers);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscribers('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.pagesCount).toEqual(1);
+      expect(result.value.items[0].email).toEqual('test@fromdoppler.com');
+    });
+  });
 });
