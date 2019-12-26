@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
-import RedirectToLegacyUrl from '../RedirectToLegacyUrl';
+import SafeRedirect from '../SafeRedirect';
 
 export const SiteTrackingNotAvailableReasons = {
   freeAccount: 'freeAccount',
@@ -26,7 +26,7 @@ export const SiteTrackingRequired = InjectAppServices(
     const [state, setState] = useState({});
 
     if (state.isActivatedTrial) {
-      return <RedirectToLegacyUrl to="/ControlPanel/CampaignsPreferences/SiteTrackingSettings" />;
+      return <SafeRedirect to="/ControlPanel/CampaignsPreferences/SiteTrackingSettings" />;
     }
 
     const activateTrial = async () => {

@@ -8,7 +8,7 @@ import Reports from './components/Reports/Reports';
 import { InjectAppServices } from './services/pure-di';
 import queryString from 'query-string';
 import { OriginCatcher } from './services/origin-management';
-import RedirectToLegacyUrl from './components/RedirectToLegacyUrl';
+import SafeRedirect from './components/SafeRedirect';
 import RedirectWithQuery from './components/RedirectWithQuery';
 import { Helmet } from 'react-helmet';
 import { availableLanguageOrNull } from './i18n/utils';
@@ -84,7 +84,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
               location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
                 <Redirect to={location.hash.replace('#', '')} />
               ) : (
-                <RedirectToLegacyUrl to="/Campaigns/Draft" />
+                <SafeRedirect to="/Campaigns/Draft" />
               )
             }
           />
