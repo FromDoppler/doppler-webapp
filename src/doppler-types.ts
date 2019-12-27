@@ -1,4 +1,10 @@
-export type UnexpectedError = { success?: false; message?: string | null; error?: any };
+export type UnexpectedError = {
+  success?: false;
+  message?: string;
+  trace?: any;
+  fullResponse?: any;
+  error?: any;
+};
 export type ErrorResult<TError> = { success?: false; expectedError: TError } | UnexpectedError;
 export type Result<TResult, TError> = { success: true; value: TResult } | ErrorResult<TError>;
 export type ResultWithoutExpectedErrors<TResult> =

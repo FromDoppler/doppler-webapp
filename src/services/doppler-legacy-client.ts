@@ -310,6 +310,8 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           default: {
             return {
               message: response.data.error || null,
+              trace: new Error(),
+              fullResponse: response,
             };
           }
         }
