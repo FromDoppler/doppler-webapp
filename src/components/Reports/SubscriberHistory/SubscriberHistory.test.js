@@ -14,6 +14,9 @@ describe('SubscriberHistory component', () => {
       getSubscriber: async () => {
         return { success: false };
       },
+      getSubscribers: async () => {
+        return { success: false };
+      },
     };
     // Act
     const { getByText } = render(

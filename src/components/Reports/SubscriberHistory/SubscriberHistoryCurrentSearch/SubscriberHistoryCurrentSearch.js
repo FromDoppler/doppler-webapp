@@ -7,22 +7,41 @@ import SubscriberHistorySentCampaigns from './SubscriberHistorySentCampaigns/Sub
 const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
-  const showSubscriberCampaigns = () =>
-    setState((prevState) => ({ ...prevState, showSubscriberCampaigns: true }));
+  const showSubscriberCampaigns = (subscriber) =>
+    setState((prevState) => ({
+      ...prevState,
+      showSubscriberCampaigns: true,
+      selectedSubscriber: subscriber,
+    }));
 
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const response = await dopplerApiClient.getSubscriber(searchText);
+      const response = await dopplerApiClient.getSubscribers(searchText);
       if (response.success) {
-        const subscriber = {
-          ...response.value,
-          firstName: response.value.fields.find((x) => x.name === 'FIRSTNAME'),
-          lastName: response.value.fields.find((x) => x.name === 'LASTNAME'),
-        };
-        setState({ loading: false, subscriber: subscriber });
+        const subscribers = response.value.items.map((subscriber) => {
+          return {
+            ...subscriber,
+            firstName: subscriber.fields.find((x) => x.name === 'FIRSTNAME'),
+            lastName: subscriber.fields.find((x) => x.name === 'LASTNAME'),
+          };
+        });
+        setState({ loading: false, subscribers: subscribers });
       } else {
-        setState({ loading: false });
+        // Fallback for production
+        const responseSubscriber = await dopplerApiClient.getSubscriber(searchText);
+        if (responseSubscriber.success) {
+          const subscriber = [
+            {
+              ...responseSubscriber.value,
+              firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
+              lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
+            },
+          ];
+          setState({ loading: false, subscribers: subscriber });
+        } else {
+          setState({ loading: false });
+        }
       }
     };
 
@@ -33,7 +52,7 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
     <div>
       {state.loading ? (
         <Loading />
-      ) : state.subscriber ? (
+      ) : state.subscribers ? (
         <>
           <table className="dp-c-table">
             <thead>
@@ -56,19 +75,23 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <span onClick={showSubscriberCampaigns}>{state.subscriber.email}</span>
-                </td>
-                <td>{state.subscriber.firstName ? state.subscriber.firstName.value : ''}</td>
-                <td>{state.subscriber.lastName ? state.subscriber.lastName.value : ''}</td>
-                <td>{state.subscriber.score}</td>
-                <td>{state.subscriber.status}</td>
-              </tr>
+              {state.subscribers.map((subscriber, index) => (
+                <tr key={index}>
+                  <td>
+                    <span onClick={() => showSubscriberCampaigns(subscriber)}>
+                      {subscriber.email}
+                    </span>
+                  </td>
+                  <td>{subscriber.firstName ? subscriber.firstName.value : ''}</td>
+                  <td>{subscriber.lastName ? subscriber.lastName.value : ''}</td>
+                  <td>{subscriber.score}</td>
+                  <td>{subscriber.status}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
           {state.showSubscriberCampaigns ? (
-            <SubscriberHistorySentCampaigns subscriber={state.subscriber} />
+            <SubscriberHistorySentCampaigns subscriber={state.selectedSubscriber} />
           ) : null}
         </>
       ) : (
