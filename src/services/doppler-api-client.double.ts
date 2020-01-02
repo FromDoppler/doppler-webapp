@@ -1,4 +1,9 @@
-import { DopplerApiClient, Subscriber, CampaignDeliveryCollection } from './doppler-api-client';
+import {
+  DopplerApiClient,
+  Subscriber,
+  CampaignDeliveryCollection,
+  SubscriberCollection,
+} from './doppler-api-client';
 import { SubscriberList } from './shopify-client';
 import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -73,6 +78,68 @@ const campaignDeliveryCollection = {
   pagesCount: 1,
 };
 
+const subscriberCollection = {
+  items: [
+    {
+      email: 'test@fromdoppler.com',
+      fields: [
+        {
+          name: 'FIRSTNAME',
+          value: 'Manuel',
+          predefined: true,
+          private: false,
+          readonly: true,
+          type: 'string',
+        },
+        {
+          name: 'LASTNAME',
+          value: 'di Rago',
+          predefined: true,
+          private: false,
+          readonly: true,
+          type: 'string',
+        },
+      ],
+      unsubscribedDate: '2019-11-27T18:05:40.847Z',
+      unsubscriptionType: 'hardBounce',
+      manualUnsubscriptionReason: 'administrative',
+      unsubscriptionComment: 'test',
+      status: 'active',
+      score: 0,
+    },
+    {
+      email: 'pepe@fromdoppler.com',
+      fields: [
+        {
+          name: 'FIRSTNAME',
+          value: 'Pepe',
+          predefined: true,
+          private: false,
+          readonly: true,
+          type: 'string',
+        },
+        {
+          name: 'LASTNAME',
+          value: 'Gonzales',
+          predefined: true,
+          private: false,
+          readonly: true,
+          type: 'string',
+        },
+      ],
+      unsubscribedDate: '',
+      unsubscriptionType: '',
+      manualUnsubscriptionReason: '',
+      unsubscriptionComment: '',
+      status: 'active',
+      score: 1,
+    },
+  ],
+  currentPage: 0,
+  itemsCount: 2,
+  pagesCount: 1,
+};
+
 export class HardcodedDopplerApiClient implements DopplerApiClient {
   public async getListData(
     idList: number,
@@ -112,6 +179,23 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     return {
       success: true,
       value: campaignDeliveryCollection,
+    };
+
+    // return {
+    //   success: false,
+    //   error: new Error('Dummy error'),
+    // };
+  }
+
+  public async getSubscribers(
+    searchText: string,
+  ): Promise<ResultWithoutExpectedErrors<SubscriberCollection>> {
+    console.log('getSubscribers');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: subscriberCollection,
     };
 
     // return {

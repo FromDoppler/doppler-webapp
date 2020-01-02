@@ -11,6 +11,7 @@ export interface DopplerApiClient {
     email: string,
     apikey: string,
   ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>>;
+  getSubscribers(searchText: string): Promise<ResultWithoutExpectedErrors<SubscriberCollection>>;
 }
 interface DopplerApiConnectionData {
   jwtToken: string;
@@ -47,6 +48,13 @@ interface CampaignDelivery {
 
 export interface CampaignDeliveryCollection {
   items: CampaignDelivery[];
+  currentPage: number;
+  itemsCount: number;
+  pagesCount: number;
+}
+
+export interface SubscriberCollection {
+  items: Subscriber[];
   currentPage: number;
   itemsCount: number;
   pagesCount: number;
@@ -119,6 +127,19 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       campaignSubject: x.campaignSubject,
       clicksCount: x.clicksCount,
       deliveryStatus: x.deliveryStatus,
+    }));
+  }
+
+  private mapSubscribers(data: any): Subscriber[] {
+    return data.map((x: any) => ({
+      email: x.email,
+      fields: this.mapSubscriberFields(x.fields),
+      unsubscribedDate: x.unsubscribedDate,
+      unsubscriptionType: x.unsubscriptionType,
+      manualUnsubscriptionReason: x.manualUnsubscriptionReason,
+      unsubscriptionComment: x.unsubscriptionComment,
+      status: x.status,
+      score: x.score,
     }));
   }
 
@@ -197,6 +218,38 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: campaignsDeliveryCollection,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getSubscribers(
+    searchText: string,
+  ): Promise<ResultWithoutExpectedErrors<SubscriberCollection>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/subscribers/`,
+        headers: { Authorization: `token ${jwtToken}` },
+        params: { keyword: searchText },
+      });
+
+      const subscriberCollection = {
+        items: this.mapSubscribers(data.items),
+        itemsCount: data.itemsCount,
+        currentPage: data.currentPage,
+        pagesCount: data.pagesCount,
+      };
+
+      return {
+        success: true,
+        value: subscriberCollection,
       };
     } catch (error) {
       return {
