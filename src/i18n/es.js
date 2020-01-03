@@ -274,6 +274,20 @@ export default {
     header_title: `Reporte de Actividad General del Suscriptor`,
     page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,
     page_title: `Doppler | Historial por Suscriptor`,
+    search_form: {
+      aria_label: `Formulario de filtros para buscar Historial de Suscriptores`,
+      aria_search_field: `Ingrese un email, nombre o apellido para buscar historial de desubscriptor`,
+      search_field_placeholder: `Busca un suscriptor por su email, nombre o apellido...`,
+      search_form_legend: `Busqueda avanzada de historial de subscriptores`,
+    },
+    table_result: {
+      aria_label_email: `Email`,
+      aria_label_lastname: `Apellido`,
+      aria_label_name: `Nombre`,
+      aria_label_score: `Puntuación`,
+      aria_label_state: `Estado`,
+      aria_label_table: `Resultado de historial de suscriptores`,
+    },
   },
   subscriber_history_current_search: {
     grid_email: `Email`,

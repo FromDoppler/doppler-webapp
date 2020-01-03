@@ -272,6 +272,20 @@ export default {
     header_title: `Subscriber General Activity Report`,
     page_description: `Through this report you will be able to know the general activity of a specific subscriber`,
     page_title: `Doppler | Subscriber History`,
+    search_form: {
+      aria_label: `Filters form to search subscriber history`,
+      aria_search_field: `Enter an email, first or last name to search for subscriber history`,
+      search_field_placeholder: `Search for a subscriber by email, first or last name ...`,
+      search_form_legend: `Advanced subscriber history search`,
+    },
+    table_result: {
+      aria_label_email: `Email`,
+      aria_label_lastname: `Lastname`,
+      aria_label_name: `Name`,
+      aria_label_score: `Score`,
+      aria_label_state: `State`,
+      aria_label_table: `Subscriber history result`,
+    },
   },
   subscriber_history_current_search: {
     grid_email: `Email`,
