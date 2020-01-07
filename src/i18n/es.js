@@ -276,9 +276,9 @@ export default {
     page_title: `Doppler | Historial por Suscriptor`,
     search_form: {
       aria_label: `Formulario de filtros para buscar Historial de Suscriptores`,
-      aria_search_field: `Ingrese un email, nombre o apellido para buscar historial de desubscriptor`,
-      search_field_placeholder: `Busca un suscriptor por su email, nombre o apellido...`,
-      search_form_legend: `Busqueda avanzada de historial de subscriptores`,
+      aria_search_field: `Ingrese un Email, Nombre o Apellido para buscar Historial de Suscriptor`,
+      search_field_placeholder: `Busca un suscriptor por su Email, Nombre o Apellido...`,
+      search_form_legend: `Busqueda avanzada de Historial de Suscriptor`,
     },
     table_result: {
       aria_label_email: `Email`,
@@ -286,7 +286,7 @@ export default {
       aria_label_name: `Nombre`,
       aria_label_score: `Puntuación`,
       aria_label_state: `Estado`,
-      aria_label_table: `Resultado de historial de suscriptores`,
+      aria_label_table: `Resultado de Historial de Suscriptores`,
     },
   },
   subscriber_history_current_search: {

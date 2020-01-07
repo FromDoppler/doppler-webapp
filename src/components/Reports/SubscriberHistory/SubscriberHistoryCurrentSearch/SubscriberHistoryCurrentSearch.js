@@ -84,8 +84,27 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
                   </td>
                   <td>{subscriber.firstName ? subscriber.firstName.value : ''}</td>
                   <td>{subscriber.lastName ? subscriber.lastName.value : ''}</td>
-                  <td>{subscriber.score}</td>
-                  <td>{subscriber.status}</td>
+                  <td>
+                    {subscriber.score}
+                    {/*missing the logic to take the ranking
+                    <div class="dp-calification">
+                        <span
+                          class="ms-icon icon-star"
+                          aria-label="Una estrella"
+                        ></span
+                        ><span
+                          class="ms-icon icon-star"
+                          aria-label="Sin estrella"
+                        ></span>
+                        <span
+                          class="ms-icon icon-star"
+                          aria-label="Sin estrella"
+                        ></span>
+                      </div> */}
+                  </td>
+                  <td>
+                    <span>{subscriber.status}</span>
+                  </td>
                 </tr>
               ))}
             </tbody>
