@@ -64,39 +64,70 @@ const SubscriberHistory = () => {
           </div>
         </div>
       </header>
-      <div className="dp-box-shadow col-md-8 col-sm-8" style={{ margin: '80px auto' }}>
-        <div className="col-md-8 col-sm-8" style={{ padding: '30px' }}>
-          Email Suscriptor
-          <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
-            {({ submitForm, handleChange, errors, touched }) => (
-              <div>
-                <Form style={{ display: 'flex' }}>
-                  <Field
-                    name="search"
-                    type="text"
-                    value={state.subscriberSearch}
-                    onChange={(e) => {
-                      const { value } = e.target;
-                      setState({ subscriberSearch: value });
-                      handleChange(e);
-                    }}
-                    validate={validateSearch}
-                  />
-                  <button className="dp-button button-medium primary-grey" type="submit">
-                    Buscar
-                  </button>
-                </Form>
-                {errors.search && touched.search && <div>{errors.search}</div>}
-              </div>
-            )}
-          </Formik>
+      <section className="dp-container">
+        <div className="dp-rowflex">
+          <div className="col-sm-12 m-t-24">
+            <div className="dp-block-wlp">
+              <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
+                {({ submitForm, handleChange, errors, touched }) => (
+                  <div>
+                    <Form
+                      className="dp-filters"
+                      role="search"
+                      aria-label={_('subscriber_history.search_form.aria_label')}
+                      id="searchSubscriberHistory"
+                    >
+                      <fieldset>
+                        <legend>{_('subscriber_history.search_form.search_form_legend')}</legend>
+                        <ul
+                          class="field-group dp-rowflex"
+                          aria-labelledby="searchSubscriberHistory"
+                        >
+                          <li class="field-item col-lg-6 col-md-6 col-sm-12 dp-t-inputsh">
+                            <Field
+                              className="dp-searchemail"
+                              aria-label={_('subscriber_history.search_form.aria_search_field')}
+                              aria-required="true"
+                              name="search"
+                              type="text"
+                              placeholder={_(
+                                'subscriber_history.search_form.search_field_placeholder',
+                              )}
+                              value={state.subscriberSearch}
+                              onChange={(e) => {
+                                const { value } = e.target;
+                                setState({ subscriberSearch: value });
+                                handleChange(e);
+                              }}
+                              validate={validateSearch}
+                            />
+                            <button
+                              className="dp-button button-medium dp-button--search"
+                              aria-label="click search"
+                              type="submit"
+                            >
+                              <span className="ms-icon icon-search"></span>
+                            </button>
+                            <div class="dp-message dp-error-form">
+                              <p>{_('validation_messages.error_required_field')}</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </fieldset>
+                    </Form>
+                    {errors.search && touched.search && <div>{errors.search}</div>}
+                  </div>
+                )}
+              </Formik>
+            </div>
+            <div className="dp-block-wlp m-b-36">
+              {state.showResults ? (
+                <SubscriberHistoryCurrentSearch searchText={state.searchText} />
+              ) : null}
+            </div>
+          </div>
         </div>
-        <div style={{ padding: '30px', position: 'relative' }}>
-          {state.showResults ? (
-            <SubscriberHistoryCurrentSearch searchText={state.searchText} />
-          ) : null}
-        </div>
-      </div>
+      </section>
     </>
   );
 };
