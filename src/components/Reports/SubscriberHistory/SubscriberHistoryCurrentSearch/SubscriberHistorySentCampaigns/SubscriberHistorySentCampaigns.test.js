@@ -23,16 +23,37 @@ describe('SubscriberHistorySentCampaigns component', () => {
     pagesCount: 1,
   };
 
+  const subscriber = {
+    email: 'test@test.com',
+    fields: [
+      {
+        name: 'FIRSTNAME',
+        value: 'Manuel',
+        predefined: true,
+        private: true,
+        readonly: true,
+        type: 'boolean',
+      },
+    ],
+    unsubscribedDate: '2019-11-27T18:05:40.847Z',
+    unsubscriptionType: 'hardBounce',
+    manualUnsubscriptionReason: 'administrative',
+    unsubscriptionComment: 'test',
+    status: 'active',
+    score: 0,
+  };
+
   it('should show subscriber campaigns deliveries', async () => {
     // Arrange
     const dopplerApiClientDouble = {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
     };
-    const subscriber = {
-      email: 'test@test.com',
-    };
+
     // Act
     const { getByText } = render(
       <AppServicesProvider
@@ -41,7 +62,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns subscriber={subscriber} />
+          <SubscriberHistorySentCampaigns />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -57,10 +78,11 @@ describe('SubscriberHistorySentCampaigns component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: false };
       },
+      getSubscriber: async () => {
+        return { success: false };
+      },
     };
-    const subscriber = {
-      email: 'test@test.com',
-    };
+
     // Act
     const { getByText } = render(
       <AppServicesProvider
@@ -69,7 +91,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns subscriber={subscriber} />
+          <SubscriberHistorySentCampaigns />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -83,11 +105,11 @@ describe('SubscriberHistorySentCampaigns component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
     };
-    const subscriber = {
-      email: 'test@test.com',
-      firstName: { value: 'Manuel' },
-    };
+
     // Act
     const { getByText } = render(
       <AppServicesProvider
@@ -96,7 +118,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns subscriber={subscriber} />
+          <SubscriberHistorySentCampaigns />
         </IntlProvider>
       </AppServicesProvider>,
     );

@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import SubscriberHistoryCurrentSearch from './SubscriberHistoryCurrentSearch';
 import { AppServicesProvider } from '../../../../services/pure-di';
+import { BrowserRouter } from 'react-router-dom';
 
 const subscriber = {
   email: 'test@test.com',
@@ -108,7 +109,9 @@ describe('SubscriberHistoryCurrentSearch component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistoryCurrentSearch />
+          <BrowserRouter>
+            <SubscriberHistoryCurrentSearch />
+          </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
