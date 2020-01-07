@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { InjectAppServices } from '../../../../../services/pure-di';
-import { Loading } from '../../../../Loading/Loading';
+import { InjectAppServices } from '../../../services/pure-di';
+import { Loading } from '../../Loading/Loading';
 import { FormattedMessage } from 'react-intl';
 import queryString from 'query-string';
 
@@ -10,7 +10,7 @@ function extractEmail(location) {
   return (parsedQuery && parsedQuery['email']) || null;
 }
 
-const SubscriberHistorySentCampaigns = ({ location, dependencies: { dopplerApiClient } }) => {
+const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   useEffect(() => {
@@ -92,4 +92,4 @@ const SubscriberHistorySentCampaigns = ({ location, dependencies: { dopplerApiCl
   );
 };
 
-export default InjectAppServices(SubscriberHistorySentCampaigns);
+export default InjectAppServices(CampaignsHistory);

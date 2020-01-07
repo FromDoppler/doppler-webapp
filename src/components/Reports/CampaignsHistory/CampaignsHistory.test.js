@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, cleanup, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import SubscriberHistorySentCampaigns from './SubscriberHistorySentCampaigns';
-import { AppServicesProvider } from '../../../../../services/pure-di';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import CampaignsHistory from './CampaignsHistory';
+import { AppServicesProvider } from '../../../services/pure-di';
 
-describe('SubscriberHistorySentCampaigns component', () => {
+describe('CampaignsHistory component', () => {
   afterEach(cleanup);
 
   const campaignDeliveryCollection = {
@@ -62,7 +62,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns />
+          <CampaignsHistory />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -91,7 +91,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns />
+          <CampaignsHistory />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -118,7 +118,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns />
+          <CampaignsHistory />
         </IntlProvider>
       </AppServicesProvider>,
     );
