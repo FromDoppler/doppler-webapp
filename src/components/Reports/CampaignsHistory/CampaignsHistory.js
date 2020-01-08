@@ -1,22 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { InjectAppServices } from '../../../../../services/pure-di';
-import { Loading } from '../../../../Loading/Loading';
+import { InjectAppServices } from '../../../services/pure-di';
+import { Loading } from '../../Loading/Loading';
 import { FormattedMessage } from 'react-intl';
+import queryString from 'query-string';
 
-const SubscriberHistorySentCampaigns = ({ subscriber, dependencies: { dopplerApiClient } }) => {
+/** Extract the page parameter from url*/
+function extractEmail(location) {
+  const parsedQuery = location && location.search && queryString.parse(location.search);
+  return (parsedQuery && parsedQuery['email']) || null;
+}
+
+const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await dopplerApiClient.getSubscriberSentCampaigns(subscriber.email);
-      if (!response.success) {
-        setState({ loading: false });
+      const email = extractEmail(location);
+      const responseSubscriber = await dopplerApiClient.getSubscriber(email);
+      if (responseSubscriber.success) {
+        const subscriber = {
+          ...responseSubscriber.value,
+          firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
+          lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
+        };
+        const response = await dopplerApiClient.getSubscriberSentCampaigns(email);
+        if (!response.success) {
+          setState({ loading: false });
+        } else {
+          setState({ loading: false, sentCampaigns: response.value, subscriber: subscriber });
+        }
       } else {
-        setState({ loading: false, sentCampaigns: response.value });
+        setState({ loading: false });
       }
     };
     fetchData();
-  }, [dopplerApiClient, subscriber]);
+  }, [dopplerApiClient, location]);
 
   return state.loading ? (
     <Loading />
@@ -24,11 +42,11 @@ const SubscriberHistorySentCampaigns = ({ subscriber, dependencies: { dopplerApi
     <div>
       <div>
         <p>
-          {subscriber.firstName ? subscriber.firstName.value : ''}{' '}
-          {subscriber.lastName ? subscriber.lastName.value : ''}
+          {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
+          {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
         </p>
         <p>
-          {subscriber.status} {subscriber.score}
+          {state.subscriber.status} {state.subscriber.score}
         </p>
       </div>
       <table className="dp-c-table">
@@ -74,4 +92,4 @@ const SubscriberHistorySentCampaigns = ({ subscriber, dependencies: { dopplerApi
   );
 };
 
-export default InjectAppServices(SubscriberHistorySentCampaigns);
+export default InjectAppServices(CampaignsHistory);

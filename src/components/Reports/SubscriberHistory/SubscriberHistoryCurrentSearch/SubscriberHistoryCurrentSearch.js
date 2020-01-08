@@ -2,17 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage } from 'react-intl';
-import SubscriberHistorySentCampaigns from './SubscriberHistorySentCampaigns/SubscriberHistorySentCampaigns';
+
+import { Link } from 'react-router-dom';
 
 const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
-
-  const showSubscriberCampaigns = (subscriber) =>
-    setState((prevState) => ({
-      ...prevState,
-      showSubscriberCampaigns: true,
-      selectedSubscriber: subscriber,
-    }));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,9 +72,9 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
               {state.subscribers.map((subscriber, index) => (
                 <tr key={index}>
                   <td>
-                    <span onClick={() => showSubscriberCampaigns(subscriber)}>
+                    <Link to={`/reports/campaigns-history?email=${subscriber.email}`}>
                       {subscriber.email}
-                    </span>
+                    </Link>
                   </td>
                   <td>{subscriber.firstName ? subscriber.firstName.value : ''}</td>
                   <td>{subscriber.lastName ? subscriber.lastName.value : ''}</td>
@@ -109,9 +103,6 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
               ))}
             </tbody>
           </table>
-          {state.showSubscriberCampaigns ? (
-            <SubscriberHistorySentCampaigns subscriber={state.selectedSubscriber} />
-          ) : null}
         </>
       ) : (
         <p className="dp-boxshadow--error bounceIn">

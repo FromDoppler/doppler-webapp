@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, cleanup, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import SubscriberHistorySentCampaigns from './SubscriberHistorySentCampaigns';
-import { AppServicesProvider } from '../../../../../services/pure-di';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import CampaignsHistory from './CampaignsHistory';
+import { AppServicesProvider } from '../../../services/pure-di';
 
-describe('SubscriberHistorySentCampaigns component', () => {
+describe('CampaignsHistory component', () => {
   afterEach(cleanup);
 
   const campaignDeliveryCollection = {
@@ -23,16 +23,37 @@ describe('SubscriberHistorySentCampaigns component', () => {
     pagesCount: 1,
   };
 
+  const subscriber = {
+    email: 'test@test.com',
+    fields: [
+      {
+        name: 'FIRSTNAME',
+        value: 'Manuel',
+        predefined: true,
+        private: true,
+        readonly: true,
+        type: 'boolean',
+      },
+    ],
+    unsubscribedDate: '2019-11-27T18:05:40.847Z',
+    unsubscriptionType: 'hardBounce',
+    manualUnsubscriptionReason: 'administrative',
+    unsubscriptionComment: 'test',
+    status: 'active',
+    score: 0,
+  };
+
   it('should show subscriber campaigns deliveries', async () => {
     // Arrange
     const dopplerApiClientDouble = {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
     };
-    const subscriber = {
-      email: 'test@test.com',
-    };
+
     // Act
     const { getByText } = render(
       <AppServicesProvider
@@ -41,7 +62,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns subscriber={subscriber} />
+          <CampaignsHistory />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -57,10 +78,11 @@ describe('SubscriberHistorySentCampaigns component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: false };
       },
+      getSubscriber: async () => {
+        return { success: false };
+      },
     };
-    const subscriber = {
-      email: 'test@test.com',
-    };
+
     // Act
     const { getByText } = render(
       <AppServicesProvider
@@ -69,7 +91,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns subscriber={subscriber} />
+          <CampaignsHistory />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -83,11 +105,11 @@ describe('SubscriberHistorySentCampaigns component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
     };
-    const subscriber = {
-      email: 'test@test.com',
-      firstName: { value: 'Manuel' },
-    };
+
     // Act
     const { getByText } = render(
       <AppServicesProvider
@@ -96,7 +118,7 @@ describe('SubscriberHistorySentCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistorySentCampaigns subscriber={subscriber} />
+          <CampaignsHistory />
         </IntlProvider>
       </AppServicesProvider>,
     );
