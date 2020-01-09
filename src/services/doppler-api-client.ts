@@ -143,36 +143,45 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
-  private getUnsubscribeStatus(unsubscriptionType: string): string {
-    let unsubscribeStatus: string = '';
+  private getUnsubscribedStatus(
+    unsubscriptionType: string,
+    manualUnsubscriptionReason: string,
+  ): string {
+    let unsubscribedStatus: string = '';
     switch (unsubscriptionType) {
       case 'hardBounce':
-        unsubscribeStatus = 'unsubscribe_by_hard';
+        unsubscribedStatus = 'hard';
         break;
       case 'softBounce':
-        unsubscribeStatus = 'unsubscribe_by_soft';
+        unsubscribedStatus = 'soft';
         break;
       case 'neverOpen':
-        unsubscribeStatus = 'unsubscribe_by_never_open';
+        unsubscribedStatus = 'never_open';
         break;
       case 'manual':
-        unsubscribeStatus = 'unsubscribe_by_client';
+        unsubscribedStatus =
+          manualUnsubscriptionReason === 'administrative' ? 'client' : 'subscriber';
         break;
       case 'abuseLink':
       case 'feedbackLoop':
       case 'internalPolicies':
-        unsubscribeStatus = 'unsubscribe_by_subscriber';
+        unsubscribedStatus = 'subscriber';
         break;
       default:
-        unsubscribeStatus = '';
+        unsubscribedStatus = '';
         break;
     }
-    return unsubscribeStatus;
+    return unsubscribedStatus;
   }
 
-  private getSubscriberStatus(subscriber: any): string {
+  private getSubscriberStatus(
+    subscriberStatus: string,
+    belongsToLists: any,
+    unsubscriptionType: string,
+    manualUnsubscriptionReason: string,
+  ): string {
     let status: string = '';
-    switch (subscriber.status) {
+    switch (subscriberStatus) {
       case 'pending':
         status = 'pending';
         break;
@@ -180,10 +189,13 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         status = 'standby';
         break;
       case 'active':
-        status = subscriber.belongsToLists.length ? 'active' : 'inactive';
+        status = belongsToLists.length ? 'active' : 'inactive';
         break;
-      case 'unsubscribe':
-        status = this.getUnsubscribeStatus(subscriber.unsubscriptionType);
+      case 'unsubscribed':
+        status = `unsubscribed_by_${this.getUnsubscribedStatus(
+          unsubscriptionType,
+          manualUnsubscriptionReason,
+        )}`;
         break;
       default:
         break;
@@ -228,7 +240,12 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         unsubscriptionType: response.data.unsubscriptionType,
         manualUnsubscriptionReason: response.data.manualUnsubscriptionReason,
         unsubscriptionComment: response.data.unsubscriptionComment,
-        status: response.data.status,
+        status: this.getSubscriberStatus(
+          response.data.status,
+          response.data.belongsToLists,
+          response.data.unsubscriptionType,
+          response.data.manualUnsubscriptionReason,
+        ),
         score: response.data.score,
       };
 

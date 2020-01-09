@@ -30,14 +30,14 @@ export default {
   campaign_history: {
     status: {
       active: 'Active',
-      inactive: 'Active not associated with lists',
+      inactive: 'Active not Associated to List',
       pending: 'Pending',
-      stand_by: 'Stand by',
-      unsubscribe_by_client: 'Unsubscribed by client',
-      unsubscribe_by_hard: 'Unsubscribed by hard',
-      unsubscribe_by_never_open: 'Unsubscribed by never open',
-      unsubscribe_by_soft: 'Unsubscribed by soft',
-      unsubscribe_by_subscriber: 'Unsubscribed by subscriber',
+      stand_by: 'On Hold waiting for Upgrade',
+      unsubscribed_by_client: 'Removed by Client',
+      unsubscribed_by_hard: 'Removed by Hard-Bounced',
+      unsubscribed_by_never_open: 'Removed by Never-Opened',
+      unsubscribed_by_soft: 'Removed by Soft-Bounced',
+      unsubscribed_by_subscriber: 'Removed by Subscriber',
     },
   },
   common: {

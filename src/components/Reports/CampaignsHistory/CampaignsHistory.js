@@ -22,22 +22,22 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
       case 'inactive':
         subscriberCssClass = 'user--active-with-no-list';
         break;
-      case 'unsubscribe_by_hard':
+      case 'unsubscribed_by_hard':
         subscriberCssClass = 'user--removed-hard-bounced';
         break;
-      case 'unsubscribe_by_soft':
+      case 'unsubscribed_by_soft':
         subscriberCssClass = 'user--removed-soft-bounced';
         break;
-      case 'unsubscribe_by_subscriber':
+      case 'unsubscribed_by_subscriber':
         subscriberCssClass = 'user--removed-subscriber';
         break;
-      case 'unsubscribe_by_never_open':
+      case 'unsubscribed_by_never_open':
         subscriberCssClass = 'user--removed-no-openings';
         break;
       case 'pending':
         subscriberCssClass = 'user--pending';
         break;
-      case 'unsubscribe_by_client':
+      case 'unsubscribed_by_client':
         subscriberCssClass = 'user--removed-client';
         break;
       case 'stand_by':
@@ -78,18 +78,21 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
     <section className="dp-container">
       <div className="dp-rowflex">
         <div className="col-sm-12 m-t-24">
+          <h2>
+            {state.subscriber.email}
+            {/*TODO implementation {state.subscriber.score} */}
+          </h2>
           <p>
             {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
             {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
           </p>
           <p>
-          {/* the style it's temporal because there is a bug in the styles */}
-          <span
-            style={{ position: 'relative' }}
-            className={getSubscriberStatusCssClassName(state.subscriber.status)}
-          ></span>
-          <FormattedMessage id={'campaign_history.status.' + state.subscriber.status} />
-          {state.subscriber.score}
+            {/* the style it's temporal because there is a bug in the styles */}
+            <span
+              style={{ position: 'relative', 'margin-right': '20px', 'vertical-align': 'super' }}
+              className={getSubscriberStatusCssClassName(state.subscriber.status)}
+            ></span>
+            <FormattedMessage id={'campaign_history.status.' + state.subscriber.status} />
           </p>
         </div>
         <div className="col-sm-12 dp-block-wlp m-b-36">

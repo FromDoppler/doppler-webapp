@@ -104,6 +104,7 @@ describe('HttpDopplerApiClient', () => {
               type: 'boolean',
             },
           ],
+          belongsToLists: ['list'],
           unsubscribedDate: '2019-11-27T18:05:40.847Z',
           unsubscriptionType: 'hardBounce',
           manualUnsubscriptionReason: 'administrative',

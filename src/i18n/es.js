@@ -30,14 +30,14 @@ export default {
   campaign_history: {
     status: {
       active: 'Activo',
-      inactive: 'Activo no asociado a listas',
+      inactive: 'Activo no Asociado a Listas',
       pending: 'Pendiente',
-      stand_by: 'Cumplir',
-      unsubscribe_by_client: 'Removido por el cliente',
-      unsubscribe_by_hard: 'Removido por rebotes hard',
-      unsubscribe_by_never_open: 'Removido por no aperturas',
-      unsubscribe_by_soft: 'Removido por rebotes soft',
-      unsubscribe_by_subscriber: 'Removido por el Suscriptor',
+      stand_by: 'En Espera de Ampliación de Plan',
+      unsubscribed_by_client: 'Removido por el cliente',
+      unsubscribed_by_hard: 'Removido por Rebote Hard',
+      unsubscribed_by_never_open: 'Removido por No Aperturas',
+      unsubscribed_by_soft: 'Removido por Rebote Soft',
+      unsubscribed_by_subscriber: 'Removido por el Suscriptor',
     },
   },
   common: {
