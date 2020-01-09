@@ -39,52 +39,62 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   return state.loading ? (
     <Loading />
   ) : state.sentCampaigns ? (
-    <div>
-      <div>
-        <p>
-          {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
-          {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
-        </p>
-        <p>
-          {state.subscriber.status} {state.subscriber.score}
-        </p>
+    <section className="dp-container">
+      <div className="dp-rowflex">
+        <div className="col-sm-12 m-t-24">
+          <p>
+            {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
+            {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
+          </p>
+          <p>
+            {state.subscriber.status} {state.subscriber.score}
+          </p>
+        </div>
+        <div className="col-sm-12 dp-block-wlp m-b-36">
+          <div className="dp-table-responsive">
+            <table
+              className="dp-c-table"
+              aria-label="Resultado de historial de suscriptores"
+              summary="Resultado de historial de suscriptores"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_campaign" />
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_subject" />
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_delivery" />
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_clicks" />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.sentCampaigns.items.length ? (
+                  state.sentCampaigns.items.map((campaign, index) => (
+                    <tr key={index}>
+                      <td>{campaign.campaignName}</td>
+                      <td>{campaign.campaignSubject}</td>
+                      <td>{campaign.deliveryStatus}</td>
+                      <td>{campaign.clicksCount}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <p className="dp-boxshadow--usermsg bounceIn">
+                    <FormattedMessage id="common.empty_data" />
+                  </p>
+                )}
+                {}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      <table className="dp-c-table">
-        <thead>
-          <tr>
-            <th>
-              <FormattedMessage id="subscriber_history_sent_campaigns.grid_campaign" />
-            </th>
-            <th>
-              <FormattedMessage id="subscriber_history_sent_campaigns.grid_subject" />
-            </th>
-            <th>
-              <FormattedMessage id="subscriber_history_sent_campaigns.grid_delivery" />
-            </th>
-            <th>
-              <FormattedMessage id="subscriber_history_sent_campaigns.grid_clicks" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {state.sentCampaigns.items.length ? (
-            state.sentCampaigns.items.map((campaign, index) => (
-              <tr key={index}>
-                <td>{campaign.campaignName}</td>
-                <td>{campaign.campaignSubject}</td>
-                <td>{campaign.deliveryStatus}</td>
-                <td>{campaign.clicksCount}</td>
-              </tr>
-            ))
-          ) : (
-            <p className="dp-boxshadow--usermsg bounceIn">
-              <FormattedMessage id="common.empty_data" />
-            </p>
-          )}
-          {}
-        </tbody>
-      </table>
-    </div>
+    </section>
   ) : (
     <p className="dp-boxshadow--error bounceIn">
       <FormattedMessage id="common.unexpected_error" />
