@@ -120,6 +120,12 @@
       "remainingCredits": "1422100",
       "buttonText": "UPGRADE"
     },
+    "sms": {
+      "description": "Available for SMS",
+      "remainingCredits": "450",
+      "buttonText": "CHARGE",
+      "buttonUrl": "https://appint.fromdoppler.net/ControlPanel/AccountPreferences/GetSmsConfiguration"
+    },
     "lang": "es",
     "avatar": {
       "text": "CB",

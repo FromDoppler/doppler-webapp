@@ -28,6 +28,12 @@ const userData = {
         buttonText: 'COMPRAR',
         buttonUrl: 'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1',
       },
+      sms: {
+        description: 'Créditos disponibles',
+        remainingCredits: '555',
+        buttonText: 'CARGAR',
+        buttonUrl: 'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/GetSmsConfiguration',
+      },
       lang: 'es',
       avatar: {
         text: 'FC',

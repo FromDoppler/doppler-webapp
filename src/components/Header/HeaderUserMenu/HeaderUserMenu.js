@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
+import { FormattedNumber } from 'react-intl';
 
 const HeaderUserMenu = ({ user }) => {
   const [buyModalIsOpen, setBuyModalIsOpen] = useState(false);
@@ -60,6 +61,27 @@ const HeaderUserMenu = ({ user }) => {
             </button>
           ) : (
             ''
+          )}
+        </div>
+        <div className="user-plan--container">
+          {user.sms.description ? (
+            <div className="user-plan--type">
+              <p><strong className={user.sms.remainingCredits < 0 ? 'red' : ''}>US$ {' '} 
+              <FormattedNumber
+                value={user.sms.remainingCredits}
+                style='decimal'
+                minimumFractionDigits='2'
+                maximumFractionDigits='2' />
+              </strong> {user.sms.description}</p>
+            </div>
+            
+          ) : (
+            ''
+          )}
+          {user.sms.buttonUrl ? (
+              <a className="user-plan" target="_self" href={user.sms.buttonUrl}>{user.sms.buttonText}</a>
+            ) : (
+              ''
           )}
         </div>
         <ul className="options-user">
