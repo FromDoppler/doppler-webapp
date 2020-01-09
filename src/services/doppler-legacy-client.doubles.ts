@@ -27,6 +27,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     // return { expectedError: { cancelatedAccount: true } };
     // return { expectedError: { invalidLogin: true } };
     // return { expectedError: { blockedAccountInvalidPassword: true } };
+    // return { expectedError: { maxLoginAttempts: true } };
     // return { success: false, error: 'Error code' };
     // return {
     //   success: false,
