@@ -131,7 +131,7 @@ const subscriberCollection = {
       unsubscriptionType: '',
       manualUnsubscriptionReason: '',
       unsubscriptionComment: '',
-      status: 'active',
+      status: 'inactive',
       score: 1,
     },
   ],

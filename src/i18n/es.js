@@ -27,6 +27,19 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
+  campaign_history: {
+    status: {
+      active: 'Activo',
+      inactive: 'Activo no asociado a listas',
+      pending: 'Pendiente',
+      stand_by: 'Cumplir',
+      unsubscribe_by_client: 'Removido por el cliente',
+      unsubscribe_by_hard: 'Removido por rebotes hard',
+      unsubscribe_by_never_open: 'Removido por no aperturas',
+      unsubscribe_by_soft: 'Removido por rebotes soft',
+      unsubscribe_by_subscriber: 'Removido por el Suscriptor',
+    },
+  },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanazadas`,
     back: `Atrás`,

@@ -13,6 +13,42 @@ function extractEmail(location) {
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
+  const getSubscriberStatusCssClassName = (status) => {
+    let subscriberCssClass = '';
+    switch (status) {
+      case 'active':
+        subscriberCssClass = 'user--active';
+        break;
+      case 'inactive':
+        subscriberCssClass = 'user--active-with-no-list';
+        break;
+      case 'unsubscribe_by_hard':
+        subscriberCssClass = 'user--removed-hard-bounced';
+        break;
+      case 'unsubscribe_by_soft':
+        subscriberCssClass = 'user--removed-soft-bounced';
+        break;
+      case 'unsubscribe_by_subscriber':
+        subscriberCssClass = 'user--removed-subscriber';
+        break;
+      case 'unsubscribe_by_never_open':
+        subscriberCssClass = 'user--removed-no-openings';
+        break;
+      case 'pending':
+        subscriberCssClass = 'user--pending';
+        break;
+      case 'unsubscribe_by_client':
+        subscriberCssClass = 'user--removed-client';
+        break;
+      case 'stand_by':
+        subscriberCssClass = 'user--stand-by';
+        break;
+      default:
+        break;
+    }
+    return subscriberCssClass;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const email = extractEmail(location);
@@ -47,7 +83,13 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
           </p>
           <p>
-            {state.subscriber.status} {state.subscriber.score}
+          {/* the style it's temporal because there is a bug in the styles */}
+          <span
+            style={{ position: 'relative' }}
+            className={getSubscriberStatusCssClassName(state.subscriber.status)}
+          ></span>
+          <FormattedMessage id={'campaign_history.status.' + state.subscriber.status} />
+          {state.subscriber.score}
           </p>
         </div>
         <div className="col-sm-12 dp-block-wlp m-b-36">

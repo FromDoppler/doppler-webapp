@@ -143,6 +143,54 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
+  private getUnsubscribeStatus(unsubscriptionType: string): string {
+    let unsubscribeStatus: string = '';
+    switch (unsubscriptionType) {
+      case 'hardBounce':
+        unsubscribeStatus = 'unsubscribe_by_hard';
+        break;
+      case 'softBounce':
+        unsubscribeStatus = 'unsubscribe_by_soft';
+        break;
+      case 'neverOpen':
+        unsubscribeStatus = 'unsubscribe_by_never_open';
+        break;
+      case 'manual':
+        unsubscribeStatus = 'unsubscribe_by_client';
+        break;
+      case 'abuseLink':
+      case 'feedbackLoop':
+      case 'internalPolicies':
+        unsubscribeStatus = 'unsubscribe_by_subscriber';
+        break;
+      default:
+        unsubscribeStatus = '';
+        break;
+    }
+    return unsubscribeStatus;
+  }
+
+  private getSubscriberStatus(subscriber: any): string {
+    let status: string = '';
+    switch (subscriber.status) {
+      case 'pending':
+        status = 'pending';
+        break;
+      case 'standby':
+        status = 'standby';
+        break;
+      case 'active':
+        status = subscriber.belongsToLists.length ? 'active' : 'inactive';
+        break;
+      case 'unsubscribe':
+        status = this.getUnsubscribeStatus(subscriber.unsubscriptionType);
+        break;
+      default:
+        break;
+    }
+    return status;
+  }
+
   public async getListData(listId: number): Promise<ResultWithoutExpectedErrors<SubscriberList>> {
     try {
       const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
