@@ -268,6 +268,19 @@ export default {
     thanks_for_registering: `Thank you for registering`,
     url_site: `${urlSiteFromSignup}`,
   },
+  subscriber: {
+    status: {
+      active: 'Active',
+      inactive: 'Active not Associated to List',
+      pending: 'Pending',
+      stand_by: 'On Hold waiting for Upgrade',
+      unsubscribed_by_client: 'Removed by Client',
+      unsubscribed_by_hard: 'Removed by Hard-Bounced',
+      unsubscribed_by_never_open: 'Removed by Never-Opened',
+      unsubscribed_by_soft: 'Removed by Soft-Bounced',
+      unsubscribed_by_subscriber: 'Removed by Subscriber',
+    },
+  },
   subscriber_history: {
     header_title: `Subscriber General Activity Report`,
     page_description: `Through this report you will be able to know the general activity of a specific subscriber`,

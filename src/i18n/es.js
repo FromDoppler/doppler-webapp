@@ -270,6 +270,19 @@ export default {
     thanks_for_registering: `Gracias por registrarte`,
     url_site: `${urlSiteFromSignup}`,
   },
+  subscriber: {
+    status: {
+      active: 'Activo',
+      inactive: 'Activo no Asociado a Listas',
+      pending: 'Pendiente',
+      stand_by: 'En Espera de Ampliación de Plan',
+      unsubscribed_by_client: 'Removido por el Cliente',
+      unsubscribed_by_hard: 'Removido por Rebote Hard',
+      unsubscribed_by_never_open: 'Removido por No Aperturas',
+      unsubscribed_by_soft: 'Removido por Rebote Soft',
+      unsubscribed_by_subscriber: 'Removido por el Suscriptor',
+    },
+  },
   subscriber_history: {
     header_title: `Reporte de Actividad General del Suscriptor`,
     page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,

@@ -143,6 +143,66 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
+  private getUnsubscribedStatus(
+    unsubscriptionType: string,
+    manualUnsubscriptionReason: string,
+  ): string {
+    let unsubscribedStatus: string = '';
+    switch (unsubscriptionType) {
+      case 'hardBounce':
+        unsubscribedStatus = 'hard';
+        break;
+      case 'softBounce':
+        unsubscribedStatus = 'soft';
+        break;
+      case 'neverOpen':
+        unsubscribedStatus = 'never_open';
+        break;
+      case 'manual':
+        unsubscribedStatus =
+          manualUnsubscriptionReason === 'administrative' ? 'client' : 'subscriber';
+        break;
+      case 'abuseLink':
+      case 'feedbackLoop':
+      case 'internalPolicies':
+        unsubscribedStatus = 'subscriber';
+        break;
+      default:
+        unsubscribedStatus = '';
+        break;
+    }
+    return unsubscribedStatus;
+  }
+
+  private getSubscriberStatus(
+    subscriberStatus: string,
+    belongsToLists: any,
+    unsubscriptionType: string,
+    manualUnsubscriptionReason: string,
+  ): string {
+    let status: string = '';
+    switch (subscriberStatus) {
+      case 'pending':
+        status = 'pending';
+        break;
+      case 'standby':
+        status = 'standby';
+        break;
+      case 'active':
+        status = belongsToLists.length ? 'active' : 'inactive';
+        break;
+      case 'unsubscribed':
+        status = `unsubscribed_by_${this.getUnsubscribedStatus(
+          unsubscriptionType,
+          manualUnsubscriptionReason,
+        )}`;
+        break;
+      default:
+        break;
+    }
+    return status;
+  }
+
   public async getListData(listId: number): Promise<ResultWithoutExpectedErrors<SubscriberList>> {
     try {
       const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
@@ -180,7 +240,12 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         unsubscriptionType: response.data.unsubscriptionType,
         manualUnsubscriptionReason: response.data.manualUnsubscriptionReason,
         unsubscriptionComment: response.data.unsubscriptionComment,
-        status: response.data.status,
+        status: this.getSubscriberStatus(
+          response.data.status,
+          response.data.belongsToLists,
+          response.data.unsubscriptionType,
+          response.data.manualUnsubscriptionReason,
+        ),
         score: response.data.score,
       };
 
