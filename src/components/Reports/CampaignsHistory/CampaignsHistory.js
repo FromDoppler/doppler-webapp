@@ -92,7 +92,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
               style={{ position: 'relative', 'margin-right': '20px', 'vertical-align': 'super' }}
               className={getSubscriberStatusCssClassName(state.subscriber.status)}
             ></span>
-            <FormattedMessage id={'campaign_history.status.' + state.subscriber.status} />
+            <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
           </p>
         </div>
         <div className="col-sm-12 dp-block-wlp m-b-36">

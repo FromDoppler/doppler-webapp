@@ -126,6 +126,93 @@ describe('HttpDopplerApiClient', () => {
       expect(result.success).toBe(true);
       expect(result.value.email).toEqual('test@test.com');
     });
+
+    it('should get a subscriber with unsubscribed by hard status', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'hardBounce',
+          manualUnsubscriptionReason: '',
+          unsubscriptionComment: 'test',
+          status: 'unsubscribed',
+          score: 0,
+        },
+        status: 200,
+      };
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.status).toEqual('unsubscribed_by_hard');
+    });
+
+    it('should get a subscriber with unsubscribed by subscriber status', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'internalPolicies',
+          manualUnsubscriptionReason: '',
+          unsubscriptionComment: 'test',
+          status: 'unsubscribed',
+          score: 0,
+        },
+        status: 200,
+      };
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.status).toEqual('unsubscribed_by_subscriber');
+    });
+
+    it('should get a subscriber with unsubscribed by client status', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'manual',
+          manualUnsubscriptionReason: 'administrative',
+          unsubscriptionComment: 'test',
+          status: 'unsubscribed',
+          score: 0,
+        },
+        status: 200,
+      };
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.status).toEqual('unsubscribed_by_client');
+    });
   });
 
   describe('GetCampaignsDelivery', () => {
