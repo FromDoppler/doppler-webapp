@@ -4,6 +4,7 @@ import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage } from 'react-intl';
 
 import { Link } from 'react-router-dom';
+import { getSubscriberStatusCssClassName } from '../../../../utils';
 
 const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
@@ -97,7 +98,14 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
                       </div> */}
                   </td>
                   <td>
-                    <span>{subscriber.status}</span>
+                    <span
+                      style={{
+                        position: 'relative',
+                        'margin-right': '20px',
+                        'vertical-align': 'super',
+                      }}
+                      className={getSubscriberStatusCssClassName(subscriber.status)}
+                    ></span>
                   </td>
                 </tr>
               ))}
