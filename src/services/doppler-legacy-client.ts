@@ -219,7 +219,7 @@ function mapSmsEntry(json: any): SmsEntry {
     buttonText: json.buttonText,
     buttonUrl: json.buttonUrl,
     description: json.description,
-    remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0
+    remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
   };
 }
 //TODO: Refactor backend to send proper active values
@@ -259,7 +259,7 @@ export function mapHeaderDataJson(json: any) {
       lang: json.user.lang,
       nav: (json.user.nav && json.user.nav.map(mapNavEntry)) || [],
       plan: mapPlanEntry(json.user.plan),
-      sms: mapSmsEntry(json.user.sms)
+      sms: mapSmsEntry(json.user.sms),
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
