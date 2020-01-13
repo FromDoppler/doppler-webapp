@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 
 /** Extract the page parameter from url*/
@@ -12,36 +12,37 @@ function extractEmail(location) {
 
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
-
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const getSubscriberStatusCssClassName = (status) => {
     let subscriberCssClass = '';
     switch (status) {
       case 'active':
-        subscriberCssClass = 'ms-icon icon-user user--active';
+        subscriberCssClass = 'user--active';
         break;
       case 'inactive':
-        subscriberCssClass = 'ms-icon icon-user user--active-with-no-list';
+        subscriberCssClass = 'user--active-with-no-list';
         break;
       case 'unsubscribed_by_hard':
-        subscriberCssClass = 'ms-icon icon-user user--removed-hard-bounced';
+        subscriberCssClass = 'user--removed-hard-bounced';
         break;
       case 'unsubscribed_by_soft':
-        subscriberCssClass = 'ms-icon icon-user user--removed-soft-bounced';
+        subscriberCssClass = 'user--removed-soft-bounced';
         break;
       case 'unsubscribed_by_subscriber':
-        subscriberCssClass = 'ms-icon icon-user user--removed-subscriber';
+        subscriberCssClass = 'user--removed-subscriber';
         break;
       case 'unsubscribed_by_never_open':
-        subscriberCssClass = 'ms-icon icon-user user--removed-no-openings';
+        subscriberCssClass = 'user--removed-no-openings';
         break;
       case 'pending':
-        subscriberCssClass = 'ms-icon icon-user user--pending';
+        subscriberCssClass = 'user--pending';
         break;
       case 'unsubscribed_by_client':
-        subscriberCssClass = 'ms-icon icon-user user--removed-client';
+        subscriberCssClass = 'user--removed-client';
         break;
       case 'stand_by':
-        subscriberCssClass = 'ms-icon icon-user user--pending';
+        subscriberCssClass = 'user--pending';
         break;
       default:
         break;
@@ -89,7 +90,11 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             </p>
             <span>
               {/* the style it's temporal because there is a bug in the styles */}
-              <span className={getSubscriberStatusCssClassName(state.subscriber.status)}></span>
+              <span
+                className={
+                  'ms-icon icon-user ' + getSubscriberStatusCssClassName(state.subscriber.status)
+                }
+              ></span>
               <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
             </span>
           </div>
@@ -97,8 +102,8 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             <div className="dp-table-responsive">
               <table
                 className="dp-c-table"
-                aria-label="Resultado de historial de suscriptores"
-                summary="Resultado de historial de suscriptores"
+                aria-label={_('campaings_history.table_result.aria_label_table')}
+                summary={_('campaings_history.table_result.aria_label_table')}
               >
                 <thead>
                   <tr>
