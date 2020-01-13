@@ -32,7 +32,8 @@ const userData = {
         description: 'Créditos disponibles',
         remainingCredits: '555',
         buttonText: 'CARGAR',
-        buttonUrl: 'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/GetSmsConfiguration',
+        buttonUrl:
+          'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/GetSmsConfiguration',
       },
       lang: 'es',
       avatar: {
