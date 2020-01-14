@@ -6,6 +6,10 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getSubscriberStatusCssClassName } from '../../../../utils';
 
+const getStarCssClassName = (actualStarNumber, score) => {
+  return actualStarNumber <= score ? 'icon-star' : 'icon-star-filled';
+};
+
 const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
@@ -80,22 +84,17 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
                   <td>{subscriber.firstName ? subscriber.firstName.value : ''}</td>
                   <td>{subscriber.lastName ? subscriber.lastName.value : ''}</td>
                   <td>
-                    {subscriber.score}
-                    {/*missing the logic to take the ranking
-                    <div class="dp-calification">
-                        <span
-                          class="ms-icon icon-star"
-                          aria-label="Una estrella"
-                        ></span
-                        ><span
-                          class="ms-icon icon-star"
-                          aria-label="Sin estrella"
-                        ></span>
-                        <span
-                          class="ms-icon icon-star"
-                          aria-label="Sin estrella"
-                        ></span>
-                      </div> */}
+                    <div className="dp-calification">
+                      <span
+                        className={'ms-icon ' + getStarCssClassName(1, subscriber.score)}
+                      ></span>
+                      <span
+                        className={'ms-icon ' + getStarCssClassName(2, subscriber.score)}
+                      ></span>
+                      <span
+                        className={'ms-icon ' + getStarCssClassName(3, subscriber.score)}
+                      ></span>
+                    </div>
                   </td>
                   <td>
                     <span

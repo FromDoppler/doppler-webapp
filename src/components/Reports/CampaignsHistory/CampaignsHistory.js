@@ -11,10 +11,10 @@ function extractEmail(location) {
   return (parsedQuery && parsedQuery['email']) || null;
 }
 
-const getDeliveryStatusCssClassName = (deliveryStatus) => {
-  let deliveryCssClass = '';
-  switch (deliveryStatus) {
-    case 'opened':
+const getStarCssClassName = (actualStarNumber, score) => {
+  return actualStarNumber <= score ? 'icon-star' : 'icon-star-filled';
+};
+
       deliveryCssClass = 'status--opened';
       break;
     case 'notOpened':
@@ -69,7 +69,11 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
           <div className="col-sm-12 m-t-24">
             <h2>
               {state.subscriber.email}
-              {/*TODO implementation {state.subscriber.score} */}
+            <div className="dp-calification">
+              <span className={'ms-icon ' + getStarCssClassName(1, state.subscriber.score)}></span>
+              <span className={'ms-icon ' + getStarCssClassName(2, state.subscriber.score)}></span>
+              <span className={'ms-icon ' + getStarCssClassName(3, state.subscriber.score)}></span>
+            </div>
             </h2>
             <p>
               {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
