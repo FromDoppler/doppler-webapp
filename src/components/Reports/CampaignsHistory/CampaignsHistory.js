@@ -14,6 +14,42 @@ function extractEmail(location) {
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
+  const getSubscriberStatusCssClassName = (status) => {
+    let subscriberCssClass = '';
+    switch (status) {
+      case 'active':
+        subscriberCssClass = 'user--active';
+        break;
+      case 'inactive':
+        subscriberCssClass = 'user--active-with-no-list';
+        break;
+      case 'unsubscribed_by_hard':
+        subscriberCssClass = 'user--removed-hard-bounced';
+        break;
+      case 'unsubscribed_by_soft':
+        subscriberCssClass = 'user--removed-soft-bounced';
+        break;
+      case 'unsubscribed_by_subscriber':
+        subscriberCssClass = 'user--removed-subscriber';
+        break;
+      case 'unsubscribed_by_never_open':
+        subscriberCssClass = 'user--removed-no-openings';
+        break;
+      case 'pending':
+        subscriberCssClass = 'user--pending';
+        break;
+      case 'unsubscribed_by_client':
+        subscriberCssClass = 'user--removed-client';
+        break;
+      case 'stand_by':
+        subscriberCssClass = 'user--stand-by';
+        break;
+      default:
+        break;
+    }
+    return subscriberCssClass;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const email = extractEmail(location);
@@ -42,65 +78,64 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   ) : state.sentCampaigns ? (
     <section className="dp-container">
       <div className="dp-rowflex">
-        <div className="col-sm-12 m-t-24">
-          <h2>
-            {state.subscriber.email}
-            {/*TODO implementation {state.subscriber.score} */}
-          </h2>
-          <p>
-            {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
-            {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
-          </p>
-          <p>
-            {/* the style it's temporal because there is a bug in the styles */}
-            <span
-              style={{ position: 'relative', 'margin-right': '20px', 'vertical-align': 'super' }}
-              className={getSubscriberStatusCssClassName(state.subscriber.status)}
-            ></span>
-            <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
-          </p>
-        </div>
-        <div className="col-sm-12 dp-block-wlp m-b-36">
-          <div className="dp-table-responsive">
-            <table
-              className="dp-c-table"
-              aria-label="Resultado de historial de suscriptores"
-              summary="Resultado de historial de suscriptores"
-            >
-              <thead>
-                <tr>
-                  <th scope="col">
-                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_campaign" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_subject" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_delivery" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="subscriber_history_sent_campaigns.grid_clicks" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {state.sentCampaigns.items.length ? (
-                  state.sentCampaigns.items.map((campaign, index) => (
-                    <tr key={index}>
-                      <td>{campaign.campaignName}</td>
-                      <td>{campaign.campaignSubject}</td>
-                      <td>{campaign.deliveryStatus}</td>
-                      <td>{campaign.clicksCount}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <p className="dp-boxshadow--usermsg bounceIn">
-                    <FormattedMessage id="common.empty_data" />
-                  </p>
-                )}
-                {}
-              </tbody>
-            </table>
+        <div className="dp-box-shadow m-t-36">
+          <div className="col-sm-12 m-t-24">
+            <h2>
+              {state.subscriber.email}
+              {/*TODO implementation {state.subscriber.score} */}
+            </h2>
+            <p>
+              {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
+              {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
+            </p>
+            <span>
+              {/* the style it's temporal because there is a bug in the styles */}
+              <span className={getSubscriberStatusCssClassName(state.subscriber.status)}></span>
+              <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
+            </span>
+          </div>
+          <div className="col-sm-12 dp-block-wlp">
+            <div className="dp-table-responsive">
+              <table
+                className="dp-c-table"
+                aria-label="Resultado de historial de suscriptores"
+                summary="Resultado de historial de suscriptores"
+              >
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_campaign" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_subject" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_delivery" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_clicks" />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {state.sentCampaigns.items.length ? (
+                    state.sentCampaigns.items.map((campaign, index) => (
+                      <tr key={index}>
+                        <td>{campaign.campaignName}</td>
+                        <td>{campaign.campaignSubject}</td>
+                        <td>{campaign.deliveryStatus}</td>
+                        <td>{campaign.clicksCount}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <p className="dp-boxshadow--usermsg bounceIn">
+                      <FormattedMessage id="common.empty_data" />
+                    </p>
+                  )}
+                  {}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
