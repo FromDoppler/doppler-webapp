@@ -55,7 +55,6 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
               {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
             </p>
             <span>
-              {/* the style it's temporal because there is a bug in the styles */}
               <span
                 className={
                   'ms-icon icon-user ' + getSubscriberStatusCssClassName(state.subscriber.status)
