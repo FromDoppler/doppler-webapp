@@ -11,6 +11,27 @@ function extractEmail(location) {
   return (parsedQuery && parsedQuery['email']) || null;
 }
 
+const getDeliveryStatusCssClassName = (deliveryStatus) => {
+  let deliveryCssClass = '';
+  switch (deliveryStatus) {
+    case 'opened':
+      deliveryCssClass = 'status--opened';
+      break;
+    case 'notOpened':
+      deliveryCssClass = 'status--not-opened';
+      break;
+    case 'hardBounced':
+      deliveryCssClass = 'status--hard-bounced';
+      break;
+    case 'softBounced':
+      deliveryCssClass = 'status--soft-bounced';
+      break;
+    default:
+      break;
+  }
+  return deliveryCssClass;
+};
+
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
@@ -67,8 +88,8 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             <div className="dp-table-responsive">
               <table
                 className="dp-c-table"
-                aria-label={_('campaings_history.table_result.aria_label_table')}
-                summary={_('campaings_history.table_result.aria_label_table')}
+                aria-label={_('campaigns_history.table_result.aria_label_table')}
+                summary={_('campaigns_history.table_result.aria_label_table')}
               >
                 <thead>
                   <tr>
@@ -92,7 +113,13 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                       <tr key={index}>
                         <td>{campaign.campaignName}</td>
                         <td>{campaign.campaignSubject}</td>
-                        <td>{campaign.deliveryStatus}</td>
+                        <td>
+                          <span className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}>
+                            <FormattedMessage
+                              id={'campaigns_history.delivery_status.' + campaign.deliveryStatus}
+                            />
+                          </span>
+                        </td>
                         <td>{campaign.clicksCount}</td>
                       </tr>
                     ))

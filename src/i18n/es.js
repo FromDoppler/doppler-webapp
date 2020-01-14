@@ -27,7 +27,13 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
-  campaings_history: {
+  campaigns_history: {
+    delivery_status: {
+      hardBounced: 'Rebotado Hard',
+      notOpened: 'No Abierto',
+      opened: 'Abierto',
+      softBounced: 'Rebotado Soft',
+    },
     table_result: {
       aria_label_table: `Resultado de Historial de Campañas`,
     },
