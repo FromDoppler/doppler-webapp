@@ -15,41 +15,6 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const getSubscriberStatusCssClassName = (status) => {
-    let subscriberCssClass = '';
-    switch (status) {
-      case 'active':
-        subscriberCssClass = 'user--active';
-        break;
-      case 'inactive':
-        subscriberCssClass = 'user--active-with-no-list';
-        break;
-      case 'unsubscribed_by_hard':
-        subscriberCssClass = 'user--removed-hard-bounced';
-        break;
-      case 'unsubscribed_by_soft':
-        subscriberCssClass = 'user--removed-soft-bounced';
-        break;
-      case 'unsubscribed_by_subscriber':
-        subscriberCssClass = 'user--removed-subscriber';
-        break;
-      case 'unsubscribed_by_never_open':
-        subscriberCssClass = 'user--removed-no-openings';
-        break;
-      case 'pending':
-        subscriberCssClass = 'user--pending';
-        break;
-      case 'unsubscribed_by_client':
-        subscriberCssClass = 'user--removed-client';
-        break;
-      case 'stand_by':
-        subscriberCssClass = 'user--pending';
-        break;
-      default:
-        break;
-    }
-    return subscriberCssClass;
-  };
 
   useEffect(() => {
     const fetchData = async () => {
