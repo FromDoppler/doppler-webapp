@@ -259,7 +259,7 @@ export function mapHeaderDataJson(json: any) {
       lang: json.user.lang,
       nav: (json.user.nav && json.user.nav.map(mapNavEntry)) || [],
       plan: mapPlanEntry(json.user.plan),
-      sms: mapSmsEntry(json.user.sms),
+      sms: json.user.sms?.description ? mapSmsEntry(json.user.sms) : {},
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],

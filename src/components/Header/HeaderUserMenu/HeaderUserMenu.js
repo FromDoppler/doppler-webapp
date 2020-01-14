@@ -69,7 +69,7 @@ const HeaderUserMenu = ({ user }) => {
             ''
           )}
         </div>
-        {user.sms.description ? (
+        {Object.keys(user.sms).length ? (
           <div className="user-plan--container">
             <div className="user-plan--type">
               <p>

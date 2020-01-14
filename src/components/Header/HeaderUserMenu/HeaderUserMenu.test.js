@@ -17,7 +17,7 @@ const userData = {
   },
   sms: {
     description: 'Available for SMS',
-    remainingCredits: '450',
+    remainingCredits: 450,
     buttonText: 'CHARGE',
     buttonUrl: 'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/GetSmsConfiguration',
   },
@@ -101,11 +101,9 @@ describe('Header user menu', () => {
     expect(getByText(userData.sms.description)).toBeInTheDocument();
   });
 
-  it('should not show SMS text when user have SMS disabled', () => {
+  it('should not show SMS text when feature is disabled or is not implented yet', () => {
     // Arrange
-    userData.sms = {
-      remainingCredits: '',
-    };
+    userData.sms = {};
 
     // Act
     const { queryByText } = render(
