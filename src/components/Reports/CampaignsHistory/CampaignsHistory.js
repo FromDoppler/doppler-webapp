@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { getSubscriberStatusCssClassName } from '../../../utils';
 
@@ -13,7 +13,8 @@ function extractEmail(location) {
 
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
-
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const getSubscriberStatusCssClassName = (status) => {
     let subscriberCssClass = '';
     switch (status) {
@@ -42,7 +43,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
         subscriberCssClass = 'user--removed-client';
         break;
       case 'stand_by':
-        subscriberCssClass = 'user--stand-by';
+        subscriberCssClass = 'user--pending';
         break;
       default:
         break;
@@ -90,7 +91,11 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             </p>
             <span>
               {/* the style it's temporal because there is a bug in the styles */}
-              <span className={getSubscriberStatusCssClassName(state.subscriber.status)}></span>
+              <span
+                className={
+                  'ms-icon icon-user ' + getSubscriberStatusCssClassName(state.subscriber.status)
+                }
+              ></span>
               <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
             </span>
           </div>
@@ -98,8 +103,8 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             <div className="dp-table-responsive">
               <table
                 className="dp-c-table"
-                aria-label="Resultado de historial de suscriptores"
-                summary="Resultado de historial de suscriptores"
+                aria-label={_('campaings_history.table_result.aria_label_table')}
+                summary={_('campaings_history.table_result.aria_label_table')}
               >
                 <thead>
                   <tr>

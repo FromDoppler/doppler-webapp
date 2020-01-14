@@ -27,6 +27,11 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
+  campaings_history: {
+    table_result: {
+      aria_label_table: `Resultado de Historial de Campañas`,
+    },
+  },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanazadas`,
     back: `Atrás`,
