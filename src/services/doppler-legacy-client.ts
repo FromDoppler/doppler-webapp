@@ -38,6 +38,7 @@ export type LoginErrorResult =
       cancelatedAccount?: false;
       blockedAccountInvalidPassword?: false;
       invalidLogin?: false;
+      maxLoginAttempts?: false;
     }
   | {
       accountNotValidated: true;
@@ -45,6 +46,7 @@ export type LoginErrorResult =
       blockedAccountNotPayed?: false;
       blockedAccountInvalidPassword?: false;
       invalidLogin?: false;
+      maxLoginAttempts?: false;
     }
   | {
       cancelatedAccount: true;
@@ -52,6 +54,7 @@ export type LoginErrorResult =
       accountNotValidated?: false;
       blockedAccountInvalidPassword?: false;
       invalidLogin?: false;
+      maxLoginAttempts?: false;
     }
   | {
       blockedAccountInvalidPassword: true;
@@ -59,6 +62,7 @@ export type LoginErrorResult =
       accountNotValidated?: false;
       cancelatedAccount?: false;
       invalidLogin?: false;
+      maxLoginAttempts?: false;
     }
   | {
       invalidLogin: true;
@@ -66,6 +70,15 @@ export type LoginErrorResult =
       blockedAccountNotPayed?: false;
       accountNotValidated?: false;
       cancelatedAccount?: false;
+      maxLoginAttempts?: false;
+    }
+  | {
+      blockedAccountInvalidPassword: true;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+      invalidLogin?: false;
+      maxLoginAttempts: true;
     };
 
 export type LoginResult = Result<{ redirectUrl?: string }, LoginErrorResult>;

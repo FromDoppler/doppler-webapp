@@ -128,7 +128,11 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         setErrors({
           _error: <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />,
         });
-      } else if (result.expectedError && result.expectedError.blockedAccountInvalidPassword) {
+      } else if (
+        result.expectedError &&
+        (result.expectedError.blockedAccountInvalidPassword ||
+          result.expectedError.maxLoginAttempts)
+      ) {
         setErrors({
           _error: (
             <FormattedHTMLMessage id="validation_messages.error_account_is_blocked_invalid_pass_HTML" />
