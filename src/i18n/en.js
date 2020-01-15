@@ -27,7 +27,13 @@ const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
-  campaings_history: {
+  campaigns_history: {
+    delivery_status: {
+      hardBounced: 'Removed by Hard',
+      notOpened: 'Not Opened',
+      opened: 'Opened',
+      softBounced: 'Removed by Soft',
+    },
     table_result: {
       aria_label_table: `Campaign History result`,
     },
