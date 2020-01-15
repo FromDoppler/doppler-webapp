@@ -4,6 +4,7 @@ import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { getSubscriberStatusCssClassName } from '../../../utils';
+import { StarsScore } from '../../shared/StarsScore/StarsScore';
 
 /** Extract the page parameter from url*/
 function extractEmail(location) {
@@ -11,10 +12,10 @@ function extractEmail(location) {
   return (parsedQuery && parsedQuery['email']) || null;
 }
 
-const getStarCssClassName = (actualStarNumber, score) => {
-  return actualStarNumber <= score ? 'icon-star' : 'icon-star-filled';
-};
-
+const getDeliveryStatusCssClassName = (deliveryStatus) => {
+  let deliveryCssClass = '';
+  switch (deliveryStatus) {
+    case 'opened':
       deliveryCssClass = 'status--opened';
       break;
     case 'notOpened':
@@ -69,11 +70,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
           <div className="col-sm-12 m-t-24">
             <h2>
               {state.subscriber.email}
-            <div className="dp-calification">
-              <span className={'ms-icon ' + getStarCssClassName(1, state.subscriber.score)}></span>
-              <span className={'ms-icon ' + getStarCssClassName(2, state.subscriber.score)}></span>
-              <span className={'ms-icon ' + getStarCssClassName(3, state.subscriber.score)}></span>
-            </div>
+              <StarsScore score={state.subscriber.score} />
             </h2>
             <p>
               {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
