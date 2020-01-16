@@ -4,6 +4,7 @@ import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { getSubscriberStatusCssClassName } from '../../../utils';
+import { StarsScore } from '../../shared/StarsScore/StarsScore';
 
 /** Extract the page parameter from url*/
 function extractEmail(location) {
@@ -69,7 +70,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
           <div className="col-sm-12 m-t-24">
             <h2>
               {state.subscriber.email}
-              {/*TODO implementation {state.subscriber.score} */}
+              <StarsScore score={state.subscriber.score} />
             </h2>
             <p>
               {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}

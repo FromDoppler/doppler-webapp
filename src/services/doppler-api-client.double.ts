@@ -46,7 +46,7 @@ const subscriber = {
   manualUnsubscriptionReason: 'administrative',
   unsubscriptionComment: 'test',
   status: 'active',
-  score: 0,
+  score: 2,
 };
 
 const campaignDeliveryCollection = {
