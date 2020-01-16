@@ -99,6 +99,39 @@ describe('CampaignsHistory component', () => {
     await wait(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
   });
 
+  it('should show empty message', async () => {
+    // Arrange
+    const campaignDeliveryCollection = {
+      items: [],
+      currentPage: 0,
+      itemsCount: 1,
+      pagesCount: 1,
+    };
+    const dopplerApiClientDouble = {
+      getSubscriberSentCampaigns: async () => {
+        return { success: true, value: campaignDeliveryCollection };
+      },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <CampaignsHistory />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+    // Assert
+    await wait(() => expect(getByText('campaign_history.empty_data')).toBeInTheDocument());
+  });
+
   it('should show subscriber firstName', async () => {
     // Arrange
     const dopplerApiClientDouble = {

@@ -34,6 +34,7 @@ export default {
       opened: 'Abierto',
       softBounced: 'Rebotado Soft',
     },
+    empty_data: 'Hasta el momento no hay Campañas enviadas',
     table_result: {
       aria_label_table: `Resultado de Historial de Campañas`,
     },
