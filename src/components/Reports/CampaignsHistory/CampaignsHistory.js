@@ -126,7 +126,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                     ))
                   ) : (
                     <p className="dp-boxshadow--usermsg bounceIn">
-                      <FormattedMessage id="common.empty_data" />
+                      <FormattedMessage id="campaign_history.empty_data" />
                     </p>
                   )}
                   {}

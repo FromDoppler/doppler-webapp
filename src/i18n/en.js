@@ -34,6 +34,7 @@ export default {
       opened: 'Opened',
       softBounced: 'Removed by Soft',
     },
+    empty_data: `So far there are no Campaigns sent`,
     table_result: {
       aria_label_table: `Campaign History result`,
     },
