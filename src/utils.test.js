@@ -1,5 +1,12 @@
 import 'jest';
-import { getDataHubParams, useInterval, addDays, getStartOfDate, extractParameter } from './utils';
+import {
+  getDataHubParams,
+  useInterval,
+  addDays,
+  getStartOfDate,
+  extractParameter,
+  isWhitelisted,
+} from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
 
@@ -230,6 +237,29 @@ describe('utils', () => {
 
       // Assert
       expect(param).toEqual(null);
+    });
+
+    it('should return null if url has no parameters', () => {
+      // Arrange
+      var location = {
+        search: '',
+      };
+
+      // Act
+      var param = extractParameter(location, queryString.parse, 'otherparam');
+
+      // Assert
+      expect(param).toEqual(null);
+    });
+  });
+
+  describe('isWhitelisted function', () => {
+    it('should receive empty url without breaking', () => {
+      // Arrange
+      // Act
+      var isAllowed = isWhitelisted('');
+      // Assert
+      expect(isAllowed).toBe(false);
     });
   });
 });

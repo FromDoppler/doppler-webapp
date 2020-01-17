@@ -152,5 +152,5 @@ export function isWhitelisted(url: string) {
     'https://doppleracademy.com/',
     'http://doppleracademy.com/',
   ];
-  return loginWhitelist.some((element) => url.startsWith(element));
+  return !!url && loginWhitelist.some((element) => url.startsWith(element));
 }

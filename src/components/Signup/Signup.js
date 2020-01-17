@@ -19,7 +19,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
-import { extractParameter } from './../../utils';
+import { extractParameter, isWhitelisted } from './../../utils';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -110,12 +110,13 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     try {
+      var redirectUrl = extractRedirect(location);
       const result = await dopplerLegacyClient.registerUser({
         ...values,
         language: intl.locale,
         firstOrigin: originResolver.getFirstOrigin(),
         origin: originResolver.getCurrentOrigin(),
-        redirect: extractRedirect,
+        redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
       });
       if (result.success) {
         setRegisteredUser(values[fieldNames.email]);
