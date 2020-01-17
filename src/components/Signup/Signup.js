@@ -19,6 +19,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
+import { extractParameter } from './../../utils';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -37,14 +38,11 @@ const minLength = {
 
 /** Extract the page parameter from url*/
 function extractPage(location) {
-  const parsedQuery = location && location.search && queryString.parse(location.search);
-  return (parsedQuery && (parsedQuery['page'] || parsedQuery['Page'])) || null;
+  return extractParameter(location, queryString.parse, 'page', 'Page');
 }
 
-/** Extract the page parameter from url*/
 function extractRedirect(location) {
-  const parsedQuery = location && location.search && queryString.parse(location.search);
-  return (parsedQuery && (parsedQuery['redirect'] || parsedQuery['Redirect'])) || null;
+  return extractParameter(location, queryString.parse, 'redirect');
 }
 
 /** Prepare empty values for all fields

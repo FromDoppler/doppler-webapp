@@ -1,6 +1,7 @@
 import 'jest';
-import { getDataHubParams, useInterval, addDays, getStartOfDate } from './utils';
+import { getDataHubParams, useInterval, addDays, getStartOfDate, extractParameter } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
+import queryString from 'query-string';
 
 describe('utils', () => {
   describe('getDataHubParams', () => {
@@ -188,6 +189,47 @@ describe('utils', () => {
       expect(resultDate.getFullYear()).toEqual(initialDate.getFullYear());
       expect(resultDate.getMonth()).toEqual(initialDate.getMonth());
       expect(resultDate.getDate()).toEqual(initialDate.getDate());
+    });
+  });
+
+  describe('extractParameter function', () => {
+    it('should map parameter if it exists uppercase', () => {
+      // Arrange
+      var location = {
+        search: '?Page=signup',
+      };
+
+      // Act
+      var param = extractParameter(location, queryString.parse, 'page', 'Page');
+
+      // Assert
+      expect(param).toEqual('signup');
+    });
+
+    it('should map parameter if it exists only lowercase', () => {
+      // Arrange
+      var location = {
+        search: '?Page=signup&redirect=http://mypage.com',
+      };
+
+      // Act
+      var param = extractParameter(location, queryString.parse, 'redirect');
+
+      // Assert
+      expect(param).toEqual('http://mypage.com');
+    });
+
+    it('should return null if parameter does not exist', () => {
+      // Arrange
+      var location = {
+        search: '?Page=signup&redirect=http://mypage.com',
+      };
+
+      // Act
+      var param = extractParameter(location, queryString.parse, 'otherparam');
+
+      // Assert
+      expect(param).toEqual(null);
     });
   });
 });
