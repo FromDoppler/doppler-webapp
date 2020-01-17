@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
+import { FormattedNumber } from 'react-intl';
 
 const HeaderUserMenu = ({ user }) => {
   const [buyModalIsOpen, setBuyModalIsOpen] = useState(false);
 
   const toggleModal = (isOpen) => setBuyModalIsOpen(isOpen);
+  const smsBalanceStyle = user.sms.remainingCredits < 0 ? 'dp-color-red' : '';
+  const numberFormatOptions = {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  };
 
   return (
     <div>
@@ -62,6 +69,27 @@ const HeaderUserMenu = ({ user }) => {
             ''
           )}
         </div>
+        {Object.keys(user.sms).length ? (
+          <div className="user-plan--container">
+            <div className="user-plan--type">
+              <p>
+                <strong className={smsBalanceStyle}>
+                  US$ <FormattedNumber value={user.sms.remainingCredits} {...numberFormatOptions} />
+                </strong>{' '}
+                {user.sms.description}
+              </p>
+            </div>
+            {user.sms.buttonUrl ? (
+              <a className="user-plan" target="_self" href={user.sms.buttonUrl}>
+                {user.sms.buttonText}
+              </a>
+            ) : (
+              ''
+            )}
+          </div>
+        ) : (
+          ''
+        )}
         <ul className="options-user">
           {user.nav.map((item, index) => (
             <li key={index}>
