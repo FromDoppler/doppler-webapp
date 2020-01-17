@@ -1,6 +1,7 @@
 import React from 'react';
 import { InjectAppServices } from '../services/pure-di';
 import RedirectToExternalUrl from './RedirectToExternalUrl';
+import { isWhitelisted } from './../utils';
 
 /**
  * @param { Object } props
@@ -10,18 +11,6 @@ import RedirectToExternalUrl from './RedirectToExternalUrl';
 function SafeRedirect({ to, dependencies }) {
   const isPartialUrl = (url) => {
     return /^\/[^/]/.test(url);
-  };
-
-  const isWhitelisted = (url) => {
-    const loginWhitelist = [
-      'https://academy.fromdoppler.com/',
-      'http://academy.fromdoppler.com/',
-      'http://prod.doppleracademy.com/',
-      'https://prod.doppleracademy.com/',
-      'https://doppleracademy.com/',
-      'http://doppleracademy.com/',
-    ];
-    return loginWhitelist.some((element) => url.startsWith(element));
   };
 
   if (isPartialUrl(to)) {

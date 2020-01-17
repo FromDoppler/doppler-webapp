@@ -142,3 +142,15 @@ export function extractParameter(
     null
   );
 }
+
+export function isWhitelisted(url: string) {
+  const loginWhitelist = [
+    'https://academy.fromdoppler.com/',
+    'http://academy.fromdoppler.com/',
+    'http://prod.doppleracademy.com/',
+    'https://prod.doppleracademy.com/',
+    'https://doppleracademy.com/',
+    'http://doppleracademy.com/',
+  ];
+  return loginWhitelist.some((element) => url.startsWith(element));
+}
