@@ -41,6 +41,12 @@ function extractPage(location) {
   return (parsedQuery && (parsedQuery['page'] || parsedQuery['Page'])) || null;
 }
 
+/** Extract the page parameter from url*/
+function extractRedirect(location) {
+  const parsedQuery = location && location.search && queryString.parse(location.search);
+  return (parsedQuery && (parsedQuery['redirect'] || parsedQuery['Redirect'])) || null;
+}
+
 /** Prepare empty values for all fields
  * It is required because in another way, the fields are not marked as touched.
  */
@@ -111,6 +117,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         language: intl.locale,
         firstOrigin: originResolver.getFirstOrigin(),
         origin: originResolver.getCurrentOrigin(),
+        redirect: extractRedirect,
       });
       if (result.success) {
         setRegisteredUser(values[fieldNames.email]);
