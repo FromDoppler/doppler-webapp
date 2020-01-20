@@ -5,6 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { getSubscriberStatusCssClassName } from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
+import { Pagination } from '../../shared/Pagination/Pagination';
 
 /** Extract the page parameter from url*/
 function extractEmail(location) {
@@ -33,10 +34,17 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
   return deliveryCssClass;
 };
 
+const campaignsPerPage = 5;
+
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
-  const [state, setState] = useState({ loading: true });
+  const [state, setState] = useState({ loading: true, currentPage: 1 });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const paginate = (pageNumber) =>
+    setState((prevState) => {
+      return { ...prevState, currentPage: pageNumber };
+    });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,18 +56,29 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
           firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
           lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
         };
-        const response = await dopplerApiClient.getSubscriberSentCampaigns(email);
+        const response = await dopplerApiClient.getSubscriberSentCampaigns(
+          email,
+          campaignsPerPage,
+          state.currentPage,
+        );
         if (!response.success) {
           setState({ loading: false });
         } else {
-          setState({ loading: false, sentCampaigns: response.value, subscriber: subscriber });
+          setState({
+            loading: false,
+            sentCampaigns: response.value.items,
+            itemsCount: response.value.itemsCount,
+            currentPage: response.value.currentPage,
+            pagesCount: response.value.pagesCount,
+            subscriber: subscriber,
+          });
         }
       } else {
         setState({ loading: false });
       }
     };
     fetchData();
-  }, [dopplerApiClient, location]);
+  }, [dopplerApiClient, location, state.currentPage]);
 
   return state.loading ? (
     <Loading />
@@ -109,21 +128,34 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.sentCampaigns.items.length ? (
-                    state.sentCampaigns.items.map((campaign, index) => (
-                      <tr key={index}>
-                        <td>{campaign.campaignName}</td>
-                        <td>{campaign.campaignSubject}</td>
-                        <td>
-                          <span className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}>
-                            <FormattedMessage
-                              id={'campaigns_history.delivery_status.' + campaign.deliveryStatus}
-                            />
-                          </span>
+                  {state.sentCampaigns.length ? (
+                    <>
+                      {state.sentCampaigns.map((campaign, index) => (
+                        <tr key={index}>
+                          <td>{campaign.campaignName}</td>
+                          <td>{campaign.campaignSubject}</td>
+                          <td>
+                            <span
+                              className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}
+                            >
+                              <FormattedMessage
+                                id={'campaigns_history.delivery_status.' + campaign.deliveryStatus}
+                              />
+                            </span>
+                          </td>
+                          <td>{campaign.clicksCount}</td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td colSpan="4" style={{ textAlign: 'right' }}>
+                          <Pagination
+                            currentPage={state.currentPage}
+                            pagesCount={state.pagesCount}
+                            paginate={paginate}
+                          />
                         </td>
-                        <td>{campaign.clicksCount}</td>
                       </tr>
-                    ))
+                    </>
                   ) : (
                     <p className="dp-boxshadow--usermsg bounceIn">
                       <FormattedMessage id="campaign_history.empty_data" />

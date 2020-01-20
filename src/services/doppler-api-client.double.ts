@@ -49,34 +49,29 @@ const subscriber = {
   score: 2,
 };
 
-const campaignDeliveryCollection = {
-  items: [
-    {
-      campaignId: 1,
-      campaignName: 'Campaña estacional de primavera',
-      campaignSubject: '¿Como sacarle provecho a la primavera?',
-      deliveryStatus: 'opened',
-      clicksCount: 2,
-    },
-    {
-      campaignId: 2,
-      campaignName: 'Campaña calendario estacional 2019',
-      campaignSubject: 'El calendario estacional 2019 ya está aquí',
-      deliveryStatus: 'notOpened',
-      clicksCount: 23,
-    },
-    {
-      campaignId: 3,
-      campaignName: 'Emms 2019 preveento 1',
-      campaignSubject: 'Ya comienza el dia 2. Accede a las conferencias',
-      deliveryStatus: 'softBounced',
-      clicksCount: 100,
-    },
-  ],
-  currentPage: 0,
-  itemsCount: 3,
-  pagesCount: 1,
-};
+const campaignDeliveryItems = [
+  {
+    campaignId: 1,
+    campaignName: 'Campaña estacional de primavera',
+    campaignSubject: '¿Como sacarle provecho a la primavera?',
+    deliveryStatus: 'opened',
+    clicksCount: 2,
+  },
+  {
+    campaignId: 2,
+    campaignName: 'Campaña calendario estacional 2019',
+    campaignSubject: 'El calendario estacional 2019 ya está aquí',
+    deliveryStatus: 'notOpened',
+    clicksCount: 23,
+  },
+  {
+    campaignId: 3,
+    campaignName: 'Emms 2019 preveento 1',
+    campaignSubject: 'Ya comienza el dia 2. Accede a las conferencias',
+    deliveryStatus: 'softBounced',
+    clicksCount: 100,
+  },
+];
 
 const subscriberCollection = {
   items: [
@@ -171,10 +166,18 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
 
   public async getSubscriberSentCampaigns(
     email: string,
-    apikey: string,
+    campaignsPerPage: number,
+    currentPage: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>> {
-    console.log('getSubscriberSentCampaigns');
+    console.log('getSubscriberSentCampaigns', email, campaignsPerPage, currentPage);
     await timeout(1500);
+
+    const campaignDeliveryCollection = {
+      items: campaignDeliveryItems,
+      currentPage: currentPage,
+      itemsCount: campaignDeliveryItems.length,
+      pagesCount: 2,
+    };
 
     return {
       success: true,
