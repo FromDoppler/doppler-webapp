@@ -110,6 +110,7 @@ export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   firstOrigin?: string;
   origin: string;
   language: string;
+  redirect?: string;
 }
 
 export interface ResendRegistrationModel extends PayloadWithCaptchaToken {
@@ -377,6 +378,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         Origin: model.origin,
         Language: model.language || 'es',
         RecaptchaUserCode: model.captchaResponseToken,
+        Redirect: model.redirect,
       });
 
       if (!response.data.success) {

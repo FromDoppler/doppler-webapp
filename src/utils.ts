@@ -128,3 +128,29 @@ export function getSubscriberStatusCssClassName(status: string) {
   }
   return subscriberCssClass;
 }
+
+export function extractParameter(
+  location: any,
+  parseQueryStringFunction: any,
+  paramLowercase: string,
+  paramUppercase?: string,
+) {
+  const parsedQuery = location && location.search && parseQueryStringFunction(location.search);
+  return (
+    (parsedQuery &&
+      (parsedQuery[paramLowercase] || (!!paramUppercase && parsedQuery[paramUppercase]))) ||
+    null
+  );
+}
+
+export function isWhitelisted(url: string) {
+  const loginWhitelist = [
+    'https://academy.fromdoppler.com/',
+    'http://academy.fromdoppler.com/',
+    'http://prod.doppleracademy.com/',
+    'https://prod.doppleracademy.com/',
+    'https://doppleracademy.com/',
+    'http://doppleracademy.com/',
+  ];
+  return !!url && loginWhitelist.some((element) => url.startsWith(element));
+}
