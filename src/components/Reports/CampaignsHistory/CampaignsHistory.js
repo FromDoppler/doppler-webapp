@@ -3,15 +3,9 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { getSubscriberStatusCssClassName } from '../../../utils';
+import { getSubscriberStatusCssClassName, extractParameter } from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import { Pagination } from '../../shared/Pagination/Pagination';
-
-/** Extract the page parameter from url*/
-function extractEmail(location) {
-  const parsedQuery = location && location.search && queryString.parse(location.search);
-  return (parsedQuery && parsedQuery['email']) || null;
-}
 
 const getDeliveryStatusCssClassName = (deliveryStatus) => {
   let deliveryCssClass = '';
@@ -34,21 +28,18 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
   return deliveryCssClass;
 };
 
-const campaignsPerPage = 5;
+const campaignsPerPage = 10;
 
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
-  const [state, setState] = useState({ loading: true, currentPage: 1 });
+  const [state, setState] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const paginate = (pageNumber) =>
-    setState((prevState) => {
-      return { ...prevState, currentPage: pageNumber };
-    });
-
   useEffect(() => {
     const fetchData = async () => {
-      const email = extractEmail(location);
+      setState({ loading: true });
+      const email = extractParameter(location, queryString.parse, 'email');
+      const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
       if (responseSubscriber.success) {
         const subscriber = {
@@ -59,7 +50,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
         const response = await dopplerApiClient.getSubscriberSentCampaigns(
           email,
           campaignsPerPage,
-          state.currentPage,
+          currentPage,
         );
         if (!response.success) {
           setState({ loading: false });
@@ -78,7 +69,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
       }
     };
     fetchData();
-  }, [dopplerApiClient, location, state.currentPage]);
+  }, [dopplerApiClient, location]);
 
   return state.loading ? (
     <Loading />
@@ -151,14 +142,14 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                           <Pagination
                             currentPage={state.currentPage}
                             pagesCount={state.pagesCount}
-                            paginate={paginate}
+                            urlToGo={`/reports/campaigns-history?email=${state.subscriber.email}&`}
                           />
                         </td>
                       </tr>
                     </>
                   ) : (
                     <p className="dp-boxshadow--usermsg bounceIn">
-                      <FormattedMessage id="campaign_history.empty_data" />
+                      <FormattedMessage id="campaigns_history.empty_data" />
                     </p>
                   )}
                   {}

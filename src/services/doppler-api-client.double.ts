@@ -49,29 +49,28 @@ const subscriber = {
   score: 2,
 };
 
-const campaignDeliveryItems = [
-  {
-    campaignId: 1,
+const getDeliveryStatus = (statusNumber: number) => {
+  switch (statusNumber) {
+    case 1:
+      return 'opened';
+    case 2:
+      return 'softBounced';
+    case 3:
+      return 'hardBounced';
+    default:
+      return 'notOpened';
+  }
+};
+
+const campaignDeliveryItems = [...Array(100)].map((_, index) => {
+  return {
+    campaignId: index,
     campaignName: 'Campaña estacional de primavera',
     campaignSubject: '¿Como sacarle provecho a la primavera?',
-    deliveryStatus: 'opened',
-    clicksCount: 2,
-  },
-  {
-    campaignId: 2,
-    campaignName: 'Campaña calendario estacional 2019',
-    campaignSubject: 'El calendario estacional 2019 ya está aquí',
-    deliveryStatus: 'notOpened',
-    clicksCount: 23,
-  },
-  {
-    campaignId: 3,
-    campaignName: 'Emms 2019 preveento 1',
-    campaignSubject: 'Ya comienza el dia 2. Accede a las conferencias',
-    deliveryStatus: 'softBounced',
-    clicksCount: 100,
-  },
-];
+    deliveryStatus: getDeliveryStatus(Math.round(Math.random() * (5 - 1) + 1)),
+    clicksCount: Math.round(Math.random() * (100 - 1) + 1),
+  };
+});
 
 const subscriberCollection = {
   items: [
@@ -172,11 +171,21 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     console.log('getSubscriberSentCampaigns', email, campaignsPerPage, currentPage);
     await timeout(1500);
 
+    let pagesSubArray = [];
+
+    if (campaignsPerPage) {
+      const indexStart = campaignsPerPage * (currentPage - 1);
+      const indexEnd = indexStart + campaignsPerPage;
+      pagesSubArray = campaignDeliveryItems.slice(indexStart, indexEnd);
+    } else {
+      pagesSubArray = campaignDeliveryItems;
+    }
+
     const campaignDeliveryCollection = {
-      items: campaignDeliveryItems,
+      items: pagesSubArray,
       currentPage: currentPage,
       itemsCount: campaignDeliveryItems.length,
-      pagesCount: 2,
+      pagesCount: Math.floor(campaignDeliveryItems.length / campaignsPerPage),
     };
 
     return {

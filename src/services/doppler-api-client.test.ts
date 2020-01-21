@@ -250,7 +250,7 @@ describe('HttpDopplerApiClient', () => {
               clicksCount: 23,
             },
           ],
-          currentPage: 0,
+          currentPage: 2,
           itemsCount: 2,
           pagesCount: 1,
         },
@@ -258,9 +258,15 @@ describe('HttpDopplerApiClient', () => {
       };
       const request = jest.fn(async () => campaignsDelivery);
       const dopplerApiClient = createHttpDopplerApiClient({ request });
+      const campaignsPerPage = 5;
+      const currentPage = 2;
 
       // Act
-      const result = await dopplerApiClient.getSubscriberSentCampaigns('test@test.com');
+      const result = await dopplerApiClient.getSubscriberSentCampaigns(
+        'test@test.com',
+        campaignsPerPage,
+        currentPage,
+      );
 
       // Assert
       expect(request).toBeCalledTimes(1);
@@ -268,6 +274,7 @@ describe('HttpDopplerApiClient', () => {
       expect(result.success).toBe(true);
       expect(result.value.pagesCount).toEqual(1);
       expect(result.value.items[0].campaignId).toEqual(1);
+      expect(result.value.currentPage).toEqual(2);
     });
   });
 
