@@ -337,6 +337,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           case 'InvalidLogin': {
             return { expectedError: { invalidLogin: true } };
           }
+          case 'MaxLoginAttempts': {
+            return { expectedError: { maxLoginAttempts: true } };
+          }
           default: {
             return {
               message: response.data.error || null,
