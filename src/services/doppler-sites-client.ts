@@ -45,12 +45,12 @@ export class HttpDopplerSitesClient implements DopplerSitesClient {
       return {
         success: true,
         value: {
-          title: response.title,
-          functionality: response.functionality,
-          description: response.description,
-          imageUrl: response.image_url,
-          backgroundUrl: response.background_url,
-          fontColor: response.font_color,
+          title: response.data.title,
+          functionality: response.data.functionality,
+          description: response.data.description,
+          imageUrl: response.data.image_url,
+          backgroundUrl: response.data.background_url,
+          fontColor: response.data.font_color,
         },
       };
     } catch (error) {
