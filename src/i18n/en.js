@@ -368,6 +368,12 @@ export default {
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_HTML: `Unexpected error. Please try again or <a href="${mailtoSupport}">contact Support</a>.`,
+    error_unexpected_HTML: `
+      Unexpected error. Please try again* or
+      <a href="${mailtoSupport}">contact Support</a>.
+      <br/><br/>
+      <i>*If you have ad blockers installed,
+      please disable them on retry.</i>
+      `,
   },
 };

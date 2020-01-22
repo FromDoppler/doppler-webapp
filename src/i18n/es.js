@@ -370,6 +370,12 @@ export default {
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected_HTML: `Error inesperado. Por favor, intenta nuevamente o <a href="${mailtoSupport}">contacta a Soporte</a>.`,
+    error_unexpected_HTML: `
+      Error inesperado. Por favor, intenta nuevamente* o
+      <a href="${mailtoSupport}">contacta a Soporte</a>.
+      <br/><br/>
+      <i>*Si tienes ad blockers instalados,
+      recomendamos deshabilitarlos en el reintento.</i>
+      `,
   },
 };
