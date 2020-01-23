@@ -361,7 +361,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     } catch (error) {
       return {
         message: error.message || null,
-        error: error,
+        error: error.toJSON(),
+        response: !error.response ? `No response available` : error.response,
+        stackCall: new Error(),
       };
     }
   }
