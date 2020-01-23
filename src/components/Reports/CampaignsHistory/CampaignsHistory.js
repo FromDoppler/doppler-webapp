@@ -3,14 +3,9 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { getSubscriberStatusCssClassName } from '../../../utils';
+import { getSubscriberStatusCssClassName, extractParameter } from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
-
-/** Extract the page parameter from url*/
-function extractEmail(location) {
-  const parsedQuery = location && location.search && queryString.parse(location.search);
-  return (parsedQuery && parsedQuery['email']) || null;
-}
+import { Pagination } from '../../shared/Pagination/Pagination';
 
 const getDeliveryStatusCssClassName = (deliveryStatus) => {
   let deliveryCssClass = '';
@@ -33,6 +28,8 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
   return deliveryCssClass;
 };
 
+const campaignsPerPage = 10;
+
 const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
@@ -40,7 +37,9 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const email = extractEmail(location);
+      setState({ loading: true });
+      const email = extractParameter(location, queryString.parse, 'email');
+      const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
       if (responseSubscriber.success) {
         const subscriber = {
@@ -48,11 +47,22 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
           firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
           lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
         };
-        const response = await dopplerApiClient.getSubscriberSentCampaigns(email);
+        const response = await dopplerApiClient.getSubscriberSentCampaigns(
+          email,
+          campaignsPerPage,
+          currentPage,
+        );
         if (!response.success) {
           setState({ loading: false });
         } else {
-          setState({ loading: false, sentCampaigns: response.value, subscriber: subscriber });
+          setState({
+            loading: false,
+            sentCampaigns: response.value.items,
+            itemsCount: response.value.itemsCount,
+            currentPage: response.value.currentPage,
+            pagesCount: response.value.pagesCount,
+            subscriber: subscriber,
+          });
         }
       } else {
         setState({ loading: false });
@@ -109,24 +119,37 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.sentCampaigns.items.length ? (
-                    state.sentCampaigns.items.map((campaign, index) => (
-                      <tr key={index}>
-                        <td>{campaign.campaignName}</td>
-                        <td>{campaign.campaignSubject}</td>
-                        <td>
-                          <span className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}>
-                            <FormattedMessage
-                              id={'campaigns_history.delivery_status.' + campaign.deliveryStatus}
-                            />
-                          </span>
+                  {state.sentCampaigns.length ? (
+                    <>
+                      {state.sentCampaigns.map((campaign, index) => (
+                        <tr key={index}>
+                          <td>{campaign.campaignName}</td>
+                          <td>{campaign.campaignSubject}</td>
+                          <td>
+                            <span
+                              className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}
+                            >
+                              <FormattedMessage
+                                id={'campaigns_history.delivery_status.' + campaign.deliveryStatus}
+                              />
+                            </span>
+                          </td>
+                          <td>{campaign.clicksCount}</td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td colSpan="4" style={{ textAlign: 'right' }}>
+                          <Pagination
+                            currentPage={state.currentPage}
+                            pagesCount={state.pagesCount}
+                            urlToGo={`/reports/campaigns-history?email=${state.subscriber.email}&`}
+                          />
                         </td>
-                        <td>{campaign.clicksCount}</td>
                       </tr>
-                    ))
+                    </>
                   ) : (
                     <p className="dp-boxshadow--usermsg bounceIn">
-                      <FormattedMessage id="campaign_history.empty_data" />
+                      <FormattedMessage id="campaigns_history.empty_data" />
                     </p>
                   )}
                   {}

@@ -9,7 +9,8 @@ export interface DopplerApiClient {
   getSubscriber(email: string, apikey: string): Promise<ResultWithoutExpectedErrors<Subscriber>>;
   getSubscriberSentCampaigns(
     email: string,
-    apikey: string,
+    campaignsPerPage: number,
+    currentPage: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>>;
   getSubscribers(searchText: string): Promise<ResultWithoutExpectedErrors<SubscriberCollection>>;
 }
@@ -263,6 +264,8 @@ export class HttpDopplerApiClient implements DopplerApiClient {
 
   public async getSubscriberSentCampaigns(
     email: string,
+    campaignsPerPage: number,
+    currentPage: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>> {
     try {
       const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
@@ -271,6 +274,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         method: 'GET',
         url: `/accounts/${userAccount}/subscribers/${email}/deliveries`,
         headers: { Authorization: `token ${jwtToken}` },
+        params: { per_page: campaignsPerPage, page: currentPage },
       });
 
       const campaignsDeliveryCollection = {

@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import CampaignsHistory from './CampaignsHistory';
 import { AppServicesProvider } from '../../../services/pure-di';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('CampaignsHistory component', () => {
   afterEach(cleanup);
@@ -62,7 +63,9 @@ describe('CampaignsHistory component', () => {
         }}
       >
         <IntlProvider>
-          <CampaignsHistory />
+          <BrowserRouter>
+            <CampaignsHistory />
+          </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -91,7 +94,9 @@ describe('CampaignsHistory component', () => {
         }}
       >
         <IntlProvider>
-          <CampaignsHistory />
+          <BrowserRouter>
+            <CampaignsHistory />
+          </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -124,12 +129,14 @@ describe('CampaignsHistory component', () => {
         }}
       >
         <IntlProvider>
-          <CampaignsHistory />
+          <BrowserRouter>
+            <CampaignsHistory />
+          </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('campaign_history.empty_data')).toBeInTheDocument());
+    await wait(() => expect(getByText('campaigns_history.empty_data')).toBeInTheDocument());
   });
 
   it('should show subscriber firstName', async () => {
@@ -151,7 +158,9 @@ describe('CampaignsHistory component', () => {
         }}
       >
         <IntlProvider>
-          <CampaignsHistory />
+          <BrowserRouter>
+            <CampaignsHistory />
+          </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -192,8 +201,8 @@ describe('CampaignsHistory component', () => {
           clicksCount: 2,
         },
       ],
-      currentPage: 0,
-      itemsCount: 1,
+      currentPage: 1,
+      itemsCount: 4,
       pagesCount: 1,
     };
     const dopplerApiClientDouble = {
@@ -213,7 +222,9 @@ describe('CampaignsHistory component', () => {
         }}
       >
         <IntlProvider>
-          <CampaignsHistory />
+          <BrowserRouter>
+            <CampaignsHistory />
+          </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
