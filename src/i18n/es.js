@@ -27,18 +27,6 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
-  campaigns_history: {
-    delivery_status: {
-      hardBounced: 'Rebotado Hard',
-      notOpened: 'No Abierto',
-      opened: 'Abierto',
-      softBounced: 'Rebotado Soft',
-    },
-    empty_data: 'Hasta el momento no hay Campañas enviadas',
-    table_result: {
-      aria_label_table: `Resultado de Historial de Campañas`,
-    },
-  },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanazadas`,
     back: `Atrás`,
@@ -120,6 +108,38 @@ export default {
     signup: `Regístrate gratis`,
     url_site: `${urlSiteFromLogin}`,
     you_want_create_account: `¿Aún no tienes una cuenta?`,
+  },
+  master_subscriber: {
+    header_title: `Reporte de Actividad General del Suscriptor`,
+    page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,
+    page_title: `Doppler | Historial por Suscriptor`,
+    search_form: {
+      aria_label: `Formulario de filtros para buscar Historial de Suscriptores`,
+      aria_search_field: `Ingrese un Email, Nombre o Apellido para buscar Historial de Suscriptor`,
+      search_field_placeholder: `Busca un suscriptor por su Email, Nombre o Apellido...`,
+      search_form_legend: `Busqueda avanzada de Historial de Suscriptor`,
+    },
+    table_result: {
+      aria_label_email: `Email`,
+      aria_label_lastname: `Apellido`,
+      aria_label_name: `Nombre`,
+      aria_label_score: `Puntuación`,
+      aria_label_state: `Estado`,
+      aria_label_table: `Resultado de Historial de Suscriptores`,
+    },
+  },
+  master_subscriber_current_search: {
+    grid_email: `Email`,
+    grid_firstname: `Nombre`,
+    grid_lastname: `Apellido`,
+    grid_ranking: `Ranking`,
+    grid_status: `Estado`,
+  },
+  master_subscriber_sent_campaigns: {
+    grid_campaign: `Campaña`,
+    grid_clicks: `Clicks Unicos`,
+    grid_delivery: `Comportamiento`,
+    grid_subject: `Asunto`,
   },
   reports: {
     allow_enable_trial_HTML: `
@@ -296,36 +316,16 @@ export default {
     },
   },
   subscriber_history: {
-    header_title: `Reporte de Actividad General del Suscriptor`,
-    page_description: `Mediante este reporte usted podrá conocer la actividad general de un suscriptor determinado`,
-    page_title: `Doppler | Historial por Suscriptor`,
-    search_form: {
-      aria_label: `Formulario de filtros para buscar Historial de Suscriptores`,
-      aria_search_field: `Ingrese un Email, Nombre o Apellido para buscar Historial de Suscriptor`,
-      search_field_placeholder: `Busca un suscriptor por su Email, Nombre o Apellido...`,
-      search_form_legend: `Busqueda avanzada de Historial de Suscriptor`,
+    delivery_status: {
+      hardBounced: 'Rebotado Hard',
+      notOpened: 'No Abierto',
+      opened: 'Abierto',
+      softBounced: 'Rebotado Soft',
     },
+    empty_data: 'Hasta el momento no hay Campañas enviadas',
     table_result: {
-      aria_label_email: `Email`,
-      aria_label_lastname: `Apellido`,
-      aria_label_name: `Nombre`,
-      aria_label_score: `Puntuación`,
-      aria_label_state: `Estado`,
-      aria_label_table: `Resultado de Historial de Suscriptores`,
+      aria_label_table: `Resultado de Historial de Campañas`,
     },
-  },
-  subscriber_history_current_search: {
-    grid_email: `Email`,
-    grid_firstname: `Nombre`,
-    grid_lastname: `Apellido`,
-    grid_ranking: `Ranking`,
-    grid_status: `Estado`,
-  },
-  subscriber_history_sent_campaigns: {
-    grid_campaign: `Campaña`,
-    grid_clicks: `Clicks Unicos`,
-    grid_delivery: `Comportamiento`,
-    grid_subject: `Asunto`,
   },
   trafficSources: {
     direct: `Directo`,
