@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet';
 import { availableLanguageOrNull } from './i18n/utils';
 import Shopify from './components/Integrations/Shopify/Shopify';
 import SignupConfirmation from './components/Signup/SignupConfirmation';
-import SubscriberHistory from './components/Reports/SubscriberHistory/SubscriberHistory';
+import MasterSubscriber from './components/Reports/MasterSubscriber/MasterSubscriber';
 import CampaignsHistory from './components/Reports/CampaignsHistory/CampaignsHistory';
 
 /**
@@ -91,7 +91,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           />
           <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
           <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
-          <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />
+          <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
           <PrivateRoute path="/reports/campaigns-history" exact component={CampaignsHistory} />
           <PublicRouteWithLegacyFallback exact path="/login" />
           <PublicRouteWithLegacyFallback exact path="/signup" />

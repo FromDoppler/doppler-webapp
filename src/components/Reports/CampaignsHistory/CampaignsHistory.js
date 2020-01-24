@@ -105,16 +105,16 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                 <thead>
                   <tr>
                     <th scope="col">
-                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_campaign" />
+                      <FormattedMessage id="master_subscriber_sent_campaigns.grid_campaign" />
                     </th>
                     <th scope="col">
-                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_subject" />
+                      <FormattedMessage id="master_subscriber_sent_campaigns.grid_subject" />
                     </th>
                     <th scope="col">
-                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_delivery" />
+                      <FormattedMessage id="master_subscriber_sent_campaigns.grid_delivery" />
                     </th>
                     <th scope="col">
-                      <FormattedMessage id="subscriber_history_sent_campaigns.grid_clicks" />
+                      <FormattedMessage id="master_subscriber_sent_campaigns.grid_clicks" />
                     </th>
                   </tr>
                 </thead>

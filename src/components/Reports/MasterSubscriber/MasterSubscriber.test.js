@@ -2,10 +2,10 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import SubscriberHistory from './SubscriberHistory';
+import MasterSubscriber from './MasterSubscriber';
 import { AppServicesProvider } from '../../../services/pure-di';
 
-describe('SubscriberHistory component', () => {
+describe('MasterSubscriber component', () => {
   afterEach(cleanup);
 
   it('renders correctly', () => {
@@ -26,11 +26,11 @@ describe('SubscriberHistory component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistory />
+          <MasterSubscriber />
         </IntlProvider>
       </AppServicesProvider>,
     );
     // Assert
-    expect(getByText('subscriber_history.header_title')).toBeInTheDocument();
+    expect(getByText('master_subscriber.header_title')).toBeInTheDocument();
   });
 });

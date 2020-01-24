@@ -121,6 +121,38 @@ export default {
     url_site: `${urlSiteFromLogin}`,
     you_want_create_account: `Don't have an account yet?`,
   },
+  master_subscriber: {
+    header_title: `Subscriber General Activity Report`,
+    page_description: `Through this report you will be able to know the general activity of a specific subscriber`,
+    page_title: `Doppler | Subscriber History`,
+    search_form: {
+      aria_label: `Filters form to search Subscriber History`,
+      aria_search_field: `Enter an Email, First or Last Name to search for Subscriber History`,
+      search_field_placeholder: `Search for a subscriber by Email, First or Last Name ...`,
+      search_form_legend: `Advanced Subscriber History search`,
+    },
+    table_result: {
+      aria_label_email: `Email`,
+      aria_label_lastname: `Lastname`,
+      aria_label_name: `Name`,
+      aria_label_score: `Score`,
+      aria_label_state: `State`,
+      aria_label_table: `Subscriber history result`,
+    },
+  },
+  master_subscriber_current_search: {
+    grid_email: `Email`,
+    grid_firstname: `Firstname`,
+    grid_lastname: `Lastname`,
+    grid_ranking: `Ranking`,
+    grid_status: `Status`,
+  },
+  master_subscriber_sent_campaigns: {
+    grid_campaign: `Campaign`,
+    grid_clicks: `Unique Clicks`,
+    grid_delivery: `Delivery Status`,
+    grid_subject: `Subject`,
+  },
   reports: {
     allow_enable_trial_HTML: `
       <p>
@@ -292,38 +324,6 @@ export default {
       unsubscribed_by_soft: 'Removed by Soft-Bounced',
       unsubscribed_by_subscriber: 'Removed by Subscriber',
     },
-  },
-  subscriber_history: {
-    header_title: `Subscriber General Activity Report`,
-    page_description: `Through this report you will be able to know the general activity of a specific subscriber`,
-    page_title: `Doppler | Subscriber History`,
-    search_form: {
-      aria_label: `Filters form to search Subscriber History`,
-      aria_search_field: `Enter an Email, First or Last Name to search for Subscriber History`,
-      search_field_placeholder: `Search for a subscriber by Email, First or Last Name ...`,
-      search_form_legend: `Advanced Subscriber History search`,
-    },
-    table_result: {
-      aria_label_email: `Email`,
-      aria_label_lastname: `Lastname`,
-      aria_label_name: `Name`,
-      aria_label_score: `Score`,
-      aria_label_state: `State`,
-      aria_label_table: `Subscriber history result`,
-    },
-  },
-  subscriber_history_current_search: {
-    grid_email: `Email`,
-    grid_firstname: `Firstname`,
-    grid_lastname: `Lastname`,
-    grid_ranking: `Ranking`,
-    grid_status: `Status`,
-  },
-  subscriber_history_sent_campaigns: {
-    grid_campaign: `Campaign`,
-    grid_clicks: `Unique Clicks`,
-    grid_delivery: `Delivery Status`,
-    grid_subject: `Subject`,
   },
   trafficSources: {
     direct: `Direct`,

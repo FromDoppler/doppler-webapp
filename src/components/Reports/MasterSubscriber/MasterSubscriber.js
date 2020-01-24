@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import SubscriberHistoryCurrentSearch from './SubscriberHistoryCurrentSearch/SubscriberHistoryCurrentSearch';
+import MasterSubscriberCurrentSearch from './MasterSubscriberCurrentSearch/MasterSubscriberCurrentSearch';
 import { Formik, Form, Field } from 'formik';
 
 const minSearchChars = 3;
 
-const SubscriberHistory = () => {
+const MasterSubscriber = () => {
   const intl = useIntl();
   const [state, setState] = useState({ subscriberSearch: '' });
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -44,11 +44,11 @@ const SubscriberHistory = () => {
 
   return (
     <>
-      <FormattedMessage id="subscriber_history.page_title">
+      <FormattedMessage id="master_subscriber.page_title">
         {(page_title) => (
           <Helmet>
             <title>{page_title}</title>
-            <meta name="description" content={_('subscriber_history.page_description')} />
+            <meta name="description" content={_('master_subscriber.page_description')} />
           </Helmet>
         )}
       </FormattedMessage>
@@ -57,7 +57,7 @@ const SubscriberHistory = () => {
           <div className="dp-rowflex">
             <div className="col-sm-12 col-md-12 col-lg-12">
               <h3>
-                <FormattedMessage id="subscriber_history.header_title" />
+                <FormattedMessage id="master_subscriber.header_title" />
               </h3>
               <span className="arrow" />
             </div>
@@ -74,24 +74,21 @@ const SubscriberHistory = () => {
                     <Form
                       className="dp-filters"
                       role="search"
-                      aria-label={_('subscriber_history.search_form.aria_label')}
-                      id="searchSubscriberHistory"
+                      aria-label={_('master_subscriber.search_form.aria_label')}
+                      id="searchMasterSubscriber"
                     >
                       <fieldset>
-                        <legend>{_('subscriber_history.search_form.search_form_legend')}</legend>
-                        <ul
-                          class="field-group dp-rowflex"
-                          aria-labelledby="searchSubscriberHistory"
-                        >
+                        <legend>{_('master_subscriber.search_form.search_form_legend')}</legend>
+                        <ul class="field-group dp-rowflex" aria-labelledby="searchMasterSubscriber">
                           <li class="field-item col-lg-6 col-md-6 col-sm-12 dp-t-inputsh">
                             <Field
                               className="dp-searchemail"
-                              aria-label={_('subscriber_history.search_form.aria_search_field')}
+                              aria-label={_('master_subscriber.search_form.aria_search_field')}
                               aria-required="true"
                               name="search"
                               type="text"
                               placeholder={_(
-                                'subscriber_history.search_form.search_field_placeholder',
+                                'master_subscriber.search_form.search_field_placeholder',
                               )}
                               value={state.subscriberSearch}
                               onChange={(e) => {
@@ -122,7 +119,7 @@ const SubscriberHistory = () => {
             </div>
             <div className="dp-block-wlp m-b-36">
               {state.showResults ? (
-                <SubscriberHistoryCurrentSearch searchText={state.searchText} />
+                <MasterSubscriberCurrentSearch searchText={state.searchText} />
               ) : null}
             </div>
           </div>
@@ -132,4 +129,4 @@ const SubscriberHistory = () => {
   );
 };
 
-export default SubscriberHistory;
+export default MasterSubscriber;

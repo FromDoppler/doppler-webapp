@@ -2,7 +2,7 @@ import React from 'react';
 import { render, cleanup, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import SubscriberHistoryCurrentSearch from './SubscriberHistoryCurrentSearch';
+import MasterSubscriberCurrentSearch from './MasterSubscriberCurrentSearch';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -88,7 +88,7 @@ const subscribers = {
   pagesCount: 1,
 };
 
-describe('SubscriberHistoryCurrentSearch component', () => {
+describe('MasterSubscriberCurrentSearch component', () => {
   afterEach(cleanup);
 
   it('should show subscriber data', async () => {
@@ -110,7 +110,7 @@ describe('SubscriberHistoryCurrentSearch component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <SubscriberHistoryCurrentSearch />
+            <MasterSubscriberCurrentSearch />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -137,7 +137,7 @@ describe('SubscriberHistoryCurrentSearch component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberHistoryCurrentSearch />
+          <MasterSubscriberCurrentSearch />
         </IntlProvider>
       </AppServicesProvider>,
     );

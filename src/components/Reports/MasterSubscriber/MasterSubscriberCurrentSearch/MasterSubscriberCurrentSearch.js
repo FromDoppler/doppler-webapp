@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { getSubscriberStatusCssClassName } from '../../../../utils';
 import { StarsScore } from '../../../shared/StarsScore/StarsScore';
 
-const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
+const MasterSubscriberCurrentSearch = ({ searchText, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   useEffect(() => {
@@ -54,19 +54,19 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
             <thead>
               <tr>
                 <th>
-                  <FormattedMessage id="subscriber_history_current_search.grid_email" />
+                  <FormattedMessage id="master_subscriber_current_search.grid_email" />
                 </th>
                 <th>
-                  <FormattedMessage id="subscriber_history_current_search.grid_firstname" />
+                  <FormattedMessage id="master_subscriber_current_search.grid_firstname" />
                 </th>
                 <th>
-                  <FormattedMessage id="subscriber_history_current_search.grid_lastname" />
+                  <FormattedMessage id="master_subscriber_current_search.grid_lastname" />
                 </th>
                 <th>
-                  <FormattedMessage id="subscriber_history_current_search.grid_ranking" />
+                  <FormattedMessage id="master_subscriber_current_search.grid_ranking" />
                 </th>
                 <th>
-                  <FormattedMessage id="subscriber_history_current_search.grid_status" />
+                  <FormattedMessage id="master_subscriber_current_search.grid_status" />
                 </th>
               </tr>
             </thead>
@@ -107,4 +107,4 @@ const SubscriberHistoryCurrentSearch = ({ searchText, dependencies: { dopplerApi
   );
 };
 
-export default InjectAppServices(SubscriberHistoryCurrentSearch);
+export default InjectAppServices(MasterSubscriberCurrentSearch);
