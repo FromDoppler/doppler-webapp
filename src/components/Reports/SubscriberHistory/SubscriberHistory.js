@@ -30,7 +30,7 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
 
 const campaignsPerPage = 10;
 
-const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
+const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -99,8 +99,8 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
             <div className="dp-table-responsive">
               <table
                 className="dp-c-table"
-                aria-label={_('campaigns_history.table_result.aria_label_table')}
-                summary={_('campaigns_history.table_result.aria_label_table')}
+                aria-label={_('subscriber_history.table_result.aria_label_table')}
+                summary={_('subscriber_history.table_result.aria_label_table')}
               >
                 <thead>
                   <tr>
@@ -130,7 +130,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                               className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}
                             >
                               <FormattedMessage
-                                id={'campaigns_history.delivery_status.' + campaign.deliveryStatus}
+                                id={'subscriber_history.delivery_status.' + campaign.deliveryStatus}
                               />
                             </span>
                           </td>
@@ -149,7 +149,7 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
                     </>
                   ) : (
                     <p className="dp-boxshadow--usermsg bounceIn">
-                      <FormattedMessage id="campaigns_history.empty_data" />
+                      <FormattedMessage id="subscriber_history.empty_data" />
                     </p>
                   )}
                   {}
@@ -167,4 +167,4 @@ const CampaignsHistory = ({ location, dependencies: { dopplerApiClient } }) => {
   );
 };
 
-export default InjectAppServices(CampaignsHistory);
+export default InjectAppServices(SubscriberHistory);

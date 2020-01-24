@@ -15,7 +15,7 @@ import { availableLanguageOrNull } from './i18n/utils';
 import Shopify from './components/Integrations/Shopify/Shopify';
 import SignupConfirmation from './components/Signup/SignupConfirmation';
 import MasterSubscriber from './components/Reports/MasterSubscriber/MasterSubscriber';
-import CampaignsHistory from './components/Reports/CampaignsHistory/CampaignsHistory';
+import SubscriberHistory from './components/Reports/SubscriberHistory/SubscriberHistory';
 
 /**
  * @param { Object } props - props
@@ -92,7 +92,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
           <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
           <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
-          <PrivateRoute path="/reports/campaigns-history" exact component={CampaignsHistory} />
+          <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />
           <PublicRouteWithLegacyFallback exact path="/login" />
           <PublicRouteWithLegacyFallback exact path="/signup" />
           <PublicRouteWithLegacyFallback exact path="/login/reset-password" />

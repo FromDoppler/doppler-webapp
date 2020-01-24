@@ -27,18 +27,6 @@ const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 
 export default {
-  campaigns_history: {
-    delivery_status: {
-      hardBounced: 'Removed by Hard',
-      notOpened: 'Not Opened',
-      opened: 'Opened',
-      softBounced: 'Removed by Soft',
-    },
-    empty_data: `So far there are no Campaigns sent`,
-    table_result: {
-      aria_label_table: `Campaign History result`,
-    },
-  },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
@@ -323,6 +311,18 @@ export default {
       unsubscribed_by_never_open: 'Removed by Never-Opened',
       unsubscribed_by_soft: 'Removed by Soft-Bounced',
       unsubscribed_by_subscriber: 'Removed by Subscriber',
+    },
+  },
+  subscriber_history: {
+    delivery_status: {
+      hardBounced: 'Removed by Hard',
+      notOpened: 'Not Opened',
+      opened: 'Opened',
+      softBounced: 'Removed by Soft',
+    },
+    empty_data: `So far there are no Campaigns sent`,
+    table_result: {
+      aria_label_table: `Campaign History result`,
     },
   },
   trafficSources: {

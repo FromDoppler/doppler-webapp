@@ -2,11 +2,11 @@ import React from 'react';
 import { render, cleanup, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import CampaignsHistory from './CampaignsHistory';
+import SubscriberHistory from './SubscriberHistory';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 
-describe('CampaignsHistory component', () => {
+describe('SubscriberHistory component', () => {
   afterEach(cleanup);
 
   const campaignDeliveryCollection = {
@@ -64,7 +64,7 @@ describe('CampaignsHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <CampaignsHistory />
+            <SubscriberHistory />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -95,7 +95,7 @@ describe('CampaignsHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <CampaignsHistory />
+            <SubscriberHistory />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -130,13 +130,13 @@ describe('CampaignsHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <CampaignsHistory />
+            <SubscriberHistory />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('campaigns_history.empty_data')).toBeInTheDocument());
+    await wait(() => expect(getByText('subscriber_history.empty_data')).toBeInTheDocument());
   });
 
   it('should show subscriber firstName', async () => {
@@ -159,7 +159,7 @@ describe('CampaignsHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <CampaignsHistory />
+            <SubscriberHistory />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -223,17 +223,17 @@ describe('CampaignsHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <CampaignsHistory />
+            <SubscriberHistory />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
     // Assert
     await wait(() => {
-      expect(getByText('campaigns_history.delivery_status.softBounced')).toBeInTheDocument();
-      expect(getByText('campaigns_history.delivery_status.hardBounced')).toBeInTheDocument();
-      expect(getByText('campaigns_history.delivery_status.opened')).toBeInTheDocument();
-      expect(getByText('campaigns_history.delivery_status.notOpened')).toBeInTheDocument();
+      expect(getByText('subscriber_history.delivery_status.softBounced')).toBeInTheDocument();
+      expect(getByText('subscriber_history.delivery_status.hardBounced')).toBeInTheDocument();
+      expect(getByText('subscriber_history.delivery_status.opened')).toBeInTheDocument();
+      expect(getByText('subscriber_history.delivery_status.notOpened')).toBeInTheDocument();
     });
   });
 });
