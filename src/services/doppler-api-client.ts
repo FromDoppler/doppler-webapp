@@ -28,6 +28,12 @@ interface Fields {
   type: string;
 }
 
+interface Link {
+  href: string;
+  description: string;
+  rel: string;
+}
+
 export interface Subscriber {
   email: string;
   fields: Fields[];
@@ -45,6 +51,7 @@ interface CampaignDelivery {
   campaignSubject: string;
   clicksCount: number;
   deliveryStatus: string;
+  links: Link[];
 }
 
 export interface CampaignDeliveryCollection {
@@ -121,6 +128,14 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
+  private mapLinks(data: any): Link[] {
+    return data.map((x: any) => ({
+      href: x.href,
+      description: x.description,
+      rel: x.rel,
+    }));
+  }
+
   private mapCampaignsDelivery(data: any): CampaignDelivery[] {
     return data.map((x: any) => ({
       campaignId: x.campaignId,
@@ -128,6 +143,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       campaignSubject: x.campaignSubject,
       clicksCount: x.clicksCount,
       deliveryStatus: x.deliveryStatus,
+      links: this.mapLinks(x._links),
     }));
   }
 
