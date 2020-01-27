@@ -55,9 +55,15 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
         if (!response.success) {
           setState({ loading: false });
         } else {
+          const sentCampaigns = response.value.items.map((campaign) => {
+            return {
+              ...campaign,
+              imgPreview: campaign.links.find((x) => x.rel === '/docs/rels/get-campaign-preview'),
+            };
+          });
           setState({
             loading: false,
-            sentCampaigns: response.value.items,
+            sentCampaigns: sentCampaigns,
             itemsCount: response.value.itemsCount,
             currentPage: response.value.currentPage,
             pagesCount: response.value.pagesCount,
@@ -201,7 +207,27 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                       <>
                         {state.sentCampaigns.map((campaign, index) => (
                           <tr key={index}>
-                            <td>{campaign.campaignName}</td>
+                          <td>
+                            {campaign.imgPreview ? (
+                              <div className="dp-tooltip-container">
+                                <a
+                                  href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                >
+                                  {campaign.campaignName}
+                                  <div className="dp-tooltip-block">
+                                    <img src={campaign.imgPreview.href} alt="" />
+                                  </div>
+                                </a>
+                              </div>
+                            ) : (
+                              <a
+                                href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                              >
+                                {campaign.campaignName}
+                              </a>
+                            )}
+                            {}
+                          </td>
                             <td>{campaign.campaignSubject}</td>
                             <td>
                               <span
