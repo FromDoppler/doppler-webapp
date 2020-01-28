@@ -316,6 +316,7 @@ export default {
     },
   },
   subscriber_history: {
+    alt_image: 'Preview de la Campaña',
     delivery_status: {
       hardBounced: 'Rebotado Hard',
       notOpened: 'No Abierto',

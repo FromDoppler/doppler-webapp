@@ -294,4 +294,50 @@ describe('SubscriberHistory component', () => {
       expect(container.querySelector('.dp-tooltip-block')).toBeInTheDocument();
     });
   });
+
+  it('should load campaign without preview img', async () => {
+    // Arrange
+    const campaignDeliveryCollection = {
+      items: [
+        {
+          campaignId: 1,
+          campaignName: 'Campaña estacional de primavera',
+          campaignSubject: '¿Como sacarle provecho a la primavera?',
+          deliveryStatus: 'softBounced',
+          clicksCount: 2,
+          links: [],
+        },
+      ],
+      currentPage: 1,
+      itemsCount: 4,
+      pagesCount: 1,
+    };
+    const dopplerApiClientDouble = {
+      getSubscriberSentCampaigns: async () => {
+        return { success: true, value: campaignDeliveryCollection };
+      },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
+    };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <SubscriberHistory />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+    // Assert
+    await wait(() => {
+      expect(container.querySelector('.dp-tooltip-block')).not.toBeInTheDocument();
+    });
+  });
 });

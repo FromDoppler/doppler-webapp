@@ -105,7 +105,7 @@ const MasterSubscriber = () => {
                             >
                               <span className="ms-icon icon-search"></span>
                             </button>
-                            <div class="dp-message dp-error-form">
+                            <div className="dp-message dp-error-form">
                               <p>{_('validation_messages.error_required_field')}</p>
                             </div>
                           </li>

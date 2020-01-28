@@ -28,6 +28,10 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
   return deliveryCssClass;
 };
 
+const searchLinkByRel = (items, rel) => {
+  return items.find((x) => x.rel.includes(rel));
+};
+
 const campaignsPerPage = 10;
 
 const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => {
@@ -58,7 +62,7 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
           const sentCampaigns = response.value.items.map((campaign) => {
             return {
               ...campaign,
-              imgPreview: campaign.links.find((x) => x.rel === '/docs/rels/get-campaign-preview'),
+              imgPreview: searchLinkByRel(campaign.links, '/docs/rels/get-campaign-preview'),
             };
           });
           setState({
@@ -207,27 +211,29 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                       <>
                         {state.sentCampaigns.map((campaign, index) => (
                           <tr key={index}>
-                          <td>
-                            {campaign.imgPreview ? (
-                              <div className="dp-tooltip-container">
+                            <td>
+                              {campaign.imgPreview ? (
+                                <div className="dp-tooltip-container">
+                                  <a
+                                    href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                  >
+                                    {campaign.campaignName}
+                                    <div className="dp-tooltip-block">
+                                      <img
+                                        src={campaign.imgPreview.href}
+                                        alt={_('subscriber_history.alt_image')}
+                                      />
+                                    </div>
+                                  </a>
+                                </div>
+                              ) : (
                                 <a
                                   href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
                                 >
                                   {campaign.campaignName}
-                                  <div className="dp-tooltip-block">
-                                    <img src={campaign.imgPreview.href} alt="" />
-                                  </div>
                                 </a>
-                              </div>
-                            ) : (
-                              <a
-                                href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
-                              >
-                                {campaign.campaignName}
-                              </a>
-                            )}
-                            {}
-                          </td>
+                              )}
+                            </td>
                             <td>{campaign.campaignSubject}</td>
                             <td>
                               <span
@@ -245,9 +251,13 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                         ))}
                       </>
                     ) : (
-                      <p className="dp-boxshadow--usermsg bounceIn">
-                        <FormattedMessage id="subscriber_history.empty_data" />
-                      </p>
+                      <tr>
+                        <td>
+                          <p className="dp-boxshadow--usermsg bounceIn">
+                            <FormattedMessage id="subscriber_history.empty_data" />
+                          </p>
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>
