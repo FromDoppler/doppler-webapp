@@ -17,7 +17,7 @@ describe('SubscriberHistory component', () => {
         campaignSubject: '¿Como sacarle provecho a la primavera?',
         deliveryStatus: 'opened',
         clicksCount: 2,
-        links: [],
+        urlImgPreview: '',
       },
     ],
     currentPage: 0,
@@ -179,7 +179,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'softBounced',
           clicksCount: 2,
-          links: [],
+          urlImgPreview: '',
         },
         {
           campaignId: 2,
@@ -187,7 +187,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'hardBounced',
           clicksCount: 2,
-          links: [],
+          urlImgPreview: '',
         },
         {
           campaignId: 3,
@@ -195,7 +195,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'opened',
           clicksCount: 2,
-          links: [],
+          urlImgPreview: '',
         },
         {
           campaignId: 4,
@@ -203,7 +203,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'notOpened',
           clicksCount: 2,
-          links: [],
+          urlImgPreview: '',
         },
       ],
       currentPage: 1,
@@ -252,14 +252,8 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'softBounced',
           clicksCount: 2,
-          links: [
-            {
-              href:
-                'http://dopplerfilesint.fromdoppler.net/Users/50018/Campaigns/33850437/33850437.png',
-              description: 'get preview',
-              rel: '/docs/rels/get-campaign-preview',
-            },
-          ],
+          urlImgPreview:
+            'http://dopplerfilesint.fromdoppler.net/Users/50018/Campaigns/33850437/33850437.png',
         },
       ],
       currentPage: 1,
@@ -305,7 +299,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'softBounced',
           clicksCount: 2,
-          links: [],
+          urlImgPreview: '',
         },
       ],
       currentPage: 1,

@@ -220,9 +220,15 @@ describe('HttpDopplerApiClient', () => {
       // Arrange
       const request = jest.fn(async () => {});
       const dopplerApiClient = createHttpDopplerApiClient({ request });
+      const campaignsPerPage = 10;
+      const currentPage = 1;
 
       // Act
-      const result = await dopplerApiClient.getSubscriberSentCampaigns('test@test.com');
+      const result = await dopplerApiClient.getSubscriberSentCampaigns(
+        'test@test.com',
+        campaignsPerPage,
+        currentPage,
+      );
 
       // Assert
       expect(request).toBeCalledTimes(1);
