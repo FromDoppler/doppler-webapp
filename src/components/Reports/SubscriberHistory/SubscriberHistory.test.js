@@ -17,6 +17,7 @@ describe('SubscriberHistory component', () => {
         campaignSubject: '¿Como sacarle provecho a la primavera?',
         deliveryStatus: 'opened',
         clicksCount: 2,
+        urlImgPreview: '',
       },
     ],
     currentPage: 0,
@@ -178,6 +179,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'softBounced',
           clicksCount: 2,
+          urlImgPreview: '',
         },
         {
           campaignId: 2,
@@ -185,6 +187,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'hardBounced',
           clicksCount: 2,
+          urlImgPreview: '',
         },
         {
           campaignId: 3,
@@ -192,6 +195,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'opened',
           clicksCount: 2,
+          urlImgPreview: '',
         },
         {
           campaignId: 4,
@@ -199,6 +203,7 @@ describe('SubscriberHistory component', () => {
           campaignSubject: '¿Como sacarle provecho a la primavera?',
           deliveryStatus: 'notOpened',
           clicksCount: 2,
+          urlImgPreview: '',
         },
       ],
       currentPage: 1,
@@ -234,6 +239,99 @@ describe('SubscriberHistory component', () => {
       expect(getByText('subscriber_history.delivery_status.hardBounced')).toBeInTheDocument();
       expect(getByText('subscriber_history.delivery_status.opened')).toBeInTheDocument();
       expect(getByText('subscriber_history.delivery_status.notOpened')).toBeInTheDocument();
+    });
+  });
+
+  it('should load campaign preview img', async () => {
+    // Arrange
+    const campaignDeliveryCollection = {
+      items: [
+        {
+          campaignId: 1,
+          campaignName: 'Campaña estacional de primavera',
+          campaignSubject: '¿Como sacarle provecho a la primavera?',
+          deliveryStatus: 'softBounced',
+          clicksCount: 2,
+          urlImgPreview:
+            'http://dopplerfilesint.fromdoppler.net/Users/50018/Campaigns/33850437/33850437.png',
+        },
+      ],
+      currentPage: 1,
+      itemsCount: 4,
+      pagesCount: 1,
+    };
+    const dopplerApiClientDouble = {
+      getSubscriberSentCampaigns: async () => {
+        return { success: true, value: campaignDeliveryCollection };
+      },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
+    };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <SubscriberHistory />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+    // Assert
+    await wait(() => {
+      expect(container.querySelector('.dp-tooltip-block')).toBeInTheDocument();
+    });
+  });
+
+  it('should load campaign without preview img', async () => {
+    // Arrange
+    const campaignDeliveryCollection = {
+      items: [
+        {
+          campaignId: 1,
+          campaignName: 'Campaña estacional de primavera',
+          campaignSubject: '¿Como sacarle provecho a la primavera?',
+          deliveryStatus: 'softBounced',
+          clicksCount: 2,
+          urlImgPreview: '',
+        },
+      ],
+      currentPage: 1,
+      itemsCount: 4,
+      pagesCount: 1,
+    };
+    const dopplerApiClientDouble = {
+      getSubscriberSentCampaigns: async () => {
+        return { success: true, value: campaignDeliveryCollection };
+      },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
+    };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <SubscriberHistory />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+    // Assert
+    await wait(() => {
+      expect(container.querySelector('.dp-tooltip-block')).not.toBeInTheDocument();
     });
   });
 });

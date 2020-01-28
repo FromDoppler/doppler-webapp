@@ -314,6 +314,7 @@ export default {
     },
   },
   subscriber_history: {
+    alt_image: 'Campaign Preview',
     delivery_status: {
       hardBounced: 'Removed by Hard',
       notOpened: 'Not Opened',

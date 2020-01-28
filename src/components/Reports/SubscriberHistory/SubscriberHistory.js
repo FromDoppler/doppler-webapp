@@ -80,13 +80,13 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
           <div className="dp-block-wlp dp-box-shadow m-t-36">
             <header className="dp-header-campaing dp-rowflex p-l-18">
               <div className="col-lg-6 col-md-12 m-b-24">
-                <div class="dp-calification">
-                  <span class="dp-useremail-campaign">
+                <div className="dp-calification">
+                  <span className="dp-useremail-campaign">
                     <strong>{state.subscriber.email}</strong>
                   </span>
                   <StarsScore score={state.subscriber.score} />
                 </div>
-                <span class="dp-username-campaing">
+                <span className="dp-username-campaing">
                   {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
                   {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
                 </span>
@@ -191,7 +191,7 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                         <Pagination
                           currentPage={state.currentPage}
                           pagesCount={state.pagesCount}
-                          urlToGo={`/reports/campaigns-history?email=${state.subscriber.email}&`}
+                          urlToGo={`/reports/subscriber-history?email=${state.subscriber.email}&`}
                         />
                       </td>
                     </tr>
@@ -201,7 +201,29 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                       <>
                         {state.sentCampaigns.map((campaign, index) => (
                           <tr key={index}>
-                            <td>{campaign.campaignName}</td>
+                            <td>
+                              {campaign.urlImgPreview ? (
+                                <div className="dp-tooltip-container">
+                                  <a
+                                    href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                  >
+                                    {campaign.campaignName}
+                                    <div className="dp-tooltip-block">
+                                      <img
+                                        src={campaign.urlImgPreview}
+                                        alt={_('subscriber_history.alt_image')}
+                                      />
+                                    </div>
+                                  </a>
+                                </div>
+                              ) : (
+                                <a
+                                  href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                >
+                                  {campaign.campaignName}
+                                </a>
+                              )}
+                            </td>
                             <td>{campaign.campaignSubject}</td>
                             <td>
                               <span
@@ -219,9 +241,13 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                         ))}
                       </>
                     ) : (
-                      <p className="dp-boxshadow--usermsg bounceIn">
-                        <FormattedMessage id="subscriber_history.empty_data" />
-                      </p>
+                      <tr>
+                        <td>
+                          <p className="dp-boxshadow--usermsg bounceIn">
+                            <FormattedMessage id="subscriber_history.empty_data" />
+                          </p>
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>

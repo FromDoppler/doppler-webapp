@@ -69,13 +69,8 @@ const campaignDeliveryItems = [...Array(100)].map((_, index) => {
     campaignSubject: '¿Como sacarle provecho a la primavera?',
     deliveryStatus: getDeliveryStatus(Math.round(Math.random() * (5 - 1) + 1)),
     clicksCount: Math.round(Math.random() * (100 - 1) + 1),
-    links: [
-      {
-        href: 'http://dopplerfilesint.fromdoppler.net/Users/50018/Campaigns/33850437/33850437.png',
-        description: 'get preview',
-        rel: '/docs/rels/get-campaign-preview',
-      },
-    ],
+    urlImgPreview:
+      'http://dopplerfilesint.fromdoppler.net/Users/50018/Campaigns/33850437/33850437.png',
   };
 });
 

@@ -28,12 +28,6 @@ interface Fields {
   type: string;
 }
 
-interface Link {
-  href: string;
-  description: string;
-  rel: string;
-}
-
 export interface Subscriber {
   email: string;
   fields: Fields[];
@@ -51,7 +45,7 @@ interface CampaignDelivery {
   campaignSubject: string;
   clicksCount: number;
   deliveryStatus: string;
-  links: Link[];
+  urlImgPreview: string;
 }
 
 export interface CampaignDeliveryCollection {
@@ -128,12 +122,9 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
-  private mapLinks(data: any): Link[] {
-    return data.map((x: any) => ({
-      href: x.href,
-      description: x.description,
-      rel: x.rel,
-    }));
+  private searchLinkByRel(items: any, rel: string) {
+    const imgPreview = items.find((x: any) => x.rel.includes(rel));
+    return imgPreview ? imgPreview.href : '';
   }
 
   private mapCampaignsDelivery(data: any): CampaignDelivery[] {
@@ -143,7 +134,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       campaignSubject: x.campaignSubject,
       clicksCount: x.clicksCount,
       deliveryStatus: x.deliveryStatus,
-      links: this.mapLinks(x._links),
+      urlImgPreview: this.searchLinkByRel(x._links, '/docs/rels/get-campaign-preview'),
     }));
   }
 
