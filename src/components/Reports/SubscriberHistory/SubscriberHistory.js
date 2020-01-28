@@ -223,7 +223,6 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                         <FormattedMessage id="subscriber_history.empty_data" />
                       </p>
                     )}
-                    {}
                   </tbody>
                 </table>
               </div>
