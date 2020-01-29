@@ -1,5 +1,5 @@
 ## Build layer
-FROM node:10 as build
+FROM node:13 as build
 WORKDIR /app
 COPY package.json yarn.lock ./
 
