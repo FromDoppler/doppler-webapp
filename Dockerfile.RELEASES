@@ -1,5 +1,5 @@
 ## Build layer
-FROM node:10 as verify
+FROM node:12.14.1 as verify
 WORKDIR /app
 COPY package.json yarn.lock ./
 
