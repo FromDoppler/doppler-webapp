@@ -151,6 +151,14 @@ export function isWhitelisted(url: string) {
     'https://prod.doppleracademy.com/',
     'https://doppleracademy.com/',
     'http://doppleracademy.com/',
+    'https://app2.bancoprovinciamail.com.ar/',
+    'https://app2.fromdoppler.com/',
+    'http://localhost:',
+    'http://localhost/',
+    'https://localhost:',
+    'https://localhost/',
+    'https://appint.fromdoppler.com/',
+    'https://appqa.fromdoppler.com/',
   ];
   return !!url && loginWhitelist.some((element) => url.startsWith(element));
 }
