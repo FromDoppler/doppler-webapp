@@ -325,6 +325,7 @@ export default {
     table_result: {
       aria_label_table: `Campaign History result`,
     },
+    unsubscribed_date: 'Unsubscribed Date:',
   },
   trafficSources: {
     direct: `Direct`,
