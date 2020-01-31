@@ -5,14 +5,14 @@ export const Pagination = ({ currentPage, pagesCount, urlToGo }) => {
   const pageNumbers = [...Array(pagesCount)].map((_, index) => index + 1);
 
   return (
-    <div>
+    <nav className="dp-pagination">
       <ul>
         {pageNumbers.map((number) => (
-          <li key={number} style={{ display: 'inline-block', marginLeft: '5px' }}>
+          <li key={number}>
             <Link to={`${urlToGo}page=${number}`}>{number}</Link>
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 };
