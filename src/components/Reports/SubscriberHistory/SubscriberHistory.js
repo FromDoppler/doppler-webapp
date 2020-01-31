@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
 import queryString from 'query-string';
 import { getSubscriberStatusCssClassName, extractParameter } from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
@@ -99,19 +99,26 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                   ></span>
                   <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
                 </span>
-                {/* TODO: add logic of, Date, IP and Origin campaign.
+                {state.subscriber.status.includes('unsubscribed') ? (
                   <ul class="dp-rowflex col-sm-12 dp-subscriber-info">
                     <li class="col-sm-12 col-md-4 col-lg-3">
-                      <span class="dp-block-info">Fecha de Remoción:</span><span>22/12/2016</span>
+                      <span class="dp-block-info">
+                        <FormattedMessage id="subscriber_history.unsubscribed_date" />
+                      </span>
+                      <span>
+                        <FormattedDate value={state.subscriber.unsubscribedDate} />
+                      </span>
                     </li>
+                    {/* TODO: add logic of, Date, IP and Origin campaign.
                     <li class="col-sm-12 col-md-4 col-lg-3">
                       <span class="dp-block-info">IP origen de Remoción:</span><span>200.5.229.58</span>
                     </li>
                     <li class="col-sm-12 col-md-4 col-lg-5">
                       <span class="dp-block-info">Campaña origen de Remoción:</span><a href="#">Campaña Estacional de Primavera</a>
                     </li>
+                    */}
                   </ul>
-                */}
+                ) : null}
               </div>
               {/* TODO: add kpi logic
             <div class="dp-rowflex col-lg-6 col-md-12">

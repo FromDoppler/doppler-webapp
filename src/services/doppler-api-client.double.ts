@@ -45,7 +45,7 @@ const subscriber = {
   unsubscriptionType: 'hardBounce',
   manualUnsubscriptionReason: 'administrative',
   unsubscriptionComment: 'test',
-  status: 'active',
+  status: 'unsubscribed_by_hard',
   score: 2,
 };
 
