@@ -16,7 +16,7 @@ docker run --rm \
     -v `pwd`:/work \
     -w /work \
     -e CHOKIDAR_USEPOLLING=true \
-    node:10 \
+    node:12.14.1 \
     /bin/sh -c "\
         yarn \
         && yarn start \

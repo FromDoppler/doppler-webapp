@@ -13,7 +13,7 @@ export MSYS2_ARG_CONV_EXCL="*"
 docker run --rm \
     -v `pwd`:/work \
     -w /work \
-    node:10 \
+    node:12.14.1 \
     /bin/sh -c "\
         yarn \
         && yarn verify \

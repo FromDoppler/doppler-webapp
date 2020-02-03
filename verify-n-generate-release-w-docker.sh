@@ -23,7 +23,7 @@ docker run --rm \
     -e "NPM_TOKEN=00000000-0000-0000-0000-000000000000" \
     -v `pwd`:/work \
     -w /work \
-    node:10 \
+    node:12.14.1 \
     /bin/sh -c "\
         yarn \
         && yarn semantic-release \
