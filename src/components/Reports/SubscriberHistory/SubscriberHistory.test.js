@@ -76,7 +76,7 @@ describe('SubscriberHistory component', () => {
     );
   });
 
-  it('should show error message', async () => {
+  it('redirect to master subscriber', async () => {
     // Arrange
     const dopplerApiClientDouble = {
       getSubscriberSentCampaigns: async () => {
@@ -86,14 +86,18 @@ describe('SubscriberHistory component', () => {
         return { success: false };
       },
     };
+    const dependencies = {
+      window: { location: { href: '' } },
+      appConfiguration: {
+        dopplerLegacyUrl: 'http://localhost:52191',
+      },
+      dopplerApiClient: dopplerApiClientDouble,
+    };
+    const toUrl = '/Lists/MasterSubscriber/';
 
     // Act
-    const { getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerApiClient: dopplerApiClientDouble,
-        }}
-      >
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
           <BrowserRouter>
             <SubscriberHistory />
@@ -102,7 +106,11 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
+    await wait(() =>
+      expect(dependencies.window.location.href).toBe(
+        dependencies.appConfiguration.dopplerLegacyUrl + toUrl,
+      ),
+    );
   });
 
   it('should show empty message', async () => {

@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import { getSubscriberStatusCssClassName, extractParameter } from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import { Pagination } from '../../shared/Pagination/Pagination';
+import SafeRedirect from '../../SafeRedirect';
 
 const getDeliveryStatusCssClassName = (deliveryStatus) => {
   let deliveryCssClass = '';
@@ -73,7 +74,7 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
 
   return state.loading ? (
     <Loading />
-  ) : state.sentCampaigns ? (
+  ) : state.subscriber ? (
     <section className="dp-container">
       <div className="dp-rowflex">
         <div className="col-sm-12 m-t-24 m-b-36">
@@ -265,9 +266,7 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
       </div>
     </section>
   ) : (
-    <p className="dp-boxshadow--error bounceIn">
-      <FormattedMessage id="common.unexpected_error" />
-    </p>
+    <SafeRedirect to="/Lists/MasterSubscriber/" />
   );
 };
 
