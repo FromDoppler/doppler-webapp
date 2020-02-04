@@ -84,14 +84,14 @@ const MasterSubscriberCurrentSearch = ({ searchText, dependencies: { dopplerApiC
                     <StarsScore score={subscriber.score} />
                   </td>
                   <td>
-                    <span
-                      style={{
-                        position: 'relative',
-                        'margin-right': '20px',
-                        'vertical-align': 'super',
-                      }}
-                      className={getSubscriberStatusCssClassName(subscriber.status)}
-                    ></span>
+                    <div class="dp-icon-wrapper">
+                      <span
+                        className={
+                          'ms-icon icon-user ' + getSubscriberStatusCssClassName(subscriber.status)
+                        }
+                      ></span>
+                      <FormattedMessage id={'subscriber.status.' + subscriber.status} />
+                    </div>
                   </td>
                 </tr>
               ))}
