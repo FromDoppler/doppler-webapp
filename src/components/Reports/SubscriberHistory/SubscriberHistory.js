@@ -251,10 +251,13 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                     ) : (
                       <tr>
                         <td>
-                          <p className="dp-boxshadow--usermsg bounceIn">
+                          <span className="bounceIn">
                             <FormattedMessage id="subscriber_history.empty_data" />
-                          </p>
+                          </span>
                         </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                       </tr>
                     )}
                   </tbody>
