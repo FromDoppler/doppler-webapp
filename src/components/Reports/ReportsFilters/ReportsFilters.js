@@ -88,6 +88,7 @@ const ReportsFilters = ({
                     >
                       {(message) => <option value="7">{message}</option>}
                     </FormattedMessage>
+                    {/* **temporarily remove until DH performance issues can be addresed
                     <FormattedMessage
                       id="reports_filters.week_with_plural"
                       values={{ weeksCount: 2 }}
@@ -99,7 +100,7 @@ const ReportsFilters = ({
                       values={{ weeksCount: 3 }}
                     >
                       {(message) => <option value="21">{message}</option>}
-                    </FormattedMessage>
+                    </FormattedMessage>*/}
                   </select>
                 </fieldset>
               </div>
