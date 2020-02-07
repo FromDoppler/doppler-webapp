@@ -307,7 +307,7 @@ export default {
       active: 'Activo',
       inactive: 'Activo no Asociado a Listas',
       pending: 'Pendiente',
-      stand_by: 'En Espera de Ampliación de Plan',
+      standBy: 'En Espera de Ampliación de Plan',
       unsubscribed_by_client: 'Removido por el Cliente',
       unsubscribed_by_hard: 'Removido por Rebote Hard',
       unsubscribed_by_never_open: 'Removido por No Aperturas',

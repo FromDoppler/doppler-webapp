@@ -120,7 +120,7 @@ export function getSubscriberStatusCssClassName(status: string) {
     case 'unsubscribed_by_client':
       subscriberCssClass = 'user--removed-client';
       break;
-    case 'stand_by':
+    case 'standBy':
       subscriberCssClass = 'user--stand-by';
       break;
     default:

@@ -305,7 +305,7 @@ export default {
       active: 'Active',
       inactive: 'Active not Associated to List',
       pending: 'Pending',
-      stand_by: 'On Hold waiting for Upgrade',
+      standBy: 'On Hold waiting for Upgrade',
       unsubscribed_by_client: 'Removed by Client',
       unsubscribed_by_hard: 'Removed by Hard-Bounced',
       unsubscribed_by_never_open: 'Removed by Never-Opened',
