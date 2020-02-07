@@ -29,6 +29,10 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
   return deliveryCssClass;
 };
 
+const replaceSpaceWithSigns = (url) => {
+  return url ? url.replace(' ', '+') : '';
+};
+
 const campaignsPerPage = 10;
 
 const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => {
@@ -39,7 +43,7 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const email = extractParameter(location, queryString.parse, 'email');
+      const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
       const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
       if (responseSubscriber.success) {

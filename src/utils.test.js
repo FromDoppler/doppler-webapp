@@ -226,6 +226,19 @@ describe('utils', () => {
       expect(param).toEqual('http://mypage.com');
     });
 
+    it('should map parameter with char +', () => {
+      // Arrange
+      var location = {
+        search: '?email=fcoronel+2@makingsense.com',
+      };
+
+      // Act
+      var param = extractParameter(location, queryString.parse, 'email');
+
+      // Assert
+      expect(param).toEqual('fcoronel 2@makingsense.com');
+    });
+
     it('should return null if parameter does not exist', () => {
       // Arrange
       var location = {
