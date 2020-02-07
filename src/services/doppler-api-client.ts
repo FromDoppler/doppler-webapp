@@ -146,7 +146,12 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       unsubscriptionType: x.unsubscriptionType,
       manualUnsubscriptionReason: x.manualUnsubscriptionReason,
       unsubscriptionComment: x.unsubscriptionComment,
-      status: x.status,
+      status: this.getSubscriberStatus(
+        x.status,
+        x.belongsToLists,
+        x.unsubscriptionType,
+        x.manualUnsubscriptionReason,
+      ),
       score: x.score,
     }));
   }
