@@ -18,7 +18,7 @@ import { addDays, getStartOfDate } from '../../utils';
 import { BoxMessage } from '../styles/messages';
 
 // This value means the today date
-const periodSelectedDaysDefault = 7;
+const periodSelectedDaysDefault = 0; /* set this value temporarily for datahub performance issue */
 
 /**
  * @param { Object } props
