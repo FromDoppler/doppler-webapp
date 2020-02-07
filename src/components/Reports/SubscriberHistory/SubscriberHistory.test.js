@@ -177,6 +177,37 @@ describe('SubscriberHistory component', () => {
     await wait(() => expect(getByText('Manuel')).toBeInTheDocument());
   });
 
+  it('should show stand by status', async () => {
+    // Arrange
+    const subscriberStandBy = subscriber;
+    subscriberStandBy.status = 'standBy';
+    const dopplerApiClientDouble = {
+      getSubscriberSentCampaigns: async () => {
+        return { success: true, value: campaignDeliveryCollection };
+      },
+      getSubscriber: async () => {
+        return { success: true, value: subscriber };
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <SubscriberHistory />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+    // Assert
+    await wait(() => expect(getByText('subscriber.status.standBy')).toBeInTheDocument());
+  });
+
   it('should show soft and hard bounced delivery status', async () => {
     // Arrange
     const campaignDeliveryCollection = {
