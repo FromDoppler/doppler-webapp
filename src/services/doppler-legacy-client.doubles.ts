@@ -35,6 +35,12 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     //   trace: new Error(),
     //   fullResponse: { test: 'test' },
     // };
+    // return {
+    //   expectedError: { wrongCaptcha: true },
+    //   message: 'response.data.error' || null,
+    //   trace: new Error(),
+    //   fullResponse: 'full header response',
+    // };
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {

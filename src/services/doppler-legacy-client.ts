@@ -39,6 +39,7 @@ export type LoginErrorResult =
       blockedAccountInvalidPassword?: false;
       invalidLogin?: false;
       maxLoginAttempts?: false;
+      wrongCaptcha?: false;
     }
   | {
       accountNotValidated: true;
@@ -47,6 +48,7 @@ export type LoginErrorResult =
       blockedAccountInvalidPassword?: false;
       invalidLogin?: false;
       maxLoginAttempts?: false;
+      wrongCaptcha?: false;
     }
   | {
       cancelatedAccount: true;
@@ -55,6 +57,7 @@ export type LoginErrorResult =
       blockedAccountInvalidPassword?: false;
       invalidLogin?: false;
       maxLoginAttempts?: false;
+      wrongCaptcha?: false;
     }
   | {
       blockedAccountInvalidPassword: true;
@@ -63,6 +66,7 @@ export type LoginErrorResult =
       cancelatedAccount?: false;
       invalidLogin?: false;
       maxLoginAttempts?: false;
+      wrongCaptcha?: false;
     }
   | {
       invalidLogin: true;
@@ -71,6 +75,7 @@ export type LoginErrorResult =
       accountNotValidated?: false;
       cancelatedAccount?: false;
       maxLoginAttempts?: false;
+      wrongCaptcha?: false;
     }
   | {
       blockedAccountInvalidPassword: true;
@@ -79,6 +84,16 @@ export type LoginErrorResult =
       cancelatedAccount?: false;
       invalidLogin?: false;
       maxLoginAttempts: true;
+      wrongCaptcha?: false;
+    }
+  | {
+      blockedAccountInvalidPassword: true;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+      invalidLogin?: false;
+      maxLoginAttempts: true;
+      wrongCaptcha?: true;
     };
 
 export type LoginResult = Result<{ redirectUrl?: string }, LoginErrorResult>;
@@ -339,6 +354,14 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           }
           case 'MaxLoginAttempts': {
             return { expectedError: { maxLoginAttempts: true } };
+          }
+          case 'WrongCatpcha': {
+            return {
+              expectedError: { wrongCaptcha: true },
+              message: response.data.error || null,
+              trace: new Error(),
+              fullResponse: response,
+            };
           }
           default: {
             return {

@@ -140,6 +140,16 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         });
       } else if (result.expectedError && result.expectedError.invalidLogin) {
         setErrors({ _error: 'validation_messages.error_invalid_login' });
+      } else if (result.expectedError && result.expectedError.wrongCaptcha) {
+        setErrors({ _error: 'validation_messages.error_invalid_captcha' });
+        addLogEntry({
+          account: values[fieldNames.user],
+          origin: window.location.origin,
+          section: 'Login',
+          browser: window.navigator.userAgent,
+          error: result,
+        });
+        console.log('invalid captcha', result);
       } else {
         console.log('Unexpected error', result);
         setErrors({
