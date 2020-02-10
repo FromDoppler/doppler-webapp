@@ -3704,10 +3704,10 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-c3@^0.7.12:
-  version "0.7.12"
-  resolved "https://registry.yarnpkg.com/c3/-/c3-0.7.12.tgz#ad6205703bab9c2cbedc0223ba7fb2aabc31e94b"
-  integrity sha512-8gXyKMr9oM171aRGCOqezwEbWwEtIKmEkyvdfgH4oIunSsiTVWyw9Cz6os78LkYPRLMbHDgKcjkQh4EPCrRupQ==
+c3@^0.7.13:
+  version "0.7.13"
+  resolved "https://registry.yarnpkg.com/c3/-/c3-0.7.13.tgz#09747390b82d128a33ef64c960689cf7d1c2daaa"
+  integrity sha512-Oiig0xI85y3FnD2FOrFn8TG1R5KgWmgvRxyV+ssG3StZm9kU4s2C32ONZpoXRpR/cq+Plk3RxlGKRzpBYAyxKw==
   dependencies:
     d3 "^5.8.0"
 
