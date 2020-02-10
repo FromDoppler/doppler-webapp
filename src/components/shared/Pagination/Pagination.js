@@ -9,7 +9,12 @@ export const Pagination = ({ currentPage, pagesCount, urlToGo }) => {
       <ul>
         {pageNumbers.map((number) => (
           <li key={number}>
-            <Link to={`${urlToGo}page=${number}`}>{number}</Link>
+            <Link
+              className={number === Number(currentPage) ? 'dp-active-page' : ''}
+              to={`${urlToGo}page=${number}`}
+            >
+              {number}
+            </Link>
           </li>
         ))}
       </ul>
