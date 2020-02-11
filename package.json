@@ -44,13 +44,14 @@
     "react-test-renderer": "^16.12.0",
     "semantic-release": "^15.14.0",
     "styled-components": "^4.4.1",
+    "stylelint": "^13.0.0",
     "typescript": "^3.7.5",
     "url-parse": "^1.4.7"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "verify": "yarn prettier-check && yarn eclint && yarn test:ci",
+    "verify": "yarn prettier-check && yarn eclint && yarn test:ci && yarn stylelint",
     "build:production": "env-cmd -f .env.production yarn build",
     "build:qa": "env-cmd -f .env.qa yarn build",
     "build:int": "env-cmd -f .env.int yarn build",
@@ -61,7 +62,8 @@
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\"",
-    "prettier-check": "prettier-check \"src/**/*.{js,jsx,ts,tsx,css}\""
+    "prettier-check": "prettier-check \"src/**/*.{js,jsx,ts,tsx,css}\"",
+    "stylelint": "stylelint \"src/**/*.{js,css}\" --config \"src/.stylelintrc.json\""
   },
   "prettier": {
     "semi": true,

@@ -9,13 +9,14 @@ const slowGrowing = keyframes`
   }
 
   100% {
-    transform: scaleX(1);
+    transform: scaleX(1)
   }
 `;
 
 export const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+
   & > div {
     width: 100%;
   }
@@ -24,9 +25,11 @@ export const ContentContainer = styled.div`
 export const ListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+
   & > div:nth-child(odd) {
     background: ${colors.smoothGrey};
   }
+
   & > div:nth-child(n + 4) {
     margin-top: ${spacings.spacesLvl0};
     @media (min-width: 768px) {
@@ -36,14 +39,13 @@ export const ListContainer = styled.div`
 `;
 
 export const ListItem = styled.div`
-  border-top: 1px solid ${colors.softGrey}
+  border-top: 1px solid ${colors.softGrey};
   padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5} ${spacings.spacesLvl7};
 
   @media (min-width: 768px) {
     border-bottom: 1px solid ${colors.softGrey};
     border-top: 1px solid ${colors.softGrey};
   }
-
 `;
 
 export const ListItemHeader = styled.header`
@@ -72,9 +74,11 @@ export const ListItemHeader = styled.header`
 
   span {
     font-size: ${fonts.fontLvl3};
+
     span {
-       margin-left: ${spacings.spacesLvl1};
+      margin-left: ${spacings.spacesLvl1};
     }
+  }
 `;
 
 export const ListItemDetail = styled.div`
@@ -82,20 +86,24 @@ export const ListItemDetail = styled.div`
   span {
     font-weight: ${fonts.fontStrong};
   }
+
   p {
     font-size: ${fonts.fontLvl1};
     color: ${colors.lightGrey};
     margin: ${spacings.spacesLvl0};
   }
+
   span {
     color: ${colors.darkGrey};
     font-size: ${fonts.fontLvl3};
   }
+
   & > div {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-top: ${spacings.spacesLvl5};
+
     & > div {
       width: 70%;
     }

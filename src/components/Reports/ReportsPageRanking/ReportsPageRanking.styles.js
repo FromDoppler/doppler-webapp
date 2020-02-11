@@ -9,6 +9,7 @@ export const ReportBox = ({ children }) => <div className="reports-box">{childre
 export const ContentContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+
   & > div {
     width: 100%;
     padding: 0;
@@ -59,9 +60,11 @@ export const ListItemRightColumn = styled(ListItemColumn)`
   p {
     font-weight: ${fonts.fontStrong};
     margin: ${spacings.spacesLvl0};
+
     &.visits--withemail {
       color: ${colors.purple3};
     }
+
     &.visits--withoutemail {
       color: ${colors.darkYellow};
       margin-top: ${spacings.spacesLvl3};
@@ -74,10 +77,12 @@ export const GridFooter = styled.div`
   padding: ${spacings.spacesLvl2} ${spacings.spacesLvl5} ${spacings.spacesLvl3}
     ${spacings.spacesLvl0};
   font-size: ${fonts.fontLvl3};
+
   button {
     text-transform: uppercase;
     padding: ${spacings.spacesLvl5} ${spacings.spacesLvl9};
   }
+
   &::after {
     content: '';
     width: ${spacings.spacesLvl0};
@@ -96,6 +101,7 @@ export const GridFooter = styled.div`
 export const SpinnerContainer = styled.div`
   position: relative;
   height: 150px;
+
   .loading-box {
     background: none;
   }
