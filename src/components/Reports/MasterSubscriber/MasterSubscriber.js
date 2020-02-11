@@ -79,8 +79,11 @@ const MasterSubscriber = () => {
                     >
                       <fieldset>
                         <legend>{_('master_subscriber.search_form.search_form_legend')}</legend>
-                        <ul class="field-group dp-rowflex" aria-labelledby="searchMasterSubscriber">
-                          <li class="field-item col-lg-6 col-md-6 col-sm-12 dp-t-inputsh">
+                        <ul
+                          className="field-group dp-rowflex"
+                          aria-labelledby="searchMasterSubscriber"
+                        >
+                          <li className="field-item col-lg-6 col-md-6 col-sm-12 dp-t-inputsh">
                             <Field
                               className="dp-searchemail"
                               aria-label={_('master_subscriber.search_form.aria_search_field')}

@@ -86,8 +86,8 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
             ) : (
               <>
                 {state.pages.map((item, index) => (
-                  <div className="col-sm-12">
-                    <S.ListItem key={index}>
+                  <div key={index} className="col-sm-12">
+                    <S.ListItem>
                       <div className="col-sm-12 col-md-8 col-lg-8">
                         <S.ListItemColumn>
                           <p>
