@@ -84,7 +84,7 @@ const MasterSubscriberCurrentSearch = ({ searchText, dependencies: { dopplerApiC
                     <StarsScore score={subscriber.score} />
                   </td>
                   <td>
-                    <div class="dp-icon-wrapper">
+                    <div className="dp-icon-wrapper">
                       <span
                         className={
                           'ms-icon icon-user ' + getSubscriberStatusCssClassName(subscriber.status)

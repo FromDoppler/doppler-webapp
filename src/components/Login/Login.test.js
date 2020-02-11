@@ -24,7 +24,7 @@ describe('Login component', () => {
     };
 
     // Act
-    const { container, getByText } = render(
+    const { getByText } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
           <Router>
@@ -35,7 +35,6 @@ describe('Login component', () => {
     );
 
     await waitForDomChange();
-    console.log(container);
     expect(getByText('login.button_login')).toBeInTheDocument();
   });
 });
