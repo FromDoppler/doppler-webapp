@@ -308,17 +308,27 @@ export interface DopplerLegacyUpgradePlanContactModel {
 export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
+  private window: any;
 
   private isEnabledForRetry(error: AxiosError) {
     return error.config && error.config.url === 'WebAppPublic/Login';
   }
 
-  constructor({ axiosStatic, baseUrl }: { axiosStatic: AxiosStatic; baseUrl: string }) {
+  constructor({
+    axiosStatic,
+    baseUrl,
+    window,
+  }: {
+    axiosStatic: AxiosStatic;
+    baseUrl: string;
+    window: any;
+  }) {
     this.baseUrl = baseUrl;
     this.axios = axiosStatic.create({
       baseURL: baseUrl,
       withCredentials: true,
     });
+    this.window = window;
 
     axiosRetry(this.axios, {
       retries: 3,
