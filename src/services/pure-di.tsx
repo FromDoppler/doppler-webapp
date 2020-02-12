@@ -108,6 +108,7 @@ export class AppCompositionRoot implements AppServices {
         new HttpDopplerLegacyClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerLegacyUrl,
+          window: this.window,
         }),
     );
   }

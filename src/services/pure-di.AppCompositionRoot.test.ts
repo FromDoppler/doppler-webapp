@@ -60,7 +60,7 @@ describe('AppCompositionRoot', () => {
     // Assert
     expect(result).not.toBeNull();
     expect(spyAxiosCreate).toHaveBeenCalledTimes(1);
-    verifyInstances(sut, ['axiosStatic', 'appConfiguration', 'dopplerLegacyClient']);
+    verifyInstances(sut, ['axiosStatic', 'appConfiguration', 'dopplerLegacyClient', 'window']);
   });
 
   it('should make honor to injected configuration when creating axios instance', () => {
@@ -84,7 +84,7 @@ describe('AppCompositionRoot', () => {
       baseURL: configuration.dopplerLegacyUrl,
       withCredentials: true,
     });
-    verifyInstances(sut, ['axiosStatic', 'appConfiguration', 'dopplerLegacyClient']);
+    verifyInstances(sut, ['axiosStatic', 'appConfiguration', 'dopplerLegacyClient', 'window']);
   });
 
   it('should not create axios instance after when doppler legacy client is a double', () => {
