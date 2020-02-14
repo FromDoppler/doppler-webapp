@@ -3,6 +3,7 @@ import {
   Subscriber,
   CampaignDeliveryCollection,
   SubscriberCollection,
+  CampaignSummaryResults,
 } from './doppler-api-client';
 import { SubscriberList } from './shopify-client';
 import { ResultWithoutExpectedErrors } from '../doppler-types';
@@ -208,6 +209,24 @@ const subscriberCollection = {
   pagesCount: 1,
 };
 
+const campaignSummaryResults = {
+  totalRecipients: 500,
+  successFullDeliveries: 20,
+  timesForwarded: 0,
+  totalTimesOpened: 2,
+  lastOpenDate: '2019-11-27T18:05:40.847Z',
+  uniqueClicks: 3,
+  uniqueOpens: 3,
+  totalUnopened: 24,
+  totalHardBounces: 0,
+  totalSoftBounces: 0,
+  totalClicks: 2,
+  lastClickDate: '2019-11-27T18:05:40.847Z',
+  totalUnsubscribers: 5,
+  campaignStatus: 'shipping',
+  totalShipped: 50,
+};
+
 export class HardcodedDopplerApiClient implements DopplerApiClient {
   public async getListData(
     idList: number,
@@ -287,6 +306,23 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     return {
       success: true,
       value: subscriberCollection,
+    };
+
+    // return {
+    //   success: false,
+    //   error: new Error('Dummy error'),
+    // };
+  }
+
+  public async getCampaignSummaryResults(
+    campaignId: number,
+  ): Promise<ResultWithoutExpectedErrors<CampaignSummaryResults>> {
+    console.log('getCampaignsSummaryResult');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: campaignSummaryResults,
     };
 
     // return {

@@ -382,4 +382,57 @@ describe('HttpDopplerApiClient', () => {
       expect(result.value.items[0].email).toEqual('test@fromdoppler.com');
     });
   });
+
+  describe('GetCampaignsSummaryResults', () => {
+    it('should get and error', async () => {
+      // Arrange
+      const request = jest.fn(async () => {});
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+      const campaignId = 123321;
+
+      // Act
+      const result = await dopplerApiClient.getCampaignSummaryResults(campaignId);
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should get correct data', async () => {
+      // Arrange
+      const campaignSummaryResults = {
+        data: {
+          totalRecipients: 500,
+          successFullDeliveries: 20,
+          timesForwarded: 0,
+          totalTimesOpened: 2,
+          lastOpenDate: '2019-11-27T18:05:40.847Z',
+          uniqueClicks: 3,
+          uniqueOpens: 3,
+          totalUnopened: 24,
+          totalHardBounces: 0,
+          totalSoftBounces: 0,
+          totalClicks: 2,
+          lastClickDate: '2019-11-27T18:05:40.847Z',
+          totalUnsubscribers: 5,
+          campaignStatus: 'shipping',
+          totalShipped: 50,
+        },
+      };
+      const request = jest.fn(async () => campaignSummaryResults);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+      const campaignId = 123321;
+
+      // Act
+      const result = await dopplerApiClient.getCampaignSummaryResults(campaignId);
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.totalRecipients).toEqual(500);
+      expect(result.value.campaignStatus).toEqual('shipping');
+    });
+  });
 });
