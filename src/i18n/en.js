@@ -313,6 +313,11 @@ export default {
       unsubscribed_by_subscriber: 'Removed by Subscriber',
     },
   },
+  subscriber_gdpr: {
+    header_title: 'Subscriber GDPR state',
+    page_description: 'Subscriber GDPR permission state.',
+    page_title: 'Subscriber GDPR state',
+  },
   subscriber_history: {
     alt_image: 'Campaign Preview',
     delivery_status: {
