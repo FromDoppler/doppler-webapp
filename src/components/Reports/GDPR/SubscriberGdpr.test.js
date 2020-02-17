@@ -6,27 +6,69 @@ import SubscriberGdpr from './SubscriberGdpr';
 import { AppServicesProvider } from '../../../services/pure-di';
 
 describe('SubscriberGdpr report component', () => {
+  const subscriber = {
+    email: 'test@test.com',
+    fields: [
+      {
+        name: 'FIRSTNAME',
+        value: 'Manuel',
+        predefined: true,
+        private: true,
+        readonly: true,
+        type: 'boolean',
+      },
+    ],
+    unsubscribedDate: '2019-11-27T18:05:40.847Z',
+    unsubscriptionType: 'hardBounce',
+    manualUnsubscriptionReason: 'administrative',
+    unsubscriptionComment: 'test',
+    status: 'active',
+    score: 0,
+  };
+
+  const dopplerApiClientDouble = {
+    getSubscriberSentCampaigns: async () => {
+      return { success: true, value: campaignDeliveryCollection };
+    },
+    getSubscriber: async () => {
+      return { success: true, value: subscriber };
+    },
+  };
+
   afterEach(cleanup);
 
   it('renders subscriber gdpr report without error', () => {
     // Arrange
     // Act
     render(
-      <IntlProvider>
-        <SubscriberGdpr />
-      </IntlProvider>,
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <SubscriberGdpr />
+        </IntlProvider>
+      </AppServicesProvider>,
     );
     // Assert
   });
 
-  it('renders subscriber gdpr intenationalized title', () => {
+  it('renders subscriber gdpr intenationalized title', async () => {
     // Arrange
     // Act
     const { getByText } = render(
-      <IntlProvider>
-        <SubscriberGdpr />
-      </IntlProvider>,
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <SubscriberGdpr />
+        </IntlProvider>
+      </AppServicesProvider>,
     );
+    await waitForDomChange();
     // Assert
     expect(getByText('subscriber_gdpr.header_title')).toBeInTheDocument();
   });
@@ -35,9 +77,15 @@ describe('SubscriberGdpr report component', () => {
     // Arrange
     // Act
     render(
-      <IntlProvider>
-        <SubscriberGdpr />
-      </IntlProvider>,
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <SubscriberGdpr />
+        </IntlProvider>
+      </AppServicesProvider>,
     );
     await waitForDomChange();
 
@@ -47,18 +95,14 @@ describe('SubscriberGdpr report component', () => {
 
   it('should show subscriber email', async () => {
     // Arrange
-    const subscriberEmail = 'email@email.com';
-    const dependencies = {
-      window: {
-        location: {
-          search: `?email=${subscriberEmail}`,
-        },
-      },
-    };
 
     // Act
     const { getByText } = render(
-      <AppServicesProvider forcedServices={dependencies}>
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
         <IntlProvider>
           <SubscriberGdpr />
         </IntlProvider>
@@ -66,8 +110,7 @@ describe('SubscriberGdpr report component', () => {
     );
 
     await waitForDomChange();
-
     // Assert
-    expect(getByText(subscriberEmail)).toBeInTheDocument();
+    expect(getByText(subscriber.email)).toBeInTheDocument();
   });
 });

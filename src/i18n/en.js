@@ -314,9 +314,17 @@ export default {
     },
   },
   subscriber_gdpr: {
+    empty_data: 'This Subscriber has not given or denied any permission.',
+    empty_html_text: 'With no legal text defined',
+    header_description: 'Here you can find all permissions given by a Subscriber. You will see data only if the Subscriber has either accepter or rejected a consent.',
     header_title: 'Subscriber GDPR state',
     page_description: 'Subscriber GDPR permission state.',
     page_title: 'Subscriber GDPR state',
+    permission_description: 'Custom text',
+    permission_name: 'Field Name',
+    permission_value: 'Value',
+    value_false: 'Rejected',
+    value_true: 'Accepted',
   },
   subscriber_history: {
     alt_image: 'Campaign Preview',
