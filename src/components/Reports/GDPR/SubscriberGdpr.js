@@ -158,13 +158,15 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                                     </td>
                                     <td>
                                       {field.value.toLowerCase() === 'true' ? (
-                                        <span className="status--opened">
+                                        <div className="dp-icon-wrapper">
+                                          <span className="ms-icon icon-lock dp-lock-green"></span>
                                           <FormattedMessage id="subscriber_gdpr.value_true" />
-                                        </span>
+                                        </div>
                                       ) : (
-                                        <span className="status--hard-bounced">
+                                        <div className="dp-icon-wrapper">
+                                          <span className="ms-icon icon-lock dp-lock-red"></span>
                                           <FormattedMessage id="subscriber_gdpr.value_false" />
-                                        </span>
+                                        </div>
                                       )}
                                     </td>
                                   </tr>
