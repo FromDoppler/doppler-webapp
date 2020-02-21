@@ -4,6 +4,7 @@ import {
   CampaignDeliveryCollection,
   SubscriberCollection,
   CampaignSummaryResults,
+  CampaignInfo,
 } from './doppler-api-client';
 import { SubscriberList } from './shopify-client';
 import { ResultWithoutExpectedErrors } from '../doppler-types';
@@ -218,8 +219,8 @@ const campaignSummaryResults = {
   uniqueClicks: 3,
   uniqueOpens: 3,
   totalUnopened: 24,
-  totalHardBounces: 0,
-  totalSoftBounces: 0,
+  totalHardBounces: 2,
+  totalSoftBounces: 3,
   totalClicks: 2,
   lastClickDate: '2019-11-27T18:05:40.847Z',
   totalUnsubscribers: 5,
@@ -323,6 +324,23 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     return {
       success: true,
       value: campaignSummaryResults,
+    };
+
+    // return {
+    //   success: false,
+    //   error: new Error('Dummy error'),
+    // };
+  }
+
+  private async getCampaignNameAndSubject(
+    campaignId: number,
+  ): Promise<ResultWithoutExpectedErrors<CampaignInfo>> {
+    console.log('getCampaignNameAndSubject');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: { name: 'Campaign test', subject: 'Subject test' },
     };
 
     // return {

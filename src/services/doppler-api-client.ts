@@ -16,6 +16,7 @@ export interface DopplerApiClient {
   getCampaignSummaryResults(
     idCampaign: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignSummaryResults>>;
+  getCampaignNameAndSubject(campaignId: number): Promise<ResultWithoutExpectedErrors<CampaignInfo>>;
 }
 interface DopplerApiConnectionData {
   jwtToken: string;
@@ -81,6 +82,11 @@ export interface CampaignSummaryResults {
   totalUnsubscribers: number;
   campaignStatus: string;
   totalShipped: number;
+}
+
+export interface CampaignInfo {
+  name: string;
+  subject: string;
 }
 
 export class HttpDopplerApiClient implements DopplerApiClient {
@@ -397,6 +403,30 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: this.mapCampaignSummaryResultsFields(data),
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getCampaignNameAndSubject(
+    campaignId: number,
+  ): Promise<ResultWithoutExpectedErrors<CampaignInfo>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/campaigns/${campaignId}`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      return {
+        success: true,
+        value: { name: data.name, subject: data.subject },
       };
     } catch (error) {
       return {

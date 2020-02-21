@@ -435,4 +435,44 @@ describe('HttpDopplerApiClient', () => {
       expect(result.value.campaignStatus).toEqual('shipping');
     });
   });
+
+  describe('GetCampaignNameAndSubject', () => {
+    it('should get and error', async () => {
+      // Arrange
+      const request = jest.fn(async () => {});
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+      const campaignId = 123321;
+
+      // Act
+      const result = await dopplerApiClient.getCampaignNameAndSubject(campaignId);
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should get correct data', async () => {
+      // Arrange
+      const campaignSummaryResults = {
+        data: {
+          name: 'Campaign test',
+          subject: 'Subject test',
+        },
+      };
+      const request = jest.fn(async () => campaignSummaryResults);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+      const campaignId = 123321;
+
+      // Act
+      const result = await dopplerApiClient.getCampaignNameAndSubject(campaignId);
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value.name).toEqual('Campaign test');
+      expect(result.value.subject).toEqual('Subject test');
+    });
+  });
 });
