@@ -24,13 +24,18 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
       if (responseSubscriber.success) {
         const subscriber = {
-          ...responseSubscriber.value,
           firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
           lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
+          email: responseSubscriber.value.email,
+          score: responseSubscriber.value.score,
+          status: responseSubscriber.value.status,
         };
         setState({
           loading: false,
           subscriber: subscriber,
+          fields: responseSubscriber.value.fields.filter(
+            (customField) => customField.type === 'permission' || customField.type === 'consent',
+          ),
           email: email,
         });
       } else {
@@ -129,48 +134,39 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {state.subscriber.fields.some(
-                            (element) =>
-                              element.type === 'permission' || element.type === 'consent',
-                          ) ? (
+                          {state.fields.length ? (
                             <>
-                              {state.subscriber.fields
-                                .filter(
-                                  (customField) =>
-                                    customField.type === 'permission' ||
-                                    customField.type === 'consent',
-                                )
-                                .map((field, index) => (
-                                  <tr key={index}>
-                                    <td>{field.name}</td>
-                                    <td>
-                                      {field.permissionHTML ? (
-                                        <div
-                                          dangerouslySetInnerHTML={{
-                                            __html: field.permissionHTML
-                                              .replace('<p>', '<span>')
-                                              .replace('</p>', '</span>'),
-                                          }}
-                                        />
-                                      ) : (
-                                        <FormattedMessage id="subscriber_gdpr.empty_html_text" />
-                                      )}
-                                    </td>
-                                    <td>
-                                      {field.value.toLowerCase() === 'true' ? (
-                                        <div className="dp-icon-wrapper">
-                                          <span className="ms-icon icon-lock dp-lock-green"></span>
-                                          <FormattedMessage id="subscriber_gdpr.value_true" />
-                                        </div>
-                                      ) : (
-                                        <div className="dp-icon-wrapper">
-                                          <span className="ms-icon icon-lock dp-lock-red"></span>
-                                          <FormattedMessage id="subscriber_gdpr.value_false" />
-                                        </div>
-                                      )}
-                                    </td>
-                                  </tr>
-                                ))}
+                              {state.fields.map((field, index) => (
+                                <tr key={index}>
+                                  <td>{field.name}</td>
+                                  <td>
+                                    {field.permissionHTML ? (
+                                      <div
+                                        dangerouslySetInnerHTML={{
+                                          __html: field.permissionHTML
+                                            .replace('<p>', '<span>')
+                                            .replace('</p>', '</span>'),
+                                        }}
+                                      />
+                                    ) : (
+                                      <FormattedMessage id="subscriber_gdpr.empty_html_text" />
+                                    )}
+                                  </td>
+                                  <td>
+                                    {field.value.toLowerCase() === 'true' ? (
+                                      <div className="dp-icon-wrapper">
+                                        <span className="ms-icon icon-lock dp-lock-green"></span>
+                                        <FormattedMessage id="subscriber_gdpr.value_true" />
+                                      </div>
+                                    ) : (
+                                      <div className="dp-icon-wrapper">
+                                        <span className="ms-icon icon-lock dp-lock-red"></span>
+                                        <FormattedMessage id="subscriber_gdpr.value_false" />
+                                      </div>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
                             </>
                           ) : (
                             <tr>
