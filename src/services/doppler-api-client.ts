@@ -198,8 +198,8 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       case 'pending':
         status = 'pending';
         break;
-      case 'standby':
-        status = 'standby';
+      case 'standBy':
+        status = 'standBy';
         break;
       case 'active':
         status = belongsToLists.length ? 'active' : 'inactive';
