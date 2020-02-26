@@ -3,7 +3,11 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
 import queryString from 'query-string';
-import { getSubscriberStatusCssClassName, extractParameter } from '../../../utils';
+import {
+  getSubscriberStatusCssClassName,
+  extractParameter,
+  replaceSpaceWithSigns,
+} from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import { Pagination } from '../../shared/Pagination/Pagination';
 import SafeRedirect from '../../SafeRedirect';
@@ -27,10 +31,6 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
       break;
   }
   return deliveryCssClass;
-};
-
-const replaceSpaceWithSigns = (url) => {
-  return url ? url.replace(' ', '+') : '';
 };
 
 const campaignsPerPage = 10;

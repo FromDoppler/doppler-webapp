@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import { getSubscriberStatusCssClassName, extractParameter } from './../../../utils';
+import {
+  getSubscriberStatusCssClassName,
+  extractParameter,
+  replaceSpaceWithSigns,
+} from './../../../utils';
 import queryString from 'query-string';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
@@ -12,10 +16,6 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [state, setState] = useState({ loading: true });
-
-  const replaceSpaceWithSigns = (url) => {
-    return url ? url.replace(' ', '+') : '';
-  };
 
   useEffect(() => {
     const fetchData = async () => {
