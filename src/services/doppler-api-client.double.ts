@@ -332,7 +332,7 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     // };
   }
 
-  private async getCampaignNameAndSubject(
+  public async getCampaignNameAndSubject(
     campaignId: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignInfo>> {
     console.log('getCampaignNameAndSubject');

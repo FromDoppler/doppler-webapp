@@ -37,6 +37,7 @@ export default {
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
     empty_data: `Your domain has no data to show in this section yet.`,
+    feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
     recaptcha_legal_HTML: `
@@ -225,6 +226,11 @@ export default {
     total_visits: `Unique visitors`,
     visits_with_email: `Users with email`,
     visits_without_email: `Users without email`,
+  },
+  reports_partials_campaigns: {
+    header_title: `Partial Campaign Reports`,
+    page_description: `Partial Campaign Reports`,
+    page_title: `Doppler | Partial Campaign Reports`,
   },
   reports_title: `Doppler | Reports`,
   shopify: {
