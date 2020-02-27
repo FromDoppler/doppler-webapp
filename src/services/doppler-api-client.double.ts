@@ -40,6 +40,58 @@ const subscriber = {
       readonly: true,
       type: 'string',
     },
+    {
+      name: 'BIRTHDAY',
+      value: '1983-09-28',
+      predefined: true,
+      private: false,
+      readonly: false,
+      type: 'date',
+    },
+    {
+      name: 'CONSENT',
+      value: 'False',
+      predefined: true,
+      private: false,
+      readonly: false,
+      type: 'consent',
+    },
+    {
+      name: 'Permiso2',
+      value: 'true',
+      predefined: false,
+      private: false,
+      readonly: false,
+      type: 'permission',
+      permissionHTML:
+        '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
+    },
+    {
+      name: 'lalo',
+      value: 'true',
+      predefined: false,
+      private: false,
+      readonly: false,
+      type: 'permission',
+    },
+    {
+      name: 'ddddSssss',
+      value: 'true',
+      predefined: false,
+      private: true,
+      readonly: false,
+      type: 'permission',
+    },
+    {
+      name: 'AceptaPromociones',
+      value: 'true',
+      predefined: false,
+      private: false,
+      readonly: false,
+      type: 'permission',
+      permissionHTML:
+        '<p>Haciendo click en el checkbox confirma y acepta nuestras <a href="google.com">bases y condiciones.</a></p>',
+    },
   ],
   unsubscribedDate: '2019-11-27T18:05:40.847Z',
   unsubscriptionType: 'hardBounce',
@@ -48,6 +100,26 @@ const subscriber = {
   status: 'unsubscribed_by_hard',
   score: 2,
 };
+
+// const subscriberWithNoGDPR = {
+//   email: 'test@fromdoppler.com',
+//   fields: [
+//     {
+//       name: 'FIRSTNAME',
+//       value: 'Manuel',
+//       predefined: true,
+//       private: false,
+//       readonly: true,
+//       type: 'string',
+//     },
+//   ],
+//   unsubscribedDate: '2019-11-27T18:05:40.847Z',
+//   unsubscriptionType: 'hardBounce',
+//   manualUnsubscriptionReason: 'administrative',
+//   unsubscriptionComment: 'test',
+//   status: 'unsubscribed_by_hard',
+//   score: 2,
+// };
 
 const getDeliveryStatus = (statusNumber: number) => {
   switch (statusNumber) {
@@ -158,6 +230,11 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
       success: true,
       value: subscriber,
     };
+
+    // return {
+    //   success: true,
+    //   value: subscriberWithNoGDPR,
+    // };
 
     // return {
     //   success: false,

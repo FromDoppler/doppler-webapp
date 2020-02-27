@@ -162,3 +162,7 @@ export function isWhitelisted(url: string) {
   ];
   return !!url && loginWhitelist.some((element) => url.startsWith(element));
 }
+
+export const replaceSpaceWithSigns = (url: string) => {
+  return url ? url.replace(' ', '+') : '';
+};

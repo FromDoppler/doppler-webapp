@@ -119,6 +119,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       private: x.private,
       readonly: x.readonly,
       type: x.type,
+      permissionHTML: x.permissionHTML,
     }));
   }
 
