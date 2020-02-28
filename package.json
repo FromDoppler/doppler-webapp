@@ -46,7 +46,7 @@
     "semantic-release": "^15.14.0",
     "styled-components": "^4.4.1",
     "stylelint": "^13.2.0",
-    "typescript": "^3.7.5",
+    "typescript": "^3.8.2",
     "url-parse": "^1.4.7"
   },
   "scripts": {
