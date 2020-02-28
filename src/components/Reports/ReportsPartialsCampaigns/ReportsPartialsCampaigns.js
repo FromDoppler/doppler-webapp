@@ -76,84 +76,93 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
             <div className="dp-rowflex">
               <div className="col-sm-12 m-t-24">
                 <p>
-                  campaña: <strong>{state.campaign.name}</strong>
+                  <FormattedMessage id="reports_partials_campaigns.campaign_name" />{' '}
+                  <strong>{state.campaign.name}</strong>
                 </p>
                 <p>
-                  asunto: <strong>{state.campaign.subject}</strong>
+                  <FormattedMessage id="reports_partials_campaigns.campaign_subject" />{' '}
+                  <strong>{state.campaign.subject}</strong>
                 </p>
               </div>
             </div>
             <div className="dp-rowflex">
               <div className="col-sm-12 m-t-24">
                 <p>
-                  Estado de la campaña{' '}
+                  <FormattedMessage id="reports_partials_campaigns.campaign_state" />
                   <strong>{state.campaignSummaryResults.campaignStatus}</strong>
                 </p>
                 <p>
-                  Total recipients <strong>{state.campaignSummaryResults.totalRecipients}</strong>
+                  <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
+                  <strong>{state.campaignSummaryResults.totalRecipients}</strong>
                 </p>
                 <p>
-                  Total enviados hasta el momento{' '}
+                  <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
                   <strong>{state.campaignSummaryResults.totalShipped}</strong>
                 </p>
               </div>
               <div className="col-sm-12 m-t-24">
-                <h3>Tasa de entrega</h3>
+                <h3>
+                  <FormattedMessage id="reports_partials_campaigns.delivery_rate" />
+                </h3>
                 <p>
-                  <strong>{state.campaignSummaryResults.uniqueOpens}</strong> Abiertos
+                  <strong>{state.campaignSummaryResults.uniqueOpens}</strong>{' '}
+                  <FormattedMessage id="reports_partials_campaigns.opened" />
                 </p>
                 <p>
-                  <strong>{state.campaignSummaryResults.totalUnopened}</strong> No Abiertos
+                  <strong>{state.campaignSummaryResults.totalUnopened}</strong>{' '}
+                  <FormattedMessage id="reports_partials_campaigns.not_open" />
                 </p>
                 <p>
                   <strong>
                     {state.campaignSummaryResults.totalHardBounces +
                       state.campaignSummaryResults.totalSoftBounces}
                   </strong>{' '}
-                  Rebotes Hard y Soft
+                  <FormattedMessage id="reports_partials_campaigns.hard_and_soft" />
                 </p>
               </div>
               <div className="col-sm-12 m-t-24">
-                <h4>Resumen de la campaña:</h4>
+                <h4>
+                  <FormattedMessage id="reports_partials_campaigns.campaign_summary" />
+                </h4>
                 <ul>
                   <li>
-                    Total de Suscriptores:
+                    <FormattedMessage id="reports_partials_campaigns.total_subscribers" />
                     <strong> {state.campaignSummaryResults.totalShipped}</strong>
                   </li>
                   <li>
-                    Emails Entregados:
+                    <FormattedMessage id="reports_partials_campaigns.emails_delivered" />
                     <strong> {state.campaignSummaryResults.successFullDeliveries}</strong>
                   </li>
                   <li>
-                    Cantidad de Reenvíos:
+                    <FormattedMessage id="reports_partials_campaigns.total_forwarded" />
                     <strong> {state.campaignSummaryResults.timesForwarded}</strong>
                   </li>
                   <li>
-                    Total de Aperturas:
+                    <FormattedMessage id="reports_partials_campaigns.total_openings" />
                     <strong> {state.campaignSummaryResults.totalTimesOpened}</strong>
                   </li>
                   <li>
-                    Última Apertura:
+                    <FormattedMessage id="reports_partials_campaigns.last_open_date" />
                     <strong> {state.campaignSummaryResults.lastOpenDate}</strong>
                   </li>
                   <li>
-                    Clicks Únicos:
+                    <FormattedMessage id="reports_partials_campaigns.unique_clicks" />
                     <strong> {state.campaignSummaryResults.uniqueClicks}</strong>
                   </li>
                   <li>
-                    Aperturas Únicas:
+                    <FormattedMessage id="reports_partials_campaigns.unique_opens" />
                     <strong> {state.campaignSummaryResults.uniqueOpens}</strong>
                   </li>
                   <li>
-                    Clicks Totales:
+                    <FormattedMessage id="reports_partials_campaigns.total_clicks" />
                     <strong> {state.campaignSummaryResults.totalClicks}</strong>
                   </li>
                   <li>
-                    Último Click:
+                    <FormattedMessage id="reports_partials_campaigns.last_click_date" />
                     <strong> {state.campaignSummaryResults.lastClickDate}</strong>
                   </li>
                   <li>
-                    Cantidad de Remociones:
+                    <FormattedMessage id="reports_partials_campaigns.total_unsubscribers" />
                     <strong> {state.campaignSummaryResults.totalUnsubscribers}</strong>
                   </li>
                 </ul>
