@@ -13,6 +13,10 @@ export interface DopplerApiClient {
     currentPage: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignDeliveryCollection>>;
   getSubscribers(searchText: string): Promise<ResultWithoutExpectedErrors<SubscriberCollection>>;
+  getCampaignSummaryResults(
+    idCampaign: number,
+  ): Promise<ResultWithoutExpectedErrors<CampaignSummaryResults>>;
+  getCampaignNameAndSubject(campaignId: number): Promise<ResultWithoutExpectedErrors<CampaignInfo>>;
 }
 interface DopplerApiConnectionData {
   jwtToken: string;
@@ -60,6 +64,29 @@ export interface SubscriberCollection {
   currentPage: number;
   itemsCount: number;
   pagesCount: number;
+}
+
+export interface CampaignSummaryResults {
+  totalRecipients: number;
+  successFullDeliveries: number;
+  timesForwarded: number;
+  totalTimesOpened: number;
+  lastOpenDate: string;
+  uniqueClicks: number;
+  uniqueOpens: number;
+  totalUnopened: number;
+  totalHardBounces: number;
+  totalSoftBounces: number;
+  totalClicks: number;
+  lastClickDate: string;
+  totalUnsubscribers: number;
+  campaignStatus: string;
+  totalShipped: number;
+}
+
+export interface CampaignInfo {
+  name: string;
+  subject: string;
 }
 
 export class HttpDopplerApiClient implements DopplerApiClient {
@@ -155,6 +182,26 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       ),
       score: x.score,
     }));
+  }
+
+  private mapCampaignSummaryResultsFields(data: any): CampaignSummaryResults {
+    return {
+      totalRecipients: data.totalRecipients,
+      successFullDeliveries: data.successFullDeliveries,
+      timesForwarded: data.timesForwarded,
+      totalTimesOpened: data.totalTimesOpened,
+      lastOpenDate: data.lastOpenDate,
+      uniqueClicks: data.uniqueClicks,
+      uniqueOpens: data.uniqueOpens,
+      totalUnopened: data.totalUnopened,
+      totalHardBounces: data.totalHardBounces,
+      totalSoftBounces: data.totalSoftBounces,
+      totalClicks: data.totalClicks,
+      lastClickDate: data.lastClickDate,
+      totalUnsubscribers: data.totalUnsubscribers,
+      campaignStatus: data.campaignStatus,
+      totalShipped: data.totalShipped,
+    };
   }
 
   private getUnsubscribedStatus(
@@ -332,6 +379,54 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: subscriberCollection,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getCampaignSummaryResults(
+    campaignId: number,
+  ): Promise<ResultWithoutExpectedErrors<CampaignSummaryResults>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/campaigns/${campaignId}/results-summary`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      return {
+        success: true,
+        value: this.mapCampaignSummaryResultsFields(data),
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getCampaignNameAndSubject(
+    campaignId: number,
+  ): Promise<ResultWithoutExpectedErrors<CampaignInfo>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/campaigns/${campaignId}`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      return {
+        success: true,
+        value: { name: data.name, subject: data.subject },
       };
     } catch (error) {
       return {
