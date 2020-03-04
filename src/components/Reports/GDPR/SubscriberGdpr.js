@@ -22,7 +22,8 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
       setState({ loading: true });
       const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
-      if (responseSubscriber.success) {
+      const allFields = await dopplerApiClient.getUserFields();
+      if (responseSubscriber.success && allFields.success) {
         const subscriber = {
           firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
           lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
@@ -30,12 +31,25 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
           score: responseSubscriber.value.score,
           status: responseSubscriber.value.status,
         };
+        const allPermissionFields = allFields.value.filter(
+          (customField) => customField.type === 'permission' || customField.type === 'consent',
+        );
+        const subscriberPermissionFields = responseSubscriber.value.fields.filter(
+          (customField) => customField.type === 'permission' || customField.type === 'consent',
+        );
+
+        const fields = allPermissionFields.map((field) => {
+          const found = subscriberPermissionFields.find(
+            (subscriberField) => subscriberField.name === field.name,
+          );
+          field.value = found ? found.value : 'none';
+          return field;
+        });
+
         setState({
           loading: false,
           subscriber: subscriber,
-          fields: responseSubscriber.value.fields.filter(
-            (customField) => customField.type === 'permission' || customField.type === 'consent',
-          ),
+          fields: fields,
           email: email,
         });
       } else {
@@ -153,7 +167,12 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                                     )}
                                   </td>
                                   <td>
-                                    {field.value.toLowerCase() === 'true' ? (
+                                    {field.value.toLowerCase() === 'none' ? (
+                                      <div className="dp-icon-wrapper">
+                                        <span className="ms-icon icon-lock dp-lock-grey"></span>
+                                        <FormattedMessage id="subscriber_gdpr.value_none" />
+                                      </div>
+                                    ) : field.value.toLowerCase() === 'true' ? (
                                       <div className="dp-icon-wrapper">
                                         <span className="ms-icon icon-lock dp-lock-green"></span>
                                         <FormattedMessage id="subscriber_gdpr.value_true" />

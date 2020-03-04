@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import SubscriberGdpr from './SubscriberGdpr';
 import { AppServicesProvider } from '../../../services/pure-di';
-import { act } from 'react-dom/test-utils';
 
 describe('SubscriberGdpr report component', () => {
   const subscriber = {
@@ -47,15 +46,40 @@ describe('SubscriberGdpr report component', () => {
     score: 0,
   };
 
+  const fields = [
+    {
+      name: 'FIRSTNAME',
+      value: 'Manuel',
+      predefined: true,
+      private: true,
+      readonly: true,
+      type: 'boolean',
+    },
+    {
+      name: 'Accept_promotions',
+      value: '<p>Acepta promociones </p>',
+      predefined: true,
+      private: true,
+      readonly: true,
+      type: 'permission',
+    },
+  ];
+
   const dopplerApiClientDouble = {
     getSubscriber: async () => {
       return { success: true, value: subscriber };
+    },
+    getUserFields: async () => {
+      return { success: true, value: subscriber.fields };
     },
   };
 
   const dopplerApiClientDoubleWithPermissions = {
     getSubscriber: async () => {
       return { success: true, value: subscriberPermission };
+    },
+    getUserFields: async () => {
+      return { success: true, value: fields };
     },
   };
 
@@ -179,5 +203,28 @@ describe('SubscriberGdpr report component', () => {
     await waitForDomChange();
     // Assert
     expect(getByText('subscriber_gdpr.empty_data')).toBeInTheDocument();
+  });
+
+  it('should show a permission field with no response if the user has at least one permission', async () => {
+    // Arrange
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <SubscriberGdpr />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    await waitForDomChange();
+    // Assert
+    // expect to have at least one row in the grid
+    const tableNode = getByText('subscriber_gdpr.permission_name').closest('table');
+    expect(document.querySelectorAll('tbody tr').length).toBe(subscriber.fields.length);
   });
 });
