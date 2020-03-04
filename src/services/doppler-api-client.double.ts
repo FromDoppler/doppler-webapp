@@ -5,6 +5,7 @@ import {
   SubscriberCollection,
   CampaignSummaryResults,
   CampaignInfo,
+  Fields,
 } from './doppler-api-client';
 import { SubscriberList } from './shopify-client';
 import { ResultWithoutExpectedErrors } from '../doppler-types';
@@ -67,14 +68,6 @@ const subscriber = {
       type: 'permission',
       permissionHTML:
         '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
-    },
-    {
-      name: 'lalo',
-      value: 'true',
-      predefined: false,
-      private: false,
-      readonly: false,
-      type: 'permission',
     },
     {
       name: 'ddddSssss',
@@ -347,5 +340,103 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     //   success: false,
     //   error: new Error('Dummy error'),
     // };
+  }
+
+  public async getUserFields(): Promise<ResultWithoutExpectedErrors<Fields[]>> {
+    console.log('getCampaignNameAndSubject');
+    await timeout(1500);
+    // const fieldsNoPermission = [
+    //   {
+    //     name: 'FIRSTNAME',
+    //     value: 'Pepe',
+    //     predefined: true,
+    //     private: false,
+    //     readonly: true,
+    //     type: 'string',
+    //   },
+    //   {
+    //     name: 'LASTNAME',
+    //     value: 'Gonzales',
+    //     predefined: true,
+    //     private: false,
+    //     readonly: true,
+    //     type: 'string',
+    //   },
+    // ];
+
+    const fieldsPermission = [
+      {
+        name: 'FIRSTNAME',
+        value: 'Pepe',
+        predefined: true,
+        private: false,
+        readonly: true,
+        type: 'string',
+      },
+      {
+        name: 'LASTNAME',
+        value: 'Gonzales',
+        predefined: true,
+        private: false,
+        readonly: true,
+        type: 'string',
+      },
+      {
+        name: 'BIRTHDAY',
+        value: '1983-09-28',
+        predefined: true,
+        private: false,
+        readonly: false,
+        type: 'date',
+      },
+      {
+        name: 'CONSENT',
+        value: 'False',
+        predefined: true,
+        private: false,
+        readonly: false,
+        type: 'consent',
+      },
+      {
+        name: 'Permiso2',
+        value: 'true',
+        predefined: false,
+        private: false,
+        readonly: false,
+        type: 'permission',
+        permissionHTML:
+          '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
+      },
+      {
+        name: 'lalo',
+        value: 'true',
+        predefined: false,
+        private: false,
+        readonly: false,
+        type: 'permission',
+      },
+      {
+        name: 'ddddSssss',
+        value: 'true',
+        predefined: false,
+        private: true,
+        readonly: false,
+        type: 'permission',
+      },
+      {
+        name: 'AceptaPromociones',
+        value: 'true',
+        predefined: false,
+        private: false,
+        readonly: false,
+        type: 'permission',
+        permissionHTML:
+          '<p>Haciendo click en el checkbox confirma y acepta nuestras <a href="google.com">bases y condiciones.</a></p>',
+      },
+    ];
+    return {
+      success: true,
+      value: fieldsPermission,
+    };
   }
 }
