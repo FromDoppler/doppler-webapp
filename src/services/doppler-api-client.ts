@@ -17,13 +17,14 @@ export interface DopplerApiClient {
     idCampaign: number,
   ): Promise<ResultWithoutExpectedErrors<CampaignSummaryResults>>;
   getCampaignNameAndSubject(campaignId: number): Promise<ResultWithoutExpectedErrors<CampaignInfo>>;
+  getUserFields(): Promise<ResultWithoutExpectedErrors<Fields[]>>;
 }
 interface DopplerApiConnectionData {
   jwtToken: string;
   userAccount: string;
 }
 
-interface Fields {
+export interface Fields {
   name: string;
   value: string;
   predefined: boolean;
@@ -427,6 +428,28 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: { name: data.name, subject: data.subject },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getUserFields(): Promise<ResultWithoutExpectedErrors<Fields[]>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/fields/`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      return {
+        success: true,
+        value: this.mapSubscriberFields(data.items),
       };
     } catch (error) {
       return {

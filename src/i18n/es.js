@@ -344,7 +344,7 @@ export default {
   subscriber_gdpr: {
     empty_data: 'Este Suscriptor no ha aceptado ni rechazado ningun permiso.',
     empty_html_text: 'Sin texto legal definido',
-    header_description: 'Aquí encontrarás los consentimientos dados por tu Suscriptor. Solo verás datos si el Suscriptor ha aceptado o rechazado permisos.',
+    header_description: 'Aquí encontrarás todos los consentimientos dados por tu Suscriptor.',
     header_title: 'Estado GDPR del Suscriptor',
     page_description: 'Estado de permisos GDPR del Suscriptor',
     page_title: 'Estado GDPR del Suscriptor',
@@ -352,6 +352,7 @@ export default {
     permission_name: 'Nombre del campo',
     permission_value: 'Valor',
     value_false: 'Rechazado',
+    value_none: 'Sin respuesta',
     value_true: 'Aceptado',
   },
   subscriber_history: {

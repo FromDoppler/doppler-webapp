@@ -475,4 +475,58 @@ describe('HttpDopplerApiClient', () => {
       expect(result.value.subject).toEqual('Subject test');
     });
   });
+
+  describe('getUserFields', () => {
+    it('should get and error', async () => {
+      // Arrange
+      const request = jest.fn(async () => {});
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getUserFields();
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should get correct data', async () => {
+      // Arrange
+      const fieldsResult = {
+        data: {
+          items: [
+            {
+              name: 'FIRSTNAME',
+              value: 'Pepe',
+              predefined: true,
+              private: false,
+              readonly: true,
+              type: 'string',
+            },
+            {
+              name: 'LASTNAME',
+              value: 'Gonzales',
+              predefined: true,
+              private: false,
+              readonly: true,
+              type: 'string',
+            },
+          ],
+          _links: [],
+        },
+      };
+      const request = jest.fn(async () => fieldsResult);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getUserFields();
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value).not.toBe(null);
+    });
+  });
 });

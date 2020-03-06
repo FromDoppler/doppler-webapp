@@ -9,7 +9,9 @@ const Header = ({
   userData: { user, nav, alert, notifications, emptyNotificationText },
   location: { pathname },
 }) => {
-  const inactiveSection = pathname.match(/^\/integrations\/*/) !== null;
+  const inactiveSection =
+    pathname.match(/^\/integrations\/*/) !== null ||
+    pathname.match(/^\/reports\/subscriber-gdpr*/) !== null;
   return (
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}
