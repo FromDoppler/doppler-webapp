@@ -141,6 +141,7 @@ interface NavEntry {
   isSelected: boolean;
   title: string;
   url: string;
+  idHTML: string;
 }
 
 interface SubNavEntry extends NavEntry {}
@@ -240,12 +241,13 @@ function mapSmsEntry(json: any): SmsEntry {
     remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
   };
 }
-//TODO: Refactor backend to send proper active values
+
 function mapNavEntry(json: any): NavEntry {
   return {
-    isSelected: ['Reports', 'Advanced', 'Reportes', 'Avanzados'].includes(json.title),
+    isSelected: json.isSelected,
     title: json.title,
     url: json.url,
+    idHTML: json.idHTML,
   };
 }
 

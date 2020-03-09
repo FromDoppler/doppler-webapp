@@ -166,3 +166,35 @@ export function isWhitelisted(url: string) {
 export const replaceSpaceWithSigns = (url: string) => {
   return url ? url.replace(' ', '+') : '';
 };
+
+const urlsWebApp: any = [
+  {
+    url: '/reports',
+    menu: 'reportMenu',
+    subMenu: 'webapp',
+  },
+  {
+    url: '/integrations/shopify',
+    menu: '',
+    subMenu: '',
+  },
+  {
+    url: '/reports/master-subscriber',
+    menu: 'reportMenu',
+    subMenu: '',
+  },
+  {
+    url: '/reports/subscriber-history',
+    menu: 'reportMenu',
+    subMenu: 'reportsSubsHistory',
+  },
+  {
+    url: '/reports/subscriber-gdpr',
+    menu: '',
+    subMenu: '',
+  },
+];
+
+export function getCurrentPageForUrl(currentUrl: string): any {
+  return urlsWebApp.find((item: any) => item.url === currentUrl);
+}
