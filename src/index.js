@@ -33,7 +33,7 @@ const forcedServices =
   process.env.NODE_ENV === 'development' || process.env.REACT_APP_IS_DEMO_ENABLED
     ? {
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
-        //dopplerSitesClient: new HardcodedDopplerSitesClient(),
+        dopplerSitesClient: new HardcodedDopplerSitesClient(),
         datahubClient: new HardcodedDatahubClient(),
         shopifyClient: new HardcodedShopifyClient(),
         dopplerApiClient: new HardcodedDopplerApiClient(),
