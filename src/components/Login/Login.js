@@ -19,12 +19,17 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
-import { addLogEntry } from '../../utils';
+import { addLogEntry, extractParameter } from '../../utils';
 
 const fieldNames = {
   user: 'user',
   password: 'password',
 };
+
+/** Extract the page parameter from url*/
+function extractPage(location) {
+  return extractParameter(location, queryString.parse, 'page', 'Page');
+}
 
 const extractLegacyRedirectUrl = (location) => {
   const result = /[&?]redirect=(.*)$/.exec(location.search);
@@ -261,7 +266,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
           </p>
         </footer>
       </article>
-      <Promotions type="login" />
+      <Promotions type="login" page={extractPage(location)} />
     </main>
   );
 };
