@@ -193,6 +193,11 @@ const urlsWebApp: any = [
     menu: '',
     subMenu: '',
   },
+  {
+    url: '/reports/partials-campaigns',
+    menu: '',
+    subMenu: '',
+  },
 ];
 
 export function getCurrentPageForUrl(currentUrl: string): any {
