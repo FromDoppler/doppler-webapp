@@ -4,22 +4,48 @@ import HeaderMessages from './HeaderMessages/HeaderMessages';
 import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
 import Notifications from './Notifications';
+import { getCurrentPageForUrl } from '../../utils';
+
+const getUpdatedSubNav = (currentSubNav, subMenuItem) => {
+  return currentSubNav.map((item) => {
+    return {
+      title: item.title,
+      url: item.url,
+      isSelected: item.idHTML === subMenuItem,
+    };
+  });
+};
+
+const getUpdateMenu = (currentUrl, nav) => {
+  const currentPage = getCurrentPageForUrl(currentUrl);
+  if (currentPage && currentPage.menu) {
+    return nav.map((item) => {
+      return {
+        title: item.title,
+        url: item.url,
+        isSelected: item.idHTML === currentPage.menu,
+        subNav: !currentPage.subMenu
+          ? item.subNav
+          : getUpdatedSubNav(item.subNav, currentPage.subMenu),
+      };
+    });
+  }
+  return nav;
+};
 
 const Header = ({
   userData: { user, nav, alert, notifications, emptyNotificationText },
   location: { pathname },
 }) => {
-  const inactiveSection =
-    pathname.match(/^\/integrations\/*/) !== null ||
-    pathname.match(/^\/reports\/subscriber-gdpr*/) !== null;
+  const updatedNav = getUpdateMenu(pathname, nav);
+  const isInactiveSection = !getCurrentPageForUrl(pathname).menu;
   return (
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}
-      {/* //TODO: Refactor backend to send proper active values. Class 'header-is-active' must be removed */}
       <header
         className={
           'header-main' +
-          (inactiveSection ? ' ' : ' header-open') +
+          (isInactiveSection ? ' ' : ' header-open') +
           (user.clientManager ? ' dp-header--cm' : ' ')
         }
       >
@@ -37,7 +63,7 @@ const Header = ({
           <div className="logo">
             <span className="ms-icon icon-doppler-logo" />
           </div>
-          <HeaderNav nav={nav} inactiveSection={inactiveSection} />
+          <HeaderNav nav={updatedNav} isInactiveSection={isInactiveSection} />
           <nav className="nav-right-main">
             <ul className="nav-right-main--list">
               <li>
