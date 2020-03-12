@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import colors from '../../styles/colors';
 import spacings from '../../styles/spacings';
 
-export const NameCampign = styled.div`
+export const MainReportBox = styled.div`
   span {
     display: block;
     line-height: 30px;
   }
 `;
 
-export const CampaignMovement = styled.div`
+export const DetailedInformation = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -75,7 +75,7 @@ export const Header = styled.header`
   }
 `;
 
-export const KpiCampaign = styled.div`
+export const Kpi = styled.div`
   padding: ${spacings.spacesLvl0} ${spacings.spacesLvl8} ${spacings.spacesLvl8};
   display: flex;
   flex-wrap: wrap;

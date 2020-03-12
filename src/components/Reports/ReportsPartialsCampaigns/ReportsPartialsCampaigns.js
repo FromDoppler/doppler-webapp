@@ -68,7 +68,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                   <h3>
                     <FormattedMessage id="reports_partials_campaigns.header_title" />
                   </h3>
-                  <S.NameCampign>
+                  <S.MainReportBox>
                     <span>
                       <strong>
                         <FormattedMessage id="reports_partials_campaigns.campaign_name" />{' '}
@@ -81,7 +81,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       </strong>
                       {state.campaign.subject}
                     </span>
-                  </S.NameCampign>
+                  </S.MainReportBox>
                   <span className="arrow" />
                 </div>
               </div>
@@ -91,7 +91,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
             <div className="dp-rowflex">
               <div className="col-sm-12 col-md-12 col-lg-12 m-t-24">
                 <div className="dp-box-shadow">
-                  <S.CampaignMovement>
+                  <S.DetailedInformation>
                     <div>
                       <p>
                         <FormattedMessage id="reports_partials_campaigns.campaign_state" />
@@ -110,7 +110,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       </p>
                       <h2>{state.campaignSummaryResults.totalShipped}</h2>
                     </div>
-                  </S.CampaignMovement>
+                  </S.DetailedInformation>
                 </div>
               </div>
               <div className="col-sm-12 m-t-24 m-b-48">
@@ -122,7 +122,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                           <FormattedMessage id="reports_partials_campaigns.delivery_rate" />
                         </h3>
                       </S.Header>
-                      <S.KpiCampaign>
+                      <S.Kpi>
                         <div>
                           <h2>{state.campaignSummaryResults.uniqueOpens} </h2>
                           <p>
@@ -144,7 +144,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                             <FormattedMessage id="reports_partials_campaigns.hard_and_soft" />
                           </p>
                         </div>
-                      </S.KpiCampaign>
+                      </S.Kpi>
                     </div>
                     <div className="col-sm-12 col-md-6 col-lg-6">
                       <S.BackGrey>
