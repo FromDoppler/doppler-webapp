@@ -5,6 +5,7 @@ import queryString from 'query-string';
 import { extractParameter } from '../../../utils';
 import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
+import * as S from './ReportsPartialsCampaigns.styles';
 
 const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
@@ -67,6 +68,20 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                   <h3>
                     <FormattedMessage id="reports_partials_campaigns.header_title" />
                   </h3>
+                  <S.MainReportBox>
+                    <span>
+                      <strong>
+                        <FormattedMessage id="reports_partials_campaigns.campaign_name" />{' '}
+                      </strong>
+                      {state.campaign.name}
+                    </span>
+                    <span>
+                      <strong>
+                        <FormattedMessage id="reports_partials_campaigns.campaign_subject" />{' '}
+                      </strong>
+                      {state.campaign.subject}
+                    </span>
+                  </S.MainReportBox>
                   <span className="arrow" />
                 </div>
               </div>
@@ -74,98 +89,118 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
           </header>
           <section className="dp-container">
             <div className="dp-rowflex">
-              <div className="col-sm-12 m-t-24">
-                <p>
-                  <FormattedMessage id="reports_partials_campaigns.campaign_name" />{' '}
-                  <strong>{state.campaign.name}</strong>
-                </p>
-                <p>
-                  <FormattedMessage id="reports_partials_campaigns.campaign_subject" />{' '}
-                  <strong>{state.campaign.subject}</strong>
-                </p>
+              <div className="col-sm-12 col-md-12 col-lg-12 m-t-24">
+                <div className="dp-box-shadow">
+                  <S.DetailedInformation>
+                    <div>
+                      <p>
+                        <FormattedMessage id="reports_partials_campaigns.campaign_state" />
+                      </p>
+                      <h2>{state.campaignSummaryResults.campaignStatus}</h2>
+                    </div>
+                    <div>
+                      <p>
+                        <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
+                      </p>
+                      <h2>{state.campaignSummaryResults.totalRecipients}</h2>
+                    </div>
+                    <div>
+                      <p>
+                        <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
+                      </p>
+                      <h2>{state.campaignSummaryResults.totalShipped}</h2>
+                    </div>
+                  </S.DetailedInformation>
+                </div>
               </div>
-            </div>
-            <div className="dp-rowflex">
-              <div className="col-sm-12 m-t-24">
-                <p>
-                  <FormattedMessage id="reports_partials_campaigns.campaign_state" />
-                  <strong>{state.campaignSummaryResults.campaignStatus}</strong>
-                </p>
-                <p>
-                  <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
-                  <strong>{state.campaignSummaryResults.totalRecipients}</strong>
-                </p>
-                <p>
-                  <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
-                  <strong>{state.campaignSummaryResults.totalShipped}</strong>
-                </p>
-              </div>
-              <div className="col-sm-12 m-t-24">
-                <h3>
-                  <FormattedMessage id="reports_partials_campaigns.delivery_rate" />
-                </h3>
-                <p>
-                  <strong>{state.campaignSummaryResults.uniqueOpens}</strong>{' '}
-                  <FormattedMessage id="reports_partials_campaigns.opened" />
-                </p>
-                <p>
-                  <strong>{state.campaignSummaryResults.totalUnopened}</strong>{' '}
-                  <FormattedMessage id="reports_partials_campaigns.not_open" />
-                </p>
-                <p>
-                  <strong>
-                    {state.campaignSummaryResults.totalHardBounces +
-                      state.campaignSummaryResults.totalSoftBounces}
-                  </strong>{' '}
-                  <FormattedMessage id="reports_partials_campaigns.hard_and_soft" />
-                </p>
-              </div>
-              <div className="col-sm-12 m-t-24">
-                <h4>
-                  <FormattedMessage id="reports_partials_campaigns.campaign_summary" />
-                </h4>
-                <ul>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.total_subscribers" />
-                    <strong> {state.campaignSummaryResults.totalShipped}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.emails_delivered" />
-                    <strong> {state.campaignSummaryResults.successFullDeliveries}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.total_forwarded" />
-                    <strong> {state.campaignSummaryResults.timesForwarded}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.total_openings" />
-                    <strong> {state.campaignSummaryResults.totalTimesOpened}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.last_open_date" />
-                    <strong> {state.campaignSummaryResults.lastOpenDate}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.unique_clicks" />
-                    <strong> {state.campaignSummaryResults.uniqueClicks}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.unique_opens" />
-                    <strong> {state.campaignSummaryResults.uniqueOpens}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.total_clicks" />
-                    <strong> {state.campaignSummaryResults.totalClicks}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.last_click_date" />
-                    <strong> {state.campaignSummaryResults.lastClickDate}</strong>
-                  </li>
-                  <li>
-                    <FormattedMessage id="reports_partials_campaigns.total_unsubscribers" />
-                    <strong> {state.campaignSummaryResults.totalUnsubscribers}</strong>
-                  </li>
-                </ul>
+              <div className="col-sm-12 m-t-24 m-b-48">
+                <div className="dp-box-shadow">
+                  <div className="dp-rowflex">
+                    <div className="col-sm-12 col-md-6 col-lg-6">
+                      <S.Header>
+                        <h3>
+                          <FormattedMessage id="reports_partials_campaigns.delivery_rate" />
+                        </h3>
+                      </S.Header>
+                      <S.Kpi>
+                        <div>
+                          <h2>{state.campaignSummaryResults.uniqueOpens} </h2>
+                          <p>
+                            <FormattedMessage id="reports_partials_campaigns.opened" />
+                          </p>
+                        </div>
+                        <div>
+                          <h2>{state.campaignSummaryResults.totalUnopened} </h2>
+                          <p>
+                            <FormattedMessage id="reports_partials_campaigns.not_open" />
+                          </p>
+                        </div>
+                        <div>
+                          <h2>
+                            {state.campaignSummaryResults.totalHardBounces +
+                              state.campaignSummaryResults.totalSoftBounces}
+                          </h2>
+                          <p>
+                            <FormattedMessage id="reports_partials_campaigns.hard_and_soft" />
+                          </p>
+                        </div>
+                      </S.Kpi>
+                    </div>
+                    <div className="col-sm-12 col-md-6 col-lg-6">
+                      <S.BackGrey>
+                        <S.Header>
+                          <h3>
+                            <FormattedMessage id="reports_partials_campaigns.campaign_summary" />
+                          </h3>
+                        </S.Header>
+                        <S.Summary>
+                          <ul>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.total_subscribers" />{' '}
+                              <span>{state.campaignSummaryResults.totalShipped}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.emails_delivered" />{' '}
+                              <span>{state.campaignSummaryResults.successFullDeliveries}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.total_forwarded" />{' '}
+                              <span>{state.campaignSummaryResults.timesForwarded}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.total_openings" />{' '}
+                              <span>{state.campaignSummaryResults.totalTimesOpened}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.last_open_date" />{' '}
+                              <span>{state.campaignSummaryResults.lastOpenDate}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.unique_clicks" />{' '}
+                              <span>{state.campaignSummaryResults.uniqueClicks}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.unique_opens" />{' '}
+                              <span>{state.campaignSummaryResults.uniqueOpens}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.total_clicks" />{' '}
+                              <span>{state.campaignSummaryResults.totalClicks}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.last_click_date" />{' '}
+                              <span>{state.campaignSummaryResults.lastClickDate}</span>
+                            </li>
+                            <li>
+                              <FormattedMessage id="reports_partials_campaigns.total_unsubscribers" />{' '}
+                              <span>{state.campaignSummaryResults.totalUnsubscribers}</span>
+                            </li>
+                          </ul>
+                        </S.Summary>
+                      </S.BackGrey>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
