@@ -38,8 +38,8 @@ const Header = ({
   location: { pathname },
 }) => {
   const updatedNav = getUpdateMenu(pathname, nav);
-  let isInactiveSection = getCurrentPageForUrl(pathname);
-  isInactiveSection = !isInactiveSection || !isInactiveSection.menu;
+  const currentPage = getCurrentPageForUrl(pathname);
+  const isInactiveSection = !currentPage || !currentPage.menu;
   return (
     <div>
       {alert ? <HeaderMessages alert={alert} user={user} /> : null}

@@ -35,7 +35,13 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
 
 const campaignsPerPage = 10;
 
-const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => {
+const SubscriberHistory = ({
+  location,
+  dependencies: {
+    dopplerApiClient,
+    appConfiguration: { reportsUrl },
+  },
+}) => {
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -217,7 +223,7 @@ const SubscriberHistory = ({ location, dependencies: { dopplerApiClient } }) => 
                               {campaign.urlImgPreview ? (
                                 <div className="dp-tooltip-container">
                                   <a
-                                    href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                    href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
                                   >
                                     {campaign.campaignName}
                                     <div className="dp-tooltip-block">
