@@ -195,7 +195,7 @@ const urlsWebApp: any = [
   },
   {
     url: '/reports/partials-campaigns',
-    menu: '',
+    menu: 'reportMenu',
     subMenu: '',
   },
 ];
