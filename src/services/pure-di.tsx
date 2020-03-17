@@ -86,6 +86,7 @@ export class AppCompositionRoot implements AppServices {
       },
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
+      reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
     }));
   }
 
