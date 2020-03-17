@@ -58,8 +58,8 @@
     "build:int": "env-cmd -f .env.int yarn build",
     "build:development": "env-cmd -f .env.development yarn build",
     "build:demo": "env-cmd -f .env.demo yarn build",
-    "test:ci": "CI=true react-scripts test",
-    "test": "react-scripts test",
+    "test:ci": "CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\"",
@@ -115,5 +115,8 @@
   "resolutions": {
     "react-helmet/react-side-effect": ">=2.1.0",
     "comment": "Resolution to avoid test warning: [...] Please update the following components: SideEffect(NullComponent)"
+  },
+  "devDependencies": {
+    "jest-environment-jsdom-sixteen": "^1.0.3"
   }
 }

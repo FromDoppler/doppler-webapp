@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitForDomChange, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import SubscriberGdpr from './SubscriberGdpr';
@@ -136,10 +136,11 @@ describe('SubscriberGdpr report component', () => {
         </IntlProvider>
       </AppServicesProvider>,
     );
-    await waitForDomChange();
 
     //Assert
-    expect(document.title).toEqual('subscriber_gdpr.page_title');
+    await waitFor(() => {
+      expect(document.title).toEqual('subscriber_gdpr.page_title');
+    });
   });
 
   it('should show subscriber email', async () => {
