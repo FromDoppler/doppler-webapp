@@ -46,6 +46,19 @@ const SubscriberHistory = ({
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const Breadcrumb = () => (
+    <nav className="dp-breadcrumb">
+      <ul>
+        <li>
+          <a href={_('subscriber_history.subscriber_breadcrumb_url')}>
+            {_('subscriber_history.subscriber_breadcrumb')}
+          </a>
+        </li>
+        <li>{_('subscriber_history.behaviour_history_breadcrumb')}</li>
+      </ul>
+    </nav>
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
@@ -85,42 +98,59 @@ const SubscriberHistory = ({
   return state.loading ? (
     <Loading />
   ) : state.subscriber ? (
-    <section className="dp-container">
-      <div className="dp-rowflex">
-        <div className="col-sm-12 m-t-24 m-b-36">
-          <div className="dp-block-wlp dp-box-shadow m-t-36">
-            <header className="dp-header-campaing dp-rowflex p-l-18">
-              <div className="col-lg-6 col-md-12 m-b-24">
-                <div className="dp-calification">
-                  <span className="dp-useremail-campaign">
-                    <strong>{state.subscriber.email}</strong>
+    <>
+      <header className="report-filters">
+        <div className="dp-container">
+          <div className="dp-rowflex">
+            <div className="col-sm-12 col-md-12 col-lg-12">
+              <Breadcrumb />
+              <h3>
+                <FormattedMessage id="subscriber_history.title" />
+              </h3>
+              <p>
+                <FormattedMessage id="subscriber_history.description" />
+              </p>
+              <span className="arrow" />
+            </div>
+          </div>
+        </div>
+      </header>
+      <section className="dp-container">
+        <div className="dp-rowflex">
+          <div className="col-sm-12 m-t-24 m-b-36">
+            <div className="dp-block-wlp dp-box-shadow m-t-36">
+              <header className="dp-header-campaing dp-rowflex p-l-18">
+                <div className="col-lg-6 col-md-12 m-b-24">
+                  <div className="dp-calification">
+                    <span className="dp-useremail-campaign">
+                      <strong>{state.subscriber.email}</strong>
+                    </span>
+                    <StarsScore score={state.subscriber.score} />
+                  </div>
+                  <span className="dp-username-campaing">
+                    {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
+                    {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
                   </span>
-                  <StarsScore score={state.subscriber.score} />
-                </div>
-                <span className="dp-username-campaing">
-                  {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
-                  {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
-                </span>
-                <span className="dp-subscriber-icon">
-                  <span
-                    className={
-                      'ms-icon icon-user ' +
-                      getSubscriberStatusCssClassName(state.subscriber.status)
-                    }
-                  ></span>
-                  <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
-                </span>
-                {state.subscriber.status.includes('unsubscribed') ? (
-                  <ul class="dp-rowflex col-sm-12 dp-subscriber-info">
-                    <li class="col-sm-12 col-md-4 col-lg-3">
-                      <span class="dp-block-info">
-                        <FormattedMessage id="subscriber_history.unsubscribed_date" />
-                      </span>
-                      <span>
-                        <FormattedDate value={state.subscriber.unsubscribedDate} />
-                      </span>
-                    </li>
-                    {/* TODO: add logic of, Date, IP and Origin campaign.
+                  <span className="dp-subscriber-icon">
+                    <span
+                      className={
+                        'ms-icon icon-user ' +
+                        getSubscriberStatusCssClassName(state.subscriber.status)
+                      }
+                    ></span>
+                    <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
+                  </span>
+                  {state.subscriber.status.includes('unsubscribed') ? (
+                    <ul class="dp-rowflex col-sm-12 dp-subscriber-info">
+                      <li class="col-sm-12 col-md-4 col-lg-3">
+                        <span class="dp-block-info">
+                          <FormattedMessage id="subscriber_history.unsubscribed_date" />
+                        </span>
+                        <span>
+                          <FormattedDate value={state.subscriber.unsubscribedDate} />
+                        </span>
+                      </li>
+                      {/* TODO: add logic of, Date, IP and Origin campaign.
                     <li class="col-sm-12 col-md-4 col-lg-3">
                       <span class="dp-block-info">IP origen de Remoción:</span><span>200.5.229.58</span>
                     </li>
@@ -128,10 +158,10 @@ const SubscriberHistory = ({
                       <span class="dp-block-info">Campaña origen de Remoción:</span><a href="#">Campaña Estacional de Primavera</a>
                     </li>
                     */}
-                  </ul>
-                ) : null}
-              </div>
-              {/* TODO: add kpi logic
+                    </ul>
+                  ) : null}
+                </div>
+                {/* TODO: add kpi logic
             <div class="dp-rowflex col-lg-6 col-md-12">
                 <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
                   <div class="dp-rate-wrapper">
@@ -179,105 +209,107 @@ const SubscriberHistory = ({
                 </div>
             </div>
             */}
-            </header>
-            <div>
-              <div className="dp-table-responsive">
-                <table
-                  className="dp-c-table"
-                  aria-label={_('subscriber_history.table_result.aria_label_table')}
-                  summary={_('subscriber_history.table_result.aria_label_table')}
-                >
-                  <thead>
-                    <tr>
-                      <th scope="col">
-                        <FormattedMessage id="master_subscriber_sent_campaigns.grid_campaign" />
-                      </th>
-                      <th scope="col">
-                        <FormattedMessage id="master_subscriber_sent_campaigns.grid_subject" />
-                      </th>
-                      <th scope="col">
-                        <FormattedMessage id="master_subscriber_sent_campaigns.grid_delivery" />
-                      </th>
-                      <th scope="col">
-                        <FormattedMessage id="master_subscriber_sent_campaigns.grid_clicks" />
-                      </th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <td colSpan="4" style={{ textAlign: 'right' }}>
-                        <Pagination
-                          currentPage={state.currentPage}
-                          pagesCount={state.pagesCount}
-                          urlToGo={`/reports/subscriber-history?email=${state.subscriber.email}&`}
-                        />
-                      </td>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    {state.sentCampaigns.length ? (
-                      <>
-                        {state.sentCampaigns.map((campaign, index) => (
-                          <tr key={index}>
-                            <td>
-                              {campaign.urlImgPreview ? (
-                                <div className="dp-tooltip-container">
+              </header>
+              <div>
+                <div className="dp-table-responsive">
+                  <table
+                    className="dp-c-table"
+                    aria-label={_('subscriber_history.table_result.aria_label_table')}
+                    summary={_('subscriber_history.table_result.aria_label_table')}
+                  >
+                    <thead>
+                      <tr>
+                        <th scope="col">
+                          <FormattedMessage id="master_subscriber_sent_campaigns.grid_campaign" />
+                        </th>
+                        <th scope="col">
+                          <FormattedMessage id="master_subscriber_sent_campaigns.grid_subject" />
+                        </th>
+                        <th scope="col">
+                          <FormattedMessage id="master_subscriber_sent_campaigns.grid_delivery" />
+                        </th>
+                        <th scope="col">
+                          <FormattedMessage id="master_subscriber_sent_campaigns.grid_clicks" />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="4" style={{ textAlign: 'right' }}>
+                          <Pagination
+                            currentPage={state.currentPage}
+                            pagesCount={state.pagesCount}
+                            urlToGo={`/reports/subscriber-history?email=${state.subscriber.email}&`}
+                          />
+                        </td>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      {state.sentCampaigns.length ? (
+                        <>
+                          {state.sentCampaigns.map((campaign, index) => (
+                            <tr key={index}>
+                              <td>
+                                {campaign.urlImgPreview ? (
+                                  <div className="dp-tooltip-container">
+                                    <a
+                                      href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                    >
+                                      {campaign.campaignName}
+                                      <div className="dp-tooltip-block">
+                                        <img
+                                          src={campaign.urlImgPreview}
+                                          alt={_('subscriber_history.alt_image')}
+                                        />
+                                      </div>
+                                    </a>
+                                  </div>
+                                ) : (
                                   <a
-                                    href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                    href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
                                   >
                                     {campaign.campaignName}
-                                    <div className="dp-tooltip-block">
-                                      <img
-                                        src={campaign.urlImgPreview}
-                                        alt={_('subscriber_history.alt_image')}
-                                      />
-                                    </div>
                                   </a>
-                                </div>
-                              ) : (
-                                <a
-                                  href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                )}
+                              </td>
+                              <td>{campaign.campaignSubject}</td>
+                              <td>
+                                <span
+                                  className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}
                                 >
-                                  {campaign.campaignName}
-                                </a>
-                              )}
-                            </td>
-                            <td>{campaign.campaignSubject}</td>
-                            <td>
-                              <span
-                                className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}
-                              >
-                                <FormattedMessage
-                                  id={
-                                    'subscriber_history.delivery_status.' + campaign.deliveryStatus
-                                  }
-                                />
-                              </span>
-                            </td>
-                            <td>{campaign.clicksCount}</td>
-                          </tr>
-                        ))}
-                      </>
-                    ) : (
-                      <tr>
-                        <td>
-                          <span className="bounceIn">
-                            <FormattedMessage id="subscriber_history.empty_data" />
-                          </span>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                                  <FormattedMessage
+                                    id={
+                                      'subscriber_history.delivery_status.' +
+                                      campaign.deliveryStatus
+                                    }
+                                  />
+                                </span>
+                              </td>
+                              <td>{campaign.clicksCount}</td>
+                            </tr>
+                          ))}
+                        </>
+                      ) : (
+                        <tr>
+                          <td>
+                            <span className="bounceIn">
+                              <FormattedMessage id="subscriber_history.empty_data" />
+                            </span>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   ) : (
     <SafeRedirect to="/Lists/MasterSubscriber/" />
   );

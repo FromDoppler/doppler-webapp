@@ -25,6 +25,7 @@ const urlSiteFromLogin = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_c
 const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
+const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
   common: {
@@ -355,16 +356,21 @@ export default {
   },
   subscriber_history: {
     alt_image: 'Campaign Preview',
+    behaviour_history_breadcrumb: 'Subscriber historical behavior',
     delivery_status: {
       hardBounced: 'Removed by Hard',
       notOpened: 'Not Opened',
       opened: 'Opened',
       softBounced: 'Removed by Soft',
     },
+    description: 'Here you will be able to know the campaign behavior history of your subscribers.',
     empty_data: `So far there are no Campaigns sent`,
+    subscriber_breadcrumb: 'Subscribers',
+    subscriber_breadcrumb_url: `${urlMasterSubscriber}`,
     table_result: {
       aria_label_table: `Campaign History result`,
     },
+    title: 'Subscriber historical behavior',
     unsubscribed_date: 'Unsubscribed Date:',
   },
   trafficSources: {
