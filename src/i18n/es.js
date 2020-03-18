@@ -25,6 +25,7 @@ const urlSiteFromLogin = `${urlSite}/?utm_source=app&utm_medium=landing&utm_camp
 const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
+const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
   common: {
@@ -357,16 +358,21 @@ export default {
   },
   subscriber_history: {
     alt_image: 'Preview de la Campaña',
+    behaviour_history_breadcrumb: 'Comportamiento histórico del suscriptor',
     delivery_status: {
       hardBounced: 'Rebotado Hard',
       notOpened: 'No Abierto',
       opened: 'Abierto',
       softBounced: 'Rebotado Soft',
     },
+    description: 'Aquí podrás conocer el historial de comportamiento en campañas de tus suscriptores.',
     empty_data: 'Hasta el momento no hay Campañas enviadas',
+    subscriber_breadcrumb: 'Suscriptores',
+    subscriber_breadcrumb_url: `${urlMasterSubscriber}`,
     table_result: {
       aria_label_table: `Resultado de Historial de Campañas`,
     },
+    title: 'Comportamiento histórico del suscriptor',
     unsubscribed_date: 'Fecha de Remoción:',
   },
   trafficSources: {
