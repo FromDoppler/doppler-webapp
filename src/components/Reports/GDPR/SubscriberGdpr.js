@@ -12,6 +12,14 @@ import { Loading } from '../../Loading/Loading';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import SafeRedirect from '../../SafeRedirect';
 
+const replaceParagraph = (text) => ({
+  __html: text
+    .split('<p>')
+    .join('<span>')
+    .split('</p>')
+    .join('</span>'),
+});
+
 const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -170,11 +178,9 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                                   <td>
                                     {field.permissionHTML ? (
                                       <div
-                                        dangerouslySetInnerHTML={{
-                                          __html: field.permissionHTML
-                                            .replace('<p>', '<span>')
-                                            .replace('</p>', '</span>'),
-                                        }}
+                                        dangerouslySetInnerHTML={replaceParagraph(
+                                          field.permissionHTML,
+                                        )}
                                       />
                                     ) : (
                                       <FormattedMessage id="subscriber_gdpr.empty_html_text" />
