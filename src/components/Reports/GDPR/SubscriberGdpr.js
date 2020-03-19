@@ -17,6 +17,19 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [state, setState] = useState({ loading: true });
 
+  const Breadcrumb = () => (
+    <nav className="dp-breadcrumb">
+      <ul>
+        <li>
+          <a href={_('subscriber_history.subscriber_breadcrumb_url')}>
+            {_('subscriber_history.subscriber_breadcrumb')}
+          </a>
+        </li>
+        <li>{_('subscriber_gdpr.gpdr_state_breadcrumb')}</li>
+      </ul>
+    </nav>
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
@@ -77,6 +90,7 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
             <div className="dp-container">
               <div className="dp-rowflex">
                 <div className="col-sm-12 col-md-12 col-lg-12">
+                  <Breadcrumb />
                   <h3>
                     <FormattedMessage id="subscriber_gdpr.header_title" />
                   </h3>
