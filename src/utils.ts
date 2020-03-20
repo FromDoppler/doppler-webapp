@@ -185,12 +185,12 @@ const urlsWebApp: any = [
   },
   {
     url: '/reports/subscriber-history',
-    menu: 'reportMenu',
-    subMenu: 'reportsSubsHistory',
+    menu: 'listMenu',
+    subMenu: '',
   },
   {
     url: '/reports/subscriber-gdpr',
-    menu: '',
+    menu: 'listMenu',
     subMenu: '',
   },
   {
