@@ -345,6 +345,7 @@ export default {
   subscriber_gdpr: {
     empty_data: 'Este Suscriptor no ha aceptado ni rechazado ningun permiso.',
     empty_html_text: 'Sin texto legal definido',
+    gpdr_state_breadcrumb: 'Estado GDPR del Suscriptor',
     header_description: 'Aquí encontrarás todos los consentimientos dados por tu Suscriptor.',
     header_title: 'Estado GDPR del Suscriptor',
     page_description: 'Estado de permisos GDPR del Suscriptor',

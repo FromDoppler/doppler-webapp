@@ -343,6 +343,7 @@ export default {
   subscriber_gdpr: {
     empty_data: 'This Subscriber has not given or denied any permission.',
     empty_html_text: 'With no legal text defined',
+    gpdr_state_breadcrumb: 'Subscriber GDPR state',
     header_description: 'Here you can find all permissions given by your Subscriber.',
     header_title: 'Subscriber GDPR state',
     page_description: 'Subscriber GDPR permission state.',
