@@ -11,6 +11,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import SafeRedirect from '../../SafeRedirect';
+import * as S from './SubscriberGdpr.styles';
 
 const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
@@ -169,12 +170,8 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                                   <td>{field.name}</td>
                                   <td>
                                     {field.permissionHTML ? (
-                                      <div
-                                        dangerouslySetInnerHTML={{
-                                          __html: field.permissionHTML
-                                            .replace('<p>', '<span>')
-                                            .replace('</p>', '</span>'),
-                                        }}
+                                      <S.TextColumn
+                                        dangerouslySetInnerHTML={{ __html: field.permissionHTML }}
                                       />
                                     ) : (
                                       <FormattedMessage id="subscriber_gdpr.empty_html_text" />
