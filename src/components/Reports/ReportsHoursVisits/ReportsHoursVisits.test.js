@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import ReportsHoursVisits from './ReportsHoursVisits';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -52,8 +52,7 @@ describe('reports weekday and hours visits', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('common.unexpected_error'));
+    await waitFor(() => expect(getByText('common.unexpected_error')));
   });
 
   it('should show the graphic with the data', async () => {
@@ -63,7 +62,7 @@ describe('reports weekday and hours visits', () => {
     };
 
     // Act
-    const { container, getByText } = render(
+    const { container } = render(
       <AppServicesProvider
         forcedServices={{
           datahubClient: dataHubClientDouble,
@@ -77,7 +76,7 @@ describe('reports weekday and hours visits', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
+    await waitFor(() => {});
   });
 
   it('should show the graphic and check specific data', async () => {
@@ -115,8 +114,7 @@ describe('reports weekday and hours visits', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('593'));
+    await waitFor(() => expect(getByText('593')));
   });
 
   it('should show the graphic with user with email', async () => {
@@ -154,7 +152,6 @@ describe('reports weekday and hours visits', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('200'));
+    await waitFor(() => expect(getByText('200')));
   });
 });

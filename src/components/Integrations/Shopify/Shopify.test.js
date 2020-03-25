@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
@@ -67,8 +67,7 @@ describe('Shopify Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('shopify.header_disconnected_warning'));
+    await waitFor(() => expect(getByText('shopify.header_disconnected_warning')));
   });
 
   it('should get connected user with one shop', async () => {
@@ -87,8 +86,7 @@ describe('Shopify Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText(oneShopConnected.value[0].shopName));
+    await waitFor(() => expect(getByText(oneShopConnected.value[0].shopName)));
   });
 
   it('should get connected user with one shop and one list in sync state', async () => {
@@ -125,8 +123,7 @@ describe('Shopify Component', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('common.synchronizing'));
+    await waitFor(() => expect(getByText('common.synchronizing')));
   });
 
   it('should get connected user with more than one shop', async () => {
@@ -145,9 +142,10 @@ describe('Shopify Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText(moreThanOneShopConnected.value[0].shopName));
-    expect(getByText(moreThanOneShopConnected.value[1].shopName));
+    await waitFor(() => {
+      expect(getByText(moreThanOneShopConnected.value[0].shopName));
+      expect(getByText(moreThanOneShopConnected.value[1].shopName));
+    });
   });
 
   it('should manage unexpected errors', async () => {
@@ -166,8 +164,7 @@ describe('Shopify Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('validation_messages.error_unexpected_HTML'));
+    await waitFor(() => expect(getByText('validation_messages.error_unexpected_HTML')));
   });
 
   it('should use DopplerAPI client when there is a list associated', async () => {
@@ -205,8 +202,9 @@ describe('Shopify Component', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(container.querySelector('.dp-integration__status')).toBeInTheDocument();
-    expect(getByText(listExist.value.amountSubscribers.toString()));
+    await waitFor(() => {
+      expect(container.querySelector('.dp-integration__status')).toBeInTheDocument();
+      expect(getByText(listExist.value.amountSubscribers.toString()));
+    });
   });
 });

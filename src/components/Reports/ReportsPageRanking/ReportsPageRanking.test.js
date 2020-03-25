@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import ReportsPageRanking from './ReportsPageRanking';
@@ -49,7 +49,7 @@ describe('Reports pages ranking', () => {
       </AppServicesProvider>,
     );
 
-    await wait(() => getByText('https://www.fromdoppler.com/email-marketing'));
+    await waitFor(() => getByText('https://www.fromdoppler.com/email-marketing'));
 
     const pageName = getByText('https://www.fromdoppler.com/email-marketing');
 
@@ -72,8 +72,7 @@ describe('Reports pages ranking', () => {
     );
 
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('common.unexpected_error'));
+    await waitFor(() => expect(getByText('common.unexpected_error')));
   });
 
   it('should show empty message when dont have pages', async () => {
@@ -92,8 +91,7 @@ describe('Reports pages ranking', () => {
     );
 
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('common.empty_data'));
+    await waitFor(() => expect(getByText('common.empty_data')));
   });
 
   it('should show more results button', async () => {
@@ -129,7 +127,6 @@ describe('Reports pages ranking', () => {
     );
 
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('reports_pageranking.more_results'));
+    await waitFor(() => expect(getByText('reports_pageranking.more_results')));
   });
 });

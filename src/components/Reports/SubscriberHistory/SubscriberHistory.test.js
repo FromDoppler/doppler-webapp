@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import SubscriberHistory from './SubscriberHistory';
@@ -71,7 +71,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() =>
+    await waitFor(() =>
       expect(getByText('¿Como sacarle provecho a la primavera?')).toBeInTheDocument(),
     );
   });
@@ -106,7 +106,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() =>
+    await waitFor(() =>
       expect(dependencies.window.location.href).toBe(
         dependencies.appConfiguration.dopplerLegacyUrl + toUrl,
       ),
@@ -145,7 +145,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('subscriber_history.empty_data')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('subscriber_history.empty_data')).toBeInTheDocument());
   });
 
   it('should show subscriber firstName', async () => {
@@ -174,7 +174,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('Manuel')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('Manuel')).toBeInTheDocument());
   });
 
   it('should show stand by status', async () => {
@@ -205,7 +205,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('subscriber.status.standBy')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('subscriber.status.standBy')).toBeInTheDocument());
   });
 
   it('should show soft and hard bounced delivery status', async () => {
@@ -273,7 +273,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => {
+    await waitFor(() => {
       expect(getByText('subscriber_history.delivery_status.softBounced')).toBeInTheDocument();
       expect(getByText('subscriber_history.delivery_status.hardBounced')).toBeInTheDocument();
       expect(getByText('subscriber_history.delivery_status.opened')).toBeInTheDocument();
@@ -323,7 +323,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => {
+    await waitFor(() => {
       expect(container.querySelector('.dp-tooltip-block')).toBeInTheDocument();
     });
   });
@@ -369,7 +369,7 @@ describe('SubscriberHistory component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => {
+    await waitFor(() => {
       expect(container.querySelector('.dp-tooltip-block')).not.toBeInTheDocument();
     });
   });

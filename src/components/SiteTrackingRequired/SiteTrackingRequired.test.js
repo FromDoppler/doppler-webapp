@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../services/pure-di';
@@ -110,11 +110,12 @@ describe('site tracking', () => {
     );
 
     container.querySelector('button').click();
-    await waitForDomChange();
 
     // Assert
-    expect(dependencies.window.location.href).not.toBe(
-      'localhost:3000/ControlPanel/CampaignsPreferences/SiteTrackingSettings',
-    );
+    await waitFor(() => {
+      expect(dependencies.window.location.href).not.toBe(
+        'localhost:3000/ControlPanel/CampaignsPreferences/SiteTrackingSettings',
+      );
+    });
   });
 });

@@ -1,11 +1,10 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange, fireEvent, wait } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { MemoryRouter as Router } from 'react-router-dom';
 import Login from './Login';
 import { AppServicesProvider } from '../../services/pure-di';
-import { Formik } from 'formik';
 
 describe('Login component', () => {
   afterEach(cleanup);
@@ -34,7 +33,6 @@ describe('Login component', () => {
       </AppServicesProvider>,
     );
 
-    await waitForDomChange();
-    expect(getByText('login.button_login')).toBeInTheDocument();
+    await waitFor(() => expect(getByText('login.button_login')).toBeInTheDocument());
   });
 });

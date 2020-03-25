@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Promotions from './Promotions';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -37,8 +37,7 @@ describe('Promotions Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText('default_banner_data.title'));
+    await waitFor(() => expect(getByText('default_banner_data.title')));
   });
 
   it('should has full data from service', async () => {
@@ -58,7 +57,6 @@ describe('Promotions Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitForDomChange();
-    expect(getByText(fullResponse.value.title));
+    await waitFor(() => expect(getByText(fullResponse.value.title)));
   });
 });
