@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
@@ -31,7 +31,7 @@ describe('ReportsPartialsCampaigns component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
   });
 
   it('should show feature not available message', async () => {
@@ -57,7 +57,7 @@ describe('ReportsPartialsCampaigns component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('common.feature_no_available')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('common.feature_no_available')).toBeInTheDocument());
   });
 
   it('should show data', async () => {
@@ -100,7 +100,7 @@ describe('ReportsPartialsCampaigns component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => {
+    await waitFor(() => {
       expect(getByText('campaign name')).toBeInTheDocument();
       expect(getByText('campaign subject')).toBeInTheDocument();
       expect(getByText('reports_partials_campaigns.header_title')).toBeInTheDocument();

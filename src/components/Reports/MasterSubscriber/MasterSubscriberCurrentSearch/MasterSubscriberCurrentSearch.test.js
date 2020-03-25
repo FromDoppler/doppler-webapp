@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import MasterSubscriberCurrentSearch from './MasterSubscriberCurrentSearch';
@@ -116,7 +116,7 @@ describe('MasterSubscriberCurrentSearch component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('test@fromdoppler.com')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('test@fromdoppler.com')).toBeInTheDocument());
   });
 
   it('should show error message', async () => {
@@ -142,6 +142,6 @@ describe('MasterSubscriberCurrentSearch component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await wait(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('common.unexpected_error')).toBeInTheDocument());
   });
 });

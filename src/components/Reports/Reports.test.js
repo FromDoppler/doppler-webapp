@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, wait } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
@@ -49,7 +49,7 @@ describe('Reports page', () => {
     );
 
     // Assert
-    await wait(() => expect(getByText('reports.no_domains_HTML')));
+    await waitFor(() => expect(getByText('reports.no_domains_HTML')));
   });
 
   it('should render domains without pages', async () => {
@@ -76,7 +76,7 @@ describe('Reports page', () => {
       </AppServicesProvider>,
     );
 
-    await wait(() => getByText('reports_filters.verified_domain'));
+    await waitFor(() => getByText('reports_filters.verified_domain'));
 
     const domain = getByText(fakeData[1].name);
 
@@ -116,7 +116,7 @@ describe('Reports page', () => {
       );
 
       // Assert
-      await wait(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
+      await waitFor(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
       expect(getByText('reports_filters.domain_not_verified_MD'));
     })
   );
@@ -152,7 +152,7 @@ describe('Reports page', () => {
     resolveGetAccountDomainsPromise();
 
     // Assert
-    await wait(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
+    await waitFor(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
     getByText('reports.no_domains_HTML');
   });
 });

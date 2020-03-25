@@ -1,6 +1,6 @@
 import React from 'react';
 import Signup from './Signup';
-import { render, cleanup, wait, waitForDomChange } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
@@ -37,17 +37,15 @@ describe('Signup', () => {
 
     // Act
     container.querySelector('#lastname').focus();
-    await waitForDomChange();
 
     // Assert
-    expect(container.querySelectorAll('.error')).toHaveLength(0);
+    await waitFor(() => expect(container.querySelectorAll('.error')).toHaveLength(0));
 
     // Act
     container.querySelector('button[type="submit"]').click();
-    await waitForDomChange();
 
     // Assert
-    expect(container.querySelectorAll('.error')).not.toHaveLength(0);
+    await waitFor(() => expect(container.querySelectorAll('.error')).not.toHaveLength(0));
   });
 
   it('should show Argentina below Argelia when selected language is ES', async () => {
@@ -64,7 +62,7 @@ describe('Signup', () => {
     );
 
     // Assert
-    await wait(() =>
+    await waitFor(() =>
       expect(container.querySelector('#iti-item-dz').nextElementSibling.id).toBe('iti-item-ar'),
     );
   });
@@ -83,7 +81,7 @@ describe('Signup', () => {
     );
 
     // Assert
-    await wait(() =>
+    await waitFor(() =>
       expect(container.querySelector('#iti-item-io').nextElementSibling.id).toBe('iti-item-ps'),
     );
   });
@@ -102,7 +100,7 @@ describe('Signup', () => {
     );
 
     // Assert
-    await wait(() =>
+    await waitFor(() =>
       expect(container.querySelector('#iti-item-dz').nextElementSibling.id).toBe('iti-item-as'),
     );
   });
@@ -121,7 +119,7 @@ describe('Signup', () => {
     );
 
     // Assert
-    await wait(() =>
+    await waitFor(() =>
       expect(container.querySelector('#iti-item-io').nextElementSibling.id).toBe('iti-item-bn'),
     );
   });
