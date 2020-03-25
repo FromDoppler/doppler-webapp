@@ -26,9 +26,17 @@ const fieldNames = {
   password: 'password',
 };
 
+function extractPageFromRedirect(location) {
+  const redirectParameter = extractParameter(location, queryString.parse, 'redirect');
+  return /doppleracademy/.exec(redirectParameter) ? 'doppler-academy' : null;
+}
+
 /** Extract the page parameter from url*/
 function extractPage(location) {
-  return extractParameter(location, queryString.parse, 'page', 'Page');
+  return (
+    extractParameter(location, queryString.parse, 'page', 'Page') ||
+    extractPageFromRedirect(location)
+  );
 }
 
 const extractLegacyRedirectUrl = (location) => {
