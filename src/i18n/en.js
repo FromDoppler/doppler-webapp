@@ -364,7 +364,7 @@ export default {
       opened: 'Opened',
       softBounced: 'Removed by Soft',
     },
-    description: 'Here you will be able to know the campaign behavior history of your subscribers.',
+    description: 'Here you will be able to know the Campaign behavior history of your Subscribers.',
     empty_data: `So far there are no Campaigns sent`,
     subscriber_breadcrumb: 'Subscribers',
     subscriber_breadcrumb_url: `${urlMasterSubscriber}`,
