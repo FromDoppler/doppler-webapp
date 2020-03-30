@@ -288,38 +288,26 @@ export default {
     label_lastname: `Apellido: `,
     label_password: `Contraseña: `,
     label_phone: `Teléfono: `,
-    legal_HTML: `
-      <p>
-        Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente
-        formulario serán tratados por Doppler LLC como responsable de esta web.
-      </p>
-      <p>
-        <strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos
-        requieras.
-      </p>
-      <p>
-        <strong>Legitimación:</strong> Consentimiento del interesado.
-      </p>
-      <p>
-        <strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Google como
-        proveedor del servicio de reCAPTCHA, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de
-        hosting.
-      </p>
-      <p>
-        <strong>Información adicional:</strong> En la
-        <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Política de Privacidad</a> de Doppler
-        encontrarás información adicional sobre la recopilación y el uso de su información personal por
-        parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación,
-        seguridad, transferencias transfronterizas y otros temas.
-      </p>
-      `,
+    legal_HTML_part1: `Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente
+        formulario serán tratados por Doppler LLC como responsable de esta web. `,
+    legal_HTML_part2: `<strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos
+    requieras.`,
+    legal_HTML_part3: `<strong>Legitimación:</strong> Consentimiento del interesado.`,
+    legal_HTML_part4: `<strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Google como
+    proveedor del servicio de reCAPTCHA, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de
+    hosting.`,
+    legal_HTML_part5: `<strong>Información adicional:</strong> En la
+    <a>Política de Privacidad</a> de Doppler
+    encontrarás información adicional sobre la recopilación y el uso de su información personal por
+    parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación,
+    seguridad, transferencias transfronterizas y otros temas.`,
     log_in: `Ingresa`,
     no_more_resend_HTML: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor <a href="${mailtoSupport}">contáctate con Soporte</a>.`,
     placeholder_email: `Tu Email será tu Nombre de Usuario`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
-      Acepto la <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Política de Privacidad</a>
+      Acepto la <a>Política de Privacidad</a>
       de Doppler.
       `,
     promotions_consent: `Quiero recibir promociones de Doppler y sus aliados.`,
@@ -392,6 +380,28 @@ export default {
     plan_select: `Selecciona el Plan`,
     title: `Solicita una actualización de tu Plan`,
   },
+  urls: {
+    mailtoSupport : `${mailtoSupport}`,
+    urlBuyMonthly : `${urlBuyMonthly}`,
+    urlControlPanel : `${urlControlPanel}`,
+    urlControlPanelMain : `${urlControlPanelMain}`,
+    urlDopplerLegacy : `${urlDopplerLegacy}`,
+    urlHelp : `${urlHelp}`,
+    urlHelpAdvancedReports : `${urlHelpAdvancedReports}`,
+    urlMasterSubscriber : `${urlMasterSubscriber}`,
+    urlPrivacy : `${urlPrivacy}`,
+    urlPrivacyFromForgot : `${urlPrivacyFromForgot}`,
+    urlPrivacyFromLogin : `${urlPrivacyFromLogin}`,
+    urlPrivacyFromSignup : `${urlPrivacyFromSignup}`,
+    urlPrivacyFromSignup_HTMLEncoded : `${urlPrivacyFromSignup_HTMLEncoded}`,
+    urlShopify : `${urlShopify}`,
+    urlSite : `${urlSite}`,
+    urlSiteContact : `${urlSiteContact}`,
+    urlSiteFromForgot : `${urlSiteFromForgot}`,
+    urlSiteFromLogin : `${urlSiteFromLogin}`,
+    urlSiteFromSignup : `${urlSiteFromSignup}`,
+    urlSiteTracking : `${urlSiteTracking}`,
+  },
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       Por seguridad hemos bloqueado tu cuenta momentáneamente.
@@ -422,8 +432,8 @@ export default {
     error_required_field: `¡Ouch! El campo está vacío.`,
     error_unexpected_HTML: `
       Error inesperado. Por favor, intenta nuevamente* o
-      <a href="${mailtoSupport}">contacta a Soporte</a>.
-      <br/><br/>
+      <a>contacta a Soporte</a>.
+      <br></br>
       <i>*Si tienes ad blockers instalados,
       recomendamos deshabilitarlos en el reintento.</i>
       `,

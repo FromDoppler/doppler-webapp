@@ -288,29 +288,15 @@ export default {
     label_lastname: `Lastname: `,
     label_password: `Password: `,
     label_phone: `Phone: `,
-    legal_HTML: `
-      <p>
-        Doppler informs you that the personal data you provide by completing this form will be
-        treated by Doppler LLC as responsible for this web site.
-      </p>
-      <p>
-        <strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.
-      </p>
-      <p>
-        <strong>Legitimation:</strong> Consent of the applicant.
-      </p>
-      <p>
-        <strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the
-        provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
-      </p>
-      <p>
-        <strong>Additional information:</strong> In Doppler's
-        <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Privacy Policy</a>
-        you'll find additional information about the data storage and use of your
-        personal information, including information on access, conservation, rectification,
-        deletion, security, cross-border data transfers and other issues.
-      </p>
-      `,
+    legal_HTML_part1: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site. `,
+    legal_HTML_part2: `<strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.`,
+    legal_HTML_part3: `<strong>Legitimation:</strong> Consent of the applicant.`,
+    legal_HTML_part4: `<strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the
+    provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.`,
+    legal_HTML_part5: `<strong>Additional information:</strong> In Doppler's <a>Privacy Policy</a>
+    you'll find additional information about the data storage and use of your
+    personal information, including information on access, conservation, rectification,
+    deletion, security, cross-border data transfers and other issues.`,
     log_in: `Log In`,
     no_more_resend_HTML: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please <a href="${mailtoSupport}">contact Support</a>.`,
     placeholder_email: `Your Email will be your Username`,
@@ -318,7 +304,7 @@ export default {
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_HTML: `
       I accept Doppler's
-      <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Privacy Policy</a>.
+      <a>Privacy Policy</a>.
     `,
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
@@ -390,6 +376,28 @@ export default {
     plan_select: `Select Plan`,
     title: `Request an update of your Plan`,
   },
+  urls: {
+    mailtoSupport : `${mailtoSupport}`,
+    urlBuyMonthly : `${urlBuyMonthly}`,
+    urlControlPanel : `${urlControlPanel}`,
+    urlControlPanelMain : `${urlControlPanelMain}`,
+    urlDopplerLegacy : `${urlDopplerLegacy}`,
+    urlHelp : `${urlHelp}`,
+    urlHelpAdvancedReports : `${urlHelpAdvancedReports}`,
+    urlMasterSubscriber : `${urlMasterSubscriber}`,
+    urlPrivacy : `${urlPrivacy}`,
+    urlPrivacyFromForgot : `${urlPrivacyFromForgot}`,
+    urlPrivacyFromLogin : `${urlPrivacyFromLogin}`,
+    urlPrivacyFromSignup : `${urlPrivacyFromSignup}`,
+    urlPrivacyFromSignup_HTMLEncoded : `${urlPrivacyFromSignup_HTMLEncoded}`,
+    urlShopify : `${urlShopify}`,
+    urlSite : `${urlSite}`,
+    urlSiteContact : `${urlSiteContact}`,
+    urlSiteFromForgot : `${urlSiteFromForgot}`,
+    urlSiteFromLogin : `${urlSiteFromLogin}`,
+    urlSiteFromSignup : `${urlSiteFromSignup}`,
+    urlSiteTracking : `${urlSiteTracking}`,
+  },
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       For security reasons we've temporarily disabled your account.
@@ -420,8 +428,8 @@ export default {
     error_required_field: `Ouch! The field is empty.`,
     error_unexpected_HTML: `
       Unexpected error. Please try again* or
-      <a href="${mailtoSupport}">contact Support</a>.
-      <br/><br/>
+      <a>contact Support</a>.
+      <br></br>
       <i>*If you have ad blockers installed,
       please disable them on retry.</i>
       `,
