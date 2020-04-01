@@ -72,14 +72,9 @@ export default {
     back_login_after_forgot: `Back to Log in`,
     blocked_account_MD: `Your account has been cancelled. To know more please [contact us](${urlSiteContact}).`,
     button_request: `Request`,
-    confirmation_message_HTML: `
-      <p>
-        Check your inbox!
-      </p>
-      <p>
-        You'll find an Email with steps to follow.
-      </p>
-      `,
+    confirmation_message_HTML_MD: `Check your inbox!
+
+You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
     expired_link: `Link expired, please click on Forgot your Password? to request a new one.`,
@@ -98,7 +93,7 @@ export default {
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment_HTML: `Account blocked, please <a href="${mailtoSupport}">contact Support</a>.`,
+    error_payment_HTML_MD: `Account blocked, please [contact Support](${mailtoSupport}).`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
@@ -376,14 +371,8 @@ export default {
     title: `Request an update of your Plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_HTML: `
-      For security reasons we've temporarily disabled your account.
-      <a href="${mailtoSupport}">Contact us</a>.
-      `,
-    error_account_is_canceled_HTML: `
-      Your account has been cancelled. To know more please
-      <a href="${mailtoSupport}">contact us</a>.
-      `,
+    error_account_is_blocked_invalid_pass_HTML_MD: `For security reasons we've temporarily disabled your account. [Contact us](${mailtoSupport}).`,
+    error_account_is_canceled_HTML_MD: `Your account has been cancelled. To know more please [contact us](${mailtoSupport}).`,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
@@ -403,7 +392,7 @@ export default {
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_HTML: `Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
+    error_unexpected_HTML_MD: `Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
 
 **If you have ad blockers installed, please disable them on retry.*`,
   },

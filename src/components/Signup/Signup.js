@@ -134,7 +134,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         setErrors({
           _error: (
             <FormattedMessageMarkdown
-              id="validation_messages.error_unexpected_HTML"
+              id="validation_messages.error_unexpected_HTML_MD"
               linkTarget={'_blank'}
             />
           ),

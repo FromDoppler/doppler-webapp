@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
   EmailFieldItem,
@@ -70,7 +70,7 @@ const isActivactionInProgress = (location) => {
 
 const LoginErrorBlockedAccountNotPayed = () => (
   <p>
-    <FormattedHTMLMessage id="login.error_payment_HTML" />
+    <FormattedMessageMarkdown id="login.error_payment_HTML_MD" />
   </p>
 );
 
@@ -131,7 +131,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
         setErrors({
-          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
         });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({
@@ -139,7 +139,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _error: <FormattedHTMLMessage id="validation_messages.error_account_is_canceled_HTML" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_HTML_MD" />,
         });
       } else if (
         result.expectedError &&
@@ -148,7 +148,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       ) {
         setErrors({
           _error: (
-            <FormattedHTMLMessage id="validation_messages.error_account_is_blocked_invalid_pass_HTML" />
+            <FormattedMessageMarkdown id="validation_messages.error_account_is_blocked_invalid_pass_HTML_MD" />
           ),
         });
       } else if (result.expectedError && result.expectedError.invalidLogin) {
@@ -166,7 +166,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
         });
         addLogEntry({
           account: values[fieldNames.user],
@@ -265,13 +265,12 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         </FormWithCaptcha>
         <footer>
           <CaptchaLegalMessage />
-          <p>
+          <small>
             <FormattedMessageMarkdown
-              container="small"
               id="login.copyright_MD"
-              options={{ linkTarget: '_blank' }}
+              linkTarget={'_blank'}
             />
-          </p>
+          </small>
         </footer>
       </article>
       <Promotions type="login" page={extractPage(location)} />

@@ -71,14 +71,9 @@ export default {
     back_login_after_forgot: `Volver al Log in`,
     blocked_account_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${urlSiteContact}).`,
     button_request: `Solicitar`,
-    confirmation_message_HTML: `
-      <p>
-        ¡Revisa tu casilla!
-      </p>
-      <p>
-        Encontrarás un Email con los pasos a seguir.
-      </p>
-      `,
+    confirmation_message_HTML_MD: `¡Revisa tu casilla!
+
+Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
     description: `¡No te preocupes! Nos sucede a todos. Ingresa tu Email y te ayudaremos a recuperarla.`,
     expired_link: `¡Link expirado! Por favor haz click en ¿No recuerdas tu contraseña?.`,
@@ -97,7 +92,7 @@ export default {
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
-    error_payment_HTML: `La cuenta está bloqueda, por favor <a href="${mailtoSupport}">contáctate con Soporte</a>.`,
+    error_payment_HTML_MD: `La cuenta está bloqueda, por favor [contáctate con Soporte](${mailtoSupport}).`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
@@ -372,14 +367,8 @@ export default {
     title: `Solicita una actualización de tu Plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_HTML: `
-      Por seguridad hemos bloqueado tu cuenta momentáneamente.
-      <a href="${mailtoSupport}">Contáctanos<a>.
-      `,
-    error_account_is_canceled_HTML: `
-      Tu cuenta se encuentra cancelada. Para más información
-      <a target="_blank" href="${mailtoSupport}">contáctanos</a>.
-      `,
+    error_account_is_blocked_invalid_pass_HTML_MD: `Por seguridad hemos bloqueado tu cuenta momentáneamente. [Contáctanos](${mailtoSupport}).`,
+    error_account_is_canceled_HTML_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${mailtoSupport}).`,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
@@ -399,7 +388,7 @@ export default {
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected_HTML: `Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
+    error_unexpected_HTML_MD: `Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
 
 **Si tienes ad blockers instalados, recomendamos deshabilitarlos en el reintento.*`,
   },
