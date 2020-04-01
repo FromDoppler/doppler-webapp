@@ -41,9 +41,7 @@ export default {
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
-    recaptcha_legal_HTML: `
-    Site protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy?hl=en">Privacy Policy</a>
-    and <a href="https://policies.google.com/terms?hl=en">Terms of Service</a>.
+    recaptcha_legal_HTML: `Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).
     `,
     send: `Send`,
     show: `Show`,
@@ -288,24 +286,25 @@ export default {
     label_lastname: `Lastname: `,
     label_password: `Password: `,
     label_phone: `Phone: `,
-    legal_HTML_part1: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site. `,
-    legal_HTML_part2: `<strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.`,
-    legal_HTML_part3: `<strong>Legitimation:</strong> Consent of the applicant.`,
-    legal_HTML_part4: `<strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the
-    provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.`,
-    legal_HTML_part5: `<strong>Additional information:</strong> In Doppler's <a>Privacy Policy</a>
+    legal_HTML_MD: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
+
+**Purpose:** Sign you up into our platform and provide the services that you require.
+
+**Legitimation:** Consent of the applicant.
+
+**Recipients:** Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
+
+**Additional information:** In Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded})
     you'll find additional information about the data storage and use of your
     personal information, including information on access, conservation, rectification,
-    deletion, security, cross-border data transfers and other issues.`,
+    deletion, security, cross-border data transfers and other issues.
+  `,
     log_in: `Log In`,
     no_more_resend_HTML: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please <a href="${mailtoSupport}">contact Support</a>.`,
     placeholder_email: `Your Email will be your Username`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
-    privacy_policy_consent_HTML: `
-      I accept Doppler's
-      <a>Privacy Policy</a>.
-    `,
+    privacy_policy_consent_HTML_MD: `I accept Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}).`,
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
     sign_up: `Email, Automation & Data Marketing`,
@@ -376,28 +375,6 @@ export default {
     plan_select: `Select Plan`,
     title: `Request an update of your Plan`,
   },
-  urls: {
-    mailtoSupport : `${mailtoSupport}`,
-    urlBuyMonthly : `${urlBuyMonthly}`,
-    urlControlPanel : `${urlControlPanel}`,
-    urlControlPanelMain : `${urlControlPanelMain}`,
-    urlDopplerLegacy : `${urlDopplerLegacy}`,
-    urlHelp : `${urlHelp}`,
-    urlHelpAdvancedReports : `${urlHelpAdvancedReports}`,
-    urlMasterSubscriber : `${urlMasterSubscriber}`,
-    urlPrivacy : `${urlPrivacy}`,
-    urlPrivacyFromForgot : `${urlPrivacyFromForgot}`,
-    urlPrivacyFromLogin : `${urlPrivacyFromLogin}`,
-    urlPrivacyFromSignup : `${urlPrivacyFromSignup}`,
-    urlPrivacyFromSignup_HTMLEncoded : `${urlPrivacyFromSignup_HTMLEncoded}`,
-    urlShopify : `${urlShopify}`,
-    urlSite : `${urlSite}`,
-    urlSiteContact : `${urlSiteContact}`,
-    urlSiteFromForgot : `${urlSiteFromForgot}`,
-    urlSiteFromLogin : `${urlSiteFromLogin}`,
-    urlSiteFromSignup : `${urlSiteFromSignup}`,
-    urlSiteTracking : `${urlSiteTracking}`,
-  },
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       For security reasons we've temporarily disabled your account.
@@ -426,12 +403,8 @@ export default {
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_HTML: `
-      Unexpected error. Please try again* or
-      <a>contact Support</a>.
-      <br></br>
-      <i>*If you have ad blockers installed,
-      please disable them on retry.</i>
-      `,
+    error_unexpected_HTML: `Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
+
+**If you have ad blockers installed, please disable them on retry.*`,
   },
 };

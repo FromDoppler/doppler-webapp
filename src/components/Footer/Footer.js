@@ -12,7 +12,7 @@ const Footer = () => (
           </p>
         </div>
         <div className="col-sm-12 col-md-6 col-lg-6 dp-text-align">
-          <FormattedMessageMarkdown id="common.copyright_MD" options={{ linkTarget: '_blank' }} />
+          <FormattedMessageMarkdown id="common.copyright_MD" linkTarget={'_blank'} />
         </div>
       </div>
     </div>

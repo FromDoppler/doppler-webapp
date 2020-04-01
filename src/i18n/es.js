@@ -41,10 +41,7 @@ export default {
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
     message: `Mensaje`,
-    recaptcha_legal_HTML: `
-    Sitio protegido por reCAPTCHA. <a href="https://policies.google.com/privacy?hl=es">Política de Privacidad</a>
-    y <a href="https://policies.google.com/terms?hl=es">Condiciones del Servicio</a> de Google.
-    `,
+    recaptcha_legal_HTML_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     send: `Enviar`,
     show: `Mostrar`,
     synchronizing: `Syncronizando`,
@@ -288,28 +285,22 @@ export default {
     label_lastname: `Apellido: `,
     label_password: `Contraseña: `,
     label_phone: `Teléfono: `,
-    legal_HTML_part1: `Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente
-        formulario serán tratados por Doppler LLC como responsable de esta web. `,
-    legal_HTML_part2: `<strong>Finalidad:</strong> Darte de alta en nuestra plataforma y brindarte los servicios que nos
-    requieras.`,
-    legal_HTML_part3: `<strong>Legitimación:</strong> Consentimiento del interesado.`,
-    legal_HTML_part4: `<strong>Destinatarios:</strong> Tus datos serán guardados por Doppler, Zoho como CRM, Google como
-    proveedor del servicio de reCAPTCHA, Digital Ocean, Cogeco Peer1 y Rackspace como empresas de
-    hosting.`,
-    legal_HTML_part5: `<strong>Información adicional:</strong> En la
-    <a>Política de Privacidad</a> de Doppler
-    encontrarás información adicional sobre la recopilación y el uso de su información personal por
-    parte de Doppler, incluida información sobre acceso, conservación, rectificación, eliminación,
-    seguridad, transferencias transfronterizas y otros temas.`,
+    legal_HTML_MD: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
+
+**Purpose:** Sign you up into our platform and provide the services that you require.
+
+**Legitimation:** Consent of the applicant.
+
+**Recipients:** Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
+
+**Additional information:** In Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}) you'll find additional information about the data storage and use of your personal information, including information on access, conservation, rectification, deletion, security, cross-border data transfers and other issues.
+  `,
     log_in: `Ingresa`,
     no_more_resend_HTML: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor <a href="${mailtoSupport}">contáctate con Soporte</a>.`,
     placeholder_email: `Tu Email será tu Nombre de Usuario`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
-    privacy_policy_consent_HTML: `
-      Acepto la <a>Política de Privacidad</a>
-      de Doppler.
-      `,
+    privacy_policy_consent_HTML_MD: `Acepto la [Política de Privacidad](${urlPrivacyFromSignup_HTMLEncoded}) de Doppler.`,
     promotions_consent: `Quiero recibir promociones de Doppler y sus aliados.`,
     resend_email: `Reenvíalo`,
     sign_up: `Email, Automation & Data Marketing`,
@@ -380,28 +371,6 @@ export default {
     plan_select: `Selecciona el Plan`,
     title: `Solicita una actualización de tu Plan`,
   },
-  urls: {
-    mailtoSupport : `${mailtoSupport}`,
-    urlBuyMonthly : `${urlBuyMonthly}`,
-    urlControlPanel : `${urlControlPanel}`,
-    urlControlPanelMain : `${urlControlPanelMain}`,
-    urlDopplerLegacy : `${urlDopplerLegacy}`,
-    urlHelp : `${urlHelp}`,
-    urlHelpAdvancedReports : `${urlHelpAdvancedReports}`,
-    urlMasterSubscriber : `${urlMasterSubscriber}`,
-    urlPrivacy : `${urlPrivacy}`,
-    urlPrivacyFromForgot : `${urlPrivacyFromForgot}`,
-    urlPrivacyFromLogin : `${urlPrivacyFromLogin}`,
-    urlPrivacyFromSignup : `${urlPrivacyFromSignup}`,
-    urlPrivacyFromSignup_HTMLEncoded : `${urlPrivacyFromSignup_HTMLEncoded}`,
-    urlShopify : `${urlShopify}`,
-    urlSite : `${urlSite}`,
-    urlSiteContact : `${urlSiteContact}`,
-    urlSiteFromForgot : `${urlSiteFromForgot}`,
-    urlSiteFromLogin : `${urlSiteFromLogin}`,
-    urlSiteFromSignup : `${urlSiteFromSignup}`,
-    urlSiteTracking : `${urlSiteTracking}`,
-  },
   validation_messages: {
     error_account_is_blocked_invalid_pass_HTML: `
       Por seguridad hemos bloqueado tu cuenta momentáneamente.
@@ -430,12 +399,8 @@ export default {
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected_HTML: `
-      Error inesperado. Por favor, intenta nuevamente* o
-      <a>contacta a Soporte</a>.
-      <br></br>
-      <i>*Si tienes ad blockers instalados,
-      recomendamos deshabilitarlos en el reintento.</i>
-      `,
+    error_unexpected_HTML: `Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
+
+**Si tienes ad blockers instalados, recomendamos deshabilitarlos en el reintento.*`,
   },
 };

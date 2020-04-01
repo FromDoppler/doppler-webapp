@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
@@ -132,17 +132,12 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _error: <FormattedMessage id="validation_messages.error_unexpected_HTML" values={{
-            i: (...chunks) => (
-              <i>{chunks}</i>
-            ),
-            br: (...chunks) => (
-              <><br/><br/></>
-            ),
-            a: (...chunks) => (
-              <a href={_('urls.mailtoSupport')}>{chunks}</a>
-            )
-          }} />,
+          _error: (
+            <FormattedMessageMarkdown
+              id="validation_messages.error_unexpected_HTML"
+              linkTarget={'_blank'}
+            />
+          ),
         });
       }
     } finally {
@@ -226,11 +221,12 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
             <FieldGroup>
               <CheckboxFieldItem
                 fieldName={fieldNames.accept_privacy_policies}
-                label={<FormattedMessage id="signup.privacy_policy_consent_HTML" values={{
-                  a: (...chunks) => (
-                    <a target="_blank" href={_('urls.urlPrivacyFromSignup_HTMLEncoded')} rel="noopener noreferrer">{chunks}</a>
-                  )
-                }} />}
+                label={
+                  <FormattedMessageMarkdown
+                    linkTarget={'_blank'}
+                    id="signup.privacy_policy_consent_HTML_MD"
+                  />
+                }
                 checkRequired
               />
               <CheckboxFieldItem
@@ -243,57 +239,15 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
           <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
         </FormWithCaptcha>
         <div className="content-legal">
-          <p>
-            <FormattedMessage id="signup.legal_HTML_part1" />
-          </p>
-          <p>
-            <FormattedMessage id="signup.legal_HTML_part2"
-            values={{
-              strong: (...chunks) => (
-                <strong>{chunks}</strong>
-              )
-            }}
-            />
-          </p>
-          <p>
-            <FormattedMessage id="signup.legal_HTML_part3"
-            values={{
-              strong: (...chunks) => (
-                <strong>{chunks}</strong>
-              )
-            }}
-            />
-          </p>
-          <p>
-            <FormattedMessage id="signup.legal_HTML_part4"
-            values={{
-              strong: (...chunks) => (
-                <strong>{chunks}</strong>
-              )
-            }}
-            />
-          </p>
-          <p>
-            <FormattedMessage id="signup.legal_HTML_part5"
-            values={{
-              strong: (...chunks) => (
-                <strong>{chunks}</strong>
-              ),
-              a: (...chunks) => (
-                <a target="_blank" href={_('urls.urlPrivacyFromSignup_HTMLEncoded')} rel="noopener noreferrer">{chunks}</a>
-              )
-            }}
-            />
-          </p>
+          <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_HTML_MD" />
         </div>
         <footer>
-          <p>
+          <small>
             <FormattedMessageMarkdown
-              container="small"
               id="signup.copyright_MD"
-              options={{ linkTarget: '_blank' }}
+              linkTarget={'_blank'}
             />
-          </p>
+          </small>
         </footer>
       </article>
       <Promotions type="signup" page={extractPage(location)} />
