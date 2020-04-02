@@ -40,8 +40,8 @@ export default {
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
-    recaptcha_legal_MD: `Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).
-    `,
+    recaptcha_legal_MD: `
+Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
     send: `Send`,
     show: `Show`,
     synchronizing: `Synchronizing`,
@@ -71,7 +71,8 @@ export default {
     back_login_after_forgot: `Back to Log in`,
     blocked_account_MD: `Your account has been cancelled. To know more please [contact us](${urlSiteContact}).`,
     button_request: `Request`,
-    confirmation_message_MD: `Check your inbox!
+    confirmation_message_MD: `
+Check your inbox!
 
 You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
@@ -173,8 +174,9 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
   },
   reports_filters: {
     all_pages: `All pages`,
-    description_MD: `Find out which are the most visited pages, how many of those visitors already have an Email identified
-      by Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press [HELP](${urlHelpAdvancedReports}).
+    description_MD: `
+Find out which are the most visited pages, how many of those visitors already have an Email identified
+by Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Domain`,
     domain_not_verified_MD: `Your domain is not verified. It is necessary to start obtaining data about your visits. [VERIFY DOMAIN](${urlSiteTracking}).`,
@@ -234,8 +236,9 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     error_cannot_access_api: `Oops! We could not connect to Shopify API, please try again later.`,
     header_disconnected_warning: `By pressing "Connect" you will be redirected to Shopify, where you can carry out the necessary steps to integrate.`,
     header_store: `Account name:`,
-    header_subtitle_MD: `Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
-    and create Abandoned Cart and Retargeting Product Automations. Any questions? Press [HELP](${urlHelp}/how-to-integrate-doppler-with-shopify/).`,
+    header_subtitle_MD: `
+Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
+and create Abandoned Cart and Retargeting Product Automations. Any questions? Press [HELP](${urlHelp}/how-to-integrate-doppler-with-shopify/).`,
     header_synchronization_date: `Last synchronization date:`,
     header_title: `Connect Doppler with your Shopify store`,
     list_subtitle: `You can synchronize the data manually whenever you want.`,
@@ -261,7 +264,8 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     label_lastname: `Lastname: `,
     label_password: `Password: `,
     label_phone: `Phone: `,
-    legal_MD: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
+    legal_MD: `
+Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
 
 **Purpose:** Sign you up into our platform and provide the services that you require.
 
@@ -270,9 +274,9 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
 **Recipients:** Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
 
 **Additional information:** In Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded})
-    you'll find additional information about the data storage and use of your
-    personal information, including information on access, conservation, rectification,
-    deletion, security, cross-border data transfers and other issues.
+you'll find additional information about the data storage and use of your
+personal information, including information on access, conservation, rectification,
+deletion, security, cross-border data transfers and other issues.
   `,
     log_in: `Log In`,
     no_more_resend_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
@@ -372,7 +376,8 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_MD: `Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
+    error_unexpected_MD: `
+Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
 
 **If you have ad blockers installed, please disable them on retry.*`,
   },

@@ -10,7 +10,7 @@
   width: 414px;
 }
 
-.captcha-legal-message {
+.captcha-legal-message p {
   font-size: 12px;
   line-height: 16px;
   font-family: proxima-nova, Helvetica;

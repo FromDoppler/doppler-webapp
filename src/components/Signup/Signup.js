@@ -20,6 +20,7 @@ import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { extractParameter, isWhitelisted } from './../../utils';
+import * as S from './Signup.styles';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -151,7 +152,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         <title>{_('signup.head_title')}</title>
         <meta name="description" content={_('signup.head_description')} />
       </Helmet>
-      <article className="main-panel">
+      <S.MainPanel className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
             <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
@@ -221,6 +222,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
             <FieldGroup>
               <CheckboxFieldItem
                 fieldName={fieldNames.accept_privacy_policies}
+                className={'label--policy'}
                 label={
                   <FormattedMessageMarkdown
                     linkTarget={'_blank'}
@@ -246,7 +248,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
             <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
           </small>
         </footer>
-      </article>
+      </S.MainPanel>
       <Promotions type="signup" page={extractPage(location)} />
     </main>
   );

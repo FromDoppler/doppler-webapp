@@ -70,7 +70,8 @@ export default {
     back_login_after_forgot: `Volver al Log in`,
     blocked_account_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${urlSiteContact}).`,
     button_request: `Solicitar`,
-    confirmation_message_MD: `¡Revisa tu casilla!
+    confirmation_message_MD: `
+¡Revisa tu casilla!
 
 Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
@@ -174,8 +175,9 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
   },
   reports_filters: {
     all_pages: `Todas las paginas`,
-    description_MD: `Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
-    los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona [HELP](${urlHelpAdvancedReports}).
+    description_MD: `
+Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
+los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Dominio`,
     domain_not_verified_MD: `Tu dominio no está verificado. Es necesario para comenzar a obtener datos sobre tus visitas. [VERIFICAR DOMINIO](${urlSiteTracking}).`,
@@ -235,8 +237,9 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
     error_cannot_access_api: `Ouch! No pudimos conectar con la API de Shopify, por favor vuelve a intentarlo luego.`,
     header_disconnected_warning: `Al presionar "Conectar" serás redirigido a Shopify, donde podrás realizar todos los pasos necesarios para integrar.`,
     header_store: `Nombre de la cuenta:`,
-    header_subtitle_MD: `Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
-    Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona [HELP](${urlHelp}/como-integrar-doppler-y-shopify/).`,
+    header_subtitle_MD: `
+Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
+Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona [HELP](${urlHelp}/como-integrar-doppler-y-shopify/).`,
     header_synchronization_date: `Fecha de última sincronización:`,
     header_title: `Conecta Doppler con tu tienda Shopify`,
     list_subtitle: `Puedes sincronizar los datos manualmente cuando gustes.`,
@@ -262,7 +265,8 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
     label_lastname: `Apellido: `,
     label_password: `Contraseña: `,
     label_phone: `Teléfono: `,
-    legal_MD: `Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Doppler LLC como responsable de esta web.
+    legal_MD: `
+Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Doppler LLC como responsable de esta web.
 
 **Finalidad:** Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras..
 
@@ -373,7 +377,8 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected_MD: `Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
+    error_unexpected_MD: `
+Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
 
 **Si tienes ad blockers instalados, recomendamos deshabilitarlos en el reintento.*`,
   },
