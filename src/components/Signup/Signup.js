@@ -243,10 +243,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         </div>
         <footer>
           <small>
-            <FormattedMessageMarkdown
-              id="signup.copyright_MD"
-              linkTarget={'_blank'}
-            />
+            <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
           </small>
         </footer>
       </article>

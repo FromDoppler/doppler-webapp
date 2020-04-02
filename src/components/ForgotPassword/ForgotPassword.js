@@ -116,7 +116,10 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         {sentEmail ? (
           <S.MessageSuccess>
             <div className="form-message dp-ok-message bounceIn">
-              <FormattedMessageMarkdown tagName="div" id="forgot_password.confirmation_message_HTML_MD" />
+              <FormattedMessageMarkdown
+                tagName="div"
+                id="forgot_password.confirmation_message_HTML_MD"
+              />
               <LinkToLoginSuccess />
             </div>
           </S.MessageSuccess>
@@ -149,10 +152,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         <footer>
           <CaptchaLegalMessage />
           <small>
-            <FormattedMessageMarkdown
-              id="forgot_password.copyright_MD"
-              linkTarget={'_blank'}
-            />
+            <FormattedMessageMarkdown id="forgot_password.copyright_MD" linkTarget={'_blank'} />
           </small>
         </footer>
       </article>

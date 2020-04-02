@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import SafeRedirect from '../SafeRedirect';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 export const SiteTrackingNotAvailableReasons = {
   freeAccount: 'freeAccount',
@@ -48,13 +49,20 @@ export const SiteTrackingRequired = InjectAppServices(
             // Free accounts cannot enable trial, they should buy
             <>
               <FormattedMessage tagName="h2" id="reports.upgrade_account_free_title" />
-              <FormattedHTMLMessage tagName="div" id="reports.upgrade_account_free_HTML" />
+              <FormattedMessageMarkdown
+                linkTarget={'_blank'}
+                id="reports.upgrade_account_free_HTML_MD"
+              />
             </>
           ) : reason === SiteTrackingNotAvailableReasons.trialNotAccepted ? (
             // Any paid account can enable the trial
             <>
               <FormattedMessage tagName="h2" id="reports.allow_enable_trial_title" />
-              <FormattedHTMLMessage tagName="div" id="reports.allow_enable_trial_HTML" />
+              <FormattedMessageMarkdown
+                tagName="div"
+                linkTarget={'_blank'}
+                id="reports.allow_enable_trial_HTML_MD"
+              />
               <div className="dp-messages-actions">
                 <button
                   onClick={activateTrial}
@@ -74,7 +82,11 @@ export const SiteTrackingRequired = InjectAppServices(
             // SiteTrackingNotAvailableReasons.noDatahubId
             <>
               <FormattedMessage tagName="h2" id="reports.datahub_not_domains_title" />
-              <FormattedHTMLMessage className="patch-no-domains" id="reports.no_domains_HTML" />
+              <FormattedMessageMarkdown
+                className="patch-no-domains"
+                linkTarget={'_blank'}
+                id="reports.no_domains_HTML_MD"
+              />
               <div className="dp-messages-actions">
                 <FormattedMessage id="reports.no_domains_button_destination">
                   {(url) => (

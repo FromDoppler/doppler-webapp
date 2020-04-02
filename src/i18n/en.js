@@ -6,7 +6,6 @@ const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
-const patchForBlank = `rel="noopener noreferrer"`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 
 // Common URLs
@@ -137,38 +136,24 @@ You'll find an Email with steps to follow.`,
     grid_subject: `Subject`,
   },
   reports: {
-    allow_enable_trial_HTML: `
-      <p>
-        Activate the trial period and access detailed Reports on the behavior of users inside your
-        Website or E-commerce. Discover which are the most visited pages, how many visitors have an
-        Email identified by Doppler and how many don't. Any doubts? Press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      `,
+    allow_enable_trial_HTML: `Activate the trial period and access detailed Reports on the behavior of users inside your
+    Website or E-commerce. Discover which are the most visited pages,
+    how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press [HELP](${urlHelpAdvancedReports})`,
     allow_enable_trial_button: `Start the trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
-    no_domains_HTML: `
-      <p>
-        Register the domain (s) you want to track and access to detailed Reports. Discover which are the
-        most visited pages of your Website or E-commerce, how many visitors have been identified by
-        Doppler and how many have not. Any doubts? Press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
+    no_domains_HTML_MD: `Register the domain (s) you want to track and access to detailed Reports. Discover which are the
+    most visited pages of your Website or E-commerce, how many visitors have been identified by
+    Doppler and how many have not. Any doubts? Press [HELP](${urlHelpAdvancedReports}).
       </p>
       `,
     no_domains_button: `Add your domain`,
     no_domains_button_destination: `${urlSiteTracking}`,
-    upgrade_account_free_HTML: `
-      <p>
-        Upgrade your account and access detailed Reports on the behavior of users on your Website or
-        E-commerce. Discover which are the most visited pages, how many visitors have an Email that
-        Doppler has identified and how many don't. Any doubts? Press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      <p>
-        By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
-        <a href="${urlBuyMonthly}">UPGRADE NOW</a>.
-      </p>
+    upgrade_account_free_HTML_MD: `Upgrade your account and access detailed Reports on the behavior of users on your Website or
+    E-commerce. Discover which are the most visited pages, how many visitors have an Email that
+    Doppler has identified and how many don't. Any doubts? Press [HELP](${urlHelpAdvancedReports}).
+
+By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only. [UPGRADE NOW](${urlBuyMonthly}).
       `,
     upgrade_account_free_title: `Analyze your Subscriber's behaviour and improve your strategy`,
   },
@@ -188,13 +173,8 @@ You'll find an Email with steps to follow.`,
   },
   reports_filters: {
     all_pages: `All pages`,
-    description_HTML: `
-      <p>
-        Find out which are the most visited pages, how many of those visitors already have an Email
-        identified by Doppler and how many don't. By tracking the user's journey you'll be able to
-        detect vanishing points and opportunities for improvement! If you have any doubts, press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
+    description_HTML_MD: `Find out which are the most visited pages, how many of those visitors already have an Email identified
+     by Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Domain`,
     domain_not_verified_MD: `Your domain is not verified. It is necessary to start obtaining data about your visits. [VERIFY DOMAIN](${urlSiteTracking}).`,
@@ -254,8 +234,8 @@ You'll find an Email with steps to follow.`,
     error_cannot_access_api: `Oops! We could not connect to Shopify API, please try again later.`,
     header_disconnected_warning: `By pressing "Connect" you will be redirected to Shopify, where you can carry out the necessary steps to integrate.`,
     header_store: `Account name:`,
-    header_subtitle: `Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
-    and create Abandoned Cart and Retargeting Product Automations. Any questions? Press <a target="_blank" href="${urlHelp}/how-to-integrate-doppler-with-shopify/" ${patchForBlank}>HELP</a>.`,
+    header_subtitle_MD: `Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
+    and create Abandoned Cart and Retargeting Product Automations. Any questions? Press [HELP](${urlHelp}/how-to-integrate-doppler-with-shopify/).`,
     header_synchronization_date: `Last synchronization date:`,
     header_title: `Connect Doppler with your Shopify store`,
     list_subtitle: `You can synchronize the data manually whenever you want.`,
@@ -295,7 +275,7 @@ You'll find an Email with steps to follow.`,
     deletion, security, cross-border data transfers and other issues.
   `,
     log_in: `Log In`,
-    no_more_resend_HTML: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please <a href="${mailtoSupport}">contact Support</a>.`,
+    no_more_resend_HTML_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
     placeholder_email: `Your Email will be your Username`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useCaptcha } from '../form-helpers/captcha-utils';
-import { useIntl, FormattedHTMLMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 export const LoginErrorAccountNotValidated = InjectAppServices(
   /**
@@ -38,7 +39,7 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
         </p>
       </>
     ) : (
-      <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML" />
+      <FormattedMessageMarkdown id="signup.no_more_resend_HTML_MD" />
     );
   },
 );

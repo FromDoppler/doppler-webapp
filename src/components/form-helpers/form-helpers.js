@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect, Field, Formik, Form } from 'formik';
-import { FormattedMessage, FormattedHTMLMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   validateEmail,
   validateCheckRequired,
@@ -19,6 +19,7 @@ import 'intl-tel-input/build/js/utils';
 import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { useCaptcha } from './captcha-utils';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -65,9 +66,10 @@ function createMinLengthValidation(minLength) {
 }
 
 export const CaptchaLegalMessage = () => (
-  <p className="captcha-legal-message">
-    <FormattedHTMLMessage id="common.recaptcha_legal_HTML" />
-  </p>
+  <FormattedMessageMarkdown
+    className={'captcha-legal-message'}
+    id="common.recaptcha_legal_HTML_MD"
+  />
 );
 
 /**
@@ -111,7 +113,7 @@ export const FormWithCaptcha = ({
     } else {
       console.log('Captcha error', result);
       formikProps.setErrors({
-        _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
       });
       formikProps.setSubmitting(false);
     }

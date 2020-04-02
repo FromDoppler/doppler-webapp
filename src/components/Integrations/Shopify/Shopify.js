@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
-import { FormattedHTMLMessage, FormattedDate, useIntl } from 'react-intl';
+import { FormattedDate, useIntl } from 'react-intl';
 import { SubscriberListState } from '../../../services/shopify-client';
 import { useInterval } from '../../../utils';
 import { StyledShopifyLogo } from './Shopify.styles';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 
 const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures } }) => {
   const intl = useIntl();
@@ -72,9 +73,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
     <>
       <div className="dp-block">
         <h2>{_('shopify.header_title')}</h2>
-        <p>
-          <FormattedHTMLMessage id="shopify.header_subtitle" />
-        </p>
+        <FormattedMessageMarkdown linkTarget={'_blank'} id="shopify.header_subtitle_MD" />
       </div>
       <hr />
     </>
@@ -113,7 +112,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
       const result = await getShopifyData();
       if (!result.success && !shopifyState.error) {
         setShopifyState({
-          error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
         });
       } else if (result.value !== shopifyState.shops) {
         setShopifyState({

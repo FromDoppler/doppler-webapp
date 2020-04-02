@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
   EmailFieldItem,
@@ -139,7 +139,9 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _error: <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_HTML_MD" />,
+          _error: (
+            <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_HTML_MD" />
+          ),
         });
       } else if (
         result.expectedError &&
@@ -266,10 +268,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         <footer>
           <CaptchaLegalMessage />
           <small>
-            <FormattedMessageMarkdown
-              id="login.copyright_MD"
-              linkTarget={'_blank'}
-            />
+            <FormattedMessageMarkdown id="login.copyright_MD" linkTarget={'_blank'} />
           </small>
         </footer>
       </article>

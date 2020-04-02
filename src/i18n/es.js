@@ -6,7 +6,6 @@ const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
-const patchForBlank = `rel="noopener noreferrer"`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 
 // Common URLs
@@ -136,38 +135,22 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_subject: `Asunto`,
   },
   reports: {
-    allow_enable_trial_HTML: `
-      <p>
-        Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los
-        usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos
-        visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      `,
+    allow_enable_trial_HTML: `Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los
+    usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos
+    visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? [HELP](${urlHelpAdvancedReports}).`,
     allow_enable_trial_button: `Activa período de prueba`,
     allow_enable_trial_title: `Prueba Automation de Comportamiento en Sitio por tiempo limitado`,
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
-    no_domains_HTML: `
-      <p>
-        Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
-        detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
-        visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda?
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      `,
+    no_domains_HTML_MD: `Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
+    detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
+    visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? [HELP](${urlHelpAdvancedReports}).`,
     no_domains_button: `Agrega tu dominio`,
     no_domains_button_destination: `${urlSiteTracking}`,
-    upgrade_account_free_HTML: `
-      <p>
-        Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
-        tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes
-        poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? Presiona
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      <p>
-        Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo
-        limitado. <a href="${urlBuyMonthly}">COMPRA AHORA</a>.
-      </p>
+    upgrade_account_free_HTML_MD: `Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
+    tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes
+    poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? Presiona [HELP](${urlHelpAdvancedReports}).
+
+Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo limitado. [COMPRA AHORA](${urlBuyMonthly}).
       `,
     upgrade_account_free_title: `Analiza el comportamiento de los usuarios y optimiza tus acciones`,
   },
@@ -187,13 +170,8 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   reports_filters: {
     all_pages: `Todas las paginas`,
-    description_HTML: `
-      <p>
-        Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
-        visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
-        los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
+    description_HTML_MD: `Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
+    los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Dominio`,
     domain_not_verified_MD: `Tu dominio no está verificado. Es necesario para comenzar a obtener datos sobre tus visitas. [VERIFICAR DOMINIO](${urlSiteTracking}).`,
@@ -253,8 +231,8 @@ Encontrarás un Email con los pasos a seguir.`,
     error_cannot_access_api: `Ouch! No pudimos conectar con la API de Shopify, por favor vuelve a intentarlo luego.`,
     header_disconnected_warning: `Al presionar "Conectar" serás redirigido a Shopify, donde podrás realizar todos los pasos necesarios para integrar.`,
     header_store: `Nombre de la cuenta:`,
-    header_subtitle: `Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
-    Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona <a target="_blank" href="${urlHelp}/como-integrar-doppler-y-shopify/" ${patchForBlank}>HELP</a>.`,
+    header_subtitle_MD: `Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
+    Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona [HELP](${urlHelp}/como-integrar-doppler-y-shopify/).`,
     header_synchronization_date: `Fecha de última sincronización:`,
     header_title: `Conecta Doppler con tu tienda Shopify`,
     list_subtitle: `Puedes sincronizar los datos manualmente cuando gustes.`,
@@ -291,7 +269,7 @@ Encontrarás un Email con los pasos a seguir.`,
 **Additional information:** In Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}) you'll find additional information about the data storage and use of your personal information, including information on access, conservation, rectification, deletion, security, cross-border data transfers and other issues.
   `,
     log_in: `Ingresa`,
-    no_more_resend_HTML: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor <a href="${mailtoSupport}">contáctate con Soporte</a>.`,
+    no_more_resend_HTML_MD: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor [contáctate con Soporte](${mailtoSupport}).`,
     placeholder_email: `Tu Email será tu Nombre de Usuario`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
