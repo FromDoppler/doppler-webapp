@@ -6,7 +6,6 @@ const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
-const patchForBlank = `rel="noopener noreferrer"`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 
 // Common URLs
@@ -41,10 +40,8 @@ export default {
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
-    recaptcha_legal_HTML: `
-    Site protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy?hl=en">Privacy Policy</a>
-    and <a href="https://policies.google.com/terms?hl=en">Terms of Service</a>.
-    `,
+    recaptcha_legal_MD: `
+Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
     send: `Send`,
     show: `Show`,
     synchronizing: `Synchronizing`,
@@ -74,14 +71,10 @@ export default {
     back_login_after_forgot: `Back to Log in`,
     blocked_account_MD: `Your account has been cancelled. To know more please [contact us](${urlSiteContact}).`,
     button_request: `Request`,
-    confirmation_message_HTML: `
-      <p>
-        Check your inbox!
-      </p>
-      <p>
-        You'll find an Email with steps to follow.
-      </p>
-      `,
+    confirmation_message_MD: `
+Check your inbox!
+
+You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
     expired_link: `Link expired, please click on Forgot your Password? to request a new one.`,
@@ -100,7 +93,7 @@ export default {
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment_HTML: `Account blocked, please <a href="${mailtoSupport}">contact Support</a>.`,
+    error_payment_MD: `Account blocked, please [contact Support](${mailtoSupport}).`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
@@ -144,39 +137,25 @@ export default {
     grid_subject: `Subject`,
   },
   reports: {
-    allow_enable_trial_HTML: `
-      <p>
-        Activate the trial period and access detailed Reports on the behavior of users inside your
-        Website or E-commerce. Discover which are the most visited pages, how many visitors have an
-        Email identified by Doppler and how many don't. Any doubts? Press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      `,
+    allow_enable_trial_MD: `Activate the trial period and access detailed Reports on the behavior of users inside your
+    Website or E-commerce. Discover which are the most visited pages,
+    how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press [HELP](${urlHelpAdvancedReports})`,
     allow_enable_trial_button: `Start the trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
-    no_domains_HTML: `
-      <p>
-        Register the domain (s) you want to track and access to detailed Reports. Discover which are the
-        most visited pages of your Website or E-commerce, how many visitors have been identified by
-        Doppler and how many have not. Any doubts? Press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      `,
+    no_domains_MD: `
+Register the domain (s) you want to track and access to detailed Reports. Discover which are the
+most visited pages of your Website or E-commerce, how many visitors have been identified by
+Doppler and how many have not. Any doubts? Press [HELP](${urlHelpAdvancedReports}).`,
     no_domains_button: `Add your domain`,
     no_domains_button_destination: `${urlSiteTracking}`,
-    upgrade_account_free_HTML: `
-      <p>
-        Upgrade your account and access detailed Reports on the behavior of users on your Website or
-        E-commerce. Discover which are the most visited pages, how many visitors have an Email that
-        Doppler has identified and how many don't. Any doubts? Press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
-      <p>
-        By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
-        <a href="${urlBuyMonthly}">UPGRADE NOW</a>.
-      </p>
-      `,
+    upgrade_account_free_MD: `
+Upgrade your account and access detailed Reports on the behavior
+of users on your Website or E-commerce. Discover which are the most visited pages,
+how many visitors have an Email that Doppler has identified and how many don't.
+Any doubts? Press [HELP](${urlHelpAdvancedReports}).
+
+By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only. [UPGRADE NOW](${urlBuyMonthly}).`,
     upgrade_account_free_title: `Analyze your Subscriber's behaviour and improve your strategy`,
   },
   reports_box: {
@@ -195,13 +174,9 @@ export default {
   },
   reports_filters: {
     all_pages: `All pages`,
-    description_HTML: `
-      <p>
-        Find out which are the most visited pages, how many of those visitors already have an Email
-        identified by Doppler and how many don't. By tracking the user's journey you'll be able to
-        detect vanishing points and opportunities for improvement! If you have any doubts, press
-        <a target="_blank" href="${urlHelpAdvancedReports}" ${patchForBlank}>HELP</a>.
-      </p>
+    description_MD: `
+Find out which are the most visited pages, how many of those visitors already have an Email identified
+by Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Domain`,
     domain_not_verified_MD: `Your domain is not verified. It is necessary to start obtaining data about your visits. [VERIFY DOMAIN](${urlSiteTracking}).`,
@@ -261,8 +236,9 @@ export default {
     error_cannot_access_api: `Oops! We could not connect to Shopify API, please try again later.`,
     header_disconnected_warning: `By pressing "Connect" you will be redirected to Shopify, where you can carry out the necessary steps to integrate.`,
     header_store: `Account name:`,
-    header_subtitle: `Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
-    and create Abandoned Cart and Retargeting Product Automations. Any questions? Press <a target="_blank" href="${urlHelp}/how-to-integrate-doppler-with-shopify/" ${patchForBlank}>HELP</a>.`,
+    header_subtitle_MD: `
+Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
+and create Abandoned Cart and Retargeting Product Automations. Any questions? Press [HELP](${urlHelp}/how-to-integrate-doppler-with-shopify/).`,
     header_synchronization_date: `Last synchronization date:`,
     header_title: `Connect Doppler with your Shopify store`,
     list_subtitle: `You can synchronize the data manually whenever you want.`,
@@ -288,38 +264,26 @@ export default {
     label_lastname: `Lastname: `,
     label_password: `Password: `,
     label_phone: `Phone: `,
-    legal_HTML: `
-      <p>
-        Doppler informs you that the personal data you provide by completing this form will be
-        treated by Doppler LLC as responsible for this web site.
-      </p>
-      <p>
-        <strong>Purpose:</strong> Sign you up into our platform and provide the services that you require.
-      </p>
-      <p>
-        <strong>Legitimation:</strong> Consent of the applicant.
-      </p>
-      <p>
-        <strong>Recipients:</strong> Your data will be saved by Doppler, Zoho as CRM, Google as the
-        provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
-      </p>
-      <p>
-        <strong>Additional information:</strong> In Doppler's
-        <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Privacy Policy</a>
-        you'll find additional information about the data storage and use of your
-        personal information, including information on access, conservation, rectification,
-        deletion, security, cross-border data transfers and other issues.
-      </p>
-      `,
+    legal_MD: `
+Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
+
+**Purpose:** Sign you up into our platform and provide the services that you require.
+
+**Legitimation:** Consent of the applicant.
+
+**Recipients:** Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
+
+**Additional information:** In Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded})
+you'll find additional information about the data storage and use of your
+personal information, including information on access, conservation, rectification,
+deletion, security, cross-border data transfers and other issues.
+  `,
     log_in: `Log In`,
-    no_more_resend_HTML: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please <a href="${mailtoSupport}">contact Support</a>.`,
+    no_more_resend_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
     placeholder_email: `Your Email will be your Username`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
-    privacy_policy_consent_HTML: `
-      I accept Doppler's
-      <a target="_blank" href="${urlPrivacyFromSignup_HTMLEncoded}" ${patchForBlank}>Privacy Policy</a>.
-    `,
+    privacy_policy_consent_MD: `I accept Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}).`,
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
     sign_up: `Email, Automation & Data Marketing`,
@@ -391,14 +355,8 @@ export default {
     title: `Request an update of your Plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_HTML: `
-      For security reasons we've temporarily disabled your account.
-      <a href="${mailtoSupport}">Contact us</a>.
-      `,
-    error_account_is_canceled_HTML: `
-      Your account has been cancelled. To know more please
-      <a href="${mailtoSupport}">contact us</a>.
-      `,
+    error_account_is_blocked_invalid_pass_MD: `For security reasons we've temporarily disabled your account. [Contact us](${mailtoSupport}).`,
+    error_account_is_canceled_MD: `Your account has been cancelled. To know more please [contact us](${mailtoSupport}).`,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
@@ -418,12 +376,9 @@ export default {
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_HTML: `
-      Unexpected error. Please try again* or
-      <a href="${mailtoSupport}">contact Support</a>.
-      <br/><br/>
-      <i>*If you have ad blockers installed,
-      please disable them on retry.</i>
-      `,
+    error_unexpected_MD: `
+Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
+
+**If you have ad blockers installed, please disable them on retry.*`,
   },
 };

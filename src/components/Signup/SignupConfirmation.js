@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useCaptcha } from '../form-helpers/captcha-utils';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Redirect } from 'react-router-dom';
@@ -59,17 +59,13 @@ const SignupConfirmation = function({ location }) {
             </p>
           </>
         ) : (
-          <FormattedHTMLMessage tagName="p" id="signup.no_more_resend_HTML" />
+          <FormattedMessageMarkdown id="signup.no_more_resend_MD" />
         )}
       </main>
       <footer className="confirmation-footer">
-        <p>
-          <FormattedMessageMarkdown
-            container="small"
-            id="signup.copyright_MD"
-            options={{ linkTarget: '_blank' }}
-          />
-        </p>
+        <small>
+          <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
+        </small>
       </footer>
       <div className="background bg-b" />
     </main>

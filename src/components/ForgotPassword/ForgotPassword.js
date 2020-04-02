@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import {
   EmailFieldItem,
   FieldGroup,
@@ -59,7 +59,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
         });
       }
     } finally {
@@ -116,7 +116,10 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         {sentEmail ? (
           <S.MessageSuccess>
             <div className="form-message dp-ok-message bounceIn">
-              <FormattedHTMLMessage tagName="div" id="forgot_password.confirmation_message_HTML" />
+              <FormattedMessageMarkdown
+                tagName="div"
+                id="forgot_password.confirmation_message_MD"
+              />
               <LinkToLoginSuccess />
             </div>
           </S.MessageSuccess>
@@ -148,13 +151,9 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         )}
         <footer>
           <CaptchaLegalMessage />
-          <p>
-            <FormattedMessageMarkdown
-              container="small"
-              id="forgot_password.copyright_MD"
-              options={{ linkTarget: '_blank' }}
-            />
-          </p>
+          <small>
+            <FormattedMessageMarkdown id="forgot_password.copyright_MD" linkTarget={'_blank'} />
+          </small>
         </footer>
       </article>
       <Promotions type="login" />

@@ -1,6 +1,7 @@
 import React from 'react';
-import { FormattedHTMLMessage, FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 import * as S from './ReportsFilters.styles';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 
 const ReportsFilters = ({
   domains,
@@ -17,7 +18,7 @@ const ReportsFilters = ({
             <h3>
               <FormattedMessage id="reports_filters.title" />
             </h3>
-            <FormattedHTMLMessage id="reports_filters.description_HTML" />
+            <FormattedMessageMarkdown linkTarget={'_blank'} id="reports_filters.description_MD" />
           </div>
           <div className="col-sm-12 col-md-12 col-lg-12">
             <form action="#" className="form-filters">

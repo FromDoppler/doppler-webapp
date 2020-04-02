@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { FormattedHTMLMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
@@ -20,6 +20,7 @@ import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { extractParameter, isWhitelisted } from './../../utils';
+import * as S from './Signup.styles';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -132,7 +133,12 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _error: <FormattedHTMLMessage id="validation_messages.error_unexpected_HTML" />,
+          _error: (
+            <FormattedMessageMarkdown
+              id="validation_messages.error_unexpected_MD"
+              linkTarget={'_blank'}
+            />
+          ),
         });
       }
     } finally {
@@ -146,7 +152,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         <title>{_('signup.head_title')}</title>
         <meta name="description" content={_('signup.head_description')} />
       </Helmet>
-      <article className="main-panel">
+      <S.MainPanel className="main-panel">
         <header>
           <h1 className="logo-doppler-new">
             <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
@@ -216,7 +222,13 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
             <FieldGroup>
               <CheckboxFieldItem
                 fieldName={fieldNames.accept_privacy_policies}
-                label={<FormattedHTMLMessage id="signup.privacy_policy_consent_HTML" />}
+                className={'label--policy'}
+                label={
+                  <FormattedMessageMarkdown
+                    linkTarget={'_blank'}
+                    id="signup.privacy_policy_consent_MD"
+                  />
+                }
                 checkRequired
               />
               <CheckboxFieldItem
@@ -229,18 +241,14 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
           <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
         </FormWithCaptcha>
         <div className="content-legal">
-          <FormattedHTMLMessage id="signup.legal_HTML" />
+          <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
         </div>
         <footer>
-          <p>
-            <FormattedMessageMarkdown
-              container="small"
-              id="signup.copyright_MD"
-              options={{ linkTarget: '_blank' }}
-            />
-          </p>
+          <small>
+            <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
+          </small>
         </footer>
-      </article>
+      </S.MainPanel>
       <Promotions type="signup" page={extractPage(location)} />
     </main>
   );

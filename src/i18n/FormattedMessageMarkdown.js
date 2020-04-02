@@ -1,6 +1,6 @@
 // Based on https://github.com/yahoo/react-intl/issues/513#issuecomment-252083860-permalink
 import React from 'react';
-import Markdown from 'react-remarkable';
+import Markdown from 'react-markdown';
 import { useIntl } from 'react-intl';
 import './FormattedMessageMarkdown.css';
 
