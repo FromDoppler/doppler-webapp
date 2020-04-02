@@ -59,7 +59,7 @@ const SignupConfirmation = function({ location }) {
             </p>
           </>
         ) : (
-          <FormattedMessageMarkdown id="signup.no_more_resend_HTML_MD" />
+          <FormattedMessageMarkdown id="signup.no_more_resend_MD" />
         )}
       </main>
       <footer className="confirmation-footer">

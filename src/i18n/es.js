@@ -40,7 +40,7 @@ export default {
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
     message: `Mensaje`,
-    recaptcha_legal_HTML_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
+    recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     send: `Enviar`,
     show: `Mostrar`,
     synchronizing: `Syncronizando`,
@@ -70,7 +70,7 @@ export default {
     back_login_after_forgot: `Volver al Log in`,
     blocked_account_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${urlSiteContact}).`,
     button_request: `Solicitar`,
-    confirmation_message_HTML_MD: `¡Revisa tu casilla!
+    confirmation_message_MD: `¡Revisa tu casilla!
 
 Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
@@ -91,7 +91,7 @@ Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
-    error_payment_HTML_MD: `La cuenta está bloqueda, por favor [contáctate con Soporte](${mailtoSupport}).`,
+    error_payment_MD: `La cuenta está bloqueda, por favor [contáctate con Soporte](${mailtoSupport}).`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
@@ -135,20 +135,24 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_subject: `Asunto`,
   },
   reports: {
-    allow_enable_trial_HTML: `Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los
+    allow_enable_trial_MD: `Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los
     usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos
     visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? [HELP](${urlHelpAdvancedReports}).`,
     allow_enable_trial_button: `Activa período de prueba`,
     allow_enable_trial_title: `Prueba Automation de Comportamiento en Sitio por tiempo limitado`,
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
-    no_domains_HTML_MD: `Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
-    detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
-    visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? [HELP](${urlHelpAdvancedReports}).`,
+    no_domains_MD: `
+Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
+detallados. Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos
+visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? [HELP](${urlHelpAdvancedReports}).`,
     no_domains_button: `Agrega tu dominio`,
     no_domains_button_destination: `${urlSiteTracking}`,
-    upgrade_account_free_HTML_MD: `Contrata un Plan Pago y accede a Reportes detallados sobre el comportamiento de los usuarios en
-    tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos visitantes
-    poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? Presiona [HELP](${urlHelpAdvancedReports}).
+    upgrade_account_free_MD: `
+Contrata un Plan Pago y accede a Reportes detallados sobre el
+comportamiento de los usuarios en tu Sitio Web o E-commerce.
+Descubre cuáles son las páginas más visitadas, cuántos visitantes
+poseen un Email que Doppler ha identificado y cuántos no.
+¿Necesitas ayuda? Presiona [HELP](${urlHelpAdvancedReports}).
 
 Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo limitado. [COMPRA AHORA](${urlBuyMonthly}).
       `,
@@ -170,7 +174,7 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
   },
   reports_filters: {
     all_pages: `Todas las paginas`,
-    description_HTML_MD: `Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
+    description_MD: `Descubre cuáles son las páginas más visitadas de tu Sitio Web o E-commerce, cuántos visitantes poseen un Email que Doppler ha identificado y cuántos no. ¡Sigue el recorrido de
     los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayuda, presiona [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Dominio`,
@@ -258,22 +262,25 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
     label_lastname: `Apellido: `,
     label_password: `Contraseña: `,
     label_phone: `Teléfono: `,
-    legal_HTML_MD: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
+    legal_MD: `Doppler te informa que los datos de carácter personal que nos proporciones al rellenar el presente formulario serán tratados por Doppler LLC como responsable de esta web.
 
-**Purpose:** Sign you up into our platform and provide the services that you require.
+**Finalidad:** Darte de alta en nuestra plataforma y brindarte los servicios que nos requieras..
 
-**Legitimation:** Consent of the applicant.
+**Legitimación:** Consentimiento del interesado..
 
-**Recipients:** Your data will be saved by Doppler, Zoho as CRM, Google as the provider of reCAPTCHA service, Digital Ocean, Cogeco Peer1 and Rackspace as hosting companies.
+**Destinatarios:** Tus datos serán guardados por Doppler, Zoho como CRM, Google como proveedor del servicio de reCAPTCHA,
+Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.
 
-**Additional information:** In Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}) you'll find additional information about the data storage and use of your personal information, including information on access, conservation, rectification, deletion, security, cross-border data transfers and other issues.
+**Información adicional:** En la [Política de Privacidad](${urlPrivacyFromSignup_HTMLEncoded}) de Doppler encontrarás información adicional sobre
+la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación,
+eliminación, seguridad, transferencias transfronterizas y otros temas.
   `,
     log_in: `Ingresa`,
-    no_more_resend_HTML_MD: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor [contáctate con Soporte](${mailtoSupport}).`,
+    no_more_resend_MD: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor [contáctate con Soporte](${mailtoSupport}).`,
     placeholder_email: `Tu Email será tu Nombre de Usuario`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
-    privacy_policy_consent_HTML_MD: `Acepto la [Política de Privacidad](${urlPrivacyFromSignup_HTMLEncoded}) de Doppler.`,
+    privacy_policy_consent_MD: `Acepto la [Política de Privacidad](${urlPrivacyFromSignup_HTMLEncoded}) de Doppler.`,
     promotions_consent: `Quiero recibir promociones de Doppler y sus aliados.`,
     resend_email: `Reenvíalo`,
     sign_up: `Email, Automation & Data Marketing`,
@@ -345,8 +352,8 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
     title: `Solicita una actualización de tu Plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_HTML_MD: `Por seguridad hemos bloqueado tu cuenta momentáneamente. [Contáctanos](${mailtoSupport}).`,
-    error_account_is_canceled_HTML_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${mailtoSupport}).`,
+    error_account_is_blocked_invalid_pass_MD: `Por seguridad hemos bloqueado tu cuenta momentáneamente. [Contáctanos](${mailtoSupport}).`,
+    error_account_is_canceled_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${mailtoSupport}).`,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
@@ -366,7 +373,7 @@ Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bon
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected_HTML_MD: `Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
+    error_unexpected_MD: `Error inesperado. Por favor, intenta nuevamente* o [contact Support](${mailtoSupport}).
 
 **Si tienes ad blockers instalados, recomendamos deshabilitarlos en el reintento.*`,
   },

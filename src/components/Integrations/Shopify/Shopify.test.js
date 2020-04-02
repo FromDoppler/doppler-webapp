@@ -5,8 +5,6 @@ import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-i
 import { AppServicesProvider } from '../../../services/pure-di';
 import Shopify from './Shopify';
 import { SubscriberListState } from '../../../services/shopify-client';
-import { ExperimentalFeatures } from '../../../services/experimental-features';
-import { FakeLocalStorage } from '../../../services/test-utils/local-storage-double';
 
 const oneShop = [
   {
@@ -164,7 +162,7 @@ describe('Shopify Component', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitFor(() => expect(getByText('validation_messages.error_unexpected_HTML')));
+    await waitFor(() => expect(getByText('validation_messages.error_unexpected_MD')));
   });
 
   it('should use DopplerAPI client when there is a list associated', async () => {

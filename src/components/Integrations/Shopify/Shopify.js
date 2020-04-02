@@ -73,7 +73,11 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
     <>
       <div className="dp-block">
         <h2>{_('shopify.header_title')}</h2>
-        <FormattedMessageMarkdown linkTarget={'_blank'} id="shopify.header_subtitle_MD" />
+        <FormattedMessageMarkdown
+          className={'header--text'}
+          linkTarget={'_blank'}
+          id="shopify.header_subtitle_MD"
+        />
       </div>
       <hr />
     </>
@@ -112,7 +116,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
       const result = await getShopifyData();
       if (!result.success && !shopifyState.error) {
         setShopifyState({
-          error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
+          error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
         });
       } else if (result.value !== shopifyState.shops) {
         setShopifyState({
@@ -146,9 +150,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
                   <div className="dp-box-shadow">
                     {shopifyHeader}
                     <div className="dp-block">
-                      <div className="dp-msj-error bounceIn">
-                        <p>{shopifyState.error}</p>
-                      </div>
+                      <div className="dp-msj-error bounceIn">{shopifyState.error}</div>
                     </div>
                   </div>
                   <footer className="dp-integration__actions">{backButton}</footer>

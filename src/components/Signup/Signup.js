@@ -134,7 +134,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         setErrors({
           _error: (
             <FormattedMessageMarkdown
-              id="validation_messages.error_unexpected_HTML_MD"
+              id="validation_messages.error_unexpected_MD"
               linkTarget={'_blank'}
             />
           ),
@@ -224,7 +224,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
                 label={
                   <FormattedMessageMarkdown
                     linkTarget={'_blank'}
-                    id="signup.privacy_policy_consent_HTML_MD"
+                    id="signup.privacy_policy_consent_MD"
                   />
                 }
                 checkRequired
@@ -239,7 +239,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
           <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
         </FormWithCaptcha>
         <div className="content-legal">
-          <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_HTML_MD" />
+          <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
         </div>
         <footer>
           <small>

@@ -18,10 +18,7 @@ const ReportsFilters = ({
             <h3>
               <FormattedMessage id="reports_filters.title" />
             </h3>
-            <FormattedMessageMarkdown
-              linkTarget={'_blank'}
-              id="reports_filters.description_HTML_MD"
-            />
+            <FormattedMessageMarkdown linkTarget={'_blank'} id="reports_filters.description_MD" />
           </div>
           <div className="col-sm-12 col-md-12 col-lg-12">
             <form action="#" className="form-filters">

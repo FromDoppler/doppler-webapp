@@ -40,7 +40,7 @@ export default {
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
-    recaptcha_legal_HTML: `Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).
+    recaptcha_legal_MD: `Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).
     `,
     send: `Send`,
     show: `Show`,
@@ -71,7 +71,7 @@ export default {
     back_login_after_forgot: `Back to Log in`,
     blocked_account_MD: `Your account has been cancelled. To know more please [contact us](${urlSiteContact}).`,
     button_request: `Request`,
-    confirmation_message_HTML_MD: `Check your inbox!
+    confirmation_message_MD: `Check your inbox!
 
 You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
@@ -92,7 +92,7 @@ You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment_HTML_MD: `Account blocked, please [contact Support](${mailtoSupport}).`,
+    error_payment_MD: `Account blocked, please [contact Support](${mailtoSupport}).`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
@@ -136,25 +136,25 @@ You'll find an Email with steps to follow.`,
     grid_subject: `Subject`,
   },
   reports: {
-    allow_enable_trial_HTML: `Activate the trial period and access detailed Reports on the behavior of users inside your
+    allow_enable_trial_MD: `Activate the trial period and access detailed Reports on the behavior of users inside your
     Website or E-commerce. Discover which are the most visited pages,
     how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press [HELP](${urlHelpAdvancedReports})`,
     allow_enable_trial_button: `Start the trial`,
     allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
-    no_domains_HTML_MD: `Register the domain (s) you want to track and access to detailed Reports. Discover which are the
-    most visited pages of your Website or E-commerce, how many visitors have been identified by
-    Doppler and how many have not. Any doubts? Press [HELP](${urlHelpAdvancedReports}).
-      </p>
-      `,
+    no_domains_MD: `
+Register the domain (s) you want to track and access to detailed Reports. Discover which are the
+most visited pages of your Website or E-commerce, how many visitors have been identified by
+Doppler and how many have not. Any doubts? Press [HELP](${urlHelpAdvancedReports}).`,
     no_domains_button: `Add your domain`,
     no_domains_button_destination: `${urlSiteTracking}`,
-    upgrade_account_free_HTML_MD: `Upgrade your account and access detailed Reports on the behavior of users on your Website or
-    E-commerce. Discover which are the most visited pages, how many visitors have an Email that
-    Doppler has identified and how many don't. Any doubts? Press [HELP](${urlHelpAdvancedReports}).
+    upgrade_account_free_MD: `
+Upgrade your account and access detailed Reports on the behavior
+of users on your Website or E-commerce. Discover which are the most visited pages,
+how many visitors have an Email that Doppler has identified and how many don't.
+Any doubts? Press [HELP](${urlHelpAdvancedReports}).
 
-By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only. [UPGRADE NOW](${urlBuyMonthly}).
-      `,
+By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only. [UPGRADE NOW](${urlBuyMonthly}).`,
     upgrade_account_free_title: `Analyze your Subscriber's behaviour and improve your strategy`,
   },
   reports_box: {
@@ -173,8 +173,8 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
   },
   reports_filters: {
     all_pages: `All pages`,
-    description_HTML_MD: `Find out which are the most visited pages, how many of those visitors already have an Email identified
-     by Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press [HELP](${urlHelpAdvancedReports}).
+    description_MD: `Find out which are the most visited pages, how many of those visitors already have an Email identified
+      by Doppler and how many don't. By tracking the user's journey you'll be able to detect vanishing points and opportunities for improvement! If you have any doubts, press [HELP](${urlHelpAdvancedReports}).
       `,
     domain: `Domain`,
     domain_not_verified_MD: `Your domain is not verified. It is necessary to start obtaining data about your visits. [VERIFY DOMAIN](${urlSiteTracking}).`,
@@ -261,7 +261,7 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     label_lastname: `Lastname: `,
     label_password: `Password: `,
     label_phone: `Phone: `,
-    legal_HTML_MD: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
+    legal_MD: `Doppler informs you that the personal data you provide by completing this form will be treated by Doppler LLC as responsible for this web site.
 
 **Purpose:** Sign you up into our platform and provide the services that you require.
 
@@ -275,11 +275,11 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     deletion, security, cross-border data transfers and other issues.
   `,
     log_in: `Log In`,
-    no_more_resend_HTML_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
+    no_more_resend_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
     placeholder_email: `Your Email will be your Username`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
-    privacy_policy_consent_HTML_MD: `I accept Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}).`,
+    privacy_policy_consent_MD: `I accept Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}).`,
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
     sign_up: `Email, Automation & Data Marketing`,
@@ -351,8 +351,8 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     title: `Request an update of your Plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_HTML_MD: `For security reasons we've temporarily disabled your account. [Contact us](${mailtoSupport}).`,
-    error_account_is_canceled_HTML_MD: `Your account has been cancelled. To know more please [contact us](${mailtoSupport}).`,
+    error_account_is_blocked_invalid_pass_MD: `For security reasons we've temporarily disabled your account. [Contact us](${mailtoSupport}).`,
+    error_account_is_canceled_MD: `Your account has been cancelled. To know more please [contact us](${mailtoSupport}).`,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
@@ -372,7 +372,7 @@ By joining any Paid Plan you can enjoy FOR FREE this feature. Limited time only.
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_HTML_MD: `Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
+    error_unexpected_MD: `Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
 
 **If you have ad blockers installed, please disable them on retry.*`,
   },

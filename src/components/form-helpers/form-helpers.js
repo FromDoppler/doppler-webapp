@@ -66,10 +66,7 @@ function createMinLengthValidation(minLength) {
 }
 
 export const CaptchaLegalMessage = () => (
-  <FormattedMessageMarkdown
-    className={'captcha-legal-message'}
-    id="common.recaptcha_legal_HTML_MD"
-  />
+  <FormattedMessageMarkdown className={'captcha-legal-message'} id="common.recaptcha_legal_MD" />
 );
 
 /**
@@ -113,7 +110,7 @@ export const FormWithCaptcha = ({
     } else {
       console.log('Captcha error', result);
       formikProps.setErrors({
-        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
       });
       formikProps.setSubmitting(false);
     }

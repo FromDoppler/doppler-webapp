@@ -59,7 +59,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
         });
       }
     } finally {
@@ -118,7 +118,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
             <div className="form-message dp-ok-message bounceIn">
               <FormattedMessageMarkdown
                 tagName="div"
-                id="forgot_password.confirmation_message_HTML_MD"
+                id="forgot_password.confirmation_message_MD"
               />
               <LinkToLoginSuccess />
             </div>

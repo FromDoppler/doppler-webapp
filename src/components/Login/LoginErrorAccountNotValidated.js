@@ -39,7 +39,7 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
         </p>
       </>
     ) : (
-      <FormattedMessageMarkdown id="signup.no_more_resend_HTML_MD" />
+      <FormattedMessageMarkdown id="signup.no_more_resend_MD" />
     );
   },
 );

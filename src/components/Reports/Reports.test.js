@@ -49,7 +49,7 @@ describe('Reports page', () => {
     );
 
     // Assert
-    await waitFor(() => expect(getByText('reports.no_domains_HTML')));
+    await waitFor(() => expect(getByText('reports.no_domains_MD')));
   });
 
   it('should render domains without pages', async () => {
@@ -153,6 +153,6 @@ describe('Reports page', () => {
 
     // Assert
     await waitFor(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
-    getByText('reports.no_domains_HTML');
+    getByText('reports.no_domains_MD');
   });
 });

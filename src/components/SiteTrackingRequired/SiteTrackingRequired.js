@@ -51,7 +51,7 @@ export const SiteTrackingRequired = InjectAppServices(
               <FormattedMessage tagName="h2" id="reports.upgrade_account_free_title" />
               <FormattedMessageMarkdown
                 linkTarget={'_blank'}
-                id="reports.upgrade_account_free_HTML_MD"
+                id="reports.upgrade_account_free_MD"
               />
             </>
           ) : reason === SiteTrackingNotAvailableReasons.trialNotAccepted ? (
@@ -61,7 +61,7 @@ export const SiteTrackingRequired = InjectAppServices(
               <FormattedMessageMarkdown
                 tagName="div"
                 linkTarget={'_blank'}
-                id="reports.allow_enable_trial_HTML_MD"
+                id="reports.allow_enable_trial_MD"
               />
               <div className="dp-messages-actions">
                 <button
@@ -85,7 +85,7 @@ export const SiteTrackingRequired = InjectAppServices(
               <FormattedMessageMarkdown
                 className="patch-no-domains"
                 linkTarget={'_blank'}
-                id="reports.no_domains_HTML_MD"
+                id="reports.no_domains_MD"
               />
               <div className="dp-messages-actions">
                 <FormattedMessage id="reports.no_domains_button_destination">

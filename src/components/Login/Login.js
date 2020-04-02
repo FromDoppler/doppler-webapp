@@ -70,7 +70,7 @@ const isActivactionInProgress = (location) => {
 
 const LoginErrorBlockedAccountNotPayed = () => (
   <p>
-    <FormattedMessageMarkdown id="login.error_payment_HTML_MD" />
+    <FormattedMessageMarkdown id="login.error_payment_MD" />
   </p>
 );
 
@@ -131,7 +131,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
         setErrors({
-          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
         });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({
@@ -140,7 +140,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
           _error: (
-            <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_HTML_MD" />
+            <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_MD" />
           ),
         });
       } else if (
@@ -150,7 +150,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       ) {
         setErrors({
           _error: (
-            <FormattedMessageMarkdown id="validation_messages.error_account_is_blocked_invalid_pass_HTML_MD" />
+            <FormattedMessageMarkdown id="validation_messages.error_account_is_blocked_invalid_pass_MD" />
           ),
         });
       } else if (result.expectedError && result.expectedError.invalidLogin) {
@@ -168,7 +168,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       } else {
         console.log('Unexpected error', result);
         setErrors({
-          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_HTML_MD" />,
+          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
         });
         addLogEntry({
           account: values[fieldNames.user],
