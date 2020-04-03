@@ -88,7 +88,15 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         email: registeredUser,
         captchaResponseToken: captchaResponseToken,
       });
-    return <Redirect to={{ pathname: '/signup/confirmation', status: { resend: resend } }} />;
+    return (
+      <Redirect
+        to={{
+          pathname: '/signup/confirmation',
+          status: { resend: resend },
+          search: location.search,
+        }}
+      />
+    );
   }
 
   const validate = (values) => {
@@ -164,7 +172,7 @@ const Signup = function({ location, dependencies: { dopplerLegacyClient, originR
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">
           {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
-          <Link to="/login" className="link--title">
+          <Link to={{ pathname: '/login', search: location.search }} className="link--title">
             {_('signup.log_in')}
           </Link>
         </p>

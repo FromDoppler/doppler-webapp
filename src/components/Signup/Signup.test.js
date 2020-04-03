@@ -24,11 +24,14 @@ describe('Signup', () => {
   it('should not show errors on blur but after first submit', async () => {
     // Arrange
     const dependencies = defaultDependencies;
+    const location = { search: 'test', pathname: '/signup' };
+
+    // Act
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider>
           <Router>
-            <Signup />
+            <Signup location={location} />
           </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
@@ -51,11 +54,14 @@ describe('Signup', () => {
   it('should show Argentina below Argelia when selected language is ES', async () => {
     // Arrange
     const dependencies = defaultDependencies;
+    const location = { search: '', pathname: '/signup' };
+
+    // Act
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="es">
           <Router>
-            <Signup />
+            <Signup location={location} />
           </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
@@ -70,11 +76,14 @@ describe('Signup', () => {
   it('should show Territorio Palestino, Ocupado below Territorio Britanico del Oceano Indico when selected language is ES', async () => {
     // Arrange
     const dependencies = defaultDependencies;
+    const location = { search: 'test', pathname: '/signup' };
+
+    // Act
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="es">
           <Router>
-            <Signup />
+            <Signup location={location} />
           </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
@@ -89,11 +98,14 @@ describe('Signup', () => {
   it('should show American Samoa below Algeria when selected language is EN', async () => {
     // Arrange
     const dependencies = defaultDependencies;
+    const location = { search: 'test', pathname: '/signup' };
+
+    // Act
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="en">
           <Router>
-            <Signup />
+            <Signup location={location} />
           </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
@@ -108,11 +120,14 @@ describe('Signup', () => {
   it('should show Brunel below British Indian Ocean when selected language is EN', async () => {
     // Arrange
     const dependencies = defaultDependencies;
+    const location = { search: 'test', pathname: '/signup' };
+
+    // Act
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="en">
           <Router>
-            <Signup />
+            <Signup location={location} />
           </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
