@@ -15,16 +15,14 @@ cd $(dirname $0)
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
-sh ./verify-w-docker.sh
-
 # build production package and generate version number
+
+docker build --tag webapp_sources:current --target test -f Dockerfile.swarm .
 docker run --rm \
     -e GH_TOKEN \
     -e "NPM_TOKEN=00000000-0000-0000-0000-000000000000" \
-    -v `pwd`:/work \
-    -w /work \
-    node:12.16.1 \
+    -v `pwd`/.git:/app/.git \
+    webapp_sources:current \
     /bin/sh -c "\
-        yarn \
-        && yarn semantic-release \
+        yarn semantic-release \
     "
