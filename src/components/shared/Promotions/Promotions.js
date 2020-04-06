@@ -22,7 +22,7 @@ const getDefaultBannerData = (intl) => {
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Promotions = function({ type, page, dependencies: { dopplerSitesClient } }) {
+const Promotions = function ({ type, page, dependencies: { dopplerSitesClient } }) {
   const intl = useIntl();
   const [state, setState] = useState({ loading: true });
 

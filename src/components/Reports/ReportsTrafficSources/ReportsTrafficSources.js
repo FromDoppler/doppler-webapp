@@ -8,7 +8,7 @@ const SafeDivide = (number, quantity) => {
   return quantity ? number / quantity : 0;
 };
 
-const ReportsTrafficSources = function({
+const ReportsTrafficSources = function ({
   domainName,
   dateFrom,
   dateTo,
@@ -30,7 +30,7 @@ const ReportsTrafficSources = function({
         dateTo: dateTo,
       });
       if (trafficSourcesData.success && trafficSourcesData.value) {
-        const total = trafficSourcesData.value.reduce(function(previous, item) {
+        const total = trafficSourcesData.value.reduce(function (previous, item) {
           return previous + item.quantity;
         }, 0);
         setState({
