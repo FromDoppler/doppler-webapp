@@ -61,7 +61,7 @@ const getFormInitialValues = () =>
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function({ location, dependencies: { dopplerLegacyClient, originResolver } }) {
+const Signup = function ({ location, dependencies: { dopplerLegacyClient, originResolver } }) {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 

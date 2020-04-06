@@ -18,7 +18,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
       show: false,
     },
     tooltip: {
-      contents: function(data) {
+      contents: function (data) {
         if (data.length) {
           const date = intl.formatDate(data[0].x, {
             day: 'numeric',

@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { Function } props.resend - Function to resend registration email.
  */
-const SignupConfirmation = function({ location }) {
+const SignupConfirmation = function ({ location }) {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [resentTimes, setResentTimes] = useState(0);

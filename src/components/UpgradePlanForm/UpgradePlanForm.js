@@ -48,7 +48,7 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
     return errors;
   };
 
-  return (!state.isLoading ? (
+  return !state.isLoading ? (
     <>
       <h2 className="modal-title">
         <FormattedMessage id="upgradePlanForm.title" />
@@ -125,6 +125,6 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
     </>
   ) : (
     <Loading />
-  ));
+  );
 };
 export default InjectAppServices(UpgradePlanForm);

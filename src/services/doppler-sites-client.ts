@@ -36,8 +36,9 @@ export class HttpDopplerSitesClient implements DopplerSitesClient {
       const response: any = await this.axios.get(
         `${
           this.baseUrl
-        }/es/wp-json/doppler2019/v1/getbanner?filter[lang]=${lang}&filter[type]=${type}&filter[page]=${page ||
-          ''}`,
+        }/es/wp-json/doppler2019/v1/getbanner?filter[lang]=${lang}&filter[type]=${type}&filter[page]=${
+          page || ''
+        }`,
       );
       if (!response || !response.data) {
         throw new Error('Empty Site response');
