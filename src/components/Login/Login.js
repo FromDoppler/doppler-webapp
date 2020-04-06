@@ -207,6 +207,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
           to={{
             pathname: '/login/reset-password',
             state: { email: user },
+            search: location.search,
           }}
           className="forgot-link"
         >
@@ -234,7 +235,8 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         <h5>{_('login.enter_doppler')}</h5>
         <p className="content-subtitle">{_('login.enter_doppler_sub')}</p>
         <p className="content-subtitle">
-          {_('login.you_want_create_account')} <Link to="/signup">{_('login.signup')}</Link>
+          {_('login.you_want_create_account')}{' '}
+          <Link to={{ pathname: '/signup', search: location.search }}>{_('login.signup')}</Link>
         </p>
         <FormWithCaptcha
           className="login-form"

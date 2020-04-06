@@ -87,6 +87,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         to={{
           pathname: '/login',
           state: { email: email },
+          search: location.search,
         }}
         className="forgot-link"
       >
