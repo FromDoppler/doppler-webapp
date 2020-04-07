@@ -167,7 +167,7 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, origin
               Doppler
             </a>
           </h1>
-          <LanguageSelector />
+          <LanguageSelector urlParameters={location.search} />
         </header>
         <h5>{_('signup.sign_up')}</h5>
         <p className="content-subtitle">

@@ -9,6 +9,7 @@ import { InjectAppServices } from '../../../services/pure-di';
  * @param { import('react-intl').InjectedIntl } props.intl
  */
 const LanguageSelector = ({
+  urlParameters,
   dependencies: {
     window: { Menubutton },
   },
@@ -16,7 +17,8 @@ const LanguageSelector = ({
   const intl = useIntl();
   const lang = intl.locale;
   const languageDropdown = useRef(null);
-
+  const langToChange = lang === 'en' ? 'es' : 'en';
+  urlParameters = urlParameters.replace(/(\?)?(&)?(lang=(en|es))?(&)?/g, '');
   useEffect(() => {
     if (Menubutton) {
       const menubutton = new Menubutton(languageDropdown.current);
@@ -38,8 +40,8 @@ const LanguageSelector = ({
       <ul id="menu2" role="menu" aria-labelledby="menubutton">
         <li role="none">
           <Link
-            to={'?lang=' + (lang === 'en' ? 'es' : 'en')}
-            className={'lang--' + (lang === 'en' ? 'es' : 'en')}
+            to={{ search: '?lang=' + langToChange + (urlParameters ? '&' + urlParameters : '') }}
+            className={'lang--' + langToChange}
             role="menuitem"
           >
             {lang === 'en' ? 'ES' : 'EN'}

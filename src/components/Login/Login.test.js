@@ -20,6 +20,7 @@ describe('Login component', () => {
       state: {
         email: '',
       },
+      search: '',
     };
 
     // Act
