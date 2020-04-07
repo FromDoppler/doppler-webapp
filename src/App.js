@@ -18,6 +18,7 @@ import MasterSubscriber from './components/Reports/MasterSubscriber/MasterSubscr
 import SubscriberHistory from './components/Reports/SubscriberHistory/SubscriberHistory';
 import SubscriberGdpr from './components/Reports/GDPR/SubscriberGdpr';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
+import NewFeatures from './components/NewFeatures/NewFeatures';
 
 /**
  * @param { Object } props - props
@@ -96,6 +97,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
           <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />
           <PrivateRoute path="/reports/subscriber-gdpr" exact component={SubscriberGdpr} />
+          <PrivateRoute path="/new-features" exact component={NewFeatures} />
           <PrivateRoute
             path="/reports/partials-campaigns"
             exact
