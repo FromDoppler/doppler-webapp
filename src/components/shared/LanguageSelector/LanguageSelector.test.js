@@ -34,9 +34,9 @@ describe('Language Selector Component', () => {
 
   it('should show EN language to change when have url parameter with lang=ES', () => {
     // Arrange
-    const urlParameters = '?lang=ES';
+    const urlParameters = '?lang=es';
     // Act
-    const { getByText } = render(
+    const { getByText, container } = render(
       <AppServicesProvider forcedServices={defaultDependencies}>
         <DopplerIntlProvider locale="es">
           <LanguageSelector urlParameters={urlParameters} />
@@ -46,13 +46,14 @@ describe('Language Selector Component', () => {
     );
     // Assert
     expect(getByText('EN')).toBeInTheDocument();
+    expect(container.querySelector('.lang--en')).toBeInTheDocument();
   });
 
   it('should show ES language to change when have url parameter with lang=EN', () => {
     // Arrange
-    const urlParameters = '?lang=EN&redirect=test';
+    const urlParameters = '?lang=en&redirect=test';
     // Act
-    const { getByText } = render(
+    const { getByText, container } = render(
       <AppServicesProvider forcedServices={defaultDependencies}>
         <DopplerIntlProvider locale="en">
           <LanguageSelector urlParameters={urlParameters} />
@@ -62,5 +63,67 @@ describe('Language Selector Component', () => {
     );
     // Assert
     expect(getByText('ES')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es').search).toEqual('?lang=es&redirect=test');
+  });
+
+  it('should show ES and maintain all parameters', () => {
+    // Arrange
+    const urlParameters = '?test&redirect=test&test2';
+    // Act
+    const { getByText, container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="en">
+          <LanguageSelector urlParameters={urlParameters} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+      { wrapper: MemoryRouter },
+    );
+    // Assert
+    expect(getByText('ES')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es').search).toEqual(
+      '?lang=es&test&redirect=test&test2',
+    );
+  });
+
+  it('should show ES and maintain all parameters when lang parameter is in the end', () => {
+    // Arrange
+    const urlParameters = '?test&redirect=test&test2&lang=en';
+    // Act
+    const { getByText, container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="en">
+          <LanguageSelector urlParameters={urlParameters} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+      { wrapper: MemoryRouter },
+    );
+    // Assert
+    expect(getByText('ES')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es').search).toEqual(
+      '?lang=es&test&redirect=test&test2',
+    );
+  });
+
+  it('should show ES and maintain all parameters when lang parameter is in the middle', () => {
+    // Arrange
+    const urlParameters = '?test&redirect=test&lang=en&test2';
+    // Act
+    const { getByText, container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="en">
+          <LanguageSelector urlParameters={urlParameters} />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+      { wrapper: MemoryRouter },
+    );
+    // Assert
+    expect(getByText('ES')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es')).toBeInTheDocument();
+    expect(container.querySelector('.lang--es').search).toEqual(
+      '?lang=es&test&redirect=test&test2',
+    );
   });
 });

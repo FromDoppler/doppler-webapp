@@ -18,7 +18,7 @@ const LanguageSelector = ({
   const lang = intl.locale;
   const languageDropdown = useRef(null);
   const langToChange = lang === 'en' ? 'es' : 'en';
-  urlParameters = urlParameters.replace(/(\?)?(&)?(lang=(en|es))?(&)?/g, '');
+  urlParameters = urlParameters.replace(/(\?)?((&lang=(en|es)|(lang=(en|es)(&)?)))?/g, '');
   useEffect(() => {
     if (Menubutton) {
       const menubutton = new Menubutton(languageDropdown.current);
