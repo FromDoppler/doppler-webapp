@@ -230,7 +230,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
               Doppler
             </a>
           </h1>
-          <LanguageSelector />
+          <LanguageSelector urlParameters={location.search} />
         </header>
         <h5>{_('login.enter_doppler')}</h5>
         <p className="content-subtitle">{_('login.enter_doppler_sub')}</p>

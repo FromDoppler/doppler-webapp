@@ -110,7 +110,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
               Doppler
             </a>
           </h1>
-          <LanguageSelector />
+          <LanguageSelector urlParameters={location.search} />
         </header>
         <h5>{_('login.forgot_password')}</h5>
         <p className="content-subtitle">{_('forgot_password.description')}</p>
