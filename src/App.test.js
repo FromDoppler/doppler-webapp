@@ -52,11 +52,9 @@ const RouterInspector = withRouter(({ match, location, history, target }) => {
 
 const emptyResponse = { success: false, error: new Error('Dummy error') };
 
+const rejectedPromise = Promise.resolve({ success: false, value: '' });
 const dopplerSitesClientDouble = {
-  getBannerData: async () => {
-    await timeout(0);
-    return emptyResponse;
-  },
+  getBannerData: jest.fn(async () => rejectedPromise),
 };
 
 const defaultDependencies = {
@@ -83,12 +81,12 @@ describe('App component', () => {
 
       // Assert
       await waitFor(() => expect(getByText('Privacy Policy & Legals')));
+      await act(() => rejectedPromise);
     });
 
     it('should make honor to locale="es"', async () => {
       // Arrange
       const dependencies = defaultDependencies;
-
       // Act
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
@@ -638,13 +636,15 @@ describe('App component', () => {
       };
 
       // Act
-      render(
-        <AppServicesProvider forcedServices={dependencies}>
-          <Router initialEntries={['/signup?origin=testOrigin']}>
-            <App locale="en" />
-          </Router>
-        </AppServicesProvider>,
-      );
+      act(() => {
+        render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router initialEntries={['/signup?origin=testOrigin']}>
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+      });
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
