@@ -312,8 +312,17 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   private readonly baseUrl: string;
   private window: any;
 
+  private isUrlIncludedInRetryList(currentUrl: any): any {
+    const urls = [
+      'WebAppPublic/Login',
+      'WebAppPublic/CreateUser',
+      'WebAppPublic/SendResetPasswordEmail',
+    ];
+    return urls.includes(currentUrl);
+  }
+
   private isEnabledForRetry(error: AxiosError) {
-    return error.config && error.config.url === 'WebAppPublic/Login';
+    return error.config && this.isUrlIncludedInRetryList(error.config.url);
   }
 
   constructor({
@@ -341,7 +350,6 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       retryDelay: (retryCount: any, error: any) => {
         addLogEntry({
           origin: window.location.origin,
-          section: 'Login/legacyClient',
           browser: window.navigator.userAgent,
           error: error,
           retryCount: retryCount,
@@ -535,7 +543,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
   public async sendResetPasswordEmail(model: ForgotPasswordModel): Promise<ForgotPasswordResult> {
     try {
-      const response = await this.axios.post('/WebAppPublic/SendResetPasswordEmail', {
+      const response = await this.axios.post('WebAppPublic/SendResetPasswordEmail', {
         Email: model.email,
         RecaptchaUserCode: model.captchaResponseToken,
       });
