@@ -37,7 +37,11 @@ const Promotions = function ({ type, page, dependencies: { dopplerSitesClient } 
       }
     };
 
-    fetchData();
+    if (page) {
+      fetchData();
+    } else {
+      setState({ loading: false, bannerData: getDefaultBannerData(intl) });
+    }
   }, [dopplerSitesClient, page, intl, type]);
 
   return (
