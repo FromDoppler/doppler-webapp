@@ -8,6 +8,7 @@ import { OriginResolver, LocalStorageOriginResolver } from './origin-management'
 import { ShopifyClient, HttpShopifyClient } from './shopify-client';
 import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
+import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
 
 interface AppConfiguration {
@@ -40,6 +41,7 @@ export interface AppServices {
   dopplerSitesClient: DopplerSitesClient;
   experimentalFeatures: ExperimentalFeatures;
   dopplerApiClient: DopplerApiClient;
+  ipinfoClient: IpinfoClient;
 }
 
 /**
@@ -158,6 +160,16 @@ export class AppCompositionRoot implements AppServices {
           appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
           dopplerLegacyClient: this.dopplerLegacyClient,
           keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
+        }),
+    );
+  }
+
+  get ipinfoClient() {
+    return this.singleton(
+      'ipinfoClient',
+      () =>
+        new HttpIpinfoClient({
+          axiosStatic: this.axiosStatic,
         }),
     );
   }
