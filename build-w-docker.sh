@@ -20,7 +20,7 @@ export MSYS2_ARG_CONV_EXCL="*"
 docker run --rm \
     -v `pwd`:/work \
     -w /work \
-    node:12.16.1 \
+    node:12.16.2 \
     /bin/sh -c "\
         yarn \
         && yarn run build:$environment \
