@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import queryString from 'query-string';
 import { extractParameter } from '../../../utils';
@@ -66,7 +66,9 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
               <div className="dp-rowflex">
                 <div className="col-sm-12 col-md-12 col-lg-12">
                   <h3>
-                    <FormattedMessage id="reports_partials_campaigns.header_title" />
+                    <FormattedMessage
+                      id={`reports_partials_campaigns.header_title_${state.campaignSummaryResults.campaignStatus}`}
+                    />
                   </h3>
                   <S.MainReportBox>
                     <span>
@@ -96,7 +98,11 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       <p>
                         <FormattedMessage id="reports_partials_campaigns.campaign_state" />
                       </p>
-                      <h2>{state.campaignSummaryResults.campaignStatus}</h2>
+                      <h2>
+                        <FormattedMessage
+                          id={`reports_partials_campaigns.${state.campaignSummaryResults.campaignStatus}`}
+                        />
+                      </h2>
                     </div>
                     <div>
                       <p>
@@ -173,7 +179,9 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.last_open_date" />{' '}
-                              <span>{state.campaignSummaryResults.lastOpenDate}</span>
+                              <span>
+                                <FormattedDate value={state.campaignSummaryResults.lastOpenDate} />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.unique_clicks" />{' '}
@@ -189,7 +197,9 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.last_click_date" />{' '}
-                              <span>{state.campaignSummaryResults.lastClickDate}</span>
+                              <span>
+                                <FormattedDate value={state.campaignSummaryResults.lastClickDate} />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.total_unsubscribers" />{' '}
