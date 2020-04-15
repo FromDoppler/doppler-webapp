@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl, FormattedDate, FormattedNumber } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import queryString from 'query-string';
 import { extractParameter } from '../../../utils';
@@ -66,7 +66,9 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
               <div className="dp-rowflex">
                 <div className="col-sm-12 col-md-12 col-lg-12">
                   <h3>
-                    <FormattedMessage id="reports_partials_campaigns.header_title" />
+                    <FormattedMessage
+                      id={`reports_partials_campaigns.header_title_${state.campaignSummaryResults.campaignStatus}`}
+                    />
                   </h3>
                   <S.MainReportBox>
                     <span>
@@ -96,19 +98,27 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       <p>
                         <FormattedMessage id="reports_partials_campaigns.campaign_state" />
                       </p>
-                      <h2>{state.campaignSummaryResults.campaignStatus}</h2>
+                      <h2>
+                        <FormattedMessage
+                          id={`reports_partials_campaigns.${state.campaignSummaryResults.campaignStatus}`}
+                        />
+                      </h2>
                     </div>
                     <div>
                       <p>
                         <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
                       </p>
-                      <h2>{state.campaignSummaryResults.totalRecipients}</h2>
+                      <h2>
+                        <FormattedNumber value={state.campaignSummaryResults.totalRecipients} />
+                      </h2>
                     </div>
                     <div>
                       <p>
                         <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
                       </p>
-                      <h2>{state.campaignSummaryResults.totalShipped}</h2>
+                      <h2>
+                        <FormattedNumber value={state.campaignSummaryResults.totalShipped} />
+                      </h2>
                     </div>
                   </S.DetailedInformation>
                 </div>
@@ -124,21 +134,29 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       </S.Header>
                       <S.Kpi>
                         <div>
-                          <h2>{state.campaignSummaryResults.uniqueOpens} </h2>
+                          <h2>
+                            <FormattedNumber value={state.campaignSummaryResults.uniqueOpens} />
+                          </h2>
                           <p>
                             <FormattedMessage id="reports_partials_campaigns.opened" />
                           </p>
                         </div>
                         <div>
-                          <h2>{state.campaignSummaryResults.totalUnopened} </h2>
+                          <h2>
+                            <FormattedNumber value={state.campaignSummaryResults.totalUnopened} />
+                          </h2>
                           <p>
                             <FormattedMessage id="reports_partials_campaigns.not_open" />
                           </p>
                         </div>
                         <div>
                           <h2>
-                            {state.campaignSummaryResults.totalHardBounces +
-                              state.campaignSummaryResults.totalSoftBounces}
+                            <FormattedNumber
+                              value={
+                                state.campaignSummaryResults.totalHardBounces +
+                                state.campaignSummaryResults.totalSoftBounces
+                              }
+                            />
                           </h2>
                           <p>
                             <FormattedMessage id="reports_partials_campaigns.hard_and_soft" />
@@ -157,43 +175,75 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                           <ul>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.total_subscribers" />{' '}
-                              <span>{state.campaignSummaryResults.totalShipped}</span>
+                              <span>
+                                <FormattedNumber
+                                  value={state.campaignSummaryResults.totalShipped}
+                                />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.emails_delivered" />{' '}
-                              <span>{state.campaignSummaryResults.successFullDeliveries}</span>
+                              <span>
+                                <FormattedNumber
+                                  value={state.campaignSummaryResults.successFullDeliveries}
+                                />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.total_forwarded" />{' '}
-                              <span>{state.campaignSummaryResults.timesForwarded}</span>
+                              <span>
+                                <FormattedNumber
+                                  value={state.campaignSummaryResults.timesForwarded}
+                                />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.total_openings" />{' '}
-                              <span>{state.campaignSummaryResults.totalTimesOpened}</span>
+                              <span>
+                                <FormattedNumber
+                                  value={state.campaignSummaryResults.totalTimesOpened}
+                                />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.last_open_date" />{' '}
-                              <span>{state.campaignSummaryResults.lastOpenDate}</span>
+                              <span>
+                                <FormattedDate value={state.campaignSummaryResults.lastOpenDate} />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.unique_clicks" />{' '}
-                              <span>{state.campaignSummaryResults.uniqueClicks}</span>
+                              <span>
+                                <FormattedNumber
+                                  value={state.campaignSummaryResults.uniqueClicks}
+                                />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.unique_opens" />{' '}
-                              <span>{state.campaignSummaryResults.uniqueOpens}</span>
+                              <span>
+                                <FormattedNumber value={state.campaignSummaryResults.uniqueOpens} />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.total_clicks" />{' '}
-                              <span>{state.campaignSummaryResults.totalClicks}</span>
+                              <span>
+                                <FormattedNumber value={state.campaignSummaryResults.totalClicks} />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.last_click_date" />{' '}
-                              <span>{state.campaignSummaryResults.lastClickDate}</span>
+                              <span>
+                                <FormattedDate value={state.campaignSummaryResults.lastClickDate} />
+                              </span>
                             </li>
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.total_unsubscribers" />{' '}
-                              <span>{state.campaignSummaryResults.totalUnsubscribers}</span>
+                              <span>
+                                <FormattedNumber
+                                  value={state.campaignSummaryResults.totalUnsubscribers}
+                                />
+                              </span>
                             </li>
                           </ul>
                         </S.Summary>

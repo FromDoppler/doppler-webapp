@@ -103,8 +103,8 @@ describe('ReportsPartialsCampaigns component', () => {
     await waitFor(() => {
       expect(getByText('campaign name')).toBeInTheDocument();
       expect(getByText('campaign subject')).toBeInTheDocument();
-      expect(getByText('reports_partials_campaigns.header_title')).toBeInTheDocument();
-      expect(getByText('shipping')).toBeInTheDocument();
+      expect(getByText('reports_partials_campaigns.header_title_shipping')).toBeInTheDocument();
+      expect(getByText('reports_partials_campaigns.shipping')).toBeInTheDocument();
     });
   });
 });

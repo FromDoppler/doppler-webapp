@@ -204,21 +204,21 @@ const subscriberCollection = {
 };
 
 const campaignSummaryResults = {
-  totalRecipients: 500,
-  successFullDeliveries: 20,
-  timesForwarded: 0,
-  totalTimesOpened: 2,
+  totalRecipients: 500000,
+  successFullDeliveries: 20000,
+  timesForwarded: 1000,
+  totalTimesOpened: 10000,
   lastOpenDate: '2019-11-27T18:05:40.847Z',
-  uniqueClicks: 3,
-  uniqueOpens: 3,
-  totalUnopened: 24,
-  totalHardBounces: 2,
-  totalSoftBounces: 3,
-  totalClicks: 2,
+  uniqueClicks: 300,
+  uniqueOpens: 500,
+  totalUnopened: 10000,
+  totalHardBounces: 2000,
+  totalSoftBounces: 3000,
+  totalClicks: 2000,
   lastClickDate: '2019-11-27T18:05:40.847Z',
-  totalUnsubscribers: 5,
+  totalUnsubscribers: 500,
   campaignStatus: 'shipping',
-  totalShipped: 50,
+  totalShipped: 50000,
 };
 
 export class HardcodedDopplerApiClient implements DopplerApiClient {
