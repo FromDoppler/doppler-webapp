@@ -5,7 +5,7 @@ import Login from './Login/Login';
 import Signup from './Signup/Signup';
 import ForgotPassword from './ForgotPassword/ForgotPassword';
 import RedirectToExternalUrl from './RedirectToExternalUrl';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 const pagesByPath = {
   '/login': {
