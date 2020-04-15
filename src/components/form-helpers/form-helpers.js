@@ -20,6 +20,7 @@ import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { useCaptcha } from './captcha-utils';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { InjectAppServices } from '../../services/pure-di';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -273,6 +274,7 @@ const _formatFieldValueAsInternationalNumber = (iti, fieldName, setFieldValue) =
  * @param { string } props.label - label
  * @param { string } props.placeholder - placeholder
  * @param { React.MutableRefObject<import('intl-tel-input').Plugin> } props.intlTelInputRef - intlTelInputRef
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
 const _PhoneFieldItem = ({
   className,
@@ -281,6 +283,7 @@ const _PhoneFieldItem = ({
   placeholder,
   required,
   formik: { values, handleChange, handleBlur, setFieldValue },
+  dependencies: { ipinfoClient },
   ...rest
 }) => {
   const intl = useIntl();
@@ -319,9 +322,9 @@ const _PhoneFieldItem = ({
       autoPlaceholder: 'aggressive',
       preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
       initialCountry: 'auto',
-      geoIpLookup: (callback) => {
-        // TODO: determine current country using geolocation
-        callback('ar');
+      geoIpLookup: async (success) => {
+        const countryCode = await ipinfoClient.getCountryCode();
+        success(countryCode);
       },
     });
     intlTelInputRef.current = iti;
@@ -330,7 +333,7 @@ const _PhoneFieldItem = ({
       setEventListenerSet(false);
       iti.destroy();
     };
-  }, [intl.locale, fieldName, setFieldValue]);
+  }, [intl.locale, fieldName, setFieldValue, ipinfoClient]);
 
   if (!eventListenerSet && inputElRef.current && intlTelInputRef.current) {
     inputElRef.current.addEventListener('countrychange', handleChange);
@@ -359,7 +362,7 @@ const _PhoneFieldItem = ({
   );
 };
 
-export const PhoneFieldItem = connect(_PhoneFieldItem);
+export const PhoneFieldItem = connect(InjectAppServices(_PhoneFieldItem));
 
 export const InputFieldItem = ({
   className,

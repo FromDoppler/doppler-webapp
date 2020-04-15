@@ -18,6 +18,7 @@ import { availableLanguageOrDefault } from './i18n/utils';
 import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 import { getDataHubParams } from './utils';
 import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
+import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
 
 polyfill();
 
@@ -36,6 +37,7 @@ const forcedServices =
         datahubClient: new HardcodedDatahubClient(),
         shopifyClient: new HardcodedShopifyClient(),
         dopplerApiClient: new HardcodedDopplerApiClient(),
+        ipinfoClient: new HardcodedIpinfoClient(),
       }
     : {};
 

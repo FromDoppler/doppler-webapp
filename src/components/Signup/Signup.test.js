@@ -16,6 +16,12 @@ const defaultDependencies = {
       return emptyResponse;
     },
   },
+  ipinfoClient: {
+    getCountryCode: async () => {
+      await timeout(0);
+      return 'PR';
+    },
+  },
 };
 
 describe('Signup', () => {
@@ -136,6 +142,28 @@ describe('Signup', () => {
     // Assert
     await waitFor(() =>
       expect(container.querySelector('#iti-item-io').nextElementSibling.id).toBe('iti-item-bn'),
+    );
+  });
+
+  it('should render flag based in ipinfoClient result', async () => {
+    // Arrange
+    const dependencies = defaultDependencies;
+    const location = { search: 'test', pathname: '/signup' };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <DopplerIntlProvider locale="en">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() =>
+      expect(container.querySelector('.iti__selected-flag').title).toBe('Puerto Rico: +1'),
     );
   });
 });
