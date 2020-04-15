@@ -83,7 +83,7 @@ describe('HttpIpinfoClient', () => {
     expect(result).toBe(countryCode);
     expect(request).toHaveBeenCalledWith({
       method: 'GET',
-      url: 'http://ipinfo.io/json',
+      url: 'https://ipinfo.io/json',
     });
   });
 });
