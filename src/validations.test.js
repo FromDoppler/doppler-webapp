@@ -197,6 +197,39 @@ describe('validations', () => {
       // Assert
       expect(result).toEqual(customKey);
     });
+
+    it('should accept an email with spaces in the beginning', () => {
+      // Arrange
+      const emailAddress = '  test.test.test@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email with spaces in the end', () => {
+      // Arrange
+      const emailAddress = 'test.test.test@test.com    ';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+
+    it('should accept an email with spaces in the beginning and in the end', () => {
+      // Arrange
+      const emailAddress = '     test.test.test@test.com    ';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toBeNull();
+    });
   });
 
   describe('validateRequiredField', () => {
