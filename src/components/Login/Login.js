@@ -113,7 +113,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       const result = await dopplerLegacyClient.login({
-        username: values[fieldNames.user],
+        username: values[fieldNames.user].trim(),
         password: values[fieldNames.password],
         captchaResponseToken: values['captchaResponseToken'],
       });
