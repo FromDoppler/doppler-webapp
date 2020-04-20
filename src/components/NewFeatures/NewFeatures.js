@@ -19,7 +19,6 @@ const NewFeatures = () => {
           <span className="arrow"></span>
         </div>
       </header>
-
       <section className="dp-container">
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
