@@ -61,15 +61,15 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
               </Helmet>
             )}
           </FormattedMessage>
-          <header className="report-filters">
+          <header className="hero-banner report-filters">
             <div className="dp-container">
               <div className="dp-rowflex">
                 <div className="col-sm-12 col-md-12 col-lg-12">
-                  <h3>
+                  <h2>
                     <FormattedMessage
                       id={`reports_partials_campaigns.header_title_${state.campaignSummaryResults.campaignStatus}`}
                     />
-                  </h3>
+                  </h2>
                   <S.MainReportBox>
                     <span>
                       <strong>
@@ -84,9 +84,9 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       {state.campaign.subject}
                     </span>
                   </S.MainReportBox>
-                  <span className="arrow" />
                 </div>
               </div>
+              <span className="arrow"></span>
             </div>
           </header>
           <section className="dp-container">

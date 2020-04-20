@@ -52,16 +52,16 @@ const MasterSubscriber = () => {
           </Helmet>
         )}
       </FormattedMessage>
-      <header className="report-filters">
+      <header className="hero-banner report-filters">
         <div className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12 col-md-12 col-lg-12">
-              <h3>
+              <h2>
                 <FormattedMessage id="master_subscriber.header_title" />
-              </h3>
-              <span className="arrow" />
+              </h2>
             </div>
           </div>
+          <span className="arrow"></span>
         </div>
       </header>
       <section className="dp-container">
