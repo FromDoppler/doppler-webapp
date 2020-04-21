@@ -54,21 +54,15 @@ export const ListItemHeader = styled.header`
   font-weight: ${fonts.fontStrong};
   padding-bottom: ${spacings.spacesLvl6};
   color: ${colors.darkGrey};
+  line-height: 24px;
 
-  h6 {
-    line-height: 1;
-    margin: ${spacings.spacesLvl0};
-    position: relative;
-    font-weight: ${fonts.fontStrong};
-  }
-
-  h6:before {
+  p:before {
     content: '';
     position: absolute;
     height: 2px;
     width: 95px;
-    top: 30px;
-    left: 0;
+    top: 80px;
+    left: 30px;
     border: 1px solid ${colors.faintGrey};
   }
 

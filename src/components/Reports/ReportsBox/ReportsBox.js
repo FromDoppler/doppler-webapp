@@ -39,7 +39,7 @@ const ReportsBox = ({
         <>
           <div className="box-border--bottom">
             <h3 className="number-kpi">{visits}</h3>
-            <h6 className="subtitle-kpi">
+            <h6>
               <FormattedMessage id="reports_box.visits_with_email" />
             </h6>
             <small className="date-range">
@@ -54,7 +54,7 @@ const ReportsBox = ({
         <>
           <div className="box-border--bottom">
             <h3 className="number-kpi">{visits}</h3>
-            <h6 className="subtitle-kpi">
+            <h6>
               <FormattedMessage id="reports_box.visits_without_emails" />
             </h6>
             <small className="date-range">

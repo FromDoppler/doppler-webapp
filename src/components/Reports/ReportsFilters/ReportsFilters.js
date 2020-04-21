@@ -11,13 +11,13 @@ const ReportsFilters = ({
   periodSelectedDays,
 }) => {
   return (
-    <header className="report-filters">
+    <header className="hero-banner report-filters">
       <div className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12 col-md-12 col-lg-12">
-            <h3>
+            <h2>
               <FormattedMessage id="reports_filters.title" />
-            </h3>
+            </h2>
             <FormattedMessageMarkdown linkTarget={'_blank'} id="reports_filters.description_MD" />
           </div>
           <div className="col-sm-12 col-md-12 col-lg-12">
@@ -106,9 +106,9 @@ const ReportsFilters = ({
                 </fieldset>
               </div>
             </form>
-            <span className="arrow" />
           </div>
         </div>
+        <span className="arrow"></span>
       </div>
     </header>
   );

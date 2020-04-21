@@ -87,26 +87,26 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
         <Loading />
       ) : state.subscriber ? (
         <>
-          <header className="report-filters">
+          <header className="hero-banner report-filters">
             <div className="dp-container">
               <div className="dp-rowflex">
                 <div className="col-sm-12 col-md-12 col-lg-12">
                   <Breadcrumb />
-                  <h3>
+                  <h2>
                     <FormattedMessage id="subscriber_gdpr.header_title" />
-                  </h3>
+                  </h2>
                   <p>
                     <FormattedMessage id="subscriber_gdpr.header_description" />
                   </p>
-                  <span className="arrow" />
                 </div>
               </div>
+              <span className="arrow"></span>
             </div>
           </header>
           <section className="dp-container">
             <div className="dp-rowflex">
-              <div className="col-sm-12 m-t-24 m-b-36">
-                <div className="dp-block-wlp dp-box-shadow m-t-36">
+              <div className="col-sm-12 m-b-36">
+                <div className="dp-block-wlp dp-box-shadow">
                   <header className="dp-header-campaing dp-rowflex p-l-18">
                     <div className="col-lg-6 col-md-12 m-b-24">
                       <div className="dp-calification">

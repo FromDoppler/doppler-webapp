@@ -5,23 +5,22 @@ const NewFeatures = () => {
   const [campaignId, setCampaignId] = useState(0);
   return (
     <>
-      <header className="report-filters">
+      <header className="hero-banner report-filters">
         <div className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12 col-md-12 col-lg-12">
-              <h3>Funcionalidades Nuevas</h3>
+              <h2>Funcionalidades Nuevas</h2>
               <p>
                 Features sin acceso para los usuarios todavía y con trabajo pendiente de contenidos
                 y diseño.
               </p>
-              <span className="arrow"></span>
             </div>
           </div>
+          <span className="arrow"></span>
         </div>
       </header>
-
       <section className="dp-container">
-        <div className="dp-block-wlp dp-box-shadow m-t-36">
+        <div className="dp-block-wlp dp-box-shadow">
           <div style={{ marginLeft: '20px' }}>
             <h3>Maestro de Suscriptores</h3>
             <Link to={`/reports/master-subscriber`}>Link</Link>

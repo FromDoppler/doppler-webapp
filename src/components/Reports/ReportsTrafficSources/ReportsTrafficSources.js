@@ -47,10 +47,10 @@ const ReportsTrafficSources = function ({
 
   return (
     <div className="dp-box-shadow">
-      <div className="col-md-12 col-sm-12">
-        <small className="title-reports-box">
+      <div>
+        <h6 className="title-reports-box">
           <FormattedMessage id="trafficSources.title" />
-        </small>
+        </h6>
       </div>
       <S.ContentContainer>
         {state.loading ? (
@@ -68,12 +68,12 @@ const ReportsTrafficSources = function ({
             {state.trafficSources.items.map((trafficSource, index) => (
               <S.ListItem key={index} className="col-md-4 col-sm-12">
                 <S.ListItemHeader>
-                  <h6>
+                  <p>
                     <FormattedMessage
                       defaultMessage={trafficSource.sourceName}
                       id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
                     />
-                  </h6>
+                  </p>
                   <span>
                     {trafficSource.quantity}
                     <span>
