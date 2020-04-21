@@ -17,7 +17,7 @@
     "@types/react-router-dom": "^5.1.4",
     "@types/url-parse": "^1.4.3",
     "axios": "^0.19.2",
-    "axios-retry": "^3.1.2",
+    "axios-retry": "^3.1.5",
     "c3": "^0.7.15",
     "cross-env": "^7.0.2",
     "eclint": "^2.8.1",
