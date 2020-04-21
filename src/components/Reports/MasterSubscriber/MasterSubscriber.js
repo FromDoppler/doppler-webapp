@@ -66,7 +66,7 @@ const MasterSubscriber = () => {
       </header>
       <section className="dp-container">
         <div className="dp-rowflex">
-          <div className="col-sm-12 m-t-24">
+          <div className="col-sm-12">
             <div className="dp-block-wlp">
               <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
                 {({ submitForm, handleChange, errors, touched }) => (

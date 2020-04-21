@@ -20,7 +20,7 @@ const NewFeatures = () => {
         </div>
       </header>
       <section className="dp-container">
-        <div className="dp-block-wlp dp-box-shadow m-t-36">
+        <div className="dp-block-wlp dp-box-shadow">
           <div style={{ marginLeft: '20px' }}>
             <h3>Maestro de Suscriptores</h3>
             <Link to={`/reports/master-subscriber`}>Link</Link>
