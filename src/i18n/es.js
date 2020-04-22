@@ -212,6 +212,8 @@ los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayu
     delivery_rate: `Tasa de entrega`,
     emails_delivered: `Emails Entregados:`,
     hard_and_soft: `Rebotes Hard y Soft`,
+    header_description_shipped: `Tu Campaña ha sido enviada. Estas son las métricas finales de tu envío.`,
+    header_description_shipping: `Tu Campaña está en progreso. Estas son las métricas parciales de tu envío.`,
     header_title_shipped: `Reporte de Campaña`,
     header_title_shipping: `Reporte Parcial`,
     last_click_date: `Último Click:`,

@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 import spacings from '../../styles/spacings';
+import fonts from '../../styles/fonts';
 
 export const MainReportBox = styled.div`
-  span {
+  margin-bottom: ${spacings.spacesLvl6};
+
+  p {
+    color: ${colors.darkGrey};
     display: block;
-    line-height: 30px;
+    font-size: ${fonts.fontLvl8};
+    margin-bottom: ${spacings.spacesLvl2};
   }
 `;
 
@@ -16,28 +21,15 @@ export const DetailedInformation = styled.div`
   position: relative;
 
   p {
-    font-weight: 600;
+    color: ${colors.darkGrey};
     position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      height: 2px;
-      width: 95px;
-      top: 36px;
-      left: 0px;
-      border: 1px solid ${colors.faintGrey};
-    }
-  }
-
-  div:nth-child(odd) {
-    background: ${colors.smoothGrey};
+    text-transform: uppercase;
+    font-size: ${fonts.fontLvl3};
   }
 
   div {
     padding: ${spacings.spacesLvl8};
-    flex: 0 0 33%;
-
+    width: calc(100% / 3 - 25px);
     @media (max-width: 768px) {
       padding: ${spacings.spacesLvl5} ${spacings.spacesLvl8};
       flex: 0 0 100%;
@@ -46,7 +38,7 @@ export const DetailedInformation = styled.div`
     h2 {
       font-size: 60px;
       line-height: 60px;
-      margin: ${spacings.spacesLvl4} ${spacings.spacesLvl0};
+      font-weight: normal;
 
       @media (max-width: 768px) {
         font-size: 48px;
@@ -56,19 +48,8 @@ export const DetailedInformation = styled.div`
   }
 `;
 
-export const Header = styled.header`
-  padding: ${spacings.spacesLvl5} ${spacings.spacesLvl8} ${spacings.spacesLvl5};
-  position: relative;
-
-  &:before {
-    content: '';
-    position: absolute;
-    height: 2px;
-    width: 95px;
-    top: 90px;
-    left: 48px;
-    border: 1px solid ${colors.faintGrey};
-  }
+export const HeaderBox = styled.header`
+  padding: ${spacings.spacesLvl5} ${spacings.spacesLvl8} ${spacings.spacesLvl4};
 
   h3 {
     font-weight: bold;
@@ -78,56 +59,56 @@ export const Header = styled.header`
 export const Kpi = styled.div`
   padding: ${spacings.spacesLvl0} ${spacings.spacesLvl8} ${spacings.spacesLvl8};
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   position: relative;
+  flex-direction: column;
 
   div {
-    flex: 0 0 33%;
-    @media (max-width: 375px) {
-      flex: 0 0 100%;
-    }
-  }
-
-  h2 {
-    font-size: 60px;
-    line-height: 60px;
-    position: relative;
-    margin: 0;
-
-    @media (max-width: 768px) {
-      font-size: 48px;
-      line-height: 48px;
-    }
-
-    &:before {
-      content: '';
-      position: absolute;
-      width: 90px;
-      left: 0;
-      bottom: -12px;
-    }
+    margin-bottom: ${spacings.spacesLvl3};
   }
 
   p {
-    font-weight: 600;
+    color: ${colors.darkGrey};
+    font-size: ${fonts.fontLvl3};
+    text-transform: uppercase;
+    margin-top: ${spacings.spacesLvl2};
+
+    &.numbers-title {
+      font-size: 45px;
+      line-height: 62px;
+      position: relative;
+      margin: 0;
+      @media (max-width: 768px) {
+        font-size: 48px;
+        line-height: 48px;
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 140px;
+        left: 0;
+        bottom: 0;
+        border-bottom-style: solid;
+        border-bottom-width: 2px;
+      }
+    }
   }
 
   div:nth-child(1) {
-    h2:before {
-      border-bottom: 3px solid ${colors.green};
+    p.numbers-title:before {
+      border-bottom-color: ${colors.green};
     }
   }
 
   div:nth-child(2) {
-    h2:before {
-      border-bottom: 3px solid ${colors.darkYellow};
+    .numbers-title:before {
+      border-bottom-color: ${colors.darkYellow};
     }
   }
 
   div:nth-child(3) {
-    h2:before {
-      border-bottom: 3px solid ${colors.red};
+    p.numbers-title:before {
+      border-bottom-color: ${colors.red};
     }
   }
 `;
@@ -136,14 +117,20 @@ export const Summary = styled.div`
   padding: ${spacings.spacesLvl0} ${spacings.spacesLvl8} ${spacings.spacesLvl8};
 
   ul {
-    line-height: 2em;
+    line-height: 2.5em;
+
+    & li:nth-child(even) {
+      background: #eee;
+    }
 
     li {
-      font-weight: 600;
+      text-indent: 20px;
+      font-size: ${fonts.fontLvl5};
     }
 
     span {
-      color: ${colors.darkGrey};
+      float: right;
+      font-weight: bold;
     }
   }
 `;

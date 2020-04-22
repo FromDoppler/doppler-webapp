@@ -7,4 +7,5 @@ export default {
   fontLvl3: '13px',
   fontLvl4: '14px',
   fontLvl5: '15px',
+  fontLvl8: '18px',
 };
