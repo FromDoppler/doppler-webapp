@@ -124,9 +124,9 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   return (
     <div className="dp-box-shadow">
       <div className="col-sm-12">
-        <small className="title-reports-box">
+        <h6>
           <FormattedMessage id="reports_daily_visits.title" />
-        </small>
+        </h6>
       </div>
       {state.loading ? (
         <Loading />

@@ -69,9 +69,9 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
         <Loading />
       ) : (
         <div>
-          <small className="title-reports-box">
+          <h6 className="title-reports-box">
             <FormattedMessage id="reports_pageranking.top_pages" />
-          </small>
+          </h6>
           <S.ContentContainer>
             {state.pages.length === 0 ? (
               !state.error ? (

@@ -74,9 +74,9 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
     <div className="dp-box-shadow">
       <S.Header>
         <div className="col-sm-12 col-md-6">
-          <small className="title-reports-box">
+          <h6 className="title-reports-box">
             <FormattedMessage id="reports_hours_visits.title" />
-          </small>
+          </h6>
         </div>
         <div className="col-sm-12 col-md-6 dp-reference">
           <div>
