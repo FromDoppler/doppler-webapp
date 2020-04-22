@@ -70,20 +70,11 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       id={`reports_partials_campaigns.header_title_${state.campaignSummaryResults.campaignStatus}`}
                     />
                   </h2>
-                  <S.MainReportBox>
-                    <span>
-                      <strong>
-                        <FormattedMessage id="reports_partials_campaigns.campaign_name" />{' '}
-                      </strong>
-                      {state.campaign.name}
-                    </span>
-                    <span>
-                      <strong>
-                        <FormattedMessage id="reports_partials_campaigns.campaign_subject" />{' '}
-                      </strong>
-                      {state.campaign.subject}
-                    </span>
-                  </S.MainReportBox>
+                  <p>
+                    <FormattedMessage
+                      id={`reports_partials_campaigns.header_description_${state.campaignSummaryResults.campaignStatus}`}
+                    />
+                  </p>
                 </div>
               </div>
               <span className="arrow"></span>
@@ -92,72 +83,80 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
           <section className="dp-container">
             <div className="dp-rowflex">
               <div className="col-sm-12 col-md-12 col-lg-12 m-t-24">
-                <div className="dp-box-shadow">
-                  <S.DetailedInformation>
-                    <div>
-                      <p>
-                        <FormattedMessage id="reports_partials_campaigns.campaign_state" />
-                      </p>
-                      <h2>
-                        <FormattedMessage
-                          id={`reports_partials_campaigns.${state.campaignSummaryResults.campaignStatus}`}
-                        />
-                      </h2>
-                    </div>
-                    <div>
-                      <p>
-                        <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
-                      </p>
-                      <h2>
-                        <FormattedNumber value={state.campaignSummaryResults.totalRecipients} />
-                      </h2>
-                    </div>
-                    <div>
-                      <p>
-                        <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
-                      </p>
-                      <h2>
-                        <FormattedNumber value={state.campaignSummaryResults.totalShipped} />
-                      </h2>
-                    </div>
-                  </S.DetailedInformation>
-                </div>
+                <S.MainReportBox>
+                  <p>
+                    <FormattedMessage id="reports_partials_campaigns.campaign_name" />{' '}
+                    <strong>{state.campaign.name}</strong>
+                  </p>
+                  <p>
+                    <FormattedMessage id="reports_partials_campaigns.campaign_subject" />{' '}
+                    <strong>{state.campaign.subject}</strong>
+                  </p>
+                </S.MainReportBox>
+                <S.DetailedInformation>
+                  <div className="dp-box-shadow">
+                    <h2>
+                      <FormattedMessage
+                        id={`reports_partials_campaigns.${state.campaignSummaryResults.campaignStatus}`}
+                      />
+                    </h2>
+                    <p>
+                      <FormattedMessage id="reports_partials_campaigns.campaign_state" />
+                    </p>
+                  </div>
+                  <div className="dp-box-shadow">
+                    <h2>
+                      <FormattedNumber value={state.campaignSummaryResults.totalRecipients} />
+                    </h2>
+                    <p>
+                      <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
+                    </p>
+                  </div>
+                  <div className="dp-box-shadow">
+                    <h2>
+                      <FormattedNumber value={state.campaignSummaryResults.totalShipped} />
+                    </h2>
+                    <p>
+                      <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
+                    </p>
+                  </div>
+                </S.DetailedInformation>
               </div>
               <div className="col-sm-12 m-t-24 m-b-48">
                 <div className="dp-box-shadow">
                   <div className="dp-rowflex">
                     <div className="col-sm-12 col-md-6 col-lg-6">
-                      <S.Header>
+                      <S.HeaderBox>
                         <h3>
                           <FormattedMessage id="reports_partials_campaigns.delivery_rate" />
                         </h3>
-                      </S.Header>
+                      </S.HeaderBox>
                       <S.Kpi>
                         <div>
-                          <h2>
+                          <p className="numbers-title">
                             <FormattedNumber value={state.campaignSummaryResults.uniqueOpens} />
-                          </h2>
+                          </p>
                           <p>
                             <FormattedMessage id="reports_partials_campaigns.opened" />
                           </p>
                         </div>
                         <div>
-                          <h2>
+                          <p className="numbers-title">
                             <FormattedNumber value={state.campaignSummaryResults.totalUnopened} />
-                          </h2>
+                          </p>
                           <p>
                             <FormattedMessage id="reports_partials_campaigns.not_open" />
                           </p>
                         </div>
                         <div>
-                          <h2>
+                          <p className="numbers-title">
                             <FormattedNumber
                               value={
                                 state.campaignSummaryResults.totalHardBounces +
                                 state.campaignSummaryResults.totalSoftBounces
                               }
                             />
-                          </h2>
+                          </p>
                           <p>
                             <FormattedMessage id="reports_partials_campaigns.hard_and_soft" />
                           </p>
@@ -166,11 +165,11 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                     </div>
                     <div className="col-sm-12 col-md-6 col-lg-6">
                       <S.BackGrey>
-                        <S.Header>
+                        <S.HeaderBox>
                           <h3>
                             <FormattedMessage id="reports_partials_campaigns.campaign_summary" />
                           </h3>
-                        </S.Header>
+                        </S.HeaderBox>
                         <S.Summary>
                           <ul>
                             <li>

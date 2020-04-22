@@ -211,6 +211,8 @@ by Doppler and how many don't. By tracking the user's journey you'll be able to 
     delivery_rate: `Delivery Rate`,
     emails_delivered: `Emails Delivered:`,
     hard_and_soft: `Hard and Soft bounces`,
+    header_description_shipped: `Your Campaign has been sent. These are the final results.`,
+    header_description_shipping: `Your Campaign is being sent. These are the partial results so far.`,
     header_title_shipped: `Campaign Report`,
     header_title_shipping: `Progress Report`,
     last_click_date: `Last Click Date:`,
