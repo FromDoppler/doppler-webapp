@@ -207,7 +207,13 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.last_open_date" />{' '}
                               <span>
-                                <FormattedDate value={state.campaignSummaryResults.lastOpenDate} />
+                                {state.campaignSummaryResults.lastOpenDate ? (
+                                  <FormattedDate
+                                    value={state.campaignSummaryResults.lastOpenDate}
+                                  />
+                                ) : (
+                                  '-'
+                                )}
                               </span>
                             </li>
                             <li>
@@ -233,7 +239,13 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                             <li>
                               <FormattedMessage id="reports_partials_campaigns.last_click_date" />{' '}
                               <span>
-                                <FormattedDate value={state.campaignSummaryResults.lastClickDate} />
+                                {state.campaignSummaryResults.lastClickDate ? (
+                                  <FormattedDate
+                                    value={state.campaignSummaryResults.lastClickDate}
+                                  />
+                                ) : (
+                                  '-'
+                                )}
                               </span>
                             </li>
                             <li>
