@@ -19,6 +19,7 @@ import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 import { getDataHubParams } from './utils';
 import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
 import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
+import { HardcodedDatahubClientNew } from './services/datahub-client-new.doubles';
 
 polyfill();
 
@@ -35,6 +36,8 @@ const forcedServices =
         dopplerLegacyClient: new HardcodedDopplerLegacyClient(),
         dopplerSitesClient: new HardcodedDopplerSitesClient(),
         datahubClient: new HardcodedDatahubClient(),
+        // Temporal until use the new datahub client endpoints
+        datahubClientNew: new HardcodedDatahubClientNew(),
         shopifyClient: new HardcodedShopifyClient(),
         dopplerApiClient: new HardcodedDopplerApiClient(),
         ipinfoClient: new HardcodedIpinfoClient(),
