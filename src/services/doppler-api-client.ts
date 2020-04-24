@@ -72,14 +72,14 @@ export interface CampaignSummaryResults {
   successFullDeliveries: number;
   timesForwarded: number;
   totalTimesOpened: number;
-  lastOpenDate: string;
+  lastOpenDate: string | null;
   uniqueClicks: number;
   uniqueOpens: number;
   totalUnopened: number;
   totalHardBounces: number;
   totalSoftBounces: number;
   totalClicks: number;
-  lastClickDate: string;
+  lastClickDate: string | null;
   totalUnsubscribers: number;
   campaignStatus: string;
   totalShipped: number;

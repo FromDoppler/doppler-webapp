@@ -124,12 +124,13 @@ export const Summary = styled.div`
     }
 
     li {
-      text-indent: 20px;
+      text-indent: ${spacings.spacesLvl3};
       font-size: ${fonts.fontLvl5};
     }
 
     span {
       float: right;
+      margin-right: ${spacings.spacesLvl3};
       font-weight: bold;
     }
   }

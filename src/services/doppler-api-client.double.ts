@@ -208,7 +208,7 @@ const campaignSummaryResults = {
   successFullDeliveries: 20000,
   timesForwarded: 1000,
   totalTimesOpened: 10000,
-  lastOpenDate: '2019-11-27T18:05:40.847Z',
+  lastOpenDate: null,
   uniqueClicks: 300,
   uniqueOpens: 500,
   totalUnopened: 10000,
