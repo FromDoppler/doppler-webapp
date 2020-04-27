@@ -63,6 +63,12 @@ const NewFeatures = () => {
             <Link to={`/reports/partials-campaigns?campaignId=${campaignId}`}>Ir al Reporte</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow">
+          <div style={{ marginLeft: '20px' }}>
+            <h3>Reportes con lo nuevo de datahub</h3>
+            <Link to={`/reports-new`}>Link</Link>
+          </div>
+        </div>
       </section>
     </>
   );
