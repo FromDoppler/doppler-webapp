@@ -29,7 +29,7 @@ const emptyCommonResponse = {
 
 describe('HttpDataHubClient', () => {
   describe('getAccountDomains', () => {
-    it('should call datahub with the right url', async ()=> {
+    it('should call datahub with the right url', async () => {
       // Arrange
       const request = jest.fn(async () => emptyCommonResponse);
       const dataHubClient = createHttpDataHubClient({ request });
@@ -42,13 +42,12 @@ describe('HttpDataHubClient', () => {
       expect(request).toBeCalledWith(
         expect.objectContaining({
           method: 'GET',
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains',
+          url: '/cdhapi/customers/dataHubCustomerId/domains',
         }),
       );
     });
 
-    it('should call datahub and return error', async ()=> {
+    it('should call datahub and return error', async () => {
       // Arrange
       const request = jest.fn(async () => {});
       const dataHubClient = createHttpDataHubClient({ request });
@@ -61,32 +60,34 @@ describe('HttpDataHubClient', () => {
       expect(request).toBeCalledWith(
         expect.objectContaining({
           method: 'GET',
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains',
+          url: '/cdhapi/customers/dataHubCustomerId/domains',
         }),
       );
       expect(response.success).toEqual(false);
     });
 
-    it('should call datahub and return the enabled domains', async ()=> {
+    it('should call datahub and return the enabled domains', async () => {
       // Arrange
       const domains = {
-        data: {items:[
-        {
-          domainName: 'www.fromdoppler.com',
-          lastNavigationEventTime: '2010-12-17',
-          enabled: true,
+        data: {
+          items: [
+            {
+              domainName: 'www.fromdoppler.com',
+              lastNavigationEventTime: '2010-12-17',
+              enabled: true,
+            },
+            {
+              domainName: 'www.makingsense.com',
+              verified_date: null,
+              enabled: true,
+            },
+            {
+              domainName: 'www.google.com',
+              lastNavigationEventTime: '2017-12-17',
+            },
+          ],
         },
-        {
-          domainName: 'www.makingsense.com',
-          verified_date: null,
-          enabled: true,
-        },
-        {
-          domainName: 'www.google.com',
-          lastNavigationEventTime: '2017-12-17',
-        },
-      ]}};
+      };
       const request = jest.fn(async () => domains);
       const dataHubClient = createHttpDataHubClient({ request });
 
@@ -98,8 +99,7 @@ describe('HttpDataHubClient', () => {
       expect(request).toBeCalledWith(
         expect.objectContaining({
           method: 'GET',
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains',
+          url: '/cdhapi/customers/dataHubCustomerId/domains',
         }),
       );
       expect(response.success).toEqual(true);

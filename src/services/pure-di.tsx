@@ -10,6 +10,7 @@ import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
+import { DatahubClientNew, HttpDatahubClientNew } from './datahub-client-new';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -33,6 +34,8 @@ export interface AppServices {
   axiosStatic: AxiosStatic;
   appConfiguration: AppConfiguration;
   datahubClient: DatahubClient;
+  // Temporal until use the new datahub client endpoints
+  datahubClientNew: DatahubClientNew;
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
   localStorage: Storage;
@@ -97,6 +100,19 @@ export class AppCompositionRoot implements AppServices {
       'datahubClient',
       () =>
         new HttpDatahubClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.datahubUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  // Temporal until use the new datahub client endpoints
+  get datahubClientNew() {
+    return this.singleton(
+      'datahubClientNew',
+      () =>
+        new HttpDatahubClientNew({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.datahubUrl,
           connectionDataRef: this.appSessionRef,

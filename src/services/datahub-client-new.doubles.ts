@@ -1,7 +1,4 @@
-import {
-  DatahubClientNew,
-  DomainsResult,
-} from './datahub-client-new';
+import { DatahubClientNew, DomainsResult } from './datahub-client-new';
 import { timeout } from '../utils';
 
 const domains = [
@@ -22,7 +19,6 @@ const domains = [
   },
 ];
 
-
 export class HardcodedDatahubClientNew implements DatahubClientNew {
   public async getAccountDomains(): Promise<DomainsResult> {
     console.log('getAccountDomains');
@@ -31,13 +27,11 @@ export class HardcodedDatahubClientNew implements DatahubClientNew {
     return {
       success: true,
       value: data,
-    }
+    };
 
     //return {
     //  success: false,
     //  error: new Error('Dummy error'),
     //};
   }
-
-
 }

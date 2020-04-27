@@ -70,7 +70,7 @@ export class HttpDatahubClientNew implements DatahubClientNew {
       return {
         success: true,
         value: data,
-      }
+      };
     } catch (error) {
       return {
         success: false,
