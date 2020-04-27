@@ -19,6 +19,8 @@ import SubscriberHistory from './components/Reports/SubscriberHistory/Subscriber
 import SubscriberGdpr from './components/Reports/GDPR/SubscriberGdpr';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
 import NewFeatures from './components/NewFeatures/NewFeatures';
+// Temporal until use the new datahub client endpoints
+import ReportsNew from './components/Reports/ReportsNew';
 
 /**
  * @param { Object } props - props
@@ -92,6 +94,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
               )
             }
           />
+          <PrivateRoute path="/reports-new/" exact requireSiteTracking component={ReportsNew} />
           <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
           <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
           <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
