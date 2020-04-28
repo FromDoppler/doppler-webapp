@@ -7,18 +7,21 @@ import { AppServicesProvider } from '../../services/pure-di';
 
 const verifiedDateAsDate = new Date('2017-12-17');
 
-const fakeData = [
-  {
-    id: 1,
-    name: 'www.fromdoppler.com',
-    verified_date: verifiedDateAsDate,
-  },
-  {
-    id: 2,
-    name: 'www.makingsense.com',
-    verified_date: verifiedDateAsDate,
-  },
-];
+const fakeData = {
+  success: true,
+  value: [
+    {
+      id: 1,
+      name: 'www.fromdoppler.com',
+      verified_date: verifiedDateAsDate,
+    },
+    {
+      id: 2,
+      name: 'www.makingsense.com',
+      verified_date: verifiedDateAsDate,
+    },
+  ],
+};
 
 const fakePages = [
   { id: 1, name: 'productos2' },
@@ -31,7 +34,9 @@ describe('Reports page', () => {
   it('render page without domain', async () => {
     // Arrange
     const datahubClientDouble = {
-      getAccountDomains: async () => [],
+      getAccountDomains: async () => {
+        return { success: true, value: [] };
+      },
     };
 
     // Act
@@ -78,7 +83,7 @@ describe('Reports page', () => {
 
     await waitFor(() => getByText('reports_filters.verified_domain'));
 
-    const domain = getByText(fakeData[1].name);
+    const domain = getByText(fakeData.value[1].name);
 
     expect(domain).toBeDefined();
   });
@@ -123,17 +128,16 @@ describe('Reports page', () => {
 
   it('should show "no domains" message when the domain list is empty', async () => {
     // Arrange
-    let resolveGetAccountDomainsPromise = null;
-    const getAccountDomainsPromise = new Promise((r) => {
-      resolveGetAccountDomainsPromise = () => r([]);
-    });
     const datahubClientDouble = {
-      getAccountDomains: () => getAccountDomainsPromise,
+      getAccountDomains: () => {
+        return { success: true, value: [] };
+      },
       getTotalVisitsOfPeriod: async () => 0,
       getPagesRankingByPeriod: async () => [],
       getPagesTrafficSourcesByPeriod: async () => [],
     };
 
+    // Act
     const { container, getByText } = render(
       <AppServicesProvider
         forcedServices={{
@@ -147,9 +151,6 @@ describe('Reports page', () => {
       </AppServicesProvider>,
     );
     expect(container.querySelectorAll('.loading-box')).toHaveLength(1);
-
-    // Act
-    resolveGetAccountDomainsPromise();
 
     // Assert
     await waitFor(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));

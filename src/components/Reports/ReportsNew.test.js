@@ -17,7 +17,7 @@ describe('Reports New page', () => {
       <DopplerIntlProvider>
         <Reports
           dependencies={{
-            datahubClientNew: datahubClientDouble,
+            datahubClient: datahubClientDouble,
             appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
           }}
         />
@@ -40,7 +40,7 @@ describe('Reports New page', () => {
       <DopplerIntlProvider>
         <Reports
           dependencies={{
-            datahubClientNew: datahubClientDouble,
+            datahubClient: datahubClientDouble,
             appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
           }}
         />

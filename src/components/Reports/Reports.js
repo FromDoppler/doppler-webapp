@@ -52,12 +52,14 @@ const Reports = ({ dependencies: { datahubClient } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const domains = await datahubClient.getAccountDomains();
-      setState((prevState) => ({
-        ...prevState,
-        domains: domains,
-        domainSelected: domains.length ? domains[0] : null,
-      }));
+      const response = await datahubClient.getAccountDomains();
+      if (response.success) {
+        setState((prevState) => ({
+          ...prevState,
+          domains: response.value,
+          domainSelected: response.value.length ? response.value[0] : null,
+        }));
+      }
     };
 
     fetchData();

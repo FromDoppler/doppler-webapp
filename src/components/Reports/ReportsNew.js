@@ -10,13 +10,13 @@ import { BoxMessage } from '../styles/messages';
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
 
-const ReportsNew = ({ dependencies: { datahubClientNew } }) => {
+const ReportsNew = ({ dependencies: { datahubClient } }) => {
   const [state, setState] = useState({ loading: true });
 
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const response = await datahubClientNew.getAccountDomains();
+      const response = await datahubClient.getAccountDomains();
       if (response.success) {
         setState({
           domains: response.value,
@@ -29,7 +29,7 @@ const ReportsNew = ({ dependencies: { datahubClientNew } }) => {
     };
 
     fetchData();
-  }, [datahubClientNew]);
+  }, [datahubClient]);
 
   return (
     <>
