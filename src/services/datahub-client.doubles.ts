@@ -1,7 +1,7 @@
 import {
   DatahubClient,
   emailFilterOptions,
-  DomainEntry,
+  DomainsResult,
   TrafficSourceResult,
   VisitsQuantitySummarizedResult,
   PageRankingResult,
@@ -9,8 +9,7 @@ import {
 } from './datahub-client';
 import { timeout } from '../utils';
 
-// TODO: use more realistic data
-const fakeData = [
+const domains = [
   {
     name: 'www.fromdoppler.com',
     verified_date: new Date('2010-12-17'),
@@ -135,11 +134,19 @@ const getFakeHoursVisitsData = () => {
 };
 
 export class HardcodedDatahubClient implements DatahubClient {
-  public async getAccountDomains(): Promise<DomainEntry[]> {
+  public async getAccountDomains(): Promise<DomainsResult> {
     console.log('getAccountDomains');
     await timeout(1500);
-    return fakeData.map((x) => ({ name: x.name, verified_date: x.verified_date }));
-    // return [];
+    const data = domains.map((x) => ({ name: x.name, verified_date: x.verified_date }));
+    return {
+      success: true,
+      value: data,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
   }
 
   public async getTotalVisitsOfPeriod({

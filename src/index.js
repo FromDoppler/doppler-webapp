@@ -19,7 +19,6 @@ import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 import { getDataHubParams } from './utils';
 import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
 import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
-
 polyfill();
 
 if (document.querySelector('body').setActive) {
