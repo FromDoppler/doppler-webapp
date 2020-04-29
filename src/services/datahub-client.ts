@@ -40,7 +40,7 @@ export type emailFilterOptions = 'with_email' | 'without_email' | null;
 export type filterByPeriodOptions = 'days' | 'hours';
 
 export interface DatahubClient {
-  getAccountDomains(): Promise<DomainEntry[]>;
+  getAccountDomains(): Promise<DomainsResult>;
   getTotalVisitsOfPeriod(query: {
     domainName: number;
     dateFrom: Date;
@@ -65,6 +65,8 @@ export interface DatahubClient {
     periodBy: filterByPeriodOptions;
   }): Promise<VisitsQuantitySummarizedResult>;
 }
+
+export type DomainsResult = ResultWithoutExpectedErrors<DomainEntry[]>;
 
 export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
 
@@ -118,14 +120,25 @@ export class HttpDatahubClient implements DatahubClient {
     });
   }
 
-  public async getAccountDomains(): Promise<DomainEntry[]> {
-    const response = await this.customerGet<{ items: any[] }>('domains');
-    return response.data.items
-      .filter((x) => x.enabled)
-      .map((x) => ({
-        name: x.domainName,
-        verified_date: (x.lastNavigationEventTime && new Date(x.lastNavigationEventTime)) || null,
-      }));
+  public async getAccountDomains(): Promise<DomainsResult> {
+    try {
+      const response = await this.customerGet<{ items: any[] }>('domains');
+      const data = response.data.items
+        .filter((x) => x.enabled)
+        .map((x) => ({
+          name: x.domainName,
+          verified_date: (x.lastNavigationEventTime && new Date(x.lastNavigationEventTime)) || null,
+        }));
+      return {
+        success: true,
+        value: data,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
   }
 
   public async getTotalVisitsOfPeriod({
