@@ -25,7 +25,7 @@ describe('Reports New page', () => {
     );
 
     // Assert
-    await waitFor(() => expect(getByText('reports_title')));
+    await waitFor(() => expect(getByText('reports_filters.title')));
   });
 
   it('should show error when dont have domains', async () => {

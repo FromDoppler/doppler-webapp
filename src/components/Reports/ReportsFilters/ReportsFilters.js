@@ -9,6 +9,7 @@ const ReportsFilters = ({
   changeDomain,
   changePeriod,
   periodSelectedDays,
+  isEnableWeeks,
 }) => {
   return (
     <header className="hero-banner report-filters">
@@ -89,19 +90,22 @@ const ReportsFilters = ({
                     >
                       {(message) => <option value="7">{message}</option>}
                     </FormattedMessage>
-                    {/* **temporarily remove until DH performance issues can be addresed
-                    <FormattedMessage
-                      id="reports_filters.week_with_plural"
-                      values={{ weeksCount: 2 }}
-                    >
-                      {(message) => <option value="14">{message}</option>}
-                    </FormattedMessage>
-                    <FormattedMessage
-                      id="reports_filters.week_with_plural"
-                      values={{ weeksCount: 3 }}
-                    >
-                      {(message) => <option value="21">{message}</option>}
-                    </FormattedMessage>*/}
+                    {isEnableWeeks ? (
+                      <>
+                        <FormattedMessage
+                          id="reports_filters.week_with_plural"
+                          values={{ weeksCount: 2 }}
+                        >
+                          {(message) => <option value="14">{message}</option>}
+                        </FormattedMessage>
+                        <FormattedMessage
+                          id="reports_filters.week_with_plural"
+                          values={{ weeksCount: 3 }}
+                        >
+                          {(message) => <option value="21">{message}</option>}
+                        </FormattedMessage>
+                      </>
+                    ) : null}
                   </select>
                 </fieldset>
               </div>

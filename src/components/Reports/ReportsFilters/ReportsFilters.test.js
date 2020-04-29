@@ -43,7 +43,7 @@ describe('ReportsFilters component', () => {
     };
 
     // Act
-    const { container, getByText } = render(
+    const { container } = render(
       <DopplerIntlProvider>
         <ReportsFilters
           changeDomain={() => {}}
@@ -60,5 +60,60 @@ describe('ReportsFilters component', () => {
 
     // Assert
     expect(container).not.toContainHTML('reports_filters.verified_domain');
+  });
+
+  it('should show 2 and 3 weeks when isEnableWeeks true', async () => {
+    // Arrange
+    const domain = {
+      name: 'domain.localhost',
+      verified_date: new Date('2018-05-30T15:30:10Z'),
+    };
+
+    // Act
+    const { getAllByText } = render(
+      <DopplerIntlProvider>
+        <ReportsFilters
+          isEnableWeeks
+          changeDomain={() => {}}
+          domains={[domain]}
+          domainSelected={domain}
+          pages={[]}
+          pageSelected={null}
+          changePage={() => {}}
+          periodSelectedDays={7}
+          changePeriod={() => {}}
+        />
+      </DopplerIntlProvider>,
+    );
+
+    // Assert
+    expect(getAllByText('reports_filters.week_with_plural'));
+  });
+
+  it('should show 1 week when isEnableWeeks false', async () => {
+    // Arrange
+    const domain = {
+      name: 'domain.localhost',
+      verified_date: new Date('2018-05-30T15:30:10Z'),
+    };
+
+    // Act
+    const { getByText } = render(
+      <DopplerIntlProvider>
+        <ReportsFilters
+          changeDomain={() => {}}
+          domains={[domain]}
+          domainSelected={domain}
+          pages={[]}
+          pageSelected={null}
+          changePage={() => {}}
+          periodSelectedDays={7}
+          changePeriod={() => {}}
+        />
+      </DopplerIntlProvider>,
+    );
+
+    // Assert
+    expect(getByText('reports_filters.week_with_plural'));
   });
 });
