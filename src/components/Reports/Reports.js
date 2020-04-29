@@ -54,6 +54,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
 
   useEffect(() => {
     const fetchVisitsByPeriod = async () => {
+      setTotalVisits({ loading: true });
       const visitsWithoutEmail = await datahubClient.getTotalVisitsOfPeriod({
         domainName: state.domainSelected.name,
         dateFrom: state.dateFrom,
@@ -67,7 +68,11 @@ const Reports = ({ dependencies: { datahubClient } }) => {
         emailFilter: 'with_email',
       });
 
-      setTotalVisits({ withEmail: visitsWithEmail, withoutEmail: visitsWithoutEmail });
+      setTotalVisits({
+        withEmail: visitsWithEmail,
+        withoutEmail: visitsWithoutEmail,
+        loading: false,
+      });
     };
     if (state.domainSelected) {
       fetchVisitsByPeriod();
@@ -128,6 +133,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     today={state.dailyView}
                     emailFilter={'without_email'}
                     visits={totalVisits.withoutEmail}
+                    loading={totalVisits.loading}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
@@ -137,6 +143,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     today={state.dailyView}
                     emailFilter={'with_email'}
                     visits={totalVisits.withEmail}
+                    loading={totalVisits.loading}
                   />
                 </div>
                 {!state.dailyView ? (

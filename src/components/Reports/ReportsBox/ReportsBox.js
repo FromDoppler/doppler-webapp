@@ -7,10 +7,10 @@ import { Loading } from '../../Loading/Loading';
  * @param { Object } props - props
  * @param { import('../../../services/pure-di').AppServices } props.dependencies
  */
-const ReportsBox = ({ dateFrom, dateTo, emailFilter, today, visits }) => {
+const ReportsBox = ({ dateFrom, dateTo, emailFilter, today, visits, loading }) => {
   return (
     <div className={visits === 0 ? 'dp-box-shadow warning--kpi' : 'dp-box-shadow'}>
-      {!visits && visits !== 0 ? (
+      {loading ? (
         <Loading />
       ) : emailFilter === 'with_email' ? (
         <>
