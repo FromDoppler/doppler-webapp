@@ -34,6 +34,8 @@ const Reports = ({ dependencies: { datahubClient } }) => {
     dailyView: !periodSelectedDaysDefault,
   });
 
+  const [totalVisits, setTotalVisits] = useState({});
+
   const changeDomain = async (name) => {
     const domainFound = state.domains.find((item) => item.name === name);
     setState((prevState) => ({ ...prevState, domainSelected: domainFound }));
@@ -49,6 +51,28 @@ const Reports = ({ dependencies: { datahubClient } }) => {
       dailyView: !daysToFilter,
     }));
   };
+
+  useEffect(() => {
+    const fetchVisitsByPeriod = async () => {
+      const visitsWithoutEmail = await datahubClient.getTotalVisitsOfPeriod({
+        domainName: state.domainSelected.name,
+        dateFrom: state.dateFrom,
+        dateTo: state.dateTo,
+        emailFilter: 'without_email',
+      });
+      const visitsWithEmail = await datahubClient.getTotalVisitsOfPeriod({
+        domainName: state.domainSelected.name,
+        dateFrom: state.dateFrom,
+        dateTo: state.dateTo,
+        emailFilter: 'with_email',
+      });
+
+      setTotalVisits({ withEmail: visitsWithEmail, withoutEmail: visitsWithoutEmail });
+    };
+    if (state.domainSelected) {
+      fetchVisitsByPeriod();
+    }
+  }, [datahubClient, state.domainSelected, state.dateFrom, state.dateTo]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,21 +123,20 @@ const Reports = ({ dependencies: { datahubClient } }) => {
               <div className="dp-rowflex">
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
                   <ReportsBox
-                    domainName={state.domainSelected.name}
-                    periodSelectedDays={state.periodSelectedDays}
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
                     today={state.dailyView}
                     emailFilter={'without_email'}
+                    visits={totalVisits.withoutEmail}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
                   <ReportsBox
-                    domainName={state.domainSelected.name}
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
                     today={state.dailyView}
                     emailFilter={'with_email'}
+                    visits={totalVisits.withEmail}
                   />
                 </div>
                 {!state.dailyView ? (

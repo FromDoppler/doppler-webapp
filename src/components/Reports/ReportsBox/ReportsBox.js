@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { InjectAppServices } from '../../../services/pure-di';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { FormattedDateRangeText } from '../../shared/FormattedDateRangeText/FormattedDateRangeText';
 import { Loading } from '../../Loading/Loading';
@@ -8,32 +7,10 @@ import { Loading } from '../../Loading/Loading';
  * @param { Object } props - props
  * @param { import('../../../services/pure-di').AppServices } props.dependencies
  */
-const ReportsBox = ({
-  domainName,
-  dateFrom,
-  dateTo,
-  emailFilter,
-  today,
-  dependencies: { datahubClient },
-}) => {
-  const [visits, setVisits] = useState(null);
-
-  useEffect(() => {
-    const fetchVisitsByPeriod = async (domainName, dateFrom, dateTo) => {
-      const asyncRequest = await datahubClient.getTotalVisitsOfPeriod({
-        domainName: domainName,
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        emailFilter: emailFilter,
-      });
-      setVisits(asyncRequest);
-    };
-    fetchVisitsByPeriod(domainName, dateFrom, dateTo);
-  }, [domainName, dateFrom, dateTo, datahubClient, emailFilter]);
-
+const ReportsBox = ({ dateFrom, dateTo, emailFilter, today, visits }) => {
   return (
     <div className={visits === 0 ? 'dp-box-shadow warning--kpi' : 'dp-box-shadow'}>
-      {visits === null ? (
+      {!visits && visits !== 0 ? (
         <Loading />
       ) : emailFilter === 'with_email' ? (
         <>
@@ -74,4 +51,4 @@ const ReportsBox = ({
   );
 };
 
-export default InjectAppServices(ReportsBox);
+export default ReportsBox;
