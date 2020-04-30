@@ -176,6 +176,64 @@ describe('HttpDataHubClient', () => {
     });
   });
 
+  describe('getTotalVisitsOfPeriod', () => {
+    it('should call datahub with the right url', async () => {
+      // Arrange
+      const request = jest.fn(async () => emptyCommonResponse);
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-07');
+
+      // Act
+      await dataHubClient.getTotalVisitsOfPeriod({ domainName, dateFrom, dateTo });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-07T00:00:00.000Z',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/visitors/summarization',
+        }),
+      );
+    });
+
+    it('should call datahub and return correct data', async () => {
+      // Arrange
+      const request = jest.fn(async () => {
+        return { data: { qVisitors: 10, qVisitorsWithEmail: 5 } };
+      });
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-07');
+
+      // Act
+      const response = await dataHubClient.getTotalVisitsOfPeriod({ domainName, dateFrom, dateTo });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-07T00:00:00.000Z',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/visitors/summarization',
+        }),
+      );
+      expect(response).toEqual({
+        success: true,
+        value: { qVisitors: 10, qVisitorsWithEmail: 5 },
+      });
+    });
+  });
+
   describe('getTrafficSourcesByPeriod', () => {
     it('should call datahub with the right url', async () => {
       // Arrange

@@ -35,18 +35,28 @@ export interface VisitsQuantitySummarized {
   withoutEmail: number;
 }
 
+export interface Visitors {
+  qVisitors: number;
+  qVisitorsWithEmail: number;
+}
+
 export type emailFilterOptions = 'with_email' | 'without_email' | null;
 
 export type filterByPeriodOptions = 'days' | 'hours';
 
 export interface DatahubClient {
   getAccountDomains(): Promise<DomainsResult>;
-  getTotalVisitsOfPeriod(query: {
+  getTotalVisitsOfPeriodOld(query: {
     domainName: number;
     dateFrom: Date;
     dateTo: Date;
     emailFilter?: emailFilterOptions;
   }): Promise<number>;
+  getTotalVisitsOfPeriod(query: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitorsResult>;
   getPagesRankingByPeriod(query: {
     domainName: string;
     dateFrom: Date;
@@ -65,6 +75,8 @@ export interface DatahubClient {
     periodBy: filterByPeriodOptions;
   }): Promise<VisitsQuantitySummarizedResult>;
 }
+
+export type VisitorsResult = ResultWithoutExpectedErrors<Visitors>;
 
 export type DomainsResult = ResultWithoutExpectedErrors<DomainEntry[]>;
 
@@ -141,7 +153,7 @@ export class HttpDatahubClient implements DatahubClient {
     }
   }
 
-  public async getTotalVisitsOfPeriod({
+  public async getTotalVisitsOfPeriodOld({
     domainName,
     dateFrom,
     dateTo,
@@ -161,6 +173,35 @@ export class HttpDatahubClient implements DatahubClient {
       },
     );
     return response.data.visitors_quantity;
+  }
+
+  public async getTotalVisitsOfPeriod({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitorsResult> {
+    try {
+      const response = await this.customerGet<any>(`domains/${domainName}/visitors/summarization`, {
+        startDate: dateFrom.toISOString(),
+        endDate: dateTo.toISOString(),
+      });
+      return {
+        success: true,
+        value: {
+          qVisitors: response.data.qVisitors,
+          qVisitorsWithEmail: response.data.qVisitorsWithEmail,
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
   }
 
   public async getPagesRankingByPeriod({
