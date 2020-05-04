@@ -24,7 +24,7 @@ describe('reports traffic sources', () => {
   afterEach(cleanup);
   it('should deal with DataHub failure', async () => {
     const dataHubClientDouble = {
-      getTrafficSourcesByPeriod: async () => errorResponse,
+      getTrafficSourcesByPeriodOld: async () => errorResponse,
     };
 
     const domainName = 'doppler.test';
@@ -49,7 +49,7 @@ describe('reports traffic sources', () => {
 
   it('should show the traffic sources', async () => {
     const dataHubClientDouble = {
-      getTrafficSourcesByPeriod: async () => fullResponse,
+      getTrafficSourcesByPeriodOld: async () => fullResponse,
     };
 
     const domainName = 'doppler.test';

@@ -2,11 +2,12 @@ import {
   DatahubClient,
   emailFilterOptions,
   DomainsResult,
-  TrafficSourceResult,
+  TrafficSourceResultOld,
   VisitsQuantitySummarizedResult,
   PageRankingResult,
   filterByPeriodOptions,
   VisitorsResult,
+  TrafficSourceResult,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -56,7 +57,7 @@ const fakePagesData = [
   },
 ];
 
-const fakeTrafficSourcesData = [
+const fakeTrafficSourcesDataOld = [
   {
     sourceName: 'Email',
     quantity: 2000,
@@ -86,6 +87,51 @@ const fakeTrafficSourcesData = [
     sourceName: 'Direct',
     quantity: 100,
     withEmail: 0,
+  },
+];
+
+const fakeTrafficSourcesData = [
+  {
+    sourceType: 'Email',
+    qVisits: 2000,
+    qVisitsWithEmail: 500,
+    qVisitors: 1000,
+    qVisitorsWithEmail: 200,
+  },
+  {
+    sourceType: 'Social',
+    qVisits: 1000,
+    qVisitsWithEmail: 800,
+    qVisitors: 500,
+    qVisitorsWithEmail: 100,
+  },
+  {
+    sourceType: 'Paid',
+    qVisits: 250,
+    qVisitsWithEmail: 50,
+    qVisitors: 100,
+    qVisitorsWithEmail: 30,
+  },
+  {
+    sourceType: 'Organic',
+    qVisits: 100,
+    qVisitsWithEmail: 10,
+    qVisitors: 60,
+    qVisitorsWithEmail: 20,
+  },
+  {
+    sourceType: 'Referral',
+    qVisits: 50,
+    qVisitsWithEmail: 40,
+    qVisitors: 40,
+    qVisitorsWithEmail: 28,
+  },
+  {
+    sourceType: 'Direct',
+    qVisits: 100,
+    qVisitsWithEmail: 0,
+    qVisitors: 65,
+    qVisitorsWithEmail: 0,
   },
 ];
 
@@ -243,6 +289,34 @@ export class HardcodedDatahubClient implements DatahubClient {
     // };
   }
 
+  public async getTrafficSourcesByPeriodOld({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<TrafficSourceResultOld> {
+    console.log('getTrafficSourcesByPeriodOld', { domainName, dateFrom, dateTo });
+    await timeout(1000);
+    const trafficSources = fakeTrafficSourcesDataOld.map((x) => ({
+      sourceName: x.sourceName,
+      quantity: x.quantity,
+      withEmail: x.withEmail,
+    }));
+
+    return {
+      success: true,
+      value: trafficSources,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
+  }
+
   public async getTrafficSourcesByPeriod({
     domainName,
     dateFrom,
@@ -252,12 +326,14 @@ export class HardcodedDatahubClient implements DatahubClient {
     dateFrom: Date;
     dateTo: Date;
   }): Promise<TrafficSourceResult> {
-    console.log('getTrafficSourcesByPeriod', { domainName, dateFrom, dateTo });
+    console.log('getTrafficSourcesByPeriodOld', { domainName, dateFrom, dateTo });
     await timeout(1000);
     const trafficSources = fakeTrafficSourcesData.map((x) => ({
-      sourceName: x.sourceName,
-      quantity: x.quantity,
-      withEmail: x.withEmail,
+      sourceType: x.sourceType,
+      qVisitors: x.qVisitors,
+      qVisitorsWithEmail: x.qVisitorsWithEmail,
+      qVisitsWithEmail: x.qVisitsWithEmail,
+      qVisits: x.qVisits,
     }));
 
     return {

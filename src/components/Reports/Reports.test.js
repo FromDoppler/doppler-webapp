@@ -64,7 +64,7 @@ describe('Reports page', () => {
       getPagesRankingByPeriod: async () => {
         return { success: false, value: [] };
       },
-      getTrafficSourcesByPeriod: async () => [],
+      getTrafficSourcesByPeriodOld: async () => [],
       getVisitsQuantitySummarizedByPeriod: async () => [],
     };
 
@@ -102,7 +102,7 @@ describe('Reports page', () => {
         getPagesRankingByPeriod: async () => {
           return { success: false, value: [] };
         },
-        getTrafficSourcesByPeriod: async () => [],
+        getTrafficSourcesByPeriodOld: async () => [],
         getVisitsQuantitySummarizedByPeriod: async () => [],
       };
 

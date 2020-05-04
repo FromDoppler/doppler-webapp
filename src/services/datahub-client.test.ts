@@ -27,7 +27,7 @@ const emptyCommonResponse = {
   },
 };
 
-const fullTrafficSourceResponse = {
+const fullTrafficSourceResponseOld = {
   data: {
     items: [
       {
@@ -39,6 +39,27 @@ const fullTrafficSourceResponse = {
         sourceName: 'Social',
         quantity: 1000,
         withEmail: 500,
+      },
+    ],
+  },
+};
+
+const fullTrafficSourceResponse = {
+  data: {
+    items: [
+      {
+        sourceType: 'Email',
+        qVisits: 2000,
+        qVisitsWithEmail: 500,
+        qVisitors: 1000,
+        qVisitorsWithEmail: 200,
+      },
+      {
+        sourceType: 'Social',
+        qVisits: 1000,
+        qVisitsWithEmail: 800,
+        qVisitors: 500,
+        qVisitorsWithEmail: 100,
       },
     ],
   },
@@ -234,6 +255,72 @@ describe('HttpDataHubClient', () => {
     });
   });
 
+  describe('getTrafficSourcesByPeriodOld', () => {
+    it('should call datahub with the right url', async () => {
+      // Arrange
+      const request = jest.fn(async () => emptyCommonResponse);
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-07');
+
+      // Act
+      await dataHubClient.getTrafficSourcesByPeriodOld({ domainName, dateFrom, dateTo });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-07T00:00:00.000Z',
+          },
+          url:
+            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
+        }),
+      );
+    });
+
+    it('should call datahub and return correct data', async () => {
+      // Arrange
+      const request = jest.fn(async () => fullTrafficSourceResponseOld);
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-07');
+
+      // Act
+      const response = await dataHubClient.getTrafficSourcesByPeriodOld({
+        domainName,
+        dateFrom,
+        dateTo,
+      });
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-07T00:00:00.000Z',
+          },
+          url:
+            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
+        }),
+      );
+      expect(response).toEqual({
+        success: true,
+        value: [
+          { sourceName: 'Email', quantity: 2000, withEmail: 500 },
+          { sourceName: 'Social', quantity: 1000, withEmail: 500 },
+        ],
+      });
+    });
+  });
+
   describe('getTrafficSourcesByPeriod', () => {
     it('should call datahub with the right url', async () => {
       // Arrange
@@ -257,7 +344,7 @@ describe('HttpDataHubClient', () => {
             endDate: '2019-01-07T00:00:00.000Z',
           },
           url:
-            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
+            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source-type',
         }),
       );
     });
@@ -287,14 +374,26 @@ describe('HttpDataHubClient', () => {
             endDate: '2019-01-07T00:00:00.000Z',
           },
           url:
-            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source',
+            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source-type',
         }),
       );
       expect(response).toEqual({
         success: true,
         value: [
-          { sourceName: 'Email', quantity: 2000, withEmail: 500 },
-          { sourceName: 'Social', quantity: 1000, withEmail: 500 },
+          {
+            sourceType: 'Email',
+            qVisits: 2000,
+            qVisitsWithEmail: 500,
+            qVisitors: 1000,
+            qVisitorsWithEmail: 200,
+          },
+          {
+            sourceType: 'Social',
+            qVisits: 1000,
+            qVisitsWithEmail: 800,
+            qVisitors: 500,
+            qVisitorsWithEmail: 100,
+          },
         ],
       });
     });

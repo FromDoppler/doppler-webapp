@@ -24,7 +24,7 @@ const ReportsTrafficSources = function ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const trafficSourcesData = await datahubClient.getTrafficSourcesByPeriod({
+      const trafficSourcesData = await datahubClient.getTrafficSourcesByPeriodOld({
         domainName: domainName,
         dateFrom: dateFrom,
         dateTo: dateTo,
