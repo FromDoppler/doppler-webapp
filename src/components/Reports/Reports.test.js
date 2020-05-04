@@ -60,7 +60,7 @@ describe('Reports page', () => {
   it('should render domains without pages', async () => {
     const datahubClientDouble = {
       getAccountDomains: async () => fakeData,
-      getTotalVisitsOfPeriod: async () => 0,
+      getTotalVisitsOfPeriodOld: async () => 0,
       getPagesRankingByPeriod: async () => {
         return { success: false, value: [] };
       },
@@ -98,7 +98,7 @@ describe('Reports page', () => {
           name: 'www.fromdoppler.com',
           verified_date: null,
         }),
-        getTotalVisitsOfPeriod: async () => 0,
+        getTotalVisitsOfPeriodOld: async () => 0,
         getPagesRankingByPeriod: async () => {
           return { success: false, value: [] };
         },
@@ -132,7 +132,7 @@ describe('Reports page', () => {
       getAccountDomains: () => {
         return { success: true, value: [] };
       },
-      getTotalVisitsOfPeriod: async () => 0,
+      getTotalVisitsOfPeriodOld: async () => 0,
       getPagesRankingByPeriod: async () => [],
       getPagesTrafficSourcesByPeriod: async () => [],
     };

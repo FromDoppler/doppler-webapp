@@ -6,6 +6,7 @@ import {
   VisitsQuantitySummarizedResult,
   PageRankingResult,
   filterByPeriodOptions,
+  VisitorsResult,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -149,7 +150,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     //};
   }
 
-  public async getTotalVisitsOfPeriod({
+  public async getTotalVisitsOfPeriodOld({
     domainName,
     dateFrom,
     dateTo,
@@ -164,6 +165,34 @@ export class HardcodedDatahubClient implements DatahubClient {
     await timeout(1500);
     const visits = Math.round(Math.random() * (100 - 1) + 1);
     return visits;
+  }
+
+  public async getTotalVisitsOfPeriod({
+    domainName,
+    dateFrom,
+    dateTo,
+    emailFilter,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+    emailFilter: emailFilterOptions;
+  }): Promise<VisitorsResult> {
+    console.log('getTotalVisitsOfPeriod', { domainName, dateFrom, emailFilter, dateTo });
+    await timeout(1500);
+
+    const visitors = Math.round(Math.random() * (100 - 50) + 1);
+    const visitorsWithEmail = Math.round(Math.random() * (50 - 1) + 1);
+
+    return {
+      success: true,
+      value: { qVisitors: visitors, qVisitorsWithEmail: visitorsWithEmail },
+    };
+
+    // return {
+    //   success: false,
+    //   error: new Error('Dummy error'),
+    // };
   }
 
   public async getPagesRankingByPeriod({

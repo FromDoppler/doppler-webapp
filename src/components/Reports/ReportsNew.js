@@ -11,6 +11,7 @@ import {
   SiteTrackingNotAvailableReasons,
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import ReportsBox from './ReportsBox/ReportsBox';
 
 // This value means the today date
 const periodSelectedDaysDefault = 1;
@@ -27,7 +28,10 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
     periodSelectedDays: periodSelectedDaysDefault,
     dateFrom: addDays(today, periodSelectedDaysDefault * -1),
     dateTo: periodSelectedDaysDefault ? today : new Date(),
+    dailyView: !periodSelectedDaysDefault,
   });
+
+  const [totalVisits, setTotalVisits] = useState({});
 
   const changeDomain = async (name) => {
     const domainFound = state.domains.find((item) => item.name === name);
@@ -46,8 +50,28 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
   };
 
   useEffect(() => {
+    const fetchVisitsByPeriod = async () => {
+      setTotalVisits({ loading: true });
+      const response = await datahubClient.getTotalVisitsOfPeriod({
+        domainName: state.domainSelected.name,
+        dateFrom: state.dateFrom,
+        dateTo: state.dateTo,
+      });
+      if (response.success) {
+        setTotalVisits({
+          withEmail: response.value.qVisitors,
+          withoutEmail: response.value.qVisitorsWithEmail,
+          loading: false,
+        });
+      }
+    };
+    if (state.domainSelected) {
+      fetchVisitsByPeriod();
+    }
+  }, [datahubClient, state.domainSelected, state.dateFrom, state.dateTo]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      setState({ loading: true });
       const response = await datahubClient.getAccountDomains();
       if (response.success) {
         setState((prevState) => ({
@@ -96,6 +120,28 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
                   </p>
                 </BoxMessage>
               ) : null}
+              <div className="dp-rowflex">
+                <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
+                  <ReportsBox
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                    today={state.dailyView}
+                    emailFilter={'without_email'}
+                    visits={totalVisits.withoutEmail}
+                    loading={totalVisits.loading}
+                  />
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
+                  <ReportsBox
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                    today={state.dailyView}
+                    emailFilter={'with_email'}
+                    visits={totalVisits.withEmail}
+                    loading={totalVisits.loading}
+                  />
+                </div>
+              </div>
             </section>
           ) : (
             <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
