@@ -4,11 +4,11 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsTrafficSources.styles';
 
-const SafeDivide = (number, qVisitors) => {
-  return qVisitors ? number / qVisitors : 0;
+const SafeDivide = (number, quantity) => {
+  return quantity ? number / quantity : 0;
 };
 
-const ReportsTrafficSources = function ({
+const ReportsTrafficSourcesOld = function ({
   domainName,
   dateFrom,
   dateTo,
@@ -24,14 +24,14 @@ const ReportsTrafficSources = function ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const trafficSourcesData = await datahubClient.getTrafficSourcesByPeriod({
+      const trafficSourcesData = await datahubClient.getTrafficSourcesByPeriodOld({
         domainName: domainName,
         dateFrom: dateFrom,
         dateTo: dateTo,
       });
       if (trafficSourcesData.success && trafficSourcesData.value) {
         const total = trafficSourcesData.value.reduce(function (previous, item) {
-          return previous + item.qVisitors;
+          return previous + item.quantity;
         }, 0);
         setState({
           loading: false,
@@ -70,23 +70,23 @@ const ReportsTrafficSources = function ({
                 <S.ListItemHeader>
                   <p>
                     <FormattedMessage
-                      defaultMessage={trafficSource.sourceType}
-                      id={`trafficSources.${trafficSource.sourceType.toLowerCase()}`}
+                      defaultMessage={trafficSource.sourceName}
+                      id={`trafficSources.${trafficSource.sourceName.toLowerCase()}`}
                     />
                   </p>
                   <span>
-                    {trafficSource.qVisitors}
+                    {trafficSource.quantity}
                     <span>
                       (
                       <FormattedNumber
-                        value={SafeDivide(trafficSource.qVisitors, state.trafficSources.total)}
+                        value={SafeDivide(trafficSource.quantity, state.trafficSources.total)}
                         {...numberFormatOptions}
                       />
                       )
                     </span>
                   </span>
                 </S.ListItemHeader>
-                {trafficSource.qVisitorsWithEmail || trafficSource.qVisitorsWithEmail === 0 ? (
+                {trafficSource.withEmail || trafficSource.withEmail === 0 ? (
                   <S.ListItemDetail>
                     <div>
                       <div>
@@ -97,24 +97,17 @@ const ReportsTrafficSources = function ({
                           primary
                           style={{
                             width:
-                              SafeDivide(
-                                trafficSource.qVisitorsWithEmail,
-                                trafficSource.qVisitors,
-                              ) *
-                                100 +
+                              SafeDivide(trafficSource.withEmail, trafficSource.quantity) * 100 +
                               '%',
                           }}
                         />
                       </div>
                       <span>
-                        {trafficSource.qVisitorsWithEmail}
+                        {trafficSource.withEmail}
                         <span>
                           (
                           <FormattedNumber
-                            value={SafeDivide(
-                              trafficSource.qVisitorsWithEmail,
-                              trafficSource.qVisitors,
-                            )}
+                            value={SafeDivide(trafficSource.withEmail, trafficSource.quantity)}
                             {...numberFormatOptions}
                           />
                           )
@@ -130,8 +123,8 @@ const ReportsTrafficSources = function ({
                           style={{
                             width:
                               SafeDivide(
-                                trafficSource.qVisitors - trafficSource.qVisitorsWithEmail,
-                                trafficSource.qVisitors,
+                                trafficSource.quantity - trafficSource.withEmail,
+                                trafficSource.quantity,
                               ) *
                                 100 +
                               '%',
@@ -139,13 +132,13 @@ const ReportsTrafficSources = function ({
                         />
                       </div>
                       <span>
-                        {trafficSource.qVisitorsWithEmail}
+                        {trafficSource.withEmail}
                         <span>
                           (
                           <FormattedNumber
                             value={SafeDivide(
-                              trafficSource.qVisitors - trafficSource.qVisitorsWithEmail,
-                              trafficSource.qVisitors,
+                              trafficSource.quantity - trafficSource.withEmail,
+                              trafficSource.quantity,
                             )}
                             {...numberFormatOptions}
                           />
@@ -164,4 +157,4 @@ const ReportsTrafficSources = function ({
   );
 };
 
-export default InjectAppServices(ReportsTrafficSources);
+export default InjectAppServices(ReportsTrafficSourcesOld);
