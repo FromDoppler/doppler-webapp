@@ -12,6 +12,7 @@ import {
 } from '../SiteTrackingRequired/SiteTrackingRequired';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import ReportsBox from './ReportsBox/ReportsBox';
+import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 
 // This value means the today date
 const periodSelectedDaysDefault = 1;
@@ -139,6 +140,13 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
                     emailFilter={'with_email'}
                     visits={totalVisits.withEmail}
                     loading={totalVisits.loading}
+                  />
+                </div>
+                <div className="col-sm-12 m-b-24">
+                  <ReportsTrafficSources
+                    domainName={state.domainSelected.name}
+                    dateFrom={state.dateFrom}
+                    dateTo={state.dateTo}
                   />
                 </div>
               </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
-import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
+import ReportsTrafficSourcesOld from './ReportsTrafficSources/ReportsTrafficSourcesOld';
 import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 import { InjectAppServices } from '../../services/pure-di';
@@ -156,7 +156,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                   </div>
                 ) : null}
                 <div className="col-sm-12 m-b-24">
-                  <ReportsTrafficSources
+                  <ReportsTrafficSourcesOld
                     domainName={state.domainSelected.name}
                     dateFrom={state.dateFrom}
                     dateTo={state.dateTo}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ReportsTrafficSources from './ReportsTrafficSources';
+import ReportsTrafficSourcesOld from './ReportsTrafficSourcesOld';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 
@@ -10,18 +10,12 @@ const fullResponse = {
   success: true,
   value: [
     {
-      sourceType: 'Email',
-      qVisits: 2000,
-      qVisitsWithEmail: 500,
-      qVisitors: 1000,
-      qVisitorsWithEmail: 200,
+      sourceName: 'Email',
+      quantity: 2000,
     },
     {
-      sourceType: 'Social',
-      qVisits: 1000,
-      qVisitsWithEmail: 800,
-      qVisitors: 500,
-      qVisitorsWithEmail: 100,
+      sourceName: 'Social',
+      quantity: 1000,
     },
   ],
 };
@@ -30,7 +24,7 @@ describe('reports traffic sources', () => {
   afterEach(cleanup);
   it('should deal with DataHub failure', async () => {
     const dataHubClientDouble = {
-      getTrafficSourcesByPeriod: async () => errorResponse,
+      getTrafficSourcesByPeriodOld: async () => errorResponse,
     };
 
     const domainName = 'doppler.test';
@@ -43,7 +37,7 @@ describe('reports traffic sources', () => {
         }}
       >
         <DopplerIntlProvider locale="es">
-          <ReportsTrafficSources domainName={domainName} dateFrom={dateFrom} />
+          <ReportsTrafficSourcesOld domainName={domainName} dateFrom={dateFrom} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -55,7 +49,7 @@ describe('reports traffic sources', () => {
 
   it('should show the traffic sources', async () => {
     const dataHubClientDouble = {
-      getTrafficSourcesByPeriod: async () => fullResponse,
+      getTrafficSourcesByPeriodOld: async () => fullResponse,
     };
 
     const domainName = 'doppler.test';
@@ -68,7 +62,7 @@ describe('reports traffic sources', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsTrafficSources domainName={domainName} dateFrom={dateFrom} />
+          <ReportsTrafficSourcesOld domainName={domainName} dateFrom={dateFrom} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -76,6 +70,8 @@ describe('reports traffic sources', () => {
     await waitFor(() => {
       expect(getByText('trafficSources.email'));
       expect(getByText('trafficSources.social'));
+      // TODO: for now only can check english language local because for local has small-icu and need full-icu
+      expect(getByText('(66.67%)'));
     });
   });
 });

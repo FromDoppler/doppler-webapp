@@ -20,10 +20,18 @@ export interface PageRanking {
   pages: Page[];
 }
 
-export interface TrafficSource {
+export interface TrafficSourceOld {
   sourceName: string;
   quantity: number;
   withEmail: number;
+}
+
+export interface TrafficSource {
+  sourceType: string;
+  qVisits: number;
+  qVisitsWithEmail: number;
+  qVisitors: number;
+  qVisitorsWithEmail: number;
 }
 
 export interface VisitsQuantitySummarized {
@@ -64,6 +72,11 @@ export interface DatahubClient {
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult>;
+  getTrafficSourcesByPeriodOld(query: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<TrafficSourceResultOld>;
   getTrafficSourcesByPeriod(query: {
     domainName: string;
     dateFrom: Date;
@@ -79,6 +92,8 @@ export interface DatahubClient {
 export type VisitorsResult = ResultWithoutExpectedErrors<Visitors>;
 
 export type DomainsResult = ResultWithoutExpectedErrors<DomainEntry[]>;
+
+export type TrafficSourceResultOld = ResultWithoutExpectedErrors<TrafficSourceOld[]>;
 
 export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
 
@@ -255,7 +270,7 @@ export class HttpDatahubClient implements DatahubClient {
     }
   }
 
-  public async getTrafficSourcesByPeriod({
+  public async getTrafficSourcesByPeriodOld({
     domainName,
     dateFrom,
     dateTo,
@@ -263,9 +278,9 @@ export class HttpDatahubClient implements DatahubClient {
     domainName: string;
     dateFrom: Date;
     dateTo: Date;
-  }): Promise<TrafficSourceResult> {
+  }): Promise<TrafficSourceResultOld> {
     try {
-      const response = await this.customerGet<{ items: TrafficSource[] }>(
+      const response = await this.customerGet<{ items: TrafficSourceOld[] }>(
         `domains/${domainName}/events/summarized-by-source`,
         {
           startDate: dateFrom.toISOString(),
@@ -277,6 +292,44 @@ export class HttpDatahubClient implements DatahubClient {
         sourceName: x.sourceName,
         quantity: x.quantity,
         withEmail: x.withEmail,
+      }));
+
+      return {
+        success: true,
+        value: trafficSources,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getTrafficSourcesByPeriod({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<TrafficSourceResult> {
+    try {
+      const response = await this.customerGet<{ items: TrafficSource[] }>(
+        `domains/${domainName}/events/summarized-by-source-type`,
+        {
+          startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
+        },
+      );
+
+      const trafficSources = response.data.items.map((x) => ({
+        sourceType: x.sourceType,
+        qVisitors: x.qVisitors,
+        qVisitorsWithEmail: x.qVisitorsWithEmail,
+        qVisitsWithEmail: x.qVisitsWithEmail,
+        qVisits: x.qVisits,
       }));
 
       return {
