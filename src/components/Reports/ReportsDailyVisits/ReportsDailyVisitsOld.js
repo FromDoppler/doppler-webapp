@@ -8,7 +8,12 @@ const chartDataOptions = {
   json: {},
 };
 
-const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { datahubClient } }) => {
+const ReportsDailyVisitsOld = ({
+  domainName,
+  dateFrom,
+  dateTo,
+  dependencies: { datahubClient },
+}) => {
   const [state, setState] = useState({ loading: true });
 
   const intl = useIntl();
@@ -50,14 +55,14 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
           <div class="c3-tooltip">
             <div class='tooltip-title'>${date}</div>
             ${
-              tooltipData.qVisitorsWithEmail == null
-                ? valueTemplate(tooltipData.quantity_label + tooltipData.qVisitors)
+              tooltipData.withEmail == null
+                ? valueTemplate(tooltipData.quantity_label + tooltipData.quantity)
                 : ''
             }
             ${
-              tooltipData.qVisitorsWithEmail != null
-                ? valueTemplate(tooltipData.withEmail_label + tooltipData.qVisitorsWithEmail) +
-                  valueTemplate(tooltipData.withoutEmail_label + tooltipData.qVisitorsWithOutEmail)
+              tooltipData.withEmail != null
+                ? valueTemplate(tooltipData.withEmail_label + tooltipData.withEmail) +
+                  valueTemplate(tooltipData.withoutEmail_label + tooltipData.withoutEmail)
                 : ''
             }
           </div>`;
@@ -92,10 +97,11 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const dailyVisitsData = await datahubClient.getVisitsQuantitySummarizedByDay({
+      const dailyVisitsData = await datahubClient.getVisitsQuantitySummarizedByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
         dateTo: dateTo,
+        periodBy: 'days',
       });
       if (!dailyVisitsData.success) {
         setState({ loading: false });
@@ -106,11 +112,11 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
             json: dailyVisitsData.value,
             keys: {
               x: 'from',
-              value: ['qVisitors', 'qVisitorsWithEmail', 'qVisitorsWithOutEmail'],
+              value: ['quantity', 'withEmail', 'withoutEmail'],
             },
             classes: {
-              qVisitorsWithEmail: 'hide-graph',
-              qVisitorsWithOutEmail: 'hide-graph',
+              withEmail: 'hide-graph',
+              withoutEmail: 'hide-graph',
             },
           },
         });
@@ -140,4 +146,4 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   );
 };
 
-export default InjectAppServices(ReportsDailyVisits);
+export default InjectAppServices(ReportsDailyVisitsOld);
