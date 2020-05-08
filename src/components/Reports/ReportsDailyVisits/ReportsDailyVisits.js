@@ -123,7 +123,7 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   return (
     <div className="dp-box-shadow">
       <div className="col-sm-12">
-        <h6>
+        <h6 className="title-reports-box">
           <FormattedMessage id="reports_daily_visits.title" />
         </h6>
       </div>
