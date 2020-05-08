@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import spacings from '../../styles/spacings';
 
 export const C3ChartStyled = styled.div`
-  margin: ${spacings.spacesLvl0} ${spacings.spacesLvl4} ${spacings.spacesLvl6};
+  margin: 0 24px 36px 6px;
 
   svg {
     font: 400 11px 'Proxima-Nova', sans-serif;
@@ -66,7 +65,7 @@ export const C3ChartStyled = styled.div`
 
   .c3-tooltip-container {
     background: ${colors.white};
-    padding: ${spacings.spacesLvl4} ${spacings.spacesLvl5};
+    padding: 24px 30px;
     min-width: 180px;
     color: ${colors.darkGrey};
     font: 400 12px 'Proxima-Nova', sans-serif;

@@ -15,10 +15,6 @@ export const ContentContainer = styled.div`
     padding: 0;
     position: relative;
   }
-
-  .col-sm-12 {
-    padding: ${spacings.spacesLvl0};
-  }
 `;
 
 export const ListItem = styled.div`
