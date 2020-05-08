@@ -28,11 +28,6 @@ export const ListContainer = styled.div`
 
   & > div:nth-child(odd) {
     background: ${colors.smoothGrey};
-    padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5};
-  }
-
-  & > div:nth-child(even) {
-    padding: ${spacings.spacesLvl6} ${spacings.spacesLvl5};
   }
 
   & > div:nth-child(n + 4) {
