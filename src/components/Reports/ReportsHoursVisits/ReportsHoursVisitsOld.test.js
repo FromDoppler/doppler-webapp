@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ReportsHoursVisits from './ReportsHoursVisits';
+import ReportsHoursVisitsOld from './ReportsHoursVisitsOld';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 
@@ -45,7 +45,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="es">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
+          <ReportsHoursVisitsOld domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -69,7 +69,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
+          <ReportsHoursVisitsOld domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -107,7 +107,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
+          <ReportsHoursVisitsOld domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -145,7 +145,7 @@ describe('reports weekday and hours visits', () => {
         }}
       >
         <DopplerIntlProvider locale="en">
-          <ReportsHoursVisits domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
+          <ReportsHoursVisitsOld domainName={domainName} dateFrom={dateFrom} dateTo={dateTo} />
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );

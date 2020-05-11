@@ -27,7 +27,12 @@ const FormatWeekDayIndex = ({ value, format }) => {
   );
 };
 
-const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { datahubClient } }) => {
+const ReportsHoursVisitsOld = ({
+  domainName,
+  dateFrom,
+  dateTo,
+  dependencies: { datahubClient },
+}) => {
   const [state, setState] = useState({ loading: true });
 
   useEffect(() => {
@@ -181,4 +186,4 @@ const ReportsHoursVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   );
 };
 
-export default InjectAppServices(ReportsHoursVisits);
+export default InjectAppServices(ReportsHoursVisitsOld);
