@@ -8,6 +8,7 @@ import {
   filterByPeriodOptions,
   VisitorsResult,
   TrafficSourceResult,
+  VisitsQuantitySummarizedByDayResult,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -135,7 +136,7 @@ const fakeTrafficSourcesData = [
   },
 ];
 
-const fakeDailyVisitsData = [
+const fakeDailyVisitsDataOld = [
   {
     periodNumber: 0,
     from: '2018-10-10T03:00:00.000Z',
@@ -163,6 +164,57 @@ const fakeDailyVisitsData = [
     to: '2018-10-14T03:00:00.000Z',
     quantity: 80,
     withEmail: 40,
+  },
+];
+
+const fakeDailyVisitsData = [
+  {
+    periods: [
+      {
+        from: '2018-10-10T03:00:00.000Z',
+        to: '2018-10-11T03:00:00.000Z',
+      },
+    ],
+    qVisitors: 20,
+    qVisitorsWithEmail: 3,
+    qVisits: 30,
+    qVisitsWithEmail: 10,
+  },
+  {
+    periods: [
+      {
+        from: '2018-10-11T03:00:00.000Z',
+        to: '2018-10-12T03:00:00.000Z',
+      },
+    ],
+    qVisitors: 40,
+    qVisitorsWithEmail: 10,
+    qVisits: 50,
+    qVisitsWithEmail: 20,
+  },
+  {
+    periods: [
+      {
+        from: '2018-10-12T03:00:00.000Z',
+        to: '2018-10-13T03:00:00.000Z',
+      },
+    ],
+    qVisitors: 70,
+    qVisitorsWithEmail: 2,
+    qVisits: 100,
+    qVisitsWithEmail: 10,
+  },
+  {
+    periods: [
+      {
+        from: '2018-10-13T03:00:00.000Z',
+        to: '2018-10-14T03:00:00.000Z',
+      },
+    ],
+    qVisitors: 80,
+    qVisitorsWithEmail: 40,
+    qVisits: 120,
+    qVisitsWithEmail: 40,
   },
 ];
 
@@ -361,7 +413,7 @@ export class HardcodedDatahubClient implements DatahubClient {
     console.log('getVisitsQuantitySummarizedByPeriod', { domainName, dateFrom, dateTo, periodBy });
     await timeout(1000);
 
-    const data = periodBy === 'days' ? fakeDailyVisitsData : getFakeHoursVisitsData();
+    const data = periodBy === 'days' ? fakeDailyVisitsDataOld : getFakeHoursVisitsData();
 
     const visitsByPeriod = data.map((x) => ({
       periodNumber: x.periodNumber,
@@ -370,6 +422,41 @@ export class HardcodedDatahubClient implements DatahubClient {
       quantity: x.quantity,
       withEmail: x.withEmail,
       withoutEmail: x.quantity - x.withEmail,
+    }));
+
+    return {
+      success: true,
+      value: visitsByPeriod,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
+  }
+
+  public async getVisitsQuantitySummarizedByDay({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitsQuantitySummarizedByDayResult> {
+    console.log('getVisitsQuantitySummarizedByDay', { domainName, dateFrom, dateTo });
+    await timeout(1000);
+
+    const data = fakeDailyVisitsData;
+
+    const visitsByPeriod = data.map((x) => ({
+      from: new Date(x.periods[0].from),
+      to: new Date(x.periods[0].to),
+      qVisitors: x.qVisitors,
+      qVisitorsWithEmail: x.qVisitorsWithEmail,
+      qVisitorsWithOutEmail: x.qVisitors - x.qVisitorsWithEmail,
+      qVisits: x.qVisits,
+      qVisitsWithEmail: x.qVisitsWithEmail,
     }));
 
     return {

@@ -43,6 +43,16 @@ export interface VisitsQuantitySummarized {
   withoutEmail: number;
 }
 
+export interface VisitsQuantitySummarizedByDay {
+  from: Date;
+  to: Date;
+  qVisits: number;
+  qVisitsWithEmail: number;
+  qVisitors: number;
+  qVisitorsWithEmail: number;
+  qVisitorsWithOutEmail: number;
+}
+
 export interface Visitors {
   qVisitors: number;
   qVisitorsWithEmail: number;
@@ -87,6 +97,10 @@ export interface DatahubClient {
     dateFrom: Date;
     periodBy: filterByPeriodOptions;
   }): Promise<VisitsQuantitySummarizedResult>;
+  getVisitsQuantitySummarizedByDay(query: {
+    domainName: string;
+    dateFrom: Date;
+  }): Promise<VisitsQuantitySummarizedByDayResult>;
 }
 
 export type VisitorsResult = ResultWithoutExpectedErrors<Visitors>;
@@ -99,6 +113,10 @@ export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
 
 export type VisitsQuantitySummarizedResult = ResultWithoutExpectedErrors<
   VisitsQuantitySummarized[]
+>;
+
+export type VisitsQuantitySummarizedByDayResult = ResultWithoutExpectedErrors<
+  VisitsQuantitySummarizedByDay[]
 >;
 
 export type PageRankingResult = ResultWithoutExpectedErrors<PageRanking>;
@@ -373,6 +391,49 @@ export class HttpDatahubClient implements DatahubClient {
         quantity: x.quantity,
         withEmail: x.withEmail,
         withoutEmail: x.withEmail !== undefined ? x.quantity - x.withEmail : x.withEmail,
+      }));
+
+      return {
+        success: true,
+        value: visitsByPeriod,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getVisitsQuantitySummarizedByDay({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitsQuantitySummarizedByDayResult> {
+    try {
+      const response = await this.customerGet<any>(
+        `domains/${domainName}/events/summarized-by-day`,
+        {
+          startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
+        },
+      );
+
+      const visitsByPeriod = response.data.items.map((x: any) => ({
+        from: new Date(x.periods[0].from),
+        to: new Date(x.periods[0].to),
+        qVisitors: x.qVisitors,
+        qVisitorsWithEmail: x.qVisitorsWithEmail,
+        qVisits: x.qVisits,
+        qVisitsWithEmail: x.qVisitsWithEmail,
+        qVisitorsWithOutEmail:
+          x.qVisitorsWithEmail !== undefined
+            ? x.qVisitors - x.qVisitorsWithEmail
+            : x.qVisitorsWithEmail,
       }));
 
       return {

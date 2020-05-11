@@ -48,7 +48,7 @@ export const C3ChartStyled = styled.div`
     opacity: 1;
   }
 
-  .c3-shapes-quantity {
+  .c3-circle {
     fill: ${colors.purple3};
     opacity: 1;
   }
