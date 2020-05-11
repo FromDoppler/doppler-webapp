@@ -14,6 +14,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
+import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 
 // This value means the today date
 const periodSelectedDaysDefault = 1;
@@ -159,6 +160,15 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
                     dateTo={state.dateTo}
                   />
                 </div>
+                {!state.dailyView ? (
+                  <div className="col-sm-12 m-b-24">
+                    <ReportsHoursVisits
+                      domainName={state.domainSelected.name}
+                      dateTo={state.dateTo}
+                      dateFrom={state.dateFrom}
+                    />
+                  </div>
+                ) : null}
               </div>
             </section>
           ) : (
