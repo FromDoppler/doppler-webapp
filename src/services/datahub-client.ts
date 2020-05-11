@@ -53,6 +53,16 @@ export interface VisitsQuantitySummarizedByDay {
   qVisitorsWithOutEmail: number;
 }
 
+export interface VisitsQuantitySummarizedByWeekdayAndHour {
+  weekday: number;
+  hour: number;
+  qVisits: number;
+  qVisitsWithEmail: number;
+  qVisitors: number;
+  qVisitorsWithEmail: number;
+  qVisitorsWithOutEmail: number;
+}
+
 export interface Visitors {
   qVisitors: number;
   qVisitorsWithEmail: number;
@@ -101,6 +111,11 @@ export interface DatahubClient {
     domainName: string;
     dateFrom: Date;
   }): Promise<VisitsQuantitySummarizedByDayResult>;
+  getVisitsQuantitySummarizedByWeekdayAndHour(query: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitsQuantitySummarizedByWeekAndHourResult>;
 }
 
 export type VisitorsResult = ResultWithoutExpectedErrors<Visitors>;
@@ -117,6 +132,10 @@ export type VisitsQuantitySummarizedResult = ResultWithoutExpectedErrors<
 
 export type VisitsQuantitySummarizedByDayResult = ResultWithoutExpectedErrors<
   VisitsQuantitySummarizedByDay[]
+>;
+
+export type VisitsQuantitySummarizedByWeekAndHourResult = ResultWithoutExpectedErrors<
+  VisitsQuantitySummarizedByWeekdayAndHour[]
 >;
 
 export type PageRankingResult = ResultWithoutExpectedErrors<PageRanking>;
@@ -426,6 +445,49 @@ export class HttpDatahubClient implements DatahubClient {
       const visitsByPeriod = response.data.items.map((x: any) => ({
         from: new Date(x.periods[0].from),
         to: new Date(x.periods[0].to),
+        qVisitors: x.qVisitors,
+        qVisitorsWithEmail: x.qVisitorsWithEmail,
+        qVisits: x.qVisits,
+        qVisitsWithEmail: x.qVisitsWithEmail,
+        qVisitorsWithOutEmail:
+          x.qVisitorsWithEmail !== undefined
+            ? x.qVisitors - x.qVisitorsWithEmail
+            : x.qVisitorsWithEmail,
+      }));
+
+      return {
+        success: true,
+        value: visitsByPeriod,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async getVisitsQuantitySummarizedByWeekdayAndHour({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitsQuantitySummarizedByWeekAndHourResult> {
+    try {
+      const response = await this.customerGet<any>(
+        `domains/${domainName}/events/summarized-by-weekday-and-hour`,
+        {
+          startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
+        },
+      );
+
+      const visitsByPeriod = response.data.items.map((x: any) => ({
+        weekday: new Date(x.periods[0].from).getDay(),
+        hour: new Date(x.periods[0].from).getHours(),
         qVisitors: x.qVisitors,
         qVisitorsWithEmail: x.qVisitorsWithEmail,
         qVisits: x.qVisits,
