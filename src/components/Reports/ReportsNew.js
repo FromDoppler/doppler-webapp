@@ -13,6 +13,7 @@ import {
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
+import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 
 // This value means the today date
 const periodSelectedDaysDefault = 1;
@@ -29,7 +30,7 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
     periodSelectedDays: periodSelectedDaysDefault,
     dateFrom: addDays(today, periodSelectedDaysDefault * -1),
     dateTo: periodSelectedDaysDefault ? today : new Date(),
-    dailyView: !periodSelectedDaysDefault,
+    dailyView: periodSelectedDaysDefault === 1,
   });
 
   const [totalVisits, setTotalVisits] = useState({});
@@ -142,6 +143,15 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
                     loading={totalVisits.loading}
                   />
                 </div>
+                {!state.dailyView ? (
+                  <div className="col-sm-12 m-b-24">
+                    <ReportsDailyVisits
+                      domainName={state.domainSelected.name}
+                      dateFrom={state.dateFrom}
+                      dateTo={state.dateTo}
+                    />
+                  </div>
+                ) : null}
                 <div className="col-sm-12 m-b-24">
                   <ReportsTrafficSources
                     domainName={state.domainSelected.name}

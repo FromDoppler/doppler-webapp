@@ -90,6 +90,37 @@ const fullDailyVisitsResponse = {
   },
 };
 
+const fullDailyResponse = {
+  data: {
+    items: [
+      {
+        periods: [
+          {
+            from: '2018-10-10T03:00:00.000Z',
+            to: '2018-10-11T03:00:00.000Z',
+          },
+        ],
+        qVisitors: 20,
+        qVisitorsWithEmail: 3,
+        qVisits: 30,
+        qVisitsWithEmail: 10,
+      },
+      {
+        periods: [
+          {
+            from: '2018-10-11T03:00:00.000Z',
+            to: '2018-10-12T03:00:00.000Z',
+          },
+        ],
+        qVisitors: 40,
+        qVisitorsWithEmail: 10,
+        qVisits: 50,
+        qVisitsWithEmail: 20,
+      },
+    ],
+  },
+};
+
 const fullRankingByPeriodResponse = {
   data: {
     hasMorePages: true,
@@ -535,6 +566,139 @@ describe('HttpDataHubClient', () => {
           },
           url:
             '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/quantity-summarized-by-period',
+        }),
+      );
+      expect(response.success).toEqual(false);
+    });
+  });
+
+  describe('getVisitsQuantitySummarizedByDay', () => {
+    it('should call datahub with the right url', async () => {
+      // Arrange
+      const request = jest.fn(async () => {
+        emptyDailyVisitsResponse;
+      });
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
+
+      // Act
+      await dataHubClient.getVisitsQuantitySummarizedByDay({
+        domainName,
+        dateFrom,
+        dateTo,
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-day',
+        }),
+      );
+    });
+
+    it('should call datahub and return correct data', async () => {
+      // Arrange
+      const request = jest.fn(async () => fullDailyResponse);
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
+
+      // Act
+      const response = await dataHubClient.getVisitsQuantitySummarizedByDay({
+        domainName,
+        dateFrom,
+        dateTo,
+      });
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-day',
+        }),
+      );
+      expect(response).toEqual({
+        success: true,
+        value: [
+          {
+            from: new Date('2018-10-10T03:00:00.000Z'),
+            to: new Date('2018-10-11T03:00:00.000Z'),
+            qVisitors: 20,
+            qVisitorsWithEmail: 3,
+            qVisitorsWithOutEmail: 17,
+            qVisits: 30,
+            qVisitsWithEmail: 10,
+          },
+          {
+            from: new Date('2018-10-11T03:00:00.000Z'),
+            to: new Date('2018-10-12T03:00:00.000Z'),
+            qVisitors: 40,
+            qVisitorsWithEmail: 10,
+            qVisitorsWithOutEmail: 30,
+            qVisits: 50,
+            qVisitsWithEmail: 20,
+          },
+        ],
+      });
+    });
+
+    it('should call datahub and get and error', async () => {
+      // Arrange
+      const unauthorizedResponse = {
+        code: 401,
+        detail: 'unauthorized',
+      };
+
+      const request = jest.fn(async () => {
+        unauthorizedResponse;
+      });
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
+
+      // Act
+      const response = await dataHubClient.getVisitsQuantitySummarizedByDay({
+        domainName,
+        dateFrom,
+        dateTo,
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
+          },
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-day',
         }),
       );
       expect(response.success).toEqual(false);
