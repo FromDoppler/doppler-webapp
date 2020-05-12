@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import colors from '../../styles/colors';
+import spacings from '../../styles/spacings';
 
 export const C3ChartStyled = styled.div`
-  margin: 0 24px 36px 6px;
+  margin: ${spacings.spacesLvl0} ${spacings.spacesLvl4} ${spacings.spacesLvl6};
 
   svg {
     font: 400 11px 'Proxima-Nova', sans-serif;
@@ -47,7 +48,7 @@ export const C3ChartStyled = styled.div`
     opacity: 1;
   }
 
-  .c3-shapes-quantity {
+  .c3-circle {
     fill: ${colors.purple3};
     opacity: 1;
   }
@@ -65,7 +66,7 @@ export const C3ChartStyled = styled.div`
 
   .c3-tooltip-container {
     background: ${colors.white};
-    padding: 24px 30px;
+    padding: ${spacings.spacesLvl4} ${spacings.spacesLvl5};
     min-width: 180px;
     color: ${colors.darkGrey};
     font: 400 12px 'Proxima-Nova', sans-serif;

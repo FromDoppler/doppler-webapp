@@ -3,6 +3,7 @@ import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './ReportsNew';
+import { AppServicesProvider } from '../../services/pure-di';
 
 describe('Reports New page', () => {
   afterEach(cleanup);
@@ -49,5 +50,72 @@ describe('Reports New page', () => {
 
     // Assert
     await waitFor(() => expect(getByText('common.unexpected_error')));
+  });
+
+  it('should show verify domain message', async () => {
+    // Arrange
+    const datahubClientDouble = {
+      getAccountDomains: async () => ({
+        success: true,
+        value: [
+          {
+            id: 1,
+            name: 'www.fromdoppler.com',
+            verified_date: null,
+          },
+        ],
+      }),
+      getTotalVisitsOfPeriod: async () => 0,
+      getTrafficSourcesByPeriod: async () => [],
+      getVisitsQuantitySummarizedByDay: async () => [],
+    };
+
+    // Act
+    const { getByText, container } = render(
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: datahubClientDouble,
+          appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+        }}
+      >
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(container.querySelectorAll('.loading-box')).toHaveLength(1);
+    await waitFor(() => expect(getByText('reports_filters.domain_not_verified_MD')));
+  });
+
+  it('should show "no domains" message when the domain list is empty', async () => {
+    // Arrange
+    const datahubClientDouble = {
+      getAccountDomains: () => {
+        return { success: true, value: [] };
+      },
+      getTotalVisitsOfPeriod: async () => 0,
+      getTrafficSourcesByPeriod: async () => [],
+    };
+
+    // Act
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: datahubClientDouble,
+          appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+        }}
+      >
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+    expect(container.querySelectorAll('.loading-box')).toHaveLength(1);
+
+    // Assert
+    await waitFor(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
+    getByText('reports.no_domains_MD');
   });
 });
