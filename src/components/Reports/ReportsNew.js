@@ -62,8 +62,8 @@ const ReportsNew = ({ dependencies: { datahubClient } }) => {
       });
       if (response.success) {
         setTotalVisits({
-          withEmail: response.value.qVisitors,
-          withoutEmail: response.value.qVisitorsWithEmail,
+          withEmail: response.value.qVisitorsWithEmail,
+          withoutEmail: response.value.qVisitors,
           loading: false,
         });
       }
