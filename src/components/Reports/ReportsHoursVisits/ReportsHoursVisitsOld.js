@@ -8,9 +8,9 @@ const createEmptyWeekDayHoursMatrix = () =>
   [...Array(7)].map(() =>
     [...Array(24)].map(() => {
       return {
-        qVisitors: 0,
-        qVisitorsWithEmail: 0,
-        qVisitorsWithOutEmail: 0,
+        quantity: 0,
+        withEmail: 0,
+        withoutEmail: 0,
       };
     }),
   );
@@ -38,25 +38,26 @@ const ReportsHoursVisitsOld = ({
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const hoursVisitsdata = await datahubClient.getVisitsQuantitySummarizedByWeekdayAndHour({
+      const hoursVisitsdata = await datahubClient.getVisitsQuantitySummarizedByPeriod({
         domainName: domainName,
         dateFrom: dateFrom,
         dateTo: dateTo,
+        periodBy: 'hours',
       });
       if (!hoursVisitsdata.success) {
         setState({ loading: false });
       } else {
         const processedVisits = hoursVisitsdata.value.reduce(
           (accumulator, item) => {
-            accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitors += item.qVisitors;
-            if (item.qVisitorsWithEmail || item.qVisitorsWithEmail === 0) {
-              accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitorsWithEmail +=
-                item.qVisitorsWithEmail;
-              accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitorsWithOutEmail +=
-                item.qVisitorsWithOutEmail;
+            const weekDay = item.from.getDay();
+            const hour = item.from.getHours();
+            accumulator.byWeekDayAndHour[weekDay][hour].quantity += item.quantity;
+            if (item.withEmail || item.withEmail === 0) {
+              accumulator.byWeekDayAndHour[weekDay][hour].withEmail += item.withEmail;
+              accumulator.byWeekDayAndHour[weekDay][hour].withoutEmail += item.withoutEmail;
             }
-            if (item.qVisitors > accumulator.max) {
-              accumulator.max = item.qVisitors;
+            if (item.quantity > accumulator.max) {
+              accumulator.max = item.quantity;
             }
             return accumulator;
           },
@@ -133,11 +134,11 @@ const ReportsHoursVisitsOld = ({
 
                 {weekDays.map((item, hour) => (
                   <S.Column className="dp-tooltip-container" key={'' + weekDayIndex + '' + hour}>
-                    {item.qVisitors <= state.minRange ? (
+                    {item.quantity <= state.minRange ? (
                       <>
                         <S.Circle />
                       </>
-                    ) : item.qVisitors <= state.mediumRange ? (
+                    ) : item.quantity <= state.mediumRange ? (
                       <S.Circle medium />
                     ) : (
                       <S.Circle big />
@@ -147,21 +148,21 @@ const ReportsHoursVisitsOld = ({
                         <FormatWeekDayIndex value={weekDayIndex} format={'long'} />{' '}
                         <span>{hour}h</span>
                       </p>
-                      {item.qVisitorsWithEmail || item.qVisitorsWithOutEmail ? (
+                      {item.withEmail || item.withoutEmail ? (
                         <>
                           <span>
                             <FormattedMessage id="reports_hours_visits.users_with_email" />{' '}
-                            <span>{item.qVisitorsWithEmail}</span>
+                            <span>{item.withEmail}</span>
                           </span>
                           <span>
                             <FormattedMessage id="reports_hours_visits.users_without_email" />{' '}
-                            <span>{item.qVisitorsWithOutEmail}</span>
+                            <span>{item.withoutEmail}</span>
                           </span>
                         </>
                       ) : (
                         <span>
                           <FormattedMessage id="reports_hours_visits.users" />{' '}
-                          <span>{item.qVisitors}</span>
+                          <span>{item.quantity}</span>
                         </span>
                       )}
                     </S.Tooltip>
