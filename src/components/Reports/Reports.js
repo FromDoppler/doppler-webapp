@@ -4,7 +4,7 @@ import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 import ReportsTrafficSourcesOld from './ReportsTrafficSources/ReportsTrafficSourcesOld';
 import ReportsDailyVisitsOld from './ReportsDailyVisits/ReportsDailyVisitsOld';
-import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
+import ReportsHoursVisitsOld from './ReportsHoursVisits/ReportsHoursVisitsOld';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
@@ -164,7 +164,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                 </div>
                 {!state.dailyView ? (
                   <div className="col-sm-12 m-b-24">
-                    <ReportsHoursVisits
+                    <ReportsHoursVisitsOld
                       domainName={state.domainSelected.name}
                       dateTo={state.dateTo}
                       dateFrom={state.dateFrom}

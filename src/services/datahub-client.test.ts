@@ -705,6 +705,86 @@ describe('HttpDataHubClient', () => {
     });
   });
 
+  describe('getVisitsQuantitySummarizedByWeekdayAndHour', () => {
+    it('should call datahub with the right url', async () => {
+      // Arrange
+      const request = jest.fn(async () => {
+        emptyDailyVisitsResponse;
+      });
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
+
+      // Act
+      await dataHubClient.getVisitsQuantitySummarizedByWeekdayAndHour({
+        domainName,
+        dateFrom,
+        dateTo,
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
+          },
+          url:
+            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-weekday-and-hour',
+        }),
+      );
+    });
+
+    it('should call datahub and get and error', async () => {
+      // Arrange
+      const unauthorizedResponse = {
+        code: 401,
+        detail: 'unauthorized',
+      };
+
+      const request = jest.fn(async () => {
+        unauthorizedResponse;
+      });
+
+      const dataHubClient = createHttpDataHubClient({ request });
+      const domainName = 'doppler.test';
+      const dateFrom = new Date('2019-01-01');
+      const dateTo = new Date('2019-01-08');
+
+      // Act
+      const response = await dataHubClient.getVisitsQuantitySummarizedByWeekdayAndHour({
+        domainName,
+        dateFrom,
+        dateTo,
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith(
+        expect.objectContaining({
+          headers: {
+            Authorization: 'Bearer jwtToken',
+          },
+          method: 'GET',
+          params: {
+            startDate: '2019-01-01T00:00:00.000Z',
+            endDate: '2019-01-08T00:00:00.000Z',
+          },
+          url:
+            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-weekday-and-hour',
+        }),
+      );
+      expect(response.success).toEqual(false);
+    });
+  });
+
   describe('getPagesRankingByPeriod', () => {
     it('should call datahub with the right url', async () => {
       // Arrange
