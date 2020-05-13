@@ -9,6 +9,7 @@ import {
   VisitorsResult,
   TrafficSourceResult,
   VisitsQuantitySummarizedByDayResult,
+  VisitsQuantitySummarizedByWeekAndHourResult,
 } from './datahub-client';
 import { timeout } from '../utils';
 
@@ -228,6 +229,25 @@ const getFakeHoursVisitsData = () => {
       to: date.toString(),
       quantity: Math.floor(Math.random() * 1000),
       withEmail: 1,
+    };
+  });
+};
+
+const getFakeVisitsWeekdayHoursData = () => {
+  let date = new Date(1970, 1, 1);
+  return [...Array(168)].map((index) => {
+    date.setHours(date.getHours() + 1);
+    return {
+      periods: [
+        {
+          from: date.toString(),
+          to: date.toString(),
+        },
+      ],
+      qVisitors: Math.floor(Math.random() * 1000),
+      qVisitorsWithEmail: 1,
+      qVisits: Math.floor(Math.random() * 1000 + 1000),
+      qVisitsWithEmail: Math.floor(Math.random() * 100),
     };
   });
 };
@@ -462,6 +482,41 @@ export class HardcodedDatahubClient implements DatahubClient {
     return {
       success: true,
       value: visitsByPeriod,
+    };
+
+    //return {
+    //  success: false,
+    //  error: new Error('Dummy error'),
+    //};
+  }
+
+  public async getVisitsQuantitySummarizedByWeekdayAndHour({
+    domainName,
+    dateFrom,
+    dateTo,
+  }: {
+    domainName: string;
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<VisitsQuantitySummarizedByWeekAndHourResult> {
+    console.log('getVisitsQuantitySummarizedByWeekdayAndHour', { domainName, dateFrom, dateTo });
+    await timeout(1000);
+
+    const data = getFakeVisitsWeekdayHoursData();
+
+    const visits = data.map((x) => ({
+      weekday: new Date(x.periods[0].from).getDay(),
+      hour: new Date(x.periods[0].to).getHours(),
+      qVisitors: x.qVisitors,
+      qVisitorsWithEmail: x.qVisitorsWithEmail,
+      qVisitorsWithOutEmail: x.qVisitors - x.qVisitorsWithEmail,
+      qVisits: x.qVisits,
+      qVisitsWithEmail: x.qVisitsWithEmail,
+    }));
+
+    return {
+      success: true,
+      value: visits,
     };
 
     //return {
