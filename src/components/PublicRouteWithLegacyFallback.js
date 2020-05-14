@@ -80,7 +80,7 @@ function PublicRouteWithLegacyFallback({
   return (
     <>
       <Helmet>
-        <body className="showZohoTitleDiv dp-library" />
+        <body className="showZohoTitleDiv" />
       </Helmet>
       <Route
         {...rest}
