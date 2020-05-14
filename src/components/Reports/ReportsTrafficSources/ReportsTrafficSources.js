@@ -139,7 +139,7 @@ const ReportsTrafficSources = function ({
                         />
                       </div>
                       <span>
-                        {trafficSource.qVisitorsWithEmail}
+                        {trafficSource.qVisitors - trafficSource.qVisitorsWithEmail}
                         <span>
                           (
                           <FormattedNumber
