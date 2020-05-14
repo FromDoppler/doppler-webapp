@@ -25,7 +25,7 @@ const defaultDependencies = {
 };
 
 describe('Signup', () => {
-  beforeEach(cleanup);
+  afterEach(cleanup);
 
   it('should not show errors on blur but after first submit', async () => {
     // Arrange
@@ -74,9 +74,13 @@ describe('Signup', () => {
     );
 
     // Assert
-    await waitFor(() =>
-      expect(container.querySelector('#iti-item-dz').nextElementSibling.id).toBe('iti-item-ar'),
-    );
+    await waitFor(() => {
+      setTimeout(() => {
+        expect(container.querySelector('#iti-0__item-dz').nextElementSibling.id).toBe(
+          'iti-0__item-ar',
+        );
+      }, 1000);
+    });
   });
 
   it('should show Territorio Palestino, Ocupado below Territorio Britanico del Oceano Indico when selected language is ES', async () => {
@@ -96,9 +100,13 @@ describe('Signup', () => {
     );
 
     // Assert
-    await waitFor(() =>
-      expect(container.querySelector('#iti-item-io').nextElementSibling.id).toBe('iti-item-ps'),
-    );
+    await waitFor(() => {
+      setTimeout(() => {
+        expect(container.querySelector('#iti-0__item-io').nextElementSibling.id).toBe(
+          'iti-0__item-ps',
+        );
+      }, 1000);
+    });
   });
 
   it('should show American Samoa below Algeria when selected language is EN', async () => {
@@ -118,9 +126,13 @@ describe('Signup', () => {
     );
 
     // Assert
-    await waitFor(() =>
-      expect(container.querySelector('#iti-item-dz').nextElementSibling.id).toBe('iti-item-as'),
-    );
+    await waitFor(() => {
+      setTimeout(() => {
+        expect(container.querySelector('#iti-1__item-dz').nextElementSibling.id).toBe(
+          'iti-1__item-as',
+        );
+      }, 1000);
+    });
   });
 
   it('should show Brunel below British Indian Ocean when selected language is EN', async () => {
@@ -140,9 +152,13 @@ describe('Signup', () => {
     );
 
     // Assert
-    await waitFor(() =>
-      expect(container.querySelector('#iti-item-io').nextElementSibling.id).toBe('iti-item-bn'),
-    );
+    await waitFor(() => {
+      setTimeout(() => {
+        expect(container.querySelector('#iti-1__item-io').nextElementSibling.id).toBe(
+          'iti-1__item-bn',
+        );
+      }, 1000);
+    });
   });
 
   it('should render flag based in ipinfoClient result', async () => {
