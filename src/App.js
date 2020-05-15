@@ -94,8 +94,8 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
               )
             }
           />
-          <PrivateRoute path="/reports-new/" exact requireSiteTracking component={ReportsNew} />
-          <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
+          <PrivateRoute path="/reports/" exact requireSiteTracking component={ReportsNew} />
+          <PrivateRoute path="/reports-old/" exact requireSiteTracking component={Reports} />
           <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
           <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
           <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />

@@ -65,8 +65,8 @@ const NewFeatures = () => {
         </div>
         <div className="dp-block-wlp dp-box-shadow">
           <div style={{ marginLeft: '20px' }}>
-            <h3>Reportes con lo nuevo de datahub</h3>
-            <Link to={`/reports-new`}>Link</Link>
+            <h3>Reportes con lo viejo de datahub</h3>
+            <Link to={`/reports-old`}>Link</Link>
           </div>
         </div>
       </section>
