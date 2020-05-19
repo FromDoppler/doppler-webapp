@@ -33,7 +33,7 @@ const NewFeatures = () => {
               Como encuentro el id de mi Campaña enviada?{' '}
               <span class="ms-icon icon-tip-icon dp-tooltip-right">
                 <span class="tooltiptext">
-                  Ir a Campañas -> Enviadas y al acceder al Reporte que se visualiza en la grilla.
+                  Ir a Campañas &gt; Enviadas y al acceder al Reporte que se visualiza en la grilla.
                   Se ve en la url similar a
                   https://app2.fromdoppler.com/Campaigns/Reports/Dashboard?idCampaign=10011359 en
                   este caso el id es 10011359
