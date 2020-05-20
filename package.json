@@ -46,7 +46,7 @@
     "react-test-renderer": "^16.13.1",
     "semantic-release": "^15.14.0",
     "styled-components": "^4.4.1",
-    "stylelint": "^13.3.3",
+    "stylelint": "^13.5.0",
     "typescript": "^3.9.2",
     "url-parse": "^1.4.7"
   },
