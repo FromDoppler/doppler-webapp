@@ -1,93 +1,172 @@
-<!DOCTYPE html>
-<html lang="en" class="dp-library">
+<!doctype html>
+<html>
   <head>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.fromdoppler.com/doppler-ui-library/v3.50.2/css/styles.css"
-    />
-    <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/zoho-chat.css" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+  
+    <meta charset="utf-8">
     <title>Doppler</title>
-    <script
-      src="https://hub.fromdoppler.com/public/dhapi.js"
-      type="text/javascript"
-      enableCustomTracking="true"
-    ></script>
-    <script
-      type="text/javascript"
-      src="//cloudfront.loggly.com/js/loggly.tracker-latest.min.js"
-      async
-    ></script>
-    <script>
-      var _LTracker = _LTracker || [];
-      _LTracker.push({
-        logglyKey: '97cc20a4-a0dc-40b0-a74e-9643a9388202',
-        sendConsoleErrors: false,
-        tag: 'loggly-jslogger',
-      });
-    </script>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <meta name="keywords" content="" />
+    <meta name="application-name" content="Doppler">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144x144-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
   </head>
+  <style>
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */progress,sub,sup{vertical-align:baseline}button,hr,input{overflow:visible}[type=checkbox],[type=radio],legend{box-sizing:border-box;padding:0}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{text-decoration:underline;text-decoration:underline dotted;border-bottom:none}b,strong{font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{color:#000;background-color:#ff0}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}button,input,select,textarea{font:inherit;margin:0}optgroup{font-weight:700}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{padding:0;border-style:none}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:ButtonText dotted 1px}fieldset{margin:0 2px;padding:.35em .625em .75em;border:1px solid silver}legend{display:table;max-width:100%;white-space:normal;color:inherit}textarea{overflow:auto}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{outline-offset:-2px;-webkit-appearance:textfield}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{opacity:.54;color:inherit}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}
+body {
+  font-family: proxima-nova, Arial, helvetica, sans-serif;
+​
+  margin: 0;
+  padding: 0;
+​
+  background-color: #fce579;
+}
+@font-face {
+  font-family: proxima-nova;
+  font-weight: 400;
+  font-style: normal;
+​
+  src: url(../fonts/proxima-nova.eot);
+  src: url(../fonts/proxima-nova.eot?#iefix)format('embedded-opentype'),url(../fonts/proxima-nova.woff2)format('woff2'),url(../fonts/proxima-nova.woff)format('woff'),url(../fonts/proxima-nova.ttf)format('truetype');
+}
+@font-face {
+  font-family: proxima-nova;
+  font-weight: 400;
+  font-style: italic;
+​
+  src: url(../fonts/proxima-nova-italic.eot);
+  src: url(../fonts/proxima-nova-italic.eot?#iefix)format('embedded-opentype'),url(../fonts/proxima-nova-italic.woff2)format('woff2'),url(../fonts/proxima-nova-italic.woff)format('woff'),url(../fonts/proxima-nova-italic.ttf)format('truetype');
+}
+@font-face {
+  font-family: proxima-nova;
+  font-weight: 600;
+  font-style: normal;
+​
+  src: url(../fonts/proxima-nova-semi-bold.eot);
+  src: url(../fonts/proxima-nova-semi-bold.eot?#iefix)format('embedded-opentype'),url(../fonts/proxima-nova-semi-bold.woff2)format('woff2'),url(../fonts/proxima-nova-semi-bold.woff)format('woff'),url(../fonts/proxima-nova-semi-bold.ttf)format('truetype');
+}
+@font-face {
+  font-family: proxima-nova;
+  font-weight: 600;
+  font-style: italic;
+​
+  src: url(../fonts/proxima-nova-semi-bold-italic.eot);
+  src: url(../fonts/proxima-nova-semi-bold-italic.eot?#iefix)format('embedded-opentype'),url(../fonts/proxima-nova-semi-bold-italic.woff2)format('woff2'),url(../fonts/proxima-nova-semi-bold-italic.woff)format('woff'),url(../fonts/proxima-nova-semi-bold-italic.ttf)format('truetype');
+}
+@font-face {
+  font-family: proxima-nova;
+  font-weight: 700;
+  font-style: normal;
+​
+  src: url(../fonts/proxima-nova-bold.eot);
+  src: url(../fonts/proxima-nova-bold.eot?#iefix)format('embedded-opentype'),url(../fonts/proxima-nova-bold.woff2)format('woff2'),url(../fonts/proxima-nova-bold.woff)format('woff'),url(../fonts/proxima-nova-bold.ttf)format('truetype');
+}
+@font-face {
+  font-family: proxima-nova;
+  font-weight: 700;
+  font-style: italic;
+​
+  src: url(../fonts/proxima-nova-bold-italic.eot);
+  src: url(../fonts/proxima-nova-bold-italic.eot?#iefix)format('embedded-opentype'),url(../fonts/proxima-nova-bold-italic.woff2)format('woff2'),url(../fonts/proxima-nova-bold-italic.woff)format('woff'),url(../fonts/proxima-nova-bold-italic.ttf)format('truetype');
+}
+.wrapper {
+  float: none;
+​
+  width: auto;
+  max-width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 10px;
+​
+  text-align: center;
+}
+.section__block {
+  width: 100%;
+}
+.section__block.image__main img {
+  padding: 10px 0 30px;
+  max-width: 445px;
+  width:100%;
+}
+header img {
+  padding: 30px 0 50px;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+  padding: 0;
+}
+​
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -1px;
+  color: #301f00;
+  padding: 0 0 30px;
+}
+h2 {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #525845;
+  padding: 0 0 10px;
+}
+​
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+​
+  letter-spacing: 0;
+​
+  color: #525845;
+}
+​
+@media screen and (max-width: 670px){
+​
+h1 {
+    font-size: 22px;
+    padding: 0 0 10px;
+}
+​
+h2, p{ font-size:14px;}
+​
+.section__block.image__main img {
+  max-width: none;
+}
+​
+}
+</style>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root" class="dp-app-container">
-      <div class="wrapper-loading">
-        <div class="loading-page">
-          <p class="flash">&nbsp;</p>
-        </div>
+    <header>
+      <div class="wrapper">
+        <a href="https://www.fromdoppler.com/?utm_source=notlogin&utm_medium=notlogin&utm_campaign=notlogin"><img src="https://www.fromdoppler.com/images/appdown/logo.svg" alt=""></a>
       </div>
-      <!-- wrapper-loading -->
-    </div>
-    <!-- root -->
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script
-      type="text/javascript"
-      src="https://cdn.fromdoppler.com/doppler-ui-library/v3.38.0/js/app.js"
-    ></script>
-    <script type="text/javascript" src="zoho-chat.js"></script>
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=AW-1065197040/ZA62CKv_gZEBEPC79vsD"
-    ></script>
-    <script>
-      if (window.location.hostname !== 'localhost') {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'AW-1065197040/ZA62CKv_gZEBEPC79vsD');
-      }
-    </script>
-    <link rel="stylesheet" type="text/css" href="zoho-chat.css" />
+    </header>
+    <main>
+      <section class="section__block image__main">
+        <div class="wrapper">
+          <h1>Experimentamos dificultades técnicas.</h1>
+          <h2>¡Lo sentimos! Volveremos a la normalidad lo antes posible.</h2>
+          <img src="https://www.fromdoppler.com/images/appdown/main.svg" alt="">
+          <p>
+          <strong>El tiempo estimado de resolución es de 2:30 horas. ¡Gracias por tu paciencia! </strong></p>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
