@@ -63,8 +63,8 @@ history.listen((location) => {
 
 // Choose hash router for cdn only
 const Router = process.env.REACT_APP_ROUTER === 'hash' ? HashRouter : BrowserRouter;
-// If needed to turn app offline set this variable to true
-const turn_app_offline = false;
+// If needed to turn app offline, set REACT_APP_OFFLINE true for the enviroment needed i.e. env.production
+const turn_app_offline = process.env.REACT_APP_OFFLINE === 'true';
 if (turn_app_offline) {
   ReactDOM.render(<Offline />, document.getElementById('root'));
 } else {
