@@ -19,6 +19,7 @@ import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 import { getDataHubParams } from './utils';
 import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
 import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
+import Offline from './components/Offline/Offline';
 polyfill();
 
 if (document.querySelector('body').setActive) {
@@ -62,15 +63,20 @@ history.listen((location) => {
 
 // Choose hash router for cdn only
 const Router = process.env.REACT_APP_ROUTER === 'hash' ? HashRouter : BrowserRouter;
-
-ReactDOM.render(
-  <AppServicesProvider forcedServices={forcedServices}>
-    <Router>
-      <App locale={locale} />
-    </Router>
-  </AppServicesProvider>,
-  document.getElementById('root'),
-);
+// If needed to turn app offline, set REACT_APP_OFFLINE true for the enviroment needed i.e. env.production
+const turn_app_offline = process.env.REACT_APP_OFFLINE === 'true';
+if (turn_app_offline) {
+  ReactDOM.render(<Offline />, document.getElementById('root'));
+} else {
+  ReactDOM.render(
+    <AppServicesProvider forcedServices={forcedServices}>
+      <Router>
+        <App locale={locale} />
+      </Router>
+    </AppServicesProvider>,
+    document.getElementById('root'),
+  );
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

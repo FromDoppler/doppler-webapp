@@ -25,6 +25,10 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### Turn the app offline
+
+To set the app to offline for one environment look for the file related, for example `env.production` and set the variable `REACT_APP_OFFLINE` to true. For now this page is hardcoded in spanish.
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br>
