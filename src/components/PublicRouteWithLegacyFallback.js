@@ -78,7 +78,7 @@ function PublicRouteWithLegacyFallback({
   }
 
   return (
-    <>
+    <div className="dp-app-container">
       <Helmet>
         <body className="showZohoTitleDiv" />
       </Helmet>
@@ -114,7 +114,7 @@ function PublicRouteWithLegacyFallback({
           return <RedirectToExternalUrl to={destinationUrl} />;
         }}
       />
-    </>
+    </div>
   );
 }
 

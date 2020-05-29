@@ -31,7 +31,7 @@ export default InjectAppServices(
         dopplerSession.status === 'unknown' ? (
           <Loading page />
         ) : dopplerSession.status === 'authenticated' ? (
-          <>
+          <div className="dp-app-container">
             <Header userData={dopplerSession.userData} location={props.location} />
             {requireSiteTracking &&
             !dopplerSession.userData.features.siteTrackingEnabled &&
@@ -49,7 +49,7 @@ export default InjectAppServices(
               <Component {...props} />
             )}
             <Footer />
-          </>
+          </div>
         ) : (
           <RedirectToLogin from={props.location} />
         )
