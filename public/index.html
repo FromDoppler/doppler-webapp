@@ -14,7 +14,7 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="https://cdn.fromdoppler.com/doppler-ui-library/v3.50.2/css/styles.css"
+      href="https://cdn.fromdoppler.com/doppler-ui-library/v3.51.3/css/styles.css"
     />
     <link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/zoho-chat.css" />
     <!--
@@ -45,18 +45,10 @@
         tag: 'loggly-jslogger',
       });
     </script>
-    <style type="text/css">
-      .loading-app {
+    <style>
+      #root,
+      #root > .wrapper-loading {
         min-height: 100vh;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        left: 50%;
-        width: 100%;
-        z-index: -1;
-      }
-      .bg-white {
-        background:#fff
       }
     </style>
   </head>
@@ -69,12 +61,7 @@
         <p class="flash">&nbsp;</p>
       </div>
     </div>
-    <div id="root" class="dp-app-container bg-white">
-      <div class="wrapper-loading">
-        <div class="loading-page">
-          <p class="flash">&nbsp;</p>
-        </div>
-      </div>
+    <div id="root">
       <!-- wrapper-loading -->
     </div>
     <!-- root -->
