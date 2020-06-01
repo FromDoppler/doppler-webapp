@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const NewFeatures = () => {
-  const [campaignId, setCampaignId] = useState(0);
   return (
     <>
       <header className="hero-banner report-filters">
@@ -28,42 +27,11 @@ const NewFeatures = () => {
         </div>
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
-            <h3>Campañas parcialmente enviadas</h3>
-            <p>
-              Como encuentro el id de mi Campaña enviada?{' '}
-              <span class="ms-icon icon-tip-icon dp-tooltip-right">
-                <span class="tooltiptext">
-                  Ir a Campañas &gt; Enviadas y al acceder al Reporte que se visualiza en la grilla.
-                  Se ve en la url similar a
-                  https://app2.fromdoppler.com/Campaigns/Reports/Dashboard?idCampaign=10011359 en
-                  este caso el id es 10011359
-                </span>
-              </span>
-            </p>
-            <p>
-              Como encuentro el id de mi Campaña en progreso?{' '}
-              <span class="ms-icon icon-tip-icon dp-tooltip-right">
-                <span class="tooltiptext">
-                  Antes de ponerla a enviar, desde el summary de la Campaña se visualiza en la url,
-                  algo similar a esta url
-                  https://app2.fromdoppler.com/Campaigns/Summary?IdCampaign=10264783 aqui el id es
-                  10264783
-                </span>
-              </span>
-            </p>
-            <input
-              style={{ width: '400px' }}
-              type="text"
-              placeholder="Ingresa el id de la Campaña enviada o en progreso"
-              onChange={(e) => {
-                const { value } = e.target;
-                setCampaignId(value);
-              }}
-            ></input>{' '}
-            <Link to={`/reports/partials-campaigns?campaignId=${campaignId}`}>Ir al Reporte</Link>
+            <h3>Página offline</h3>
+            <Link to={'/offline'}>Ir a página offline</Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow">
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Reportes con lo viejo de datahub</h3>
             <Link to={`/reports-old`}>Link</Link>
