@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Offline = () => (
-  <div>
+  <div className='dp-app-container'>
     <header style={{ height: '84px' }}></header>
     <main style={{ display: 'block', widht: '100%' }}>
       <section class="section__block image__main">
