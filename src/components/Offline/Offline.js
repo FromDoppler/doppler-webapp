@@ -1,18 +1,18 @@
 import React from 'react';
 
 const Offline = () => (
-  <div className='dp-app-container'>
+  <div className="dp-app-container">
     <header style={{ height: '84px' }}></header>
     <main style={{ display: 'block', widht: '100%' }}>
-      <section class="section__block image__main">
-        <div class="wrapper" style={{ width: '800px', margin: 'auto' }}>
-          <h1 style={{ 'padding-bottom': '0' }}>Experimentamos dificultades técnicas.</h1>
+      <section className="section__block image__main">
+        <div className="wrapper" style={{ width: '800px', margin: 'auto' }}>
+          <h1 style={{ paddingBottom: '0' }}>Experimentamos dificultades técnicas.</h1>
           <h2
             style={{
-              'font-size': '18px',
-              'font-weight': '400',
-              'line-height': '1.2',
-              'letter-spacing': '0',
+              fontSize: '18px',
+              fontWeight: '400',
+              lineHeight: '1.2',
+              letterSpacing: '0',
               color: '#525845',
               padding: '0 0 10px',
             }}
