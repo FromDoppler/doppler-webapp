@@ -21,6 +21,7 @@ import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampai
 import NewFeatures from './components/NewFeatures/NewFeatures';
 // Temporal until use the new datahub client endpoints
 import ReportsNew from './components/Reports/ReportsNew';
+import Offline from './components/Offline/Offline';
 
 /**
  * @param { Object } props - props
@@ -110,6 +111,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PublicRouteWithLegacyFallback exact path="/signup" />
           <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
           <Route path="/signup/confirmation" exact component={SignupConfirmation} />
+          <Route path="/offline" exact component={Offline} />
           <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
           <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
           <RedirectWithQuery exact from="/ingresa/cambiar-clave" to="/forgot-password?lang=es" />
