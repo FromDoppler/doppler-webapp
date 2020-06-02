@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const NewFeatures = () => {
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex,nofollow" />
+      </Helmet>
       <header className="hero-banner report-filters">
         <div className="dp-container">
           <div className="dp-rowflex">
