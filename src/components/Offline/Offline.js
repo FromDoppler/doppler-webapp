@@ -1,7 +1,11 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 const Offline = () => (
   <div className="dp-app-container">
+    <Helmet>
+      <meta name="robots" content="noindex,nofollow" />
+    </Helmet>
     <header style={{ height: '84px' }}></header>
     <main style={{ display: 'block', widht: '100%' }}>
       <section className="section__block image__main">
