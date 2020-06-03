@@ -4,10 +4,16 @@
   width: 100%;
 }
 
+.intl-tel-input {
+  position: relative;
+  display: inline-block;
+}
+
 .iti .iti__country-list {
   font-family: proxima-nova, Helvetica;
   font-size: 14px;
-  width: 414px;
+  width: auto;
+  z-index: 100;
 }
 
 .captcha-legal-message p {
