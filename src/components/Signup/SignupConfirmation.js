@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useCaptcha } from '../form-helpers/captcha-utils';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Redirect } from 'react-router-dom';
+import * as S from './SignupConfirmation.styles';
 
 /**
  * Signup Confirmation Page
@@ -29,8 +30,8 @@ const SignupConfirmation = function ({ location }) {
     }
   };
   return (
-    <main className="confirmation-wrapper">
-      <div className="background bg-c" />
+    <S.MainContainer className="confirmation-wrapper">
+      <S.ImageBackground className="background bg-c" />
       <header className="confirmation-header">
         <h1 className="logo-doppler-new">
           <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
@@ -67,8 +68,8 @@ const SignupConfirmation = function ({ location }) {
           <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
         </small>
       </footer>
-      <div className="background bg-b" />
-    </main>
+      <S.ImageBackground className="background bg-b" />
+    </S.MainContainer>
   );
 };
 
