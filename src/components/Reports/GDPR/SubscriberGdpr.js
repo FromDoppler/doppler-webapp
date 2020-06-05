@@ -12,6 +12,7 @@ import { Loading } from '../../Loading/Loading';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import SafeRedirect from '../../SafeRedirect';
 import * as S from './SubscriberGdpr.styles';
+import { Tabs } from '../../shared/Tabs/Tabs';
 
 const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
@@ -60,11 +61,25 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
           return field;
         });
 
+        const tabsProperties = [
+          {
+            url: `/reports/subscriber-history?email=${subscriber.email}`,
+            descriptionId: 'subscriber_history.title',
+            active: false,
+          },
+          {
+            url: `/reports/subscriber-gdpr?email=${subscriber.email}`,
+            descriptionId: 'subscriber_gdpr.page_title',
+            active: true,
+          },
+        ];
+
         setState({
           loading: false,
           subscriber: subscriber,
           fields: fields,
           email: email,
+          tabsProperties: tabsProperties,
         });
       } else {
         setState({ loading: false });
@@ -105,7 +120,8 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
           </header>
           <section className="dp-container">
             <div className="dp-rowflex">
-              <div className="col-sm-12 m-b-36">
+              <Tabs tabsProperties={state.tabsProperties}></Tabs>
+              <div className="tab--container col-sm-12 m-b-36">
                 <div className="dp-block-wlp dp-box-shadow">
                   <header className="dp-header-campaing dp-rowflex p-l-18">
                     <div className="col-lg-6 col-md-12 m-b-24">

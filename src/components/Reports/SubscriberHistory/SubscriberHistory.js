@@ -10,6 +10,7 @@ import {
 } from '../../../utils';
 import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import { Pagination } from '../../shared/Pagination/Pagination';
+import { Tabs } from '../../shared/Tabs/Tabs';
 import SafeRedirect from '../../SafeRedirect';
 
 const getDeliveryStatusCssClassName = (deliveryStatus) => {
@@ -76,6 +77,20 @@ const SubscriberHistory = ({
           campaignsPerPage,
           currentPage,
         );
+
+        const tabsProperties = [
+          {
+            url: `/reports/subscriber-history?email=${subscriber.email}`,
+            descriptionId: 'subscriber_history.title',
+            active: true,
+          },
+          {
+            url: `/reports/subscriber-gdpr?email=${subscriber.email}`,
+            descriptionId: 'subscriber_gdpr.page_title',
+            active: false,
+          },
+        ];
+
         if (!response.success) {
           setState({ loading: false });
         } else {
@@ -86,6 +101,7 @@ const SubscriberHistory = ({
             currentPage: response.value.currentPage,
             pagesCount: response.value.pagesCount,
             subscriber: subscriber,
+            tabsProperties: tabsProperties,
           });
         }
       } else {
@@ -117,7 +133,8 @@ const SubscriberHistory = ({
       </header>
       <section className="dp-container">
         <div className="dp-rowflex">
-          <div className="col-sm-12 m-b-36">
+          <Tabs tabsProperties={state.tabsProperties}></Tabs>
+          <div className="tab--container col-sm-12 m-b-36">
             <div className="dp-block-wlp dp-box-shadow">
               <header className="dp-header-campaing dp-rowflex p-l-18">
                 <div className="col-lg-6 col-md-12 m-b-24">
