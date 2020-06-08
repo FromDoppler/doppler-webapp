@@ -17,7 +17,7 @@ import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 
 // This value means the today date
-const periodSelectedDaysDefault = 1;
+const periodSelectedDaysDefault = 21;
 
 /**
  * @param { Object } props
