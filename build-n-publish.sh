@@ -52,6 +52,12 @@ for environment in ${environments}; do
         --build-arg cdn_username=$AKAMAI_CDN_USERNAME \
         --build-arg cdn_password=$AKAMAI_CDN_PASSWORD \
         --build-arg cdn_cpcode=$AKAMAI_CDN_CPCODE \
+        --build-arg CDN_SFTP_PORT=$CDN_SFTP_PORT \
+        --build-arg CDN_SFTP_USERNAME=$CDN_SFTP_USERNAME \
+        --build-arg CDN_SFTP_HOSTNAME=$CDN_SFTP_HOSTNAME \
+        --build-arg CDN_SFTP_BASE=$CDN_SFTP_BASE \
+        --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa)" \
+        --build-arg SSH_KNOWN_HOSTS="$(cat ~/.ssh/known_hosts)" \
         -f Dockerfile.BUILDS_AND_CDN \
         .
 

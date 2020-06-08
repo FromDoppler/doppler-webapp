@@ -32,3 +32,22 @@ RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
   AKAMAI_CDN_PASSWORD=$cdn_password \
   AKAMAI_CDN_CPCODE=$cdn_cpcode \
   node cdn-uploader.js /source doppler-webapp ${env_version}
+
+## Publish into new CDN using SFTP
+## Using a third party image here, with specific digest (f7f7607...) to avoid unwanted changes
+FROM ttionya/openssh-client@sha256:f7f7607d56f09a7c42e246e9c256ff51cf2f0802e3b2d88da6537bea516fe142
+COPY --from=build /app/build /source
+ARG env_version
+ARG CDN_SFTP_PORT
+ARG CDN_SFTP_USERNAME
+ARG CDN_SFTP_HOSTNAME
+ARG CDN_SFTP_BASE
+ARG SSH_PRIVATE_KEY
+ARG SSH_KNOWN_HOSTS
+RUN mkdir /root/.ssh/ &&\
+    echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa &&\
+    chmod 600 /root/.ssh/id_rsa &&\
+    echo "${SSH_KNOWN_HOSTS}" > /root/.ssh/known_hosts &&\
+    chmod 600 /root/.ssh/known_hosts
+RUN scp -P "${CDN_SFTP_PORT}" -r /source "${CDN_SFTP_USERNAME}@${CDN_SFTP_HOSTNAME}:/${CDN_SFTP_BASE}/doppler-webapp/${env_version}"
+RUN echo "Files published on http://cdn.fromdoppler.com/doppler-webapp/${env_version}"
