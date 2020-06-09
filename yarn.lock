@@ -8553,10 +8553,10 @@ intl-messageformat@^8.3.11:
     intl-format-cache "^4.2.28"
     intl-messageformat-parser "^5.0.4"
 
-intl-tel-input@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.2.tgz#1979bcfb0f54510b4b42c6ead8e509818206a3ca"
-  integrity sha512-2H/pVNiEHePpljvzH6EBA2cJZcy1jzeZwqEMAfikwKQ8cJTN7l5cohNDhtu0eCL0bu2rYuYltCaqqLZd8vrVng==
+intl-tel-input@^17.0.3:
+  version "17.0.3"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.3.tgz#0f1468ac0ea573b4cedddd24db9fd5cb32eb7d86"
+  integrity sha512-vfO5yIddrkNKaJYqGySuT6lyovWZoBLU/vyGA2A4VdKIZasknpd9/emTJYIPqFzjkguFfEDUiERKFih3k9Yj3Q==
 
 into-stream@^5.0.0:
   version "5.1.0"
