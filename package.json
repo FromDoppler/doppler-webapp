@@ -37,7 +37,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.0",
     "react-ga": "^2.7.0",
-    "react-google-recaptcha": "^2.0.1",
+    "react-google-recaptcha": "^2.1.0",
     "react-helmet": "^6.0.0",
     "react-intl": "^4.5.5",
     "react-markdown": "^4.3.1",
