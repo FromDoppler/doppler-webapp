@@ -35,12 +35,6 @@ const NewFeatures = () => {
             <Link to={'/offline'}>Ir a página offline</Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow m-t-36">
-          <div style={{ marginLeft: '20px' }}>
-            <h3>Reportes con lo viejo de datahub</h3>
-            <Link to={`/reports-old`}>Link</Link>
-          </div>
-        </div>
       </section>
     </>
   );

@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import ReportsFilters from './ReportsFilters/ReportsFilters';
-import ReportsBox from './ReportsBox/ReportsBox';
-import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
-import ReportsTrafficSourcesOld from './ReportsTrafficSources/ReportsTrafficSourcesOld';
-import ReportsDailyVisitsOld from './ReportsDailyVisits/ReportsDailyVisitsOld';
-import ReportsHoursVisitsOld from './ReportsHoursVisits/ReportsHoursVisitsOld';
-import { InjectAppServices } from '../../services/pure-di';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { Helmet } from 'react-helmet';
+import { InjectAppServices } from '../../services/pure-di';
+import { Loading } from '../Loading/Loading';
+import { BoxMessage } from '../styles/messages';
+import { addDays, getStartOfDate } from '../../utils';
+import ReportsFilters from './ReportsFilters/ReportsFilters';
 import {
   SiteTrackingRequired,
   SiteTrackingNotAvailableReasons,
 } from '../SiteTrackingRequired/SiteTrackingRequired';
-import { Helmet } from 'react-helmet';
-import { Loading } from '../Loading/Loading';
-import { addDays, getStartOfDate } from '../../utils';
-import { BoxMessage } from '../styles/messages';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import ReportsBox from './ReportsBox/ReportsBox';
+import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
+import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
+import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 
 // This value means the today date
-const periodSelectedDaysDefault = 0; /* set this value temporarily for datahub performance issue */
+const periodSelectedDaysDefault = 21;
 
 /**
  * @param { Object } props
@@ -28,10 +27,11 @@ const periodSelectedDaysDefault = 0; /* set this value temporarily for datahub p
 const Reports = ({ dependencies: { datahubClient } }) => {
   const today = getStartOfDate(new Date());
   const [state, setState] = useState({
+    loading: true,
     periodSelectedDays: periodSelectedDaysDefault,
     dateFrom: addDays(today, periodSelectedDaysDefault * -1),
     dateTo: periodSelectedDaysDefault ? today : new Date(),
-    dailyView: !periodSelectedDaysDefault,
+    dailyView: periodSelectedDaysDefault === 1,
   });
 
   const [totalVisits, setTotalVisits] = useState({});
@@ -55,24 +55,18 @@ const Reports = ({ dependencies: { datahubClient } }) => {
   useEffect(() => {
     const fetchVisitsByPeriod = async () => {
       setTotalVisits({ loading: true });
-      const visitsWithoutEmail = await datahubClient.getTotalVisitsOfPeriodOld({
+      const response = await datahubClient.getTotalVisitsOfPeriod({
         domainName: state.domainSelected.name,
         dateFrom: state.dateFrom,
         dateTo: state.dateTo,
-        emailFilter: 'without_email',
       });
-      const visitsWithEmail = await datahubClient.getTotalVisitsOfPeriodOld({
-        domainName: state.domainSelected.name,
-        dateFrom: state.dateFrom,
-        dateTo: state.dateTo,
-        emailFilter: 'with_email',
-      });
-
-      setTotalVisits({
-        withEmail: visitsWithEmail,
-        withoutEmail: visitsWithoutEmail,
-        loading: false,
-      });
+      if (response.success) {
+        setTotalVisits({
+          withEmail: response.value.qVisitorsWithEmail,
+          withoutEmail: response.value.qVisitors - response.value.qVisitorsWithEmail,
+          loading: false,
+        });
+      }
     };
     if (state.domainSelected) {
       fetchVisitsByPeriod();
@@ -87,7 +81,10 @@ const Reports = ({ dependencies: { datahubClient } }) => {
           ...prevState,
           domains: response.value,
           domainSelected: response.value.length ? response.value[0] : null,
+          loading: false,
         }));
+      } else {
+        setState({ loading: false });
       }
     };
 
@@ -113,10 +110,11 @@ const Reports = ({ dependencies: { datahubClient } }) => {
             domainSelected={state.domainSelected}
             periodSelectedDays={state.periodSelectedDays}
             changePeriod={changePeriod}
+            isEnableWeeks
           />
-          {!state.domains ? (
+          {state.loading ? (
             <Loading />
-          ) : (
+          ) : state.domains ? (
             <section className="dp-container">
               {!state.domainSelected.verified_date ? (
                 <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
@@ -148,7 +146,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                 </div>
                 {!state.dailyView ? (
                   <div className="col-sm-12 m-b-24">
-                    <ReportsDailyVisitsOld
+                    <ReportsDailyVisits
                       domainName={state.domainSelected.name}
                       dateFrom={state.dateFrom}
                       dateTo={state.dateTo}
@@ -156,7 +154,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                   </div>
                 ) : null}
                 <div className="col-sm-12 m-b-24">
-                  <ReportsTrafficSourcesOld
+                  <ReportsTrafficSources
                     domainName={state.domainSelected.name}
                     dateFrom={state.dateFrom}
                     dateTo={state.dateTo}
@@ -164,22 +162,19 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                 </div>
                 {!state.dailyView ? (
                   <div className="col-sm-12 m-b-24">
-                    <ReportsHoursVisitsOld
+                    <ReportsHoursVisits
                       domainName={state.domainSelected.name}
                       dateTo={state.dateTo}
                       dateFrom={state.dateFrom}
                     />
                   </div>
                 ) : null}
-                <div className="col-sm-12 m-b-24">
-                  <ReportsPageRanking
-                    domainName={state.domainSelected.name}
-                    dateTo={state.dateTo}
-                    dateFrom={state.dateFrom}
-                  />
-                </div>
               </div>
             </section>
+          ) : (
+            <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
+              <FormattedMessage id="common.unexpected_error" />
+            </BoxMessage>
           )}
         </>
       )}

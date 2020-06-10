@@ -20,27 +20,12 @@ export interface PageRanking {
   pages: Page[];
 }
 
-export interface TrafficSourceOld {
-  sourceName: string;
-  quantity: number;
-  withEmail: number;
-}
-
 export interface TrafficSource {
   sourceType: string;
   qVisits: number;
   qVisitsWithEmail: number;
   qVisitors: number;
   qVisitorsWithEmail: number;
-}
-
-export interface VisitsQuantitySummarized {
-  periodNumber: number;
-  from: Date;
-  to: Date;
-  quantity: number;
-  withEmail: number;
-  withoutEmail: number;
 }
 
 export interface VisitsQuantitySummarizedByDay {
@@ -74,12 +59,6 @@ export type filterByPeriodOptions = 'days' | 'hours';
 
 export interface DatahubClient {
   getAccountDomains(): Promise<DomainsResult>;
-  getTotalVisitsOfPeriodOld(query: {
-    domainName: number;
-    dateFrom: Date;
-    dateTo: Date;
-    emailFilter?: emailFilterOptions;
-  }): Promise<number>;
   getTotalVisitsOfPeriod(query: {
     domainName: string;
     dateFrom: Date;
@@ -92,21 +71,11 @@ export interface DatahubClient {
     pageSize: number;
     pageNumber: number;
   }): Promise<PageRankingResult>;
-  getTrafficSourcesByPeriodOld(query: {
-    domainName: string;
-    dateFrom: Date;
-    dateTo: Date;
-  }): Promise<TrafficSourceResultOld>;
   getTrafficSourcesByPeriod(query: {
     domainName: string;
     dateFrom: Date;
     dateTo: Date;
   }): Promise<TrafficSourceResult>;
-  getVisitsQuantitySummarizedByPeriod(query: {
-    domainName: string;
-    dateFrom: Date;
-    periodBy: filterByPeriodOptions;
-  }): Promise<VisitsQuantitySummarizedResult>;
   getVisitsQuantitySummarizedByDay(query: {
     domainName: string;
     dateFrom: Date;
@@ -122,13 +91,7 @@ export type VisitorsResult = ResultWithoutExpectedErrors<Visitors>;
 
 export type DomainsResult = ResultWithoutExpectedErrors<DomainEntry[]>;
 
-export type TrafficSourceResultOld = ResultWithoutExpectedErrors<TrafficSourceOld[]>;
-
 export type TrafficSourceResult = ResultWithoutExpectedErrors<TrafficSource[]>;
-
-export type VisitsQuantitySummarizedResult = ResultWithoutExpectedErrors<
-  VisitsQuantitySummarized[]
->;
 
 export type VisitsQuantitySummarizedByDayResult = ResultWithoutExpectedErrors<
   VisitsQuantitySummarizedByDay[]
@@ -203,28 +166,6 @@ export class HttpDatahubClient implements DatahubClient {
         error: error,
       };
     }
-  }
-
-  public async getTotalVisitsOfPeriodOld({
-    domainName,
-    dateFrom,
-    dateTo,
-    emailFilter,
-  }: {
-    domainName: number;
-    dateFrom: Date;
-    emailFilter: emailFilterOptions;
-    dateTo: Date;
-  }): Promise<number> {
-    const response = await this.customerGet<{ visitors_quantity: number }>(
-      `domains/${domainName}/visitors/quantity`,
-      {
-        startDate: dateFrom.toISOString(),
-        endDate: dateTo.toISOString(),
-        emailFilterBy: emailFilter,
-      },
-    );
-    return response.data.visitors_quantity;
   }
 
   public async getTotalVisitsOfPeriod({
@@ -307,42 +248,6 @@ export class HttpDatahubClient implements DatahubClient {
     }
   }
 
-  public async getTrafficSourcesByPeriodOld({
-    domainName,
-    dateFrom,
-    dateTo,
-  }: {
-    domainName: string;
-    dateFrom: Date;
-    dateTo: Date;
-  }): Promise<TrafficSourceResultOld> {
-    try {
-      const response = await this.customerGet<{ items: TrafficSourceOld[] }>(
-        `domains/${domainName}/events/summarized-by-source`,
-        {
-          startDate: dateFrom.toISOString(),
-          endDate: dateTo.toISOString(),
-        },
-      );
-
-      const trafficSources = response.data.items.map((x) => ({
-        sourceName: x.sourceName,
-        quantity: x.quantity,
-        withEmail: x.withEmail,
-      }));
-
-      return {
-        success: true,
-        value: trafficSources,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error: error,
-      };
-    }
-  }
-
   public async getTrafficSourcesByPeriod({
     domainName,
     dateFrom,
@@ -372,49 +277,6 @@ export class HttpDatahubClient implements DatahubClient {
       return {
         success: true,
         value: trafficSources,
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error: error,
-      };
-    }
-  }
-
-  public async getVisitsQuantitySummarizedByPeriod({
-    domainName,
-    dateFrom,
-    dateTo,
-    periodBy,
-  }: {
-    domainName: string;
-    dateFrom: Date;
-    dateTo: Date;
-    periodBy: filterByPeriodOptions;
-  }): Promise<VisitsQuantitySummarizedResult> {
-    try {
-      const response = await this.customerGet<any>(
-        `domains/${domainName}/events/quantity-summarized-by-period`,
-        {
-          startDate: dateFrom.toISOString(),
-          endDate: dateTo.toISOString(),
-          periodBy: periodBy,
-          uniqueVisites: true,
-        },
-      );
-
-      const visitsByPeriod = response.data.periods.map((x: any) => ({
-        periodNumber: x.periodNumber,
-        from: new Date(x.from),
-        to: new Date(x.to),
-        quantity: x.quantity,
-        withEmail: x.withEmail,
-        withoutEmail: x.withEmail !== undefined ? x.quantity - x.withEmail : x.withEmail,
-      }));
-
-      return {
-        success: true,
-        value: visitsByPeriod,
       };
     } catch (error) {
       return {
