@@ -28,7 +28,7 @@ const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
   common: {
-    advanced_preferences: `Integraciones y Preferencias Avanazadas`,
+    advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,
     cancel: `Cancelar`,
     connect: `Conectar`,
