@@ -7,6 +7,7 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
+const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
@@ -47,10 +48,10 @@ export default {
     unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,
   },
   default_banner_data: {
-    background_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png',
+    background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
     description: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
     functionality: 'Formularios de suscripción',
-    image_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/login-es.png',
+    image_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/login-es.png`,
     title: 'Suma contactos a tus Listas con Formularios personalizados',
   },
   empty_notification_text: `No tienes notificaciones pendientes.`,
