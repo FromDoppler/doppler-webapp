@@ -7,6 +7,7 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
+const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -48,10 +49,10 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
   },
   default_banner_data: {
-    background_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/violet-yellow.png',
+    background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
     description: 'Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!',
     functionality: 'subscription forms',
-    image_url: 'https://cdn.fromdoppler.com/doppler-ui-library/v2.5.0/img/login-en.png',
+    image_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/login-en.png`,
     title: 'Add new contacts to your Lists using custom Forms',
   },
   empty_notification_text: `You don't have pending notifications.`,
