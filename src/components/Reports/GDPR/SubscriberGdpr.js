@@ -39,11 +39,9 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
       const allFields = await dopplerApiClient.getUserFields();
       if (responseSubscriber.success && allFields.success) {
         const subscriber = {
+          ...responseSubscriber.value,
           firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
           lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
-          email: responseSubscriber.value.email,
-          score: responseSubscriber.value.score,
-          status: responseSubscriber.value.status,
         };
         const allPermissionFields = allFields.value.filter(
           (customField) => customField.type === 'permission' || customField.type === 'consent',
