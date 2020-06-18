@@ -71,6 +71,10 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
     fetchData();
   }, [dopplerApiClient, location]);
 
+  if (!state.loading && !state.subscriber) {
+    return <SafeRedirect to="/Lists/MasterSubscriber/" />;
+  }
+
   return (
     <>
       <FormattedMessage id="subscriber_gdpr.page_title">
@@ -81,30 +85,30 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
           </Helmet>
         )}
       </FormattedMessage>
-      {state.loading ? (
-        <Loading />
-      ) : state.subscriber ? (
-        <>
-          <header className="hero-banner report-filters">
-            <div className="dp-container">
-              <div className="dp-rowflex">
-                <div className="col-sm-12 col-md-12 col-lg-12">
-                  <Breadcrumb />
-                  <h2>
-                    <FormattedMessage id="subscriber_gdpr.header_title" />
-                  </h2>
-                  <p>
-                    <FormattedMessage id="subscriber_gdpr.header_description" />
-                  </p>
-                </div>
-              </div>
-              <span className="arrow"></span>
-            </div>
-          </header>
-          <section className="dp-container">
+      <>
+        <header className="hero-banner report-filters">
+          <div className="dp-container">
             <div className="dp-rowflex">
-              <div className="col-sm-12 m-b-36">
-                <div className="dp-block-wlp dp-box-shadow">
+              <div className="col-sm-12 col-md-12 col-lg-12">
+                <Breadcrumb />
+                <h2>
+                  <FormattedMessage id="subscriber_gdpr.header_title" />
+                </h2>
+                <p>
+                  <FormattedMessage id="subscriber_gdpr.header_description" />
+                </p>
+              </div>
+            </div>
+            <span className="arrow"></span>
+          </div>
+        </header>
+        <section className="dp-container">
+          <div className="dp-rowflex">
+            <div className="col-sm-12 m-b-36">
+              <div className="dp-block-wlp dp-box-shadow">
+                {state.loading ? (
+                  <Loading />
+                ) : (
                   <header className="dp-header-campaing dp-rowflex p-l-18">
                     <div className="col-lg-6 col-md-12 m-b-24">
                       <div className="dp-calification">
@@ -140,8 +144,12 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                       ) : null}
                     </div>
                   </header>
-                  <div>
-                    <div className="dp-table-responsive">
+                )}
+                <div>
+                  <div className="dp-table-responsive">
+                    {state.loading ? (
+                      <Loading />
+                    ) : (
                       <table
                         className="dp-c-table"
                         aria-label={_('subscriber_history.table_result.aria_label_table')}
@@ -209,16 +217,14 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
                           )}
                         </tbody>
                       </table>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-        </>
-      ) : (
-        <SafeRedirect to="/Lists/MasterSubscriber/" />
-      )}
+          </div>
+        </section>
+      </>
     </>
   );
 };
