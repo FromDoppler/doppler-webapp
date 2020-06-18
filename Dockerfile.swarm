@@ -21,9 +21,10 @@ ENV PUBLIC_URL=$public_url
 RUN yarn build:$environment
 
 FROM nginx:1.19.0-alpine AS final
+ARG environment
 WORKDIR /app
 RUN rm /etc/nginx/conf.d/default.conf
-COPY conf/site-swarm.conf /etc/nginx/conf.d/site.conf
+COPY conf/site-$environment.conf /etc/nginx/conf.d/site.conf
 COPY --from=build /app/build /usr/share/nginx/html
 ARG version=unknown
 RUN echo $version > /usr/share/nginx/html/version.txt
