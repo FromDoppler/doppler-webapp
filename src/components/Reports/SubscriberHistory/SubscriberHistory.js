@@ -275,7 +275,7 @@ const SubscriberHistory = ({
                                     </div>
                                   ) : (
                                     <a
-                                      href={`https://reports2.fromdoppler.com/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
+                                      href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
                                     >
                                       {campaign.campaignName}
                                     </a>
