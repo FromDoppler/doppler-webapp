@@ -45,7 +45,6 @@ pipeline {
                 }
             }
             steps {
-                // TODO: add missing environments (development, qa, int)
                 // TODO: remove build differences based on environments to allow reducing the
                 // number of different images. Maybe `demo` and `production` cold be enought
                 sh '''docker build \
@@ -64,6 +63,22 @@ pipeline {
                     --build-arg version=demo-${TAG_NAME}+${GIT_COMMIT} \\
                     -f Dockerfile.swarm \\
                     .'''
+                 sh '''docker build \
+                    -t "fromdoppler/doppler-webapp:int-commit-${GIT_COMMIT}" \\
+                    --build-arg environment=int \\
+                    --build-arg react_app_router=browser \\
+                    --build-arg public_url="/" \\
+                    --build-arg version=int-${TAG_NAME}+${GIT_COMMIT} \\
+                    -f Dockerfile.swarm \\
+                    .'''
+                 sh '''docker build \
+                    -t "fromdoppler/doppler-webapp:qa-commit-${GIT_COMMIT}" \\
+                    --build-arg environment=qa \\
+                    --build-arg react_app_router=browser \\
+                    --build-arg public_url="/" \\
+                    --build-arg version=qa-${TAG_NAME}+${GIT_COMMIT} \\
+                    -f Dockerfile.swarm \\
+                    .'''
             }
         }
         stage('Publish final version images') {
@@ -73,9 +88,10 @@ pipeline {
                 }
             }
             steps {
-                // TODO: add missing environments (development, qa, int)
                 sh 'sh publish-commit-image-to-dockerhub.sh production ${GIT_COMMIT} ${TAG_NAME}'
                 sh 'sh publish-commit-image-to-dockerhub.sh demo ${GIT_COMMIT} ${TAG_NAME}'
+                sh 'sh publish-commit-image-to-dockerhub.sh int ${GIT_COMMIT} ${TAG_NAME}'
+                sh 'sh publish-commit-image-to-dockerhub.sh qa ${GIT_COMMIT} ${TAG_NAME}'
             }
         }
         stage('Generate version') {
