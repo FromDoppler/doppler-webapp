@@ -42,7 +42,8 @@ const SubscriberHistory = ({
     appConfiguration: { reportsUrl },
   },
 }) => {
-  const [state, setState] = useState({ loading: true });
+  const [stateSubscriber, setStateSubscriber] = useState({ loading: true });
+  const [stateSentCampaigns, setStateSentCampaigns] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -61,7 +62,8 @@ const SubscriberHistory = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      setState({ loading: true });
+      setStateSubscriber({ loading: true });
+      setStateSentCampaigns({ loading: true });
       const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
       const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
@@ -71,33 +73,81 @@ const SubscriberHistory = ({
           firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
           lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
         };
-        const response = await dopplerApiClient.getSubscriberSentCampaigns(
-          email,
-          campaignsPerPage,
-          currentPage,
-        );
-        if (!response.success) {
-          setState({ loading: false });
-        } else {
-          setState({
-            loading: false,
-            sentCampaigns: response.value.items,
-            itemsCount: response.value.itemsCount,
-            currentPage: response.value.currentPage,
-            pagesCount: response.value.pagesCount,
-            subscriber: subscriber,
-          });
-        }
+
+        setStateSubscriber({
+          subscriber: subscriber,
+          loading: false,
+        });
+      }
+
+      const response = await dopplerApiClient.getSubscriberSentCampaigns(
+        email,
+        campaignsPerPage,
+        currentPage,
+      );
+      if (!response.success) {
+        setStateSentCampaigns({ loading: false });
       } else {
-        setState({ loading: false });
+        setStateSentCampaigns({
+          loading: false,
+          sentCampaigns: response.value.items,
+          itemsCount: response.value.itemsCount,
+          currentPage: response.value.currentPage,
+          pagesCount: response.value.pagesCount,
+          email: email,
+        });
       }
     };
     fetchData();
   }, [dopplerApiClient, location]);
 
-  if (!state.loading && !state.subscriber) {
+  if (!stateSubscriber.loading && !stateSubscriber.subscriber) {
     return <SafeRedirect to="/Lists/MasterSubscriber/" />;
   }
+
+  if (!stateSentCampaigns.loading && !stateSentCampaigns.sentCampaigns) {
+    return <SafeRedirect to="/Lists/MasterSubscriber/" />;
+  }
+
+  const subscriber = stateSubscriber.loading ? (
+    <Loading />
+  ) : (
+    <header className="dp-header-campaing dp-rowflex p-l-18">
+      <div className="col-lg-6 col-md-12 m-b-24">
+        <div className="dp-calification">
+          <span className="dp-useremail-campaign">
+            <strong>{stateSubscriber.subscriber.email}</strong>
+          </span>
+          <StarsScore score={stateSubscriber.subscriber.score} />
+        </div>
+        <span className="dp-username-campaing">
+          {stateSubscriber.subscriber.firstName ? stateSubscriber.subscriber.firstName.value : ''}{' '}
+          {stateSubscriber.subscriber.lastName ? stateSubscriber.subscriber.lastName.value : ''}
+        </span>
+        <span className="dp-subscriber-icon">
+          <span
+            className={
+              'ms-icon icon-user ' +
+              getSubscriberStatusCssClassName(stateSubscriber.subscriber.status)
+            }
+          ></span>
+          <FormattedMessage id={'subscriber.status.' + stateSubscriber.subscriber.status} />
+        </span>
+        {stateSubscriber.subscriber.status.includes('unsubscribed') ? (
+          <ul className="dp-rowflex col-sm-12 dp-subscriber-info">
+            <li className="col-sm-12 col-md-4 col-lg-3">
+              <span className="dp-block-info">
+                <FormattedMessage id="subscriber_history.unsubscribed_date" />
+              </span>
+              <span>
+                <FormattedDate value={stateSubscriber.subscriber.unsubscribedDate} />
+              </span>
+            </li>
+          </ul>
+        ) : null}
+      </div>
+    </header>
+  );
 
   return (
     <>
@@ -121,104 +171,10 @@ const SubscriberHistory = ({
         <div className="dp-rowflex">
           <div className="col-sm-12 m-b-36">
             <div className="dp-block-wlp dp-box-shadow">
-              {state.loading ? (
-                <Loading />
-              ) : (
-                <header className="dp-header-campaing dp-rowflex p-l-18">
-                  <div className="col-lg-6 col-md-12 m-b-24">
-                    <div className="dp-calification">
-                      <span className="dp-useremail-campaign">
-                        <strong>{state.subscriber.email}</strong>
-                      </span>
-                      <StarsScore score={state.subscriber.score} />
-                    </div>
-                    <span className="dp-username-campaing">
-                      {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
-                      {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
-                    </span>
-                    <span className="dp-subscriber-icon">
-                      <span
-                        className={
-                          'ms-icon icon-user ' +
-                          getSubscriberStatusCssClassName(state.subscriber.status)
-                        }
-                      ></span>
-                      <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
-                    </span>
-                    {state.subscriber.status.includes('unsubscribed') ? (
-                      <ul className="dp-rowflex col-sm-12 dp-subscriber-info">
-                        <li className="col-sm-12 col-md-4 col-lg-3">
-                          <span className="dp-block-info">
-                            <FormattedMessage id="subscriber_history.unsubscribed_date" />
-                          </span>
-                          <span>
-                            <FormattedDate value={state.subscriber.unsubscribedDate} />
-                          </span>
-                        </li>
-                        {/* TODO: add logic of, Date, IP and Origin campaign.
-                    <li class="col-sm-12 col-md-4 col-lg-3">
-                      <span class="dp-block-info">IP origen de Remoción:</span><span>200.5.229.58</span>
-                    </li>
-                    <li class="col-sm-12 col-md-4 col-lg-5">
-                      <span class="dp-block-info">Campaña origen de Remoción:</span><a href="#">Campaña Estacional de Primavera</a>
-                    </li>
-                    */}
-                      </ul>
-                    ) : null}
-                  </div>
-                  {/* TODO: add kpi logic
-            <div class="dp-rowflex col-lg-6 col-md-12">
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <div class="dp-rate-wrapper">
-                    <div class="dp-rate-chart">
-                      <svg viewBox="0 0 36 36" class="dp-circular-chart dp-stroke-violet">
-                        <path class="dp-circle-bg" d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                        <path class="dp-circle" stroke-dasharray="57, 100" d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                        <text x="18" y="15" class="dp-text-percentage fadeInDown">
-                          open rate
-                        </text>
-                        <text x="17" y="23" class="dp-percentage fadeInUp">
-                          57%
-                        </text>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <ul class="dp-kpi-campaign">
-                    <li>
-                      <span class="dp-number-campaign dp-color-green">85.0</span>
-                    </li>
-                    <li><span class="dp-kpi-legend">93 Entregados</span></li>
-                  </ul>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <ul class="dp-kpi-campaign">
-                    <li>
-                      <span class="dp-number-campaign dp-color-red">15.0</span>
-                    </li>
-                    <li><span class="dp-kpi-legend">12 No Entregados</span></li>
-                  </ul>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <ul class="dp-kpi-campaign">
-                    <li>
-                      <span class="dp-number-campaign dp-kpi-grey">37.0</span>
-                    </li>
-                    <li><span class="dp-kpi-legend">Clicks totales</span></li>
-                  </ul>
-                </div>
-            </div>
-            */}
-                </header>
-              )}
+              {subscriber}
               <div>
                 <div className="dp-table-responsive">
-                  {state.loading ? (
+                  {stateSentCampaigns.loading ? (
                     <Loading />
                   ) : (
                     <table
@@ -246,17 +202,17 @@ const SubscriberHistory = ({
                         <tr>
                           <td colSpan="4" style={{ textAlign: 'right' }}>
                             <Pagination
-                              currentPage={state.currentPage}
-                              pagesCount={state.pagesCount}
-                              urlToGo={`/reports/subscriber-history?email=${state.subscriber.email}&`}
+                              currentPage={stateSentCampaigns.currentPage}
+                              pagesCount={stateSentCampaigns.pagesCount}
+                              urlToGo={`/reports/subscriber-history?email=${stateSentCampaigns.email}&`}
                             />
                           </td>
                         </tr>
                       </tfoot>
                       <tbody>
-                        {state.sentCampaigns.length ? (
+                        {stateSentCampaigns.sentCampaigns.length ? (
                           <>
-                            {state.sentCampaigns.map((campaign, index) => (
+                            {stateSentCampaigns.sentCampaigns.map((campaign, index) => (
                               <tr key={index}>
                                 <td>
                                   {campaign.urlImgPreview ? (
