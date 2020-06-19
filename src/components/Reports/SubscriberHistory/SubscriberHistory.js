@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
-import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
-import {
-  getSubscriberStatusCssClassName,
-  extractParameter,
-  replaceSpaceWithSigns,
-} from '../../../utils';
-import { StarsScore } from '../../shared/StarsScore/StarsScore';
+import { extractParameter, replaceSpaceWithSigns } from '../../../utils';
 import { Pagination } from '../../shared/Pagination/Pagination';
+import SubscriberInfoContainer from '../../shared/SubscriberInfoContainer/SubscriberInfoContainer';
 import SafeRedirect from '../../SafeRedirect';
 
 const getDeliveryStatusCssClassName = (deliveryStatus) => {
@@ -42,7 +38,6 @@ const SubscriberHistory = ({
     appConfiguration: { reportsUrl },
   },
 }) => {
-  const [stateSubscriber, setStateSubscriber] = useState({ loading: true });
   const [stateSentCampaigns, setStateSentCampaigns] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -60,33 +55,19 @@ const SubscriberHistory = ({
     </nav>
   );
 
+  const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
+
   useEffect(() => {
     const fetchData = async () => {
-      setStateSubscriber({ loading: true });
       setStateSentCampaigns({ loading: true });
-      const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
       const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
-      const responseSubscriber = await dopplerApiClient.getSubscriber(email);
-      if (responseSubscriber.success) {
-        const subscriber = {
-          ...responseSubscriber.value,
-          firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
-          lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
-        };
-
-        setStateSubscriber({
-          subscriber: subscriber,
-          loading: false,
-        });
-      }
-
       const response = await dopplerApiClient.getSubscriberSentCampaigns(
         email,
         campaignsPerPage,
         currentPage,
       );
       if (!response.success) {
-        setStateSentCampaigns({ loading: false });
+        setStateSentCampaigns({ redirect: true });
       } else {
         setStateSentCampaigns({
           loading: false,
@@ -99,55 +80,11 @@ const SubscriberHistory = ({
       }
     };
     fetchData();
-  }, [dopplerApiClient, location]);
+  }, [dopplerApiClient, location, email]);
 
-  if (!stateSubscriber.loading && !stateSubscriber.subscriber) {
+  if (stateSentCampaigns.redirect) {
     return <SafeRedirect to="/Lists/MasterSubscriber/" />;
   }
-
-  if (!stateSentCampaigns.loading && !stateSentCampaigns.sentCampaigns) {
-    return <SafeRedirect to="/Lists/MasterSubscriber/" />;
-  }
-
-  const subscriber = stateSubscriber.loading ? (
-    <Loading />
-  ) : (
-    <header className="dp-header-campaing dp-rowflex p-l-18">
-      <div className="col-lg-6 col-md-12 m-b-24">
-        <div className="dp-calification">
-          <span className="dp-useremail-campaign">
-            <strong>{stateSubscriber.subscriber.email}</strong>
-          </span>
-          <StarsScore score={stateSubscriber.subscriber.score} />
-        </div>
-        <span className="dp-username-campaing">
-          {stateSubscriber.subscriber.firstName ? stateSubscriber.subscriber.firstName.value : ''}{' '}
-          {stateSubscriber.subscriber.lastName ? stateSubscriber.subscriber.lastName.value : ''}
-        </span>
-        <span className="dp-subscriber-icon">
-          <span
-            className={
-              'ms-icon icon-user ' +
-              getSubscriberStatusCssClassName(stateSubscriber.subscriber.status)
-            }
-          ></span>
-          <FormattedMessage id={'subscriber.status.' + stateSubscriber.subscriber.status} />
-        </span>
-        {stateSubscriber.subscriber.status.includes('unsubscribed') ? (
-          <ul className="dp-rowflex col-sm-12 dp-subscriber-info">
-            <li className="col-sm-12 col-md-4 col-lg-3">
-              <span className="dp-block-info">
-                <FormattedMessage id="subscriber_history.unsubscribed_date" />
-              </span>
-              <span>
-                <FormattedDate value={stateSubscriber.subscriber.unsubscribedDate} />
-              </span>
-            </li>
-          </ul>
-        ) : null}
-      </div>
-    </header>
-  );
 
   return (
     <>
@@ -171,7 +108,7 @@ const SubscriberHistory = ({
         <div className="dp-rowflex">
           <div className="col-sm-12 m-b-36">
             <div className="dp-block-wlp dp-box-shadow">
-              {subscriber}
+              <SubscriberInfoContainer email={email} />
               <div>
                 <div className="dp-table-responsive">
                   {stateSentCampaigns.loading ? (
