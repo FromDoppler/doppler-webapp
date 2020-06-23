@@ -383,8 +383,8 @@ deletion, security, cross-border data transfers and other issues.
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
     error_unexpected_MD: `
-Unexpected error. Please try again* or [contact Support](${mailtoSupport}).
+Ouch! Something went wrong. Please try again later or [contact Support](${mailtoSupport}).
 
-**If you have ad blockers installed, please disable them on retry.*`,
+**If you have ad blockers installed, we recommend that you disable them when you try again.*`,
   },
 };
