@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
-  getSubscriberStatusCssClassName,
   extractParameter,
   replaceSpaceWithSigns,
 } from './../../../utils';
 import queryString from 'query-string';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
-import { StarsScore } from '../../shared/StarsScore/StarsScore';
 import SafeRedirect from '../../SafeRedirect';
 import * as S from './SubscriberGdpr.styles';
+import SubscriberInfoContainer from '../../shared/SubscriberInfoContainer/SubscriberInfoContainer';
 
 const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
@@ -31,18 +30,14 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
     </nav>
   );
 
+  const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
+
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
       const responseSubscriber = await dopplerApiClient.getSubscriber(email);
       const allFields = await dopplerApiClient.getUserFields();
       if (responseSubscriber.success && allFields.success) {
-        const subscriber = {
-          ...responseSubscriber.value,
-          firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
-          lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
-        };
         const allPermissionFields = allFields.value.filter(
           (customField) => customField.type === 'permission' || customField.type === 'consent',
         );
@@ -60,18 +55,17 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
 
         setState({
           loading: false,
-          subscriber: subscriber,
           fields: fields,
           email: email,
         });
       } else {
-        setState({ loading: false });
+        setState({ redirect: true });
       }
     };
     fetchData();
-  }, [dopplerApiClient, location]);
+  }, [dopplerApiClient, location, email]);
 
-  if (!state.loading && !state.subscriber) {
+  if (state.redirect) {
     return <SafeRedirect to="/Lists/MasterSubscriber/" />;
   }
 
@@ -106,45 +100,7 @@ const SubscriberGdpr = ({ location, dependencies: { dopplerApiClient } }) => {
           <div className="dp-rowflex">
             <div className="col-sm-12 m-b-36">
               <div className="dp-block-wlp dp-box-shadow">
-                {state.loading ? (
-                  <Loading />
-                ) : (
-                  <header className="dp-header-campaing dp-rowflex p-l-18">
-                    <div className="col-lg-6 col-md-12 m-b-24">
-                      <div className="dp-calification">
-                        <span className="dp-useremail-campaign">
-                          <strong>{state.subscriber.email}</strong>
-                        </span>
-                        <StarsScore score={state.subscriber.score} />
-                      </div>
-                      <span className="dp-username-campaing">
-                        {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
-                        {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
-                      </span>
-                      <span className="dp-subscriber-icon">
-                        <span
-                          className={
-                            'ms-icon icon-user ' +
-                            getSubscriberStatusCssClassName(state.subscriber.status)
-                          }
-                        ></span>
-                        <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
-                      </span>
-                      {state.subscriber.status.includes('unsubscribed') ? (
-                        <ul className="dp-rowflex col-sm-12 dp-subscriber-info">
-                          <li className="col-sm-12 col-md-4 col-lg-3">
-                            <span className="dp-block-info">
-                              <FormattedMessage id="subscriber_history.unsubscribed_date" />
-                            </span>
-                            <span>
-                              <FormattedDate value={state.subscriber.unsubscribedDate} />
-                            </span>
-                          </li>
-                        </ul>
-                      ) : null}
-                    </div>
-                  </header>
-                )}
+                <SubscriberInfoContainer email={email} />
                 <div>
                   <div className="dp-table-responsive">
                     {state.loading ? (
