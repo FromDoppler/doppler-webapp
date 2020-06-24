@@ -98,67 +98,69 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
   };
 
   return (
-    <main className="panel-wrapper">
-      <Helmet>
-        <title>{_('login.head_title')}</title>
-        <meta name="description" content={_('login.head_description')} />
-      </Helmet>
-      <article className="main-panel">
-        <header>
-          <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('forgot_password.url_site')} rel="noopener noreferrer">
-              Doppler
-            </a>
-          </h1>
-          <LanguageSelector urlParameters={location.search} />
-        </header>
-        <h5>{_('login.forgot_password')}</h5>
-        <p className="content-subtitle">{_('forgot_password.description')}</p>
-        {sentEmail ? (
-          <S.MessageSuccess>
-            <div className="form-message dp-ok-message bounceIn">
-              <FormattedMessageMarkdown
-                tagName="div"
-                id="forgot_password.confirmation_message_MD"
-              />
-              <LinkToLoginSuccess />
-            </div>
-          </S.MessageSuccess>
-        ) : (
-          <FormWithCaptcha
-            className="login-form"
-            initialValues={getFormInitialValues()}
-            onSubmit={onSubmit}
-          >
-            <fieldset>
-              <FieldGroup>
-                <EmailFieldItem
-                  autoFocus
-                  fieldName={fieldNames.email}
-                  label={_('signup.label_email')}
-                  required
-                  placeholder={_('forgot_password.placeholder_email')}
+    <div className="dp-app-container">
+      <main className="panel-wrapper">
+        <Helmet>
+          <title>{_('login.head_title')}</title>
+          <meta name="description" content={_('login.head_description')} />
+        </Helmet>
+        <article className="main-panel">
+          <header>
+            <h1 className="logo-doppler-new">
+              <a target="_blank" href={_('forgot_password.url_site')} rel="noopener noreferrer">
+                Doppler
+              </a>
+            </h1>
+            <LanguageSelector urlParameters={location.search} />
+          </header>
+          <h5>{_('login.forgot_password')}</h5>
+          <p className="content-subtitle">{_('forgot_password.description')}</p>
+          {sentEmail ? (
+            <S.MessageSuccess>
+              <div className="form-message dp-ok-message bounceIn">
+                <FormattedMessageMarkdown
+                  tagName="div"
+                  id="forgot_password.confirmation_message_MD"
                 />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FormMessages />
-              <SubmitButton className="button--round">
-                {_('forgot_password.button_request')}
-              </SubmitButton>
-              <LinkToLogin />
-            </fieldset>
-          </FormWithCaptcha>
-        )}
-        <footer>
-          <CaptchaLegalMessage />
-          <small>
-            <FormattedMessageMarkdown id="forgot_password.copyright_MD" linkTarget={'_blank'} />
-          </small>
-        </footer>
-      </article>
-      <Promotions type="login" />
-    </main>
+                <LinkToLoginSuccess />
+              </div>
+            </S.MessageSuccess>
+          ) : (
+            <FormWithCaptcha
+              className="login-form"
+              initialValues={getFormInitialValues()}
+              onSubmit={onSubmit}
+            >
+              <fieldset>
+                <FieldGroup>
+                  <EmailFieldItem
+                    autoFocus
+                    fieldName={fieldNames.email}
+                    label={_('signup.label_email')}
+                    required
+                    placeholder={_('forgot_password.placeholder_email')}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FormMessages />
+                <SubmitButton className="button--round">
+                  {_('forgot_password.button_request')}
+                </SubmitButton>
+                <LinkToLogin />
+              </fieldset>
+            </FormWithCaptcha>
+          )}
+          <footer>
+            <CaptchaLegalMessage />
+            <small>
+              <FormattedMessageMarkdown id="forgot_password.copyright_MD" linkTarget={'_blank'} />
+            </small>
+          </footer>
+        </article>
+        <Promotions type="login" />
+      </main>
+    </div>
   );
 };
 
