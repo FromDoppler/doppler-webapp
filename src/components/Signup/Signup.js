@@ -155,110 +155,112 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, origin
   };
 
   return (
-    <main className="panel-wrapper">
-      <Helmet>
-        <title>{_('signup.head_title')}</title>
-        <meta name="description" content={_('signup.head_description')} />
-      </Helmet>
-      <S.MainPanel className="main-panel">
-        <header>
-          <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
-              Doppler
-            </a>
-          </h1>
-          <LanguageSelector urlParameters={location.search} />
-        </header>
-        <h5>{_('signup.sign_up')}</h5>
-        <p className="content-subtitle">
-          {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
-          <Link to={{ pathname: '/login', search: location.search }} className="link--title">
-            {_('signup.log_in')}
-          </Link>
-        </p>
-        <FormWithCaptcha
-          className="signup-form"
-          initialValues={getFormInitialValues()}
-          onSubmit={onSubmit}
-          validate={validate}
-        >
-          <fieldset>
-            <FieldGroup>
-              <InputFieldItem
-                autoFocus
-                className="field-item--50"
-                fieldName={fieldNames.firstname}
-                label={_('signup.label_firstname')}
-                type="text"
-                minLength={minLength}
-                required
-                withNameValidation
-              />
-              <InputFieldItem
-                className="field-item--50"
-                fieldName={fieldNames.lastname}
-                label={_('signup.label_lastname')}
-                type="text"
-                minLength={minLength}
-                required
-                withNameValidation
-              />
-              <PhoneFieldItem
-                fieldName={fieldNames.phone}
-                label={_('signup.label_phone')}
-                placeholder={_('signup.placeholder_phone')}
-                required
-              />
-            </FieldGroup>
-          </fieldset>
-          <fieldset>
-            <FieldGroup>
-              <EmailFieldItem
-                fieldName={fieldNames.email}
-                label={_('signup.label_email')}
-                placeholder={_('signup.placeholder_email')}
-                required
-              />
-              <ValidatedPasswordFieldItem
-                fieldName={fieldNames.password}
-                label={_('signup.label_password')}
-                placeholder={_('signup.placeholder_password')}
-              />
-            </FieldGroup>
-          </fieldset>
-          <fieldset>
-            <FieldGroup>
-              <CheckboxFieldItem
-                fieldName={fieldNames.accept_privacy_policies}
-                className={'label--policy'}
-                label={
-                  <FormattedMessageMarkdown
-                    linkTarget={'_blank'}
-                    id="signup.privacy_policy_consent_MD"
-                  />
-                }
-                checkRequired
-              />
-              <CheckboxFieldItem
-                fieldName={fieldNames.accept_promotions}
-                label={_('signup.promotions_consent')}
-              />
-            </FieldGroup>
-          </fieldset>
-          <FormMessages />
-          <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
-        </FormWithCaptcha>
-        <div className="content-legal">
-          <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
-        </div>
-        <footer>
-          <small>
-            <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
-          </small>
-        </footer>
-      </S.MainPanel>
-      <Promotions type="signup" page={extractPage(location)} />
-    </main>
+    <div className="dp-app-container">
+      <main className="panel-wrapper">
+        <Helmet>
+          <title>{_('signup.head_title')}</title>
+          <meta name="description" content={_('signup.head_description')} />
+        </Helmet>
+        <S.MainPanel className="main-panel">
+          <header>
+            <h1 className="logo-doppler-new">
+              <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
+                Doppler
+              </a>
+            </h1>
+            <LanguageSelector urlParameters={location.search} />
+          </header>
+          <h5>{_('signup.sign_up')}</h5>
+          <p className="content-subtitle">
+            {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
+            <Link to={{ pathname: '/login', search: location.search }} className="link--title">
+              {_('signup.log_in')}
+            </Link>
+          </p>
+          <FormWithCaptcha
+            className="signup-form"
+            initialValues={getFormInitialValues()}
+            onSubmit={onSubmit}
+            validate={validate}
+          >
+            <fieldset>
+              <FieldGroup>
+                <InputFieldItem
+                  autoFocus
+                  className="field-item--50"
+                  fieldName={fieldNames.firstname}
+                  label={_('signup.label_firstname')}
+                  type="text"
+                  minLength={minLength}
+                  required
+                  withNameValidation
+                />
+                <InputFieldItem
+                  className="field-item--50"
+                  fieldName={fieldNames.lastname}
+                  label={_('signup.label_lastname')}
+                  type="text"
+                  minLength={minLength}
+                  required
+                  withNameValidation
+                />
+                <PhoneFieldItem
+                  fieldName={fieldNames.phone}
+                  label={_('signup.label_phone')}
+                  placeholder={_('signup.placeholder_phone')}
+                  required
+                />
+              </FieldGroup>
+            </fieldset>
+            <fieldset>
+              <FieldGroup>
+                <EmailFieldItem
+                  fieldName={fieldNames.email}
+                  label={_('signup.label_email')}
+                  placeholder={_('signup.placeholder_email')}
+                  required
+                />
+                <ValidatedPasswordFieldItem
+                  fieldName={fieldNames.password}
+                  label={_('signup.label_password')}
+                  placeholder={_('signup.placeholder_password')}
+                />
+              </FieldGroup>
+            </fieldset>
+            <fieldset>
+              <FieldGroup>
+                <CheckboxFieldItem
+                  fieldName={fieldNames.accept_privacy_policies}
+                  className={'label--policy'}
+                  label={
+                    <FormattedMessageMarkdown
+                      linkTarget={'_blank'}
+                      id="signup.privacy_policy_consent_MD"
+                    />
+                  }
+                  checkRequired
+                />
+                <CheckboxFieldItem
+                  fieldName={fieldNames.accept_promotions}
+                  label={_('signup.promotions_consent')}
+                />
+              </FieldGroup>
+            </fieldset>
+            <FormMessages />
+            <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
+          </FormWithCaptcha>
+          <div className="content-legal">
+            <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
+          </div>
+          <footer>
+            <small>
+              <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
+            </small>
+          </footer>
+        </S.MainPanel>
+        <Promotions type="signup" page={extractPage(location)} />
+      </main>
+    </div>
   );
 };
 
