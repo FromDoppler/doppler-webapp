@@ -20,6 +20,7 @@ import SubscriberGdpr from './components/Reports/GDPR/SubscriberGdpr';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
+import PushNotifications from './components/PushNotifications/PushNotifications';
 
 /**
  * @param { Object } props - props
@@ -99,6 +100,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />
           <PrivateRoute path="/reports/subscriber-gdpr" exact component={SubscriberGdpr} />
           <PrivateRoute path="/new-features" exact component={NewFeatures} />
+          <PrivateRoute path="/push" exact component={PushNotifications} />
           <PrivateRoute
             path="/reports/partials-campaigns"
             exact

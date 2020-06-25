@@ -35,6 +35,12 @@ const NewFeatures = () => {
             <Link to={'/offline'}>Ir a página offline</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div style={{ marginLeft: '20px' }}>
+            <h3>Push Notifications</h3>
+            <Link to={'/push'}>Ir a push notifications</Link>
+          </div>
+        </div>
       </section>
     </>
   );
