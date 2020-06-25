@@ -20,6 +20,7 @@ import SubscriberGdpr from './components/Reports/GDPR/SubscriberGdpr';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
+import PushNotifications from './components/PushNotifications/PushNotifications';
 
 /**
  * @param { Object } props - props
@@ -109,6 +110,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
           <Route path="/signup/confirmation" exact component={SignupConfirmation} />
           <Route path="/offline" exact component={Offline} />
+          <Route path="/push" exact component={PushNotifications} />
           <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
           <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
           <RedirectWithQuery exact from="/ingresa/cambiar-clave" to="/forgot-password?lang=es" />
