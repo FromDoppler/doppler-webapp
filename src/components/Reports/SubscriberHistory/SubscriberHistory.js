@@ -1,48 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { Loading } from '../../Loading/Loading';
-import { FormattedMessage, useIntl, FormattedDate } from 'react-intl';
-import queryString from 'query-string';
-import {
-  getSubscriberStatusCssClassName,
-  extractParameter,
-  replaceSpaceWithSigns,
-} from '../../../utils';
-import { StarsScore } from '../../shared/StarsScore/StarsScore';
-import { Pagination } from '../../shared/Pagination/Pagination';
-import SafeRedirect from '../../SafeRedirect';
+import { FormattedMessage, useIntl } from 'react-intl';
+import SubscriberPage from '../../shared/SubscriberPage/SubscriberPage';
+import SubscriberSentCampaigns from '../SubscriberSentCampaigns/SubscriberSentCampaigns';
 
-const getDeliveryStatusCssClassName = (deliveryStatus) => {
-  let deliveryCssClass = '';
-  switch (deliveryStatus) {
-    case 'opened':
-      deliveryCssClass = 'status--opened';
-      break;
-    case 'notOpened':
-      deliveryCssClass = 'status--not-opened';
-      break;
-    case 'hardBounced':
-      deliveryCssClass = 'status--hard-bounced';
-      break;
-    case 'softBounced':
-      deliveryCssClass = 'status--soft-bounced';
-      break;
-    default:
-      break;
-  }
-  return deliveryCssClass;
-};
-
-const campaignsPerPage = 10;
-
-const SubscriberHistory = ({
-  location,
-  dependencies: {
-    dopplerApiClient,
-    appConfiguration: { reportsUrl },
-  },
-}) => {
-  const [state, setState] = useState({ loading: true });
+const SubscriberHistory = ({ location }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -59,269 +21,31 @@ const SubscriberHistory = ({
     </nav>
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setState({ loading: true });
-      const email = replaceSpaceWithSigns(extractParameter(location, queryString.parse, 'email'));
-      const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
-      const responseSubscriber = await dopplerApiClient.getSubscriber(email);
-      if (responseSubscriber.success) {
-        const subscriber = {
-          ...responseSubscriber.value,
-          firstName: responseSubscriber.value.fields.find((x) => x.name === 'FIRSTNAME'),
-          lastName: responseSubscriber.value.fields.find((x) => x.name === 'LASTNAME'),
-        };
-        const response = await dopplerApiClient.getSubscriberSentCampaigns(
-          email,
-          campaignsPerPage,
-          currentPage,
-        );
-        if (!response.success) {
-          setState({ loading: false });
-        } else {
-          setState({
-            loading: false,
-            sentCampaigns: response.value.items,
-            itemsCount: response.value.itemsCount,
-            currentPage: response.value.currentPage,
-            pagesCount: response.value.pagesCount,
-            subscriber: subscriber,
-          });
-        }
-      } else {
-        setState({ loading: false });
-      }
-    };
-    fetchData();
-  }, [dopplerApiClient, location]);
-
-  if (!state.loading && !state.subscriber) {
-    return <SafeRedirect to="/Lists/MasterSubscriber/" />;
-  }
-
   return (
-    <>
-      <header className="hero-banner report-filters">
-        <div className="dp-container">
-          <div className="dp-rowflex">
-            <div className="col-sm-12 col-md-12 col-lg-12">
-              <Breadcrumb />
-              <h2>
-                <FormattedMessage id="subscriber_history.title" />
-              </h2>
-              <p>
-                <FormattedMessage id="subscriber_history.description" />
-              </p>
-            </div>
-          </div>
-          <span className="arrow"></span>
-        </div>
-      </header>
-      <section className="dp-container">
-        <div className="dp-rowflex">
-          <div className="col-sm-12 m-b-36">
-            <div className="dp-block-wlp dp-box-shadow">
-              {state.loading ? (
-                <Loading />
-              ) : (
-                <header className="dp-header-campaing dp-rowflex p-l-18">
-                  <div className="col-lg-6 col-md-12 m-b-24">
-                    <div className="dp-calification">
-                      <span className="dp-useremail-campaign">
-                        <strong>{state.subscriber.email}</strong>
-                      </span>
-                      <StarsScore score={state.subscriber.score} />
-                    </div>
-                    <span className="dp-username-campaing">
-                      {state.subscriber.firstName ? state.subscriber.firstName.value : ''}{' '}
-                      {state.subscriber.lastName ? state.subscriber.lastName.value : ''}
-                    </span>
-                    <span className="dp-subscriber-icon">
-                      <span
-                        className={
-                          'ms-icon icon-user ' +
-                          getSubscriberStatusCssClassName(state.subscriber.status)
-                        }
-                      ></span>
-                      <FormattedMessage id={'subscriber.status.' + state.subscriber.status} />
-                    </span>
-                    {state.subscriber.status.includes('unsubscribed') ? (
-                      <ul className="dp-rowflex col-sm-12 dp-subscriber-info">
-                        <li className="col-sm-12 col-md-4 col-lg-3">
-                          <span className="dp-block-info">
-                            <FormattedMessage id="subscriber_history.unsubscribed_date" />
-                          </span>
-                          <span>
-                            <FormattedDate value={state.subscriber.unsubscribedDate} />
-                          </span>
-                        </li>
-                        {/* TODO: add logic of, Date, IP and Origin campaign.
-                    <li class="col-sm-12 col-md-4 col-lg-3">
-                      <span class="dp-block-info">IP origen de Remoción:</span><span>200.5.229.58</span>
-                    </li>
-                    <li class="col-sm-12 col-md-4 col-lg-5">
-                      <span class="dp-block-info">Campaña origen de Remoción:</span><a href="#">Campaña Estacional de Primavera</a>
-                    </li>
-                    */}
-                      </ul>
-                    ) : null}
-                  </div>
-                  {/* TODO: add kpi logic
-            <div class="dp-rowflex col-lg-6 col-md-12">
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <div class="dp-rate-wrapper">
-                    <div class="dp-rate-chart">
-                      <svg viewBox="0 0 36 36" class="dp-circular-chart dp-stroke-violet">
-                        <path class="dp-circle-bg" d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                        <path class="dp-circle" stroke-dasharray="57, 100" d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                        <text x="18" y="15" class="dp-text-percentage fadeInDown">
-                          open rate
-                        </text>
-                        <text x="17" y="23" class="dp-percentage fadeInUp">
-                          57%
-                        </text>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <ul class="dp-kpi-campaign">
-                    <li>
-                      <span class="dp-number-campaign dp-color-green">85.0</span>
-                    </li>
-                    <li><span class="dp-kpi-legend">93 Entregados</span></li>
-                  </ul>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <ul class="dp-kpi-campaign">
-                    <li>
-                      <span class="dp-number-campaign dp-color-red">15.0</span>
-                    </li>
-                    <li><span class="dp-kpi-legend">12 No Entregados</span></li>
-                  </ul>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-3 m-b-24">
-                  <ul class="dp-kpi-campaign">
-                    <li>
-                      <span class="dp-number-campaign dp-kpi-grey">37.0</span>
-                    </li>
-                    <li><span class="dp-kpi-legend">Clicks totales</span></li>
-                  </ul>
-                </div>
-            </div>
-            */}
-                </header>
-              )}
-              <div>
-                <div className="dp-table-responsive">
-                  {state.loading ? (
-                    <Loading />
-                  ) : (
-                    <table
-                      className="dp-c-table"
-                      aria-label={_('subscriber_history.table_result.aria_label_table')}
-                      summary={_('subscriber_history.table_result.aria_label_table')}
-                    >
-                      <thead>
-                        <tr>
-                          <th scope="col">
-                            <FormattedMessage id="master_subscriber_sent_campaigns.grid_campaign" />
-                          </th>
-                          <th scope="col">
-                            <FormattedMessage id="master_subscriber_sent_campaigns.grid_subject" />
-                          </th>
-                          <th scope="col">
-                            <FormattedMessage id="master_subscriber_sent_campaigns.grid_delivery" />
-                          </th>
-                          <th scope="col">
-                            <FormattedMessage id="master_subscriber_sent_campaigns.grid_clicks" />
-                          </th>
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr>
-                          <td colSpan="4" style={{ textAlign: 'right' }}>
-                            <Pagination
-                              currentPage={state.currentPage}
-                              pagesCount={state.pagesCount}
-                              urlToGo={`/reports/subscriber-history?email=${state.subscriber.email}&`}
-                            />
-                          </td>
-                        </tr>
-                      </tfoot>
-                      <tbody>
-                        {state.sentCampaigns.length ? (
-                          <>
-                            {state.sentCampaigns.map((campaign, index) => (
-                              <tr key={index}>
-                                <td>
-                                  {campaign.urlImgPreview ? (
-                                    <div className="dp-tooltip-container">
-                                      <a
-                                        href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
-                                      >
-                                        {campaign.campaignName}
-                                        <div className="dp-tooltip-block">
-                                          <img
-                                            src={campaign.urlImgPreview}
-                                            alt={_('subscriber_history.alt_image')}
-                                          />
-                                        </div>
-                                      </a>
-                                    </div>
-                                  ) : (
-                                    <a
-                                      href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
-                                    >
-                                      {campaign.campaignName}
-                                    </a>
-                                  )}
-                                </td>
-                                <td>{campaign.campaignSubject}</td>
-                                <td>
-                                  <span
-                                    className={getDeliveryStatusCssClassName(
-                                      campaign.deliveryStatus,
-                                    )}
-                                  >
-                                    <FormattedMessage
-                                      id={
-                                        'subscriber_history.delivery_status.' +
-                                        campaign.deliveryStatus
-                                      }
-                                    />
-                                  </span>
-                                </td>
-                                <td>{campaign.clicksCount}</td>
-                              </tr>
-                            ))}
-                          </>
-                        ) : (
-                          <tr>
-                            <td>
-                              <span className="bounceIn">
-                                <FormattedMessage id="subscriber_history.empty_data" />
-                              </span>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  )}
-                </div>
+    <SubscriberPage
+      location={location}
+      header={() => (
+        <header className="hero-banner report-filters">
+          <div className="dp-container">
+            <div className="dp-rowflex">
+              <div className="col-sm-12 col-md-12 col-lg-12">
+                <Breadcrumb />
+                <h2>
+                  <FormattedMessage id="subscriber_history.title" />
+                </h2>
+                <p>
+                  <FormattedMessage id="subscriber_history.description" />
+                </p>
               </div>
             </div>
+            <span className="arrow"></span>
           </div>
-        </div>
-      </section>
-    </>
+        </header>
+      )}
+      content={({ subscriber }) => (
+        <SubscriberSentCampaigns subscriber={subscriber} location={location} />
+      )}
+    />
   );
 };
 
