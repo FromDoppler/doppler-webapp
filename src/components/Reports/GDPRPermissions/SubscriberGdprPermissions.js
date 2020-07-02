@@ -21,6 +21,7 @@ const SubscriberGdprPermissions = ({
     }
     const fetchData = async () => {
       const allFields = await dopplerApiClient.getUserFields();
+
       if (allFields.success) {
         const allPermissionFields = allFields.value.filter(
           (customField) => customField.type === 'permission' || customField.type === 'consent',
@@ -52,7 +53,7 @@ const SubscriberGdprPermissions = ({
     <div>
       <div className="dp-table-responsive">
         {state.loading ? (
-          <Loading />
+          <Loading page />
         ) : (
           <table
             className="dp-c-table"

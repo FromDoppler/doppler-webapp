@@ -15,8 +15,7 @@ import { availableLanguageOrNull } from './i18n/utils';
 import Shopify from './components/Integrations/Shopify/Shopify';
 import SignupConfirmation from './components/Signup/SignupConfirmation';
 import MasterSubscriber from './components/Reports/MasterSubscriber/MasterSubscriber';
-import SubscriberHistory from './components/Reports/SubscriberHistory/SubscriberHistory';
-import SubscriberGdpr from './components/Reports/GDPR/SubscriberGdpr';
+import Subscribers from './components/Reports/Subscribers/Subscribers';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
@@ -97,8 +96,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
           <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
           <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
-          <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />
-          <PrivateRoute path="/reports/subscriber-gdpr" exact component={SubscriberGdpr} />
+          <PrivateRoute path="/subscribers/:email/:section" component={Subscribers} />
           <PrivateRoute path="/new-features" exact component={NewFeatures} />
           <PrivateRoute path="/push" exact component={PushNotifications} />
           <PrivateRoute
