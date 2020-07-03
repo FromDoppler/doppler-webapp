@@ -2,11 +2,11 @@ import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import SubscriberHistory from './SubscriberHistory';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
+import SubscriberSentCampaigns from './SubscriberSentCampaigns';
 
-describe('SubscriberHistory component', () => {
+describe('SubscriberSentCampaigns component', () => {
   afterEach(cleanup);
 
   const campaignDeliveryCollection = {
@@ -51,9 +51,6 @@ describe('SubscriberHistory component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
     };
 
     // Act
@@ -65,7 +62,7 @@ describe('SubscriberHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <SubscriberHistory />
+            <SubscriberSentCampaigns subscriber={subscriber} />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -73,43 +70,6 @@ describe('SubscriberHistory component', () => {
     // Assert
     await waitFor(() =>
       expect(getByText('¿Como sacarle provecho a la primavera?')).toBeInTheDocument(),
-    );
-  });
-
-  it('redirect to master subscriber', async () => {
-    // Arrange
-    const dopplerApiClientDouble = {
-      getSubscriberSentCampaigns: async () => {
-        return { success: false };
-      },
-      getSubscriber: async () => {
-        return { success: false };
-      },
-    };
-    const dependencies = {
-      window: { location: { href: '' } },
-      appConfiguration: {
-        dopplerLegacyUrl: 'http://localhost:52191',
-      },
-      dopplerApiClient: dopplerApiClientDouble,
-    };
-    const toUrl = '/Lists/MasterSubscriber/';
-
-    // Act
-    render(
-      <AppServicesProvider forcedServices={dependencies}>
-        <IntlProvider>
-          <BrowserRouter>
-            <SubscriberHistory />
-          </BrowserRouter>
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
-    // Assert
-    await waitFor(() =>
-      expect(dependencies.window.location.href).toBe(
-        dependencies.appConfiguration.dopplerLegacyUrl + toUrl,
-      ),
     );
   });
 
@@ -125,9 +85,6 @@ describe('SubscriberHistory component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
     };
 
     // Act
@@ -139,73 +96,13 @@ describe('SubscriberHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <SubscriberHistory />
+            <SubscriberSentCampaigns subscriber={subscriber} />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
     // Assert
     await waitFor(() => expect(getByText('subscriber_history.empty_data')).toBeInTheDocument());
-  });
-
-  it('should show subscriber firstName', async () => {
-    // Arrange
-    const dopplerApiClientDouble = {
-      getSubscriberSentCampaigns: async () => {
-        return { success: true, value: campaignDeliveryCollection };
-      },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
-    };
-
-    // Act
-    const { getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerApiClient: dopplerApiClientDouble,
-        }}
-      >
-        <IntlProvider>
-          <BrowserRouter>
-            <SubscriberHistory />
-          </BrowserRouter>
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
-    // Assert
-    await waitFor(() => expect(getByText('Manuel')).toBeInTheDocument());
-  });
-
-  it('should show stand by status', async () => {
-    // Arrange
-    const subscriberStandBy = subscriber;
-    subscriberStandBy.status = 'standBy';
-    const dopplerApiClientDouble = {
-      getSubscriberSentCampaigns: async () => {
-        return { success: true, value: campaignDeliveryCollection };
-      },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
-    };
-
-    // Act
-    const { getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerApiClient: dopplerApiClientDouble,
-        }}
-      >
-        <IntlProvider>
-          <BrowserRouter>
-            <SubscriberHistory />
-          </BrowserRouter>
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
-    // Assert
-    await waitFor(() => expect(getByText('subscriber.status.standBy')).toBeInTheDocument());
   });
 
   it('should show soft and hard bounced delivery status', async () => {
@@ -253,9 +150,6 @@ describe('SubscriberHistory component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
     };
 
     // Act
@@ -267,7 +161,7 @@ describe('SubscriberHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <SubscriberHistory />
+            <SubscriberSentCampaigns subscriber={subscriber} />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -303,9 +197,6 @@ describe('SubscriberHistory component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
     };
 
     // Act
@@ -317,7 +208,7 @@ describe('SubscriberHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <SubscriberHistory />
+            <SubscriberSentCampaigns subscriber={subscriber} />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
@@ -349,9 +240,6 @@ describe('SubscriberHistory component', () => {
       getSubscriberSentCampaigns: async () => {
         return { success: true, value: campaignDeliveryCollection };
       },
-      getSubscriber: async () => {
-        return { success: true, value: subscriber };
-      },
     };
 
     // Act
@@ -363,7 +251,7 @@ describe('SubscriberHistory component', () => {
       >
         <IntlProvider>
           <BrowserRouter>
-            <SubscriberHistory />
+            <SubscriberSentCampaigns subscriber={subscriber} />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>,
