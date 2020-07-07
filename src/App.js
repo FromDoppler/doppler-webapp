@@ -15,12 +15,12 @@ import { availableLanguageOrNull } from './i18n/utils';
 import Shopify from './components/Integrations/Shopify/Shopify';
 import SignupConfirmation from './components/Signup/SignupConfirmation';
 import MasterSubscriber from './components/Reports/MasterSubscriber/MasterSubscriber';
-import SubscriberHistory from './components/Reports/SubscriberHistory/SubscriberHistory';
-import SubscriberGdpr from './components/Reports/GDPR/SubscriberGdpr';
+import Subscribers from './components/Reports/Subscribers/Subscribers';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
 import PushNotifications from './components/PushNotifications/PushNotifications';
+import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 
 /**
  * @param { Object } props - props
@@ -97,8 +97,14 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
           <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
           <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
-          <PrivateRoute path="/reports/subscriber-history" exact component={SubscriberHistory} />
-          <PrivateRoute path="/reports/subscriber-gdpr" exact component={SubscriberGdpr} />
+          <PrivateRoute path="/subscribers/:email/:section" exact component={Subscribers} />
+          {/* TODO: delete this when urls change in MasterSubscribers */}
+          {/* This is to keep backward compatibility with /reports/subscriber-history and /reports/subscriber-history */}
+          <PrivateRoute
+            path="/reports/:subscriber-:section"
+            exact
+            component={SubscribersLegacyUrlRedirect}
+          />
           <PrivateRoute path="/new-features" exact component={NewFeatures} />
           <PrivateRoute path="/push" exact component={PushNotifications} />
           <PrivateRoute
