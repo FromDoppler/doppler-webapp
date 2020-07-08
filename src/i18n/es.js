@@ -132,7 +132,7 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   master_subscriber_sent_campaigns: {
     grid_campaign: `Campaña`,
-    grid_clicks: `Clicks Unicos`,
+    grid_clicks: `Clicks Únicos`,
     grid_delivery: `Comportamiento`,
     grid_subject: `Asunto`,
   },
@@ -312,23 +312,19 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     },
   },
   subscriber_gdpr: {
+    description: 'Aquí encontrarás todos los consentimientos dados por tu Suscriptor.',
     empty_data: 'Este Suscriptor no ha aceptado ni rechazado ningun permiso.',
     empty_html_text: 'Sin texto legal definido',
-    gpdr_state_breadcrumb: 'Estado RGPD del Suscriptor',
-    header_description: 'Aquí encontrarás todos los consentimientos dados por tu Suscriptor.',
-    header_title: 'Estado RGPD del Suscriptor',
-    page_description: 'Estado de permisos RGPD del Suscriptor',
-    page_title: 'Estado RGPD del Suscriptor',
     permission_description: 'Texto personalizado',
     permission_name: 'Nombre del campo',
     permission_value: 'Valor',
+    title: 'Estado RGPD del Suscriptor',
     value_false: 'Rechazado',
     value_none: 'Sin respuesta',
     value_true: 'Aceptado',
   },
   subscriber_history: {
     alt_image: 'Preview de la Campaña',
-    behaviour_history_breadcrumb: 'Comportamiento histórico del suscriptor',
     delivery_status: {
       hardBounced: 'Rebotado Hard',
       notOpened: 'No Abierto',
@@ -342,7 +338,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     table_result: {
       aria_label_table: `Resultado de Historial de Campañas`,
     },
-    title: 'Comportamiento histórico del suscriptor',
+    title: 'Comportamiento histórico del Suscriptor',
     unsubscribed_date: 'Fecha de Remoción:',
   },
   trafficSources: {
