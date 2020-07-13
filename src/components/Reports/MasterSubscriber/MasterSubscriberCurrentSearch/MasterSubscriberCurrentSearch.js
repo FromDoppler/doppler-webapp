@@ -74,9 +74,7 @@ const MasterSubscriberCurrentSearch = ({ searchText, dependencies: { dopplerApiC
               {state.subscribers.map((subscriber, index) => (
                 <tr key={index}>
                   <td>
-                    <Link to={`/reports/subscriber-history?email=${subscriber.email}`}>
-                      {subscriber.email}
-                    </Link>
+                    <Link to={`/subscribers/${subscriber.email}/history`}>{subscriber.email}</Link>
                   </td>
                   <td>{subscriber.firstName ? subscriber.firstName.value : ''}</td>
                   <td>{subscriber.lastName ? subscriber.lastName.value : ''}</td>

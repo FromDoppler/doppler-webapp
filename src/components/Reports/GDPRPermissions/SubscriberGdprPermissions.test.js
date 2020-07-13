@@ -2,10 +2,10 @@ import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import SubscriberGdpr from './SubscriberGdpr';
 import { AppServicesProvider } from '../../../services/pure-di';
+import SubscriberGdprPermissions from './SubscriberGdprPermissions';
 
-describe('SubscriberGdpr report component', () => {
+describe('SubscriberGdprPermissions report component', () => {
   const subscriber = {
     email: 'test@test.com',
     fields: [
@@ -66,18 +66,12 @@ describe('SubscriberGdpr report component', () => {
   ];
 
   const dopplerApiClientDouble = {
-    getSubscriber: async () => {
-      return { success: true, value: subscriber };
-    },
     getUserFields: async () => {
       return { success: true, value: subscriber.fields };
     },
   };
 
   const dopplerApiClientDoubleWithPermissions = {
-    getSubscriber: async () => {
-      return { success: true, value: subscriberPermission };
-    },
     getUserFields: async () => {
       return { success: true, value: fields };
     },
@@ -95,69 +89,12 @@ describe('SubscriberGdpr report component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberGdpr />
+          <SubscriberGdprPermissions subscriber={subscriber} />
         </IntlProvider>
       </AppServicesProvider>,
     );
     await waitFor(() => {});
     // Assert
-  });
-
-  it('renders subscriber gdpr intenationalized title', async () => {
-    // Arrange
-    // Act
-    const { getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerApiClient: dopplerApiClientDouble,
-        }}
-      >
-        <IntlProvider>
-          <SubscriberGdpr />
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
-    // Assert
-    await waitFor(() => expect(getByText('subscriber_gdpr.header_title')).toBeInTheDocument());
-  });
-
-  it('component should have a page title defined', async () => {
-    // Arrange
-    // Act
-    render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerApiClient: dopplerApiClientDouble,
-        }}
-      >
-        <IntlProvider>
-          <SubscriberGdpr />
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
-
-    //Assert
-    await waitFor(() => expect(document.title).toEqual('subscriber_gdpr.page_title'));
-  });
-
-  it('should show subscriber email', async () => {
-    // Arrange
-
-    // Act
-    const { getByText } = render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerApiClient: dopplerApiClientDouble,
-        }}
-      >
-        <IntlProvider>
-          <SubscriberGdpr />
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
-
-    // Assert
-    await waitFor(() => expect(getByText(subscriber.email)).toBeInTheDocument());
   });
 
   it('should show field name when there is at least one permission field', async () => {
@@ -171,7 +108,7 @@ describe('SubscriberGdpr report component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberGdpr />
+          <SubscriberGdprPermissions subscriber={subscriber} />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -191,7 +128,7 @@ describe('SubscriberGdpr report component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberGdpr />
+          <SubscriberGdprPermissions subscriber={subscriber} />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -211,7 +148,7 @@ describe('SubscriberGdpr report component', () => {
         }}
       >
         <IntlProvider>
-          <SubscriberGdpr />
+          <SubscriberGdprPermissions subscriber={subscriber} />
         </IntlProvider>
       </AppServicesProvider>,
     );

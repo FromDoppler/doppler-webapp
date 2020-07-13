@@ -5,6 +5,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter } from '../../../utils';
 import { Pagination } from '../../shared/Pagination/Pagination';
+import SafeRedirect from '../../SafeRedirect';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 
 const campaignsPerPage = 10;
 
@@ -30,7 +32,6 @@ const getDeliveryStatusCssClassName = (deliveryStatus) => {
 };
 
 const SubscriberSentCampaigns = ({
-  location,
   subscriber,
   dependencies: {
     dopplerApiClient,
@@ -40,6 +41,8 @@ const SubscriberSentCampaigns = ({
   const [stateSentCampaigns, setStateSentCampaigns] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const location = useLocation();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     setStateSentCampaigns({ loading: true });
@@ -69,11 +72,15 @@ const SubscriberSentCampaigns = ({
     fetchData();
   }, [dopplerApiClient, location, subscriber]);
 
+  if (stateSentCampaigns.redirect) {
+    return <SafeRedirect to="/Lists/MasterSubscriber/" />;
+  }
+
   return (
     <div>
       <div className="dp-table-responsive">
         {stateSentCampaigns.loading ? (
-          <Loading />
+          <Loading page />
         ) : (
           <table
             className="dp-c-table"
@@ -102,7 +109,7 @@ const SubscriberSentCampaigns = ({
                   <Pagination
                     currentPage={stateSentCampaigns.currentPage}
                     pagesCount={stateSentCampaigns.pagesCount}
-                    urlToGo={`/reports/subscriber-history?email=${stateSentCampaigns.email}&`}
+                    urlToGo={`${url}?`}
                   />
                 </td>
               </tr>
