@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { useParams } from 'react-router-dom';
+import { useRouteMatch, generatePath } from 'react-router-dom';
 import { Loading } from '../../Loading/Loading';
 import SafeRedirect from '../../SafeRedirect';
 import SubscriberGdprPermissions from '../GDPRPermissions/SubscriberGdprPermissions';
@@ -11,7 +11,8 @@ import SubscriberInfo from '../../shared/SubscriberInfo/SubscriberInfo';
 import { Tabs } from '../../shared/Tabs/Tabs';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
-  const { email, section } = useParams();
+  const { path, params } = useRouteMatch();
+  const { email, section } = params;
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -32,7 +33,7 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
   for (const sectionKey in sections) {
     const sectionValue = sections[sectionKey];
     tabsProperties.push({
-      url: `/subscribers/${email}/${sectionKey}`,
+      url: generatePath(path, { ...params, section: sectionKey }),
       active: sectionKey === section,
       label: sectionValue.title,
       key: sectionKey,
