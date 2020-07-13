@@ -23,21 +23,19 @@ cd $(dirname $0)
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
-echo Publishing to Docker and Akamai...
+echo Publishing to Docker
 echo pkgName: $pkgName
 echo cdnBaseUrl: $cdnBaseUrl
 echo pkgVersion: $pkgVersion
 echo pkgBuild: $pkgBuild
 echo pkgCommitId: $pkgCommitId
 
-# Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
-docker pull dopplerrelay/doppler-relay-akamai-publish || echo WARNING: Cannot pull `doppler-relay-akamai-publish` image from dockerhub
 
 for environment in ${environments}; do
     echo Publishing ${environment}...
 
     if test "$environment" = "production";
-    then  
+    then
         env_version=$pkgVersion;
     else
         env_version=$environment-$pkgVersion;
@@ -48,10 +46,6 @@ for environment in ${environments}; do
     docker build --pull \
         --build-arg environment=$environment \
         --build-arg env_version=$env_version \
-        --build-arg cdn_hostname=$AKAMAI_CDN_HOSTNAME \
-        --build-arg cdn_username=$AKAMAI_CDN_USERNAME \
-        --build-arg cdn_password=$AKAMAI_CDN_PASSWORD \
-        --build-arg cdn_cpcode=$AKAMAI_CDN_CPCODE \
         --build-arg CDN_SFTP_PORT=$CDN_SFTP_PORT \
         --build-arg CDN_SFTP_USERNAME=$CDN_SFTP_USERNAME \
         --build-arg CDN_SFTP_HOSTNAME=$CDN_SFTP_HOSTNAME \

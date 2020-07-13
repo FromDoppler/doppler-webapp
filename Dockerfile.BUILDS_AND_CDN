@@ -19,20 +19,6 @@ ENV REACT_APP_ROUTER=hash
 ENV PUBLIC_URL="."
 RUN yarn build:$environment
 
-## Publish to CDN layer
-FROM dopplerrelay/doppler-relay-akamai-publish
-COPY --from=build /app/build /source
-ARG env_version
-ARG cdn_hostname
-ARG cdn_username
-ARG cdn_password
-ARG cdn_cpcode
-RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
-  AKAMAI_CDN_USERNAME=$cdn_username \
-  AKAMAI_CDN_PASSWORD=$cdn_password \
-  AKAMAI_CDN_CPCODE=$cdn_cpcode \
-  node cdn-uploader.js /source doppler-webapp ${env_version}
-
 ## Publish into new CDN using SFTP
 ## Using a third party image here, with specific digest (f7f7607...) to avoid unwanted changes
 FROM ttionya/openssh-client@sha256:f7f7607d56f09a7c42e246e9c256ff51cf2f0802e3b2d88da6537bea516fe142
