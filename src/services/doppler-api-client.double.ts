@@ -241,12 +241,12 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
 
     return {
       success: true,
-      value: subscriber,
+      value: { ...subscriber, email: email },
     };
 
     // return {
     //   success: true,
-    //   value: subscriberWithNoGDPR,
+    //   value: { ...subscriberWithNoGDPR, email: email, },
     // };
 
     // return {
