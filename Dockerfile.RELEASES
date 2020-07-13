@@ -25,27 +25,6 @@ ENV PUBLIC_URL="."
 ARG environment
 RUN yarn build:$environment
 
-## Publish to CDN layer
-FROM dopplerrelay/doppler-relay-akamai-publish
-COPY --from=build_cdn /app/build /source
-ARG cdnBaseUrl
-ARG environment
-ARG pkgVersion
-ARG versionFull
-ARG pkgBuild
-ARG pkgCommitId
-# Create version.txt file (WARNING: duplicated code for optimizing build)
-RUN printf "$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId" > /source/version.txt
-ARG cdn_hostname
-ARG cdn_username
-ARG cdn_password
-ARG cdn_cpcode
-RUN AKAMAI_CDN_HOSTNAME=$cdn_hostname \
-  AKAMAI_CDN_USERNAME=$cdn_username \
-  AKAMAI_CDN_PASSWORD=$cdn_password \
-  AKAMAI_CDN_CPCODE=$cdn_cpcode \
-  node cdn-uploader.js /source doppler-webapp ${environment}-${pkgVersion}
-
 ## Publish into new CDN using SFTP
 ## Using a third party image here, with specific digest (f7f7607...) to avoid unwanted changes
 FROM ttionya/openssh-client@sha256:f7f7607d56f09a7c42e246e9c256ff51cf2f0802e3b2d88da6537bea516fe142

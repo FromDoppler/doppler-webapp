@@ -39,7 +39,7 @@ export MSYS2_ARG_CONV_EXCL="*"
 # or even minor version, so fixes will always be applied
 pkgVersion=$versionPatch
 
-echo Publishing to Docker and Akamai...
+echo Publishing to Docker
 echo pkgName: $pkgName
 echo cdnBaseUrl: $cdnBaseUrl
 echo versionPatch: $versionPatch
@@ -47,9 +47,6 @@ echo versionFull: $versionFull
 echo pkgVersion: $pkgVersion
 echo pkgBuild: $pkgBuild
 echo pkgCommitId: $pkgCommitId
-
-# Force pull the latest image version due to the cache not always is pruned immediately after an update is uploaded to docker hub
-docker pull dopplerrelay/doppler-relay-akamai-publish
 
 # TODO: Remove these steps in favor of publishing to `fromdoppler` organization.
 for environment in ${environments}; do
@@ -67,10 +64,6 @@ for environment in ${environments}; do
         --build-arg versionFull=$versionFull \
         --build-arg pkgBuild=$pkgBuild \
         --build-arg pkgCommitId=$pkgCommitId \
-        --build-arg cdn_hostname=$AKAMAI_CDN_HOSTNAME \
-        --build-arg cdn_username=$AKAMAI_CDN_USERNAME \
-        --build-arg cdn_password=$AKAMAI_CDN_PASSWORD \
-        --build-arg cdn_cpcode=$AKAMAI_CDN_CPCODE \
         --build-arg CDN_SFTP_PORT=$CDN_SFTP_PORT \
         --build-arg CDN_SFTP_USERNAME=$CDN_SFTP_USERNAME \
         --build-arg CDN_SFTP_HOSTNAME=$CDN_SFTP_HOSTNAME \
