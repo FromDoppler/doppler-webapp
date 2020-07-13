@@ -209,11 +209,11 @@ describe('Subscribers component', () => {
     };
 
     // Act
-    const { getByText } = render(
+    const { getAllByText } = render(
       <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/gdpr" />,
     );
     // Assert
-    await waitFor(() => expect(getByText('subscriber_gdpr.header_title')).toBeInTheDocument());
+    await waitFor(() => expect(getAllByText('subscriber_gdpr.title')[0]).toBeInTheDocument());
   });
 
   it('component should have a page title defined', async () => {
@@ -240,7 +240,7 @@ describe('Subscribers component', () => {
     );
 
     //Assert
-    await waitFor(() => expect(document.title).toEqual('subscriber_gdpr.page_title'));
+    await waitFor(() => expect(document.title).toEqual('subscriber_gdpr.title'));
   });
 
   it('should show subscriber email', async () => {

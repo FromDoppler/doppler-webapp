@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { useParams } from 'react-router-dom';
+import { useRouteMatch, generatePath } from 'react-router-dom';
 import { Loading } from '../../Loading/Loading';
 import SafeRedirect from '../../SafeRedirect';
 import SubscriberGdprPermissions from '../GDPRPermissions/SubscriberGdprPermissions';
@@ -8,31 +8,37 @@ import SubscriberSentCampaigns from '../SubscriberSentCampaigns/SubscriberSentCa
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import SubscriberInfo from '../../shared/SubscriberInfo/SubscriberInfo';
-
-const sections = {
-  history: {
-    Component: SubscriberSentCampaigns,
-    titleKey: 'subscriber_history.title',
-    descriptionKey: 'subscriber_history.description',
-    pageTitleKey: 'subscriber_history.title',
-    pageDescriptionKey: 'subscriber_history.description',
-    breadcrumbDescriptionText: 'subscriber_history.behaviour_history_breadcrumb',
-  },
-  gdpr: {
-    Component: SubscriberGdprPermissions,
-    titleKey: 'subscriber_gdpr.header_title',
-    descriptionKey: 'subscriber_gdpr.header_description',
-    pageTitleKey: 'subscriber_gdpr.page_title',
-    pageDescriptionKey: 'subscriber_gdpr.page_description',
-    breadcrumbDescriptionText: 'subscriber_gdpr.gpdr_state_breadcrumb',
-  },
-};
+import { Tabs } from '../../shared/Tabs/Tabs';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
-  const { email, section } = useParams();
+  const { path, params } = useRouteMatch();
+  const { email, section } = params;
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const sections = {
+    history: {
+      Component: SubscriberSentCampaigns,
+      title: _('subscriber_history.title'),
+      description: _('subscriber_history.description'),
+    },
+    gdpr: {
+      Component: SubscriberGdprPermissions,
+      title: _('subscriber_gdpr.title'),
+      description: _('subscriber_gdpr.description'),
+    },
+  };
+
+  const tabsProperties = [];
+  for (const sectionKey in sections) {
+    const sectionValue = sections[sectionKey];
+    tabsProperties.push({
+      url: generatePath(path, { ...params, section: sectionKey }),
+      active: sectionKey === section,
+      label: sectionValue.title,
+      key: sectionKey,
+    });
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,20 +72,13 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
     return <Loading page />;
   }
 
-  const {
-    Component,
-    titleKey,
-    descriptionKey,
-    pageTitleKey,
-    pageDescriptionKey,
-    breadcrumbDescriptionText,
-  } = sections[section];
+  const { Component, ...currentSection } = sections[section];
 
   return (
     <>
       <Helmet>
-        <title>{_(pageTitleKey)}</title>
-        <meta name="description" content={_(pageDescriptionKey)} />
+        <title>{currentSection.title}</title>
+        <meta name="description" content={currentSection.description} />
       </Helmet>
 
       <header className="hero-banner report-filters">
@@ -94,11 +93,11 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
                       {_('subscriber_history.subscriber_breadcrumb')}
                     </a>
                   </li>
-                  <li>{_(breadcrumbDescriptionText)}</li>
+                  <li>{currentSection.title}</li>
                 </ul>
               </nav>
-              <h2>{_(titleKey)}</h2>
-              <p> {_(descriptionKey)} </p>
+              <h2>{currentSection.title}</h2>
+              <p>{currentSection.description}</p>
             </div>
           </div>
           <span className="arrow"></span>
@@ -108,6 +107,7 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
       <section className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12 m-b-36">
+            <Tabs tabsProperties={tabsProperties} />
             <div className="dp-block-wlp dp-box-shadow">
               <SubscriberInfo subscriber={state.subscriber} />
               <Component subscriber={state.subscriber} />
