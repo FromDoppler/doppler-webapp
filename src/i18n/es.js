@@ -17,6 +17,7 @@ const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_m
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
+const mailtoSupportBlockedAccount = `mailto:soporte@fromdoppler.com?subject=Cuenta%20suspendida%20por%20falta%20de%20pago.`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -93,7 +94,10 @@ Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
-    error_payment_MD: `La cuenta está bloqueda, por favor [contáctate con Soporte](${mailtoSupport}).`,
+    error_payment_MD: `
+¡Ouch! Esta cuenta ha sido suspendida por falta de pago.
+
+Por favor [contacta al equipo de Atención al Cliente](${mailtoSupportBlockedAccount}) para solucionarlo.`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,

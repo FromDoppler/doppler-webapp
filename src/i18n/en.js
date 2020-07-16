@@ -17,6 +17,7 @@ const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_m
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 const mailtoSupport = `mailto:support@fromdoppler.com`;
+const mailtoSupportBlockedAccount = `mailto:soporte@fromdoppler.com?subject=Cuenta%20suspendida%20por%20falta%20de%20pago.`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -94,7 +95,10 @@ You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment_MD: `Account blocked, please [contact Support](${mailtoSupport}).`,
+    error_payment_MD: `
+Ouch! This account has been suspended for non-payment.
+
+Please [contact the Customer Support team](${mailtoSupportBlockedAccount}) for help.`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
