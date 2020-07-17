@@ -95,10 +95,14 @@ You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment_MD: `
+    error_payment_MD_offline: `
 Ouch! This account has been suspended for non-payment.
 
 Please [contact the Customer Support team](${mailtoSupportBlockedAccount}) for help.`,
+    error_payment_online_link: `Chat with the Customer Support team`,
+    error_payment_online_part1: `Ouch! This account has been suspended for non-payment. `,
+    error_payment_online_part2: ` for help.`,
+    error_payment_online_zoho_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
