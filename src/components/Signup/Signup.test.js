@@ -75,11 +75,11 @@ describe('Signup', () => {
 
     // Assert
     await waitFor(() => {
-      setTimeout(() => {
-        expect(container.querySelector('#iti-0__item-dz').nextElementSibling.id).toBe(
-          'iti-0__item-ar',
-        );
-      }, 1000);
+      expect(
+        container
+          .querySelector('[data-country-code="dz"]')
+          .nextElementSibling.getAttribute('data-country-code'),
+      ).toBe('ar');
     });
   });
 
@@ -101,11 +101,11 @@ describe('Signup', () => {
 
     // Assert
     await waitFor(() => {
-      setTimeout(() => {
-        expect(container.querySelector('#iti-0__item-io').nextElementSibling.id).toBe(
-          'iti-0__item-ps',
-        );
-      }, 1000);
+      expect(
+        container
+          .querySelector('[data-country-code="io"]')
+          .nextElementSibling.getAttribute('data-country-code'),
+      ).toBe('ps');
     });
   });
 
@@ -127,11 +127,11 @@ describe('Signup', () => {
 
     // Assert
     await waitFor(() => {
-      setTimeout(() => {
-        expect(container.querySelector('#iti-1__item-dz').nextElementSibling.id).toBe(
-          'iti-1__item-as',
-        );
-      }, 1000);
+      expect(
+        container
+          .querySelector('[data-country-code="dz"]')
+          .nextElementSibling.getAttribute('data-country-code'),
+      ).toBe('as');
     });
   });
 
@@ -153,11 +153,11 @@ describe('Signup', () => {
 
     // Assert
     await waitFor(() => {
-      setTimeout(() => {
-        expect(container.querySelector('#iti-1__item-io').nextElementSibling.id).toBe(
-          'iti-1__item-bn',
-        );
-      }, 1000);
+      expect(
+        container
+          .querySelector('[data-country-code="io"]')
+          .nextElementSibling.getAttribute('data-country-code'),
+      ).toBe('bn');
     });
   });
 
