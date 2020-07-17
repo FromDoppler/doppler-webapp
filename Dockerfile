@@ -1,7 +1,7 @@
 # IMPORTANT: #
 # Any change to this file should be also applied to Dockerfile.INT and Dockerfile.QA
 # When update node ---> remember to update all .sh files
-FROM node:14.5.0 As build
+FROM node:14.4.0 As build
 WORKDIR /app
 COPY package.json yarn.lock ./
 
@@ -18,7 +18,7 @@ RUN yarn verify
 RUN yarn build
 
 # Host project in nginx
-FROM nginx:1.19.1-alpine
+FROM nginx:1.19.0-alpine
 WORKDIR /app
 COPY --from=build /app/build /usr/share/nginx/html
 

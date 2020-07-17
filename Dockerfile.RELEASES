@@ -1,6 +1,6 @@
 ## Build layer
 # When update node ---> remember to update all .sh files
-FROM node:14.5.0 as verify
+FROM node:14.4.0 as verify
 WORKDIR /app
 COPY package.json yarn.lock ./
 
@@ -47,7 +47,7 @@ RUN echo "Files published on http://cdn.fromdoppler.com/doppler-webapp/${environ
 
 
 # Runtime layer (Host project in nginx)
-FROM nginx:1.19.1-alpine
+FROM nginx:1.19.0-alpine
 WORKDIR /app
 ARG environment
 COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
