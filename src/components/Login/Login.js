@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
   EmailFieldItem,
@@ -19,7 +19,12 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
-import { addLogEntry, extractParameter } from '../../utils';
+import {
+  addLogEntry,
+  extractParameter,
+  isZohoChatOnline,
+  openZohoChatWithMessage,
+} from '../../utils';
 
 const fieldNames = {
   user: 'user',
@@ -68,11 +73,33 @@ const isActivactionInProgress = (location) => {
   return parsedQuery && parsedQuery === 'true';
 };
 
-const LoginErrorBlockedAccountNotPayed = () => (
-  <p>
-    <FormattedMessageMarkdown id="login.error_payment_MD" />
-  </p>
-);
+const LoginErrorBlockedAccountNotPayed = () => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  return (
+    <p>
+      {isZohoChatOnline() ? (
+        <>
+          <FormattedMessage
+            id={'login.error_payment_online'}
+            values={{
+              button: (chunk) => (
+                <button
+                  type="button"
+                  onClick={() => openZohoChatWithMessage(_('login.error_payment_online_zoho_msg'))}
+                >
+                  {chunk}
+                </button>
+              ),
+            }}
+          />
+        </>
+      ) : (
+        <FormattedMessageMarkdown id={'login.error_payment_MD_offline'} />
+      )}
+    </p>
+  );
+};
 
 /**
  * Login Page

@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 declare global {
   interface Window {
     _LTracker: any;
+    $zoho: any;
   }
 }
 
@@ -203,4 +204,16 @@ const urlsWebApp: any = [
 
 export function getCurrentPageForUrl(currentUrl: string): any {
   return urlsWebApp.find((item: any) => item.url === currentUrl);
+}
+
+export function isZohoChatOnline() {
+  const currentDate = new Date();
+  // TODO: allow to configure the schedule in a settings file.
+  // (UTC-03:00) City of Buenos Aires from 8:00 to 20:00
+  return currentDate.getUTCHours() >= 11 && currentDate.getUTCHours() < 23;
+}
+
+export function openZohoChatWithMessage(message: string) {
+  window.$zoho.salesiq.chat.start();
+  window.$zoho.salesiq.visitor.question(message);
 }
