@@ -2671,10 +2671,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-google-recaptcha@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-1.1.2.tgz#64f528f7f08512346ebe899879b4eb9ee3d6a007"
-  integrity sha512-uCnax7C5OahUzP24FJ+foMErKHc2yjkcbYQDf3Chu2jHiMgNJhZylBeyKWrT0geuC6c985ip6jw8q5SdXUzYyQ==
+"@types/react-google-recaptcha@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-2.1.0.tgz#49f544cdbaea1f27227297a8466b6f2d96a165fd"
+  integrity sha512-gOwTA3YYTr4gOvnbJf3ikYvVpvn/5oalxTGXk2ASo9wCspeoe86i2+cifBnxFsKw0QbBt0djj/C69vctmQUIIg==
   dependencies:
     "@types/react" "*"
 
