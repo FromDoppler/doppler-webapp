@@ -98,9 +98,10 @@ Encontrarás un Email con los pasos a seguir.`,
 ¡Ouch! Esta cuenta ha sido suspendida por falta de pago.
 
 Por favor [contacta al equipo de Atención al Cliente](${mailtoSupportBlockedAccount}) para solucionarlo.`,
-    error_payment_online_link: `chatear con el equipo de Atención al Cliente`,
-    error_payment_online_part1: `¡Ouch! Esta cuenta ha sido suspendida por falta de pago. Puedes `,
-    error_payment_online_part2: ` para solucionarlo.`,
+    error_payment_online: `
+¡Ouch! Esta cuenta ha sido suspendida por falta de pago.
+
+Puedes <button>chatear con el equipo de Atención al Cliente</button> para solucionarlo.`,
     error_payment_online_zoho_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,

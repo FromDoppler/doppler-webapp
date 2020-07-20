@@ -80,14 +80,19 @@ const LoginErrorBlockedAccountNotPayed = () => {
     <p>
       {isZohoChatOnline() ? (
         <>
-          <FormattedMessage id={'login.error_payment_online_part1'} />
-          <button
-            type="button"
-            onClick={() => openZohoChatWithMessage(_('login.error_payment_online_zoho_msg'))}
-          >
-            <FormattedMessage id="login.error_payment_online_link" />
-          </button>
-          <FormattedMessage id={'login.error_payment_online_part2'} />
+          <FormattedMessage
+            id={'login.error_payment_online'}
+            values={{
+              button: (chunk) => (
+                <button
+                  type="button"
+                  onClick={() => openZohoChatWithMessage(_('login.error_payment_online_zoho_msg'))}
+                >
+                  {chunk}
+                </button>
+              ),
+            }}
+          />
         </>
       ) : (
         <FormattedMessageMarkdown id={'login.error_payment_MD_offline'} />

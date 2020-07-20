@@ -99,9 +99,10 @@ You'll find an Email with steps to follow.`,
 Ouch! This account has been suspended for non-payment.
 
 Please [contact the Customer Support team](${mailtoSupportBlockedAccount}) for help.`,
-    error_payment_online_link: `Chat with the Customer Support team`,
-    error_payment_online_part1: `Ouch! This account has been suspended for non-payment. `,
-    error_payment_online_part2: ` for help.`,
+    error_payment_online: `
+Ouch! This account has been suspended for non-payment.
+
+<button>Chat with the Customer Support team</button> for help.`,
     error_payment_online_zoho_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
