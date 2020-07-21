@@ -390,6 +390,10 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           case 'CancelatedAccount': {
             return { expectedError: { cancelatedAccount: true } };
           }
+          case 'CancelatedAccountNotPayed': {
+            // TODO: manage CancelatedAccountNotPayed error correctly
+            return { expectedError: { cancelatedAccount: true } };
+          }
           case 'BlockedAccountInvalidPassword': {
             return { expectedError: { blockedAccountInvalidPassword: true } };
           }
