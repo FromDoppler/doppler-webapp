@@ -146,6 +146,12 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       msgZohoChat: _('validation_messages.error_account_is_canceled_not_pay_zoho_chat_msg'),
       msgEmailContact: 'validation_messages.error_account_is_canceled_not_pay_contact_support_MD',
     },
+    cancelatedAccount: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_other_reason',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_other_reason_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_canceled_other_reason_contact_support_MD',
+    },
   };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -187,9 +193,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _error: (
-            <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_MD" />
-          ),
+          _error: <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccount} />,
         });
       } else if (
         result.expectedError &&
