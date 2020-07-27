@@ -73,31 +73,29 @@ const isActivactionInProgress = (location) => {
   return parsedQuery && parsedQuery === 'true';
 };
 
-const LoginErrorBlockedAccountNotPayed = () => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
   return (
-    <p>
+    <>
+      <p>
+        <FormattedMessage id={messages.msgReasonId} />
+      </p>
       {isZohoChatOnline() ? (
-        <>
+        <p>
           <FormattedMessage
-            id={'login.error_payment_online'}
+            id={'validation_messages.error_account_contact_zoho_chat'}
             values={{
               button: (chunk) => (
-                <button
-                  type="button"
-                  onClick={() => openZohoChatWithMessage(_('login.error_payment_online_zoho_msg'))}
-                >
+                <button type="button" onClick={() => openZohoChatWithMessage(messages.msgZohoChat)}>
                   {chunk}
                 </button>
               ),
             }}
           />
-        </>
+        </p>
       ) : (
-        <FormattedMessageMarkdown id={'login.error_payment_MD_offline'} />
+        <FormattedMessageMarkdown id={messages.msgEmailContact} />
       )}
-    </p>
+    </>
   );
 };
 
@@ -137,6 +135,25 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
     }
   }, [location, window]);
 
+  const errorMessages = {
+    blockedAccountNotPayed: {
+      msgReasonId: 'validation_messages.error_account_is_blocked_not_pay',
+      msgZohoChat: _('validation_messages.error_account_is_blocked_not_pay_zoho_chat_msg'),
+      msgEmailContact: 'validation_messages.error_account_is_blocked_not_pay_contact_support_MD',
+    },
+    cancelatedAccountNotPayed: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_not_pay',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_not_pay_zoho_chat_msg'),
+      msgEmailContact: 'validation_messages.error_account_is_canceled_not_pay_contact_support_MD',
+    },
+    cancelatedAccount: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_other_reason',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_other_reason_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_canceled_other_reason_contact_support_MD',
+    },
+  };
+
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
       const result = await dopplerLegacyClient.login({
@@ -153,7 +170,17 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
           setRedirectAfterLogin(true);
         }
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
-        setErrors({ _error: <LoginErrorBlockedAccountNotPayed /> });
+        setErrors({
+          _error: (
+            <LoginErrorBasedOnCustomerSupport messages={errorMessages.blockedAccountNotPayed} />
+          ),
+        });
+      } else if (result.expectedError && result.expectedError.cancelatedAccountNotPayed) {
+        setErrors({
+          _error: (
+            <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccountNotPayed} />
+          ),
+        });
       } else if (result.expectedError && result.expectedError.userInactive) {
         // TODO: define how this error should be shown
         console.log('userInactive error', result);
@@ -166,9 +193,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({
-          _error: (
-            <FormattedMessageMarkdown id="validation_messages.error_account_is_canceled_MD" />
-          ),
+          _error: <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccount} />,
         });
       } else if (
         result.expectedError &&

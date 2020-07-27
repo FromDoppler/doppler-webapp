@@ -17,7 +17,10 @@ const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_m
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
-const mailtoSupportBlockedAccount = `mailto:soporte@fromdoppler.com?subject=Cuenta%20suspendida%20por%20falta%20de%20pago.`;
+const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
+const subjectBlockedAccountNoPay = `?subject=Cuenta%20suspendida%20por%20falta%20de%20pago%20-%20Login`;
+const subjectCanceledAccountNoPay = `?subject=Cuenta%20cancelada%20por%20falta%20de%20pago%20-%20Login`;
+const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -94,15 +97,6 @@ Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
     enter_doppler_sub: `¡Hoy es un buen día para potenciar tu negocio con el poder del Email, Automation & Data Marketing!`,
-    error_payment_MD_offline: `
-¡Ouch! Esta cuenta ha sido suspendida por falta de pago.
-
-Por favor [contacta al equipo de Atención al Cliente](${mailtoSupportBlockedAccount}) para solucionarlo.`,
-    error_payment_online: `
-¡Ouch! Esta cuenta ha sido suspendida por falta de pago.
-
-Puedes <button>chatear con el equipo de Atención al Cliente</button> para solucionarlo.`,
-    error_payment_online_zoho_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
     head_title: `Email Marketing Automation gratis y con envíos ilimitados | Doppler`,
@@ -367,8 +361,17 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     title: `Solicita una actualización de tu Plan`,
   },
   validation_messages: {
+    error_account_contact_zoho_chat: `<button>Chatea con el equipo de Atención al Cliente</button> para solucionarlo.`,
     error_account_is_blocked_invalid_pass_MD: `Por seguridad hemos bloqueado tu cuenta momentáneamente. [Contáctanos](${mailtoSupport}).`,
-    error_account_is_canceled_MD: `Tu cuenta se encuentra cancelada. Para más información [contáctanos](${mailtoSupport}).`,
+    error_account_is_blocked_not_pay: `¡Ouch! Esta cuenta ha sido suspendida por falta de pago.`,
+    error_account_is_blocked_not_pay_contact_support_MD: `Por favor [contacta al equipo de Atención al Cliente](${mailtoAdmin + subjectBlockedAccountNoPay}) para solucionarlo.`,
+    error_account_is_blocked_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
+    error_account_is_canceled_not_pay: `¡Ouch! Esta cuenta ha sido cancelada por falta de pago.`,
+    error_account_is_canceled_not_pay_contact_support_MD: `Por favor [contacta al equipo de Atención al Cliente](${mailtoAdmin + subjectCanceledAccountNoPay}) para solucionarlo.`,
+    error_account_is_canceled_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada por falta de pago?`,
+    error_account_is_canceled_other_reason: `¡Ouch! Esta cuenta ha sido cancelada.`,
+    error_account_is_canceled_other_reason_contact_support_MD: `Por favor [contacta al equipo de Atención al Cliente](${mailtoAdmin + subjectCanceledAccountOtherReason}) para solucionarlo.`,
+    error_account_is_canceled_other_reason_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada?`,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
