@@ -93,7 +93,10 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                     <strong>{state.campaign.subject}</strong>
                   </p>
                 </S.MainReportBox>
-                <S.DetailedInformation>
+              </div>
+
+              <S.DetailedInformation>
+                <div className="col-sm-12 col-md-4 col-lg-4 m-b-12">
                   <div className="dp-box-shadow">
                     <h2>
                       <FormattedMessage
@@ -104,6 +107,8 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       <FormattedMessage id="reports_partials_campaigns.campaign_state" />
                     </p>
                   </div>
+                </div>
+                <div className="col-sm-12 col-md-4 col-lg-4 m-b-12">
                   <div className="dp-box-shadow">
                     <h2>
                       <FormattedNumber value={state.campaignSummaryResults.totalRecipients} />
@@ -112,6 +117,8 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       <FormattedMessage id="reports_partials_campaigns.total_recipients" />{' '}
                     </p>
                   </div>
+                </div>
+                <div className="col-sm-12 col-md-4 col-lg-4 m-b-12">
                   <div className="dp-box-shadow">
                     <h2>
                       <FormattedNumber value={state.campaignSummaryResults.totalShipped} />
@@ -120,8 +127,9 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                       <FormattedMessage id="reports_partials_campaigns.total_sent_so_far" />
                     </p>
                   </div>
-                </S.DetailedInformation>
-              </div>
+                </div>
+              </S.DetailedInformation>
+
               <div className="col-sm-12 m-t-24 m-b-48">
                 <div className="dp-box-shadow">
                   <div className="dp-rowflex">
