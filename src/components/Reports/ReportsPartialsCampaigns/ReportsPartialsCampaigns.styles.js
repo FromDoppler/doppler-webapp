@@ -19,7 +19,7 @@ export const DetailedInformation = styled.div`
   width: 100%;
 
   @media (max-width: 768px) {
-   flex-direction: column;
+    flex-direction: column;
   }
 
   p {
