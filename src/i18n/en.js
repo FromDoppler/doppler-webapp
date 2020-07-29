@@ -21,6 +21,7 @@ const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
 const subjectBlockedAccountNoPay = `?subject=Cuenta%20suspendida%20por%20falta%20de%20pago%20-%20Login`;
 const subjectCanceledAccountNoPay = `?subject=Cuenta%20cancelada%20por%20falta%20de%20pago%20-%20Login`;
 const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Login`;
+const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%20intentos%20fallidos%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -361,7 +362,9 @@ deletion, security, cross-border data transfers and other issues.
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
-    error_account_is_blocked_invalid_pass_MD: `For security reasons we've temporarily disabled your account. [Contact us](${mailtoSupport}).`,
+    error_account_is_blocked_invalid_password: `Ouch! This account has been blocked due to failed access attempts.`,
+    error_account_is_blocked_invalid_password_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountInvalidPassword}) for help.`,
+    error_account_is_blocked_invalid_password_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta bloqueada por intentos fallidos?`,
     error_account_is_blocked_not_pay: `Ouch! This account has been suspended due to non-payment.`,
     error_account_is_blocked_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountNoPay}) for help.`,
     error_account_is_blocked_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
