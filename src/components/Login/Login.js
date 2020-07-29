@@ -152,6 +152,12 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       msgEmailContact:
         'validation_messages.error_account_is_canceled_other_reason_contact_support_MD',
     },
+    blockedAccountInvalidPassword: {
+      msgReasonId: 'validation_messages.error_account_is_blocked_invalid_password',
+      msgZohoChat: _('validation_messages.error_account_is_blocked_invalid_password_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_blocked_invalid_password_contact_support_MD',
+    },
   };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -202,7 +208,9 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
       ) {
         setErrors({
           _error: (
-            <FormattedMessageMarkdown id="validation_messages.error_account_is_blocked_invalid_pass_MD" />
+            <LoginErrorBasedOnCustomerSupport
+              messages={errorMessages.blockedAccountInvalidPassword}
+            />
           ),
         });
       } else if (result.expectedError && result.expectedError.invalidLogin) {
