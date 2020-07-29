@@ -6,6 +6,7 @@ import { extractParameter } from '../../../utils';
 import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import * as S from './ReportsPartialsCampaigns.styles';
+import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 
 const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
@@ -61,25 +62,21 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
               </Helmet>
             )}
           </FormattedMessage>
-          <header className="hero-banner report-filters">
-            <div className="dp-container">
-              <div className="dp-rowflex">
-                <div className="col-sm-12 col-md-12 col-lg-12">
-                  <h2>
-                    <FormattedMessage
-                      id={`reports_partials_campaigns.header_title_${state.campaignSummaryResults.campaignStatus}`}
-                    />
-                  </h2>
-                  <p>
-                    <FormattedMessage
-                      id={`reports_partials_campaigns.header_description_${state.campaignSummaryResults.campaignStatus}`}
-                    />
-                  </p>
-                </div>
-              </div>
-              <span className="arrow"></span>
+          <HeaderSection>
+            <div className="col-sm-12 col-md-12 col-lg-12">
+              <h2>
+                <FormattedMessage
+                  id={`reports_partials_campaigns.header_title_${state.campaignSummaryResults.campaignStatus}`}
+                />
+              </h2>
+              <p>
+                <FormattedMessage
+                  id={`reports_partials_campaigns.header_description_${state.campaignSummaryResults.campaignStatus}`}
+                />
+              </p>
             </div>
-          </header>
+          </HeaderSection>
+
           <section className="dp-container">
             <div className="dp-rowflex">
               <div className="col-sm-12 col-md-12 col-lg-12 m-t-24">

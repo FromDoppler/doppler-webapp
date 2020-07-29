@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import HeaderSection from '../shared/HeaderSection/HeaderSection';
 
 const pushUrl = `${process.env.REACT_APP_DATA_HUB_URL}/public/push.js`;
 const workerUrl = `${process.env.REACT_APP_DATA_HUB_URL}/public/firebase-messaging-sw.js`;
@@ -10,17 +11,12 @@ const PushNotifications = () => (
       <script src={pushUrl} type="text/javascript" />
     </Helmet>
     <div className="dp-app-container">
-      <header className="hero-banner report-filters">
-        <div className="dp-container">
-          <div className="dp-rowflex">
-            <div className="col-sm-12 col-md-12 col-lg-12">
-              <h2>Push Notifications</h2>
-              <p>Aqui podremos ver el avance sobre push.</p>
-            </div>
-          </div>
-          <span className="arrow"></span>
+      <HeaderSection>
+        <div className="col-sm-12 col-md-12 col-lg-12">
+          <h2>Push Notifications</h2>
+          <p>Aqui podremos ver el avance sobre push.</p>
         </div>
-      </header>
+      </HeaderSection>
       <section className="dp-container">
         <div className="dp-block-wlp dp-box-shadow">
           <div style={{ marginLeft: '20px' }}>
