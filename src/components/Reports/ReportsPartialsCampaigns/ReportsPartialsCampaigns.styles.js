@@ -16,9 +16,11 @@ export const MainReportBox = styled.div`
 
 export const DetailedInformation = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  position: relative;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 
   p {
     color: ${colors.darkGrey};
@@ -28,11 +30,10 @@ export const DetailedInformation = styled.div`
   }
 
   div {
-    padding: ${spacings.spacesLvl8};
-    width: calc(100% / 3 - 25px);
-    @media (max-width: 768px) {
-      padding: ${spacings.spacesLvl5} ${spacings.spacesLvl8};
-      flex: 0 0 100%;
+    padding: ${spacings.spacesLvl0};
+
+    div {
+      padding: ${spacings.spacesLvl5};
     }
 
     h2 {

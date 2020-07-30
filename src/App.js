@@ -101,7 +101,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
           {/* TODO: delete this when urls change in MasterSubscribers */}
           {/* This is to keep backward compatibility with /reports/subscriber-history and /reports/subscriber-history */}
           <PrivateRoute
-            path="/reports/:subscriber-:section"
+            path="/reports/subscriber-:section"
             exact
             component={SubscribersLegacyUrlRedirect}
           />

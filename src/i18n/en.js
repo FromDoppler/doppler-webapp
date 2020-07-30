@@ -17,7 +17,11 @@ const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_m
 const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
 const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
 const mailtoSupport = `mailto:support@fromdoppler.com`;
-const mailtoSupportBlockedAccount = `mailto:soporte@fromdoppler.com?subject=Cuenta%20suspendida%20por%20falta%20de%20pago.`;
+const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
+const subjectBlockedAccountNoPay = `?subject=Cuenta%20suspendida%20por%20falta%20de%20pago%20-%20Login`;
+const subjectCanceledAccountNoPay = `?subject=Cuenta%20cancelada%20por%20falta%20de%20pago%20-%20Login`;
+const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Login`;
+const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%20intentos%20fallidos%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
@@ -95,15 +99,6 @@ You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
-    error_payment_MD_offline: `
-Ouch! This account has been suspended for non-payment.
-
-Please [contact the Customer Support team](${mailtoSupportBlockedAccount}) for help.`,
-    error_payment_online: `
-Ouch! This account has been suspended for non-payment.
-
-<button>Chat with the Customer Support team</button> for help.`,
-    error_payment_online_zoho_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     forgot_password: `Forgot your Password?`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
@@ -366,8 +361,19 @@ deletion, security, cross-border data transfers and other issues.
     title: `Request an update of your Plan`,
   },
   validation_messages: {
-    error_account_is_blocked_invalid_pass_MD: `For security reasons we've temporarily disabled your account. [Contact us](${mailtoSupport}).`,
-    error_account_is_canceled_MD: `Your account has been cancelled. To know more please [contact us](${mailtoSupport}).`,
+    error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
+    error_account_is_blocked_invalid_password: `Ouch! This account has been blocked due to failed access attempts.`,
+    error_account_is_blocked_invalid_password_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountInvalidPassword}) for help.`,
+    error_account_is_blocked_invalid_password_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta bloqueada por intentos fallidos?`,
+    error_account_is_blocked_not_pay: `Ouch! This account has been suspended due to non-payment.`,
+    error_account_is_blocked_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountNoPay}) for help.`,
+    error_account_is_blocked_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
+    error_account_is_canceled_not_pay: `Ouch! This account has been canceled due to non-payment.`,
+    error_account_is_canceled_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectCanceledAccountNoPay}) for help.`,
+    error_account_is_canceled_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada por falta de pago?`,
+    error_account_is_canceled_other_reason: `Ouch! This account has been canceled.`,
+    error_account_is_canceled_other_reason_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectCanceledAccountOtherReason}) for help.`,
+    error_account_is_canceled_other_reason_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada?`,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,

@@ -3,6 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import MasterSubscriberCurrentSearch from './MasterSubscriberCurrentSearch/MasterSubscriberCurrentSearch';
 import { Formik, Form, Field } from 'formik';
+import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 
 const minSearchChars = 3;
 
@@ -52,18 +53,13 @@ const MasterSubscriber = () => {
           </Helmet>
         )}
       </FormattedMessage>
-      <header className="hero-banner report-filters">
-        <div className="dp-container">
-          <div className="dp-rowflex">
-            <div className="col-sm-12 col-md-12 col-lg-12">
-              <h2>
-                <FormattedMessage id="master_subscriber.header_title" />
-              </h2>
-            </div>
-          </div>
-          <span className="arrow"></span>
+      <HeaderSection>
+        <div className="col-sm-12 col-md-12 col-lg-12">
+          <h2>
+            <FormattedMessage id="master_subscriber.header_title" />
+          </h2>
         </div>
-      </header>
+      </HeaderSection>
       <section className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12">
