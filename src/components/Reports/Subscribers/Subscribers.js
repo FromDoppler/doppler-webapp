@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import SubscriberInfo from '../../shared/SubscriberInfo/SubscriberInfo';
 import { Tabs } from '../../shared/Tabs/Tabs';
+import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
   const { path, params } = useRouteMatch();
@@ -80,29 +81,23 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
         <title>{currentSection.title}</title>
         <meta name="description" content={currentSection.description} />
       </Helmet>
-
-      <header className="hero-banner report-filters">
-        <div className="dp-container">
-          <div className="dp-rowflex">
-            <div className="col-sm-12 col-md-12 col-lg-12">
-              <nav className="dp-breadcrumb">
-                <ul>
-                  <li>
-                    {/* TODO: rename as master_subscriber_url and master_subscriber_title */}
-                    <a href={_('subscriber_history.subscriber_breadcrumb_url')}>
-                      {_('subscriber_history.subscriber_breadcrumb')}
-                    </a>
-                  </li>
-                  <li>{currentSection.title}</li>
-                </ul>
-              </nav>
-              <h2>{currentSection.title}</h2>
-              <p>{currentSection.description}</p>
-            </div>
-          </div>
-          <span className="arrow"></span>
+      <HeaderSection>
+        <div className="col-sm-12 col-md-12 col-lg-12">
+          <nav className="dp-breadcrumb">
+            <ul>
+              <li>
+                {/* TODO: rename as master_subscriber_url and master_subscriber_title */}
+                <a href={_('subscriber_history.subscriber_breadcrumb_url')}>
+                  {_('subscriber_history.subscriber_breadcrumb')}
+                </a>
+              </li>
+              <li>{currentSection.title}</li>
+            </ul>
+          </nav>
+          <h2>{currentSection.title}</h2>
+          <p>{currentSection.description}</p>
         </div>
-      </header>
+      </HeaderSection>
 
       <section className="dp-container">
         <div className="dp-rowflex">
