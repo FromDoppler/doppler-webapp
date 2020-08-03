@@ -1,20 +1,5 @@
 import React, { useState } from 'react';
-
-const Slider = ({ min, max, step, defaultValue, handleChange }) => {
-  // TODO: add styles
-  return (
-    <input
-      id="slider"
-      style={{ marginTop: '100px', padding: '0' }}
-      type="range"
-      min={min}
-      max={max}
-      step={step}
-      defaultValue={defaultValue}
-      onChange={(e) => handleChange(e.target.value)}
-    />
-  );
-};
+import { Slider } from '../shared/Slider/Slider';
 
 const PlanCalculator = () => {
   // TODO: get data from a double service
