@@ -43,6 +43,12 @@ const NewFeatures = () => {
             <Link to={'/plans/18/discounts/2/promotions/ALLPLANS/buy'}>Ir a Comprar Plan</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div style={{ marginLeft: '20px' }}>
+            <h3>Plan Calculator</h3>
+            <Link to={'/plan-calculator'}>Ir a calculadora de planes</Link>
+          </div>
+        </div>
       </section>
     </>
   );
