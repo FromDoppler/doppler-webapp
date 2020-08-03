@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import MasterSubscriberCurrentSearch from './MasterSubscriberCurrentSearch/MasterSubscriberCurrentSearch';
 import { Formik, Form, Field } from 'formik';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import ContentSection from '../../shared/ContentSection/ContentSection';
 
 const minSearchChars = 3;
 
@@ -60,7 +61,7 @@ const MasterSubscriber = () => {
           </h2>
         </div>
       </HeaderSection>
-      <section className="dp-container">
+      <ContentSection cssClass="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12">
             <div className="dp-block-wlp">
@@ -123,7 +124,7 @@ const MasterSubscriber = () => {
             </div>
           </div>
         </div>
-      </section>
+      </ContentSection>
     </>
   );
 };

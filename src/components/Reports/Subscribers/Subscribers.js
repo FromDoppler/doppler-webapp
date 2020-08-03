@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 import SubscriberInfo from '../../shared/SubscriberInfo/SubscriberInfo';
 import { Tabs } from '../../shared/Tabs/Tabs';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import ContentSection from '../../shared/ContentSection/ContentSection';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
   const { path, params } = useRouteMatch();
@@ -98,8 +99,7 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
           <p>{currentSection.description}</p>
         </div>
       </HeaderSection>
-
-      <section className="dp-container">
+      <ContentSection cssClass="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12 m-b-36">
             <Tabs tabsProperties={tabsProperties} />
@@ -109,7 +109,7 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
             </div>
           </div>
         </div>
-      </section>
+      </ContentSection>
     </>
   );
 };

@@ -15,6 +15,7 @@ import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
+import ContentSection from '../shared/ContentSection/ContentSection';
 
 // This value means the today date
 const periodSelectedDaysDefault = 21;
@@ -115,7 +116,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
           {state.loading ? (
             <Loading />
           ) : state.domains ? (
-            <section className="dp-container">
+            <ContentSection cssClass="dp-container">
               {!state.domainSelected.verified_date ? (
                 <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
                   <p>
@@ -170,7 +171,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                   </div>
                 ) : null}
               </div>
-            </section>
+            </ContentSection>
           ) : (
             <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
               <FormattedMessage id="common.unexpected_error" />

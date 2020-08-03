@@ -7,6 +7,7 @@ import { SubscriberListState } from '../../../services/shopify-client';
 import { useInterval } from '../../../utils';
 import { StyledShopifyLogo } from './Shopify.styles';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
+import ContentSection from '../../shared/ContentSection/ContentSection';
 
 const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures } }) => {
   const intl = useIntl();
@@ -130,7 +131,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
   return (
     <>
       <Helmet title={_('shopify.title')} />
-      <section className="dp-container">
+      <ContentSection cssClass="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12 m-t-24">
             <Breadcrumb />
@@ -254,7 +255,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
             </div>
           </div>
         </div>
-      </section>
+      </ContentSection>
     </>
   );
 };

@@ -7,6 +7,7 @@ import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import * as S from './ReportsPartialsCampaigns.styles';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import ContentSection from '../../shared/ContentSection/ContentSection';
 
 const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient } }) => {
   const intl = useIntl();
@@ -76,8 +77,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
               </p>
             </div>
           </HeaderSection>
-
-          <section className="dp-container">
+          <ContentSection cssClass="dp-container">
             <div className="dp-rowflex">
               <div className="col-sm-12 col-md-12 col-lg-12 m-t-24">
                 <S.MainReportBox>
@@ -269,7 +269,7 @@ const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient }
                 </div>
               </div>
             </div>
-          </section>
+          </ContentSection>
         </>
       )}
     </>

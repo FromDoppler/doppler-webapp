@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
+import ContentSection from '../shared/ContentSection/ContentSection';
 
 const NewFeatures = () => {
   return (
@@ -18,7 +19,7 @@ const NewFeatures = () => {
           </p>
         </div>
       </HeaderSection>
-      <section className="dp-container">
+      <ContentSection cssClass="dp-container">
         <div className="dp-block-wlp dp-box-shadow">
           <div style={{ marginLeft: '20px' }}>
             <h3>Maestro de Suscriptores</h3>
@@ -37,7 +38,7 @@ const NewFeatures = () => {
             <Link to={'/push'}>Ir a push notifications</Link>
           </div>
         </div>
-      </section>
+      </ContentSection>
     </>
   );
 };
