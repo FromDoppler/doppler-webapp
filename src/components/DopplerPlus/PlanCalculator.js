@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { Slider } from '../shared/Slider/Slider';
 
 const PlanCalculator = () => {
   // TODO: get data from a double service
-  const [state, setState] = useState({ price: 15 });
-  const valuesPerRange = [15, 29, 48, 77, 106, 145, 240, 340, 460];
+  const plansList = [
+    { idPlan: 1, price: 15, amount: 1500 },
+    { idPlan: 2, price: 29, amount: 2500 },
+    { idPlan: 3, price: 48, amount: 5000 },
+    { idPlan: 4, price: 77, amount: 10000 },
+    { idPlan: 5, price: 106, amount: 15000 },
+    { idPlan: 6, price: 145, amount: 25000 },
+    { idPlan: 7, price: 240, amount: 50000 },
+    { idPlan: 9, price: 340, amount: 75000 },
+    { idPlan: 9, price: 460, amount: 100000 },
+  ];
 
-  const updatePrice = (index) => {
-    setState({
-      price: valuesPerRange[index],
-    });
-  };
+  const initialPlan = plansList[0];
+
+  const [currentPlan, updateSelectedPlan] = useReducer((currentPlan, index) => {
+    return plansList[index] || currentPlan;
+  }, initialPlan);
 
   return (
     <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
@@ -24,9 +33,15 @@ const PlanCalculator = () => {
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
             <span>US$</span>
-            <span style={{ fontSize: '40px' }}>{state.price}</span>
+            <span style={{ fontSize: '40px' }}>{currentPlan.price}</span>
             <p>por mes</p>
-            <Slider min={0} max={8} step={1} defaultValue={0} handleChange={updatePrice} />
+            <Slider
+              min={0}
+              max={plansList.length - 1}
+              step={1}
+              defaultValue={0}
+              handleChange={updateSelectedPlan}
+            />
           </div>
         </div>
       </section>
