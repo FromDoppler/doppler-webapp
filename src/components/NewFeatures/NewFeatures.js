@@ -37,6 +37,12 @@ const NewFeatures = () => {
             <Link to={'/push'}>Ir a push notifications</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div style={{ marginLeft: '20px' }}>
+            <h3>Compra de planes</h3>
+            <Link to={'/plans/18/discounts/2/promotions/ALLPLANS/buy'}>Ir a Comprar Plan</Link>
+          </div>
+        </div>
       </section>
     </>
   );
