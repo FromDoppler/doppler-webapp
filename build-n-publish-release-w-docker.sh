@@ -53,11 +53,6 @@ for environment in ${environments}; do
     echo Publishing ${environment}...
 
     docker build --pull \
-        -t darosw/doppler-webapp:$environment \
-        -t darosw/doppler-webapp:$environment-$versionMayor \
-        -t darosw/doppler-webapp:$environment-$versionMinor \
-        -t darosw/doppler-webapp:$environment-$versionPatch \
-        -t darosw/doppler-webapp:$environment-$versionFull \
         --build-arg environment=$environment \
         --build-arg cdnBaseUrl=$cdnBaseUrl \
         --build-arg pkgVersion=$pkgVersion \
@@ -73,13 +68,4 @@ for environment in ${environments}; do
         -f Dockerfile.RELEASES \
         .
 
-    # TODO: It could break concurrent deployments with different docker accounts
-    # It is inside the loop to mitigate collisions
-    docker login -u="$DOCKER_WEBAPP_USERNAME" -p="$DOCKER_WEBAPP_PASSWORD"
-
-    docker push darosw/doppler-webapp:$environment
-    docker push darosw/doppler-webapp:$environment-$versionMayor
-    docker push darosw/doppler-webapp:$environment-$versionMinor
-    docker push darosw/doppler-webapp:$environment-$versionPatch
-    docker push darosw/doppler-webapp:$environment-$versionFull
 done
