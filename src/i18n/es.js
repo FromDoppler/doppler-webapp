@@ -40,6 +40,7 @@ export default {
     connect: `Conectar`,
     control_panel: `Panel de Control`,
     control_panel_advanced_pref_url: `${urlControlPanelMain}?section=AdvancedPreferences`,
+    control_panel_section_url: `${urlControlPanel}`,
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,

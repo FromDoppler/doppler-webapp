@@ -21,6 +21,7 @@ import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
 import PushNotifications from './components/PushNotifications/PushNotifications';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
+import { ChangePlan } from './components/ChangePlan/ChangePlan';
 
 /**
  * @param { Object } props - props
@@ -106,6 +107,17 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
             component={SubscribersLegacyUrlRedirect}
           />
           <PrivateRoute path="/new-features" exact component={NewFeatures} />
+          <PrivateRoute
+            path={[
+              '/plans/:planId/buy',
+              '/plans/:planId/promotions/:promoId/buy',
+              '/plans/:planId/discounts/:discountId/buy',
+              '/plans/:planId/promotions/:promoId/discounts/:discountId/buy',
+              '/plans/:planId/discounts/:discountId/promotions/:promoId/buy',
+            ]}
+            exact
+            component={ChangePlan}
+          />
           <PrivateRoute path="/push" exact component={PushNotifications} />
           <PrivateRoute
             path="/reports/partials-campaigns"
