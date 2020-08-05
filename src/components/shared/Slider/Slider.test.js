@@ -9,8 +9,9 @@ describe('Slider component', () => {
   it('should render the slider', () => {
     // Act
     const mockedFunction = () => null;
+    const mockedValues = ['description1', 'description2'];
     const { container } = render(
-      <Slider min={0} max={8} step={1} defaultValue={0} handleChange={mockedFunction} />,
+      <Slider tooltipDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />,
     );
 
     // Assert
@@ -20,8 +21,9 @@ describe('Slider component', () => {
   it('should execute function when slider changes', () => {
     // Act
     const mockedFunction = jest.fn();
+    const mockedValues = ['description1', 'description2'];
     const { container } = render(
-      <Slider min={0} max={8} step={1} defaultValue={0} handleChange={mockedFunction} />,
+      <Slider tooltipDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />,
     );
 
     const slider = container.querySelector('input[type="range"]');

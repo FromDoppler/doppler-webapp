@@ -15,6 +15,10 @@ const PlanCalculator = () => {
     { idPlan: 9, price: 460, amount: 100000 },
   ];
 
+  const plansTooltipDescriptions = plansList.map((plan) => {
+    return plan.amount + ' Suscriptores';
+  });
+
   const initialPlan = plansList[0];
 
   const [currentPlan, updateSelectedPlan] = useReducer((currentPlan, index) => {
@@ -36,9 +40,7 @@ const PlanCalculator = () => {
             <span style={{ fontSize: '40px' }}>{currentPlan.price}</span>
             <p>por mes</p>
             <Slider
-              min={0}
-              max={plansList.length - 1}
-              step={1}
+              tooltipDescriptions={plansTooltipDescriptions}
               defaultValue={0}
               handleChange={updateSelectedPlan}
             />
