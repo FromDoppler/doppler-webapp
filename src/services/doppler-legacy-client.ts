@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
-import { Color } from 'csstype';
+import  {Property}  from 'csstype';
 import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 import axiosRetry from 'axios-retry';
 import { addLogEntry } from '../utils';
@@ -172,7 +172,7 @@ interface SmsEntry {
 }
 
 interface AvatarEntry {
-  color: Color;
+  color: Property.Color;
   text: string;
 }
 
