@@ -22,6 +22,7 @@ import Offline from './components/Offline/Offline';
 import PushNotifications from './components/PushNotifications/PushNotifications';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 import { ChangePlan } from './components/ChangePlan/ChangePlan';
+import PlanCalculator from './components/DopplerPlus/PlanCalculator';
 
 /**
  * @param { Object } props - props
@@ -124,6 +125,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
             exact
             component={ReportsPartialsCampaigns}
           />
+          <PrivateRoute path="/plan-calculator" exact component={PlanCalculator} />
           <PublicRouteWithLegacyFallback exact path="/login" />
           <PublicRouteWithLegacyFallback exact path="/signup" />
           <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
