@@ -2,6 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { useRouteMatch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Card from './Card/Card';
 
 const ChangePlan = () => {
   const { params } = useRouteMatch();
@@ -13,7 +14,20 @@ const ChangePlan = () => {
   const planUrl =
     _('common.control_panel_section_url') +
     `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True&IdDiscountPlan=${safeDiscountId}&PromoCode=${safePromoId}`;
-  return (
+  const planPrice = 15;
+  const planQuantity = 100000;
+
+  const cardData = {
+    title: planId,
+    description: _('change_plan.description'),
+    price: { initialText: _('change_plan.since'), endText: _('change_plan.per_month'), value: planPrice, },
+    descriptionPlan: _('change_plan.until_x_subscribers', {subscribers: planQuantity}),
+    action: {
+      url: planUrl,
+      text: _('change_plan.calculate_price'),
+    }
+  }
+    return (
     <>
       <Helmet>
         <meta name="robots" content="noindex,nofollow" />
@@ -23,14 +37,7 @@ const ChangePlan = () => {
         <section className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12" style={{ textAlign: 'center' }}>
-              <h1>Compra un plan</h1>
-              <a href={planUrl} class="dp-button button-medium primary-green">
-                Comprar Plan
-              </a>
-              <br />
-              <br />
-              Información del plan Plan Id {planId} - DiscountId - {safeDiscountId} - PromoCode -{' '}
-              {safePromoId}
+              <Card data={cardData} />
             </div>
           </div>
         </section>
