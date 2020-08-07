@@ -3,6 +3,8 @@ import { useIntl } from 'react-intl';
 import { useRouteMatch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Card from './Card/Card';
+import CardPrice from './Card/CardPrice';
+import CardAction from './Card/CardAction';
 
 const ChangePlan = () => {
   const { params } = useRouteMatch();
@@ -16,18 +18,23 @@ const ChangePlan = () => {
     `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True&IdDiscountPlan=${safeDiscountId}&PromoCode=${safePromoId}`;
   const planPrice = 15;
   const planQuantity = 100000;
+  const planName = 'Mensual';
 
   const cardData = {
-    title: planId,
+    name: planName,
     description: _('change_plan.description'),
-    price: { initialText: _('change_plan.since'), endText: _('change_plan.per_month'), value: planPrice, },
-    descriptionPlan: _('change_plan.until_x_subscribers', {subscribers: planQuantity}),
+    price: {
+      initialText: _('change_plan.since'),
+      endText: _('change_plan.per_month'),
+      value: planPrice,
+    },
+    descriptionPlan: _('change_plan.until_x_subscribers', { subscribers: planQuantity }),
     action: {
       url: planUrl,
       text: _('change_plan.calculate_price'),
-    }
-  }
-    return (
+    },
+  };
+  return (
     <>
       <Helmet>
         <meta name="robots" content="noindex,nofollow" />
@@ -37,7 +44,13 @@ const ChangePlan = () => {
         <section className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12" style={{ textAlign: 'center' }}>
-              <Card data={cardData} />
+              <Card>
+                <h3>{cardData.name}</h3>
+                <p>{cardData.description}</p>
+                <p>{cardData.descriptionPlan}</p>
+                <CardPrice currency="US$">{cardData.price.value}</CardPrice>
+                <CardAction url={cardData.action.url}>{cardData.action.text}</CardAction>
+              </Card>
             </div>
           </div>
         </section>
