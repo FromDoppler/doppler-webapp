@@ -37,8 +37,9 @@ export default {
     calculate_price: 'Calcular Precio',
     description: '¿Realizas envíos periodicamente o un newsletter al mes?',
     per_month: 'por mes',
-    until_x_subscribers: `Hasta {subscribers} Contactos.`,
+    recommended: 'Recomendado',
     since: 'Desde',
+    until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,

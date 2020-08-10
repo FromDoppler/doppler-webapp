@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import Card from './Card/Card';
 import CardPrice from './Card/CardPrice';
 import CardAction from './Card/CardAction';
+import Ribbon from './Card/Ribbon';
 
 const ChangePlan = () => {
   const { params } = useRouteMatch();
@@ -22,12 +23,7 @@ const ChangePlan = () => {
 
   const cardData = {
     name: planName,
-    description: _('change_plan.description'),
-    price: {
-      initialText: _('change_plan.since'),
-      endText: _('change_plan.per_month'),
-      value: planPrice,
-    },
+    price: planPrice,
     descriptionPlan: _('change_plan.until_x_subscribers', { subscribers: planQuantity }),
     action: {
       url: planUrl,
@@ -45,11 +41,25 @@ const ChangePlan = () => {
           <div className="dp-rowflex">
             <div className="col-sm-12" style={{ textAlign: 'center' }}>
               <Card>
-                <h3>{cardData.name}</h3>
-                <p>{cardData.description}</p>
-                <p>{cardData.descriptionPlan}</p>
-                <CardPrice currency="US$">{cardData.price.value}</CardPrice>
-                <CardAction url={cardData.action.url}>{cardData.action.text}</CardAction>
+                <div className="dp-content-plans">
+                  <h3>{cardData.name}</h3>
+                  <p>{_('change_plan.description')}</p>
+                  <p>{cardData.descriptionPlan}</p>
+                  <CardPrice currency="US$">{cardData.price}</CardPrice>
+                  <CardAction url={cardData.action.url}>{cardData.action.text}</CardAction>
+                </div>
+              </Card>
+              <Card cssClass="dp-highlighthed">
+                <Ribbon position="top-right">
+                  <span>{_('change_plan.recommended')}</span>
+                </Ribbon>
+                <div className="dp-content-plans">
+                  <h3>{cardData.name}</h3>
+                  <p>{_('change_plan.description')}</p>
+                  <p>{cardData.descriptionPlan}</p>
+                  <CardPrice currency="US$">{cardData.price}</CardPrice>
+                  <CardAction url={cardData.action.url}>{cardData.action.text}</CardAction>
+                </div>
               </Card>
             </div>
           </div>

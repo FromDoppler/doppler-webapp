@@ -6,13 +6,13 @@ const CardPrice = ({ currency, children }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <div class="dp-price" data-start={_('change_plan.since')}>
-      <div class="dp-amount">
-        <span class="dp-money-number" data-money={currency}>
-          {children}
-        </span>
-        <span>{_('change_plan.per_month')}</span>
+    <div className="dp-price">
+      <span className="dp-time-lapse-top">{_('change_plan.since')}</span>
+      <div className="dp-amount">
+        <span className="dp-plan-currency">{currency}</span>
+        <span className="dp-money-number">{children}</span>
       </div>
+      <span className="dp-time-lapse-bottom">{_('change_plan.per_month')}</span>
     </div>
   );
 };
