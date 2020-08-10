@@ -1,42 +1,48 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { Slider } from '../shared/Slider/Slider';
+import { InjectAppServices } from '../../services/pure-di';
+import { Loading } from '../Loading/Loading';
 
-const PlanCalculator = () => {
-  // TODO: get data from a double service
-  const plansList = [
-    { idPlan: 1, price: 15, amount: 1500 },
-    { idPlan: 2, price: 29, amount: 2500 },
-    { idPlan: 3, price: 48, amount: 5000 },
-    { idPlan: 4, price: 77, amount: 10000 },
-    { idPlan: 5, price: 106, amount: 15000 },
-    { idPlan: 6, price: 145, amount: 25000 },
-    { idPlan: 7, price: 240, amount: 50000 },
-    { idPlan: 9, price: 340, amount: 75000 },
-    { idPlan: 9, price: 460, amount: 100000 },
-  ];
+const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
+  const [state, setState] = useState({ loading: true });
 
-  const discountsList = [
-    { id: 1, percent: 0, monthsAmmount: 1, description: 'Mensual' },
-    { id: 2, percent: 5, monthsAmmount: 3, description: 'Trimestral' },
-    { id: 3, percent: 15, monthsAmmount: 6, description: 'Semestral' },
-    { id: 4, percent: 25, monthsAmmount: 12, description: 'Anual' },
-  ];
+  const [currentPlan, setSelectedPlan] = useReducer((currentPlan, index) => {
+    return state.planList[index] || currentPlan;
+  }, []);
 
-  const plansTooltipDescriptions = plansList.map((plan) => {
+  const [currentDiscount, applyDiscount] = useReducer((discount, index) => {
+    return state.discountsList[index] || discount;
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setState({ loading: true });
+      const responsePlansList = await dopplerLegacyClient.getPlansList(1);
+      if (responsePlansList.success) {
+        setState({
+          loading: false,
+          planList: responsePlansList.planList,
+          discountsList: responsePlansList.discounts,
+          success: true,
+        });
+        setSelectedPlan(0);
+        applyDiscount(0);
+      } else {
+        setState({ success: false });
+      }
+    };
+    fetchData();
+  }, [dopplerLegacyClient]);
+
+  if (state.loading) {
+    return <Loading page />;
+  }
+
+  const plansTooltipDescriptions = state.planList?.map((plan) => {
     return plan.amount + ' Suscriptores';
   });
 
-  const initialPlan = plansList[0];
-
-  const [currentPlan, updateSelectedPlan] = useReducer((currentPlan, index) => {
-    return plansList[index] || currentPlan;
-  }, initialPlan);
-
-  const [currentDiscount, applyDiscount] = useReducer((discount, index) => {
-    return discountsList[index] || discount;
-  }, discountsList[0]);
-
-  return (
+  return state.success ? (
     <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
       <section className="dp-container">
         <div className="dp-rowflex">
@@ -48,7 +54,7 @@ const PlanCalculator = () => {
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
             <div style={{ marginBottom: '40px' }}>
-              {discountsList.map((discount, index) => (
+              {state.discountsList.map((discount, index) => (
                 <button
                   key={index}
                   style={{
@@ -83,8 +89,18 @@ const PlanCalculator = () => {
             <Slider
               tooltipDescriptions={plansTooltipDescriptions}
               defaultValue={0}
-              handleChange={updateSelectedPlan}
+              handleChange={setSelectedPlan}
             />
+          </div>
+        </div>
+      </section>
+    </div>
+  ) : (
+    <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
+      <section className="dp-container">
+        <div className="dp-rowflex">
+          <div className="col-sm-12" style={{ textAlign: 'center' }}>
+            <span>Hubo un error al traer los datos</span>
           </div>
         </div>
       </section>
@@ -92,4 +108,4 @@ const PlanCalculator = () => {
   );
 };
 
-export default PlanCalculator;
+export default InjectAppServices(PlanCalculator);
