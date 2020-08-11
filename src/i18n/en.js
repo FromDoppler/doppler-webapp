@@ -33,6 +33,14 @@ const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
+  change_plan: {
+    calculate_price: 'Calculate Price',
+    description: 'Do you send periodically or one newsletter per month?',
+    per_month: 'per month',
+    recommended: 'Recommended',
+    since: 'Since',
+    until_x_subscribers: `Until {subscribers} Contacts.`,
+  },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
