@@ -71,7 +71,11 @@ export class OnlineSessionManager implements SessionManager {
         } as AppSession, // Cast required because TS cannot resolve datahubCustomerId complexity
       );
     } catch (error) {
-      this.updateSession({ status: 'non-authenticated' });
+      if (!!error.response && (error.response.status === 503 || error.response.status === 404)) {
+        this.updateSession({ status: 'maintenance' });
+      } else {
+        this.updateSession({ status: 'non-authenticated' });
+      }
     }
   }
 }
