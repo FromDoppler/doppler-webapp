@@ -1,41 +1,26 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import * as S from './Offline.styles';
 
 const Offline = () => (
   <div className="dp-app-container">
     <Helmet>
       <meta name="robots" content="noindex,nofollow" />
     </Helmet>
-    <header style={{ height: '84px' }}></header>
-    <main style={{ display: 'block', widht: '100%' }}>
-      <section className="section__block image__main">
-        <div className="wrapper" style={{ width: '800px', margin: 'auto' }}>
-          <h1 style={{ paddingBottom: '0' }}>Experimentamos dificultades técnicas.</h1>
-          <h2
-            style={{
-              fontSize: '18px',
-              fontWeight: '400',
-              lineHeight: '1.2',
-              letterSpacing: '0',
-              color: '#525845',
-              padding: '0 0 10px',
-            }}
-          >
-            ¡Lo sentimos! Estamos trabajando para solucionarlas.
-          </h2>
-          <img
-            style={{ padding: '10px 0 30px' }}
-            src="https://www.fromdoppler.com/images/appdown/main.svg"
-            alt=""
-          />
-          <p>
-            <strong>
-              El tiempo estimado de resolución es de 2:30 horas. ¡Gracias por tu paciencia!{' '}
-            </strong>
-          </p>
-        </div>
-      </section>
-    </main>
+    <section className="dp-container">
+      <S.CenterContent>
+        <S.CenterColumn>
+          <div className="logo-doppler-new"></div>
+          <S.MaintenanceImage></S.MaintenanceImage>
+          <h1>Estamos trabajando en mejorar tu experiencia</h1>
+          <S.AccentText>
+            Realizaremos <strong>tareas programadas de mantenimiento</strong>
+          </S.AccentText>
+          <S.AccentText>durante la próxima hora. ¡Vuelve pronto!</S.AccentText>
+        </S.CenterColumn>
+      </S.CenterContent>
+      <S.HideChat />
+    </section>
   </div>
 );
 
