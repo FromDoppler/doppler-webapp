@@ -2,22 +2,37 @@ import React, { useReducer, useEffect, useState } from 'react';
 import { Slider } from '../shared/Slider/Slider';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
+import { useRouteMatch } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
+  const { params } = useRouteMatch();
+  const { typePlanId, promoId, discountId } = params;
+  const safePromoId = promoId || '';
+  const safeDiscountId = discountId || 0;
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   const [state, setState] = useState({ loading: true });
 
-  const [currentPlan, setSelectedPlan] = useReducer((currentPlan, index) => {
-    return state.planList[index] || currentPlan;
-  }, []);
+  const [currentPlan, setSelectedPlan] = useReducer(
+    (currentPlan, index) => {
+      return state.planList[index] || currentPlan;
+    },
+    { idPrice: 0, price: 0, amount: 0 },
+  );
 
-  const [currentDiscount, applyDiscount] = useReducer((discount, index) => {
-    return state.discountsList[index] || discount;
-  }, []);
+  const [currentDiscount, applyDiscount] = useReducer(
+    (discount, index) => {
+      return state.discountsList[index] || discount;
+    },
+    { id: 0, percent: 0, monthsAmmount: 0, description: '' },
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const responsePlansList = await dopplerLegacyClient.getPlansList(1);
+      const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
       if (responsePlansList.success) {
         setState({
           loading: false,
@@ -26,17 +41,21 @@ const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
           success: true,
         });
         setSelectedPlan(0);
-        applyDiscount(0);
+        applyDiscount(safeDiscountId);
       } else {
         setState({ success: false });
       }
     };
     fetchData();
-  }, [dopplerLegacyClient]);
+  }, [dopplerLegacyClient, typePlanId, safeDiscountId]);
 
   if (state.loading) {
     return <Loading page />;
   }
+
+  const planUrl =
+    _('common.control_panel_section_url') +
+    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${currentPlan.idPlan}&fromStep1=True&IdDiscountPlan=${currentDiscount.id}&PromoCode=${safePromoId}`;
 
   const plansTooltipDescriptions = state.planList?.map((plan) => {
     return plan.amount + ' Suscriptores';
@@ -91,6 +110,11 @@ const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
               defaultValue={0}
               handleChange={setSelectedPlan}
             />
+            <div style={{ marginTop: '40px' }}>
+              <a className="dp-button button-medium primary-green" href={planUrl}>
+                Contratar
+              </a>
+            </div>
           </div>
         </div>
       </section>

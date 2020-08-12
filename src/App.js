@@ -129,7 +129,17 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={ReportsPartialsCampaigns}
               />
-              <PrivateRoute path="/plan-calculator" exact component={PlanCalculator} />
+          <PrivateRoute
+            path={[
+              '/plan-calculator/:typePlanId/buy',
+              '/plan-calculator/:typePlanId/promotions/:promoId/buy',
+              '/plan-calculator/:typePlanId/discounts/:discountId/buy',
+              '/plan-calculator/:typePlanId/promotions/:promoId/discounts/:discountId/buy',
+              '/plan-calculator/:typePlanId/discounts/:discountId/promotions/:promoId/buy',
+            ]}
+            exact
+            component={PlanCalculator}
+          />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
