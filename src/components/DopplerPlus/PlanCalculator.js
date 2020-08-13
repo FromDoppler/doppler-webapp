@@ -139,7 +139,8 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
                 className="dp-button button-medium primary-green"
                 href={
                   _('common.control_panel_section_url') +
-                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}&PromoCode=${safePromoId}`
+                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}` +
+                  `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
                 }
               >
                 Contratar
