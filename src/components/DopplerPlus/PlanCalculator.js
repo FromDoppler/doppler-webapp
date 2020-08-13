@@ -4,29 +4,51 @@ import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { useRouteMatch } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import queryString from 'query-string';
+import { extractParameter } from '../../utils';
 
-const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
+const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => {
+  const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
+  const discountId = parseInt(extractParameter(location, queryString.parse, 'discountId')) || 0;
   const { params } = useRouteMatch();
-  const { typePlanId, promoId, discountId } = params;
-  const safePromoId = promoId || '';
-  const safeDiscountId = discountId || 0;
+  const { typePlanId } = params;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const [state, setState] = useState({ loading: true });
 
-  const [currentPlan, setSelectedPlan] = useReducer(
-    (currentPlan, index) => {
-      return state.planList[index] || currentPlan;
-    },
-    { idPrice: 0, price: 0, amount: 0 },
-  );
+  const actionTypes = {
+    UPDATE_SELECTED_PLAN: 'updateSelectedPlan',
+    UPDATE_SELECTED_DISCOUNT: 'updateSelectedDiscount',
+    INIT: 'init',
+  };
 
-  const [currentDiscount, applyDiscount] = useReducer(
-    (discount, index) => {
-      return state.discountsList[index] || discount;
+  const [planData, dispatchPlanData] = useReducer(
+    (prevPlanData, action) => {
+      switch (action.type) {
+        case actionTypes.UPDATE_SELECTED_PLAN:
+          return { ...prevPlanData, plan: state.planList[action.indexPlan] };
+        case actionTypes.UPDATE_SELECTED_DISCOUNT:
+          return {
+            ...prevPlanData,
+            discount: state.discountsList.find((discount) => {
+              return discount.id === action.idDiscount;
+            }),
+          };
+        case actionTypes.INIT:
+          return {
+            plan: state.planList[0],
+            discount: discountId
+              ? state.discountsList.find((discount) => {
+                  return discount.id === discountId;
+                }) || state.discountsList[0]
+              : state.discountsList[0],
+          };
+        default:
+          return prevPlanData;
+      }
     },
-    { id: 0, percent: 0, monthsAmmount: 0, description: '' },
+    { plan: {}, discount: {} },
   );
 
   useEffect(() => {
@@ -40,22 +62,19 @@ const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
           discountsList: responsePlansList.discounts,
           success: true,
         });
-        setSelectedPlan(0);
-        applyDiscount(safeDiscountId);
+        dispatchPlanData({
+          type: actionTypes.INIT,
+        });
       } else {
         setState({ success: false });
       }
     };
     fetchData();
-  }, [dopplerLegacyClient, typePlanId, safeDiscountId]);
+  }, [dopplerLegacyClient, typePlanId, actionTypes.INIT]);
 
   if (state.loading) {
     return <Loading page />;
   }
-
-  const planUrl =
-    _('common.control_panel_section_url') +
-    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${currentPlan.idPlan}&fromStep1=True&IdDiscountPlan=${currentDiscount.id}&PromoCode=${safePromoId}`;
 
   const plansTooltipDescriptions = state.planList?.map((plan) => {
     return plan.amount + ' Suscriptores';
@@ -79,19 +98,22 @@ const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
                   style={{
                     padding: '10px',
                     border: '1px solid #000',
-                    backgroundColor: discount.id === currentDiscount.id ? '#33ad73' : '#f6f6f6',
+                    backgroundColor: discount.id === planData.discount.id ? '#33ad73' : '#f6f6f6',
                   }}
                   onClick={() => {
-                    applyDiscount(index);
+                    dispatchPlanData({
+                      type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+                      idDiscount: discount.id,
+                    });
                   }}
                 >
                   {discount.description}
                 </button>
               ))}
             </div>
-            {currentDiscount.percent ? (
+            {planData.discount.percent ? (
               <p style={{ textDecoration: 'line-through' }}>
-                US${currentPlan.price * currentDiscount.monthsAmmount}
+                US${planData.plan.price * planData.discount.monthsAmmount}
               </p>
             ) : (
               <></>
@@ -99,19 +121,27 @@ const PlanCalculator = ({ dependencies: { dopplerLegacyClient } }) => {
             <span>US$</span>
             <span style={{ fontSize: '40px' }}>
               {Math.round(
-                currentPlan.price *
-                  (1 - currentDiscount.percent / 100) *
-                  currentDiscount.monthsAmmount,
+                planData.plan.price *
+                  (1 - planData.discount.percent / 100) *
+                  planData.discount.monthsAmmount,
               )}
             </span>
-            <p>{currentDiscount.description}</p>
+            <p>{planData.plan.description}</p>
             <Slider
               tooltipDescriptions={plansTooltipDescriptions}
               defaultValue={0}
-              handleChange={setSelectedPlan}
+              handleChange={(index) => {
+                dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
+              }}
             />
             <div style={{ marginTop: '40px' }}>
-              <a className="dp-button button-medium primary-green" href={planUrl}>
+              <a
+                className="dp-button button-medium primary-green"
+                href={
+                  _('common.control_panel_section_url') +
+                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}&PromoCode=${safePromoId}`
+                }
+              >
                 Contratar
               </a>
             </div>
