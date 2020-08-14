@@ -1,42 +1,86 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { Slider } from '../shared/Slider/Slider';
+import { InjectAppServices } from '../../services/pure-di';
+import { Loading } from '../Loading/Loading';
+import { useRouteMatch } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import queryString from 'query-string';
+import { extractParameter } from '../../utils';
 
-const PlanCalculator = () => {
-  // TODO: get data from a double service
-  const plansList = [
-    { idPlan: 1, price: 15, amount: 1500 },
-    { idPlan: 2, price: 29, amount: 2500 },
-    { idPlan: 3, price: 48, amount: 5000 },
-    { idPlan: 4, price: 77, amount: 10000 },
-    { idPlan: 5, price: 106, amount: 15000 },
-    { idPlan: 6, price: 145, amount: 25000 },
-    { idPlan: 7, price: 240, amount: 50000 },
-    { idPlan: 9, price: 340, amount: 75000 },
-    { idPlan: 9, price: 460, amount: 100000 },
-  ];
+const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => {
+  const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
+  const discountId = parseInt(extractParameter(location, queryString.parse, 'discountId')) || 0;
+  const { params } = useRouteMatch();
+  const { typePlanId } = params;
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const discountsList = [
-    { id: 1, percent: 0, monthsAmmount: 1, description: 'Mensual' },
-    { id: 2, percent: 5, monthsAmmount: 3, description: 'Trimestral' },
-    { id: 3, percent: 15, monthsAmmount: 6, description: 'Semestral' },
-    { id: 4, percent: 25, monthsAmmount: 12, description: 'Anual' },
-  ];
+  const [state, setState] = useState({ loading: true });
 
-  const plansTooltipDescriptions = plansList.map((plan) => {
+  const actionTypes = {
+    UPDATE_SELECTED_PLAN: 'updateSelectedPlan',
+    UPDATE_SELECTED_DISCOUNT: 'updateSelectedDiscount',
+    INIT: 'init',
+  };
+
+  const [planData, dispatchPlanData] = useReducer(
+    (prevPlanData, action) => {
+      switch (action.type) {
+        case actionTypes.UPDATE_SELECTED_PLAN:
+          return { ...prevPlanData, plan: state.planList[action.indexPlan] };
+        case actionTypes.UPDATE_SELECTED_DISCOUNT:
+          return {
+            ...prevPlanData,
+            discount: state.discountsList.find((discount) => {
+              return discount.id === action.idDiscount;
+            }),
+          };
+        case actionTypes.INIT:
+          return {
+            plan: state.planList[0],
+            discount: discountId
+              ? state.discountsList.find((discount) => {
+                  return discount.id === discountId;
+                }) || state.discountsList[0]
+              : state.discountsList[0],
+          };
+        default:
+          return prevPlanData;
+      }
+    },
+    { plan: {}, discount: {} },
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setState({ loading: true });
+      const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
+      if (responsePlansList.success) {
+        setState({
+          loading: false,
+          planList: responsePlansList.planList,
+          discountsList: responsePlansList.discounts,
+          success: true,
+        });
+        dispatchPlanData({
+          type: actionTypes.INIT,
+        });
+      } else {
+        setState({ success: false });
+      }
+    };
+    fetchData();
+  }, [dopplerLegacyClient, typePlanId, actionTypes.INIT]);
+
+  if (state.loading) {
+    return <Loading page />;
+  }
+
+  const plansTooltipDescriptions = state.planList?.map((plan) => {
     return plan.amount + ' Suscriptores';
   });
 
-  const initialPlan = plansList[0];
-
-  const [currentPlan, updateSelectedPlan] = useReducer((currentPlan, index) => {
-    return plansList[index] || currentPlan;
-  }, initialPlan);
-
-  const [currentDiscount, applyDiscount] = useReducer((discount, index) => {
-    return discountsList[index] || discount;
-  }, discountsList[0]);
-
-  return (
+  return state.success ? (
     <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
       <section className="dp-container">
         <div className="dp-rowflex">
@@ -48,25 +92,28 @@ const PlanCalculator = () => {
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
             <div style={{ marginBottom: '40px' }}>
-              {discountsList.map((discount, index) => (
+              {state.discountsList.map((discount, index) => (
                 <button
                   key={index}
                   style={{
                     padding: '10px',
                     border: '1px solid #000',
-                    backgroundColor: discount.id === currentDiscount.id ? '#33ad73' : '#f6f6f6',
+                    backgroundColor: discount.id === planData.discount.id ? '#33ad73' : '#f6f6f6',
                   }}
                   onClick={() => {
-                    applyDiscount(index);
+                    dispatchPlanData({
+                      type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+                      idDiscount: discount.id,
+                    });
                   }}
                 >
                   {discount.description}
                 </button>
               ))}
             </div>
-            {currentDiscount.percent ? (
+            {planData.discount.percent ? (
               <p style={{ textDecoration: 'line-through' }}>
-                US${currentPlan.price * currentDiscount.monthsAmmount}
+                US${planData.plan.price * planData.discount.monthsAmmount}
               </p>
             ) : (
               <></>
@@ -74,17 +121,41 @@ const PlanCalculator = () => {
             <span>US$</span>
             <span style={{ fontSize: '40px' }}>
               {Math.round(
-                currentPlan.price *
-                  (1 - currentDiscount.percent / 100) *
-                  currentDiscount.monthsAmmount,
+                planData.plan.price *
+                  (1 - planData.discount.percent / 100) *
+                  planData.discount.monthsAmmount,
               )}
             </span>
-            <p>{currentDiscount.description}</p>
+            <p>{planData.plan.description}</p>
             <Slider
               tooltipDescriptions={plansTooltipDescriptions}
               defaultValue={0}
-              handleChange={updateSelectedPlan}
+              handleChange={(index) => {
+                dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
+              }}
             />
+            <div style={{ marginTop: '40px' }}>
+              <a
+                className="dp-button button-medium primary-green"
+                href={
+                  _('common.control_panel_section_url') +
+                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}` +
+                  `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
+                }
+              >
+                Contratar
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  ) : (
+    <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
+      <section className="dp-container">
+        <div className="dp-rowflex">
+          <div className="col-sm-12" style={{ textAlign: 'center' }}>
+            <span>Hubo un error al traer los datos</span>
           </div>
         </div>
       </section>
@@ -92,4 +163,4 @@ const PlanCalculator = () => {
   );
 };
 
-export default PlanCalculator;
+export default InjectAppServices(PlanCalculator);

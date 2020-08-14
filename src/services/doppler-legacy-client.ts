@@ -565,4 +565,30 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       };
     }
   }
+
+  // TODO: replace this when implement BE connection
+  public async getPlansList(idPlan: number) {
+    console.log('getPlansLists', idPlan);
+    return {
+      planList: [
+        { idPlan: 1, price: 15, amount: 1500 },
+        { idPlan: 2, price: 29, amount: 2500 },
+        { idPlan: 3, price: 48, amount: 5000 },
+        { idPlan: 4, price: 77, amount: 10000 },
+        { idPlan: 5, price: 106, amount: 15000 },
+        { idPlan: 6, price: 145, amount: 25000 },
+        { idPlan: 7, price: 240, amount: 50000 },
+        { idPlan: 9, price: 340, amount: 75000 },
+        { idPlan: 10, price: 460, amount: 100000 },
+      ],
+      discounts: [
+        { id: 1, percent: 0, monthsAmmount: 1, description: 'Mensual' },
+        { id: 2, percent: 5, monthsAmmount: 3, description: 'Trimestral' },
+        { id: 3, percent: 15, monthsAmmount: 6, description: 'Semestral' },
+        { id: 4, percent: 25, monthsAmmount: 12, description: 'Anual' },
+      ],
+      success: true,
+    };
+    // return { success: false };
+  }
 }
