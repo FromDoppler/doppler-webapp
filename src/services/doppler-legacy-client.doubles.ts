@@ -10,6 +10,9 @@ import {
   ForgotPasswordModel,
   ForgotPasswordResult,
   ActivateSiteTrackingTrialResult,
+  PlanModel,
+  userType,
+  planType,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -42,6 +45,129 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     //   trace: new Error(),
     //   fullResponse: 'full header response',
     // };
+  }
+
+  public async getAllPlans(): Promise<PlanModel[]> {
+    console.log('GetAllPlans');
+    await timeout(1500);
+    return [
+      {
+        id: 12,
+        description: '500,000',
+        fee: 444,
+        userType: userType.HIGH_VOLUME,
+        type: planType.STANDARD,
+        emailsByMonth: 500000,
+        subscribersByMonth: undefined,
+        emailPrice: 0.0009,
+        features: {
+          emailParameter: false,
+          cancelCampaign: false,
+          siteTracking: false,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          {
+            id: 62,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 0,
+            monthsToPay: 1,
+          },
+        ],
+      },
+      {
+        id: 14,
+        description: '500,000',
+        fee: 444,
+        userType: userType.HIGH_VOLUME,
+        type: planType.PLUS,
+        emailsByMonth: 500000,
+        emailPrice: 0.0009,
+        features: {
+          emailParameter: true,
+          cancelCampaign: false,
+          siteTracking: true,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          {
+            id: 62,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 0,
+            monthsToPay: 1,
+          },
+        ],
+      },
+      {
+        id: 19,
+        description: '500,000',
+        fee: 444,
+        userType: userType.SUBSCRIBERS_MONTHLY,
+        type: planType.STANDARD,
+        emailsByMonth: 5000,
+        emailPrice: 0.0009,
+        features: {
+          emailParameter: true,
+          cancelCampaign: false,
+          siteTracking: true,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          {
+            id: 62,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 0,
+            monthsToPay: 1,
+          },
+        ],
+      },
+      {
+        id: 18,
+        description: '501-1500',
+        fee: 15,
+        userType: userType.SUBSCRIBERS_MONTHLY,
+        type: planType.STANDARD,
+        emailsByMonth: undefined,
+        subscribersByMonth: 1500,
+        emailPrice: undefined,
+        features: {
+          emailParameter: false,
+          cancelCampaign: false,
+          siteTracking: false,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          { id: 1, idPlan: 18, paymentType: 1, discountPercentage: 0, monthsToPay: 1 },
+        ],
+      },
+      {
+        id: 38,
+        description: '501-1500',
+        fee: 15,
+        userType: userType.SUBSCRIBERS_MONTHLY,
+        type: planType.PLUS,
+        emailsByMonth: undefined,
+        subscribersByMonth: 1500,
+        emailPrice: undefined,
+        features: {
+          emailParameter: false,
+          cancelCampaign: true,
+          siteTracking: false,
+          smartCampaigns: true,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          { id: 1, idPlan: 18, paymentType: 1, discountPercentage: 0, monthsToPay: 1 },
+        ],
+      },
+    ];
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {

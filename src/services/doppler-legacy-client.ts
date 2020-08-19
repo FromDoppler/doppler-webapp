@@ -13,6 +13,7 @@ export interface DopplerLegacyClient {
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
   activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
+  getAllPlans(): Promise<PlanModel[]>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -293,9 +294,44 @@ export function mapHeaderDataJson(json: any) {
     },
   };
 }
+
+export function mapAdvancedPay(json: any): AdvancedPayOptions {
+  return {
+    id: json.IdDiscountPlan,
+    idPlan: json.IdUserTypePlan,
+    paymentType: json.IdPaymentMethod,
+    discountPercentage: json.DiscountPlanFee,
+    monthsToPay: json.MonthPlan,
+  };
+}
+
+export function mapPlan(json: any): PlanModel {
+  return {
+    id: json.IdUserTypePlan,
+    description: json.Description,
+    fee: json.Fee,
+    userType: json.IdUserType,
+    type: json.PlanType,
+    emailsByMonth: json.EmailQty,
+    subscribersByMonth: json.SubscribersQty,
+    emailPrice: json.ExtraEmailCost,
+    features: {
+      emailParameter: json.EmailParameterEnabled,
+      cancelCampaign: json.CancelCampaignEnabled,
+      siteTracking: json.SiteTrackingLicensed,
+      smartCampaigns: json.SmartCampaignsEnabled,
+      shippingLimit: json.ShippingLimitEnabled,
+    },
+    advancedPayOptions: json.DiscountXPlan.map(mapAdvancedPay),
+  };
+}
+
+export function mapPlanListJson(json: any) {
+  return json.data.map(mapPlan);
+}
 /* #endregion */
 
-/* #region Upgrade Plan data types */
+/* #region Plan data types */
 export interface DopplerLegacyClientTypePlan {
   IdUserTypePlan: number;
   Description: string;
@@ -305,6 +341,53 @@ export interface DopplerLegacyUpgradePlanContactModel {
   Detail: string;
   IdClientTypePlanSelected: number;
 }
+
+export interface AdvancedPayOptions {
+  id: number;
+  idPlan: number;
+  paymentType: number;
+  discountPercentage: number;
+  monthsToPay: number;
+}
+
+export interface PlanModel {
+  id: number;
+  description: string;
+  emailsByMonth?: number;
+  subscribersByMonth?: number;
+  fee: number;
+  emailPrice?: number;
+  userType: userType;
+  type: planType;
+  features?: {
+    emailParameter?: boolean;
+    cancelCampaign?: boolean;
+    siteTracking?: boolean;
+    smartCampaigns?: boolean;
+    shippingLimit?: boolean;
+  };
+  advancedPayOptions?: [AdvancedPayOptions];
+}
+
+export enum planType {
+  FREE = 1,
+  STANDARD = 2,
+  PLUS = 3,
+  ENTERPRISE = 4,
+}
+
+export enum userType {
+  FREE = 1,
+  HIGH_VOLUME = 2,
+  PREPAID = 3,
+  SUBSCRIBERS_MONTHLY = 4,
+  CMUSERS = 5,
+  CMMONTHLY = 6,
+  DEMO = 7,
+  CMFREE = 8,
+  CMSUBSCRIBERS = 9,
+}
+
 /* #endregion */
 
 export class HttpDopplerLegacyClient implements DopplerLegacyClient {
@@ -369,6 +452,15 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return mapHeaderDataJson(response.data);
+  }
+
+  public async getAllPlans(): Promise<PlanModel[]> {
+    const response = await this.axios.get('/WebApp/GetAllPlans');
+    if (!response?.data) {
+      throw new Error('Empty Doppler response');
+    }
+
+    return mapPlanListJson(response.data);
   }
 
   public async login(model: LoginModel): Promise<LoginResult> {
