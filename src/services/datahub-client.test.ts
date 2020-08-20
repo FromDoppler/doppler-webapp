@@ -91,13 +91,13 @@ const fullRankingByPeriodResponse = {
     items: [
       {
         page: '/email-marketing',
-        visitorsQuantity: 10122,
-        withEmail: 400,
+        qVisits: 10122,
+        qVisitsWithEmail: 400,
       },
       {
         page: '/precios',
-        visitorsQuantity: 9000,
-        withEmail: 300,
+        qVisits: 9000,
+        qVisitsWithEmail: 300,
       },
     ],
   },

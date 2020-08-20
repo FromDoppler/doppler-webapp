@@ -228,9 +228,9 @@ export class HttpDatahubClient implements DatahubClient {
 
       const pages = response.data.items.map((x: any) => ({
         name: x.page,
-        totalVisitors: x.visitorsQuantity,
+        totalVisitors: x.qVisits,
         url: `${urlSchema}${domainName}${x.page}`,
-        withEmail: x.withEmail,
+        withEmail: x.qVisitsWithEmail,
       }));
 
       return {
