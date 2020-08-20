@@ -38,6 +38,7 @@ export default {
     description: 'Do you send periodically or one newsletter per month?',
     per_month: 'per month',
     recommended: 'Recommended',
+    selected_type: 'Plans selected by: ',
     since: 'Since',
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },

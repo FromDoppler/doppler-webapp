@@ -2,16 +2,17 @@ import React, { useReducer, useEffect, useState } from 'react';
 import { Slider } from '../shared/Slider/Slider';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
-import { useRouteMatch } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter } from '../../utils';
+import { useRouteMatch } from 'react-router-dom';
 
 const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
-  const discountId = parseInt(extractParameter(location, queryString.parse, 'discountId')) || 0;
+  const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
+  const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
   const { params } = useRouteMatch();
-  const { typePlanId } = params;
+  const { planType, userType } = params;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -86,7 +87,9 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
         <div className="dp-rowflex">
           <div className="col-sm-12" style={{ textAlign: 'center' }}>
             {/* TODO: change this to intl elemnt */}
-            <h1>Plan STANDARD</h1>
+            <h1>
+              Plan {planType} - {userType}
+            </h1>
             <p style={{ paddingBottom: '50px' }}>
               {/* TODO: change this to intl elemnt */}
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
