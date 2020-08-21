@@ -112,27 +112,17 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 component={SubscribersLegacyUrlRedirect}
               />
               <PrivateRoute path="/new-features" exact component={NewFeatures} />
+              <PrivateRoute path={['/plan-selection']} exact component={ChangePlan} />
               <PrivateRoute
-                path={[
-                  '/plans/:planId/buy',
-                  '/plans/:planId/promotions/:promoId/buy',
-                  '/plans/:planId/discounts/:discountId/buy',
-                  '/plans/:planId/promotions/:promoId/discounts/:discountId/buy',
-                  '/plans/:planId/discounts/:discountId/promotions/:promoId/buy',
-                ]}
+                path={'/plan-selection/:planType-:userType'}
                 exact
-                component={ChangePlan}
+                component={PlanCalculator}
               />
               <PrivateRoute path="/push" exact component={PushNotifications} />
               <PrivateRoute
                 path="/reports/partials-campaigns"
                 exact
                 component={ReportsPartialsCampaigns}
-              />
-              <PrivateRoute
-                path={'/plan-calculator/:typePlanId/buy'}
-                exact
-                component={PlanCalculator}
               />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />

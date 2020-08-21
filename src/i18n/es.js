@@ -38,6 +38,7 @@ export default {
     description: '¿Realizas envíos periodicamente o un newsletter al mes?',
     per_month: 'por mes',
     recommended: 'Recomendado',
+    selected_type: 'Planes por: ',
     since: 'Desde',
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
