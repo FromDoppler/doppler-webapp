@@ -19,6 +19,35 @@ const NewFeatures = () => {
         </div>
       </HeaderSection>
       <section className="dp-container">
+        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+          <div style={{ marginLeft: '20px' }}>
+            <h3>Slider selector de planes</h3>
+            <Link
+              to={
+                '/plan-selection/standard-subscribers?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+              }
+            >
+              Standard mensual por suscriptores
+            </Link>{' '}
+            <br />
+            <Link
+              to={
+                '/plan-selection/standard-high_volume?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+              }
+            >
+              Standard mensual por contactos
+            </Link>{' '}
+            <br />
+            <Link
+              to={
+                '/plan-selection/standard-prepaid?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+              }
+            >
+              Standard prepagos
+            </Link>{' '}
+            <br />
+          </div>
+        </div>
         <div className="dp-block-wlp dp-box-shadow">
           <div style={{ marginLeft: '20px' }}>
             <h3>Maestro de Suscriptores</h3>
@@ -46,18 +75,6 @@ const NewFeatures = () => {
               }
             >
               Ir a Comprar Plan
-            </Link>
-          </div>
-        </div>
-        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
-          <div style={{ marginLeft: '20px' }}>
-            <h3>Plan Calculator</h3>
-            <Link
-              to={
-                '/plan-selection/standard-subscribers?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
-              }
-            >
-              Ir a calculadora de planes
             </Link>
           </div>
         </div>

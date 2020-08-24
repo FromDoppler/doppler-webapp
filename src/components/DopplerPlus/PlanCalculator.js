@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { extractParameter } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 
-const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => {
+const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
   const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
@@ -55,12 +55,12 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
-      if (responsePlansList.success) {
+      const planList = await dopplerPlanClient.getPlanListByType(planType, userType);
+      if (planList.length) {
         setState({
           loading: false,
-          planList: responsePlansList.planList,
-          discountsList: responsePlansList.discounts,
+          planList: planList,
+          discountsList: planList[0].advancedPayOptions,
           success: true,
         });
         dispatchPlanData({
@@ -71,14 +71,16 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
       }
     };
     fetchData();
-  }, [dopplerLegacyClient, typePlanId, actionTypes.INIT]);
+  }, [typePlanId, actionTypes.INIT, dopplerPlanClient, planType, userType]);
 
   if (state.loading) {
     return <Loading page />;
   }
 
   const plansTooltipDescriptions = state.planList?.map((plan) => {
-    return plan.amount + ' Suscriptores';
+    return !!plan.emailsByMonth
+      ? plan.emailsByMonth + ' Emails'
+      : plan.subscribersByMonth + ' Suscriptores';
   });
 
   return state.success ? (
@@ -94,6 +96,12 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
               {/* TODO: change this to intl elemnt */}
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
+
+            {planData.discount ? (
+              <p>*descuentos solo validos con medio de pago tarjeta de credito</p>
+            ) : (
+              ''
+            )}
             <div style={{ marginBottom: '40px' }}>
               {state.discountsList.map((discount, index) => (
                 <button
@@ -110,24 +118,26 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
                     });
                   }}
                 >
-                  {discount.description}
+                  {discount.monthsToPay + 'meses'}
                 </button>
               ))}
             </div>
-            {planData.discount.percent ? (
+            {planData.discount?.discountPercentage ? (
               <p style={{ textDecoration: 'line-through' }}>
-                US${planData.plan.price * planData.discount.monthsAmmount}
+                US${planData.plan.fee * planData.discount.monthsToPay}
               </p>
             ) : (
               <></>
             )}
             <span>US$</span>
             <span style={{ fontSize: '40px' }}>
-              {Math.round(
-                planData.plan.price *
-                  (1 - planData.discount.percent / 100) *
-                  planData.discount.monthsAmmount,
-              )}
+              {planData.discount
+                ? Math.round(
+                    planData.plan.fee *
+                      (1 - planData.discount?.discountPercentage / 100) *
+                      planData.discount?.monthsToPay,
+                  )
+                : planData.plan.fee}
             </span>
             <p>{planData.plan.description}</p>
             <Slider
@@ -142,7 +152,7 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
                 className="dp-button button-medium primary-green"
                 href={
                   _('common.control_panel_section_url') +
-                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}` +
+                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.id}&fromStep1=True&IdDiscountPlan=${planData.discount?.id}` +
                   `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
                 }
               >
