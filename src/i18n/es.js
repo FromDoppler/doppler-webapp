@@ -215,9 +215,9 @@ los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayu
   reports_pageranking: {
     more_results: `Mostrar mas resultados`,
     top_pages: `Páginas más visitadas`,
-    total_visits: `Visitantes únicos`,
-    visits_with_email: `Usuarios con email`,
-    visits_without_email: `Usuarios sin email`,
+    total_visits: `Visitas`,
+    visits_with_email: `Visitas de usuarios con Email`,
+    visits_without_email: `Visitas de usuarios sin Email`,
   },
   reports_partials_campaigns: {
     campaign_name: `Nombre de la  Campaña: `,

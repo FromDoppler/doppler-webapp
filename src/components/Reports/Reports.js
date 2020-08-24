@@ -15,6 +15,7 @@ import ReportsBox from './ReportsBox/ReportsBox';
 import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources';
 import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
+import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
 
 // This value means the today date
 const periodSelectedDaysDefault = 21;
@@ -169,6 +170,13 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     />
                   </div>
                 ) : null}
+                <div className="col-sm-12 m-b-24">
+                  <ReportsPageRanking
+                    domainName={state.domainSelected.name}
+                    dateTo={state.dateTo}
+                    dateFrom={state.dateFrom}
+                  />
+                </div>
               </div>
             </section>
           ) : (

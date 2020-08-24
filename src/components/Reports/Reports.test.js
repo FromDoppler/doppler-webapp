@@ -69,6 +69,7 @@ describe('Reports page', () => {
       getTrafficSourcesByPeriod: async () => [],
       getVisitsQuantitySummarizedByDay: async () => [],
       getVisitsQuantitySummarizedByWeekdayAndHour: async () => [],
+      getPagesRankingByPeriod: async () => [],
     };
 
     // Act
