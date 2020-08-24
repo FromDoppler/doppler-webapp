@@ -23,10 +23,7 @@ describe('Doppler plan client', () => {
     const dopplerPlanClient = new DopplerPlanClient({ dopplerLegacyClient });
 
     // Act
-    const planByType = await dopplerPlanClient.getPlanListByType(
-      planType.STANDARD,
-      userType.SUBSCRIBERS_MONTHLY,
-    );
+    const planByType = await dopplerPlanClient.getPlanListByType('standard', 'subscribers');
 
     // Assert
     expect(planByType.length).toBeGreaterThan(0);
@@ -58,19 +55,6 @@ describe('Doppler plan client', () => {
     // Assert
     expect(planCompare.length).toBeGreaterThan(0);
     expect(planCompare.find((plan) => plan.type === planType.PLUS));
-  });
-
-  it('should get all standard plans of all types', async () => {
-    // Arrange
-    const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
-    const dopplerPlanClient = new DopplerPlanClient({ dopplerLegacyClient });
-
-    // Act
-    const planByType = await dopplerPlanClient.getPlanListByType(planType.STANDARD);
-
-    // Assert
-    expect(planByType.length).toBeGreaterThan(0);
-    expect(planByType[0].type).toBe(planType.STANDARD);
   });
 
   it('should return empty for unexistent plan', async () => {
