@@ -161,6 +161,8 @@ export function isWhitelisted(url: string) {
     'https://appint.fromdoppler.com/',
     'https://appqa.fromdoppler.com/',
     'https://qa.doppleracademy.com',
+    'https://goemms.com/',
+    'http://goemms.com/',
   ];
   return !!url && loginWhitelist.some((element) => url.startsWith(element));
 }
