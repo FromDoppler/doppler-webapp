@@ -629,15 +629,15 @@ describe('HttpDataHubClient', () => {
           pages: [
             {
               name: '/email-marketing',
-              totalVisitors: 10122,
+              totalVisits: 10122,
               url: 'http://doppler.test/email-marketing',
-              withEmail: 400,
+              visitsWithEmail: 400,
             },
             {
               name: '/precios',
-              totalVisitors: 9000,
+              totalVisits: 9000,
               url: 'http://doppler.test/precios',
-              withEmail: 300,
+              visitsWithEmail: 300,
             },
           ],
         },

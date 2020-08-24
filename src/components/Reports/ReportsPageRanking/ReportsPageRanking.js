@@ -97,23 +97,23 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
                             {item.name}
                           </a>
                           <p>
-                            <strong>{item.totalVisitors}</strong>{' '}
+                            <strong>{item.totalVisits}</strong>{' '}
                             <FormattedMessage id="reports_pageranking.total_visits" />
                           </p>
                         </S.ListItemColumn>
                       </div>
 
-                      {item.withEmail || item.withEmail === 0 ? (
+                      {item.visitsWithEmail || item.visitsWithEmail === 0 ? (
                         <div className="col-sm-12 col-md-4 col-lg-4">
                           <S.ListItemRightColumn>
                             <p className="visits--withemail">
                               <FormattedMessage id="reports_pageranking.visits_with_email" />
                             </p>
                             <p>
-                              {item.withEmail}(
+                              {item.visitsWithEmail}(
                               <span>
                                 <FormattedNumber
-                                  value={item.withEmail / item.totalVisitors}
+                                  value={item.visitsWithEmail / item.totalVisits}
                                   {...numberFormatOptions}
                                 />
                               </span>
@@ -123,10 +123,12 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
                               <FormattedMessage id="reports_pageranking.visits_without_email" />
                             </p>
                             <p>
-                              {item.totalVisitors - item.withEmail}(
+                              {item.totalVisits - item.visitsWithEmail}(
                               <span>
                                 <FormattedNumber
-                                  value={(item.totalVisitors - item.withEmail) / item.totalVisitors}
+                                  value={
+                                    (item.totalVisits - item.visitsWithEmail) / item.totalVisits
+                                  }
                                   {...numberFormatOptions}
                                 />
                               </span>

@@ -31,28 +31,28 @@ const domains = [
 const fakePagesData = [
   {
     name: '/email-marketing',
-    totalVisitors: 10122,
-    withEmail: 400,
+    qVisits: 10122,
+    qVisitsWithEmail: 400,
   },
   {
     name: '/precios',
-    totalVisitors: 9000,
-    withEmail: 300,
+    qVisits: 9000,
+    qVisitsWithEmail: 300,
   },
   {
     name: '/login',
-    totalVisitors: 5001,
-    withEmail: 900,
+    qVisits: 5001,
+    qVisitsWithEmail: 900,
   },
   {
     name: '/productos',
-    totalVisitors: 3800,
-    withEmail: 1000,
+    qVisits: 3800,
+    qVisitsWithEmail: 1000,
   },
   {
     name: '/servicios',
-    totalVisitors: 1023,
-    withEmail: 500,
+    qVisits: 1023,
+    qVisitsWithEmail: 500,
   },
 ];
 
@@ -232,9 +232,9 @@ export class HardcodedDatahubClient implements DatahubClient {
     await timeout(1500);
     const pages = fakePagesData.map((x) => ({
       name: x.name,
-      totalVisitors: x.totalVisitors,
+      totalVisits: x.qVisits,
       url: `http://${domainName}${x.name}`,
-      withEmail: x.withEmail,
+      visitsWithEmail: x.qVisitsWithEmail,
     }));
 
     let pagesSubArray = [];
