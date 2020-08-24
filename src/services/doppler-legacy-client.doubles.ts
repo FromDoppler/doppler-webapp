@@ -75,6 +75,13 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
             discountPercentage: 0,
             monthsToPay: 1,
           },
+          {
+            id: 6,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 5,
+            monthsToPay: 3,
+          },
         ],
       },
       {
@@ -108,7 +115,8 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
         fee: 444,
         userType: userType.SUBSCRIBERS_MONTHLY,
         type: planType.STANDARD,
-        emailsByMonth: 5000,
+        emailsByMonth: undefined,
+        subscribersByMonth: 1500,
         emailPrice: 0.0009,
         features: {
           emailParameter: true,
@@ -125,6 +133,20 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
             discountPercentage: 0,
             monthsToPay: 1,
           },
+          {
+            id: 68,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 5,
+            monthsToPay: 3,
+          },
+          {
+            id: 69,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 10,
+            monthsToPay: 6,
+          },
         ],
       },
       {
@@ -134,7 +156,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
         userType: userType.SUBSCRIBERS_MONTHLY,
         type: planType.STANDARD,
         emailsByMonth: undefined,
-        subscribersByMonth: 1500,
+        subscribersByMonth: 2500,
         emailPrice: undefined,
         features: {
           emailParameter: false,
@@ -154,7 +176,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
         userType: userType.SUBSCRIBERS_MONTHLY,
         type: planType.PLUS,
         emailsByMonth: undefined,
-        subscribersByMonth: 1500,
+        subscribersByMonth: 2500,
         emailPrice: undefined,
         features: {
           emailParameter: false,

@@ -322,7 +322,9 @@ export function mapPlan(json: any): PlanModel {
       smartCampaigns: json.SmartCampaignsEnabled,
       shippingLimit: json.ShippingLimitEnabled,
     },
-    advancedPayOptions: json.DiscountXPlan.map(mapAdvancedPay),
+    advancedPayOptions: json.DiscountXPlan.filter(
+      (payment: any) => payment.IdPaymentMethod === 1,
+    ).map(mapAdvancedPay),
   };
 }
 
@@ -366,7 +368,7 @@ export interface PlanModel {
     smartCampaigns?: boolean;
     shippingLimit?: boolean;
   };
-  advancedPayOptions?: [AdvancedPayOptions];
+  advancedPayOptions?: AdvancedPayOptions[];
 }
 
 export enum planType {
