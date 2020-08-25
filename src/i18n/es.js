@@ -34,12 +34,20 @@ const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
   change_plan: {
+    all_of_plan: `Todo lo de {plan} más:`,
     calculate_price: 'Calcular Precio',
+    cancel_campaign: 'Cancelar Campaña',
+    compare_features: 'Comparar Funcionalidades',
     description: '¿Realizas envíos periodicamente o un newsletter al mes?',
+    email_parameter: 'Parámetros de Email',
+    features: 'Funcionalidades:',
     per_month: 'por mes',
     recommended: 'Recomendado',
     selected_type: 'Planes por: ',
+    shipping_limit: 'Límite de Envíos',
     since: 'Desde',
+    site_tracking: 'Comportamiento en Sitio',
+    smart_campaigns: 'Envíos Inteligentes',
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   common: {
