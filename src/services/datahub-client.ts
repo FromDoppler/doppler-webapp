@@ -10,9 +10,9 @@ export interface DomainEntry {
 
 export interface Page {
   name: string;
-  totalVisitors: number;
+  totalVisits: number;
   url: string;
-  withEmail: number;
+  visitsWithEmail: number;
 }
 
 export interface PageRanking {
@@ -228,9 +228,9 @@ export class HttpDatahubClient implements DatahubClient {
 
       const pages = response.data.items.map((x: any) => ({
         name: x.page,
-        totalVisitors: x.visitorsQuantity,
+        totalVisits: x.qVisits,
         url: `${urlSchema}${domainName}${x.page}`,
-        withEmail: x.withEmail,
+        visitsWithEmail: x.qVisitsWithEmail,
       }));
 
       return {

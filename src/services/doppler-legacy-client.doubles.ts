@@ -10,6 +10,9 @@ import {
   ForgotPasswordModel,
   ForgotPasswordResult,
   ActivateSiteTrackingTrialResult,
+  PlanModel,
+  userType,
+  planType,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -42,6 +45,129 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     //   trace: new Error(),
     //   fullResponse: 'full header response',
     // };
+  }
+
+  public async getAllPlans(): Promise<PlanModel[]> {
+    console.log('GetAllPlans');
+    await timeout(1500);
+    return [
+      {
+        id: 12,
+        description: '500,000',
+        fee: 444,
+        userType: userType.HIGH_VOLUME,
+        type: planType.STANDARD,
+        emailsByMonth: 500000,
+        subscribersByMonth: undefined,
+        emailPrice: 0.0009,
+        features: {
+          emailParameter: false,
+          cancelCampaign: false,
+          siteTracking: false,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          {
+            id: 62,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 0,
+            monthsToPay: 1,
+          },
+        ],
+      },
+      {
+        id: 14,
+        description: '500,000',
+        fee: 444,
+        userType: userType.HIGH_VOLUME,
+        type: planType.PLUS,
+        emailsByMonth: 500000,
+        emailPrice: 0.0009,
+        features: {
+          emailParameter: true,
+          cancelCampaign: false,
+          siteTracking: true,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          {
+            id: 62,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 0,
+            monthsToPay: 1,
+          },
+        ],
+      },
+      {
+        id: 19,
+        description: '500,000',
+        fee: 444,
+        userType: userType.SUBSCRIBERS_MONTHLY,
+        type: planType.STANDARD,
+        emailsByMonth: 5000,
+        emailPrice: 0.0009,
+        features: {
+          emailParameter: true,
+          cancelCampaign: false,
+          siteTracking: true,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          {
+            id: 62,
+            idPlan: 12,
+            paymentType: 1,
+            discountPercentage: 0,
+            monthsToPay: 1,
+          },
+        ],
+      },
+      {
+        id: 18,
+        description: '501-1500',
+        fee: 15,
+        userType: userType.SUBSCRIBERS_MONTHLY,
+        type: planType.STANDARD,
+        emailsByMonth: undefined,
+        subscribersByMonth: 1500,
+        emailPrice: undefined,
+        features: {
+          emailParameter: false,
+          cancelCampaign: false,
+          siteTracking: false,
+          smartCampaigns: false,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          { id: 1, idPlan: 18, paymentType: 1, discountPercentage: 0, monthsToPay: 1 },
+        ],
+      },
+      {
+        id: 38,
+        description: '501-1500',
+        fee: 15,
+        userType: userType.SUBSCRIBERS_MONTHLY,
+        type: planType.PLUS,
+        emailsByMonth: undefined,
+        subscribersByMonth: 1500,
+        emailPrice: undefined,
+        features: {
+          emailParameter: false,
+          cancelCampaign: true,
+          siteTracking: false,
+          smartCampaigns: true,
+          shippingLimit: false,
+        },
+        advancedPayOptions: [
+          { id: 1, idPlan: 18, paymentType: 1, discountPercentage: 0, monthsToPay: 1 },
+        ],
+      },
+    ];
   }
 
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
@@ -131,5 +257,31 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     console.log('sendResetPasswordEmail', model);
     await timeout(1500);
     return { success: true };
+  }
+
+  public async getPlansList(idPlan: number) {
+    console.log('getPlansLists', idPlan);
+    await timeout(1500);
+    return {
+      planList: [
+        { idPlan: 1, price: 15, amount: 1500 },
+        { idPlan: 2, price: 29, amount: 2500 },
+        { idPlan: 3, price: 48, amount: 5000 },
+        { idPlan: 4, price: 77, amount: 10000 },
+        { idPlan: 5, price: 106, amount: 15000 },
+        { idPlan: 6, price: 145, amount: 25000 },
+        { idPlan: 7, price: 240, amount: 50000 },
+        { idPlan: 9, price: 340, amount: 75000 },
+        { idPlan: 10, price: 460, amount: 100000 },
+      ],
+      discounts: [
+        { id: 1, percent: 0, monthsAmmount: 1, description: 'Mensual' },
+        { id: 2, percent: 5, monthsAmmount: 3, description: 'Trimestral' },
+        { id: 3, percent: 15, monthsAmmount: 6, description: 'Semestral' },
+        { id: 4, percent: 25, monthsAmmount: 12, description: 'Anual' },
+      ],
+      success: true,
+    };
+    // return { success: false };
   }
 }

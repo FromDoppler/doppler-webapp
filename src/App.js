@@ -78,69 +78,73 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
   }, [location]);
 
   return (
-    <DopplerIntlProvider locale={state.i18nLocale}>
-      <>
-        <Helmet>
-          <html lang={state.i18nLocale} />
-        </Helmet>
-        <OriginCatcher />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={({ location }) =>
-              location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
-                <Redirect to={location.hash.replace('#', '')} />
-              ) : (
-                <SafeRedirect to="/Campaigns/Draft" />
-              )
-            }
-          />
-          <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
-          <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
-          <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
-          <PrivateRoute path="/subscribers/:email/:section" exact component={Subscribers} />
-          {/* TODO: delete this when urls change in MasterSubscribers */}
-          {/* This is to keep backward compatibility with /reports/subscriber-history and /reports/subscriber-history */}
-          <PrivateRoute
-            path="/reports/subscriber-:section"
-            exact
-            component={SubscribersLegacyUrlRedirect}
-          />
-          <PrivateRoute path="/new-features" exact component={NewFeatures} />
-          <PrivateRoute
-            path={[
-              '/plans/:planId/buy',
-              '/plans/:planId/promotions/:promoId/buy',
-              '/plans/:planId/discounts/:discountId/buy',
-              '/plans/:planId/promotions/:promoId/discounts/:discountId/buy',
-              '/plans/:planId/discounts/:discountId/promotions/:promoId/buy',
-            ]}
-            exact
-            component={ChangePlan}
-          />
-          <PrivateRoute path="/push" exact component={PushNotifications} />
-          <PrivateRoute
-            path="/reports/partials-campaigns"
-            exact
-            component={ReportsPartialsCampaigns}
-          />
-          <PrivateRoute path="/plan-calculator" exact component={PlanCalculator} />
-          <PublicRouteWithLegacyFallback exact path="/login" />
-          <PublicRouteWithLegacyFallback exact path="/signup" />
-          <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
-          <Route path="/signup/confirmation" exact component={SignupConfirmation} />
-          <Route path="/offline" exact component={Offline} />
-          <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
-          <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
-          <RedirectWithQuery exact from="/ingresa/cambiar-clave" to="/forgot-password?lang=es" />
-          <RedirectWithQuery exact from="/forgot-password" to="/login/reset-password" />
-          {/* TODO: Implement NotFound page in place of redirect all to reports */}
-          {/* <Route component={NotFound} /> */}
-          <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
-        </Switch>
-      </>
-    </DopplerIntlProvider>
+    <>
+      {state.dopplerSession.status === 'maintenance' ? (
+        <Offline />
+      ) : (
+        <DopplerIntlProvider locale={state.i18nLocale}>
+          <>
+            <Helmet>
+              <html lang={state.i18nLocale} />
+            </Helmet>
+            <OriginCatcher />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={({ location }) =>
+                  location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
+                    <Redirect to={location.hash.replace('#', '')} />
+                  ) : (
+                    <SafeRedirect to="/Campaigns/Draft" />
+                  )
+                }
+              />
+              <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
+              <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
+              <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
+              <PrivateRoute path="/subscribers/:email/:section" exact component={Subscribers} />
+              {/* TODO: delete this when urls change in MasterSubscribers */}
+              {/* This is to keep backward compatibility with /reports/subscriber-history and /reports/subscriber-history */}
+              <PrivateRoute
+                path="/reports/subscriber-:section"
+                exact
+                component={SubscribersLegacyUrlRedirect}
+              />
+              <PrivateRoute path="/new-features" exact component={NewFeatures} />
+              <PrivateRoute path={['/plan-selection']} exact component={ChangePlan} />
+              <PrivateRoute
+                path={'/plan-selection/:planType-:userType'}
+                exact
+                component={PlanCalculator}
+              />
+              <PrivateRoute path="/push" exact component={PushNotifications} />
+              <PrivateRoute
+                path="/reports/partials-campaigns"
+                exact
+                component={ReportsPartialsCampaigns}
+              />
+              <PublicRouteWithLegacyFallback exact path="/login" />
+              <PublicRouteWithLegacyFallback exact path="/signup" />
+              <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
+              <Route path="/signup/confirmation" exact component={SignupConfirmation} />
+              <Route path="/offline" exact component={Offline} />
+              <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
+              <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
+              <RedirectWithQuery
+                exact
+                from="/ingresa/cambiar-clave"
+                to="/forgot-password?lang=es"
+              />
+              <RedirectWithQuery exact from="/forgot-password" to="/login/reset-password" />
+              {/* TODO: Implement NotFound page in place of redirect all to reports */}
+              {/* <Route component={NotFound} /> */}
+              <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
+            </Switch>
+          </>
+        </DopplerIntlProvider>
+      )}
+    </>
   );
 };
 

@@ -40,13 +40,25 @@ const NewFeatures = () => {
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Compra de planes</h3>
-            <Link to={'/plans/18/discounts/2/promotions/ALLPLANS/buy'}>Ir a Comprar Plan</Link>
+            <Link
+              to={
+                '/plan-selection?selected-type=email&advanced-pay=year&promo-code=ALLPLANS&planId=18'
+              }
+            >
+              Ir a Comprar Plan
+            </Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow m-t-36">
+        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Plan Calculator</h3>
-            <Link to={'/plan-calculator'}>Ir a calculadora de planes</Link>
+            <Link
+              to={
+                '/plan-selection/standard-subscribers?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+              }
+            >
+              Ir a calculadora de planes
+            </Link>
           </div>
         </div>
       </section>

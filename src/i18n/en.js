@@ -38,6 +38,7 @@ export default {
     description: 'Do you send periodically or one newsletter per month?',
     per_month: 'per month',
     recommended: 'Recommended',
+    selected_type: 'Plans selected by: ',
     since: 'Since',
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },
@@ -213,9 +214,9 @@ by Doppler and how many don't. By tracking the user's journey you'll be able to 
   reports_pageranking: {
     more_results: `Show more results`,
     top_pages: `Most visited pages`,
-    total_visits: `Unique visitors`,
-    visits_with_email: `Users with email`,
-    visits_without_email: `Users without email`,
+    total_visits: `Visits`,
+    visits_with_email: `User visits with Email`,
+    visits_without_email: `User visits without Email`,
   },
   reports_partials_campaigns: {
     campaign_name: `Campaign name: `,
