@@ -1,4 +1,10 @@
-import { DopplerLegacyClient, PlanModel, planType, userType } from './doppler-legacy-client';
+import {
+  DopplerLegacyClient,
+  PlanModel,
+  planType,
+  userType,
+  AdvancedPayOptions,
+} from './doppler-legacy-client';
 
 export class DopplerPlanClient {
   private PlanList: PlanModel[] = [];
@@ -87,5 +93,22 @@ export class DopplerPlanClient {
         (plan.subscribersByMonth || plan.emailsByMonth),
     );
     return result;
+  }
+
+  public generateBuyLink(
+    baseUrl: string,
+    plan: PlanModel,
+    monthsToPayDiscount?: number,
+    promoCode?: string,
+  ): string {
+    const discountId = monthsToPayDiscount
+      ? plan.advancedPayOptions?.find(
+          (discount: AdvancedPayOptions) => discount.monthsToPay === monthsToPayDiscount,
+        )?.id
+      : null;
+    return `${baseUrl}/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${
+      plan.id
+    }&fromStep1=True${discountId ? '&IdDiscountPlan=' + discountId : ''}
+    ${promoCode ? '&PromoCode=' + promoCode : ''}`;
   }
 }

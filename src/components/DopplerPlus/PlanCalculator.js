@@ -8,7 +8,7 @@ import { extractParameter } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 
 const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
-  const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
+  const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
   const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
   const { params } = useRouteMatch();
@@ -150,11 +150,12 @@ const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
             <div style={{ marginTop: '40px' }}>
               <a
                 className="dp-button button-medium primary-green"
-                href={
-                  _('common.control_panel_section_url') +
-                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.id}&fromStep1=True&IdDiscountPlan=${planData.discount?.id}` +
-                  `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
-                }
+                href={dopplerPlanClient.generateBuyLink(
+                  _('common.control_panel_section_url'),
+                  planData.plan,
+                  planData.discount?.monthsToPay,
+                  safePromoId,
+                )}
               >
                 Contratar
               </a>
