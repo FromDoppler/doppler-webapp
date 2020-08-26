@@ -79,10 +79,12 @@ export class DopplerPlanClient {
     const searchPlanType: planType = this.mapPlanType(planTypeText.toUpperCase());
     const searchUserType: userType = this.mapUserType(userTypeText.toUpperCase());
     const planList = await this.getPlanData();
-    const result = planList.filter((plan) =>
-      !!userType
-        ? plan.type === searchPlanType && plan.userType === searchUserType
-        : plan.type === searchPlanType,
+    const result = planList.filter(
+      (plan) =>
+        plan.type === searchPlanType &&
+        plan.userType === searchUserType &&
+        plan.fee &&
+        (plan.subscribersByMonth || plan.emailsByMonth),
     );
     return result;
   }
