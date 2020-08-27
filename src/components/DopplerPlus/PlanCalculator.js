@@ -9,8 +9,8 @@ import { useRouteMatch } from 'react-router-dom';
 
 const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
-  const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
-  const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
+  const billingCycle = Number(extractParameter(location, queryString.parse, 'billing-cycle')) || 1;
+  const selectedPlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
   const { params } = useRouteMatch();
   const { planType, userType } = params;
   const intl = useIntl();
@@ -33,17 +33,15 @@ const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
           return {
             ...prevPlanData,
             discount: state.discountsList.find((discount) => {
-              return discount.id === action.idDiscount;
+              return discount.monthsToPay === action.monthsToPay;
             }),
           };
         case actionTypes.INIT:
           return {
-            plan: state.planList[0],
-            discount: discountId
-              ? state.discountsList.find((discount) => {
-                  return discount.id === discountId;
+            plan: state.planList[state.defaultPlan],
+            discount: state.discountsList.find((discount) => {
+                  return discount.monthsToPay === billingCycle;
                 }) || state.discountsList[0]
-              : state.discountsList[0],
           };
         default:
           return prevPlanData;
@@ -57,11 +55,13 @@ const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
       setState({ loading: true });
       const planList = await dopplerPlanClient.getPlanListByType(planType, userType);
       if (planList.length) {
+        const selectedPlan = planList.findIndex((plan)=> plan.id === selectedPlanId);
         setState({
           loading: false,
           planList: planList,
           discountsList: planList[0].advancedPayOptions,
           success: true,
+          defaultPlan: selectedPlan!== -1? selectedPlan: 0
         });
         dispatchPlanData({
           type: actionTypes.INIT,
@@ -69,9 +69,10 @@ const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
       } else {
         setState({ success: false });
       }
+      
     };
     fetchData();
-  }, [typePlanId, actionTypes.INIT, dopplerPlanClient, planType, userType]);
+  }, [selectedPlanId, actionTypes.INIT, dopplerPlanClient, planType, userType]);
 
   if (state.loading) {
     return <Loading page />;
@@ -109,12 +110,12 @@ const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
                   style={{
                     padding: '10px',
                     border: '1px solid #000',
-                    backgroundColor: discount.id === planData.discount.id ? '#33ad73' : '#f6f6f6',
+                    backgroundColor: discount.monthsToPay === planData.discount.monthsToPay ? '#33ad73' : '#f6f6f6',
                   }}
                   onClick={() => {
                     dispatchPlanData({
                       type: actionTypes.UPDATE_SELECTED_DISCOUNT,
-                      idDiscount: discount.id,
+                      monthsToPay: discount.monthsToPay,
                     });
                   }}
                 >
@@ -142,7 +143,7 @@ const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
             <p>{planData.plan.description}</p>
             <Slider
               tooltipDescriptions={plansTooltipDescriptions}
-              defaultValue={0}
+              defaultValue={state.defaultPlan}
               handleChange={(index) => {
                 dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
               }}

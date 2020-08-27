@@ -24,7 +24,7 @@ const NewFeatures = () => {
             <h3>Slider selector de planes</h3>
             <Link
               to={
-                '/plan-selection/standard-subscribers?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+                '/plan-selection/standard-subscribers?selected-plan=20&billing-cycle=12&promo-code=ALLPLANS'
               }
             >
               Standard mensual por suscriptores
@@ -32,15 +32,15 @@ const NewFeatures = () => {
             <br />
             <Link
               to={
-                '/plan-selection/standard-high_volume?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+                '/plan-selection/standard-high_volume?selected-plan=18&billing-cycle=3&promo-code=ALLPLANS'
               }
             >
-              Standard mensual por contactos
+              Standard mensual por envíos alto volumen
             </Link>{' '}
             <br />
             <Link
               to={
-                '/plan-selection/standard-prepaid?selected-plan=18&advanced-pay=year&promo-code=ALLPLANS'
+                '/plan-selection/standard-prepaid?selected-plan=18&billing-cycle=6&promo-code=ALLPLANS'
               }
             >
               Standard prepagos
@@ -71,7 +71,7 @@ const NewFeatures = () => {
             <h3>Compra de planes</h3>
             <Link
               to={
-                '/plan-selection?selected-type=email&advanced-pay=year&promo-code=ALLPLANS&planId=18'
+                '/plan-selection?selected-type=email&advance-pay=year&promo-code=ALLPLANS&planId=18'
               }
             >
               Ir a Comprar Plan
