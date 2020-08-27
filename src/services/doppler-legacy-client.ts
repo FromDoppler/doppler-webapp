@@ -312,7 +312,7 @@ export function mapPlan(json: any): PlanModel {
     fee: json.Fee,
     userType: json.IdUserType,
     type: json.PlanType,
-    emailsByMonth: json.EmailQty,
+    emailsQty: json.EmailQty,
     subscribersByMonth: json.SubscribersQty,
     emailPrice: json.ExtraEmailCost,
     features: {
@@ -353,7 +353,7 @@ export interface AdvancedPayOptions {
 export interface PlanModel {
   id: number;
   description: string;
-  emailsByMonth?: number;
+  emailsQty?: number;
   subscribersByMonth?: number;
   fee: number;
   emailPrice?: number;

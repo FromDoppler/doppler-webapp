@@ -35,6 +35,29 @@ const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 export default {
   change_plan: {
     calculate_price: 'Calculate Price',
+    card: {
+      agencies: {
+        cta: 'Consult',
+        description: 'Amplifica tu programa de correo electrónico con el apoyo adicional de nuestro equipo.',
+        link: 'https://www.fromdoppler.com/en/email-marketing-for-agencies//#demo',
+        title: 'Agencies',
+      },
+      free: {
+        cta: 'Actual plan',
+        description: 'Prueba Doppler GRATIS sin contratos ni tarjetas de crédito. Hasta 500 Contactos.',
+        title: 'Free',
+      },
+      plus: {
+        cta: 'Calc price',
+        description: 'Funciones avanzadas para profesionales que necesitan más personalización.',
+        title: 'PLUS',
+      },
+      standard: {
+        cta: 'Calc price',
+        description: '¿Realizas envíos periódicamente o un Newsletter al mes. Hasta 100.000 Contactos.',
+        title: 'STANDARD',
+      },
+    },
     description: 'Do you send periodically or one newsletter per month?',
     per_month: 'per month',
     recommended: 'Recommended',

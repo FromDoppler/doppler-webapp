@@ -1,74 +1,107 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { Card, CardPrice, CardAction, Ribbon } from './Card';
 import queryString from 'query-string';
 import { extractParameter } from '../../utils';
+import { InjectAppServices } from '../../services/pure-di';
+import { Loading } from '../Loading/Loading';
+import { planType, userType } from '../../services/doppler-legacy-client';
 
-const ChangePlan = ({ location }) => {
+const ChangePlan = ({ location, dependencies: { dopplerPlanClient } }) => {
   const promoCode = extractParameter(location, queryString.parse, 'promo-code') || '';
-  const advancedPay = extractParameter(location, queryString.parse, 'advanced-pay') || 0;
-  // TODO: remove planId, it just for testing right now
-  const planId = parseInt(extractParameter(location, queryString.parse, 'planId')) || 0;
-  // Allow preselect by email or contacts
-  const selectedType = extractParameter(location, queryString.parse, 'selected-type') || '';
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const planUrl =
-    _('common.control_panel_section_url') +
-    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True&IdDiscountPlan=${advancedPay}&PromoCode=${promoCode}`;
-  const planPrice = 15;
-  const planQuantity = 100000;
-  const planName = 'Mensual';
+  const [state, setState] = useState({ loading: true });
 
-  const cardData = {
-    name: planName,
-    price: planPrice,
-    descriptionPlan: _('change_plan.until_x_subscribers', { subscribers: planQuantity }),
-    action: {
-      url: planUrl,
-      text: _('change_plan.calculate_price'),
-    },
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setState({ loading: true });
+      const responsePlansList = await dopplerPlanClient.getPlans();
+      if (responsePlansList) {
+        setState({
+          loading: false,
+          planList: responsePlansList,
+        });
+      } else {
+        setState({ success: false });
+      }
+    };
+    fetchData();
+  }, [dopplerPlanClient]);
+
+  if (state.loading) {
+    return <Loading page />;
+  }
+
   return (
     <>
       <Helmet>
         <meta name="robots" content="noindex,nofollow" />
         <title>Compra un plan</title>
       </Helmet>
-      <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
-        {selectedType.length ? (
-          <section className="dp-container">
-            <div className="dp-rowflex">
-              <div className="dp-align-center">
-                <h1>{_('change_plan.selected_type') + selectedType}</h1>
-              </div>{' '}
-            </div>{' '}
-          </section>
-        ) : (
-          ''
-        )}
+      <div className="dp-gray-page">
+        <section className="dp-container">
+          <div className="dp-rowflex">
+            <div className="dp-align-center">
+              <h1 className="dp-tit-plans">Planes a la medida de tu negocio</h1>
+            </div>
+          </div>
+        </section>
         <section className="dp-container">
           <div className="dp-rowflex">
             <div className="dp-align-center p-t-30 p-b-30">
               <Card>
-                <div className="dp-content-plans">
-                  <h3>{cardData.name}</h3>
-                  <p>{_('change_plan.description')}</p>
-                  <p>{cardData.descriptionPlan}</p>
+                <div className="dp-content-plans-free">
+                  <h3>{_('change_plan.card.free.title')}</h3>
+                  <p>{_('change_plan.card.free.description')}</p>
                 </div>
-                <CardPrice currency="US$">{cardData.price}</CardPrice>
-                <CardAction url={cardData.action.url}>{cardData.action.text}</CardAction>
+                <div className="dp-cta-plan">
+                  <span className="dp-current-plan"> {_('change_plan.card.free.cta')} </span>
+                </div>
               </Card>
-              <Card highlighted>
-                <Ribbon content={_('change_plan.recommended')} />
+              {state.planList.map((plan) => {
+                return (
+                  <Card highlighted={plan.type === planType.PLUS} key={plan.id}>
+                    {plan.type === planType.PLUS ? (
+                      <Ribbon content={_('change_plan.recommended')} />
+                    ) : null}
+                    <div className="dp-content-plans">
+                      <h3>{_(`change_plan.card.${planType[plan.type].toLowerCase()}.title`)}</h3>
+                      <p>
+                        {_(`change_plan.card.${planType[plan.type].toLowerCase()}.description`)}
+                      </p>
+                    </div>
+                    <CardPrice currency="US$">{plan.fee}</CardPrice>
+                    <CardAction
+                      url={`/plan-selection/${planType[plan.type].toLowerCase()}-subscribers${
+                        promoCode ? `?promo-code=${promoCode}` : ''
+                      }`}
+                    >
+                      {_('change_plan.calculate_price')}
+                    </CardAction>
+                  </Card>
+                );
+              })}
+              <Card>
                 <div className="dp-content-plans">
-                  <h3>{cardData.name}</h3>
-                  <p>{_('change_plan.description')}</p>
-                  <p>{cardData.descriptionPlan}</p>
+                  <h3>{_('change_plan.card.agencies.title')}</h3>
+                  <p>{_('change_plan.card.agencies.description')}</p>
                 </div>
-                <CardPrice currency="US$">{cardData.price}</CardPrice>
-                <CardAction url={cardData.action.url}>{cardData.action.text}</CardAction>
+                <div className="dp-card-asset">
+                  <img
+                    src="https://cdn.fromdoppler.com/doppler-ui-library/latest/img/asset-enterprise.svg"
+                    alt="Enterprise"
+                  />
+                </div>
+                <a
+                  href={_('change_plan.card.agencies.link')}
+                  className="dp-button button-medium primary-green"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {_('change_plan.card.agencies.cta')}
+                </a>
               </Card>
             </div>
           </div>
@@ -78,4 +111,4 @@ const ChangePlan = ({ location }) => {
   );
 };
 
-export { ChangePlan };
+export default InjectAppServices(ChangePlan);

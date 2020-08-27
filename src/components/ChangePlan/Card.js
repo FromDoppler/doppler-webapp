@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 export const Card = ({ children, className, highlighted, ...rest }) => {
   return (
@@ -15,9 +16,9 @@ export const Card = ({ children, className, highlighted, ...rest }) => {
 
 export const CardAction = ({ url, children, ...rest }) => {
   return (
-    <a href={url} className="dp-button button-medium primary-green" {...rest}>
+    <Link to={url} className="dp-button button-medium primary-green" {...rest}>
       {children}
-    </a>
+    </Link>
   );
 };
 

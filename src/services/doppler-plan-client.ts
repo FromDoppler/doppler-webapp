@@ -1,4 +1,4 @@
-import { DopplerLegacyClient, PlanModel, planType } from './doppler-legacy-client';
+import { DopplerLegacyClient, PlanModel, planType, userType } from './doppler-legacy-client';
 
 export class DopplerPlanClient {
   private PlanList: PlanModel[] = [];
@@ -24,7 +24,7 @@ export class DopplerPlanClient {
     const featuredPlan = planList.find(
       (plan) =>
         currentPlan.subscribersByMonth === plan.subscribersByMonth &&
-        currentPlan.emailsByMonth === plan.emailsByMonth &&
+        currentPlan.emailsQty === plan.emailsQty &&
         plan.type === planType.PLUS,
     );
 
@@ -40,6 +40,24 @@ export class DopplerPlanClient {
     const result = planList.filter((plan) =>
       !!userType ? plan.type === planType && plan.userType === userType : plan.type === planType,
     );
+    return result;
+  }
+
+  async getPlans(): Promise<{ type: number; fee: number }[]> {
+    const planList = await this.getPlanData();
+    const filteredPlans = planList.sort((plan1, plan2) => Number(plan1.fee) - Number(plan2.fee));
+
+    const result = [
+      {
+        type: planType.STANDARD,
+        fee: filteredPlans.filter((plan) => plan.type === planType.STANDARD && plan.fee)[0].fee,
+      },
+      {
+        type: planType.PLUS,
+        fee: filteredPlans.filter((plan) => plan.type === planType.PLUS && plan.fee)[0].fee,
+      },
+    ];
+    console.log('Los planes filtrados son', result);
     return result;
   }
 }
