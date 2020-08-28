@@ -15,9 +15,11 @@ export const Card = ({ children, className, highlighted, ...rest }) => {
 
 export const CardAction = ({ url, children, ...rest }) => {
   return (
-    <a href={url} className="dp-button button-medium primary-green" {...rest}>
-      {children}
-    </a>
+    <div class="dp-cta-plan">
+      <a href={url} className="dp-button button-medium primary-green" {...rest}>
+        {children}
+      </a>
+    </div>
   );
 };
 
@@ -43,4 +45,8 @@ export const Ribbon = ({ children, position = 'top-right', content }) => {
       <span>{content}</span>
     </div>
   );
+};
+
+export const CardFeatures = ({ children }) => {
+  return <div className="dp-plan-detail">{children}</div>;
 };
