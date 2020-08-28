@@ -9,7 +9,7 @@ import { useRouteMatch } from 'react-router-dom';
 
 const PlanCalculator = ({ location, dependencies: { dopplerPlanClient } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
-  const billingCycle = Number(extractParameter(location, queryString.parse, 'billing-cycle')) || 1;
+  const billingCycle = dopplerPlanClient.mapBillingCyleToMonths(extractParameter(location, queryString.parse, 'billing-cycle'));
   const selectedPlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
   const { params } = useRouteMatch();
   const { planType, userType } = params;

@@ -41,7 +41,7 @@ export class DopplerPlanClient {
     return result;
   }
 
-  mapPlanType(planTypeText: string): planType {
+  private mapPlanType(planTypeText: string): planType {
     switch (planTypeText) {
       case 'FREE': {
         return planType.FREE;
@@ -61,7 +61,7 @@ export class DopplerPlanClient {
     }
   }
 
-  mapUserType(planTypeText: string): userType {
+  private mapUserType(planTypeText: string): userType {
     switch (planTypeText) {
       case 'FREE': {
         return userType.FREE;
@@ -110,5 +110,25 @@ export class DopplerPlanClient {
       plan.id
     }&fromStep1=True${discountId ? '&IdDiscountPlan=' + discountId : ''}
     ${promoCode ? '&PromoCode=' + promoCode : ''}`;
+  }
+
+  public mapBillingCyleToMonths(cycle:string):number {
+    switch (cycle) {
+      case 'monthly': {
+        return 1;
+      }
+      case 'quarterly': {
+        return 3;
+      }
+      case 'half-yearly': {
+        return 6;
+      }
+      case 'yearly': {
+        return 12;
+      }
+      default: {
+        return 1;
+      }
+    }
   }
 }

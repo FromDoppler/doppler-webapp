@@ -24,7 +24,7 @@ const NewFeatures = () => {
             <h3>Slider selector de planes</h3>
             <Link
               to={
-                '/plan-selection/standard-subscribers?selected-plan=20&billing-cycle=12&promo-code=ALLPLANS'
+                '/plan-selection/standard-subscribers?selected-plan=20&billing-cycle=yearly&promo-code=ALLPLANS'
               }
             >
               Standard mensual por suscriptores
@@ -32,7 +32,7 @@ const NewFeatures = () => {
             <br />
             <Link
               to={
-                '/plan-selection/standard-high_volume?selected-plan=18&billing-cycle=3&promo-code=ALLPLANS'
+                '/plan-selection/standard-high_volume?selected-plan=18&billing-cycle=quarterly&promo-code=ALLPLANS'
               }
             >
               Standard mensual por envíos alto volumen
@@ -40,7 +40,7 @@ const NewFeatures = () => {
             <br />
             <Link
               to={
-                '/plan-selection/standard-prepaid?selected-plan=18&billing-cycle=6&promo-code=ALLPLANS'
+                '/plan-selection/standard-prepaid?selected-plan=18&billing-cycle=half-yearly&promo-code=ALLPLANS'
               }
             >
               Standard prepagos
