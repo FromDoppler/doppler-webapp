@@ -6,7 +6,7 @@ import queryString from 'query-string';
 import { extractParameter } from '../../../utils';
 import { Pagination } from '../../shared/Pagination/Pagination';
 import SafeRedirect from '../../SafeRedirect';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch, Link } from 'react-router-dom';
 
 const campaignsPerPage = 10;
 
@@ -117,42 +117,49 @@ const SubscriberSentCampaigns = ({
             <tbody>
               {stateSentCampaigns.sentCampaigns.length ? (
                 <>
-                  {stateSentCampaigns.sentCampaigns.map((campaign, index) => (
-                    <tr key={index}>
-                      <td>
-                        {campaign.urlImgPreview ? (
-                          <div className="dp-tooltip-container">
-                            <a
-                              href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
-                            >
-                              {campaign.campaignName}
-                              <div className="dp-tooltip-block">
-                                <img
-                                  src={campaign.urlImgPreview}
-                                  alt={_('subscriber_history.alt_image')}
-                                />
-                              </div>
-                            </a>
-                          </div>
-                        ) : (
-                          <a
-                            href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}
-                          >
-                            {campaign.campaignName}
-                          </a>
-                        )}
-                      </td>
-                      <td>{campaign.campaignSubject}</td>
-                      <td>
-                        <span className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}>
-                          <FormattedMessage
-                            id={'subscriber_history.delivery_status.' + campaign.deliveryStatus}
-                          />
-                        </span>
-                      </td>
-                      <td>{campaign.clicksCount}</td>
-                    </tr>
-                  ))}
+                  {stateSentCampaigns.sentCampaigns.map((campaign, index) => {
+                    const CampaignReportLink = ({ children }) => {
+                      return campaign.isSendingNow ? (
+                        <Link to={`/reports/partials-campaigns?campaignId=${campaign.campaignId}`}>
+                          {children}
+                        </Link>
+                      ) : (
+                        <a href={`${reportsUrl}/Dashboard.aspx?idCampaign=${campaign.campaignId}`}>
+                          {children}
+                        </a>
+                      );
+                    };
+                    return (
+                      <tr key={index}>
+                        <td>
+                          {campaign.urlImgPreview ? (
+                            <div className="dp-tooltip-container">
+                              <CampaignReportLink>
+                                {campaign.campaignName}
+                                <div className="dp-tooltip-block">
+                                  <img
+                                    src={campaign.urlImgPreview}
+                                    alt={_('subscriber_history.alt_image')}
+                                  />
+                                </div>
+                              </CampaignReportLink>
+                            </div>
+                          ) : (
+                            <CampaignReportLink>{campaign.campaignName}</CampaignReportLink>
+                          )}
+                        </td>
+                        <td>{campaign.campaignSubject}</td>
+                        <td>
+                          <span className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}>
+                            <FormattedMessage
+                              id={'subscriber_history.delivery_status.' + campaign.deliveryStatus}
+                            />
+                          </span>
+                        </td>
+                        <td>{campaign.clicksCount}</td>
+                      </tr>
+                    );
+                  })}
                 </>
               ) : (
                 <tr>
