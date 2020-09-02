@@ -247,6 +247,7 @@ describe('HttpDopplerApiClient', () => {
               campaignSubject: '¿Como sacarle provecho a la primavera?',
               deliveryStatus: 'opened',
               clicksCount: 2,
+              isSendingNow: false,
               _links: [],
             },
             {
@@ -255,6 +256,7 @@ describe('HttpDopplerApiClient', () => {
               campaignSubject: 'El calendario estacional 2019 ya está aquí',
               deliveryStatus: 'opened',
               clicksCount: 23,
+              isSendingNow: false,
               _links: [],
             },
           ],

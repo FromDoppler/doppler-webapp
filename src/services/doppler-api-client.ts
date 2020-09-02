@@ -50,6 +50,7 @@ interface CampaignDelivery {
   campaignSubject: string;
   clicksCount: number;
   deliveryStatus: string;
+  isSendingNow: boolean;
   urlImgPreview: string;
 }
 
@@ -163,6 +164,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       campaignSubject: x.campaignSubject,
       clicksCount: x.clicksCount,
       deliveryStatus: x.deliveryStatus,
+      isSendingNow: x.isSendingNow,
       urlImgPreview: this.searchLinkByRel(x._links, '/docs/rels/get-campaign-preview'),
     }));
   }
