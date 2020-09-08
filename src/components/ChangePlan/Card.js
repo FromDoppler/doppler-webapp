@@ -15,7 +15,7 @@ export const Card = ({ children, className, highlighted, ...rest }) => {
 
 export const CardAction = ({ url, children, ...rest }) => {
   return (
-    <div class="dp-cta-plan">
+    <div className="dp-cta-plan">
       <a href={url} className="dp-button button-medium primary-green" {...rest}>
         {children}
       </a>
