@@ -40,11 +40,7 @@ const NewFeatures = () => {
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Compra de planes</h3>
-            <Link
-              to={
-                '/plan-selection?selected-type=email&advanced-pay=year&promo-code=ALLPLANS&planId=18'
-              }
-            >
+            <Link to={'/plan-selection?advanced-pay=year&promo-code=ALLPLANS&planId=18'}>
               Ir a Comprar Plan
             </Link>
           </div>

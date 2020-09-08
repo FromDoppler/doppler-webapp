@@ -34,11 +34,18 @@ const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
   change_plan: {
+    agencies_icon: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/icono-agencias.svg`,
     all_of_plan: `Todo lo de {plan} más:`,
+    ask_demo: 'Solicita una demo',
     calculate_price: 'Calcular Precio',
     cancel_campaign: 'Cancelar Campaña',
     compare_features: 'Comparar Funcionalidades',
+    current_plan: 'Plan Actual',
     description: '¿Realizas envíos periodicamente o un newsletter al mes?',
+    description_agencies: 'Gestiona y monitorea las cuentas de tus clientes desde un solo lugar.',
+    description_free: 'Prueba Doppler GRATIS sin contratos ni tarjetas de crédito. Hasta 500 Contactos.',
+    description_plus: 'Funciones avanzadas para profesionales que necesitan mas personalización',
+    description_standard: 'Prueba nuestros planes que se ajusten mas a tus necesidades: mensuales o prepagos.',
     email_parameter: 'Parámetros de Email',
     features: 'Funcionalidades:',
     per_month: 'por mes',
@@ -48,6 +55,7 @@ export default {
     since: 'Desde',
     site_tracking: 'Comportamiento en Sitio',
     smart_campaigns: 'Envíos Inteligentes',
+    title: 'Planes a la medida de tu negocio',
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   common: {
