@@ -10,7 +10,7 @@ import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
-import { DopplerPlanClient } from './doppler-plan-client';
+import { PlanService } from './plan-service';
 
 interface AppConfiguration {
   dopplerLegacyUrl: string;
@@ -43,7 +43,7 @@ export interface AppServices {
   experimentalFeatures: ExperimentalFeatures;
   dopplerApiClient: DopplerApiClient;
   ipinfoClient: IpinfoClient;
-  dopplerPlanClient: DopplerPlanClient;
+  planService: PlanService;
 }
 
 /**
@@ -118,10 +118,10 @@ export class AppCompositionRoot implements AppServices {
     );
   }
 
-  get dopplerPlanClient() {
+  get planService() {
     return this.singleton(
-      'dopplerPlanClient',
-      () => new DopplerPlanClient({ dopplerLegacyClient: this.dopplerLegacyClient }),
+      'planService',
+      () => new PlanService({ dopplerLegacyClient: this.dopplerLegacyClient }),
     );
   }
 
