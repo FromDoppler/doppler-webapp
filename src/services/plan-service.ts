@@ -17,13 +17,13 @@ import {
 import { getPlanFee } from '../utils';
 
 export interface PlanHierarchy {
-  getPaths(userPlan: Plan, planList: Plan[]): Promise<Path[]>;
+  getPaths(userPlan: Plan, planList: Plan[]): Path[];
   // current plan free: FreePath, StandardPath, PlusPath, AgenciesPath
   // current plan by credits: StandardPath, PlusPath, AgenciesPath
   // current plan standard: StandardPath, PlusPath, AgenciesPath
   // current plan plus: PlusPath, AgenciesPath
 
-  getPlanTypes(userPlan: Plan, pathType: PathType): PlanType[];
+  getPlanTypes(userPlan: Plan, pathType: PathType, planList: Plan[]): PlanType[];
   // get all plan types to be listed in slider: monthly-deliveries | subscribers | prepaid
   // Free and select standard -->'PrepaidPack' | 'MonthlyRenewalDeliveriesPlan' | 'SubscribersLimitedPlan'
   // Free and select plus --> 'MonthlyRenewalDeliveriesPlan' | 'SubscribersLimitedPlan'
@@ -32,7 +32,7 @@ export interface PlanHierarchy {
   // Standard and select plus --> 'MonthlyRenewalDeliveriesPlan' | 'SubscribersLimitedPlan'
   // plus and select plus (up contacts or up deliveries option) -->  'MonthlyRenewalDeliveriesPlan' | 'SubscribersLimitedPlan'
 
-  getPlans(userPlan: Plan, pathType: PathType, planType: PlanType): Plan[];
+  getPlans(userPlan: Plan, pathType: PathType, planType: PlanType, planList: Plan[]): Plan[];
   // this method is to actually get a plans array with all options to show in slider, in this method we must ensure to call BE once
 }
 
@@ -69,10 +69,11 @@ const getAgencyPlans = (planList: Plan[]): AgencyPlan[] =>
 
 const getStandardPlans = (
   planList: Plan[],
-): (MonthlyRenewalDeliveriesPlan | SubscribersLimitedPlan)[] =>
+): (MonthlyRenewalDeliveriesPlan | SubscribersLimitedPlan | PrepaidPack)[] =>
   planList.filter((x) => x.featureSet === 'standard') as (
     | MonthlyRenewalDeliveriesPlan
     | SubscribersLimitedPlan
+    | PrepaidPack
   )[];
 
 const getPlusPlans = (
@@ -95,7 +96,7 @@ const getFreePathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [FreePath] =
   return [
     {
       type: 'free',
-      actual: userPlan.featureSet === 'free',
+      current: userPlan.featureSet === 'free',
       deadEnd: plans.length === 1 && userPlan === cheapestPlan,
     },
   ];
@@ -113,7 +114,7 @@ const getAgencyPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [AgenciesP
   return [
     {
       type: 'agencies',
-      actual: userPlan.featureSet === 'agency',
+      current: userPlan.featureSet === 'agency',
       deadEnd: plans.length === 1 && userPlan === cheapestPlan,
     },
   ];
@@ -131,7 +132,7 @@ const getStandardPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [Standar
   return [
     {
       type: 'standard',
-      actual: userPlan.featureSet === 'standard',
+      current: userPlan.featureSet === 'standard',
       minimumFee: getPlanFee(cheapestPlan),
       deadEnd: plans.length === 1 && cheapestPlan === userPlan,
     },
@@ -150,7 +151,7 @@ const getPlusPathOrEmpty = (userPlan: Plan, planList: Plan[]): PlusPath[] => {
   return [
     {
       type: 'plus',
-      actual: userPlan.featureSet === 'plus',
+      current: userPlan.featureSet === 'plus',
       minimumFee: cheapestPlan.fee,
       deadEnd: plans.length === 1 && cheapestPlan === userPlan,
     },
@@ -160,6 +161,39 @@ const getPlusPathOrEmpty = (userPlan: Plan, planList: Plan[]): PlusPath[] => {
 const _agencyPlan: AgencyPlan = {
   type: 'agency',
   featureSet: 'agency',
+};
+
+const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
+  const potentialUpgradePlans =
+    userPlan.type === 'free'
+      ? planList
+      : userPlan.type === 'prepaid'
+      ? [
+          ...getPrepaidPacks(planList),
+          ...getUpgradeMonthlyPlans(planList),
+          ...getUpgradeSubscribersPlans(planList),
+        ]
+      : userPlan.type === 'monthly-deliveries'
+      ? getUpgradeMonthlyPlans(planList, {
+          minFee: userPlan.fee,
+          minEmailsByMonth: userPlan.emailsByMonth,
+        })
+      : userPlan.type === 'subscribers'
+      ? [
+          ...getUpgradeSubscribersPlans(planList, {
+            minFee: userPlan.fee,
+            minSubscriberLimit: userPlan.subscriberLimit,
+          }),
+          ...getUpgradeMonthlyPlans(planList, {
+            minFee: userPlan.fee,
+            minEmailsByMonth: 0,
+          }),
+        ]
+      : [];
+  // if the plan is plus featured we won´t need any standard plan
+  const potentialUpgradePlansFilteredByFeatures =
+    userPlan.featureSet === 'plus' ? getPlusPlans(potentialUpgradePlans) : potentialUpgradePlans;
+  return potentialUpgradePlansFilteredByFeatures;
 };
 
 export class PlanService implements PlanHierarchy {
@@ -176,35 +210,9 @@ export class PlanService implements PlanHierarchy {
       : (this.PlanList = await this.dopplerLegacyClient.getAllPlans());
   }
 
-  async getPaths(userPlan: Plan, planList: Plan[]): Promise<Path[]> {
-    const potentialUpgradePlans =
-      userPlan.type === 'free'
-        ? planList
-        : userPlan.type === 'prepaid'
-        ? [
-            ...getPrepaidPacks(planList),
-            ...getUpgradeMonthlyPlans(planList),
-            ...getUpgradeSubscribersPlans(planList),
-          ]
-        : userPlan.type === 'monthly-deliveries'
-        ? getUpgradeMonthlyPlans(planList, {
-            minFee: userPlan.fee,
-            minEmailsByMonth: userPlan.emailsByMonth,
-          })
-        : userPlan.type === 'subscribers'
-        ? getUpgradeSubscribersPlans(planList, {
-            minFee: userPlan.fee,
-            minSubscriberLimit: userPlan.subscriberLimit,
-          })
-        : [];
-    // if the plan is plus featured we won´t need any standard plan
-    const potentialUpgradePlansFilteredByFeatures =
-      userPlan.featureSet === 'plus' ? getPlusPlans(potentialUpgradePlans) : potentialUpgradePlans;
-    const potentialAndCurrentPlans = [
-      userPlan,
-      ...potentialUpgradePlansFilteredByFeatures,
-      _agencyPlan,
-    ];
+  getPaths(userPlan: Plan, planList: Plan[]): Path[] {
+    const potentialUpgradePlans = getPotentialUpgrades(userPlan, planList);
+    const potentialAndCurrentPlans = [userPlan, ...potentialUpgradePlans, _agencyPlan];
 
     return [
       ...getFreePathOrEmpty(userPlan, potentialAndCurrentPlans),
@@ -214,11 +222,36 @@ export class PlanService implements PlanHierarchy {
     ];
   }
 
-  getPlanTypes(userPlan: Plan, pathType: PathType): PlanType[] {
-    throw new Error('Not implemented');
+  getPlanTypes(userPlan: Plan, pathType: PathType, planList: Plan[]): PlanType[] {
+    const potentialUpgradePlans = getPotentialUpgrades(userPlan, planList);
+    const potentialUpgradePlansFilteredByPath =
+      pathType === 'plus'
+        ? getPlusPlans(potentialUpgradePlans)
+        : pathType === 'standard'
+        ? getStandardPlans(potentialUpgradePlans)
+        : [];
+
+    if (potentialUpgradePlansFilteredByPath.length === 0) return [];
+
+    const typesAllowed: PlanType[] = potentialUpgradePlansFilteredByPath.map((plan) => plan.type);
+    const distinctTypesAllowed: PlanType[] = typesAllowed.filter(
+      (n, i) => typesAllowed.indexOf(n) === i,
+    );
+
+    return distinctTypesAllowed;
   }
 
-  getPlans(userPlan: Plan, pathType: PathType, planType: PlanType): Plan[] {
-    throw new Error('Not implemented');
+  getPlans(userPlan: Plan, pathType: PathType, planType: PlanType, planList: Plan[]): Plan[] {
+    const potentialUpgradePlans = getPotentialUpgrades(userPlan, planList);
+    const potentialUpgradePlansFilteredByPath =
+      pathType === 'plus'
+        ? getPlusPlans(potentialUpgradePlans)
+        : pathType === 'standard'
+        ? getStandardPlans(potentialUpgradePlans)
+        : [];
+    const potentialUpgradePlansFilteredByPathAndType = potentialUpgradePlansFilteredByPath.filter(
+      (plan) => plan.type === planType,
+    );
+    return potentialUpgradePlansFilteredByPathAndType;
   }
 }

@@ -80,7 +80,7 @@ export interface AgencyPlan {
 
 export interface FreePath {
   type: 'free';
-  actual: boolean;
+  current: boolean;
   deadEnd: boolean;
 }
 
@@ -95,20 +95,20 @@ export type FeaturedPlan = SubscribersLimitedPlan | MonthlyRenewalDeliveriesPlan
 
 export interface StandardPath {
   type: 'standard';
-  actual: boolean;
+  current: boolean;
   minimumFee: number;
   deadEnd: boolean;
 }
 
 export interface PlusPath {
   type: 'plus';
-  actual: boolean;
+  current: boolean;
   minimumFee: number;
   deadEnd: boolean;
 }
 
 export interface AgenciesPath {
   type: 'agencies';
-  actual: boolean;
+  current: boolean;
   deadEnd: boolean;
 }
