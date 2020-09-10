@@ -37,6 +37,7 @@ export default {
     agencies_icon: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/icono-agencias.svg`,
     all_of_plan: `Everything from {plan} Plus:`,
     ask_demo: 'Ask for a demo',
+    big_data_tooltip: 'Big Data feature',
     calculate_price: 'Calculate Price',
     cancel_campaign: 'Cancel Campaign',
     compare_features: 'Compare Features',
@@ -47,7 +48,22 @@ export default {
     description_plus: 'Advanced features for professionals with custom needs.',
     description_standard: 'Try our plans that best fit to your needs, monthly or prepaids.',
     email_parameter: 'Email parameter',
-    features: 'Features:',
+    features_HTML_agencies: `<option>Manage several accounts</option>
+    <option>Manage access to different accounts</option>
+    <option>Manage roles</option>`,
+    features_HTML_free: `<option>Customer Support</option>
+    <option>Regular Campaigns</option>
+    <option>Basic Automation Campaigns</option>`,
+    features_HTML_plus: `<star>VIP Customer Support</star>
+    <newOption>Stop Campaigns</newOption>
+    <option>Custom domains for your Landing Pages</option>
+    <newBigData>Subject suggestion</newBigData>`,
+    features_HTML_standard: `<option>Doppler API access</option>
+    <option>Site Behaviour Automation Campaigns</option>
+    <option>Custom signature Campaigns</option>`,
+    features_title_plus: 'All in standard and:',
+    features_title_standard: 'All in free and:',
+    new_label: 'New',
     per_month: 'per month',
     recommended: 'Recommended',
     selected_type: 'Plans selected by: ',
@@ -77,6 +93,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     send: `Send`,
     show: `Show`,
     synchronizing: `Synchronizing`,
+    ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
   },
   default_banner_data: {

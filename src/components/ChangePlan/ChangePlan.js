@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { Card, CardPrice, CardAction, Ribbon, CardFeatures } from './Card';
 import queryString from 'query-string';
@@ -31,6 +31,7 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
       const currentPlan = {
         type: 'free',
         subscriberLimit: 500,
+        featureSet: 'free',
       };
       const pathList = await planService.getPaths(currentPlan, await planService.getPlanList());
       console.log(JSON.stringify(pathList));
@@ -44,6 +45,59 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
     };
     fetchData();
   }, [planService]);
+
+  const getFeatureTitleByType = (type) => {
+    switch (type) {
+      case 'standard':
+        return _('change_plan.features_title_standard');
+      case 'plus':
+        return _('change_plan.features_title_plus');
+      default:
+        return '';
+    }
+  };
+
+  const optionItem = (chunks, bullet, label) => {
+    return (
+      <li>
+        {bullet}
+        <span>
+          {chunks} {label}
+        </span>
+      </li>
+    );
+  };
+
+  const basicBullet = () => {
+    return <span className="dp-icodot">.</span>;
+  };
+
+  const starBullet = () => {
+    return (
+      <span className="dp-icostar">
+        <img alt="star icon" src={_('common.ui_library_image', { imageUrl: 'ico-star.svg' })} />
+      </span>
+    );
+  };
+
+  const newLabel = () => {
+    return dopplerLabel(_('change_plan.new_label'));
+  };
+
+  const dopplerLabel = (text) => {
+    return <span class="dp-new">{text}</span>;
+  };
+
+  const bigDataBullet = (tooltipText) => {
+    return (
+      <div class="dp-tooltip-container">
+        <span class="dp-icobd">BD</span>
+        <div class="dp-tooltip-block">
+          <span class="tooltiptext">{tooltipText}</span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -82,15 +136,17 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
                     ) : (
                       ''
                     )}
-                    {path.actual ? (
-                      <span className="dp-current-plan"> {_('change_plan.current_plan')} </span>
+                    {path.current ? (
+                      <div class="dp-cta-plan">
+                        <span className="dp-current-plan"> {_('change_plan.current_plan')} </span>
+                      </div>
                     ) : path.type === 'agencies' ? (
                       <>
                         <img
                           alt="agency-icon"
                           className="dp-price"
                           style={{ width: '80px' }}
-                          src={_('change_plan.agencies_icon') + '?12'}
+                          src={_('change_plan.agencies_icon')}
                         ></img>
                         <CardAction url={getPlanUrl('18', advancedPay, promoCode, _)}>
                           {_('change_plan.ask_demo')}
@@ -103,29 +159,25 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
                     )}
                     {state.isFeaturesVisible ? (
                       <CardFeatures>
-                        <h4>{_('change_plan.features')}</h4>
-                        <ul className="dp-list-detail">
-                          <li>
-                            <span className="dp-icodot">.</span>
-                            <span>{_('change_plan.cancel_campaign')}</span>
-                          </li>
-                          <li>
-                            <span className="dp-icodot">.</span>
-                            <span>{_('change_plan.email_parameter')}</span>
-                          </li>
-                          <li>
-                            <span className="dp-icodot">.</span>
-                            <span>{_('change_plan.shipping_limit')}</span>
-                          </li>
-                          <li>
-                            <span className="dp-icodot">.</span>
-                            <span>{_('change_plan.smart_campaigns')}</span>
-                          </li>
-                          <li>
-                            <span className="dp-icodot">.</span>
-                            <span>{_('change_plan.site_tracking')}</span>
-                          </li>
-                        </ul>
+                        <h4>{getFeatureTitleByType(path.type)}</h4>
+                        <FormattedMessage
+                          id={'change_plan.features_HTML_' + path.type}
+                          values={{
+                            option: (chunks) => optionItem(chunks, basicBullet()),
+                            star: (chunks) => optionItem(chunks, starBullet()),
+                            newOption: (chunks) => optionItem(chunks, basicBullet(), newLabel()),
+                            newStar: (chunks) => optionItem(chunks, starBullet(), newLabel()),
+                            bigData: (chunks) => optionItem(chunks, bigDataBullet()),
+                            newBigData: (chunks) =>
+                              optionItem(
+                                chunks,
+                                bigDataBullet(_('change_plan.big_data_tooltip')),
+                                newLabel(),
+                              ),
+                          }}
+                        >
+                          {(txt) => <ul className="dp-list-detail">{txt}</ul>}
+                        </FormattedMessage>
                       </CardFeatures>
                     ) : null}
                   </Card>
@@ -135,7 +187,7 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
               )}
             </div>
           </div>
-          <div className="dp-align-center p-t-30 p-b-30">
+          <div className="p-t-30 p-b-30">
             <button
               className="dp-compare-details-plans"
               onClick={() => {
