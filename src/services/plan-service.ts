@@ -196,6 +196,10 @@ const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
   return potentialUpgradePlansFilteredByFeatures;
 };
 
+function compareByFee(left: Plan, right: Plan): number {
+  return getPlanFee(left) < getPlanFee(right) ? -1 : getPlanFee(left) > getPlanFee(right) ? 1 : 0;
+}
+
 export class PlanService implements PlanHierarchy {
   private PlanList: Plan[] = [];
   private readonly dopplerLegacyClient: DopplerLegacyClient;
@@ -252,6 +256,10 @@ export class PlanService implements PlanHierarchy {
     const potentialUpgradePlansFilteredByPathAndType = potentialUpgradePlansFilteredByPath.filter(
       (plan) => plan.type === planType,
     );
-    return potentialUpgradePlansFilteredByPathAndType;
+
+    const potentialUpgradePlansFilteredByPathAndTypeSorted = potentialUpgradePlansFilteredByPathAndType.sort(
+      compareByFee,
+    );
+    return potentialUpgradePlansFilteredByPathAndTypeSorted;
   }
 }

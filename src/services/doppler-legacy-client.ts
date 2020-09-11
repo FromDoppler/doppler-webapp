@@ -21,7 +21,7 @@ export interface DopplerLegacyClient {
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
   activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
-  getAllPlans(): Promise<any>;
+  getAllPlans(): Promise<Plan[]>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -306,28 +306,6 @@ function mapNavMainEntry(json: any): MainNavEntry {
   };
 }
 
-function compareByPlanType(left: Plan, right: Plan): number {
-  if (
-    (left.type === 'prepaid' && right.type === 'monthly-deliveries') ||
-    (left.type === 'prepaid' && right.type === 'subscribers') ||
-    (left.type === 'subscribers' && right.type === 'monthly-deliveries')
-  )
-    return -1;
-  if (
-    (left.type === 'monthly-deliveries' && right.type === 'prepaid') ||
-    (left.type === 'subscribers' && right.type === 'prepaid') ||
-    (left.type === 'monthly-deliveries' && right.type === 'subscribers')
-  )
-    return 1;
-  return 0 || compareByFee(left, right);
-}
-
-function compareByFee(left: Plan, right: Plan): number {
-  if (getPlanFee(left) < getPlanFee(right)) return -1;
-  if (getPlanFee(left) > getPlanFee(right)) return 1;
-  return 0;
-}
-
 function sanitizePlans(json: any): any {
   return json.length ? json.filter((rawPlan: any) => rawPlan.Fee) : [];
 }
@@ -499,13 +477,13 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     return mapHeaderDataJson(response.data);
   }
 
-  public async getAllPlans(): Promise<any> {
+  public async getAllPlans(): Promise<Plan[]> {
     const response = await this.axios.get('/WebApp/GetAllPlans');
     if (!response?.data) {
       throw new Error('Empty Doppler response');
     }
 
-    return sanitizePlans(response.data.data).map(parsePlan).sort(compareByPlanType);
+    return sanitizePlans(response.data.data).map(parsePlan);
   }
 
   public async login(model: LoginModel): Promise<LoginResult> {
