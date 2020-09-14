@@ -1,5 +1,6 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
+import { Plan, PrepaidPack, FeaturedPlan } from './doppler-types';
 
 declare global {
   interface Window {
@@ -218,4 +219,8 @@ export function isZohoChatOnline() {
 export function openZohoChatWithMessage(message: string) {
   window.$zoho.salesiq.chat.start();
   window.$zoho.salesiq.visitor.question(message);
+}
+
+export function getPlanFee(plan: Plan): number {
+  return plan.type === 'prepaid' ? (plan as PrepaidPack).price : (plan as FeaturedPlan).fee;
 }

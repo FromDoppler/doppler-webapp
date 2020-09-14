@@ -2,7 +2,15 @@ import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
 import { Property } from 'csstype';
 import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 import axiosRetry from 'axios-retry';
-import { addLogEntry } from '../utils';
+import { addLogEntry, getPlanFee } from '../utils';
+import {
+  AdvancePayOptions,
+  PaymentType,
+  PlanType,
+  BillingCycle,
+  PathType,
+  Plan,
+} from '../doppler-types';
 
 export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
@@ -13,7 +21,7 @@ export interface DopplerLegacyClient {
   resendRegistrationEmail(resendRegistrationModel: ResendRegistrationModel): Promise<void>;
   activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
-  getAllPlans(): Promise<PlanModel[]>;
+  getAllPlans(): Promise<Plan[]>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -215,6 +223,45 @@ export interface DopplerLegacyUserData {
   datahubCustomerId: string | null;
   features: DopplerFeatures;
 }
+
+//TODO: remove this type in favor of plan hierarchy
+export interface DopplerLegacyClientTypePlan {
+  IdUserTypePlan: number;
+  Description: string;
+}
+
+//TODO: remove this type in favor of plan hierarchy
+export interface DopplerLegacyUpgradePlanContactModel {
+  Detail: string;
+  IdClientTypePlanSelected: number;
+}
+
+// dictionaries
+export const planTypeByIdUserType: { [idUserType: number]: PlanType } = {
+  1: 'free',
+  2: 'monthly-deliveries',
+  3: 'prepaid',
+  4: 'subscribers',
+};
+
+export const pathTypeByType: { [type: number]: PathType } = {
+  1: 'free',
+  2: 'standard',
+  3: 'plus',
+};
+
+export const paymentTypeByPaymentMethod: { [paymentMehtod: number]: PaymentType } = {
+  1: 'CC',
+  3: 'transfer',
+};
+
+export const monthPlanByBillingCycle: { [paymentMehtod: number]: BillingCycle } = {
+  1: 'monthly',
+  3: 'quarterly',
+  6: 'half-yearly',
+  12: 'yearly',
+};
+// end dictionaries
 /* #endregion */
 
 /* #region DopplerLegacyUserData mappings */
@@ -259,6 +306,75 @@ function mapNavMainEntry(json: any): MainNavEntry {
   };
 }
 
+function sanitizePlans(json: any): any {
+  return json.length ? json.filter((rawPlan: any) => rawPlan.Fee) : [];
+}
+
+function mapAdvancePay(json: any): AdvancePayOptions {
+  return {
+    id: json.IdDiscountPlan,
+    paymentType: paymentTypeByPaymentMethod[json.IdPaymentMethod],
+    discountPercentage: json.DiscountPlanFee,
+    billingCycle: monthPlanByBillingCycle[json.MonthPlan],
+  };
+}
+
+function parsePlan(json: any) {
+  const id = json.IdUserTypePlan;
+  const fee = json.Fee;
+  const featureSet = pathTypeByType[json.PlanType];
+  const type = planTypeByIdUserType[json.IdUserType];
+  const emailsByMonth = json.EmailQty;
+  const subscriberLimit = json.SubscribersQty;
+  const extraEmailPrice = json.ExtraEmailCost;
+  const features = [];
+  json.EmailParameterEnabled && features.push('emailParameter');
+  json.CancelCampaignEnabled && features.push('cancelCampaign');
+  json.SiteTrackingLicensed && features.push('siteTracking');
+  json.SmartCampaignsEnabled && features.push('smartCampaigns');
+  json.ShippingLimitEnabled && features.push('shippingLimit');
+
+  const billingCycleDetails = json.DiscountXPlan.length
+    ? json.DiscountXPlan.filter(
+        (discount: any) => paymentTypeByPaymentMethod[discount.IdPaymentMethod] === 'CC',
+      ).map(mapAdvancePay)
+    : [];
+  switch (type) {
+    case 'monthly-deliveries':
+      return {
+        type: 'monthly-deliveries',
+        id: id,
+        name: `${emailsByMonth}-EMAILS-${featureSet.toUpperCase()}`,
+        emailsByMonth: emailsByMonth,
+        extraEmailPrice: extraEmailPrice,
+        fee: fee,
+        featureSet: featureSet,
+        features: features,
+        billingCycleDetails: billingCycleDetails,
+      };
+    case 'subscribers':
+      return {
+        type: 'subscribers',
+        id: id,
+        name: `${subscriberLimit}-SUBSCRIBERS-${featureSet.toUpperCase()}`,
+        subscriberLimit: subscriberLimit,
+        fee: fee,
+        featureSet: featureSet,
+        featureList: features,
+        billingCycleDetails: billingCycleDetails,
+      };
+    case 'prepaid':
+      return {
+        type: 'prepaid',
+        id: id,
+        name: `${emailsByMonth}-CREDITS`,
+        credits: emailsByMonth,
+        price: fee,
+        featureSet: 'standard',
+      };
+  }
+}
+
 export function mapHeaderDataJson(json: any) {
   return {
     alert: json.alert && {
@@ -293,99 +409,6 @@ export function mapHeaderDataJson(json: any) {
       emailParameterActive: !!(json.features && json.features.emailParameterActive),
     },
   };
-}
-
-export function mapAdvancedPay(json: any): AdvancedPayOptions {
-  return {
-    id: json.IdDiscountPlan,
-    idPlan: json.IdUserTypePlan,
-    paymentType: json.IdPaymentMethod,
-    discountPercentage: json.DiscountPlanFee,
-    monthsToPay: json.MonthPlan,
-  };
-}
-
-export function mapPlan(json: any): PlanModel {
-  return {
-    id: json.IdUserTypePlan,
-    description: json.Description,
-    fee: json.Fee,
-    userType: json.IdUserType,
-    type: json.PlanType,
-    emailsByMonth: json.EmailQty,
-    subscribersByMonth: json.SubscribersQty,
-    emailPrice: json.ExtraEmailCost,
-    features: {
-      emailParameter: json.EmailParameterEnabled,
-      cancelCampaign: json.CancelCampaignEnabled,
-      siteTracking: json.SiteTrackingLicensed,
-      smartCampaigns: json.SmartCampaignsEnabled,
-      shippingLimit: json.ShippingLimitEnabled,
-    },
-    advancedPayOptions: json.DiscountXPlan.map(mapAdvancedPay),
-  };
-}
-
-export function mapPlanListJson(json: any) {
-  return json.data.map(mapPlan);
-}
-/* #endregion */
-
-/* #region Plan data types */
-export interface DopplerLegacyClientTypePlan {
-  IdUserTypePlan: number;
-  Description: string;
-}
-
-export interface DopplerLegacyUpgradePlanContactModel {
-  Detail: string;
-  IdClientTypePlanSelected: number;
-}
-
-export interface AdvancedPayOptions {
-  id: number;
-  idPlan: number;
-  paymentType: number;
-  discountPercentage: number;
-  monthsToPay: number;
-}
-
-export interface PlanModel {
-  id: number;
-  description: string;
-  emailsByMonth?: number;
-  subscribersByMonth?: number;
-  fee: number;
-  emailPrice?: number;
-  userType: userType;
-  type: planType;
-  features?: {
-    emailParameter?: boolean;
-    cancelCampaign?: boolean;
-    siteTracking?: boolean;
-    smartCampaigns?: boolean;
-    shippingLimit?: boolean;
-  };
-  advancedPayOptions?: [AdvancedPayOptions];
-}
-
-export enum planType {
-  FREE = 1,
-  STANDARD = 2,
-  PLUS = 3,
-  ENTERPRISE = 4,
-}
-
-export enum userType {
-  FREE = 1,
-  HIGH_VOLUME = 2,
-  PREPAID = 3,
-  SUBSCRIBERS_MONTHLY = 4,
-  CMUSERS = 5,
-  CMMONTHLY = 6,
-  DEMO = 7,
-  CMFREE = 8,
-  CMSUBSCRIBERS = 9,
 }
 
 /* #endregion */
@@ -454,13 +477,13 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     return mapHeaderDataJson(response.data);
   }
 
-  public async getAllPlans(): Promise<PlanModel[]> {
+  public async getAllPlans(): Promise<Plan[]> {
     const response = await this.axios.get('/WebApp/GetAllPlans');
     if (!response?.data) {
       throw new Error('Empty Doppler response');
     }
 
-    return mapPlanListJson(response.data);
+    return sanitizePlans(response.data.data).map(parsePlan);
   }
 
   public async login(model: LoginModel): Promise<LoginResult> {
