@@ -13,7 +13,13 @@ export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedErr
 
 export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
 
-export type PlanType = 'free' | 'prepaid' | 'monthly-deliveries' | 'subscribers' | 'agencies' | 'demo' ;
+export type PlanType =
+  | 'free'
+  | 'prepaid'
+  | 'monthly-deliveries'
+  | 'subscribers'
+  | 'agencies'
+  | 'demo';
 
 export type PaymentType = 'CC' | 'transfer';
 

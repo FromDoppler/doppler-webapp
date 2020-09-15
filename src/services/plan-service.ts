@@ -121,8 +121,7 @@ const getAgencyPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [AgenciesP
 };
 
 const getStandardPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [StandardPath] => {
-  var plans = getStandardPlans(planList).sort((x) => getPlanFee(x));
-
+  var plans = getStandardPlans(planList).sort(compareByFee);
   if (plans.length === 0) {
     return [];
   }
@@ -140,7 +139,7 @@ const getStandardPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [Standar
 };
 
 const getPlusPathOrEmpty = (userPlan: Plan, planList: Plan[]): PlusPath[] => {
-  var plans = getPlusPlans(planList).sort((x) => x.fee);
+  var plans = getPlusPlans(planList).sort(compareByFee);
 
   if (plans.length === 0) {
     return [];
@@ -261,5 +260,36 @@ export class PlanService implements PlanHierarchy {
       compareByFee,
     );
     return potentialUpgradePlansFilteredByPathAndTypeSorted;
+  }
+
+  getMonthlyPlanByEmailsAndFeature(
+    emailsByMonth: number,
+    featureSet: 'standard' | 'plus',
+    planList: Plan[],
+  ) {
+    const monthlyPlans = getUpgradeMonthlyPlans(planList);
+    const monthlyFeaturedPlans =
+      featureSet === 'standard' ? getStandardPlans(monthlyPlans) : getPlusPlans(monthlyPlans);
+    return monthlyFeaturedPlans.find(
+      (plan) => (plan as MonthlyRenewalDeliveriesPlan).emailsByMonth === emailsByMonth,
+    );
+  }
+
+  getSubscribersPlanByContactsAndFeature(
+    subscriberLimit: number,
+    featureSet: 'standard' | 'plus',
+    planList: Plan[],
+  ) {
+    const subscriberPlans = getUpgradeSubscribersPlans(planList);
+    const subscriberFeaturedPlans =
+      featureSet === 'standard' ? getStandardPlans(subscriberPlans) : getPlusPlans(subscriberPlans);
+    return subscriberFeaturedPlans.find(
+      (plan) => (plan as SubscribersLimitedPlan).subscriberLimit === subscriberLimit,
+    );
+  }
+
+  getCheapestPrepaidPlan(planList: Plan[]) {
+    const prepaidPlans = getPrepaidPacks(planList).sort(compareByFee);
+    return prepaidPlans[0];
   }
 }

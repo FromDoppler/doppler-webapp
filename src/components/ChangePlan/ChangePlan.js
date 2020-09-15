@@ -12,113 +12,10 @@ function getPlanUrl(planId, advancedPay, promoCode, _) {
     `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True&IdDiscountPlan=${advancedPay}&PromoCode=${promoCode}`
   );
 }
-
-const mapCurrentPlan = (plan) => {
-  switch(plan.planType){
-    case 'demo':
-    case 'free':
-      return {
-        type: 'free',
-        subscriberLimit: 500,
-        featureSet: 'free',
-      };
-    case 'monthly-deliveries': 
-    return {
-      type: 'monthly-deliveries',
-      id: 0,
-      name: plan.planName,
-      emailsByMonth: plan?.maxSubscribers,
-      extraEmailPrice: 0,
-      fee: 0,
-      featureSet: 'standard', // TODO: this must be get in BE 
-      featureList: [],
-      billingCycleDetails: [],
-    };
-    case 'subscribers':
-      return {
-        type: 'subscribers',
-        id: 0,
-        name: '',
-        subscriberLimit: plan?.maxSubscribers,
-        fee: 0,
-        featureSet: 'standard', // TODO: this must be get in BE 
-        featureList: [],
-        billingCycleDetails: [],
-      }
-    case 'prepaid':
-      return {
-        type: 'prepaid',
-        id: 0,
-        name: '',
-        credits: plan.remainingCredits,
-        price: 0,
-        featureSet: 'standard',
-      }
-    case 'agencies':
-      return {
-        type: 'agency',
-        featureSet: 'agency', 
-      }
-  }
-  
-};
-
-const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) => {
-  const promoCode = extractParameter(location, queryString.parse, 'promo-code') || '';
-  const advancedPay = extractParameter(location, queryString.parse, 'advanced-pay') || 0;
+const BulletOptions = ({type}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const currentPlan = mapCurrentPlan(appSessionRef.current.userData.user.plan);
-
-  console.log(currentPlan);
-
-  const [state, setState] = useState({
-    loading: true,
-    isFeaturesVisible: false,
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setState({ loading: true });
-      const pathList = await planService.getPaths(currentPlan, await planService.getPlanList());
-      console.log(JSON.stringify(pathList));
-      if (pathList.length) {
-        setState({
-          loading: false,
-          pathList: pathList,
-          isFeaturesVisible: false,
-        });
-      }
-    };
-    fetchData();
-  }, [planService]);
-
-  const getFeatureTitleByType = (type) => {
-    switch (type) {
-      case 'standard':
-        return _('change_plan.features_title_standard');
-      case 'plus':
-        return _('change_plan.features_title_plus');
-      default:
-        return '';
-    }
-  };
-
-  const optionItem = (chunks, bullet, label) => {
-    return (
-      <li>
-        {bullet}
-        <span>
-          {chunks} {label}
-        </span>
-      </li>
-    );
-  };
-
-  const basicBullet = () => {
-    return <span className="dp-icodot">.</span>;
-  };
-
+  
   const starBullet = () => {
     return (
       <span className="dp-icostar">
@@ -131,19 +28,125 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
     return dopplerLabel(_('change_plan.new_label'));
   };
 
-  const dopplerLabel = (text) => {
-    return <span class="dp-new">{text}</span>;
-  };
+  return (
+    <FormattedMessage
+      id={'change_plan.features_HTML_' + type}
+      values={{
+        option: (chunks) => optionItem(chunks, basicBullet()),
+        star: (chunks) => optionItem(chunks, starBullet()),
+        newOption: (chunks) => optionItem(chunks, basicBullet(), newLabel()),
+        newStar: (chunks) => optionItem(chunks, starBullet(), newLabel()),
+        bigData: (chunks) => optionItem(chunks, bigDataBullet()),
+        newBigData: (chunks) =>
+          optionItem(
+            chunks,
+            bigDataBullet(_('change_plan.big_data_tooltip')),
+            newLabel(),
+          ),
+      }}
+    >
+      {(txt) => <ul className="dp-list-detail">{txt}</ul>}
+    </FormattedMessage>
+  );
+}
 
-  const bigDataBullet = (tooltipText) => {
-    return (
-      <div class="dp-tooltip-container">
-        <span class="dp-icobd">BD</span>
-        <div class="dp-tooltip-block">
-          <span class="tooltiptext">{tooltipText}</span>
-        </div>
+const optionItem = (chunks, bullet, label) => {
+  return (
+    <li>
+      {bullet}
+      <span>
+        {chunks} {label}
+      </span>
+    </li>
+  );
+};
+
+const basicBullet = () => {
+  return <span className="dp-icodot">.</span>;
+};
+
+const dopplerLabel = (text) => {
+  return <span className="dp-new">{text}</span>;
+};
+
+const bigDataBullet = (tooltipText) => {
+  return (
+    <div className="dp-tooltip-container">
+      <span className="dp-icobd">BD</span>
+      <div className="dp-tooltip-block">
+        <span className="tooltiptext">{tooltipText}</span>
       </div>
-    );
+    </div>
+  );
+};
+
+const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) => {
+  const promoCode = extractParameter(location, queryString.parse, 'promo-code') || '';
+  const advancedPay = extractParameter(location, queryString.parse, 'advanced-pay') || 0;
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const [state, setState] = useState({
+    loading: true,
+    isFeaturesVisible: false,
+  });
+  useEffect(() => {
+    const mapCurrentPlan = (plan, planList) => {
+      // TODO: plan should include feature plan = 'standard' | 'plus' for now standard as default
+      const exclusivePlan = {type: 'exclusive'}; 
+      switch(plan.planType){
+        case 'demo':
+        case 'free':
+          return {
+            type: 'free',
+            subscriberLimit: 500,
+            featureSet: 'free',
+          };
+        case 'monthly-deliveries':
+          const monthlyPlan = planService.getMonthlyPlanByEmailsAndFeature(plan.maxSubscribers, 'standard', planList);
+          return monthlyPlan? monthlyPlan : exclusivePlan; //if not found it is exclusive plan
+        case 'subscribers':
+          const subscribersPlan = planService.getSubscribersPlanByContactsAndFeature(plan.maxSubscribers, 'standard',planList);
+          return subscribersPlan? subscribersPlan: exclusivePlan;
+        case 'prepaid':
+          return planService.getCheapestPrepaidPlan(plan.maxSubscribers, 'standard', planList);
+        case 'agencies':
+          return {
+            type: 'agency',
+            featureSet: 'agency', 
+          }
+        default: {}
+      } 
+    };
+    const fetchData = async () => {
+      setState({ loading: true });
+      const planList = await planService.getPlanList();
+      const currentPlan = mapCurrentPlan(appSessionRef.current.userData.user.plan, planList);
+      const pathList = await planService.getPaths(currentPlan, planList);
+      console.log('CurrentPlan: '+ JSON.stringify(currentPlan));
+      console.log(JSON.stringify(pathList));
+      if (pathList.length) {
+        setState({
+          loading: false,
+          pathList: pathList,
+          isFeaturesVisible: false,
+          currentPlan: currentPlan,
+        });
+      }
+      console.log(JSON.stringify(state));
+    };
+    fetchData();
+  }, [planService, appSessionRef]);
+
+  const getFeatureTitleByType = (type) => {
+    switch (type) {
+      case 'standard':
+        return _('change_plan.features_title_standard');
+      case 'plus':
+        return _('change_plan.features_title_plus');
+      default:
+        return '';
+    }
   };
 
   return (
@@ -189,10 +192,10 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                       </div>
                       ): (
                         <>
-                        <button type="button" class="dp-button button-medium secondary-green">
-                          {_('change_plan.increase_action_'+ currentPlan.type.replace('-', '_'))}
+                        <button type="button" className="dp-button button-medium secondary-green">
+                          {_('change_plan.increase_action_'+ state.currentPlan.type.replace('-', '_'))}
                         </button>
-                        <span class="dp-what-plan">{_('change_plan.current_plan')}</span>
+                        <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
                         </>
                       )
                     ) : path.type === 'agencies' ? (
@@ -215,24 +218,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                     {state.isFeaturesVisible ? (
                       <CardFeatures>
                         <h4>{getFeatureTitleByType(path.type)}</h4>
-                        <FormattedMessage
-                          id={'change_plan.features_HTML_' + path.type}
-                          values={{
-                            option: (chunks) => optionItem(chunks, basicBullet()),
-                            star: (chunks) => optionItem(chunks, starBullet()),
-                            newOption: (chunks) => optionItem(chunks, basicBullet(), newLabel()),
-                            newStar: (chunks) => optionItem(chunks, starBullet(), newLabel()),
-                            bigData: (chunks) => optionItem(chunks, bigDataBullet()),
-                            newBigData: (chunks) =>
-                              optionItem(
-                                chunks,
-                                bigDataBullet(_('change_plan.big_data_tooltip')),
-                                newLabel(),
-                              ),
-                          }}
-                        >
-                          {(txt) => <ul className="dp-list-detail">{txt}</ul>}
-                        </FormattedMessage>
+                        <BulletOptions type={path.type}/>
                       </CardFeatures>
                     ) : null}
                   </Card>

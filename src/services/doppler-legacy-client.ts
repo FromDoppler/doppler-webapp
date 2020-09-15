@@ -246,8 +246,7 @@ export const planTypeByIdUserType: { [idUserType: number]: PlanType } = {
   5: 'agencies',
   6: 'agencies',
   7: 'demo',
-  8: 'agencies'
-
+  8: 'agencies',
 };
 
 export const pathTypeByType: { [type: number]: PathType } = {
@@ -285,7 +284,7 @@ function mapPlanEntry(json: any): PlanEntry {
     remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
     isFreeAccount:
       json.planType === 1 || json.planType === 7 || json.planType === '1' || json.planType === '7',
-    planType: planTypeByIdUserType[json.planType]
+    planType: planTypeByIdUserType[json.planType],
   };
 }
 function mapSmsEntry(json: any): SmsEntry {
