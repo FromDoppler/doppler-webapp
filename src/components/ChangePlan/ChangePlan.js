@@ -13,11 +13,64 @@ function getPlanUrl(planId, advancedPay, promoCode, _) {
   );
 }
 
-const ChangePlan = ({ location, dependencies: { planService } }) => {
+const mapCurrentPlan = (plan) => {
+  switch(plan.planType){
+    case 'demo':
+    case 'free':
+      return {
+        type: 'free',
+        subscriberLimit: 500,
+        featureSet: 'free',
+      };
+    case 'monthly-deliveries': 
+    return {
+      type: 'monthly-deliveries',
+      id: 0,
+      name: plan.planName,
+      emailsByMonth: plan?.maxSubscribers,
+      extraEmailPrice: 0,
+      fee: 0,
+      featureSet: 'standard', // TODO: this must be get in BE 
+      featureList: [],
+      billingCycleDetails: [],
+    };
+    case 'subscribers':
+      return {
+        type: 'subscribers',
+        id: 0,
+        name: '',
+        subscriberLimit: plan?.maxSubscribers,
+        fee: 0,
+        featureSet: 'standard', // TODO: this must be get in BE 
+        featureList: [],
+        billingCycleDetails: [],
+      }
+    case 'prepaid':
+      return {
+        type: 'prepaid',
+        id: 0,
+        name: '',
+        credits: plan.remainingCredits,
+        price: 0,
+        featureSet: 'standard',
+      }
+    case 'agencies':
+      return {
+        type: 'agency',
+        featureSet: 'agency', 
+      }
+  }
+  
+};
+
+const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) => {
   const promoCode = extractParameter(location, queryString.parse, 'promo-code') || '';
   const advancedPay = extractParameter(location, queryString.parse, 'advanced-pay') || 0;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const currentPlan = mapCurrentPlan(appSessionRef.current.userData.user.plan);
+
+  console.log(currentPlan);
 
   const [state, setState] = useState({
     loading: true,
@@ -27,12 +80,6 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
-      // TODO: get current plan for now free
-      const currentPlan = {
-        type: 'free',
-        subscriberLimit: 500,
-        featureSet: 'free',
-      };
       const pathList = await planService.getPaths(currentPlan, await planService.getPlanList());
       console.log(JSON.stringify(pathList));
       if (pathList.length) {
@@ -136,10 +183,18 @@ const ChangePlan = ({ location, dependencies: { planService } }) => {
                     ) : (
                       ''
                     )}
-                    {path.current ? (
-                      <div class="dp-cta-plan">
+                    {path.current ? (path.deadEnd?
+                      (<div className="dp-cta-plan">
                         <span className="dp-current-plan"> {_('change_plan.current_plan')} </span>
                       </div>
+                      ): (
+                        <>
+                        <button type="button" class="dp-button button-medium secondary-green">
+                          {_('change_plan.increase_action_'+ currentPlan.type.replace('-', '_'))}
+                        </button>
+                        <span class="dp-what-plan">{_('change_plan.current_plan')}</span>
+                        </>
+                      )
                     ) : path.type === 'agencies' ? (
                       <>
                         <img

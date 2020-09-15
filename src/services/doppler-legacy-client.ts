@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
 import { Property } from 'csstype';
 import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 import axiosRetry from 'axios-retry';
-import { addLogEntry, getPlanFee } from '../utils';
+import { addLogEntry } from '../utils';
 import {
   AdvancePayOptions,
   PaymentType,
@@ -171,6 +171,7 @@ interface PlanEntry {
   planName: string;
   remainingCredits: number;
   isFreeAccount: boolean;
+  planType: PlanType;
 }
 
 interface SmsEntry {
@@ -242,6 +243,11 @@ export const planTypeByIdUserType: { [idUserType: number]: PlanType } = {
   2: 'monthly-deliveries',
   3: 'prepaid',
   4: 'subscribers',
+  5: 'agencies',
+  6: 'agencies',
+  7: 'demo',
+  8: 'agencies'
+
 };
 
 export const pathTypeByType: { [type: number]: PathType } = {
@@ -279,6 +285,7 @@ function mapPlanEntry(json: any): PlanEntry {
     remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
     isFreeAccount:
       json.planType === 1 || json.planType === 7 || json.planType === '1' || json.planType === '7',
+    planType: planTypeByIdUserType[json.planType]
   };
 }
 function mapSmsEntry(json: any): SmsEntry {
