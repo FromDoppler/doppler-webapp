@@ -87,6 +87,130 @@ const BigDataBullet = ({ children }) => {
   );
 };
 
+const FreeCard = ({ showFeatures }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  return (
+    <Card>
+      <div className="dp-content-plans-free">
+        <h3>{_('change_plan.card_free_title')}</h3>
+        <p>{_('change_plan.card_free_description')}</p>
+      </div>
+      <div className="dp-cta-plan">
+        <span className="dp-current-plan"> {_('change_plan.current_plan')} </span>
+      </div>
+      {showFeatures ? (
+        <CardFeatures>
+          <BulletOptions type={'free'} />
+        </CardFeatures>
+      ) : null}
+    </Card>
+  );
+};
+
+const AgenciesCard = ({ showFeatures }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  return (
+    <Card>
+      <div className="dp-content-plans">
+        <h3>{_('change_plan.card_agencies_title')}</h3>
+        <p>{_('change_plan.card_agencies_description')}</p>
+      </div>
+      <img
+        alt="agency-icon"
+        className="dp-price"
+        style={{ width: '80px' }}
+        src={_('change_plan.agencies_icon')}
+      ></img>
+      <CardAction url={getPlanUrl('18', 0, 'promo', _)}>{_('change_plan.ask_demo')}</CardAction>
+      {showFeatures ? (
+        <CardFeatures>
+          <BulletOptions type={'agencies'} />
+        </CardFeatures>
+      ) : null}
+    </Card>
+  );
+};
+
+const StandardCard = ({ path, showFeatures, currentPlanType }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  return (
+    <Card>
+      <div className="dp-content-plans">
+        <h3>{_('change_plan.card_standard_title')}</h3>
+        <p>{_('change_plan.card_standard_description')}</p>
+      </div>
+
+      <CardPrice currency="US$">{path.minimumFee}</CardPrice>
+
+      {path.current && !path.deadEnd ? (
+        <>
+          <button type="button" className="dp-button button-medium secondary-green">
+            {_('change_plan.increase_action_' + currentPlanType.replace('-', '_'))}
+          </button>
+          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
+        </>
+      ) : path.current && path.deadEnd ? (
+        <>
+          <span class="dp-maximum">{_('change_plan.card_generic_maximum_reached')}</span>
+          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
+        </>
+      ) : (
+        <CardAction url={getPlanUrl('18', 0, 'promo', _)}>{_('change_plan.ask_demo')}</CardAction>
+      )}
+
+      {showFeatures ? (
+        <CardFeatures>
+          <h4>{_('change_plan.features_title_standard')}</h4>
+          <BulletOptions type={'standard'} />
+        </CardFeatures>
+      ) : null}
+    </Card>
+  );
+};
+
+const PlusCard = ({ path, showFeatures, currentPlanType }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  return (
+    <Card highlighted>
+      <Ribbon content={_('change_plan.recommended')} />
+
+      <div className="dp-content-plans">
+        <h3>{_('change_plan.card_plus_title')}</h3>
+        <p>{_('change_plan.card_plus_description')}</p>
+      </div>
+
+      <CardPrice currency="US$">{path.minimumFee}</CardPrice>
+
+      {path.current && !path.deadEnd ? (
+        <>
+          <button type="button" className="dp-button button-medium secondary-green">
+            {_('change_plan.increase_action_' + currentPlanType.replace('-', '_'))}
+          </button>
+          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
+        </>
+      ) : path.current && path.deadEnd ? (
+        <>
+          <span class="dp-maximum">{_('change_plan.card_generic_maximum_reached')}</span>
+          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
+        </>
+      ) : (
+        <CardAction url={getPlanUrl('18', 0, 'promo', _)}>{_('change_plan.ask_demo')}</CardAction>
+      )}
+
+      {showFeatures ? (
+        <CardFeatures>
+          <h4>{_('change_plan.features_title_plus')}</h4>
+          <BulletOptions type={'plus'} />
+        </CardFeatures>
+      ) : null}
+    </Card>
+  );
+};
+
 const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) => {
   const promoCode = extractParameter(location, queryString.parse, 'promo-code') || '';
   const advancedPay = extractParameter(location, queryString.parse, 'advanced-pay') || 0;
@@ -167,66 +291,27 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
           <div className="dp-rowflex">
             <div className="dp-align-center p-t-30 p-b-30">
               {state.pathList?.length ? (
-                state.pathList.map((path, index) => (
-                  <Card highlighted={path.type === 'plus'} key={index}>
-                    {path.type === 'plus' ? (
-                      <Ribbon content={_('change_plan.recommended')} />
-                    ) : null}
-
-                    <div
-                      className={
-                        path.type === 'free' ? 'dp-content-plans-free' : 'dp-content-plans'
-                      }
-                    >
-                      <h3>{path.type}</h3>
-                      <p>{_('change_plan.description_' + path.type)}</p>
-                    </div>
-                    {path.type !== 'free' && path.type !== 'agencies' ? (
-                      <CardPrice currency="US$">{path.minimumFee}</CardPrice>
-                    ) : (
-                      ''
-                    )}
-                    {path.type === 'agencies' ? (
-                      <>
-                        <img
-                          alt="agency-icon"
-                          className="dp-price"
-                          style={{ width: '80px' }}
-                          src={_('change_plan.agencies_icon')}
-                        ></img>
-                        <CardAction url={getPlanUrl('18', advancedPay, promoCode, _)}>
-                          {_('change_plan.ask_demo')}
-                        </CardAction>
-                      </>
-                    ) : path.current ? (
-                      path.deadEnd ? (
-                        <div className="dp-cta-plan">
-                          <span className="dp-current-plan"> {_('change_plan.current_plan')} </span>
-                        </div>
-                      ) : (
-                        <>
-                          <button type="button" className="dp-button button-medium secondary-green">
-                            {_(
-                              'change_plan.increase_action_' +
-                                state.currentPlan.type.replace('-', '_'),
-                            )}
-                          </button>
-                          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
-                        </>
-                      )
-                    ) : (
-                      <CardAction url={getPlanUrl('18', advancedPay, promoCode, _)}>
-                        {_('change_plan.calculate_price')}
-                      </CardAction>
-                    )}
-                    {state.isFeaturesVisible ? (
-                      <CardFeatures>
-                        <h4>{getFeatureTitleByType(path.type)}</h4>
-                        <BulletOptions type={path.type} />
-                      </CardFeatures>
-                    ) : null}
-                  </Card>
-                ))
+                state.pathList.map((path, index) =>
+                  path.type === 'free' ? (
+                    <FreeCard key={index} showFeatures={state.isFeaturesVisible}></FreeCard>
+                  ) : path.type === 'agencies' ? (
+                    <AgenciesCard key={index} showFeatures={state.isFeaturesVisible}></AgenciesCard>
+                  ) : path.type === 'standard' ? (
+                    <StandardCard
+                      key={index}
+                      path={path}
+                      showFeatures={state.isFeaturesVisible}
+                      currentPlanType={state.currentPlan.type}
+                    ></StandardCard>
+                  ) : (
+                    <PlusCard
+                      key={index}
+                      path={path}
+                      showFeatures={state.isFeaturesVisible}
+                      currentPlanType={state.currentPlan.type}
+                    ></PlusCard>
+                  ),
+                )
               ) : (
                 <></>
               )}
