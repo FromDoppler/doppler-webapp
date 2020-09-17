@@ -3,16 +3,6 @@ import Modal from '../../../components/Modal/Modal';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
 import { FormattedNumber, useIntl } from 'react-intl';
 
-function getTypePlan(plan) {
-  if (plan.isMonthlyByEmail) {
-    return 'monthly';
-  } else if (plan.isSubscribers) {
-    return 'suscribers';
-  } else {
-    return 'other';
-  }
-}
-
 const HeaderUserMenu = ({ user }) => {
   const intl = useIntl();
   const [buyModalIsOpen, setBuyModalIsOpen] = useState(false);
@@ -25,7 +15,6 @@ const HeaderUserMenu = ({ user }) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   };
-  const planType = getTypePlan(user.plan);
 
   return (
     <div>
@@ -52,14 +41,7 @@ const HeaderUserMenu = ({ user }) => {
                 {user.plan.itemDescription})
               </p>
             ) : (
-              ''
-            )}
-            {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
-              <a className="user-plan" href={user.plan.buttonUrl}>
-                {user.plan.buttonText}
-              </a>
-            ) : (
-              ''
+              <p className="user-plan--monthly-text">{_('header.plan_prepaid')}</p>
             )}
             {!user.hasClientManager && user.plan.buttonUrl && user.plan.pendingFreeUpgrade ? (
               <button onClick={() => toggleModal(true)} className="user-plan">
@@ -78,16 +60,25 @@ const HeaderUserMenu = ({ user }) => {
           </div>
 
           <div className="user-plan--type">
-            {planType === 'monthly' || 'suscribers' ? (
+            {user.plan.planType === 'monthly-deliveries' || user.plan.planType === 'suscribers' ? (
               <p>
                 {user.plan.maxSubscribers - user.plan.remainingCredits}{' '}
-                {_(`header.plan_${planType}`)} (<strong>{user.plan.remainingCredits}</strong>{' '}
-                {_('header.availables')})
+                {_(`header.plan_${user.plan.planType === 'suscribers' ? 'suscribers' : 'emails'}`)}{' '}
+                (<strong>{user.plan.remainingCredits}</strong> {_('header.availables')})
               </p>
             ) : (
-              <p>
-                {user.plan.remainingCredits} {user.plan.description})
-              </p>
+              <>
+                <p>
+                  <strong>{user.plan.remainingCredits}</strong> {user.plan.description}
+                </p>
+                {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
+                  <a className="user-plan" href={user.plan.buttonUrl}>
+                    {user.plan.buttonText}
+                  </a>
+                ) : (
+                  ''
+                )}
+              </>
             )}
             {Object.keys(user.sms).length ? (
               <>

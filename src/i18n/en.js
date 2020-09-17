@@ -145,7 +145,8 @@ You'll find an Email with steps to follow.`,
   header: {
     availables: 'availables',
     help_url: `${urlHelp}`,
-    plan_monthly: 'Emails',
+    plan_emails: 'Emails',
+    plan_prepaid: 'Prepaid Plan',
     plan_suscribers: 'Suscribers',
   },
   invoices_list: {

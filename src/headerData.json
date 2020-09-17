@@ -111,14 +111,15 @@
     "fullname": "Cecilia Bernat",
     "plan": {
       "planType": "1",
-      "description": "Remaining Emails",
+      "description": "Créditos disponibles",
       "itemDescription": "Subscribers",
       "planName": "Free Account",
       "isSubscribers": "true",
       "isMonthlyByEmail": "false",
       "maxSubscribers": "500",
       "remainingCredits": "500",
-      "buttonText": "UPGRADE"
+      "buttonText": "COMPRAR",
+      "buttonUrl": "/gg/"
     },
     "sms": {
       "description": "Available for SMS",
