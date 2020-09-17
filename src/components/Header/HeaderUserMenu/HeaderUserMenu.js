@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
-import { FormattedNumber } from 'react-intl';
+import { FormattedNumber, useIntl } from 'react-intl';
+
+function getTypePlan(plan) {
+  if (plan.isMonthlyByEmail) {
+    return 'monthly';
+  } else if (plan.isSubscribers) {
+    return 'suscribers';
+  } else {
+    return 'other';
+  }
+}
 
 const HeaderUserMenu = ({ user }) => {
+  const intl = useIntl();
   const [buyModalIsOpen, setBuyModalIsOpen] = useState(false);
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const toggleModal = (isOpen) => setBuyModalIsOpen(isOpen);
   const smsBalanceStyle = user.sms.remainingCredits < 0 ? 'dp-color-red' : '';
@@ -13,6 +25,7 @@ const HeaderUserMenu = ({ user }) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   };
+  const planType = getTypePlan(user.plan);
 
   return (
     <div>
@@ -35,61 +48,69 @@ const HeaderUserMenu = ({ user }) => {
           <div className="user-plan--type">
             {user.plan.isSubscribers || user.plan.isMonthlyByEmail ? (
               <p className="user-plan--monthly-text">
-                <span>{user.plan.planName}</span> |{' '}
-                <strong>
-                  {user.plan.maxSubscribers} {user.plan.itemDescription}
-                </strong>
+                <strong>{user.plan.planName}</strong> ({user.plan.maxSubscribers}{' '}
+                {user.plan.itemDescription})
               </p>
             ) : (
               ''
             )}
-            <p>
-              <strong>{user.plan.remainingCredits}</strong> {user.plan.description}
-            </p>
-          </div>
-          {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
-            <a className="user-plan" href={user.plan.buttonUrl}>
-              {user.plan.buttonText}
-            </a>
-          ) : (
-            ''
-          )}
-          {!user.hasClientManager && user.plan.buttonUrl && user.plan.pendingFreeUpgrade ? (
-            <button onClick={() => toggleModal(true)} className="user-plan">
-              {user.plan.buttonText}
-            </button>
-          ) : (
-            ''
-          )}
-          {!user.hasClientManager && !user.plan.buttonUrl ? (
-            <button onClick={() => toggleModal(true)} className="user-plan">
-              {user.plan.buttonText}
-            </button>
-          ) : (
-            ''
-          )}
-        </div>
-        {Object.keys(user.sms).length ? (
-          <div className="user-plan--container">
-            <div className="user-plan--type">
-              <p>
-                <strong className={smsBalanceStyle}>
-                  US$ <FormattedNumber value={user.sms.remainingCredits} {...numberFormatOptions} />
-                </strong>{' '}
-                {user.sms.description}
-              </p>
-            </div>
-            {user.sms.buttonUrl ? (
-              <a className="user-plan" target="_self" href={user.sms.buttonUrl}>
-                {user.sms.buttonText}
+            {!user.hasClientManager && user.plan.buttonUrl && !user.plan.pendingFreeUpgrade ? (
+              <a className="user-plan" href={user.plan.buttonUrl}>
+                {user.plan.buttonText}
               </a>
             ) : (
               ''
             )}
+            {!user.hasClientManager && user.plan.buttonUrl && user.plan.pendingFreeUpgrade ? (
+              <button onClick={() => toggleModal(true)} className="user-plan">
+                {user.plan.buttonText}
+              </button>
+            ) : (
+              ''
+            )}
+            {!user.hasClientManager && !user.plan.buttonUrl ? (
+              <button onClick={() => toggleModal(true)} className="user-plan">
+                {user.plan.buttonText}
+              </button>
+            ) : (
+              ''
+            )}
           </div>
-        ) : (
-          ''
-        )}
+
+          <div className="user-plan--type">
+            {planType === 'monthly' || 'suscribers' ? (
+              <p>
+                {user.plan.maxSubscribers - user.plan.remainingCredits}{' '}
+                {_(`header.plan_${planType}`)} (<strong>{user.plan.remainingCredits}</strong>{' '}
+                {_('header.availables')})
+              </p>
+            ) : (
+              <p>
+                {user.plan.remainingCredits} {user.plan.description})
+              </p>
+            )}
+            {Object.keys(user.sms).length ? (
+              <>
+                <p>
+                  <strong>
+                    US${' '}
+                    <FormattedNumber value={user.sms.remainingCredits} {...numberFormatOptions} />
+                  </strong>{' '}
+                  {user.sms.description}
+                </p>
+                {user.sms.buttonUrl ? (
+                  <a className="user-plan" target="_self" href={user.sms.buttonUrl}>
+                    {user.sms.buttonText}
+                  </a>
+                ) : (
+                  ''
+                )}
+              </>
+            ) : (
+              ''
+            )}
+          </div>
+        </div>
         <ul className="options-user">
           {user.nav.map((item, index) => (
             <li key={index}>
