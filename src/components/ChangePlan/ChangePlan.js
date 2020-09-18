@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { Card, CardPrice, CardAction, Ribbon, CardFeatures } from './Card';
@@ -217,9 +217,13 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const reducer = (isFeaturesVisible) => {
+    return !isFeaturesVisible;
+  };
+  const [isFeaturesVisible, toggleFeatures] = useReducer(reducer, false);
+
   const [state, setState] = useState({
     loading: true,
-    isFeaturesVisible: false,
   });
   useEffect(() => {
     const mapCurrentPlan = (sessionPlan, planList) => {
@@ -254,24 +258,12 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
         setState({
           loading: false,
           pathList: pathList,
-          isFeaturesVisible: false,
           currentPlan: currentPlan,
         });
       }
     };
     fetchData();
   }, [planService, appSessionRef]);
-
-  const getFeatureTitleByType = (type) => {
-    switch (type) {
-      case 'standard':
-        return _('change_plan.features_title_standard');
-      case 'plus':
-        return _('change_plan.features_title_plus');
-      default:
-        return '';
-    }
-  };
 
   return (
     <>
@@ -293,21 +285,21 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
               {state.pathList?.length ? (
                 state.pathList.map((path, index) =>
                   path.type === 'free' ? (
-                    <FreeCard key={index} showFeatures={state.isFeaturesVisible}></FreeCard>
+                    <FreeCard key={index} showFeatures={isFeaturesVisible}></FreeCard>
                   ) : path.type === 'agencies' ? (
-                    <AgenciesCard key={index} showFeatures={state.isFeaturesVisible}></AgenciesCard>
+                    <AgenciesCard key={index} showFeatures={isFeaturesVisible}></AgenciesCard>
                   ) : path.type === 'standard' ? (
                     <StandardCard
                       key={index}
                       path={path}
-                      showFeatures={state.isFeaturesVisible}
+                      showFeatures={isFeaturesVisible}
                       currentPlanType={state.currentPlan.type}
                     ></StandardCard>
                   ) : (
                     <PlusCard
                       key={index}
                       path={path}
-                      showFeatures={state.isFeaturesVisible}
+                      showFeatures={isFeaturesVisible}
                       currentPlanType={state.currentPlan.type}
                     ></PlusCard>
                   ),
@@ -318,12 +310,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
             </div>
           </div>
           <div className="p-t-30 p-b-30">
-            <button
-              className="dp-compare-details-plans"
-              onClick={() => {
-                setState({ ...state, isFeaturesVisible: !state.isFeaturesVisible });
-              }}
-            >
+            <button className="dp-compare-details-plans" onClick={() => toggleFeatures()}>
               {_('change_plan.compare_features')}
             </button>
           </div>
