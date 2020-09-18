@@ -6,45 +6,60 @@ import queryString from 'query-string';
 import { extractParameter } from '../../utils';
 import { InjectAppServices } from '../../services/pure-di';
 
-function getPlanUrl(planId, advancedPay, promoCode, _) {
-  return (
-    _('common.control_panel_section_url') +
-    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True&IdDiscountPlan=${advancedPay}&PromoCode=${promoCode}`
-  );
-}
 const BulletOptions = ({ type }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const randomId = () => {
+    return Math.floor(Math.random() * 100 + 1);
+  };
 
   return (
     <FormattedMessage
       id={'change_plan.features_HTML_' + type}
       values={{
-        option: (chunks) => <OptionItem bullet={<BasicBullet />}>{chunks}</OptionItem>,
-        star: (chunks) => <OptionItem bullet={<StarBullet />}>{chunks}</OptionItem>,
+        option: (chunks) => (
+          <OptionItem key={type + '-option' + randomId()} bullet={<BasicBullet />}>
+            {chunks}
+          </OptionItem>
+        ),
+        star: (chunks) => (
+          <OptionItem key={type + '-star' + randomId()} bullet={<StarBullet />}>
+            {chunks}
+          </OptionItem>
+        ),
         newOption: (chunks) => (
-          <OptionItem bullet={<BasicBullet />}>
+          <OptionItem key={type + '-newoption' + randomId()} bullet={<BasicBullet />}>
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
           </OptionItem>
         ),
         newStar: (chunks) => (
-          <OptionItem bullet={<StarBullet />}>
+          <OptionItem key={type + '-newstar' + randomId()} bullet={<StarBullet />}>
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
           </OptionItem>
         ),
         bigData: (chunks) => (
-          <OptionItem bullet={<BigDataBullet>{_('change_plan.big_data_tooltip')}</BigDataBullet>}>
+          <OptionItem
+            key={type + '-bd' + randomId()}
+            bullet={<BigDataBullet>{_('change_plan.big_data_tooltip')}</BigDataBullet>}
+          >
             {chunks}
           </OptionItem>
         ),
         newBigData: (chunks) => (
-          <OptionItem bullet={<BigDataBullet>{_('change_plan.big_data_tooltip')}</BigDataBullet>}>
+          <OptionItem
+            key={type + '-newbd' + randomId()}
+            bullet={<BigDataBullet>{_('change_plan.big_data_tooltip')}</BigDataBullet>}
+          >
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
           </OptionItem>
         ),
       }}
     >
-      {(txt) => <ul className="dp-list-detail">{txt}</ul>}
+      {(txt) => (
+        <ul key={type + '-features'} className="dp-list-detail">
+          {txt}
+        </ul>
+      )}
     </FormattedMessage>
   );
 };
@@ -123,7 +138,7 @@ const AgenciesCard = ({ showFeatures }) => {
         style={{ width: '80px' }}
         src={_('change_plan.agencies_icon')}
       ></img>
-      <CardAction url={getPlanUrl('18', 0, 'promo', _)}>{_('change_plan.ask_demo')}</CardAction>
+      <CardAction url="/new-features">{_('change_plan.ask_demo')}</CardAction>
       {showFeatures ? (
         <CardFeatures>
           <BulletOptions type={'agencies'} />
@@ -133,7 +148,7 @@ const AgenciesCard = ({ showFeatures }) => {
   );
 };
 
-const StandardCard = ({ path, showFeatures, currentPlanType }) => {
+const StandardCard = ({ path, showFeatures, currentPlanType, promoCode }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -158,12 +173,14 @@ const StandardCard = ({ path, showFeatures, currentPlanType }) => {
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
       ) : (
-        <CardAction url={getPlanUrl('18', 0, 'promo', _)}>{_('change_plan.ask_demo')}</CardAction>
+        <CardAction url={`/plan-selection/standard-subscribers?promo-code=${promoCode}`}>
+          {_('change_plan.calculate_price')}
+        </CardAction>
       )}
 
       {showFeatures ? (
         <CardFeatures>
-          <h4>{_('change_plan.features_title_standard')}</h4>
+          {!path.current ? <h4>{_('change_plan.features_title_standard')}</h4> : ''}
           <BulletOptions type={'standard'} />
         </CardFeatures>
       ) : null}
@@ -171,7 +188,7 @@ const StandardCard = ({ path, showFeatures, currentPlanType }) => {
   );
 };
 
-const PlusCard = ({ path, showFeatures, currentPlanType }) => {
+const PlusCard = ({ path, showFeatures, currentPlanType, promoCode }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -198,12 +215,14 @@ const PlusCard = ({ path, showFeatures, currentPlanType }) => {
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
       ) : (
-        <CardAction url={getPlanUrl('18', 0, 'promo', _)}>{_('change_plan.ask_demo')}</CardAction>
+        <CardAction url={`/plan-selection/plus-subscribers?promo-code=${promoCode}`}>
+          {_('change_plan.calculate_price')}
+        </CardAction>
       )}
 
       {showFeatures ? (
         <CardFeatures>
-          <h4>{_('change_plan.features_title_plus')}</h4>
+          {!path.current ? <h4>{_('change_plan.features_title_plus')}</h4> : ''}
           <BulletOptions type={'plus'} />
         </CardFeatures>
       ) : null}
@@ -213,7 +232,6 @@ const PlusCard = ({ path, showFeatures, currentPlanType }) => {
 
 const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) => {
   const promoCode = extractParameter(location, queryString.parse, 'promo-code') || '';
-  const advancedPay = extractParameter(location, queryString.parse, 'advanced-pay') || 0;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -294,6 +312,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                       path={path}
                       showFeatures={isFeaturesVisible}
                       currentPlanType={state.currentPlan.type}
+                      promoCode={promoCode}
                     ></StandardCard>
                   ) : (
                     <PlusCard
@@ -301,6 +320,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                       path={path}
                       showFeatures={isFeaturesVisible}
                       currentPlanType={state.currentPlan.type}
+                      promoCode={promoCode}
                     ></PlusCard>
                   ),
                 )
