@@ -21,7 +21,7 @@ import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
 import PushNotifications from './components/PushNotifications/PushNotifications';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
-import { ChangePlan } from './components/ChangePlan/ChangePlan';
+import ChangePlan from './components/ChangePlan/ChangePlan';
 import PlanCalculator from './components/DopplerPlus/PlanCalculator';
 
 /**
