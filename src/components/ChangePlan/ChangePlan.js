@@ -147,7 +147,7 @@ const AgenciesCard = ({ showFeatures }) => {
         alt="agency-icon"
         className="dp-price"
         style={{ width: '80px' }}
-        src={_('change_plan.agencies_icon')}
+        src={_('common.ui_library_image', { imageUrl: 'icono-agencias.svg' })}
       ></img>
       <CardAction url="/new-features">{_('change_plan.ask_demo')}</CardAction>
       {showFeatures ? (
