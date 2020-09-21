@@ -5,6 +5,7 @@ import { Card, CardPrice, CardAction, Ribbon, CardFeatures } from './Card';
 import queryString from 'query-string';
 import { extractParameter } from '../../utils';
 import { InjectAppServices } from '../../services/pure-di';
+import { Loading } from '../Loading/Loading';
 
 const BulletOptions = ({ type }) => {
   const intl = useIntl();
@@ -289,6 +290,9 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
         <meta name="robots" content="noindex,nofollow" />
         <title>Compra un plan</title>
       </Helmet>
+      {state.loading ? (
+          <Loading page />
+      ): (
       <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
         <section className="dp-container">
           <div className="dp-rowflex">
@@ -336,6 +340,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
           </div>
         </section>
       </div>
+      )}
     </>
   );
 };
