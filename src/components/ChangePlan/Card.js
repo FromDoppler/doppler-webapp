@@ -24,13 +24,13 @@ export const CardAction = ({ url, children, ...rest }) => {
   );
 };
 
-export const CardPrice = ({ currency, children }) => {
+export const CardPrice = ({ currency, children, doNotShowSince }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
     <div className="dp-price">
-      <span className="dp-time-lapse-top">{_('change_plan.since')}</span>
+      {doNotShowSince ? '' : <span className="dp-time-lapse-top">{_('change_plan.since')}</span>}
       <div className="dp-amount">
         <span className="dp-plan-currency">{currency}</span>
         <span className="dp-money-number">{children}</span>
