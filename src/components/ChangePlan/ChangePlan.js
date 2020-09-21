@@ -6,41 +6,51 @@ import queryString from 'query-string';
 import { extractParameter } from '../../utils';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
+import { Link } from 'react-router-dom';
 
 const BulletOptions = ({ type }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const randomId = () => {
-    return Math.floor(Math.random() * 100 + 1);
-  };
 
   return (
     <FormattedMessage
       id={'change_plan.features_HTML_' + type}
       values={{
         option: (chunks) => (
-          <OptionItem key={type + '-option' + randomId()} bullet={<BasicBullet />}>
+          <OptionItem
+            key={type + '-option' + chunks.toString().substring(1, 20)}
+            bullet={<BasicBullet />}
+          >
             {chunks}
           </OptionItem>
         ),
         star: (chunks) => (
-          <OptionItem key={type + '-star' + randomId()} bullet={<StarBullet />}>
+          <OptionItem
+            key={type + '-star' + chunks.toString().substring(1, 20)}
+            bullet={<StarBullet />}
+          >
             {chunks}
           </OptionItem>
         ),
         newOption: (chunks) => (
-          <OptionItem key={type + '-newoption' + randomId()} bullet={<BasicBullet />}>
+          <OptionItem
+            key={type + '-newoption' + chunks.toString().substring(1, 20)}
+            bullet={<BasicBullet />}
+          >
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
           </OptionItem>
         ),
         newStar: (chunks) => (
-          <OptionItem key={type + '-newstar' + randomId()} bullet={<StarBullet />}>
+          <OptionItem
+            key={type + '-newstar' + chunks.toString().substring(1, 20)}
+            bullet={<StarBullet />}
+          >
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
           </OptionItem>
         ),
         bigData: (chunks) => (
           <OptionItem
-            key={type + '-bd' + randomId()}
+            key={type + '-bd' + chunks.toString().substring(1, 20)}
             bullet={<BigDataBullet>{_('change_plan.big_data_tooltip')}</BigDataBullet>}
           >
             {chunks}
@@ -48,7 +58,7 @@ const BulletOptions = ({ type }) => {
         ),
         newBigData: (chunks) => (
           <OptionItem
-            key={type + '-newbd' + randomId()}
+            key={type + '-newbd' + chunks.toString().substring(1, 20)}
             bullet={<BigDataBullet>{_('change_plan.big_data_tooltip')}</BigDataBullet>}
           >
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
@@ -149,23 +159,27 @@ const AgenciesCard = ({ showFeatures }) => {
   );
 };
 
-const StandardCard = ({ path, showFeatures, currentPlanType, promoCode }) => {
+const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
-    <Card>
+    <Card highlighted={path.type === 'plus'}>
+      {path.type === 'plus' ? <Ribbon content={_('change_plan.recommended')} /> : ''}
       <div className="dp-content-plans">
-        <h3>{_('change_plan.card_standard_title')}</h3>
-        <p>{_('change_plan.card_standard_description')}</p>
+        <h3>{_(`change_plan.card_${path.type}_title`)}</h3>
+        <p>{_(`change_plan.card_${path.type}_description`)}</p>
       </div>
 
       <CardPrice currency="US$">{path.minimumFee}</CardPrice>
 
       {path.current && !path.deadEnd ? (
         <>
-          <button type="button" className="dp-button button-medium secondary-green">
-            {_('change_plan.increase_action_' + currentPlanType.replace('-', '_'))}
-          </button>
+          <Link
+            to={`/plan-selection/${path.type}-${currentPlanType}?promo-code=${promoCode}`}
+            className="dp-button button-medium secondary-green"
+          >
+            {_(`change_plan.increase_action_${currentPlanType.replace('-', '_')}`)}
+          </Link>
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
       ) : path.current && path.deadEnd ? (
@@ -174,57 +188,16 @@ const StandardCard = ({ path, showFeatures, currentPlanType, promoCode }) => {
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
       ) : (
-        <CardAction url={`/plan-selection/standard-subscribers?promo-code=${promoCode}`}>
+        // TODO: add action related to path only
+        <CardAction url={`/plan-selection/${path.type}-subscribers?promo-code=${promoCode}`}>
           {_('change_plan.calculate_price')}
         </CardAction>
       )}
 
       {showFeatures ? (
         <CardFeatures>
-          {!path.current ? <h4>{_('change_plan.features_title_standard')}</h4> : ''}
-          <BulletOptions type={'standard'} />
-        </CardFeatures>
-      ) : null}
-    </Card>
-  );
-};
-
-const PlusCard = ({ path, showFeatures, currentPlanType, promoCode }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  return (
-    <Card highlighted>
-      <Ribbon content={_('change_plan.recommended')} />
-
-      <div className="dp-content-plans">
-        <h3>{_('change_plan.card_plus_title')}</h3>
-        <p>{_('change_plan.card_plus_description')}</p>
-      </div>
-
-      <CardPrice currency="US$">{path.minimumFee}</CardPrice>
-
-      {path.current && !path.deadEnd ? (
-        <>
-          <button type="button" className="dp-button button-medium secondary-green">
-            {_('change_plan.increase_action_' + currentPlanType.replace('-', '_'))}
-          </button>
-          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
-        </>
-      ) : path.current && path.deadEnd ? (
-        <>
-          <span class="dp-maximum">{_('change_plan.card_generic_maximum_reached')}</span>
-          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
-        </>
-      ) : (
-        <CardAction url={`/plan-selection/plus-subscribers?promo-code=${promoCode}`}>
-          {_('change_plan.calculate_price')}
-        </CardAction>
-      )}
-
-      {showFeatures ? (
-        <CardFeatures>
-          {!path.current ? <h4>{_('change_plan.features_title_plus')}</h4> : ''}
-          <BulletOptions type={'plus'} />
+          {!path.current ? <h4>{_(`change_plan.features_title_${path.type}`)}</h4> : ''}
+          <BulletOptions type={path.type} />
         </CardFeatures>
       ) : null}
     </Card>
@@ -291,55 +264,47 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
         <title>Compra un plan</title>
       </Helmet>
       {state.loading ? (
-          <Loading page />
-      ): (
-      <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
-        <section className="dp-container">
-          <div className="dp-rowflex">
-            <div className="dp-align-center">
-              <h1>{_('change_plan.title')}</h1>
+        <Loading page />
+      ) : (
+        <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
+          <section className="dp-container">
+            <div className="dp-rowflex">
+              <div className="dp-align-center">
+                <h1>{_('change_plan.title')}</h1>
+              </div>{' '}
             </div>{' '}
-          </div>{' '}
-        </section>
-        <section className="dp-container">
-          <div className="dp-rowflex">
-            <div className="dp-align-center p-t-30 p-b-30">
-              {state.pathList?.length ? (
-                state.pathList.map((path, index) =>
-                  path.type === 'free' ? (
-                    <FreeCard key={index} showFeatures={isFeaturesVisible}></FreeCard>
-                  ) : path.type === 'agencies' ? (
-                    <AgenciesCard key={index} showFeatures={isFeaturesVisible}></AgenciesCard>
-                  ) : path.type === 'standard' ? (
-                    <StandardCard
-                      key={index}
-                      path={path}
-                      showFeatures={isFeaturesVisible}
-                      currentPlanType={state.currentPlan.type}
-                      promoCode={promoCode}
-                    ></StandardCard>
-                  ) : (
-                    <PlusCard
-                      key={index}
-                      path={path}
-                      showFeatures={isFeaturesVisible}
-                      currentPlanType={state.currentPlan.type}
-                      promoCode={promoCode}
-                    ></PlusCard>
-                  ),
-                )
-              ) : (
-                <></>
-              )}
+          </section>
+          <section className="dp-container">
+            <div className="dp-rowflex">
+              <div className="dp-align-center p-t-30 p-b-30">
+                {state.pathList?.length ? (
+                  state.pathList.map((path, index) =>
+                    path.type === 'free' ? (
+                      <FreeCard key={index} showFeatures={isFeaturesVisible}></FreeCard>
+                    ) : path.type === 'agencies' ? (
+                      <AgenciesCard key={index} showFeatures={isFeaturesVisible}></AgenciesCard>
+                    ) : (
+                      <CardWithPrice
+                        key={index}
+                        path={path}
+                        showFeatures={isFeaturesVisible}
+                        currentPlanType={state.currentPlan.type}
+                        promoCode={promoCode}
+                      ></CardWithPrice>
+                    ),
+                  )
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="p-t-30 p-b-30">
-            <button className="dp-compare-details-plans" onClick={() => toggleFeatures()}>
-              {_('change_plan.compare_features')}
-            </button>
-          </div>
-        </section>
-      </div>
+            <div className="p-t-30 p-b-30">
+              <button className="dp-compare-details-plans" onClick={() => toggleFeatures()}>
+                {_('change_plan.compare_features')}
+              </button>
+            </div>
+          </section>
+        </div>
       )}
     </>
   );
