@@ -13,7 +13,7 @@ export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedErr
 
 export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
 
-export type PlanType = 'free' | 'prepaid' | 'monthly-deliveries' | 'subscribers';
+export type PlanType = 'free' | 'prepaid' | 'monthly-deliveries' | 'subscribers' | 'agencies';
 
 export type PaymentType = 'CC' | 'transfer';
 
@@ -69,7 +69,7 @@ export interface PrepaidPack {
 
 export interface FreePlan {
   type: 'free';
-  subscriberLimit: 500;
+  subscriberLimit: number;
   featureSet: 'free';
 }
 

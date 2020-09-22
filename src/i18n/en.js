@@ -34,20 +34,48 @@ const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
   change_plan: {
-    all_of_plan: `Everything from {plan} Plus:`,
+    all_of_plan: `Everything from {plan} plus:`,
+    ask_demo: 'Ask for a demo',
+    big_data_tooltip: 'Big Data feature',
     calculate_price: 'Calculate Price',
-    cancel_campaign: 'Cancel Campaign',
-    compare_features: 'Comparare Features',
-    description: 'Do you send periodically or one newsletter per month?',
-    email_parameter: 'Email parameter',
-    features: 'Features:',
+    card_agencies_description: 'Manage all your clients all in one spot.',
+    card_agencies_title: 'Agencies',
+    card_free_description: 'Try a FREE Doppler account with no contracts or credit cards. Until 500 Contacts.',
+    card_free_title: 'FREE',
+    card_generic_maximum_reached: 'MAXIMUM REACHED',
+    card_plus_description: 'Advanced features for professionals with custom needs.',
+    card_plus_title: 'Plus',
+    card_standard_description: 'Try our plans that best fit to your needs, monthly or prepaids.',
+    card_standard_title: 'Standard',
+    compare_features: 'Compare Features',
+    current_plan: 'Current Plan',
+    features_HTML_agencies: `
+    <option>Manage several accounts</option>
+    <option>Manage access to different accounts</option>
+    <option>Manage roles</option>`,
+    features_HTML_free: `
+    <option>Customer Support</option>
+    <option>Regular Campaigns</option>
+    <option>Basic Automation Campaigns</option>`,
+    features_HTML_plus: `
+    <star>VIP Customer Support</star>
+    <newOption>Stop Campaigns</newOption>
+    <option>Custom domains for your Landing Pages</option>
+    <newBigData>Subject suggestion</newBigData>`,
+    features_HTML_standard: `
+    <option>Doppler API access</option>
+    <option>Site Behaviour Automation Campaigns</option>
+    <option>Custom signature Campaigns</option>`,
+    features_title_plus: 'All in standard and:',
+    features_title_standard: 'All in free and:',
+    increase_action_monthly_deliveries: 'Increase Deliveries',
+    increase_action_prepaid: 'Buy Credits',
+    increase_action_subscribers: 'Increase Contacts',
+    new_label: 'New',
     per_month: 'per month',
     recommended: 'Recommended',
-    selected_type: 'Plans selected by: ',
-    shipping_limit: 'Shipping Limit',
     since: 'Since',
-    site_tracking: 'On-Site Tracking',
-    smart_campaigns: 'Smart Send Out',
+    title: 'Plans sized up for your business',
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },
   common: {
@@ -69,6 +97,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     send: `Send`,
     show: `Show`,
     synchronizing: `Synchronizing`,
+    ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
   },
   default_banner_data: {

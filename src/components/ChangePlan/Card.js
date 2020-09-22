@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 export const Card = ({ children, className, highlighted, ...rest }) => {
   return (
@@ -15,21 +16,21 @@ export const Card = ({ children, className, highlighted, ...rest }) => {
 
 export const CardAction = ({ url, children, ...rest }) => {
   return (
-    <div class="dp-cta-plan">
-      <a href={url} className="dp-button button-medium primary-green" {...rest}>
+    <div className="dp-cta-plan">
+      <Link to={url} className="dp-button button-medium primary-green" {...rest}>
         {children}
-      </a>
+      </Link>
     </div>
   );
 };
 
-export const CardPrice = ({ currency, children }) => {
+export const CardPrice = ({ currency, children, doNotShowSince }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
     <div className="dp-price">
-      <span className="dp-time-lapse-top">{_('change_plan.since')}</span>
+      {doNotShowSince ? '' : <span className="dp-time-lapse-top">{_('change_plan.since')}</span>}
       <div className="dp-amount">
         <span className="dp-plan-currency">{currency}</span>
         <span className="dp-money-number">{children}</span>
