@@ -5,7 +5,7 @@ import { Loading } from '../Loading/Loading';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter } from '../../utils';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, Link } from 'react-router-dom';
 
 const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
@@ -138,16 +138,21 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
               }}
             />
             <div style={{ marginTop: '40px' }}>
-              <a
-                className="dp-button button-medium primary-green"
-                href={
-                  _('common.control_panel_section_url') +
-                  `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}` +
-                  `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
-                }
-              >
-                Contratar
-              </a>
+              <span className="col-lg-1">
+                <Link to="/plan-selection"> &lt; &lt; Volver a Planes</Link>
+              </span>
+              <span className="col-lg-1">
+                <a
+                  className="dp-button button-medium primary-green"
+                  href={
+                    _('common.control_panel_section_url') +
+                    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}` +
+                    `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
+                  }
+                >
+                  Contratar
+                </a>
+              </span>
             </div>
           </div>
         </div>
