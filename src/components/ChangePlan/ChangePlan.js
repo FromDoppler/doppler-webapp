@@ -177,7 +177,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       {path.current && !path.deadEnd ? (
         <>
           <Link
-            to={`/plan-selection/${path.type}-${currentPlanType}?promo-code=${promoCode}`}
+            to={`/plan-selection/${path.type}/${currentPlanType}?promo-code=${promoCode}`}
             className="dp-button button-medium secondary-green"
           >
             {_(`change_plan.increase_action_${currentPlanType.replace('-', '_')}`)}
@@ -191,7 +191,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
         </>
       ) : (
         // TODO: add action related to path only
-        <CardAction url={`/plan-selection/${path.type}-subscribers?promo-code=${promoCode}`}>
+        <CardAction url={`/plan-selection/${path.type}?promo-code=${promoCode}`}>
           {_('change_plan.calculate_price')}
         </CardAction>
       )}

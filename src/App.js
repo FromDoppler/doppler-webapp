@@ -115,7 +115,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
               <PrivateRoute path="/new-features" exact component={NewFeatures} />
               <PrivateRoute path={['/plan-selection']} exact component={ChangePlan} />
               <PrivateRoute
-                path={'/plan-selection/:planType-:userType'}
+                path={'/plan-selection/:planType/:userType?'}
                 exact
                 component={PlanCalculator}
               />
