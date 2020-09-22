@@ -178,7 +178,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       {path.current && !path.deadEnd ? (
         <>
           <Link
-            to={`/plan-selection/${path.type}-${currentPlanType}?promo-code=${promoCode}`}
+            to={`/plan-selection/${path.type}/${currentPlanType}?promo-code=${promoCode}`}
             className="dp-button button-medium secondary-green"
           >
             {_(`change_plan.increase_action_${currentPlanType.replace('-', '_')}`)}
@@ -192,7 +192,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
         </>
       ) : (
         // TODO: add action related to path only
-        <CardAction url={`/plan-selection/${path.type}-subscribers?promo-code=${promoCode}`}>
+        <CardAction url={`/plan-selection/${path.type}?promo-code=${promoCode}`}>
           {_('change_plan.calculate_price')}
         </CardAction>
       )}
@@ -220,33 +220,15 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
     loading: true,
   });
   useEffect(() => {
-    const mapCurrentPlan = (sessionPlan, planList) => {
-      const exclusivePlan = { type: 'exclusive' };
-      switch (sessionPlan.planType) {
-        case 'subscribers':
-        case 'monthly-deliveries':
-          // for subscribers and monthly plan will be exclusive until id plan is deployed in doppler
-          const monthlyPlan = planService.getPlanBySessionPlanId(sessionPlan.idPlan, planList);
-          return monthlyPlan ? monthlyPlan : exclusivePlan;
-        case 'prepaid':
-          return planService.getCheapestPrepaidPlan(planList);
-        case 'agencies':
-          return {
-            type: 'agency',
-            featureSet: 'agency',
-          };
-        default:
-          return {
-            type: 'free',
-            subscriberLimit: 500,
-            featureSet: 'free',
-          };
-      }
-    };
     const fetchData = async () => {
       setState({ loading: true });
       const planList = await planService.getPlanList();
-      const currentPlan = mapCurrentPlan(appSessionRef.current.userData.user.plan, planList);
+      const sessionPlan = appSessionRef.current.userData.user.plan;
+      const currentPlan = planService.mapCurrentPlanFromTypeOrId(
+        sessionPlan.planType,
+        sessionPlan.planId,
+        planList,
+      );
       const pathList = await planService.getPaths(currentPlan, planList);
       if (pathList.length) {
         setState({

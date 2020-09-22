@@ -11,7 +11,7 @@ describe('Slider component', () => {
     const mockedFunction = () => null;
     const mockedValues = ['description1', 'description2'];
     const { container } = render(
-      <Slider tooltipDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />,
+      <Slider planDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />,
     );
 
     // Assert
@@ -23,7 +23,7 @@ describe('Slider component', () => {
     const mockedFunction = jest.fn();
     const mockedValues = ['description1', 'description2'];
     const { container } = render(
-      <Slider tooltipDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />,
+      <Slider planDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />,
     );
 
     const slider = container.querySelector('input[type="range"]');

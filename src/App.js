@@ -22,7 +22,7 @@ import Offline from './components/Offline/Offline';
 import PushNotifications from './components/PushNotifications/PushNotifications';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 import ChangePlan from './components/ChangePlan/ChangePlan';
-import PlanCalculator from './components/DopplerPlus/PlanCalculator';
+import PlanCalculator from './components/ChangePlan/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 
@@ -116,7 +116,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
               <PrivateRoute path="/new-features" exact component={NewFeatures} />
               <PrivateRoute path={['/plan-selection']} exact component={ChangePlan} />
               <PrivateRoute
-                path={'/plan-selection/:planType-:userType'}
+                path={'/plan-selection/:planType/:userType?'}
                 exact
                 component={PlanCalculator}
               />
