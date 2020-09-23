@@ -45,6 +45,12 @@ const NewFeatures = () => {
             </Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div style={{ marginLeft: '20px' }}>
+            <h3>Formulario de Agencias</h3>
+            <Link to={'/email-marketing-agencies'}>Ir a Formulario de Agencias</Link>
+          </div>
+        </div>
         <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Plan Calculator</h3>

@@ -22,6 +22,9 @@ export interface DopplerLegacyClient {
   activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
   getAllPlans(): Promise<Plan[]>;
+  requestAgenciesDemo(
+    requestAgenciesDemoModel: RequestAgenciesDemoModel,
+  ): Promise<RequestAgenciesDemoResult>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -34,7 +37,18 @@ export interface ForgotPasswordModel extends PayloadWithCaptchaToken {
   email: string;
 }
 
+export interface RequestAgenciesDemoModel {
+  email: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  range_time: string;
+  volume: string;
+}
+
 export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
+
+export type RequestAgenciesDemoResult = EmptyResultWithoutExpectedErrors;
 
 export type ActivateSiteTrackingTrialResult = EmptyResultWithoutExpectedErrors;
 
@@ -687,6 +701,27 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         error: error,
       };
     }
+  }
+
+  public async requestAgenciesDemo(
+    model: RequestAgenciesDemoModel,
+  ): Promise<RequestAgenciesDemoResult> {
+    const response = await this.axios.post('/WebApp/RequestAgenciesDemo', {
+      Email: model.email,
+      Firstname: model.firstname,
+      Lastname: model.lastname,
+      Phone: model.phone,
+      ContactSchedule: model.range_time,
+      SendingVolume: model.volume,
+    });
+
+    if (!response.data.success) {
+      return {
+        message: response.data.error || null,
+      };
+    }
+
+    return { success: true };
   }
 
   // TODO: replace this when implement BE connection

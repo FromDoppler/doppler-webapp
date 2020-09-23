@@ -33,6 +33,11 @@ const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 
 export default {
+  agencies: {
+    breadcrumb: 'Planes',
+    breadcrumb_url: `${urlBuyMonthly}`,
+    title: 'Agencias',
+  },
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,
     ask_demo: 'Solicita una demo',

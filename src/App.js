@@ -23,6 +23,7 @@ import PushNotifications from './components/PushNotifications/PushNotifications'
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 import ChangePlan from './components/ChangePlan/ChangePlan';
 import PlanCalculator from './components/DopplerPlus/PlanCalculator';
+import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 
 /**
  * @param { Object } props - props
@@ -118,6 +119,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={PlanCalculator}
               />
+              <PrivateRoute path={'/email-marketing-agencies'} exact component={AgenciesForm} />
               <PrivateRoute path="/push" exact component={PushNotifications} />
               <PrivateRoute
                 path="/reports/partials-campaigns"
