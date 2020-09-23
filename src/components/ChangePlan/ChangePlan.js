@@ -220,34 +220,15 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
     loading: true,
   });
   useEffect(() => {
-    const mapCurrentPlan = (planType, planId, planList) => {
-      const exclusivePlan = { type: 'exclusive' };
-      switch (planType) {
-        case 'subscribers':
-        case 'monthly-deliveries':
-          // for subscribers and monthly plan will be exclusive until id plan is deployed in doppler
-          const monthlyPlan = planService.getPlanBySessionPlanId(planId, planList);
-          return monthlyPlan ? monthlyPlan : exclusivePlan;
-        case 'prepaid':
-          return planService.getCheapestPrepaidPlan(planList);
-        case 'agencies':
-          return {
-            type: 'agency',
-            featureSet: 'agency',
-          };
-        default:
-          return {
-            type: 'free',
-            subscriberLimit: 500,
-            featureSet: 'free',
-          };
-      }
-    };
     const fetchData = async () => {
       setState({ loading: true });
       const planList = await planService.getPlanList();
       const sessionPlan = appSessionRef.current.userData.user.plan;
-      const currentPlan = mapCurrentPlan(sessionPlan.planType, sessionPlan.planId, planList);
+      const currentPlan = planService.mapCurrentPlanFromTypeOrId(
+        sessionPlan.planType,
+        sessionPlan.planId,
+        planList,
+      );
       const pathList = await planService.getPaths(currentPlan, planList);
       if (pathList.length) {
         setState({
