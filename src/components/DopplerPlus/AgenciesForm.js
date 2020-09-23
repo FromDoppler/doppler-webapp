@@ -15,13 +15,12 @@ import {
 import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
-const AgenciesForm = ({ dependencies: { dopplerLegacyClient } }) => {
+const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   // TODO: apply content
   // TODO: add check to accept privacy policies
-  // TODO: get user data to autocomplete form
 
   const volumeOptions = [
     {
@@ -55,14 +54,20 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient } }) => {
     volume: 'volume',
   };
 
-  const getFormInitialValues = () =>
-    Object.keys(fieldNames).reduce(
+  const getFormInitialValues = () => {
+    const initialValues = Object.keys(fieldNames).reduce(
       (accumulator, currentValue) => ({
         ...accumulator,
-        [currentValue]: currentValue === fieldNames.volume ? volumeOptions[0].value : '',
+        [currentValue]: '',
       }),
       {},
     );
+
+    initialValues[fieldNames.email] = appSessionRef.current.userData.user.email;
+    initialValues[fieldNames.volume] = volumeOptions[0].value;
+
+    return initialValues;
+  };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
