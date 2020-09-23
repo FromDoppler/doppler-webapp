@@ -94,49 +94,57 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
               {/* TODO: change this to intl elemnt */}
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
-            <div style={{ marginBottom: '40px' }}>
-              {state.discountsList.map((discount, index) => (
-                <button
-                  key={index}
-                  style={{
-                    padding: '10px',
-                    border: '1px solid #000',
-                    backgroundColor: discount.id === planData.discount.id ? '#33ad73' : '#f6f6f6',
+
+            <div className="dp-rowflex">
+              <section className="col-lg-6">
+                <Slider
+                  planDescriptions={plansTooltipDescriptions}
+                  defaultValue={0}
+                  handleChange={(index) => {
+                    dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
                   }}
-                  onClick={() => {
-                    dispatchPlanData({
-                      type: actionTypes.UPDATE_SELECTED_DISCOUNT,
-                      idDiscount: discount.id,
-                    });
-                  }}
-                >
-                  {discount.description}
-                </button>
-              ))}
+                />
+                {/* discounts */}
+                <div style={{ marginBottom: '40px' }}>
+                  {state.discountsList.map((discount, index) => (
+                    <button
+                      key={index}
+                      style={{
+                        padding: '10px',
+                        border: '1px solid #000',
+                        backgroundColor:
+                          discount.id === planData.discount.id ? '#33ad73' : '#f6f6f6',
+                      }}
+                      onClick={() => {
+                        dispatchPlanData({
+                          type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+                          idDiscount: discount.id,
+                        });
+                      }}
+                    >
+                      {discount.description}
+                    </button>
+                  ))}
+                </div>
+              </section>
+              <section className="col-lg-6">
+                {planData.discount.percent ? (
+                  <p style={{ textDecoration: 'line-through' }}>
+                    US${planData.plan.price * planData.discount.monthsAmmount}
+                  </p>
+                ) : (
+                  <></>
+                )}
+                <span>US$</span>
+                <span style={{ fontSize: '40px' }}>
+                  {Math.round(
+                    planData.plan.price *
+                      (1 - planData.discount.percent / 100) *
+                      planData.discount.monthsAmmount,
+                  )}
+                </span>
+              </section>
             </div>
-            {planData.discount.percent ? (
-              <p style={{ textDecoration: 'line-through' }}>
-                US${planData.plan.price * planData.discount.monthsAmmount}
-              </p>
-            ) : (
-              <></>
-            )}
-            <span>US$</span>
-            <span style={{ fontSize: '40px' }}>
-              {Math.round(
-                planData.plan.price *
-                  (1 - planData.discount.percent / 100) *
-                  planData.discount.monthsAmmount,
-              )}
-            </span>
-            <p>{planData.plan.description}</p>
-            <Slider
-              tooltipDescriptions={plansTooltipDescriptions}
-              defaultValue={0}
-              handleChange={(index) => {
-                dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
-              }}
-            />
             <div style={{ marginTop: '40px' }}>
               <span className="col-lg-1">
                 <Link to="/plan-selection"> &lt; &lt; Volver a Planes</Link>
