@@ -7,7 +7,10 @@ import queryString from 'query-string';
 import { extractParameter } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
 
-const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => {
+const PlanCalculator = ({
+  location,
+  dependencies: { planService, appSessionRef, dopplerLegacyClient },
+}) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
   const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
@@ -55,12 +58,21 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
   useEffect(() => {
     const fetchData = async () => {
       setState({ loading: true });
+      const planList = await planService.getPlanList();
+      const sessionPlan = appSessionRef.current.userData.user.plan;
+      const currentPlan = planService.mapCurrentPlanFromTypeOrId(
+        sessionPlan.planType,
+        sessionPlan.planId,
+        planList,
+      );
+      const planTypes = planService.getPlanTypes(currentPlan, planType, planList);
       const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
       if (responsePlansList.success) {
         setState({
           loading: false,
           planList: responsePlansList.planList,
           discountsList: responsePlansList.discounts,
+          planTypes: planTypes,
           success: true,
         });
         dispatchPlanData({
@@ -71,14 +83,14 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
       }
     };
     fetchData();
-  }, [dopplerLegacyClient, typePlanId, actionTypes.INIT]);
+  }, [dopplerLegacyClient, typePlanId, actionTypes.INIT, appSessionRef, planService]);
 
   if (state.loading) {
     return <Loading page />;
   }
 
   const plansTooltipDescriptions = state.planList?.map((plan) => {
-    return plan.amount + ' Suscriptores';
+    return plan.amount + ' ' + userType;
   });
 
   return state.success ? (
@@ -94,7 +106,22 @@ const PlanCalculator = ({ location, dependencies: { dopplerLegacyClient } }) => 
               {/* TODO: change this to intl elemnt */}
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
-
+            <div className="dp-align-center dp-tabs-plans col-sm-9">
+              <nav className="tabs-wrapper">
+                <ul className="tabs-nav" data-tab-active="1">
+                  {state.planTypes.map((type, index) => (
+                    <li className="tab--item" key={index}>
+                      <Link
+                        to={`/plan-selection/${planType}/${type}`}
+                        className={type === userType ? 'tab--link active' : 'tab--link'}
+                      >
+                        {type}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
             <div className="dp-rowflex">
               <section className="col-lg-6">
                 <Slider
