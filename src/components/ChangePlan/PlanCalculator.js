@@ -15,7 +15,7 @@ const PlanCalculator = ({
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
   const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
   const { params } = useRouteMatch();
-  const { planType, userType } = params;
+  const { planType: pathType, userType: planType } = params;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -65,7 +65,7 @@ const PlanCalculator = ({
         sessionPlan.planId,
         planList,
       );
-      const planTypes = planService.getPlanTypes(currentPlan, planType, planList);
+      const planTypes = planService.getPlanTypes(currentPlan, pathType, planList);
       const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
       if (responsePlansList.success) {
         setState({
@@ -90,7 +90,7 @@ const PlanCalculator = ({
   }
 
   const plansTooltipDescriptions = state.planList?.map((plan) => {
-    return plan.amount + ' ' + userType;
+    return plan.amount + ' ' + planType;
   });
 
   return state.success ? (
@@ -100,7 +100,7 @@ const PlanCalculator = ({
           <div className="col-sm-12" style={{ textAlign: 'center' }}>
             {/* TODO: change this to intl elemnt */}
             <h1>
-              Plan {planType} - {userType}
+              Plan {pathType} - {planType}
             </h1>
             <p style={{ paddingBottom: '50px' }}>
               {/* TODO: change this to intl elemnt */}
@@ -112,8 +112,8 @@ const PlanCalculator = ({
                   {state.planTypes.map((type, index) => (
                     <li className="tab--item" key={index}>
                       <Link
-                        to={`/plan-selection/${planType}/${type}`}
-                        className={type === userType ? 'tab--link active' : 'tab--link'}
+                        to={`/plan-selection/${pathType}/${type}`}
+                        className={type === planType ? 'tab--link active' : 'tab--link'}
                       >
                         {type}
                       </Link>
