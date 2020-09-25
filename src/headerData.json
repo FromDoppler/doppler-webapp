@@ -110,14 +110,14 @@
     "email": "cbernat@getcs.com",
     "fullname": "Cecilia Bernat",
     "plan": {
-      "planType": "2",
+      "planType": "1",
       "description": "Remaining Emails",
-      "itemDescription": "Emails",
-      "planName": "Monthly Plan",
-      "isSubscribers": "false",
-      "isMonthlyByEmail": "true",
-      "maxSubscribers": "1222200",
-      "remainingCredits": "1422100",
+      "itemDescription": "Subscribers",
+      "planName": "Free Account",
+      "isSubscribers": "true",
+      "isMonthlyByEmail": "false",
+      "maxSubscribers": "500",
+      "remainingCredits": "500",
       "buttonText": "UPGRADE"
     },
     "sms": {
