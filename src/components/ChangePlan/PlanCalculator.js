@@ -4,7 +4,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { extractParameter } from '../../utils';
+import { extractParameter, getPlanFee } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
 
 const PlanCalculator = ({
@@ -43,10 +43,12 @@ const PlanCalculator = ({
           return {
             plan: state.planList[0],
             discount: discountId
-              ? state.discountsList.find((discount) => {
+              ? state.discountsList?.find((discount) => {
                   return discount.id === discountId;
                 }) || state.discountsList[0]
-              : state.discountsList[0],
+              : state.discountsList
+              ? state.discountsList[0]
+              : undefined,
           };
         default:
           return prevPlanData;
@@ -66,13 +68,22 @@ const PlanCalculator = ({
         planList,
       );
       const planTypes = planService.getPlanTypes(currentPlan, pathType, planList);
+      const plansByType = planService.getPlans(
+        currentPlan,
+        pathType,
+        planType,
+        planList,
+        appSessionRef,
+      );
       const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
-      if (responsePlansList.success) {
+      if (plansByType.length) {
         setState({
           loading: false,
-          planList: responsePlansList.planList,
-          discountsList: responsePlansList.discounts,
+          planList: plansByType,
+          discountsList: plansByType[0].billingCycleDetails?.map(mapDiscount),
           planTypes: planTypes,
+          selectedPlanType: planType,
+          descriptions: plansByType.map((x) => x.name),
           success: true,
         });
         dispatchPlanData({
@@ -85,13 +96,33 @@ const PlanCalculator = ({
     fetchData();
   }, [dopplerLegacyClient, typePlanId, actionTypes.INIT, appSessionRef, planService]);
 
+  const mapDiscount = (discount) => {
+    return {
+      id: discount.id,
+      description: discount.billingCycle,
+      monthsAmmount: getMonthsByCycle(discount.billingCycle),
+      discountPercentage: discount.discountPercentage,
+    };
+  };
+
+  const getMonthsByCycle = (billingCycle) => {
+    switch (billingCycle) {
+      case 'monthly':
+        return 1;
+      case 'quarterly':
+        return 3;
+      case 'half-yearly':
+        return 6;
+      case 'yearly':
+        return 12;
+      default:
+        return 1;
+    }
+  };
+
   if (state.loading) {
     return <Loading page />;
   }
-
-  const plansTooltipDescriptions = state.planList?.map((plan) => {
-    return plan.amount + ' ' + planType;
-  });
 
   return state.success ? (
     <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
@@ -125,7 +156,7 @@ const PlanCalculator = ({
             <div className="dp-rowflex">
               <section className="col-lg-6">
                 <Slider
-                  planDescriptions={plansTooltipDescriptions}
+                  planDescriptions={state.planList.map((x) => x.name)}
                   defaultValue={0}
                   handleChange={(index) => {
                     dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
@@ -133,7 +164,7 @@ const PlanCalculator = ({
                 />
                 {/* discounts */}
                 <div style={{ marginBottom: '40px' }}>
-                  {state.discountsList.map((discount, index) => (
+                  {state.discountsList?.map((discount, index) => (
                     <button
                       key={index}
                       style={{
@@ -155,20 +186,22 @@ const PlanCalculator = ({
                 </div>
               </section>
               <section className="col-lg-6">
-                {planData.discount.percent ? (
+                {planData.discount?.discountPercentage ? (
                   <p style={{ textDecoration: 'line-through' }}>
-                    US${planData.plan.price * planData.discount.monthsAmmount}
+                    US${getPlanFee(planData.plan) * planData.discount.monthsAmmount}
                   </p>
                 ) : (
                   <></>
                 )}
                 <span>US$</span>
                 <span style={{ fontSize: '40px' }}>
-                  {Math.round(
-                    planData.plan.price *
-                      (1 - planData.discount.percent / 100) *
-                      planData.discount.monthsAmmount,
-                  )}
+                  {planData.discount?.percent
+                    ? Math.round(
+                        getPlanFee(planData.plan) *
+                          (1 - planData.discount?.percent / 100) *
+                          planData.discount.monthsAmmount,
+                      )
+                    : getPlanFee(planData.plan)}
                 </span>
               </section>
             </div>
@@ -181,7 +214,7 @@ const PlanCalculator = ({
                   className="dp-button button-medium primary-green"
                   href={
                     _('common.control_panel_section_url') +
-                    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount.id}` +
+                    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.idPlan}&fromStep1=True&IdDiscountPlan=${planData.discount?.id}` +
                     `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
                   }
                 >
