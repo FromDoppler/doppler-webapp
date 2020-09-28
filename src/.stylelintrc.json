@@ -10,6 +10,6 @@
       "except": ["first-nested"],
       "ignore": ["after-comment"]
     }],
-    "unit-whitelist": ["px", "em", "rem", "%", "s", "deg", "vh", "vm", "vmin", "vmax"]
+    "unit-allowed-list": ["px", "em", "rem", "%", "s", "deg", "vh", "vm", "vmin", "vmax", "ms"]
   }
 }

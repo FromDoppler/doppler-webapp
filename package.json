@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@kunukn/react-collapse": "^2.2.9",
     "@semantic-release/exec": "^3.3.8",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
