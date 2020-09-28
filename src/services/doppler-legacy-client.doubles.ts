@@ -283,6 +283,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     return {
       user: {
         ...user,
+        idUser: 10000,
         email: this.email,
       },
       nav: nav,
