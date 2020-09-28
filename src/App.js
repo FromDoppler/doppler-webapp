@@ -24,6 +24,7 @@ import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/Subsc
 import ChangePlan from './components/ChangePlan/ChangePlan';
 import PlanCalculator from './components/DopplerPlus/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
+import InvoicesList from './components/InvoicesList/InvoicesList';
 
 /**
  * @param { Object } props - props
@@ -126,6 +127,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={ReportsPartialsCampaigns}
               />
+              <PrivateRoute path={['/billing/invoices']} exact component={InvoicesList} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />

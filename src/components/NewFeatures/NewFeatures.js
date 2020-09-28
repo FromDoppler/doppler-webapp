@@ -63,6 +63,12 @@ const NewFeatures = () => {
             </Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div className="m-l-24">
+            <h3>Facturas Emitidas</h3>
+            <Link to={'/billing/invoices'}>Ir a Facturas Emitidas</Link>
+          </div>
+        </div>
       </section>
     </>
   );
