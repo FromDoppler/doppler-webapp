@@ -7,6 +7,7 @@ import { extractParameter } from '../../utils';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { Link } from 'react-router-dom';
+import Collapse from '@kunukn/react-collapse';
 
 const BulletOptions = ({ type }) => {
   const intl = useIntl();
@@ -125,11 +126,11 @@ const FreeCard = ({ showFeatures }) => {
       <div className="dp-cta-plan">
         <span className="dp-current-plan"> {_('change_plan.current_plan')} </span>
       </div>
-      {showFeatures ? (
+      <Collapse isOpen={showFeatures}>
         <CardFeatures>
           <BulletOptions type={'free'} />
         </CardFeatures>
-      ) : null}
+      </Collapse>
     </Card>
   );
 };
@@ -150,11 +151,11 @@ const AgenciesCard = ({ showFeatures }) => {
         src={_('common.ui_library_image', { imageUrl: 'icono-agencias.svg' })}
       ></img>
       <CardAction url="/new-features">{_('change_plan.ask_demo')}</CardAction>
-      {showFeatures ? (
+      <Collapse isOpen={showFeatures}>
         <CardFeatures>
           <BulletOptions type={'agencies'} />
         </CardFeatures>
-      ) : null}
+      </Collapse>
     </Card>
   );
 };
@@ -195,13 +196,12 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
           {_('change_plan.calculate_price')}
         </CardAction>
       )}
-
-      {showFeatures ? (
+      <Collapse isOpen={showFeatures}>
         <CardFeatures>
           {!path.current ? <h4>{_(`change_plan.features_title_${path.type}`)}</h4> : ''}
           <BulletOptions type={path.type} />
         </CardFeatures>
-      ) : null}
+      </Collapse>
     </Card>
   );
 };
