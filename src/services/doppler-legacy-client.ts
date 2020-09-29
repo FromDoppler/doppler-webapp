@@ -11,6 +11,7 @@ import {
   PathType,
   Plan,
 } from '../doppler-types';
+import jwt_decode from 'jwt-decode';
 
 export interface DopplerLegacyClient {
   getUserData(): Promise<DopplerLegacyUserData>;
@@ -202,6 +203,7 @@ interface AvatarEntry {
 }
 
 interface UserEntry {
+  idUser: number;
   avatar: AvatarEntry;
   email: string;
   fullname: string;
@@ -397,6 +399,15 @@ function parsePlan(json: any) {
   }
 }
 
+function mapIdUserToken(jwtToken: string) {
+  if (jwtToken) {
+    var tokenDecoded = jwt_decode<any>(jwtToken);
+    return tokenDecoded.nameid || 0;
+  }
+
+  return 0;
+}
+
 export function mapHeaderDataJson(json: any) {
   return {
     alert: json.alert && {
@@ -410,6 +421,7 @@ export function mapHeaderDataJson(json: any) {
     },
     nav: (json.nav && json.nav.map(mapNavMainEntry)) || [],
     user: {
+      idUser: mapIdUserToken(json.jwtToken),
       avatar: json.user.avatar,
       email: json.user.email,
       fullname: json.user.fullname,
