@@ -68,10 +68,11 @@ const PlanCalculator = ({
         planList,
       );
       const planTypes = planService.getPlanTypes(currentPlan, pathType, planList);
+      const selectedPlanType = planType || planTypes[0];
       const plansByType = planService.getPlans(
         currentPlan,
         pathType,
-        planType,
+        selectedPlanType,
         planList,
         appSessionRef,
       );
@@ -82,7 +83,7 @@ const PlanCalculator = ({
           planList: plansByType,
           discountsList: plansByType[0].billingCycleDetails?.map(mapDiscount),
           planTypes: planTypes,
-          selectedPlanType: planType,
+          selectedPlanType: selectedPlanType,
           descriptions: plansByType.map((x) => x.name),
           success: true,
         });
@@ -144,7 +145,7 @@ const PlanCalculator = ({
                     <li className="tab--item" key={index}>
                       <Link
                         to={`/plan-selection/${pathType}/${type}`}
-                        className={type === planType ? 'tab--link active' : 'tab--link'}
+                        className={type === state.selectedPlanType ? 'tab--link active' : 'tab--link'}
                       >
                         {type}
                       </Link>
