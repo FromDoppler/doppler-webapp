@@ -11,6 +11,7 @@ import ReactGA from 'react-ga';
 import { HardcodedDopplerLegacyClient } from './services/doppler-legacy-client.doubles';
 import { HardcodedDatahubClient } from './services/datahub-client.doubles';
 import { HardcodedDopplerSitesClient } from './services/doppler-sites-client.doubles';
+import { HardcodedDopplerBillingApiClient } from './services/doppler-billing-api-client.double';
 import { polyfill } from 'es6-object-assign';
 import 'polyfill-array-includes';
 import 'promise-polyfill/src/polyfill';
@@ -38,6 +39,7 @@ const forcedServices =
         shopifyClient: new HardcodedShopifyClient(),
         dopplerApiClient: new HardcodedDopplerApiClient(),
         ipinfoClient: new HardcodedIpinfoClient(),
+        dopplerBillingApiClient: new HardcodedDopplerBillingApiClient(),
       }
     : {};
 

@@ -12,7 +12,10 @@ import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
 import { PlanService } from './plan-service';
 
+import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
+
 interface AppConfiguration {
+  dopplerBillingApiUrl: string;
   dopplerLegacyUrl: string;
   dopplerSitesUrl: string;
   datahubUrl: string;
@@ -44,6 +47,7 @@ export interface AppServices {
   dopplerApiClient: DopplerApiClient;
   ipinfoClient: IpinfoClient;
   planService: PlanService;
+  dopplerBillingApiClient: DopplerBillingApiClient;
 }
 
 /**
@@ -91,6 +95,7 @@ export class AppCompositionRoot implements AppServices {
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
+      dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
     }));
   }
 
@@ -202,6 +207,18 @@ export class AppCompositionRoot implements AppServices {
     return this.singleton(
       'originResolver',
       () => new LocalStorageOriginResolver(this.localStorage),
+    );
+  }
+
+  get dopplerBillingApiClient() {
+    return this.singleton(
+      'dopplerBillingApiClient',
+      () =>
+        new HttpDopplerBillingApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerBillingApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
     );
   }
 }

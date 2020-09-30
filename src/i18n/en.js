@@ -145,6 +145,18 @@ You'll find an Email with steps to follow.`,
   header: {
     help_url: `${urlHelp}`,
   },
+  invoices_list: {
+    account_id_column: `Account Id`,
+    amount_column: `Amount`,
+    currency_column: `Currency`,
+    date_column: `Date`,
+    download_msg: `Download`,
+    error_msg: `There was an error gathering the invoices.`,
+    no_data_msg: `There are no invoices to show`,
+    product_column: `Product`,
+    sub_title: `List of issued invoices`,
+    title: `Issued Invoices`,
+  },
   loading: `Loading...`,
   login: {
     button_login: `Log In`,

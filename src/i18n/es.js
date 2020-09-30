@@ -144,6 +144,18 @@ Encontrarás un Email con los pasos a seguir.`,
   header: {
     help_url: `${urlHelp}`,
   },
+  invoices_list: {
+    account_id_column: `Cuenta Id`,
+    amount_column: `Importe`,
+    currency_column: `Moneda`,
+    date_column: `Fecha`,
+    download_msg: `Descargar`,
+    error_msg: `Hubo un error al recopilar las facturas.`,
+    no_data_msg: `No hay facturas para mostrar`,
+    product_column: `Producto`,
+    sub_title: `Listado de facturas emitidas`,
+    title: `Facturas Emitidas`,
+  },
   loading: `Cargando...`,
   login: {
     button_login: `Ingresa`,
