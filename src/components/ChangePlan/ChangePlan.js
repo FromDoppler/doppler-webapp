@@ -159,7 +159,7 @@ const AgenciesCard = ({ showFeatures }) => {
   );
 };
 
-const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
+const CardWithPrice = ({ path, showFeatures, avaiablePlanType, promoCode }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -177,10 +177,10 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       {path.current && !path.deadEnd ? (
         <>
           <Link
-            to={`/plan-selection/${path.type}/${currentPlanType}?promo-code=${promoCode}`}
+            to={`/plan-selection/${path.type}/${avaiablePlanType}?promo-code=${promoCode}`}
             className="dp-button button-medium secondary-green"
           >
-            {_(`change_plan.increase_action_${currentPlanType.replace('-', '_')}`)}
+            {_(`change_plan.increase_action_${avaiablePlanType.replace('-', '_')}`)}
           </Link>
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
@@ -191,7 +191,9 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
         </>
       ) : (
         // TODO: add action related to path only
-        <CardAction url={`/plan-selection/${path.type}?promo-code=${promoCode}`}>
+        <CardAction
+          url={`/plan-selection/${path.type}/${avaiablePlanType}?promo-code=${promoCode}`}
+        >
           {_('change_plan.calculate_price')}
         </CardAction>
       )}
@@ -272,7 +274,10 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                         key={index}
                         path={path}
                         showFeatures={isFeaturesVisible}
-                        currentPlanType={state.currentPlan.type}
+                        avaiablePlanType={planService.getPreSelectedPlanTypePerPathType(
+                          state.currentPlan.type,
+                          path.type,
+                        )}
                         promoCode={promoCode}
                       ></CardWithPrice>
                     ),
