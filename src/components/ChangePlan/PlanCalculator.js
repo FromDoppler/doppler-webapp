@@ -14,8 +14,7 @@ const PlanCalculator = ({
   const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
   const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
-  const { params } = useRouteMatch();
-  const { planType: pathType, userType: planType } = params;
+  const { pathType, planType } = useRouteMatch().params;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -58,6 +57,14 @@ const PlanCalculator = ({
   );
 
   useEffect(() => {
+    const mapDiscount = (discount) => {
+      return {
+        id: discount.id,
+        description: discount.billingCycle,
+        monthsAmmount: getMonthsByCycle(discount.billingCycle),
+        discountPercentage: discount.discountPercentage,
+      };
+    };
     const fetchData = async () => {
       setState({ loading: true });
       const planList = await planService.getPlanList();
@@ -75,7 +82,6 @@ const PlanCalculator = ({
         planList,
         appSessionRef,
       );
-      const responsePlansList = await dopplerLegacyClient.getPlansList(typePlanId);
       if (plansByType.length) {
         setState({
           loading: false,
@@ -94,16 +100,7 @@ const PlanCalculator = ({
       }
     };
     fetchData();
-  }, [dopplerLegacyClient, typePlanId, actionTypes.INIT, appSessionRef, planService]);
-
-  const mapDiscount = (discount) => {
-    return {
-      id: discount.id,
-      description: discount.billingCycle,
-      monthsAmmount: getMonthsByCycle(discount.billingCycle),
-      discountPercentage: discount.discountPercentage,
-    };
-  };
+  }, [dopplerLegacyClient, actionTypes.INIT, appSessionRef, planService, planType, pathType]);
 
   const getMonthsByCycle = (billingCycle) => {
     switch (billingCycle) {
@@ -171,7 +168,7 @@ const PlanCalculator = ({
                         padding: '10px',
                         border: '1px solid #000',
                         backgroundColor:
-                          discount.id === planData.discount.id ? '#33ad73' : '#f6f6f6',
+                          discount.id === planData?.discount?.id ? '#33ad73' : '#f6f6f6',
                       }}
                       onClick={() => {
                         dispatchPlanData({
