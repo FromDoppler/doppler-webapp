@@ -192,10 +192,10 @@ const PlanCalculator = ({
                 )}
                 <span>US$</span>
                 <span style={{ fontSize: '40px' }}>
-                  {planData.discount?.percent
+                  {planData.discount?.discountPercentage
                     ? Math.round(
                         getPlanFee(planData.plan) *
-                          (1 - planData.discount?.percent / 100) *
+                          (1 - planData.discount?.discountPercentage / 100) *
                           planData.discount.monthsAmmount,
                       )
                     : getPlanFee(planData.plan)}
