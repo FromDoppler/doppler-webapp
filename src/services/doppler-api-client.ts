@@ -152,6 +152,8 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
+  //TODO: Maybe is possible to use the new funtion 'searchLinkByRel' in utils.js.
+  //It functions receive the links and the rel
   private searchLinkByRel(items: any, rel: string) {
     const imgPreview = items.find((x: any) => x.rel.includes(rel));
     return imgPreview ? imgPreview.href : '';
