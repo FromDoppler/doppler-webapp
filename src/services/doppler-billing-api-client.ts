@@ -2,6 +2,7 @@ import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
+import { searchLinkByRel } from '../utils';
 
 export interface DopplerBillingApiClient {
   getInvoices(page: number, pageSize: number): Promise<ResultWithoutExpectedErrors<Invoices>>;
@@ -24,6 +25,7 @@ export interface Invoice {
   currency: string;
   amount: number;
   filename: string;
+  downloadInvoiceUrl: string;
 }
 
 export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
@@ -63,6 +65,15 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
     };
   }
 
+  private getDownloadUrl(links: any[]): string {
+    if (links) {
+      var link = searchLinkByRel(links, 'file')[0];
+      return !!link ? link.href : '';
+    }
+
+    return '';
+  }
+
   private mapInvoices(data: any): Invoice[] {
     return data.map((x: any) => ({
       accountId: x.accountId,
@@ -71,6 +82,7 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
       currency: x.currency,
       amount: x.amount,
       filename: x.filename,
+      downloadInvoiceUrl: this.getDownloadUrl(x._links),
     }));
   }
 

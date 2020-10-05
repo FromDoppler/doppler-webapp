@@ -224,3 +224,20 @@ export function openZohoChatWithMessage(message: string) {
 export function getPlanFee(plan: Plan): number {
   return plan.type === 'prepaid' ? (plan as PrepaidPack).price : (plan as FeaturedPlan).fee;
 }
+
+interface Link {
+  rel: string;
+  href: string;
+  description?: string;
+}
+
+var syntaxChars = /[\^$\\.*+?()[\]{}|]/g;
+
+function escapeRegExp(value: string) {
+  return value.replace(syntaxChars, '\\$&');
+}
+
+export function searchLinkByRel(links: Link[], rel: string): Link[] {
+  var regularExpression = new RegExp('\\b' + escapeRegExp(rel) + '\\b');
+  return links.filter((l) => regularExpression.test(l.rel));
+}

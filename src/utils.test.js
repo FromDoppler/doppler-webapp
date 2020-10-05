@@ -6,6 +6,7 @@ import {
   getStartOfDate,
   extractParameter,
   isWhitelisted,
+  searchLinkByRel,
 } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
@@ -273,6 +274,117 @@ describe('utils', () => {
       var isAllowed = isWhitelisted('');
       // Assert
       expect(isAllowed).toBe(false);
+    });
+  });
+
+  //search links with regular expression in the rel property
+  describe('search link by pattern', () => {
+    it('should return a valid link, with text "file otras palabras" ', () => {
+      // Arrange
+      var rel = 'file';
+      var links = [
+        {
+          rel: 'file otras palabras',
+          href: 'http://test.com/link.pdf',
+          description: 'Test link',
+        },
+      ];
+
+      // Act
+      const result = searchLinkByRel(links, rel);
+
+      // Assert
+      expect(result[0]).not.toEqual(undefined);
+    });
+
+    it('should return a valid link, with text "otras palabras file" ', () => {
+      // Arrange
+      var rel = 'file';
+      var links = [
+        {
+          rel: 'otras palabras file',
+          href: 'http://test.com/link.pdf',
+          description: 'Test link',
+        },
+      ];
+
+      // Act
+      const result = searchLinkByRel(links, rel);
+
+      // Assert
+      expect(result[0]).not.toEqual(undefined);
+    });
+
+    it('should return a valid link, with text "otras file palabras" ', () => {
+      // Arrange
+      var rel = 'file';
+      var links = [
+        {
+          rel: 'otras file palabras',
+          href: 'http://test.com/link.pdf',
+          description: 'Test link',
+        },
+      ];
+
+      // Act
+      const result = searchLinkByRel(links, rel);
+
+      // Assert
+      expect(result[0]).not.toEqual(undefined);
+    });
+
+    it('should return a valid link, with text "file" ', () => {
+      // Arrange
+      var rel = 'file';
+      var links = [
+        {
+          rel: 'file',
+          href: 'http://test.com/link.pdf',
+          description: 'Test link',
+        },
+      ];
+
+      // Act
+      const result = searchLinkByRel(links, rel);
+
+      // Assert
+      expect(result[0]).not.toEqual(undefined);
+    });
+
+    it('should not return a link, with text "fileotro" ', () => {
+      // Arrange
+      var rel = 'file';
+      var links = [
+        {
+          rel: 'fileotro',
+          href: 'http://test.com/link.pdf',
+          description: 'Test link',
+        },
+      ];
+
+      // Act
+      const result = searchLinkByRel(links, rel);
+
+      // Assert
+      expect(result[0]).toEqual(undefined);
+    });
+
+    it('should not return a link, with text "otrofile" ', () => {
+      // Arrange
+      var rel = 'file';
+      var links = [
+        {
+          rel: 'otrofile',
+          href: 'http://test.com/link.pdf',
+          description: 'Test link',
+        },
+      ];
+
+      // Act
+      const result = searchLinkByRel(links, rel);
+
+      // Assert
+      expect(result[0]).toEqual(undefined);
     });
   });
 });

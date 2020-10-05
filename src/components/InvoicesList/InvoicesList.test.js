@@ -112,4 +112,88 @@ describe('InvoiceList component', () => {
     // Assert
     await waitFor(() => expect(getByText('invoices_list.error_msg')).toBeInTheDocument());
   });
+
+  it('should shows a link when the download url is not empty', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          accountId: 'CD0000000073689',
+          product: 'Prod 1',
+          date: new Date('2020-09-25T00:00:00'),
+          currency: 'ARS',
+          amount: 1500,
+          filename: 'invoice_2020-10-05_10.pdf',
+          downloadInvoiceUrl: 'http://test.com/invoice_2020-10-05_10.pdf',
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const dopplerBillingApiClientDouble = {
+      getInvoices: async () => {
+        return { success: true, value: invoicesCollection };
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerBillingApiClient: dopplerBillingApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <InvoicesList />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() => expect(getByText('invoices_list.download_msg')).toBeInTheDocument());
+  });
+
+  it('should shows a message when the download url is empty', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          accountId: 'CD0000000073689',
+          product: 'Prod 1',
+          date: new Date('2020-09-25T00:00:00'),
+          currency: 'ARS',
+          amount: 1500,
+          filename: 'invoice_2020-10-05_10.pdf',
+          downloadInvoiceUrl: '',
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const dopplerBillingApiClientDouble = {
+      getInvoices: async () => {
+        return { success: true, value: invoicesCollection };
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerBillingApiClient: dopplerBillingApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <InvoicesList />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() => expect(getByText('invoices_list.no_download_msg')).toBeInTheDocument());
+  });
 });
