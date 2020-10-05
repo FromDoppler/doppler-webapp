@@ -50,7 +50,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
           {stateInvoices.loading ? (
             <Loading page />
           ) : !stateInvoices.success ? (
-            <div class="dp-msj-error dpsg-slow-animation">
+            <div class="dp-msj-error bounceIn">
               <p>
                 <FormattedMessage id="invoices_list.error_msg" />
               </p>
@@ -91,7 +91,18 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                           <td>{invoice.currency}</td>
                           <td>{invoice.amount}</td>
                           <td>
-                            <FormattedMessage id="invoices_list.download_msg" />
+                            {!!invoice.downloadInvoiceUrl ? (
+                              <a href={invoice.downloadInvoiceUrl}>
+                                <i className="ms-icon icon-download"> </i>
+                                <span className="m-l-6 align-middle">
+                                  <FormattedMessage id="invoices_list.download_msg" />
+                                </span>
+                              </a>
+                            ) : (
+                              <span>
+                                <FormattedMessage id="invoices_list.no_download_msg" />
+                              </span>
+                            )}
                           </td>
                         </tr>
                       );
