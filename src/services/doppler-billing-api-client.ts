@@ -93,10 +93,12 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
     try {
       const { idUser, jwtToken } = this.getDopplerBillingApiConnectionData();
       const account = 'doppler';
+      const sortColumn = 'date';
+      const sortAsc = false;
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${account}/${idUser}/invoices?page=${page}&pageSize=${pageSize}`,
+        url: `/accounts/${account}/${idUser}/invoices?page=${page}&pageSize=${pageSize}&sortColumn=${sortColumn}&sortAsc=${sortAsc}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

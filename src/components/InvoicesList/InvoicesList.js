@@ -3,17 +3,28 @@ import { Loading } from '../Loading/Loading';
 import { InjectAppServices } from '../../services/pure-di';
 import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
-import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedDate, FormattedMessage, useIntl, FormattedNumber } from 'react-intl';
+import { Pagination } from '../shared/Pagination/Pagination';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import queryString from 'query-string';
+import { extractParameter } from '../../utils';
 
 const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
   const [stateInvoices, setStateInvoices] = useState({ loading: true });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const location = useLocation();
+  const { url } = useRouteMatch();
+  const invoicesPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
+      const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
       setStateInvoices({ loading: true });
-      const invoicesResponse = await dopplerBillingApiClient.getInvoices(0, 0);
+      const invoicesResponse = await dopplerBillingApiClient.getInvoices(
+        currentPage,
+        invoicesPerPage,
+      );
       if (!invoicesResponse.success) {
         setStateInvoices({ loading: false, items: [], success: false });
       } else {
@@ -22,12 +33,14 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
           success: true,
           items: invoicesResponse.value.items,
           totalItems: invoicesResponse.value.totalItems,
+          currentPage: currentPage,
+          pagesCount: Math.ceil(invoicesResponse.value.totalItems / invoicesPerPage),
         });
       }
     };
 
     fetchData();
-  }, [dopplerBillingApiClient]);
+  }, [dopplerBillingApiClient, location]);
 
   return (
     <>
@@ -50,7 +63,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
           {stateInvoices.loading ? (
             <Loading page />
           ) : !stateInvoices.success ? (
-            <div class="dp-msj-error bounceIn">
+            <div className="dp-msj-error bounceIn">
               <p>
                 <FormattedMessage id="invoices_list.error_msg" />
               </p>
@@ -89,7 +102,9 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                             <FormattedDate value={invoice.date} />
                           </td>
                           <td>{invoice.currency}</td>
-                          <td>{invoice.amount}</td>
+                          <td>
+                            <FormattedNumber value={invoice.amount} />
+                          </td>
                           <td>
                             {!!invoice.downloadInvoiceUrl ? (
                               <a href={invoice.downloadInvoiceUrl}>
@@ -118,6 +133,19 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                   </tr>
                 )}
               </tbody>
+              {stateInvoices.totalItems > 0 && (
+                <tfoot>
+                  <tr>
+                    <td colSpan="6">
+                      <Pagination
+                        currentPage={stateInvoices.currentPage}
+                        pagesCount={stateInvoices.pagesCount}
+                        urlToGo={`${url}?`}
+                      />
+                    </td>
+                  </tr>
+                </tfoot>
+              )}
             </table>
           )}
         </div>
