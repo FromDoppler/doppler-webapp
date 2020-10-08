@@ -7,6 +7,30 @@ import queryString from 'query-string';
 import { extractParameter, getPlanFee } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
 
+const Discounts = ({ discountsList, handleChange }) => {
+  const [selectedDiscount, setSelectedDiscount] = useState(discountsList[0]);
+  return (
+    <div style={{ marginBottom: '40px' }}>
+      {discountsList.map((discount, index) => (
+        <button
+          key={index}
+          style={{
+            padding: '10px',
+            border: '1px solid #000',
+            backgroundColor: discount.id === selectedDiscount.id ? '#33ad73' : '#f6f6f6',
+          }}
+          onClick={() => {
+            handleChange(discount);
+            setSelectedDiscount(discount);
+          }}
+        >
+          {discount.description}
+        </button>
+      ))}
+    </div>
+  );
+};
+
 const PlanCalculator = ({
   location,
   dependencies: { planService, appSessionRef, dopplerLegacyClient },
@@ -163,28 +187,19 @@ const PlanCalculator = ({
                     dispatchPlanData({ type: actionTypes.UPDATE_SELECTED_PLAN, indexPlan: index });
                   }}
                 />
-                {/* discounts */}
-                <div style={{ marginBottom: '40px' }}>
-                  {state.discountsList?.map((discount, index) => (
-                    <button
-                      key={index}
-                      style={{
-                        padding: '10px',
-                        border: '1px solid #000',
-                        backgroundColor:
-                          discount.id === planData?.discount?.id ? '#33ad73' : '#f6f6f6',
-                      }}
-                      onClick={() => {
-                        dispatchPlanData({
-                          type: actionTypes.UPDATE_SELECTED_DISCOUNT,
-                          idDiscount: discount.id,
-                        });
-                      }}
-                    >
-                      {discount.description}
-                    </button>
-                  ))}
-                </div>
+                {state.discountsList ? (
+                  <Discounts
+                    discountsList={state.discountsList}
+                    handleChange={(discount) => {
+                      dispatchPlanData({
+                        type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+                        idDiscount: discount.id,
+                      });
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
               </section>
               <section className="col-lg-6">
                 {planData.discount?.discountPercentage ? (
