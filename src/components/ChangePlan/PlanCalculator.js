@@ -11,9 +11,8 @@ const PlanCalculator = ({
   location,
   dependencies: { planService, appSessionRef, dopplerLegacyClient },
 }) => {
-  const safePromoId = extractParameter(location, queryString.parse, 'promoId') || '';
+  const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
-  const typePlanId = parseInt(extractParameter(location, queryString.parse, 'selected-plan')) || 0;
   const { pathType, planType } = useRouteMatch().params;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -90,7 +89,7 @@ const PlanCalculator = ({
           discountsList: plansByType[0].billingCycleDetails?.map(mapDiscount),
           planTypes: planTypes,
           selectedPlanType: selectedPlanType,
-          descriptions: plansByType.map((x) => x.name),
+          descriptions: plansByType.map((plan) => plan.name),
           success: true,
         });
         dispatchPlanData({
@@ -142,7 +141,9 @@ const PlanCalculator = ({
                     <li className="tab--item" key={index}>
                       <Link
                         to={`/plan-selection/${pathType}/${type}`}
-                        className={type === state.selectedPlanType ? 'tab--link active' : 'tab--link'}
+                        className={
+                          type === state.selectedPlanType ? 'tab--link active' : 'tab--link'
+                        }
                       >
                         {type}
                       </Link>
@@ -212,7 +213,8 @@ const PlanCalculator = ({
                   className="dp-button button-medium primary-green"
                   href={
                     _('common.control_panel_section_url') +
-                    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.id}&fromStep1=True&IdDiscountPlan=${planData.discount?.id}` +
+                    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.id}&fromStep1=True` +
+                    `${planData.discount?.id ? `&IdDiscountPlan=${planData.discount?.id}` : ''}` +
                     `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
                   }
                 >

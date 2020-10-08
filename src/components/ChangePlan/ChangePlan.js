@@ -192,7 +192,9 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
         </>
       ) : (
         // TODO: add action related to path only
-        <CardAction url={`/plan-selection/${path.type}?promo-code=${promoCode}`}>
+        <CardAction
+          url={`/plan-selection/${path.type}?${promoCode ? 'promo-code=' + promoCode : ''}`}
+        >
           {_('change_plan.calculate_price')}
         </CardAction>
       )}
