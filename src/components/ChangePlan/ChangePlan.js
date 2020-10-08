@@ -177,7 +177,9 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       {path.current && !path.deadEnd ? (
         <>
           <Link
-            to={`/plan-selection/${path.type}/${currentPlanType}?promo-code=${promoCode}`}
+            to={`/plan-selection/${path.type}/${currentPlanType}?${
+              promoCode ? 'promo-code=' + promoCode : ''
+            }`}
             className="dp-button button-medium secondary-green"
           >
             {_(`change_plan.increase_action_${currentPlanType.replace('-', '_')}`)}

@@ -208,7 +208,10 @@ const PlanCalculator = ({
             </div>
             <div style={{ marginTop: '40px' }}>
               <span className="col-lg-1">
-                <Link to="/plan-selection"> &lt; &lt; Volver a Planes</Link>
+                <Link to={`/plan-selection${safePromoId ? `?promo-code=${safePromoId}` : ''}`}>
+                  {' '}
+                  &lt; &lt; Volver a Planes
+                </Link>
               </span>
               <span className="col-lg-1">
                 <a
