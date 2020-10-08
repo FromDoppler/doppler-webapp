@@ -174,7 +174,6 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       <CardPrice doNotShowSince={path.current && path.deadEnd} currency="US$">
         {path.minimumFee}
       </CardPrice>
-
       {path.current && !path.deadEnd ? (
         <>
           <Link
@@ -228,7 +227,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
       const sessionPlan = appSessionRef.current.userData.user.plan;
       const currentPlan = planService.mapCurrentPlanFromTypeOrId(
         sessionPlan.planType,
-        sessionPlan.planId,
+        sessionPlan.idPlan,
         planList,
       );
       const pathList = await planService.getPaths(currentPlan, planList);

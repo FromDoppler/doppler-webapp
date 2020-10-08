@@ -70,7 +70,7 @@ const PlanCalculator = ({
       const sessionPlan = appSessionRef.current.userData.user.plan;
       const currentPlan = planService.mapCurrentPlanFromTypeOrId(
         sessionPlan.planType,
-        sessionPlan.planId,
+        sessionPlan.idPlan,
         planList,
       );
       const planTypes = planService.getPlanTypes(currentPlan, pathType, planList);
@@ -82,6 +82,7 @@ const PlanCalculator = ({
         planList,
         appSessionRef,
       );
+
       if (plansByType.length) {
         setState({
           loading: false,
@@ -92,6 +93,7 @@ const PlanCalculator = ({
           descriptions: plansByType.map((plan) => plan.name),
           success: true,
         });
+
         dispatchPlanData({
           type: actionTypes.INIT,
         });
