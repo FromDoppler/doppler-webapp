@@ -7,6 +7,25 @@ import queryString from 'query-string';
 import { extractParameter, getPlanFee } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
 
+const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
+  return (
+    <nav className="tabs-wrapper">
+      <ul className="tabs-nav" data-tab-active="1">
+        {tabs.map((type, index) => (
+          <li className="tab--item" key={index}>
+            <Link
+              to={`/plan-selection/${pathType}/${type}`}
+              className={type === selectedPlanType ? 'tab--link active' : 'tab--link'}
+            >
+              {type}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
 const Discounts = ({ discountsList, handleChange }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(discountsList[0]);
   return (
@@ -161,22 +180,11 @@ const PlanCalculator = ({
               ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
             </p>
             <div className="dp-align-center dp-tabs-plans col-sm-9">
-              <nav className="tabs-wrapper">
-                <ul className="tabs-nav" data-tab-active="1">
-                  {state.planTypes.map((type, index) => (
-                    <li className="tab--item" key={index}>
-                      <Link
-                        to={`/plan-selection/${pathType}/${type}`}
-                        className={
-                          type === state.selectedPlanType ? 'tab--link active' : 'tab--link'
-                        }
-                      >
-                        {type}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              <NavigatorTabs
+                tabs={state.planTypes}
+                pathType={pathType}
+                selectedPlanType={state.selectedPlanType}
+              />
             </div>
             <div className="dp-rowflex">
               <section className="col-lg-6">
