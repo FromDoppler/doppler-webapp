@@ -207,6 +207,11 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_delivery: `Comportamiento`,
     grid_subject: `Asunto`,
   },
+  plan_calculator: {
+    monthly_deliveries_amount_description: 'Emails',
+    prepaid_amount_description: 'Créditos',
+    subscribers_amount_description: 'Suscriptores',
+  },
   reports: {
     allow_enable_trial_MD: `Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los
     usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos

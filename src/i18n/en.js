@@ -208,6 +208,11 @@ You'll find an Email with steps to follow.`,
     grid_delivery: `Delivery Status`,
     grid_subject: `Subject`,
   },
+  plan_calculator: {
+    monthly_deliveries_amount_description: 'Emails',
+    prepaid_amount_description: 'Credits',
+    subscribers_amount_description: 'Suscribers',
+  },
   reports: {
     allow_enable_trial_MD: `Activate the trial period and access detailed Reports on the behavior of users inside your
     Website or E-commerce. Discover which are the most visited pages,
