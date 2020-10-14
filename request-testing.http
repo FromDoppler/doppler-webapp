@@ -6,3 +6,5 @@ http://localhost:8080/login
 # It should cache aggressively al content in /static/
 http://localhost:8080/static/js/main.ed1f8fc4.chunk.js
 
+###
+https://app.fromdoppler.com/login
