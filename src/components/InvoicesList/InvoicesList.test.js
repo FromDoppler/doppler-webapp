@@ -5,7 +5,6 @@ import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-valu
 import { AppServicesProvider } from '../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import InvoicesList from './InvoicesList';
-import { notDeepEqual } from 'assert';
 
 describe('InvoiceList component', () => {
   afterEach(cleanup);
@@ -17,7 +16,8 @@ describe('InvoiceList component', () => {
         {
           accountId: 'CD0000000073689',
           product: 'Prod 1',
-          date: new Date('2020-09-25T00:00:00'),
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
           amount: 1500,
           filename: 'invoice_2020-10-05_10.pdf',
@@ -25,7 +25,8 @@ describe('InvoiceList component', () => {
         {
           accountId: 'CD0000000073690',
           product: 'Prod 2',
-          date: new Date('2020-09-26T00:00:00'),
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
           amount: 1500,
           filename: 'invoice_2020-10-05_10.pdf',
@@ -121,7 +122,8 @@ describe('InvoiceList component', () => {
         {
           accountId: 'CD0000000073689',
           product: 'Prod 1',
-          date: new Date('2020-09-25T00:00:00'),
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
           amount: 1500,
           filename: 'invoice_2020-10-05_10.pdf',
@@ -163,7 +165,8 @@ describe('InvoiceList component', () => {
         {
           accountId: 'CD0000000073689',
           product: 'Prod 1',
-          date: new Date('2020-09-25T00:00:00'),
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
           amount: 1500,
           filename: 'invoice_2020-10-05_10.pdf',
@@ -205,7 +208,8 @@ describe('InvoiceList component', () => {
         {
           accountId: 'CD0000000073689',
           product: 'Prod 1',
-          date: new Date('2020-09-25T00:00:00'),
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
           amount: 1500,
           filename: 'invoice_2020-10-05_10.pdf',
