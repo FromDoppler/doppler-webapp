@@ -199,6 +199,17 @@ function compareByFee(left: Plan, right: Plan): number {
   return getPlanFee(left) < getPlanFee(right) ? -1 : getPlanFee(left) > getPlanFee(right) ? 1 : 0;
 }
 
+function getPlanBySessionPlanId(id: number, planList: Plan[]) {
+  return (planList as (PrepaidPack | MonthlyRenewalDeliveriesPlan | SubscribersLimitedPlan)[]).find(
+    (plan) => plan.id === id,
+  );
+}
+
+function getCheapestPrepaidPlan(planList: Plan[]) {
+  const prepaidPlans = getPrepaidPacks(planList).sort(compareByFee);
+  return prepaidPlans[0];
+}
+
 export class PlanService implements PlanHierarchy {
   private PlanList: Plan[] = [];
   private readonly dopplerLegacyClient: DopplerLegacyClient;
@@ -262,16 +273,27 @@ export class PlanService implements PlanHierarchy {
     return potentialUpgradePlansFilteredByPathAndTypeSorted;
   }
 
-  getPlanBySessionPlanId(id: number, planList: Plan[]) {
-    return (planList as (
-      | PrepaidPack
-      | MonthlyRenewalDeliveriesPlan
-      | SubscribersLimitedPlan
-    )[]).find((plan) => plan.id === id);
-  }
-
-  getCheapestPrepaidPlan(planList: Plan[]) {
-    const prepaidPlans = getPrepaidPacks(planList).sort(compareByFee);
-    return prepaidPlans[0];
-  }
+  mapCurrentPlanFromTypeOrId = (planType: PlanType, planId: number, planList: Plan[]) => {
+    const exclusivePlan = { type: 'exclusive' };
+    switch (planType) {
+      case 'subscribers':
+      case 'monthly-deliveries':
+        // for subscribers and monthly plan will be exclusive until id plan is deployed in doppler
+        const monthlyPlan = getPlanBySessionPlanId(planId, planList);
+        return monthlyPlan ? monthlyPlan : exclusivePlan;
+      case 'prepaid':
+        return getCheapestPrepaidPlan(planList);
+      case 'agencies':
+        return {
+          type: 'agency',
+          featureSet: 'agency',
+        };
+      default:
+        return {
+          type: 'free',
+          subscriberLimit: 500,
+          featureSet: 'free',
+        };
+    }
+  };
 }
