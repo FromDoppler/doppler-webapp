@@ -6,8 +6,23 @@ import { useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter, getPlanFee } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const getTypePlanDescription = (type) => {
+    switch (type) {
+      case 'prepaid':
+      case 'subscribers':
+      case 'monthly-deliveries':
+        return _('plan_calculator.plan_type_' + type.replace('-', '_'));
+      default:
+        return '';
+    }
+  };
+
   return (
     <nav className="tabs-wrapper">
       <ul className="tabs-nav">
@@ -17,7 +32,7 @@ const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
               to={`/plan-selection/${pathType}/${type}`}
               className={type === selectedPlanType ? 'tab--link active' : 'tab--link'}
             >
-              {type}
+              {getTypePlanDescription(type)}
             </Link>
           </li>
         ))}
@@ -28,10 +43,25 @@ const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
 
 const Discounts = ({ discountsList, handleChange }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(discountsList[0]);
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const getDiscountDescription = (discountDescription) => {
+    switch (discountDescription) {
+      case 'monthly':
+      case 'quarterly':
+      case 'half-yearly':
+      case 'yearly':
+        return _('plan_calculator.discount_' + discountDescription.replace('-', '_'));
+      default:
+        return '';
+    }
+  };
+
   return (
     <>
       <div className="dp-wrap-subscription">
-        <h4>Suscripcion</h4>
+        <h4>{_('plan_calculator.discount_title')}</h4>
         <ul>
           {discountsList.map((discount, index) => (
             <li key={index}>
@@ -45,7 +75,7 @@ const Discounts = ({ discountsList, handleChange }) => {
                   setSelectedDiscount(discount);
                 }}
               >
-                {discount.description}
+                {getDiscountDescription(discount.description)}
               </button>
               {discount.discountPercentage ? (
                 <span className="dp-discount">{`${discount.discountPercentage}% OFF`}</span>
@@ -57,10 +87,7 @@ const Discounts = ({ discountsList, handleChange }) => {
         </ul>
       </div>
       <div className="dp-calc-message dp-show">
-          ¿Tienes más de 100.000 contactos?
-          <a href="#">
-            <strong>Contáctanos para crear un plan a tu medida.</strong>
-          </a>
+        <FormattedMessageMarkdown id="plan_calculator.exlusive_plan_promotion" />
       </div>
     </>
   );
@@ -114,16 +141,31 @@ const PlanCalculator = ({
     { plan: {}, discount: {} },
   );
 
-  const getPlanAmount = (plan) => {
+  const getPlanDescription = (plan) => {
+    const planDescription = {
+      descriptionId: 'plan_calculator.' + plan.type.replace('-', '_') + '_amount_description',
+    };
     switch (plan.type) {
       case 'prepaid':
-        return plan.credits;
+        return {
+          ...planDescription,
+          amount: plan.credits,
+        };
       case 'subscribers':
-        return plan.subscriberLimit;
+        return {
+          ...planDescription,
+          amount: plan.subscriberLimit,
+        };
       case 'monthly-deliveries':
-        return plan.emailsByMonth;
+        return {
+          ...planDescription,
+          amount: plan.emailsByMonth,
+        };
       default:
-        return null;
+        return {
+          amount: null,
+          descriptionId: 'plan_calculator.unknown_amount_description',
+        };
     }
   };
 
@@ -162,11 +204,7 @@ const PlanCalculator = ({
           planTypes: planTypes,
           selectedPlanType: selectedPlanType,
           planDescriptions: plansByType.map((plan) => {
-            return {
-              amount: getPlanAmount(plan),
-              descriptionId:
-                'plan_calculator.' + plan.type.replace('-', '_') + '_amount_description',
-            };
+            return getPlanDescription(plan);
           }),
           success: true,
         });
@@ -205,12 +243,8 @@ const PlanCalculator = ({
       <section className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12" style={{ textAlign: 'center' }}>
-            {/* TODO: change this to intl elemnt */}
-            <h1 className="dp-tit-plans">Plan {pathType}</h1>
-            <p>
-              {/* TODO: change this to intl elemnt */}
-              ¿Cuántos contactos tienes? Utiliza el slider para calcular el costo final de tu Plan
-            </p>
+            <h1 className="dp-tit-plans">{_(`plan_calculator.plan_${pathType}_title`)}</h1>
+            <p>{_('plan_calculator.subtitle')}</p>
             <div className="dp-align-center dp-tabs-plans col-sm-9">
               <NavigatorTabs
                 tabs={state.planTypes}
@@ -274,11 +308,16 @@ const PlanCalculator = ({
                                 : getPlanFee(planData.plan)}
                             </span>
                           </h2>
-                          <span className="dp-for-time">Por mes</span>
+                          <span className="dp-for-time">{_('plan_calculator.per_month')}</span>
                           <div className="dp-agreement">
+                            {/* TODO: avoid show id if discount does not exists when this behavior be in another component */}
                             {planData.discount?.discountPercentage ? (
                               <p>
-                                El pago anual será de
+                                {_(
+                                  'plan_calculator.with_' +
+                                    planData.discount.description.replace('-', '_') +
+                                    '_discount',
+                                )}
                                 <strong>
                                   {' '}
                                   US$
@@ -292,10 +331,7 @@ const PlanCalculator = ({
                             ) : (
                               <></>
                             )}
-                            <p>
-                              La renovación es automática y puedes cancelarla cuando quieras. Estos
-                              valores no incluyen impuestos.
-                            </p>
+                            <p>{_('plan_calculator.discount_clarification')}</p>
                           </div>
                         </div>
                       </div>
@@ -311,7 +347,7 @@ const PlanCalculator = ({
                     className="dp-button button-medium primary-grey"
                     to={`/plan-selection${safePromoId ? `?promo-code=${safePromoId}` : ''}`}
                   >
-                    Volver a Planes
+                    {_('plan_calculator.button_back')}
                   </Link>
 
                   <a
@@ -323,7 +359,7 @@ const PlanCalculator = ({
                       `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
                     }
                   >
-                    Contratar
+                    {_('plan_calculator.button_purchase')}
                   </a>
                 </div>
               </div>
@@ -337,7 +373,7 @@ const PlanCalculator = ({
       <section className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12" style={{ textAlign: 'center' }}>
-            <span>Hubo un error al traer los datos</span>
+            <span>{_('common.unexpected_error')}</span>
           </div>
         </div>
       </section>
