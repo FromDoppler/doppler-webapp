@@ -1,32 +1,23 @@
 import React, { useState } from 'react';
-import * as S from './Slider.styles';
 
-export const Slider = ({ tooltipDescriptions, defaultValue, handleChange }) => {
-  const [currentTooltipDescription, setCurrentTooltipDescription] = useState(
-    tooltipDescriptions[defaultValue],
-  );
-  const [dataProgress, setDataProgress] = useState(
-    (100 / tooltipDescriptions.length) * defaultValue,
-  );
+export const Slider = ({ planDescriptions, defaultValue, handleChange }) => {
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(defaultValue);
   // TODO: add styles
   return (
-    <>
-      <S.SliderTooltip dataProgress={dataProgress}>
-        <span>{currentTooltipDescription}</span>
-      </S.SliderTooltip>
+    <div>
+      <h3>{planDescriptions[selectedPlanIndex]}</h3>
       <input
-        style={{ marginTop: '100px', padding: '0' }}
+        style={{ padding: '0' }}
         type="range"
         min={0}
-        max={tooltipDescriptions.length - 1}
+        max={planDescriptions.length - 1}
         step={1}
         defaultValue={defaultValue}
         onChange={(e) => {
-          setCurrentTooltipDescription(tooltipDescriptions[e.target.value]);
-          setDataProgress((100 / tooltipDescriptions.length) * e.target.value);
           handleChange(e.target.value);
+          setSelectedPlanIndex(e.target.value);
         }}
       />
-    </>
+    </div>
   );
 };
