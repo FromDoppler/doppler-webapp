@@ -353,12 +353,12 @@ const PlanCalculator = ({
 
                   <a
                     className="dp-button button-medium primary-green"
-                    href={
-                      _('common.control_panel_section_url') +
-                      `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planData.plan.id}&fromStep1=True` +
-                      `${planData.discount?.id ? `&IdDiscountPlan=${planData.discount?.id}` : ''}` +
-                      `${safePromoId ? `&PromoCode=${safePromoId}` : ''}`
-                    }
+                    href={planService.getBuyUrl(
+                      _('common.control_panel_section_url'),
+                      planData.plan.id,
+                      planData.discount?.id,
+                      safePromoId,
+                    )}
                   >
                     {_('plan_calculator.button_purchase')}
                   </a>
