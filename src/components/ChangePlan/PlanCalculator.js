@@ -86,7 +86,8 @@ const Discounts = ({ discountsList, handleChange }) => {
           ))}
         </ul>
       </div>
-      <div className="dp-calc-message dp-show">
+      {/* TODO: show this when slider reach the higher plan */}
+      <div className="dp-calc-message dp-hide">
         <FormattedMessageMarkdown id="plan_calculator.exlusive_plan_promotion" />
       </div>
     </>
