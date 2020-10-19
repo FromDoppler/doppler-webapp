@@ -79,7 +79,10 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                     <FormattedMessage id="invoices_list.product_column" />
                   </th>
                   <th scope="col">
-                    <FormattedMessage id="invoices_list.date_column" />
+                    <FormattedMessage id="invoices_list.creation_date_column" />
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id="invoices_list.due_date_column" />
                   </th>
                   <th scope="col">
                     <FormattedMessage id="invoices_list.currency_column" />
@@ -99,7 +102,10 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                           <td>{invoice.accountId}</td>
                           <td>{invoice.product}</td>
                           <td>
-                            <FormattedDate value={invoice.date} />
+                            <FormattedDate value={invoice.creationDate} />
+                          </td>
+                          <td>
+                            {!!invoice.dueDate ? <FormattedDate value={invoice.dueDate} /> : null}
                           </td>
                           <td>{invoice.currency}</td>
                           <td>
@@ -125,7 +131,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                   </>
                 ) : (
                   <tr>
-                    <td colSpan={6}>
+                    <td colSpan={7}>
                       <span className="bounceIn">
                         <FormattedMessage id="invoices_list.no_data_msg" />
                       </span>
@@ -136,7 +142,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
               {stateInvoices.totalItems > 0 && (
                 <tfoot>
                   <tr>
-                    <td colSpan="6">
+                    <td colSpan="7">
                       <Pagination
                         currentPage={stateInvoices.currentPage}
                         pagesCount={stateInvoices.pagesCount}

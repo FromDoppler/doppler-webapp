@@ -21,7 +21,8 @@ export interface Invoices {
 export interface Invoice {
   accountId: string;
   product: string;
-  date: Date;
+  creationDate: Date;
+  dueDate: Date;
   currency: string;
   amount: number;
   filename: string;
@@ -78,7 +79,8 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
     return data.map((x: any) => ({
       accountId: x.accountId,
       product: x.product,
-      date: new Date(x.date),
+      creationDate: !!x.creationDate ? new Date(x.creationDate) : new Date(x.date),
+      dueDate: !!x.dueDate ? new Date(x.dueDate) : null,
       currency: x.currency,
       amount: x.amount,
       filename: x.filename,
@@ -93,7 +95,7 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
     try {
       const { idUser, jwtToken } = this.getDopplerBillingApiConnectionData();
       const account = 'doppler';
-      const sortColumn = 'date';
+      const sortColumn = 'creationDate';
       const sortAsc = false;
 
       const response = await this.axios.request({
