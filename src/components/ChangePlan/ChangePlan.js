@@ -171,7 +171,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
         <p>{_(`change_plan.card_${path.type}_description`)}</p>
       </div>
 
-      <CardPrice doNotShowSince={path.current && path.deadEnd} currency="US$">
+      <CardPrice doNotShowSince={path.current} currency="US$">
         {path.minimumFee}
       </CardPrice>
       {path.current && !path.deadEnd ? (
