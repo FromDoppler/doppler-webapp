@@ -296,4 +296,13 @@ export class PlanService implements PlanHierarchy {
         };
     }
   };
+
+  getBuyUrl(controlPanelUrl: string, planId: string, discountId: string, promoId: string): string {
+    return (
+      controlPanelUrl +
+      `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True` +
+      `${discountId ? `&IdDiscountPlan=${discountId}` : ''}` +
+      `${promoId ? `&PromoCode=${promoId}` : ''}`
+    );
+  }
 }
