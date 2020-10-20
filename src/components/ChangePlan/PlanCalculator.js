@@ -133,14 +133,22 @@ const PlanAgreement = ({ planData }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const getAgreementDescription = (discountDescription) => {
+    switch (discountDescription) {
+      case 'quarterly':
+      case 'half-yearly':
+      case 'yearly':
+        return _('plan_calculator.with_' + discountDescription.replace('-', '_') + '_discount');
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="dp-agreement">
-      {/* TODO: avoid show id if discount does not exists when this behavior be in another component */}
       {planData.discount?.discountPercentage ? (
         <p>
-          {_(
-            'plan_calculator.with_' + planData.discount.description.replace('-', '_') + '_discount',
-          )}
+          {getAgreementDescription(planData.discount.description)}
           <strong>
             {' '}
             US$
