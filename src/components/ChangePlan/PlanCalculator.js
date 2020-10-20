@@ -189,7 +189,7 @@ const PlanCalculator = ({
         planList,
       );
       const planTypes = planService.getPlanTypes(currentPlan, pathType, planList);
-      const selectedPlanType = planType || planTypes[0];
+      const selectedPlanType = planTypes.includes(planType) ? planType : planTypes[0];
       const plansByType = planService.getPlans(
         currentPlan,
         pathType,
