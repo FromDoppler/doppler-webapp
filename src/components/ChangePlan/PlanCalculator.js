@@ -94,6 +94,75 @@ const Discounts = ({ discountsList, handleChange }) => {
   );
 };
 
+const PlanPriceWithoutDiscounts = ({ planData }) => {
+  return (
+    <>
+      {planData.discount?.discountPercentage ? (
+        <span className="dp-price-old">
+          <span className="dp-price-old-money">US$</span>
+          <span className="dp-price-old-amount">{getPlanFee(planData.plan)}</span>
+        </span>
+      ) : (
+        <></>
+      )}
+    </>
+  );
+};
+
+const PlanPricePerMonth = ({ planData }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  return (
+    <>
+      <h2 className="dp-price-large">
+        <span className="dp-price-large-money">US$</span>
+        <span className="dp-price-large-amount">
+          {planData.discount?.discountPercentage
+            ? Math.round(
+                getPlanFee(planData.plan) * (1 - planData.discount?.discountPercentage / 100),
+              )
+            : getPlanFee(planData.plan)}
+        </span>
+      </h2>
+      <span className="dp-for-time">{_('plan_calculator.per_month')}</span>
+    </>
+  );
+};
+
+const PlanAgreement = ({ planData }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <div className="dp-agreement">
+      {/* TODO: avoid show id if discount does not exists when this behavior be in another component */}
+      {planData.discount?.discountPercentage ? (
+        <p>
+          {_(
+            'plan_calculator.with_' + planData.discount.description.replace('-', '_') + '_discount',
+          )}
+          <strong>
+            {' '}
+            US$
+            {Math.round(
+              getPlanFee(planData.plan) *
+                (1 - planData.discount.discountPercentage / 100) *
+                planData.discount.monthsAmmount,
+            )}
+          </strong>
+        </p>
+      ) : (
+        <></>
+      )}
+      <p>{_('plan_calculator.discount_clarification')}</p>
+    </div>
+  );
+};
+
+const PlanPrice = ({ children }) => {
+  return <div className="dp-price--wrapper">{children}</div>;
+};
+
 const PlanCalculator = ({
   location,
   dependencies: { planService, appSessionRef, dopplerLegacyClient },
@@ -287,54 +356,11 @@ const PlanCalculator = ({
                         </article>
                       </div>
                       <div className="col-md-6 col-sm-12">
-                        <div className="dp-price--wrapper">
-                          {planData.discount?.discountPercentage ? (
-                            <span className="dp-price-old">
-                              <span className="dp-price-old-money">US$</span>
-                              <span className="dp-price-old-amount">
-                                {getPlanFee(planData.plan)}
-                              </span>
-                            </span>
-                          ) : (
-                            <></>
-                          )}
-                          <h2 className="dp-price-large">
-                            <span className="dp-price-large-money">US$</span>
-                            <span className="dp-price-large-amount">
-                              {planData.discount?.discountPercentage
-                                ? Math.round(
-                                    getPlanFee(planData.plan) *
-                                      (1 - planData.discount?.discountPercentage / 100),
-                                  )
-                                : getPlanFee(planData.plan)}
-                            </span>
-                          </h2>
-                          <span className="dp-for-time">{_('plan_calculator.per_month')}</span>
-                          <div className="dp-agreement">
-                            {/* TODO: avoid show id if discount does not exists when this behavior be in another component */}
-                            {planData.discount?.discountPercentage ? (
-                              <p>
-                                {_(
-                                  'plan_calculator.with_' +
-                                    planData.discount.description.replace('-', '_') +
-                                    '_discount',
-                                )}
-                                <strong>
-                                  {' '}
-                                  US$
-                                  {Math.round(
-                                    getPlanFee(planData.plan) *
-                                      (1 - planData.discount.discountPercentage / 100) *
-                                      planData.discount.monthsAmmount,
-                                  )}
-                                </strong>
-                              </p>
-                            ) : (
-                              <></>
-                            )}
-                            <p>{_('plan_calculator.discount_clarification')}</p>
-                          </div>
-                        </div>
+                        <PlanPrice>
+                          <PlanPriceWithoutDiscounts planData={planData} />
+                          <PlanPricePerMonth planData={planData} />
+                          <PlanAgreement planData={planData} />
+                        </PlanPrice>
                       </div>
                     </div>
                   </div>
