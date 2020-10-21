@@ -25,6 +25,8 @@ export interface Invoice {
   dueDate: Date;
   currency: string;
   amount: number;
+  paidToDate: number;
+  balance: number;
   filename: string;
   downloadInvoiceUrl: string;
 }
@@ -83,6 +85,8 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
       dueDate: !!x.dueDate ? new Date(x.dueDate) : null,
       currency: x.currency,
       amount: x.amount,
+      paidToDate: x.paidToDate,
+      balance: x.balance,
       filename: x.filename,
       downloadInvoiceUrl: this.getDownloadUrl(x._links),
     }));

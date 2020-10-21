@@ -399,3 +399,198 @@ describe('HttpDopplerBillingApiClient', () => {
     });
   });
 });
+
+//With Paid to Date from API
+describe('HttpDopplerBillingApiClient', () => {
+  it('with "paidToDate" property from API should get invoices list correctly with "paidToDate" != 0', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          accountId: 'CD0000000073689',
+          product: 'Prod 1',
+          date: '2020-09-29T00:00:00',
+          dueDate: '2020-09-29T00:00:00',
+          currency: 'ARS',
+          amount: 1500,
+          paidToDate: 1500,
+          filename: 'invoice_2020-09-29_10.pdf',
+          _links: [
+            {
+              rel: 'Help',
+              href: 'http://test.com/help',
+              description: 'Url to download invoice',
+            },
+          ],
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const listExist = {
+      data: invoicesCollection,
+      status: 200,
+    };
+    const request = jest.fn(async () => listExist);
+    const dopplerBillingApiClient = createHttpDopplerApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingApiClient.getInvoices(0, 0);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.value.items).not.toBe(undefined);
+    expect(result.value.totalItems).toBe(1);
+
+    result.value.items.forEach((element) => {
+      expect(element.paidToDate).toEqual(invoicesCollection.items[0].paidToDate);
+    });
+  });
+});
+
+describe('HttpDopplerBillingApiClient', () => {
+  it('without "paidToDate" property from API should get invoices list correctly with paidToDate equal undefined', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          accountId: 'CD0000000073689',
+          product: 'Prod 1',
+          date: '2020-09-29T00:00:00',
+          currency: 'ARS',
+          amount: 1500,
+          filename: 'invoice_2020-09-29_10.pdf',
+          _links: [
+            {
+              rel: 'Help',
+              href: 'http://test.com/help',
+              description: 'Url to download invoice',
+            },
+          ],
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const listExist = {
+      data: invoicesCollection,
+      status: 200,
+    };
+    const request = jest.fn(async () => listExist);
+    const dopplerBillingApiClient = createHttpDopplerApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingApiClient.getInvoices(0, 0);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.value.items).not.toBe(undefined);
+    expect(result.value.totalItems).toBe(1);
+
+    result.value.items.forEach((element) => {
+      expect(element.paidToDate).toBe(undefined);
+    });
+  });
+});
+
+//With Balance from API
+describe('HttpDopplerBillingApiClient', () => {
+  it('with "balance" property from API should get invoices list correctly with "balance" from API', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          accountId: 'CD0000000073689',
+          product: 'Prod 1',
+          date: '2020-09-29T00:00:00',
+          dueDate: '2020-09-29T00:00:00',
+          currency: 'ARS',
+          amount: 1500,
+          paidToDate: 1000,
+          balance: 500,
+          filename: 'invoice_2020-09-29_10.pdf',
+          _links: [
+            {
+              rel: 'Help',
+              href: 'http://test.com/help',
+              description: 'Url to download invoice',
+            },
+          ],
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const listExist = {
+      data: invoicesCollection,
+      status: 200,
+    };
+    const request = jest.fn(async () => listExist);
+    const dopplerBillingApiClient = createHttpDopplerApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingApiClient.getInvoices(0, 0);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.value.items).not.toBe(undefined);
+    expect(result.value.totalItems).toBe(1);
+
+    result.value.items.forEach((element) => {
+      expect(element.balance).toEqual(invoicesCollection.items[0].balance);
+    });
+  });
+});
+
+describe('HttpDopplerBillingApiClient', () => {
+  it('without "balance" property from API should get invoices list correctly with the balance equal undefined', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          accountId: 'CD0000000073689',
+          product: 'Prod 1',
+          date: '2020-09-29T00:00:00',
+          currency: 'ARS',
+          amount: 1500,
+          filename: 'invoice_2020-09-29_10.pdf',
+          _links: [
+            {
+              rel: 'Help',
+              href: 'http://test.com/help',
+              description: 'Url to download invoice',
+            },
+          ],
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const listExist = {
+      data: invoicesCollection,
+      status: 200,
+    };
+    const request = jest.fn(async () => listExist);
+    const dopplerBillingApiClient = createHttpDopplerApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingApiClient.getInvoices(0, 0);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.value.items).not.toBe(undefined);
+    expect(result.value.totalItems).toBe(1);
+
+    result.value.items.forEach((element) => {
+      expect(element.balance).toBe(undefined);
+    });
+  });
+});

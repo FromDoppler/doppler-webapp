@@ -90,7 +90,15 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                   <th scope="col">
                     <FormattedMessage id="invoices_list.amount_column" />
                   </th>
-                  <th scope="col"></th>
+                  <th scope="col">
+                    <FormattedMessage id="invoices_list.paid_to_date_column" />
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id="invoices_list.balance_column" />
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id="invoices_list.downloads_column" />
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -112,6 +120,12 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                             <FormattedNumber value={invoice.amount} />
                           </td>
                           <td>
+                            <FormattedNumber value={invoice.paidToDate} />
+                          </td>
+                          <td>
+                            <FormattedNumber value={invoice.balance} />
+                          </td>
+                          <td>
                             {!!invoice.downloadInvoiceUrl ? (
                               <a href={invoice.downloadInvoiceUrl}>
                                 <i className="ms-icon icon-download"> </i>
@@ -131,7 +145,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                   </>
                 ) : (
                   <tr>
-                    <td colSpan={7}>
+                    <td colSpan={9}>
                       <span className="bounceIn">
                         <FormattedMessage id="invoices_list.no_data_msg" />
                       </span>
@@ -142,7 +156,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
               {stateInvoices.totalItems > 0 && (
                 <tfoot>
                   <tr>
-                    <td colSpan="7">
+                    <td colSpan={9}>
                       <Pagination
                         currentPage={stateInvoices.currentPage}
                         pagesCount={stateInvoices.pagesCount}
