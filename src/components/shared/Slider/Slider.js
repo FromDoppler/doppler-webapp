@@ -13,26 +13,46 @@ export const Slider = ({ planDescriptions, defaultValue, handleChange }) => {
         <h4>{_(planDescriptions[selectedPlanIndex].descriptionId)}</h4>
       </div>
       <div className="dp-calc-slider progress-bar">
-        <input
-          className="range-slider"
-          type="range"
-          min={0}
-          max={planDescriptions.length - 1}
-          step={1}
-          defaultValue={defaultValue}
-          onChange={(e) => {
-            handleChange(e.target.value);
-            setSelectedPlanIndex(e.target.value);
-          }}
-        />
+        {planDescriptions.length > 1 ? (
+          <input
+            className="range-slider"
+            type="range"
+            min={0}
+            max={planDescriptions.length - 1}
+            step={1}
+            defaultValue={defaultValue}
+            onChange={(e) => {
+              handleChange(e.target.value);
+              setSelectedPlanIndex(e.target.value);
+            }}
+          />
+        ) : (
+          <input
+            className="range-slider"
+            type="range"
+            disabled
+            min="0"
+            max="1"
+            step="1"
+            defaultValue="1"
+          />
+        )}
         <div
           className="progress-anchor"
-          style={{ width: (selectedPlanIndex * 100) / (planDescriptions.length - 1) + '%' }}
+          style={
+            planDescriptions.length > 1
+              ? { width: (selectedPlanIndex * 100) / (planDescriptions.length - 1) + '%' }
+              : { width: '100%' }
+          }
         ></div>
         <div className="dp-indicator">
-          <span>
-            <strong>{planDescriptions[0].amount}</strong>
-          </span>
+          {planDescriptions.length > 1 ? (
+            <span>
+              <strong>{planDescriptions[0].amount}</strong>
+            </span>
+          ) : (
+            <span></span>
+          )}
           <span>
             <strong>{planDescriptions[planDescriptions.length - 1].amount}</strong>
           </span>
