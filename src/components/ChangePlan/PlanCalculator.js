@@ -12,12 +12,22 @@ const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const getTypePlanDescription = (type) => {
+  const getTypePlanDescriptionWithTooltip = (type) => {
     switch (type) {
       case 'prepaid':
       case 'subscribers':
       case 'monthly-deliveries':
-        return _('plan_calculator.plan_type_' + type.replace('-', '_'));
+        return (
+          <>
+            {_(`plan_calculator.plan_type_${type.replace('-', '_')}`)}{' '}
+            <div className="dp-tooltip-container">
+              <span className="ms-icon icon-info-icon"></span>
+              <div className="dp-tooltip-top">
+                <span>{_(`plan_calculator.plan_type_${type.replace('-', '_')}_tooltip`)}</span>
+              </div>
+            </div>
+          </>
+        );
       default:
         return '';
     }
@@ -32,7 +42,7 @@ const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
               to={`/plan-selection/${pathType}/${type}`}
               className={type === selectedPlanType ? 'tab--link active' : 'tab--link'}
             >
-              {getTypePlanDescription(type)}
+              {getTypePlanDescriptionWithTooltip(type)}
             </Link>
           </li>
         ))}
