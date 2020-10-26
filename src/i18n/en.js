@@ -143,7 +143,11 @@ You'll find an Email with steps to follow.`,
     url_site: `${urlSiteFromForgot}`,
   },
   header: {
+    availables: 'availables',
     help_url: `${urlHelp}`,
+    plan_emails: 'Emails',
+    plan_prepaid: 'Prepaid Plan',
+    plan_suscribers: 'Suscribers',
   },
   invoices_list: {
     account_id_column: `Account Id`,

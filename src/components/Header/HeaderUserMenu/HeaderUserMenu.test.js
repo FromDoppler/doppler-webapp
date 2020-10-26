@@ -56,6 +56,7 @@ describe('Header user menu', () => {
       description: 'Remaining Emails',
       planName: 'Monthly Plan',
       maxSubscribers: 50000,
+      buttonText: 'upgrade',
     };
 
     // Act
@@ -66,8 +67,8 @@ describe('Header user menu', () => {
     );
 
     // Assert
-    expect(getByText('Remaining Emails')).toBeInTheDocument();
-    expect(getByText('50000')).toBeInTheDocument();
+    expect(getByText('Monthly Plan')).toBeInTheDocument();
+    expect(getByText('upgrade')).toBeInTheDocument();
   });
 
   it('user is clienManager', () => {
