@@ -8694,10 +8694,10 @@ intl-messageformat@^9.3.6:
     fast-memoize "^2.5.2"
     intl-messageformat-parser "^6.0.5"
 
-intl-tel-input@^17.0.6:
-  version "17.0.6"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.6.tgz#9f8ff1f01fcf4ca0ba2e1ed2183520a4b5797251"
-  integrity sha512-3wyUPR86/Scmwrew3hY+h7+4J2xnNq/mKQoRSRjsL0DzCqFRCLcPKw9zSy1xYRVb9QPgOCvv47xR9VYX07lSjg==
+intl-tel-input@^17.0.8:
+  version "17.0.8"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.8.tgz#e1b38e27a6c941b713b757ecf7b1f9f345f88c80"
+  integrity sha512-Jf7IdNCSJrWMBbcLQJ8I3nVYnJ5xRODJhPa+0QFcTsg82E332DbMDKnzTBkEID4Q1I7Nf8+96WzmMveadRbxxg==
 
 into-stream@^5.0.0:
   version "5.1.0"
