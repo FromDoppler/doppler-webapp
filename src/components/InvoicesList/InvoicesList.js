@@ -50,6 +50,21 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
       </Helmet>
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
+          <nav className="dp-breadcrumb">
+            <ul>
+              <li>
+                <a href={_('invoices_list.control_panel_account_preferences_url')}>
+                  {_('invoices_list.control_panel_section')}
+                </a>
+              </li>
+              <li>
+                <a href={_('invoices_list.control_panel_billing_information_url')}>
+                  {_('invoices_list.control_panel_billing_information_section')}
+                </a>
+              </li>
+              <li>{_('invoices_list.title')}</li>
+            </ul>
+          </nav>
           <h2>
             <FormattedMessage id="invoices_list.title" />
           </h2>
