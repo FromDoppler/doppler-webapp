@@ -132,6 +132,11 @@ export default {
     title: 'Suma contactos a tus Listas con Formularios personalizados',
   },
   empty_notification_text: `No tienes notificaciones pendientes.`,
+  exclusive_form: {
+    breadcrumb: 'Planes',
+    breadcrumb_url: `${urlBuyMonthly}`,
+    title: 'Caractéristicas exclusivas',
+  },
   feature_panel: {
     email_automation: `Email Automation`,
     email_automation_description: `Llega con el mensaje adecuado en el momento justo`,

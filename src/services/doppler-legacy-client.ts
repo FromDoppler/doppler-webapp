@@ -27,6 +27,9 @@ export interface DopplerLegacyClient {
     requestAgenciesDemoModel: RequestAgenciesDemoModel,
   ): Promise<RequestAgenciesDemoResult>;
   isDopplerMVCUp(): Promise<boolean>;
+  requestExclusiveFeaturesDemo(
+    requestExclusiveFeaturesDemoModel: RequestExclusiveFeaturesDemoModel,
+  ): Promise<RequestExclusiveFeaturesDemoResult>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -48,9 +51,20 @@ export interface RequestAgenciesDemoModel {
   volume: string;
 }
 
+export interface RequestExclusiveFeaturesDemoModel {
+  email: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  range_time: string;
+  features: string;
+}
+
 export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
 
 export type RequestAgenciesDemoResult = EmptyResultWithoutExpectedErrors;
+
+export type RequestExclusiveFeaturesDemoResult = EmptyResultWithoutExpectedErrors;
 
 export type ActivateSiteTrackingTrialResult = EmptyResultWithoutExpectedErrors;
 
@@ -726,6 +740,27 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       Phone: model.phone,
       ContactSchedule: model.range_time,
       SendingVolume: model.volume,
+    });
+
+    if (!response.data.success) {
+      return {
+        message: response.data.error || null,
+      };
+    }
+
+    return { success: true };
+  }
+
+  public async requestExclusiveFeaturesDemo(
+    model: RequestExclusiveFeaturesDemoModel,
+  ): Promise<RequestExclusiveFeaturesDemoResult> {
+    const response = await this.axios.post('/WebApp/RequestExclusiveFeaturesDemo', {
+      Email: model.email,
+      Firstname: model.firstname,
+      Lastname: model.lastname,
+      Phone: model.phone,
+      ContactSchedule: model.range_time,
+      Features: model.features,
     });
 
     if (!response.data.success) {

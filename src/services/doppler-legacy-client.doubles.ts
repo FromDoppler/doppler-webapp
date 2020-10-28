@@ -12,6 +12,8 @@ import {
   ActivateSiteTrackingTrialResult,
   RequestAgenciesDemoModel,
   RequestAgenciesDemoResult,
+  RequestExclusiveFeaturesDemoResult,
+  RequestExclusiveFeaturesDemoModel,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -354,6 +356,14 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     model: RequestAgenciesDemoModel,
   ): Promise<RequestAgenciesDemoResult> {
     console.log('requestAgenciesDemo', model);
+    await timeout(1500);
+    return { success: true };
+  }
+
+  public async requestExclusiveFeaturesDemo(
+    model: RequestExclusiveFeaturesDemoResult,
+  ): Promise<RequestExclusiveFeaturesDemoResult> {
+    console.log('requestExclusiveFeaturesDemo', model);
     await timeout(1500);
     return { success: true };
   }

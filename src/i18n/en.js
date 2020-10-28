@@ -133,6 +133,11 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     title: 'Add new contacts to your Lists using custom Forms',
   },
   empty_notification_text: `You don't have pending notifications.`,
+  exclusive_form: {
+    breadcrumb: 'Plans',
+    breadcrumb_url: `${urlBuyMonthly}`,
+    title: 'Exclusive Features',
+  },
   feature_panel: {
     email_automation: `Email Automation`,
     email_automation_description: `Right person, right message, right time`,
