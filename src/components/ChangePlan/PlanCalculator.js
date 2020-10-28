@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useState } from 'react';
 import { Slider } from '../shared/Slider/Slider';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter, getPlanFee } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
@@ -96,12 +96,48 @@ const Discounts = ({ discountsList, handleChange }) => {
           ))}
         </ul>
       </div>
-      {/* TODO: show this when slider reach the higher plan */}
-      <div className="dp-calc-message dp-hide">
-        <FormattedMessageMarkdown id="plan_calculator.exlusive_plan_promotion" />
-      </div>
     </>
   );
+};
+
+const BannerUpgrade = ({ currentPlan, currentPlanList }) => {
+  const getBannerInfo = (type) => {
+    const bannerInfo = { messageId: `plan_calculator.banner_for_${type.replace('-', '_')}` };
+    switch (type) {
+      case 'prepaid':
+      case 'subscribers':
+        return {
+          ...bannerInfo,
+          link: `/plan-selection/${currentPlan.featureSet}/monthly-deliveries`,
+        };
+      case 'monthly-deliveries':
+        // TODO: define where to go in this case
+        return { ...bannerInfo, link: `/email-marketing-agencies` };
+      default:
+        return `plan_calculator.banner_for_unknown`;
+    }
+  };
+
+  if (currentPlan.id === currentPlanList[currentPlanList.length - 1].id) {
+    const bannerInfo = getBannerInfo(currentPlan.type);
+    return (
+      <div className="dp-calc-message">
+        <p>
+          <FormattedMessage
+            id={bannerInfo.messageId}
+            values={{
+              Link: (chunk) => (
+                <Link to={bannerInfo.link}>
+                  <strong>{chunk}</strong>
+                </Link>
+              ),
+            }}
+          />
+        </p>
+      </div>
+    );
+  }
+  return <></>;
 };
 
 const PlanPriceWithoutDiscounts = ({ planData }) => {
@@ -371,6 +407,10 @@ const PlanCalculator = ({
                           ) : (
                             <></>
                           )}
+                          <BannerUpgrade
+                            currentPlan={planData.plan}
+                            currentPlanList={state.planList}
+                          />
                         </article>
                       </div>
                       <div className="col-md-6 col-sm-12">
