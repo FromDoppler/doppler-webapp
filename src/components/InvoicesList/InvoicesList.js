@@ -17,6 +17,12 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
   const { url } = useRouteMatch();
   const invoicesPerPage = 10;
 
+  const numberFormatOptions = {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
@@ -132,13 +138,13 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                           </td>
                           <td>{invoice.currency}</td>
                           <td>
-                            <FormattedNumber value={invoice.amount} />
+                            <FormattedNumber value={invoice.amount} {...numberFormatOptions} />
                           </td>
                           <td>
-                            <FormattedNumber value={invoice.paidToDate} />
+                            <FormattedNumber value={invoice.paidToDate} {...numberFormatOptions} />
                           </td>
                           <td>
-                            <FormattedNumber value={invoice.balance} />
+                            <FormattedNumber value={invoice.balance} {...numberFormatOptions} />
                           </td>
                           <td>
                             {!!invoice.downloadInvoiceUrl ? (
