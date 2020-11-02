@@ -8,6 +8,7 @@ import { Pagination } from '../shared/Pagination/Pagination';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import queryString from 'query-string';
 import { extractParameter } from '../../utils';
+import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 
 const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
   const [stateInvoices, setStateInvoices] = useState({ loading: true });
@@ -56,21 +57,17 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
       </Helmet>
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
-          <nav className="dp-breadcrumb">
-            <ul>
-              <li>
-                <a href={_('invoices_list.control_panel_account_preferences_url')}>
-                  {_('invoices_list.control_panel_section')}
-                </a>
-              </li>
-              <li>
-                <a href={_('invoices_list.control_panel_billing_information_url')}>
-                  {_('invoices_list.control_panel_billing_information_section')}
-                </a>
-              </li>
-              <li>{_('invoices_list.title')}</li>
-            </ul>
-          </nav>
+          <Breadcrumb>
+            <BreadcrumbItem
+              href={_('invoices_list.control_panel_account_preferences_url')}
+              text={_('invoices_list.control_panel_section')}
+            />
+            <BreadcrumbItem
+              href={_('invoices_list.control_panel_billing_information_url')}
+              text={_('invoices_list.control_panel_billing_information_section')}
+            />
+            <BreadcrumbItem text={_('invoices_list.title')} />
+          </Breadcrumb>
           <h2>
             <FormattedMessage id="invoices_list.title" />
           </h2>
