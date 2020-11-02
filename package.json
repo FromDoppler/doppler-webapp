@@ -86,7 +86,7 @@
     "not op_mini all"
   ],
   "release": {
-    "branch": "master",
+    "branches": ["master", "main"],
     "dryRun": false,
     "noCi": true,
     "debug": true,

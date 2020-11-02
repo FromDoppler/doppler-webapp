@@ -96,7 +96,10 @@ pipeline {
         }
         stage('Generate version') {
             when {
-                branch 'master'
+                anyOf {
+                    branch 'master';
+                    branch 'main'
+                }
             }
             steps {
                 // TODO: by the moment this work is being done by another Jenkins task
