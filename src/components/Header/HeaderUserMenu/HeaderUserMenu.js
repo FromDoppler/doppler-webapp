@@ -61,13 +61,17 @@ const HeaderUserMenu = ({ user }) => {
 
           <div className="user-plan--type">
             {user.plan.planType === 'monthly-deliveries' || user.plan.planType === 'suscribers' ? (
-              <p>
-                {user.plan.maxSubscribers - user.plan.remainingCredits}{' '}
-                {_(`header.plan_${user.plan.planType === 'suscribers' ? 'suscribers' : 'emails'}`)}{' '}
-                (<strong>{user.plan.remainingCredits}</strong> {_('header.availables')})
-              </p>
+              <div className="user-plan--buyContainer">
+                <p>
+                  {user.plan.maxSubscribers - user.plan.remainingCredits}{' '}
+                  {_(
+                    `header.plan_${user.plan.planType === 'suscribers' ? 'suscribers' : 'emails'}`,
+                  )}{' '}
+                  (<strong>{user.plan.remainingCredits}</strong> {_('header.availables')})
+                </p>
+              </div>
             ) : (
-              <>
+              <div className="user-plan--buyContainer">
                 <p>
                   <strong>{user.plan.remainingCredits}</strong> {user.plan.description}
                 </p>
@@ -78,10 +82,10 @@ const HeaderUserMenu = ({ user }) => {
                 ) : (
                   ''
                 )}
-              </>
+              </div>
             )}
             {Object.keys(user.sms).length ? (
-              <>
+              <div className="user-plan--buyContainer">
                 <p>
                   <strong>
                     US${' '}
@@ -96,7 +100,7 @@ const HeaderUserMenu = ({ user }) => {
                 ) : (
                   ''
                 )}
-              </>
+              </div>
             ) : (
               ''
             )}
