@@ -2,8 +2,7 @@ import React from 'react';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Slider } from './Slider';
-
-import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider';
+import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 describe('Slider component', () => {
   afterEach(cleanup);
@@ -12,11 +11,11 @@ describe('Slider component', () => {
     // Act
     const mockedFunction = () => null;
     const mockedValues = [
-      { amount: 1, descriptionId: 'description1' },
-      { amount: 2, descriptionId: 'description2' },
+      { amount: 1, descriptionId: 'plan_calculator.prepaid_amount_description' },
+      { amount: 2, descriptionId: 'plan_calculator.prepaid_amount_description' },
     ];
     const { container } = render(
-      <DopplerIntlProvider locale="en">
+      <DopplerIntlProvider>
         <Slider planDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />
       </DopplerIntlProvider>,
     );
@@ -29,11 +28,11 @@ describe('Slider component', () => {
     // Act
     const mockedFunction = jest.fn();
     const mockedValues = [
-      { amount: 1, descriptionId: 'description1' },
-      { amount: 2, descriptionId: 'description2' },
+      { amount: 1, descriptionId: 'plan_calculator.prepaid_amount_description' },
+      { amount: 2, descriptionId: 'plan_calculator.prepaid_amount_description' },
     ];
     const { container } = render(
-      <DopplerIntlProvider locale="en">
+      <DopplerIntlProvider>
         <Slider planDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />
       </DopplerIntlProvider>,
     );
