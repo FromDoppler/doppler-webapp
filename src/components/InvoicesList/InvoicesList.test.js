@@ -14,8 +14,8 @@ describe('InvoiceList component', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           creationDate: new Date('2020-09-25T00:00:00'),
           dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
@@ -23,8 +23,8 @@ describe('InvoiceList component', () => {
           filename: 'invoice_2020-10-05_10.pdf',
         },
         {
-          accountId: 'CD0000000073690',
-          product: 'Prod 2',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000002',
           creationDate: new Date('2020-09-25T00:00:00'),
           dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
@@ -56,7 +56,7 @@ describe('InvoiceList component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await waitFor(() => expect(getByText('CD0000000073689')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('A-0001-00000001')).toBeInTheDocument());
   });
 
   it('should show empty message', async () => {
@@ -120,8 +120,8 @@ describe('InvoiceList component', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           creationDate: new Date('2020-09-25T00:00:00'),
           dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
@@ -163,8 +163,8 @@ describe('InvoiceList component', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           creationDate: new Date('2020-09-25T00:00:00'),
           dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
@@ -206,8 +206,8 @@ describe('InvoiceList component', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           creationDate: new Date('2020-09-25T00:00:00'),
           dueDate: new Date('2020-09-25T00:00:00'),
           currency: 'ARS',
@@ -312,5 +312,91 @@ describe('InvoiceList component', () => {
     await waitFor(() => {
       expect(container.querySelector('.dp-pagination')).not.toBeInTheDocument();
     });
+  });
+
+  it('should show an "invoice_text" when DocumentType equal "FC"', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
+          currency: 'ARS',
+          amount: 1500,
+          filename: 'invoice_2020-10-05_10.pdf',
+          downloadInvoiceUrl: '',
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const dopplerBillingApiClientDouble = {
+      getInvoices: async () => {
+        return { success: true, value: invoicesCollection };
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerBillingApiClient: dopplerBillingApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <InvoicesList />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() => expect(getByText('invoices_list.document_FC')).toBeInTheDocument());
+  });
+
+  it('should show a "credit_note_text" when DocumentType is not "FC"', async () => {
+    // Arrange
+    const invoicesCollection = {
+      items: [
+        {
+          documentType: 'NC',
+          documentNumber: 'A-0001-00000001',
+          creationDate: new Date('2020-09-25T00:00:00'),
+          dueDate: new Date('2020-09-25T00:00:00'),
+          currency: 'ARS',
+          amount: 1500,
+          filename: 'invoice_2020-10-05_10.pdf',
+          downloadInvoiceUrl: '',
+        },
+      ],
+      totalItems: 1,
+    };
+
+    const dopplerBillingApiClientDouble = {
+      getInvoices: async () => {
+        return { success: true, value: invoicesCollection };
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerBillingApiClient: dopplerBillingApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <BrowserRouter>
+            <InvoicesList />
+          </BrowserRouter>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() => expect(getByText('invoices_list.document_NC')).toBeInTheDocument());
   });
 });
