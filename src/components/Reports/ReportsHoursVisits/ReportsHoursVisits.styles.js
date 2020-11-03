@@ -22,6 +22,13 @@ export const List = styled.div`
   border-left: 36px solid ${colors.white};
   margin-bottom: ${spacings.spacesLvl6};
 
+  .dp-tooltip-container {
+    width: 100%;
+    position: relative;
+    display: inherit;
+    cursor: pointer;
+  }
+
   @media (min-width: 1024px) {
     width: 100%;
     overflow-x: initial;
