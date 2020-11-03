@@ -29,8 +29,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T0:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -44,8 +44,8 @@ describe('HttpDopplerBillingApiClient', () => {
           ],
         },
         {
-          accountId: 'CD0000000073690',
-          product: 'Prod 2',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000002',
           date: '2020-09-30T0:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -91,8 +91,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T0:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -106,8 +106,8 @@ describe('HttpDopplerBillingApiClient', () => {
           ],
         },
         {
-          accountId: 'CD0000000073690',
-          product: 'Prod 2',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000002',
           date: '2020-09-30T0:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -153,16 +153,16 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T0:00:00',
           currency: 'ARS',
           amount: 1500,
           filename: 'invoice_2020-09-29_10.pdf',
         },
         {
-          accountId: 'CD0000000073690',
-          product: 'Prod 2',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000002',
           date: '2020-09-30T0:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -218,8 +218,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           creationDate: '2020-09-29T00:00:00',
           currency: 'ARS',
@@ -266,8 +266,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -311,8 +311,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           dueDate: '2020-09-29T00:00:00',
           currency: 'ARS',
@@ -359,8 +359,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -407,8 +407,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           dueDate: '2020-09-29T00:00:00',
           currency: 'ARS',
@@ -456,8 +456,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           currency: 'ARS',
           amount: 1500,
@@ -504,8 +504,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           dueDate: '2020-09-29T00:00:00',
           currency: 'ARS',
@@ -554,8 +554,8 @@ describe('HttpDopplerBillingApiClient', () => {
     const invoicesCollection = {
       items: [
         {
-          accountId: 'CD0000000073689',
-          product: 'Prod 1',
+          documentType: 'FC',
+          documentNumber: 'A-0001-00000001',
           date: '2020-09-29T00:00:00',
           currency: 'ARS',
           amount: 1500,
