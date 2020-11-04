@@ -263,7 +263,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
           </section>
           <section className="dp-container">
             <div className="dp-rowflex">
-              <div className="dp-align-center p-t-30 p-b-30">
+              <div className="dp-align-center p-t-30">
                 {state.pathList?.length ? (
                   state.pathList.map((path, index) =>
                     path.type === 'free' ? (
@@ -285,8 +285,11 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                 )}
               </div>
             </div>
-            <div className="p-t-30 p-b-30">
-              <button className="dp-compare-details-plans" onClick={() => toggleFeatures()}>
+            <div className="col-sm-12">
+              <button
+                className={`dp-compare-details-plans ${isFeaturesVisible ? 'dp-open-compare' : ''}`}
+                onClick={() => toggleFeatures()}
+              >
                 {_('change_plan.compare_features')}
               </button>
             </div>
