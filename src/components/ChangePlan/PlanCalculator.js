@@ -389,24 +389,26 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                               });
                             }}
                           />
-                          <hr />
-                          {state.discountsList?.length ? (
-                            <Discounts
-                              discountsList={state.discountsList}
-                              handleChange={(discount) => {
-                                dispatchPlanData({
-                                  type: actionTypes.UPDATE_SELECTED_DISCOUNT,
-                                  idDiscount: discount.id,
-                                });
-                              }}
-                            />
-                          ) : (
-                            <></>
-                          )}
                           <BannerUpgrade
                             currentPlan={planData.plan}
                             currentPlanList={state.planList}
                           />
+                          {state.discountsList?.length ? (
+                            <>
+                              <hr />
+                              <Discounts
+                                discountsList={state.discountsList}
+                                handleChange={(discount) => {
+                                  dispatchPlanData({
+                                    type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+                                    idDiscount: discount.id,
+                                  });
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </article>
                       </div>
                       <div className="col-md-6 col-sm-12">
