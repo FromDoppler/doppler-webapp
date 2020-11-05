@@ -253,11 +253,11 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
       {state.loading ? (
         <Loading page />
       ) : (
-        <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
+        <div className="dp-gray-page p-t-54 p-b-54">
           <section className="dp-container">
             <div className="dp-rowflex">
               <div className="dp-align-center">
-                <h1>{_('change_plan.title')}</h1>
+                <h1 className="dp-tit-plans">{_('change_plan.title')}</h1>
               </div>{' '}
             </div>{' '}
           </section>
