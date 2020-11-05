@@ -101,8 +101,8 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
   return (
     <>
       <Helmet>
-        <title>Características Exclusivas</title>
-        <meta name="description" content={'Características Exclusivas'} />
+        <title>{_('exclusive_form.title')}</title>
+        <meta name="description" content={_('exclusive_form.meta_description')} />
       </Helmet>
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
@@ -114,11 +114,8 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
               <li>{_('exclusive_form.title')}</li>
             </ul>
           </nav>
-          <h2>Características exclusivas</h2>
-          <p>
-            Caracteríssticas especiales pensados para los usuarios más exigentes. Desarrollo de
-            funcionalidades a medida, atención personalizada y más..
-          </p>
+          <h2>{_('exclusive_form.title')}</h2>
+          <p>{_('exclusive_form.description')}</p>
         </div>
       </HeaderSection>
 
@@ -126,13 +123,13 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
         <div className="dp-rowflex">
           <div className="col-lg-8 col-md-12 m-b-24">
             <div className="dp-wrapper-form-plans">
-              <h3>Completa el siguiente formulario y te contactaremos a la brevedad</h3>
+              <h3>{_('exclusive_form.form_title')}</h3>
               <FormWithCaptcha
                 onSubmit={onSubmit}
                 initialValues={getFormInitialValues()}
                 validate={validate}
               >
-                <legend>Completa el siguiente formulario de planes</legend>
+                <legend>{_('exclusive_form.form_legend')}</legend>
                 <fieldset>
                   <FieldGroup>
                     <EmailFieldItem
@@ -189,7 +186,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                     </FieldItem>
                   </FieldGroup>
                   <div className="dp-wrapper-exclusive-features">
-                    <h4>Selecciona las características de las que te interesaría saber más:</h4>
+                    <h4>{_('exclusive_form.form_features')}</h4>
                     <div className="dp-bg-ghostwhite dp-container">
                       <div className="dp-rowflex">
                         <div className="col-sm-12 col-md-6">
@@ -255,13 +252,13 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                         {formSubmitted ? (
                           <div className="dp-wrap-confirmation">
                             <div className="dp-msj-confirmation bounceIn">
-                              <p>¡Excelente! Nos pondremos en contacto a la brevedad</p>
+                              <p>{_('exclusive_form.success')}</p>
                             </div>
                           </div>
                         ) : null}
                         <div className="dp-action">
                           <SubmitButton className="dp-button button-medium primary-green">
-                            Solicitar una demo
+                            {_('exclusive_form.demo')}
                           </SubmitButton>
                         </div>
                       </div>
@@ -273,37 +270,38 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
           </div>
           <div className="col-lg-3 col-sm-12">
             <div className="dp-plans-feature">
-              <h4>¿Qué contempla el plan para agencias?:</h4>
+              <h4>{_('exclusive_form.features_for_you')}</h4>
               <ul className="dp-feature-list">
                 <li>
                   <span className="dp-icostar"></span>
                   <span>
-                    <strong>Acompañamiento Estratégico.</strong>
+                    <strong>{_('exclusive_form.strategic_accompaniment')}</strong>
                   </span>
                 </li>
                 <li>
                   <span className="dp-icostar"></span>
                   <span>
-                    <strong>Asesoría y Consultoría.</strong>
-                    <span className="dp-new">Nueva</span>
+                    <strong>{_('exclusive_form.advisory')}</strong>
+                    <span className="dp-new">{_('exclusive_form.new')}</span>
                   </span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>Diseño, maquetacion y envio de Emails</span>
+                  <span>{_('exclusive_form.design')}</span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>Campañas Test A/B</span>
+                  <span>{_('exclusive_form.testAb')}</span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>Desarrollo de Funcionalidades personalizadas</span>
+                  <span>{_('exclusive_form.development_features')}</span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
                   <span>
-                    Lorem ipsum dolor sit <span className="dp-new">Nueva</span>
+                    {_('exclusive_form.dedicated_ip')}{' '}
+                    <span className="dp-new">{_('exclusive_form.new')}</span>
                   </span>
                 </li>
               </ul>
