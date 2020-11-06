@@ -7,6 +7,7 @@ import { SubscriberListState } from '../../../services/shopify-client';
 import { useInterval } from '../../../utils';
 import { StyledShopifyLogo } from './Shopify.styles';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
+import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 
 const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures } }) => {
   const intl = useIntl();
@@ -16,17 +17,6 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
   });
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const Breadcrumb = () => (
-    <nav className="dp-breadcrumb">
-      <ul>
-        <li>
-          <a href={_('common.control_panel_advanced_pref_url')}>{_('common.control_panel')}</a>
-        </li>
-        <li>{_('common.advanced_preferences')}</li>
-      </ul>
-    </nav>
-  );
 
   const Table = ({ list }) => (
     <table className="dp-c-table">
@@ -133,7 +123,13 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
       <section className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12 m-t-24">
-            <Breadcrumb />
+            <Breadcrumb>
+              <BreadcrumbItem
+                href={_('common.control_panel_advanced_pref_url')}
+                text={_('common.control_panel')}
+              />
+              <BreadcrumbItem text={_('common.advanced_preferences')} />
+            </Breadcrumb>
           </div>
           <div className="col-sm-12">
             <div className="dp-integration">

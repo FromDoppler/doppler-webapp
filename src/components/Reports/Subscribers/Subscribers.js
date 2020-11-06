@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 import SubscriberInfo from '../../shared/SubscriberInfo/SubscriberInfo';
 import { Tabs } from '../../shared/Tabs/Tabs';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
   const { path, params } = useRouteMatch();
@@ -83,17 +84,14 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
       </Helmet>
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
-          <nav className="dp-breadcrumb">
-            <ul>
-              <li>
-                {/* TODO: rename as master_subscriber_url and master_subscriber_title */}
-                <a href={_('subscriber_history.subscriber_breadcrumb_url')}>
-                  {_('subscriber_history.subscriber_breadcrumb')}
-                </a>
-              </li>
-              <li>{currentSection.title}</li>
-            </ul>
-          </nav>
+          <Breadcrumb>
+            {/* TODO: rename as master_subscriber_url and master_subscriber_title */}
+            <BreadcrumbItem
+              href={_('subscriber_history.subscriber_breadcrumb_url')}
+              text={_('subscriber_history.subscriber_breadcrumb')}
+            />
+            <BreadcrumbItem text={currentSection.title} />
+          </Breadcrumb>
           <h2>{currentSection.title}</h2>
           <p>{currentSection.description}</p>
         </div>
