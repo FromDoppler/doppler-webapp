@@ -203,17 +203,28 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                     <div className="dp-rowflex">
                       <div className="dp-footer-form">
                         {formSubmitted ? (
-                          <div className="dp-wrap-confirmation">
-                            <div className="dp-msj-confirmation bounceIn">
-                              <p>¡Excelente! Nos pondremos en contacto a la brevedad</p>
+                          <>
+                            <div className="dp-wrap-confirmation">
+                              <div className="dp-msj-confirmation bounceIn">
+                                <p>{_('agencies.success_msg')}</p>
+                              </div>
                             </div>
+                            <div className="dp-action">
+                              <a
+                                href={_('common.draft_url')}
+                                className="dp-button button-medium primary-green"
+                              >
+                                {_('agencies.submitted')}
+                              </a>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="dp-action">
+                            <SubmitButton className="dp-button button-medium primary-green">
+                              {_('agencies.submit')}
+                            </SubmitButton>
                           </div>
-                        ) : null}
-                        <div className="dp-action">
-                          <SubmitButton className="dp-button button-medium primary-green">
-                            Solicitar una demo
-                          </SubmitButton>
-                        </div>
+                        )}
                       </div>
                     </div>
                   </div>
