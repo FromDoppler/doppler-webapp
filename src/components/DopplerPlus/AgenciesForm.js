@@ -20,29 +20,31 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  // TODO: apply content
-  // TODO: add check to accept privacy policies
-
   const volumeOptions = [
     {
       id: 'lessThan500k',
       value: 'Menos de 500',
-      description: 'Menos de 500',
+      description: _('agencies.volume_0'),
     },
     {
       id: 'between500kAnd1m',
       value: 'Entre 500k y 1m',
-      description: 'Entre 500k y 1m',
+      description: _('agencies.volume_500'),
     },
     {
       id: 'between1mAnd10m',
       value: 'Entre 1m y 10m',
-      description: 'Entre 1m y 10m',
+      description: _('agencies.volume_1m'),
     },
     {
       id: 'moreThan10m',
       value: 'Más de 10m',
-      description: 'Más de 10m',
+      description: _('agencies.volume_10m'),
+    },
+    {
+      id: 'iDoNotKnow',
+      value: 'No lo sé',
+      description: _('agencies.volume_do_not_know'),
     },
   ];
 
@@ -65,7 +67,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
     );
 
     initialValues[fieldNames.email] = appSessionRef.current.userData.user.email;
-    initialValues[fieldNames.volume] = volumeOptions[0].value;
+    initialValues[fieldNames.volume] = '';
 
     return initialValues;
   };
@@ -76,7 +78,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
     setFormSubmitted(false);
   };
 
-  const onSubmit = async (values, { setSubmitting }) => {
+  const submitAgenciesForm = async (values, { setSubmitting }) => {
     setFormSubmitted(false);
     try {
       const result = await dopplerLegacyClient.requestAgenciesDemo(values);
@@ -100,8 +102,8 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
             <BreadcrumbItem href={_('agencies.breadcrumb_url')} text={_('agencies.breadcrumb')} />
             <BreadcrumbItem text={_('agencies.title')} />
           </Breadcrumb>
-          <h2>Plan para agencias</h2>
-          <p>Gestiona y monitorea las cuentas de todos tus clientes desde un mismo lugar.</p>
+          <h2>{_('agencies.title')}</h2>
+          {<FormattedMessageMarkdown id="agencies.subtitle_MD" />}
         </div>
       </HeaderSection>
 
@@ -109,20 +111,20 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
         <div className="dp-rowflex">
           <div className="col-lg-8 col-md-12 m-b-24">
             <div className="dp-wrapper-form-plans">
-              <h3>Completa el siguiente formulario y te contactaremos a la brevedad</h3>
+              <h3>{_('agencies.form_legend')}</h3>
               <FormWithCaptcha
-                onSubmit={onSubmit}
+                onSubmit={submitAgenciesForm}
                 initialValues={getFormInitialValues()}
                 validate={validate}
               >
-                <legend>Completa el siguiente formulario de planes</legend>
+                <legend>{_('agencies.form_legend')}</legend>
                 <fieldset>
                   <FieldGroup>
                     <EmailFieldItem
                       autoFocus
                       type="email"
                       fieldName={fieldNames.email}
-                      label="Email:"
+                      label={`*${_('forms.label_email')}`}
                       id="email"
                       required
                     />
@@ -133,14 +135,14 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                             type="text"
                             fieldName={fieldNames.firstname}
                             id="name"
-                            label={_('signup.label_firstname')}
+                            label={`*${_('forms.label_firstname')}`}
                             withNameValidation
                             required
                             className="field-item--50"
                           />
                           <InputFieldItem
                             type="text"
-                            label={_('signup.label_lastname')}
+                            label={`*${_('forms.label_lastname')}`}
                             fieldName={fieldNames.lastname}
                             id="lastname"
                             withNameValidation
@@ -155,15 +157,15 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                         <FieldGroup>
                           <PhoneFieldItem
                             fieldName={fieldNames.phone}
-                            label={_('signup.label_phone')}
-                            placeholder={_('signup.placeholder_phone')}
+                            label={`*${_('forms.label_phone')}`}
+                            placeholder={_('forms.placeholder_phone')}
                             className="field-item--50"
                             required
                           />
                           <InputFieldItem
                             fieldName={fieldNames.range_time}
                             type="text"
-                            label="¿En que horario podemos contactarte?"
+                            label={_('forms.label_contact_schedule')}
                             id="range_time"
                             className="field-item--50"
                           />
@@ -172,7 +174,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                     </FieldItem>
                   </FieldGroup>
                   <div className="dp-wrapper-volume-options">
-                    <h4>Volumen de envíos por mes</h4>
+                    <h4>{_('agencies.label_volume')}</h4>
                     <Field name="volume">
                       {({ field }) => (
                         <ul className="dp-volume-per-month">
@@ -218,44 +220,30 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                 </fieldset>
               </FormWithCaptcha>
             </div>
-            <div className="dp-content-legal">
-              <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
-            </div>
           </div>
           <div className="col-lg-3 col-sm-12">
             <div className="dp-plans-feature">
-              <h4>¿Qué contempla el plan para agencias?:</h4>
+              <h4>{_('agencies.features_title')}</h4>
               <ul className="dp-feature-list">
                 <li>
-                  <span className="dp-icostar"></span>
                   <span>
-                    <strong>Acompañamiento Estratégico.</strong>
+                    <span className="dp-icodot">.</span>
+                    <span>{_('agencies.feature_1')}</span>
                   </span>
                 </li>
                 <li>
-                  <span className="dp-icostar"></span>
                   <span>
-                    <strong>Asesoría y Consultoría.</strong>
-                    <span className="dp-new">Nueva</span>
+                    <span className="dp-icodot">.</span>
+                    <span>{_('agencies.feature_2')}</span>
                   </span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>Lorem ipsum dolor sit amet</span>
+                  <span>{_('agencies.feature_3')}</span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>Campañas Test A/B</span>
-                </li>
-                <li>
-                  <span className="dp-icodot">.</span>
-                  <span>Lorem ipsum dolor sit amet</span>
-                </li>
-                <li>
-                  <span className="dp-icodot">.</span>
-                  <span>
-                    Lorem ipsum dolor sit <span className="dp-new">Nueva</span>
-                  </span>
+                  <span>{_('agencies.feature_4')}</span>
                 </li>
               </ul>
             </div>

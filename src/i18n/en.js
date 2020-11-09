@@ -31,12 +31,29 @@ const urlSiteFromForgot = `${urlSite}/en/?utm_source=app&utm_medium=landing&utm_
 const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
+const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
 
 export default {
   agencies: {
     breadcrumb: 'Plans',
     breadcrumb_url: `${urlBuyMonthly}`,
-    title: 'Agencies',
+    feature_1: 'Access to the Client Manager panel to manage multiple accounts.',
+    feature_2: 'Limitless use of Doppler’s features.',
+    feature_3: 'Advanced Reports with your Campaign’s performances.',
+    feature_4: 'Exclusive Advisory to manage your client’s accounts.',
+    features_title: 'What’s on the Plan for Agency?',
+    form_legend: 'Complete this Form and we’ll contact you.',
+    label_volume: 'Emails sent monthly:',
+    submit: 'Request demo',
+    submitted: 'Continue on Doppler',
+    subtitle_MD: 'Find out what Email Marketing can do for your Agency with a **customized demo**.',
+    success_msg: 'Perfect! We will contact you soon',
+    title: 'Plan for Agencies',
+    volume_0: 'Less than 500k',
+    volume_10m: 'More than 10m',
+    volume_1m: 'Between 1m and 10m',
+    volume_500: 'Between 500k and 1m',
+    volume_do_not_know: `I don't know`,
   },
   change_plan: {
     all_of_plan: `Everything from {plan} plus:`,
@@ -93,10 +110,12 @@ export default {
     control_panel_section_url: `${urlControlPanel}`,
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
+    draft_url: `${urlDraft}`,
     empty_data: `Your domain has no data to show in this section yet.`,
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
+    new: `New`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
     send: `Send`,
@@ -141,6 +160,14 @@ You'll find an Email with steps to follow.`,
     pass_reset_ok: `Your Password has been changed successfully!`,
     placeholder_email: `Psst! Is the same Email you used to create your account`,
     url_site: `${urlSiteFromForgot}`,
+  },
+  forms: {
+    label_contact_schedule: `What time can we call you?`,
+    label_email: `Email: `,
+    label_firstname: `Name: `,
+    label_lastname: `Lastname: `,
+    label_phone: `Phone: `,
+    placeholder_phone: `9 11 2345-6789`,
   },
   header: {
     availables: 'availables',
