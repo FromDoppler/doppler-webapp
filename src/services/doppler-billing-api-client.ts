@@ -19,8 +19,8 @@ export interface Invoices {
 }
 
 export interface Invoice {
-  accountId: string;
-  product: string;
+  documentType: string;
+  documentNumber: string;
   creationDate: Date;
   dueDate: Date;
   currency: string;
@@ -79,8 +79,8 @@ export class HttpDopplerBillingApiClient implements DopplerBillingApiClient {
 
   private mapInvoices(data: any): Invoice[] {
     return data.map((x: any) => ({
-      accountId: x.accountId,
-      product: x.product,
+      documentType: x.documentType,
+      documentNumber: x.documentNumber,
       creationDate: !!x.creationDate ? new Date(x.creationDate) : new Date(x.date),
       dueDate: !!x.dueDate ? new Date(x.dueDate) : null,
       currency: x.currency,

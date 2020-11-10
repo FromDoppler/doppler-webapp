@@ -91,10 +91,10 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
               <thead>
                 <tr>
                   <th scope="col">
-                    <FormattedMessage id="invoices_list.account_id_column" />
+                    <FormattedMessage id="invoices_list.document_type_column" />
                   </th>
                   <th scope="col">
-                    <FormattedMessage id="invoices_list.product_column" />
+                    <FormattedMessage id="invoices_list.document_number_column" />
                   </th>
                   <th scope="col">
                     <FormattedMessage id="invoices_list.creation_date_column" />
@@ -125,8 +125,12 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                     {stateInvoices.items.map((invoice, index) => {
                       return (
                         <tr key={index}>
-                          <td>{invoice.accountId}</td>
-                          <td>{invoice.product}</td>
+                          <td>
+                            <FormattedMessage
+                              id={`invoices_list.document_${invoice.documentType}`}
+                            />
+                          </td>
+                          <td>{invoice.documentNumber}</td>
                           <td>
                             <FormattedDate value={invoice.creationDate} />
                           </td>

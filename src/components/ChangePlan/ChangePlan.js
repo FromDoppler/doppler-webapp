@@ -253,17 +253,17 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
       {state.loading ? (
         <Loading page />
       ) : (
-        <div className="p-t-54 p-b-54" style={{ backgroundColor: '#f6f6f6', flex: '1' }}>
+        <div className="dp-gray-page p-t-54 p-b-54">
           <section className="dp-container">
             <div className="dp-rowflex">
               <div className="dp-align-center">
-                <h1>{_('change_plan.title')}</h1>
+                <h1 className="dp-tit-plans">{_('change_plan.title')}</h1>
               </div>{' '}
             </div>{' '}
           </section>
           <section className="dp-container">
             <div className="dp-rowflex">
-              <div className="dp-align-center p-t-30 p-b-30">
+              <div className="dp-align-center p-t-30">
                 {state.pathList?.length ? (
                   state.pathList.map((path, index) =>
                     path.type === 'free' ? (
@@ -285,8 +285,11 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                 )}
               </div>
             </div>
-            <div className="p-t-30 p-b-30">
-              <button className="dp-compare-details-plans" onClick={() => toggleFeatures()}>
+            <div className="col-sm-12">
+              <button
+                className={`dp-compare-details-plans ${isFeaturesVisible ? 'dp-open-compare' : ''}`}
+                onClick={() => toggleFeatures()}
+              >
                 {_('change_plan.compare_features')}
               </button>
             </div>

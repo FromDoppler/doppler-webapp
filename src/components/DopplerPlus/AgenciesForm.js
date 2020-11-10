@@ -14,6 +14,7 @@ import {
 } from '../form-helpers/form-helpers';
 import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 
 const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
@@ -95,14 +96,10 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
       </Helmet>
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
-          <nav className="dp-breadcrumb">
-            <ul>
-              <li>
-                <a href={_('agencies.breadcrumb_url')}>{_('agencies.breadcrumb')}</a>
-              </li>
-              <li>{_('agencies.title')}</li>
-            </ul>
-          </nav>
+          <Breadcrumb>
+            <BreadcrumbItem href={_('agencies.breadcrumb_url')} text={_('agencies.breadcrumb')} />
+            <BreadcrumbItem text={_('agencies.title')} />
+          </Breadcrumb>
           <h2>Plan para agencias</h2>
           <p>Gestiona y monitorea las cuentas de todos tus clientes desde un mismo lugar.</p>
         </div>

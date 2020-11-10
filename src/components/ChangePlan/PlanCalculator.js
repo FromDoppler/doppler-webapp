@@ -6,7 +6,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter, getPlanFee } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
-import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
   const intl = useIntl();
@@ -217,10 +216,7 @@ const PlanPrice = ({ children }) => {
   return <div className="dp-price--wrapper">{children}</div>;
 };
 
-const PlanCalculator = ({
-  location,
-  dependencies: { planService, appSessionRef, dopplerLegacyClient },
-}) => {
+const PlanCalculator = ({ location, dependencies: { planService, appSessionRef } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
   const discountId = extractParameter(location, queryString.parse, 'discountId') || 0;
   const { pathType, planType } = useRouteMatch().params;
@@ -341,7 +337,7 @@ const PlanCalculator = ({
       }
     };
     fetchData();
-  }, [dopplerLegacyClient, actionTypes.INIT, appSessionRef, planService, planType, pathType]);
+  }, [actionTypes.INIT, appSessionRef, planService, planType, pathType]);
 
   const getMonthsByCycle = (billingCycle) => {
     switch (billingCycle) {
@@ -393,24 +389,26 @@ const PlanCalculator = ({
                               });
                             }}
                           />
-                          <hr />
-                          {state.discountsList?.length ? (
-                            <Discounts
-                              discountsList={state.discountsList}
-                              handleChange={(discount) => {
-                                dispatchPlanData({
-                                  type: actionTypes.UPDATE_SELECTED_DISCOUNT,
-                                  idDiscount: discount.id,
-                                });
-                              }}
-                            />
-                          ) : (
-                            <></>
-                          )}
                           <BannerUpgrade
                             currentPlan={planData.plan}
                             currentPlanList={state.planList}
                           />
+                          {state.discountsList?.length ? (
+                            <>
+                              <hr />
+                              <Discounts
+                                discountsList={state.discountsList}
+                                handleChange={(discount) => {
+                                  dispatchPlanData({
+                                    type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+                                    idDiscount: discount.id,
+                                  });
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </article>
                       </div>
                       <div className="col-md-6 col-sm-12">
