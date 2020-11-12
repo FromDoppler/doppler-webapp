@@ -120,7 +120,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={PlanCalculator}
               />
-              <PrivateRoute path={'/email-marketing-agencies'} exact component={AgenciesForm} />
+              <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
               <PrivateRoute path="/push" exact component={PushNotifications} />
               <PrivateRoute
                 path="/reports/partials-campaigns"

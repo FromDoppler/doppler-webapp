@@ -31,12 +31,29 @@ const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_cam
 const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
+const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
 
 export default {
   agencies: {
     breadcrumb: 'Planes',
     breadcrumb_url: `${urlBuyMonthly}`,
-    title: 'Agencias',
+    feature_1: 'Acceso al panel de Client Manager para gestionar múltiples cuentas.',
+    feature_2: 'Uso ilimitado de las funcionalidades de Doppler.',
+    feature_3: 'Reportes avanzados sobre el desempeño de las Campañas.',
+    feature_4: 'Asesoramiento exclusivo para gestionar las cuentas de tus clientes.',
+    features_title: '¿Qué incluye el Plan para Agencias?',
+    form_legend: 'Completa este Formulario y te contactaremos en breve.',
+    label_volume: 'Volumen de Emails por mes:',
+    submit: 'Solicitar demo',
+    submitted: 'Continuar en Doppler',
+    subtitle_MD: `Conoce todo lo que el Email Marketing puede hacer por tu Agencia con una **demo personalizada**.`,
+    success_msg: '¡Excelente! Nos pondremos en contacto a la brevedad',
+    title: 'Plan para Agencias',
+    volume_0: 'Menos de 500k',
+    volume_10m: 'Más de 10m',
+    volume_1m: 'Entre 1m y 10m',
+    volume_500: 'Entre 500k y 1m',
+    volume_do_not_know: 'No lo sé',
   },
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,
@@ -93,10 +110,12 @@ export default {
     control_panel_section_url: `${urlControlPanel}`,
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
+    draft_url: `${urlDraft}`,
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
     message: `Mensaje`,
+    new: `Nueva`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     send: `Enviar`,
     show: `Mostrar`,
@@ -140,6 +159,14 @@ Encontrarás un Email con los pasos a seguir.`,
     pass_reset_ok: `¡Tu Contraseña ha sido actualizada exitosamente!`,
     placeholder_email: `¡Psst! Es el Email con el que creaste tu cuenta`,
     url_site: `${urlSiteFromForgot}`,
+  },
+  forms: {
+    label_contact_schedule: `¿En qué horario podemos llamarte?`,
+    label_email: `Email: `,
+    label_firstname: `Nombre: `,
+    label_lastname: `Apellido: `,
+    label_phone: `Teléfono: `,
+    placeholder_phone: `9 11 2345-6789`,
   },
   header: {
     availables: 'disponibles',
