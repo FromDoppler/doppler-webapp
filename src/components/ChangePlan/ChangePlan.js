@@ -150,7 +150,7 @@ const AgenciesCard = ({ showFeatures }) => {
         style={{ width: '80px' }}
         src={_('common.ui_library_image', { imageUrl: 'icono-agencias.svg' })}
       ></img>
-      <CardAction url="/new-features">{_('change_plan.ask_demo')}</CardAction>
+      <CardAction url="/email-marketing-for-agencies">{_('change_plan.ask_demo')}</CardAction>
       <Collapse isOpen={showFeatures}>
         <CardFeatures>
           <BulletOptions type={'agencies'} />
