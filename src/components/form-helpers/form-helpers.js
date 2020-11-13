@@ -18,7 +18,6 @@ import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/js/utils';
 import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
-import { useCaptcha } from './captcha-utils';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
 
@@ -80,19 +79,19 @@ export const CaptchaLegalMessage = () => (
  * @param { Object[] } props.children
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-export const FormWithCaptcha = ({
+const _FormWithCaptcha = ({
   className,
   onSubmit,
   validate,
   initialValues,
   initialFormMessage,
   children,
+  dependencies: { captchaUtilsService },
   ...rest
 }) => {
   /** Store original onSubmit because I need to replace it with verifyCaptchaAndSubmit */
   const originalOnSubmit = onSubmit;
-
-  const [Captcha, verifyCaptcha] = useCaptcha();
+  const [Captcha, verifyCaptcha] = captchaUtilsService.useCaptcha();
 
   /** Try to verify captcha, if success run original onSubmit function */
   const verifyCaptchaAndSubmit = async (values, formikProps) => {
@@ -100,26 +99,20 @@ export const FormWithCaptcha = ({
     // If challenge window is closed, we do not have feedback, so, by the moment,
     // we will keep the submit button disabled.
     // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
-
-    // TODO: create a dummy captha to be injected as a dependency
-    if (process.env.NODE_ENV === 'test') {
-      await originalOnSubmit({ ...values, captchaResponseToken: true }, formikProps);
+    formikProps.setSubmitting(false);
+    const result = await verifyCaptcha();
+    formikProps.setSubmitting(true);
+    if (result.success) {
+      await originalOnSubmit(
+        { ...values, captchaResponseToken: result.captchaResponseToken },
+        formikProps,
+      );
     } else {
+      console.log('Captcha error', result);
+      formikProps.setErrors({
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+      });
       formikProps.setSubmitting(false);
-      const result = await verifyCaptcha();
-      formikProps.setSubmitting(true);
-      if (result.success) {
-        await originalOnSubmit(
-          { ...values, captchaResponseToken: result.captchaResponseToken },
-          formikProps,
-        );
-      } else {
-        console.log('Captcha error', result);
-        formikProps.setErrors({
-          _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
-        });
-        formikProps.setSubmitting(false);
-      }
     }
   };
 
@@ -140,6 +133,8 @@ export const FormWithCaptcha = ({
     </Formik>
   );
 };
+
+export const FormWithCaptcha = InjectAppServices(_FormWithCaptcha);
 
 export const FieldGroup = ({ className, children }) => (
   <ul className={concatClasses('field-group', className)}>{children}</ul>

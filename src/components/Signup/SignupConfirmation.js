@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useCaptcha } from '../form-helpers/captcha-utils';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Redirect } from 'react-router-dom';
 import * as S from './SignupConfirmation.styles';
@@ -11,11 +10,11 @@ import * as S from './SignupConfirmation.styles';
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { Function } props.resend - Function to resend registration email.
  */
-const SignupConfirmation = function ({ location }) {
+const SignupConfirmation = function ({ location, dependencies: { captchaUtilsService } }) {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [resentTimes, setResentTimes] = useState(0);
-  const [Captcha, verifyCaptcha] = useCaptcha();
+  const [Captcha, verifyCaptcha] = captchaUtilsService.useCaptcha();
 
   if (!location.status || !location.status.resend) {
     return <Redirect to="/signup" />;
