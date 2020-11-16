@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useCaptcha } from '../form-helpers/captcha-utils';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
@@ -10,9 +9,9 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
    * @param { string } props.email
    * @param { import('../../services/pure-di').AppServices } props.dependencies
    */
-  ({ email, dependencies: { dopplerLegacyClient } }) => {
+  ({ email, dependencies: { dopplerLegacyClient, captchaUtilsService } }) => {
     const [resentTimes, setResentTimes] = useState(0);
-    const [Captcha, verifyCaptcha] = useCaptcha();
+    const [Captcha, verifyCaptcha] = captchaUtilsService.useCaptcha();
     const intl = useIntl();
 
     const incrementAndResend = async () => {

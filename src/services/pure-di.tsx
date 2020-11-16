@@ -13,6 +13,7 @@ import { ExperimentalFeatures } from './experimental-features';
 import { PlanService } from './plan-service';
 
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
+import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -48,6 +49,7 @@ export interface AppServices {
   ipinfoClient: IpinfoClient;
   planService: PlanService;
   dopplerBillingApiClient: DopplerBillingApiClient;
+  captchaUtilsService: CaptchaUtilsService;
 }
 
 /**
@@ -220,6 +222,10 @@ export class AppCompositionRoot implements AppServices {
           connectionDataRef: this.appSessionRef,
         }),
     );
+  }
+
+  get captchaUtilsService() {
+    return this.singleton('captchaUtilsService', () => new CaptchaUtilsService());
   }
 }
 
