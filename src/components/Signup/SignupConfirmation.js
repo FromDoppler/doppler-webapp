@@ -3,12 +3,14 @@ import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Redirect } from 'react-router-dom';
 import * as S from './SignupConfirmation.styles';
+import { InjectAppServices } from '../../services/pure-di';
 
 /**
  * Signup Confirmation Page
  * @param { Object } props
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { Function } props.resend - Function to resend registration email.
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
 const SignupConfirmation = function ({ location, dependencies: { captchaUtilsService } }) {
   const intl = useIntl();
@@ -74,4 +76,4 @@ const SignupConfirmation = function ({ location, dependencies: { captchaUtilsSer
   );
 };
 
-export default SignupConfirmation;
+export default InjectAppServices(SignupConfirmation);
