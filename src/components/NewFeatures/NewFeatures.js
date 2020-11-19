@@ -67,6 +67,12 @@ const NewFeatures = () => {
             <Link to={'/billing/invoices'}>Ir a Facturas Emitidas</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div className="m-l-24">
+            <h3>Formulario de caracteristicas exclusivas</h3>
+            <Link to={'/email-marketing-exclusive'}>Ir al Formulario de caracteristicas exclusivas</Link>
+          </div>
+        </div>
       </section>
     </>
   );
