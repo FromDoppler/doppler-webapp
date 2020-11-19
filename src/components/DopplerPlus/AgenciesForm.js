@@ -256,6 +256,10 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                   <span className="dp-icodot">.</span>
                   <span>{_('agencies.feature_4')}</span>
                 </li>
+                <li>
+                  <span className="dp-icodot">.</span>
+                  <span>{_('agencies.feature_5')}</span>
+                </li>
               </ul>
             </div>
           </div>
