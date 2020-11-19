@@ -22,37 +22,37 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
 
   const featureOptions = [
     {
-      id: 'StrategicAccompaniment',
-      value: 'Acompañamiento Estratégico',
-      description: 'Acompañamiento Estratégico',
+      id: 'CustomOnboarding',
+      value: 'CustomOnboarding',
+      description: _('exclusive_form.custom_onboarding'),
     },
     {
-      id: 'AdviceConsultancy',
-      value: 'Asesoría y Consultoría',
-      description: 'Asesoría y Consultoría',
+      id: 'StrategicAdvisory',
+      value: 'StrategicAdvisory',
+      description: _('exclusive_form.strategic_accompaniment'),
     },
     {
       id: 'DesignLayoutEmails',
-      value: 'Diseño, maquetación y envío de Emails',
-      description: 'Diseño, maquetación y envío de Emails',
+      value: 'DesignLayoutEmails',
+      description: _('exclusive_form.design_layout_emails'),
     },
   ];
 
   const featureOptionsPart2 = [
     {
-      id: 'TestABCampaigns',
-      value: 'Campañas Test A/B',
-      description: 'Campañas Test A/B',
+      id: 'CustomReports',
+      value: 'CustomReports',
+      description: _('exclusive_form.custom_reports'),
     },
     {
-      id: 'DevelopmentCustomFunctionalities',
-      value: 'Desarrollo de Funcionalidades personalizadas',
-      description: 'Desarrollo de Funcionalidades personalizadas',
+      id: 'DevelopmentCustomFeatures',
+      value: 'DevelopmentCustomFeatures',
+      description: _('exclusive_form.development_custom_features'),
     },
     {
-      id: 'DedicatedIp',
-      value: 'IP Dedicada',
-      description: 'IP Dedicada',
+      id: 'DedicatedIps',
+      value: 'DedicatedIps',
+      description: _('exclusive_form.dedicated_ip'),
     },
   ];
 
@@ -177,7 +177,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                           <InputFieldItem
                             fieldName={fieldNames.range_time}
                             type="text"
-                            label="¿En que horario podemos contactarte?"
+                            label={_('exclusive_form.form_hour_contact')}
                             id="range_time"
                             className="field-item--50"
                           />
@@ -266,45 +266,6 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                   </div>
                 </fieldset>
               </FormWithCaptcha>
-            </div>
-          </div>
-          <div className="col-lg-3 col-sm-12">
-            <div className="dp-plans-feature">
-              <h4>{_('exclusive_form.features_for_you')}</h4>
-              <ul className="dp-feature-list">
-                <li>
-                  <span className="dp-icostar"></span>
-                  <span>
-                    <strong>{_('exclusive_form.strategic_accompaniment')}</strong>
-                  </span>
-                </li>
-                <li>
-                  <span className="dp-icostar"></span>
-                  <span>
-                    <strong>{_('exclusive_form.advisory')}</strong>
-                    <span className="dp-new">{_('exclusive_form.new')}</span>
-                  </span>
-                </li>
-                <li>
-                  <span className="dp-icodot">.</span>
-                  <span>{_('exclusive_form.design')}</span>
-                </li>
-                <li>
-                  <span className="dp-icodot">.</span>
-                  <span>{_('exclusive_form.testAb')}</span>
-                </li>
-                <li>
-                  <span className="dp-icodot">.</span>
-                  <span>{_('exclusive_form.development_features')}</span>
-                </li>
-                <li>
-                  <span className="dp-icodot">.</span>
-                  <span>
-                    {_('exclusive_form.dedicated_ip')}{' '}
-                    <span className="dp-new">{_('exclusive_form.new')}</span>
-                  </span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
