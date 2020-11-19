@@ -153,6 +153,7 @@ export default {
 Encontrarás un Email con los pasos a seguir.`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromForgot}).`,
     description: `¡No te preocupes! Nos sucede a todos. Ingresa tu Email y te ayudaremos a recuperarla.`,
+    expired_data: `Tus datos expiraron. Por favor regresa al Email que te enviamos para restablecer tu contraseña.`,
     expired_link: `¡Link expirado! Por favor haz click en ¿No recuerdas tu contraseña?.`,
     image_path: `${loginBannerImagePath}`,
     max_attempts_sec_question: `No ha respondido correctamente. Por favor, inicie nuevamente el proceso para reestablecer su contraseña de Doppler. `,
