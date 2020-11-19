@@ -154,6 +154,7 @@ Check your inbox!
 You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
+    expired_data: `Your data has expired. Please go back to the Email we sent you to reset your password.`,
     expired_link: `Link expired, please click on Forgot your Password? to request a new one.`,
     image_path: `${loginBannerImagePath}`,
     max_attempts_sec_question: `You didn't response correctly. Please, start again the process to reset your Doppler password.`,
