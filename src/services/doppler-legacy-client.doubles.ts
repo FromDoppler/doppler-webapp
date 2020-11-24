@@ -327,6 +327,12 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     ];
   }
 
+  public async isDopplerMVCUp(): Promise<boolean> {
+    await timeout(1500);
+    console.log('isDopplerMVCUp');
+    return true;
+  }
+
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
     console.log('sendEmailUpgradePlan', { planModel });
     await timeout(1500);
