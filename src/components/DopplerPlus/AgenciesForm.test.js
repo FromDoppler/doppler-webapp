@@ -24,6 +24,16 @@ describe('AgenciesForm component', () => {
         return { success: true };
       },
     },
+    captchaUtilsService: {
+      useCaptcha: () => {
+        const Captcha = () => null;
+        const verifyCaptcha = async () => {
+          return { success: true, captchaResponseToken: 'hardcodedResponseToken' };
+        };
+        const recaptchaRef = null;
+        return [Captcha, verifyCaptcha, recaptchaRef];
+      },
+    },
   };
 
   const AgenciesFormElement = () => (

@@ -55,6 +55,8 @@ function getForgotErrorMessage(location) {
   switch (parsedQuery) {
     case 'ExpiredLink':
       return { _warning: 'forgot_password.expired_link' };
+    case 'ExpiredData':
+      return { _warning: 'forgot_password.expired_data' };
     case 'PassResetOk':
       return { _success: 'forgot_password.pass_reset_ok' };
     case 'BlockedAccount':
