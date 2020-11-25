@@ -14,6 +14,7 @@ export class OnlineSessionManager implements SessionManager {
   private readonly appSessionRef: MutableRefObject<AppSession>;
   private readonly dopplerLegacyClient: DopplerLegacyClient;
   private readonly keepAliveMilliseconds: number;
+  private readonly allowMaintenanceAutoDetect: boolean;
 
   private handler: (s: AppSession) => void = noop;
   private dopplerInterval: number | null = null;
@@ -22,14 +23,17 @@ export class OnlineSessionManager implements SessionManager {
     appSessionRef,
     dopplerLegacyClient,
     keepAliveMilliseconds,
+    allowMaintenanceAutoDetect,
   }: {
     appSessionRef: MutableRefObject<AppSession>;
     dopplerLegacyClient: DopplerLegacyClient;
     keepAliveMilliseconds: number;
+    allowMaintenanceAutoDetect: boolean;
   }) {
     this.appSessionRef = appSessionRef;
     this.dopplerLegacyClient = dopplerLegacyClient;
     this.keepAliveMilliseconds = keepAliveMilliseconds;
+    this.allowMaintenanceAutoDetect = allowMaintenanceAutoDetect;
   }
 
   public initialize(handler: (s: AppSession) => void) {
@@ -71,10 +75,13 @@ export class OnlineSessionManager implements SessionManager {
         } as AppSession, // Cast required because TS cannot resolve datahubCustomerId complexity
       );
     } catch (error) {
-      if (!!error.response && (error.response.status === 503 || error.response.status === 404)) {
-        this.updateSession({ status: 'maintenance' });
-      } else {
-        this.updateSession({ status: 'non-authenticated' });
+      this.updateSession({ status: 'non-authenticated' });
+      if (this.allowMaintenanceAutoDetect) {
+        try {
+          await this.dopplerLegacyClient.isDopplerMVCUp();
+        } catch {
+          this.updateSession({ status: 'maintenance' });
+        }
       }
     }
   }
