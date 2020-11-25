@@ -26,6 +26,7 @@ export interface DopplerLegacyClient {
   requestAgenciesDemo(
     requestAgenciesDemoModel: RequestAgenciesDemoModel,
   ): Promise<RequestAgenciesDemoResult>;
+  isDopplerMVCUp(): Promise<boolean>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -734,6 +735,14 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return { success: true };
+  }
+
+  public async isDopplerMVCUp(): Promise<boolean> {
+    const response = await this.axios.get('/WebAppPublic/DopplerMVCUp');
+    if (!response || !response.data) {
+      throw new Error('Empty Doppler response');
+    }
+    return response.data;
   }
 
   // TODO: replace this when implement BE connection
