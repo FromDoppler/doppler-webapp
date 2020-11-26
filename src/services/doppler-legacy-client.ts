@@ -67,6 +67,8 @@ export type LoginErrorResult =
       invalidLogin?: false;
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
     }
   | {
       accountNotValidated: true;
@@ -76,6 +78,8 @@ export type LoginErrorResult =
       invalidLogin?: false;
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
     }
   | {
       cancelatedAccount: true;
@@ -85,6 +89,8 @@ export type LoginErrorResult =
       invalidLogin?: false;
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
     }
   | {
       blockedAccountInvalidPassword: true;
@@ -94,6 +100,8 @@ export type LoginErrorResult =
       invalidLogin?: false;
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
     }
   | {
       invalidLogin: true;
@@ -103,6 +111,8 @@ export type LoginErrorResult =
       cancelatedAccount?: false;
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
     }
   | {
       blockedAccountInvalidPassword: true;
@@ -112,6 +122,8 @@ export type LoginErrorResult =
       invalidLogin?: false;
       maxLoginAttempts: true;
       wrongCaptcha?: false;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
     }
   | {
       blockedAccountInvalidPassword: true;
@@ -121,6 +133,19 @@ export type LoginErrorResult =
       invalidLogin?: false;
       maxLoginAttempts: true;
       wrongCaptcha?: true;
+      blockedAccountCMDisabled?: false;
+      errorMessage?: string;
+    }
+  | {
+      blockedAccountInvalidPassword?: false;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+      invalidLogin?: false;
+      maxLoginAttempts?: false;
+      wrongCaptcha?: false;
+      blockedAccountCMDisabled: true;
+      errorMessage: string;
     };
 
 export type LoginResult = Result<{ redirectUrl?: string }, LoginErrorResult>;
@@ -128,6 +153,10 @@ export type LoginResult = Result<{ redirectUrl?: string }, LoginErrorResult>;
 export interface LoginModel extends PayloadWithCaptchaToken {
   username: string;
   password: string;
+}
+
+function removeErrorCodeFromExceptionMessage(errorCode: string, message: string) {
+  return message.search(errorCode) !== -1 ? message.substring(errorCode.length) : message;
 }
 
 /* #endregion */
@@ -551,6 +580,17 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           }
           case 'MaxLoginAttempts': {
             return { expectedError: { maxLoginAttempts: true } };
+          }
+          case 'BlockedAccountCMDisabled': {
+            return {
+              expectedError: {
+                blockedAccountCMDisabled: true,
+                errorMessage: removeErrorCodeFromExceptionMessage(
+                  'BlockedAccountCMDisabled - ',
+                  response.data.message,
+                ),
+              },
+            };
           }
           case 'WrongCatpcha': {
             return {

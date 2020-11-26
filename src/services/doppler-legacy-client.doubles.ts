@@ -31,6 +31,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     // return { expectedError: { invalidLogin: true } };
     // return { expectedError: { blockedAccountInvalidPassword: true } };
     // return { expectedError: { maxLoginAttempts: true } };
+    // return { expectedError: { blockedAccountCMDisabled: true, errorMessage: clientmanager - clientmanager@email.com } };
     // return { success: false, error: 'Error code' };
     // return {
     //   success: false,
