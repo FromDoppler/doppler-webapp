@@ -203,6 +203,17 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         setErrors({
           _error: <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccount} />,
         });
+      } else if (result.expectedError && result.expectedError.blockedAccountCMDisabled) {
+        setErrors({
+          _error: (
+            <p>
+              <FormattedMessage
+                id={'validation_messages.error_account_is_blocked_disabled_by_cm'}
+              />
+              <strong>{result.expectedError.errorMessage}</strong>
+            </p>
+          ),
+        });
       } else if (
         result.expectedError &&
         (result.expectedError.blockedAccountInvalidPassword ||

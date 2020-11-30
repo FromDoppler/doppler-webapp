@@ -525,6 +525,7 @@ deletion, security, cross-border data transfers and other issues.
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
+    error_account_is_blocked_disabled_by_cm: `The Client Manager administrator blocked this account. Get in touch for more information: `,
     error_account_is_blocked_invalid_password: `Ouch! This account has been blocked due to failed access attempts.`,
     error_account_is_blocked_invalid_password_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountInvalidPassword}) for help.`,
     error_account_is_blocked_invalid_password_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta bloqueada por intentos fallidos?`,
