@@ -526,7 +526,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chatea con el equipo de Atención al Cliente</button> para solucionarlo.`,
-    error_account_is_blocked_disabled_by_cm: `Esta cuenta fue bloqueada por el administrador del Client Manager. Contáctate para más información: `,
+    error_account_is_blocked_disabled_by_cm: `Esta cuenta fue bloqueada por el administrador. Contáctate para más información: `,
     error_account_is_blocked_invalid_password: `¡Ouch! Esta cuenta ha sido bloqueada debido a intentos de acceso fallidos.`,
     error_account_is_blocked_invalid_password_contact_support_MD: `Por favor [contacta al equipo de Atención al Cliente](${mailtoAdmin + subjectBlockedAccountInvalidPassword}) para solucionarlo.`,
     error_account_is_blocked_invalid_password_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta bloqueada por intentos fallidos?`,
