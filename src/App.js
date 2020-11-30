@@ -25,6 +25,7 @@ import ChangePlan from './components/ChangePlan/ChangePlan';
 import PlanCalculator from './components/ChangePlan/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
+import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 
 /**
  * @param { Object } props - props
@@ -121,6 +122,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 component={PlanCalculator}
               />
               <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
+              <PrivateRoute path={'/email-marketing-exclusive'} exact component={ExclusiveForm} />
               <PrivateRoute path="/push" exact component={PushNotifications} />
               <PrivateRoute
                 path="/reports/partials-campaigns"
