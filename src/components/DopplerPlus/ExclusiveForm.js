@@ -11,6 +11,7 @@ import {
   InputFieldItem,
   PhoneFieldItem,
   SubmitButton,
+  CheckboxFieldItem,
 } from '../form-helpers/form-helpers';
 import { useIntl } from 'react-intl';
 
@@ -18,41 +19,39 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  // TODO: apply content
-
   const featureOptions = [
     {
-      id: 'CustomOnboarding',
-      value: 'CustomOnboarding',
-      description: _('exclusive_form.custom_onboarding'),
+      id: 'features1',
+      value: _('exclusive_form.custom_onboarding'),
+      name: 'features',
     },
     {
-      id: 'StrategicAdvisory',
-      value: 'StrategicAdvisory',
-      description: _('exclusive_form.strategic_accompaniment'),
+      id: 'features2',
+      value: _('exclusive_form.strategic_accompaniment'),
+      name: 'features',
     },
     {
-      id: 'DesignLayoutEmails',
-      value: 'DesignLayoutEmails',
-      description: _('exclusive_form.design_layout_emails'),
+      id: 'features3',
+      value: _('exclusive_form.design_layout_emails'),
+      name: 'features',
     },
   ];
 
   const featureOptionsPart2 = [
     {
-      id: 'CustomReports',
-      value: 'CustomReports',
-      description: _('exclusive_form.custom_reports'),
+      id: 'features4',
+      value: _('exclusive_form.custom_reports'),
+      name: 'features',
     },
     {
-      id: 'DevelopmentCustomFeatures',
-      value: 'DevelopmentCustomFeatures',
-      description: _('exclusive_form.development_custom_features'),
+      id: 'features5',
+      value: _('exclusive_form.development_custom_features'),
+      name: 'features',
     },
     {
-      id: 'DedicatedIps',
-      value: 'DedicatedIps',
-      description: _('exclusive_form.dedicated_ip'),
+      id: 'features6',
+      value: _('exclusive_form.dedicated_ip'),
+      name: 'features',
     },
   ];
 
@@ -62,7 +61,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
     lastname: 'lastname',
     phone: 'phone',
     range_time: 'range_time',
-    volume: 'volume',
+    features: 'features',
   };
 
   const getFormInitialValues = () => {
@@ -75,7 +74,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
     );
 
     initialValues[fieldNames.email] = appSessionRef.current.userData.user.email;
-    initialValues[fieldNames.features] = featureOptions[0].value;
+    initialValues[fieldNames.features] = [];
 
     return initialValues;
   };
@@ -194,23 +193,13 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                             {({ field }) => (
                               <ul className="dp-exclusive-features-list field-group">
                                 {featureOptions.map((featureOption) => (
-                                  <li
+                                  <CheckboxFieldItem
+                                    fieldName={featureOption.name}
                                     key={featureOption.id}
-                                    className="field-item field-item__checkbox"
-                                  >
-                                    <input
-                                      id={featureOption.id}
-                                      type="checkbox"
-                                      name="featuresAmount"
-                                      {...field}
-                                      value={featureOption.value}
-                                      checked={field.value === featureOption.value}
-                                    />
-                                    <span class="checkmark"></span>
-                                    <label for="Acompanamiento_estrategico">
-                                      {featureOption.description}
-                                    </label>
-                                  </li>
+                                    label={featureOption.value}
+                                    id={featureOption.id}
+                                    value={featureOption.value}
+                                  />
                                 ))}
                               </ul>
                             )}
@@ -221,23 +210,13 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                             {({ field }) => (
                               <ul className="dp-exclusive-features-list field-group">
                                 {featureOptionsPart2.map((featureOption) => (
-                                  <li
+                                  <CheckboxFieldItem
+                                    fieldName={featureOption.name}
+                                    label={featureOption.value}
+                                    id={featureOption.id}
                                     key={featureOption.id}
-                                    className="field-item field-item__checkbox"
-                                  >
-                                    <input
-                                      id={featureOption.id}
-                                      type="checkbox"
-                                      name="featuresAmount"
-                                      {...field}
-                                      value={featureOption.value}
-                                      checked={field.value === featureOption.value}
-                                    />
-                                    <span class="checkmark"></span>
-                                    <label for="Acompanamiento_estrategico">
-                                      {featureOption.description}
-                                    </label>
-                                  </li>
+                                    value={featureOption.value}
+                                  />
                                 ))}
                               </ul>
                             )}
