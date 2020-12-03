@@ -558,9 +558,6 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     error_phone_too_short: `¡Ouch! El número de teléfono es demasiado corto.`,
     error_register_denied: `¡Alto ahí! Has alcanzado el límite de cuentas permitido.`,
     error_required_field: `¡Ouch! El campo está vacío.`,
-    error_unexpected_MD: `
-¡Ouch! Algo salió mal. Por favor, vuelve a intentarlo más tarde o [contacta a Soporte](${mailtoSupport}).
-
-**Si tienes ad blockers instalados, recomendamos deshabilitarlos en el reintento.*`,
+    error_unexpected_MD: `¡Ouch! Detectamos un problema de conexión. Por favor inténtalo nuevamente en unos minutos.`,
   },
 };
