@@ -97,8 +97,7 @@ export class AppCompositionRoot implements AppServices {
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
-      dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
-      allowMantenainceAutodetect: process.env.REACT_APP_ALLOW_MANTENAINCE_AUTODETECT === 'true',
+      dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string
     }));
   }
 
@@ -177,7 +176,6 @@ export class AppCompositionRoot implements AppServices {
           appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
           dopplerLegacyClient: this.dopplerLegacyClient,
           keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
-          allowMaintenanceAutoDetect: this.appConfiguration.allowMantenainceAutodetect,
         }),
     );
   }
