@@ -11,6 +11,7 @@ import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-clie
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
 import { PlanService } from './plan-service';
+import { HttpManualStatusClient, ManualStatusClient } from './manual-status-client';
 
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
@@ -50,6 +51,7 @@ export interface AppServices {
   planService: PlanService;
   dopplerBillingApiClient: DopplerBillingApiClient;
   captchaUtilsService: CaptchaUtilsService;
+  manualStatusClient: ManualStatusClient;
 }
 
 /**
@@ -97,7 +99,8 @@ export class AppCompositionRoot implements AppServices {
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
-      dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string
+      dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
+      appStatusOverrideEnabled: process.env.REACT_APP_MANUAL_STATUS_ENABLED === 'true',
     }));
   }
 
@@ -176,6 +179,8 @@ export class AppCompositionRoot implements AppServices {
           appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
           dopplerLegacyClient: this.dopplerLegacyClient,
           keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
+          appStatusOverrideEnabled: this.appConfiguration.appStatusOverrideEnabled,
+          manualStatusClient: this.manualStatusClient,
         }),
     );
   }
@@ -226,6 +231,16 @@ export class AppCompositionRoot implements AppServices {
 
   get captchaUtilsService() {
     return this.singleton('captchaUtilsService', () => new CaptchaUtilsService());
+  }
+
+  get manualStatusClient() {
+    return this.singleton(
+      'manualStatusClient',
+      () =>
+        new HttpManualStatusClient({
+          axiosStatic: this.axiosStatic,
+        }),
+    );
   }
 }
 

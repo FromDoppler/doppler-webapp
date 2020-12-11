@@ -118,3 +118,7 @@ export interface AgenciesPath {
   current: boolean;
   deadEnd: boolean;
 }
+
+export interface AppStatus {
+  offline: boolean;
+}
