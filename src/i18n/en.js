@@ -557,9 +557,6 @@ deletion, security, cross-border data transfers and other issues.
     error_phone_too_short: `Ouch! The phone number is too short.`,
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
-    error_unexpected_MD: `
-Ouch! Something went wrong. Please try again later or [contact Support](${mailtoSupport}).
-
-**If you have ad blockers installed, we recommend that you disable them when you try again.*`,
+    error_unexpected_MD: `Ouch! There seems to be a connection problem. Please try again in a few minutes.`,
   },
 };

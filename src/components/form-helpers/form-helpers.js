@@ -488,7 +488,7 @@ export const ValidatedPasswordFieldItem = ({
   </PasswordWrapper>
 );
 
-export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, ...rest }) => (
+export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, id, ...rest }) => (
   <FieldItem
     className={concatClasses('field-item field-item__checkbox', className)}
     fieldName={fieldName}
@@ -496,12 +496,12 @@ export const CheckboxFieldItem = ({ className, fieldName, label, checkRequired, 
     <Field
       type="checkbox"
       name={fieldName}
-      id={fieldName}
+      id={id || fieldName}
       validate={(value) => checkRequired && validateCheckRequired(value)}
       {...rest}
     />
     <span className="checkmark" />
-    <label htmlFor={fieldName}> {label}</label>
+    <label htmlFor={id || fieldName}> {label}</label>
   </FieldItem>
 );
 
