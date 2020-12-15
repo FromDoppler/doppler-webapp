@@ -101,6 +101,7 @@ export class AppCompositionRoot implements AppServices {
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
       dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
       appStatusOverrideEnabled: process.env.REACT_APP_MANUAL_STATUS_ENABLED === 'true',
+      appStatusOverrideFileUrl: process.env.REACT_APP_MANUAL_STATUS_FILE_URL as string,
     }));
   }
 
@@ -239,6 +240,7 @@ export class AppCompositionRoot implements AppServices {
       () =>
         new HttpManualStatusClient({
           axiosStatic: this.axiosStatic,
+          appStatusOverrideFileUrl: this.appConfiguration.appStatusOverrideFileUrl,
         }),
     );
   }
