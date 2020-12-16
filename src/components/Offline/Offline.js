@@ -12,11 +12,11 @@ const Offline = () => (
         <S.CenterColumn>
           <div className="logo-doppler-new"></div>
           <S.MaintenanceImage></S.MaintenanceImage>
-          <h1>Estamos trabajando en mejorar tu experiencia</h1>
+          <h1>Estamos realizando tareas de mantenimiento</h1>
           <S.AccentText>
-            Realizaremos <strong>tareas programadas de mantenimiento</strong>
+            No te preocupes, <strong>tus Campañas se siguen enviando ;)</strong>
           </S.AccentText>
-          <S.AccentText>durante la próxima hora. ¡Vuelve pronto!</S.AccentText>
+          <S.AccentText>Trabajamos para mejorar tu experiencia ¡Vuelve pronto!</S.AccentText>
         </S.CenterColumn>
       </S.CenterContent>
       <S.HideChat />
