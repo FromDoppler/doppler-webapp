@@ -558,5 +558,6 @@ deletion, security, cross-border data transfers and other issues.
     error_register_denied: `Hold on! You've reached the maximum accounts allowed.`,
     error_required_field: `Ouch! The field is empty.`,
     error_unexpected_MD: `Ouch! There seems to be a connection problem. Please try again in a few minutes.`,
+    error_unexpected_register_MD: `Ouch! Something went wrong. Please try again later or [contact our Support team](${mailtoSupport}).`,
   },
 };
