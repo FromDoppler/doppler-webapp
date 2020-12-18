@@ -533,7 +533,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         return this.isEnabledForRetry(error);
       },
       retryDelay: (retryCount: any, error: any) => {
-        if (retryCount === configRetryCount){
+        if (retryCount === configRetryCount) {
           addLogEntry({
             origin: window.location.origin,
             browser: window.navigator.userAgent,
