@@ -524,20 +524,23 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       withCredentials: true,
     });
     this.window = window;
+    const configRetryCount = 3;
 
     axiosRetry(this.axios, {
-      retries: 3,
+      retries: configRetryCount,
       shouldResetTimeout: true,
       retryCondition: (error) => {
         return this.isEnabledForRetry(error);
       },
       retryDelay: (retryCount: any, error: any) => {
-        addLogEntry({
-          origin: window.location.origin,
-          browser: window.navigator.userAgent,
-          error: error,
-          retryCount: retryCount,
-        });
+        if (retryCount === configRetryCount){
+          addLogEntry({
+            origin: window.location.origin,
+            browser: window.navigator.userAgent,
+            error: error,
+            retryCount: retryCount,
+          });
+        }
         return retryCount * 200;
       },
     });
