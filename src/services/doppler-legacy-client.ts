@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
 import { Property } from 'csstype';
 import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 import axiosRetry from 'axios-retry';
-import { addLogEntry } from '../utils';
+import { addLogEntry, logAxiosRetryError } from '../utils';
 import {
   AdvancePayOptions,
   PaymentType,
@@ -534,15 +534,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       },
       retryDelay: (retryCount: any, error: any) => {
         if (retryCount === configRetryCount) {
-          const data = JSON.parse(error?.config?.data);
-          addLogEntry({
-            origin: window.location.origin,
-            account: data?.Email || data?.Username,
-            signupOrigin: data?.Origin,
-            postUrl: error?.config?.url,
-            browser: window.navigator.userAgent,
-            errorMessage: error?.message,
-          });
+          logAxiosRetryError(error, addLogEntry);
         }
         return retryCount * 200;
       },
