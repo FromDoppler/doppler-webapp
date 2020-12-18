@@ -534,11 +534,14 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       },
       retryDelay: (retryCount: any, error: any) => {
         if (retryCount === configRetryCount) {
+          const data = JSON.parse(error?.config?.data);
           addLogEntry({
             origin: window.location.origin,
+            account: data?.Email || data?.Username,
+            signupOrigin: data?.Origin,
+            postUrl: error?.config?.url,
             browser: window.navigator.userAgent,
-            error: error,
-            retryCount: retryCount,
+            errorMessage: error?.message,
           });
         }
         return retryCount * 200;
