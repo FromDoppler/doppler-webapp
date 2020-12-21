@@ -536,7 +536,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         if (retryCount === configRetryCount) {
           logAxiosRetryError(error, addLogEntry);
         }
-        return retryCount * 200;
+        return retryCount * 700;
       },
     });
   }
