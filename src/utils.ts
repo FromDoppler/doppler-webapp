@@ -95,6 +95,28 @@ export function addLogEntry(data: any) {
   window._LTracker.push(data);
 }
 
+export function logAxiosRetryError(error: any, logger: any) {
+  try {
+    const data = JSON.parse(error?.config?.data);
+    logger({
+      origin: window.location.origin,
+      account: data?.Email || data?.Username,
+      signupOrigin: data?.Origin,
+      postUrl: error?.config?.url,
+      browser: window.navigator.userAgent,
+      errorMessage: error?.message,
+    });
+  } catch {
+    logger({
+      origin: window.location.origin,
+      postUrl: error?.config?.url,
+      browser: window.navigator.userAgent,
+      errorMessage: error?.message,
+      data: error?.config?.data,
+    });
+  }
+}
+
 export function getSubscriberStatusCssClassName(status: string) {
   let subscriberCssClass = '';
   switch (status) {
