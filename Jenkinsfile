@@ -48,7 +48,7 @@ pipeline {
                 // TODO: remove build differences based on environments to allow reducing the
                 // number of different images. Maybe `demo` and `production` cold be enought
                 sh '''docker build \
-                    -t "fromdoppler/doppler-webapp:production-commit-${GIT_COMMIT}" \\
+                    -t "local-doppler-webapp:production-commit-${GIT_COMMIT}" \\
                     --build-arg environment=production \\
                     --build-arg react_app_router=browser \\
                     --build-arg public_url="/" \\
@@ -56,7 +56,7 @@ pipeline {
                     -f Dockerfile.swarm \\
                     .'''
                 sh '''docker build \
-                    -t "fromdoppler/doppler-webapp:demo-commit-${GIT_COMMIT}" \\
+                    -t "local-doppler-webapp:demo-commit-${GIT_COMMIT}" \\
                     --build-arg environment=demo \\
                     --build-arg react_app_router=browser \\
                     --build-arg public_url="/" \\
@@ -64,15 +64,15 @@ pipeline {
                     -f Dockerfile.swarm \\
                     .'''
                  sh '''docker build \
-                    -t "fromdoppler/doppler-webapp:int-commit-${GIT_COMMIT}" \\
+                    -t "local-doppler-webapp:int-commit-${GIT_COMMIT}" \\
                     --build-arg environment=int \\
                     --build-arg react_app_router=browser \\
                     --build-arg public_url="/" \\
                     --build-arg version=int-${TAG_NAME}+${GIT_COMMIT} \\
                     -f Dockerfile.swarm \\
                     .'''
-                 sh '''docker build \
-                    -t "fromdoppler/doppler-webapp:qa-commit-${GIT_COMMIT}" \\
+                    sh '''docker build \
+                    -t "local-doppler-webapp:qa-commit-${GIT_COMMIT}" \\
                     --build-arg environment=qa \\
                     --build-arg react_app_router=browser \\
                     --build-arg public_url="/" \\
@@ -82,16 +82,22 @@ pipeline {
             }
         }
         stage('Publish final version images') {
+            environment {
+                DOCKER_FROMDOPPLER_CREDENTIALS_ID = "dockerhub_fromdoppler"
+                DOCKER_FROMDOPPLER_IMAGE_NAME = "fromdoppler/doppler-webapp"
+            }
             when {
                 expression {
                     return isVersionTag(readCurrentTag())
                 }
             }
             steps {
-                sh 'sh publish-commit-image-to-dockerhub.sh production ${GIT_COMMIT} ${TAG_NAME}'
-                sh 'sh publish-commit-image-to-dockerhub.sh demo ${GIT_COMMIT} ${TAG_NAME}'
-                sh 'sh publish-commit-image-to-dockerhub.sh int ${GIT_COMMIT} ${TAG_NAME}'
-                sh 'sh publish-commit-image-to-dockerhub.sh qa ${GIT_COMMIT} ${TAG_NAME}'
+                withDockerRegistry(credentialsId: "${DOCKER_FROMDOPPLER_CREDENTIALS_ID}", url: "") {
+                    sh 'sh publish-commit-image-to-dockerhub.sh production ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh demo ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh int ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh qa ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                }
             }
         }
     }
