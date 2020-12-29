@@ -81,10 +81,10 @@ pipeline {
                     .'''
             }
         }
-        stage('Publish final version images') {
+        stage('Publish final version images in fromdoppler') {
             environment {
-                DOCKER_FROMDOPPLER_CREDENTIALS_ID = "dockerhub_fromdoppler"
-                DOCKER_FROMDOPPLER_IMAGE_NAME = "fromdoppler/doppler-webapp"
+                DOCKER_CREDENTIALS_ID = "dockerhub_fromdoppler"
+                DOCKER_IMAGE_NAME = "fromdoppler/doppler-webapp"
             }
             when {
                 expression {
@@ -92,11 +92,30 @@ pipeline {
                 }
             }
             steps {
-                withDockerRegistry(credentialsId: "${DOCKER_FROMDOPPLER_CREDENTIALS_ID}", url: "") {
-                    sh 'sh publish-commit-image-to-dockerhub.sh production ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                    sh 'sh publish-commit-image-to-dockerhub.sh demo ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                    sh 'sh publish-commit-image-to-dockerhub.sh int ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                    sh 'sh publish-commit-image-to-dockerhub.sh qa ${DOCKER_FROMDOPPLER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                withDockerRegistry(credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "") {
+                    sh 'sh publish-commit-image-to-dockerhub.sh production ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh demo ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh int ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh qa ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                }
+            }
+        }
+        stage('Publish final version images in dopplerdock') {
+            environment {
+                DOCKER_CREDENTIALS_ID = "dockerhub_dopplerdock"
+                DOCKER_IMAGE_NAME = "dopplerdock/doppler-webapp"
+            }
+            when {
+                expression {
+                    return isVersionTag(readCurrentTag())
+                }
+            }
+            steps {
+                withDockerRegistry(credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "") {
+                    sh 'sh publish-commit-image-to-dockerhub.sh production ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh demo ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh int ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
+                    sh 'sh publish-commit-image-to-dockerhub.sh qa ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
                 }
             }
         }
