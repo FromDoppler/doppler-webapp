@@ -1,27 +1,33 @@
 #!/bin/sh
 
 environment=$1
-commit=$2
-version=$3
-versionPre=$4
+imageName=$2
+commit=$3
+version=$4
+versionPre=$5
 # Examples:
-#   sh publish-to-dockerhub.sh develop 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5
-#   sh publish-to-dockerhub.sh production 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5 beta1
-#   sh publish-to-dockerhub.sh demo 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5 pr123
+#   sh publish-to-dockerhub.sh develop dopplerdock/doppler-webapp 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5
+#   sh publish-to-dockerhub.sh production dopplerdock/doppler-webapp 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5 beta1
+#   sh publish-to-dockerhub.sh demo dopplerdock/doppler-webapp 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5 pr123
 
 if [ -z ${environment} ]
 then
   echo "Missing environment (1st parameter)"
   exit 1
 fi
+if [ -z ${imageName} ]
+then
+  echo "Missing imageName (2st parameter)"
+  exit 1
+fi
 if [ -z ${commit} ]
 then
-  echo "Missing commit (2nd parameter)"
+  echo "Missing commit (3nd parameter)"
   exit 1
 fi
 if [ -z ${version} ]
 then
-  echo "Missing version (3th parameter)"
+  echo "Missing version (4th parameter)"
   exit 1
 fi
 
@@ -99,21 +105,16 @@ else
 fi
 # endregion Ugly code to deal with versions
 
-docker tag fromdoppler/doppler-webapp:${environment}-commit-${commit} fromdoppler/doppler-webapp:${preReleasePrefix}${environment}
-docker tag fromdoppler/doppler-webapp:${environment}-commit-${commit} fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayor}
-docker tag fromdoppler/doppler-webapp:${environment}-commit-${commit} fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayorMinor}
-docker tag fromdoppler/doppler-webapp:${environment}-commit-${commit} fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayorMinorPatch}
-docker tag fromdoppler/doppler-webapp:${environment}-commit-${commit} fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}
-docker tag fromdoppler/doppler-webapp:${environment}-commit-${commit} fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionFullForTag}
+docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}
+docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayor}
+docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinor}
+docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatch}
+docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}
+docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionFullForTag}
 
-dockerhub_writter_username=$DOCKER_WRITTER_USERNAME
-dockerhub_writter_password=$DOCKER_WRITTER_PASSWORD
-
-docker login -u="${dockerhub_writter_username}" -p="${dockerhub_writter_password}"
-
-docker push fromdoppler/doppler-webapp:${preReleasePrefix}${environment}
-docker push fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayor}
-docker push fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayorMinor}
-docker push fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayorMinorPatch}
-docker push fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}
-docker push fromdoppler/doppler-webapp:${preReleasePrefix}${environment}-${versionFullForTag}
+docker push ${imageName}:${preReleasePrefix}${environment}
+docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayor}
+docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinor}
+docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatch}
+docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}
+docker push ${imageName}:${preReleasePrefix}${environment}-${versionFullForTag}
