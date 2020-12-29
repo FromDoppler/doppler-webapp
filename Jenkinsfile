@@ -94,18 +94,6 @@ pipeline {
                 sh 'sh publish-commit-image-to-dockerhub.sh qa ${GIT_COMMIT} ${TAG_NAME}'
             }
         }
-        stage('Generate version') {
-            when {
-                anyOf {
-                    branch 'master';
-                    branch 'main'
-                }
-            }
-            steps {
-                // TODO: by the moment this work is being done by another Jenkins task
-                sh 'echo TODO: Run semantic release to generate version tag and github release'
-            }
-        }
     }
     post { 
         cleanup { 
