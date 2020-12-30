@@ -81,25 +81,6 @@ pipeline {
                     .'''
             }
         }
-        stage('Publish final version images in fromdoppler') {
-            environment {
-                DOCKER_CREDENTIALS_ID = "dockerhub_fromdoppler"
-                DOCKER_IMAGE_NAME = "fromdoppler/doppler-webapp"
-            }
-            when {
-                expression {
-                    return isVersionTag(readCurrentTag())
-                }
-            }
-            steps {
-                withDockerRegistry(credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "") {
-                    sh 'sh publish-commit-image-to-dockerhub.sh production ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                    sh 'sh publish-commit-image-to-dockerhub.sh demo ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                    sh 'sh publish-commit-image-to-dockerhub.sh int ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                    sh 'sh publish-commit-image-to-dockerhub.sh qa ${DOCKER_IMAGE_NAME} ${GIT_COMMIT} ${TAG_NAME}'
-                }
-            }
-        }
         stage('Publish final version images in dopplerdock') {
             environment {
                 DOCKER_CREDENTIALS_ID = "dockerhub_dopplerdock"
