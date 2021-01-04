@@ -3,6 +3,7 @@ import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Pagination } from './Pagination';
 import { BrowserRouter } from 'react-router-dom';
+import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 describe('Pagination Component', () => {
   afterEach(cleanup);
@@ -11,7 +12,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={2} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={2} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -23,7 +26,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={99} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={99} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -35,7 +40,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={1} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={1} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -47,7 +54,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={100} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={100} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -59,7 +68,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={3} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={3} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -71,7 +82,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={90} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={90} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -83,7 +96,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={1} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={1} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -95,7 +110,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={96} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={96} pagesCount={100} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -107,7 +124,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={1} pagesCount={5} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={1} pagesCount={5} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -120,7 +139,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={1} pagesCount={0} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={1} pagesCount={0} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
@@ -132,7 +153,9 @@ describe('Pagination Component', () => {
     //Act
     const { container } = render(
       <BrowserRouter>
-        <Pagination currentPage={1} pagesCount={1} urlToGo={'https://domain.com/section?'} />
+        <DopplerIntlProvider locale="es">
+          <Pagination currentPage={1} pagesCount={1} urlToGo={'https://domain.com/section?'} />
+        </DopplerIntlProvider>
       </BrowserRouter>,
     );
 
