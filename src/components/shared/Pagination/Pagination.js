@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 
 export const Pagination = ({ currentPage, pagesCount, urlToGo }) => {
   const showedPages = 5;
   const stepPages = 4;
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const getPageListSincePage = (sincePage) =>
     [...Array(pagesCount > showedPages ? showedPages : pagesCount)].map(
       (_, index) => Number(sincePage) + index,
@@ -58,6 +61,7 @@ export const Pagination = ({ currentPage, pagesCount, urlToGo }) => {
           <button
             id="pag-point-left"
             className="dp-pag-point"
+            title={_('pagination.go_back_pages')}
             onClick={() =>
               setCurrentPageList(
                 getPageListSincePage(
@@ -79,6 +83,7 @@ export const Pagination = ({ currentPage, pagesCount, urlToGo }) => {
           <button
             id="pag-point-right"
             className="dp-pag-point"
+            title={_('pagination.go_foward_pages')}
             onClick={() =>
               setCurrentPageList(
                 getPageListSincePage(
