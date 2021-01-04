@@ -272,6 +272,10 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_delivery: `Comportamiento`,
     grid_subject: `Asunto`,
   },
+  pagination: {
+    go_back_pages: 'Retroceder 5 páginas',
+    go_foward_pages: 'Avanzar 5 páginas',
+  },
   plan_calculator: {
     banner_for_monthly_deliveries: `¿Necesitas algo que no has podido encontrar? Te recomendamos nuestros Planes a Medida. <Link>CONTÁCTANOS</Link> y te asesoraremos.`,
     banner_for_prepaid: `¿Necesitas una mayor cantidad de Emails? Conoce nuestros <Link>PLANES DE ALTO VOLUMEN</Link>.`,
