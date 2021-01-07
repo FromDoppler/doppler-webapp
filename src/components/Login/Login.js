@@ -243,6 +243,13 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         setErrors({
           _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
         });
+        addLogEntry({
+          account: values[fieldNames.user],
+          origin: window.location.origin,
+          section: 'Login Submit',
+          browser: window.navigator.userAgent,
+          error: result,
+        });
       }
     } finally {
       setSubmitting(false);
