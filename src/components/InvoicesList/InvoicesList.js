@@ -24,6 +24,10 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
     maximumFractionDigits: 2,
   };
 
+  const utcDateFormatOptions = {
+    timeZone: 'utc',
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const currentPage = extractParameter(location, queryString.parse, 'page') || 1;
@@ -132,10 +136,12 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                           </td>
                           <td>{invoice.documentNumber}</td>
                           <td>
-                            <FormattedDate value={invoice.creationDate} />
+                            <FormattedDate value={invoice.creationDate} {...utcDateFormatOptions} />
                           </td>
                           <td>
-                            {!!invoice.dueDate ? <FormattedDate value={invoice.dueDate} /> : null}
+                            {!!invoice.dueDate ? (
+                              <FormattedDate value={invoice.dueDate} {...utcDateFormatOptions} />
+                            ) : null}
                           </td>
                           <td>{invoice.currency}</td>
                           <td>
