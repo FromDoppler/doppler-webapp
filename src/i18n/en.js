@@ -273,6 +273,10 @@ You'll find an Email with steps to follow.`,
     grid_delivery: `Delivery Status`,
     grid_subject: `Subject`,
   },
+  pagination: {
+    go_back_pages: 'Go back 5 pages',
+    go_foward_pages: 'Go forward 5 pages',
+  },
   plan_calculator: {
     banner_for_monthly_deliveries: `Looking for something you cannot find? We recommend you to try with our Custom Made Plans. <Link>CONTACT US</Link> and we'll help you.`,
     banner_for_prepaid: `Do you have more than 100,000 Subscribers? We recommend you to see our <Link>HIGH VOLUME PLANS</Link>.`,

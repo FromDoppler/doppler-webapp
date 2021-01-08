@@ -20,6 +20,7 @@ import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
+import { addLogEntry } from '../../utils';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -109,6 +110,13 @@ const _FormWithCaptcha = ({
       );
     } else {
       console.log('Captcha error', result);
+      addLogEntry({
+        account: values.user,
+        origin: window.location.origin,
+        section: 'Form Verify Captcha',
+        browser: window.navigator.userAgent,
+        error: result,
+      });
       formikProps.setErrors({
         _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
       });

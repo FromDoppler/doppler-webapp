@@ -7,6 +7,8 @@ import {
   extractParameter,
   isWhitelisted,
   searchLinkByRel,
+  logAxiosRetryError,
+  addLogEntry,
 } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
@@ -385,6 +387,77 @@ describe('utils', () => {
 
       // Assert
       expect(result[0]).toEqual(undefined);
+    });
+  });
+
+  describe('logAxiosRetryError', () => {
+    let logEntry;
+    const addLogEntry = jest.fn().mockImplementation((obj) => (logEntry = obj));
+
+    it('should log error correctly for signup', () => {
+      // Arrange
+      const axiosError = {
+        config: {
+          data: `{"Email":"somemail@mail.com","Origin":"academy/cursos"}`,
+          url: 'webapp/CreateUser',
+        },
+        message: 'Network Error',
+      };
+
+      // Act
+      logAxiosRetryError(axiosError, addLogEntry);
+
+      // Assert
+      expect(logEntry.origin).not.toBe(undefined);
+      expect(logEntry.account).not.toBe(undefined);
+      expect(logEntry.errorMessage).not.toBe(undefined);
+    });
+
+    it('should log error correctly for login', () => {
+      // Arrange
+      const axiosError = {
+        config: {
+          data: `{"Username":"somemail@mail.com"}`,
+          url: 'webapp/Login',
+        },
+        message: 'Network Error',
+      };
+
+      // Act
+      logAxiosRetryError(axiosError, addLogEntry);
+
+      // Assert
+      expect(logEntry.account).not.toBe(undefined);
+      expect(logEntry.errorMessage).not.toBe(undefined);
+    });
+
+    it('should not break if parameters are missing', () => {
+      // Arrange
+      const axiosError = {
+        config: {
+          data: `{"other":"otherData"}`,
+        },
+        message: 'Network Error',
+      };
+
+      // Act
+      logAxiosRetryError(axiosError, addLogEntry);
+
+      // Assert
+      expect(logEntry.account).toBe(undefined);
+      expect(logEntry.errorMessage).not.toBe(undefined);
+    });
+
+    it('should not break if error is empty', () => {
+      // Arrange
+      const axiosError = { config: {}, message: 'Unexpected' };
+
+      // Act
+      logAxiosRetryError(axiosError, addLogEntry);
+
+      // Assert
+      expect(logEntry.account).toBe(undefined);
+      expect(logEntry.errorMessage).not.toBe(undefined);
     });
   });
 });
