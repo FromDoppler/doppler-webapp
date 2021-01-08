@@ -100,6 +100,7 @@ export function logAxiosRetryError(error: any, logger: any) {
     const data = JSON.parse(error?.config?.data);
     logger({
       origin: window.location.origin,
+      section: 'Axios Retry Try',
       account: data?.Email || data?.Username,
       signupOrigin: data?.Origin,
       postUrl: error?.config?.url,
@@ -109,6 +110,7 @@ export function logAxiosRetryError(error: any, logger: any) {
   } catch {
     logger({
       origin: window.location.origin,
+      section: 'Axios Retry Catch',
       postUrl: error?.config?.url,
       browser: window.navigator.userAgent,
       errorMessage: error?.message,
