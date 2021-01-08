@@ -2629,10 +2629,12 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
-"@types/intl-tel-input@^14.0.1":
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/@types/intl-tel-input/-/intl-tel-input-14.0.1.tgz#f38f78b67823e79f31c7630ec7922410ef484119"
-  integrity sha512-1capY11Or9BlC9vqzPBYMVvn0sVSyzPb/dO0RcudX0nOS1WZ2VkhdZupHj7SwsKlcn7/L8xpKg+IlPpayJMcmA==
+"@types/intl-tel-input@^17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@types/intl-tel-input/-/intl-tel-input-17.0.1.tgz#84923c5c32a4b4a8dc259ece4d39dc90166689b7"
+  integrity sha512-aqs7qd+0ommXfxxlR/Z0WawesXfIWCQy5nwPEqaLyT/oLAFrZlbFIDQYBeaGXliIiC3W/hDfyXExtzBItuMZdw==
+  dependencies:
+    "@types/jquery" "*"
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.1"
@@ -2668,6 +2670,13 @@
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
+
+"@types/jquery@*":
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.5.tgz#2c63f47c9c8d96693d272f5453602afd8338c903"
+  integrity sha512-6RXU9Xzpc6vxNrS6FPPapN1SxSHgQ336WC6Jj/N8q30OiaBZ00l1GBgeP7usjVZPivSkGUfL1z/WW6TX989M+w==
+  dependencies:
+    "@types/sizzle" "*"
 
 "@types/json-schema@^7.0.3":
   version "7.0.3"
@@ -2783,6 +2792,11 @@
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
+
+"@types/sizzle@*":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
+  integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
