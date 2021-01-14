@@ -59,6 +59,8 @@ export default {
   change_plan: {
     all_of_plan: `Everything from {plan} plus:`,
     ask_demo: 'Ask for a demo',
+    banner_exclusive_features_description: 'Amplify your email program with the additional support of our team.',
+    banner_exclusive_features_title: 'Exclusive Features',
     big_data_tooltip: 'Big Data feature',
     calculate_price: 'Calculate Price',
     card_agencies_description: 'Manage all your clients all in one spot.',
@@ -94,6 +96,7 @@ export default {
     increase_action_monthly_deliveries: 'Increase Deliveries',
     increase_action_prepaid: 'Buy Credits',
     increase_action_subscribers: 'Increase Contacts',
+    link_exclusive_features: 'Learn more',
     new_label: 'New',
     per_month: 'per month',
     recommended: 'Recommended',

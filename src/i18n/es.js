@@ -59,6 +59,8 @@ export default {
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,
     ask_demo: 'Solicita una demo',
+    banner_exclusive_features_description: 'Amplifica tu programa de envío de mails con el apoyo adicional de nuestro Equipo.',
+    banner_exclusive_features_title: 'Características exclusivas',
     big_data_tooltip: 'Funcionalidad Big Data',
     calculate_price: 'Calcular Precio',
     card_agencies_description: 'Gestiona y monitorea las cuentas de tus clientes desde un solo lugar.',
@@ -94,6 +96,7 @@ export default {
     increase_action_monthly_deliveries: 'Aumentar Envíos',
     increase_action_prepaid: 'Comprar Créditos',
     increase_action_subscribers: 'Aumentar Contactos',
+    link_exclusive_features: 'Conocer más',
     new_label: 'Nuevo',
     per_month: 'por mes',
     recommended: 'Recomendado',

@@ -8,6 +8,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { Link } from 'react-router-dom';
 import Collapse from '@kunukn/react-collapse';
+import * as S from './ChangePlan.styles';
 
 const BulletOptions = ({ type }) => {
   const intl = useIntl();
@@ -293,6 +294,22 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                 {_('change_plan.compare_features')}
               </button>
             </div>
+            <S.Banner className="col-sm-12">
+              <div>
+                <S.ImgEnterprise
+                  alt="enterprise icon"
+                  src={_('common.ui_library_image', { imageUrl: 'asset-enterprise.svg' })}
+                />
+                <h2>{_('change_plan.banner_exclusive_features_title')}</h2>
+                <p>{_('change_plan.banner_exclusive_features_description')}</p>
+              </div>
+              <Link
+                className="dp-button button-medium secondary-green button--round"
+                to="/email-marketing-exclusive"
+              >
+                {_('change_plan.link_exclusive_features')}
+              </Link>
+            </S.Banner>
           </section>
         </div>
       )}
