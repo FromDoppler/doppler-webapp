@@ -13,7 +13,6 @@ import {
   RequestAgenciesDemoModel,
   RequestAgenciesDemoResult,
   RequestExclusiveFeaturesDemoResult,
-  RequestExclusiveFeaturesDemoModel,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -261,7 +260,8 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     console.log(this.registerUser, model);
     await timeout(1500);
     return { success: true };
-    //return { expectedError: { registerDenied: true } };
+    // return { expectedError: { registerDenied: true } };
+    // return {expectedError: {invalidDomain: true } };
   }
 
   public async resendRegistrationEmail(model: ResendRegistrationModel) {

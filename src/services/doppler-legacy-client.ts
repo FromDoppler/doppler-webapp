@@ -178,9 +178,30 @@ function removeErrorCodeFromExceptionMessage(errorCode: string, message: string)
 /* #region Registration data types */
 
 type UserRegistrationErrorResult =
-  | { emailAlreadyExists: true; blockedDomain?: false; registerDenied?: false }
-  | { emailAlreadyExists?: false; blockedDomain: true; registerDenied?: false }
-  | { emailAlreadyExists?: false; blockedDomain?: false; registerDenied: true };
+  | {
+      emailAlreadyExists: true;
+      blockedDomain?: false;
+      registerDenied?: false;
+      invalidDomain?: false;
+    }
+  | {
+      emailAlreadyExists?: false;
+      blockedDomain: true;
+      registerDenied?: false;
+      invalidDomain?: false;
+    }
+  | {
+      emailAlreadyExists?: false;
+      blockedDomain?: false;
+      registerDenied: true;
+      invalidDomain?: false;
+    }
+  | {
+      emailAlreadyExists?: false;
+      blockedDomain?: false;
+      registerDenied?: false;
+      invalidDomain: true;
+    };
 
 export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
@@ -668,6 +689,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           }
           case 'RegisterDenied': {
             return { expectedError: { registerDenied: true } };
+          }
+          case 'InvalidDomain': {
+            return { expectedError: { invalidDomain: true } };
           }
           default: {
             return {

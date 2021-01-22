@@ -549,6 +549,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
+    error_invalid_domain: `¡Ouch! Algo salió mal. Por favor revisa que tu Email sea correcto o intenta con otro.`,
     error_invalid_domain_to_register_account: `¡Ouch! Email inválido para crear una cuenta.`,
     error_invalid_email_address: `¡Ouch! El formato del Email es incorrecto`,
     error_invalid_login: `¡Ouch! Hay un error en tu Usuario o Contraseña. Vuelve a intentarlo.`,
