@@ -9,7 +9,6 @@ const HeaderUserMenu = ({ user }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const toggleModal = (isOpen) => setBuyModalIsOpen(isOpen);
-  const smsBalanceStyle = user.sms.remainingCredits < 0 ? 'dp-color-red' : '';
   const numberFormatOptions = {
     style: 'decimal',
     minimumFractionDigits: 2,

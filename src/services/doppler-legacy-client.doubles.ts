@@ -13,7 +13,6 @@ import {
   RequestAgenciesDemoModel,
   RequestAgenciesDemoResult,
   RequestExclusiveFeaturesDemoResult,
-  RequestExclusiveFeaturesDemoModel,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
