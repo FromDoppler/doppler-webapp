@@ -100,9 +100,10 @@ const _FormWithCaptcha = ({
     // If challenge window is closed, we do not have feedback, so, by the moment,
     // we will keep the submit button disabled.
     // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
-    formikProps.setSubmitting(false);
+    const captchaDelay = 100;
+    setTimeout(() => formikProps.setSubmitting(false), captchaDelay);
     const result = await verifyCaptcha();
-    formikProps.setSubmitting(true);
+    setTimeout(() => formikProps.setSubmitting(true), captchaDelay);
     if (result.success) {
       await originalOnSubmit(
         { ...values, captchaResponseToken: result.captchaResponseToken },
@@ -120,7 +121,7 @@ const _FormWithCaptcha = ({
       formikProps.setErrors({
         _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
       });
-      formikProps.setSubmitting(false);
+      setTimeout(() => formikProps.setSubmitting(false), captchaDelay);
     }
   };
 
