@@ -118,40 +118,41 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, origin
   };
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
-    try {
-      var redirectUrl = extractRedirect(location);
-      const result = await dopplerLegacyClient.registerUser({
-        ...values,
-        language: intl.locale,
-        firstOrigin: originResolver.getFirstOrigin(),
-        origin: originResolver.getCurrentOrigin(),
-        redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
+    var redirectUrl = extractRedirect(location);
+    const result = await dopplerLegacyClient.registerUser({
+      ...values,
+      language: intl.locale,
+      firstOrigin: originResolver.getFirstOrigin(),
+      origin: originResolver.getCurrentOrigin(),
+      redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
+    });
+    if (result.success) {
+      setRegisteredUser(values[fieldNames.email]);
+    } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
+      addExistentEmailAddress(values[fieldNames.email]);
+      validateForm();
+      setSubmitting(false);
+    } else if (result.expectedError && result.expectedError.blockedDomain) {
+      const domain = extractDomain(values[fieldNames.email]);
+      addBlockedDomain(domain);
+      validateForm();
+      setSubmitting(false);
+    } else if (result.expectedError && result.expectedError.registerDenied) {
+      setErrors({ _error: 'validation_messages.error_register_denied' });
+      setSubmitting(false);
+    } else if (result.expectedError && result.expectedError.invalidDomain) {
+      setErrors({ _error: 'validation_messages.error_invalid_domain' });
+      setSubmitting(false);
+    } else {
+      console.log('Unexpected error', result);
+      setErrors({
+        _error: (
+          <FormattedMessageMarkdown
+            id="validation_messages.error_unexpected_register_MD"
+            linkTarget={'_blank'}
+          />
+        ),
       });
-      if (result.success) {
-        setRegisteredUser(values[fieldNames.email]);
-      } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
-        addExistentEmailAddress(values[fieldNames.email]);
-        validateForm();
-      } else if (result.expectedError && result.expectedError.blockedDomain) {
-        const domain = extractDomain(values[fieldNames.email]);
-        addBlockedDomain(domain);
-        validateForm();
-      } else if (result.expectedError && result.expectedError.registerDenied) {
-        setErrors({ _error: 'validation_messages.error_register_denied' });
-      } else if (result.expectedError && result.expectedError.invalidDomain) {
-        setErrors({ _error: 'validation_messages.error_invalid_domain' });
-      } else {
-        console.log('Unexpected error', result);
-        setErrors({
-          _error: (
-            <FormattedMessageMarkdown
-              id="validation_messages.error_unexpected_register_MD"
-              linkTarget={'_blank'}
-            />
-          ),
-        });
-      }
-    } finally {
       setSubmitting(false);
     }
   };

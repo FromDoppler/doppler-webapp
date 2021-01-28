@@ -43,6 +43,7 @@ describe('AgenciesForm component', () => {
       </DopplerIntlProvider>
     </AppServicesProvider>
   );
+  jest.useFakeTimers();
 
   it('should show success message if submit succesfully', async () => {
     // Arrange

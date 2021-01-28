@@ -119,9 +119,9 @@ const Reports = ({ dependencies: { datahubClient } }) => {
             <section className="dp-container">
               {!state.domainSelected.verified_date ? (
                 <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
-                  <p>
+                  <span>
                     <FormattedMessageMarkdown id="reports_filters.domain_not_verified_MD" />
-                  </p>
+                  </span>
                 </BoxMessage>
               ) : null}
               <div className="dp-rowflex">
