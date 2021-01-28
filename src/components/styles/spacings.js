@@ -1,5 +1,5 @@
 /* Spacings for margenes and paddings */
-export default {
+export const spacings = {
   spacesLvl0: '0',
   spacesLvl1: '6px',
   spacesLvl2: '12px',

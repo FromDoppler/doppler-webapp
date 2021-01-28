@@ -33,7 +33,7 @@ const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
 
-export default {
+const messages_en = {
   agencies: {
     breadcrumb: 'Plans',
     breadcrumb_url: `${urlBuyMonthly}`,
@@ -569,3 +569,5 @@ deletion, security, cross-border data transfers and other issues.
     error_unexpected_register_MD: `Ouch! Something went wrong. Please try again later or [contact our Support team](${mailtoSupport}).`,
   },
 };
+
+export default messages_en;

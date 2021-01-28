@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../styles/colors';
+import { colors } from '../styles/colors';
 import { bouncedIn } from '../styles/animations';
 
 export const MessageSuccess = styled.div`

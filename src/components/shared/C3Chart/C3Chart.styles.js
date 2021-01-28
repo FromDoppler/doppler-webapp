@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import colors from '../../styles/colors';
-import spacings from '../../styles/spacings';
+import { colors } from '../../styles/colors';
+import { spacings } from '../../styles/spacings';
 
 export const C3ChartStyled = styled.div`
   margin: ${spacings.spacesLvl0} ${spacings.spacesLvl4} ${spacings.spacesLvl6};

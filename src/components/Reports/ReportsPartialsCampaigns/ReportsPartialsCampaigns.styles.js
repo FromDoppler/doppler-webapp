@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import colors from '../../styles/colors';
-import spacings from '../../styles/spacings';
-import fonts from '../../styles/fonts';
+import { colors } from '../../styles/colors';
+import { spacings } from '../../styles/spacings';
+import { fonts } from '../../styles/fonts';
 
 export const MainReportBox = styled.div`
   margin-bottom: ${spacings.spacesLvl6};

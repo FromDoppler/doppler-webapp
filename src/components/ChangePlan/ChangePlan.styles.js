@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
-import spacings from '../styles/spacings';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
+import { spacings } from '../styles/spacings';
 
 export const Banner = styled.div`
   border: 2px solid ${colors.faintGrey};

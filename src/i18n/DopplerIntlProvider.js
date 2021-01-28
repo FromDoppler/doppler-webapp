@@ -9,7 +9,7 @@ const messages = {
   en: messages_en,
 };
 
-export default ({ locale, children }) => {
+const DopplerIntlProvider = ({ locale, children }) => {
   const sanitizedLocale = availableLanguageOrDefault(locale);
   return (
     <IntlProvider
@@ -21,3 +21,5 @@ export default ({ locale, children }) => {
     </IntlProvider>
   );
 };
+
+export default DopplerIntlProvider;
