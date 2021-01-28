@@ -177,6 +177,8 @@ export function isWhitelisted(url: string) {
     'https://prod.doppleracademy.com/',
     'https://doppleracademy.com/',
     'http://doppleracademy.com/',
+    'https://academyqa.fromdoppler.com/',
+    'https://qa.doppleracademy.com',
     'https://app2.bancoprovinciamail.com.ar/',
     'https://app2.fromdoppler.com/',
     'http://localhost:',
@@ -185,7 +187,6 @@ export function isWhitelisted(url: string) {
     'https://localhost/',
     'https://appint.fromdoppler.com/',
     'https://appqa.fromdoppler.com/',
-    'https://qa.doppleracademy.com',
     'https://goemms.com/',
     'http://goemms.com/',
   ];
