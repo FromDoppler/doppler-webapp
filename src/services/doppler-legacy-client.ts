@@ -547,19 +547,22 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     this.window = window;
     const configRetryCount = 3;
 
-    axiosRetry(this.axios, {
-      retries: configRetryCount,
-      shouldResetTimeout: true,
-      retryCondition: (error) => {
-        return this.isEnabledForRetry(error);
-      },
-      retryDelay: (retryCount: any, error: any) => {
-        if (retryCount === configRetryCount) {
-          logAxiosRetryError(error, addLogEntry);
-        }
-        return retryCount * 700;
-      },
-    });
+    if (!!this.axios) {
+      // TODO: fix this for AppCompositionRootTest in a better way: this allows to continue when axios is undefined
+      axiosRetry(this.axios, {
+        retries: configRetryCount,
+        shouldResetTimeout: true,
+        retryCondition: (error) => {
+          return this.isEnabledForRetry(error);
+        },
+        retryDelay: (retryCount: any, error: any) => {
+          if (retryCount === configRetryCount) {
+            logAxiosRetryError(error, addLogEntry, window);
+          }
+          return retryCount * 700;
+        },
+      });
+    }
   }
 
   public async getUserData() {
