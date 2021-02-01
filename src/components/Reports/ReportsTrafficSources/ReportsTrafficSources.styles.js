@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
-import colors from '../../styles/colors';
-import spacings from '../../styles/spacings';
-import fonts from '../../styles/fonts';
+import { colors } from '../../styles/colors';
+import { spacings } from '../../styles/spacings';
+import { fonts } from '../../styles/fonts';
 
 const slowGrowing = keyframes`
   0% {

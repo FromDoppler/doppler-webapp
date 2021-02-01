@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import spacings from '../styles/spacings';
+import { spacings } from '../styles/spacings';
 
 export const BoxMessage = styled.div`
   margin: ${spacings.spacesLvl5};

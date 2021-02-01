@@ -391,11 +391,18 @@ describe('utils', () => {
   });
 
   describe('logAxiosRetryError', () => {
-    let logEntry;
-    const addLogEntry = jest.fn().mockImplementation((obj) => (logEntry = obj));
-
     it('should log error correctly for signup', () => {
       // Arrange
+      let logEntry;
+      const addLogEntry = jest.fn().mockImplementation((obj) => (logEntry = obj));
+      const fakeWindow = {
+        navigator: {
+          userAgent: 'some',
+        },
+        location: {
+          origin: 'localhost',
+        },
+      };
       const axiosError = {
         config: {
           data: `{"Email":"somemail@mail.com","Origin":"academy/cursos"}`,
@@ -405,7 +412,7 @@ describe('utils', () => {
       };
 
       // Act
-      logAxiosRetryError(axiosError, addLogEntry);
+      logAxiosRetryError(axiosError, addLogEntry, fakeWindow);
 
       // Assert
       expect(logEntry.origin).not.toBe(undefined);
@@ -415,6 +422,16 @@ describe('utils', () => {
 
     it('should log error correctly for login', () => {
       // Arrange
+      let logEntry;
+      const addLogEntry = jest.fn().mockImplementation((obj) => (logEntry = obj));
+      const fakeWindow = {
+        navigator: {
+          userAgent: 'some',
+        },
+        location: {
+          origin: 'localhost',
+        },
+      };
       const axiosError = {
         config: {
           data: `{"Username":"somemail@mail.com"}`,
@@ -424,7 +441,7 @@ describe('utils', () => {
       };
 
       // Act
-      logAxiosRetryError(axiosError, addLogEntry);
+      logAxiosRetryError(axiosError, addLogEntry, fakeWindow);
 
       // Assert
       expect(logEntry.account).not.toBe(undefined);
@@ -433,6 +450,16 @@ describe('utils', () => {
 
     it('should not break if parameters are missing', () => {
       // Arrange
+      let logEntry;
+      const addLogEntry = jest.fn().mockImplementation((obj) => (logEntry = obj));
+      const fakeWindow = {
+        navigator: {
+          userAgent: 'some',
+        },
+        location: {
+          origin: 'localhost',
+        },
+      };
       const axiosError = {
         config: {
           data: `{"other":"otherData"}`,
@@ -441,7 +468,7 @@ describe('utils', () => {
       };
 
       // Act
-      logAxiosRetryError(axiosError, addLogEntry);
+      logAxiosRetryError(axiosError, addLogEntry, fakeWindow);
 
       // Assert
       expect(logEntry.account).toBe(undefined);
@@ -450,10 +477,20 @@ describe('utils', () => {
 
     it('should not break if error is empty', () => {
       // Arrange
+      let logEntry;
+      const addLogEntry = jest.fn().mockImplementation((obj) => (logEntry = obj));
+      const fakeWindow = {
+        navigator: {
+          userAgent: 'some',
+        },
+        location: {
+          origin: 'localhost',
+        },
+      };
       const axiosError = { config: {}, message: 'Unexpected' };
 
       // Act
-      logAxiosRetryError(axiosError, addLogEntry);
+      logAxiosRetryError(axiosError, addLogEntry, fakeWindow);
 
       // Assert
       expect(logEntry.account).toBe(undefined);

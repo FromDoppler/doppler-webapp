@@ -33,7 +33,7 @@ const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
 
-export default {
+const messages_es = {
   agencies: {
     breadcrumb: 'Planes',
     breadcrumb_url: `${urlBuyMonthly}`,
@@ -570,3 +570,5 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     error_unexpected_register_MD: `¡Ouch! Algo salió mal. Por favor, vuelve a intentarlo más tarde o [contacta a nuestro equipo de Soporte](${mailtoSupport}).`,
   },
 };
+
+export default messages_es;

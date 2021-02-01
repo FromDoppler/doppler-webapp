@@ -1,5 +1,5 @@
 /* Font Sizes */
-export default {
+export const fonts = {
   fontStrong: 'bold',
   fontLvl0: '10px',
   fontLvl1: '11px',

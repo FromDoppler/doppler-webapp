@@ -627,6 +627,7 @@ describe('App component', () => {
   });
 
   describe('origin parameter', () => {
+    // TODO: fix this tests console warning
     it('should be stored in the local storage', async () => {
       // Arrange
       const dependencies = {
@@ -658,6 +659,7 @@ describe('App component', () => {
       });
     });
 
+    // TODO: fix this tests console warning
     it('should not be replaced in local storage if it already exists', async () => {
       // Arrange
       const dependencies = {
@@ -686,6 +688,7 @@ describe('App component', () => {
       });
     });
 
+    // TODO: fix this tests console warning
     it('should not be cleaned in local storage when there is not origin URL parameter', async () => {
       // Arrange
       const dependencies = {
@@ -714,6 +717,7 @@ describe('App component', () => {
       });
     });
 
+    // TODO: fix this tests console warning
     it('should not be set in local storage when there is not origin URL parameter', async () => {
       // Arrange
       const dependencies = {
@@ -738,6 +742,7 @@ describe('App component', () => {
   });
 
   describe('google adwords', () => {
+    // TODO: fix this tests console warning
     it('should be called when query string contains activationInProgress%20=%20true', async () => {
       // Arrange
       const dependencies = {
@@ -826,6 +831,7 @@ describe('App component', () => {
       await waitFor(() => expect(dependencies.window.gtag).not.toBeCalled());
     });
 
+    // TODO: fix this tests console warning
     it('should not be called when query string activationInProgress has no value.', async () => {
       // Arrange
       const dependencies = {

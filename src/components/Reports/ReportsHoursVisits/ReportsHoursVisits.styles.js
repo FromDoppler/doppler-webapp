@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import colors from '../../styles/colors';
-import spacings from '../../styles/spacings';
-import fonts from '../../styles/fonts';
+import { colors } from '../../styles/colors';
+import { spacings } from '../../styles/spacings';
+import { fonts } from '../../styles/fonts';
 
 export const WrapperBoxContainer = styled.div`
   .reports-box {

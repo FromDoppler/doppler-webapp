@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import fonts from '../styles/fonts';
+import { fonts } from '../styles/fonts';
 
 export const MainPanel = styled.article`
   .label--policy p {

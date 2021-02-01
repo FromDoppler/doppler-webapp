@@ -1,5 +1,5 @@
 /* Colors */
-export default {
+export const colors = {
   softGrey: '#cccccc',
   lightGrey: '#666666',
   darkGrey: '#333333',

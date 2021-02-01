@@ -95,7 +95,7 @@ export function addLogEntry(data: any) {
   window._LTracker.push(data);
 }
 
-export function logAxiosRetryError(error: any, logger: any) {
+export function logAxiosRetryError(error: any, logger: any, window: any) {
   try {
     const data = JSON.parse(error?.config?.data);
     logger({
