@@ -2,6 +2,7 @@ import { DopplerLegacyClient } from './doppler-legacy-client';
 import { AppSession } from './app-session';
 import { MutableRefObject } from 'react';
 import { ManualStatusClient } from './manual-status-client';
+import { addLogEntry } from '../utils';
 
 const noop = () => {};
 
@@ -80,6 +81,15 @@ export class OnlineSessionManager implements SessionManager {
         } as AppSession, // Cast required because TS cannot resolve datahubCustomerId complexity
       );
     } catch (error) {
+      if (error.code === 'ECONNABORTED') {
+        addLogEntry({
+          account: 'none',
+          origin: window.location.origin,
+          section: 'Login/GetUserData',
+          browser: window.navigator.userAgent,
+          message: 'Connection timed out',
+        });
+      }
       if (this.appStatusOverrideEnabled) {
         const manualStatusData = await this.manualStatusClient.getStatusData();
         if (manualStatusData.offline) {
