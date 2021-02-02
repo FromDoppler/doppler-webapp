@@ -83,7 +83,10 @@ export class OnlineSessionManager implements SessionManager {
     } catch (error) {
       if (error.code === 'ECONNABORTED') {
         addLogEntry({
-          account: 'none',
+          account:
+            this.appSessionRef.current?.status === 'authenticated'
+              ? this.appSessionRef.current.userData.user.email
+              : 'none',
           origin: window.location.origin,
           section: 'Login/GetUserData',
           browser: window.navigator.userAgent,
