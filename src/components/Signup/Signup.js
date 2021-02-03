@@ -140,7 +140,10 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, origin
     } else if (result.expectedError && result.expectedError.registerDenied) {
       setErrors({ _error: 'validation_messages.error_register_denied' });
       setSubmitting(false);
-    } else if (result.expectedError && result.expectedError.invalidDomain) {
+    } else if (
+      result.expectedError &&
+      (result.expectedError.invalidDomain || result.expectedError.confirmationSendFail)
+    ) {
       setErrors({ _error: 'validation_messages.error_invalid_domain' });
       setSubmitting(false);
     } else {
