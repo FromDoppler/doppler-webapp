@@ -183,24 +183,35 @@ type UserRegistrationErrorResult =
       blockedDomain?: false;
       registerDenied?: false;
       invalidDomain?: false;
+      confirmationSendFail?: false;
     }
   | {
       emailAlreadyExists?: false;
       blockedDomain: true;
       registerDenied?: false;
       invalidDomain?: false;
+      confirmationSendFail?: false;
     }
   | {
       emailAlreadyExists?: false;
       blockedDomain?: false;
       registerDenied: true;
       invalidDomain?: false;
+      confirmationSendFail?: false;
     }
   | {
       emailAlreadyExists?: false;
       blockedDomain?: false;
       registerDenied?: false;
       invalidDomain: true;
+      confirmationSendFail?: false;
+    }
+  | {
+      emailAlreadyExists?: false;
+      blockedDomain?: false;
+      registerDenied?: false;
+      invalidDomain?: false;
+      confirmationSendFail?: true;
     };
 
 export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
@@ -692,6 +703,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           }
           case 'RegisterDenied': {
             return { expectedError: { registerDenied: true } };
+          }
+          case 'General_DomainEmailIsInvalidToCreateAccount': {
+            return { expectedError: { confirmationSendFail: true } };
           }
           case 'InvalidDomain': {
             return { expectedError: { invalidDomain: true } };
