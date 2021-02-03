@@ -417,7 +417,7 @@ describe('utils', () => {
       // Assert
       expect(logEntry.origin).not.toBe(undefined);
       expect(logEntry.account).not.toBe(undefined);
-      expect(logEntry.errorMessage).not.toBe(undefined);
+      expect(logEntry.message).not.toBe(undefined);
     });
 
     it('should log error correctly for login', () => {
@@ -445,7 +445,7 @@ describe('utils', () => {
 
       // Assert
       expect(logEntry.account).not.toBe(undefined);
-      expect(logEntry.errorMessage).not.toBe(undefined);
+      expect(logEntry.message).not.toBe(undefined);
     });
 
     it('should not break if parameters are missing', () => {
@@ -472,7 +472,7 @@ describe('utils', () => {
 
       // Assert
       expect(logEntry.account).toBe(undefined);
-      expect(logEntry.errorMessage).not.toBe(undefined);
+      expect(logEntry.message).not.toBe(undefined);
     });
 
     it('should not break if error is empty', () => {
@@ -494,7 +494,7 @@ describe('utils', () => {
 
       // Assert
       expect(logEntry.account).toBe(undefined);
-      expect(logEntry.errorMessage).not.toBe(undefined);
+      expect(logEntry.message).not.toBe(undefined);
     });
   });
 });

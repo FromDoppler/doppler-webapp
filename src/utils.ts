@@ -105,7 +105,7 @@ export function logAxiosRetryError(error: any, logger: any, window: any) {
       signupOrigin: data?.Origin,
       postUrl: error?.config?.url,
       browser: window.navigator.userAgent,
-      errorMessage: error?.message,
+      message: error?.message,
     });
   } catch {
     logger({
@@ -113,7 +113,7 @@ export function logAxiosRetryError(error: any, logger: any, window: any) {
       section: 'Axios Retry Catch',
       postUrl: error?.config?.url,
       browser: window.navigator.userAgent,
-      errorMessage: error?.message,
+      message: error?.message,
       data: error?.config?.data,
     });
   }
