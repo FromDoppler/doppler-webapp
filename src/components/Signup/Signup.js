@@ -19,7 +19,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
-import { extractParameter, isWhitelisted } from './../../utils';
+import { extractParameter, isWhitelisted, addLogEntry } from './../../utils';
 import * as S from './Signup.styles';
 
 const fieldNames = {
@@ -140,12 +140,19 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, origin
     } else if (result.expectedError && result.expectedError.registerDenied) {
       setErrors({ _error: 'validation_messages.error_register_denied' });
       setSubmitting(false);
-    } else if (
-      result.expectedError &&
-      (result.expectedError.invalidDomain || result.expectedError.confirmationSendFail)
-    ) {
+    } else if (result.expectedError && result.expectedError.invalidDomain) {
       setErrors({ _error: 'validation_messages.error_invalid_domain' });
       setSubmitting(false);
+    } else if (result.expectedError && result.expectedError.confirmationSendFail) {
+      setErrors({ _error: 'validation_messages.error_invalid_domain' });
+      setSubmitting(false);
+      addLogEntry({
+        account: values[fieldNames.email],
+        origin: window.location.origin,
+        section: 'Signup',
+        browser: window.navigator.userAgent,
+        message: 'Confirmation email send failed',
+      });
     } else {
       console.log('Unexpected error', result);
       setErrors({
