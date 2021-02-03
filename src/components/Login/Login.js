@@ -235,6 +235,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
           origin: window.location.origin,
           section: 'Login',
           browser: window.navigator.userAgent,
+          message: 'WrongCaptcha',
           error: result,
         });
         console.log('invalid captcha', result);
