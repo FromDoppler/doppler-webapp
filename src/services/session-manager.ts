@@ -82,16 +82,19 @@ export class OnlineSessionManager implements SessionManager {
       );
     } catch (error) {
       if (error.code === 'ECONNABORTED') {
-        addLogEntry({
-          account:
-            this.appSessionRef.current?.status === 'authenticated'
-              ? this.appSessionRef.current.userData.user.email
-              : 'none',
-          origin: window.location.origin,
-          section: 'Login/GetUserData',
-          browser: window.navigator.userAgent,
-          message: 'Connection timed out',
-        });
+        const account =
+          this.appSessionRef.current?.status === 'authenticated'
+            ? this.appSessionRef.current.userData.user.email
+            : 'none';
+        if (account !== 'none') {
+          addLogEntry({
+            account: account,
+            origin: window.location.origin,
+            section: 'Login/GetUserData',
+            browser: window.navigator.userAgent,
+            message: 'Connection timed out',
+          });
+        }
       }
       if (this.appStatusOverrideEnabled) {
         const manualStatusData = await this.manualStatusClient.getStatusData();
