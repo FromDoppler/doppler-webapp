@@ -14,11 +14,12 @@ import {
   CheckboxFieldItem,
 } from '../form-helpers/form-helpers';
 import { useIntl } from 'react-intl';
+import * as S from './ExclusiveForm.styles';
 
 const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const [showMessage, setShowMessage] = useState();
+  const [showMessageBox, setShowMessageBox] = useState();
 
   const featureOptions = [
     {
@@ -128,8 +129,8 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
     }
   };
 
-  const handleChange = () => {
-    setShowMessage(document.getElementById('features7').checked);
+  const handleOthersFeaturesChange = () => {
+    setShowMessageBox(document.getElementById('features7').checked);
   };
 
   return (
@@ -219,11 +220,15 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                       </fieldset>
                     </FieldItem>
                   </FieldGroup>
-                  <div className="dp-wrapper-volume-options" style={{ margin: '30px 0' }}>
+                  <S.RadiosContainer className="dp-wrapper-volume-options" id="checkbox-group">
                     <h4>{_('agencies.label_volume')}</h4>
                     <Field name="volume">
                       {({ field }) => (
-                        <ul className="dp-volume-per-month">
+                        <ul
+                          role="group"
+                          aria-labelledby="checkbox-group"
+                          className="dp-volume-per-month"
+                        >
                           {volumeOptions.map((volumenOption) => (
                             <li key={volumenOption.id}>
                               <div className="dp-volume-option">
@@ -235,6 +240,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                                     {...field}
                                     value={volumenOption.value}
                                     checked={field.value === volumenOption.value}
+                                    required
                                   />
                                   <span>{volumenOption.description}</span>
                                 </label>
@@ -244,7 +250,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                         </ul>
                       )}
                     </Field>
-                  </div>
+                  </S.RadiosContainer>
                   <div className="dp-wrapper-exclusive-features">
                     <h4>{_('exclusive_form.form_features')}</h4>
                     <div className="dp-bg-ghostwhite dp-container">
@@ -269,7 +275,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                                     label={_('exclusive_form.others')}
                                     id="features7"
                                     value={_('exclusive_form.others')}
-                                    onChange={handleChange}
+                                    onChange={handleOthersFeaturesChange}
                                   />
                                 </>
                               </ul>
@@ -293,7 +299,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                             )}
                           </Field>
                         </div>
-                        {showMessage ? (
+                        {showMessageBox ? (
                           <div className="col-sm-12 col-md-8">
                             <Field
                               component="textarea"
