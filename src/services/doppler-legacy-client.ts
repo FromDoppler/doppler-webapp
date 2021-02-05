@@ -58,6 +58,8 @@ export interface RequestExclusiveFeaturesDemoModel {
   phone: string;
   range_time: string;
   features: string;
+  volume: string;
+  message: string;
 }
 
 export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
@@ -840,6 +842,8 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       Phone: model.phone,
       ContactSchedule: model.range_time,
       Features: model.features,
+      SendingVolume: model.volume,
+      Message: model.message,
     });
 
     if (!response.data.success) {

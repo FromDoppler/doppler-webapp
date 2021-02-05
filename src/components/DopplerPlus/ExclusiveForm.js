@@ -14,10 +14,12 @@ import {
   CheckboxFieldItem,
 } from '../form-helpers/form-helpers';
 import { useIntl } from 'react-intl';
+import * as S from './ExclusiveForm.styles';
 
 const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const [showMessageBox, setShowMessageBox] = useState();
 
   const featureOptions = [
     {
@@ -62,7 +64,36 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
     phone: 'phone',
     range_time: 'range_time',
     features: 'features',
+    message: 'message',
   };
+
+  const volumeOptions = [
+    {
+      id: 'lessThan500k',
+      value: 'Menos de 500',
+      description: _('agencies.volume_0'),
+    },
+    {
+      id: 'between500kAnd1m',
+      value: 'Entre 500k y 1m',
+      description: _('agencies.volume_500'),
+    },
+    {
+      id: 'between1mAnd10m',
+      value: 'Entre 1m y 10m',
+      description: _('agencies.volume_1m'),
+    },
+    {
+      id: 'moreThan10m',
+      value: 'Más de 10m',
+      description: _('agencies.volume_10m'),
+    },
+    {
+      id: 'iDoNotKnow',
+      value: 'No lo sé',
+      description: _('agencies.volume_do_not_know'),
+    },
+  ];
 
   const getFormInitialValues = () => {
     const initialValues = Object.keys(fieldNames).reduce(
@@ -75,6 +106,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
 
     initialValues[fieldNames.email] = appSessionRef.current.userData.user.email;
     initialValues[fieldNames.features] = [];
+    initialValues[fieldNames.volume] = '';
 
     return initialValues;
   };
@@ -95,6 +127,10 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleOthersFeaturesChange = () => {
+    setShowMessageBox(document.getElementById('features7').checked);
   };
 
   return (
@@ -184,6 +220,37 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                       </fieldset>
                     </FieldItem>
                   </FieldGroup>
+                  <S.RadiosContainer className="dp-wrapper-volume-options" id="checkbox-group">
+                    <h4>{_('agencies.label_volume')}</h4>
+                    <Field name="volume">
+                      {({ field }) => (
+                        <ul
+                          role="group"
+                          aria-labelledby="checkbox-group"
+                          className="dp-volume-per-month"
+                        >
+                          {volumeOptions.map((volumenOption) => (
+                            <li key={volumenOption.id}>
+                              <div className="dp-volume-option">
+                                <label>
+                                  <input
+                                    id={volumenOption.id}
+                                    type="radio"
+                                    name="volumeAmount"
+                                    {...field}
+                                    value={volumenOption.value}
+                                    checked={field.value === volumenOption.value}
+                                    required
+                                  />
+                                  <span>{volumenOption.description}</span>
+                                </label>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </Field>
+                  </S.RadiosContainer>
                   <div className="dp-wrapper-exclusive-features">
                     <h4>{_('exclusive_form.form_features')}</h4>
                     <div className="dp-bg-ghostwhite dp-container">
@@ -192,15 +259,25 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                           <Field name="features">
                             {({ field }) => (
                               <ul className="dp-exclusive-features-list field-group">
-                                {featureOptions.map((featureOption) => (
+                                <>
+                                  {featureOptions.map((featureOption) => (
+                                    <CheckboxFieldItem
+                                      fieldName={featureOption.name}
+                                      key={featureOption.id}
+                                      label={featureOption.value}
+                                      id={featureOption.id}
+                                      value={featureOption.value}
+                                    />
+                                  ))}
                                   <CheckboxFieldItem
-                                    fieldName={featureOption.name}
-                                    key={featureOption.id}
-                                    label={featureOption.value}
-                                    id={featureOption.id}
-                                    value={featureOption.value}
+                                    fieldName="features"
+                                    key="features7"
+                                    label={_('exclusive_form.others')}
+                                    id="features7"
+                                    value={_('exclusive_form.others')}
+                                    onChange={handleOthersFeaturesChange}
                                   />
-                                ))}
+                                </>
                               </ul>
                             )}
                           </Field>
@@ -222,6 +299,16 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                             )}
                           </Field>
                         </div>
+                        {showMessageBox ? (
+                          <div className="col-sm-12 col-md-8">
+                            <Field
+                              component="textarea"
+                              name={fieldNames.message}
+                              id={fieldNames.message}
+                              placeholder={_('exclusive_form.message')}
+                            />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
