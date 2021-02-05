@@ -81,20 +81,29 @@ export class OnlineSessionManager implements SessionManager {
         } as AppSession, // Cast required because TS cannot resolve datahubCustomerId complexity
       );
     } catch (error) {
-      if (error.code === 'ECONNABORTED') {
-        const account =
-          this.appSessionRef.current?.status === 'authenticated'
-            ? this.appSessionRef.current.userData.user.email
-            : 'none';
+      const account =
+        this.appSessionRef.current?.status === 'authenticated'
+          ? this.appSessionRef.current.userData.user.email
+          : 'none';
+      if (error.code === 'ECONNABORTED' && account !== 'none') {
+        addLogEntry({
+          account: account,
+          origin: window.location.origin,
+          section: 'Login/GetUserData',
+          browser: window.navigator.userAgent,
+          message: 'Connection timed out',
+        });
+      } else {
         if (account !== 'none') {
           addLogEntry({
             account: account,
             origin: window.location.origin,
             section: 'Login/GetUserData',
             browser: window.navigator.userAgent,
-            message: 'Connection timed out',
+            message: error?.message,
           });
         }
+        this.updateSession({ status: 'non-authenticated' });
       }
       if (this.appStatusOverrideEnabled) {
         const manualStatusData = await this.manualStatusClient.getStatusData();
@@ -103,7 +112,6 @@ export class OnlineSessionManager implements SessionManager {
           return;
         }
       }
-      this.updateSession({ status: 'non-authenticated' });
     }
   }
 }
