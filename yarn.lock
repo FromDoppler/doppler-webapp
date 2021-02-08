@@ -8624,10 +8624,10 @@ intl-messageformat@9.4.4:
     intl-messageformat-parser "6.2.0"
     tslib "^2.0.1"
 
-intl-tel-input@^17.0.8:
-  version "17.0.8"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.8.tgz#e1b38e27a6c941b713b757ecf7b1f9f345f88c80"
-  integrity sha512-Jf7IdNCSJrWMBbcLQJ8I3nVYnJ5xRODJhPa+0QFcTsg82E332DbMDKnzTBkEID4Q1I7Nf8+96WzmMveadRbxxg==
+intl-tel-input@^17.0.11:
+  version "17.0.11"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.11.tgz#561ec520112bb1a3ceb753130716255f654c8465"
+  integrity sha512-lyXBjNjh0vWUrpNNYpc7/ujiwl6srAdBHjMh7ebOmbMqBqgrRj5YX8NbfCcKdD11dQ6ikNrJm31Go8E6KxnjaQ==
 
 into-stream@^5.0.0:
   version "5.1.0"
