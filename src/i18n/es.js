@@ -550,6 +550,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     error_account_is_canceled_other_reason_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada?`,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
+    error_has_accents: `¡Ouch! El Email no debe contener tildes ni acentos.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
     error_invalid_domain: `¡Ouch! Algo salió mal. Por favor revisa que tu Email sea correcto o intenta con otro.`,
     error_invalid_domain_to_register_account: `¡Ouch! Email inválido para crear una cuenta.`,
