@@ -49,7 +49,7 @@
     "react-test-renderer": "^16.14.0",
     "semantic-release": "^15.14.0",
     "styled-components": "^4.4.1",
-    "stylelint": "^13.9.0",
+    "stylelint": "^13.10.0",
     "typescript": "^3.9.7",
     "url-parse": "^1.4.7"
   },
