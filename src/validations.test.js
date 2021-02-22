@@ -76,7 +76,7 @@ describe('validations', () => {
       expect(result).toBeNull();
     });
 
-    it('should accept an email address with ñ', () => {
+    it('should not accept an email address with ñ', () => {
       // Arrange
       const emailAddress = 'testñ@testñ.com';
 
@@ -84,7 +84,7 @@ describe('validations', () => {
       const result = validateEmail(emailAddress);
 
       // Assert
-      expect(result).toBeNull();
+      expect(result).toEqual('validation_messages.error_has_accents');
     });
 
     it('should not accept an email address with dot (.) before @', () => {
@@ -184,6 +184,39 @@ describe('validations', () => {
 
       // Assert
       expect(result).toEqual('validation_messages.error_invalid_email_address');
+    });
+
+    it('should not accept an email address with accents', () => {
+      // Arrange
+      const emailAddress = 'testé@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_has_accents');
+    });
+
+    it('should not accept an email address with accent in the beginning', () => {
+      // Arrange
+      const emailAddress = 'átest@test.com';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_has_accents');
+    });
+
+    it('should not accept an email address with accent in the end', () => {
+      // Arrange
+      const emailAddress = 'test@test.comó';
+
+      // Act
+      const result = validateEmail(emailAddress);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_has_accents');
     });
 
     it('should return a custom error', () => {
