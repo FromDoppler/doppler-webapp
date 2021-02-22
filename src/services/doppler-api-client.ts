@@ -44,6 +44,26 @@ export interface Subscriber {
   score: number;
 }
 
+export interface FieldHistoryItem {
+  subscriberEmail: string;
+  fieldName: string;
+  fieldType: string;
+  date: Date;
+  originIP: string;
+  value: string;
+  originType: string;
+  // TODO: add some Form related fields
+  // originFormName: string
+  // originFormUrl: string
+}
+
+export interface FieldHistoryPage {
+  items: FieldHistoryItem[];
+  currentPage: number;
+  itemsCount: number;
+  pagesCount: number;
+}
+
 interface CampaignDelivery {
   campaignId: number;
   campaignName: string;
@@ -150,6 +170,18 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       type: x.type,
       permissionHTML: x.permissionHTML,
     }));
+  }
+
+  private mapFieldHistoryItem(item: any): FieldHistoryItem {
+    return {
+      subscriberEmail: item.subscriberEmail,
+      fieldName: item.fieldName,
+      fieldType: item.fieldType,
+      date: new Date(item.date),
+      originIP: item.originIP,
+      value: item.value,
+      originType: item.originType,
+    };
   }
 
   //TODO: Maybe is possible to use the new funtion 'searchLinkByRel' in utils.js.
@@ -454,6 +486,43 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: this.mapSubscriberFields(data.items),
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  // TODO: consider special characters in fieldName
+  // TODO: test it with the real backend
+  // TODO: add pagination (maybe it is not necessary for this stage, with the ten first items we are fine)
+  public async getSubscriberFieldHistory({
+    subscriberEmail,
+    fieldName,
+  }: {
+    subscriberEmail: string;
+    fieldName: string;
+  }): Promise<ResultWithoutExpectedErrors<FieldHistoryPage>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const { data } = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/subscribers/${subscriberEmail}/fields/${fieldName}/history`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      console.log(data);
+      return {
+        success: true,
+        value: {
+          items: data.items.map(this.mapFieldHistoryItem),
+          itemsCount: data.itemsCount,
+          currentPage: data.currentPage,
+          pagesCount: data.pagesCount,
+        },
       };
     } catch (error) {
       return {
