@@ -2,13 +2,37 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Install
+## Testing in each PR
+
+Each time a PR is made CI is run, to see a full detail check [DockerFile](https://github.com/FromDoppler/doppler-webapp/blob/master/Dockerfile.BUILDS_AND_CDN).
+
+As a result a temporal version of the code is published into CDN marked with a build number.
+
+To check the build number in the second check marked in each PR, while hovering in details the version is as marked in the image below.
+
+![PR view](PR-build-number.png "View build version in detail link")
+
+Then a build code link with build number 2962 can be formatted as follows for all enviroments:
+
+- **Production:** <https://cdn.fromdoppler.com/doppler-webapp/build2962/#/login>
+
+- **Integration:** <https://cdn.fromdoppler.com/doppler-webapp/int-build2962/#/login>
+
+- **QA:** <https://cdn.fromdoppler.com/doppler-webapp/qa-build2962/#/login>
+
+- **Demo:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
+Demo is like a local copy hosted into CDN (it uses doubles and no real data).
+
+- **Development:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
+Development is code that points to local Doppler (It is needed to have local Doppler copy running for this to work).
+
+## Available Scripts
+
+### Install
 
 In the project directory, you can run:
 
 `yarn install`
-
-## Available Scripts
 
 In the project directory, you can run:
 
@@ -24,10 +48,6 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### Turn the app offline
-
-To set the app to offline for one environment look for the file related, for example `env.production` and set the variable `REACT_APP_OFFLINE` to true. For now this page is hardcoded in spanish.
 
 ### `yarn build`
 
