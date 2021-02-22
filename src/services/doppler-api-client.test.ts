@@ -52,7 +52,7 @@ describe('HttpDopplerApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
-    expect(result.value.amountSubscribers).not.toBe(undefined);
+    expect(result.success && result.value.amountSubscribers).not.toBe(undefined);
   });
 
   it('should set throw error when list does not exist', async () => {
@@ -124,7 +124,7 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.email).toEqual('test@test.com');
+      expect(result.success && result.value.email).toEqual('test@test.com');
     });
 
     it('should get a subscriber with unsubscribed by hard status', async () => {
@@ -153,7 +153,7 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.status).toEqual('unsubscribed_by_hard');
+      expect(result.success && result.value.status).toEqual('unsubscribed_by_hard');
     });
 
     it('should get a subscriber with unsubscribed by subscriber status', async () => {
@@ -182,7 +182,7 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.status).toEqual('unsubscribed_by_subscriber');
+      expect(result.success && result.value.status).toEqual('unsubscribed_by_subscriber');
     });
 
     it('should get a subscriber with unsubscribed by client status', async () => {
@@ -211,7 +211,7 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.status).toEqual('unsubscribed_by_client');
+      expect(result.success && result.value.status).toEqual('unsubscribed_by_client');
     });
   });
 
@@ -282,9 +282,9 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.pagesCount).toEqual(1);
-      expect(result.value.items[0].campaignId).toEqual(1);
-      expect(result.value.currentPage).toEqual(2);
+      expect(result.success && result.value.pagesCount).toEqual(1);
+      expect(result.success && result.value.items[0].campaignId).toEqual(1);
+      expect(result.success && result.value.currentPage).toEqual(2);
     });
   });
 
@@ -380,8 +380,8 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.pagesCount).toEqual(1);
-      expect(result.value.items[0].email).toEqual('test@fromdoppler.com');
+      expect(result.success && result.value.pagesCount).toEqual(1);
+      expect(result.success && result.value.items[0].email).toEqual('test@fromdoppler.com');
     });
   });
 
@@ -433,8 +433,8 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.totalRecipients).toEqual(500);
-      expect(result.value.campaignStatus).toEqual('shipping');
+      expect(result.success && result.value.totalRecipients).toEqual(500);
+      expect(result.success && result.value.campaignStatus).toEqual('shipping');
     });
   });
 
@@ -473,8 +473,8 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value.name).toEqual('Campaign test');
-      expect(result.value.subject).toEqual('Subject test');
+      expect(result.success && result.value.name).toEqual('Campaign test');
+      expect(result.success && result.value.subject).toEqual('Subject test');
     });
   });
 
@@ -528,7 +528,7 @@ describe('HttpDopplerApiClient', () => {
       expect(request).toBeCalledTimes(1);
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
-      expect(result.value).not.toBe(null);
+      expect(result.success && result.value).not.toBe(null);
     });
   });
 });
