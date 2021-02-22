@@ -5,6 +5,8 @@ import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
 
 const consoleError = console.error;
+const jwtToken = 'jwtToken';
+const accountEmail = 'email@mail.com';
 
 function createHttpDopplerApiClient(axios: any) {
   const axiosStatic = {
@@ -13,8 +15,8 @@ function createHttpDopplerApiClient(axios: any) {
   const connectionDataRef = {
     current: {
       status: 'authenticated',
-      jwtToken: 'jwtToken',
-      userData: { user: { email: 'email@mail.com' } } as DopplerLegacyUserData,
+      jwtToken,
+      userData: { user: { email: accountEmail } } as DopplerLegacyUserData,
     },
   } as RefObject<AppSession>;
   const apiClient = new HttpDopplerApiClient({
@@ -529,6 +531,101 @@ describe('HttpDopplerApiClient', () => {
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
       expect(result.success && result.value).not.toBe(null);
+    });
+  });
+
+  describe('getSubscriberFieldHistory', () => {
+    it('should get an error when the response is not valid', async () => {
+      // Arrange
+      const request = jest.fn(async () => {}); // Invalid response
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriberFieldHistory({
+        subscriberEmail: 'a@a.com',
+        fieldName: 'MiPermiso',
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should call API with the right parameters and parse a successful response', async () => {
+      // Arrange
+      const subscriberEmail = 'a@a.com';
+      const fieldName = 'MiPermiso';
+      const httpResponseBody = {
+        data: {
+          items: [
+            {
+              subscriberEmail,
+              fieldName,
+              fieldType: 'permission',
+              date: '2021-02-10T15:22:00.000Z',
+              value: 'true',
+              originIP: '181.167.226.47',
+              originType: 'Formulario',
+            },
+            {
+              subscriberEmail,
+              fieldName,
+              fieldType: 'permission',
+              date: '2021-02-05T10:11:24.000Z',
+              value: 'true',
+              originIP: '181.167.226.30',
+              originType: 'Formulario',
+            },
+            {
+              subscriberEmail,
+              fieldName,
+              fieldType: 'permission',
+              date: '2021-01-05T01:05:04.123Z',
+              value: 'true',
+              originIP: '181.167.226.20',
+              originType: 'Manual',
+            },
+          ],
+          currentPage: 1,
+          itemsCount: 3,
+          pagesCount: 1,
+          _links: [],
+        },
+      };
+      const request = jest.fn(async () => httpResponseBody);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriberFieldHistory({
+        subscriberEmail,
+        fieldName,
+      });
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith({
+        headers: {
+          Authorization: `token ${jwtToken}`,
+        },
+        method: 'GET',
+        url: `/accounts/${accountEmail}/subscribers/${subscriberEmail}/fields/${fieldName}/history`,
+      });
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.success && result.value).not.toBe(null);
+      expect(result.success && result.value.items).toHaveLength(3);
+      for (var item of (result.success && result.value.items) || []) {
+        expect(item).toMatchObject({
+          date: expect.any(Date),
+          fieldName: expect.any(String),
+          fieldType: expect.any(String),
+          originIP: expect.any(String),
+          originType: expect.any(String),
+          subscriberEmail: expect.any(String),
+          value: expect.any(String),
+        });
+      }
     });
   });
 });
