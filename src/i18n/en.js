@@ -549,6 +549,7 @@ deletion, security, cross-border data transfers and other issues.
     error_account_is_canceled_other_reason_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada?`,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
+    error_has_accents: `Ouch! The Email must not have any accent.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
     error_invalid_domain: `Ouch! Something went wrong. Please check that your Email is correct or try another.`,
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
