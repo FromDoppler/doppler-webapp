@@ -6,6 +6,7 @@ import {
   CampaignSummaryResults,
   CampaignInfo,
   Fields,
+  FieldHistoryPage,
 } from './doppler-api-client';
 import { SubscriberList } from './shopify-client';
 import { ResultWithoutExpectedErrors } from '../doppler-types';
@@ -438,6 +439,54 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     return {
       success: true,
       value: fieldsPermission,
+    };
+  }
+
+  public async getSubscriberFieldHistory({
+    email,
+    fieldName,
+  }: {
+    email: string;
+    fieldName: string;
+  }): Promise<ResultWithoutExpectedErrors<FieldHistoryPage>> {
+    console.log('getSubscriberFieldHistory', email, fieldName);
+    await timeout(1500);
+    return {
+      success: true,
+      value: {
+        items: [
+          {
+            subscriberEmail: email,
+            fieldName: fieldName,
+            fieldType: 'permission',
+            date: new Date('2021-02-10T15:22:00.000Z'),
+            value: 'true',
+            originIP: '181.167.226.47',
+            originType: 'Formulario',
+          },
+          {
+            subscriberEmail: email,
+            fieldName: fieldName,
+            fieldType: 'permission',
+            date: new Date('2021-02-05T10:11:24.000Z'),
+            value: 'true',
+            originIP: '181.167.226.30',
+            originType: 'Formulario',
+          },
+          {
+            subscriberEmail: email,
+            fieldName: fieldName,
+            fieldType: 'permission',
+            date: new Date('2021-01-05T01:05:04.123Z'),
+            value: 'true',
+            originIP: '181.167.226.20',
+            originType: 'Manual',
+          },
+        ],
+        currentPage: 1,
+        itemsCount: 3,
+        pagesCount: 1,
+      },
     };
   }
 }
