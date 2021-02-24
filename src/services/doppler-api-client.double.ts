@@ -442,14 +442,14 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     };
   }
 
-  public async getSubscriberFieldHistory({
+  public async getSubscriberPermissionHistory({
     email,
     fieldName,
   }: {
     email: string;
     fieldName: string;
   }): Promise<ResultWithoutExpectedErrors<FieldHistoryPage>> {
-    console.log('getSubscriberFieldHistory', email, fieldName);
+    console.log('getSubscriberPermissionHistory', email, fieldName);
     await timeout(1500);
     return {
       success: true,
