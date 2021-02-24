@@ -498,7 +498,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
   // TODO: consider special characters in fieldName
   // TODO: test it with the real backend
   // TODO: add pagination (maybe it is not necessary for this stage, with the ten first items we are fine)
-  public async getSubscriberFieldHistory({
+  public async getSubscriberPermissionHistory({
     subscriberEmail,
     fieldName,
   }: {
@@ -510,7 +510,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
 
       const { data } = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${userAccount}/subscribers/${subscriberEmail}/fields/${fieldName}/history`,
+        url: `/accounts/${userAccount}/subscribers/${subscriberEmail}/permissions-history/${fieldName}`,
         headers: { Authorization: `token ${jwtToken}` },
       });
 

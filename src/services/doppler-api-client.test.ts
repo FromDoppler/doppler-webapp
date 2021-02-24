@@ -534,14 +534,14 @@ describe('HttpDopplerApiClient', () => {
     });
   });
 
-  describe('getSubscriberFieldHistory', () => {
+  describe('getSubscriberPermissionHistory', () => {
     it('should get an error when the response is not valid', async () => {
       // Arrange
       const request = jest.fn(async () => {}); // Invalid response
       const dopplerApiClient = createHttpDopplerApiClient({ request });
 
       // Act
-      const result = await dopplerApiClient.getSubscriberFieldHistory({
+      const result = await dopplerApiClient.getSubscriberPermissionHistory({
         subscriberEmail: 'a@a.com',
         fieldName: 'MiPermiso',
       });
@@ -597,7 +597,7 @@ describe('HttpDopplerApiClient', () => {
       const dopplerApiClient = createHttpDopplerApiClient({ request });
 
       // Act
-      const result = await dopplerApiClient.getSubscriberFieldHistory({
+      const result = await dopplerApiClient.getSubscriberPermissionHistory({
         subscriberEmail,
         fieldName,
       });
@@ -609,7 +609,7 @@ describe('HttpDopplerApiClient', () => {
           Authorization: `token ${jwtToken}`,
         },
         method: 'GET',
-        url: `/accounts/${accountEmail}/subscribers/${subscriberEmail}/fields/${fieldName}/history`,
+        url: `/accounts/${accountEmail}/subscribers/${subscriberEmail}/permissions-history/${fieldName}`,
       });
       expect(result).not.toBe(undefined);
       expect(result.success).toBe(true);
