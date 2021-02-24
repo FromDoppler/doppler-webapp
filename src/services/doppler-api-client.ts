@@ -44,7 +44,7 @@ export interface Subscriber {
   score: number;
 }
 
-export interface FieldHistoryItem {
+export interface FieldUpdateEvent {
   subscriberEmail: string;
   fieldName: string;
   fieldType: string;
@@ -58,7 +58,7 @@ export interface FieldHistoryItem {
 }
 
 export interface FieldHistoryPage {
-  items: FieldHistoryItem[];
+  items: FieldUpdateEvent[];
   currentPage: number;
   itemsCount: number;
   pagesCount: number;
@@ -172,7 +172,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     }));
   }
 
-  private mapFieldHistoryItem(item: any): FieldHistoryItem {
+  private mapFieldUpdateEvent(item: any): FieldUpdateEvent {
     return {
       subscriberEmail: item.subscriberEmail,
       fieldName: item.fieldName,
@@ -518,7 +518,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
       return {
         success: true,
         value: {
-          items: data.items.map(this.mapFieldHistoryItem),
+          items: data.items.map(this.mapFieldUpdateEvent),
           itemsCount: data.itemsCount,
           currentPage: data.currentPage,
           pagesCount: data.pagesCount,
