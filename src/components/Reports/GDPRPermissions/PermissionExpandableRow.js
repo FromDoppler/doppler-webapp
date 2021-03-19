@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './SubscriberGdpr.styles';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { InjectAppServices } from '../../../services/pure-di';
 
@@ -8,17 +8,11 @@ const PermissionValue = ({ value }) => {
   const permissionValue = value.toLowerCase();
   const iconColor =
     permissionValue === 'none' ? 'grey' : permissionValue === 'true' ? 'green' : 'red';
-  const valueText =
-    permissionValue === 'none'
-      ? 'Sin respuesta'
-      : permissionValue === 'true'
-      ? 'Aceptado'
-      : 'Rechazado';
 
   return (
     <div className="dp-icon-wrapper">
       <span className={`ms-icon icon-lock dp-lock-${iconColor}`} />
-      {valueText}
+      <FormattedMessage id={`subscriber_gdpr.value_${permissionValue}`} />
     </div>
   );
 };
@@ -31,6 +25,8 @@ const PermissionExpandableRow = ({
   },
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id }, values);
   const isPermissionHistoryEnabled =
     experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
 
@@ -74,16 +70,28 @@ const PermissionExpandableRow = ({
         <tr className={`dp-expanded-table ${expanded && 'show'} dp-table-responsive`}>
           <>
             <td className="dp-latest-results">
-              <span>"Ultimos 10 resultados"</span>
+              <FormattedMessage id="subscriber_gdpr.latest_results" tagName="span" />
             </td>
             <td className="dp-list-results">
               <table className="dp-table-results">
                 <thead>
                   <tr>
-                    <th scope="col">Consentimiento:</th>
-                    <th scope="col">IP origen de modificación:</th>
-                    <th scope="col">Fecha de modificación:</th>
-                    <th scope="col">Formulario de origen:</th>
+                    <th aria-label={_('subscriber_gdpr.consent')} scope="col">
+                      <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />:
+                    </th>
+                    <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
+                      <FormattedMessage
+                        id="subscriber_gdpr.modification_source_ip"
+                        tagName="span"
+                      />
+                      :
+                    </th>
+                    <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
+                      <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />:
+                    </th>
+                    <th aria-label={_('subscriber_gdpr.source_form')} scope="col">
+                      <FormattedMessage id="subscriber_gdpr.source_form" tagName="span" />:
+                    </th>
                   </tr>
                 </thead>
               </table>
