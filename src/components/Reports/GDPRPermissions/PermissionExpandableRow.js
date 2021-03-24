@@ -17,13 +17,7 @@ const PermissionValue = ({ value }) => {
   );
 };
 
-const PermissionExpandableRow = ({
-  field,
-  dependencies: {
-    appConfiguration: { reportsUrl },
-    experimentalFeatures,
-  },
-}) => {
+const PermissionExpandableRow = ({ field, dependencies: { experimentalFeatures } }) => {
   const [expanded, setExpanded] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);

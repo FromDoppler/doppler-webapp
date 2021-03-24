@@ -495,10 +495,6 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     latest_results: 'Últimos 10 resultados',
     modification_date: 'Fecha de modificación',
     modification_source_ip: 'IP origen de modificación',
-    origin_type: {
-      form: 'Formulario',
-      manually: 'Manual',
-    },
     permission_description: 'Texto personalizado',
     permission_name: 'Nombre del campo',
     permission_value: 'Valor',

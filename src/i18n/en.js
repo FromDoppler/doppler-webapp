@@ -494,10 +494,6 @@ deletion, security, cross-border data transfers and other issues.
     latest_results: 'Last 10 results',
     modification_date: 'Modification date',
     modification_source_ip: 'Modification source ip',
-    origin_type: {
-      form: 'Form',
-      manually: 'Manually',
-    },
     permission_description: 'Custom text',
     permission_name: 'Field Name',
     permission_value: 'Value',
