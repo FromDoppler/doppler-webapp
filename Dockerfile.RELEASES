@@ -47,7 +47,7 @@ RUN echo "Files published on http://cdn.fromdoppler.com/doppler-webapp/${environ
 
 
 # Runtime layer (Host project in nginx)
-FROM nginx:1.19.7-alpine
+FROM nginx:1.19.8-alpine
 WORKDIR /app
 ARG environment
 COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
