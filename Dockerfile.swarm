@@ -1,4 +1,4 @@
-FROM node:15.10.0 As restore
+FROM node:15.12.0 As restore
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn

@@ -1,6 +1,6 @@
 ## Build layer
 # When update node ---> remember to update all .sh files
-FROM node:15.10.0 as build
+FROM node:15.12.0 as build
 WORKDIR /app
 COPY package.json yarn.lock ./
 

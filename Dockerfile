@@ -1,7 +1,7 @@
 # IMPORTANT: #
 # Any change to this file should be also applied to Dockerfile.INT and Dockerfile.QA
 # When update node ---> remember to update all .sh files
-FROM node:15.10.0 As build
+FROM node:15.12.0 As build
 WORKDIR /app
 COPY package.json yarn.lock ./
 
