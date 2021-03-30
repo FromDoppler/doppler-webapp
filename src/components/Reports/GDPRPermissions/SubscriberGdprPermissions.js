@@ -87,8 +87,8 @@ const SubscriberGdprPermissions = ({
                       <FormattedMessage id="subscriber_gdpr.empty_data" />
                     </span>
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td />
+                  <td />
                 </tr>
               )}
             </tbody>

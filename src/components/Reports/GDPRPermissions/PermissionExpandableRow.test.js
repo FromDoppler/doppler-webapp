@@ -26,26 +26,6 @@ describe('PermissionExpandableRow component', () => {
     score: 0,
   };
 
-  const subscriberPermission = {
-    email: 'test@test.com',
-    fields: [
-      {
-        name: 'Accept_promotions',
-        value: '<p>Acepta promociones </p>',
-        predefined: true,
-        private: true,
-        readonly: true,
-        type: 'permission',
-      },
-    ],
-    unsubscribedDate: '2019-11-27T18:05:40.847Z',
-    unsubscriptionType: 'hardBounce',
-    manualUnsubscriptionReason: 'administrative',
-    unsubscriptionComment: 'test',
-    status: 'active',
-    score: 0,
-  };
-
   const field = {
     name: 'Permiso2',
     value: 'true',

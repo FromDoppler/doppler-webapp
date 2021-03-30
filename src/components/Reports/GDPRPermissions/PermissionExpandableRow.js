@@ -36,13 +36,13 @@ const PermissionExpandableRow = ({ field, dependencies: { experimentalFeatures }
       <tr>
         <td>
           <span className="dp-name-text">
-            {isPermissionHistoryEnabled && field.value != 'none' && (
+            {isPermissionHistoryEnabled && field.value !== 'none' && (
               <button
                 type="button"
                 onClick={toggleExpanded}
                 className={`dp-expand-results ${expanded && 'dp-open-results'}`}
               >
-                <i className="ms-icon icon-arrow-next"></i>
+                <i className="ms-icon icon-arrow-next" />
               </button>
             )}
             {field.name}
