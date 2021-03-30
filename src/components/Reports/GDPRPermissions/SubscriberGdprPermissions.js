@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
-import * as S from './SubscriberGdpr.styles';
+import PermissionExpandableRow from './PermissionExpandableRow';
 
 const SubscriberGdprPermissions = ({
   subscriber,
@@ -56,7 +56,7 @@ const SubscriberGdprPermissions = ({
           <Loading page />
         ) : (
           <table
-            className="dp-c-table"
+            className="dp-c-table dp-nested-table"
             aria-label={_('subscriber_history.table_result.aria_label_table')}
             summary={_('subscriber_history.table_result.aria_label_table')}
           >
@@ -77,36 +77,7 @@ const SubscriberGdprPermissions = ({
               {state.fields.length ? (
                 <>
                   {state.fields.map((field, index) => (
-                    <tr key={index}>
-                      <td>{field.name}</td>
-                      <td>
-                        {field.permissionHTML ? (
-                          <S.TextColumn
-                            dangerouslySetInnerHTML={{ __html: field.permissionHTML }}
-                          />
-                        ) : (
-                          <FormattedMessage id="subscriber_gdpr.empty_html_text" />
-                        )}
-                      </td>
-                      <td>
-                        {field.value.toLowerCase() === 'none' ? (
-                          <div className="dp-icon-wrapper">
-                            <span className="ms-icon icon-lock dp-lock-grey"></span>
-                            <FormattedMessage id="subscriber_gdpr.value_none" />
-                          </div>
-                        ) : field.value.toLowerCase() === 'true' ? (
-                          <div className="dp-icon-wrapper">
-                            <span className="ms-icon icon-lock dp-lock-green"></span>
-                            <FormattedMessage id="subscriber_gdpr.value_true" />
-                          </div>
-                        ) : (
-                          <div className="dp-icon-wrapper">
-                            <span className="ms-icon icon-lock dp-lock-red"></span>
-                            <FormattedMessage id="subscriber_gdpr.value_false" />
-                          </div>
-                        )}
-                      </td>
-                    </tr>
+                    <PermissionExpandableRow field={field} key={index} />
                   ))}
                 </>
               ) : (
@@ -116,8 +87,8 @@ const SubscriberGdprPermissions = ({
                       <FormattedMessage id="subscriber_gdpr.empty_data" />
                     </span>
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td />
+                  <td />
                 </tr>
               )}
             </tbody>
