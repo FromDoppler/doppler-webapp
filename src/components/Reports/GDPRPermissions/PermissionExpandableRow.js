@@ -54,7 +54,7 @@ const PermissionExpandableRow = ({
     if (expanded) {
       fetchData();
     }
-  }, [expanded,reload]);
+  }, [expanded, reload]);
 
   return (
     <>
@@ -142,22 +142,19 @@ const PermissionExpandableRow = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {permissions.length &&
-                      permissions.map(({ value, originIP, date }, index) => {
-                        return (
-                          <>
-                            <tr>
-                              <td>
-                                <PermissionValue key={index} value={value} />
-                              </td>
-                              <td>{originIP}</td>
-                              <td>
-                                <FormattedDate key={index} value={date} />
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
+                    {permissions.map(({ value, originIP, date }, index) => {
+                      return (
+                        <tr>
+                          <td>
+                            <PermissionValue key={index} value={value} />
+                          </td>
+                          <td>{originIP}</td>
+                          <td>
+                            <FormattedDate key={index} value={date} />
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </td>
