@@ -111,7 +111,17 @@ const PermissionExpandableRow = ({
           ) : unexpectedError ? (
             <td className="dp-unexpected-error-table" colSpan={3}>
               <span>
-                <span className="dp-icon-warning" /> ¡Ouch! Hubo un problema de conexión. <a href="#" onClick={reloadRowData}> Reintenta aquí</a>
+                <span className="dp-icon-warning" />
+                <FormattedMessage
+                  id={'subscriber_gdpr.error_connection_problem'}
+                  values={{
+                    button: (chunk) => (
+                      <button type="button" className="dp-button link-green" onClick={() => setReload(!reload)}>
+                        {chunk}
+                      </button>
+                    ),
+                  }}
+                />
               </span>
             </td>
           ) : (

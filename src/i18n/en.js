@@ -502,6 +502,7 @@ deletion, security, cross-border data transfers and other issues.
     value_false: 'Rejected',
     value_none: 'No response',
     value_true: 'Accepted',
+    error_connection_problem: `Ouch! There was a connection problem. <button>Try again</button>`,
   },
   subscriber_history: {
     alt_image: 'Campaign Preview',
