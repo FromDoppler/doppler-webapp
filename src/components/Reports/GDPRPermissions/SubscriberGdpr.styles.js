@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { fonts } from '../../styles/fonts';
+import { spacings } from '../../styles/spacings';
 
 const TextColumn = styled.span`
   p {
@@ -8,7 +9,7 @@ const TextColumn = styled.span`
 `;
 
 const EmptyBox = styled.div`
-  padding: 48px;
+  padding: ${spacings.spacesLvl8};
   width: 100%;
 `;
 
