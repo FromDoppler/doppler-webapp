@@ -24,12 +24,14 @@ const PermissionExpandableRow = ({
   dependencies: { dopplerApiClient, experimentalFeatures },
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(true);
   const [permissions, setPermissions] = useState([]);
   const [unexpectedError, setUnexpectedError] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
-  const isPermissionHistoryEnabled = experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
+  const isPermissionHistoryEnabled =
+    experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
 
   const fetchData = async () => {
     if (isPermissionHistoryEnabled) {
@@ -52,20 +54,7 @@ const PermissionExpandableRow = ({
     if (expanded) {
       fetchData();
     }
-  }, [expanded]);
-
-  /**
-   * Toggle the expanded state of the row and fetch the permissions if the row is expanded.
-   */
-  const toggleExpanded = (e) => {
-    e.preventDefault();
-    setExpanded(!expanded);
-  };
-
-  /**
-   * Reload the data of the row
-   */
-  const reloadRowData = () => fetchData();
+  }, [expanded,reload]);
 
   return (
     <>
@@ -75,7 +64,7 @@ const PermissionExpandableRow = ({
             {isPermissionHistoryEnabled && (
               <button
                 type="button"
-                onClick={toggleExpanded}
+                onClick={() => setExpanded(!expanded)}
                 className={`dp-expand-results ${expanded && 'dp-open-results'}`}
               >
                 <i className="ms-icon icon-arrow-next" />
@@ -116,7 +105,11 @@ const PermissionExpandableRow = ({
                   id={'subscriber_gdpr.error_connection_problem'}
                   values={{
                     button: (chunk) => (
-                      <button type="button" className="dp-button link-green" onClick={() => setReload(!reload)}>
+                      <button
+                        type="button"
+                        className="dp-button link-green"
+                        onClick={() => setReload(!reload)}
+                      >
                         {chunk}
                       </button>
                     ),
