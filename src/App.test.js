@@ -57,6 +57,12 @@ const dopplerSitesClientDouble = {
   getBannerData: jest.fn(async () => rejectedPromise),
 };
 
+const createJsonParse = () => {
+  JSON.parse = jest.fn().mockImplementationOnce(() => {
+    return [];
+  });
+};
+
 const defaultDependencies = {
   sessionManager: createDoubleSessionManager(),
   dopplerSitesClient: dopplerSitesClientDouble,
@@ -636,6 +642,8 @@ describe('App component', () => {
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
+      createJsonParse();
+
       // Act
       act(() => {
         render(
@@ -653,6 +661,7 @@ describe('App component', () => {
         expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
         expect(localStorageItems['dopplerFirstOrigin.value']).toEqual('testOrigin');
         expect(localStorageItems['dopplerFirstOrigin.date']).toBeDefined();
+        expect(localStorageItems['UtmCookies']).toBeDefined();
         const dopplerOriginDate = new Date(localStorageItems['dopplerFirstOrigin.date']);
         expect(dopplerOriginDate).toBeDefined();
         expect(dopplerOriginDate.getFullYear()).toBeGreaterThan(2018);
