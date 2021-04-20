@@ -36,7 +36,7 @@ const PermissionExpandableRow = ({
       setLoading(true);
       const fieldName = field.name;
       const { success, value } = await dopplerApiClient.getSubscriberPermissionHistory({
-        email,
+        subscriberEmail: email,
         fieldName,
       });
       if (success) {
