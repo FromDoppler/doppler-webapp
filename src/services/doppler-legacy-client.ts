@@ -218,6 +218,14 @@ type UserRegistrationErrorResult =
 
 export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
+interface UTMCookie {
+  date: string;
+  utm_source: string;
+  utm_campaign: string;
+  utm_medium: string;
+  utm_term: string;
+}
+
 export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   firstname: string;
   lastname: string;
@@ -230,6 +238,11 @@ export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   origin: string;
   language: string;
   redirect?: string;
+  utm_source: string;
+  utm_term: string;
+  utm_medium: string;
+  utm_campaign: string;
+  utm_cookies: UTMCookie[];
 }
 
 export interface ResendRegistrationModel extends PayloadWithCaptchaToken {
@@ -693,6 +706,11 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         Language: model.language || 'es',
         RecaptchaUserCode: model.captchaResponseToken,
         Redirect: model.redirect,
+        UTMSource: model.utm_source,
+        UTMMedium: model.utm_medium,
+        UTMCampaign: model.utm_campaign,
+        UTMTerm: model.utm_term,
+        UTMCookies: model.utm_cookies,
       });
 
       if (!response.data.success) {
