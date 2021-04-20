@@ -24,10 +24,8 @@ const PermissionExpandableRow = ({
   dependencies: { dopplerApiClient, experimentalFeatures },
 }) => {
   const [expanded, setExpanded] = useState(false);
-  const [reload, setReload] = useState(false);
   const [loading, setLoading] = useState(true);
   const [permissions, setPermissions] = useState([]);
-  const [unexpectedError, setUnexpectedError] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
   const isPermissionHistoryEnabled =
@@ -44,7 +42,7 @@ const PermissionExpandableRow = ({
       if (success) {
         setPermissions(value.items);
       } else {
-        setUnexpectedError(true);
+        setPermissions([]);
       }
       setLoading(false);
     }
@@ -54,7 +52,7 @@ const PermissionExpandableRow = ({
     if (expanded) {
       fetchData();
     }
-  }, [expanded, reload]);
+  }, [expanded]);
 
   return (
     <>
@@ -97,24 +95,11 @@ const PermissionExpandableRow = ({
               </td>
               <td />
             </>
-          ) : unexpectedError ? (
+          ) : !permissions || permissions.length === 0 ? (
             <td className="dp-unexpected-error-table" colSpan={3}>
               <span>
                 <span className="dp-icon-warning" />
-                <FormattedMessage
-                  id={'subscriber_gdpr.error_connection_problem'}
-                  values={{
-                    button: (chunk) => (
-                      <button
-                        type="button"
-                        className="dp-button link-green"
-                        onClick={() => setReload(!reload)}
-                      >
-                        {chunk}
-                      </button>
-                    ),
-                  }}
-                />
+                <FormattedMessage id={'validation_messages.error_unexpected_MD'} />
               </span>
             </td>
           ) : (

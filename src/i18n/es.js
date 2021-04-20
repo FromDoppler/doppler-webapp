@@ -503,7 +503,6 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     value_false: 'Rechazado',
     value_none: 'Sin respuesta',
     value_true: 'Aceptado',
-    error_connection_problem: `¡Ouch! Hubo un problema de conexión. <button>Reintenta aquí</button>`,
   },
   subscriber_history: {
     alt_image: 'Preview de la Campaña',
