@@ -112,17 +112,16 @@ const PermissionExpandableRow = ({
                   <thead>
                     <tr>
                       <th aria-label={_('subscriber_gdpr.consent')} scope="col">
-                        <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />:
+                        <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />
                       </th>
                       <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
                         <FormattedMessage
                           id="subscriber_gdpr.modification_source_ip"
                           tagName="span"
                         />
-                        :
                       </th>
                       <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
-                        <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />:
+                        <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />
                       </th>
                     </tr>
                   </thead>
