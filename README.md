@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Cointinuous Deployment
+## Cointinuous Deployment and commit format
 
 We use [semantic release](https://github.com/semantic-release/semantic-release) to generate each tag for automatic versioning, that's why it's important to have each commit formatted correctly, this tool uses [Angular commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format) format by default that uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
 The format is the following:
@@ -25,13 +25,20 @@ Some examples:
 
 **chore:** update component version
 
-## Testing in each PR
+## Testing in each PR and CI
 
 ⚠️ With every merge, the code is deployed into production, whenever we have a fix or feat commit, that's why we test in each PR before merge.
 
 Each time a PR is made CI is run, to see a full detail check [DockerFile](https://github.com/FromDoppler/doppler-webapp/blob/master/Dockerfile.BUILDS_AND_CDN).
 
-As a result a temporal version of the code is published into CDN marked with a build number.
+What is run in CI?
+
+- prettier
+- eclint
+- tests
+- temporal version generation
+
+As a result of running CI, a temporal version of the code is published into CDN marked with a build number.
 
 To check the build number in the second check marked in each PR, while hovering in details the version is as marked in the image below.
 
