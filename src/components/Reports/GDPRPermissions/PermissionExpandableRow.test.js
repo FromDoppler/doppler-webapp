@@ -52,6 +52,9 @@ describe('PermissionExpandableRow component', () => {
     getUserFields: async () => {
       return { success: true, value: subscriber.fields };
     },
+    getSubscriberPermissionHistory: async () => {
+      return { success: true, value: { items: [] } };
+    },
   };
 
   const experimentalFeatureDouble = () => {

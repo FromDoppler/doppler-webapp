@@ -77,7 +77,7 @@ const SubscriberGdprPermissions = ({
               {state.fields.length ? (
                 <>
                   {state.fields.map((field, index) => (
-                    <PermissionExpandableRow field={field} key={index} />
+                    <PermissionExpandableRow field={field} key={index} email={subscriber.email} />
                   ))}
                 </>
               ) : (
