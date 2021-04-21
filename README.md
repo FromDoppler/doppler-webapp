@@ -5,6 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Cointinuous Deployment and commit format
 
 We use [semantic release](https://github.com/semantic-release/semantic-release) to generate each tag for automatic versioning, that's why it's important to have each commit formatted correctly, this tool uses [Angular commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format) format by default that uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
 The format is the following:
 
 `<type>(<scope>): <short summary>`
@@ -61,7 +62,8 @@ Development is code that points to local Doppler (It is needed to have local Dop
 ## Small PRs
 
 In this project we have include [PR size](https://github.com/marketplace/pull-request-size), as a way to measure how much is small. Right now we tend to make size M or L PRs and that's our size for small.
-We try to use vertical slicing or partial functionalities to keep our PRs small enough to be easily undeerstood.
+
+We try to use vertical slicing or partial functionalities to keep our PRs small enough to be easily understood.
 
 ## About partial functionalities
 
