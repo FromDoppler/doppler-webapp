@@ -27,7 +27,7 @@ Some examples:
 
 ## Testing in each PR
 
-⚠️ With every merge, the code is deployed into production, that's why we test in each PR before merge.
+⚠️ With every merge, the code is deployed into production, whenever we have a fix or feat commit, that's why we test in each PR before merge.
 
 Each time a PR is made CI is run, to see a full detail check [DockerFile](https://github.com/FromDoppler/doppler-webapp/blob/master/Dockerfile.BUILDS_AND_CDN).
 
@@ -50,6 +50,31 @@ Demo is like a local copy hosted into CDN (it uses doubles and no real data).
 
 - **Development:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
 Development is code that points to local Doppler (It is needed to have local Doppler copy running for this to work).
+
+## About partial functionalities
+
+To make our PRs small sometimes is useful to upload hidden functionality. This can be done by using the dopplerExperimental component.
+
+```javascript
+const PermissionExpandableRow = ({ dependencies: { experimentalFeatures } }) => {
+  ...
+
+  const isPermissionHistoryEnabled =
+    experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
+  ... 
+
+  return (
+    <>
+      <tr>
+        <td>
+          <span className="dp-name-text">
+            {isPermissionHistoryEnabled && (
+              <button>
+  ...
+```
+
+To make use of this feature by console it can be enabled like this:
+`localStorage.setItem('dopplerExperimental', JSON.stringify({PermissionHistory: true}));`
 
 ## Available Scripts
 
