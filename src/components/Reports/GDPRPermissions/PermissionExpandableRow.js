@@ -11,10 +11,10 @@ const PermissionValue = ({ value }) => {
     permissionValue === 'none' ? 'grey' : permissionValue === 'true' ? 'green' : 'red';
 
   return (
-    <div className="dp-icon-wrapper">
+    <span>
       <span className={`ms-icon icon-lock dp-lock-${iconColor}`} />
       <FormattedMessage id={`subscriber_gdpr.value_${permissionValue}`} />
-    </div>
+    </span>
   );
 };
 
@@ -79,7 +79,9 @@ const PermissionExpandableRow = ({
           )}
         </td>
         <td>
-          <PermissionValue value={field.value} />
+          <div className="dp-icon-wrapper">
+            <PermissionValue value={field.value} />
+          </div>
         </td>
       </tr>
 
