@@ -51,6 +51,11 @@ Demo is like a local copy hosted into CDN (it uses doubles and no real data).
 - **Development:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
 Development is code that points to local Doppler (It is needed to have local Doppler copy running for this to work).
 
+## Small PRs
+
+In this project we have include [PR size](https://github.com/marketplace/pull-request-size), as a way to measure how much is small. Right now we tend to make size M or L PRs and that's our size for small.
+We try to use vertical slicing or partial functionalities to keep our PRs small enough to be easily undeerstood.
+
 ## About partial functionalities
 
 To make our PRs small sometimes is useful to upload hidden functionality. This can be done by using the dopplerExperimental component.
