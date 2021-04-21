@@ -2,7 +2,32 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Cointinuous Deployment
+
+We use [semantic release](https://github.com/semantic-release/semantic-release) to generate each tag for automatic versioning, that's why it's important to have each commit formatted correctly, this tool uses [Angular commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format) format by default that uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+The format is the following:
+
+`<type>(<scope>): <short summary>`
+
+The types we most use are:
+
+- docs: Documentation only changes
+- feat: A new feature (this triggers a new tag and deploys inmediately)
+- fix: A bug fix (this triggers a new tag and deploys inmediately)
+- chore: a task (this does not generate a new version tag)
+- test: Adding missing tests or correcting existing tests
+
+Some examples:
+
+**fix(login):** fix a typo in main title
+
+**feat(reports):** add new GDPR report
+
+**chore:** update component version
+
 ## Testing in each PR
+
+⚠️ With every merge, the code is deployed into production, that's why we test in each PR before merge.
 
 Each time a PR is made CI is run, to see a full detail check [DockerFile](https://github.com/FromDoppler/doppler-webapp/blob/master/Dockerfile.BUILDS_AND_CDN).
 
@@ -10,7 +35,7 @@ As a result a temporal version of the code is published into CDN marked with a b
 
 To check the build number in the second check marked in each PR, while hovering in details the version is as marked in the image below.
 
-![PR view](PR-build-number.png "View build version in detail link")
+![PR view](PR-build-number.PNG "View build version in detail link")
 
 Then a build code link with build number 2962 can be formatted as follows for all enviroments:
 
