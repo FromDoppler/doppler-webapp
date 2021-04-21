@@ -668,6 +668,46 @@ describe('App component', () => {
       });
     });
 
+    it('check utm parameters', async () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+
+      createJsonParse();
+
+      // Act
+      act(() => {
+        render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router
+              initialEntries={[
+                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm',
+              ]}
+            >
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      await waitFor(() => {
+        expect(localStorageItems['UtmCookies']).toBeDefined();
+        expect(localStorageItems['UtmCookies']).toMatch('utm_source');
+        expect(localStorageItems['UtmCookies']).toMatch('test');
+        expect(localStorageItems['UtmCookies']).toMatch('utm_campaign');
+        expect(localStorageItems['UtmCookies']).toMatch('testcampaign');
+        expect(localStorageItems['UtmCookies']).toMatch('utm_medium');
+        expect(localStorageItems['UtmCookies']).toMatch('testmedium');
+        expect(localStorageItems['UtmCookies']).toMatch('utm_term');
+        expect(localStorageItems['UtmCookies']).toMatch('testterm');
+      });
+    });
+
     // TODO: fix this tests console warning
     it('should not be replaced in local storage if it already exists', async () => {
       // Arrange
