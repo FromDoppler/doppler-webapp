@@ -66,11 +66,11 @@ const manageUtmCookies = (localStorage, utmSource, utmCampaign, utmMedium, utmTe
   }
 
   const newItem = {
-    date: new Date().toUTCString(),
-    utm_source: utmSource,
-    utm_campaign: utmCampaign,
-    utm_medium: utmMedium,
-    utm_term: utmTerm,
+    date: new Date().toISOString(),
+    UTMSource: utmSource,
+    UTMCampaign: utmCampaign,
+    UTMMedium: utmMedium,
+    UTMTerm: utmTerm,
   };
   utmCookies.push(newItem);
 

@@ -57,8 +57,13 @@ const dopplerSitesClientDouble = {
   getBannerData: jest.fn(async () => rejectedPromise),
 };
 
-const createJsonParse = () => {
+const createJsonParse = (item) => {
   JSON.parse = jest.fn().mockImplementationOnce(() => {
+    if (item) {
+      const array = [];
+      array.push(item);
+      return array;
+    }
     return [];
   });
 };
@@ -668,7 +673,7 @@ describe('App component', () => {
       });
     });
 
-    it('check utm parameters', async () => {
+    it('should check utm parameters are stored', async () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
@@ -697,14 +702,65 @@ describe('App component', () => {
       const localStorageItems = dependencies.localStorage.getAllItems();
       await waitFor(() => {
         expect(localStorageItems['UtmCookies']).toBeDefined();
-        expect(localStorageItems['UtmCookies']).toMatch('utm_source');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMSource');
         expect(localStorageItems['UtmCookies']).toMatch('test');
-        expect(localStorageItems['UtmCookies']).toMatch('utm_campaign');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMCampaign');
         expect(localStorageItems['UtmCookies']).toMatch('testcampaign');
-        expect(localStorageItems['UtmCookies']).toMatch('utm_medium');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMMedium');
         expect(localStorageItems['UtmCookies']).toMatch('testmedium');
-        expect(localStorageItems['UtmCookies']).toMatch('utm_term');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMTerm');
         expect(localStorageItems['UtmCookies']).toMatch('testterm');
+      });
+    });
+
+    it('should accumulate utm parameters when there was a previous navigation', async () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+
+      const utmCookie = {
+        date: new Date().toISOString(),
+        UTMSource: 'utmsource1',
+        UTMCampaign: 'utmcampaign1',
+        UTMMedium: 'utmmedium1',
+        UTMTerm: 'utmterm1',
+      };
+      dependencies.localStorage.setItem('UtmCookies', JSON.stringify(utmCookie));
+      createJsonParse(utmCookie);
+      // Act
+      act(() => {
+        render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router
+              initialEntries={[
+                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm',
+              ]}
+            >
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      await waitFor(() => {
+        expect(localStorageItems['UtmCookies']).toBeDefined();
+        expect(localStorageItems['UtmCookies']).toMatch('UTMSource');
+        expect(localStorageItems['UtmCookies']).toMatch('test');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMCampaign');
+        expect(localStorageItems['UtmCookies']).toMatch('testcampaign');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMMedium');
+        expect(localStorageItems['UtmCookies']).toMatch('testmedium');
+        expect(localStorageItems['UtmCookies']).toMatch('UTMTerm');
+        expect(localStorageItems['UtmCookies']).toMatch('testterm');
+        expect(localStorageItems['UtmCookies']).toMatch('utmsource1');
+        expect(localStorageItems['UtmCookies']).toMatch('utmcampaign1');
+        expect(localStorageItems['UtmCookies']).toMatch('utmmedium1');
+        expect(localStorageItems['UtmCookies']).toMatch('utmterm1');
       });
     });
 
