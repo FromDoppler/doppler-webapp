@@ -63,7 +63,7 @@ const PermissionExpandableRow = ({
               <button
                 type="button"
                 onClick={() => setExpanded(!expanded)}
-                className={`dp-expand-results${expanded ? ' dp-open-results' : ''}`}
+                className={`dp-expand-results ${expanded ? 'dp-open-results' : ''}`}
               >
                 <i className="ms-icon icon-arrow-next" />
               </button>
@@ -86,7 +86,7 @@ const PermissionExpandableRow = ({
       </tr>
 
       {isPermissionHistoryEnabled && (
-        <tr className={`dp-expanded-table${expanded ? ' show' : ''}`}>
+        <tr className={`dp-expanded-table ${expanded ? 'show' : ''}`}>
           {loading ? (
             <>
               <td />
