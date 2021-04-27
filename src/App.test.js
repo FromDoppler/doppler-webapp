@@ -57,6 +57,8 @@ const dopplerSitesClientDouble = {
   getBannerData: jest.fn(async () => rejectedPromise),
 };
 
+const parse = JSON.parse;
+
 const createJsonParse = (item) => {
   JSON.parse = jest.fn().mockImplementationOnce(() => {
     if (item) {
@@ -700,16 +702,13 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
+      const utmCookiesObject = parse(localStorageItems['UtmCookies']);
       await waitFor(() => {
         expect(localStorageItems['UtmCookies']).toBeDefined();
-        expect(localStorageItems['UtmCookies']).toMatch('UTMSource');
-        expect(localStorageItems['UtmCookies']).toMatch('test');
-        expect(localStorageItems['UtmCookies']).toMatch('UTMCampaign');
-        expect(localStorageItems['UtmCookies']).toMatch('testcampaign');
-        expect(localStorageItems['UtmCookies']).toMatch('UTMMedium');
-        expect(localStorageItems['UtmCookies']).toMatch('testmedium');
-        expect(localStorageItems['UtmCookies']).toMatch('UTMTerm');
-        expect(localStorageItems['UtmCookies']).toMatch('testterm');
+        expect(utmCookiesObject[0].UTMTerm).toEqual('testterm');
+        expect(utmCookiesObject[0].UTMCampaign).toEqual('testcampaign');
+        expect(utmCookiesObject[0].UTMMedium).toEqual('testmedium');
+        expect(utmCookiesObject[0].UTMSource).toEqual('test');
       });
     });
 
@@ -747,20 +746,18 @@ describe('App component', () => {
 
       // Assert
       const localStorageItems = dependencies.localStorage.getAllItems();
+      const utmCookiesObject = parse(localStorageItems['UtmCookies']);
       await waitFor(() => {
         expect(localStorageItems['UtmCookies']).toBeDefined();
-        expect(localStorageItems['UtmCookies']).toMatch('UTMSource');
-        expect(localStorageItems['UtmCookies']).toMatch('test');
-        expect(localStorageItems['UtmCookies']).toMatch('UTMCampaign');
-        expect(localStorageItems['UtmCookies']).toMatch('testcampaign');
-        expect(localStorageItems['UtmCookies']).toMatch('UTMMedium');
-        expect(localStorageItems['UtmCookies']).toMatch('testmedium');
-        expect(localStorageItems['UtmCookies']).toMatch('UTMTerm');
-        expect(localStorageItems['UtmCookies']).toMatch('testterm');
-        expect(localStorageItems['UtmCookies']).toMatch('utmsource1');
-        expect(localStorageItems['UtmCookies']).toMatch('utmcampaign1');
-        expect(localStorageItems['UtmCookies']).toMatch('utmmedium1');
-        expect(localStorageItems['UtmCookies']).toMatch('utmterm1');
+        expect(utmCookiesObject[0].UTMTerm).toEqual('utmterm1');
+        expect(utmCookiesObject[0].UTMCampaign).toEqual('utmcampaign1');
+        expect(utmCookiesObject[0].UTMMedium).toEqual('utmmedium1');
+        expect(utmCookiesObject[0].UTMSource).toEqual('utmsource1');
+        expect(utmCookiesObject[1].UTMTerm).toEqual('testterm');
+        expect(utmCookiesObject[1].UTMCampaign).toEqual('testcampaign');
+        expect(utmCookiesObject[1].UTMMedium).toEqual('testmedium');
+        expect(utmCookiesObject[1].UTMSource).toEqual('test');
+        expect(utmCookiesObject.length).toBeGreaterThan(1);
       });
     });
 
