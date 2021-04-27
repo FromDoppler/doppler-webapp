@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './SubscriberGdpr.styles';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 
 const PermissionValue = ({ value }) => {
@@ -17,19 +18,41 @@ const PermissionValue = ({ value }) => {
   );
 };
 
-const PermissionExpandableRow = ({ field, dependencies: { experimentalFeatures } }) => {
+const PermissionExpandableRow = ({
+  field,
+  email,
+  dependencies: { dopplerApiClient, experimentalFeatures },
+}) => {
   const [expanded, setExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [permissions, setPermissions] = useState([]);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
   const isPermissionHistoryEnabled =
     experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
 
-  /**
-   * Toggle the expanded state of the row and fetch the permissions if the row is expanded.
-   */
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
+  const fetchData = async () => {
+    if (isPermissionHistoryEnabled) {
+      setLoading(true);
+      const fieldName = field.name;
+      const { success, value } = await dopplerApiClient.getSubscriberPermissionHistory({
+        subscriberEmail: email,
+        fieldName,
+      });
+      if (success) {
+        setPermissions(value.items);
+      } else {
+        setPermissions([]);
+      }
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (expanded) {
+      fetchData();
+    }
+  }, [expanded]);
 
   return (
     <>
@@ -39,7 +62,7 @@ const PermissionExpandableRow = ({ field, dependencies: { experimentalFeatures }
             {isPermissionHistoryEnabled && field.value !== 'none' && (
               <button
                 type="button"
-                onClick={toggleExpanded}
+                onClick={() => setExpanded(!expanded)}
                 className={`dp-expand-results ${expanded && 'dp-open-results'}`}
               >
                 <i className="ms-icon icon-arrow-next" />
@@ -62,36 +85,67 @@ const PermissionExpandableRow = ({ field, dependencies: { experimentalFeatures }
 
       {isPermissionHistoryEnabled && (
         <tr className={`dp-expanded-table ${expanded && 'show'} dp-table-responsive`}>
-          <>
-            <td className="dp-latest-results">
-              <FormattedMessage id="subscriber_gdpr.latest_results" tagName="span" />
+          {loading ? (
+            <>
+              <td />
+              <td>
+                <S.EmptyBox>
+                  <Loading />
+                </S.EmptyBox>
+              </td>
+              <td />
+            </>
+          ) : !permissions || permissions.length === 0 ? (
+            <td className="dp-unexpected-error-table" colSpan={3}>
+              <span>
+                <span className="dp-icon-warning" />
+                <FormattedMessage id={'validation_messages.error_unexpected_MD'} />
+              </span>
             </td>
-            <td className="dp-list-results">
-              <table className="dp-table-results">
-                <thead>
-                  <tr>
-                    <th aria-label={_('subscriber_gdpr.consent')} scope="col">
-                      <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />:
-                    </th>
-                    <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
-                      <FormattedMessage
-                        id="subscriber_gdpr.modification_source_ip"
-                        tagName="span"
-                      />
-                      :
-                    </th>
-                    <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
-                      <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />:
-                    </th>
-                    <th aria-label={_('subscriber_gdpr.source_form')} scope="col">
-                      <FormattedMessage id="subscriber_gdpr.source_form" tagName="span" />:
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-            </td>
-            <td />
-          </>
+          ) : (
+            <>
+              <td className="dp-latest-results">
+                <FormattedMessage id="subscriber_gdpr.latest_results" tagName="span" />
+              </td>
+              <td className="dp-list-results">
+                <table className="dp-table-results">
+                  <thead>
+                    <tr>
+                      <th aria-label={_('subscriber_gdpr.consent')} scope="col">
+                        <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />:
+                      </th>
+                      <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
+                        <FormattedMessage
+                          id="subscriber_gdpr.modification_source_ip"
+                          tagName="span"
+                        />
+                        :
+                      </th>
+                      <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
+                        <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />:
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {permissions.map(({ value, originIP, date }, index) => {
+                      return (
+                        <tr>
+                          <td>
+                            <PermissionValue key={index} value={value} />
+                          </td>
+                          <td>{originIP}</td>
+                          <td>
+                            <FormattedDate key={index} value={date} />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </td>
+              <td />
+            </>
+          )}
         </tr>
       )}
     </>

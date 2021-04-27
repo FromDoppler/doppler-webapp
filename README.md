@@ -2,15 +2,48 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Testing in each PR
+## Cointinuous Deployment and commit format
+
+We use [semantic release](https://github.com/semantic-release/semantic-release) to generate each tag for automatic versioning, that's why it's important to have each commit formatted correctly, this tool uses [Angular commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format) format by default that uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+The format is the following:
+
+`<type>(<scope>): <short summary>`
+
+The types we most use are:
+
+- docs: Documentation only changes
+- feat: A new feature (this triggers a new tag and deploys inmediately)
+- fix: A bug fix (this triggers a new tag and deploys inmediately)
+- chore: a task (this does not generate a new version tag)
+- test: Adding missing tests or correcting existing tests
+
+Some examples:
+
+**fix(login):** fix a typo in main title
+
+**feat(reports):** add new GDPR report
+
+**chore:** update component version
+
+## Testing in each PR and CI
+
+⚠️ With every merge, the code is deployed into production, whenever we have a fix or feat commit, that's why we test in each PR before merge.
 
 Each time a PR is made CI is run, to see a full detail check [DockerFile](https://github.com/FromDoppler/doppler-webapp/blob/master/Dockerfile.BUILDS_AND_CDN).
 
-As a result a temporal version of the code is published into CDN marked with a build number.
+What is run in CI?
+
+- prettier
+- eclint
+- tests
+- temporal version generation
+
+As a result of running CI, a temporal version of the code is published into CDN marked with a build number.
 
 To check the build number in the second check marked in each PR, while hovering in details the version is as marked in the image below.
 
-![PR view](PR-build-number.png "View build version in detail link")
+![PR view](PR-build-number.PNG "View build version in detail link")
 
 Then a build code link with build number 2962 can be formatted as follows for all enviroments:
 
@@ -25,6 +58,37 @@ Demo is like a local copy hosted into CDN (it uses doubles and no real data).
 
 - **Development:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
 Development is code that points to local Doppler (It is needed to have local Doppler copy running for this to work).
+
+## Small PRs
+
+In this project we have include [PR size](https://github.com/marketplace/pull-request-size), as a way to measure how much is small. Right now we tend to make size M or L PRs and that's our size for small.
+
+We try to use vertical slicing or partial functionalities to keep our PRs small enough to be easily understood.
+
+## About partial functionalities
+
+To make our PRs small sometimes is useful to upload hidden functionality. This can be done by using the dopplerExperimental component.
+
+```javascript
+const PermissionExpandableRow = ({ dependencies: { experimentalFeatures } }) => {
+  ...
+
+  const isPermissionHistoryEnabled =
+    experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
+  ... 
+
+  return (
+    <>
+      <tr>
+        <td>
+          <span className="dp-name-text">
+            {isPermissionHistoryEnabled && (
+              <button>
+  ...
+```
+
+To make use of this feature by console it can be enabled like this:
+`localStorage.setItem('dopplerExperimental', JSON.stringify({PermissionHistory: true}));`
 
 ## Available Scripts
 
