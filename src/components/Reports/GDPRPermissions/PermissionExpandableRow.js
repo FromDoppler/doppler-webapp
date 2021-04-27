@@ -11,10 +11,10 @@ const PermissionValue = ({ value }) => {
     permissionValue === 'none' ? 'grey' : permissionValue === 'true' ? 'green' : 'red';
 
   return (
-    <div className="dp-icon-wrapper">
+    <span>
       <span className={`ms-icon icon-lock dp-lock-${iconColor}`} />
       <FormattedMessage id={`subscriber_gdpr.value_${permissionValue}`} />
-    </div>
+    </span>
   );
 };
 
@@ -63,7 +63,7 @@ const PermissionExpandableRow = ({
               <button
                 type="button"
                 onClick={() => setExpanded(!expanded)}
-                className={`dp-expand-results ${expanded && 'dp-open-results'}`}
+                className={`dp-expand-results ${expanded ? 'dp-open-results' : ''}`}
               >
                 <i className="ms-icon icon-arrow-next" />
               </button>
@@ -79,12 +79,14 @@ const PermissionExpandableRow = ({
           )}
         </td>
         <td>
-          <PermissionValue value={field.value} />
+          <div className="dp-icon-wrapper">
+            <PermissionValue value={field.value} />
+          </div>
         </td>
       </tr>
 
       {isPermissionHistoryEnabled && (
-        <tr className={`dp-expanded-table ${expanded && 'show'} dp-table-responsive`}>
+        <tr className={`dp-expanded-table ${expanded ? 'show' : ''}`}>
           {loading ? (
             <>
               <td />
@@ -112,17 +114,16 @@ const PermissionExpandableRow = ({
                   <thead>
                     <tr>
                       <th aria-label={_('subscriber_gdpr.consent')} scope="col">
-                        <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />:
+                        <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />
                       </th>
                       <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
                         <FormattedMessage
                           id="subscriber_gdpr.modification_source_ip"
                           tagName="span"
                         />
-                        :
                       </th>
                       <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
-                        <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />:
+                        <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />
                       </th>
                     </tr>
                   </thead>
