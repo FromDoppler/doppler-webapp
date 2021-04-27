@@ -124,6 +124,6 @@
     "comment": "Resolution to avoid test warning: [...] Please update the following components: SideEffect(NullComponent)"
   },
   "devDependencies": {
-    "jest-environment-jsdom-sixteen": "^1.0.3"
+    "jest-environment-jsdom-sixteen": "^2.0.0"
   }
 }
