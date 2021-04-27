@@ -57,6 +57,19 @@ const dopplerSitesClientDouble = {
   getBannerData: jest.fn(async () => rejectedPromise),
 };
 
+const parse = JSON.parse;
+
+const createJsonParse = (item) => {
+  JSON.parse = jest.fn().mockImplementationOnce(() => {
+    if (item) {
+      const array = [];
+      array.push(item);
+      return array;
+    }
+    return [];
+  });
+};
+
 const defaultDependencies = {
   sessionManager: createDoubleSessionManager(),
   dopplerSitesClient: dopplerSitesClientDouble,
@@ -636,6 +649,8 @@ describe('App component', () => {
         dopplerSitesClient: dopplerSitesClientDouble,
       };
 
+      createJsonParse();
+
       // Act
       act(() => {
         render(
@@ -653,9 +668,96 @@ describe('App component', () => {
         expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
         expect(localStorageItems['dopplerFirstOrigin.value']).toEqual('testOrigin');
         expect(localStorageItems['dopplerFirstOrigin.date']).toBeDefined();
+        expect(localStorageItems['UtmCookies']).toBeDefined();
         const dopplerOriginDate = new Date(localStorageItems['dopplerFirstOrigin.date']);
         expect(dopplerOriginDate).toBeDefined();
         expect(dopplerOriginDate.getFullYear()).toBeGreaterThan(2018);
+      });
+    });
+
+    it('should check utm parameters are stored', async () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+
+      createJsonParse();
+
+      // Act
+      act(() => {
+        render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router
+              initialEntries={[
+                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm',
+              ]}
+            >
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      const utmCookiesObject = parse(localStorageItems['UtmCookies']);
+      await waitFor(() => {
+        expect(localStorageItems['UtmCookies']).toBeDefined();
+        expect(utmCookiesObject[0].UTMTerm).toEqual('testterm');
+        expect(utmCookiesObject[0].UTMCampaign).toEqual('testcampaign');
+        expect(utmCookiesObject[0].UTMMedium).toEqual('testmedium');
+        expect(utmCookiesObject[0].UTMSource).toEqual('test');
+      });
+    });
+
+    it('should accumulate utm parameters when there was a previous navigation', async () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+
+      const utmCookie = {
+        date: new Date().toISOString(),
+        UTMSource: 'utmsource1',
+        UTMCampaign: 'utmcampaign1',
+        UTMMedium: 'utmmedium1',
+        UTMTerm: 'utmterm1',
+      };
+      dependencies.localStorage.setItem('UtmCookies', JSON.stringify(utmCookie));
+      createJsonParse(utmCookie);
+      // Act
+      act(() => {
+        render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <Router
+              initialEntries={[
+                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm',
+              ]}
+            >
+              <App locale="en" />
+            </Router>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const localStorageItems = dependencies.localStorage.getAllItems();
+      const utmCookiesObject = parse(localStorageItems['UtmCookies']);
+      await waitFor(() => {
+        expect(localStorageItems['UtmCookies']).toBeDefined();
+        expect(utmCookiesObject[0].UTMTerm).toEqual('utmterm1');
+        expect(utmCookiesObject[0].UTMCampaign).toEqual('utmcampaign1');
+        expect(utmCookiesObject[0].UTMMedium).toEqual('utmmedium1');
+        expect(utmCookiesObject[0].UTMSource).toEqual('utmsource1');
+        expect(utmCookiesObject[1].UTMTerm).toEqual('testterm');
+        expect(utmCookiesObject[1].UTMCampaign).toEqual('testcampaign');
+        expect(utmCookiesObject[1].UTMMedium).toEqual('testmedium');
+        expect(utmCookiesObject[1].UTMSource).toEqual('test');
+        expect(utmCookiesObject.length).toBeGreaterThan(1);
       });
     });
 

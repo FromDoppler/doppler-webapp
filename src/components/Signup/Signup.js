@@ -46,6 +46,39 @@ function extractRedirect(location) {
   return extractParameter(location, queryString.parse, 'redirect');
 }
 
+function getParameter(location, parameter) {
+  return extractParameter(location, queryString.parse, parameter);
+}
+
+function getSource(location) {
+  let utmSource = getParameter(location, 'utm_source');
+  if (!utmSource) {
+    utmSource = document.referrer || 'direct';
+  }
+  return utmSource;
+}
+
+const manageUtmCookies = (localStorage, utmSource, utmCampaign, utmMedium, utmTerm) => {
+  let utmCookies = JSON.parse(localStorage.getItem('UtmCookies'));
+
+  if (!utmCookies) {
+    utmCookies = [];
+  }
+
+  const newItem = {
+    date: new Date().toISOString(),
+    UTMSource: utmSource,
+    UTMCampaign: utmCampaign,
+    UTMMedium: utmMedium,
+    UTMTerm: utmTerm,
+  };
+  utmCookies.push(newItem);
+
+  localStorage.setItem('UtmCookies', JSON.stringify(utmCookies));
+
+  return utmCookies;
+};
+
 /** Prepare empty values for all fields
  * It is required because in another way, the fields are not marked as touched.
  */
@@ -61,13 +94,23 @@ const getFormInitialValues = () =>
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function ({ location, dependencies: { dopplerLegacyClient, originResolver } }) {
+const Signup = function ({
+  location,
+  dependencies: { dopplerLegacyClient, originResolver, localStorage },
+}) {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const [registeredUser, setRegisteredUser] = useState(null);
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
+
+  const utmSource = getSource(location);
+  const utmCampaign = getParameter(location, 'utm_campaign');
+  const utmMedium = getParameter(location, 'utm_medium');
+  const utmTerm = getParameter(location, 'utm_term');
+
+  const utmCookies = manageUtmCookies(localStorage, utmSource, utmCampaign, utmMedium, utmTerm);
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -125,6 +168,11 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, origin
       firstOrigin: originResolver.getFirstOrigin(),
       origin: originResolver.getCurrentOrigin(),
       redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
+      utm_source: utmSource,
+      utm_campaign: utmCampaign,
+      utm_medium: utmMedium,
+      utm_term: utmTerm,
+      utm_cookies: utmCookies,
     });
     if (result.success) {
       setRegisteredUser(values[fieldNames.email]);
