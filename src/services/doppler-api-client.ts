@@ -514,7 +514,6 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         headers: { Authorization: `token ${jwtToken}` },
       });
 
-      console.log(data);
       return {
         success: true,
         value: {
