@@ -24,10 +24,10 @@ const SubscriberGdprPermissions = ({
 
       if (allFields.success) {
         const allPermissionFields = allFields.value.filter(
-          (customField) => customField.type === 'permission' || customField.type === 'consent',
+          (customField) => customField.type === 'permission',
         );
         const subscriberPermissionFields = subscriber.fields.filter(
-          (customField) => customField.type === 'permission' || customField.type === 'consent',
+          (customField) => customField.type === 'permission',
         );
 
         const fields = allPermissionFields.map((field) => {
