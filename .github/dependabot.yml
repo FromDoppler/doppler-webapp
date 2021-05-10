@@ -1,0 +1,38 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "11:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: react-scripts
+    versions:
+    - "> 3.3.0"
+    - "< 3.4"
+  - dependency-name: semantic-release
+    versions:
+    - ">= 17.a"
+    - "< 18"
+  - dependency-name: typescript
+    versions:
+    - ">= 4.a"
+    - "< 5"
+  commit-message:
+    prefix: chore
+    include: scope
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "11:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 13.a"
+    - "< 14"
+  commit-message:
+    prefix: chore
+    include: scope
