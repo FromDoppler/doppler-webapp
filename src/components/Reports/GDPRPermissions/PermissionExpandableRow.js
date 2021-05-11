@@ -59,7 +59,7 @@ const PermissionExpandableRow = ({
       <tr>
         <td>
           <span className="dp-name-text">
-            {isPermissionHistoryEnabled && field.value !== 'none' && (
+            {isPermissionHistoryEnabled && (
               <button
                 type="button"
                 onClick={() => setExpanded(!expanded)}
