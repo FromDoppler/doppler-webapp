@@ -18,34 +18,26 @@ const PermissionValue = ({ value }) => {
   );
 };
 
-const PermissionExpandableRow = ({
-  field,
-  email,
-  dependencies: { dopplerApiClient, experimentalFeatures },
-}) => {
+const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClient } }) => {
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [permissions, setPermissions] = useState([]);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
-  const isPermissionHistoryEnabled =
-    experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
 
   const fetchData = async () => {
-    if (isPermissionHistoryEnabled) {
-      setLoading(true);
-      const fieldName = field.name;
-      const { success, value } = await dopplerApiClient.getSubscriberPermissionHistory({
-        subscriberEmail: email,
-        fieldName,
-      });
-      if (success) {
-        setPermissions(value.items);
-      } else {
-        setPermissions([]);
-      }
-      setLoading(false);
+    setLoading(true);
+    const fieldName = field.name;
+    const { success, value } = await dopplerApiClient.getSubscriberPermissionHistory({
+      subscriberEmail: email,
+      fieldName,
+    });
+    if (success) {
+      setPermissions(value.items);
+    } else {
+      setPermissions([]);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -59,15 +51,13 @@ const PermissionExpandableRow = ({
       <tr>
         <td>
           <span className="dp-name-text">
-            {isPermissionHistoryEnabled && (
-              <button
-                type="button"
-                onClick={() => setExpanded(!expanded)}
-                className={`dp-expand-results ${expanded ? 'dp-open-results' : ''}`}
-              >
-                <i className="ms-icon icon-arrow-next" />
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => setExpanded(!expanded)}
+              className={`dp-expand-results ${expanded ? 'dp-open-results' : ''}`}
+            >
+              <i className="ms-icon icon-arrow-next" />
+            </button>
             {field.name}
           </span>
         </td>
@@ -84,86 +74,80 @@ const PermissionExpandableRow = ({
           </div>
         </td>
       </tr>
-
-      {isPermissionHistoryEnabled && (
-        <tr className={`dp-expanded-table ${expanded ? 'show' : ''}`}>
-          {loading ? (
-            <>
-              <td />
-              <td>
-                <S.EmptyBox>
-                  <Loading />
-                </S.EmptyBox>
-              </td>
-              <td />
-            </>
-          ) : !permissions ? (
-            <td className="dp-unexpected-error-table" colSpan={3}>
-              <span>
-                <span className="dp-icon-warning" />
-                <FormattedMessage id={'validation_messages.error_unexpected_MD'} />
-              </span>
+      <tr className={`dp-expanded-table ${expanded ? 'show' : ''}`}>
+        {loading ? (
+          <>
+            <td />
+            <td>
+              <S.EmptyBox>
+                <Loading />
+              </S.EmptyBox>
             </td>
-          ) : (
-            <>
-              <td className="dp-latest-results">
-                <FormattedMessage id="subscriber_gdpr.latest_results" tagName="span" />
-              </td>
-              <td className="dp-list-results">
-                <table className="dp-table-results">
-                  <thead>
-                    <tr>
-                      <th aria-label={_('subscriber_gdpr.consent')} scope="col">
-                        <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />
-                      </th>
-                      {permissions.length > 0 && (
-                        <>
-                          <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
-                            <FormattedMessage
-                              id="subscriber_gdpr.modification_source_ip"
-                              tagName="span"
-                            />
-                          </th>
-                          <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
-                            <FormattedMessage
-                              id="subscriber_gdpr.modification_date"
-                              tagName="span"
-                            />
-                          </th>
-                        </>
-                      )}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {permissions.length === 0 ? (
-                      <tr>
-                        <td>
-                          <PermissionValue value={'none'} />
-                        </td>
-                      </tr>
-                    ) : (
-                      permissions.map(({ value, originIP, date }, index) => {
-                        return (
-                          <tr>
-                            <td>
-                              <PermissionValue key={index} value={value} />
-                            </td>
-                            <td>{originIP}</td>
-                            <td>
-                              <FormattedDate key={index} value={date} />
-                            </td>
-                          </tr>
-                        );
-                      })
+            <td />
+          </>
+        ) : !permissions ? (
+          <td className="dp-unexpected-error-table" colSpan={3}>
+            <span>
+              <span className="dp-icon-warning" />
+              <FormattedMessage id={'validation_messages.error_unexpected_MD'} />
+            </span>
+          </td>
+        ) : (
+          <>
+            <td className="dp-latest-results">
+              <FormattedMessage id="subscriber_gdpr.latest_results" tagName="span" />
+            </td>
+            <td className="dp-list-results">
+              <table className="dp-table-results">
+                <thead>
+                  <tr>
+                    <th aria-label={_('subscriber_gdpr.consent')} scope="col">
+                      <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />
+                    </th>
+                    {permissions.length > 0 && (
+                      <>
+                        <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
+                          <FormattedMessage
+                            id="subscriber_gdpr.modification_source_ip"
+                            tagName="span"
+                          />
+                        </th>
+                        <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
+                          <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />
+                        </th>
+                      </>
                     )}
-                  </tbody>
-                </table>
-              </td>
-              <td />
-            </>
-          )}
-        </tr>
-      )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {permissions.length === 0 ? (
+                    <tr>
+                      <td>
+                        <PermissionValue value={'none'} />
+                      </td>
+                    </tr>
+                  ) : (
+                    permissions.map(({ value, originIP, date }, index) => {
+                      return (
+                        <tr>
+                          <td>
+                            <PermissionValue key={index} value={value} />
+                          </td>
+                          <td>{originIP}</td>
+                          <td>
+                            <FormattedDate key={index} value={date} />
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </td>
+            <td />
+          </>
+        )}
+      </tr>
     </>
   );
 };
