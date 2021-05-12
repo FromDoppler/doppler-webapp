@@ -105,7 +105,7 @@ describe('PermissionExpandableRow component', () => {
     expect(container.querySelector('.dp-expand-results')).toBeInTheDocument();
   });
 
-  it("shouldn't show the arrow button if the value of the field is none", () => {
+  it('should show the arrow button if the value of the field is none', () => {
     // Arrange
     // Act
     const { container } = render(
@@ -121,7 +121,7 @@ describe('PermissionExpandableRow component', () => {
     );
 
     // Assert
-    expect(container.querySelector('.dp-expand-results')).not.toBeInTheDocument();
+    expect(container.querySelector('.dp-expand-results')).toBeInTheDocument();
   });
 
   it("shouldn't have the class 'show' if the arrow button is not clicked at least once", () => {

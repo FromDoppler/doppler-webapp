@@ -59,7 +59,7 @@ const PermissionExpandableRow = ({
       <tr>
         <td>
           <span className="dp-name-text">
-            {isPermissionHistoryEnabled && field.value !== 'none' && (
+            {isPermissionHistoryEnabled && (
               <button
                 type="button"
                 onClick={() => setExpanded(!expanded)}
@@ -97,7 +97,7 @@ const PermissionExpandableRow = ({
               </td>
               <td />
             </>
-          ) : !permissions || permissions.length === 0 ? (
+          ) : !permissions ? (
             <td className="dp-unexpected-error-table" colSpan={3}>
               <span>
                 <span className="dp-icon-warning" />
@@ -116,31 +116,46 @@ const PermissionExpandableRow = ({
                       <th aria-label={_('subscriber_gdpr.consent')} scope="col">
                         <FormattedMessage id="subscriber_gdpr.consent" tagName="span" />
                       </th>
-                      <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
-                        <FormattedMessage
-                          id="subscriber_gdpr.modification_source_ip"
-                          tagName="span"
-                        />
-                      </th>
-                      <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
-                        <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />
-                      </th>
+                      {permissions.length > 0 && (
+                        <>
+                          <th aria-label={_('subscriber_gdpr.modification_source_ip')} scope="col">
+                            <FormattedMessage
+                              id="subscriber_gdpr.modification_source_ip"
+                              tagName="span"
+                            />
+                          </th>
+                          <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
+                            <FormattedMessage
+                              id="subscriber_gdpr.modification_date"
+                              tagName="span"
+                            />
+                          </th>
+                        </>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
-                    {permissions.map(({ value, originIP, date }, index) => {
-                      return (
-                        <tr>
-                          <td>
-                            <PermissionValue key={index} value={value} />
-                          </td>
-                          <td>{originIP}</td>
-                          <td>
-                            <FormattedDate key={index} value={date} />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {permissions.length === 0 ? (
+                      <tr>
+                        <td>
+                          <PermissionValue value={'none'} />
+                        </td>
+                      </tr>
+                    ) : (
+                      permissions.map(({ value, originIP, date }, index) => {
+                        return (
+                          <tr>
+                            <td>
+                              <PermissionValue key={index} value={value} />
+                            </td>
+                            <td>{originIP}</td>
+                            <td>
+                              <FormattedDate key={index} value={date} />
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
                   </tbody>
                 </table>
               </td>
