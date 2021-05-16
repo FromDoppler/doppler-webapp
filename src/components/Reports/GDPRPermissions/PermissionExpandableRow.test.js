@@ -57,15 +57,8 @@ describe('PermissionExpandableRow component', () => {
     },
   };
 
-  const experimentalFeatureDouble = () => {
-    return {
-      getFeature: (feature) => feature === 'PermissionHistory',
-    };
-  };
-
   const dependencies = {
     dopplerApiClient: dopplerApiClientDouble,
-    experimentalFeatures: experimentalFeatureDouble(),
   };
 
   afterEach(cleanup);
