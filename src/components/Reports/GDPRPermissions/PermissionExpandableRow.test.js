@@ -49,16 +49,23 @@ describe('PermissionExpandableRow component', () => {
   };
 
   const dopplerApiClientDouble = {
-    getUserFields: async () => {
-      return { success: true, value: subscriber.fields };
-    },
     getSubscriberPermissionHistory: async () => {
       return { success: true, value: { items: [] } };
     },
   };
 
+  const dopplerApiClientDoubleWithErrorInResponse = {
+    getSubscriberPermissionHistory: async () => {
+      return { success: false, error: new Error('Dummy error') };
+    },
+  };
+
   const dependencies = {
     dopplerApiClient: dopplerApiClientDouble,
+  };
+
+  const dependenciesWithErrorInResponse = {
+    dopplerApiClient: dopplerApiClientDoubleWithErrorInResponse,
   };
 
   afterEach(cleanup);
@@ -156,5 +163,29 @@ describe('PermissionExpandableRow component', () => {
 
     // Assert
     expect(container.querySelector('.dp-expanded-table').classList.contains('show')).toBe(true);
+  });
+
+  it('error message should be displayed when response error is received', async () => {
+    // Arrange
+    // Act
+    const { container } = render(
+      <AppServicesProvider forcedServices={dependenciesWithErrorInResponse}>
+        <IntlProvider>
+          <table>
+            <tbody>
+              <PermissionExpandableRow field={field} />
+            </tbody>
+          </table>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const arrowButton = container.querySelector('.dp-expand-results');
+    arrowButton.click();
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-unexpected-error-table')).toBeInTheDocument();
+    });
   });
 });

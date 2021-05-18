@@ -21,6 +21,7 @@ const PermissionValue = ({ value }) => {
 const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClient } }) => {
   const [expanded, setExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [permissions, setPermissions] = useState([]);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
@@ -33,9 +34,11 @@ const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClien
       fieldName,
     });
     if (success) {
+      setError(false);
       setPermissions(value.items);
     } else {
-      setPermissions([]);
+      setError(true);
+      setPermissions(undefined);
     }
     setLoading(false);
   };
@@ -85,7 +88,7 @@ const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClien
             </td>
             <td />
           </>
-        ) : !permissions ? (
+        ) : error ? (
           <td className="dp-unexpected-error-table" colSpan={3}>
             <span>
               <span className="dp-icon-warning" />
