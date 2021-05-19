@@ -172,7 +172,7 @@ const Signup = function ({
       utm_campaign: utmCampaign,
       utm_medium: utmMedium,
       utm_term: utmTerm,
-      utm_cookies: utmCookies,
+      utm_cookies: utmCookies.slice(-10),
     });
     if (result.success) {
       setRegisteredUser(values[fieldNames.email]);
