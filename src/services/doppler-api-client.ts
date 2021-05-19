@@ -50,7 +50,7 @@ export interface FieldUpdateEvent {
   fieldType: string;
   date: Date;
   originIP: string;
-  value: string;
+  value: string | null;
   originType: string;
   // TODO: add some Form related fields
   // originFormName: string
