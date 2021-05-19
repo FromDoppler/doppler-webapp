@@ -6,7 +6,7 @@ import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 
 const PermissionValue = ({ value }) => {
-  const permissionValue = value.toLowerCase();
+  const permissionValue = value ? value.toLowerCase() : 'none';
   const iconColor =
     permissionValue === 'none' ? 'grey' : permissionValue === 'true' ? 'green' : 'red';
 
