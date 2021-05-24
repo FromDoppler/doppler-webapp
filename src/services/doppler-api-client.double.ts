@@ -95,6 +95,8 @@ const subscriber = {
   unsubscriptionComment: 'test',
   status: 'unsubscribed_by_hard',
   score: 2,
+  downloadPermissionHistoryUrl:
+    '/accounts/test@test.com/subscribers/test@test.com/permissions-history.csv',
 };
 
 // const subscriberWithNoGDPR = {
@@ -171,6 +173,7 @@ const subscriberCollection = {
       unsubscriptionComment: 'test',
       status: 'active',
       score: 0,
+      downloadPermissionHistoryUrl: '',
     },
     {
       email: 'pepe@fromdoppler.com',
@@ -198,6 +201,7 @@ const subscriberCollection = {
       unsubscriptionComment: '',
       status: 'inactive',
       score: 1,
+      downloadPermissionHistoryUrl: '',
     },
   ],
   currentPage: 0,
