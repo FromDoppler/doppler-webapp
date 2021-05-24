@@ -24,6 +24,7 @@ describe('SubscriberGdprPermissions report component', () => {
     unsubscriptionComment: 'test',
     status: 'active',
     score: 0,
+    downloadPermissionHistoryUrl: '',
   };
 
   const subscriberPermission = {
@@ -44,6 +45,8 @@ describe('SubscriberGdprPermissions report component', () => {
     unsubscriptionComment: 'test',
     status: 'active',
     score: 0,
+    downloadPermissionHistoryUrl:
+      '/accounts/test@test.com/subscribers/test@test.com/permissions-history.csv',
   };
 
   const fields = [
@@ -158,6 +161,48 @@ describe('SubscriberGdprPermissions report component', () => {
     await waitFor(() => {
       const tableNode = getByText('subscriber_gdpr.permission_name').closest('table');
       expect(document.querySelectorAll('tbody tr').length).toBe(subscriber.fields.length);
+    });
+  });
+
+  it('should show option to download permission history if download link is received', async () => {
+    // Arrange
+    // Act
+    const { container } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <SubscriberGdprPermissions subscriber={subscriberPermission} />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-cta-links')).toBeInTheDocument();
+    });
+  });
+
+  it("shouldn't show the option to download the permission history if the download link is not received", async () => {
+    // Arrange
+    // Act
+    const { container } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <IntlProvider>
+          <SubscriberGdprPermissions subscriber={subscriber} />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-cta-links')).not.toBeInTheDocument();
     });
   });
 });
