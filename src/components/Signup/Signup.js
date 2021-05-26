@@ -21,6 +21,9 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { extractParameter, isWhitelisted, addLogEntry } from './../../utils';
 import * as S from './Signup.styles';
+import useZohoScript from '../../hooks/useZohoScript';
+
+export const scriptUrl = 'https://crm.zoho.com/crm/javascript/zcga.js';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -77,6 +80,7 @@ const Signup = function ({
   location,
   dependencies: { dopplerLegacyClient, originResolver, localStorage, utmCookiesManager },
 }) {
+  useZohoScript({ scriptUrl });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 

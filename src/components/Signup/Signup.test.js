@@ -58,6 +58,7 @@ describe('Signup', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+
     expect(container.querySelectorAll('.error')).toHaveLength(0);
 
     // Act
