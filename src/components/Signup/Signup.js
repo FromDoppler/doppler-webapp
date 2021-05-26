@@ -88,8 +88,16 @@ const Signup = function ({
   const utmCampaign = getParameter(location, 'utm_campaign');
   const utmMedium = getParameter(location, 'utm_medium');
   const utmTerm = getParameter(location, 'utm_term');
+  const gclid = getParameter(location, 'gclid');
 
-  utmCookiesManager.setCookieEntry(localStorage, utmSource, utmCampaign, utmMedium, utmTerm);
+  utmCookiesManager.setCookieEntry({
+    storage: localStorage,
+    UTMSource: utmSource,
+    UTMCampaign: utmCampaign,
+    UTMMedium: utmMedium,
+    UTMTerm: utmTerm,
+    gclid,
+  });
   const utmCookies = utmCookiesManager.getUtmCookie(localStorage);
 
   const addExistentEmailAddress = (email) => {
@@ -142,6 +150,7 @@ const Signup = function ({
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     var redirectUrl = extractRedirect(location);
+
     const result = await dopplerLegacyClient.registerUser({
       ...values,
       language: intl.locale,
@@ -153,6 +162,7 @@ const Signup = function ({
       utm_medium: utmMedium,
       utm_term: utmTerm,
       utm_cookies: utmCookies,
+      gclid,
     });
     if (result.success) {
       setRegisteredUser(values[fieldNames.email]);

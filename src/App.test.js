@@ -691,7 +691,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router
               initialEntries={[
-                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm',
+                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm&gclid=testgclid',
               ]}
             >
               <App locale="en" />
@@ -708,6 +708,7 @@ describe('App component', () => {
         expect(utmCookiesObject[0].UTMTerm).toEqual('testterm');
         expect(utmCookiesObject[0].UTMCampaign).toEqual('testcampaign');
         expect(utmCookiesObject[0].UTMMedium).toEqual('testmedium');
+        expect(utmCookiesObject[0].gclid).toEqual('testgclid');
         expect(utmCookiesObject[0].UTMSource).toEqual('test');
       });
     });
@@ -726,6 +727,7 @@ describe('App component', () => {
         UTMCampaign: 'utmcampaign1',
         UTMMedium: 'utmmedium1',
         UTMTerm: 'utmterm1',
+        gclid: 'gclid1',
       };
       dependencies.localStorage.setItem('UtmCookies', JSON.stringify(utmCookie));
       createJsonParse(utmCookie);
@@ -735,7 +737,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router
               initialEntries={[
-                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm',
+                '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm&gclid=testgclid',
               ]}
             >
               <App locale="en" />
@@ -753,10 +755,12 @@ describe('App component', () => {
         expect(utmCookiesObject[0].UTMCampaign).toEqual('utmcampaign1');
         expect(utmCookiesObject[0].UTMMedium).toEqual('utmmedium1');
         expect(utmCookiesObject[0].UTMSource).toEqual('utmsource1');
+        expect(utmCookiesObject[0].gclid).toEqual('gclid1');
         expect(utmCookiesObject[1].UTMTerm).toEqual('testterm');
         expect(utmCookiesObject[1].UTMCampaign).toEqual('testcampaign');
         expect(utmCookiesObject[1].UTMMedium).toEqual('testmedium');
         expect(utmCookiesObject[1].UTMSource).toEqual('test');
+        expect(utmCookiesObject[1].gclid).toEqual('testgclid');
         expect(utmCookiesObject.length).toBeGreaterThan(1);
       });
     });
