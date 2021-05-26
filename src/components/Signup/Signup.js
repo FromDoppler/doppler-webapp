@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
@@ -111,6 +111,19 @@ const Signup = function ({
   const utmTerm = getParameter(location, 'utm_term');
 
   const utmCookies = manageUtmCookies(localStorage, utmSource, utmCampaign, utmMedium, utmTerm);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+  
+    script.src = 'https://crm.zoho.com/crm/javascript/zcga.js';
+    script.async = true;
+  
+    document.body.appendChild(script);
+  
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, []);
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -244,6 +257,7 @@ const Signup = function ({
             onSubmit={onSubmit}
             validate={validate}
           >
+            <input type='hidden' id="zc_gad" name="zc_gad" value="" />
             <fieldset>
               <FieldGroup>
                 <InputFieldItem
