@@ -1,31 +1,11 @@
 import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { render, cleanup, waitFor, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 import PermissionExpandableRow from './PermissionExpandableRow';
 
 describe('PermissionExpandableRow component', () => {
-  const subscriber = {
-    email: 'test@test.com',
-    fields: [
-      {
-        name: 'FIRSTNAME',
-        value: 'Manuel',
-        predefined: true,
-        private: true,
-        readonly: true,
-        type: 'boolean',
-      },
-    ],
-    unsubscribedDate: '2019-11-27T18:05:40.847Z',
-    unsubscriptionType: 'hardBounce',
-    manualUnsubscriptionReason: 'administrative',
-    unsubscriptionComment: 'test',
-    status: 'active',
-    score: 0,
-  };
-
   const field = {
     name: 'Permiso2',
     value: 'true',
@@ -143,10 +123,10 @@ describe('PermissionExpandableRow component', () => {
     expect(container.querySelector('.dp-expanded-table').classList.contains('show')).toBe(false);
   });
 
-  it("should have the class 'show' when the arrow button is clicked", () => {
+  it("should have the class 'show' when the arrow button is clicked", async () => {
     // Arrange
     // Act
-    const { container } = render(
+    const { container, getByText } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
           <table>
@@ -158,17 +138,21 @@ describe('PermissionExpandableRow component', () => {
       </AppServicesProvider>,
     );
 
-    const arrowButton = container.querySelector('.dp-expand-results');
-    arrowButton.click();
+    act(() => {
+      const arrowButton = container.querySelector('.dp-expand-results');
+      fireEvent.click(arrowButton);
+    });
 
-    // Assert
-    expect(container.querySelector('.dp-expanded-table').classList.contains('show')).toBe(true);
+    await waitFor(() => {
+      expect(container.querySelector('.dp-expanded-table.show')).toBeInTheDocument();
+      expect(getByText('subscriber_gdpr.value_none')).toBeInTheDocument();
+    });
   });
 
   it('error message should be displayed when response error is received', async () => {
     // Arrange
     // Act
-    const { container } = render(
+    const { container, getByText } = render(
       <AppServicesProvider forcedServices={dependenciesWithErrorInResponse}>
         <IntlProvider>
           <table>
@@ -180,12 +164,15 @@ describe('PermissionExpandableRow component', () => {
       </AppServicesProvider>,
     );
 
-    const arrowButton = container.querySelector('.dp-expand-results');
-    arrowButton.click();
+    act(() => {
+      const arrowButton = container.querySelector('.dp-expand-results');
+      fireEvent.click(arrowButton);
+    });
 
     // Assert
     await waitFor(() => {
       expect(container.querySelector('.dp-unexpected-error-table')).toBeInTheDocument();
+      expect(getByText('validation_messages.error_unexpected_MD')).toBeInTheDocument();
     });
   });
 });
