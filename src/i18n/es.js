@@ -490,6 +490,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
   subscriber_gdpr: {
     consent: 'Consentimiento:',
     description: 'Aquí encontrarás el historial de todos los consentimientos dados por tu Suscriptor.',
+    download_permission_history: 'Descarga historial completo',
     empty_data: 'Este Suscriptor no ha aceptado ni rechazado ningun permiso.',
     empty_html_text: 'Sin texto legal definido',
     latest_results: 'Últimos 10 resultados',

@@ -3,6 +3,7 @@ import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 import { SubscriberList, SubscriberListState } from './shopify-client';
+import { searchLinkByRel } from '../utils';
 
 export interface DopplerApiClient {
   getListData(idList: number, apikey: string): Promise<ResultWithoutExpectedErrors<SubscriberList>>;
@@ -42,6 +43,7 @@ export interface Subscriber {
   unsubscriptionComment: string;
   status: string;
   score: number;
+  downloadPermissionHistoryUrl: string;
 }
 
 export interface FieldUpdateEvent {
@@ -218,6 +220,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         x.manualUnsubscriptionReason,
       ),
       score: x.score,
+      downloadPermissionHistoryUrl: this.getDownloadUrl(x._links),
     }));
   }
 
@@ -301,6 +304,15 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     return status;
   }
 
+  private getDownloadUrl(links: any[]): string {
+    if (links) {
+      const link = searchLinkByRel(links, 'docs/rels/get-permission-history-csv')[0];
+      return !!link ? link.href : '';
+    }
+
+    return '';
+  }
+
   public async getListData(listId: number): Promise<ResultWithoutExpectedErrors<SubscriberList>> {
     try {
       const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
@@ -345,6 +357,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
           response.data.manualUnsubscriptionReason,
         ),
         score: response.data.score,
+        downloadPermissionHistoryUrl: this.getDownloadUrl(response.data._links),
       };
 
       return {

@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PermissionExpandableRow from './PermissionExpandableRow';
+import { DownloadLink } from './SubscriberGdpr.styles';
 
 const SubscriberGdprPermissions = ({
   subscriber,
@@ -95,6 +96,17 @@ const SubscriberGdprPermissions = ({
           </table>
         )}
       </div>
+
+      {subscriber.downloadPermissionHistoryUrl ? (
+        <DownloadLink className="dp-cta-links">
+          <a href={subscriber.downloadPermissionHistoryUrl}>
+            <i className="ms-icon icon-download"> </i>
+            <span className="m-l-6 align-middle">
+              <FormattedMessage id="subscriber_gdpr.download_permission_history" />
+            </span>
+          </a>
+        </DownloadLink>
+      ) : null}
     </div>
   );
 };

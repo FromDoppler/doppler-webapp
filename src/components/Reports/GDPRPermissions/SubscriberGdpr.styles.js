@@ -13,4 +13,8 @@ const EmptyBox = styled.div`
   width: 100%;
 `;
 
-export { TextColumn, EmptyBox };
+const DownloadLink = styled.div`
+  padding: ${spacings.spacesLvl0} ${spacings.spacesLvl3};
+`;
+
+export { TextColumn, EmptyBox, DownloadLink };

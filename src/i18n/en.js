@@ -489,6 +489,7 @@ deletion, security, cross-border data transfers and other issues.
   subscriber_gdpr: {
     consent: 'Consent:',
     description: 'Here you will find the history of all consents given by your Subscriber.',
+    download_permission_history: 'Download full history',
     empty_data: 'This Subscriber has not given or denied any permission.',
     empty_html_text: 'With no legal text defined',
     latest_results: 'Last 10 results',

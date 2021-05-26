@@ -215,6 +215,113 @@ describe('HttpDopplerApiClient', () => {
       expect(result.success).toBe(true);
       expect(result.success && result.value.status).toEqual('unsubscribed_by_client');
     });
+
+    it('should get a subscriber correctly with permission history download link', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'hardBounce',
+          manualUnsubscriptionReason: 'administrative',
+          unsubscriptionComment: 'test',
+          status: 'active',
+          score: 0,
+          _links: [
+            {
+              href: 'permissions-history.csv',
+              description: "Get subscriber's complete permission history as CSV",
+              rel: '/docs/rels/get-permission-history-csv',
+            },
+          ],
+        },
+        status: 200,
+      };
+
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value).not.toBe(undefined);
+      expect(result.value.downloadPermissionHistoryUrl).toBe('permissions-history.csv');
+    });
+
+    it('should get a subscriber correctly without permission history download link', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'hardBounce',
+          manualUnsubscriptionReason: 'administrative',
+          unsubscriptionComment: 'test',
+          status: 'active',
+          score: 0,
+          _links: [
+            {
+              href: '/accounts/test@test.com',
+              description: 'Get account home.',
+              rel: '/docs/rels/get-account-home',
+            },
+          ],
+        },
+        status: 200,
+      };
+
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value).not.toBe(undefined);
+      expect(result.value.downloadPermissionHistoryUrl).toBe('');
+    });
+
+    it('should get a subscriber correctly without links', async () => {
+      // Arrange
+      const subscriber = {
+        data: {
+          email: 'test@test.com',
+          fields: [],
+          belongsToLists: [],
+          unsubscribedDate: '2019-11-27T18:05:40.847Z',
+          unsubscriptionType: 'hardBounce',
+          manualUnsubscriptionReason: 'administrative',
+          unsubscriptionComment: 'test',
+          status: 'active',
+          score: 0,
+        },
+        status: 200,
+      };
+
+      const request = jest.fn(async () => subscriber);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscriber('test@test.com');
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value).not.toBe(undefined);
+      expect(result.value.downloadPermissionHistoryUrl).toBe('');
+    });
   });
 
   describe('GetCampaignsDelivery', () => {
