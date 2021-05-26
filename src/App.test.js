@@ -4,8 +4,8 @@ import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
-import { timeout } from './utils';
 import { act } from 'react-dom/test-utils';
+import { scriptUrl } from './components/Signup/Signup';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -436,6 +436,7 @@ describe('App component', () => {
           const passwordEl = container.querySelector('#password');
           expect(passwordEl).toBeInstanceOf(HTMLInputElement);
         }
+
         await waitFor(() => {});
         // Act
         act(() => {
