@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
@@ -21,6 +21,8 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { extractParameter, isWhitelisted, addLogEntry } from './../../utils';
 import * as S from './Signup.styles';
+
+export const scriptUrl = 'https://crm.zoho.com/crm/javascript/zcga.js';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -111,19 +113,6 @@ const Signup = function ({
   const utmTerm = getParameter(location, 'utm_term');
 
   const utmCookies = manageUtmCookies(localStorage, utmSource, utmCampaign, utmMedium, utmTerm);
-
-  useEffect(() => {
-    const script = document.createElement('script');
-  
-    script.src = 'https://crm.zoho.com/crm/javascript/zcga.js';
-    script.async = true;
-  
-    document.body.appendChild(script);
-  
-    return () => {
-      document.body.removeChild(script);
-    }
-  }, []);
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -234,6 +223,7 @@ const Signup = function ({
         <Helmet>
           <title>{_('signup.head_title')}</title>
           <meta name="description" content={_('signup.head_description')} />
+          <script src={scriptUrl} type="text/javascript" />
         </Helmet>
         <S.MainPanel className="main-panel">
           <header>
