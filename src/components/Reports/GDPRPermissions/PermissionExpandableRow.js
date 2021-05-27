@@ -118,6 +118,14 @@ const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClien
                         <th aria-label={_('subscriber_gdpr.modification_date')} scope="col">
                           <FormattedMessage id="subscriber_gdpr.modification_date" tagName="span" />
                         </th>
+                        {permissions.some((p) => p.originType) ? (
+                          <th aria-label={_('subscriber_gdpr.modification_source')} scope="col">
+                            <FormattedMessage
+                              id="subscriber_gdpr.modification_source"
+                              tagName="span"
+                            />
+                          </th>
+                        ) : null}
                       </>
                     )}
                   </tr>
@@ -130,16 +138,17 @@ const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClien
                       </td>
                     </tr>
                   ) : (
-                    permissions.map(({ value, originIP, date }, index) => {
+                    permissions.map(({ value, originIP, date, originType }, index) => {
                       return (
-                        <tr>
+                        <tr key={index}>
                           <td>
-                            <PermissionValue key={index} value={value} />
+                            <PermissionValue value={value} />
                           </td>
                           <td>{originIP}</td>
                           <td>
-                            <FormattedDate key={index} value={date} />
+                            <FormattedDate value={date} />
                           </td>
+                          {originType ? <td>{originType}</td> : null}
                         </tr>
                       );
                     })
