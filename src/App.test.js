@@ -4,8 +4,8 @@ import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 import { AppServicesProvider } from './services/pure-di';
 import { MemoryRouter as Router, withRouter } from 'react-router-dom';
-import { timeout } from './utils';
 import { act } from 'react-dom/test-utils';
+import { scriptUrl } from './components/Signup/Signup';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -436,6 +436,7 @@ describe('App component', () => {
           const passwordEl = container.querySelector('#password');
           expect(passwordEl).toBeInstanceOf(HTMLInputElement);
         }
+        
         await waitFor(() => {});
         // Act
         act(() => {
@@ -636,6 +637,54 @@ describe('App component', () => {
           expect(footerEl).not.toBeNull();
         });
       });
+    });
+  });
+
+  describe('zoho', () => {
+    it('Login view should not have zoho script', async () => {
+      // Arrange
+      const dependencies = defaultDependencies;
+  
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/login']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+  
+      // Assert
+      const zohoScript = document.querySelector(`script[src="${scriptUrl}"]`);
+      expect(zohoScript).toBeNull();
+    });
+  
+    it('Signup view should have zoho script', async () => {
+      // Arrange
+      const dependencies = {
+        sessionManager: createDoubleSessionManager(),
+        localStorage: createLocalStorageDouble(),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+
+      createJsonParse();
+  
+      const oldValue = 'old value';
+      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
+  
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={['/signup']}>
+            <App locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+  
+      // Assert
+      await waitFor(() => null);
+      const zohoScript = document.querySelector(`script[src="${scriptUrl}"]`);
+      expect(zohoScript).not.toBeNull();
     });
   });
 
