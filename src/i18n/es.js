@@ -32,6 +32,7 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
+const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 
 const messages_es = {
   agencies: {
@@ -55,6 +56,18 @@ const messages_es = {
     volume_1m: 'Entre 1m y 10m',
     volume_500: 'Entre 500k y 1m',
     volume_do_not_know: 'No lo sé',
+  },
+  big_query: {
+    free_btn_redirect: `Conoce nuestro plan Plus`,
+    free_text_data_studio_one: `Aprende a configurar nuestro tablero de`,
+    free_text_data_studio_three: `, o accede a BigQuery mediante otra herramienta de visualización de datos como Tableau.`,
+    free_text_data_studio_two: `Data Studio en unos pocos pasos`,
+    free_text_strong: `¡Potencia tu cuenta con reportes de BigQuery!`,
+    free_text_summary: `Integra Google BigQuery para analizar reportes detallados sobre tus campañas,tus suscriptores y otros datos de tu cuenta en un tablero personalizable.`,
+    free_title: `Big Query`,
+    free_ul_item_one: `Obtén valiosos insights sobre tu cuenta`,
+    free_ul_item_two: `Podras filtrar los reportes en base a todas tus campañas o seleccionar solo algunas en particular.`,
+    upgrade_plan_url: `${urlUpgradePlan}`,
   },
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,

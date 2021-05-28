@@ -26,6 +26,7 @@ import PlanCalculator from './components/ChangePlan/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
+import FreeAccount from './components/Integrations/BigQuery/FreeAccount';
 
 /**
  * @param { Object } props - props
@@ -130,6 +131,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 component={ReportsPartialsCampaigns}
               />
               <PrivateRoute path={['/billing/invoices']} exact component={InvoicesList} />
+              <PrivateRoute path="/integrations/big-query/free" exact component={FreeAccount} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
