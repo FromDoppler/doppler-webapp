@@ -501,7 +501,7 @@ deletion, security, cross-border data transfers and other issues.
     permission_value: 'Value',
     title: 'Subscriber GDPR permission history',
     value_false: 'Rejected',
-    value_none: 'No response',
+    value_none: 'Unanswered',
     value_true: 'Accepted',
   },
   subscriber_history: {
