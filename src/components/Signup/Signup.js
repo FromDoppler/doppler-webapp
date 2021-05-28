@@ -58,27 +58,6 @@ function getSource(location) {
   return utmSource;
 }
 
-const manageUtmCookies = (localStorage, utmSource, utmCampaign, utmMedium, utmTerm) => {
-  let utmCookies = JSON.parse(localStorage.getItem('UtmCookies'));
-
-  if (!utmCookies) {
-    utmCookies = [];
-  }
-
-  const newItem = {
-    date: new Date().toISOString(),
-    UTMSource: utmSource,
-    UTMCampaign: utmCampaign,
-    UTMMedium: utmMedium,
-    UTMTerm: utmTerm,
-  };
-  utmCookies.push(newItem);
-
-  localStorage.setItem('UtmCookies', JSON.stringify(utmCookies));
-
-  return utmCookies;
-};
-
 /** Prepare empty values for all fields
  * It is required because in another way, the fields are not marked as touched.
  */
@@ -96,7 +75,7 @@ const getFormInitialValues = () =>
  */
 const Signup = function ({
   location,
-  dependencies: { dopplerLegacyClient, originResolver, localStorage },
+  dependencies: { dopplerLegacyClient, originResolver, localStorage, utmCookiesManager },
 }) {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -110,7 +89,8 @@ const Signup = function ({
   const utmMedium = getParameter(location, 'utm_medium');
   const utmTerm = getParameter(location, 'utm_term');
 
-  const utmCookies = manageUtmCookies(localStorage, utmSource, utmCampaign, utmMedium, utmTerm);
+  utmCookiesManager.setCookieEntry(localStorage, utmSource, utmCampaign, utmMedium, utmTerm);
+  const utmCookies = utmCookiesManager.getUtmCookie(localStorage);
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -172,7 +152,7 @@ const Signup = function ({
       utm_campaign: utmCampaign,
       utm_medium: utmMedium,
       utm_term: utmTerm,
-      utm_cookies: utmCookies.slice(-10),
+      utm_cookies: utmCookies,
     });
     if (result.success) {
       setRegisteredUser(values[fieldNames.email]);
