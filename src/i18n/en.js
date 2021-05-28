@@ -67,6 +67,7 @@ const messages_en = {
     free_title: `Big Query`,
     free_ul_item_one: `Get valuable insights about your account`,
     free_ul_item_two: `You can filter the reports based on all your campaigns or select only some in particular`,
+    free_url_data_studio: `https://datastudio.google.com/overview`,
     upgrade_plan_url: `${urlUpgradePlan}`,
   },
   change_plan: {

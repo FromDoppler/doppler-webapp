@@ -49,7 +49,7 @@ const FreeAccount: React.FunctionComponent<IFreeAccountProps> = (props) => {
               <img src={datastudiogif} width="800" height="500" />
               <p className="text-italic">
                 {_('big_query.free_text_data_studio_one', '')}{' '}
-                <a href="www.datastudio.com">{_('big_query.free_text_data_studio_two', '')}</a>
+                <a href={_('big_query.free_url_data_studio', '')}>{_('big_query.free_text_data_studio_two', '')}</a>
                 {_('big_query.free_text_data_studio_three', '')}{' '}
               </p>
             </div>
