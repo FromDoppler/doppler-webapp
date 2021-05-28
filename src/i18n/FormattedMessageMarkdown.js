@@ -13,7 +13,13 @@ import './FormattedMessageMarkdown.css';
 // into account the message in the memoization.
 // TODO: also consider using always a linkTarget option as function detecting
 // not webapp nor doppler legacy links and apply _blank target to them.
-export const FormattedMessageMarkdown = ({ id, defaultMessage, values, description, ...rest }) => (
+export const FormattedMessageMarkdown = ({
+  id,
+  defaultMessage = '',
+  values = '',
+  description = '',
+  ...rest
+}) => (
   <Markdown
     source={useIntl().formatMessage({ id, defaultMessage, description }, values)}
     {...rest}
