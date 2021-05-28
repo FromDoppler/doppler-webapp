@@ -40,12 +40,61 @@ describe('PermissionExpandableRow component', () => {
     },
   };
 
+  const dopplerApiClientDoubleWithOriginType = {
+    getSubscriberPermissionHistory: async () => {
+      return {
+        success: true,
+        value: {
+          items: [
+            {
+              subscriberEmail: 'test@fromdoppler.com',
+              fieldName: 'Permiso2',
+              fieldType: 'permission',
+              date: new Date('2021-02-10T15:22:00.000Z'),
+              value: 'true',
+              originIP: '181.167.226.47',
+              originType: 'Manual',
+            },
+          ],
+        },
+      };
+    },
+  };
+
+  const dopplerApiClientDoubleWithoutOriginType = {
+    getSubscriberPermissionHistory: async () => {
+      return {
+        success: true,
+        value: {
+          items: [
+            {
+              subscriberEmail: 'test@fromdoppler.com',
+              fieldName: 'Permiso2',
+              fieldType: 'permission',
+              date: new Date('2021-02-10T15:22:00.000Z'),
+              value: 'true',
+              originIP: '181.167.226.47',
+            },
+          ],
+        },
+      };
+    },
+  };
+
   const dependencies = {
     dopplerApiClient: dopplerApiClientDouble,
   };
 
   const dependenciesWithErrorInResponse = {
     dopplerApiClient: dopplerApiClientDoubleWithErrorInResponse,
+  };
+
+  const dependenciesWithOriginType = {
+    dopplerApiClient: dopplerApiClientDoubleWithOriginType,
+  };
+
+  const dependenciesWithoutOriginType = {
+    dopplerApiClient: dopplerApiClientDoubleWithoutOriginType,
   };
 
   afterEach(cleanup);
@@ -173,6 +222,66 @@ describe('PermissionExpandableRow component', () => {
     await waitFor(() => {
       expect(container.querySelector('.dp-unexpected-error-table')).toBeInTheDocument();
       expect(getByText('validation_messages.error_unexpected_MD')).toBeInTheDocument();
+    });
+  });
+
+  it('should show origin column when origin type is received', async () => {
+    // Arrange
+    // Act
+    const { container, getByText } = render(
+      <AppServicesProvider forcedServices={dependenciesWithOriginType}>
+        <IntlProvider>
+          <table>
+            <tbody>
+              <PermissionExpandableRow field={field} />
+            </tbody>
+          </table>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    act(() => {
+      const arrowButton = container.querySelector('.dp-expand-results');
+      fireEvent.click(arrowButton);
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-table-results')).toBeInTheDocument();
+      expect(getByText('subscriber_gdpr.modification_source')).toBeInTheDocument();
+      const tableNode = container.querySelector('.dp-table-results');
+      expect(tableNode.tHead.rows[0].cells.length).toBe(4);
+      expect(tableNode.tBodies[0].rows[0].cells.length).toBe(4);
+    });
+  });
+
+  it("shouldn't show origin column when origin type is not received", async () => {
+    // Arrange
+    // Act
+    const { container, queryByText } = render(
+      <AppServicesProvider forcedServices={dependenciesWithoutOriginType}>
+        <IntlProvider>
+          <table>
+            <tbody>
+              <PermissionExpandableRow field={field} />
+            </tbody>
+          </table>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    act(() => {
+      const arrowButton = container.querySelector('.dp-expand-results');
+      fireEvent.click(arrowButton);
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-table-results')).toBeInTheDocument();
+      expect(queryByText('subscriber_gdpr.modification_source')).toBe(null);
+      const tableNode = container.querySelector('.dp-table-results');
+      expect(tableNode.tHead.rows[0].cells.length).toBe(3);
+      expect(tableNode.tBodies[0].rows[0].cells.length).toBe(3);
     });
   });
 });
