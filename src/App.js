@@ -27,7 +27,7 @@ import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
-import FreeAccount from './components/Integrations/BigQuery/FreeAccount';
+import { FreeAccount } from './components/Integrations/BigQuery/FreeAccount';
 
 /**
  * @param { Object } props - props
