@@ -27,6 +27,7 @@ import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
+import FreeAccount from './components/Integrations/BigQuery/FreeAccount';
 
 /**
  * @param { Object } props - props
@@ -136,6 +137,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={ContactPolicy}
               />
+              <PrivateRoute path="/integrations/big-query/free" exact component={FreeAccount} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
