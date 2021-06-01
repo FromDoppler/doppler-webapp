@@ -26,28 +26,27 @@ const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClien
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
 
-  const fetchData = async () => {
-    setLoading(true);
-    const fieldName = field.name;
-    const { success, value } = await dopplerApiClient.getSubscriberPermissionHistory({
-      subscriberEmail: email,
-      fieldName,
-    });
-    if (success) {
-      setError(false);
-      setPermissions(value.items);
-    } else {
-      setError(true);
-      setPermissions(undefined);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
     if (expanded) {
+      const fetchData = async () => {
+        setLoading(true);
+        const fieldName = field.name;
+        const { success, value } = await dopplerApiClient.getSubscriberPermissionHistory({
+          subscriberEmail: email,
+          fieldName,
+        });
+        if (success) {
+          setError(false);
+          setPermissions(value.items);
+        } else {
+          setError(true);
+          setPermissions(undefined);
+        }
+        setLoading(false);
+      };
       fetchData();
     }
-  }, [expanded]);
+  }, [expanded, dopplerApiClient, email, field.name]);
 
   return (
     <>
