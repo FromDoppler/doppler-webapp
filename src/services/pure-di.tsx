@@ -15,6 +15,7 @@ import { HttpManualStatusClient, ManualStatusClient } from './manual-status-clie
 
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
+import { UtmCookiesManager } from './utm-cookies-manager';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -52,6 +53,7 @@ export interface AppServices {
   dopplerBillingApiClient: DopplerBillingApiClient;
   captchaUtilsService: CaptchaUtilsService;
   manualStatusClient: ManualStatusClient;
+  utmCookiesManager: UtmCookiesManager;
 }
 
 /**
@@ -243,6 +245,10 @@ export class AppCompositionRoot implements AppServices {
           appStatusOverrideFileUrl: this.appConfiguration.appStatusOverrideFileUrl,
         }),
     );
+  }
+
+  get utmCookiesManager() {
+    return this.singleton('utmCookiesManager', () => new UtmCookiesManager());
   }
 }
 
