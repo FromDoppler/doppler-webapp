@@ -12,10 +12,10 @@ const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
 const urlPrivacy = `${urlSite}/en/legal/privacy`;
-const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
-const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_medium=landing&amp;utm_campaign=signup`;
-const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
-const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=reset-password`;
+const urlPrivacyFromSignup = `${urlPrivacy}`;
+const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}`;
+const urlPrivacyFromLogin = `${urlPrivacy}`;
+const urlPrivacyFromForgot = `${urlPrivacy}`;
 const mailtoSupport = `mailto:support@fromdoppler.com`;
 const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
 const subjectBlockedAccountNoPay = `?subject=Cuenta%20suspendida%20por%20falta%20de%20pago%20-%20Login`;

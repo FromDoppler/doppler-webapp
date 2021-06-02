@@ -12,10 +12,10 @@ const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
 const urlPrivacy = `${urlSite}/legal/privacidad`;
-const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
-const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_medium=landing&amp;utm_campaign=signup`;
-const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
-const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
+const urlPrivacyFromSignup = `${urlPrivacy}`;
+const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}`;
+const urlPrivacyFromLogin = `${urlPrivacy}`;
+const urlPrivacyFromForgot = `${urlPrivacy}`;
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
 const subjectBlockedAccountNoPay = `?subject=Cuenta%20suspendida%20por%20falta%20de%20pago%20-%20Login`;
@@ -25,9 +25,9 @@ const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
-const urlSiteFromSignup = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=signup`;
-const urlSiteFromLogin = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=login`;
-const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
+const urlSiteFromSignup = `${urlSite}/`;
+const urlSiteFromLogin = `${urlSite}/`;
+const urlSiteFromForgot = `${urlSite}/`;
 const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
