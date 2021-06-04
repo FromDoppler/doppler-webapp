@@ -3,16 +3,13 @@ export class UtmCookiesManager {
     this.hasRegistered = false;
   }
 
-  setCookieEntry(storage, utmSource, utmCampaign, utmMedium, utmTerm) {
+  setCookieEntry({ storage, ...utmParams }) {
     if (!this.hasRegistered) {
       let utmCookies = JSON.parse(localStorage.getItem('UtmCookies')) ?? [];
 
       const newItem = {
         date: new Date().toISOString(),
-        UTMSource: utmSource,
-        UTMCampaign: utmCampaign,
-        UTMMedium: utmMedium,
-        UTMTerm: utmTerm,
+        ...utmParams,
       };
       utmCookies.push(newItem);
 
