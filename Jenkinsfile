@@ -38,6 +38,14 @@ pipeline {
                     .'''
             }
         }
+        stage('Release') {
+            when { 
+                branch 'master'
+            }
+            steps {
+                sh 'sh generate-release-w-docker.sh'
+            }
+        }
         stage('Build final version images') {
             when {
                 expression {
