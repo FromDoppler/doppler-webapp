@@ -45,22 +45,3 @@ RUN mkdir /root/.ssh/ &&\
 RUN scp -P "${CDN_SFTP_PORT}" -r /source "${CDN_SFTP_USERNAME}@${CDN_SFTP_HOSTNAME}:/${CDN_SFTP_BASE}/doppler-webapp/${environment}-${pkgVersion}"
 RUN echo "Files published on http://cdn.fromdoppler.com/doppler-webapp/${environment}-${pkgVersion}"
 
-
-# Runtime layer (Host project in nginx)
-FROM nginx:1.21.0-alpine
-WORKDIR /app
-ARG environment
-COPY conf/site-${environment}.conf /etc/nginx/conf.d/site.conf
-COPY --from=build /app/build /usr/share/nginx/html
-
-ARG cdnBaseUrl
-ARG environment
-ARG pkgVersion
-ARG versionFull
-ARG pkgBuild
-ARG pkgCommitId
-# Create version.txt file (WARNING: duplicated code for optimizing build)
-RUN printf "$cdnBaseUrl\n$environment\n$pkgVersion\n$versionFull\nbuildNo$pkgBuild\n$pkgCommitId" > /usr/share/nginx/html/version.txt
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
-EXPOSE 80 443
