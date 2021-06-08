@@ -128,6 +128,14 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
   },
+  contact_policy: {
+    meta_title: 'Doppler | Contact Policy',
+    subtitle_MD: `
+Define the maximum number of Emails that each of your Subscribers can receive in a given period of time.
+
+You can avoid saturating your Database and possible removals. Do you need help? Press [HELP](${urlHelp}/contact-policy).`,
+    title: 'Contact Policy',
+  },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
     description: 'Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!',

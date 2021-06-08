@@ -127,6 +127,14 @@ const messages_es = {
     ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
     unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,
   },
+  contact_policy: {
+    meta_title: 'Doppler | Política de Contacto',
+    subtitle_MD: `
+Define la cantidad máxima de Emails que puede recibir cada uno de tus Suscriptores en un período de tiempo determinado.
+
+Podrás evitar saturar tu Base de Datos y posibles remociones ¿Necesitas ayuda? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
+    title: 'Política de Contacto',
+  },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
     description: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
