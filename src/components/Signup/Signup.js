@@ -21,7 +21,6 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { extractParameter, isWhitelisted, addLogEntry } from './../../utils';
 import * as S from './Signup.styles';
-import useZohoScript from '../../hooks/useZohoScript';
 
 export const scriptUrl = 'https://crm.zoho.com/crm/javascript/zcga.js';
 
@@ -80,7 +79,6 @@ const Signup = function ({
   location,
   dependencies: { dopplerLegacyClient, originResolver, localStorage, utmCookiesManager },
 }) {
-  useZohoScript({ scriptUrl });
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -215,6 +213,7 @@ const Signup = function ({
         <Helmet>
           <title>{_('signup.head_title')}</title>
           <meta name="description" content={_('signup.head_description')} />
+          <script type="text/javascript" src={scriptUrl} defer />
         </Helmet>
         <S.MainPanel className="main-panel">
           <header>
@@ -238,6 +237,7 @@ const Signup = function ({
             onSubmit={onSubmit}
             validate={validate}
           >
+            <input type="hidden" id="zc_gad" name="zc_gad" />
             <fieldset>
               <FieldGroup>
                 <InputFieldItem
