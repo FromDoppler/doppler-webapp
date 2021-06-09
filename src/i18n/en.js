@@ -335,8 +335,8 @@ Doppler and how many have not. Any doubts? Press [HELP](${urlHelpAdvancedReports
     no_domains_button: `Add your domain`,
     no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_MD: `
-Get **detailed Reports** to understand the behaviour of your Website or E-commerce visitants. 
-Discover which are the most visited pages, how many visitants are already into your Subscribers' 
+Get **detailed Reports** to understand the behaviour of your Website or E-commerce visitants.
+Discover which are the most visited pages, how many visitants are already into your Subscribers'
 Lists and how many are not there yet. Want to know more? Press [HELP](${urlHelpAdvancedReports}).
 
 **Hiring any Paid Plan you can access to this feature.** [REVIEW PLANS](${urlBuyMonthly}).`,

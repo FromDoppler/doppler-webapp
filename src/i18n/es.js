@@ -334,9 +334,9 @@ visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesita
     no_domains_button: `Agrega tu dominio`,
     no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_MD: `
-Accede a **Reportes detallados** para entender el comportamiento de los 
-visitantes de tu Sitio Web o E-commerce. Descubre cuáles son las páginas más 
-visitadas, cuántos visitantes ya están en tus Listas de Suscriptores y cuántos no. 
+Accede a **Reportes detallados** para entender el comportamiento de los
+visitantes de tu Sitio Web o E-commerce. Descubre cuáles son las páginas más
+visitadas, cuántos visitantes ya están en tus Listas de Suscriptores y cuántos no.
 ¿Quieres saber más? Presiona [HELP](${urlHelpAdvancedReports}).
 
 **Contrata cualquier Plan Pago para acceder a esta funcionalidad.** [REVISAR LOS PLANES](${urlBuyMonthly}).
