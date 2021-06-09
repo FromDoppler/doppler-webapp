@@ -334,15 +334,14 @@ visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesita
     no_domains_button: `Agrega tu dominio`,
     no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_MD: `
-Contrata un Plan Pago y accede a Reportes detallados sobre el
-comportamiento de los usuarios en tu Sitio Web o E-commerce.
-Descubre cuáles son las páginas más visitadas, cuántos visitantes
-poseen un Email que Doppler ha identificado y cuántos no.
-¿Necesitas ayuda? Presiona [HELP](${urlHelpAdvancedReports}).
+Accede a **Reportes detallados** para entender el comportamiento de los 
+visitantes de tu Sitio Web o E-commerce. Descubre cuáles son las páginas más 
+visitadas, cuántos visitantes ya están en tus Listas de Suscriptores y cuántos no. 
+¿Quieres saber más? Presiona [HELP](${urlHelpAdvancedReports}).
 
-Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo limitado. [COMPRA AHORA](${urlBuyMonthly}).
+**Contrata cualquier Plan Pago para acceder a esta funcionalidad.** [REVISAR LOS PLANES](${urlBuyMonthly}).
       `,
-    upgrade_account_free_title: `Analiza el comportamiento de los usuarios y optimiza tus acciones`,
+    upgrade_account_free_title: `Analiza el comportamiento de tus visitantes y optimiza tus acciones`,
   },
   reports_box: {
     to: `a`,
