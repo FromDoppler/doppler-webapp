@@ -67,8 +67,7 @@ const subscriber = {
       private: false,
       readonly: false,
       type: 'permission',
-      permissionHTML:
-        '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
+      permissionHTML: 'Acepta las promociones indicadas <a href="http://www.google.com">aqui</a>',
     },
     {
       name: 'ddddSssss',
@@ -86,7 +85,7 @@ const subscriber = {
       readonly: false,
       type: 'permission',
       permissionHTML:
-        '<p>Haciendo click en el checkbox confirma y acepta nuestras <a href="google.com">bases y condiciones.</a></p>',
+        'Haciendo click en el checkbox confirma y acepta nuestras <a href="google.com">bases y condiciones.</a>',
     },
   ],
   unsubscribedDate: '2019-11-27T18:05:40.847Z',
@@ -410,8 +409,7 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
         private: false,
         readonly: false,
         type: 'permission',
-        permissionHTML:
-          '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
+        permissionHTML: 'Acepta las promociones indicadas <a href="http://www.google.com">aqui</a>',
       },
       {
         name: 'lalo',
@@ -437,7 +435,7 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
         readonly: false,
         type: 'permission',
         permissionHTML:
-          '<p>Haciendo click en el checkbox confirma y acepta nuestras <a href="google.com">bases y condiciones.</a></p>',
+          'Haciendo click en el checkbox confirma y acepta nuestras <a href="google.com">bases y condiciones.</a>',
       },
     ];
     return {

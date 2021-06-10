@@ -71,7 +71,7 @@ const PermissionExpandableRow = ({ field, email, dependencies: { dopplerApiClien
           )}
         </td>
         <td>
-          <div className="dp-icon-wrapper">
+          <div className="dp-icon-lock">
             <PermissionValue value={field.value} />
           </div>
         </td>

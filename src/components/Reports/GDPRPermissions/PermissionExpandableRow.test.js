@@ -13,8 +13,7 @@ describe('PermissionExpandableRow component', () => {
     private: false,
     readonly: false,
     type: 'permission',
-    permissionHTML:
-      '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
+    permissionHTML: 'Acepta las promociones indicadas <a href="http://www.google.com">aqui</a>',
   };
 
   const field_value_none = {
@@ -24,8 +23,7 @@ describe('PermissionExpandableRow component', () => {
     private: false,
     readonly: false,
     type: 'permission',
-    permissionHTML:
-      '<p>Acepta las promociones indicadas <a href="http://www.google.com">aqui</a></p>',
+    permissionHTML: 'Acepta las promociones indicadas <a href="http://www.google.com">aqui</a>',
   };
 
   const dopplerApiClientDouble = {
