@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
-import { InjectAppServices } from '../../services/pure-di';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { Switch } from '../shared/Switch/Switch';
 
-export const ContactPolicy = InjectAppServices(() => {
+export const ContactPolicy = () => {
+  const [active, toggleActive] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -25,7 +26,29 @@ export const ContactPolicy = InjectAppServices(() => {
           <FormattedMessageMarkdown linkTarget={'_blank'} id="contact_policy.subtitle_MD" />
         </div>
       </HeaderSection>
-      <section className="dp-container" />
+      <section className="dp-container">
+        <div className="dp-rowflex">
+          <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
+            <form className="dp-contact-policy-form">
+              <fieldset>
+                <legend>{_('contact_policy.title')}</legend>
+                <ul className="field-group">
+                  <li className="field-item">
+                    <Switch
+                      id="switch-contact-policy"
+                      text={_('contact_policy.toggle_text')}
+                      defaultChecked={active}
+                      onChange={(value) => {
+                        toggleActive(value);
+                      }}
+                    />
+                  </li>
+                </ul>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </section>
     </>
   );
-});
+};
