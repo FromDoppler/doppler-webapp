@@ -1,9 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const Notifications = ({ plan, notifications, emptyNotificationText }) => {
-  // check if we're always going to show notifications
-  const showNotifications = plan.isFreeAccount && notifications.length;
+const Notifications = ({ notifications, emptyNotificationText }) => {
+  const showNotifications = notifications && notifications.length;
   const dataCountAttr = showNotifications ? { 'data-count': notifications.length } : {};
   return (
     <>
@@ -21,7 +20,19 @@ const Notifications = ({ plan, notifications, emptyNotificationText }) => {
               )}
             </i>
           ) : (
-            <div dangerouslySetInnerHTML={{ __html: notifications[0] }} />
+            notifications.map((notification, index, currentNotifications) => (
+              <div key={index + 'notification'}>
+                <div dangerouslySetInnerHTML={{ __html: notification }} />
+                {index < currentNotifications.length - 1 ? (
+                  <>
+                    <hr />
+                    <br />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
+            ))
           )}
         </div>
       </div>
