@@ -148,6 +148,7 @@ Define the maximum number of Emails that each of your Subscribers can receive in
 
 You can avoid saturating your Database and possible removals. Do you need help? Press [HELP](${urlHelp}/contact-policy).`,
     title: 'Contact Policy',
+    toggle_text: 'Limit the maximum number of mailings to the same Subscriber',
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
