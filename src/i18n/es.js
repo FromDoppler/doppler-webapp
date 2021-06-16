@@ -147,6 +147,7 @@ Define la cantidad máxima de Emails que puede recibir cada uno de tus Suscripto
 
 Podrás evitar saturar tu Base de Datos y posibles remociones ¿Necesitas ayuda? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
     title: 'Política de Contacto',
+    toggle_text: 'Limitar la cantidad máxima de envíos a un mismo Suscriptor',
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
