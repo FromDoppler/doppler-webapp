@@ -12,10 +12,10 @@ const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
 const urlPrivacy = `${urlSite}/legal/privacidad`;
-const urlPrivacyFromSignup = `${urlPrivacy}`;
-const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}`;
-const urlPrivacyFromLogin = `${urlPrivacy}`;
-const urlPrivacyFromForgot = `${urlPrivacy}`;
+const urlPrivacyFromSignup = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}?utm_source=app&amp;utm_medium=landing&amp;utm_campaign=signup`;
+const urlPrivacyFromLogin = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=login`;
+const urlPrivacyFromForgot = `${urlPrivacy}?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
 const subjectBlockedAccountNoPay = `?subject=Cuenta%20suspendida%20por%20falta%20de%20pago%20-%20Login`;
@@ -25,9 +25,9 @@ const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
-const urlSiteFromSignup = `${urlSite}/`;
-const urlSiteFromLogin = `${urlSite}/`;
-const urlSiteFromForgot = `${urlSite}/`;
+const urlSiteFromSignup = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=signup`;
+const urlSiteFromLogin = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=login`;
+const urlSiteFromForgot = `${urlSite}/?utm_source=app&utm_medium=landing&utm_campaign=restablecimiento-contrasenia`;
 const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
@@ -67,6 +67,17 @@ const messages_es = {
     free_title: `Big Query`,
     free_ul_item_filter: `Podras filtrar los reportes en base a todas tus campañas o seleccionar solo algunas en particular.`,
     free_ul_item_insights: `Obtén valiosos insights sobre tu cuenta`,
+	plus_beginning: `Inicio`,
+    plus_big_query:`BigQuery`,
+    plus_configuration: `Configuración`,
+    plus_control_panel: `Panel de control`,
+    plus_input_place_holder: `Agregar cuenta de google`,
+    plus_paragraph_one: `Integra`,
+    plus_paragraph_three: `para analizar reportes detallados sobre tus campañas,tus suscriptores y otros datos de tu cuenta en un tablero personalizable.`,
+    plus_paragraph_two: `Google Big Query`,
+    plus_step_one: `Primer Paso`,
+    plus_step_one:`Segundo Paso`,
+    plus_title: `BIG QUERY`,
     upgrade_plan_url: `${urlUpgradePlan}`,
   },
   change_plan: {
@@ -354,14 +365,15 @@ visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesita
     no_domains_button: `Agrega tu dominio`,
     no_domains_button_destination: `${urlSiteTracking}`,
     upgrade_account_free_MD: `
-Accede a **Reportes detallados** para entender el comportamiento de los
-visitantes de tu Sitio Web o E-commerce. Descubre cuáles son las páginas más
-visitadas, cuántos visitantes ya están en tus Listas de Suscriptores y cuántos no.
-¿Quieres saber más? Presiona [HELP](${urlHelpAdvancedReports}).
+Contrata un Plan Pago y accede a Reportes detallados sobre el
+comportamiento de los usuarios en tu Sitio Web o E-commerce.
+Descubre cuáles son las páginas más visitadas, cuántos visitantes
+poseen un Email que Doppler ha identificado y cuántos no.
+¿Necesitas ayuda? Presiona [HELP](${urlHelpAdvancedReports}).
 
-**Contrata cualquier Plan Pago para acceder a esta funcionalidad.** [REVISAR LOS PLANES](${urlBuyMonthly}).
+Contratando cualquier Plan Pago podrás utilizar esta funcionalidad de forma bonificada por tiempo limitado. [COMPRA AHORA](${urlBuyMonthly}).
       `,
-    upgrade_account_free_title: `Analiza el comportamiento de tus visitantes y optimiza tus acciones`,
+    upgrade_account_free_title: `Analiza el comportamiento de los usuarios y optimiza tus acciones`,
   },
   reports_box: {
     to: `a`,

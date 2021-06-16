@@ -28,6 +28,7 @@ import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { Promotional } from './components/Integrations/BigQuery/Promotional/Promotional';
+import PlusAccount from './components/Integrations/BigQuery/PlusAccount';
 
 /**
  * @param { Object } props - props
@@ -138,6 +139,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 component={ContactPolicy}
               />
               <PrivateRoute path="/integrations/big-query" exact component={Promotional} />
+              <PrivateRoute path="/integrations/big-query/plus" exact component={PlusAccount} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
