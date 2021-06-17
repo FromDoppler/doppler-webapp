@@ -848,16 +848,20 @@ describe('App component', () => {
   });
 
   describe('google adwords', () => {
-    // TODO: fix this tests console warning
-    it('should be called when query string contains activationInProgress%20=%20true', async () => {
+    let dependencies;
+    beforeEach(() => {
       // Arrange
-      const dependencies = {
+      dependencies = {
         window: {
           gtag: jest.fn(),
         },
+        sessionManager: createDoubleSessionManager(),
         dopplerSitesClient: dopplerSitesClientDouble,
       };
+    });
 
+    // TODO: fix this tests console warning
+    it('should be called when query string contains activationInProgress%20=%20true', async () => {
       // Act
       render(
         <AppServicesProvider forcedServices={dependencies}>
@@ -872,14 +876,6 @@ describe('App component', () => {
     });
 
     it('should not be called when query string does not contain activationInProgress parameter.', async () => {
-      // Arrange
-      const dependencies = {
-        window: {
-          gtag: jest.fn(),
-        },
-        dopplerSitesClient: dopplerSitesClientDouble,
-      };
-
       // Act
       render(
         <AppServicesProvider forcedServices={dependencies}>
@@ -894,14 +890,6 @@ describe('App component', () => {
     });
 
     it('should be called when query string contains activationInProgress=true', async () => {
-      // Arrange
-      const dependencies = {
-        window: {
-          gtag: jest.fn(),
-        },
-        dopplerSitesClient: dopplerSitesClientDouble,
-      };
-
       // Act
       render(
         <AppServicesProvider forcedServices={dependencies}>
@@ -916,14 +904,6 @@ describe('App component', () => {
     });
 
     it('should not be called when query string activationInProgress parameter is not true', async () => {
-      // Arrange
-      const dependencies = {
-        window: {
-          gtag: jest.fn(),
-        },
-        dopplerSitesClient: dopplerSitesClientDouble,
-      };
-
       // Act
       render(
         <AppServicesProvider forcedServices={dependencies}>
@@ -939,14 +919,6 @@ describe('App component', () => {
 
     // TODO: fix this tests console warning
     it('should not be called when query string activationInProgress has no value.', async () => {
-      // Arrange
-      const dependencies = {
-        window: {
-          gtag: jest.fn(),
-        },
-        dopplerSitesClient: dopplerSitesClientDouble,
-      };
-
       // Act
       render(
         <AppServicesProvider forcedServices={dependencies}>

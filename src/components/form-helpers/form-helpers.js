@@ -21,6 +21,7 @@ import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
 import { addLogEntry } from '../../utils';
+import useTimeout from '../../hooks/useTimeout';
 
 function concatClasses(...args) {
   return args.filter((x) => x).join(' ');
@@ -90,6 +91,8 @@ const _FormWithCaptcha = ({
   dependencies: { captchaUtilsService },
   ...rest
 }) => {
+  const createTimeout = useTimeout();
+
   /** Store original onSubmit because I need to replace it with verifyCaptchaAndSubmit */
   const originalOnSubmit = onSubmit;
   const [Captcha, verifyCaptcha] = captchaUtilsService.useCaptcha();
@@ -101,9 +104,9 @@ const _FormWithCaptcha = ({
     // we will keep the submit button disabled.
     // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
     const captchaDelay = 100;
-    setTimeout(() => formikProps.setSubmitting(false), captchaDelay);
+    createTimeout(() => formikProps.setSubmitting(false), captchaDelay);
     const result = await verifyCaptcha();
-    setTimeout(() => formikProps.setSubmitting(true), captchaDelay);
+    createTimeout(() => formikProps.setSubmitting(true), captchaDelay);
     if (result.success) {
       await originalOnSubmit(
         { ...values, captchaResponseToken: result.captchaResponseToken },
@@ -121,7 +124,7 @@ const _FormWithCaptcha = ({
       formikProps.setErrors({
         _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
       });
-      setTimeout(() => formikProps.setSubmitting(false), captchaDelay);
+      createTimeout(() => formikProps.setSubmitting(false), captchaDelay);
     }
   };
 

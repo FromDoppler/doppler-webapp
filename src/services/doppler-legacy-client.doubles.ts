@@ -49,7 +49,6 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   }
 
   public async getAllPlans(): Promise<any[]> {
-    console.log('GetAllPlans');
     await timeout(1500);
     return [
       {
