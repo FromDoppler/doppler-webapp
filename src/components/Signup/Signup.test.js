@@ -250,4 +250,89 @@ describe('Signup', () => {
     // Assert
     await waitFor(() => expect(getByText('signup.thanks_for_registering')).toBeInTheDocument());
   });
+
+  it('should show that the email with whitespace already exists when submit', async () => {
+    // Arrange
+    const values = {
+      firstname: 'Juan',
+      lastname: 'Perez',
+      phone: '+54 223 655-8877',
+      email: ' hardcoded@hardcoded.com',
+      password: 'HarcodedPass123',
+      accept_privacy_policies: true,
+    };
+    const registerUser = jest.fn().mockImplementation((values, statusForm) => ({
+      success: false,
+      expectedError: {
+        emailAlreadyExists: true,
+      },
+    }));
+    const dependencies = {
+      ...defaultDependencies,
+      dopplerLegacyClient: {
+        ...defaultDependencies.dopplerLegacyClient,
+        registerUser,
+      },
+      utmCookiesManager: {
+        setCookieEntry: jest.fn(),
+        getUtmCookie: jest.fn().mockImplementation(() => []),
+      },
+    };
+    const location = { search: 'test', pathname: '/signup' };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <DopplerIntlProvider locale="en">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    act(() => {
+      const inputName = container.querySelector('input#firstname');
+      fireEvent.change(inputName, { target: { value: values.firstname } });
+
+      const inputLastname = container.querySelector('input#lastname');
+      fireEvent.change(inputLastname, { target: { value: values.lastname } });
+
+      const inputPhone = container.querySelector('input#phone');
+      fireEvent.change(inputPhone, { target: { value: values.phone } });
+
+      const inputEmail = container.querySelector('input#email');
+      fireEvent.change(inputEmail, { target: { value: values.email } });
+
+      const inputPassword = container.querySelector('input#password');
+      fireEvent.change(inputPassword, { target: { value: values.password } });
+
+      const inputPrivacyPolicies = container.querySelector('input#accept_privacy_policies');
+      fireEvent.click(inputPrivacyPolicies);
+    });
+
+    act(() => {
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.submit(submitButton);
+    });
+
+    // Assert
+    await waitFor(() => expect(registerUser).toHaveBeenCalledTimes(1));
+    expect(registerUser).toHaveBeenCalledWith({
+      ...values,
+      email: values['email'].trim(),
+      accept_promotions: '',
+      firstOrigin: undefined,
+      captchaResponseToken: 'hardcodedResponseToken',
+      language: 'en',
+      origin: 'login',
+      redirect: '',
+      utm_source: 'direct',
+      utm_campaign: null,
+      utm_cookies: [],
+      utm_medium: null,
+      utm_term: null,
+      gclid: null,
+    });
+  });
 });

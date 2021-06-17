@@ -153,6 +153,7 @@ const Signup = function ({
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
+      email: values[fieldNames.email].trim(),
       language: intl.locale,
       firstOrigin: originResolver.getFirstOrigin(),
       origin: originResolver.getCurrentOrigin(),

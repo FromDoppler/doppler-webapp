@@ -48,14 +48,16 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
   };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
+    let isShowingForm = true;
     try {
       const result = await dopplerLegacyClient.sendResetPasswordEmail({
-        email: values[fieldNames.email],
+        email: values[fieldNames.email].trim(),
         captchaResponseToken: values['captchaResponseToken'],
       });
 
       if (result.success) {
         setSentEmail(values[fieldNames.email]);
+        isShowingForm = false;
       } else {
         console.log('Unexpected error', result);
         setErrors({
@@ -63,7 +65,9 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         });
       }
     } finally {
-      setSubmitting(false);
+      if (isShowingForm) {
+        setSubmitting(false);
+      }
     }
   };
 
