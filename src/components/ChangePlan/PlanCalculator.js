@@ -4,7 +4,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
-import { extractParameter, getPlanFee } from '../../utils';
+import { extractParameter, getPlanFee, thousandSeparatorNumber } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
 
 const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
@@ -157,16 +157,20 @@ const PlanPriceWithoutDiscounts = ({ planData }) => {
 const PlanPricePerMonth = ({ planData }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   return (
     <>
       <h2 className="dp-price-large">
         <span className="dp-price-large-money">US$</span>
         <span className="dp-price-large-amount">
-          {planData.discount?.discountPercentage
-            ? Math.round(
-                getPlanFee(planData.plan) * (1 - planData.discount?.discountPercentage / 100),
-              )
-            : getPlanFee(planData.plan)}
+          {thousandSeparatorNumber(
+            intl.defaultLocale,
+            planData.discount?.discountPercentage
+              ? Math.round(
+                  getPlanFee(planData.plan) * (1 - planData.discount?.discountPercentage / 100),
+                )
+              : getPlanFee(planData.plan),
+          )}
         </span>
       </h2>
       <span className="dp-for-time">{_('plan_calculator.per_month')}</span>
@@ -197,10 +201,13 @@ const PlanAgreement = ({ planData }) => {
           <strong>
             {' '}
             US$
-            {Math.round(
-              getPlanFee(planData.plan) *
-                (1 - planData.discount.discountPercentage / 100) *
-                planData.discount.monthsAmmount,
+            {thousandSeparatorNumber(
+              intl.defaultLocale,
+              Math.round(
+                getPlanFee(planData.plan) *
+                  (1 - planData.discount.discountPercentage / 100) *
+                  planData.discount.monthsAmmount,
+              ),
             )}
           </strong>
         </p>
