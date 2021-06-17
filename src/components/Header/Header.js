@@ -69,7 +69,6 @@ const Header = ({
             <ul className="nav-right-main--list">
               <li>
                 <Notifications
-                  plan={user.plan}
                   notifications={notifications}
                   emptyNotificationText={emptyNotificationText}
                 />
