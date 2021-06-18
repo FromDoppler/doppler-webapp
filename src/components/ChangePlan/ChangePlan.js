@@ -3,7 +3,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { Card, CardPrice, CardAction, Ribbon, CardFeatures } from './Card';
 import queryString from 'query-string';
-import { extractParameter } from '../../utils';
+import { extractParameter, thousandSeparatorNumber } from '../../utils';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { Link } from 'react-router-dom';
@@ -173,7 +173,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       </div>
 
       <CardPrice doNotShowSince={path.current} currency="US$">
-        {path.minimumFee}
+        {thousandSeparatorNumber(intl.defaultLocale, path.minimumFee)}
       </CardPrice>
       {path.current && !path.deadEnd ? (
         <>
