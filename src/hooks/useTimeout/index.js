@@ -5,7 +5,7 @@ const useTimeout = () => {
 
   // clear the timeout.
   useEffect(() => {
-    return () => timerIds.map((timerId) => clearTimeout(timerId));
+    return () => timerIds.forEach((timerId) => clearTimeout(timerId));
   }, [timerIds]);
 
   const createTimeout = (callback, delay) => {
