@@ -49,10 +49,7 @@ export const SiteTrackingRequired = InjectAppServices(
             // Free accounts cannot enable trial, they should buy
             <>
               <FormattedMessage tagName="h2" id="reports.upgrade_account_free_title" />
-              <FormattedMessageMarkdown
-                linkTarget={'_blank'}
-                id="reports.upgrade_account_free_MD"
-              />
+              <FormattedMessageMarkdown id="reports.upgrade_account_free_MD" />
             </>
           ) : reason === SiteTrackingNotAvailableReasons.trialNotAccepted ? (
             // Any paid account can enable the trial
