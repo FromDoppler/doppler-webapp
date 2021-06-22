@@ -266,3 +266,15 @@ export function searchLinkByRel(links: Link[], rel: string): Link[] {
   var regularExpression = new RegExp('\\b' + escapeRegExp(rel) + '\\b');
   return links.filter((l) => regularExpression.test(l.rel));
 }
+
+// Due to it seems to be that RAE defines that numbers has to be grouped when has more than 4 digits,
+// (so 1000 it shouldn't to be 1.000), it was decided to use German language when Spanish.
+export const thousandSeparatorNumber = (lang: string, value: number) =>
+  new Intl.NumberFormat(lang === 'es' ? 'de' : lang).format(value);
+
+export const compactNumber = new Intl.NumberFormat('en', {
+  //@ts-ignore
+  notation: 'compact',
+  //@ts-ignore
+  compactDisplay: 'short',
+}).format;

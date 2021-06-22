@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { compactNumber, thousandSeparatorNumber } from '../../../utils';
 
 export const Slider = ({ planDescriptions, defaultValue, handleChange }) => {
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(defaultValue);
@@ -9,7 +10,9 @@ export const Slider = ({ planDescriptions, defaultValue, handleChange }) => {
   return (
     <>
       <div className="dp-calc-quantity">
-        <h3>{planDescriptions[selectedPlanIndex].amount}</h3>
+        <h3>
+          {thousandSeparatorNumber(intl.defaultLocale, planDescriptions[selectedPlanIndex].amount)}
+        </h3>
         <h4>{_(planDescriptions[selectedPlanIndex].descriptionId)}</h4>
       </div>
       <div className="dp-calc-slider progress-bar">
@@ -48,13 +51,13 @@ export const Slider = ({ planDescriptions, defaultValue, handleChange }) => {
         <div className="dp-indicator">
           {planDescriptions.length > 1 ? (
             <span>
-              <strong>{planDescriptions[0].amount}</strong>
+              <strong>{compactNumber(planDescriptions[0].amount)}</strong>
             </span>
           ) : (
             <span></span>
           )}
           <span>
-            <strong>{planDescriptions[planDescriptions.length - 1].amount}</strong>
+            <strong>{compactNumber(planDescriptions[planDescriptions.length - 1].amount)}</strong>
           </span>
         </div>
       </div>
