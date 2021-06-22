@@ -1,6 +1,6 @@
 import React from 'react';
 import ForgotPassword from './ForgotPassword';
-import { render, cleanup, waitFor, fireEvent, act, prettyDOM } from '@testing-library/react';
+import { render, cleanup, waitFor, fireEvent, act } from '@testing-library/react';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';

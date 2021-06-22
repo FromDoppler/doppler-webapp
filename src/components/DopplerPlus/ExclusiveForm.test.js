@@ -69,9 +69,7 @@ describe('ExclusiveForm component', () => {
     });
 
     // Assert
-    await waitFor(() => {
-      return expect(getByText('exclusive_form.success')).toBeInTheDocument();
-    });
+    await waitFor(() => expect(getByText('exclusive_form.success')).toBeInTheDocument());
   });
 
   it('should show messages for empty required fields', async () => {
