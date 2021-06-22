@@ -1,6 +1,6 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
-import { Plan, PrepaidPack, FeaturedPlan } from './doppler-types';
+import { Plan, PrepaidPack, FeaturedPlan, PlanType } from './doppler-types';
 
 declare global {
   interface Window {
@@ -248,6 +248,26 @@ export function openZohoChatWithMessage(message: string) {
 
 export function getPlanFee(plan: Plan): number {
   return plan.type === 'prepaid' ? (plan as PrepaidPack).price : (plan as FeaturedPlan).fee;
+}
+
+const firstPlansDefaultOrder: PlanType[] = ['subscribers', 'monthly-deliveries', 'prepaid'];
+
+export function orderPlanTypes(
+  planTypes: PlanType[],
+  firstPlans: PlanType[] = firstPlansDefaultOrder,
+): PlanType[] {
+  const firstPlansIncluded: PlanType[] = firstPlans.filter((planType: PlanType) =>
+    planTypes.includes(planType),
+  );
+
+  if (firstPlansIncluded.length === 0) {
+    return planTypes;
+  }
+
+  const complementaryPlans = planTypes.filter(
+    (plantType: PlanType) => !firstPlansIncluded.includes(plantType),
+  );
+  return [...firstPlansIncluded, ...complementaryPlans];
 }
 
 interface Link {

@@ -8,14 +8,79 @@ import {
   isWhitelisted,
   searchLinkByRel,
   logAxiosRetryError,
-  addLogEntry,
   thousandSeparatorNumber,
   compactNumber,
+  orderPlanTypes,
 } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
 
 describe('utils', () => {
+  describe('orderPlanTypes', () => {
+    it('should sort plan types when all first plans are', () => {
+      // Arrange
+      const planTypes = ['demo', 'prepaid', 'free', 'monthly-deliveries', 'subscribers'];
+      const expectedPlans = ['subscribers', 'monthly-deliveries', 'prepaid', 'demo', 'free'];
+
+      // Act
+      const orderedPlans = orderPlanTypes(planTypes);
+
+      // Assert
+      expect(orderedPlans).toEqual(expectedPlans);
+    });
+
+    it('should sort plan types when there are only first 2 plans', () => {
+      // Arrange
+      const planTypes = ['demo', 'prepaid', 'free', 'monthly-deliveries'];
+      const expectedPlans = ['monthly-deliveries', 'prepaid', 'demo', 'free'];
+
+      // Act
+      const orderedPlans = orderPlanTypes(planTypes);
+
+      // Assert
+      expect(orderedPlans).toEqual(expectedPlans);
+    });
+
+    it('should return original list when there are no plans to sort', () => {
+      // Arrange
+      const planTypes = ['demo', 'agencies', 'free'];
+      const expectedPlans = ['demo', 'agencies', 'free'];
+
+      // Act
+      const orderedPlans = orderPlanTypes(planTypes);
+
+      // Assert
+      expect(orderedPlans).toEqual(expectedPlans);
+    });
+
+    it('should return original list when there are no plans to sort', () => {
+      // Arrange
+      const planTypes = [
+        'demo',
+        'free',
+        'agencies',
+        'monthly-deliveries',
+        'prepaid',
+        'subscribers',
+      ];
+      const expectedPlans = [
+        'agencies',
+        'prepaid',
+        'free',
+        'demo',
+        'monthly-deliveries',
+        'subscribers',
+      ];
+      const firstPlans = ['agencies', 'prepaid', 'free'];
+
+      // Act
+      const orderedPlans = orderPlanTypes(planTypes, firstPlans);
+
+      // Assert
+      expect(orderedPlans).toEqual(expectedPlans);
+    });
+  });
+
   describe('getDataHubParams', () => {
     it('should parse url with no params and no hash correctly', () => {
       //Arrange

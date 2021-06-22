@@ -5,6 +5,7 @@ import PlanCalculator from './PlanCalculator';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../services/pure-di';
 import { MemoryRouter, Route } from 'react-router-dom';
+import { orderPlanTypes } from '../../utils';
 
 describe('PlanCalculator component', () => {
   afterEach(cleanup);
@@ -21,10 +22,11 @@ describe('PlanCalculator component', () => {
     },
   };
 
+  const planTypes = orderPlanTypes(['prepaid', 'subscribers', 'monthly-deliveries']);
   const planServiceDoubleBase = {
     getPlanList: () => [],
     mapCurrentPlanFromTypeOrId: () => {},
-    getPlanTypes: () => ['prepaid', 'subscribers', 'monthly-deliveries'],
+    getPlanTypes: () => planTypes,
     getBuyUrl: () => '',
   };
 
@@ -67,6 +69,14 @@ describe('PlanCalculator component', () => {
       expect(getByText('plan_calculator.plan_type_prepaid')).toBeInTheDocument();
       expect(getByText('plan_calculator.plan_type_subscribers')).toBeInTheDocument();
       expect(getByText('plan_calculator.plan_type_monthly_deliveries')).toBeInTheDocument();
+
+      // check the order of the plan types
+      const navigatorTabs = container.querySelector('.tabs-nav');
+      let tab = navigatorTabs.firstChild;
+      planTypes.forEach((planType) => {
+        expect(tab).toHaveTextContent(`plan_calculator.plan_type_${planType.replace('-', '_')}`);
+        tab = tab.nextSibling;
+      });
     });
   });
 

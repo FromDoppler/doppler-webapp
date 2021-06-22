@@ -14,7 +14,7 @@ import {
   FreePlan,
   AgencyPlan,
 } from '../doppler-types';
-import { getPlanFee } from '../utils';
+import { getPlanFee, orderPlanTypes } from '../utils';
 
 export interface PlanHierarchy {
   getPaths(userPlan: Plan, planList: Plan[]): Path[];
@@ -252,7 +252,7 @@ export class PlanService implements PlanHierarchy {
       (n, i) => typesAllowed.indexOf(n) === i,
     );
 
-    return distinctTypesAllowed;
+    return orderPlanTypes(distinctTypesAllowed);
   }
 
   getPlans(userPlan: Plan, pathType: PathType, planType: PlanType, planList: Plan[]): Plan[] {
