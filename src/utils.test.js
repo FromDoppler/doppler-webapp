@@ -565,28 +565,36 @@ describe('utils', () => {
     });
   });
 
-  describe('thousandSeparatorNumber function', () => {
-    it('should return correct intl format for numbers in ESP', () => {
-      // Assert
-      expect(thousandSeparatorNumber('es', 100)).toBe('100');
-      expect(thousandSeparatorNumber('es', 1000)).toBe('1.000');
-      expect(thousandSeparatorNumber('es', 10000)).toBe('10.000');
-    });
+  describe.each`
+    rawNumber | expectedFormatted | language
+    ${100}    | ${'100'}          | ${'en'}
+    ${1000}   | ${'1,000'}        | ${'en'}
+    ${10000}  | ${'10,000'}       | ${'en'}
+    ${100}    | ${'100'}          | ${'es'}
+    ${1000}   | ${'1.000'}        | ${'es'}
+    ${10000}  | ${'10.000'}       | ${'es'}
+  `('thousandSeparatorNumber function', ({ rawNumber, expectedFormatted, language }) => {
+    it(`should return ${expectedFormatted} when the number is ${rawNumber} and language is ${language}`, () => {
+      // Act
+      const result = thousandSeparatorNumber(language, rawNumber);
 
-    it('should return correct intl format for numbers in ENG', () => {
       // Assert
-      expect(thousandSeparatorNumber('en', 100)).toBe('100');
-      expect(thousandSeparatorNumber('en', 1000)).toBe('1,000');
-      expect(thousandSeparatorNumber('en', 10000)).toBe('10,000');
+      expect(result).toBe(expectedFormatted);
     });
   });
 
-  describe('compactNumber function', () => {
-    it('should return correct compact format for numbers (no matter what language)', () => {
+  describe.each`
+    rawNumber | expectedFormatted
+    ${100}    | ${'100'}
+    ${1000}   | ${'1K'}
+    ${10000}  | ${'10K'}
+  `('compactNumber function', ({ rawNumber, expectedFormatted }) => {
+    it(`should return ${expectedFormatted} when the number is ${rawNumber} (no matter what language)`, () => {
+      // Act
+      const result = compactNumber(rawNumber);
+
       // Assert
-      expect(compactNumber(100)).toBe('100');
-      expect(compactNumber(1000)).toBe('1K');
-      expect(compactNumber(10000)).toBe('10K');
+      expect(result).toBe(expectedFormatted);
     });
   });
 });
