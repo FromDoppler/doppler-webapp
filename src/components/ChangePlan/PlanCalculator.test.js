@@ -309,8 +309,8 @@ describe('PlanCalculator component', () => {
 
     // Assert
     await waitFor(() => {
-      expect(getByText('US$1,739')).toBeInTheDocument();
-      expect(getByText('580')).toBeInTheDocument();
+      expect(getByText('US$1,738.50')).toBeInTheDocument();
+      expect(getByText('579.50')).toBeInTheDocument();
       expect(getByText('610')).toBeInTheDocument();
     });
   });
