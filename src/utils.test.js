@@ -566,15 +566,19 @@ describe('utils', () => {
   });
 
   describe.each`
-    rawNumber | expectedFormatted | language
-    ${100}    | ${'100'}          | ${'en'}
-    ${1000}   | ${'1,000'}        | ${'en'}
-    ${10000}  | ${'10,000'}       | ${'en'}
-    ${100}    | ${'100'}          | ${'es'}
-    ${1000}   | ${'1.000'}        | ${'es'}
-    ${10000}  | ${'10.000'}       | ${'es'}
+    rawNumber  | expectedFormatted | language
+    ${100}     | ${'100'}          | ${'en'}
+    ${1000}    | ${'1,000'}        | ${'en'}
+    ${10000}   | ${'10,000'}       | ${'en'}
+    ${1000.35} | ${'1,000.35'}     | ${'en'}
+    ${1000.5}  | ${'1,000.50'}     | ${'en'}
+    ${100}     | ${'100'}          | ${'es'}
+    ${1000}    | ${'1.000'}        | ${'es'}
+    ${10000}   | ${'10.000'}       | ${'es'}
+    ${1000.35} | ${'1.000,35'}     | ${'es'}
+    ${1000.5}  | ${'1.000,50'}     | ${'es'}
   `('thousandSeparatorNumber function', ({ rawNumber, expectedFormatted, language }) => {
-    it(`should return ${expectedFormatted} when the number is ${rawNumber} and language is ${language}`, () => {
+    it(`should return ${expectedFormatted} when the number is ${rawNumber} and language is "${language}"`, () => {
       // Act
       const result = thousandSeparatorNumber(language, rawNumber);
 
