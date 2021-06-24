@@ -526,6 +526,10 @@ export const CheckboxFieldItem = ({
   </FieldItem>
 );
 
+export const NumberField = ({ required, ...rest }) => (
+  <Field type="number" validate={createRequiredValidation(required)} {...rest} />
+);
+
 /**
  * Submit Button Component
  * @param { Object } props
