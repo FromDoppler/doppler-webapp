@@ -128,6 +128,7 @@ const messages_en = {
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
     draft_url: `${urlDraft}`,
+    emails: 'Emails',
     empty_data: `Your domain has no data to show in this section yet.`,
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
@@ -135,6 +136,7 @@ const messages_en = {
     new: `New`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
+    save: `Save`,
     send: `Send`,
     show: `Show`,
     synchronizing: `Synchronizing`,
@@ -142,13 +144,17 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
   },
   contact_policy: {
+    amount_description: 'Send up to',
+    interval_description: 'within',
+    interval_unit: 'days',
     meta_title: 'Doppler | Contact Policy',
     subtitle_MD: `
-Define the maximum number of Emails that each of your Subscribers can receive in a given period of time.
+Set a **maximum number of Emails** your Subscribers will be able to receive from you in a period of time.
 
-You can avoid saturating your Database and possible removals. Do you need help? Press [HELP](${urlHelp}/contact-policy).`,
+Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
+    success_msg: 'Changes saved successfully.',
     title: 'Contact Policy',
-    toggle_text: 'Limit the maximum number of mailings to the same Subscriber',
+    toggle_text: 'Set maximum number of Emails',
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
