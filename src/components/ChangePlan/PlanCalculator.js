@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import { extractParameter, getPlanFee, thousandSeparatorNumber } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
 import useTimeout from '../../hooks/useTimeout';
+import * as S from './PlanCalculator.styles';
 
 const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
   const intl = useIntl();
@@ -384,7 +385,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                 selectedPlanType={state.selectedPlanType}
               />
             </div>
-            <section className="tab--container col-sm-12">
+            <S.PlanTabContainer className="col-sm-12">
               <article className={`tab--content ${activeClass}`}>
                 <div className="dp-container">
                   <div className="dp-rowflex">
@@ -434,7 +435,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                   </div>
                 </div>
               </article>
-            </section>
+            </S.PlanTabContainer>
             <div className="dp-container">
               <div className="dp-rowflex">
                 <div className="dp-align-center dp-cta-plans">
