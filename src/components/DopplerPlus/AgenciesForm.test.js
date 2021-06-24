@@ -212,4 +212,18 @@ describe('AgenciesForm component', () => {
       return expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
     });
   });
+
+  it('should show features list in agencies form', () => {
+    //Arrange
+
+    //Act
+    const { container, getByText } = render(<AgenciesFormElement />);
+
+    //Assert
+    expect(getByText('agencies.feature_access')).toBeInTheDocument();
+    expect(getByText('agencies.feature_admin')).toBeInTheDocument();
+    expect(getByText('agencies.feature_custom')).toBeInTheDocument();
+    expect(getByText('agencies.feature_reports')).toBeInTheDocument();
+    expect(getByText('agencies.feature_consultancy')).toBeInTheDocument();
+  });
 });
