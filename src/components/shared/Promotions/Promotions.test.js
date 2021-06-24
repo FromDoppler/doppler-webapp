@@ -59,4 +59,24 @@ describe('Promotions Component', () => {
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
     await waitFor(() => expect(getByText(fullResponse.value.title)));
   });
+
+  it('should has full default data from service when dont have page in parameters', async () => {
+    const dopplerSitesClientDouble = {
+      getBannerData: async () => fullResponse,
+    };
+
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          dopplerSitesClient: dopplerSitesClientDouble,
+        }}
+      >
+        <DopplerIntlProvider locale="es">
+          <Promotions type="signup" />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    await waitFor(() => expect(getByText(fullResponse.value.title)));
+  });
 });
