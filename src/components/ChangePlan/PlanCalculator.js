@@ -140,12 +140,14 @@ const BannerUpgrade = ({ currentPlan, currentPlanList }) => {
 };
 
 const PlanPriceWithoutDiscounts = ({ planData }) => {
+  const intl = useIntl();
+  const formatedFee = thousandSeparatorNumber(intl.defaultLocale, getPlanFee(planData.plan));
   return (
     <>
       {planData.discount?.discountPercentage ? (
         <span className="dp-price-old">
           <span className="dp-price-old-money">US$</span>
-          <span className="dp-price-old-amount">{getPlanFee(planData.plan)}</span>
+          <span className="dp-price-old-amount">{formatedFee}</span>
         </span>
       ) : (
         <></>
@@ -157,21 +159,18 @@ const PlanPriceWithoutDiscounts = ({ planData }) => {
 const PlanPricePerMonth = ({ planData }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const discountPercentage = planData.discount?.discountPercentage;
+  const planFee = getPlanFee(planData.plan);
+  const planFeeWithDiscount = thousandSeparatorNumber(
+    intl.defaultLocale,
+    discountPercentage ? planFee * (1 - discountPercentage / 100) : planFee,
+  );
 
   return (
     <>
       <h2 className="dp-price-large">
         <span className="dp-price-large-money">US$</span>
-        <span className="dp-price-large-amount">
-          {thousandSeparatorNumber(
-            intl.defaultLocale,
-            planData.discount?.discountPercentage
-              ? Math.round(
-                  getPlanFee(planData.plan) * (1 - planData.discount?.discountPercentage / 100),
-                )
-              : getPlanFee(planData.plan),
-          )}
-        </span>
+        <span className="dp-price-large-amount">{planFeeWithDiscount}</span>
       </h2>
       <span className="dp-for-time">{_('plan_calculator.per_month')}</span>
     </>
@@ -181,6 +180,13 @@ const PlanPricePerMonth = ({ planData }) => {
 const PlanAgreement = ({ planData }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const discountPercentage = planData.discount?.discountPercentage;
+  const monthsAmmount = planData?.discount?.monthsAmmount;
+  const planFee = Math.round(getPlanFee(planData.plan));
+  const planFeeWithDiscount = thousandSeparatorNumber(
+    intl.defaultLocale,
+    planFee * (1 - discountPercentage / 100) * monthsAmmount,
+  );
 
   const getAgreementDescription = (discountDescription) => {
     switch (discountDescription) {
@@ -195,25 +201,16 @@ const PlanAgreement = ({ planData }) => {
 
   return (
     <div className="dp-agreement">
-      {planData.discount?.discountPercentage ? (
+      {discountPercentage ? (
         <p>
           {getAgreementDescription(planData.discount.description)}
           <strong>
             {' '}
             US$
-            {thousandSeparatorNumber(
-              intl.defaultLocale,
-              Math.round(
-                getPlanFee(planData.plan) *
-                  (1 - planData.discount.discountPercentage / 100) *
-                  planData.discount.monthsAmmount,
-              ),
-            )}
+            {planFeeWithDiscount}
           </strong>
         </p>
-      ) : (
-        <></>
-      )}
+      ) : null}
       <p>{_('plan_calculator.discount_clarification')}</p>
     </div>
   );
