@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 export const Card = ({ children, className, highlighted, ...rest }) => {
+  // TODO: double negation (!!) should be removed
   return (
     <div
       className={classNames({ 'dp-card': true, 'dp-highlighthed': !!highlighted }, className)}
@@ -24,6 +25,7 @@ export const CardAction = ({ url, children, ...rest }) => {
   );
 };
 
+// TODO: the variable name 'doNotShowSince' should be an affirmative expression. 'doNotShowSince' is hard to read
 export const CardPrice = ({ currency, children, doNotShowSince }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -40,7 +42,7 @@ export const CardPrice = ({ currency, children, doNotShowSince }) => {
   );
 };
 
-export const Ribbon = ({ children, position = 'top-right', content }) => {
+export const Ribbon = ({ position = 'top-right', content }) => {
   return (
     <div className={`dp-ribbon dp-ribbon-${position}`}>
       <span>{content}</span>
