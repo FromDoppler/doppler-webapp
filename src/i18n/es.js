@@ -128,12 +128,14 @@ const messages_es = {
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
     draft_url: `${urlDraft}`,
+    emails: 'Emails',
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
     message: `Mensaje`,
     new: `Nueva`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
+    save: `Guardar`,
     send: `Enviar`,
     show: `Mostrar`,
     synchronizing: `Syncronizando`,
@@ -141,13 +143,17 @@ const messages_es = {
     unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,
   },
   contact_policy: {
+    amount_description: 'Enviar hasta',
+    interval_description: 'en un plazo de',
+    interval_unit: 'días',
     meta_title: 'Doppler | Política de Contacto',
     subtitle_MD: `
-Define la cantidad máxima de Emails que puede recibir cada uno de tus Suscriptores en un período de tiempo determinado.
+Define la **cantidad máxima de Emails** que tus Suscriptores podrán recibir en un período de tiempo determinado.
 
-Podrás evitar saturar tu Base de Datos y posibles remociones ¿Necesitas ayuda? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
+¿Quieres saber más? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
+    success_msg: 'Cambios guardados con éxito.',
     title: 'Política de Contacto',
-    toggle_text: 'Limitar la cantidad máxima de envíos a un mismo Suscriptor',
+    toggle_text: 'Definir número máximo de envíos',
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
