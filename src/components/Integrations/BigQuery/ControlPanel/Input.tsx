@@ -25,9 +25,8 @@ const Input = (props: InputProps) => {
   const ButtonRemove = useMemo(() => {
     if (className === 'style_not_empty') {
       return (
-        <button type="button" onClick={handleRemove}>
-          {' '}
-          -{' '}
+        <button type="button" onClick={handleRemove} data-testid="btn-remove">
+          -
         </button>
       );
     }
@@ -42,6 +41,7 @@ const Input = (props: InputProps) => {
         onChange={handleChange}
         className={className}
         disabled={className === 'style_not_empty' ? true : false}
+        data-testid="email-input"
       />
       <div className="wrapper-errors dp-message dp-error-form">
         <p>{errorMessage}</p>

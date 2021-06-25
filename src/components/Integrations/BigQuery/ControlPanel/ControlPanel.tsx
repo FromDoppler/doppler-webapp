@@ -25,24 +25,16 @@ const ControlPanel: React.FunctionComponent<IControlPanelProps> = (props) => {
 
   const onClickHandler = useCallback(
     (isSaved: boolean) => {
-      if (isSaved) {
-        setMessage(isSaved);
-        setSaved(isSaved);
-      } else {
-        setMessage(isSaved);
-        setSaved(isSaved);
-      }
+      setMessage(isSaved);
+      setSaved(isSaved);
     },
     [setMessage, setSaved],
   );
 
-  const onClickBtnHandler = useCallback(
-    (btn: string) => {
-      setMessage(true);
-      setSaved(false);
-    },
-    [setMessage, setSaved],
-  );
+  const onClickBtnHandler = useCallback(() => {
+    setMessage(true);
+    setSaved(false);
+  }, [setMessage, setSaved, values]);
 
   const MessageMemo = useMemo(() => {
     let messageText;

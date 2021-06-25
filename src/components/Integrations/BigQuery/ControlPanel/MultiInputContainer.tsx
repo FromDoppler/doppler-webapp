@@ -40,8 +40,8 @@ const generateInputConfig = (values: string[]): InputConfig[] => {
 interface MultiInputProps {
   values?: string[];
   onChange: (newValues: string[]) => void;
-  onRemove: (btn: string) => void;
-  onAdd: (btn: string) => void;
+  onRemove: () => void;
+  onAdd: () => void;
 }
 
 const MultiInput = (props: MultiInputProps) => {
@@ -84,7 +84,7 @@ const MultiInput = (props: MultiInputProps) => {
   const handleRemove = (id: string) => {
     const newInputs = inputConfigs?.filter((input) => input.id !== id);
     setInputConfigs(newInputs);
-    onRemove('-');
+    onRemove();
   };
 
   const handleAdd = () => {
@@ -108,7 +108,7 @@ const MultiInput = (props: MultiInputProps) => {
       setInputConfigs([...newInputs]);
     } else {
       setInputConfigs([emptyInput(), ...newInputs]);
-      onAdd('+');
+      onAdd();
     }
   };
 
@@ -131,9 +131,8 @@ const MultiInput = (props: MultiInputProps) => {
   return (
     <div>
       <div>
-        <button type="button" onClick={handleAdd}>
-          {' '}
-          +{' '}
+        <button type="button" onClick={handleAdd} data-testid="btn-add">
+          +
         </button>
       </div>
       {inputConfigs?.map(renderInput)}
