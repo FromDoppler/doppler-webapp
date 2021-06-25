@@ -30,18 +30,14 @@ const Promotions = function ({ type, page, dependencies: { dopplerSitesClient } 
     const fetchData = async () => {
       setState({ loading: true });
       const bannerData = await dopplerSitesClient.getBannerData(intl.locale, type, page || '');
-      if (!bannerData.success) {
+      if (!bannerData || !bannerData.success) {
         setState({ loading: false, bannerData: getDefaultBannerData(intl) });
       } else {
         setState({ loading: false, bannerData: bannerData.value });
       }
     };
 
-    if (page) {
-      fetchData();
-    } else {
-      setState({ loading: false, bannerData: getDefaultBannerData(intl) });
-    }
+    fetchData();
   }, [dopplerSitesClient, page, intl, type]);
 
   return (
