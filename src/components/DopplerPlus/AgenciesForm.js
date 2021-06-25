@@ -239,26 +239,26 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                 <li>
                   <span>
                     <span className="dp-icodot">.</span>
-                    <span>{_('agencies.feature_1')}</span>
+                    <span>{_('agencies.feature_access')}</span>
                   </span>
                 </li>
                 <li>
                   <span>
                     <span className="dp-icodot">.</span>
-                    <span>{_('agencies.feature_2')}</span>
+                    <span>{_('agencies.feature_admin')}</span>
                   </span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>{_('agencies.feature_3')}</span>
+                  <span>{_('agencies.feature_custom')}</span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>{_('agencies.feature_4')}</span>
+                  <span>{_('agencies.feature_reports')}</span>
                 </li>
                 <li>
                   <span className="dp-icodot">.</span>
-                  <span>{_('agencies.feature_5')}</span>
+                  <span>{_('agencies.feature_consultancy')}</span>
                 </li>
               </ul>
             </div>
