@@ -13,7 +13,8 @@ const uniqueId = function (name: String) {
   return (
     name +
     '-xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      let r = (Math.random() * 16) | 0, v = c === 'x' ? r : (r & 0x3) | 0x8;
+      let r = (Math.random() * 16) | 0,
+        v = c === 'x' ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     })
   );
@@ -23,7 +24,7 @@ const emptyInput = (): InputConfig => ({
   id: uniqueId('input'),
   value: '',
   className: 'style_empty',
-  errorMessage: ''
+  errorMessage: '',
 });
 
 const generateInputConfig = (values: string[]): InputConfig[] => {
@@ -31,7 +32,7 @@ const generateInputConfig = (values: string[]): InputConfig[] => {
     return {
       id: uniqueId('input'),
       value,
-      className: (value !== '' ? 'style_not_empty' : 'style_empty')
+      className: value !== '' ? 'style_not_empty' : 'style_empty',
     };
   });
 };
@@ -39,15 +40,18 @@ const generateInputConfig = (values: string[]): InputConfig[] => {
 interface MultiInputProps {
   values?: string[];
   onChange: (newValues: string[]) => void;
-  onRemove: (btn:string) => void;
-  onAdd: (btn:string) => void;
+  onRemove: (btn: string) => void;
+  onAdd: (btn: string) => void;
 }
 
 const MultiInput = (props: MultiInputProps) => {
   const intl = useIntl();
-  const i18 = useCallback((id: string, values?: any)=>{
-    return intl.formatMessage({ id: id }, values);
-  },[intl]);
+  const i18 = useCallback(
+    (id: string, values?: any) => {
+      return intl.formatMessage({ id: id }, values);
+    },
+    [intl],
+  );
 
   const { values, onChange, onRemove, onAdd } = props;
   const [inputConfigs, setInputConfigs] = useState<InputConfig[]>([]);
@@ -80,29 +84,29 @@ const MultiInput = (props: MultiInputProps) => {
   const handleRemove = (id: string) => {
     const newInputs = inputConfigs?.filter((input) => input.id !== id);
     setInputConfigs(newInputs);
-    onRemove('-')
+    onRemove('-');
   };
 
   const handleAdd = () => {
     let hasError = false;
     const newInputs = inputConfigs?.map((input) => {
-        if (input.value===''){
-          input.errorMessage = i18('big_query.plus_error_message_empty');
-          hasError=true;
-        }else if (!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(input.value))) {
-          input.errorMessage = i18('big_query.plus_error_message_not_email');
-          hasError=true;
-        }else{
-          input.className = 'style_not_empty';
-          input.errorMessage = '';
-        }
+      if (input.value === '') {
+        input.errorMessage = i18('big_query.plus_error_message_empty');
+        hasError = true;
+      } else if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(input.value)) {
+        input.errorMessage = i18('big_query.plus_error_message_not_email');
+        hasError = true;
+      } else {
+        input.className = 'style_not_empty';
+        input.errorMessage = '';
+      }
 
       return input;
     });
 
-    if (hasError){
-      setInputConfigs([...newInputs]);  
-    }else{
+    if (hasError) {
+      setInputConfigs([...newInputs]);
+    } else {
       setInputConfigs([emptyInput(), ...newInputs]);
       onAdd('+');
     }
@@ -127,7 +131,10 @@ const MultiInput = (props: MultiInputProps) => {
   return (
     <div>
       <div>
-        <button type="button" onClick={handleAdd}> + </button>
+        <button type="button" onClick={handleAdd}>
+          {' '}
+          +{' '}
+        </button>
       </div>
       {inputConfigs?.map(renderInput)}
     </div>

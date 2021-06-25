@@ -1,5 +1,4 @@
-import React, {useMemo, useCallback} from "react";
-
+import React, { useMemo, useCallback } from 'react';
 
 interface InputProps {
   value: string;
@@ -19,30 +18,35 @@ const Input = (props: InputProps) => {
     onChange(event.target.value, id);
   };
 
-  const handleRemove = useCallback(()=>{
+  const handleRemove = useCallback(() => {
     onRemove(id);
-  },[id, onRemove]);
+  }, [id, onRemove]);
 
-  const ButtonRemove = useMemo(()=> {
-    if (className==='style_not_empty'){
-      return <button type="button" onClick={handleRemove} > - </button>
+  const ButtonRemove = useMemo(() => {
+    if (className === 'style_not_empty') {
+      return (
+        <button type="button" onClick={handleRemove}>
+          {' '}
+          -{' '}
+        </button>
+      );
     }
-  },[className, handleRemove]);
+  }, [className, handleRemove]);
 
   return (
-    <li className={errorMessage!==''?"field-item dp-error error":"field-item"} >
-         <input
-            type="email"
-            placeholder={placeholder}
-            value={value}
-            onChange={handleChange}
-            className={className}
-            disabled={className==='style_not_empty'?true:false}
-          />
-          <div className="wrapper-errors dp-message dp-error-form">
-            <p>{errorMessage}</p>
-          </div>
-          {ButtonRemove}         
+    <li className={errorMessage !== '' ? 'field-item dp-error error' : 'field-item'}>
+      <input
+        type="email"
+        placeholder={placeholder}
+        value={value}
+        onChange={handleChange}
+        className={className}
+        disabled={className === 'style_not_empty' ? true : false}
+      />
+      <div className="wrapper-errors dp-message dp-error-form">
+        <p>{errorMessage}</p>
+      </div>
+      {ButtonRemove}
     </li>
   );
 };
