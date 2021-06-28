@@ -14,7 +14,6 @@ const emptyResponse = { success: false, error: new Error('Dummy error') };
 const defaultDependencies = {
   dopplerSitesClient: {
     getBannerData: async () => {
-      await timeout(0);
       return emptyResponse;
     },
   },
