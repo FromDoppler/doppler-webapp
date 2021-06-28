@@ -6,6 +6,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import queryString from 'query-string';
 import { extractParameter, getPlanFee, thousandSeparatorNumber } from '../../utils';
 import { useRouteMatch, Link } from 'react-router-dom';
+import useTimeout from '../../hooks/useTimeout';
+import * as S from './PlanCalculator.styles';
 
 const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
   const intl = useIntl();
@@ -226,6 +228,8 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
   const { pathType, planType } = useRouteMatch().params;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const [activeClass, setActiveClass] = useState('active');
+  const createTimeout = useTimeout();
 
   const [state, setState] = useState({ loading: true });
 
@@ -343,6 +347,11 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
     fetchData();
   }, [actionTypes.INIT, appSessionRef, planService, planType, pathType]);
 
+  useEffect(() => {
+    setActiveClass('');
+    createTimeout(() => setActiveClass('active'), 0);
+  }, [planType, createTimeout]);
+
   const getMonthsByCycle = (billingCycle) => {
     switch (billingCycle) {
       case 'monthly':
@@ -376,8 +385,8 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                 selectedPlanType={state.selectedPlanType}
               />
             </div>
-            <section className="tab--container col-sm-12">
-              <article className="tab--content active">
+            <S.PlanTabContainer className="col-sm-12">
+              <article className={`tab--content ${activeClass}`}>
                 <div className="dp-container">
                   <div className="dp-rowflex">
                     <div className="dp-calc-box">
@@ -426,7 +435,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                   </div>
                 </div>
               </article>
-            </section>
+            </S.PlanTabContainer>
             <div className="dp-container">
               <div className="dp-rowflex">
                 <div className="dp-align-center dp-cta-plans">
