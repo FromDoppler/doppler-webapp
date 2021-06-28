@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import { Slider } from '../shared/Slider/Slider';
+import { TooltipContainer } from '../TooltipContainer/TooltipContainer';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -370,6 +371,8 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
   if (state.loading) {
     return <Loading page />;
   }
+  const currentPlan = appSessionRef.current.userData.user.plan;
+  const isButtonDisabled = currentPlan.idPlan === planData.plan.id;
 
   return state.success ? (
     <section className="dp-gray-page p-t-54 p-b-54">
@@ -445,18 +448,25 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                   >
                     {_('plan_calculator.button_back')}
                   </Link>
-
-                  <a
-                    className="dp-button button-medium primary-green"
-                    href={planService.getBuyUrl(
-                      _('common.control_panel_section_url'),
-                      planData.plan.id,
-                      planData.discount?.id,
-                      safePromoId,
-                    )}
+                  <TooltipContainer
+                    visible={isButtonDisabled}
+                    content={_('plan_calculator.button_purchase_tooltip')}
+                    orientation="top"
                   >
-                    {_('plan_calculator.button_purchase')}
-                  </a>
+                    <S.PurchaseLink
+                      className={`dp-button button-medium primary-green ${
+                        isButtonDisabled ? 'disabled' : ''
+                      }`}
+                      href={planService.getBuyUrl(
+                        _('common.control_panel_section_url'),
+                        planData.plan.id,
+                        planData.discount?.id,
+                        safePromoId,
+                      )}
+                    >
+                      {_('plan_calculator.button_purchase')}
+                    </S.PurchaseLink>
+                  </TooltipContainer>
                 </div>
               </div>
             </div>
