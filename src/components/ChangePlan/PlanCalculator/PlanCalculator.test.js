@@ -2,10 +2,10 @@ import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import PlanCalculator from './PlanCalculator';
-import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../services/pure-di';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../services/pure-di';
 import { MemoryRouter, Route } from 'react-router-dom';
-import { orderPlanTypes } from '../../utils';
+import { orderPlanTypes } from '../../../utils';
 
 describe('PlanCalculator component', () => {
   afterEach(cleanup);
