@@ -22,7 +22,7 @@ import Offline from './components/Offline/Offline';
 import PushNotifications from './components/PushNotifications/PushNotifications';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 import ChangePlan from './components/ChangePlan/ChangePlan';
-import PlanCalculator from './components/ChangePlan/PlanCalculator';
+import PlanCalculator from './components/ChangePlan/PlanCalculator/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
