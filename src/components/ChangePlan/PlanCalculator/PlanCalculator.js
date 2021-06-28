@@ -16,6 +16,7 @@ import { PlanPriceWithoutDiscounts } from './PlanPriceWithoutDiscounts/PlanPrice
 import { PlanPricePerMonth } from './PlanPricePerMonth/PlanPricePerMonth';
 import { PlanAgreement } from './PlanAgreement/PlanAgreement';
 import { PlanPrice } from './PlanPrice/PlanPrice';
+import { getMonthsByCycle, getPlanDescription } from '../../../services/plan-service';
 
 const PlanCalculator = ({ location, dependencies: { planService, appSessionRef } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
@@ -25,7 +26,6 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [activeClass, setActiveClass] = useState('active');
   const createTimeout = useTimeout();
-
   const [state, setState] = useState({ loading: true });
 
   const actionTypes = {
@@ -63,34 +63,6 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
     },
     { plan: {}, discount: {} },
   );
-
-  const getPlanDescription = (plan) => {
-    const planDescription = {
-      descriptionId: 'plan_calculator.' + plan.type.replace('-', '_') + '_amount_description',
-    };
-    switch (plan.type) {
-      case 'prepaid':
-        return {
-          ...planDescription,
-          amount: plan.credits,
-        };
-      case 'subscribers':
-        return {
-          ...planDescription,
-          amount: plan.subscriberLimit,
-        };
-      case 'monthly-deliveries':
-        return {
-          ...planDescription,
-          amount: plan.emailsByMonth,
-        };
-      default:
-        return {
-          amount: null,
-          descriptionId: 'plan_calculator.unknown_amount_description',
-        };
-    }
-  };
 
   useEffect(() => {
     const mapDiscount = (discount) => {
@@ -146,21 +118,6 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
     setActiveClass('');
     createTimeout(() => setActiveClass('active'), 0);
   }, [planType, createTimeout]);
-
-  const getMonthsByCycle = (billingCycle) => {
-    switch (billingCycle) {
-      case 'monthly':
-        return 1;
-      case 'quarterly':
-        return 3;
-      case 'half-yearly':
-        return 6;
-      case 'yearly':
-        return 12;
-      default:
-        return 1;
-    }
-  };
 
   if (state.loading) {
     return <Loading page />;

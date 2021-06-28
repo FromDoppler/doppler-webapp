@@ -307,3 +307,48 @@ export class PlanService implements PlanHierarchy {
     );
   }
 }
+
+export const getMonthsByCycle = (
+  billingCycle: 'monthly' | 'quarterly' | 'half-yearly' | 'yearly',
+) => {
+  switch (billingCycle) {
+    case 'monthly':
+      return 1;
+    case 'quarterly':
+      return 3;
+    case 'half-yearly':
+      return 6;
+    case 'yearly':
+      return 12;
+    default:
+      return 1;
+  }
+};
+
+export const getPlanDescription = (plan: Plan) => {
+  const planDescription = {
+    descriptionId: 'plans.' + plan.type.replace('-', '_') + '_amount_description',
+  };
+  switch (plan.type) {
+    case 'prepaid':
+      return {
+        ...planDescription,
+        amount: plan.credits,
+      };
+    case 'subscribers':
+      return {
+        ...planDescription,
+        amount: plan.subscriberLimit,
+      };
+    case 'monthly-deliveries':
+      return {
+        ...planDescription,
+        amount: plan.emailsByMonth,
+      };
+    default:
+      return {
+        amount: 0,
+        descriptionId: 'plans.unknown_amount_description',
+      };
+  }
+};
