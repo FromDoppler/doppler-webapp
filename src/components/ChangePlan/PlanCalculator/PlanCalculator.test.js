@@ -355,4 +355,93 @@ describe('PlanCalculator component', () => {
       expect(getByText('common.unexpected_error')).toBeInTheDocument();
     });
   });
+
+  it('should show correct amount and amount description for prepaid plan', async () => {
+    // Arrange
+    const planServiceDouble = {
+      ...planServiceDoubleBase,
+      getPlans: () => [
+        {
+          type: 'prepaid',
+          id: 1,
+          name: '1500-CREDITS',
+          credits: 1500,
+          price: 15,
+          featureSet: 'standard',
+        },
+      ],
+    };
+
+    // Act
+    const { container } = render(<PlanCalculatorElement planServiceDouble={planServiceDouble} />);
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('1,500');
+      expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
+        'plans.prepaid_amount_description',
+      );
+    });
+  });
+
+  it('should show correct amount and amount description for subscribers plan', async () => {
+    // Arrange
+    const planServiceDouble = {
+      ...planServiceDoubleBase,
+      getPlans: () => [
+        {
+          type: 'subscribers',
+          id: 1,
+          name: '2500-SUBSCRIBERS-STANDARD',
+          subscriberLimit: 2500,
+          fee: 34,
+          featureSet: 'standard',
+          featureList: null,
+          billingCycleDetails: null,
+        },
+      ],
+    };
+
+    // Act
+    const { container } = render(<PlanCalculatorElement planServiceDouble={planServiceDouble} />);
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('2,500');
+      expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
+        'plans.subscribers_amount_description',
+      );
+    });
+  });
+
+  it('should show correct amount and amount description for emails plan', async () => {
+    // Arrange
+    const planServiceDouble = {
+      ...planServiceDoubleBase,
+      getPlans: () => [
+        {
+          type: 'monthly-deliveries',
+          id: 1,
+          name: '5000-EMAILS-STANDARD',
+          emailsByMonth: 5000,
+          extraEmailPrice: 3.5,
+          fee: 50,
+          featureSet: 'standard',
+          features: null,
+          billingCycleDetails: null,
+        },
+      ],
+    };
+
+    // Act
+    const { container } = render(<PlanCalculatorElement planServiceDouble={planServiceDouble} />);
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('5,000');
+      expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
+        'plans.monthly_deliveries_amount_description',
+      );
+    });
+  });
 });
