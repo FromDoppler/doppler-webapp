@@ -11,8 +11,8 @@ describe('Slider component', () => {
     // Act
     const mockedFunction = () => null;
     const mockedValues = [
-      { amount: 1, descriptionId: 'plan_calculator.prepaid_amount_description' },
-      { amount: 2, descriptionId: 'plan_calculator.prepaid_amount_description' },
+      { amount: 1, descriptionId: 'plans.prepaid_amount_description' },
+      { amount: 2, descriptionId: 'plans.prepaid_amount_description' },
     ];
     const { container } = render(
       <DopplerIntlProvider>
@@ -28,8 +28,8 @@ describe('Slider component', () => {
     // Act
     const mockedFunction = jest.fn();
     const mockedValues = [
-      { amount: 1, descriptionId: 'plan_calculator.prepaid_amount_description' },
-      { amount: 2, descriptionId: 'plan_calculator.prepaid_amount_description' },
+      { amount: 1, descriptionId: 'plans.prepaid_amount_description' },
+      { amount: 2, descriptionId: 'plans.prepaid_amount_description' },
     ];
     const { container } = render(
       <DopplerIntlProvider>
