@@ -9,6 +9,8 @@ import { Loading } from '../Loading/Loading';
 import { Link } from 'react-router-dom';
 import Collapse from '@kunukn/react-collapse';
 import * as S from './ChangePlan.styles';
+import { FAQ } from '../FAQ';
+import { topics } from '../FAQ/constants';
 
 // TODO: develop function to create an item
 export const BulletOptions = ({ type }) => {
@@ -257,64 +259,69 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
       {state.loading ? (
         <Loading page />
       ) : (
-        <div className="dp-gray-page p-t-54 p-b-54">
-          <section className="dp-container">
-            <div className="dp-rowflex">
-              <div className="dp-align-center">
-                <h1 className="dp-tit-plans">{_('change_plan.title')}</h1>
+        <>
+          <div className="dp-gray-page p-t-54 p-b-54">
+            <section className="dp-container">
+              <div className="dp-rowflex">
+                <div className="dp-align-center">
+                  <h1 className="dp-tit-plans">{_('change_plan.title')}</h1>
+                </div>{' '}
               </div>{' '}
-            </div>{' '}
-          </section>
-          <section className="dp-container">
-            <div className="dp-rowflex">
-              <div className="dp-align-center p-t-30">
-                {state.pathList?.length ? (
-                  state.pathList.map((path, index) =>
-                    path.type === 'free' ? (
-                      <FreeCard key={index} showFeatures={isFeaturesVisible}></FreeCard>
-                    ) : path.type === 'agencies' ? (
-                      <AgenciesCard key={index} showFeatures={isFeaturesVisible}></AgenciesCard>
-                    ) : (
-                      <CardWithPrice
-                        key={index}
-                        path={path}
-                        showFeatures={isFeaturesVisible}
-                        currentPlanType={state.currentPlan.type}
-                        promoCode={promoCode}
-                      ></CardWithPrice>
-                    ),
-                  )
-                ) : (
-                  <></>
-                )}
+            </section>
+            <section className="dp-container">
+              <div className="dp-rowflex">
+                <div className="dp-align-center p-t-30">
+                  {state.pathList?.length ? (
+                    state.pathList.map((path, index) =>
+                      path.type === 'free' ? (
+                        <FreeCard key={index} showFeatures={isFeaturesVisible}></FreeCard>
+                      ) : path.type === 'agencies' ? (
+                        <AgenciesCard key={index} showFeatures={isFeaturesVisible}></AgenciesCard>
+                      ) : (
+                        <CardWithPrice
+                          key={index}
+                          path={path}
+                          showFeatures={isFeaturesVisible}
+                          currentPlanType={state.currentPlan.type}
+                          promoCode={promoCode}
+                        ></CardWithPrice>
+                      ),
+                    )
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="col-sm-12">
-              <button
-                className={`dp-compare-details-plans ${isFeaturesVisible ? 'dp-open-compare' : ''}`}
-                onClick={() => toggleFeatures()}
-              >
-                {_('change_plan.compare_features')}
-              </button>
-            </div>
-            <S.Banner className="col-sm-12">
-              <div>
-                <S.ImgEnterprise
-                  alt="enterprise icon"
-                  src={_('common.ui_library_image', { imageUrl: 'asset-enterprise.svg' })}
-                />
-                <h2>{_('change_plan.banner_exclusive_features_title')}</h2>
-                <p>{_('change_plan.banner_exclusive_features_description')}</p>
+              <div className="col-sm-12">
+                <button
+                  className={`dp-compare-details-plans ${
+                    isFeaturesVisible ? 'dp-open-compare' : ''
+                  }`}
+                  onClick={() => toggleFeatures()}
+                >
+                  {_('change_plan.compare_features')}
+                </button>
               </div>
-              <Link
-                className="dp-button button-medium secondary-green button--round"
-                to="/email-marketing-exclusive"
-              >
-                {_('change_plan.link_exclusive_features')}
-              </Link>
-            </S.Banner>
-          </section>
-        </div>
+              <S.Banner className="col-sm-12">
+                <div>
+                  <S.ImgEnterprise
+                    alt="enterprise icon"
+                    src={_('common.ui_library_image', { imageUrl: 'asset-enterprise.svg' })}
+                  />
+                  <h2>{_('change_plan.banner_exclusive_features_title')}</h2>
+                  <p>{_('change_plan.banner_exclusive_features_description')}</p>
+                </div>
+                <Link
+                  className="dp-button button-medium secondary-green button--round"
+                  to="/email-marketing-exclusive"
+                >
+                  {_('change_plan.link_exclusive_features')}
+                </Link>
+              </S.Banner>
+            </section>
+          </div>
+          <FAQ topics={topics} />
+        </>
       )}
     </>
   );
