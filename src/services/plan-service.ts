@@ -47,7 +47,8 @@ const getUpgradeMonthlyPlans = (
   },
 ): MonthlyRenewalDeliveriesPlan[] =>
   planList.filter(
-    (x) => x.type === 'monthly-deliveries' && x.fee > minFee && x.emailsByMonth >= minEmailsByMonth,
+    (x) =>
+      x.type === 'monthly-deliveries' && x.fee >= minFee && x.emailsByMonth >= minEmailsByMonth,
   ) as MonthlyRenewalDeliveriesPlan[];
 
 const getUpgradeSubscribersPlans = (
@@ -58,7 +59,7 @@ const getUpgradeSubscribersPlans = (
   },
 ): SubscribersLimitedPlan[] =>
   planList.filter(
-    (x) => x.type === 'subscribers' && x.fee > minFee && x.subscriberLimit >= minSubscriberLimit,
+    (x) => x.type === 'subscribers' && x.fee >= minFee && x.subscriberLimit >= minSubscriberLimit,
   ) as SubscribersLimitedPlan[];
 
 const getFreePlans = (planList: Plan[]): FreePlan[] =>
