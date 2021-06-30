@@ -12,7 +12,8 @@ import * as S from './ChangePlan.styles';
 import { FAQ } from '../FAQ';
 import { topics } from '../FAQ/constants';
 
-const BulletOptions = ({ type }) => {
+// TODO: develop function to create an item
+export const BulletOptions = ({ type }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -79,7 +80,7 @@ const BulletOptions = ({ type }) => {
   );
 };
 
-const StarBullet = () => {
+export const StarBullet = () => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -89,7 +90,7 @@ const StarBullet = () => {
   );
 };
 
-const OptionItem = ({ children, bullet }) => {
+export const OptionItem = ({ children, bullet }) => {
   return (
     <li>
       {bullet}
@@ -98,15 +99,15 @@ const OptionItem = ({ children, bullet }) => {
   );
 };
 
-const BasicBullet = () => {
+export const BasicBullet = () => {
   return <span className="dp-icodot">.</span>;
 };
 
-const NewLabel = ({ children }) => {
+export const NewLabel = ({ children }) => {
   return <span className="dp-new">{children}</span>;
 };
 
-const BigDataBullet = ({ children }) => {
+export const BigDataBullet = ({ children }) => {
   return (
     <div className="dp-tooltip-container">
       <span className="dp-icobd">BD</span>
@@ -117,7 +118,7 @@ const BigDataBullet = ({ children }) => {
   );
 };
 
-const FreeCard = ({ showFeatures }) => {
+export const FreeCard = ({ showFeatures }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -138,7 +139,7 @@ const FreeCard = ({ showFeatures }) => {
   );
 };
 
-const AgenciesCard = ({ showFeatures }) => {
+export const AgenciesCard = ({ showFeatures }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -163,7 +164,7 @@ const AgenciesCard = ({ showFeatures }) => {
   );
 };
 
-const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
+export const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -179,6 +180,8 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
       </CardPrice>
       {path.current && !path.deadEnd ? (
         <>
+          {/* TODO: it's not necessary. Can be used 'search' and add promoCode
+          https://reactrouter.com/web/api/Link */}
           <Link
             to={`/plan-selection/${path.type}/${currentPlanType}?${
               promoCode ? 'promo-code=' + promoCode : ''
@@ -191,7 +194,7 @@ const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }) => {
         </>
       ) : path.current && path.deadEnd ? (
         <>
-          <span class="dp-maximum">{_('change_plan.card_generic_maximum_reached')}</span>
+          <span className="dp-maximum">{_('change_plan.card_generic_maximum_reached')}</span>
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
       ) : (
