@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { TooltipContainer } from '../../../TooltipContainer/TooltipContainer';
 
 export const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
   const intl = useIntl();
@@ -14,12 +15,13 @@ export const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
         return (
           <>
             {_(`plan_calculator.plan_type_${type.replace('-', '_')}`)}{' '}
-            <div className="dp-tooltip-container">
+            <TooltipContainer
+              visible={true}
+              content={_(`plan_calculator.plan_type_${type.replace('-', '_')}_tooltip`)}
+              orientation="top"
+            >
               <span className="ms-icon icon-info-icon"></span>
-              <div className="dp-tooltip-top">
-                <span>{_(`plan_calculator.plan_type_${type.replace('-', '_')}_tooltip`)}</span>
-              </div>
-            </div>
+            </TooltipContainer>
           </>
         );
       default:
