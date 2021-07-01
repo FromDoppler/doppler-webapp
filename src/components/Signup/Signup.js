@@ -89,6 +89,7 @@ const Signup = function ({
   const utmMedium = getParameter(location, 'utm_medium');
   const utmTerm = getParameter(location, 'utm_term');
   const gclid = getParameter(location, 'gclid');
+  const utmContent = getParameter(location, 'utm_content');
 
   utmCookiesManager.setCookieEntry({
     storage: localStorage,
@@ -97,6 +98,7 @@ const Signup = function ({
     UTMMedium: utmMedium,
     UTMTerm: utmTerm,
     gclid,
+    UTMContent: utmContent,
   });
   const utmCookies = utmCookiesManager.getUtmCookie(localStorage);
 
@@ -164,6 +166,7 @@ const Signup = function ({
       utm_term: utmTerm,
       utm_cookies: utmCookies,
       gclid,
+      utm_content: utmContent,
     });
     if (result.success) {
       setRegisteredUser(values[fieldNames.email]);
