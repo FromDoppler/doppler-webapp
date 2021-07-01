@@ -125,6 +125,6 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.9",
-    "jest-environment-jsdom-sixteen": "^1.0.3"
+    "jest-environment-jsdom-sixteen": "^2.0.0"
   }
 }
