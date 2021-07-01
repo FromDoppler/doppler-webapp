@@ -1,10 +1,11 @@
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { RefObject } from 'react';
 import { AppSession } from './app-session';
 
 export interface DopplerContactPolicyApiClient {
   getAccountSettings(email: string): Promise<ResultWithoutExpectedErrors<AccountSettings>>;
+  updateAccountSettings(data: AccountSettings): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 export interface AccountSettings {
@@ -73,6 +74,27 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
       }
     } catch (error) {
       return { success: false, error: error };
+    }
+  }
+
+  async updateAccountSettings(data: AccountSettings): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${data.accountName}/settings`,
+        data,
+      });
+
+      if (response.data.success) {
+        return { success: true };
+      } else {
+        return { success: false, error: response };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
     }
   }
 }
