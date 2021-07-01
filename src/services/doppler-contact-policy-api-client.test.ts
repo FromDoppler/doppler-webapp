@@ -1,15 +1,124 @@
-import { cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import { AxiosStatic } from 'axios';
+import { RefObject } from 'react';
+import { AppSession } from './app-session';
+import { DopplerLegacyUserData } from './doppler-legacy-client';
+import { HttpDopplerContactPolicyApiClient } from './doppler-contact-policy-api-client';
 
-describe('HttpDopplerContactPolicyApiClient', () => {
-  afterEach(cleanup);
+const emailAccount = 'email@mail.com';
+const excludedSubscribersLists = [
+  {
+    id: 1,
+    name: 'List A',
+  },
+  {
+    id: 2,
+    name: 'List B',
+  },
+];
+const accountSettings = {
+  accountName: emailAccount,
+  active: true,
+  emailsAmountByInterval: 20,
+  intervalInDays: 7,
+  excludedSubscribersLists: excludedSubscribersLists,
+};
 
-  //TODO: Implement real tests
-  it('dummy test', () => {
+function createHttpDopplerContactPolicyApiClient(axios: any) {
+  const axiosStatic = {
+    create: () => axios,
+  } as AxiosStatic;
+
+  const connectionDataRef = {
+    current: {
+      status: 'authenticated',
+      jwtToken: 'jwtToken',
+      userData: { user: { email: emailAccount } } as DopplerLegacyUserData,
+    },
+  } as RefObject<AppSession>;
+
+  return new HttpDopplerContactPolicyApiClient({
+    axiosStatic,
+    baseUrl: 'http://api.test',
+    connectionDataRef,
+  });
+}
+
+describe('Doppler Contact Policy Api Client', () => {
+  it('should get account settings correctly', async () => {
+    // Arrange
+    const response = {
+      data: accountSettings,
+      status: 200,
+    };
+    const request = jest.fn(async () => response);
+    const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
+
     // Act
-    const n = null;
+    const result = await dopplerContactPolicyApiClient.getAccountSettings(emailAccount);
 
     // Assert
-    expect(n).toBeNull();
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.value.active).toBe(true);
+    expect(result.value.emailsAmountByInterval).toBe(20);
+    expect(result.value.intervalInDays).toBe(7);
+    expect(result.value.excludedSubscribersLists).not.toBe(undefined);
+    expect(result.value.excludedSubscribersLists).toHaveLength(2);
+  });
+
+  it('should get an error when requesting account settings', async () => {
+    // Arrange
+    const response = {
+      data: {},
+      status: 400,
+    };
+    const request = jest.fn(async () => response);
+    const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
+
+    // Act
+    const result = await dopplerContactPolicyApiClient.getAccountSettings(emailAccount);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+    expect(result.error).not.toBe(undefined);
+  });
+
+  it('should update account settings correctly', async () => {
+    // Arrange
+    const response = {
+      data: { success: true },
+    };
+    const request = jest.fn(async () => response);
+    const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
+
+    // Act
+    const result = await dopplerContactPolicyApiClient.updateAccountSettings(accountSettings);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.error).toBe(undefined);
+  });
+
+  it('should get an error when updating account settings', async () => {
+    // Arrange
+    const response = {
+      data: { success: false },
+    };
+    const request = jest.fn(async () => response);
+    const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
+
+    // Act
+    const result = await dopplerContactPolicyApiClient.updateAccountSettings(accountSettings);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+    expect(result.error).not.toBe(undefined);
   });
 });
