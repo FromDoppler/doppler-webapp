@@ -80,7 +80,6 @@ const messages_en = {
     card_agencies_title: 'Agencies',
     card_free_description: 'Try a FREE Doppler account with no contracts or credit cards. Until 500 Contacts.',
     card_free_title: 'FREE',
-    card_generic_maximum_reached: 'MAXIMUM REACHED',
     card_plus_description: 'Advanced features for professionals with custom needs.',
     card_plus_title: 'Plus',
     card_standard_description: 'Try our plans that best fit to your needs, monthly or prepaids.',

@@ -80,7 +80,6 @@ const messages_es = {
     card_agencies_title: 'Agencias',
     card_free_description: 'Prueba Doppler GRATIS sin contratos ni tarjetas de crédito. Hasta 500 Contactos.',
     card_free_title: 'GRATUITO',
-    card_generic_maximum_reached: 'MÁXIMO ALCANZADO',
     card_plus_description: 'Funciones avanzadas para profesionales que necesitan mas personalización.',
     card_plus_title: 'Plus',
     card_standard_description: 'Prueba nuestros planes que se ajusten mas a tus necesidades: mensuales o prepagos.',
