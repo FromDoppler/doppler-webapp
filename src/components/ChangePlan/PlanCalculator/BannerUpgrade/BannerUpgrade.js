@@ -16,7 +16,7 @@ export const BannerUpgrade = ({ currentPlan, currentPlanList }) => {
         // TODO: define where to go in this case
         return { ...bannerInfo, link: `/email-marketing-agencies` };
       default:
-        return `plan_calculator.banner_for_unknown`;
+        return { ...bannerInfo, messageId: `plan_calculator.banner_for_unknown` };
     }
   };
 
