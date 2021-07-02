@@ -87,7 +87,6 @@ export interface AgencyPlan {
 export interface FreePath {
   type: 'free';
   current: boolean;
-  deadEnd: boolean;
 }
 
 export type Plan =
@@ -103,20 +102,17 @@ export interface StandardPath {
   type: 'standard';
   current: boolean;
   minimumFee: number;
-  deadEnd: boolean;
 }
 
 export interface PlusPath {
   type: 'plus';
   current: boolean;
   minimumFee: number;
-  deadEnd: boolean;
 }
 
 export interface AgenciesPath {
   type: 'agencies';
   current: boolean;
-  deadEnd: boolean;
 }
 
 export interface AppStatus {

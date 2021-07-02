@@ -178,7 +178,7 @@ export const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }
       <CardPrice doNotShowSince={path.current} currency="US$">
         {thousandSeparatorNumber(intl.defaultLocale, path.minimumFee)}
       </CardPrice>
-      {path.current && !path.deadEnd ? (
+      {path.current ? (
         <>
           {/* TODO: it's not necessary. Can be used 'search' and add promoCode
           https://reactrouter.com/web/api/Link */}
@@ -190,11 +190,6 @@ export const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }
           >
             {_(`change_plan.increase_action_${currentPlanType.replace('-', '_')}`)}
           </Link>
-          <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
-        </>
-      ) : path.current && path.deadEnd ? (
-        <>
-          <span className="dp-maximum">{_('change_plan.card_generic_maximum_reached')}</span>
           <span className="dp-what-plan">{_('change_plan.current_plan')}</span>
         </>
       ) : (
