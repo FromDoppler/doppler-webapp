@@ -19,7 +19,6 @@ import Subscribers from './components/Reports/Subscribers/Subscribers';
 import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampaigns/ReportsPartialsCampaigns';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
-import PushNotifications from './components/PushNotifications/PushNotifications';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 import ChangePlan from './components/ChangePlan/ChangePlan';
 import PlanCalculator from './components/ChangePlan/PlanCalculator/PlanCalculator';
@@ -128,7 +127,6 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
               <PrivateRoute path={'/checkout/:pathType/:planType?'} exact component={Checkout} />
               <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
               <PrivateRoute path={'/email-marketing-exclusive'} exact component={ExclusiveForm} />
-              <PrivateRoute path="/push" exact component={PushNotifications} />
               <PrivateRoute
                 path="/reports/partials-campaigns"
                 exact
