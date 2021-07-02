@@ -21,6 +21,8 @@ import { getDataHubParams } from './utils';
 import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
 import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
 import { HardcodedDopplerUserApiClient } from './services/doppler-user-api-client.double';
+import { HardcodedDopplerContactPolicyApiClient } from './services/doppler-contact-policy-api-client.double';
+
 import Offline from './components/Offline/Offline';
 polyfill();
 
@@ -42,6 +44,7 @@ const forcedServices =
         ipinfoClient: new HardcodedIpinfoClient(),
         dopplerBillingApiClient: new HardcodedDopplerBillingApiClient(),
         dopplerUserApiClient: new HardcodedDopplerUserApiClient(),
+        dopplerContactPolicyApiClient: new HardcodedDopplerContactPolicyApiClient(),
       }
     : {};
 
