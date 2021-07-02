@@ -1,4 +1,4 @@
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import {
   AccountSettings,
   DopplerContactPolicyApiClient,
@@ -45,5 +45,12 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
       success: true,
       value: settings,
     };
+  }
+
+  async updateAccountSettings(data: AccountSettings): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('setAccountSettings', data);
+    await timeout(1500);
+    return { success: true };
+    //return { success: false, error: new Error('Dummy error') };
   }
 }
