@@ -98,7 +98,6 @@ const getFreePathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [FreePath] =
     {
       type: 'free',
       current: userPlan.featureSet === 'free',
-      deadEnd: plans.length === 1 && userPlan === cheapestPlan,
     },
   ];
 };
@@ -116,7 +115,6 @@ const getAgencyPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [AgenciesP
     {
       type: 'agencies',
       current: userPlan.featureSet === 'agency',
-      deadEnd: plans.length === 1 && userPlan === cheapestPlan,
     },
   ];
 };
@@ -134,7 +132,6 @@ const getStandardPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [Standar
       type: 'standard',
       current: userPlan.featureSet === 'standard',
       minimumFee: getPlanFee(cheapestPlan),
-      deadEnd: plans.length === 1 && cheapestPlan === userPlan,
     },
   ];
 };
@@ -153,7 +150,6 @@ const getPlusPathOrEmpty = (userPlan: Plan, planList: Plan[]): PlusPath[] => {
       type: 'plus',
       current: userPlan.featureSet === 'plus',
       minimumFee: cheapestPlan.fee,
-      deadEnd: plans.length === 1 && cheapestPlan === userPlan,
     },
   ];
 };

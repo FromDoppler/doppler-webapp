@@ -145,7 +145,7 @@ describe('CardWithPrice component', () => {
   const currentPlanType = 'prepaid';
   const showFeatures = false;
 
-  it('should render CardWithPrice when path type is plus and has not deadEnd', async () => {
+  it('should render CardWithPrice when path type is plus', async () => {
     // Arrange
     const path = {
       type: 'plus',
@@ -182,7 +182,7 @@ describe('CardWithPrice component', () => {
     expect(getByText(`change_plan.features_HTML_${path.type}`)).toBeInTheDocument();
   });
 
-  it('should render CardWithPrice when path type is standard and deadEnd', async () => {
+  it('should render CardWithPrice when path type is standard', async () => {
     // Arrange
     const path = {
       type: 'standard',
@@ -217,12 +217,11 @@ describe('CardWithPrice component', () => {
     );
   });
 
-  it('should render CardWithPrice when has not promotion code and path has current and deadEnd', async () => {
+  it('should render CardWithPrice when has not promotion code and path has current', async () => {
     // Arrange
     const path = {
       type: 'standard',
       current: 'fake current',
-      deadEnd: 'fake deadEnd',
     };
 
     // Act
@@ -240,7 +239,6 @@ describe('CardWithPrice component', () => {
 
     // Assert
     expect(container.querySelector('.dp-highlighthed')).not.toBeInTheDocument();
-    expect(getByText('change_plan.card_generic_maximum_reached')).toBeInTheDocument();
   });
 
   it('should render CardWithPrice showing CardPrice', async () => {
@@ -249,7 +247,6 @@ describe('CardWithPrice component', () => {
       type: 'standard',
       current: 'fake current',
       minimumFee: 1000,
-      deadEnd: 'fake deadEnd',
     };
 
     // Act
@@ -347,7 +344,6 @@ describe('ChangePlan component', () => {
     };
     const complementariesPaths = Object.keys(pricePlansByType).map((path) => ({
       current: false,
-      deadEnd: false,
       minimumFee: pricePlansByType[path],
       type: path,
     }));
@@ -355,7 +351,6 @@ describe('ChangePlan component', () => {
       {
         type: 'free',
         current: true,
-        deadEnd: true,
       },
       ...complementariesPaths,
     ];
