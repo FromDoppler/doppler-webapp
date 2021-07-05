@@ -1,6 +1,8 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
 import { Plan, PrepaidPack, FeaturedPlan, PlanType } from './doppler-types';
+import countriesEs from './i18n/countries-es.json';
+import countriesEn from './i18n/countries-en.json';
 
 declare global {
   interface Window {
@@ -300,3 +302,14 @@ export const compactNumber = new Intl.NumberFormat('en', {
   //@ts-ignore
   compactDisplay: 'short',
 }).format;
+
+export const getCountries = (language: string) => {
+  var data: { [key: string]: any } = language === 'es' ? countriesEs : countriesEn;
+  var countries = Object.keys(data).map(function (key) {
+    return { key: key, value: data[key] };
+  });
+
+  return countries.sort((a, b) =>
+    a.value.localeCompare(b.value, undefined, { sensitivity: 'base' }),
+  );
+};
