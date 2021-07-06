@@ -35,13 +35,23 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
           },
         };
       default:
-        return { ...bannerInfo, messageId: `plan_calculator.banner_for_unknown` };
+        return {
+          banner: {
+            ...bannerInfo,
+            messageId: `plan_calculator.banner_for_unknown`,
+          },
+          suggestion: {
+            ...suggestionInfo,
+            messageId: `plan_calculator.suggestion_for_unknown`,
+          },
+        };
     }
   };
 
   const hightestPlan = currentPlanList.length === 1 && currentPlan.id === sessionPlan.idPlan;
+  const currentPlanSelected = currentPlan.id === currentPlanList[currentPlanList.length - 1].id;
 
-  if (currentPlan.id === currentPlanList[currentPlanList.length - 1].id && !hightestPlan) {
+  if (currentPlanSelected && !hightestPlan) {
     const bannerInfo = getUpgradeInfo(currentPlan.type);
     return (
       <div className="dp-calc-message">
@@ -59,7 +69,7 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
         </p>
       </div>
     );
-  } else if (currentPlan.id === currentPlanList[currentPlanList.length - 1].id && hightestPlan) {
+  } else if (currentPlanSelected && hightestPlan) {
     const suggestionInfo = getUpgradeInfo(currentPlan.type);
     return (
       <div className="dp-message-upgrade-plan m-t-24 m-b-24">
