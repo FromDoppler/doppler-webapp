@@ -122,8 +122,9 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
   if (state.loading) {
     return <Loading page />;
   }
-  const currentPlan = appSessionRef.current.userData.user.plan;
-  const isButtonDisabled = currentPlan.idPlan === planData.plan.id;
+  const sessionPlan = appSessionRef.current.userData.user;
+  const isEqualPlan = sessionPlan.plan.idPlan === planData.plan.id;
+  const hightestPlan = state.planList.length === 1 && isEqualPlan;
 
   return state.success ? (
     <section className="dp-gray-page p-t-54 p-b-54">
@@ -149,6 +150,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                           <Slider
                             planDescriptions={state.planDescriptions}
                             defaultValue={0}
+                            visible={!hightestPlan}
                             handleChange={(index) => {
                               dispatchPlanData({
                                 type: actionTypes.UPDATE_SELECTED_PLAN,
@@ -157,6 +159,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                             }}
                           />
                           <BannerUpgrade
+                            sessionPlan={sessionPlan.plan}
                             currentPlan={planData.plan}
                             currentPlanList={state.planList}
                           />
@@ -200,13 +203,13 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                     {_('plan_calculator.button_back')}
                   </Link>
                   <TooltipContainer
-                    visible={isButtonDisabled}
+                    visible={isEqualPlan}
                     content={_('plan_calculator.button_purchase_tooltip')}
                     orientation="top"
                   >
                     <S.PurchaseLink
                       className={`dp-button button-medium primary-green ${
-                        isButtonDisabled ? 'disabled' : ''
+                        isEqualPlan ? 'disabled' : ''
                       }`}
                       href={planService.getBuyUrl(
                         _('common.control_panel_section_url'),
