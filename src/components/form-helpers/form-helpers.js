@@ -530,6 +530,18 @@ export const NumberField = ({ required, ...rest }) => (
   <Field type="number" validate={createRequiredValidation(required)} {...rest} />
 );
 
+export const SwitchField = ({ id, name, text, ...rest }) => (
+  <>
+    <div className="dp-switch">
+      <Field type="checkbox" id={id || name} name={name} {...rest} />
+      <label htmlFor={id || name}>
+        <span />
+      </label>
+    </div>
+    <label htmlFor={id || name}>{text}</label>
+  </>
+);
+
 /**
  * Submit Button Component
  * @param { Object } props
