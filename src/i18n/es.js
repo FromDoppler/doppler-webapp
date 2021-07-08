@@ -133,6 +133,7 @@ const messages_es = {
     hide: `Ocultar`,
     message: `Mensaje`,
     message_last_plan:`Cuéntanos tus necesidades y diseñaremos el Plan perfecto para ti`,
+    message_success:`¡Hecho! Tu solicitud ha sido enviada`,
     new: `Nueva`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     save: `Guardar`,
