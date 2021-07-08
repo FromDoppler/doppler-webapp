@@ -67,6 +67,10 @@ const messages_es = {
     free_title: `Big Query`,
     free_ul_item_filter: `Podras filtrar los reportes en base a todas tus campañas o seleccionar solo algunas en particular.`,
     free_ul_item_insights: `Obtén valiosos insights sobre tu cuenta`,
+    plus_button_add: `+`,
+    plus_button_remove: `-`,
+    plus_error_message_email_exists: `El correo ingresado ya se encuentra configurado`,
+    plus_loading_message: `Cargando ...`,
     upgrade_plan_url: `${urlUpgradePlan}`,
   },
   change_plan: {
