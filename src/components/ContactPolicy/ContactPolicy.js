@@ -12,7 +12,6 @@ import {
   SwitchField,
 } from '../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
-import useTimeout from '../../hooks/useTimeout';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 
@@ -60,20 +59,18 @@ export const ContactPolicy = InjectAppServices(
       }
     }, [isContactPolicyEnabled, dopplerContactPolicyApiClient, appSessionRef]);
 
-    //TODO: refactor next block. (just to simulate form submission)
-    //BEGIN BLOCK
-    const createTimeout = useTimeout();
     const submitContactPolicyForm = async (values, { setSubmitting }) => {
       setFormSubmitted(false);
-      await new Promise((resolve) => {
-        createTimeout(() => {
-          resolve(true);
-        }, 1000);
-      });
-      setFormSubmitted(true);
-      setSubmitting(false);
+      try {
+        const { success } = await dopplerContactPolicyApiClient.updateAccountSettings(values);
+        if (!success) {
+          console.log('Error updating account settings');
+        }
+        setFormSubmitted(success);
+      } finally {
+        setSubmitting(false);
+      }
     };
-    //END BLOCK
 
     return (
       <>
