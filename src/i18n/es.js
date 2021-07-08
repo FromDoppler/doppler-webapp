@@ -132,6 +132,7 @@ const messages_es = {
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
     message: `Mensaje`,
+    message_last_plan:`Cuéntanos tus necesidades y diseñaremos el Plan perfecto para ti`,
     new: `Nueva`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     save: `Guardar`,

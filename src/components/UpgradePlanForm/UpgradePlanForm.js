@@ -10,7 +10,7 @@ const fieldNames = {
   message: 'message',
 };
 /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
-const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLegacyClient } }) => {
+const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const [state, setState] = useState({
     availablePlans: null,
     formIsValid: false,
@@ -21,15 +21,16 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
   useEffect(() => {
     const fetchData = async () => {
       const availablePlans = await dopplerLegacyClient.getUpgradePlanData(isSubscriber);
+      const filterPlans = availablePlans.filter(p => appSessionRef.current.userData.user.plan.isSubscribers === true ? p.SubscribersQty > appSessionRef.current.userData.user.plan.maxSubscribers : p.EmailQty > appSessionRef.current.userData.user.plan.maxSubscribers);
       setState({
-        availablePlans: availablePlans,
+        availablePlans: filterPlans,
         isLoading: false,
         firstPlanId: availablePlans && availablePlans.length && availablePlans[0].IdUserTypePlan,
       });
       // TODO: what happens when availablePlans is an empty array?
     };
     fetchData();
-  }, [isSubscriber, dopplerLegacyClient]);
+  }, [isSubscriber, dopplerLegacyClient, appSessionRef]);
 
   const onSubmit = async (values, { setSubmitting }) => {
     await dopplerLegacyClient.sendEmailUpgradePlan({
@@ -62,6 +63,7 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
           <Form className="form-request">
             <fieldset>
               <ul className="field-group">
+              {state.availablePlans.length > 0 ? (
                 <li className="field-item">
                   <label htmlFor={fieldNames.selectedPlanId}>
                     <FormattedMessage id="upgradePlanForm.plan_select" />
@@ -80,6 +82,8 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
                     ))}
                   </Field>
                 </li>
+              ):null}
+                {state.availablePlans.length === 0 ? (
                 <li
                   className={
                     'field-item' +
@@ -89,7 +93,7 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
                   }
                 >
                   <label htmlFor={fieldNames.message}>
-                    <FormattedMessage id="common.message" />
+                    <FormattedMessage id="common.message_last_plan" />
                   </label>
                   <FormattedMessage id="upgradePlanForm.message_placeholder">
                     {(placeholderText) => (
@@ -109,6 +113,7 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
                     )}
                   </ErrorMessage>
                 </li>
+                 ) : null}
               </ul>
             </fieldset>
             <div className="container-buttons">
