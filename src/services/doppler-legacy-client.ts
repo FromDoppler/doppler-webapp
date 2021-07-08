@@ -778,6 +778,8 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     return response.data.data.ClientTypePlans.map((x: any) => ({
       IdUserTypePlan: x.IdUserTypePlan,
       Description: x.Description,
+      SubscribersQty: x.SubscribersQty,
+      EmailQty: x.EmailQty
     }));
   }
 
