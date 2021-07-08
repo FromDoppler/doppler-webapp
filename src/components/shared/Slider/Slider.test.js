@@ -7,24 +7,7 @@ import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-i
 describe('Slider component', () => {
   afterEach(cleanup);
 
-  it('should render the slider', () => {
-    // Act
-    const mockedFunction = () => null;
-    const mockedValues = [
-      { amount: 1, descriptionId: 'plans.prepaid_amount_description' },
-      { amount: 2, descriptionId: 'plans.prepaid_amount_description' },
-    ];
-    const { container } = render(
-      <DopplerIntlProvider>
-        <Slider planDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />
-      </DopplerIntlProvider>,
-    );
-
-    // Assert
-    expect(container.querySelector('input[type="range"]')).toBeInTheDocument();
-  });
-
-  it('should execute function when slider changes', () => {
+  it('should render the slider when it is visible', () => {
     // Act
     const mockedFunction = jest.fn();
     const mockedValues = [
@@ -33,7 +16,56 @@ describe('Slider component', () => {
     ];
     const { container } = render(
       <DopplerIntlProvider>
-        <Slider planDescriptions={mockedValues} defaultValue={0} handleChange={mockedFunction} />
+        <Slider
+          planDescriptions={mockedValues}
+          defaultValue={0}
+          visible={true}
+          handleChange={mockedFunction}
+        />
+      </DopplerIntlProvider>,
+    );
+
+    // Assert
+    expect(container.querySelector('input[type="range"]')).toBeInTheDocument();
+  });
+
+  it('should not render the slider when it is hidden', () => {
+    // Act
+    const mockedFunction = jest.fn();
+    const mockedValues = [
+      { amount: 1, descriptionId: 'plans.prepaid_amount_description' },
+      { amount: 2, descriptionId: 'plans.prepaid_amount_description' },
+    ];
+    const { container } = render(
+      <DopplerIntlProvider>
+        <Slider
+          planDescriptions={mockedValues}
+          defaultValue={0}
+          visible={false}
+          handleChange={mockedFunction}
+        />
+      </DopplerIntlProvider>,
+    );
+
+    // Assert
+    expect(container.querySelector('input[type="range"]')).not.toBeInTheDocument();
+  });
+
+  it('should execute function when slider changes and slider it is visible', () => {
+    // Act
+    const mockedFunction = jest.fn();
+    const mockedValues = [
+      { amount: 1, descriptionId: 'plans.prepaid_amount_description' },
+      { amount: 2, descriptionId: 'plans.prepaid_amount_description' },
+    ];
+    const { container } = render(
+      <DopplerIntlProvider>
+        <Slider
+          planDescriptions={mockedValues}
+          defaultValue={0}
+          visible={true}
+          handleChange={mockedFunction}
+        />
       </DopplerIntlProvider>,
     );
 

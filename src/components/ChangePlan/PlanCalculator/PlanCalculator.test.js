@@ -340,19 +340,56 @@ describe('PlanCalculator component', () => {
     });
   });
 
-  it('should show an error if there is no plan to upgrade', async () => {
+  it('should hide the slider and show a suggestion to contact us if there is no plan to upgrade', async () => {
     // Arrange
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 46,
+              },
+            },
+          },
+        },
+      },
+    };
+
     const planServiceDouble = {
       ...planServiceDoubleBase,
-      getPlans: () => [],
+      getPlans: () => [
+        {
+          type: 'monthly-deliveries',
+          id: 46,
+          name: '10000000-EMAILS-STANDARD',
+          emailsByMonth: 10000000,
+          extraEmailPrice: 0.0003,
+          fee: 3600,
+          featureSet: 'standard',
+          features: null,
+          billingCycleDetails: null,
+        },
+      ],
     };
 
     // Act
-    const { getByText } = render(<PlanCalculatorElement planServiceDouble={planServiceDouble} />);
+    const { container } = render(
+      <MemoryRouter initialEntries={['plan-selection/standard']}>
+        <Route path="plan-selection/:pathType/:planType?">
+          <AppServicesProvider forcedServices={{ ...dependencies, planService: planServiceDouble }}>
+            <IntlProvider>
+              <PlanCalculator />
+            </IntlProvider>
+          </AppServicesProvider>
+        </Route>
+      </MemoryRouter>,
+    );
 
     // Assert
     await waitFor(() => {
-      expect(getByText('common.unexpected_error')).toBeInTheDocument();
+      expect(container.querySelector('.dp-message-upgrade-plan')).toBeInTheDocument();
+      expect(container.querySelector('.range-slider')).not.toBeInTheDocument();
     });
   });
 
