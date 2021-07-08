@@ -27,18 +27,20 @@ export const ContactPolicy = InjectAppServices(
       experimentalFeatures && experimentalFeatures.getFeature('ContactPolicy');
     const fieldNames = {
       active: 'active',
-      amount: 'amount',
-      interval: 'interval',
+      emailsAmountByInterval: 'emailsAmountByInterval',
+      intervalInDays: 'intervalInDays',
     };
 
     const getFormInitialValues = () => {
-      return Object.keys(fieldNames).reduce(
+      const initialValues = Object.keys(fieldNames).reduce(
         (accumulator, currentValue) => ({
           ...accumulator,
           [currentValue]: '',
         }),
         {},
       );
+
+      return { ...initialValues, ...settings };
     };
 
     useEffect(() => {
@@ -98,11 +100,7 @@ export const ContactPolicy = InjectAppServices(
             ) : (
               <div className="dp-rowflex">
                 <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
-                  <Formik
-                    onSubmit={submitContactPolicyForm}
-                    initialValues={getFormInitialValues()}
-                    enableReinitialize={true}
-                  >
+                  <Formik onSubmit={submitContactPolicyForm} initialValues={getFormInitialValues()}>
                     {({ values, handleChange }) => (
                       <Form className="dp-contact-policy-form">
                         <fieldset>
@@ -125,7 +123,7 @@ export const ContactPolicy = InjectAppServices(
                                 <div>
                                   <span>{_('contact_policy.amount_description')}</span>
                                   <NumberField
-                                    name={fieldNames.amount}
+                                    name={fieldNames.emailsAmountByInterval}
                                     id="contact-policy-input-amount"
                                     disabled={!values[fieldNames.active]}
                                     required
@@ -135,7 +133,7 @@ export const ContactPolicy = InjectAppServices(
                                 <div>
                                   <span>{_('contact_policy.interval_description')}</span>
                                   <NumberField
-                                    name={fieldNames.interval}
+                                    name={fieldNames.intervalInDays}
                                     id="contact-policy-input-interval"
                                     disabled={!values[fieldNames.active]}
                                     required
