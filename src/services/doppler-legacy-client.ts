@@ -796,6 +796,19 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     // TODO: handle error responses
   }
 
+  public async upgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
+    // TODO: research why axios cancels this request. In the meantime, we are using fetch.
+    await fetch(this.baseUrl + '/SendUpgradePlanContactEmail/UpgradePlan', {
+      method: 'post',
+      body: JSON.stringify(planModel),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      credentials: 'include',
+    });
+    // TODO: handle error responses
+  }
+
   public async activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult> {
     try {
       const response = await this.axios.post('/WebApp/EnableSiteTrackingTrial');

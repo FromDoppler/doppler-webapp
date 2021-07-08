@@ -25,25 +25,37 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
       setState({
         availablePlans: filterPlans,
         isLoading: false,
-        firstPlanId: availablePlans && availablePlans.length && availablePlans[0].IdUserTypePlan,
+        firstPlanId: filterPlans.length === 0 ? null : filterPlans[0].IdUserTypePlan,
       });
       // TODO: what happens when availablePlans is an empty array?
     };
     fetchData();
   }, [isSubscriber, dopplerLegacyClient, appSessionRef]);
+  
+  const [sentEmail, setSentEmail] = useState(false);
 
   const onSubmit = async (values, { setSubmitting }) => {
-    await dopplerLegacyClient.sendEmailUpgradePlan({
+    await dopplerLegacyClient.upgradePlan({
       IdClientTypePlanSelected: values[fieldNames.selectedPlanId],
       Detail: values[fieldNames.message],
     });
+    
     setSubmitting(false);
-    handleClose();
+    if(values.selectedPlanId > 0){
+      setSentEmail(false);
+      // TODO: Show a new popup
+    }
+    else{
+      setSentEmail(true);
+      setTimeout(function () {
+        handleClose();
+      }, 3000);
+    }
   };
 
   const validate = (values) => {
     const errors = {};
-    if (!values[fieldNames.message]) {
+    if (!values[fieldNames.message] && values[fieldNames.selectedPlanId] === null) {
       errors[fieldNames.message] = 'validation_messages.error_required_field';
     }
     return errors;
@@ -115,7 +127,8 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
                 </li>
                  ) : null}
               </ul>
-            </fieldset>
+            </fieldset> 
+            { !sentEmail ?(
             <div className="container-buttons">
               <button className="dp-button button-medium primary-grey" onClick={handleClose}>
                 <FormattedMessage id="common.cancel" />
@@ -123,7 +136,15 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
               <SubmitButton>
                 <FormattedMessage id="common.send" />
               </SubmitButton>
-            </div>
+            </div>)
+            :(<div class="dp-wrap-message dp-wrap-success">
+                <span class="dp-message-icon"></span>
+                <div class="dp-content-message">
+                <label htmlFor={fieldNames.message}>
+                    <FormattedMessage id="common.message_success" />
+                  </label>
+                </div>
+              </div>)}
           </Form>
         )}
       </Formik>
