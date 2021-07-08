@@ -14,7 +14,7 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
     }));
   }
 
-  async getAccountSettings(email: string): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
+  async getAccountSettings(): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
     console.log('getAccountSettings');
     await timeout(1500);
 
@@ -34,7 +34,7 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
     ];
 
     const settings = {
-      accountName: email,
+      accountName: 'hardcoded@email.com',
       active: true,
       emailsAmountByInterval: 20,
       intervalInDays: 7,

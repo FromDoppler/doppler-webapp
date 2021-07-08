@@ -9,6 +9,17 @@ import { AppServicesProvider } from '../../services/pure-di';
 describe('ContactPolicy component', () => {
   afterEach(cleanup);
 
+  const email = 'hardcoded@email.com';
+  const settingsDouble = () => {
+    return {
+      accountName: email,
+      active: false,
+      emailsAmountByInterval: 20,
+      intervalInDays: 7,
+      excludedSubscribersLists: [],
+    };
+  };
+
   const experimentalFeatureDouble = () => {
     return {
       getFeature: (feature) => feature === 'ContactPolicy',
@@ -16,6 +27,14 @@ describe('ContactPolicy component', () => {
   };
 
   const dependencies = {
+    dopplerContactPolicyApiClient: {
+      getAccountSettings: async () => {
+        return { success: true, value: settingsDouble };
+      },
+      updateAccountSettings: async () => {
+        return { success: true };
+      },
+    },
     experimentalFeatures: experimentalFeatureDouble(),
   };
 
@@ -30,46 +49,89 @@ describe('ContactPolicy component', () => {
     );
   };
 
-  it('should disable the inputs if the switch is not active', async () => {
-    // Act
+  it('should show loading box while getting data', async () => {
+    // Arrange
     const { container } = render(<ContactPolicyComponent />);
 
-    const switchButton = container.querySelector('input#contact-policy-switch');
-    const inputAmount = container.querySelector('input#contact-policy-input-amount');
-    const inputInterval = container.querySelector('input#contact-policy-input-interval');
+    // Act
+    const loadingBox = container.querySelector('.wrapper-loading');
 
     // Assert
-    expect(switchButton).not.toBeChecked();
-    expect(inputAmount).toBeDisabled();
-    expect(inputInterval).toBeDisabled();
+    expect(loadingBox).toBeInTheDocument();
+    await waitFor(() => {
+      expect(loadingBox).not.toBeInTheDocument();
+    });
   });
 
-  it("shouldn't disable the inputs if the switch is active", async () => {
-    // Act
+  it('should load data from api correctly', async () => {
+    // Arrange
     const { container } = render(<ContactPolicyComponent />);
-    const switchButton = container.querySelector('input#contact-policy-switch');
-    act(() => {
-      fireEvent.click(switchButton);
-    });
-
-    const inputAmount = container.querySelector('input#contact-policy-input-amount');
-    const inputInterval = container.querySelector('input#contact-policy-input-interval');
 
     // Assert
     await waitFor(() => {
-      expect(switchButton).toBeChecked();
-      expect(inputAmount).not.toBeDisabled();
-      expect(inputInterval).not.toBeDisabled();
+      expect(container.querySelector('input#contact-policy-switch')).not.toBeChecked();
+      expect(container.querySelector('input#contact-policy-input-amount').value).toEqual(
+        `${settingsDouble().emailsAmountByInterval}`,
+      );
+      expect(container.querySelector('input#contact-policy-input-interval').value).toEqual(
+        `${settingsDouble().intervalInDays}`,
+      );
     });
   });
 
-  it('should show the contact policy configuration if the feature is enabled', () => {
-    //Act
+  it('should show success message when updating data correctly', async () => {
+    // Arrange
+    const { getByText } = render(<ContactPolicyComponent />);
+
+    await waitFor(() => {
+      // Act
+      act(() => {
+        fireEvent.click(getByText('common.save'));
+      });
+
+      // Assert
+      expect(getByText('contact_policy.success_msg'));
+    });
+  });
+
+  it('should disable the inputs if the switch is not active', async () => {
+    // Arrange
     const { container } = render(<ContactPolicyComponent />);
-    const form = container.querySelector('form');
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('input#contact-policy-switch')).not.toBeChecked();
+      expect(container.querySelector('input#contact-policy-input-amount')).toBeDisabled();
+      expect(container.querySelector('input#contact-policy-input-interval')).toBeDisabled();
+    });
+  });
+
+  it("shouldn't disable the inputs if the switch is active", async () => {
+    // Arrange
+    const { container } = render(<ContactPolicyComponent />);
+
+    await waitFor(() => {
+      // Act
+      const _switch = container.querySelector('input#contact-policy-switch');
+      act(() => {
+        fireEvent.click(_switch);
+      });
+
+      // Assert
+      expect(_switch).toBeChecked();
+      expect(container.querySelector('input#contact-policy-input-amount')).not.toBeDisabled();
+      expect(container.querySelector('input#contact-policy-input-interval')).not.toBeDisabled();
+    });
+  });
+
+  it('should show the contact policy configuration if the feature is enabled', async () => {
+    // Arrange
+    const { container } = render(<ContactPolicyComponent />);
 
     //Assert
-    expect(form).toBeInTheDocument();
+    await waitFor(() => {
+      expect(container.querySelector('form')).toBeInTheDocument();
+    });
   });
 
   it("shouldn't show the contact policy configuration if the feature is disabled", () => {
