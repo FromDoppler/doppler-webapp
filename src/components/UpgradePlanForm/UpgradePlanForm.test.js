@@ -41,11 +41,26 @@ describe('Upgrade plan form component', () => {
       },
     };
 
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                isSubscribers: true,
+                maxSubscribers: 4,
+              },
+            },
+          },
+        },
+      },
+    };
+
     //Act
     const { getByText } = render(
       <AppServicesProvider
         forcedServices={{
-          dopplerLegacyClient: dopplerLegacyClientDouble,
+          ...dependencies, dopplerLegacyClient: dopplerLegacyClientDouble,
         }}
       >
         <IntlProvider>

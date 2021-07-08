@@ -137,6 +137,7 @@ const messages_en = {
     hide: `Hide`,
     message: `Message`,
     message_last_plan:`Tell us more about your needs and we’ll create a perfect Plan for you`,
+    message_success:`Done! Your request has been sent`,
     new: `New`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
