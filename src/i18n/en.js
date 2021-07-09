@@ -140,6 +140,10 @@ const messages_en = {
     success_msg: '¡¡¡¡The data was saved successfully!!!!.',
     title: `Payment process`,
   },
+  cloud_tags: {
+    tag_already_exist: `The tag {tagName} already exist.`,
+    tag_limit_exceeded: `Can only add {max} tags.`,
+  },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
