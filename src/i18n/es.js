@@ -120,6 +120,10 @@ const messages_es = {
     title: 'Planes a la medida de tu negocio',
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
+  cloud_tags: {
+    tag_already_exist: `El tag {tagName} ya existe.`,
+    tag_limit_exceeded: `Solo puede agregar {max} tags.`,
+  },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,

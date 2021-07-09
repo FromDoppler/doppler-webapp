@@ -120,6 +120,10 @@ const messages_en = {
     title: 'Plans sized up for your business',
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },
+  cloud_tags: {
+    tag_already_exist: `The tag {tagName} already exist.`,
+    tag_limit_exceeded: `Can only add {max} tags.`,
+  },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
