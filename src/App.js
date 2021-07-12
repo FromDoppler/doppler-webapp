@@ -29,6 +29,7 @@ import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { Promotional } from './components/Integrations/BigQuery/Promotional/Promotional';
 import { AuthorizationPage } from './components/Integrations/BigQuery/ControlPanel/AuthorizationPage';
+import { BigQueryIntegrationFake } from './components/BigQueryIntegrationFake';
 
 /**
  * @param { Object } props - props
@@ -143,6 +144,11 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 path="/integrations/big-query/plus"
                 exact
                 component={AuthorizationPage}
+              />
+              <PrivateRoute
+                path="/integrations/big-query/plus/fake"
+                exact
+                component={BigQueryIntegrationFake}
               />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
