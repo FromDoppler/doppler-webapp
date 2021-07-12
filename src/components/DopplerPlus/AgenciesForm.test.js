@@ -91,15 +91,13 @@ describe('AgenciesForm component', () => {
       fireEvent.change(inputPhone, { target: { value: '' } });
     });
 
-    act(() => {
+    await act(async () => {
       const submitButton = container.querySelector('button[type="submit"]');
       fireEvent.submit(submitButton);
     });
 
     // Assert
-    await waitFor(() => {
-      return expect(getAllByText('validation_messages.error_required_field').length).toBe(4);
-    });
+    expect(getAllByText('validation_messages.error_required_field').length).toBe(4);
   });
 
   it('should show error message if email field is empty', async () => {
