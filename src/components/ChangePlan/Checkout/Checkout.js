@@ -4,6 +4,7 @@ import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { ContactInformation } from './ContactInformation/ContactInformation';
+import { BillingInformation } from './BillingInformation/BillingInformation';
 import { Step } from './Step/Step';
 
 const Checkout = () => {
@@ -24,7 +25,7 @@ const Checkout = () => {
 
     switch (activeStep) {
       case checkoutSteps.contactInformation:
-        nextStep = checkoutSteps.contactInformation;
+        nextStep = checkoutSteps.billingInformation;
         break;
       case checkoutSteps.billingInformation:
         nextStep = checkoutSteps.paymentInformation;
@@ -74,7 +75,14 @@ const Checkout = () => {
               active={activeStep === checkoutSteps.billingInformation}
               title={_('checkoutProcessForm.billing_information_title')}
               complete={false}
-            ></Step>
+            >
+              <BillingInformation 
+              handleSaveAndContinue={setNextCheckoutStep}
+              onComplete={(value) => {
+                setComplete(value);
+              }}
+              />
+            </Step>
             <Step
               active={activeStep === checkoutSteps.paymentInformation}
               title={_('checkoutProcessForm.payment_method_title')}
