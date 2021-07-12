@@ -63,13 +63,13 @@ describe('ExclusiveForm component', () => {
 
     expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
 
-    act(() => {
+    await act(async () => {
       const submitButton = container.querySelector('button[type="submit"]');
       fireEvent.submit(submitButton);
     });
 
     // Assert
-    await waitFor(() => expect(getByText('exclusive_form.success')).toBeInTheDocument());
+    expect(getByText('exclusive_form.success')).toBeInTheDocument();
   });
 
   it('should show messages for empty required fields', async () => {
@@ -126,16 +126,14 @@ describe('ExclusiveForm component', () => {
 
     expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
 
-    act(() => {
+    await act(async () => {
       const submitButton = container.querySelector('button[type="submit"]');
       fireEvent.submit(submitButton);
     });
 
     // Assert
-    await waitFor(() => {
-      expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-      expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-    });
+    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
+    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
   });
 
   it('should show error message if name field is empty', async () => {
