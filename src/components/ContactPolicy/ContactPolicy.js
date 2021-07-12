@@ -98,7 +98,7 @@ export const ContactPolicy = InjectAppServices(
               <div className="dp-rowflex">
                 <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
                   <Formik onSubmit={submitContactPolicyForm} initialValues={getFormInitialValues()}>
-                    {({ values, handleChange }) => (
+                    {({ values }) => (
                       <Form className="dp-contact-policy-form">
                         <fieldset>
                           <legend>{_('contact_policy.title')}</legend>
@@ -108,10 +108,7 @@ export const ContactPolicy = InjectAppServices(
                                 id="contact-policy-switch"
                                 name={fieldNames.active}
                                 text={_('contact_policy.toggle_text')}
-                                onChange={(value) => {
-                                  handleChange(value);
-                                  setFormSubmitted(false);
-                                }}
+                                onToggle={() => setFormSubmitted(false)}
                               />
                             </FieldItem>
 

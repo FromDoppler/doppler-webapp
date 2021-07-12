@@ -530,16 +530,27 @@ export const NumberField = ({ required, ...rest }) => (
   <Field type="number" validate={createRequiredValidation(required)} {...rest} />
 );
 
-export const SwitchField = ({ id, name, text, ...rest }) => (
-  <>
-    <div className="dp-switch">
-      <Field type="checkbox" id={id || name} name={name} {...rest} />
-      <label htmlFor={id || name}>
-        <span />
-      </label>
-    </div>
-    <label htmlFor={id || name}>{text}</label>
-  </>
+export const SwitchField = connect(
+  ({ className, id, name, text, onToggle, formik: { handleChange }, ...rest }) => (
+    <>
+      <div className="dp-switch">
+        <Field
+          type="checkbox"
+          id={id || name}
+          name={name}
+          onChange={(e) => {
+            onToggle(e);
+            handleChange(e);
+          }}
+          {...rest}
+        />
+        <label htmlFor={id || name}>
+          <span />
+        </label>
+      </div>
+      <label htmlFor={id || name}>{text}</label>
+    </>
+  ),
 );
 
 /**
