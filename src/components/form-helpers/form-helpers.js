@@ -568,3 +568,39 @@ const _SubmitButton = ({ children, formik: { isSubmitting }, className }) => {
 };
 
 export const SubmitButton = connect(_SubmitButton);
+
+export const SelectFieldItem = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  required,
+  defaultOption,
+  values,
+  ...rest
+}) => (
+  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <label htmlFor={fieldName}>{label}</label>
+    <span className="dropdown-arrow"></span>
+    <Field
+      as="select"
+      name={fieldName}
+      id={fieldName}
+      placeholder={placeholder}
+      validate={createRequiredValidation(required)}
+      {...rest}
+    >
+      {defaultOption ? (
+        <option key={defaultOption.key} value={defaultOption.key}>
+          {defaultOption.value}
+        </option>
+      ) : null}
+      {values.map((item) => (
+        <option key={item.key} value={item.key}>
+          {item.value}
+        </option>
+      ))}
+    </Field>
+  </FieldItem>
+);
