@@ -14,11 +14,11 @@ export interface DopplerContactPolicyApiConnectionData {
 }
 
 export interface AccountSettings {
-  accountName: string;
-  active: boolean;
-  emailsAmountByInterval: number;
-  intervalInDays: number;
-  excludedSubscribersLists: SubscriberList[];
+  accountName: string | null;
+  active: boolean | null;
+  emailsAmountByInterval: number | null;
+  intervalInDays: number | null;
+  excludedSubscribersLists: SubscriberList[] | null;
 }
 
 export interface SubscriberList {
@@ -81,11 +81,13 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
 
       if (response.status === 200 && response.data) {
         const settings = {
-          accountName: response.data.accountName,
-          active: response.data.active,
-          emailsAmountByInterval: response.data.emailsAmountByInterval,
-          intervalInDays: response.data.intervalInDays,
-          excludedSubscribersLists: this.mapSubscriberList(response.data.excludedSubscribersLists),
+          accountName: response.data.accountName || '',
+          active: response.data.active || false,
+          emailsAmountByInterval: response.data.emailsAmountByInterval || 1,
+          intervalInDays: response.data.intervalInDays || 1,
+          excludedSubscribersLists: response.data.excludedSubscribersLists
+            ? this.mapSubscriberList(response.data.excludedSubscribersLists)
+            : [],
         };
 
         return {
