@@ -136,6 +136,8 @@ const messages_en = {
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     message: `Message`,
+    message_last_plan: `Tell us more about your needs and we’ll create a perfect Plan for you`,
+    message_success: `Done! Your request has been sent`,
     new: `New`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
@@ -251,6 +253,8 @@ You'll find an Email with steps to follow.`,
     plan_emails: 'Emails',
     plan_prepaid: 'Prepaid Plan',
     plan_suscribers: 'Suscribers',
+    send_request: 'REQUEST SENT',
+    tooltip_last_plan: `We're making a perfect Plan for your business. We'll contact you soon!`,
   },
   invoices_list: {
     amount_column: `Amount`,

@@ -4,45 +4,67 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../../components/Loading/Loading';
 import { SubmitButton } from '../form-helpers/form-helpers';
+import useTimeout from '../../hooks/useTimeout';
 
 const fieldNames = {
   selectedPlanId: 'selectedPlanId',
   message: 'message',
 };
 /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
-const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLegacyClient } }) => {
+const UpgradePlanForm = ({
+  handleClose,
+  isSubscriber,
+  dependencies: { dopplerLegacyClient, appSessionRef },
+}) => {
   const [state, setState] = useState({
     availablePlans: null,
     formIsValid: false,
     isLoading: true,
   });
   const intl = useIntl();
+  const createTimeout = useTimeout();
 
   useEffect(() => {
     const fetchData = async () => {
       const availablePlans = await dopplerLegacyClient.getUpgradePlanData(isSubscriber);
+      const filterPlans = availablePlans.filter((p) =>
+        appSessionRef.current.userData.user.plan.isSubscribers === true
+          ? p.SubscribersQty > appSessionRef.current.userData.user.plan.maxSubscribers
+          : p.EmailQty > appSessionRef.current.userData.user.plan.maxSubscribers,
+      );
       setState({
-        availablePlans: availablePlans,
+        availablePlans: filterPlans,
         isLoading: false,
-        firstPlanId: availablePlans && availablePlans.length && availablePlans[0].IdUserTypePlan,
+        firstPlanId: filterPlans.length === 0 ? null : filterPlans[0].IdUserTypePlan,
       });
       // TODO: what happens when availablePlans is an empty array?
     };
     fetchData();
-  }, [isSubscriber, dopplerLegacyClient]);
+  }, [isSubscriber, dopplerLegacyClient, appSessionRef]);
+
+  const [sentEmail, setSentEmail] = useState(false);
 
   const onSubmit = async (values, { setSubmitting }) => {
-    await dopplerLegacyClient.sendEmailUpgradePlan({
+    await dopplerLegacyClient.upgradePlan({
       IdClientTypePlanSelected: values[fieldNames.selectedPlanId],
       Detail: values[fieldNames.message],
     });
+
     setSubmitting(false);
-    handleClose();
+    if (values.selectedPlanId > 0) {
+      setSentEmail(false);
+      // TODO: Show a new popup
+    } else {
+      setSentEmail(true);
+      createTimeout(() => {
+        handleClose();
+      }, 3000);
+    }
   };
 
   const validate = (values) => {
     const errors = {};
-    if (!values[fieldNames.message]) {
+    if (!values[fieldNames.message] && values[fieldNames.selectedPlanId] === null) {
       errors[fieldNames.message] = 'validation_messages.error_required_field';
     }
     return errors;
@@ -62,63 +84,78 @@ const UpgradePlanForm = ({ handleClose, isSubscriber, dependencies: { dopplerLeg
           <Form className="form-request">
             <fieldset>
               <ul className="field-group">
-                <li className="field-item">
-                  <label htmlFor={fieldNames.selectedPlanId}>
-                    <FormattedMessage id="upgradePlanForm.plan_select" />
-                  </label>
-                  <span className="dropdown-arrow" />
-                  <Field
-                    autoFocus
-                    component="select"
-                    name={fieldNames.selectedPlanId}
-                    id={fieldNames.selectedPlanId}
+                {state.availablePlans.length > 0 ? (
+                  <li className="field-item">
+                    <label htmlFor={fieldNames.selectedPlanId}>
+                      <FormattedMessage id="upgradePlanForm.plan_select" />
+                    </label>
+                    <span className="dropdown-arrow" />
+                    <Field
+                      autoFocus
+                      component="select"
+                      name={fieldNames.selectedPlanId}
+                      id={fieldNames.selectedPlanId}
+                    >
+                      {state.availablePlans.map((item, index) => (
+                        <option key={index} value={item.IdUserTypePlan}>
+                          {item.Description}
+                        </option>
+                      ))}
+                    </Field>
+                  </li>
+                ) : null}
+                {state.availablePlans.length === 0 ? (
+                  <li
+                    className={
+                      'field-item' +
+                      (submitCount && touched[fieldNames.message] && errors[fieldNames.message]
+                        ? ' error'
+                        : '')
+                    }
                   >
-                    {state.availablePlans.map((item, index) => (
-                      <option key={index} value={item.IdUserTypePlan}>
-                        {item.Description}
-                      </option>
-                    ))}
-                  </Field>
-                </li>
-                <li
-                  className={
-                    'field-item' +
-                    (submitCount && touched[fieldNames.message] && errors[fieldNames.message]
-                      ? ' error'
-                      : '')
-                  }
-                >
-                  <label htmlFor={fieldNames.message}>
-                    <FormattedMessage id="common.message" />
-                  </label>
-                  <FormattedMessage id="upgradePlanForm.message_placeholder">
-                    {(placeholderText) => (
-                      <Field
-                        component="textarea"
-                        name={fieldNames.message}
-                        id={fieldNames.message}
-                        placeholder={placeholderText}
-                      />
-                    )}
-                  </FormattedMessage>
-                  <ErrorMessage name={fieldNames.message}>
-                    {(err) => (
-                      <div className="wrapper-errors">
-                        <p className="error-message">{intl.formatMessage({ id: err })}</p>
-                      </div>
-                    )}
-                  </ErrorMessage>
-                </li>
+                    <label htmlFor={fieldNames.message}>
+                      <FormattedMessage id="common.message_last_plan" />
+                    </label>
+                    <FormattedMessage id="upgradePlanForm.message_placeholder">
+                      {(placeholderText) => (
+                        <Field
+                          component="textarea"
+                          name={fieldNames.message}
+                          id={fieldNames.message}
+                          placeholder={placeholderText}
+                        />
+                      )}
+                    </FormattedMessage>
+                    <ErrorMessage name={fieldNames.message}>
+                      {(err) => (
+                        <div className="wrapper-errors">
+                          <p className="error-message">{intl.formatMessage({ id: err })}</p>
+                        </div>
+                      )}
+                    </ErrorMessage>
+                  </li>
+                ) : null}
               </ul>
             </fieldset>
-            <div className="container-buttons">
-              <button className="dp-button button-medium primary-grey" onClick={handleClose}>
-                <FormattedMessage id="common.cancel" />
-              </button>
-              <SubmitButton>
-                <FormattedMessage id="common.send" />
-              </SubmitButton>
-            </div>
+            {!sentEmail ? (
+              <div className="container-buttons">
+                <button className="dp-button button-medium primary-grey" onClick={handleClose}>
+                  <FormattedMessage id="common.cancel" />
+                </button>
+                <SubmitButton>
+                  <FormattedMessage id="common.send" />
+                </SubmitButton>
+              </div>
+            ) : (
+              <div class="dp-wrap-message dp-wrap-success">
+                <span class="dp-message-icon"></span>
+                <div class="dp-content-message">
+                  <label htmlFor={fieldNames.message}>
+                    <FormattedMessage id="common.message_success" />
+                  </label>
+                </div>
+              </div>
+            )}
           </Form>
         )}
       </Formik>
