@@ -19,7 +19,7 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
           },
           suggestion: {
             ...suggestionInfo,
-            link: '#',
+            link: `/upgrade-suggestion-form`,
           },
         };
       case 'monthly-deliveries':

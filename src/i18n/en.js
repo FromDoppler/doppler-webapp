@@ -157,6 +157,7 @@ const messages_en = {
     hide: `Hide`,
     message: `Message`,
     new: `New`,
+    optional_message: `Message (Optional)`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
     save: `Save`,
@@ -612,6 +613,19 @@ deletion, security, cross-border data transfers and other issues.
     message_placeholder: `Your message`,
     plan_select: `Select Plan`,
     title: `Request an update of your Plan`,
+  },
+  upgrade_suggestion_form: {
+    breadcrumb: 'Plans',
+    breadcrumb_url: `${urlBuyMonthly}`,
+    description: 'Contact the Customer Support team to upgrade your current plan.',
+    form_hour_contact: 'What time can we call you?',
+    form_legend: 'Complete the following plan form',
+    form_title: 'Complete the following plan form and we will contact you shortly',
+    message: 'Your message',
+    meta_description: 'Form to suggest plan upgrade.',
+    submit_button: 'Send',
+    success: 'Excellent! We will get in touch shortly',
+    title: 'Upgrade your Plan',
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
