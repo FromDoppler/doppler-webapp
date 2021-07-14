@@ -526,9 +526,17 @@ export const CheckboxFieldItem = ({
   </FieldItem>
 );
 
-export const NumberField = ({ required, ...rest }) => (
-  <Field type="number" validate={createRequiredValidation(required)} {...rest} />
-);
+export const NumberField = connect(({ required, onChange, formik: { handleChange }, ...rest }) => (
+  <Field
+    type="number"
+    validate={createRequiredValidation(required)}
+    onChange={(e) => {
+      onChange(e);
+      handleChange(e);
+    }}
+    {...rest}
+  />
+));
 
 export const SwitchField = connect(
   ({ className, id, name, text, onToggle, formik: { handleChange }, ...rest }) => (

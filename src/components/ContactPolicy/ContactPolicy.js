@@ -114,6 +114,7 @@ export const ContactPolicy = InjectAppServices(
                                     id="contact-policy-input-amount"
                                     disabled={!values[fieldNames.active]}
                                     required
+                                    onChange={() => setFormSubmitted(false)}
                                   />
                                   <span className="m-r-6">{_('common.emails')}</span>
                                 </div>
@@ -124,6 +125,7 @@ export const ContactPolicy = InjectAppServices(
                                     id="contact-policy-input-interval"
                                     disabled={!values[fieldNames.active]}
                                     required
+                                    onChange={() => setFormSubmitted(false)}
                                   />
                                   <span>{_('contact_policy.interval_unit')}</span>
                                 </div>
