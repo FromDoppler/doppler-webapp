@@ -29,6 +29,7 @@ import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { Promotional } from './components/Integrations/BigQuery/Promotional/Promotional';
 import { AuthorizationPage } from './components/Integrations/BigQuery/ControlPanel/AuthorizationPage';
+import Checkout from './components/ChangePlan/Checkout/Checkout';
 
 /**
  * @param { Object } props - props
@@ -124,6 +125,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={PlanCalculator}
               />
+              <PrivateRoute path={'/checkout/:pathType/:planType?'} exact component={Checkout} />
               <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
               <PrivateRoute path={'/email-marketing-exclusive'} exact component={ExclusiveForm} />
               <PrivateRoute path="/push" exact component={PushNotifications} />

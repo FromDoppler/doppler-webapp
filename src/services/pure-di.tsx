@@ -14,6 +14,7 @@ import { PlanService } from './plan-service';
 import { HttpManualStatusClient, ManualStatusClient } from './manual-status-client';
 
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
+import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
 import { UtmCookiesManager } from './utm-cookies-manager';
 
@@ -51,6 +52,7 @@ export interface AppServices {
   ipinfoClient: IpinfoClient;
   planService: PlanService;
   dopplerBillingApiClient: DopplerBillingApiClient;
+  dopplerUserApiClient: DopplerUserApiClient;
   captchaUtilsService: CaptchaUtilsService;
   manualStatusClient: ManualStatusClient;
   utmCookiesManager: UtmCookiesManager;
@@ -225,6 +227,18 @@ export class AppCompositionRoot implements AppServices {
       'dopplerBillingApiClient',
       () =>
         new HttpDopplerBillingApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerBillingApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerUserApiClient() {
+    return this.singleton(
+      'dopplerUserApiClient',
+      () =>
+        new HttpDopplerUserApiClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerBillingApiUrl,
           connectionDataRef: this.appSessionRef,
