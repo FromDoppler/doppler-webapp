@@ -15,6 +15,7 @@ import {
 import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
+import { getFormInitialValues } from '../../utils';
 
 const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
@@ -57,17 +58,10 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
     volume: 'volume',
   };
 
-  const getFormInitialValues = () => {
-    const initialValues = Object.keys(fieldNames).reduce(
-      (accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue]: '',
-      }),
-      {},
-    );
+  const _getFormInitialValues = () => {
+    const initialValues = getFormInitialValues(fieldNames);
 
     initialValues[fieldNames.email] = appSessionRef.current.userData.user.email;
-    initialValues[fieldNames.volume] = '';
 
     return initialValues;
   };
@@ -114,7 +108,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
               <h3>{_('agencies.form_legend')}</h3>
               <FormWithCaptcha
                 onSubmit={submitAgenciesForm}
-                initialValues={getFormInitialValues()}
+                initialValues={_getFormInitialValues()}
                 validate={validate}
               >
                 <legend>{_('agencies.form_legend')}</legend>

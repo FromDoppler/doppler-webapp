@@ -19,7 +19,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
-import { extractParameter, isWhitelisted, addLogEntry } from './../../utils';
+import { extractParameter, isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
 import * as S from './Signup.styles';
 
 const fieldNames = {
@@ -57,15 +57,6 @@ function getSource(location) {
   }
   return utmSource;
 }
-
-/** Prepare empty values for all fields
- * It is required because in another way, the fields are not marked as touched.
- */
-const getFormInitialValues = () =>
-  Object.keys(fieldNames).reduce(
-    (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
-    {},
-  );
 
 /**
  * Signup Page
@@ -234,7 +225,7 @@ const Signup = function ({
           </p>
           <FormWithCaptcha
             className="signup-form"
-            initialValues={getFormInitialValues()}
+            initialValues={getFormInitialValues(fieldNames)}
             onSubmit={onSubmit}
             validate={validate}
           >

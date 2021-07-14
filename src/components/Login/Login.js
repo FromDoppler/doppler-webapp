@@ -22,6 +22,7 @@ import queryString from 'query-string';
 import {
   addLogEntry,
   extractParameter,
+  getFormInitialValues,
   isZohoChatOnline,
   openZohoChatWithMessage,
 } from '../../utils';
@@ -117,16 +118,14 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
    */
-  const getFormInitialValues = () => {
-    const values = Object.keys(fieldNames).reduce(
-      (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
-      {},
-    );
-    if (location.state && location.state.email) {
-      values[fieldNames.user] = location.state.email;
+  const _getFormInitialValues = () => {
+    const initialValues = getFormInitialValues(fieldNames);
+
+    if (location.state?.email) {
+      initialValues[fieldNames.user] = location.state.email;
     }
 
-    return values;
+    return initialValues;
   };
 
   const formMessage = useMemo(() => getForgotErrorMessage(location), [location]);
@@ -315,7 +314,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
           </p>
           <FormWithCaptcha
             className="login-form"
-            initialValues={getFormInitialValues()}
+            initialValues={_getFormInitialValues()}
             initialFormMessage={formMessage}
             onSubmit={onSubmit}
           >

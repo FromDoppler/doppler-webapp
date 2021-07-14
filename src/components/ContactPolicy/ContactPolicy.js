@@ -8,6 +8,7 @@ import { FieldGroup, NumberField, SubmitButton, SwitchField } from '../form-help
 import { Form, Formik } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
+import { getFormInitialValues } from '../../utils';
 
 export const ContactPolicy = InjectAppServices(
   ({ dependencies: { dopplerContactPolicyApiClient, appSessionRef, experimentalFeatures } }) => {
@@ -22,18 +23,6 @@ export const ContactPolicy = InjectAppServices(
       active: 'active',
       emailsAmountByInterval: 'emailsAmountByInterval',
       intervalInDays: 'intervalInDays',
-    };
-
-    const getFormInitialValues = () => {
-      const initialValues = Object.keys(fieldNames).reduce(
-        (accumulator, currentValue) => ({
-          ...accumulator,
-          [currentValue]: '',
-        }),
-        {},
-      );
-
-      return { ...initialValues, ...settings };
     };
 
     useEffect(() => {
@@ -91,7 +80,13 @@ export const ContactPolicy = InjectAppServices(
             ) : (
               <div className="dp-rowflex">
                 <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
-                  <Formik onSubmit={submitContactPolicyForm} initialValues={getFormInitialValues()}>
+                  <Formik
+                    onSubmit={submitContactPolicyForm}
+                    initialValues={{
+                      ...getFormInitialValues(fieldNames),
+                      ...settings,
+                    }}
+                  >
                     {({ values }) => (
                       <Form className="dp-contact-policy-form">
                         <fieldset>

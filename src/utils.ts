@@ -313,3 +313,9 @@ export const getCountries = (language: string) => {
     a.value.localeCompare(b.value, undefined, { sensitivity: 'base' }),
   );
 };
+
+export const getFormInitialValues = (fieldNames: object) =>
+  Object.keys(fieldNames).reduce(
+    (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
+    {},
+  );
