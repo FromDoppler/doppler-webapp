@@ -267,10 +267,13 @@ You'll find an Email with steps to follow.`,
   },
   header: {
     availables: 'availables',
+    enabled: 'ENABLED',
     help_url: `${urlHelp}`,
     plan_emails: 'Emails',
     plan_prepaid: 'Prepaid Plan',
     plan_suscribers: 'Suscribers',
+    profile: 'Profile',
+    send_mails: 'Send of Emails',
   },
   invoices_list: {
     amount_column: `Amount`,
