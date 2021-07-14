@@ -20,6 +20,7 @@ import { HardcodedShopifyClient } from './services/shopify-client.doubles';
 import { getDataHubParams } from './utils';
 import { HardcodedDopplerApiClient } from './services/doppler-api-client.double';
 import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
+import { HardcodedBigQueryClient } from './services/big-query-client.double';
 import { HardcodedDopplerUserApiClient } from './services/doppler-user-api-client.double';
 import { HardcodedDopplerContactPolicyApiClient } from './services/doppler-contact-policy-api-client.double';
 
@@ -43,6 +44,7 @@ const forcedServices =
         dopplerApiClient: new HardcodedDopplerApiClient(),
         ipinfoClient: new HardcodedIpinfoClient(),
         dopplerBillingApiClient: new HardcodedDopplerBillingApiClient(),
+        bigQueryClient: new HardcodedBigQueryClient(),
         dopplerUserApiClient: new HardcodedDopplerUserApiClient(),
         dopplerContactPolicyApiClient: new HardcodedDopplerContactPolicyApiClient(),
       }

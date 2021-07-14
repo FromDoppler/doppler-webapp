@@ -1,21 +1,52 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AuthorizationForm } from './AuthorizationForm';
 
-describe('test for validate authorization form component ', () => {
-  test('Validate empty input', () => {
-    // Arrange
-    const { container } = render(
+describe('AuthorizationForm ', () => {
+  it('should render the empty input', () => {
+    // Act
+    render(
       <IntlProvider>
         <AuthorizationForm emails={[]} />
       </IntlProvider>,
     );
 
     // Assert
-    const emptyInput = container.querySelector('input[type="email"]');
-    expect(emptyInput.value).toBe('');
+    const input = screen.getByRole('textbox');
+    expect(input.value).toBe('');
+  });
+
+  it('should not show added emails when it has no initial values', () => {
+    // Act
+    render(
+      <IntlProvider>
+        <AuthorizationForm emails={[]} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    expect(
+      screen.queryByRole('button', { name: 'big_query.plus_button_remove' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should show added emails when it has initial values', () => {
+    //Arrange
+    const emails = ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'];
+
+    // Act
+    render(
+      <IntlProvider>
+        <AuthorizationForm emails={emails} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    emails.forEach((email) => {
+      expect(screen.getByText(email)).toBeInTheDocument();
+    });
   });
 
   test('Validate button disabled when input is empty', () => {

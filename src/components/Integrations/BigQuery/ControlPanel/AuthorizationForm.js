@@ -50,7 +50,7 @@ export const AuthorizationForm = ({ emails }) => {
       validateOnBlur={false}
     >
       {({ values, validateField }) => (
-        <Form>
+        <Form aria-label="form">
           <ul className="field-group">
             <FieldArray
               name="emails"

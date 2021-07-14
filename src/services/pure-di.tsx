@@ -6,6 +6,7 @@ import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
 import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
 import { ShopifyClient, HttpShopifyClient } from './shopify-client';
+import { BigQueryClient, HttpBigQueryClient } from './big-query-client';
 import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
@@ -51,6 +52,7 @@ export interface AppServices {
   localStorage: Storage;
   originResolver: OriginResolver;
   shopifyClient: ShopifyClient;
+  bigQueryClient: BigQueryClient;
   dopplerSitesClient: DopplerSitesClient;
   experimentalFeatures: ExperimentalFeatures;
   dopplerApiClient: DopplerApiClient;
@@ -107,6 +109,7 @@ export class AppCompositionRoot implements AppServices {
         forgotPassword: process.env.REACT_APP_USE_DOPPLER_LEGACY_FORGOTPASSWORD === 'true',
       },
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
+      bigQueryUrl: process.env.REACT_APP_BIGQUERY_URL as string,
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
       dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
@@ -163,6 +166,18 @@ export class AppCompositionRoot implements AppServices {
       'shopifyClient',
       () =>
         new HttpShopifyClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.shopifyUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get bigQueryClient() {
+    return this.singleton(
+      'bigQueryClient',
+      () =>
+        new HttpBigQueryClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.shopifyUrl,
           connectionDataRef: this.appSessionRef,
