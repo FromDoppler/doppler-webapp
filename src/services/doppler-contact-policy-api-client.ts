@@ -4,16 +4,21 @@ import { RefObject } from 'react';
 import { AppSession } from './app-session';
 
 export interface DopplerContactPolicyApiClient {
-  getAccountSettings(email: string): Promise<ResultWithoutExpectedErrors<AccountSettings>>;
+  getAccountSettings(): Promise<ResultWithoutExpectedErrors<AccountSettings>>;
   updateAccountSettings(data: AccountSettings): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
+export interface DopplerContactPolicyApiConnectionData {
+  email: string;
+  jwtToken: string;
+}
+
 export interface AccountSettings {
-  accountName: string;
-  active: boolean;
-  emailsAmountByInterval: number;
-  intervalInDays: number;
-  excludedSubscribersLists: SubscriberList[];
+  accountName: string | null;
+  active: boolean | null;
+  emailsAmountByInterval: number | null;
+  intervalInDays: number | null;
+  excludedSubscribersLists: SubscriberList[] | null;
 }
 
 export interface SubscriberList {
@@ -42,6 +47,22 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
     this.connectionDataRef = connectionDataRef;
   }
 
+  private getDopplerContactPolicyApiConnectionData(): DopplerContactPolicyApiConnectionData {
+    const connectionData = this.connectionDataRef.current;
+    if (
+      !connectionData ||
+      connectionData.status !== 'authenticated' ||
+      !connectionData.jwtToken ||
+      !connectionData.userData
+    ) {
+      throw new Error('Doppler Contact Policy API connection data is not available');
+    }
+    return {
+      email: connectionData.userData.user.email,
+      jwtToken: connectionData.jwtToken,
+    };
+  }
+
   private mapSubscriberList(data: any): SubscriberList[] {
     return data.map((x: any) => ({
       id: x.id,
@@ -49,20 +70,24 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
     }));
   }
 
-  async getAccountSettings(email: string): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
+  async getAccountSettings(): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
     try {
+      const { email, jwtToken } = this.getDopplerContactPolicyApiConnectionData();
       const response = await this.axios.request({
         method: 'GET',
         url: `/accounts/${email}/settings`,
+        headers: { Authorization: `bearer ${jwtToken}` },
       });
 
       if (response.status === 200 && response.data) {
         const settings = {
-          accountName: response.data.accountName,
-          active: response.data.active,
-          emailsAmountByInterval: response.data.emailsAmountByInterval,
-          intervalInDays: response.data.intervalInDays,
-          excludedSubscribersLists: this.mapSubscriberList(response.data.excludedSubscribersLists),
+          accountName: response.data.accountName || '',
+          active: response.data.active || false,
+          emailsAmountByInterval: response.data.emailsAmountByInterval || 1,
+          intervalInDays: response.data.intervalInDays || 1,
+          excludedSubscribersLists: response.data.excludedSubscribersLists
+            ? this.mapSubscriberList(response.data.excludedSubscribersLists)
+            : [],
         };
 
         return {
@@ -79,9 +104,11 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
 
   async updateAccountSettings(data: AccountSettings): Promise<EmptyResultWithoutExpectedErrors> {
     try {
+      const { email, jwtToken } = this.getDopplerContactPolicyApiConnectionData();
       const response = await this.axios.request({
         method: 'PUT',
-        url: `/accounts/${data.accountName}/settings`,
+        url: `/accounts/${email}/settings`,
+        headers: { Authorization: `bearer ${jwtToken}` },
         data,
       });
 

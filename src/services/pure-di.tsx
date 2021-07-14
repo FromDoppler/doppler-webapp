@@ -17,11 +17,16 @@ import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
 import { UtmCookiesManager } from './utm-cookies-manager';
+import {
+  DopplerContactPolicyApiClient,
+  HttpDopplerContactPolicyApiClient,
+} from './doppler-contact-policy-api-client';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
   dopplerLegacyUrl: string;
   dopplerSitesUrl: string;
+  dopplerContactPolicyApiUrl: string;
   datahubUrl: string;
   dopplerLegacyKeepAliveMilliseconds: number;
   recaptchaPublicKey: string;
@@ -56,6 +61,7 @@ export interface AppServices {
   captchaUtilsService: CaptchaUtilsService;
   manualStatusClient: ManualStatusClient;
   utmCookiesManager: UtmCookiesManager;
+  dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
 }
 
 /**
@@ -106,6 +112,7 @@ export class AppCompositionRoot implements AppServices {
       dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
       appStatusOverrideEnabled: process.env.REACT_APP_MANUAL_STATUS_ENABLED === 'true',
       appStatusOverrideFileUrl: process.env.REACT_APP_MANUAL_STATUS_FILE_URL as string,
+      dopplerContactPolicyApiUrl: process.env.REACT_APP_DOPPLER_CONTACT_POLICY_URL as string,
     }));
   }
 
@@ -263,6 +270,18 @@ export class AppCompositionRoot implements AppServices {
 
   get utmCookiesManager() {
     return this.singleton('utmCookiesManager', () => new UtmCookiesManager());
+  }
+
+  get dopplerContactPolicyApiClient() {
+    return this.singleton(
+      'dopplerContactPolicyApiClient',
+      () =>
+        new HttpDopplerContactPolicyApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerContactPolicyApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
   }
 }
 
