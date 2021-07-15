@@ -4,13 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
-import {
-  FieldGroup,
-  FieldItem,
-  NumberField,
-  SubmitButton,
-  SwitchField,
-} from '../form-helpers/form-helpers';
+import { FieldGroup, NumberField, SubmitButton, SwitchField } from '../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
@@ -98,24 +92,20 @@ export const ContactPolicy = InjectAppServices(
               <div className="dp-rowflex">
                 <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
                   <Formik onSubmit={submitContactPolicyForm} initialValues={getFormInitialValues()}>
-                    {({ values, handleChange }) => (
+                    {({ values }) => (
                       <Form className="dp-contact-policy-form">
                         <fieldset>
                           <legend>{_('contact_policy.title')}</legend>
                           <FieldGroup>
-                            <FieldItem className="field-item">
+                            <li className="field-item">
                               <SwitchField
                                 id="contact-policy-switch"
                                 name={fieldNames.active}
                                 text={_('contact_policy.toggle_text')}
-                                onChange={(value) => {
-                                  handleChange(value);
-                                  setFormSubmitted(false);
-                                }}
+                                onToggle={() => setFormSubmitted(false)}
                               />
-                            </FieldItem>
-
-                            <FieldItem className="field-item">
+                            </li>
+                            <li className="field-item">
                               <div className="dp-item-block">
                                 <div>
                                   <span>{_('contact_policy.amount_description')}</span>
@@ -124,6 +114,7 @@ export const ContactPolicy = InjectAppServices(
                                     id="contact-policy-input-amount"
                                     disabled={!values[fieldNames.active]}
                                     required
+                                    onChange={() => setFormSubmitted(false)}
                                   />
                                   <span className="m-r-6">{_('common.emails')}</span>
                                 </div>
@@ -134,28 +125,29 @@ export const ContactPolicy = InjectAppServices(
                                     id="contact-policy-input-interval"
                                     disabled={!values[fieldNames.active]}
                                     required
+                                    onChange={() => setFormSubmitted(false)}
                                   />
                                   <span>{_('contact_policy.interval_unit')}</span>
                                 </div>
                               </div>
-                            </FieldItem>
+                            </li>
 
                             {formSubmitted ? (
-                              <FieldItem className="field-item">
+                              <li className="field-item">
                                 <div className="dp-wrap-message dp-wrap-success bounceIn">
                                   <span className="dp-message-icon" />
                                   <div className="dp-content-message">
                                     <p>{_('contact_policy.success_msg')}</p>
                                   </div>
                                 </div>
-                              </FieldItem>
+                              </li>
                             ) : null}
 
-                            <FieldItem className="field-item">
+                            <li className="field-item">
                               <hr />
-                            </FieldItem>
+                            </li>
 
-                            <FieldItem className="field-item">
+                            <li className="field-item">
                               <a
                                 href={_('common.control_panel_url')}
                                 className="dp-button button-medium primary-grey"
@@ -166,7 +158,7 @@ export const ContactPolicy = InjectAppServices(
                               <span className="align-button m-l-24">
                                 <SubmitButton>{_('common.save')}</SubmitButton>
                               </span>
-                            </FieldItem>
+                            </li>
                           </FieldGroup>
                         </fieldset>
                       </Form>
