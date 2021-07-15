@@ -272,8 +272,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-07T00:00:00.000Z',
           },
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source-type',
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source-type',
         }),
       );
     });
@@ -302,8 +301,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-07T00:00:00.000Z',
           },
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source-type',
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-source-type',
         }),
       );
       expect(response).toEqual({
@@ -492,8 +490,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-08T00:00:00.000Z',
           },
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-weekday-and-hour',
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-weekday-and-hour',
         }),
       );
     });
@@ -533,8 +530,7 @@ describe('HttpDataHubClient', () => {
             startDate: '2019-01-01T00:00:00.000Z',
             endDate: '2019-01-08T00:00:00.000Z',
           },
-          url:
-            '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-weekday-and-hour',
+          url: '/cdhapi/customers/dataHubCustomerId/domains/doppler.test/events/summarized-by-weekday-and-hour',
         }),
       );
       expect(response.success).toEqual(false);

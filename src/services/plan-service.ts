@@ -264,9 +264,8 @@ export class PlanService implements PlanHierarchy {
       (plan) => plan.type === planType,
     );
 
-    const potentialUpgradePlansFilteredByPathAndTypeSorted = potentialUpgradePlansFilteredByPathAndType.sort(
-      compareByFee,
-    );
+    const potentialUpgradePlansFilteredByPathAndTypeSorted =
+      potentialUpgradePlansFilteredByPathAndType.sort(compareByFee);
     return potentialUpgradePlansFilteredByPathAndTypeSorted;
   }
 
