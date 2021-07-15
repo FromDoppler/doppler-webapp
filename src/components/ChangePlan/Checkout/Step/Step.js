@@ -2,48 +2,46 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 
 /* TODO: These styles will be removed with the correct classes. Currently Gus is working with the layout. */
-const containerStyle = {
-  paddingLeft: '20px',
-  paddingTop: '20px',
-  paddingRight: '20px',
-  border: '2px solid #eaeaea',
-  borderRadius: '3px',
-  marginTop: '20px',
-};
-
 const displaFlexAndjustifyContentSpaceBetweenStyle = {
   display: 'flex',
   justifyContent: 'space-between',
 };
 
-const upperCaseStyle = {
+const titleStyle = {
   textTransform: 'uppercase',
+  fontWeight: 400,
 };
 
-export const Step = ({ children, title, active, complete, onActivate }) => {
+const displayBlockStyle = {
+  display: 'block',
+};
+
+export const Step = ({ children, title, active, stepNumber, complete, onActivate }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
     <>
-      {active ? (
-        children
-      ) : (
-        <div className="dp-wrapper-form-plans step-header-container" style={containerStyle}>
-          <div style={displaFlexAndjustifyContentSpaceBetweenStyle}>
-            <h3 style={upperCaseStyle}>{title}</h3>
-            {complete ? (
-              <button
-                className="m-b-30 edit-button"
-                onClick={onActivate}
-                style={{ color: '#33ad73' }}
-              >
-                {_('checkoutProcessForm.edit')}
-              </button>
-            ) : null}
-          </div>
+      <li className={`dp-box-shadow ${active ? 'dp-form-successful' : ''}`}>
+        <span className={`dp-number-item ${active ? ' dp-successful' : ''}`}>{stepNumber}</span>
+        <div className="dp-accordion-thumb" style={displaFlexAndjustifyContentSpaceBetweenStyle}>
+          <div style={titleStyle}>{title}</div>
+          {!active && complete ? (
+            <button
+              className="m-b-30 edit-button dp-accordion-thumb"
+              onClick={onActivate}
+              style={{ color: '#33ad73' }}
+            >
+              {_('checkoutProcessForm.edit')}
+            </button>
+          ) : null}
         </div>
-      )}
+        {active ? (
+          <div className="dp-accordion-panel" style={displayBlockStyle}>
+            <div className="dp-accordion-content">{children}</div>
+          </div>
+        ) : null}
+      </li>
     </>
   );
 };

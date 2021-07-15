@@ -24,7 +24,7 @@ const Checkout = () => {
 
     switch (activeStep) {
       case checkoutSteps.contactInformation:
-        nextStep = checkoutSteps.contactInformation;
+        nextStep = checkoutSteps.billingInformation;
         break;
       case checkoutSteps.billingInformation:
         nextStep = checkoutSteps.paymentInformation;
@@ -57,29 +57,40 @@ const Checkout = () => {
       </HeaderSection>
       <section className="dp-container">
         <div className="dp-rowflex">
+          <div className="col-sm-12">
+            <h3 className="m-b-24">{_('checkoutProcessForm.title')}</h3>
+          </div>
           <div className="col-lg-8 col-md-12 m-b-24">
-            <Step
-              active={activeStep === checkoutSteps.contactInformation}
-              title={_('checkoutProcessForm.contact_information_title')}
-              complete={complete}
-            >
-              <ContactInformation
-                handleSaveAndContinue={setNextCheckoutStep}
-                onComplete={(value) => {
-                  setComplete(value);
-                }}
-              />
-            </Step>
-            <Step
-              active={activeStep === checkoutSteps.billingInformation}
-              title={_('checkoutProcessForm.billing_information_title')}
-              complete={false}
-            ></Step>
-            <Step
-              active={activeStep === checkoutSteps.paymentInformation}
-              title={_('checkoutProcessForm.payment_method_title')}
-              complete={false}
-            ></Step>
+            <div className="dp-wrapper-payment-process">
+              <ul className="dp-accordion">
+                <Step
+                  active={activeStep === checkoutSteps.contactInformation}
+                  title={_('checkoutProcessForm.contact_information_title')}
+                  complete={complete}
+                  stepNumber={1}
+                  onActivate={() => setActiveStep(checkoutSteps.contactInformation)}
+                >
+                  <ContactInformation
+                    handleSaveAndContinue={setNextCheckoutStep}
+                    onComplete={(value) => {
+                      setComplete(value);
+                    }}
+                  />
+                </Step>
+                <Step
+                  active={activeStep === checkoutSteps.billingInformation}
+                  title={_('checkoutProcessForm.billing_information_title')}
+                  complete={false}
+                  stepNumber={2}
+                ></Step>
+                <Step
+                  active={activeStep === checkoutSteps.paymentInformation}
+                  title={_('checkoutProcessForm.payment_method_title')}
+                  complete={false}
+                  stepNumber={3}
+                ></Step>
+              </ul>
+            </div>
           </div>
         </div>
       </section>

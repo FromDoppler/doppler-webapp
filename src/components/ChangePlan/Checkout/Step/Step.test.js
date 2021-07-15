@@ -24,7 +24,7 @@ describe('Step Component', () => {
     );
 
     // Asserts
-    expect(container.querySelector('.step-header-container')).toBeInTheDocument();
+    expect(container.querySelector('.dp-accordion-thumb')).toBeInTheDocument();
   });
 
   it('should show step header and button when the step is inactive and complete', () => {
@@ -40,7 +40,7 @@ describe('Step Component', () => {
     );
 
     // Asserts
-    expect(container.querySelector('.step-header-container')).toBeInTheDocument();
+    expect(container.querySelector('.dp-accordion-thumb')).toBeInTheDocument();
     expect(container.querySelector('.edit-button')).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe('Step Component', () => {
     );
 
     // Asserts
-    expect(container.querySelector('.step-header-container')).toBeInTheDocument();
+    expect(container.querySelector('.dp-accordion-thumb')).toBeInTheDocument();
     expect(container.querySelector('.edit-button')).toBeNull();
   });
 
@@ -93,9 +93,9 @@ describe('Step Component', () => {
       );
     });
 
-    const { container } = result;
+    const { getAllByText } = result;
 
     // Asserts
-    expect(container.querySelector('.contact-information')).toBeInTheDocument();
+    expect(getAllByText('checkoutProcessForm.contact_information_title').length).toBe(1);
   });
 });
