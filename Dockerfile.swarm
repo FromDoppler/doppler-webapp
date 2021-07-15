@@ -20,7 +20,7 @@ ARG public_url="/"
 ENV PUBLIC_URL=$public_url
 RUN yarn build:$environment
 
-FROM nginx:1.21.0-alpine AS final
+FROM nginx:1.21.1-alpine AS final
 WORKDIR /app
 RUN rm /etc/nginx/conf.d/default.conf
 COPY conf/site-swarm.conf /etc/nginx/conf.d/site.conf
