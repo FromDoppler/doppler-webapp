@@ -260,7 +260,7 @@ describe('Doppler plan client', () => {
     var types = planService.getPlanTypes(currentPlan, 'standard', planList);
 
     // Assert
-    expect(types.length).toBe(1);
+    expect(types.length).toBe(2);
   });
 
   it('should get correct plans for free user - selected path plus, type subscribers', async () => {
@@ -272,7 +272,7 @@ describe('Doppler plan client', () => {
     };
 
     // Act
-    var plans = await planService.getPlans(currentPlan, 'plus', 'subscribers', planList);
+    const plans = await planService.getPlans(currentPlan, 'plus', 'subscribers', planList);
 
     // Assert
     expect(plans.length).toBeGreaterThan(0);
@@ -293,7 +293,12 @@ describe('Doppler plan client', () => {
     };
 
     // Act
-    var plans = await planService.getPlans(currentPlan, 'standard', 'monthly-deliveries', planList);
+    const plans = await planService.getPlans(
+      currentPlan,
+      'standard',
+      'monthly-deliveries',
+      planList,
+    );
 
     // Assert
     expect(plans.length).toBeGreaterThan(0);
@@ -318,13 +323,18 @@ describe('Doppler plan client', () => {
     };
 
     // Act
-    var plans = await planService.getPlans(currentPlan, 'standard', 'monthly-deliveries', planList);
+    const plans = await planService.getPlans(
+      currentPlan,
+      'standard',
+      'monthly-deliveries',
+      planList,
+    );
 
     // Assert
     expect(plans.length).toBeGreaterThan(0);
   });
 
-  it('should get no plans for user: monthly - path: standard - type: subscribers', async () => {
+  it('should get higher subscriber plans when user type: monthly-deliveries', async () => {
     // Arrange
     const currentPlan = {
       type: 'monthly-deliveries',
@@ -338,10 +348,10 @@ describe('Doppler plan client', () => {
     };
 
     // Act
-    var plans = await planService.getPlans(currentPlan, 'standard', 'subscribers', planList);
+    const plans = await planService.getPlans(currentPlan, 'standard', 'subscribers', planList);
 
     // Assert
-    expect(plans.length).toBe(0);
+    expect(plans.length).toBe(2);
   });
 
   it('should get plansfor subscriber user - selected path standard and type monthly', () => {
