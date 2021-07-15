@@ -18,7 +18,7 @@ RUN yarn verify
 RUN yarn build
 
 # Host project in nginx
-FROM nginx:1.21.0-alpine
+FROM nginx:1.21.1-alpine
 WORKDIR /app
 COPY --from=build /app/build /usr/share/nginx/html
 
