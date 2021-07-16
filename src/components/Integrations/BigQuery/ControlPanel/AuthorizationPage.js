@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Loading } from '../../../Loading/Loading';
-import useTimeout from '../../../../hooks/useTimeout';
 import { AuthorizationForm } from './AuthorizationForm';
+import { InjectAppServices } from '../../../../services/pure-di';
 
-export const AuthorizationPage = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const createTimeout = useTimeout();
+const AuthorizationLayout = ({ dependencies: { bigQueryClient } }) => {
+  const [data, setData] = useState(['']);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchInfo = () => ['email1@gmail.com', 'email2@gmail.com'];
-    setLoading(true);
-    createTimeout(() => {
-      setData(fetchInfo());
+    const fetchData = async () => {
+      const result = await bigQueryClient.getEmailsData();
+      if (result.success) {
+        setData(result.value.emails);
+      }
       setLoading(false);
-    }, 2000);
-  }, [createTimeout]);
+    };
+
+    fetchData();
+  }, [bigQueryClient]);
 
   if (loading) {
     return <Loading page></Loading>;
@@ -30,3 +32,5 @@ export const AuthorizationPage = () => {
     </div>
   );
 };
+
+export const AuthorizationPage = InjectAppServices(AuthorizationLayout);
