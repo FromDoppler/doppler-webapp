@@ -92,8 +92,6 @@ const getFreePathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [FreePath] =
     return [];
   }
 
-  var cheapestPlan = plans[0];
-
   return [
     {
       type: 'free',
@@ -108,8 +106,6 @@ const getAgencyPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [AgenciesP
   if (plans.length === 0) {
     return [];
   }
-
-  var cheapestPlan = plans[0];
 
   return [
     {
@@ -160,32 +156,48 @@ const _agencyPlan: AgencyPlan = {
 };
 
 const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
-  const potentialUpgradePlans =
-    userPlan.type === 'free'
-      ? planList
-      : userPlan.type === 'prepaid'
-      ? [
-          ...getPrepaidPacks(planList),
-          ...getUpgradeMonthlyPlans(planList),
-          ...getUpgradeSubscribersPlans(planList),
-        ]
-      : userPlan.type === 'monthly-deliveries'
-      ? getUpgradeMonthlyPlans(planList, {
+  let potentialUpgradePlans: Plan[];
+  switch (userPlan.type) {
+    case 'free':
+      potentialUpgradePlans = planList;
+      break;
+
+    case 'prepaid':
+      potentialUpgradePlans = [
+        ...getPrepaidPacks(planList),
+        ...getUpgradeMonthlyPlans(planList),
+        ...getUpgradeSubscribersPlans(planList),
+      ];
+      break;
+
+    case 'monthly-deliveries':
+      potentialUpgradePlans = [
+        ...getUpgradeMonthlyPlans(planList, {
           minFee: userPlan.fee,
           minEmailsByMonth: userPlan.emailsByMonth,
-        })
-      : userPlan.type === 'subscribers'
-      ? [
-          ...getUpgradeSubscribersPlans(planList, {
-            minFee: userPlan.fee,
-            minSubscriberLimit: userPlan.subscriberLimit,
-          }),
-          ...getUpgradeMonthlyPlans(planList, {
-            minFee: userPlan.fee,
-            minEmailsByMonth: 0,
-          }),
-        ]
-      : [];
+        }),
+        ...getUpgradeSubscribersPlans(planList),
+      ];
+      break;
+
+    case 'subscribers':
+      potentialUpgradePlans = [
+        ...getUpgradeSubscribersPlans(planList, {
+          minFee: userPlan.fee,
+          minSubscriberLimit: userPlan.subscriberLimit,
+        }),
+        ...getUpgradeMonthlyPlans(planList, {
+          minFee: userPlan.fee,
+          minEmailsByMonth: 0,
+        }),
+      ];
+      break;
+
+    default:
+      potentialUpgradePlans = [];
+      break;
+  }
+
   // if the plan is plus featured we won´t need any standard plan
   const potentialUpgradePlansFilteredByFeatures =
     userPlan.featureSet === 'plus' ? getPlusPlans(potentialUpgradePlans) : potentialUpgradePlans;
