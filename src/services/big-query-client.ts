@@ -1,12 +1,14 @@
-import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { HttpBaseClient } from './http-base-client';
+import { ResultWithoutExpectedErrors, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 
+export type SaveEmailsResult = EmptyResultWithoutExpectedErrors;
 export interface EmailList {
   emails: String[];
 }
 
 export interface BigQueryClient {
   getEmailsData(): Promise<ResultWithoutExpectedErrors<EmailList>>;
+  saveEmailsData(payload: EmailList): Promise<SaveEmailsResult>;
 }
 
 export class HttpBigQueryClient extends HttpBaseClient implements BigQueryClient {
@@ -34,5 +36,19 @@ export class HttpBigQueryClient extends HttpBaseClient implements BigQueryClient
       console.error(error);
       return { success: false, error: error };
     }
+  }
+
+  public async saveEmailsData(payload: EmailList): Promise<SaveEmailsResult> {
+    const { jwtToken, email } = this.getApiConnectionData(this.clientName);
+    const response = await this.axios.put(`/big-query/${email}/allowed-emails`, {
+      body: JSON.stringify(payload),
+      headers: { Authorization: `token ${jwtToken}` },
+    });
+    if (!response.data.success) {
+      return {
+        message: response.data.error || null,
+      };
+    }
+    return { success: true };
   }
 }

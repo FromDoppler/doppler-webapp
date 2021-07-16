@@ -1,5 +1,5 @@
 import { ResultWithoutExpectedErrors } from '../doppler-types';
-import { BigQueryClient, EmailList } from './big-query-client';
+import { BigQueryClient, EmailList, SaveEmailsResult } from './big-query-client';
 import { timeout } from '../utils';
 
 const result = {
@@ -15,7 +15,13 @@ const result = {
 export class HardcodedBigQueryClient implements BigQueryClient {
   public async getEmailsData(): Promise<ResultWithoutExpectedErrors<EmailList>> {
     console.log('getEmailsData');
-    //await timeout(1500);
+    await timeout(500);
     return { success: true, value: result };
+  }
+
+  public async saveEmailsData(payload: EmailList): Promise<SaveEmailsResult> {
+    console.log('saveEmailsData: ', payload);
+    await timeout(500);
+    return { success: true };
   }
 }
