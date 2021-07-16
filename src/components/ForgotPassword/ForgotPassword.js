@@ -16,6 +16,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
 import * as S from './ForgotPassword.styles';
+import { getFormInitialValues } from '../../utils';
 
 const fieldNames = {
   email: 'email',
@@ -35,16 +36,14 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
    */
-  const getFormInitialValues = () => {
-    const values = Object.keys(fieldNames).reduce(
-      (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
-      {},
-    );
-    if (location.state && location.state.email) {
-      values[fieldNames.email] = location.state.email;
+  const _getFormInitialValues = () => {
+    const initialValues = getFormInitialValues(fieldNames);
+
+    if (location.state?.email) {
+      initialValues[fieldNames.email] = location.state.email;
     }
 
-    return values;
+    return initialValues;
   };
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -132,7 +131,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
           ) : (
             <FormWithCaptcha
               className="login-form"
-              initialValues={getFormInitialValues()}
+              initialValues={_getFormInitialValues()}
               onSubmit={onSubmit}
             >
               <fieldset>

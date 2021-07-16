@@ -15,6 +15,7 @@ import {
 } from '../form-helpers/form-helpers';
 import { useIntl } from 'react-intl';
 import * as S from './ExclusiveForm.styles';
+import { getFormInitialValues } from '../../utils';
 
 const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
@@ -95,14 +96,8 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
     },
   ];
 
-  const getFormInitialValues = () => {
-    const initialValues = Object.keys(fieldNames).reduce(
-      (accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue]: '',
-      }),
-      {},
-    );
+  const _getFormInitialValues = () => {
+    const initialValues = getFormInitialValues(fieldNames);
 
     initialValues[fieldNames.email] = appSessionRef.current.userData.user.email;
     initialValues[fieldNames.features] = [];
@@ -161,7 +156,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
               <h3>{_('exclusive_form.form_title')}</h3>
               <FormWithCaptcha
                 onSubmit={onSubmit}
-                initialValues={getFormInitialValues()}
+                initialValues={_getFormInitialValues()}
                 validate={validate}
               >
                 <legend>{_('exclusive_form.form_legend')}</legend>

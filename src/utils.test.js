@@ -11,13 +11,14 @@ import {
   thousandSeparatorNumber,
   compactNumber,
   orderPlanTypes,
+  getFormInitialValues,
 } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
 
 describe('utils', () => {
   describe('orderPlanTypes', () => {
-    it('should sort plan types when all first plans are', () => {
+    it('should sort plan types when all first plans are present', () => {
       // Arrange
       const planTypes = ['demo', 'prepaid', 'free', 'monthly-deliveries', 'subscribers'];
       const expectedPlans = ['subscribers', 'monthly-deliveries', 'prepaid', 'demo', 'free'];
@@ -565,40 +566,63 @@ describe('utils', () => {
     });
   });
 
-  describe.each`
-    rawNumber  | expectedFormatted | language
-    ${100}     | ${'100'}          | ${'en'}
-    ${1000}    | ${'1,000'}        | ${'en'}
-    ${10000}   | ${'10,000'}       | ${'en'}
-    ${1000.35} | ${'1,000.35'}     | ${'en'}
-    ${1000.5}  | ${'1,000.50'}     | ${'en'}
-    ${100}     | ${'100'}          | ${'es'}
-    ${1000}    | ${'1.000'}        | ${'es'}
-    ${10000}   | ${'10.000'}       | ${'es'}
-    ${1000.35} | ${'1.000,35'}     | ${'es'}
-    ${1000.5}  | ${'1.000,50'}     | ${'es'}
-  `('thousandSeparatorNumber function', ({ rawNumber, expectedFormatted, language }) => {
-    it(`should return ${expectedFormatted} when the number is ${rawNumber} and language is "${language}"`, () => {
-      // Act
-      const result = thousandSeparatorNumber(language, rawNumber);
-
+  describe('thousandSeparatorNumber function', () => {
+    it('should return correct intl format for numbers in ESP', () => {
       // Assert
-      expect(result).toBe(expectedFormatted);
+      expect(thousandSeparatorNumber('es', 100)).toBe('100');
+      expect(thousandSeparatorNumber('es', 1000)).toBe('1.000');
+      expect(thousandSeparatorNumber('es', 10000)).toBe('10.000');
+    });
+
+    it('should return correct intl format for numbers in ENG', () => {
+      // Assert
+      expect(thousandSeparatorNumber('en', 100)).toBe('100');
+      expect(thousandSeparatorNumber('en', 1000)).toBe('1,000');
+      expect(thousandSeparatorNumber('en', 10000)).toBe('10,000');
     });
   });
 
-  describe.each`
-    rawNumber | expectedFormatted
-    ${100}    | ${'100'}
-    ${1000}   | ${'1K'}
-    ${10000}  | ${'10K'}
-  `('compactNumber function', ({ rawNumber, expectedFormatted }) => {
-    it(`should return ${expectedFormatted} when the number is ${rawNumber} (no matter what language)`, () => {
+  describe('compactNumber function', () => {
+    it('should return correct compact format for numbers (no matter what language)', () => {
+      // Assert
+      expect(compactNumber(100)).toBe('100');
+      expect(compactNumber(1000)).toBe('1K');
+      expect(compactNumber(10000)).toBe('10K');
+    });
+  });
+
+  describe('getFormInitialValues function', () => {
+    it('should return an object with empty values when fieldNames it has properties', () => {
+      // Arrange
+      const field1 = 'field1';
+      const field2 = 'field2';
+
+      const fieldNames = {
+        [field1]: field1,
+        [field2]: field2,
+      };
+      const expectedResult = {
+        [field1]: '',
+        [field2]: '',
+      };
+
       // Act
-      const result = compactNumber(rawNumber);
+      const result = getFormInitialValues(fieldNames);
 
       // Assert
-      expect(result).toBe(expectedFormatted);
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('should return an empty object when fieldNames it has not properties', () => {
+      // Arrange
+      const fieldNames = {};
+      const expectedResult = {};
+
+      // Act
+      const result = getFormInitialValues(fieldNames);
+
+      // Assert
+      expect(result).toEqual(expectedResult);
     });
   });
 });

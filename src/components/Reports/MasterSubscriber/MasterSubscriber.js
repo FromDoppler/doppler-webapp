@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import MasterSubscriberCurrentSearch from './MasterSubscriberCurrentSearch/MasterSubscriberCurrentSearch';
 import { Formik, Form, Field } from 'formik';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import { getFormInitialValues } from '../../../utils';
 
 const minSearchChars = 3;
 
@@ -14,15 +15,6 @@ const MasterSubscriber = () => {
 
   const fieldNames = {
     search: 'search',
-  };
-
-  const getFormInitialValues = () => {
-    const values = Object.keys(fieldNames).reduce(
-      (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
-      {},
-    );
-
-    return values;
   };
 
   const validateSearch = (value) => {
@@ -64,7 +56,7 @@ const MasterSubscriber = () => {
         <div className="dp-rowflex">
           <div className="col-sm-12">
             <div className="dp-block-wlp">
-              <Formik initialValues={getFormInitialValues()} onSubmit={onSubmit}>
+              <Formik initialValues={getFormInitialValues(fieldNames)} onSubmit={onSubmit}>
                 {({ submitForm, handleChange, errors, touched }) => (
                   <div>
                     <Form

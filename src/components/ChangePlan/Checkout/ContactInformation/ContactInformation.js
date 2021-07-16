@@ -11,7 +11,7 @@ import {
   SubmitButton,
 } from '../../../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
-import { getCountries } from '../../../../utils';
+import { getCountries, getFormInitialValues } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
 
 /* TODO: These styles will be removed with the correct classes. Currently Gus is working with the layout. */
@@ -77,14 +77,8 @@ export const ContactInformation = InjectAppServices(
     const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
     const language = intl.locale;
 
-    const getFormInitialValues = () => {
-      let initialValues = Object.keys(fieldNames).reduce(
-        (accumulator, currentValue) => ({
-          ...accumulator,
-          [currentValue]: '',
-        }),
-        {},
-      );
+    const _getFormInitialValues = () => {
+      let initialValues = getFormInitialValues(fieldNames);
 
       if (state.contactInformation) {
         initialValues = { ...state.contactInformation };
@@ -115,7 +109,7 @@ export const ContactInformation = InjectAppServices(
             <div style={displaFlexAndjustifyContentSpaceBetweenStyle}>
               <h3 style={upperCaseStyle}>{_('checkoutProcessForm.contact_information_title')}</h3>
             </div>
-            <Formik onSubmit={submitContactInformationForm} initialValues={getFormInitialValues()}>
+            <Formik onSubmit={submitContactInformationForm} initialValues={_getFormInitialValues()}>
               <Form>
                 <legend>{_('checkoutProcessForm.contact_information_title')}</legend>
                 <fieldset>
