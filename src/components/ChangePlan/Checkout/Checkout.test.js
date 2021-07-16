@@ -53,10 +53,10 @@ describe('Checkout component', () => {
       result = render(<CheckoutElement />);
     });
 
-    const { container } = result;
+    const { getAllByText } = result;
 
     // Assert
-    expect(container.querySelector('.contact-information')).toBeInTheDocument();
+    expect(getAllByText('checkoutProcessForm.contact_information_title').length).toBe(2);
   });
 
   it('should show messages for empty required fields', async () => {
