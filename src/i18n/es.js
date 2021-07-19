@@ -266,10 +266,13 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   header: {
     availables: 'disponibles',
+    enabled: 'HABILITADO',
     help_url: `${urlHelp}`,
     plan_emails: 'Emails',
     plan_prepaid: 'Plan Prepago',
     plan_suscribers: 'Suscriptores',
+    profile: 'Perfil',
+    send_mails: 'Envío de Emails',
   },
   invoices_list: {
     amount_column: `Importe`,
