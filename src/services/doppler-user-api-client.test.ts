@@ -43,7 +43,7 @@ describe('HttpDopplerUserApiClient', () => {
         address: 'Alem 1234',
         city: 'Tandil',
         province: 'Buenos Aires',
-        countryId: 1,
+        country: 'AR',
         zipCode: '7000',
         phoneNumber: '+5424966666',
         company: 'Making Sense',

@@ -116,6 +116,7 @@ export class AppCompositionRoot implements AppServices {
       appStatusOverrideEnabled: process.env.REACT_APP_MANUAL_STATUS_ENABLED === 'true',
       appStatusOverrideFileUrl: process.env.REACT_APP_MANUAL_STATUS_FILE_URL as string,
       dopplerContactPolicyApiUrl: process.env.REACT_APP_DOPPLER_CONTACT_POLICY_URL as string,
+      dopplerUsersApiUrl: process.env.REACT_APP_DOPPLER_USERS_API_URL as string,
     }));
   }
 
@@ -262,7 +263,7 @@ export class AppCompositionRoot implements AppServices {
       () =>
         new HttpDopplerUserApiClient({
           axiosStatic: this.axiosStatic,
-          baseUrl: this.appConfiguration.dopplerBillingApiUrl,
+          baseUrl: this.appConfiguration.dopplerUsersApiUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );

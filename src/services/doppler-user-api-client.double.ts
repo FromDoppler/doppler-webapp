@@ -9,12 +9,11 @@ const contactInformationResult = {
   address: 'Alem 1234',
   city: 'Tandil',
   province: 'Buenos Aires',
-  country: 'es',
+  country: 'ar',
   zipCode: '7000',
   phone: '+542494222222',
   company: 'Making Sense',
   industry: 'IT',
-  completed: true,
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
