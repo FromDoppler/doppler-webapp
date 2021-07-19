@@ -172,7 +172,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     interval_unit: 'days',
     meta_title: 'Doppler | Contact Policy',
     subtitle_MD: `
-Set a **maximum number of Emails** your Subscribers will be able to receive from you in a period of time.
+Set a **maximum number of Emails** your Contacts will be able to receive from you in a period of time.
 
 Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     success_msg: 'Changes saved successfully.',

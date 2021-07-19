@@ -171,7 +171,7 @@ const messages_es = {
     interval_unit: 'días',
     meta_title: 'Doppler | Política de Contacto',
     subtitle_MD: `
-Define la **cantidad máxima de Emails** que tus Suscriptores podrán recibir en un período de tiempo determinado.
+Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un período de tiempo determinado.
 
 ¿Quieres saber más? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
     success_msg: 'Cambios guardados con éxito.',
