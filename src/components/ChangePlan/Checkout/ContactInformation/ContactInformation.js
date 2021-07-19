@@ -51,7 +51,7 @@ export const ContactInformation = InjectAppServices(
         });
       };
       fetchData();
-    }, [dopplerUserApiClient]);
+    }, [dopplerUserApiClient, onComplete]);
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
