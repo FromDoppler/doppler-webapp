@@ -171,6 +171,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
   },
   contact_policy: {
     amount_description: 'Send up to',
+    error_invalid_range_msg: 'You can set up to 999 Emails and a maximum of 30 days.',
     interval_description: 'within',
     interval_unit: 'days',
     meta_title: 'Doppler | Contact Policy',
