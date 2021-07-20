@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
-import { FieldGroup, NumberField, SubmitButton, SwitchField } from '../form-helpers/form-helpers';
+import { FieldGroup, NumberField, SwitchField } from '../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
@@ -42,14 +42,17 @@ export const ContactPolicy = InjectAppServices(
       }
     }, [isContactPolicyEnabled, dopplerContactPolicyApiClient, appSessionRef]);
 
-    const submitContactPolicyForm = async (values, { setSubmitting }) => {
+    const submitContactPolicyForm = async (values, { setSubmitting, resetForm }) => {
       setFormSubmitted(false);
       try {
         const { success } = await dopplerContactPolicyApiClient.updateAccountSettings(values);
-        if (!success) {
+        if (success) {
+          setFormSubmitted(true);
+          resetForm({ values });
+          setSettings(values);
+        } else {
           console.log('Error updating account settings');
         }
-        setFormSubmitted(success);
       } finally {
         setSubmitting(false);
       }
@@ -86,8 +89,10 @@ export const ContactPolicy = InjectAppServices(
                       ...getFormInitialValues(fieldNames),
                       ...settings,
                     }}
+                    validateOnBlur={false}
+                    enableReinitialize={true}
                   >
-                    {({ values }) => (
+                    {({ values, isSubmitting, isValid, dirty }) => (
                       <Form className="dp-contact-policy-form">
                         <fieldset>
                           <legend>{_('contact_policy.title')}</legend>
@@ -97,7 +102,6 @@ export const ContactPolicy = InjectAppServices(
                                 id="contact-policy-switch"
                                 name={fieldNames.active}
                                 text={_('contact_policy.toggle_text')}
-                                onToggle={() => setFormSubmitted(false)}
                               />
                             </li>
                             <li className="field-item">
@@ -109,7 +113,6 @@ export const ContactPolicy = InjectAppServices(
                                     id="contact-policy-input-amount"
                                     disabled={!values[fieldNames.active]}
                                     required
-                                    onChange={() => setFormSubmitted(false)}
                                   />
                                   <span className="m-r-6">{_('common.emails')}</span>
                                 </div>
@@ -120,14 +123,13 @@ export const ContactPolicy = InjectAppServices(
                                     id="contact-policy-input-interval"
                                     disabled={!values[fieldNames.active]}
                                     required
-                                    onChange={() => setFormSubmitted(false)}
                                   />
                                   <span>{_('contact_policy.interval_unit')}</span>
                                 </div>
                               </div>
                             </li>
 
-                            {formSubmitted ? (
+                            {formSubmitted && !dirty ? (
                               <li className="field-item">
                                 <div className="dp-wrap-message dp-wrap-success bounceIn">
                                   <span className="dp-message-icon" />
@@ -151,7 +153,16 @@ export const ContactPolicy = InjectAppServices(
                               </a>
 
                               <span className="align-button m-l-24">
-                                <SubmitButton>{_('common.save')}</SubmitButton>
+                                <button
+                                  type="submit"
+                                  disabled={!(isValid && dirty) || isSubmitting}
+                                  className={
+                                    'dp-button button-medium primary-green' +
+                                    ((isSubmitting && ' button--loading') || '')
+                                  }
+                                >
+                                  {_('common.save')}
+                                </button>
                               </span>
                             </li>
                           </FieldGroup>

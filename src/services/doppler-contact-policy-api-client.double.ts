@@ -35,7 +35,7 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
 
     const settings = {
       accountName: 'hardcoded@email.com',
-      active: true,
+      active: false,
       emailsAmountByInterval: 20,
       intervalInDays: 7,
       excludedSubscribersLists: this.mapSubscriberList(excludedSubscribersLists),

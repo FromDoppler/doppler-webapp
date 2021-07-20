@@ -1,6 +1,11 @@
 import React from 'react';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { ContactPolicy } from './ContactPolicy';
@@ -21,7 +26,7 @@ describe('ContactPolicy component', () => {
   const dopplerContactPolicyApiClientDouble = () => ({
     getAccountSettings: async () => ({
       success: true,
-      value: settingsDouble,
+      value: settingsDouble(),
     }),
     updateAccountSettings: async () => ({
       success: true,
@@ -77,16 +82,19 @@ describe('ContactPolicy component', () => {
   });
 
   it('should show success message when updating data correctly', async () => {
-    // // Act
-    const { getByText } = render(<ContactPolicyComponent />);
+    // Act
+    const { container, findByText, getByText } = render(<ContactPolicyComponent />);
 
-    //TODO: Improve this code
-    await waitFor(async () => {
-      fireEvent.click(getByText('common.save'));
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
 
-      // Assert
-      expect(getByText('contact_policy.success_msg'));
-    });
+    const switchButton = container.querySelector('input#contact-policy-switch');
+    fireEvent.click(switchButton);
+    expect(switchButton).toBeChecked();
+
+    fireEvent.click(getByText('common.save'));
+    expect(await findByText('contact_policy.success_msg'));
   });
 
   it('should disable the inputs if the switch is not active', async () => {
@@ -105,16 +113,23 @@ describe('ContactPolicy component', () => {
     // Act
     const { container } = render(<ContactPolicyComponent />);
 
-    //TODO: Improve this code
-    await waitFor(() => {
-      const switchButton = container.querySelector('input#contact-policy-switch');
-      fireEvent.click(switchButton);
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
 
-      // Assert
-      expect(switchButton).toBeChecked();
-      expect(container.querySelector('input#contact-policy-input-amount')).not.toBeDisabled();
-      expect(container.querySelector('input#contact-policy-input-interval')).not.toBeDisabled();
-    });
+    const switchButton = container.querySelector('input#contact-policy-switch');
+    const inputAmount = container.querySelector('input#contact-policy-input-amount');
+    const inputInterval = container.querySelector('input#contact-policy-input-interval');
+
+    expect(switchButton).not.toBeChecked();
+    expect(inputAmount).toBeDisabled();
+    expect(inputInterval).toBeDisabled();
+
+    fireEvent.click(switchButton);
+
+    expect(switchButton).toBeChecked();
+    expect(inputAmount).not.toBeDisabled();
+    expect(inputInterval).not.toBeDisabled();
   });
 
   it('should show the contact policy configuration if the feature is enabled', async () => {
