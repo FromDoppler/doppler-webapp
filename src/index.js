@@ -23,6 +23,7 @@ import { HardcodedIpinfoClient } from './services/ipinfo-client.doubles';
 import { HardcodedBigQueryClient } from './services/big-query-client.double';
 import { HardcodedDopplerUserApiClient } from './services/doppler-user-api-client.double';
 import { HardcodedDopplerContactPolicyApiClient } from './services/doppler-contact-policy-api-client.double';
+import { HardcodedStaticDataClient } from './services/static-data-client.double';
 
 import Offline from './components/Offline/Offline';
 polyfill();
@@ -47,6 +48,7 @@ const forcedServices =
         bigQueryClient: new HardcodedBigQueryClient(),
         dopplerUserApiClient: new HardcodedDopplerUserApiClient(),
         dopplerContactPolicyApiClient: new HardcodedDopplerContactPolicyApiClient(),
+        staticDataClient: new HardcodedStaticDataClient(),
       }
     : {};
 

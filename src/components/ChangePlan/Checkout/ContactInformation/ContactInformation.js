@@ -28,26 +28,43 @@ const fieldNames = {
 };
 
 export const ContactInformation = InjectAppServices(
-  ({ dependencies: { dopplerUserApiClient }, handleSaveAndContinue, showTitle }) => {
+  ({
+    dependencies: { dopplerUserApiClient, staticDataClient },
+    handleSaveAndContinue,
+    showTitle,
+  }) => {
     const [state, setState] = useState({ loading: true });
     const [formSubmitted, setFormSubmitted] = useState(false);
     const createTimeout = useTimeout();
     const intl = useIntl();
 
     useEffect(() => {
+      const getIndustries = async () => {
+        const data = await staticDataClient.getIndustriesData(intl.locale);
+        const industries = data.success
+          ? Object.keys(data.value).map((key) => ({ key: key, value: data.value[key] }))
+          : [];
+
+        return industries.sort((a, b) =>
+          a.value.localeCompare(b.value, undefined, { sensitivity: 'base' }),
+        );
+      };
+
       const fetchData = async () => {
         const contactInformationResult = await dopplerUserApiClient.getContactInformationData();
+        const industries = await getIndustries(intl.locale);
 
         setState({
           contactInformation: contactInformationResult.success
             ? contactInformationResult.value
             : null,
           success: contactInformationResult.success,
+          industries,
           loading: false,
         });
       };
       fetchData();
-    }, [dopplerUserApiClient]);
+    }, [dopplerUserApiClient, staticDataClient, intl.locale]);
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
@@ -63,7 +80,7 @@ export const ContactInformation = InjectAppServices(
       return initialValues;
     };
 
-    const submitContactInformationForm = async (values, { setSubmitting }) => {
+    const submitContactInformationForm = async (values) => {
       setFormSubmitted(false);
 
       const result = await dopplerUserApiClient.createOrUpdateContactInformation(values);
@@ -186,12 +203,13 @@ export const ContactInformation = InjectAppServices(
                         label={`${_('checkoutProcessForm.contact_information_company')}`}
                         className="field-item--50"
                       />
-                      <InputFieldItem
-                        type="text"
-                        label={`${_('checkoutProcessForm.contact_information_industry')}`}
+                      <SelectFieldItem
                         fieldName={fieldNames.industry}
-                        required
                         id="industry"
+                        label={`*${_('checkoutProcessForm.contact_information_industry')}`}
+                        defaultOption={defaultOption}
+                        values={state.industries}
+                        required
                         className="field-item--50"
                       />
                     </FieldGroup>

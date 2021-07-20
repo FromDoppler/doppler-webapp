@@ -14,7 +14,6 @@ const checkoutSteps = {
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
-  const [complete, setComplete] = useState(false);
   const intl = useIntl();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);

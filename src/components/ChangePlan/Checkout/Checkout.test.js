@@ -6,10 +6,9 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 import { AppServicesProvider } from '../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import Checkout from './Checkout';
+import { fakeIndustries } from '../../../services/static-data-client.double';
 
 describe('Checkout component', () => {
-  afterEach(cleanup);
-
   const contactInformation = {
     email: 'test@makingsense.com',
     firstname: 'Juan',
@@ -33,6 +32,9 @@ describe('Checkout component', () => {
       createOrUpdateContactInformation: async () => {
         return { success: true };
       },
+    },
+    staticDataClient: {
+      getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
     },
   };
 
@@ -87,8 +89,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: '' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: '' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: '' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '' } });
@@ -132,8 +134,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -177,8 +179,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -222,8 +224,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -267,8 +269,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -312,8 +314,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -357,8 +359,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: '' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -402,8 +404,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '' } });
@@ -447,8 +449,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: '' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: '' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
@@ -492,8 +494,8 @@ describe('Checkout component', () => {
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
 
-      const inputIndustry = container.querySelector('input#industry');
-      fireEvent.change(inputIndustry, { target: { value: 'IT' } });
+      const selectIndustry = container.querySelector('select#industry');
+      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '2494222222' } });
