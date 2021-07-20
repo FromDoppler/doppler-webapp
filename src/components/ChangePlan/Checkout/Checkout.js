@@ -66,16 +66,11 @@ const Checkout = () => {
                 <Step
                   active={activeStep === checkoutSteps.contactInformation}
                   title={_('checkoutProcessForm.contact_information_title')}
-                  complete={complete}
+                  complete={true}
                   stepNumber={1}
                   onActivate={() => setActiveStep(checkoutSteps.contactInformation)}
                 >
-                  <ContactInformation
-                    handleSaveAndContinue={setNextCheckoutStep}
-                    onComplete={(value) => {
-                      setComplete(value);
-                    }}
-                  />
+                  <ContactInformation handleSaveAndContinue={setNextCheckoutStep} />
                 </Step>
                 <Step
                   active={activeStep === checkoutSteps.billingInformation}

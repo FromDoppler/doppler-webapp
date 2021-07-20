@@ -28,7 +28,7 @@ const fieldNames = {
 };
 
 export const ContactInformation = InjectAppServices(
-  ({ dependencies: { dopplerUserApiClient }, handleSaveAndContinue, onComplete, showTitle }) => {
+  ({ dependencies: { dopplerUserApiClient }, handleSaveAndContinue, showTitle }) => {
     const [state, setState] = useState({ loading: true });
     const [formSubmitted, setFormSubmitted] = useState(false);
     const createTimeout = useTimeout();
@@ -37,10 +37,6 @@ export const ContactInformation = InjectAppServices(
     useEffect(() => {
       const fetchData = async () => {
         const contactInformationResult = await dopplerUserApiClient.getContactInformationData();
-
-        if (contactInformationResult.success) {
-          onComplete(contactInformationResult.value.completed);
-        }
 
         setState({
           contactInformation: contactInformationResult.success
@@ -51,7 +47,7 @@ export const ContactInformation = InjectAppServices(
         });
       };
       fetchData();
-    }, [dopplerUserApiClient, onComplete]);
+    }, [dopplerUserApiClient]);
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
@@ -202,9 +198,9 @@ export const ContactInformation = InjectAppServices(
                   </FieldItem>
                   <FieldItem className="field-item">
                     {formSubmitted ? (
-                      <div class="dp-wrap-message dp-wrap-success m-b-12">
-                        <span class="dp-message-icon"></span>
-                        <div class="dp-content-message">
+                      <div className="dp-wrap-message dp-wrap-success m-b-12">
+                        <span className="dp-message-icon"></span>
+                        <div className="dp-content-message">
                           <p>{_('checkoutProcessForm.success_msg')}</p>
                         </div>
                       </div>

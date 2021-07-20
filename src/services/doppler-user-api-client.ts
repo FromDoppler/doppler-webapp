@@ -71,7 +71,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       address: data.address,
       city: data.city,
       province: data.province,
-      country: data.country,
+      country: data.country.toLowerCase(),
       zipCode: data.zipCode,
       phone: data.phone,
       company: data.company,
@@ -87,8 +87,8 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${email}/`,
-        headers: { Authorization: `token ${jwtToken}` },
+        url: `/accounts/${email}/contact-information`,
+        headers: { Authorization: `bearer ${jwtToken}` },
       });
 
       if (response.status === 200 && response.data) {
