@@ -13,6 +13,8 @@ import {
   RequestAgenciesDemoModel,
   RequestAgenciesDemoResult,
   RequestExclusiveFeaturesDemoResult,
+  RequestUpgradeModel,
+  ReturnUpgradeFormResult,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -162,6 +164,14 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     model: RequestExclusiveFeaturesDemoResult,
   ): Promise<RequestExclusiveFeaturesDemoResult> {
     console.log('requestExclusiveFeaturesDemo', model);
+    await timeout(1500);
+    return { success: true };
+  }
+
+  public async requestSuggestionUpgradeForm(
+    model: RequestUpgradeModel,
+  ): Promise<ReturnUpgradeFormResult> {
+    console.log('requestSuggestionUpgradeForm', model);
     await timeout(1500);
     return { success: true };
   }

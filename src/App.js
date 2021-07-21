@@ -28,6 +28,7 @@ import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { Promotional } from './components/Integrations/BigQuery/Promotional/Promotional';
 import { AuthorizationPage } from './components/Integrations/BigQuery/ControlPanel/AuthorizationPage';
+import UpgradeSuggestionForm from './components/DopplerPlus/UpgradeSuggestionForm';
 import Checkout from './components/ChangePlan/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummary';
 
@@ -124,6 +125,11 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 path={'/plan-selection/:pathType/:planType?'}
                 exact
                 component={PlanCalculator}
+              />
+              <PrivateRoute
+                path={['/upgrade-suggestion-form']}
+                exact
+                component={UpgradeSuggestionForm}
               />
               <PrivateRoute path={'/checkout/:pathType/:planType?'} exact component={Checkout} />
               <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />

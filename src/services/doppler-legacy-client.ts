@@ -30,6 +30,9 @@ export interface DopplerLegacyClient {
   requestExclusiveFeaturesDemo(
     requestExclusiveFeaturesDemoModel: RequestExclusiveFeaturesDemoModel,
   ): Promise<RequestExclusiveFeaturesDemoResult>;
+  requestSuggestionUpgradeForm(
+    requestUpgradeModel: RequestUpgradeModel,
+  ): Promise<ReturnUpgradeFormResult>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -62,6 +65,15 @@ export interface RequestExclusiveFeaturesDemoModel {
   message: string;
 }
 
+export interface RequestUpgradeModel {
+  email: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  range_time: string;
+  message: string;
+}
+
 export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
 
 export type RequestAgenciesDemoResult = EmptyResultWithoutExpectedErrors;
@@ -69,6 +81,8 @@ export type RequestAgenciesDemoResult = EmptyResultWithoutExpectedErrors;
 export type RequestExclusiveFeaturesDemoResult = EmptyResultWithoutExpectedErrors;
 
 export type ActivateSiteTrackingTrialResult = EmptyResultWithoutExpectedErrors;
+
+export type ReturnUpgradeFormResult = EmptyResultWithoutExpectedErrors;
 
 /* #endregion */
 
@@ -865,6 +879,27 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       ContactSchedule: model.range_time,
       Features: model.features,
       SendingVolume: model.volume,
+      Message: model.message,
+    });
+
+    if (!response.data.success) {
+      return {
+        message: response.data.error || null,
+      };
+    }
+
+    return { success: true };
+  }
+
+  public async requestSuggestionUpgradeForm(
+    model: RequestUpgradeModel,
+  ): Promise<ReturnUpgradeFormResult> {
+    const response = await this.axios.post('/WebApp/RequestSuggestionUpgradeDemo', {
+      Email: model.email,
+      Firstname: model.firstname,
+      Lastname: model.lastname,
+      Phone: model.phone,
+      ContactSchedule: model.range_time,
       Message: model.message,
     });
 
