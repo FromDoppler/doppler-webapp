@@ -29,6 +29,7 @@ import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { Promotional } from './components/Integrations/BigQuery/Promotional/Promotional';
 import { AuthorizationPage } from './components/Integrations/BigQuery/ControlPanel/AuthorizationPage';
 import Checkout from './components/ChangePlan/Checkout/Checkout';
+import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummary';
 
 /**
  * @param { Object } props - props
@@ -144,6 +145,7 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
                 exact
                 component={AuthorizationPage}
               />
+              <PrivateRoute path={['/checkout-summary']} exact component={CheckoutSummary} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
