@@ -304,8 +304,8 @@ export const compactNumber = new Intl.NumberFormat('en', {
 }).format;
 
 export const getCountries = (language: string) => {
-  var data: { [key: string]: any } = language === 'es' ? countriesEs : countriesEn;
-  var countries = Object.keys(data).map(function (key) {
+  const data: { [key: string]: any } = language === 'es' ? countriesEs : countriesEn;
+  const countries = Object.keys(data).map(function (key) {
     return { key: key, value: data[key] };
   });
 
