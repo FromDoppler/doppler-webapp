@@ -415,6 +415,7 @@ describe('PlanCalculator component', () => {
     // Assert
     await waitFor(() => {
       expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('1,500');
+      expect(container.querySelector('.dp-cost-per-email')).not.toBeInTheDocument();
       expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
         'plans.prepaid_amount_description',
       );
@@ -445,6 +446,7 @@ describe('PlanCalculator component', () => {
     // Assert
     await waitFor(() => {
       expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('2,500');
+      expect(container.querySelector('.dp-cost-per-email')).not.toBeInTheDocument();
       expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
         'plans.subscribers_amount_description',
       );
@@ -476,6 +478,7 @@ describe('PlanCalculator component', () => {
     // Assert
     await waitFor(() => {
       expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('5,000');
+      expect(container.querySelector('.dp-cost-per-email')).toBeInTheDocument();
       expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
         'plans.monthly_deliveries_amount_description',
       );
