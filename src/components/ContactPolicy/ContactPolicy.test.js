@@ -10,6 +10,7 @@ import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { ContactPolicy } from './ContactPolicy';
 import { AppServicesProvider } from '../../services/pure-di';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('ContactPolicy component', () => {
   afterEach(cleanup);
@@ -42,13 +43,22 @@ describe('ContactPolicy component', () => {
     experimentalFeatures: experimentalFeatureDouble(),
   };
 
+  const mockedGoBack = jest.fn();
+  const initialProps = {
+    history: {
+      goBack: mockedGoBack,
+    },
+  };
+
   const ContactPolicyComponent = ({ isEnabled = true }) => {
     const services = isEnabled ? dependencies : {};
     return (
       <AppServicesProvider forcedServices={services}>
-        <DopplerIntlProvider>
-          <ContactPolicy />
-        </DopplerIntlProvider>
+        <BrowserRouter>
+          <DopplerIntlProvider>
+            <ContactPolicy {...initialProps} />
+          </DopplerIntlProvider>
+        </BrowserRouter>
       </AppServicesProvider>
     );
   };
@@ -148,5 +158,126 @@ describe('ContactPolicy component', () => {
 
     //Assert
     expect(getByText('common.feature_no_available'));
+  });
+
+  it('should show error message and highlight the field if the emails amount is empty', async () => {
+    // Act
+    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
+    const submitButton = getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    expect(getByRole('checkbox')).not.toBeChecked();
+    fireEvent.click(getByRole('checkbox'));
+    expect(await findByRole('checkbox')).toBeChecked();
+    expect(submitButton).not.toBeDisabled();
+
+    const inputAmount = container.querySelector('input#contact-policy-input-amount');
+    fireEvent.change(inputAmount, { target: { value: '' } });
+    expect(inputAmount).toHaveValue(null);
+
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+    });
+    expect(inputAmount).toHaveClass('dp-error-input');
+    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
+  });
+
+  it('should show error message and highlight the field if the interval in days is empty', async () => {
+    // Act
+    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
+    const submitButton = getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    expect(getByRole('checkbox')).not.toBeChecked();
+    fireEvent.click(getByRole('checkbox'));
+    expect(await findByRole('checkbox')).toBeChecked();
+    expect(submitButton).not.toBeDisabled();
+
+    const inputInterval = container.querySelector('input#contact-policy-input-interval');
+    fireEvent.change(inputInterval, { target: { value: '' } });
+    expect(inputInterval).toHaveValue(null);
+
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+    });
+    expect(inputInterval).toHaveClass('dp-error-input');
+    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
+  });
+
+  it('should show error message and highlight the field if the emails amount is out of range', async () => {
+    // Act
+    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
+    const submitButton = getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    expect(getByRole('checkbox')).not.toBeChecked();
+    fireEvent.click(getByRole('checkbox'));
+    expect(await findByRole('checkbox')).toBeChecked();
+    expect(submitButton).not.toBeDisabled();
+
+    const inputAmount = container.querySelector('input#contact-policy-input-amount');
+    fireEvent.change(inputAmount, { target: { value: '1000' } });
+    expect(inputAmount).toHaveValue(1000);
+
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+    });
+    expect(inputAmount).toHaveClass('dp-error-input');
+    expect(getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
+  });
+
+  it('should show error message and highlight the field if the interval in days is out of range', async () => {
+    // Act
+    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
+    const submitButton = getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    expect(getByRole('checkbox')).not.toBeChecked();
+    fireEvent.click(getByRole('checkbox'));
+    expect(await findByRole('checkbox')).toBeChecked();
+    expect(submitButton).not.toBeDisabled();
+
+    const inputInterval = container.querySelector('input#contact-policy-input-interval');
+    fireEvent.change(inputInterval, { target: { value: '31' } });
+    expect(inputInterval).toHaveValue(31);
+
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+    });
+    expect(inputInterval).toHaveClass('dp-error-input');
+    expect(getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
+  });
+
+  it('should call go back function if back button is pressed', async () => {
+    // Act
+    const { container, getByRole } = render(<ContactPolicyComponent />);
+
+    // Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
+
+    const switchButton = container.querySelector('input#contact-policy-switch');
+    fireEvent.click(switchButton);
+    expect(switchButton).toBeChecked();
+
+    const backButton = getByRole('button', { name: 'common.back' });
+    fireEvent.click(backButton);
+    expect(mockedGoBack).toBeCalledTimes(1);
   });
 });
