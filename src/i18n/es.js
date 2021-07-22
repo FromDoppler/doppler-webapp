@@ -170,6 +170,7 @@ const messages_es = {
   },
   contact_policy: {
     amount_description: 'Enviar hasta',
+    error_invalid_range_msg: 'Puedes configurar hasta 999 Emails y 30 días como máximo.',
     interval_description: 'en un plazo de',
     interval_unit: 'días',
     meta_title: 'Doppler | Política de Contacto',

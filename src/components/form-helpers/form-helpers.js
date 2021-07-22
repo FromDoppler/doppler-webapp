@@ -604,3 +604,12 @@ export const SelectFieldItem = ({
     </Field>
   </FieldItem>
 );
+
+export const IconMessage = ({ text, type = 'info', className }) => (
+  <div className={concatClasses(`dp-wrap-message dp-wrap-${type}`, className)}>
+    <span className="dp-message-icon" />
+    <div className="dp-content-message">
+      <p>{text}</p>
+    </div>
+  </div>
+);
