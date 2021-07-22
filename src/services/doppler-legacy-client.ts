@@ -531,6 +531,7 @@ export function mapHeaderDataJson(json: any) {
       idUser: mapIdUserToken(json.jwtToken),
       avatar: json.user.avatar,
       email: json.user.email,
+      isLastPlanRequested: json.user.isLastPlanRequested,
       fullname: json.user.fullname,
       hasClientManager: !!json.user.clientManager,
       clientManager: json.user.clientManager,
@@ -792,12 +793,27 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     return response.data.data.ClientTypePlans.map((x: any) => ({
       IdUserTypePlan: x.IdUserTypePlan,
       Description: x.Description,
+      SubscribersQty: x.SubscribersQty,
+      EmailQty: x.EmailQty,
     }));
   }
 
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
     // TODO: research why axios cancels this request. In the meantime, we are using fetch.
     await fetch(this.baseUrl + '/SendUpgradePlanContactEmail/SendEmailUpgradePlan', {
+      method: 'post',
+      body: JSON.stringify(planModel),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      credentials: 'include',
+    });
+    // TODO: handle error responses
+  }
+
+  public async upgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
+    // TODO: research why axios cancels this request. In the meantime, we are using fetch.
+    await fetch(this.baseUrl + '/SendUpgradePlanContactEmail/UpgradePlan', {
       method: 'post',
       body: JSON.stringify(planModel),
       headers: {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
+import { TooltipContainer } from '../../TooltipContainer/TooltipContainer';
 import { FormattedNumber, useIntl } from 'react-intl';
 
 const HeaderUserMenu = ({ user }) => {
@@ -47,9 +48,28 @@ const HeaderUserMenu = ({ user }) => {
 
             {!user.hasClientManager &&
             ((user.plan.buttonUrl && user.plan.pendingFreeUpgrade) || !user.plan.buttonUrl) ? (
-              <button onClick={() => toggleModal(true)} className="user-plan">
-                {user.plan.buttonText}
-              </button>
+              !user.isLastPlanRequested ? (
+                <button onClick={() => toggleModal(true)} className="user-plan">
+                  {user.plan.buttonText}
+                </button>
+              ) : (
+                <div className="dp-request-sent">
+                  <TooltipContainer
+                    visible={false}
+                    content={_('header.tooltip_last_plan')}
+                    orientation="left"
+                  >
+                    <button
+                      onClick={() => toggleModal(true)}
+                      className="user-plan close-user--menu dp-tooltip-left"
+                    >
+                      {_('header.send_request')}
+                      <div className="tooltiptext">{_('header.tooltip_last_plan')}</div>
+                    </button>
+                    <span className="ms-icon icon-info-icon"></span>
+                  </TooltipContainer>
+                </div>
+              )
             ) : (
               ''
             )}
