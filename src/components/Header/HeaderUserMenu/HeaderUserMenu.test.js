@@ -116,4 +116,58 @@ describe('Header user menu', () => {
     // Assert
     expect(queryByText('Available for SMS')).not.toBeInTheDocument();
   });
+
+  it('Should show SENT REQUESTED when the user has last plan, and he requested a new plan', () => {
+    // Arrange
+    var userData = {
+      fullname: 'John Miller',
+      email: 'john@doppler.com',
+      isLastPlanRequested: true,
+      hasClientManager: false,
+      avatar: {
+        color: '#fff',
+        text: 'JM',
+      },
+      plan: {
+        remainingCredits: 10000,
+        description: 'creditos disponibles',
+        isSubscribers: true,
+        buttonUrl: false,
+        pendingFreeUpgrade: false,
+      },
+      nav: [
+        {
+          title: 'Panel de Control',
+          url: 'https://app2.fromdoppler.com/ControlPanel',
+          isEnabled: false,
+          isSelected: false,
+        },
+      ],
+      sms: {},
+    };
+
+    // Act
+    const { getAllByText, getByText } = render(
+      <IntlProvider>
+        <HeaderUserMenu user={userData} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    expect(getByText('header.send_request')).toBeInTheDocument();
+    expect(getAllByText('header.tooltip_last_plan'));
+  });
+
+  it('Should NOT show SENT REQUESTED when the user has last plan, but he did not requests a new plan', () => {
+    // Act
+    const { container } = render(
+      <IntlProvider>
+        <HeaderUserMenu user={userData} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    expect(container.querySelector('tooltiptext')).toBeNull();
+    expect(container.querySelector('dp-request-sent')).toBeNull();
+  });
 });
