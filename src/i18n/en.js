@@ -172,6 +172,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     synchronizing: `Synchronizing`,
     ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
+    unsaved_changes_message: `Changes that you made may not be saved.`,
   },
   contact_policy: {
     amount_description: 'Send up to',

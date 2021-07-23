@@ -171,6 +171,7 @@ const messages_es = {
     synchronizing: `Syncronizando`,
     ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
     unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,
+    unsaved_changes_message: `Es posible que no se guarden los cambios que realizó.`,
   },
   contact_policy: {
     amount_description: 'Enviar hasta',
