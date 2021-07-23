@@ -140,6 +140,10 @@ const messages_es = {
     success_msg: '¡¡¡¡Los datos se guardaron exitosamente!!!!.',
     title: `Proceso de pago`,
   },
+  cloud_tags: {
+    tag_already_exist: `El tag {tagName} ya existe.`,
+    tag_limit_exceeded: `Solo puede agregar {max} tags.`,
+  },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,
