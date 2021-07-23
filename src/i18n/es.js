@@ -41,7 +41,7 @@ const messages_es = {
     feature_access: 'Acceso al panel de Client Manager para gestionar las cuentas de tus clientes.',
     feature_admin: 'Administración de perfiles de usuario y permisos de acceso para tus clientes.',
     feature_consultancy: 'Asesoramiento exclusivo para gestionar múltiples cuentas.',
-    feature_custom: 'Personalización con el logo de tu empresa.',
+    feature_custom: 'Personalización con el logotipo de tu empresa.',
     feature_reports: 'Reportes Avanzados sobre el desempeño de las Campañas.',
     features_title: '¿Qué incluye el Plan para Agencias?',
     form_legend: 'Completa este Formulario y te contactaremos en breve.',
