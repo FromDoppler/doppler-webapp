@@ -13,7 +13,6 @@ import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
 import { PlanService } from './plan-service';
 import { HttpManualStatusClient, ManualStatusClient } from './manual-status-client';
-
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
@@ -22,6 +21,7 @@ import {
   DopplerContactPolicyApiClient,
   HttpDopplerContactPolicyApiClient,
 } from './doppler-contact-policy-api-client';
+import { HttpStaticDataClient, StaticDataClient } from './static-data-client';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -64,6 +64,7 @@ export interface AppServices {
   manualStatusClient: ManualStatusClient;
   utmCookiesManager: UtmCookiesManager;
   dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
+  staticDataClient: StaticDataClient;
 }
 
 /**
@@ -117,6 +118,7 @@ export class AppCompositionRoot implements AppServices {
       appStatusOverrideFileUrl: process.env.REACT_APP_MANUAL_STATUS_FILE_URL as string,
       dopplerContactPolicyApiUrl: process.env.REACT_APP_DOPPLER_CONTACT_POLICY_URL as string,
       dopplerUsersApiUrl: process.env.REACT_APP_DOPPLER_USERS_API_URL as string,
+      staticDataBaseUrl: 'https://cdn.fromdoppler.com/static-data',
     }));
   }
 
@@ -296,6 +298,17 @@ export class AppCompositionRoot implements AppServices {
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerContactPolicyApiUrl,
           connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get staticDataClient() {
+    return this.singleton(
+      'staticDataClient',
+      () =>
+        new HttpStaticDataClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.staticDataBaseUrl,
         }),
     );
   }

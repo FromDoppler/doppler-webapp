@@ -7,6 +7,7 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { ContactInformation } from '../ContactInformation/ContactInformation';
 import { act } from 'react-dom/test-utils';
+import { fakeIndustries } from '../../../../services/static-data-client.double';
 
 describe('Step Component', () => {
   afterEach(cleanup);
@@ -74,6 +75,11 @@ describe('Step Component', () => {
       dopplerUserApiClient: {
         getContactInformationData: async () => {
           return { success: true, value: contactInformation };
+        },
+      },
+      staticDataClient: {
+        getIndustriesData: async (language) => {
+          return fakeIndustries;
         },
       },
     };
