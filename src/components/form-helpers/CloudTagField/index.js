@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FieldArray, useFormikContext } from 'formik';
-import { combineValidations } from '../../../validations';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { CloudTags } from '../../CloudTags';

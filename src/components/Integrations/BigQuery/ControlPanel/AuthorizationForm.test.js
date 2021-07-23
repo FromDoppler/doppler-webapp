@@ -5,36 +5,9 @@ import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-a
 import { AuthorizationForm } from './AuthorizationForm';
 
 describe('AuthorizationForm ', () => {
-  it('should render the empty input', () => {
-    // Act
-    render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
-
-    // Assert
-    const input = screen.getByRole('textbox');
-    expect(input.value).toBe('');
-  });
-
-  it('should not show added emails when it has no initial values', () => {
-    // Act
-    render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
-
-    // Assert
-    expect(
-      screen.queryByRole('button', { name: 'big_query.plus_button_remove' }),
-    ).not.toBeInTheDocument();
-  });
-
-  it('should show added emails when it has initial values', () => {
-    //Arrange
-    const emails = ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'];
+  it('should not show tag cloud', () => {
+    // Arrange
+    const emails = [];
 
     // Act
     render(
@@ -44,117 +17,91 @@ describe('AuthorizationForm ', () => {
     );
 
     // Assert
-    emails.forEach((email) => {
-      expect(screen.getByText(email)).toBeInTheDocument();
-    });
+    expect(screen.queryByRole('list', { name: 'cloud tags' })).not.toBeInTheDocument();
+    expect(screen.getByRole('textbox').value).toBe('');
   });
 
-  test('Validate button disabled when input is empty', () => {
+  it('should show the tag cloud with the initial values', () => {
     // Arrange
-    const { container } = render(
+    const emails = ['harcode_1@mail.com', 'harcode_2@mail.com'];
+
+    // Act
+    render(
       <IntlProvider>
-        <AuthorizationForm emails={[]} />
+        <AuthorizationForm emails={emails} />
       </IntlProvider>,
     );
 
     // Assert
-    const buttonAdd = container.querySelector('button[type="button"]');
-    expect(buttonAdd).toBeDisabled();
+    const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
+    expect(cloudTags).toBeInTheDocument();
+    expect(cloudTags.querySelectorAll('li').length).toBe(emails.length);
+    expect(screen.getByRole('textbox').value).toBe('');
   });
 
-  test('Validate button enabled when input is not empty', () => {
+  it('should add tags when passing validations and submit form', async () => {
     // Arrange
-    const { container } = render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
+    const onSubmit = jest.fn();
+    const tagToAdd1 = 'harcode_1@mail.com';
+    const invalidTag = 'harcode_fail';
+    const tagToAdd2 = 'harcode_2@mail.com';
+    const emails = [];
 
     // Act
-    const emptyInput = document.querySelector('input[type="email"]');
-    fireEvent.change(emptyInput, { target: { value: 'input not empty' } });
+    const { container } = render(
+      <IntlProvider>
+        <AuthorizationForm emails={emails} onSubmit={onSubmit} />
+      </IntlProvider>,
+    );
 
     // Assert
-    const buttonAdd = container.querySelector('button[type="button"]');
-    expect(buttonAdd).toBeEnabled();
-  });
+    const getCloudTags = () => screen.queryByRole('list', { name: 'cloud tags' });
+    const getErrors = () => screen.queryByRole('alert');
+    let cloudTags = getCloudTags();
+    let errors;
 
-  test('Validate error message when input not is email ', () => {
-    // Arrange
-    const { container } = render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
+    const input = screen.getByRole('textbox');
+    const addButton = screen.getByRole('button', { name: 'add tag' });
+    expect(getCloudTags()).not.toBeInTheDocument();
+    expect(input.value).toBe('');
+
+    // add first tag (simulated with click event)
+    await fireEvent.change(input, { target: { value: tagToAdd1 } });
+    fireEvent.click(addButton);
+    cloudTags = getCloudTags();
+    errors = getErrors();
+    expect(cloudTags).toBeInTheDocument();
+    expect(errors).not.toBeInTheDocument();
+    // emails.length+1 because the first tag was added
+    expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
+
+    // fails when add second tag (simulated with enter event)
+    await fireEvent.change(input, { target: { value: invalidTag } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    cloudTags = getCloudTags();
+    errors = getErrors();
+    // the same amount of tag is kept because it was not added
+    expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
+    expect(errors).toBeInTheDocument();
+
+    // success when add second tag (simulated with enter event)
+    await fireEvent.change(input, { target: { value: tagToAdd2 } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    cloudTags = getCloudTags();
+    errors = getErrors();
+    // emails.length+2 because the second tag was added
+    expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 2);
+    expect(errors).not.toBeInTheDocument();
+
+    // simulate submit form
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    fireEvent.click(submitButton);
+    expect(submitButton).toBeDisabled();
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({
+        emails: [tagToAdd1, tagToAdd2],
+      }),
     );
-    const emptyInput = document.querySelector('input[type="email"]');
-    fireEvent.change(emptyInput, { target: { value: 'not is email' } });
-    const buttonAdd = container.querySelector('button[type="button"]');
-    expect(buttonAdd).toBeEnabled();
-
-    // Act
-    fireEvent.click(buttonAdd);
-
-    //Assert
-    const { getByText } = render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
-    expect(getByText('validation_messages.error_invalid_email_address')).toBeInTheDocument();
-  });
-
-  test('Validate error message when input has accents', () => {
-    // Arrange
-    const { container } = render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
-
-    const emptyInput = document.querySelector('input[type="email"]');
-    fireEvent.change(emptyInput, { target: { value: 'acentó@gmail.com' } });
-    const buttonAdd = container.querySelector('button[type="button"]');
-    expect(buttonAdd).toBeEnabled();
-
-    // Act
-    fireEvent.click(buttonAdd);
-
-    // Assert
-    const { getByText } = render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
-    expect(getByText('validation_messages.error_has_accents')).toBeInTheDocument();
-  });
-
-  test('Validate error message when email is duplicate', async () => {
-    // Arrange
-    const { container } = render(
-      <IntlProvider>
-        <AuthorizationForm emails={[]} />
-      </IntlProvider>,
-    );
-
-    await waitFor(() => {
-      setTimeout(function () {
-        expect(container.getElementsByClassName('loading-box').length).toBe(0);
-        const emptyInput = document.querySelector('input[type="email"]');
-        fireEvent.change(emptyInput, { target: { value: 'email1@gmail.com' } });
-        const buttonAdd = container.querySelector('button[type="button"]');
-        expect(buttonAdd).toBeEnabled();
-
-        //Act
-        fireEvent.click(buttonAdd);
-
-        //Assert
-        const { getByText } = render(
-          <IntlProvider>
-            <AuthorizationForm emails={[]} />
-          </IntlProvider>,
-        );
-        expect(getByText('big_query.plus_error_message_email_exists')).toBeInTheDocument();
-      }, 5000);
-    });
+    expect(submitButton).not.toBeDisabled();
   });
 });

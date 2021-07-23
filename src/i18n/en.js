@@ -58,6 +58,8 @@ const messages_en = {
     volume_do_not_know: `I don't know`,
   },
   big_query: {
+    add_google_account: `Add google account`,
+    add_permission_google_account: `Add permission for Google accounts.`,
     free_alt_image: `big query`,
     free_btn_redirect: `Get to know our Plus plan`,
     free_text_data_studio_MD: `Learn to configure our dashboard [Data Studio in a few steps](https://datastudio.google.com/overview),
