@@ -3,7 +3,13 @@ import { BigQueryClient, EmailList } from './big-query-client';
 import { timeout } from '../utils';
 
 const result = {
-  emails: ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'],
+  emails: [
+    'allanwatts@gmail.com',
+    'mdirago@gmail.com',
+    'casco@gmail.com',
+    'carlos-sampedro@gmail.com',
+    'jose_luis_alvarez_arguelles@gmail.com',
+  ],
 };
 
 export class HardcodedBigQueryClient implements BigQueryClient {
