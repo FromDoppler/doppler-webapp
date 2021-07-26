@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { fakeIndustries } from '../../../../services/static-data-client.double';
+import { fakeIndustries, fakeStates } from '../../../../services/static-data-client.double';
 import { ContactInformation } from './ContactInformation';
 
 describe('Checkout component', () => {
@@ -15,8 +15,8 @@ describe('Checkout component', () => {
     lastname: 'Perez',
     address: 'Alem 1234',
     city: 'Tandil',
-    province: 'Buenos Aires',
-    countryId: 1,
+    province: 'AR-B',
+    country: 'ar',
     zipCode: '7000',
     phone: '+542494228090',
     company: 'Test',
@@ -35,6 +35,7 @@ describe('Checkout component', () => {
     },
     staticDataClient: {
       getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
+      getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
     },
   };
 
@@ -83,11 +84,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: '' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: '' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: '' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: '' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: '' } });
@@ -128,11 +129,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'buenos aires' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -173,11 +174,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'buenos aires' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -218,11 +219,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'buenos aires' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -263,11 +264,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: '' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'buenos aires' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -308,11 +309,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: '' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: '' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -353,11 +354,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'province 1' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: '' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -398,11 +399,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'province 1' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
@@ -443,11 +444,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'tandil' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'pronvince 1' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: '' } });
@@ -488,11 +489,11 @@ describe('Checkout component', () => {
       const inputCity = container.querySelector('input#city');
       fireEvent.change(inputCity, { target: { value: 'city' } });
 
-      const inputProvince = container.querySelector('input#province');
-      fireEvent.change(inputProvince, { target: { value: 'province' } });
-
       const selectCountry = container.querySelector('select#country');
       fireEvent.change(selectCountry, { target: { value: 'ar' } });
+
+      const selectProvince = container.querySelector('select#province');
+      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
 
       const selectIndustry = container.querySelector('select#industry');
       fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });

@@ -8,12 +8,12 @@ const contactInformationResult = {
   lastname: 'Test',
   address: 'Alem 1234',
   city: 'Tandil',
-  province: 'Buenos Aires',
+  province: 'AR-B',
   country: 'ar',
   zipCode: '7000',
   phone: '+542494222222',
   company: 'Making Sense',
-  industry: 'IT',
+  industry: 'dplr1',
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {

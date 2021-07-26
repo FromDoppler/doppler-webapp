@@ -6,7 +6,7 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 import { AppServicesProvider } from '../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import Checkout from './Checkout';
-import { fakeIndustries } from '../../../services/static-data-client.double';
+import { fakeIndustries, fakeStates } from '../../../services/static-data-client.double';
 
 describe('Checkout component', () => {
   const contactInformation = {
@@ -34,6 +34,7 @@ describe('Checkout component', () => {
     },
     staticDataClient: {
       getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
+      getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
     },
   };
 
