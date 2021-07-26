@@ -5,11 +5,12 @@ import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { FieldGroup, IconMessage, NumberField, SwitchField } from '../form-helpers/form-helpers';
-import { useFormikContext, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
-import { getFormInitialValues } from '../../utils';
+import { getFormInitialValues, successMessageDelay } from '../../utils';
 import { Prompt } from 'react-router-dom';
+import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
 
 export const ContactPolicy = InjectAppServices(
   ({
@@ -30,8 +31,7 @@ export const ContactPolicy = InjectAppServices(
       intervalInDays: 'intervalInDays',
     };
 
-    const FieldItemMessage = () => {
-      const { errors } = useFormikContext();
+    const FieldItemMessage = ({ errors }) => {
       let message = {};
       if (errors.message) {
         message.text = errors.message;
@@ -42,14 +42,17 @@ export const ContactPolicy = InjectAppServices(
       } else if (formSubmitted) {
         message.text = _('contact_policy.success_msg');
         message.type = 'success';
+        message.delay = successMessageDelay;
       } else {
         return null;
       }
 
       return (
-        <li className="field-item">
-          <IconMessage {...message} className="bounceIn" />
-        </li>
+        <ShowLikeFlash delay={message.delay}>
+          <li className="field-item">
+            <IconMessage {...message} className="bounceIn" />
+          </li>
+        </ShowLikeFlash>
       );
     };
 
@@ -193,7 +196,7 @@ export const ContactPolicy = InjectAppServices(
                                 </div>
                               </li>
 
-                              <FieldItemMessage />
+                              <FieldItemMessage errors={errors} />
 
                               <li className="field-item">
                                 <hr />

@@ -319,3 +319,6 @@ export const getFormInitialValues = (fieldNames: object) =>
     (accumulator, currentValue) => ({ ...accumulator, [currentValue]: '' }),
     {},
   );
+
+// Time (in milliseconds ) that the message is displayed on the screen.
+export const successMessageDelay = 3000;
