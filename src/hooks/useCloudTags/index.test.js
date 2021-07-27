@@ -63,6 +63,32 @@ describe('useCloudTags hook', () => {
       expect(error.props.values).toEqual({ tagName: tagToAdd });
     });
 
+    it('should indicate that the tag exists when the tag to add is an object', () => {
+      // Arrange
+      const labelKey = 'name';
+      const customFieldName = 'subscribers';
+      const tagToAdd = { id: 1, [labelKey]: 'subscriber_1' };
+      const customValues = {
+        [customFieldName]: [tagToAdd, { id: 2, [labelKey]: 'subscriber_2' }],
+      };
+      const customUseFormikContext = jest.fn(() => ({ values: customValues }));
+      const messageKeys = { tagAlreadyExist: 'big_query.free_alt_image' };
+
+      const {
+        result: {
+          current: { validateExistenceTag },
+        },
+      } = renderHook(() => useCloudTags(customFieldName, customUseFormikContext, labelKey));
+
+      // Act
+      const error = validateExistenceTag(tagToAdd, messageKeys);
+
+      // Assert
+      expect(error.props.id).not.toBe('cloud_tags.tag_already_exist');
+      expect(error.props.id).toBe(messageKeys.tagAlreadyExist);
+      expect(error.props.values).toEqual({ tagName: tagToAdd[labelKey] });
+    });
+
     it('should not return an error message when the email does not exist', () => {
       // Arrange
       const tagToAdd = 'harcode_x@mail.com';
