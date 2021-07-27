@@ -5,8 +5,15 @@ import useCloudTags from '../../../hooks/useCloudTags';
 
 const mapTags = (tags, labelKey) => tags.map((tag) => tag[labelKey]);
 
-// CloudTagField component
-export const CloudTagList = ({ fieldName, labelKey, max, disabled, messageKeys, render }) => {
+// CloudTagCompoundField component
+export const CloudTagCompoundField = ({
+  fieldName,
+  labelKey,
+  max,
+  disabled,
+  messageKeys,
+  render,
+}) => {
   const { getAllTags, validateTagToAdd, addTag } = useCloudTags(
     fieldName,
     useFormikContext,
@@ -35,7 +42,7 @@ export const CloudTagList = ({ fieldName, labelKey, max, disabled, messageKeys, 
     />
   );
 };
-CloudTagList.propTypes = {
+CloudTagCompoundField.propTypes = {
   fieldName: PropTypes.string.isRequired,
   labelKey: PropTypes.string.isRequired,
   max: PropTypes.number,

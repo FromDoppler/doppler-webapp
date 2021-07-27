@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Formik, Form } from 'formik';
-import { CloudTagList } from '.';
+import { CloudTagCompoundField } from '.';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const matchTags = (cloudTags, currentTags, labelKey) => {
@@ -18,7 +18,7 @@ const FieldArrayError = ({ errors, fieldName }) => {
   ) : null;
 };
 
-describe('CloudTagList component', () => {
+describe('CloudTagCompoundField component', () => {
   it('should add a tag when the add button is clicked and show error if it already exists', async () => {
     // Arrange
     const labelKey = 'name';
@@ -44,7 +44,7 @@ describe('CloudTagList component', () => {
           >
             {({ errors }) => (
               <Form>
-                <CloudTagList
+                <CloudTagCompoundField
                   fieldName={fieldName}
                   labelKey={labelKey}
                   max={max}
