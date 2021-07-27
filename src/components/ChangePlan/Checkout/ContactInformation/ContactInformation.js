@@ -35,12 +35,13 @@ export const ContactInformation = InjectAppServices(
   }) => {
     const [state, setState] = useState({ loading: true });
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [states, setStates] = useState([]);
     const createTimeout = useTimeout();
     const intl = useIntl();
 
     useEffect(() => {
-      const getIndustries = async () => {
-        const data = await staticDataClient.getIndustriesData(intl.locale);
+      const getIndustries = async (language) => {
+        const data = await staticDataClient.getIndustriesData(language);
         const industries = data.success
           ? Object.keys(data.value).map((key) => ({ key: key, value: data.value[key] }))
           : [];
@@ -53,6 +54,12 @@ export const ContactInformation = InjectAppServices(
       const fetchData = async () => {
         const contactInformationResult = await dopplerUserApiClient.getContactInformationData();
         const industries = await getIndustries(intl.locale);
+        const result = await staticDataClient.getStatesData(
+          contactInformationResult.success ? contactInformationResult.value.country : 'ar',
+          intl.locale,
+        );
+
+        setStates(result.success ? result.value : []);
 
         setState({
           contactInformation: contactInformationResult.success
@@ -80,6 +87,13 @@ export const ContactInformation = InjectAppServices(
       return initialValues;
     };
 
+    const changeCountry = async (e, setFieldValue) => {
+      const country = e.target.value;
+      setFieldValue(fieldNames.country, country);
+      const result = await staticDataClient.getStatesData(country, language);
+      setStates(result.success ? result.value : []);
+    };
+
     const submitContactInformationForm = async (values) => {
       setFormSubmitted(false);
 
@@ -104,134 +118,140 @@ export const ContactInformation = InjectAppServices(
           <Loading />
         ) : (
           <Formik onSubmit={submitContactInformationForm} initialValues={_getFormInitialValues()}>
-            <Form className="dp-form-payment-process">
-              <legend>{_('checkoutProcessForm.contact_information_title')}</legend>
-              <fieldset>
-                <FieldGroup>
-                  <FieldItem className="field-item">
-                    <FieldGroup>
-                      <InputFieldItem
-                        type="text"
-                        fieldName={fieldNames.firstname}
-                        id="firstname"
-                        label={`*${_('checkoutProcessForm.contact_information_firstname')}`}
-                        withNameValidation
-                        required
-                        className="field-item--50"
-                      />
-                      <InputFieldItem
-                        type="text"
-                        label={`*${_('checkoutProcessForm.contact_information_lastname')}`}
-                        fieldName={fieldNames.lastname}
-                        id="lastname"
-                        withNameValidation
-                        required
-                        className="field-item--50"
-                      />
-                    </FieldGroup>
-                  </FieldItem>
-                  <FieldItem className="field-item">
-                    <FieldGroup>
-                      <InputFieldItem
-                        type="text"
-                        fieldName={fieldNames.address}
-                        id="address"
-                        label={`*${_('checkoutProcessForm.contact_information_address')}`}
-                        withNameValidation
-                        required
-                        className="field-item--50"
-                      />
-                      <InputFieldItem
-                        type="text"
-                        label={`*${_('checkoutProcessForm.contact_information_city')}`}
-                        fieldName={fieldNames.city}
-                        id="city"
-                        withNameValidation
-                        required
-                        className="field-item--50"
-                      />
-                    </FieldGroup>
-                  </FieldItem>
-                  <FieldItem className="field-item">
-                    <FieldGroup>
-                      <InputFieldItem
-                        type="text"
-                        fieldName={fieldNames.province}
-                        id="province"
-                        label={`*${_('checkoutProcessForm.contact_information_province')}`}
-                        withNameValidation
-                        required
-                        className="field-item--50"
-                      />
-                      <SelectFieldItem
-                        fieldName={fieldNames.country}
-                        id="country"
-                        label={`*${_('checkoutProcessForm.contact_information_country')}`}
-                        defaultOption={defaultOption}
-                        values={getCountries(language)}
-                        required
-                        className="field-item--50"
-                      />
-                    </FieldGroup>
-                  </FieldItem>
-                  <FieldItem className="field-item">
-                    <FieldGroup>
-                      <InputFieldItem
-                        type="text"
-                        fieldName={fieldNames.zipCode}
-                        id="zipCode"
-                        label={`${_('checkoutProcessForm.contact_information_zip_code')}`}
-                        withNameValidation
-                        className="field-item--50"
-                      />
-                      <PhoneFieldItem
-                        fieldName={fieldNames.phone}
-                        id="phone"
-                        label={`*${_('checkoutProcessForm.contact_information_phone')}`}
-                        placeholder={_('forms.placeholder_phone')}
-                        className="field-item--50"
-                        required
-                      />
-                    </FieldGroup>
-                  </FieldItem>
-                  <FieldItem className="field-item">
-                    <FieldGroup>
-                      <InputFieldItem
-                        type="text"
-                        fieldName={fieldNames.company}
-                        id="company"
-                        label={`${_('checkoutProcessForm.contact_information_company')}`}
-                        className="field-item--50"
-                      />
-                      <SelectFieldItem
-                        fieldName={fieldNames.industry}
-                        id="industry"
-                        label={`*${_('checkoutProcessForm.contact_information_industry')}`}
-                        defaultOption={defaultOption}
-                        values={state.industries}
-                        required
-                        className="field-item--50"
-                      />
-                    </FieldGroup>
-                  </FieldItem>
-                  <FieldItem className="field-item">
-                    {formSubmitted ? (
-                      <div className="dp-wrap-message dp-wrap-success m-b-12">
-                        <span className="dp-message-icon"></span>
-                        <div className="dp-content-message">
-                          <p>{_('checkoutProcessForm.success_msg')}</p>
+            {({ setFieldValue }) => (
+              <Form className="dp-form-payment-process">
+                <legend>{_('checkoutProcessForm.contact_information_title')}</legend>
+                <fieldset>
+                  <FieldGroup>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.firstname}
+                          id="firstname"
+                          label={`*${_('checkoutProcessForm.contact_information_firstname')}`}
+                          withNameValidation
+                          required
+                          className="field-item--50"
+                        />
+                        <InputFieldItem
+                          type="text"
+                          label={`*${_('checkoutProcessForm.contact_information_lastname')}`}
+                          fieldName={fieldNames.lastname}
+                          id="lastname"
+                          withNameValidation
+                          required
+                          className="field-item--50"
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.address}
+                          id="address"
+                          label={`*${_('checkoutProcessForm.contact_information_address')}`}
+                          withNameValidation
+                          required
+                          className="field-item--50"
+                        />
+                        <InputFieldItem
+                          type="text"
+                          label={`*${_('checkoutProcessForm.contact_information_city')}`}
+                          fieldName={fieldNames.city}
+                          id="city"
+                          withNameValidation
+                          required
+                          className="field-item--50"
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <SelectFieldItem
+                          fieldName={fieldNames.province}
+                          id="province"
+                          label={`*${_('checkoutProcessForm.contact_information_province')}`}
+                          defaultOption={defaultOption}
+                          values={states}
+                          required
+                          className="field-item--50"
+                        />
+                        <SelectFieldItem
+                          fieldName={fieldNames.country}
+                          id="country"
+                          label={`*${_('checkoutProcessForm.contact_information_country')}`}
+                          defaultOption={defaultOption}
+                          values={getCountries(language)}
+                          required
+                          className="field-item--50"
+                          onChange={(e) => {
+                            changeCountry(e, setFieldValue);
+                          }}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.zipCode}
+                          id="zipCode"
+                          label={`${_('checkoutProcessForm.contact_information_zip_code')}`}
+                          withNameValidation
+                          className="field-item--50"
+                        />
+                        <PhoneFieldItem
+                          fieldName={fieldNames.phone}
+                          id="phone"
+                          label={`*${_('checkoutProcessForm.contact_information_phone')}`}
+                          placeholder={_('forms.placeholder_phone')}
+                          className="field-item--50"
+                          required
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.company}
+                          id="company"
+                          label={`${_('checkoutProcessForm.contact_information_company')}`}
+                          className="field-item--50"
+                        />
+                        <SelectFieldItem
+                          fieldName={fieldNames.industry}
+                          id="industry"
+                          label={`*${_('checkoutProcessForm.contact_information_industry')}`}
+                          defaultOption={defaultOption}
+                          values={state.industries}
+                          required
+                          className="field-item--50"
+                          //onChange={(e) => {console.log(e.target.value)}}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      {formSubmitted ? (
+                        <div className="dp-wrap-message dp-wrap-success m-b-12">
+                          <span className="dp-message-icon"></span>
+                          <div className="dp-content-message">
+                            <p>{_('checkoutProcessForm.success_msg')}</p>
+                          </div>
                         </div>
+                      ) : null}
+                      <div className="dp-buttons-actions">
+                        <SubmitButton className="dp-button button-medium primary-green">
+                          {_('checkoutProcessForm.save_continue')}
+                        </SubmitButton>
                       </div>
-                    ) : null}
-                    <div className="dp-buttons-actions">
-                      <SubmitButton className="dp-button button-medium primary-green">
-                        {_('checkoutProcessForm.save_continue')}
-                      </SubmitButton>
-                    </div>
-                  </FieldItem>
-                </FieldGroup>
-              </fieldset>
-            </Form>
+                    </FieldItem>
+                  </FieldGroup>
+                </fieldset>
+              </Form>
+            )}
           </Formik>
         )}
       </>
