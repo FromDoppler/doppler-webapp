@@ -623,6 +623,9 @@ deletion, security, cross-border data transfers and other issues.
     users_without_email: `Users without email`,
   },
   upgradePlanForm: {
+    confirmation_subtitle_contact: `You have just hired a new Monthly Plan to send unlimited Campaigns up to <bold>Contacts.</bold> We’ll send you an email with more details about the new Plan.`,
+    confirmation_subtitle_shipping: `You have just hired a new Monthly Plan to send unlimited Campaigns up to <bold>Emails.</bold> We’ll send you an email with more details about the new Plan.`,
+    confirmation_title: `Done!`,
     message_placeholder: `Your message`,
     plan_select: `Select Plan`,
     title: `Request an update of your Plan`,
