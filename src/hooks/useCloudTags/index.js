@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 import { combineValidations } from '../../validations';
 
-const useCloudTags = (fieldName, useFormikContext) => {
+const useCloudTags = (fieldName, useFormikContext, labelKey) => {
   const { values, errors, setErrors } = useFormikContext();
 
   const getAllTags = () => values?.[fieldName] ?? [];
@@ -9,13 +9,17 @@ const useCloudTags = (fieldName, useFormikContext) => {
   const validateExistenceTag = (tagToAdd, messageKeys) => {
     let error;
     const allTags = getAllTags();
-    if (allTags.includes(tagToAdd)) {
+    let tagName = labelKey ? tagToAdd[labelKey] : tagToAdd;
+
+    const included = JSON.stringify(allTags).includes(JSON.stringify(tagToAdd));
+
+    if (included) {
       const id = messageKeys?.tagAlreadyExist ?? 'cloud_tags.tag_already_exist';
       error = (
         <FormattedMessage
           id={id}
           values={{
-            tagName: tagToAdd,
+            tagName,
           }}
         />
       );
