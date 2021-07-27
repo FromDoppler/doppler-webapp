@@ -624,6 +624,9 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     users_without_email: `Usuarios sin email`,
   },
   upgradePlanForm: {
+    confirmation_subtitle_contact: `Acabas de contratar un nuevo Plan Mensual para enviar Campañas ilimitadas hasta <bold>Contactos.</bold> Te enviaremos un email con el detalle del nuevo Plan.`,
+    confirmation_subtitle_shipping: `Acabas de contratar un nuevo Plan Mensual para enviar Campañas ilimitadas hasta <bold>Envíos.</bold> Te enviaremos un email con el detalle del nuevo Plan.`,
+    confirmation_title: `¡Hecho!`,
     message_placeholder: `Tu mensaje`,
     plan_select: `Selecciona el Plan`,
     title: `Solicita una actualización de tu Plan`,

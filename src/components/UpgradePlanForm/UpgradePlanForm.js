@@ -5,6 +5,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../../components/Loading/Loading';
 import { SubmitButton } from '../form-helpers/form-helpers';
 import useTimeout from '../../hooks/useTimeout';
+import { ConfirmationMessage } from './ConfirmationMessage';
 
 const fieldNames = {
   selectedPlanId: 'selectedPlanId',
@@ -17,6 +18,11 @@ const getAvailablePlans = (userPlan, availablePlans) =>
       ? p.SubscribersQty > userPlan.maxSubscribers
       : p.EmailQty > userPlan.maxSubscribers,
   );
+
+const getAmmountSubscribers = (availablePlans, selectedPlanId, isSubscriber) =>
+  isSubscriber
+    ? availablePlans.find((p) => p.IdUserTypePlan == selectedPlanId).SubscribersQty
+    : availablePlans.find((p) => p.IdUserTypePlan == selectedPlanId).EmailQty;
 
 /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
 const UpgradePlanForm = ({
@@ -49,18 +55,25 @@ const UpgradePlanForm = ({
   }, [isSubscriber, dopplerLegacyClient, appSessionRef]);
 
   const [sentEmail, setSentEmail] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState(false);
+  const [amountSubscribers, setAmountSubscribers] = useState(0);
 
   const onSubmit = async (values, { setSubmitting }) => {
     await dopplerLegacyClient.upgradePlan({
       IdClientTypePlanSelected: values[fieldNames.selectedPlanId],
       Detail: values[fieldNames.message],
     });
-
     setSubmitting(false);
+
     if (values[fieldNames.selectedPlanId] > 0) {
-      setSentEmail(false);
-      handleClose();
-      // TODO: Show a new popup
+      setConfirmationMessage(true);
+      setAmountSubscribers(
+        getAmmountSubscribers(
+          state.availablePlans,
+          values[fieldNames.selectedPlanId],
+          isSubscriber,
+        ),
+      );
     } else {
       setSentEmail(true);
       appSessionRef.current.userData.user.isLastPlanRequested = true;
@@ -78,7 +91,14 @@ const UpgradePlanForm = ({
     return errors;
   };
 
-  return !state.isLoading ? (
+  return state.isLoading ? (
+    <Loading />
+  ) : confirmationMessage ? (
+    <ConfirmationMessage
+      isSubscriber={isSubscriber}
+      amountSubscribers={amountSubscribers}
+    ></ConfirmationMessage>
+  ) : (
     <>
       <h2 className="modal-title">
         <FormattedMessage id="upgradePlanForm.title" />
@@ -168,8 +188,6 @@ const UpgradePlanForm = ({
         )}
       </Formik>
     </>
-  ) : (
-    <Loading />
   );
 };
 export default InjectAppServices(UpgradePlanForm);
