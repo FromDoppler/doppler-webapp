@@ -11,20 +11,20 @@ import { Loading } from '../Loading/Loading';
 import { getFormInitialValues, successMessageDelay } from '../../utils';
 import { Prompt } from 'react-router-dom';
 import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
+import { Promotional } from './Promotional';
 
 export const ContactPolicy = InjectAppServices(
   ({
-    dependencies: { dopplerContactPolicyApiClient, appSessionRef, experimentalFeatures },
+    dependencies: { dopplerUserApiClient, dopplerContactPolicyApiClient, appSessionRef },
     history,
   }) => {
+    const [enabled, setEnabled] = useState(false);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState({});
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [error, setError] = useState(false);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const isContactPolicyEnabled =
-      experimentalFeatures && experimentalFeatures.getFeature('ContactPolicy');
     const fieldNames = {
       active: 'active',
       emailsAmountByInterval: 'emailsAmountByInterval',
@@ -57,9 +57,15 @@ export const ContactPolicy = InjectAppServices(
     };
 
     useEffect(() => {
-      if (isContactPolicyEnabled) {
-        const fetchData = async () => {
-          setLoading(true);
+      const isContactPolicyEnabled = async () => {
+        const { success, value } = await dopplerUserApiClient.getFeatures();
+        return success && value.contactPolicies;
+      };
+
+      const fetchData = async () => {
+        const isEnabled = await isContactPolicyEnabled();
+        setEnabled(isEnabled);
+        if (isEnabled) {
           const { success, value } = await dopplerContactPolicyApiClient.getAccountSettings();
           if (success) {
             setSettings(value);
@@ -68,11 +74,11 @@ export const ContactPolicy = InjectAppServices(
             setSettings(undefined);
             setError(true);
           }
-          setLoading(false);
-        };
-        fetchData();
-      }
-    }, [isContactPolicyEnabled, dopplerContactPolicyApiClient, appSessionRef]);
+        }
+        setLoading(false);
+      };
+      fetchData();
+    }, [dopplerUserApiClient, dopplerContactPolicyApiClient, appSessionRef]);
 
     const submitContactPolicyForm = async (values, { setSubmitting, resetForm }) => {
       setFormSubmitted(false);
@@ -118,7 +124,11 @@ export const ContactPolicy = InjectAppServices(
       return errors;
     };
 
-    return (
+    if (loading) {
+      return <Loading page />;
+    }
+
+    return enabled ? (
       <>
         <Helmet>
           <title>{_('contact_policy.meta_title')}</title>
@@ -137,112 +147,100 @@ export const ContactPolicy = InjectAppServices(
           </div>
         </HeaderSection>
         <section className="dp-container">
-          {isContactPolicyEnabled ? (
-            loading ? (
-              <Loading page />
-            ) : (
-              <div className="dp-rowflex">
-                <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
-                  <Formik
-                    onSubmit={submitContactPolicyForm}
-                    initialValues={{
-                      ...getFormInitialValues(fieldNames),
-                      ...settings,
-                    }}
-                    validate={validate}
-                    validateOnBlur={false}
-                    enableReinitialize={true}
-                  >
-                    {({ values, errors, isSubmitting, isValid, dirty }) => (
-                      <>
-                        <Prompt when={dirty} message={_('common.unsaved_changes_message')} />
-                        <Form className="dp-contact-policy-form">
-                          <fieldset>
-                            <legend>{_('contact_policy.title')}</legend>
-                            <FieldGroup>
-                              <li className="field-item">
-                                <SwitchField
-                                  id="contact-policy-switch"
-                                  name={fieldNames.active}
-                                  text={_('contact_policy.toggle_text')}
+          <div className="dp-rowflex">
+            <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
+              <Formik
+                onSubmit={submitContactPolicyForm}
+                initialValues={{
+                  ...getFormInitialValues(fieldNames),
+                  ...settings,
+                }}
+                validate={validate}
+                validateOnBlur={false}
+                enableReinitialize={true}
+              >
+                {({ values, errors, isSubmitting, isValid, dirty }) => (
+                  <>
+                    <Prompt when={dirty} message={_('common.unsaved_changes_message')} />
+                    <Form className="dp-contact-policy-form">
+                      <fieldset>
+                        <legend>{_('contact_policy.title')}</legend>
+                        <FieldGroup>
+                          <li className="field-item">
+                            <SwitchField
+                              id="contact-policy-switch"
+                              name={fieldNames.active}
+                              text={_('contact_policy.toggle_text')}
+                            />
+                          </li>
+                          <li className="field-item">
+                            <div className="dp-item-block">
+                              <div>
+                                <span>{_('contact_policy.amount_description')}</span>
+                                <NumberField
+                                  className={errors.emailsAmountByInterval ? 'dp-error-input' : ''}
+                                  name={fieldNames.emailsAmountByInterval}
+                                  id="contact-policy-input-amount"
+                                  disabled={!values[fieldNames.active]}
+                                  required
                                 />
-                              </li>
-                              <li className="field-item">
-                                <div className="dp-item-block">
-                                  <div>
-                                    <span>{_('contact_policy.amount_description')}</span>
-                                    <NumberField
-                                      className={
-                                        errors.emailsAmountByInterval ? 'dp-error-input' : ''
-                                      }
-                                      name={fieldNames.emailsAmountByInterval}
-                                      id="contact-policy-input-amount"
-                                      disabled={!values[fieldNames.active]}
-                                      required
-                                    />
-                                    <span className="m-r-6">{_('common.emails')}</span>
-                                  </div>
-                                  <div>
-                                    <span>{_('contact_policy.interval_description')}</span>
-                                    <NumberField
-                                      className={errors.intervalInDays ? 'dp-error-input' : ''}
-                                      name={fieldNames.intervalInDays}
-                                      id="contact-policy-input-interval"
-                                      disabled={!values[fieldNames.active]}
-                                      required
-                                    />
-                                    <span>{_('contact_policy.interval_unit')}</span>
-                                  </div>
-                                </div>
-                              </li>
+                                <span className="m-r-6">{_('common.emails')}</span>
+                              </div>
+                              <div>
+                                <span>{_('contact_policy.interval_description')}</span>
+                                <NumberField
+                                  className={errors.intervalInDays ? 'dp-error-input' : ''}
+                                  name={fieldNames.intervalInDays}
+                                  id="contact-policy-input-interval"
+                                  disabled={!values[fieldNames.active]}
+                                  required
+                                />
+                                <span>{_('contact_policy.interval_unit')}</span>
+                              </div>
+                            </div>
+                          </li>
 
-                              <FieldItemMessage errors={errors} />
+                          <FieldItemMessage errors={errors} />
 
-                              <li className="field-item">
-                                <hr />
-                              </li>
+                          <li className="field-item">
+                            <hr />
+                          </li>
 
-                              <li className="field-item">
-                                <button
-                                  type="button"
-                                  className="dp-button button-medium primary-grey"
-                                  onClick={() => history.goBack()}
-                                >
-                                  {_('common.back')}
-                                </button>
-                                <span className="align-button m-l-24">
-                                  <button
-                                    type="submit"
-                                    disabled={
-                                      !(isValid && dirty) ||
-                                      isSubmitting ||
-                                      (formSubmitted && !error)
-                                    }
-                                    className={
-                                      'dp-button button-medium primary-green' +
-                                      ((isSubmitting && ' button--loading') || '')
-                                    }
-                                  >
-                                    {_('common.save')}
-                                  </button>
-                                </span>
-                              </li>
-                            </FieldGroup>
-                          </fieldset>
-                        </Form>
-                      </>
-                    )}
-                  </Formik>
-                </div>
-              </div>
-            )
-          ) : (
-            <div className="col-sm-12 col-md-8 col-lg-6 m-b-12">
-              <IconMessage text={_('common.feature_no_available')} />
+                          <li className="field-item">
+                            <button
+                              type="button"
+                              className="dp-button button-medium primary-grey"
+                              onClick={() => history.goBack()}
+                            >
+                              {_('common.back')}
+                            </button>
+                            <span className="align-button m-l-24">
+                              <button
+                                type="submit"
+                                disabled={
+                                  !(isValid && dirty) || isSubmitting || (formSubmitted && !error)
+                                }
+                                className={
+                                  'dp-button button-medium primary-green' +
+                                  ((isSubmitting && ' button--loading') || '')
+                                }
+                              >
+                                {_('common.save')}
+                              </button>
+                            </span>
+                          </li>
+                        </FieldGroup>
+                      </fieldset>
+                    </Form>
+                  </>
+                )}
+              </Formik>
             </div>
-          )}
+          </div>
         </section>
       </>
+    ) : (
+      <Promotional />
     );
   },
 );
