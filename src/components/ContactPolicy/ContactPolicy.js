@@ -130,19 +130,19 @@ export const ContactPolicy = InjectAppServices(
 
       return errors;
     };
-    
-    const getSubscriberToAdd = () => {
-      const subscriberId = Math.floor(Math.random() * 21);
+
+    const getSubscribersListToAdd = () => {
+      const subscribersListId = Math.floor(Math.random() * 21);
       return {
-        id: subscriberId,
-        [labelKey]: `subscriber${subscriberId}`,
+        id: subscribersListId,
+        [labelKey]: `subscribers-list${subscribersListId}`,
       };
     };
-    
-    const selectSubscriberFromList = (addTag) => {
+
+    const selectSubscribersList = (addList) => {
       // TODO: actions needed to add to list
-      const subscriberToAdd = getSubscriberToAdd();
-      addTag(subscriberToAdd);
+      const subscribersListToAdd = getSubscribersListToAdd();
+      addList(subscribersListToAdd);
     };
 
     if (loading) {
@@ -238,13 +238,13 @@ export const ContactPolicy = InjectAppServices(
                               messageKeys={{
                                 tagLimitExceeded: 'contact_policy.tooltip_max_limit_exceeded',
                               }}
-                              render={(addTag) => (
+                              render={(addList) => (
                                 <button
                                   type="button"
                                   className="dp-button dp-add-list"
                                   disabled={!values[fieldNames.active]}
                                   aria-label="add tag"
-                                  onClick={() => selectSubscriberFromList(addTag)}
+                                  onClick={() => selectSubscribersList(addList)}
                                 >
                                   <span>+</span>
                                   {_('contact_policy.add_list')}
@@ -271,9 +271,7 @@ export const ContactPolicy = InjectAppServices(
                               <button
                                 type="submit"
                                 disabled={
-                                  !(isValid && dirty) ||
-                                  isSubmitting ||
-                                  (formSubmitted && !error)
+                                  !(isValid && dirty) || isSubmitting || (formSubmitted && !error)
                                 }
                                 className={
                                   'dp-button button-medium primary-green' +
