@@ -21,8 +21,8 @@ const getAvailablePlans = (userPlan, availablePlans) =>
 
 const getAmmountSubscribers = (availablePlans, selectedPlanId, isSubscriber) =>
   isSubscriber
-    ? availablePlans.find((p) => p.IdUserTypePlan == selectedPlanId).SubscribersQty
-    : availablePlans.find((p) => p.IdUserTypePlan == selectedPlanId).EmailQty;
+    ? availablePlans.find((p) => p.IdUserTypePlan === selectedPlanId).SubscribersQty
+    : availablePlans.find((p) => p.IdUserTypePlan === selectedPlanId).EmailQty;
 
 /** @type { import('../../services/doppler-legacy-client').DopplerLegacyClient } */
 const UpgradePlanForm = ({
@@ -70,7 +70,7 @@ const UpgradePlanForm = ({
       setAmountSubscribers(
         getAmmountSubscribers(
           state.availablePlans,
-          values[fieldNames.selectedPlanId],
+          parseInt(values[fieldNames.selectedPlanId]),
           isSubscriber,
         ),
       );
@@ -171,7 +171,7 @@ const UpgradePlanForm = ({
                   <FormattedMessage id="common.cancel" />
                 </button>
                 <SubmitButton>
-                  <FormattedMessage id="common.send" />
+                  <FormattedMessage id="upgradePlanForm.update" />
                 </SubmitButton>
               </div>
             ) : (
