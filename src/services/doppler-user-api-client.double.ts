@@ -1,5 +1,5 @@
 import { DopplerUserApiClient, ContactInformation, Features } from './doppler-user-api-client';
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
 
 const contactInformationResult = {
@@ -33,13 +33,10 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     };
   }
 
-  public async createOrUpdateContactInformation(
-    values: any,
-  ): Promise<ResultWithoutExpectedErrors<boolean>> {
+  public async updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
     console.log(values);
     return {
-      value: true,
       success: true,
     };
   }
