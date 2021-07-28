@@ -6,6 +6,29 @@ import {
 } from './doppler-contact-policy-api-client';
 import { timeout } from '../utils';
 
+export const excludedSubscribersLists = [
+  {
+    id: 1,
+    name: 'Ciencias Naturales',
+  },
+  {
+    id: 2,
+    name: 'Economía',
+  },
+  {
+    id: 3,
+    name: 'Ciencias Sociales',
+  },
+  {
+    id: 4,
+    name: 'Ciencias Antro morfologícas',
+  },
+  {
+    id: 5,
+    name: 'Teoría de Conjuntos',
+  },
+];
+
 export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPolicyApiClient {
   private mapSubscriberList(data: any): SubscriberList[] {
     return data.map((x: any) => ({
@@ -17,21 +40,6 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
   async getAccountSettings(): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
     console.log('getAccountSettings');
     await timeout(1500);
-
-    const excludedSubscribersLists = [
-      {
-        id: 1,
-        name: 'List A',
-      },
-      {
-        id: 2,
-        name: 'List B',
-      },
-      {
-        id: 3,
-        name: 'List C',
-      },
-    ];
 
     const settings = {
       accountName: 'hardcoded@email.com',

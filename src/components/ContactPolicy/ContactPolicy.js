@@ -12,6 +12,15 @@ import { getFormInitialValues, successMessageDelay } from '../../utils';
 import { Prompt } from 'react-router-dom';
 import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
 import { Promotional } from './Promotional';
+import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
+
+const labelKey = 'name';
+const fieldNames = {
+  active: 'active',
+  emailsAmountByInterval: 'emailsAmountByInterval',
+  intervalInDays: 'intervalInDays',
+  excludedSubscribersLists: 'excludedSubscribersLists',
+};
 
 export const ContactPolicy = InjectAppServices(
   ({
@@ -25,16 +34,14 @@ export const ContactPolicy = InjectAppServices(
     const [error, setError] = useState(false);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const fieldNames = {
-      active: 'active',
-      emailsAmountByInterval: 'emailsAmountByInterval',
-      intervalInDays: 'intervalInDays',
-    };
 
     const FieldItemMessage = ({ errors }) => {
       let message = {};
       if (errors.message) {
         message.text = errors.message;
+        message.type = 'cancel';
+      } else if (errors[fieldNames.excludedSubscribersLists]) {
+        message.text = errors[fieldNames.excludedSubscribersLists];
         message.type = 'cancel';
       } else if (error) {
         message.text = _('common.unexpected_error');
@@ -123,6 +130,20 @@ export const ContactPolicy = InjectAppServices(
 
       return errors;
     };
+    
+    const getSubscriberToAdd = () => {
+      const subscriberId = Math.floor(Math.random() * 21);
+      return {
+        id: subscriberId,
+        [labelKey]: `subscriber${subscriberId}`,
+      };
+    };
+    
+    const selectSubscriberFromList = (addTag) => {
+      // TODO: actions needed to add to list
+      const subscriberToAdd = getSubscriberToAdd();
+      addTag(subscriberToAdd);
+    };
 
     if (loading) {
       return <Loading page />;
@@ -200,6 +221,38 @@ export const ContactPolicy = InjectAppServices(
                             </div>
                           </li>
 
+                          <li className="field-item">
+                            <p className="p-heading">
+                              <strong>{_('contact_policy.exclude_list_title')}</strong>
+                            </p>
+                            <p className="m-t-12 m-b-12">
+                              {_('contact_policy.exclude_list_description')}
+                            </p>
+                          </li>
+                          <li className="field-item">
+                            <CloudTagCompoundField
+                              fieldName={fieldNames.excludedSubscribersLists}
+                              labelKey={labelKey}
+                              max={10}
+                              disabled={!values[fieldNames.active]}
+                              messageKeys={{
+                                tagLimitExceeded: 'contact_policy.tooltip_max_limit_exceeded',
+                              }}
+                              render={(addTag) => (
+                                <button
+                                  type="button"
+                                  className="dp-button dp-add-list"
+                                  disabled={!values[fieldNames.active]}
+                                  aria-label="add tag"
+                                  onClick={() => selectSubscriberFromList(addTag)}
+                                >
+                                  <span>+</span>
+                                  {_('contact_policy.add_list')}
+                                </button>
+                              )}
+                            />
+                          </li>
+
                           <FieldItemMessage errors={errors} />
 
                           <li className="field-item">
@@ -218,7 +271,9 @@ export const ContactPolicy = InjectAppServices(
                               <button
                                 type="submit"
                                 disabled={
-                                  !(isValid && dirty) || isSubmitting || (formSubmitted && !error)
+                                  !(isValid && dirty) ||
+                                  isSubmitting ||
+                                  (formSubmitted && !error)
                                 }
                                 className={
                                   'dp-button button-medium primary-green' +

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  cleanup,
   fireEvent,
+  screen,
   render,
   waitFor,
   waitForElementToBeRemoved,
@@ -11,10 +11,9 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-
 import { ContactPolicy } from './ContactPolicy';
 import { AppServicesProvider } from '../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
+import { excludedSubscribersLists } from '../../services/doppler-contact-policy-api-client.double';
 
 describe('ContactPolicy component', () => {
-  afterEach(cleanup);
-
   const featuresDouble = () => ({
     contactPolicies: true,
   });
@@ -31,7 +30,7 @@ describe('ContactPolicy component', () => {
     active: false,
     emailsAmountByInterval: 20,
     intervalInDays: 7,
-    excludedSubscribersLists: [],
+    excludedSubscribersLists,
   });
 
   const dopplerContactPolicyApiClientDouble = () => ({
@@ -87,6 +86,7 @@ describe('ContactPolicy component', () => {
 
     // Assert
     await waitFor(() => {
+      const cloudTags = container.querySelector('.dp-cloud-tags.dp-overlay');
       expect(container.querySelector('input#contact-policy-switch')).not.toBeChecked();
       expect(container.querySelector('input#contact-policy-input-amount').value).toEqual(
         `${settingsDouble().emailsAmountByInterval}`,
@@ -94,6 +94,7 @@ describe('ContactPolicy component', () => {
       expect(container.querySelector('input#contact-policy-input-interval').value).toEqual(
         `${settingsDouble().intervalInDays}`,
       );
+      expect(cloudTags).toBeInTheDocument();
     });
   });
 
@@ -119,9 +120,15 @@ describe('ContactPolicy component', () => {
 
     // Assert
     await waitFor(() => {
+      const addButton = screen.getByRole('button', { name: 'add tag' });
+      const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
       expect(container.querySelector('input#contact-policy-switch')).not.toBeChecked();
       expect(container.querySelector('input#contact-policy-input-amount')).toBeDisabled();
       expect(container.querySelector('input#contact-policy-input-interval')).toBeDisabled();
+      expect(cloudTags).toBeInTheDocument();
+      expect(addButton).toBeInTheDocument();
+      expect(addButton).toHaveAttribute('disabled');
+      expect(cloudTags).toHaveClass('dp-overlay');
     });
   });
 
@@ -133,6 +140,8 @@ describe('ContactPolicy component', () => {
     const loadingBox = container.querySelector('.wrapper-loading');
     await waitForElementToBeRemoved(loadingBox);
 
+    const addButton = screen.getByRole('button', { name: 'add tag' });
+    const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
     const switchButton = container.querySelector('input#contact-policy-switch');
     const inputAmount = container.querySelector('input#contact-policy-input-amount');
     const inputInterval = container.querySelector('input#contact-policy-input-interval');
@@ -146,6 +155,8 @@ describe('ContactPolicy component', () => {
     expect(switchButton).toBeChecked();
     expect(inputAmount).not.toBeDisabled();
     expect(inputInterval).not.toBeDisabled();
+    expect(addButton).not.toHaveAttribute('disabled');
+    expect(cloudTags).not.toHaveClass('dp-overlay');
   });
 
   it('should show the contact policy configuration if the feature is enabled', async () => {
