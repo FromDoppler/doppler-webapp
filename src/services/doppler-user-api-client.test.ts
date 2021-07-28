@@ -63,4 +63,22 @@ describe('HttpDopplerUserApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should get features', async () => {
+    // Arrange
+    const features = {
+      data: { contactPolicies: true },
+      status: 200,
+    };
+    const request = jest.fn(async () => features);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.getFeatures();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });

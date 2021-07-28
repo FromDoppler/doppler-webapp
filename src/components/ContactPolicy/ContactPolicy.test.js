@@ -15,6 +15,16 @@ import { BrowserRouter } from 'react-router-dom';
 describe('ContactPolicy component', () => {
   afterEach(cleanup);
 
+  const featuresDouble = () => ({
+    contactPolicies: true,
+  });
+  const dopplerUserApiClientDouble = () => ({
+    getFeatures: async () => ({
+      success: true,
+      value: featuresDouble(),
+    }),
+  });
+
   const email = 'hardcoded@email.com';
   const settingsDouble = () => ({
     accountName: email,
@@ -34,13 +44,9 @@ describe('ContactPolicy component', () => {
     }),
   });
 
-  const experimentalFeatureDouble = () => ({
-    getFeature: (feature) => feature === 'ContactPolicy',
-  });
-
   const dependencies = {
+    dopplerUserApiClient: dopplerUserApiClientDouble(),
     dopplerContactPolicyApiClient: dopplerContactPolicyApiClientDouble(),
-    experimentalFeatures: experimentalFeatureDouble(),
   };
 
   const mockedGoBack = jest.fn();
@@ -152,11 +158,13 @@ describe('ContactPolicy component', () => {
     });
   });
 
-  it("shouldn't show the contact policy configuration if the feature is disabled", () => {
+  it("shouldn't show the contact policy configuration if the feature is disabled", async () => {
     //Act
-    const { getByText } = render(<ContactPolicyComponent isEnabled={false} />);
+    const { container, getByText } = render(<ContactPolicyComponent isEnabled={false} />);
 
     //Assert
+    const loadingBox = container.querySelector('.wrapper-loading');
+    await waitForElementToBeRemoved(loadingBox);
     expect(getByText('common.feature_no_available'));
   });
 

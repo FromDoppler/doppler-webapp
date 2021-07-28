@@ -1,4 +1,4 @@
-import { DopplerUserApiClient, ContactInformation } from './doppler-user-api-client';
+import { DopplerUserApiClient, ContactInformation, Features } from './doppler-user-api-client';
 import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
 
@@ -14,6 +14,10 @@ const contactInformationResult = {
   phone: '+542494222222',
   company: 'Making Sense',
   industry: 'dplr1',
+};
+
+const featuresResult = {
+  contactPolicies: true,
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
@@ -36,6 +40,16 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     console.log(values);
     return {
       value: true,
+      success: true,
+    };
+  }
+
+  async getFeatures(): Promise<ResultWithoutExpectedErrors<Features>> {
+    console.log('getFeatures');
+    await timeout(1500);
+
+    return {
+      value: featuresResult,
       success: true,
     };
   }
