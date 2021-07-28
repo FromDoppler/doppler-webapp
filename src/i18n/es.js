@@ -630,6 +630,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     message_placeholder: `Tu mensaje`,
     plan_select: `Selecciona el Plan`,
     title: `Solicita una actualización de tu Plan`,
+    update: `Actualizar Plan`,
   },
   upgrade_suggestion_form: {
     breadcrumb: 'Planes',

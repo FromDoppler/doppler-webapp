@@ -629,6 +629,7 @@ deletion, security, cross-border data transfers and other issues.
     message_placeholder: `Your message`,
     plan_select: `Select Plan`,
     title: `Request an update of your Plan`,
+    update: `Update Plan`,
   },
   upgrade_suggestion_form: {
     breadcrumb: 'Plans',
