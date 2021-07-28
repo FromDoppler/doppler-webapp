@@ -29,7 +29,7 @@ describe('Checkout component', () => {
       getContactInformationData: async () => {
         return { success: true, value: contactInformation };
       },
-      createOrUpdateContactInformation: async () => {
+      updateContactInformation: async () => {
         return { success: true };
       },
     },

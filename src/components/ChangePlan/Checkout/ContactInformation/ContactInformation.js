@@ -97,7 +97,7 @@ export const ContactInformation = InjectAppServices(
     const submitContactInformationForm = async (values) => {
       setFormSubmitted(false);
 
-      const result = await dopplerUserApiClient.createOrUpdateContactInformation(values);
+      const result = await dopplerUserApiClient.updateContactInformation(values);
       if (result.success) {
         setFormSubmitted(true);
         createTimeout(() => {

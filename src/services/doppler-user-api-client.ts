@@ -5,6 +5,7 @@ import { RefObject } from 'react';
 
 export interface DopplerUserApiClient {
   getContactInformationData(): Promise<ResultWithoutExpectedErrors<ContactInformation>>;
+  updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
 }
 
@@ -106,16 +107,30 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     }
   }
 
-  public async createOrUpdateContactInformation(
-    values: any,
-  ): Promise<EmptyResultWithoutExpectedErrors> {
-    return { success: true };
+  public async updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/contact-information`,
+        data: values,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
   }
 
   public async getFeatures(): Promise<ResultWithoutExpectedErrors<Features>> {
     try {
       const { email, jwtToken } = this.getDopplerUserApiConnectionData();
-
       const response = await this.axios.request({
         method: 'GET',
         url: `/accounts/${email}/features`,
