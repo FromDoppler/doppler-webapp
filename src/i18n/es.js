@@ -176,8 +176,11 @@ const messages_es = {
     unsaved_changes_message: `Es posible que no se guarden los cambios que realizó.`,
   },
   contact_policy: {
+    add_list: `Agregar Lista`,
     amount_description: 'Enviar hasta',
     error_invalid_range_msg: 'Puedes configurar hasta 999 Emails y 30 días como máximo.',
+    exclude_list_description: `Los Contactos de las Listas que excluyas recibirán todas tus Campañas. Recuerda que puedes seleccionar hasta 10 Listas.`,
+    exclude_list_title: `Excluir Listas de la Política de Contacto`,
     interval_description: 'en un plazo de',
     interval_unit: 'días',
     meta_title: 'Doppler | Política de Contacto',
@@ -188,6 +191,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     success_msg: 'Cambios guardados con éxito.',
     title: 'Política de Contacto',
     toggle_text: 'Definir número máximo de envíos',
+    tooltip_max_limit_exceeded: `Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.`,
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
