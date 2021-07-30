@@ -183,7 +183,7 @@ export const ContactPolicy = InjectAppServices(
                 {({ values, errors, isSubmitting, isValid, dirty }) => (
                   <>
                     <Prompt when={dirty} message={_('common.unsaved_changes_message')} />
-                    <Form className="dp-contact-policy-form">
+                    <Form className="dp-contact-policy-form" aria-label="settings">
                       <fieldset>
                         <legend>{_('contact_policy.title')}</legend>
                         <FieldGroup>
@@ -204,6 +204,7 @@ export const ContactPolicy = InjectAppServices(
                                   id="contact-policy-input-amount"
                                   disabled={!values[fieldNames.active]}
                                   required
+                                  aria-label={_('common.emails')}
                                 />
                                 <span className="m-r-6">{_('common.emails')}</span>
                               </div>
@@ -215,6 +216,7 @@ export const ContactPolicy = InjectAppServices(
                                   id="contact-policy-input-interval"
                                   disabled={!values[fieldNames.active]}
                                   required
+                                  aria-label={_('contact_policy.interval_unit')}
                                 />
                                 <span>{_('contact_policy.interval_unit')}</span>
                               </div>
