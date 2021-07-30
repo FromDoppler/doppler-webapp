@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  fireEvent,
-  screen,
-  render,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { ContactPolicy } from './ContactPolicy';
@@ -25,28 +20,28 @@ describe('ContactPolicy component', () => {
   });
 
   const email = 'hardcoded@email.com';
-  const settingsDouble = () => ({
+  const settingsDouble = (isActive) => ({
     accountName: email,
-    active: false,
+    active: isActive,
     emailsAmountByInterval: 20,
     intervalInDays: 7,
     excludedSubscribersLists,
   });
 
-  const dopplerContactPolicyApiClientDouble = () => ({
+  const dopplerContactPolicyApiClientDouble = (isActive, hasErrorOnUpdate) => ({
     getAccountSettings: async () => ({
       success: true,
-      value: settingsDouble(),
+      value: settingsDouble(isActive),
     }),
     updateAccountSettings: async () => ({
-      success: true,
+      success: !hasErrorOnUpdate,
     }),
   });
 
-  const dependencies = {
+  const dependencies = (isActive, hasErrorOnUpdate) => ({
     dopplerUserApiClient: dopplerUserApiClientDouble(),
-    dopplerContactPolicyApiClient: dopplerContactPolicyApiClientDouble(),
-  };
+    dopplerContactPolicyApiClient: dopplerContactPolicyApiClientDouble(isActive, hasErrorOnUpdate),
+  });
 
   const mockedGoBack = jest.fn();
   const initialProps = {
@@ -55,8 +50,12 @@ describe('ContactPolicy component', () => {
     },
   };
 
-  const ContactPolicyComponent = ({ isEnabled = true }) => {
-    const services = isEnabled ? dependencies : {};
+  const ContactPolicyComponent = ({
+    isEnabled = true,
+    isActive = false,
+    hasErrorOnUpdate = false,
+  }) => {
+    const services = isEnabled ? dependencies(isActive, hasErrorOnUpdate) : {};
     return (
       <AppServicesProvider forcedServices={services}>
         <BrowserRouter>
@@ -68,90 +67,126 @@ describe('ContactPolicy component', () => {
     );
   };
 
-  it('should show loading box while getting data', () => {
+  it('should show loading box while getting data', async () => {
     // Act
-    const { container } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    expect(loadingBox).toBeInTheDocument();
-    waitFor(() => {
-      expect(loadingBox).not.toBeInTheDocument();
-    });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
   });
 
   it('should load data from api correctly', async () => {
     // Act
-    const { container } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    await waitFor(() => {
-      const cloudTags = container.querySelector('.dp-cloud-tags.dp-overlay');
-      expect(container.querySelector('input#contact-policy-switch')).not.toBeChecked();
-      expect(container.querySelector('input#contact-policy-input-amount').value).toEqual(
-        `${settingsDouble().emailsAmountByInterval}`,
-      );
-      expect(container.querySelector('input#contact-policy-input-interval').value).toEqual(
-        `${settingsDouble().intervalInDays}`,
-      );
-      expect(cloudTags).toBeInTheDocument();
-    });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const switchButton = screen.getByRole('checkbox');
+    const inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    const inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
+
+    // Data should load correctly
+    expect(switchButton).not.toBeChecked();
+    expect(inputAmount).toHaveValue(settingsDouble().emailsAmountByInterval);
+    expect(inputInterval).toHaveValue(settingsDouble().intervalInDays);
+    expect(cloudTags).toBeInTheDocument();
   });
 
   it('should show success message when updating data correctly', async () => {
     // Act
-    const { container, findByText, getByText } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
 
-    const switchButton = container.querySelector('input#contact-policy-switch');
-    fireEvent.click(switchButton);
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    expect(switchButton).not.toBeChecked();
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
-    fireEvent.click(getByText('common.save'));
-    expect(await findByText('contact_policy.success_msg'));
+    // Set 10 emails
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    user.type(inputAmount, '10');
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
+    expect(inputAmount).toHaveValue(10);
+
+    // Set 14 days
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    user.type(inputInterval, '14');
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    expect(inputInterval).toHaveValue(14);
+
+    // Click save button
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    user.click(submitButton);
+
+    // Success message should be displayed
+    const successMessage = await screen.findByText('contact_policy.success_msg');
+    expect(successMessage).toBeInTheDocument();
   });
 
-  it('should disable the inputs if the switch is not active', async () => {
+  it('should disable the form fields if the switch is not active', async () => {
     // Act
-    const { container } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    await waitFor(() => {
-      const addButton = screen.getByRole('button', { name: 'add tag' });
-      const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
-      expect(container.querySelector('input#contact-policy-switch')).not.toBeChecked();
-      expect(container.querySelector('input#contact-policy-input-amount')).toBeDisabled();
-      expect(container.querySelector('input#contact-policy-input-interval')).toBeDisabled();
-      expect(cloudTags).toBeInTheDocument();
-      expect(addButton).toBeInTheDocument();
-      expect(addButton).toHaveAttribute('disabled');
-      expect(cloudTags).toHaveClass('dp-overlay');
-    });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const switchButton = screen.getByRole('checkbox');
+    const inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    const inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    const addButton = screen.getByRole('button', { name: 'add tag' });
+    const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
+
+    // Form fields should be disabled
+    expect(switchButton).not.toBeChecked();
+    expect(inputAmount).toBeDisabled();
+    expect(inputInterval).toBeDisabled();
+    expect(addButton).toBeInTheDocument();
+    expect(addButton).toBeDisabled();
+    expect(cloudTags).toBeInTheDocument();
+    expect(cloudTags).toHaveClass('dp-overlay');
   });
 
   it("shouldn't disable the inputs if the switch is active", async () => {
     // Act
-    const { container } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
 
+    let switchButton = screen.getByRole('checkbox');
+    const inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    const inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     const addButton = screen.getByRole('button', { name: 'add tag' });
     const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
-    const switchButton = container.querySelector('input#contact-policy-switch');
-    const inputAmount = container.querySelector('input#contact-policy-input-amount');
-    const inputInterval = container.querySelector('input#contact-policy-input-interval');
 
+    // Switch shouldn't be checked and inputs fields disabled
     expect(switchButton).not.toBeChecked();
     expect(inputAmount).toBeDisabled();
     expect(inputInterval).toBeDisabled();
 
-    fireEvent.click(switchButton);
+    // Enable switch button
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
 
+    // Switch should be checked and inputs fields enabled
     expect(switchButton).toBeChecked();
     expect(inputAmount).not.toBeDisabled();
     expect(inputInterval).not.toBeDisabled();
@@ -161,142 +196,537 @@ describe('ContactPolicy component', () => {
 
   it('should show the contact policy configuration if the feature is enabled', async () => {
     // Act
-    const { container } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
 
-    //Assert
-    await waitFor(() => {
-      expect(container.querySelector('form')).toBeInTheDocument();
-    });
+    // Form should be displayed
+    const form = screen.getByRole('form');
+    expect(form).toBeInTheDocument();
   });
 
   it("shouldn't show the contact policy configuration if the feature is disabled", async () => {
-    //Act
-    const { container, getByText } = render(<ContactPolicyComponent isEnabled={false} />);
+    // Act
+    render(<ContactPolicyComponent isEnabled={false} />);
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
 
-    //Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
-    expect(getByText('common.feature_no_available'));
+    // 'Feature isn't available' message should be displayed
+    const noAvailableMessage = screen.getByText('common.feature_no_available');
+    expect(noAvailableMessage).toBeInTheDocument();
+  });
+
+  it('should hide success message when toggle the switch', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Click save button
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    user.click(submitButton);
+
+    // Success message should be displayed
+    let successMessage = await screen.findByText('contact_policy.success_msg');
+    expect(successMessage).toBeInTheDocument();
+
+    // Disable switch button
+    switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).not.toBeChecked();
+
+    // Success message should be hidden
+    successMessage = screen.queryByText('contact_policy.success_msg');
+    expect(successMessage).not.toBeInTheDocument();
+  });
+
+  it('should hide success message when change the emails amount', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Click save button
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    user.click(submitButton);
+
+    // Success message should be displayed
+    let successMessage = await screen.findByText('contact_policy.success_msg');
+    expect(successMessage).toBeInTheDocument();
+
+    // Change emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    user.type(inputAmount, '10');
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
+    expect(inputAmount).toHaveValue(10);
+
+    // Success message should be hidden
+    successMessage = screen.queryByText('contact_policy.success_msg');
+    expect(successMessage).not.toBeInTheDocument();
+  });
+
+  it('should hide success message when change the interval in days', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    // Loader should disappear once request resolves
+    await waitForElementToBeRemoved(loader);
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Click save button
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    user.click(submitButton);
+
+    // Success message should be displayed
+    let successMessage = await screen.findByText('contact_policy.success_msg');
+    expect(successMessage).toBeInTheDocument();
+
+    // Change interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    user.type(inputInterval, '10');
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    expect(inputInterval).toHaveValue(10);
+
+    // Success message should be hidden
+    successMessage = screen.queryByText('contact_policy.success_msg');
+    expect(successMessage).not.toBeInTheDocument();
+  });
+
+  it('should disable the save button by default', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+  });
+
+  it('should disable the save button by default then enable it when toggle the switch', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+  });
+
+  it('should disable the save button by default then enable it when change the emails amount', async () => {
+    // Act
+    render(<ContactPolicyComponent isActive={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Change emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    user.type(inputAmount, '10');
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
+    expect(inputAmount).toHaveValue(10);
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+  });
+
+  it('should disable the save button by default then enable it when change the interval in days', async () => {
+    // Act
+    render(<ContactPolicyComponent isActive={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Change interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    user.type(inputInterval, '14');
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    expect(inputInterval).toHaveValue(14);
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+  });
+
+  it('should disable the save button when changes are saved successfully', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    let submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Change emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    user.type(inputAmount, '10');
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
+    expect(inputAmount).toHaveValue(10);
+
+    // Change interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    user.type(inputInterval, '14');
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    expect(inputInterval).toHaveValue(14);
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Click save button
+    user.click(submitButton);
+
+    // Save button should be disabled
+    submitButton = await screen.findByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+  });
+
+  it('should enable the save button when an error occurs while saving changes', async () => {
+    // Act
+    render(<ContactPolicyComponent hasErrorOnUpdate={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    let submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Change emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    user.type(inputAmount, '10');
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
+    expect(inputAmount).toHaveValue(10);
+
+    // Change interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    user.type(inputInterval, '14');
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    expect(inputInterval).toHaveValue(14);
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Click save button
+    user.click(submitButton);
+
+    // Save button should be enabled
+    submitButton = await screen.findByRole('button', { name: 'common.save' });
+    expect(submitButton).not.toBeDisabled();
+  });
+
+  it('should disable the save button if the emails amount is empty', async () => {
+    // Act
+    render(<ContactPolicyComponent hasErrorOnUpdate={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Clear emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
+    expect(inputAmount).toHaveValue(null);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+  });
+
+  it('should disable the save button if the interval in days is empty', async () => {
+    // Act
+    render(<ContactPolicyComponent hasErrorOnUpdate={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Clear interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    expect(inputInterval).toHaveValue(null);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
   });
 
   it('should show error message and highlight the field if the emails amount is empty', async () => {
     // Act
-    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
-    const submitButton = getByRole('button', { name: 'common.save' });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
     expect(submitButton).toBeDisabled();
 
-    expect(getByRole('checkbox')).not.toBeChecked();
-    fireEvent.click(getByRole('checkbox'));
-    expect(await findByRole('checkbox')).toBeChecked();
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
     expect(submitButton).not.toBeDisabled();
 
-    const inputAmount = container.querySelector('input#contact-policy-input-amount');
-    fireEvent.change(inputAmount, { target: { value: '' } });
+    // Clear emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(null);
 
-    await waitFor(() => {
-      expect(submitButton).toBeDisabled();
-    });
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Emails amount field should be highlighted and error message should be displayed
     expect(inputAmount).toHaveClass('dp-error-input');
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
+    expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
   });
 
   it('should show error message and highlight the field if the interval in days is empty', async () => {
     // Act
-    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
-    const submitButton = getByRole('button', { name: 'common.save' });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
     expect(submitButton).toBeDisabled();
 
-    expect(getByRole('checkbox')).not.toBeChecked();
-    fireEvent.click(getByRole('checkbox'));
-    expect(await findByRole('checkbox')).toBeChecked();
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
     expect(submitButton).not.toBeDisabled();
 
-    const inputInterval = container.querySelector('input#contact-policy-input-interval');
-    fireEvent.change(inputInterval, { target: { value: '' } });
+    // Clear interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(null);
 
-    await waitFor(() => {
-      expect(submitButton).toBeDisabled();
-    });
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
     expect(inputInterval).toHaveClass('dp-error-input');
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
+    expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
   });
 
   it('should show error message and highlight the field if the emails amount is out of range', async () => {
     // Act
-    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
-    const submitButton = getByRole('button', { name: 'common.save' });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
     expect(submitButton).toBeDisabled();
 
-    expect(getByRole('checkbox')).not.toBeChecked();
-    fireEvent.click(getByRole('checkbox'));
-    expect(await findByRole('checkbox')).toBeChecked();
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
     expect(submitButton).not.toBeDisabled();
 
-    const inputAmount = container.querySelector('input#contact-policy-input-amount');
-    fireEvent.change(inputAmount, { target: { value: '1000' } });
+    // Clear emails amount
+    let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
+    user.clear(inputAmount);
+    user.type(inputAmount, '1000');
+    inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(1000);
 
-    await waitFor(() => {
-      expect(submitButton).toBeDisabled();
-    });
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Emails amount field should be highlighted and error message should be displayed
     expect(inputAmount).toHaveClass('dp-error-input');
-    expect(getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
+    expect(screen.getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
   });
 
   it('should show error message and highlight the field if the interval in days is out of range', async () => {
     // Act
-    const { container, getByRole, findByRole, getByText } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
-    const submitButton = getByRole('button', { name: 'common.save' });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
     expect(submitButton).toBeDisabled();
 
-    expect(getByRole('checkbox')).not.toBeChecked();
-    fireEvent.click(getByRole('checkbox'));
-    expect(await findByRole('checkbox')).toBeChecked();
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Save button should be enabled
     expect(submitButton).not.toBeDisabled();
 
-    const inputInterval = container.querySelector('input#contact-policy-input-interval');
-    fireEvent.change(inputInterval, { target: { value: '31' } });
+    // Clear interval
+    let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
+    user.clear(inputInterval);
+    user.type(inputInterval, '31');
+    inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(31);
 
-    await waitFor(() => {
-      expect(submitButton).toBeDisabled();
-    });
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
     expect(inputInterval).toHaveClass('dp-error-input');
-    expect(getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
+    expect(screen.getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
   });
 
   it('should call go back function if back button is pressed', async () => {
     // Act
-    const { container, getByRole } = render(<ContactPolicyComponent />);
+    render(<ContactPolicyComponent />);
 
     // Assert
-    const loadingBox = container.querySelector('.wrapper-loading');
-    await waitForElementToBeRemoved(loadingBox);
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
 
-    const switchButton = container.querySelector('input#contact-policy-switch');
-    fireEvent.click(switchButton);
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
-    const backButton = getByRole('button', { name: 'common.back' });
-    fireEvent.click(backButton);
+    // Click back button
+    const backButton = screen.getByRole('button', { name: 'common.back' });
+    user.click(backButton);
+
+    // Go back function should be called
     expect(mockedGoBack).toBeCalledTimes(1);
   });
 });
