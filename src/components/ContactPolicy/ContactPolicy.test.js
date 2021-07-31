@@ -20,7 +20,7 @@ describe('ContactPolicy component', () => {
   });
 
   const email = 'hardcoded@email.com';
-  const settingsDouble = (isActive) => ({
+  const settingsDouble = (isActive, excludedSubscribersLists) => ({
     accountName: email,
     active: isActive,
     emailsAmountByInterval: 20,
@@ -28,19 +28,27 @@ describe('ContactPolicy component', () => {
     excludedSubscribersLists,
   });
 
-  const dopplerContactPolicyApiClientDouble = (isActive, hasErrorOnUpdate) => ({
+  const dopplerContactPolicyApiClientDouble = (
+    isActive,
+    hasErrorOnUpdate,
+    excludedSubscribersLists,
+  ) => ({
     getAccountSettings: async () => ({
       success: true,
-      value: settingsDouble(isActive),
+      value: settingsDouble(isActive, excludedSubscribersLists),
     }),
     updateAccountSettings: async () => ({
       success: !hasErrorOnUpdate,
     }),
   });
 
-  const dependencies = (isActive, hasErrorOnUpdate) => ({
+  const dependencies = (isActive, hasErrorOnUpdate, excludedSubscribersLists) => ({
     dopplerUserApiClient: dopplerUserApiClientDouble(),
-    dopplerContactPolicyApiClient: dopplerContactPolicyApiClientDouble(isActive, hasErrorOnUpdate),
+    dopplerContactPolicyApiClient: dopplerContactPolicyApiClientDouble(
+      isActive,
+      hasErrorOnUpdate,
+      excludedSubscribersLists,
+    ),
   });
 
   const mockedGoBack = jest.fn();
@@ -54,8 +62,11 @@ describe('ContactPolicy component', () => {
     isEnabled = true,
     isActive = false,
     hasErrorOnUpdate = false,
+    customExcludedSubscribersLists = excludedSubscribersLists,
   }) => {
-    const services = isEnabled ? dependencies(isActive, hasErrorOnUpdate) : {};
+    const services = isEnabled
+      ? dependencies(isActive, hasErrorOnUpdate, customExcludedSubscribersLists)
+      : {};
     return (
       <AppServicesProvider forcedServices={services}>
         <BrowserRouter>
@@ -728,5 +739,32 @@ describe('ContactPolicy component', () => {
 
     // Go back function should be called
     expect(mockedGoBack).toBeCalledTimes(1);
+  });
+
+  it('should disable add list button if the maximum number of lists has been added', async () => {
+    // Act
+    // Add 10 lists
+    const customExcludedSubscribersLists = [
+      ...excludedSubscribersLists,
+      ...excludedSubscribersLists,
+    ];
+    render(
+      <ContactPolicyComponent customExcludedSubscribersLists={customExcludedSubscribersLists} />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Add list button should be disabled
+    const addButton = screen.getByRole('button', { name: 'add tag' });
+    expect(addButton).toBeDisabled();
   });
 });

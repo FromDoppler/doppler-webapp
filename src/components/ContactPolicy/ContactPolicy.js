@@ -4,7 +4,13 @@ import { useIntl } from 'react-intl';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
-import { FieldGroup, IconMessage, NumberField, SwitchField } from '../form-helpers/form-helpers';
+import {
+  FieldGroup,
+  IconMessage,
+  NumberField,
+  SwitchField,
+  WrapInTooltip,
+} from '../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
@@ -14,6 +20,8 @@ import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
 import { Promotional } from './Promotional';
 import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
 
+const maxItems = 10;
+const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
 const labelKey = 'name';
 const fieldNames = {
   active: 'active',
@@ -105,8 +113,6 @@ export const ContactPolicy = InjectAppServices(
     };
 
     const validate = (values) => {
-      setError(false);
-      setFormSubmitted(false);
       const errors = {};
 
       const amountIsEmpty = values.emailsAmountByInterval === '';
@@ -133,6 +139,11 @@ export const ContactPolicy = InjectAppServices(
       return errors;
     };
 
+    const hideMessage = () => {
+      setError(false);
+      setFormSubmitted(false);
+    };
+
     const getSubscribersListToAdd = () => {
       const subscribersListId = Math.floor(Math.random() * 21);
       return {
@@ -142,6 +153,7 @@ export const ContactPolicy = InjectAppServices(
     };
 
     const selectSubscribersList = (addList) => {
+      hideMessage();
       // TODO: actions needed to add to list
       const subscribersListToAdd = getSubscribersListToAdd();
       addList(subscribersListToAdd);
@@ -194,6 +206,7 @@ export const ContactPolicy = InjectAppServices(
                               id="contact-policy-switch"
                               name={fieldNames.active}
                               text={_('contact_policy.toggle_text')}
+                              onToggle={() => hideMessage()}
                             />
                           </li>
                           <li className="field-item">
@@ -207,6 +220,7 @@ export const ContactPolicy = InjectAppServices(
                                   disabled={!values[fieldNames.active]}
                                   required
                                   aria-label={_('common.emails')}
+                                  onChangeValue={() => hideMessage()}
                                 />
                                 <span className="m-r-6">{_('common.emails')}</span>
                               </div>
@@ -219,6 +233,7 @@ export const ContactPolicy = InjectAppServices(
                                   disabled={!values[fieldNames.active]}
                                   required
                                   aria-label={_('contact_policy.interval_unit')}
+                                  onChangeValue={() => hideMessage()}
                                 />
                                 <span>{_('contact_policy.interval_unit')}</span>
                               </div>
@@ -238,23 +253,32 @@ export const ContactPolicy = InjectAppServices(
                             <CloudTagCompoundField
                               fieldName={fieldNames.excludedSubscribersLists}
                               labelKey={labelKey}
-                              max={10}
+                              max={maxItems}
                               disabled={!values[fieldNames.active]}
                               messageKeys={{
-                                tagLimitExceeded: 'contact_policy.tooltip_max_limit_exceeded',
+                                tagLimitExceeded: limitExceededMessageKey,
                               }}
-                              render={(addList) => (
-                                <button
-                                  type="button"
-                                  className="dp-button dp-add-list"
-                                  disabled={!values[fieldNames.active]}
-                                  aria-label="add tag"
-                                  onClick={() => selectSubscribersList(addList)}
-                                >
-                                  <span>+</span>
-                                  {_('contact_policy.add_list')}
-                                </button>
-                              )}
+                              render={(addList) => {
+                                const maxLimitReached =
+                                  values[fieldNames.excludedSubscribersLists].length === maxItems;
+                                return (
+                                  <WrapInTooltip
+                                    when={maxLimitReached}
+                                    text={_(limitExceededMessageKey)}
+                                  >
+                                    <button
+                                      type="button"
+                                      className="dp-button dp-add-list"
+                                      disabled={!values[fieldNames.active] || maxLimitReached}
+                                      aria-label="add tag"
+                                      onClick={() => selectSubscribersList(addList)}
+                                    >
+                                      <span>+</span>
+                                      {_('contact_policy.add_list')}
+                                    </button>
+                                  </WrapInTooltip>
+                                );
+                              }}
                             />
                           </li>
 
