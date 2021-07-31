@@ -179,9 +179,10 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
   contact_policy: {
     add_list: `Add List`,
     amount_description: 'Send up to',
-    error_invalid_range_msg: 'You can set up to 999 Emails and a maximum of 30 days.',
-    exclude_list_description: `Contacts of excluded Lists will receive all your Campaigns. Remember you can select up to 10 Lists.`,
-    exclude_list_title: `Exclude Lists from the Contact Policy`,
+    error_invalid_range_msg_MD: 'You can set up to **999 Emails and 30 days** maximum.',
+    exclude_list_description_MD: `
+You can **select up to 10 Lists** in order to exclude them from the maximum limit of Emails. This means that **Contacts of excluded Lists will receive all the Campaigns you send.**`,
+    exclude_list_title: `Exclude Lists`,
     interval_description: 'within',
     interval_unit: 'days',
     meta_title: 'Doppler | Contact Policy',
@@ -189,7 +190,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
 Set a **maximum number of Emails** your Contacts will be able to receive from you in a period of time.
 
 Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
-    success_msg: 'Changes saved successfully.',
+    success_msg: 'Changes have been saved.',
     title: 'Contact Policy',
     toggle_text: 'Set maximum number of Emails',
     tooltip_max_limit_exceeded: `You’ve already select the maximum of Lists you can exclude from the Contact Policy.`,

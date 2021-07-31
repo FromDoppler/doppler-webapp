@@ -44,10 +44,10 @@ export const ContactPolicy = InjectAppServices(
         message.text = errors[fieldNames.excludedSubscribersLists];
         message.type = 'cancel';
       } else if (error) {
-        message.text = _('common.unexpected_error');
+        message.text = 'common.unexpected_error';
         message.type = 'cancel';
       } else if (formSubmitted) {
-        message.text = _('contact_policy.success_msg');
+        message.text = 'contact_policy.success_msg';
         message.type = 'success';
         message.delay = successMessageDelay;
       } else {
@@ -115,7 +115,7 @@ export const ContactPolicy = InjectAppServices(
       if (amountIsEmpty || intervalIsEmpty) {
         errors.emailsAmountByInterval = amountIsEmpty;
         errors.intervalInDays = intervalIsEmpty;
-        errors.message = _('validation_messages.error_required_field');
+        errors.message = 'validation_messages.error_required_field';
       } else {
         const amountOutOfRange =
           values.emailsAmountByInterval < 1 || values.emailsAmountByInterval > 999;
@@ -124,7 +124,9 @@ export const ContactPolicy = InjectAppServices(
         if (amountOutOfRange || intervalOutOfRange) {
           errors.emailsAmountByInterval = amountOutOfRange;
           errors.intervalInDays = intervalOutOfRange;
-          errors.message = _('contact_policy.error_invalid_range_msg');
+          errors.message = (
+            <FormattedMessageMarkdown id="contact_policy.error_invalid_range_msg_MD" />
+          );
         }
       }
 
@@ -227,9 +229,10 @@ export const ContactPolicy = InjectAppServices(
                             <p className="p-heading">
                               <strong>{_('contact_policy.exclude_list_title')}</strong>
                             </p>
-                            <p className="m-t-12 m-b-12">
-                              {_('contact_policy.exclude_list_description')}
-                            </p>
+                            <FormattedMessageMarkdown
+                              id={'contact_policy.exclude_list_description_MD'}
+                              className="m-t-12 m-b-12"
+                            />
                           </li>
                           <li className="field-item">
                             <CloudTagCompoundField

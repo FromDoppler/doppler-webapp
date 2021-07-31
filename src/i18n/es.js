@@ -178,9 +178,10 @@ const messages_es = {
   contact_policy: {
     add_list: `Agregar Lista`,
     amount_description: 'Enviar hasta',
-    error_invalid_range_msg: 'Puedes configurar hasta 999 Emails y 30 días como máximo.',
-    exclude_list_description: `Los Contactos de las Listas que excluyas recibirán todas tus Campañas. Recuerda que puedes seleccionar hasta 10 Listas.`,
-    exclude_list_title: `Excluir Listas de la Política de Contacto`,
+    error_invalid_range_msg_MD: 'Puedes configurar hasta **999 Emails y 30 días** como máximo.',
+    exclude_list_description_MD: `
+Puedes **seleccionar hasta 10 Listas** para que sean excluídas del límite máximo de envíos. Esto significa que **los Contactos de las Listas excluídas recibirán todas las Campañas que envíes.**`,
+    exclude_list_title: `Excluir Listas`,
     interval_description: 'en un plazo de',
     interval_unit: 'días',
     meta_title: 'Doppler | Política de Contacto',
@@ -188,7 +189,7 @@ const messages_es = {
 Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un período de tiempo determinado.
 
 ¿Quieres saber más? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
-    success_msg: 'Cambios guardados con éxito.',
+    success_msg: 'Los cambios han sido guardados.',
     title: 'Política de Contacto',
     toggle_text: 'Definir número máximo de envíos',
     tooltip_max_limit_exceeded: `Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.`,

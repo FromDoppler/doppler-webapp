@@ -667,7 +667,7 @@ describe('ContactPolicy component', () => {
 
     // Emails amount field should be highlighted and error message should be displayed
     expect(inputAmount).toHaveClass('dp-error-input');
-    expect(screen.getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
+    expect(screen.getByText('contact_policy.error_invalid_range_msg_MD')).toBeInTheDocument();
   });
 
   it('should show error message and highlight the field if the interval in days is out of range', async () => {
@@ -704,7 +704,7 @@ describe('ContactPolicy component', () => {
 
     // Interval field should be highlighted and error message should be displayed
     expect(inputInterval).toHaveClass('dp-error-input');
-    expect(screen.getByText('contact_policy.error_invalid_range_msg')).toBeInTheDocument();
+    expect(screen.getByText('contact_policy.error_invalid_range_msg_MD')).toBeInTheDocument();
   });
 
   it('should call go back function if back button is pressed', async () => {
