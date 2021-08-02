@@ -82,7 +82,7 @@ if (turn_app_offline) {
   ReactDOM.render(
     <AppServicesProvider forcedServices={forcedServices}>
       <Router>
-        <App locale={locale} />
+        <App locale={locale} window={window} />
       </Router>
     </AppServicesProvider>,
     document.getElementById('root'),
