@@ -295,6 +295,8 @@ interface PlanEntry {
   isFreeAccount: boolean;
   planType: PlanType;
   idPlan: number;
+  planDiscount: number;
+  planSubscription: number;
 }
 
 interface SmsEntry {
@@ -410,6 +412,8 @@ function mapPlanEntry(json: any): PlanEntry {
       json.planType === 1 || json.planType === 7 || json.planType === '1' || json.planType === '7',
     planType: planTypeByIdUserType[json.planType],
     idPlan: json.idUserTypePlan ? json.idUserTypePlan : 0,
+    planDiscount: json.planDiscount,
+    planSubscription: json.monthPlan,
   };
 }
 function mapSmsEntry(json: any): SmsEntry {

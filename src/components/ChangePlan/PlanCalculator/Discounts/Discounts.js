@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
+import * as S from './Discounts.styles';
 
-export const Discounts = ({ discountsList, handleChange }) => {
+export const Discounts = ({ discountsList, sessionPlan, handleChange }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(discountsList[0]);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -18,34 +19,64 @@ export const Discounts = ({ discountsList, handleChange }) => {
     }
   };
 
+  const applyDiscount = (planDiscount) => {
+    handleChange(planDiscount);
+    setSelectedDiscount(planDiscount);
+  };
+
+  useEffect(() => {
+    if (sessionPlan.planSubscription > 1) {
+      const disccountAplied = discountsList.find(
+        (discount) => discount.monthsAmmount === sessionPlan.planSubscription,
+      );
+      applyDiscount(disccountAplied);
+    }
+  }, []);
+
   return (
     <>
-      <div className="dp-wrap-subscription">
-        <h4>{_('plan_calculator.discount_title')}</h4>
-        <ul>
-          {discountsList.map((discount, index) => (
-            <li key={index}>
-              <button
-                key={index}
-                className={`dp-button button-medium ${
-                  discount.id === selectedDiscount.id ? 'btn-active' : ''
-                }`}
-                onClick={() => {
-                  handleChange(discount);
-                  setSelectedDiscount(discount);
-                }}
-              >
-                {getDiscountDescription(discount.description)}
-              </button>
-              {discount.discountPercentage ? (
-                <span className="dp-discount">{`${discount.discountPercentage}% OFF`}</span>
-              ) : (
-                <></>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {sessionPlan.planSubscription > 1 ? (
+        <>
+          <S.DiscountTitle className="p-t-24">
+            {_(
+              'plan_calculator.discount_subscription_' +
+                selectedDiscount.description.replace('-', '_'),
+            )}
+          </S.DiscountTitle>
+          <S.DiscountSubtitle className="dp-discount m-t-12">
+            <strong>{selectedDiscount.discountPercentage}% OFF</strong>{' '}
+            {_('plan_calculator.discount_subscription_subtitle')}
+          </S.DiscountSubtitle>
+        </>
+      ) : (
+        <>
+          <div className="dp-wrap-subscription">
+            <h4>{_('plan_calculator.discount_title')}</h4>
+            <ul>
+              {discountsList.map((discount, index) => (
+                <li key={index}>
+                  <button
+                    key={index}
+                    className={`dp-button button-medium ${
+                      discount.id === selectedDiscount.id ? 'btn-active' : ''
+                    }`}
+                    onClick={() => {
+                      applyDiscount(discount);
+                    }}
+                  >
+                    {getDiscountDescription(discount.description)}
+                  </button>
+                  {discount.discountPercentage ? (
+                    <span className="dp-discount">{`${discount.discountPercentage}% OFF`}</span>
+                  ) : (
+                    <></>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </>
   );
 };

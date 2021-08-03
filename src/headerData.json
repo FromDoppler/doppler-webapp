@@ -119,7 +119,9 @@
       "maxSubscribers": "500",
       "remainingCredits": "500",
       "buttonText": "COMPRAR",
-      "buttonUrl": "/gg/"
+      "buttonUrl": "/gg/",
+      "planDiscount": 5,
+      "planSubscription": 3
     },
     "sms": {
       "description": "Available for SMS",
