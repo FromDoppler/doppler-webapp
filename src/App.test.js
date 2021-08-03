@@ -70,6 +70,10 @@ const createJsonParse = (item) => {
   });
 };
 
+const window = {
+  zE: () => null,
+};
+
 const defaultDependencies = {
   sessionManager: createDoubleSessionManager(),
   dopplerSitesClient: dopplerSitesClientDouble,
@@ -87,7 +91,7 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -104,7 +108,7 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login']}>
-            <App locale="es" />
+            <App window={window} locale="es" />
           </Router>
         </AppServicesProvider>,
       );
@@ -121,7 +125,7 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login']}>
-            <App locale="fr" />
+            <App window={window} locale="fr" />
           </Router>
         </AppServicesProvider>,
       );
@@ -138,7 +142,7 @@ describe('App component', () => {
       const { getByText } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login']}>
-            <App />
+            <App window={window} />
           </Router>
         </AppServicesProvider>,
       );
@@ -159,7 +163,7 @@ describe('App component', () => {
       const { getByText, container } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/reports']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -273,7 +277,7 @@ describe('App component', () => {
       const { getByText, container } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/reports']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -335,7 +339,7 @@ describe('App component', () => {
         const { container } = render(
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/reports']}>
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -372,7 +376,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/reports?param1=value1#hash']}>
               <RouterInspector target={currentRouteState} />
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -417,7 +421,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/login']}>
               <RouterInspector target={currentRouteState} />
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -475,7 +479,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/this/route/does/not/exist']}>
               <RouterInspector target={currentRouteState} />
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -525,7 +529,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/this/route/does/not/exist?param1=value1#hash']}>
               <RouterInspector target={currentRouteState} />
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -586,7 +590,7 @@ describe('App component', () => {
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/reports?param1=value1#hash']}>
               <RouterInspector target={currentRouteState} />
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -656,7 +660,7 @@ describe('App component', () => {
         render(
           <AppServicesProvider forcedServices={dependencies}>
             <Router initialEntries={['/signup?origin=testOrigin']}>
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -694,7 +698,7 @@ describe('App component', () => {
                 '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm&gclid=testgclid',
               ]}
             >
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -740,7 +744,7 @@ describe('App component', () => {
                 '/signup?origin=testOrigin&utm_source=test&utm_campaign=testcampaign&utm_medium=testmedium&utm_term=testterm&gclid=testgclid',
               ]}
             >
-              <App locale="en" />
+              <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
@@ -781,7 +785,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/signup?origin=testOrigin']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -810,7 +814,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/signup']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -836,7 +840,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/signup']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -866,7 +870,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login?activationInProgress%20=%20true']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -880,7 +884,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -894,7 +898,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login?activationInProgress=true']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -908,7 +912,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login?activationInProgress=false']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );
@@ -923,7 +927,7 @@ describe('App component', () => {
       render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/login?activationInProgress']}>
-            <App locale="en" />
+            <App window={window} locale="en" />
           </Router>
         </AppServicesProvider>,
       );

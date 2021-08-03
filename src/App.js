@@ -37,7 +37,7 @@ import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummar
  * @param { string } props.locale - locale
  * @param { import('./services/pure-di').AppServices } props.dependencies - dependencies
  */
-const App = ({ locale, location, dependencies: { appSessionRef, sessionManager } }) => {
+const App = ({ locale, location, window, dependencies: { appSessionRef, sessionManager } }) => {
   const [state, setState] = useState({
     dopplerSession: appSessionRef.current,
     i18nLocale: locale,
@@ -73,6 +73,8 @@ const App = ({ locale, location, dependencies: { appSessionRef, sessionManager }
       location && location.search && queryString.parse(location.search);
 
     const expectedLang = availableLanguageOrNull(langFromUrlParameter);
+
+    window.zE('webWidget', 'setLocale', expectedLang ?? 'es');
 
     if (!expectedLang) {
       langFromUrl.current = null;

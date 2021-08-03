@@ -23,8 +23,8 @@ import {
   addLogEntry,
   extractParameter,
   getFormInitialValues,
-  isZohoChatOnline,
-  openZohoChatWithMessage,
+  isZendeskChatOnline,
+  openZendeskChatWithMessage,
 } from '../../utils';
 
 const fieldNames = {
@@ -82,13 +82,16 @@ const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
       <p>
         <FormattedMessage id={messages.msgReasonId} />
       </p>
-      {isZohoChatOnline() ? (
+      {isZendeskChatOnline() ? (
         <p>
           <FormattedMessage
             id={'validation_messages.error_account_contact_zoho_chat'}
             values={{
               button: (chunk) => (
-                <button type="button" onClick={() => openZohoChatWithMessage(messages.msgZohoChat)}>
+                <button
+                  type="button"
+                  onClick={() => openZendeskChatWithMessage(messages.msgZohoChat)}
+                >
                   {chunk}
                 </button>
               ),
