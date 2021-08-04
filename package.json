@@ -63,12 +63,14 @@
     "build:development": "env-cmd -f .env.development yarn build",
     "build:demo": "env-cmd -f .env.demo yarn build",
     "test:ci": "cross-env CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test:related": "react-scripts test --env=jest-environment-jsdom-sixteen --watchAll=false -b --findRelatedTests",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
     "eclint": "eclint check  src/**/*.js",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\"",
     "prettier-check": "prettier-check \"src/**/*.{js,jsx,ts,tsx,css}\"",
-    "stylelint": "stylelint \"src/**/*.{js,css}\" --config \"src/.stylelintrc.json\""
+    "stylelint": "stylelint \"src/**/*.{js,css}\" --config \"src/.stylelintrc.json\"",
+    "prepare": "node ./prepare.js"
   },
   "prettier": {
     "semi": true,
@@ -127,6 +129,8 @@
     "@testing-library/dom": "^8.1.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/styled-components": "^5.1.11",
-    "jest-environment-jsdom-sixteen": "^1.0.3"
+    "husky": "^7.0.1",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "lint-staged": "^11.1.1"
   }
 }

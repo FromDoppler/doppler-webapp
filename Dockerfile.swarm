@@ -1,6 +1,8 @@
 FROM node:15.14.0 As restore
 WORKDIR /app
 COPY package.json yarn.lock ./
+ENV DISABLE_HUSKY=true
+COPY prepare.js ./
 RUN yarn
 COPY . .
 

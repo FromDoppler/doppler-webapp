@@ -3,6 +3,8 @@
 FROM node:15.14.0 as verify
 WORKDIR /app
 COPY package.json yarn.lock ./
+ENV DISABLE_HUSKY=true
+COPY prepare.js ./
 
 # Download dependencies
 RUN yarn
