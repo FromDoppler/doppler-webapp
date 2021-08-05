@@ -138,7 +138,88 @@ describe('PlanCalculator component', () => {
     });
   });
 
-  it('should show discount element when selected plan has discounts', async () => {
+  it('should show discount message when subscription is quarterly or higher', async () => {
+    // Arrange
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 42,
+                planSubscription: 6,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const planServiceDouble = {
+      ...planServiceDoubleBase,
+      getPlans: () => [
+        {
+          type: 'prepaid',
+          id: 1,
+          name: '1500-CREDITS',
+          credits: 1500,
+          price: 15,
+          featureSet: 'standard',
+          billingCycleDetails: [
+            {
+              id: 54,
+              idPlan: 11,
+              paymentType: 'CC',
+              discountPercentage: 0,
+              billingCycle: 'monthly',
+            },
+            {
+              id: 56,
+              idPlan: 11,
+              paymentType: 'CC',
+              discountPercentage: 5,
+              billingCycle: 'quarterly',
+            },
+            {
+              id: 58,
+              idPlan: 11,
+              paymentType: 'CC',
+              discountPercentage: 15,
+              billingCycle: 'half-yearly',
+            },
+            {
+              id: 60,
+              idPlan: 11,
+              paymentType: 'CC',
+              discountPercentage: 25,
+              billingCycle: 'yearly',
+            },
+          ],
+        },
+      ],
+    };
+
+    // Act
+    const { container, getByText } = render(
+      <MemoryRouter initialEntries={['plan-selection/standard']}>
+        <Route path="plan-selection/:pathType/:planType?">
+          <AppServicesProvider forcedServices={{ ...dependencies, planService: planServiceDouble }}>
+            <IntlProvider>
+              <PlanCalculator />
+            </IntlProvider>
+          </AppServicesProvider>
+        </Route>
+      </MemoryRouter>,
+    );
+
+    // Assert
+    await waitFor(() => {
+      expect(container.querySelector('.dp-wrap-subscription')).not.toBeInTheDocument();
+      expect(getByText('plan_calculator.discount_subscription_half_yearly')).toBeInTheDocument();
+    });
+  });
+
+  it('should show discount element when selected plan has discounts and user has monthly subscription', async () => {
     // Arrange
     const planServiceDouble = {
       ...planServiceDoubleBase,

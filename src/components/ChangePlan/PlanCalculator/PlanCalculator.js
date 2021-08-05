@@ -73,6 +73,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
         discountPercentage: discount.discountPercentage,
       };
     };
+
     const fetchData = async () => {
       setState({ loading: true });
       const planList = await planService.getPlanList();
@@ -168,6 +169,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                               <hr />
                               <Discounts
                                 discountsList={state.discountsList}
+                                sessionPlan={sessionPlan.plan}
                                 handleChange={(discount) => {
                                   dispatchPlanData({
                                     type: actionTypes.UPDATE_SELECTED_DISCOUNT,
