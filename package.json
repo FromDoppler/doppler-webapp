@@ -11,7 +11,7 @@
     "@types/intl-tel-input": "^17.0.3",
     "@types/jest": "^26.0.24",
     "@types/jwt-decode": "^3.1.0",
-    "@types/node": "^16.3.2",
+    "@types/node": "^16.4.12",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "@types/react-google-recaptcha": "^2.1.2",
