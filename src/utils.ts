@@ -295,6 +295,8 @@ export const thousandSeparatorNumber = (lang: string, value: number) =>
     minimumFractionDigits: value % 1 ? 2 : 0,
   }).format(value);
 
+export const unitPriceDecimals = (value: number) => value.toFixed(5);
+
 export const compactNumber = new Intl.NumberFormat('en', {
   //@ts-ignore
   notation: 'compact',
