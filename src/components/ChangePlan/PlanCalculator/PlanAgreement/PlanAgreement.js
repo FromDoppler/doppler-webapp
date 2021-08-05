@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { getPlanFee, thousandSeparatorNumber } from '../../../../utils';
+import { getPlanFee, thousandSeparatorNumber, unitPriceDecimals } from '../../../../utils';
 
 export const PlanAgreement = ({ planData }) => {
   const intl = useIntl();
@@ -12,6 +12,9 @@ export const PlanAgreement = ({ planData }) => {
     intl.defaultLocale,
     planFee * (1 - discountPercentage / 100) * monthsAmmount,
   );
+  const extraEmailPrice = planData.plan.extraEmailPrice
+    ? unitPriceDecimals(planData.plan.extraEmailPrice)
+    : 0;
 
   const getAgreementDescription = (discountDescription) => {
     switch (discountDescription) {
@@ -41,7 +44,7 @@ export const PlanAgreement = ({ planData }) => {
         <p className="dp-cost-per-email">
           {_('plan_calculator.cost_per_email')}{' '}
           <span className="dp-price-large-money">
-            <strong>US${planData.plan.extraEmailPrice}</strong>
+            <strong>US${extraEmailPrice}</strong>
           </span>
         </p>
       ) : (
