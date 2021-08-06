@@ -171,7 +171,11 @@ const UpgradePlanForm = ({
                   <FormattedMessage id="common.cancel" />
                 </button>
                 <SubmitButton>
-                  <FormattedMessage id="upgradePlanForm.update" />
+                  {!state.isLastPlan ? (
+                    <FormattedMessage id="upgradePlanForm.update" />
+                  ) : (
+                    <FormattedMessage id="common.send" />
+                  )}
                 </SubmitButton>
               </div>
             ) : (
