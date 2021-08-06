@@ -2,7 +2,7 @@ import { DopplerUserApiClient, ContactInformation, Features } from './doppler-us
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
 
-const contactInformationResult = {
+export const fakeContactInformation = {
   email: 'test@makingsense.com',
   firstname: 'Test',
   lastname: 'Test',
@@ -11,7 +11,7 @@ const contactInformationResult = {
   province: 'AR-B',
   country: 'ar',
   zipCode: '7000',
-  phone: '+542494222222',
+  phone: '+54 249 422-2222',
   company: 'Making Sense',
   industry: 'dplr1',
 };
@@ -28,7 +28,7 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     await timeout(1500);
 
     return {
-      value: contactInformationResult,
+      value: fakeContactInformation,
       success: true,
     };
   }

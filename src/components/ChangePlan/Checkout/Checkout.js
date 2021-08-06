@@ -4,6 +4,7 @@ import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { ContactInformation } from './ContactInformation/ContactInformation';
+import { BillingInformation } from './BillingInformation/BillingInformation';
 import { Step } from './Step/Step';
 
 const checkoutSteps = {
@@ -14,6 +15,8 @@ const checkoutSteps = {
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
+  const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
+  const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
   const intl = useIntl();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -65,18 +68,31 @@ const Checkout = () => {
                 <Step
                   active={activeStep === checkoutSteps.contactInformation}
                   title={_('checkoutProcessForm.contact_information_title')}
-                  complete={true}
+                  complete={completeContactInformationStep}
                   stepNumber={1}
                   onActivate={() => setActiveStep(checkoutSteps.contactInformation)}
                 >
-                  <ContactInformation handleSaveAndContinue={setNextCheckoutStep} />
+                  <ContactInformation
+                    handleSaveAndContinue={() => {
+                      setNextCheckoutStep(activeStep);
+                      setCompleteContactInformationStep(true);
+                    }}
+                  />
                 </Step>
                 <Step
                   active={activeStep === checkoutSteps.billingInformation}
                   title={_('checkoutProcessForm.billing_information_title')}
-                  complete={false}
+                  complete={completeBillingInformationStep}
                   stepNumber={2}
-                ></Step>
+                  onActivate={() => setActiveStep(checkoutSteps.billingInformation)}
+                >
+                  <BillingInformation
+                    handleSaveAndContinue={() => {
+                      setNextCheckoutStep(activeStep);
+                      setCompleteBillingInformationStep(true);
+                    }}
+                  />
+                </Step>
                 <Step
                   active={activeStep === checkoutSteps.paymentInformation}
                   title={_('checkoutProcessForm.payment_method_title')}
