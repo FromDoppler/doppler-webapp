@@ -186,6 +186,16 @@ You can **select up to 10 Lists** in order to exclude them from the maximum limi
     interval_description: 'within',
     interval_unit: 'days',
     meta_title: 'Doppler | Contact Policy',
+    promotional: {
+      action_text: 'Look at PLUS Plans',
+      description_MD: 'Hiring a Plus Plan you’ll get this feature to set a **maximum number of Emails** your Contacts will receive from you in a period of time. You can also:',
+      features: {
+        exclude_campaigns_MD: '**Exclude Campaigns** from your Contact Policy.',
+        exclude_lists_MD: '**Exclude Lists** from your Contact Policy.',
+      },
+      paragraph: "Optimize your Campaigns' results by defining a Contact Policy according to your strategy.",
+      upgrade_plan_url: `${urlUpgradePlan}`,
+    },
     subtitle_MD: `
 Set a **maximum number of Emails** your Contacts will be able to receive from you in a period of time.
 
