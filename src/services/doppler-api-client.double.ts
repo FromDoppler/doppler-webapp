@@ -227,14 +227,15 @@ const campaignSummaryResults = {
   totalShipped: 50000,
 };
 
-const subscriberListCollection = [...Array(100)].map((_, index) => {
-  return {
-    name: 'List ' + (index + 1),
-    id: index,
-    amountSubscribers: Math.round(Math.random() * (100 - 1) + 1),
-    state: index % 2 === 0 ? 1 : 0,
-  };
-});
+export const subscriberListCollection = (length: number) =>
+  [...Array(length)].map((_, index) => {
+    return {
+      name: 'List ' + (index + 1),
+      id: index,
+      amountSubscribers: Math.round(Math.random() * (length - 1) + 1),
+      state: index % 2 === 0 ? 1 : 0,
+    };
+  });
 
 export class HardcodedDopplerApiClient implements DopplerApiClient {
   public async getListData(
@@ -518,15 +519,14 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
     console.log('getSubscribersLists');
     await timeout(1500);
 
-    let listPaged = [];
     const perPage = 20;
+    const allItems = subscriberListCollection(100);
+    let listPaged = allItems;
 
     if (perPage > 0 && page > 0) {
       const indexStart = perPage * (page - 1);
       const indexEnd = indexStart + perPage;
-      listPaged = subscriberListCollection.slice(indexStart, indexEnd);
-    } else {
-      listPaged = subscriberListCollection;
+      listPaged = listPaged.slice(indexStart, indexEnd);
     }
 
     return {
@@ -534,8 +534,8 @@ export class HardcodedDopplerApiClient implements DopplerApiClient {
       value: {
         items: listPaged,
         currentPage: page,
-        itemsCount: subscriberListCollection.length,
-        pagesCount: Math.ceil(subscriberListCollection.length / perPage),
+        itemsCount: allItems.length,
+        pagesCount: Math.ceil(allItems.length / perPage),
       },
     };
   }

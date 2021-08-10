@@ -3,24 +3,15 @@ import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
 import { HttpDopplerContactPolicyApiClient } from './doppler-contact-policy-api-client';
+import { subscriberListCollection } from './doppler-api-client.double';
 
 const emailAccount = 'email@mail.com';
-const excludedSubscribersLists = [
-  {
-    id: 1,
-    name: 'List A',
-  },
-  {
-    id: 2,
-    name: 'List B',
-  },
-];
 const accountSettings = {
   accountName: emailAccount,
   active: true,
   emailsAmountByInterval: 20,
   intervalInDays: 7,
-  excludedSubscribersLists: excludedSubscribersLists,
+  excludedSubscribersLists: subscriberListCollection(2),
 };
 
 function createHttpDopplerContactPolicyApiClient(axios: any) {

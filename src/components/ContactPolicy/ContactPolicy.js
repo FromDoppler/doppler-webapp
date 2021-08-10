@@ -43,6 +43,7 @@ export const ContactPolicy = InjectAppServices(
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [error, setError] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedLists, setSelectedLists] = useState([]);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -147,7 +148,11 @@ export const ContactPolicy = InjectAppServices(
       setFormSubmitted(false);
     };
 
-    const toggleModal = (isOpen) => setModalIsOpen(isOpen);
+    const handleSelectLists = (list) => {
+      setSelectedLists(list);
+      hideMessage();
+      setModalIsOpen(true);
+    };
 
     if (loading) {
       return <Loading page />;
@@ -261,7 +266,11 @@ export const ContactPolicy = InjectAppServices(
                                       className="dp-button dp-add-list"
                                       disabled={!values[fieldNames.active] || maxLimitReached}
                                       aria-label="add tag"
-                                      onClick={() => toggleModal(true)}
+                                      onClick={() =>
+                                        handleSelectLists(
+                                          values[fieldNames.excludedSubscribersLists],
+                                        )
+                                      }
                                     >
                                       <span>+</span>
                                       {_('contact_policy.select_lists')}
@@ -310,8 +319,8 @@ export const ContactPolicy = InjectAppServices(
             </div>
           </div>
         </section>
-        <Modal isOpen={modalIsOpen} handleClose={() => toggleModal(false)}>
-          <SubscriberListSelector />
+        <Modal isOpen={modalIsOpen} handleClose={() => setModalIsOpen(false)}>
+          <SubscriberListSelector preselected={selectedLists} />
         </Modal>
       </>
     ) : (

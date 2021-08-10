@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
@@ -7,12 +8,12 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInfinitePaged } from '../../hooks/useInfinitePaged';
 import { IconMessage } from '../form-helpers/form-helpers';
 
-const ListRow = ({ list }) => {
+const ListRow = ({ list, selected }) => {
   return (
     <tr>
       <td aria-label="List Check">
         <label className="dp-list-check">
-          <input type="checkbox" />
+          <input type="checkbox" defaultChecked={!!selected} />
           <span className="checkmark" />
         </label>
       </td>
@@ -26,7 +27,7 @@ const ListRow = ({ list }) => {
   );
 };
 
-const ListTable = ({ lists }) => {
+const ListTable = ({ lists, selectedIds }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -50,7 +51,7 @@ const ListTable = ({ lists }) => {
       </thead>
       <tbody>
         {lists.map((list) => (
-          <ListRow list={list} key={list.id} />
+          <ListRow list={list} key={list.id} selected={selectedIds.includes(list.id)} />
         ))}
       </tbody>
     </table>
@@ -58,7 +59,7 @@ const ListTable = ({ lists }) => {
 };
 
 export const SubscriberListSelector = InjectAppServices(
-  ({ dependencies: { dopplerApiClient } }) => {
+  ({ dependencies: { dopplerApiClient }, preselected = [] }) => {
     const fetchData = (page) =>
       dopplerApiClient.getSubscribersLists(page, SubscriberListState.ready);
     const { loading, items, hasMoreItems, loadMoreItems } = useInfinitePaged(fetchData);
@@ -80,7 +81,7 @@ export const SubscriberListSelector = InjectAppServices(
           loader={<p>Loading...</p>}
           scrollableTarget="scrollableContainer"
         >
-          <ListTable lists={items} />
+          <ListTable lists={items} selectedIds={preselected.map((i) => i.id)} />
         </InfiniteScroll>
       </div>
     ) : (
@@ -96,3 +97,6 @@ export const SubscriberListSelector = InjectAppServices(
     );
   },
 );
+SubscriberListSelector.propTypes = {
+  preselected: PropTypes.array,
+};
