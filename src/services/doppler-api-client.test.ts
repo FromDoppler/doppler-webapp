@@ -3,6 +3,7 @@ import { HttpDopplerApiClient } from './doppler-api-client';
 import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
+import { SubscriberListState } from './shopify-client';
 
 const consoleError = console.error;
 const jwtToken = 'jwtToken';
@@ -733,6 +734,73 @@ describe('HttpDopplerApiClient', () => {
           value: expect.any(String),
         });
       }
+    });
+  });
+
+  describe('getSubscribersLists', () => {
+    it('should get an error when the response is not valid', async () => {
+      // Arrange
+      const request = jest.fn(async () => {}); // Invalid response
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscribersLists(
+        1,
+        SubscriberListState.ready.toString(),
+      );
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(false);
+    });
+
+    it('should call API with the right parameters and parse a successful response', async () => {
+      // Arrange
+      const page = 1;
+      const state = SubscriberListState.ready;
+      const httpResponseBody = {
+        status: 200,
+        data: {
+          items: [
+            { name: 'List 1', listId: 1, subscribersCount: 1, currentStatus: state },
+            { name: 'List 2', listId: 2, subscribersCount: 2, currentStatus: state },
+          ],
+          currentPage: page,
+          itemsCount: 2,
+          pagesCount: page,
+        },
+      };
+      const request = jest.fn(async () => httpResponseBody);
+      const dopplerApiClient = createHttpDopplerApiClient({ request });
+
+      // Act
+      const result = await dopplerApiClient.getSubscribersLists(
+        1,
+        SubscriberListState.ready.toString(),
+      );
+
+      // Assert
+      expect(request).toBeCalledTimes(1);
+      expect(request).toBeCalledWith({
+        headers: {
+          Authorization: `token ${jwtToken}`,
+        },
+        method: 'GET',
+        url: `/accounts/${accountEmail}/lists/?page=${page}&state=${state}`,
+      });
+      expect(result).not.toBe(undefined);
+      expect(result.success).toBe(true);
+      expect(result.value).not.toBe(null);
+      expect(result.value.items).toHaveLength(httpResponseBody.data.items.length);
+      result.value.items.map((item) =>
+        expect(item).toMatchObject({
+          name: expect.any(String),
+          id: expect.any(Number),
+          amountSubscribers: expect.any(Number),
+          state: expect.any(Number),
+        }),
+      );
     });
   });
 });

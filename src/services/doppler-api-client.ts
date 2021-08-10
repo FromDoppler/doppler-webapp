@@ -19,6 +19,10 @@ export interface DopplerApiClient {
   ): Promise<ResultWithoutExpectedErrors<CampaignSummaryResults>>;
   getCampaignNameAndSubject(campaignId: number): Promise<ResultWithoutExpectedErrors<CampaignInfo>>;
   getUserFields(): Promise<ResultWithoutExpectedErrors<Fields[]>>;
+  getSubscribersLists(
+    page: number,
+    state: string,
+  ): Promise<ResultWithoutExpectedErrors<SubscriberListCollection>>;
 }
 interface DopplerApiConnectionData {
   jwtToken: string;
@@ -85,6 +89,13 @@ export interface CampaignDeliveryCollection {
 
 export interface SubscriberCollection {
   items: Subscriber[];
+  currentPage: number;
+  itemsCount: number;
+  pagesCount: number;
+}
+
+export interface SubscriberListCollection {
+  items: SubscriberList[];
   currentPage: number;
   itemsCount: number;
   pagesCount: number;
@@ -541,6 +552,37 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         success: false,
         error: error,
       };
+    }
+  }
+
+  async getSubscribersLists(
+    page: number,
+    state: string,
+  ): Promise<ResultWithoutExpectedErrors<SubscriberListCollection>> {
+    try {
+      const { jwtToken, userAccount } = this.getDopplerApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${userAccount}/lists/?page=${page}&state=${state}`,
+        headers: { Authorization: `token ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return {
+          success: true,
+          value: {
+            items: response.data.items.map(this.mapList),
+            itemsCount: response.data.itemsCount,
+            currentPage: response.data.currentPage,
+            pagesCount: response.data.pagesCount,
+          },
+        };
+      } else {
+        return { success: false, error: response };
+      }
+    } catch (error) {
+      return { success: false, error: error };
     }
   }
 }
