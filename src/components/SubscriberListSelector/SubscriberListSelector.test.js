@@ -21,10 +21,10 @@ describe('SubscriberListSelector component', () => {
       }),
     };
   };
-  const SubscriberListSelectorComponent = ({ withLists = true }) => (
+  const SubscriberListSelectorComponent = ({ withLists = true, preSelected = [] }) => (
     <AppServicesProvider forcedServices={{ dopplerApiClient: dopplerApiClientDouble(withLists) }}>
       <DopplerIntlProvider>
-        <SubscriberListSelector />
+        <SubscriberListSelector preselected={preSelected} />
       </DopplerIntlProvider>
     </AppServicesProvider>
   );
@@ -73,5 +73,23 @@ describe('SubscriberListSelector component', () => {
     // 'Feature isn't available' message should be displayed
     const noAvailableMessage = screen.getByText('common.feature_no_available');
     expect(noAvailableMessage).toBeInTheDocument();
+  });
+
+  it('should load preselected lists', async () => {
+    // Act
+    render(<SubscriberListSelectorComponent preSelected={subscriberListCollection(2)} />);
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const table = screen.getByRole('table');
+    const checkboxes = screen.getAllByRole('checkbox');
+
+    // Lists should be selected
+    expect(table).toBeInTheDocument();
+    expect(checkboxes[0]).toBeChecked();
+    expect(checkboxes[1]).toBeChecked();
+    expect(checkboxes[2]).not.toBeChecked();
   });
 });
