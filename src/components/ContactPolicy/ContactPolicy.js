@@ -17,8 +17,10 @@ import { Loading } from '../Loading/Loading';
 import { getFormInitialValues, successMessageDelay } from '../../utils';
 import { Prompt } from 'react-router-dom';
 import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
-import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
 import { Promotional } from '../shared/Promotional/Promotional';
+import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
+import Modal from '../Modal/Modal';
+import { SubscriberListSelector } from '../SubscriberListSelector/SubscriberListSelector';
 
 const maxItems = 10;
 const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
@@ -40,6 +42,7 @@ export const ContactPolicy = InjectAppServices(
     const [settings, setSettings] = useState({});
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [error, setError] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -144,20 +147,7 @@ export const ContactPolicy = InjectAppServices(
       setFormSubmitted(false);
     };
 
-    const getSubscribersListToAdd = () => {
-      const subscribersListId = Math.floor(Math.random() * 21);
-      return {
-        id: subscribersListId,
-        [labelKey]: `subscribers-list${subscribersListId}`,
-      };
-    };
-
-    const selectSubscribersList = (addList) => {
-      hideMessage();
-      // TODO: actions needed to add to list
-      const subscribersListToAdd = getSubscribersListToAdd();
-      addList(subscribersListToAdd);
-    };
+    const toggleModal = (isOpen) => setModalIsOpen(isOpen);
 
     if (loading) {
       return <Loading page />;
@@ -258,7 +248,7 @@ export const ContactPolicy = InjectAppServices(
                               messageKeys={{
                                 tagLimitExceeded: limitExceededMessageKey,
                               }}
-                              render={(addList) => {
+                              render={() => {
                                 const maxLimitReached =
                                   values[fieldNames.excludedSubscribersLists].length === maxItems;
                                 return (
@@ -271,10 +261,10 @@ export const ContactPolicy = InjectAppServices(
                                       className="dp-button dp-add-list"
                                       disabled={!values[fieldNames.active] || maxLimitReached}
                                       aria-label="add tag"
-                                      onClick={() => selectSubscribersList(addList)}
+                                      onClick={() => toggleModal(true)}
                                     >
                                       <span>+</span>
-                                      {_('contact_policy.add_list')}
+                                      {_('contact_policy.select_lists')}
                                     </button>
                                   </WrapInTooltip>
                                 );
@@ -320,6 +310,9 @@ export const ContactPolicy = InjectAppServices(
             </div>
           </div>
         </section>
+        <Modal isOpen={modalIsOpen} handleClose={() => toggleModal(false)}>
+          <SubscriberListSelector />
+        </Modal>
       </>
     ) : (
       <Promotional

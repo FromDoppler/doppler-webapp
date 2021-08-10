@@ -6,7 +6,7 @@ const Modal = ({ isOpen, handleClose, children }) => {
   }
 
   return (
-    <div className="modal">
+    <div className="modal" data-testid="modal">
       <div className="modal-content--medium">
         <span onClick={handleClose} className="close" />
         {children}
