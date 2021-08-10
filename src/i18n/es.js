@@ -176,7 +176,6 @@ const messages_es = {
     unsaved_changes_message: `Es posible que no se guarden los cambios que realizó.`,
   },
   contact_policy: {
-    add_list: `Agregar Lista`,
     amount_description: 'Enviar hasta',
     error_invalid_range_msg_MD: 'Puedes configurar hasta **999 Emails y 30 días** como máximo.',
     exclude_list_description_MD: `
@@ -195,6 +194,7 @@ Puedes **seleccionar hasta 10 Listas** para que sean excluídas del límite máx
       paragraph: 'Optimiza los resultados de tus Campañas definiendo una Política de Contacto acorde a tu estrategia.',
       upgrade_plan_url: `${urlUpgradePlan}`,
     },
+    select_lists: 'Seleccionar Listas',
     subtitle_MD: `
 Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un período de tiempo determinado.
 

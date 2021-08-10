@@ -767,4 +767,30 @@ describe('ContactPolicy component', () => {
     const addButton = screen.getByRole('button', { name: 'add tag' });
     expect(addButton).toBeDisabled();
   });
+
+  it('should show modal if select list button is pressed ', async () => {
+    // Act
+    render(
+      <ContactPolicyComponent customExcludedSubscribersLists={[...excludedSubscribersLists]} />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Enable switch button
+    let switchButton = screen.getByRole('checkbox');
+    user.click(switchButton);
+    switchButton = await screen.findByRole('checkbox');
+    expect(switchButton).toBeChecked();
+
+    // Add list button should be disabled
+    const addButton = screen.getByRole('button', { name: 'add tag' });
+    user.click(addButton);
+
+    // Modal should be displayed
+    const modal = await screen.findByTestId('modal');
+    expect(modal).toBeInTheDocument();
+  });
 });

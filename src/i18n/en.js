@@ -177,7 +177,6 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     unsaved_changes_message: `Changes that you made may not be saved.`,
   },
   contact_policy: {
-    add_list: `Add List`,
     amount_description: 'Send up to',
     error_invalid_range_msg_MD: 'You can set up to **999 Emails and 30 days** maximum.',
     exclude_list_description_MD: `
@@ -196,6 +195,7 @@ You can **select up to 10 Lists** in order to exclude them from the maximum limi
       paragraph: "Optimize your Campaigns' results by defining a Contact Policy according to your strategy.",
       upgrade_plan_url: `${urlUpgradePlan}`,
     },
+    select_lists: 'Select Lists',
     subtitle_MD: `
 Set a **maximum number of Emails** your Contacts will be able to receive from you in a period of time.
 
