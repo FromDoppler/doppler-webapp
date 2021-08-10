@@ -27,7 +27,7 @@ export const Promotional = ({
           <div className="col-lg-6 col-md-12">
             <div className="dp-content-promotion">
               <h1>{title}</h1>
-              <p>{description}</p>
+              {React.isValidElement(description) ? description : <p>{description}</p>}
 
               {features ? (
                 <ul className="dp-feature-list m-t-24">
@@ -61,7 +61,7 @@ export const Promotional = ({
 };
 Promotional.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   features: PropTypes.array,
   paragraph: PropTypes.string,
   actionText: PropTypes.string.isRequired,
