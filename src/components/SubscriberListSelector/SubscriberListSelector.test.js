@@ -4,20 +4,16 @@ import '@testing-library/jest-dom/extend-expect';
 import { SubscriberListSelector } from './SubscriberListSelector';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { SubscriberListState } from '../../services/shopify-client';
+import { subscriberListCollection } from '../../services/doppler-api-client.double';
 
 describe('SubscriberListSelector component', () => {
+  const listsCount = 3;
   const dopplerApiClientDouble = (withLists) => {
     return {
       getSubscribersLists: async () => ({
         success: true,
         value: {
-          items: withLists
-            ? [
-                { name: 'List 1', id: 1, amountSubscribers: 1, state: SubscriberListState.ready },
-                { name: 'List 2', id: 2, amountSubscribers: 2, state: SubscriberListState.ready },
-              ]
-            : [],
+          items: withLists ? subscriberListCollection(listsCount) : [],
           currentPage: 1,
           itemsCount: 2,
           pagesCount: 1,
@@ -58,8 +54,8 @@ describe('SubscriberListSelector component', () => {
 
     // Data should load correctly
     expect(table).toBeInTheDocument();
-    expect(rows).toHaveLength(3);
-    expect(cells).toHaveLength(6);
+    expect(rows).toHaveLength(listsCount + 1);
+    expect(cells).toHaveLength(listsCount * 3);
   });
 
   it("shouldn't show table if user doesn't have lists", async () => {

@@ -5,29 +5,7 @@ import {
   SubscriberList,
 } from './doppler-contact-policy-api-client';
 import { timeout } from '../utils';
-
-export const excludedSubscribersLists = [
-  {
-    id: 1,
-    name: 'Ciencias Naturales',
-  },
-  {
-    id: 2,
-    name: 'Economía',
-  },
-  {
-    id: 3,
-    name: 'Ciencias Sociales',
-  },
-  {
-    id: 4,
-    name: 'Ciencias Antro morfologícas',
-  },
-  {
-    id: 5,
-    name: 'Teoría de Conjuntos',
-  },
-];
+import { subscriberListCollection } from './doppler-api-client.double';
 
 export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPolicyApiClient {
   private mapSubscriberList(data: any): SubscriberList[] {
@@ -46,7 +24,7 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
       active: false,
       emailsAmountByInterval: 20,
       intervalInDays: 7,
-      excludedSubscribersLists: this.mapSubscriberList(excludedSubscribersLists),
+      excludedSubscribersLists: this.mapSubscriberList(subscriberListCollection(5)),
     };
 
     return {

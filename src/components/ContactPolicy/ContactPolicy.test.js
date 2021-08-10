@@ -6,7 +6,7 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-
 import { ContactPolicy } from './ContactPolicy';
 import { AppServicesProvider } from '../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { excludedSubscribersLists } from '../../services/doppler-contact-policy-api-client.double';
+import { subscriberListCollection } from '../../services/doppler-api-client.double';
 
 describe('ContactPolicy component', () => {
   const featuresDouble = () => ({
@@ -62,7 +62,7 @@ describe('ContactPolicy component', () => {
     isEnabled = true,
     isActive = false,
     hasErrorOnUpdate = false,
-    customExcludedSubscribersLists = excludedSubscribersLists,
+    customExcludedSubscribersLists = subscriberListCollection(5),
   }) => {
     const services = isEnabled
       ? dependencies(isActive, hasErrorOnUpdate, customExcludedSubscribersLists)
@@ -743,13 +743,8 @@ describe('ContactPolicy component', () => {
 
   it('should disable add list button if the maximum number of lists has been added', async () => {
     // Act
-    // Add 10 lists
-    const customExcludedSubscribersLists = [
-      ...excludedSubscribersLists,
-      ...excludedSubscribersLists,
-    ];
     render(
-      <ContactPolicyComponent customExcludedSubscribersLists={customExcludedSubscribersLists} />,
+      <ContactPolicyComponent customExcludedSubscribersLists={subscriberListCollection(10)} />,
     );
 
     // Assert
@@ -770,9 +765,7 @@ describe('ContactPolicy component', () => {
 
   it('should show modal if select list button is pressed ', async () => {
     // Act
-    render(
-      <ContactPolicyComponent customExcludedSubscribersLists={[...excludedSubscribersLists]} />,
-    );
+    render(<ContactPolicyComponent customExcludedSubscribersLists={subscriberListCollection(5)} />);
 
     // Assert
     // Loader should disappear once request resolves
