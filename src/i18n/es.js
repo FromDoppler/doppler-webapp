@@ -185,6 +185,16 @@ Puedes **seleccionar hasta 10 Listas** para que sean excluídas del límite máx
     interval_description: 'en un plazo de',
     interval_unit: 'días',
     meta_title: 'Doppler | Política de Contacto',
+    promotional: {
+      action_text: 'Ver Planes PLUS',
+      description_MD: 'Contrata un Plan Plus y accede a esta funcionalidad para definir la **cantidad máxima de Emails** que tus Contactos recibirán en un período determinado. También podrás:',
+      features: {
+        exclude_campaigns_MD: '**Excluir Campañas** de la Política de Contacto.',
+        exclude_lists_MD: '**Excluir Listas** de la Política de Contacto.',
+      },
+      paragraph: 'Optimiza los resultados de tus Campañas definiendo una Política de Contacto acorde a tu estrategia.',
+      upgrade_plan_url: `${urlUpgradePlan}`,
+    },
     subtitle_MD: `
 Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un período de tiempo determinado.
 

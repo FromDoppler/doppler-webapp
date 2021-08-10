@@ -226,9 +226,9 @@ describe('ContactPolicy component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    // 'Feature isn't available' message should be displayed
-    const noAvailableMessage = screen.getByText('common.feature_no_available');
-    expect(noAvailableMessage).toBeInTheDocument();
+    // Form shouldn't be displayed
+    const form = screen.queryByRole('form');
+    expect(form).not.toBeInTheDocument();
   });
 
   it('should hide success message when toggle the switch', async () => {

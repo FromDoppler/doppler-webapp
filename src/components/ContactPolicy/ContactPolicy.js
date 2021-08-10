@@ -17,8 +17,8 @@ import { Loading } from '../Loading/Loading';
 import { getFormInitialValues, successMessageDelay } from '../../utils';
 import { Prompt } from 'react-router-dom';
 import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
-import { Promotional } from './Promotional';
 import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
+import { Promotional } from '../shared/Promotional/Promotional';
 
 const maxItems = 10;
 const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
@@ -322,7 +322,22 @@ export const ContactPolicy = InjectAppServices(
         </section>
       </>
     ) : (
-      <Promotional />
+      <Promotional
+        title={_('contact_policy.title')}
+        description={<FormattedMessageMarkdown id={'contact_policy.promotional.description_MD'} />}
+        features={[
+          <FormattedMessageMarkdown id={'contact_policy.promotional.features.exclude_lists_MD'} />,
+          <FormattedMessageMarkdown
+            id={'contact_policy.promotional.features.exclude_campaigns_MD'}
+          />,
+        ]}
+        paragraph={_('contact_policy.promotional.paragraph')}
+        actionText={_('contact_policy.promotional.action_text').toUpperCase()}
+        actionUrl={_('contact_policy.promotional.upgrade_plan_url')}
+        //TODO: Replace icon and image urls
+        logoUrl={'lists.svg'}
+        previewUrl={'no-list.jpg'}
+      />
     );
   },
 );
