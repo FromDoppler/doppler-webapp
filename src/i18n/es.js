@@ -180,6 +180,11 @@ const messages_es = {
     error_invalid_range_msg_MD: 'Puedes configurar hasta **999 Emails y 30 días** como máximo.',
     exclude_list_description_MD: `
 Puedes **seleccionar hasta 10 Listas** para que sean excluídas del límite máximo de envíos. Esto significa que **los Contactos de las Listas excluídas recibirán todas las Campañas que envíes.**`,
+    exclude_list_selector: {
+      description_MD: `Los Contactos de las Listas que excluyas recibirán todas tus Campañas. **Recuerda que puedes seleccionar hasta {maxToSelect} Listas.**`,
+      max_limit_exceeded: 'Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.',
+      title: 'Excluir Listas de la Política de Contacto',
+    },
     exclude_list_title: `Excluir Listas`,
     interval_description: 'en un plazo de',
     interval_unit: 'días',
@@ -630,6 +635,13 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     },
     title: 'Comportamiento histórico del Suscriptor',
     unsubscribed_date: 'Fecha de Remoción:',
+  },
+  subscriber_list_selector: {
+    max_limit_exceeded: `Ya seleccionaste el número máximo de listas permitidas.`,
+    table_columns: {
+      list_name: 'Nombre de la lista',
+      subscribers: 'Suscriptores',
+    },
   },
   trafficSources: {
     direct: `Directo`,
