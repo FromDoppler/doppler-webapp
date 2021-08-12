@@ -16,8 +16,8 @@ const ListRow = ({ list, selected, onSelectChange, disabled }) => {
         <label className={'dp-list-check' + (disabled ? ' dp-inputcheck-disabled' : '')}>
           <input
             type="checkbox"
-            defaultChecked={!!selected}
-            onChange={() => onSelectChange(list.id)}
+            defaultChecked={selected}
+            onChange={() => onSelectChange(list)}
             disabled={disabled}
           />
           <span className="checkmark" />
@@ -97,18 +97,18 @@ export const SubscriberListSelector = InjectAppServices(
       validateMaxLimit();
     }, [preselected]);
 
-    const handleSelectChange = (listId) => {
-      let selectedLists = selected;
-      let find = selectedLists.findIndex((item) => item.id === listId);
+    const handleSelectChange = (list) => {
+      const newSelected = selected;
+      const index = newSelected.findIndex((item) => item.id === list.id);
 
-      if (find > -1) {
-        selectedLists.splice(find, 1);
+      if (index > -1) {
+        newSelected.splice(index, 1);
       } else {
-        const { id, name } = items.find((item) => item.id === listId);
-        selectedLists.push({ id, name });
+        const { id, name } = list;
+        newSelected.push({ id, name });
       }
 
-      setSelected(selectedLists);
+      setSelected(newSelected);
       validateMaxLimit();
     };
 
