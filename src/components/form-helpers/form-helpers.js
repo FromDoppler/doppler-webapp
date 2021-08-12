@@ -20,12 +20,8 @@ import './form-helpers.css';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
-import { addLogEntry } from '../../utils';
+import { addLogEntry, concatClasses } from '../../utils';
 import useTimeout from '../../hooks/useTimeout';
-
-function concatClasses(...args) {
-  return args.filter((x) => x).join(' ');
-}
 
 function translateIntlTelInputCountryNames(language) {
   const countryData = window.intlTelInputGlobals.getCountryData();

@@ -30,10 +30,10 @@ export const Promotional = ({
               {React.isValidElement(description) ? description : <p>{description}</p>}
 
               {features ? (
-                <ul className="dp-feature-list m-t-24">
+                <ul className="dp-list-promo">
                   {features.map((feature, index) => (
-                    <li key={index} className="m-t-12">
-                      {feature}
+                    <li key={index}>
+                      {React.isValidElement(feature) ? feature : <p>{feature}</p>}
                     </li>
                   ))}
                 </ul>
