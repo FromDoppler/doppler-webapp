@@ -323,3 +323,7 @@ export const getFormInitialValues = (fieldNames: object) =>
 
 // Time (in milliseconds ) that the message is displayed on the screen.
 export const successMessageDelay = 3000;
+
+export const concatClasses = (...args: any[]) => {
+  return args.filter((x) => x).join(' ');
+};

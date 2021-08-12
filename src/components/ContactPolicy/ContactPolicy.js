@@ -316,7 +316,12 @@ export const ContactPolicy = InjectAppServices(
             </div>
           </div>
         </section>
-        <Modal isOpen={modalIsOpen} handleClose={() => setModalIsOpen(false)} type={'large'}>
+        <Modal
+          isOpen={modalIsOpen}
+          handleClose={() => setModalIsOpen(false)}
+          type={'large'}
+          className="dp-modal-exclude-list"
+        >
           <SubscriberListSelector
             maxToSelect={maxListsToSelect}
             preselected={selectedLists}
@@ -341,8 +346,8 @@ export const ContactPolicy = InjectAppServices(
         paragraph={_('contact_policy.promotional.paragraph')}
         actionText={_('contact_policy.promotional.action_text').toUpperCase()}
         actionUrl={_('contact_policy.promotional.upgrade_plan_url')}
-        //TODO: Replace icon and image urls
-        logoUrl={'lists.svg'}
+        logoUrl={'icon-pcontacto.svg'}
+        //TODO: Replace preview image url
         previewUrl={'no-list.jpg'}
       />
     );
