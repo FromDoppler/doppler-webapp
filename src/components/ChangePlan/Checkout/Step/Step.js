@@ -22,8 +22,10 @@ export const Step = ({ children, title, active, stepNumber, complete, onActivate
 
   return (
     <>
-      <li className={`dp-box-shadow ${active ? 'dp-form-successful' : ''}`}>
-        <span className={`dp-number-item ${active ? ' dp-successful' : ''}`}>{stepNumber}</span>
+      <li className={`dp-box-shadow ${active || complete ? 'dp-form-successful' : ''}`}>
+        <span className={`dp-number-item ${active || complete ? ' dp-successful' : ''}`}>
+          {stepNumber}
+        </span>
         <div className="dp-accordion-thumb" style={displaFlexAndjustifyContentSpaceBetweenStyle}>
           <div style={titleStyle}>{title}</div>
           {!active && complete ? (

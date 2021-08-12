@@ -1,0 +1,94 @@
+import { AxiosStatic } from 'axios';
+import { RefObject } from 'react';
+import { AppSession } from './app-session';
+import { DopplerLegacyUserData } from './doppler-legacy-client';
+import { HttpDopplerBillingUserApiClient } from './doppler-billing-user-api-client';
+import { fakeBillingInformation } from './doppler-billing-user-api-client.double';
+
+const consoleError = console.error;
+const jwtToken = 'jwtToken';
+const accountEmail = 'email@mail.com';
+
+function createHttpDopplerBillingUserApiClient(axios: any) {
+  const axiosStatic = {
+    create: () => axios,
+  } as AxiosStatic;
+  const connectionDataRef = {
+    current: {
+      status: 'authenticated',
+      jwtToken,
+      userData: { user: { email: accountEmail } } as DopplerLegacyUserData,
+    },
+  } as RefObject<AppSession>;
+
+  const apiClient = new HttpDopplerBillingUserApiClient({
+    axiosStatic,
+    baseUrl: 'http://api.test',
+    connectionDataRef,
+  });
+  return apiClient;
+}
+
+describe('HttpDopplerBillingUserApiClient', () => {
+  beforeEach(() => {
+    console.error = consoleError; // Restore console error logs
+  });
+
+  it('should get billing information', async () => {
+    // Arrange
+    const billingInformation = {
+      data: fakeBillingInformation,
+      status: 200,
+    };
+    const request = jest.fn(async () => billingInformation);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getBillingInformationData();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should update billing information', async () => {
+    // Arrange
+    const values = fakeBillingInformation;
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updateBillingInformation(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail', async () => {
+    // Arrange
+    const values = fakeBillingInformation;
+
+    const response = {
+      status: 500,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updateBillingInformation(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+});
