@@ -181,6 +181,11 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     error_invalid_range_msg_MD: 'You can set up to **999 Emails and 30 days** maximum.',
     exclude_list_description_MD: `
 You can **select up to 10 Lists** in order to exclude them from the maximum limit of Emails. This means that **Contacts of excluded Lists will receive all the Campaigns you send.**`,
+    exclude_list_selector: {
+      description_MD: `Contacts of excluded Lists will receive all your Campaigns. **Remember you can select up to {maxToSelect} Lists.**`,
+      max_limit_exceeded: 'You’ve already select the maximum of Lists you can exclude from the Contact Policy.',
+      title: 'Exclude Lists from the Contact Policy',
+    },
     exclude_list_title: `Exclude Lists`,
     interval_description: 'within',
     interval_unit: 'days',
@@ -629,6 +634,13 @@ deletion, security, cross-border data transfers and other issues.
     },
     title: 'Subscriber historical behavior',
     unsubscribed_date: 'Unsubscribed Date:',
+  },
+  subscriber_list_selector: {
+    max_limit_exceeded: 'You have already selected the maximum number of lists allowed.',
+    table_columns: {
+      list_name: 'List name',
+      subscribers: 'Subscribers',
+    },
   },
   trafficSources: {
     direct: `Direct`,

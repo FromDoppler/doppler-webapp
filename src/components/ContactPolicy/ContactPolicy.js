@@ -22,7 +22,7 @@ import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
 import Modal from '../Modal/Modal';
 import { SubscriberListSelector } from '../SubscriberListSelector/SubscriberListSelector';
 
-const maxItems = 10;
+const maxListsToSelect = 10;
 const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
 const labelKey = 'name';
 const fieldNames = {
@@ -248,14 +248,15 @@ export const ContactPolicy = InjectAppServices(
                             <CloudTagCompoundField
                               fieldName={fieldNames.excludedSubscribersLists}
                               labelKey={labelKey}
-                              max={maxItems}
+                              max={maxListsToSelect}
                               disabled={!values[fieldNames.active]}
                               messageKeys={{
                                 tagLimitExceeded: limitExceededMessageKey,
                               }}
                               render={() => {
-                                const maxLimitReached =
-                                  values[fieldNames.excludedSubscribersLists].length === maxItems;
+                                const lists = values[fieldNames.excludedSubscribersLists];
+                                const maxLimitReached = lists.length === maxListsToSelect;
+
                                 return (
                                   <WrapInTooltip
                                     when={maxLimitReached}
@@ -266,11 +267,7 @@ export const ContactPolicy = InjectAppServices(
                                       className="dp-button dp-add-list"
                                       disabled={!values[fieldNames.active] || maxLimitReached}
                                       aria-label="add tag"
-                                      onClick={() =>
-                                        handleSelectLists(
-                                          values[fieldNames.excludedSubscribersLists],
-                                        )
-                                      }
+                                      onClick={() => handleSelectLists([...lists])}
                                     >
                                       <span>+</span>
                                       {_('contact_policy.select_lists')}
@@ -319,8 +316,16 @@ export const ContactPolicy = InjectAppServices(
             </div>
           </div>
         </section>
-        <Modal isOpen={modalIsOpen} handleClose={() => setModalIsOpen(false)}>
-          <SubscriberListSelector preselected={selectedLists} />
+        <Modal isOpen={modalIsOpen} handleClose={() => setModalIsOpen(false)} type={'large'}>
+          <SubscriberListSelector
+            maxToSelect={maxListsToSelect}
+            preselected={selectedLists}
+            messageKeys={{
+              title: 'contact_policy.exclude_list_selector.title',
+              description: 'contact_policy.exclude_list_selector.description_MD',
+              maxLimitExceeded: 'contact_policy.exclude_list_selector.max_limit_exceeded',
+            }}
+          />
         </Modal>
       </>
     ) : (

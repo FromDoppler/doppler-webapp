@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import { SubscriberListSelector } from './SubscriberListSelector';
 import { AppServicesProvider } from '../../services/pure-di';
@@ -21,10 +22,19 @@ describe('SubscriberListSelector component', () => {
       }),
     };
   };
-  const SubscriberListSelectorComponent = ({ withLists = true, preSelected = [] }) => (
+  const SubscriberListSelectorComponent = ({
+    withLists = true,
+    preselected = [],
+    maxToSelect = 10,
+    messageKeys = {},
+  }) => (
     <AppServicesProvider forcedServices={{ dopplerApiClient: dopplerApiClientDouble(withLists) }}>
       <DopplerIntlProvider>
-        <SubscriberListSelector preselected={preSelected} />
+        <SubscriberListSelector
+          maxToSelect={maxToSelect}
+          preselected={preselected}
+          messageKeys={messageKeys}
+        />
       </DopplerIntlProvider>
     </AppServicesProvider>
   );
@@ -61,6 +71,7 @@ describe('SubscriberListSelector component', () => {
   it("shouldn't show table if user doesn't have lists", async () => {
     // Act
     render(<SubscriberListSelectorComponent withLists={false} />);
+
     // Assert
     // Loader should disappear once request resolves
     const loader = screen.getByTestId('wrapper-loading');
@@ -77,7 +88,8 @@ describe('SubscriberListSelector component', () => {
 
   it('should load preselected lists', async () => {
     // Act
-    render(<SubscriberListSelectorComponent preSelected={subscriberListCollection(2)} />);
+    render(<SubscriberListSelectorComponent preselected={subscriberListCollection(2)} />);
+
     // Assert
     // Loader should disappear once request resolves
     const loader = screen.getByTestId('wrapper-loading');
@@ -91,5 +103,48 @@ describe('SubscriberListSelector component', () => {
     expect(checkboxes[0]).toBeChecked();
     expect(checkboxes[1]).toBeChecked();
     expect(checkboxes[2]).not.toBeChecked();
+  });
+
+  it('should show message if max limit is reached', async () => {
+    // Act
+    render(<SubscriberListSelectorComponent maxToSelect={1} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Table shouldn't be in the document
+    const table = screen.queryByRole('table');
+    expect(table).toBeInTheDocument();
+
+    // Select a list (one list is the max limit)
+    const checkboxes = screen.getAllByRole('checkbox');
+    user.click(checkboxes[0]);
+
+    // Max limit exceeded message should be displayed
+    const maxLimitExceededMessage = screen.getByText('subscriber_list_selector.max_limit_exceeded');
+    expect(maxLimitExceededMessage).toBeInTheDocument();
+  });
+
+  it('should show title and description', async () => {
+    // Arrange
+    const msgKeys = { title: 'common.message', description: 'common.optional_message' };
+
+    // Act
+    render(<SubscriberListSelectorComponent messageKeys={msgKeys} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Custom title should be displayed
+    const title = screen.getByText(msgKeys.title);
+    expect(title).toBeInTheDocument();
+
+    // Custom description should be displayed
+    const description = screen.getByText(msgKeys.description);
+    expect(description).toBeInTheDocument();
   });
 });
