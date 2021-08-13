@@ -77,12 +77,20 @@ const ListTable = ({ lists, limitReached, selectedIds, onSelectChange }) => {
 };
 
 export const SubscriberListSelector = InjectAppServices(
-  ({ dependencies: { dopplerApiClient }, maxToSelect, preselected, messageKeys }) => {
+  ({
+    dependencies: { dopplerApiClient },
+    maxToSelect,
+    preselected,
+    messageKeys,
+    onCancel,
+    onConfirm,
+  }) => {
     const fetchData = (page) =>
       dopplerApiClient.getSubscribersLists(page, SubscriberListState.ready);
     const { loading, items, hasMoreItems, loadMoreItems } = useInfinitePaged(fetchData);
     const [selected, setSelected] = useState([]);
     const [limitReached, setLimitReached] = useState(false);
+    const [confirmDisabled, setConfirmDisabled] = useState(true);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -98,6 +106,7 @@ export const SubscriberListSelector = InjectAppServices(
     }, [preselected]);
 
     const handleSelectChange = (list) => {
+      setConfirmDisabled(false);
       const newSelected = selected;
       const index = newSelected.findIndex((item) => item.id === list.id);
 
@@ -151,6 +160,24 @@ export const SubscriberListSelector = InjectAppServices(
             </div>
           </div>
         </article>
+
+        <div className="dp-cta-modal">
+          <button
+            type="button"
+            className="dp-button button-medium primary-grey"
+            onClick={() => onCancel()}
+          >
+            {_('common.cancel')}
+          </button>
+          <button
+            type="button"
+            className="dp-button button-medium primary-green"
+            onClick={() => onConfirm(selected)}
+            disabled={confirmDisabled}
+          >
+            {_('subscriber_list_selector.confirm_selection')}
+          </button>
+        </div>
       </>
     ) : (
       <section className="dp-gray-page p-t-54 p-b-54">
@@ -173,4 +200,6 @@ SubscriberListSelector.propTypes = {
     description: PropTypes.string,
     maxLimitExceeded: PropTypes.string,
   }),
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };
