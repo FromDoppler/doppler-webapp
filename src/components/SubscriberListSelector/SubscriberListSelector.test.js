@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { getByRole, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import { SubscriberListSelector } from './SubscriberListSelector';
@@ -22,6 +22,10 @@ describe('SubscriberListSelector component', () => {
       }),
     };
   };
+
+  const mockedCancel = jest.fn();
+  const mockedConfirm = jest.fn();
+
   const SubscriberListSelectorComponent = ({
     withLists = true,
     preselected = [],
@@ -34,6 +38,8 @@ describe('SubscriberListSelector component', () => {
           maxToSelect={maxToSelect}
           preselected={preselected}
           messageKeys={messageKeys}
+          onCancel={mockedCancel}
+          onConfirm={mockedConfirm}
         />
       </DopplerIntlProvider>
     </AppServicesProvider>
@@ -146,5 +152,54 @@ describe('SubscriberListSelector component', () => {
     // Custom description should be displayed
     const description = screen.getByText(msgKeys.description);
     expect(description).toBeInTheDocument();
+  });
+
+  it('should call onCancel function if cancel button is pressed ', async () => {
+    // Act
+    render(<SubscriberListSelectorComponent preselected={subscriberListCollection(2)} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Should call onCancel function
+    const cancelButton = screen.getByRole('button', {
+      name: 'common.cancel',
+    });
+    user.click(cancelButton);
+    expect(mockedCancel).toBeCalledTimes(1);
+  });
+
+  it('should call onConfirm function if confirm button is pressed ', async () => {
+    // Act
+    render(<SubscriberListSelectorComponent preselected={subscriberListCollection(2)} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Confirm button should be disabled
+    const confirmButton = screen.getByRole('button', {
+      name: 'subscriber_list_selector.confirm_selection',
+    });
+    expect(confirmButton).toBeDisabled();
+
+    const table = screen.getByRole('table');
+    const checkboxes = screen.getAllByRole('checkbox');
+
+    // Lists should be selected
+    expect(table).toBeInTheDocument();
+    expect(checkboxes[0]).toBeChecked();
+    user.click(checkboxes[0]);
+    expect(checkboxes[0]).not.toBeChecked();
+
+    // Confirm button should be enabled
+    expect(confirmButton).toBeEnabled();
+
+    // Should call onConfirm function
+    user.click(confirmButton);
+    expect(mockedConfirm).toBeCalledTimes(1);
   });
 });

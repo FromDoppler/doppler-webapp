@@ -647,6 +647,7 @@ deletion, security, cross-border data transfers and other issues.
     unsubscribed_date: 'Unsubscribed Date:',
   },
   subscriber_list_selector: {
+    confirm_selection: 'Confirm Selection',
     max_limit_exceeded: 'You have already selected the maximum number of lists allowed.',
     table_columns: {
       list_name: 'List name',

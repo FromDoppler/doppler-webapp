@@ -154,6 +154,11 @@ export const ContactPolicy = InjectAppServices(
       setModalIsOpen(true);
     };
 
+    const handleOnConfirmSelectedLists = (lists, setFieldValue) => {
+      setModalIsOpen(false);
+      setFieldValue(fieldNames.excludedSubscribersLists, lists);
+    };
+
     if (loading) {
       return <Loading page />;
     }
@@ -189,7 +194,7 @@ export const ContactPolicy = InjectAppServices(
                 validateOnBlur={false}
                 enableReinitialize={true}
               >
-                {({ values, errors, isSubmitting, isValid, dirty }) => (
+                {({ values, errors, isSubmitting, isValid, dirty, setFieldValue }) => (
                   <>
                     <Prompt when={dirty} message={_('common.unsaved_changes_message')} />
                     <Form className="dp-contact-policy-form" aria-label="settings">
@@ -249,7 +254,7 @@ export const ContactPolicy = InjectAppServices(
                               fieldName={fieldNames.excludedSubscribersLists}
                               labelKey={labelKey}
                               max={maxListsToSelect}
-                              disabled={!values[fieldNames.active]}
+                              disabled={!values[fieldNames.active] || isSubmitting}
                               messageKeys={{
                                 tagLimitExceeded: limitExceededMessageKey,
                               }}
@@ -310,28 +315,31 @@ export const ContactPolicy = InjectAppServices(
                         </FieldGroup>
                       </fieldset>
                     </Form>
+                    <Modal
+                      isOpen={modalIsOpen}
+                      handleClose={() => setModalIsOpen(false)}
+                      type={'large'}
+                      className="dp-modal-exclude-list"
+                    >
+                      <SubscriberListSelector
+                        maxToSelect={maxListsToSelect}
+                        preselected={selectedLists}
+                        messageKeys={{
+                          title: 'contact_policy.exclude_list_selector.title',
+                          description: 'contact_policy.exclude_list_selector.description_MD',
+                          maxLimitExceeded:
+                            'contact_policy.exclude_list_selector.max_limit_exceeded',
+                        }}
+                        onCancel={() => setModalIsOpen(false)}
+                        onConfirm={(lists) => handleOnConfirmSelectedLists(lists, setFieldValue)}
+                      />
+                    </Modal>
                   </>
                 )}
               </Formik>
             </div>
           </div>
         </section>
-        <Modal
-          isOpen={modalIsOpen}
-          handleClose={() => setModalIsOpen(false)}
-          type={'large'}
-          className="dp-modal-exclude-list"
-        >
-          <SubscriberListSelector
-            maxToSelect={maxListsToSelect}
-            preselected={selectedLists}
-            messageKeys={{
-              title: 'contact_policy.exclude_list_selector.title',
-              description: 'contact_policy.exclude_list_selector.description_MD',
-              maxLimitExceeded: 'contact_policy.exclude_list_selector.max_limit_exceeded',
-            }}
-          />
-        </Modal>
       </>
     ) : (
       <Promotional

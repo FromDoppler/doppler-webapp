@@ -648,6 +648,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     unsubscribed_date: 'Fecha de Remoción:',
   },
   subscriber_list_selector: {
+    confirm_selection: 'Confirmar Selección',
     max_limit_exceeded: `Ya seleccionaste el número máximo de listas permitidas.`,
     table_columns: {
       list_name: 'Nombre de la lista',
