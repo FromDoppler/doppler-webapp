@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitForElementToBeRemoved,
+  waitFor,
+} from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
@@ -37,13 +43,19 @@ describe('BillingInformation component', () => {
     },
   });
 
+  const mockedHandleSaveAndContinue = jest.fn();
+  const initialProps = {
+    handleSaveAndContinue: mockedHandleSaveAndContinue,
+    showTitle: false,
+  };
+
   const BillingInformationElement = ({ withEmptyData }) => {
     const services = dependencies(withEmptyData);
     return (
       <AppServicesProvider forcedServices={services}>
         <IntlProvider>
           <BrowserRouter>
-            <BillingInformation />
+            <BillingInformation {...initialProps} />
           </BrowserRouter>
         </IntlProvider>
       </AppServicesProvider>
@@ -232,7 +244,7 @@ describe('BillingInformation component', () => {
     expect(inputPhone).not.toBeDisabled();
   });
 
-  it('should show success message if the submit was succesfully', async () => {
+  it('should call handleSaveAndContinue function if the submit was succesfully', async () => {
     // Arrange
     render(<BillingInformationElement withEmptyData={false} />);
 
@@ -257,9 +269,8 @@ describe('BillingInformation component', () => {
     });
     user.click(submitButton);
 
-    // Success message should be displayed
-    const successMessage = await screen.findByText('checkoutProcessForm.success_msg');
-    expect(successMessage).toBeInTheDocument();
+    // handleSaveAndContinue function should be called
+    await waitFor(() => expect(mockedHandleSaveAndContinue).toBeCalledTimes(1));
   });
 
   it('should show messages for empty required fields', async () => {
@@ -321,5 +332,5 @@ describe('BillingInformation component', () => {
       'validation_messages.error_required_field',
     );
     expect(validationErrorMessages).toHaveLength(7);
-  });
+  }, 15000);
 });

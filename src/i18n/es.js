@@ -150,7 +150,6 @@ const messages_es = {
     empty_option_select: `Selecciona una opción`,
     payment_method_title: 'Método de Pago',
     save_continue: 'Guardar y continuar',
-    success_msg: '¡¡¡¡Los datos se guardaron exitosamente!!!!.',
     title: `Proceso de pago`,
   },
   cloud_tags: {
