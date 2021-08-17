@@ -26,6 +26,8 @@ export interface ContactInformation {
   phone: string;
   company: string;
   industry: string;
+  idSecurityQuestion: string;
+  answerSecurityQuestion: string;
 }
 
 export interface Features {
@@ -82,6 +84,8 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       phone: data.phone,
       company: data.company,
       industry: data.industry,
+      idSecurityQuestion: data.idSecurityQuestion,
+      answerSecurityQuestion: data.answerSecurityQuestion,
     };
   }
 

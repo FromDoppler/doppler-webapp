@@ -14,7 +14,11 @@ import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { fakeIndustries, fakeStates } from '../../../../services/static-data-client.double';
+import {
+  fakeIndustries,
+  fakeQuestions,
+  fakeStates,
+} from '../../../../services/static-data-client.double';
 import { ContactInformation } from './ContactInformation';
 
 describe('Checkout component', () => {
@@ -30,6 +34,8 @@ describe('Checkout component', () => {
     phone: '+542494228090',
     company: 'Test',
     industry: 'IT',
+    idSecurityQuestion: '1',
+    answerSecurityQuestion: 'answer',
     completed: true,
   };
 
@@ -45,6 +51,7 @@ describe('Checkout component', () => {
     staticDataClient: {
       getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
       getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
+      getSecurityQuestionsData: async (language) => ({ success: true, value: fakeQuestions }),
     },
   };
 
@@ -110,6 +117,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: '' } });
     });
 
     await act(async () => {
@@ -118,7 +131,7 @@ describe('Checkout component', () => {
     });
 
     // Assert
-    expect(getAllByText('validation_messages.error_required_field').length).toBe(8);
+    expect(getAllByText('validation_messages.error_required_field').length).not.toBe(0);
   });
 
   it('should show error message if firstname field is empty', async () => {
@@ -155,6 +168,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -200,6 +219,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -245,6 +270,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -290,6 +321,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -335,6 +372,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -380,6 +423,11 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -425,6 +473,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -470,6 +524,12 @@ describe('Checkout component', () => {
 
       const inputPhone = container.querySelector('input#phone');
       fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const selectSecurityQuestion = container.querySelector('select#securityquestion');
+      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
+
+      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
+      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
     });
 
     await act(async () => {
@@ -507,6 +567,7 @@ describe('Checkout component', () => {
     user.click(submitButton);
 
     // handleSaveAndContinue function should be called
+
     await waitFor(() => expect(mockedHandleSaveAndContinue).toBeCalledTimes(1));
   }, 10000);
 });

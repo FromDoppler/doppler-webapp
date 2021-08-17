@@ -9,6 +9,12 @@ export const fakeIndustries = {
   dplr5: 'Otros',
 };
 
+export const fakeQuestions = [
+  { key: '1', value: 'Question 1' },
+  { key: '2', value: 'Question 2' },
+  { key: '3', value: 'Question 3' },
+];
+
 export const fakeStates = [
   { key: 'AR-B', value: 'Buenos Aires' },
   { key: 'AR-C', value: 'Capital federal' },
@@ -49,6 +55,14 @@ export class HardcodedStaticDataClient implements StaticDataClient {
     await timeout(1500);
     return {
       value: fakeStates,
+      success: true,
+    };
+  }
+
+  public async getSecurityQuestionsData(language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakeQuestions,
       success: true,
     };
   }
