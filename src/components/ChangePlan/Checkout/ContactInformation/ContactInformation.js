@@ -99,11 +99,7 @@ export const ContactInformation = InjectAppServices(
 
       const result = await dopplerUserApiClient.updateContactInformation(values);
       if (result.success) {
-        setFormSubmitted(true);
-        createTimeout(() => {
-          setFormSubmitted(false);
-          handleSaveAndContinue();
-        }, 3000);
+        handleSaveAndContinue();
       }
     };
 
@@ -115,7 +111,7 @@ export const ContactInformation = InjectAppServices(
           </div>
         ) : null}
         {state.loading ? (
-          <Loading />
+          <Loading page />
         ) : (
           <Formik onSubmit={submitContactInformationForm} initialValues={_getFormInitialValues()}>
             {({ setFieldValue }) => (
@@ -234,14 +230,6 @@ export const ContactInformation = InjectAppServices(
                       </FieldGroup>
                     </FieldItem>
                     <FieldItem className="field-item">
-                      {formSubmitted ? (
-                        <div className="dp-wrap-message dp-wrap-success m-b-12">
-                          <span className="dp-message-icon"></span>
-                          <div className="dp-content-message">
-                            <p>{_('checkoutProcessForm.success_msg')}</p>
-                          </div>
-                        </div>
-                      ) : null}
                       <div className="dp-buttons-actions">
                         <SubmitButton className="dp-button button-medium primary-green">
                           {_('checkoutProcessForm.save_continue')}
