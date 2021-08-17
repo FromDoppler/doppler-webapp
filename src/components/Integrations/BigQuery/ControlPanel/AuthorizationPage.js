@@ -7,7 +7,6 @@ import useTimeout from '../../../../hooks/useTimeout';
 const AuthorizationLayout = ({ dependencies: { bigQueryClient } }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const createTimeout = useTimeout();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,13 +21,13 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient } }) => {
   }, [bigQueryClient]);
 
   const onSubmit = async (values) => {
-    // TODO: integrate actual implementation to save
-    await new Promise((resolve) => {
-      createTimeout(() => {
-        resolve(true);
-        alert('Sent: ' + JSON.stringify([...values.emails]));
-      }, 100);
-    });
+    const emailsData = { emails: [...values.emails] };
+    const { success } = await bigQueryClient.saveEmailsData(emailsData);
+    if (success) {
+      alert('success');
+    } else {
+      alert('error');
+    }
   };
 
   if (loading) {
