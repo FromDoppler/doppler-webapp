@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 
 export const Promotional = ({
@@ -13,15 +12,13 @@ export const Promotional = ({
   previewUrl,
   caption,
 }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
     <section className="dp-gray-page p-t-54 p-b-54">
       <div className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12">
             <div className="dp-icon-promotion">
-              <img src={_('common.ui_library_image', { imageUrl: logoUrl })} alt="icon" />
+              <img src={logoUrl} alt="icon" />
             </div>
           </div>
           <div className="col-lg-6 col-md-12">
@@ -50,7 +47,7 @@ export const Promotional = ({
           </div>
           <div className="col-lg-6 col-md-12">
             <figure className="dp-img-promotion">
-              <img src={_('common.ui_library_image', { imageUrl: previewUrl })} alt={title} />
+              <img src={previewUrl} alt={title} />
               {caption ? <figcaption>{caption}</figcaption> : null}
             </figure>
           </div>
@@ -66,7 +63,7 @@ Promotional.propTypes = {
   paragraph: PropTypes.string,
   actionText: PropTypes.string.isRequired,
   actionUrl: PropTypes.string.isRequired,
-  logoUrl: PropTypes.string.isRequired,
-  previewUrl: PropTypes.string.isRequired,
+  logoUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  previewUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   caption: PropTypes.string,
 };
