@@ -121,7 +121,8 @@
       "buttonText": "COMPRAR",
       "buttonUrl": "/gg/",
       "planDiscount": 5,
-      "planSubscription": 3
+      "planSubscription": 3,
+      "monthPlan": 1
     },
     "sms": {
       "description": "Available for SMS",

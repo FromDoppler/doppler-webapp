@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import * as S from './Discounts.styles';
 
-export const Discounts = ({ discountsList, sessionPlan, handleChange }) => {
+export const Discounts = ({ discountsList, sessionPlan, handleChange, disabled }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(discountsList[0]);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -59,6 +59,7 @@ export const Discounts = ({ discountsList, sessionPlan, handleChange }) => {
               {discountsList.map((discount, index) => (
                 <li key={index}>
                   <button
+                    disabled={disabled}
                     key={index}
                     className={`dp-button button-medium ${
                       discount.id === selectedDiscount.id ? 'btn-active' : ''
