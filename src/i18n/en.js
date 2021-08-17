@@ -450,13 +450,18 @@ most visited pages of your Website or E-commerce, how many visitors have been id
 Doppler and how many have not. Any doubts? Press [HELP](${urlHelpAdvancedReports}).`,
     no_domains_button: `Add your domain`,
     no_domains_button_destination: `${urlSiteTracking}`,
-    upgrade_account_free_MD: `
-Get **detailed Reports** to understand the behaviour of your Website or E-commerce visitants.
-Discover which are the most visited pages, how many visitants are already into your Subscribers'
-Lists and how many are not there yet. Want to know more? Press [HELP](${urlHelpAdvancedReports}).
-
-**Hiring any Paid Plan you can access to this feature.** [REVIEW PLANS](${urlBuyMonthly}).`,
-    upgrade_account_free_title: `Analyze your visitants' behaviour and improve your strategy`,
+    promotional: {
+      description_MD: 'Get **detailed Reports** to understand the behaviour of your Website or E-commerce visitants. Discover:',
+      features: {
+        feature_1: 'Which are the most visited pages.',
+        feature_2: 'How many visitants are already into your Contacts Lists.',
+        feature_3: `How many visitants haven't been subscribed to receive your Campaigns yet.`,
+      },
+      link_text: 'REVIEW PLANS',
+      paragraph: `Hiring any Paid Plan you can access to this feature.`,
+      title: `Analyze your visitants' behaviour and improve your strategy`,
+      upgrade_plan_url: `${urlUpgradePlan}`,
+    },
   },
   reports_box: {
     to: `to`,
