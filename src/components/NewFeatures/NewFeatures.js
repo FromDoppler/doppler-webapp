@@ -71,6 +71,19 @@ const NewFeatures = () => {
         </div>
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div className="m-l-24">
+            <h3>Ventana promocional de bigquery</h3>
+            <Link to={'/integrations/big-query'}>Ir al ventana promocional.</Link>
+          </div>
+        </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div className="m-l-24">
+            <h3>Fomulario de integracion con bigquery</h3>
+            <Link to={'/integrations/big-query/plus'}>Ir al Formulario de configuracion.</Link>
+          </div>
+        </div>
+
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div className="m-l-24">
             <h3>Política de Contacto</h3>
             <Link to={'/sending-preferences/contact-policy'}>Ir a Política de Contacto</Link>
           </div>
