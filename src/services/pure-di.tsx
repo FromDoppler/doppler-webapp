@@ -188,7 +188,7 @@ export class AppCompositionRoot implements AppServices {
       () =>
         new HttpBigQueryClient({
           axiosStatic: this.axiosStatic,
-          baseUrl: this.appConfiguration.shopifyUrl,
+          baseUrl: this.appConfiguration.bigQueryUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );

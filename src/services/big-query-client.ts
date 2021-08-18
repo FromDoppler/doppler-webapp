@@ -24,7 +24,7 @@ export class HttpBigQueryClient extends HttpBaseClient implements BigQueryClient
       const response = await this.axios.request({
         method: 'GET',
         url: `/big-query/${email}/allowed-emails`,
-        headers: { Authorization: `token ${jwtToken}` },
+        headers: { Authorization: `bearer ${jwtToken}` },
       });
 
       const values = this.mapEmails(response.data);
@@ -39,16 +39,24 @@ export class HttpBigQueryClient extends HttpBaseClient implements BigQueryClient
   }
 
   public async saveEmailsData(payload: EmailList): Promise<SaveEmailsResult> {
-    const { jwtToken, email } = this.getApiConnectionData(this.clientName);
-    const response = await this.axios.put(`/big-query/${email}/allowed-emails`, {
-      body: JSON.stringify(payload),
-      headers: { Authorization: `token ${jwtToken}` },
-    });
-    if (!response.data.success) {
+    try {
+      const { jwtToken, email } = this.getApiConnectionData(this.clientName);
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/big-query/${email}/allowed-emails`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        data: payload,
+      });
+      if (response.data) {
+        return { success: true };
+      } else {
+        return { success: false, error: response };
+      }
+    } catch (error) {
       return {
-        message: response.data.error || null,
+        success: false,
+        error: error,
       };
     }
-    return { success: true };
   }
 }
