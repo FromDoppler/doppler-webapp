@@ -45,7 +45,7 @@ describe('Doppler Contact Policy Api Client', () => {
     const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
 
     // Act
-    const result = await dopplerContactPolicyApiClient.getAccountSettings(emailAccount);
+    const result = await dopplerContactPolicyApiClient.getAccountSettings();
 
     // Assert
     expect(request).toBeCalledTimes(1);
@@ -68,19 +68,18 @@ describe('Doppler Contact Policy Api Client', () => {
     const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
 
     // Act
-    const result = await dopplerContactPolicyApiClient.getAccountSettings(emailAccount);
+    const result = await dopplerContactPolicyApiClient.getAccountSettings();
 
     // Assert
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(false);
-    expect(result.error).not.toBe(undefined);
   });
 
   it('should update account settings correctly', async () => {
     // Arrange
     const response = {
-      data: { success: true },
+      status: 200,
     };
     const request = jest.fn(async () => response);
     const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
@@ -92,13 +91,12 @@ describe('Doppler Contact Policy Api Client', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
-    expect(result.error).toBe(undefined);
   });
 
   it('should get an error when updating account settings', async () => {
     // Arrange
     const response = {
-      data: { success: false },
+      status: 500,
     };
     const request = jest.fn(async () => response);
     const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
@@ -110,6 +108,5 @@ describe('Doppler Contact Policy Api Client', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(false);
-    expect(result.error).not.toBe(undefined);
   });
 });

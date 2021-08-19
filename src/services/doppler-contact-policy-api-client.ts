@@ -112,10 +112,10 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
         data,
       });
 
-      if (response.data.success) {
+      if (response.status === 200) {
         return { success: true };
       } else {
-        return { success: false, error: response };
+        return { success: false };
       }
     } catch (error) {
       return {
