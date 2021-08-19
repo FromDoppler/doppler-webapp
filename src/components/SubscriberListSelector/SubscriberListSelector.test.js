@@ -1,38 +1,57 @@
 import React from 'react';
-import { getByRole, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved, fireEvent, act } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
-import { SubscriberListSelector } from './SubscriberListSelector';
+import { scrollableContainerId, SubscriberListSelector } from './SubscriberListSelector';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { subscriberListCollection } from '../../services/doppler-api-client.double';
 
 describe('SubscriberListSelector component', () => {
-  const listsCount = 3;
-  const dopplerApiClientDouble = (withLists) => {
+  const listsCount = 10;
+  const perPage = 5;
+
+  const dopplerApiClientDouble = (withLists, hasError) => {
+    const allItems = withLists ? subscriberListCollection(listsCount) : [];
+
     return {
-      getSubscribersLists: async () => ({
-        success: true,
-        value: {
-          items: withLists ? subscriberListCollection(listsCount) : [],
-          currentPage: 1,
-          itemsCount: 2,
-          pagesCount: 1,
-        },
-      }),
+      getSubscribersLists: async (page) => {
+        let listPaged = allItems;
+
+        if (listPaged.length > 0 && page > 0) {
+          const indexStart = perPage * (page - 1);
+          const indexEnd = indexStart + perPage;
+          listPaged = listPaged.slice(indexStart, indexEnd);
+        }
+
+        return {
+          success: !hasError,
+          value: {
+            items: listPaged,
+            currentPage: page,
+            itemsCount: allItems.length,
+            pagesCount: Math.ceil(allItems.length / perPage),
+          },
+        };
+      },
     };
   };
 
   const mockedCancel = jest.fn();
   const mockedConfirm = jest.fn();
+  const mockedNoList = jest.fn();
+  const mockedError = jest.fn();
 
   const SubscriberListSelectorComponent = ({
     withLists = true,
     preselected = [],
     maxToSelect = 10,
     messageKeys = {},
+    hasError = false,
   }) => (
-    <AppServicesProvider forcedServices={{ dopplerApiClient: dopplerApiClientDouble(withLists) }}>
+    <AppServicesProvider
+      forcedServices={{ dopplerApiClient: dopplerApiClientDouble(withLists, hasError) }}
+    >
       <DopplerIntlProvider>
         <SubscriberListSelector
           maxToSelect={maxToSelect}
@@ -40,6 +59,8 @@ describe('SubscriberListSelector component', () => {
           messageKeys={messageKeys}
           onCancel={mockedCancel}
           onConfirm={mockedConfirm}
+          onNoList={mockedNoList}
+          onError={mockedError}
         />
       </DopplerIntlProvider>
     </AppServicesProvider>
@@ -70,8 +91,8 @@ describe('SubscriberListSelector component', () => {
 
     // Data should load correctly
     expect(table).toBeInTheDocument();
-    expect(rows).toHaveLength(listsCount + 1);
-    expect(cells).toHaveLength(listsCount * 3);
+    expect(rows).toHaveLength(perPage + 1);
+    expect(cells).toHaveLength(perPage * 3);
   });
 
   it("shouldn't show table if user doesn't have lists", async () => {
@@ -87,9 +108,9 @@ describe('SubscriberListSelector component', () => {
     const table = screen.queryByRole('table');
     expect(table).not.toBeInTheDocument();
 
-    // 'Feature isn't available' message should be displayed
-    const noAvailableMessage = screen.getByText('common.feature_no_available');
-    expect(noAvailableMessage).toBeInTheDocument();
+    // Should show ConfirmationBox component
+    const confirmationBox = screen.getByTestId('confirmation-box');
+    expect(confirmationBox).toBeInTheDocument();
   });
 
   it('should load preselected lists', async () => {
@@ -154,7 +175,7 @@ describe('SubscriberListSelector component', () => {
     expect(description).toBeInTheDocument();
   });
 
-  it('should call onCancel function if cancel button is pressed ', async () => {
+  it('should call onCancel function if cancel button is pressed', async () => {
     // Act
     render(<SubscriberListSelectorComponent preselected={subscriberListCollection(2)} />);
 
@@ -171,7 +192,7 @@ describe('SubscriberListSelector component', () => {
     expect(mockedCancel).toBeCalledTimes(1);
   });
 
-  it('should call onConfirm function if confirm button is pressed ', async () => {
+  it('should call onConfirm function if confirm button is pressed', async () => {
     // Act
     render(<SubscriberListSelectorComponent preselected={subscriberListCollection(2)} />);
 
@@ -201,5 +222,67 @@ describe('SubscriberListSelector component', () => {
     // Should call onConfirm function
     user.click(confirmButton);
     expect(mockedConfirm).toBeCalledTimes(1);
+  });
+
+  it('should call onNoList function if list is empty', async () => {
+    // Act
+    render(<SubscriberListSelectorComponent withLists={false} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Should call onNoList function
+    expect(mockedNoList).toBeCalledTimes(1);
+  });
+
+  it('should call onError function if an error occurred', async () => {
+    // Act
+    render(<SubscriberListSelectorComponent hasError={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Should call onNoList function
+    expect(mockedError).toBeCalledTimes(1);
+  });
+
+  it('should render the selected lists on each page', async () => {
+    // Assert
+    // Pre-select lists with odd ids [ 1, 3, 5, 7, 9 ]
+    const preselected = subscriberListCollection(listsCount).filter((list) => list.id % 2);
+
+    // Act
+    // 5 lists per page
+    // 2 selected lists in first page and
+    // 3 selected list in second page
+    render(<SubscriberListSelectorComponent preselected={preselected} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // There should be 2 lists selected on the first page
+    let inputs = screen.getAllByRole('checkbox', { checked: true });
+    expect(inputs).toHaveLength(2);
+
+    // Scroll to fetch next page
+    const scrollableContainer = screen.getByTestId(scrollableContainerId);
+    act(() => {
+      fireEvent.scroll(scrollableContainer, { target: { scrollY: 300 } });
+    });
+
+    // Wait for last pre selected list to be rendered
+    const last = preselected[preselected.length - 1];
+    await screen.findByText(last.name);
+
+    // There should be 3 lists selected on the second page
+    // 5 selected lists in total
+    inputs = screen.getAllByRole('checkbox', { checked: true });
+    expect(inputs).toHaveLength(5);
   });
 });

@@ -43,6 +43,7 @@ export const ContactPolicy = InjectAppServices(
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [error, setError] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalClassName, setModalClassName] = useState('dp-modal-exclude-list');
     const [selectedLists, setSelectedLists] = useState([]);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -196,7 +197,10 @@ export const ContactPolicy = InjectAppServices(
               >
                 {({ values, errors, isSubmitting, isValid, dirty, setFieldValue }) => (
                   <>
-                    <Prompt when={dirty} message={_('common.unsaved_changes_message')} />
+                    <Prompt
+                      when={dirty && !modalIsOpen}
+                      message={_('common.unsaved_changes_message')}
+                    />
                     <Form className="dp-contact-policy-form" aria-label="settings">
                       <fieldset>
                         <legend>{_('contact_policy.title')}</legend>
@@ -319,7 +323,7 @@ export const ContactPolicy = InjectAppServices(
                       isOpen={modalIsOpen}
                       handleClose={() => setModalIsOpen(false)}
                       type={'large'}
-                      className="dp-modal-exclude-list"
+                      className={modalClassName}
                     >
                       <SubscriberListSelector
                         maxToSelect={maxListsToSelect}
@@ -332,6 +336,8 @@ export const ContactPolicy = InjectAppServices(
                         }}
                         onCancel={() => setModalIsOpen(false)}
                         onConfirm={(lists) => handleOnConfirmSelectedLists(lists, setFieldValue)}
+                        onNoList={() => setModalClassName('dp-modal-nolist')}
+                        onError={() => setModalClassName('dp-error-list')}
                       />
                     </Modal>
                   </>
