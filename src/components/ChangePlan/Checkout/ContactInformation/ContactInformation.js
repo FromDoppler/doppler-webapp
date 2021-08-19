@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl } from 'react-intl';
-import useTimeout from '../../../../hooks/useTimeout';
 import {
   FieldGroup,
   FieldItem,
@@ -36,9 +35,7 @@ export const ContactInformation = InjectAppServices(
     showTitle,
   }) => {
     const [state, setState] = useState({ loading: true });
-    const [formSubmitted, setFormSubmitted] = useState(false);
     const [states, setStates] = useState([]);
-    const createTimeout = useTimeout();
     const intl = useIntl();
 
     useEffect(() => {
@@ -105,8 +102,6 @@ export const ContactInformation = InjectAppServices(
     };
 
     const submitContactInformationForm = async (values) => {
-      setFormSubmitted(false);
-
       const result = await dopplerUserApiClient.updateContactInformation(values);
       if (result.success) {
         handleSaveAndContinue();
