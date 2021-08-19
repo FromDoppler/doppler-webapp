@@ -7,7 +7,11 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { ContactInformation } from '../ContactInformation/ContactInformation';
 import { act } from 'react-dom/test-utils';
-import { fakeIndustries, fakeStates } from '../../../../services/static-data-client.double';
+import {
+  fakeIndustries,
+  fakeQuestions,
+  fakeStates,
+} from '../../../../services/static-data-client.double';
 
 describe('Step Component', () => {
   afterEach(cleanup);
@@ -80,6 +84,7 @@ describe('Step Component', () => {
       staticDataClient: {
         getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
         getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
+        getSecurityQuestionsData: async (language) => ({ success: true, value: fakeQuestions }),
       },
     };
 

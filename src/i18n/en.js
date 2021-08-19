@@ -144,6 +144,8 @@ const messages_en = {
     contact_information_lastname: 'Last name',
     contact_information_phone: 'Phone number',
     contact_information_province: 'State / Province',
+    contact_information_security_question: 'Security question',
+    contact_information_security_response: 'Response',
     contact_information_title: `Contact Information`,
     contact_information_zip_code: 'Zip code',
     edit: 'Edit',

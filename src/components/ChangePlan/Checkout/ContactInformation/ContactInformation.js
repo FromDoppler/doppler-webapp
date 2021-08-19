@@ -25,6 +25,8 @@ const fieldNames = {
   phone: 'phone',
   company: 'company',
   industry: 'industry',
+  idSecurityQuestion: 'idSecurityQuestion',
+  answerSecurityQuestion: 'answerSecurityQuestion',
 };
 
 export const ContactInformation = InjectAppServices(
@@ -51,9 +53,16 @@ export const ContactInformation = InjectAppServices(
         );
       };
 
+      const getQuestions = async (language) => {
+        const data = await staticDataClient.getSecurityQuestionsData(language);
+        const questions = data.success ? data.value : [];
+        return questions;
+      };
+
       const fetchData = async () => {
         const contactInformationResult = await dopplerUserApiClient.getContactInformationData();
         const industries = await getIndustries(intl.locale);
+        const questions = await getQuestions(intl.locale);
         const result = await staticDataClient.getStatesData(
           contactInformationResult.success ? contactInformationResult.value.country : 'ar',
           intl.locale,
@@ -67,6 +76,7 @@ export const ContactInformation = InjectAppServices(
             : null,
           success: contactInformationResult.success,
           industries,
+          questions,
           loading: false,
         });
       };
@@ -226,6 +236,31 @@ export const ContactInformation = InjectAppServices(
                           required
                           className="field-item--50"
                           //onChange={(e) => {console.log(e.target.value)}}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <SelectFieldItem
+                          fieldName={fieldNames.idSecurityQuestion}
+                          id="securityquestion"
+                          label={`*${_(
+                            'checkoutProcessForm.contact_information_security_question',
+                          )}`}
+                          defaultOption={defaultOption}
+                          values={state.questions}
+                          required
+                          className="field-item"
+                        />
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.answerSecurityQuestion}
+                          id="answerSecurityQuestion"
+                          label={`*${_(
+                            'checkoutProcessForm.contact_information_security_response',
+                          )}`}
+                          required
+                          className="field-item"
                         />
                       </FieldGroup>
                     </FieldItem>

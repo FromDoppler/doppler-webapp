@@ -3,6 +3,7 @@ import { AxiosInstance, AxiosStatic } from 'axios';
 export interface StaticDataClient {
   getIndustriesData(language: string): Promise<any>;
   getStatesData(country: string, language: string): Promise<any>;
+  getSecurityQuestionsData(language: string): Promise<any>;
 }
 
 export class HttpStaticDataClient implements StaticDataClient {
@@ -47,6 +48,24 @@ export class HttpStaticDataClient implements StaticDataClient {
       );
 
       return { success: true, value: statesOrdered };
+    } catch (error) {
+      console.error('States file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getSecurityQuestionsData(language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: this.baseUrl + `/${language === 'es' ? 'questions-es' : 'questions-en'}.json`,
+      });
+
+      const securityQuestions = Object.keys(response.data).map((key) => ({
+        key: key,
+        value: response.data[key],
+      }));
+      return { success: true, value: securityQuestions };
     } catch (error) {
       console.error('States file not accesible');
       return { success: false, error: error };

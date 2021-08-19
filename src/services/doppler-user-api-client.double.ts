@@ -14,6 +14,8 @@ export const fakeContactInformation = {
   phone: '+54 249 422-2222',
   company: 'Making Sense',
   industry: 'dplr1',
+  idSecurityQuestion: '1',
+  answerSecurityQuestion: 'answer',
 };
 
 const featuresResult = {
