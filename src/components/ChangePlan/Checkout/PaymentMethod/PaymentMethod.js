@@ -40,7 +40,7 @@ export const PaymentMethod = InjectAppServices(({ dependencies: { appSessionRef 
       const sessionPlan = appSessionRef.current.userData.user;
       const discounts = fakeAccountPlanDiscounts;
 
-      //TODO: Timeout to simulate the loading, I will remove it when the integration with tha APIs are done.
+      //TODO: Timeout to simulate the loading, I will remove it when the integration with tha APIs are done
       createTimeout(
         () =>
           setState({

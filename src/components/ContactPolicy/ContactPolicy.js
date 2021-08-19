@@ -362,7 +362,7 @@ export const ContactPolicy = InjectAppServices(
         actionUrl={_('contact_policy.promotional.upgrade_plan_url')}
         logoUrl={_('common.ui_library_image', { imageUrl: 'icon-pcontacto.svg' })}
         //TODO: Replace icon and image urls
-        previewUrl={('common.ui_library_image', { imageUrl: 'no-list.jpg' })}
+        previewUrl={_('common.ui_library_image', { imageUrl: 'no-list.jpg' })}
       />
     );
   },
