@@ -22,7 +22,7 @@ describe('site tracking', () => {
     );
 
     // Assert
-    expect(getByText('reports.upgrade_account_free_title')).toBeInTheDocument();
+    expect(getByText('reports.promotional.title')).toBeInTheDocument();
   });
 
   it('should show trial not accepted messages', () => {

@@ -354,9 +354,9 @@ export const ContactPolicy = InjectAppServices(
         paragraph={_('contact_policy.promotional.paragraph')}
         actionText={_('contact_policy.promotional.action_text').toUpperCase()}
         actionUrl={_('contact_policy.promotional.upgrade_plan_url')}
-        logoUrl={'icon-pcontacto.svg'}
-        //TODO: Replace preview image url
-        previewUrl={'no-list.jpg'}
+        logoUrl={_('common.ui_library_image', { imageUrl: 'icon-pcontacto.svg' })}
+        //TODO: Replace icon and image urls
+        previewUrl={('common.ui_library_image', { imageUrl: 'no-list.jpg' })}
       />
     );
   },
