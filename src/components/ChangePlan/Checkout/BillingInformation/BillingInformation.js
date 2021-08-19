@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl } from 'react-intl';
-import useTimeout from '../../../../hooks/useTimeout';
 import {
   FieldGroup,
   FieldItem,
@@ -48,10 +47,8 @@ export const BillingInformation = InjectAppServices(
     showTitle,
   }) => {
     const [state, setState] = useState({ loading: true });
-    const [formSubmitted, setFormSubmitted] = useState(false);
     const [states, setStates] = useState([]);
     const [sameAddressInformation, setSameAddressInformation] = useState(false);
-    const createTimeout = useTimeout();
     const intl = useIntl();
 
     useEffect(() => {
@@ -124,8 +121,6 @@ export const BillingInformation = InjectAppServices(
     };
 
     const submitBillingInformationForm = async (values) => {
-      setFormSubmitted(false);
-
       const result = await dopplerBillingUserApiClient.updateBillingInformation(values);
       if (result.success) {
         handleSaveAndContinue();

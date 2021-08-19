@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect, useState, useCallback } from 'react';
 import { Slider } from '../../shared/Slider/Slider';
 import { TooltipContainer } from '../../TooltipContainer/TooltipContainer';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -120,6 +120,16 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
     createTimeout(() => setActiveClass('active'), 0);
   }, [planType, createTimeout]);
 
+  const handleDiscountChange = useCallback(
+    (discount) => {
+      dispatchPlanData({
+        type: actionTypes.UPDATE_SELECTED_DISCOUNT,
+        idDiscount: discount.id,
+      });
+    },
+    [actionTypes.UPDATE_SELECTED_DISCOUNT],
+  );
+
   if (state.loading) {
     return <Loading page />;
   }
@@ -170,12 +180,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                               <Discounts
                                 discountsList={state.discountsList}
                                 sessionPlan={sessionPlan.plan}
-                                handleChange={(discount) => {
-                                  dispatchPlanData({
-                                    type: actionTypes.UPDATE_SELECTED_DISCOUNT,
-                                    idDiscount: discount.id,
-                                  });
-                                }}
+                                handleChange={handleDiscountChange}
                               />
                             </>
                           ) : (

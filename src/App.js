@@ -85,7 +85,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
       }));
       langFromUrl.current = expectedLang;
     }
-  }, [location]);
+  }, [location, window]);
 
   return (
     <>

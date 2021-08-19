@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useIntl } from 'react-intl';
 import * as S from './Discounts.styles';
 
@@ -19,10 +19,13 @@ export const Discounts = ({ discountsList, sessionPlan, handleChange }) => {
     }
   };
 
-  const applyDiscount = (planDiscount) => {
-    handleChange(planDiscount);
-    setSelectedDiscount(planDiscount);
-  };
+  const applyDiscount = useCallback(
+    (planDiscount) => {
+      handleChange(planDiscount);
+      setSelectedDiscount(planDiscount);
+    },
+    [handleChange],
+  );
 
   useEffect(() => {
     if (sessionPlan.planSubscription > 1) {
@@ -31,7 +34,7 @@ export const Discounts = ({ discountsList, sessionPlan, handleChange }) => {
       );
       applyDiscount(disccountAplied);
     }
-  }, []);
+  }, [applyDiscount, discountsList, sessionPlan.planSubscription]);
 
   return (
     <>

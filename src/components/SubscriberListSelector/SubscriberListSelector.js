@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
@@ -85,8 +85,10 @@ export const SubscriberListSelector = InjectAppServices(
     onCancel,
     onConfirm,
   }) => {
-    const fetchData = (page) =>
-      dopplerApiClient.getSubscribersLists(page, SubscriberListState.ready);
+    const fetchData = useCallback(
+      (page) => dopplerApiClient.getSubscribersLists(page, SubscriberListState.ready),
+      [dopplerApiClient],
+    );
     const { loading, items, hasMoreItems, loadMoreItems } = useInfinitePaged(fetchData);
     const [selected, setSelected] = useState([]);
     const [limitReached, setLimitReached] = useState(false);
@@ -94,16 +96,16 @@ export const SubscriberListSelector = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-    const validateMaxLimit = () => {
+    const validateMaxLimit = useCallback(() => {
       if (maxToSelect) {
         setLimitReached(selected.length === maxToSelect);
       }
-    };
+    }, [maxToSelect, selected, setLimitReached]);
 
     useEffect(() => {
       setSelected(preselected);
       validateMaxLimit();
-    }, [preselected]);
+    }, [validateMaxLimit, preselected]);
 
     const handleSelectChange = (list) => {
       setConfirmDisabled(false);

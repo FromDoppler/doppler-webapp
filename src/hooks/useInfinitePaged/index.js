@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useInfinitePaged = (callback) => {
   const [loading, setLoading] = useState(true);
@@ -8,18 +8,21 @@ export const useInfinitePaged = (callback) => {
   const [page, setPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
-  const fetch = async (pageNumber) => {
-    const { success, value } = await callback(pageNumber);
+  const fetch = useCallback(
+    async (pageNumber) => {
+      const { success, value } = await callback(pageNumber);
 
-    if (success) {
-      const { items: newItems, currentPage, pagesCount } = value;
-      setItems((items) => [...items, ...newItems]);
-      setError(false);
-      setHasMoreItems(currentPage < pagesCount);
-    } else {
-      setError(true);
-    }
-  };
+      if (success) {
+        const { items: newItems, currentPage, pagesCount } = value;
+        setItems((items) => [...items, ...newItems]);
+        setError(false);
+        setHasMoreItems(currentPage < pagesCount);
+      } else {
+        setError(true);
+      }
+    },
+    [callback, setItems, setHasMoreItems, setError],
+  );
 
   const loadMoreItems = async () => {
     if (!hasMoreItems) return;
@@ -38,7 +41,7 @@ export const useInfinitePaged = (callback) => {
       setLoading(false);
     };
     firstFetch();
-  }, []);
+  }, [fetch]);
 
   return { loading, fetching, error, items, hasMoreItems, loadMoreItems };
 };
