@@ -13,6 +13,7 @@ export const CloudTagCompoundField = ({
   disabled,
   messageKeys,
   render,
+  afterRemove,
 }) => {
   const { getAllTags, validateTagToAdd, addTag } = useCloudTags(
     fieldName,
@@ -34,6 +35,7 @@ export const CloudTagCompoundField = ({
           <CloudTags
             tags={tags}
             remove={remove}
+            afterRemove={afterRemove}
             disabled={disabled}
             render={() => render(_addTag)}
           />
@@ -47,6 +49,7 @@ CloudTagCompoundField.propTypes = {
   labelKey: PropTypes.string.isRequired,
   max: PropTypes.number,
   disabled: PropTypes.bool,
+  afterRemove: PropTypes.func,
   messageKeys: PropTypes.shape({
     tagAlreadyExist: PropTypes.string,
     tag_limit_exceeded: PropTypes.string,
