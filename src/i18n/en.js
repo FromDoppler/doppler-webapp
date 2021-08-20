@@ -31,6 +31,7 @@ const urlSiteFromForgot = `${urlSite}/en/`;
 const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
+const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 
@@ -655,7 +656,18 @@ deletion, security, cross-border data transfers and other issues.
   },
   subscriber_list_selector: {
     confirm_selection: 'Confirm Selection',
+    error_loading_list: 'Error to show Lists. Close this window and open it again from the "Select Lists" button.',
     max_limit_exceeded: 'You have already selected the maximum number of lists allowed.',
+    no_list: {
+      create_list: 'Create a list',
+      create_list_url: `${urlCreateSubscriberList}`,
+      description_MD: `
+Own an **updated Database** is a key to the effectiveness of Email & Automation Marketing.
+With Doppler you can generate Segments with common interests, create Forms to attract new Contacts and more.`,
+      not_now: 'Not now',
+      strong_text: 'Create your first List and import Contacts in simple steps!',
+      title: 'You don’t have any List yet!',
+    },
     table_columns: {
       list_name: 'List name',
       subscribers: 'Subscribers',

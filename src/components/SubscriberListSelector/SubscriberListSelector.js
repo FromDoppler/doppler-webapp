@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { SubscriberListState } from '../../services/shopify-client';
@@ -8,6 +9,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInfinitePaged } from '../../hooks/useInfinitePaged';
 import { IconMessage } from '../form-helpers/form-helpers';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { ConfirmationBox } from '../shared/ConfirmationBox/ConfirmationBox';
+
+export const scrollableContainerId = 'scrollable-container';
 
 const ListRow = ({ list, selected, onSelectChange, disabled }) => {
   return (
@@ -84,23 +88,37 @@ export const SubscriberListSelector = InjectAppServices(
     messageKeys,
     onCancel,
     onConfirm,
+    onNoList,
+    onError,
   }) => {
     const fetchData = useCallback(
       (page) => dopplerApiClient.getSubscribersLists(page, SubscriberListState.ready),
       [dopplerApiClient],
     );
-    const { loading, items, hasMoreItems, loadMoreItems } = useInfinitePaged(fetchData);
+    const { loading, fetching, error, items, hasMoreItems, loadMoreItems } =
+      useInfinitePaged(fetchData);
     const [selected, setSelected] = useState([]);
     const [limitReached, setLimitReached] = useState(false);
     const [confirmDisabled, setConfirmDisabled] = useState(true);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const history = useHistory();
 
     const validateMaxLimit = useCallback(() => {
       if (maxToSelect) {
         setLimitReached(selected.length === maxToSelect);
       }
     }, [maxToSelect, selected, setLimitReached]);
+
+    useEffect(() => {
+      if (!loading && !fetching) {
+        if (error) {
+          onError?.();
+        } else if (items.length === 0) {
+          onNoList?.();
+        }
+      }
+    }, [loading, fetching, error, items, onError, onNoList]);
 
     useEffect(() => {
       setSelected(preselected);
@@ -127,7 +145,24 @@ export const SubscriberListSelector = InjectAppServices(
       return <Loading page />;
     }
 
-    return items.length > 0 ? (
+    if (!error && items.length === 0) {
+      return (
+        <ConfirmationBox
+          logo={_('common.ui_library_image', { imageUrl: 'lists.svg' })}
+          title={_('subscriber_list_selector.no_list.title')}
+          description={
+            <FormattedMessageMarkdown id={'subscriber_list_selector.no_list.description_MD'} />
+          }
+          paragraph={_('subscriber_list_selector.no_list.strong_text')}
+          cancelButtonText={_('subscriber_list_selector.no_list.not_now')}
+          actionButtonText={_('subscriber_list_selector.no_list.create_list')}
+          onCancel={onCancel}
+          onAction={() => history.push(_('subscriber_list_selector.no_list.create_list_url'))}
+        />
+      );
+    }
+
+    return (
       <>
         {messageKeys?.title ? <h2 className="modal-title">{_(messageKeys?.title)}</h2> : null}
 
@@ -142,26 +177,40 @@ export const SubscriberListSelector = InjectAppServices(
           />
         ) : null}
 
-        <article className="dp-content-list">
-          <div className="dp-table-scroll-container">
-            <div id="scrollableContainer" className="dp-table-scroll">
-              <InfiniteScroll
-                dataLength={items.length}
-                next={loadMoreItems}
-                hasMore={hasMoreItems}
-                loader={<p>Loading...</p>}
-                scrollableTarget="scrollableContainer"
+        {error ? (
+          <IconMessage
+            text={'subscriber_list_selector.error_loading_list'}
+            fullContent={true}
+            type={'cancel'}
+          />
+        ) : null}
+
+        {items.length > 0 ? (
+          <article className="dp-content-list">
+            <div className="dp-table-scroll-container">
+              <div
+                id={scrollableContainerId}
+                className="dp-table-scroll"
+                data-testid={scrollableContainerId}
               >
-                <ListTable
-                  lists={items}
-                  limitReached={limitReached}
-                  selectedIds={selected.map((i) => i.id)}
-                  onSelectChange={handleSelectChange}
-                />
-              </InfiniteScroll>
+                <InfiniteScroll
+                  dataLength={items.length}
+                  next={loadMoreItems}
+                  hasMore={hasMoreItems}
+                  loader={<p>Loading...</p>}
+                  scrollableTarget={scrollableContainerId}
+                >
+                  <ListTable
+                    lists={items}
+                    limitReached={limitReached}
+                    selectedIds={selected.map((i) => i.id)}
+                    onSelectChange={handleSelectChange}
+                  />
+                </InfiniteScroll>
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        ) : null}
 
         <div className="dp-cta-modal">
           <button
@@ -181,16 +230,6 @@ export const SubscriberListSelector = InjectAppServices(
           </button>
         </div>
       </>
-    ) : (
-      <section className="dp-gray-page p-t-54 p-b-54">
-        <div className="dp-container">
-          <div className="dp-rowflex">
-            <div className="col-lg-6">
-              <IconMessage text={_('common.feature_no_available')} />
-            </div>
-          </div>
-        </div>
-      </section>
     );
   },
 );
@@ -204,4 +243,6 @@ SubscriberListSelector.propTypes = {
   }),
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  onNoList: PropTypes.func,
+  onError: PropTypes.func,
 };
