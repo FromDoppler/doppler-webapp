@@ -26,6 +26,16 @@ export const fakeBillingInformationWithEmptyData = {
   phone: '',
 };
 
+export const fakePaymentMethodInformation = {
+  //paymentMethod: true,
+  ccHolderName: 'Juan Perez',
+  ccNumber: '************1111',
+  expiryDate: '12/25',
+  ccType: 'Visa',
+  ccSecurityCode: '***',
+  paymentMethodName: 'CC',
+};
+
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>

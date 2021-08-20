@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { ContactInformation } from './ContactInformation/ContactInformation';
 import { BillingInformation } from './BillingInformation/BillingInformation';
+import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
 
 const checkoutSteps = {
@@ -17,6 +18,7 @@ const Checkout = () => {
   const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
   const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
   const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
+  const [completePaymentInformationStep, setCompletePaymentInformationStep] = useState(false);
   const intl = useIntl();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -96,9 +98,16 @@ const Checkout = () => {
                 <Step
                   active={activeStep === checkoutSteps.paymentInformation}
                   title={_('checkoutProcessForm.payment_method_title')}
-                  complete={false}
+                  complete={completePaymentInformationStep}
                   stepNumber={3}
-                ></Step>
+                >
+                  <PaymentMethod
+                    handleSaveAndContinue={() => {
+                      setNextCheckoutStep(activeStep);
+                      setCompletePaymentInformationStep(true);
+                    }}
+                  />
+                </Step>
               </ul>
             </div>
           </div>
