@@ -50,6 +50,9 @@ export const BillingInformation = InjectAppServices(
     const [states, setStates] = useState([]);
     const [sameAddressInformation, setSameAddressInformation] = useState(false);
     const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
+    const language = intl.locale;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -85,10 +88,6 @@ export const BillingInformation = InjectAppServices(
       };
       fetchData();
     }, [dopplerUserApiClient, dopplerBillingUserApiClient, staticDataClient, intl.locale]);
-
-    const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
-    const language = intl.locale;
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
