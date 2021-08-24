@@ -7,6 +7,7 @@ export interface DopplerBillingUserApiClient {
   getBillingInformationData(): Promise<ResultWithoutExpectedErrors<BillingInformation>>;
   updateBillingInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>>;
+  updatePaymentMethod(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -182,6 +183,27 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true, value: this.mapPaymentMethod(response.data) };
       } else {
         return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updatePaymentMethod(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/payment-methods/current `,
+        data: values,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
       }
     } catch (error) {
       return { success: false, error: error };

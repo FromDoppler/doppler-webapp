@@ -4,7 +4,7 @@ const displayBlockStyle = {
   display: 'block',
 };
 
-export const Step = ({ children, title, active, stepNumber, complete, onActivate }) => {
+export const Step = ({ children, title, active, stepNumber, complete, lastStep, onActivate }) => {
   return (
     <>
       <li className={`dp-box-shadow ${active || complete ? 'dp-form-successful' : ''}`}>
@@ -12,7 +12,7 @@ export const Step = ({ children, title, active, stepNumber, complete, onActivate
           {stepNumber}
         </span>
         <label className="dp-accordion-thumb">{title}</label>
-        {!active && complete ? (
+        {(!active || lastStep) && complete ? (
           <button className="m-b-30 dp-edit-form" onClick={onActivate}>
             <span className="ms-icon icon-edit"></span>
           </button>

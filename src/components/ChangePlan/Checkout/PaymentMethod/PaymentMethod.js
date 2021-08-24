@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { useIntl } from 'react-intl';
-import { Form, Formik } from 'formik';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Field, Form, Formik } from 'formik';
 import { Loading } from '../../../Loading/Loading';
-import Cards from 'react-credit-cards';
 import queryString from 'query-string';
 import { useLocation } from 'react-router';
 import { getFormInitialValues, extractParameter } from '../../../../utils';
-import { FieldGroup, FieldItem } from '../../../form-helpers/form-helpers';
+import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-helpers';
 import { Discounts } from '../Discounts/Discounts';
+import { actionPage } from '../Checkout';
+import { CreditCard } from './CreditCard';
 
-const fieldNames = {
+export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
+  number: 'number',
+  name: 'name',
+  expiry: 'expiry',
+  cvc: 'cvc',
 };
 
-const paymentType = {
+export const paymentType = {
   creditCard: 'CC',
   mercadoPago: 'MP',
   transfer: 'TRANSF',
@@ -35,33 +40,132 @@ const paymentMethods = [
   },
 ];
 
-const creditCardType = {
-  mastercard: 'Mastercard',
-  visa: 'Visa',
-  amex: 'American Express',
+//TODO: Remove the stykes when the UI Library is updated
+const considerationNoteStyle = {
+  fontSize: '13px',
+  lineHeight: '18px',
 };
 
-const amexDescription = 'amex';
+const FormatMessageWithBoldWords = ({ id }) => {
+  return (
+    <FormattedMessage
+      id={id}
+      values={{
+        bold: (chunks) => <b>{chunks}</b>,
+      }}
+    />
+  );
+};
 
-const getCreditCardBrand = (ccType) => {
-  // check for American Express
-  if (ccType === creditCardType.amex) {
-    return amexDescription;
+const PaymentMethodField = ({ optionView, handleChange }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <Field name="paymentMethodName">
+      {({ field }) => (
+        <ul role="group" aria-labelledby="checkbox-group" className="dp-radio-input">
+          {paymentMethods.map((paymentMethod) => (
+            <li key={paymentMethod.value}>
+              <div className="dp-volume-option">
+                <label>
+                  <input
+                    aria-label={paymentMethod.description}
+                    id={paymentMethod.value}
+                    type="radio"
+                    name={fieldNames.paymentMethodName}
+                    {...field}
+                    value={paymentMethod.value}
+                    checked={field.value === paymentMethod.value}
+                    disabled={
+                      optionView === actionPage.READONLY && field.value !== paymentMethod.value
+                    }
+                    onChange={handleChange}
+                  />
+                  {paymentMethod.value !== paymentType.mercadoPago ? (
+                    <span>{_(paymentMethod.description)}</span>
+                  ) : (
+                    <span>
+                      <img
+                        src={_('common.ui_library_image', {
+                          imageUrl: 'mercado-pago.svg',
+                        })}
+                        alt="Mercado pago"
+                      ></img>
+                    </span>
+                  )}
+                </label>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Field>
+  );
+};
+
+const PaymentType = ({ paymentMethodType, optionView }) => {
+  return (
+    <>
+      {(() => {
+        switch (paymentMethodType) {
+          case paymentType.creditCard:
+            return <CreditCard optionView={optionView}></CreditCard>;
+          default:
+            return null;
+        }
+      })()}
+    </>
+  );
+};
+
+const PaymentNotes = ({ paymentMethodType }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  switch (paymentMethodType) {
+    case paymentType.creditCard:
+      return (
+        <FieldGroup>
+          <li className="field-item">
+            <div className="dp-wrap-subscription">
+              <label>{_('checkoutProcessForm.payment_method.considerations')}</label>
+              <p style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_credit_card_note_1" />
+              </p>
+              <br />
+              <p style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_credit_card_note_2" />
+              </p>
+            </div>
+          </li>
+        </FieldGroup>
+      );
+    default:
+      return null;
   }
-
-  return ccType;
 };
 
 export const PaymentMethod = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
     showTitle,
+    handleSaveAndContinue,
+    handleChangeView,
+    optionView,
   }) => {
     const location = useLocation();
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
     const selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
     const intl = useIntl();
-    const [state, setState] = useState({ loading: true });
+    const [state, setState] = useState({ loading: true, paymentMethod: {} });
+    const [discountsInformation, setDiscountsInformation] = useState({
+      selectedPlanDiscount: undefined,
+      discounts: [],
+      plan: {},
+    });
+    const [error, setError] = useState(false);
+    const [paymentMethodType, setPaymentMethodType] = useState(paymentType.creditCard);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
@@ -80,15 +184,23 @@ export const PaymentMethod = InjectAppServices(
           ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
           : undefined;
 
+        setDiscountsInformation({
+          selectedPlanDiscount,
+          discounts: discountsData.success ? discountsData.value : [],
+          plan: sessionPlan.plan,
+        });
+
+        if (!paymentMethodData.success) {
+          handleChangeView(actionPage.UPDATE);
+        }
+
+        setPaymentMethodType(paymentMethod);
+
         setState({
-          readOnly: true,
           paymentMethod: paymentMethodData.success
             ? paymentMethodData.value
             : { paymentMethodName: paymentType.creditCard },
-          sessionPlan,
-          discounts: discountsData.success ? discountsData.value : [],
           loading: false,
-          selectedPlanDiscount,
         });
       };
       fetchData();
@@ -98,12 +210,57 @@ export const PaymentMethod = InjectAppServices(
       appSessionRef,
       selectedPlan,
       selectedDiscountId,
+      handleChangeView,
     ]);
 
-    const handleChange = (e) => {
-      setState({
-        selectedOption: e.target.value,
+    const getDiscountData = async (selectedPlan, paymentMethod) => {
+      const sessionPlan = appSessionRef.current.userData.user;
+      const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
+        selectedPlan,
+        paymentMethod,
+      );
+
+      const selectedPlanDiscount = discountsData.success
+        ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
+        : undefined;
+
+      setDiscountsInformation({
+        selectedPlanDiscount,
+        discounts: discountsData.success ? discountsData.value : [],
+        plan: sessionPlan.plan,
       });
+    };
+
+    const handleChange = (e, setFieldValue) => {
+      const { value } = e.target;
+      setFieldValue(fieldNames.paymentMethodName, value);
+      setPaymentMethodType(value);
+      getDiscountData(selectedPlan, value);
+      setError(false);
+    };
+
+    const submitPaymentMethodForm = async (values) => {
+      const result = await dopplerBillingUserApiClient.updatePaymentMethod({
+        ...values,
+        discountId: discountsInformation.selectedPlanDiscount.id,
+      });
+
+      setError(!result.success);
+      if (result.success) {
+        handleSaveAndContinue();
+      }
+    };
+
+    const _getFormInitialValues = () => {
+      let initialValues = getFormInitialValues(fieldNames);
+
+      initialValues[fieldNames.paymentMethodName] = state.paymentMethod.paymentMethodName;
+
+      return initialValues;
+    };
+
+    const handleDiscountChange = (discount) => {
+      setDiscountsInformation({ ...discountsInformation, selectedPlanDiscount: discount });
     };
 
     return (
@@ -114,76 +271,52 @@ export const PaymentMethod = InjectAppServices(
         {state.loading ? (
           <Loading page />
         ) : (
-          <Formik initialValues={getFormInitialValues(fieldNames)}>
-            <Form className="dp-form-payment-method">
-              <legend>{_('checkoutProcessForm.payment_method.title')}</legend>
-              <fieldset>
-                <FieldGroup>
-                  <FieldItem className="field-item m-b-24">
-                    <ul className="dp-radio-input">
-                      {paymentMethods.map((paymentMethod) => (
-                        <li key={paymentMethod.value}>
-                          <div className="dp-volume-option">
-                            <label>
-                              <input
-                                aria-label={paymentMethod.description}
-                                type="radio"
-                                name="paymentMethod"
-                                disabled={
-                                  state.readOnly &&
-                                  state.paymentMethod.paymentMethodName !== paymentMethod.value
-                                }
-                                value={paymentMethod.value}
-                                checked={
-                                  state.paymentMethod.paymentMethodName === paymentMethod.value
-                                }
-                                onChange={handleChange}
-                              />
-                              {paymentMethod.value !== paymentType.mercadoPago ? (
-                                <span>{_(paymentMethod.description)}</span>
-                              ) : (
-                                <span>
-                                  <img
-                                    src={_('common.ui_library_image', {
-                                      imageUrl: 'mercado-pago.svg',
-                                    })}
-                                    alt="Mercado pago"
-                                  ></img>
-                                </span>
-                              )}
-                            </label>
+          <Formik initialValues={_getFormInitialValues()} onSubmit={submitPaymentMethodForm}>
+            {({ setFieldValue }) => (
+              <Form className="dp-form-payment-method">
+                <legend>{_('checkoutProcessForm.payment_method.title')}</legend>
+                <fieldset>
+                  <FieldGroup>
+                    <FieldItem className="field-item m-b-24">
+                      <PaymentMethodField
+                        optionView={optionView}
+                        handleChange={(e) => handleChange(e, setFieldValue)}
+                      />
+                    </FieldItem>
+                    {error ? (
+                      <FieldItem className="field-item">
+                        <div className="dp-wrap-message dp-wrap-cancel">
+                          <span className="dp-message-icon"></span>
+                          <div className="dp-content-message">
+                            <p>{_('checkoutProcessForm.payment_method.error')}</p>
                           </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </FieldItem>
-                  {state.readOnly &&
-                  state.paymentMethod.paymentMethodName === paymentType.creditCard ? (
-                    <li className="field-item" style={{ display: 'block' }}>
-                      <Cards
-                        cvc={state.paymentMethod.ccSecurityCode ?? ''}
-                        expiry={state.paymentMethod.ccExpiryDate ?? ''}
-                        name={state.paymentMethod.ccHolderName ?? ''}
-                        number={state.paymentMethod.ccNumber ?? ''}
-                        issuer={getCreditCardBrand(state.paymentMethod.ccType ?? '')}
-                        preview={true}
-                        locale={{ valid: _('checkoutProcessForm.payment_method.valid_thru') }}
-                      />
-                    </li>
-                  ) : null}
-                  <FieldItem className="field-item">
-                    {state.discounts?.length ? (
-                      <Discounts
-                        disabled={state.readOnly}
-                        discountsList={state.discounts}
-                        sessionPlan={state.sessionPlan.plan}
-                        selectedPlanDiscount={state.selectedPlanDiscount}
-                      />
+                        </div>
+                      </FieldItem>
                     ) : null}
-                  </FieldItem>
-                </FieldGroup>
-              </fieldset>
-            </Form>
+                    <PaymentType paymentMethodType={paymentMethodType} optionView={optionView} />
+                    <FieldItem className="field-item">
+                      <Discounts
+                        disabled={optionView === actionPage.READONLY}
+                        discountsList={discountsInformation.discounts}
+                        sessionPlan={discountsInformation.plan}
+                        selectedPlanDiscount={discountsInformation.selectedPlanDiscount}
+                        handleChange={handleDiscountChange}
+                      />
+                    </FieldItem>
+                    <PaymentNotes paymentMethodType={paymentMethodType} />
+                    {optionView === actionPage.UPDATE ? (
+                      <FieldItem className="field-item">
+                        <div className="dp-buttons-actions">
+                          <SubmitButton className="dp-button button-medium primary-green">
+                            {_('checkoutProcessForm.save_continue')}
+                          </SubmitButton>
+                        </div>
+                      </FieldItem>
+                    ) : null}
+                  </FieldGroup>
+                </fieldset>
+              </Form>
+            )}
           </Formik>
         )}
       </>
