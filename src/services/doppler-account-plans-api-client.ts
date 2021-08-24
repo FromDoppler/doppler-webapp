@@ -3,11 +3,26 @@ import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
+//TODO: Remove when the methods (getApportionmentAdjustmentData, getPlanData) are integrated with the API.
+export const fakePlanAmountDetails = {
+  discountPrepayment: { discountPercentage: 0, amount: 0 },
+  discountPaymentAlreadyPaid: 0,
+  total: 229.5,
+};
+
 export interface DopplerAccountPlansApiClient {
   getDiscountsData(
     planId: number,
     paymentMethod: string,
   ): Promise<ResultWithoutExpectedErrors<PlanDiscount[]>>;
+
+  getPlanAmountDetailsData(
+    planId: number,
+    discountId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>>;
+
+  getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>>;
 }
 
 interface DopplerAccountPlansApiConnectionData {
@@ -20,6 +35,24 @@ export interface PlanDiscount {
   description: string;
   discountPercentage: number;
   monthsAmmount: number;
+}
+
+export interface DiscountPrepayment {
+  discountPercentage: number;
+  amount: number;
+}
+
+export interface PlanAmountDetails {
+  discountPaymentAlreadyPaid: number;
+  discountPrepayment: DiscountPrepayment;
+  total: number;
+}
+
+export interface Plan {
+  emailQty: number;
+  subscribersQty: number;
+  fee: number;
+  type: string;
 }
 
 export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiClient {
@@ -51,7 +84,7 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
       !connectionData.jwtToken ||
       !connectionData.userData
     ) {
-      throw new Error('Doppler Billing User API connection data is not available');
+      throw new Error('Doppler Account Plans API connection data is not available');
     }
     return {
       jwtToken: connectionData.jwtToken,
@@ -98,6 +131,50 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
       if (response.status === 200 && response.data) {
         return { success: true, value: this.mapPlanDiscounts(response.data) };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getPlanAmountDetailsData(
+    planId: number,
+    discountId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>> {
+    try {
+      const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `accounts/${email}/newplan/${planId}/calculate?discountId=${discountId}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `plans/${planId}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
       } else {
         return { success: false, error: response.data.title };
       }

@@ -1,6 +1,19 @@
 import { ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
-import { DopplerAccountPlansApiClient, PlanDiscount } from './doppler-account-plans-api-client';
+import {
+  DopplerAccountPlansApiClient,
+  PlanDiscount,
+  PlanAmountDetails,
+  Plan,
+  fakePlanAmountDetails,
+} from './doppler-account-plans-api-client';
+
+export const fakePlan = {
+  emailQty: 0,
+  subscribersQty: 1500,
+  fee: 45,
+  type: 'Subscribers',
+};
 
 export const fakeAccountPlanDiscounts = [
   { id: 1, monthsAmmount: 1, discountPercentage: 0, description: 'monthly' },
@@ -20,6 +33,30 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
     return {
       value: fakeAccountPlanDiscounts,
       success: true,
+    };
+  }
+
+  public async getPlanAmountDetailsData(
+    planId: number,
+    discountId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>> {
+    console.log('getPlanAmountDetailsData');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: fakePlanAmountDetails,
+    };
+  }
+
+  public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
+    console.log('getPlanData');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: fakePlan,
     };
   }
 }

@@ -84,4 +84,10 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async purchase(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('purchase', values);
+    await timeout(1500);
+    return { success: true };
+  }
 }

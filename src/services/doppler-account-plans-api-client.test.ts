@@ -3,7 +3,7 @@ import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
 import { HttpDopplerAccountPlansApiClient } from './doppler-account-plans-api-client';
-import { fakeAccountPlanDiscounts } from './doppler-account-plans-api-client.double';
+import { fakeAccountPlanDiscounts, fakePlan } from './doppler-account-plans-api-client.double';
 
 const consoleError = console.error;
 const jwtToken = 'jwtToken';
@@ -63,6 +63,42 @@ describe('HttpDopplerAccountPlansApiClient', () => {
 
     // Act
     const result = await dopplerAccountPlansApiClient.getDiscountsData(1, 5);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
+  it('should get plan data', async () => {
+    // Arrange
+    const plan = {
+      data: fakePlan,
+      status: 200,
+    };
+    const request = jest.fn(async () => plan);
+    const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
+
+    // Act
+    const result = await dopplerAccountPlansApiClient.getPlanData(1);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail to get plan information', async () => {
+    // Arrange
+    const response = {
+      status: 500,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
+
+    // Act
+    const result = await dopplerAccountPlansApiClient.getPlanData(1);
 
     // Assert
     expect(request).toBeCalledTimes(1);
