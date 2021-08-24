@@ -97,7 +97,7 @@ const Checkout = () => {
                 </Step>
                 <Step
                   active={activeStep === checkoutSteps.paymentInformation}
-                  title={_('checkoutProcessForm.payment_method_title')}
+                  title={_('checkoutProcessForm.payment_method.title')}
                   complete={completePaymentInformationStep}
                   stepNumber={3}
                 >

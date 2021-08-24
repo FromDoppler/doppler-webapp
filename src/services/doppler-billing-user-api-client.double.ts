@@ -1,6 +1,10 @@
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
-import { BillingInformation, DopplerBillingUserApiClient } from './doppler-billing-user-api-client';
+import {
+  BillingInformation,
+  DopplerBillingUserApiClient,
+  PaymentMethod,
+} from './doppler-billing-user-api-client';
 
 export const fakeBillingInformation = {
   sameAddressAsContact: false,
@@ -27,13 +31,17 @@ export const fakeBillingInformationWithEmptyData = {
 };
 
 export const fakePaymentMethodInformation = {
-  //paymentMethod: true,
   ccHolderName: 'Juan Perez',
   ccNumber: '************1111',
-  expiryDate: '12/25',
+  ccExpiryDate: '12/25',
   ccType: 'Visa',
   ccSecurityCode: '***',
   paymentMethodName: 'CC',
+  renewalMonth: 1,
+  razonSocial: '',
+  idConsumerType: '',
+  identificationType: '',
+  identificationNumber: '',
 };
 
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
@@ -54,6 +62,16 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     console.log('updateBillingInformation');
     console.log(values);
     return {
+      success: true,
+    };
+  }
+
+  public async getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>> {
+    console.log('getPaymentMethodData');
+    await timeout(1500);
+
+    return {
+      value: fakePaymentMethodInformation,
       success: true,
     };
   }

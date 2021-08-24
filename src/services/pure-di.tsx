@@ -26,6 +26,10 @@ import {
   DopplerBillingUserApiClient,
   HttpDopplerBillingUserApiClient,
 } from './doppler-billing-user-api-client';
+import {
+  DopplerAccountPlansApiClient,
+  HttpDopplerAccountPlansApiClient,
+} from './doppler-account-plans-api-client';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -70,6 +74,7 @@ export interface AppServices {
   dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
   staticDataClient: StaticDataClient;
   dopplerBillingUserApiClient: DopplerBillingUserApiClient;
+  dopplerAccountPlansApiClient: DopplerAccountPlansApiClient;
 }
 
 /**
@@ -125,6 +130,7 @@ export class AppCompositionRoot implements AppServices {
       dopplerUsersApiUrl: process.env.REACT_APP_DOPPLER_USERS_API_URL as string,
       staticDataBaseUrl: 'https://cdn.fromdoppler.com/static-data',
       dopplerBillingUsersApiUrl: process.env.REACT_APP_DOPPLER_BILLING_USER_API_URL as string,
+      dopplerAccountPlansApiUrl: process.env.REACT_APP_DOPPLER_ACCOUNT_PLANS_API_URL as string,
     }));
   }
 
@@ -326,6 +332,18 @@ export class AppCompositionRoot implements AppServices {
         new HttpDopplerBillingUserApiClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerBillingUsersApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerAccountPlansApiClient() {
+    return this.singleton(
+      'dopplerAccountPlansApiClient',
+      () =>
+        new HttpDopplerAccountPlansApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerAccountPlansApiUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );

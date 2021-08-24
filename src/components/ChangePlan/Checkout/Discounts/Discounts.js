@@ -56,35 +56,31 @@ export const Discounts = ({
           </S.DiscountSubtitle>
         </>
       ) : (
-        <>
-          <div className="dp-wrap-subscription">
-            <label>{_('checkoutProcessForm.discount_title')}</label>
-            <ul>
-              {discountsList.map((discount, index) => (
-                <li key={index}>
-                  <button
-                    key={index}
-                    className={`dp-button button-medium ${
-                      discount.id === selectedDiscount.id ? 'btn-active' : ''
-                    }`}
-                    onClick={() => {
-                      if (!disabled) {
-                        applyDiscount(discount);
-                      }
-                    }}
-                  >
-                    {getDiscountDescription(discount.description)}
-                  </button>
-                  {discount.discountPercentage ? (
-                    <span className="dp-discount">{`${discount.discountPercentage}% OFF`}</span>
-                  ) : (
-                    <></>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </>
+        <div className="dp-wrap-subscription">
+          <label>{_('checkoutProcessForm.discount_title')}</label>
+          <ul>
+            {discountsList.map((discount, index) => (
+              <li key={index}>
+                <button
+                  key={index}
+                  className={`dp-button button-medium ${
+                    discount.id === selectedDiscount.id ? 'btn-active' : ''
+                  }`}
+                  onClick={() => {
+                    if (!disabled) {
+                      applyDiscount(discount);
+                    }
+                  }}
+                >
+                  {getDiscountDescription(discount.description)}
+                </button>
+                {discount?.discountPercentage > 0 ? (
+                  <span className="dp-discount">{`${discount.discountPercentage}% OFF`}</span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </>
   );
