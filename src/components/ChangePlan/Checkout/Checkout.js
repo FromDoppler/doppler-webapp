@@ -64,7 +64,7 @@ const Checkout = () => {
           <div className="col-sm-12">
             <h3 className="m-b-24">{_('checkoutProcessForm.title')}</h3>
           </div>
-          <div className="col-lg-8 col-md-12 m-b-24">
+          <div className="col-md-12 col-lg-7 m-b-24">
             <div className="dp-wrapper-payment-process">
               <ul className="dp-accordion">
                 <Step

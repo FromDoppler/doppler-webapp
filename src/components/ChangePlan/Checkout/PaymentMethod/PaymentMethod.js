@@ -1,31 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl } from 'react-intl';
-import { Form, Formik, Field } from 'formik';
+import { Form, Formik } from 'formik';
 import { Loading } from '../../../Loading/Loading';
 import Cards from 'react-credit-cards';
-import 'react-credit-cards/es/styles-compiled.css';
 import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
 import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-plans-api-client.double';
-import { Discounts } from '../../PlanCalculator/Discounts/Discounts';
 import useTimeout from '../../../../hooks/useTimeout';
+import { FieldGroup, FieldItem } from '../../../form-helpers/form-helpers';
+import { Discounts } from '../Discounts/Discounts';
+import { getFormInitialValues } from '../../../../utils';
 
-//TODO: Remove these styles when the UI Library has been update with this section
-import * as S from './PaymentMethod.styles';
-
-const paymentMethodOptionStyle = {
-  border: '0px',
-  marginLeft: '0px',
+const fieldNames = {
+  paymentMethodName: 'paymentMethodName',
 };
 
-const cardStyle = {
-  border: '0px',
-  marginLeft: '0px',
-  width: '40%',
-};
-
-const paymentMethodOptionsContainerStyle = {
-  background: '#FFFFFF',
+const paymentType = {
+  MercadoPago: 'MP',
 };
 
 export const PaymentMethod = InjectAppServices(({ dependencies: { appSessionRef }, showTitle }) => {
@@ -88,67 +79,71 @@ export const PaymentMethod = InjectAppServices(({ dependencies: { appSessionRef 
       {state.loading ? (
         <Loading page />
       ) : (
-        <Formik>
-          <Form className="dp-wrapper-form-plans">
+        <Formik initialValues={getFormInitialValues(fieldNames)}>
+          <Form className="dp-form-payment-method">
             <legend>{_('checkoutProcessForm.payment_method_title')}</legend>
             <fieldset>
-              <div className="dp-wrapper-volume-options" id="checkbox-group">
-                <Field name="paymentMethod">
-                  {() => (
-                    <ul className="dp-volume-per-month" style={paymentMethodOptionsContainerStyle}>
-                      {paymentMethods.map((paymentMethod) => (
-                        <li key={paymentMethod.id} style={paymentMethodOptionStyle}>
-                          <div className="dp-volume-option">
-                            <label>
-                              <input
-                                id={paymentMethod.id}
-                                type="radio"
-                                name="paymentMethod"
-                                disabled={
-                                  state.readOnly &&
-                                  state.paymentMethod.paymentMethodName !== paymentMethod.value
-                                }
-                                value={paymentMethod.value}
-                                checked={
-                                  state.paymentMethod.paymentMethodName === paymentMethod.value
-                                }
-                                onChange={handleChange}
-                              />
+              <FieldGroup>
+                <FieldItem className="field-item m-b-24">
+                  <ul className="dp-radio-input">
+                    {paymentMethods.map((paymentMethod) => (
+                      <li key={paymentMethod.id}>
+                        <div className="dp-volume-option">
+                          <label>
+                            <input
+                              id={paymentMethod.id}
+                              type="radio"
+                              name="paymentMethod"
+                              disabled={
+                                state.readOnly &&
+                                state.paymentMethod.paymentMethodName !== paymentMethod.value
+                              }
+                              value={paymentMethod.value}
+                              checked={
+                                state.paymentMethod.paymentMethodName === paymentMethod.value
+                              }
+                              onChange={handleChange}
+                            />
+                            {paymentMethod.value !== paymentType.MercadoPago ? (
                               <span>{paymentMethod.description}</span>
-                            </label>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </Field>
-              </div>
-              {state.readOnly ? (
-                <div style={cardStyle}>
-                  <Cards
-                    cvc={state.paymentMethod.ccSecurityCode}
-                    expiry={state.paymentMethod.expiryDate}
-                    name={state.paymentMethod.ccHolderName}
-                    number={state.paymentMethod.ccNumber}
-                    issuer={state.paymentMethod.ccType}
-                    preview={true}
-                    locale={{ valid: _('checkoutProcessForm.payment_method_valid_thru') }}
-                  />
-                </div>
-              ) : null}
-              {state.discounts?.length ? (
-                <>
-                  <S.DiscountsStyle>
-                    <Discounts
-                      disabled={state.readOnly}
-                      discountsList={state.discounts}
-                      sessionPlan={state.sessionPlan.plan}
+                            ) : (
+                              <span>
+                                <img
+                                  src={_('common.ui_library_image', {
+                                    imageUrl: 'mercado-pago.svg',
+                                  })}
+                                  alt="Mercado pago"
+                                ></img>
+                              </span>
+                            )}
+                          </label>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </FieldItem>
+                {state.readOnly ? (
+                  <li className="field-item" style={{ display: 'block' }}>
+                    <Cards
+                      cvc={state.paymentMethod.ccSecurityCode}
+                      expiry={state.paymentMethod.expiryDate}
+                      name={state.paymentMethod.ccHolderName}
+                      number={state.paymentMethod.ccNumber}
+                      issuer={state.paymentMethod.ccType}
+                      preview={true}
+                      locale={{ valid: _('checkoutProcessForm.payment_method_valid_thru') }}
                     />
-                  </S.DiscountsStyle>
-                </>
-              ) : (
-                <></>
-              )}
+                  </li>
+                ) : null}
+                <FieldItem className="field-item">
+                  <Discounts
+                    disabled={state.readOnly}
+                    discountsList={state.discounts}
+                    sessionPlan={state.sessionPlan.plan}
+                    title={'Tipo de renovación:'}
+                  />
+                </FieldItem>
+              </FieldGroup>
             </fieldset>
           </Form>
         </Formik>
