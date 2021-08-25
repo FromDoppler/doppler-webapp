@@ -1,6 +1,13 @@
 {
   "nav": [
     {
+      "title": "Inicio",
+      "url": "http://localhost:3000",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "dashboard"
+    },
+    {
       "title": "Campañas",
       "url": "https://app2.fromdoppler.com/Campaigns/Draft/",
       "isEnabled": false,
