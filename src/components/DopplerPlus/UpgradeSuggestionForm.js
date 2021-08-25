@@ -94,7 +94,7 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
                       autoFocus
                       type="email"
                       fieldName={fieldNames.email}
-                      label="Email:"
+                      label={_('signup.label_email')}
                       id="email"
                       required
                     />
@@ -103,8 +103,8 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
                         <InputFieldItem
                           type="text"
                           fieldName={fieldNames.firstname}
-                          id="name"
                           label={_('signup.label_firstname')}
+                          id="firstname"
                           withNameValidation
                           required
                           className="field-item--50"

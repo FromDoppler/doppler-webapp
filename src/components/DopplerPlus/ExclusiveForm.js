@@ -166,7 +166,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                       autoFocus
                       type="email"
                       fieldName={fieldNames.email}
-                      label="Email:"
+                      label={_('signup.label_email')}
                       id="email"
                       required
                     />
@@ -176,7 +176,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
                           <InputFieldItem
                             type="text"
                             fieldName={fieldNames.firstname}
-                            id="name"
+                            id="firstname"
                             label={_('signup.label_firstname')}
                             withNameValidation
                             required
