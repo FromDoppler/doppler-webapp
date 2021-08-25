@@ -59,15 +59,11 @@ describe('PaymentMethod component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    const creditCardOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method_credit_card_method',
-    });
-    const transferOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method_transfer_method',
-    });
-    const mercadoPagoOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method_mercado_pago_method',
-    });
+    const radioButtons = screen.getAllByRole('radio');
+
+    const creditCardOption = radioButtons[0];
+    const transferOption = radioButtons[1];
+    const mercadoPagoOption = radioButtons[2];
 
     const cardNumberElement = container.querySelector('.rccs__number');
     const cardHolderElement = container.querySelector('.rccs__name');

@@ -46,7 +46,7 @@ describe('Step Component', () => {
 
     // Asserts
     expect(container.querySelector('.dp-accordion-thumb')).toBeInTheDocument();
-    expect(container.querySelector('.edit-button')).toBeInTheDocument();
+    expect(container.querySelector('.icon-edit')).toBeInTheDocument();
   });
 
   it('should show step header without button when the step is inactive and incomplete', () => {
@@ -63,7 +63,7 @@ describe('Step Component', () => {
 
     // Asserts
     expect(container.querySelector('.dp-accordion-thumb')).toBeInTheDocument();
-    expect(container.querySelector('.edit-button')).toBeNull();
+    expect(container.querySelector('.icon-edit')).toBeNull();
   });
 
   it('should show contact informarion section when the step is active', async () => {
