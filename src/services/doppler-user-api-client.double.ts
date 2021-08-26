@@ -20,6 +20,7 @@ export const fakeContactInformation = {
 
 const featuresResult = {
   contactPolicies: true,
+  bigQuery: true,
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {

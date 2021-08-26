@@ -3,6 +3,7 @@ import { ResultWithoutExpectedErrors, EmptyResultWithoutExpectedErrors } from '.
 
 export type SaveEmailsResult = EmptyResultWithoutExpectedErrors;
 export interface EmailList {
+  idUser?: String;
   emails: String[];
 }
 

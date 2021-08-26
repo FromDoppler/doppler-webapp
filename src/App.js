@@ -26,8 +26,7 @@ import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
-import { Promotional } from './components/Integrations/BigQuery/Promotional/Promotional';
-import { AuthorizationPage } from './components/Integrations/BigQuery/ControlPanel/AuthorizationPage';
+import { AuthorizationPage } from './components/Integrations/BigQuery/AuthorizationPage';
 import UpgradeSuggestionForm from './components/DopplerPlus/UpgradeSuggestionForm';
 import Checkout from './components/ChangePlan/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummary';
@@ -147,12 +146,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 exact
                 component={ContactPolicy}
               />
-              <PrivateRoute path="/integrations/big-query" exact component={Promotional} />
-              <PrivateRoute
-                path="/integrations/big-query/plus"
-                exact
-                component={AuthorizationPage}
-              />
+              <PrivateRoute path="/integrations/big-query" exact component={AuthorizationPage} />
               <PrivateRoute path={['/checkout-summary']} exact component={CheckoutSummary} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />

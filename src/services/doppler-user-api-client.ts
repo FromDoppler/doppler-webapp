@@ -32,6 +32,7 @@ export interface ContactInformation {
 
 export interface Features {
   contactPolicies: boolean;
+  bigQuery: boolean;
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
