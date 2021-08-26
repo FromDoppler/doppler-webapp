@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  fireEvent,
-  waitForElementToBeRemoved,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
@@ -20,50 +14,97 @@ import {
 } from '../../../../services/doppler-billing-user-api-client.double';
 import { fakeContactInformation } from '../../../../services/doppler-user-api-client.double';
 
-describe('BillingInformation component', () => {
-  const dependencies = (withEmptyData) => ({
-    dopplerUserApiClient: {
-      getContactInformationData: async () => {
-        return { success: true, value: fakeContactInformation };
-      },
+const getBillingInformation = (withEmptyData, useContactInformationAsBilling) => {
+  if (withEmptyData) {
+    if (useContactInformationAsBilling) {
+      return fakeBillingInformationWithEmptyData;
+    }
+    return {
+      ...fakeBillingInformationWithEmptyData,
+      sameAddressAsContact: false,
+    };
+  }
+  return fakeBillingInformation;
+};
+
+const dependencies = (withEmptyData, useContactInformationAsBilling = true) => ({
+  dopplerUserApiClient: {
+    getContactInformationData: async () => {
+      return { success: true, value: fakeContactInformation };
     },
-    dopplerBillingUserApiClient: {
-      getBillingInformationData: async () => {
-        return {
-          success: true,
-          value: !withEmptyData ? fakeBillingInformation : fakeBillingInformationWithEmptyData,
-        };
-      },
-      updateBillingInformation: async () => {
-        return { success: true };
-      },
+  },
+  dopplerBillingUserApiClient: {
+    getBillingInformationData: async () => {
+      return {
+        success: true,
+        value: getBillingInformation(withEmptyData, useContactInformationAsBilling),
+      };
     },
-    staticDataClient: {
-      getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
+    updateBillingInformation: async (values) => {
+      return Promise.resolve({ success: true });
     },
+  },
+  staticDataClient: {
+    getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
+  },
+});
+
+const getFormFields = () => {
+  const switchButton = screen.getByRole('checkbox');
+  const inputFirstName = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.billing_information_firstname',
+  });
+  const inputLastName = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.billing_information_lastname',
+  });
+  const inputAddress = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.billing_information_address',
+  });
+  const inputCity = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.billing_information_city',
+  });
+  const selectCountry = screen.getByRole('combobox', {
+    name: '*checkoutProcessForm.billing_information_country',
+  });
+  const selectProvince = screen.getByRole('combobox', {
+    name: '*checkoutProcessForm.billing_information_province',
+  });
+  const inputPhone = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.billing_information_phone',
   });
 
-  const mockedHandleSaveAndContinue = jest.fn();
-  const initialProps = {
-    handleSaveAndContinue: mockedHandleSaveAndContinue,
-    showTitle: false,
+  return {
+    switchButton,
+    inputFirstName,
+    inputLastName,
+    inputAddress,
+    inputCity,
+    selectCountry,
+    selectProvince,
+    inputPhone,
   };
+};
 
-  const BillingInformationElement = ({ withEmptyData }) => {
-    const services = dependencies(withEmptyData);
-    return (
-      <AppServicesProvider forcedServices={services}>
-        <IntlProvider>
-          <BrowserRouter>
-            <BillingInformation {...initialProps} />
-          </BrowserRouter>
-        </IntlProvider>
-      </AppServicesProvider>
-    );
-  };
+const mockedHandleSaveAndContinue = jest.fn();
+const initialProps = {
+  handleSaveAndContinue: mockedHandleSaveAndContinue,
+  showTitle: false,
+};
 
-  jest.setTimeout(10000);
+const BillingInformationElement = ({ withEmptyData, useContactInformationAsBilling }) => {
+  const services = dependencies(withEmptyData, useContactInformationAsBilling);
+  return (
+    <AppServicesProvider forcedServices={services}>
+      <IntlProvider>
+        <BrowserRouter>
+          <BillingInformation {...initialProps} />
+        </BrowserRouter>
+      </IntlProvider>
+    </AppServicesProvider>
+  );
+};
 
+describe('BillingInformation component', () => {
   it('should show loading box while getting data', async () => {
     // Act
     render(<BillingInformationElement withEmptyData={false} />);
@@ -83,28 +124,16 @@ describe('BillingInformation component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    const switchButton = screen.getByRole('checkbox');
-    const inputFirstName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_firstname',
-    });
-    const inputLastName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_lastname',
-    });
-    const inputAddress = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_address',
-    });
-    const inputCity = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_city',
-    });
-    const selectCountry = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_country',
-    });
-    const selectProvince = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_province',
-    });
-    const inputPhone = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_phone',
-    });
+    const {
+      switchButton,
+      inputFirstName,
+      inputLastName,
+      inputAddress,
+      inputCity,
+      selectCountry,
+      selectProvince,
+      inputPhone,
+    } = getFormFields();
 
     // Data should load correctly
     expect(switchButton).not.toBeChecked();
@@ -115,6 +144,15 @@ describe('BillingInformation component', () => {
     expect(selectCountry).toHaveValue(fakeBillingInformation.country);
     expect(selectProvince).toHaveValue(fakeBillingInformation.province);
     expect(inputPhone).toHaveValue(fakeBillingInformation.phone);
+
+    // form fields must not be disabled
+    expect(inputFirstName).not.toBeDisabled();
+    expect(inputLastName).not.toBeDisabled();
+    expect(inputAddress).not.toBeDisabled();
+    expect(inputCity).not.toBeDisabled();
+    expect(selectCountry).not.toBeDisabled();
+    expect(selectProvince).not.toBeDisabled();
+    expect(inputPhone).not.toBeDisabled();
   });
 
   it('should show contact information when the billing information is empty', async () => {
@@ -126,28 +164,16 @@ describe('BillingInformation component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    const switchButton = screen.getByRole('checkbox');
-    const inputFirstName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_firstname',
-    });
-    const inputLastName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_lastname',
-    });
-    const inputAddress = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_address',
-    });
-    const inputCity = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_city',
-    });
-    const selectCountry = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_country',
-    });
-    const selectProvince = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_province',
-    });
-    const inputPhone = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_phone',
-    });
+    const {
+      switchButton,
+      inputFirstName,
+      inputLastName,
+      inputAddress,
+      inputCity,
+      selectCountry,
+      selectProvince,
+      inputPhone,
+    } = getFormFields();
 
     // Data should show information from contact information
     expect(switchButton).toBeChecked();
@@ -158,41 +184,8 @@ describe('BillingInformation component', () => {
     expect(selectCountry).toHaveValue(fakeContactInformation.country);
     expect(selectProvince).toHaveValue(fakeContactInformation.province);
     expect(inputPhone).toHaveValue(fakeContactInformation.phone);
-  });
 
-  it('should disable the form fields if the switch is active', async () => {
-    // Act
-    render(<BillingInformationElement withEmptyData={true} />);
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    const switchButton = screen.getByRole('checkbox');
-    const inputFirstName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_firstname',
-    });
-    const inputLastName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_lastname',
-    });
-    const inputAddress = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_address',
-    });
-    const inputCity = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_city',
-    });
-    const selectCountry = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_country',
-    });
-    const selectProvince = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_province',
-    });
-    const inputPhone = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_phone',
-    });
-
-    expect(switchButton).toBeChecked();
+    // form fields must be disabled
     expect(inputFirstName).toBeDisabled();
     expect(inputLastName).toBeDisabled();
     expect(inputAddress).toBeDisabled();
@@ -202,50 +195,11 @@ describe('BillingInformation component', () => {
     expect(inputPhone).toBeDisabled();
   });
 
-  it("shouldn't disable the inputs if the switch is not active", async () => {
-    // Act
-    render(<BillingInformationElement withEmptyData={false} />);
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    const switchButton = screen.getByRole('checkbox');
-    const inputFirstName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_firstname',
-    });
-    const inputLastName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_lastname',
-    });
-    const inputAddress = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_address',
-    });
-    const inputCity = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_city',
-    });
-    const selectCountry = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_country',
-    });
-    const selectProvince = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_province',
-    });
-    const inputPhone = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_phone',
-    });
-
-    expect(switchButton).not.toBeChecked();
-    expect(inputFirstName).not.toBeDisabled();
-    expect(inputLastName).not.toBeDisabled();
-    expect(inputAddress).not.toBeDisabled();
-    expect(inputCity).not.toBeDisabled();
-    expect(selectCountry).not.toBeDisabled();
-    expect(selectProvince).not.toBeDisabled();
-    expect(inputPhone).not.toBeDisabled();
-  });
-
   it('should call handleSaveAndContinue function if the submit was succesfully', async () => {
     // Arrange
+    const newFirstName = 'Test First Name';
+
+    // Act
     render(<BillingInformationElement withEmptyData={false} />);
 
     // Assert
@@ -257,11 +211,11 @@ describe('BillingInformation component', () => {
       name: '*checkoutProcessForm.billing_information_firstname',
     });
     user.clear(inputFirstName);
-    user.type(inputFirstName, 'Test First Name');
+    user.type(inputFirstName, newFirstName);
     inputFirstName = await screen.findByRole('textbox', {
       name: '*checkoutProcessForm.billing_information_firstname',
     });
-    expect(inputFirstName).toHaveValue('Test First Name');
+    expect(inputFirstName).toHaveValue(newFirstName);
 
     // Click save button
     const submitButton = screen.getByRole('button', {
@@ -269,59 +223,20 @@ describe('BillingInformation component', () => {
     });
     user.click(submitButton);
 
-    // handleSaveAndContinue function should be called
-    await waitFor(() => expect(mockedHandleSaveAndContinue).toBeCalledTimes(1));
+    await act(async () => expect(submitButton).toBeDisabled());
+    expect(mockedHandleSaveAndContinue).toBeCalledTimes(1);
   });
 
   it('should show messages for empty required fields', async () => {
     // Act
-    render(<BillingInformationElement withEmptyData={false} />);
+    render(
+      <BillingInformationElement withEmptyData={true} useContactInformationAsBilling={false} />,
+    );
 
+    // Assert
     // Loader should disappear once request resolves
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
-
-    // Set first name empty
-    let inputFirstName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_firstname',
-    });
-    user.clear(inputFirstName);
-
-    // Set last name empty
-    let inputLastName = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_lastname',
-    });
-    user.clear(inputLastName);
-
-    // Set address empty
-    let inputAddress = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_address',
-    });
-    user.clear(inputAddress);
-
-    // Set city empty
-    let inputCity = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_city',
-    });
-    user.clear(inputCity);
-
-    // Set country empty
-    let selectCountry = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_country',
-    });
-    user.selectOptions(selectCountry, '');
-
-    // Set province empty
-    let selectProvince = screen.getByRole('combobox', {
-      name: '*checkoutProcessForm.billing_information_province',
-    });
-    user.selectOptions(selectProvince, '');
-
-    // Set phone empty
-    let inputPhone = screen.getByRole('textbox', {
-      name: '*checkoutProcessForm.billing_information_phone',
-    });
-    user.clear(inputPhone);
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
@@ -332,5 +247,5 @@ describe('BillingInformation component', () => {
       'validation_messages.error_required_field',
     );
     expect(validationErrorMessages).toHaveLength(7);
-  }, 15000);
+  });
 });

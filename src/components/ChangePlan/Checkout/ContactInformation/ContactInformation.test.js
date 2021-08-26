@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  waitForElementToBeRemoved,
-  cleanup,
-  waitFor,
-  fireEvent,
-  getByText,
-} from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
@@ -21,528 +13,200 @@ import {
 } from '../../../../services/static-data-client.double';
 import { ContactInformation } from './ContactInformation';
 
+const contactInformation = {
+  email: 'test@makingsense.com',
+  firstname: 'Juan',
+  lastname: 'Perez',
+  address: 'Alem 1234',
+  city: 'Tandil',
+  province: 'AR-B',
+  country: 'ar',
+  zipCode: '7000',
+  phone: '+54 249 422-2222',
+  company: 'Test',
+  industry: 'dplr1',
+  idSecurityQuestion: '1',
+  answerSecurityQuestion: 'answer',
+  completed: true,
+};
+
+const emptyContactInformation = {
+  email: '',
+  firstname: '',
+  lastname: '',
+  address: '',
+  city: '',
+  province: '',
+  country: '',
+  zipCode: '',
+  phone: '',
+  company: '',
+  industry: '',
+  idSecurityQuestion: '',
+  answerSecurityQuestion: '',
+  completed: false,
+};
+
+const dependencies = (withEmptyData = false) => ({
+  dopplerUserApiClient: {
+    getContactInformationData: async () => {
+      return { success: true, value: withEmptyData ? emptyContactInformation : contactInformation };
+    },
+    updateContactInformation: async () => {
+      return { success: true };
+    },
+  },
+  staticDataClient: {
+    getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
+    getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
+    getSecurityQuestionsData: async (language) => ({ success: true, value: fakeQuestions }),
+  },
+});
+
+const getFormFields = () => {
+  const inputFirstName = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.contact_information_firstname',
+  });
+  const inputLastName = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.contact_information_lastname',
+  });
+  const inputAddress = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.contact_information_address',
+  });
+  const inputCity = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.contact_information_city',
+  });
+  const selectCountry = screen.getByRole('combobox', {
+    name: '*checkoutProcessForm.contact_information_country',
+  });
+  const selectProvince = screen.getByRole('combobox', {
+    name: '*checkoutProcessForm.contact_information_province',
+  });
+  const inputZipCode = screen.getByRole('textbox', {
+    name: 'checkoutProcessForm.contact_information_zip_code',
+  });
+  const inputPhone = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.contact_information_phone',
+  });
+  const inputCompany = screen.getByRole('textbox', {
+    name: 'checkoutProcessForm.contact_information_company',
+  });
+  const inputAnswer = screen.getByRole('textbox', {
+    name: '*checkoutProcessForm.contact_information_security_response',
+  });
+  const selectQuestion = screen.getByRole('combobox', {
+    name: 'secutiry-question',
+  });
+  const selectIndustry = screen.getByRole('combobox', {
+    name: '*checkoutProcessForm.contact_information_industry',
+  });
+
+  return {
+    inputFirstName,
+    inputLastName,
+    inputAddress,
+    inputCity,
+    selectCountry,
+    selectProvince,
+    inputPhone,
+    inputZipCode,
+    inputCompany,
+    selectIndustry,
+    selectQuestion,
+    inputAnswer,
+  };
+};
+
+const mockedHandleSaveAndContinue = jest.fn();
+const initialProps = {
+  handleSaveAndContinue: mockedHandleSaveAndContinue,
+  showTitle: false,
+};
+
+const ContactInformationElement = ({ withEmptyData }) => (
+  <AppServicesProvider forcedServices={dependencies(withEmptyData)}>
+    <IntlProvider>
+      <BrowserRouter>
+        <ContactInformation {...initialProps} />
+      </BrowserRouter>
+    </IntlProvider>
+  </AppServicesProvider>
+);
+
 describe('Checkout component', () => {
-  const contactInformation = {
-    email: 'test@makingsense.com',
-    firstname: 'Juan',
-    lastname: 'Perez',
-    address: 'Alem 1234',
-    city: 'Tandil',
-    province: 'AR-B',
-    country: 'ar',
-    zipCode: '7000',
-    phone: '+542494228090',
-    company: 'Test',
-    industry: 'IT',
-    idSecurityQuestion: '1',
-    answerSecurityQuestion: 'answer',
-    completed: true,
-  };
-
-  const dependencies = {
-    dopplerUserApiClient: {
-      getContactInformationData: async () => {
-        return { success: true, value: contactInformation };
-      },
-      updateContactInformation: async () => {
-        return { success: true };
-      },
-    },
-    staticDataClient: {
-      getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
-      getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
-      getSecurityQuestionsData: async (language) => ({ success: true, value: fakeQuestions }),
-    },
-  };
-
-  const mockedHandleSaveAndContinue = jest.fn();
-  const initialProps = {
-    handleSaveAndContinue: mockedHandleSaveAndContinue,
-    showTitle: false,
-  };
-
-  const ContactInformationElement = () => (
-    <AppServicesProvider forcedServices={dependencies}>
-      <IntlProvider>
-        <BrowserRouter>
-          <ContactInformation {...initialProps} />
-        </BrowserRouter>
-      </IntlProvider>
-    </AppServicesProvider>
-  );
-
-  it('should show contact information', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { getAllByText } = result;
+  it('should show loading box while getting data', async () => {
+    // Act
+    render(<ContactInformationElement />);
 
     // Assert
-    expect(getAllByText('checkoutProcessForm.contact_information_title').length).toBe(1);
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+  });
+
+  it('should load data from api correctly', async () => {
+    // Act
+    render(<ContactInformationElement />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const {
+      inputFirstName,
+      inputLastName,
+      inputAddress,
+      inputCity,
+      selectCountry,
+      selectProvince,
+      inputPhone,
+      inputZipCode,
+      inputCompany,
+      selectIndustry,
+      selectQuestion,
+      inputAnswer,
+    } = getFormFields();
+
+    // Data should load correctly
+    expect(inputFirstName).toHaveValue(contactInformation.firstname);
+    expect(inputLastName).toHaveValue(contactInformation.lastname);
+    expect(inputAddress).toHaveValue(contactInformation.address);
+    expect(inputCity).toHaveValue(contactInformation.city);
+    expect(selectProvince).toHaveValue(contactInformation.province);
+    expect(selectCountry).toHaveValue(contactInformation.country);
+    expect(inputZipCode).toHaveValue(contactInformation.zipCode);
+    expect(inputPhone).toHaveValue(contactInformation.phone);
+    expect(inputCompany).toHaveValue(contactInformation.company);
+    expect(selectIndustry).toHaveValue(contactInformation.industry);
+    expect(selectQuestion).toHaveValue(contactInformation.idSecurityQuestion);
+    expect(inputAnswer).toHaveValue(contactInformation.answerSecurityQuestion);
   });
 
   it('should show messages for empty required fields', async () => {
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getAllByText } = result;
-
     // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: '' } });
+    render(<ContactInformationElement withEmptyData={true} />);
 
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: '' } });
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
 
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: '' } });
+    // Click save button
+    const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
+    user.click(submitButton);
 
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: '' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: '' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: '' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: '' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: '' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getAllByText('validation_messages.error_required_field').length).not.toBe(0);
+    // Validation error messages should be displayed
+    const validationErrorMessages = await screen.findAllByText(
+      'validation_messages.error_required_field',
+    );
+    expect(validationErrorMessages).toHaveLength(10);
   });
 
-  it('should show error message if firstname field is empty', async () => {
+  it('should call handleSaveAndContinue function if the submit was succesfully', async () => {
     // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
+    const newFirstName = 'Test First Name';
 
     // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: '' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: '1234' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if lastname field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: '' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: '1234' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if address field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'Test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: '' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if city field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'Test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: 'address 1' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: '' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if province field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'Test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: 'address 1' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: '' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if country field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'Test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: 'address 1' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: '' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if phone field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'Test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: 'address 1' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: 'dplr1' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show error message if industry field is empty', async () => {
-    // Arrange
-    let result;
-    await act(async () => {
-      result = render(<ContactInformationElement />);
-    });
-
-    const { container, getByText } = result;
-
-    // Act
-    act(() => {
-      const inputFirstname = container.querySelector('input#firstname');
-      fireEvent.change(inputFirstname, { target: { value: 'Test' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Test' } });
-
-      const inputAddress = container.querySelector('input#address');
-      fireEvent.change(inputAddress, { target: { value: 'address 1' } });
-
-      const inputCity = container.querySelector('input#city');
-      fireEvent.change(inputCity, { target: { value: 'tandil' } });
-
-      const selectCountry = container.querySelector('select#country');
-      fireEvent.change(selectCountry, { target: { value: 'ar' } });
-
-      const selectProvince = container.querySelector('select#province');
-      fireEvent.change(selectProvince, { target: { value: 'AR-B' } });
-
-      const selectIndustry = container.querySelector('select#industry');
-      fireEvent.change(selectIndustry, { target: { value: '' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-
-      const selectSecurityQuestion = container.querySelector('select#securityquestion');
-      fireEvent.change(selectSecurityQuestion, { target: { value: '1' } });
-
-      const inputAnswerSecurityQuestion = container.querySelector('input#answerSecurityQuestion');
-      fireEvent.change(inputAnswerSecurityQuestion, { target: { value: 'Answer' } });
-    });
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-  });
-
-  it('should show submit button disabled if the submit was succesfully', async () => {
-    // Arrange
     render(<ContactInformationElement />);
 
     // Assert
@@ -554,11 +218,11 @@ describe('Checkout component', () => {
       name: '*checkoutProcessForm.contact_information_firstname',
     });
     user.clear(inputFirstName);
-    user.type(inputFirstName, 'Test First Name');
+    user.type(inputFirstName, newFirstName);
     inputFirstName = await screen.findByRole('textbox', {
       name: '*checkoutProcessForm.contact_information_firstname',
     });
-    expect(inputFirstName).toHaveValue('Test First Name');
+    expect(inputFirstName).toHaveValue(newFirstName);
 
     // Click save button
     const submitButton = screen.getByRole('button', {
@@ -566,8 +230,7 @@ describe('Checkout component', () => {
     });
     user.click(submitButton);
 
-    // handleSaveAndContinue function should be called
-
-    await waitFor(() => expect(mockedHandleSaveAndContinue).toBeCalledTimes(1));
-  }, 10000);
+    await act(async () => expect(submitButton).toBeDisabled());
+    expect(mockedHandleSaveAndContinue).toBeCalledTimes(1);
+  });
 });

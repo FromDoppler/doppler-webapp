@@ -37,6 +37,9 @@ export const ContactInformation = InjectAppServices(
     const [state, setState] = useState({ loading: true });
     const [states, setStates] = useState([]);
     const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
+    const language = intl.locale;
 
     useEffect(() => {
       const getIndustries = async (language) => {
@@ -79,10 +82,6 @@ export const ContactInformation = InjectAppServices(
       };
       fetchData();
     }, [dopplerUserApiClient, staticDataClient, intl.locale]);
-
-    const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
-    const language = intl.locale;
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
@@ -230,13 +229,13 @@ export const ContactInformation = InjectAppServices(
                           values={state.industries}
                           required
                           className="field-item--50"
-                          //onChange={(e) => {console.log(e.target.value)}}
                         />
                       </FieldGroup>
                     </FieldItem>
                     <FieldItem className="field-item">
                       <FieldGroup>
                         <SelectFieldItem
+                          aria-label="secutiry-question"
                           fieldName={fieldNames.idSecurityQuestion}
                           id="securityquestion"
                           label={`*${_(
