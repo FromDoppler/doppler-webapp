@@ -30,7 +30,7 @@ import { AuthorizationPage } from './components/Integrations/BigQuery/Authorizat
 import UpgradeSuggestionForm from './components/DopplerPlus/UpgradeSuggestionForm';
 import Checkout from './components/ChangePlan/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummary';
-import Dashboard from './components/Dashboard/Dashboard';
+import { Dashboard } from './components/Dashboard/Dashboard';
 
 /**
  * @param { Object } props - props

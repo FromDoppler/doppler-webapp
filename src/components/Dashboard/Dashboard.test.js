@@ -1,20 +1,16 @@
 import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Dashboard from './Dashboard';
+import { Dashboard } from './Dashboard';
 
 describe('Dashboard component', () => {
-  afterEach(cleanup);
+  it('should show the hero-banner with a title', async () => {
+    render(<Dashboard />);
 
-  it('should show the hero-banner with a title and subtitle', async () => {
-    // Act
-    const { container } = render(<Dashboard />);
+    const header = screen.getByRole('banner');
+    const title = screen.getByRole('heading');
 
-    // Assert
-    await waitFor(() => {
-      expect(container.querySelector('.hero-banner')).toBeInTheDocument();
-      expect(container.querySelector('.hero-banner h2')).toBeInTheDocument();
-      expect(container.querySelector('.hero-banner p')).toBeInTheDocument();
-    });
+    expect(header).toBeInTheDocument();
+    expect(title).toBeInTheDocument();
   });
 });

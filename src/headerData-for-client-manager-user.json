@@ -2,7 +2,7 @@
   "nav": [
     {
       "title": "Inicio",
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3000/Dashboard",
       "isEnabled": false,
       "isSelected": false,
       "idHTML": "dashboard"
