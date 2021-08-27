@@ -30,6 +30,7 @@ import { AuthorizationPage } from './components/Integrations/BigQuery/Authorizat
 import UpgradeSuggestionForm from './components/DopplerPlus/UpgradeSuggestionForm';
 import Checkout from './components/ChangePlan/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummary';
+import { Dashboard } from './components/Dashboard/Dashboard';
 
 /**
  * @param { Object } props - props
@@ -109,6 +110,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                   )
                 }
               />
+              <PrivateRoute path="/dashboard/" exact component={Dashboard} />
               <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
               <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
               <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />

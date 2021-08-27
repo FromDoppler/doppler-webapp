@@ -1,5 +1,13 @@
 {
-  "nav": [{
+  "nav": [
+    {
+      "title": "Home",
+      "url": "http://localhost:3000/Dashboard",
+      "isEnabled": false,
+      "isSelected": false,
+      "idHTML": "dashboard"
+    },
+    {
     "title": "Campaigns",
     "url": "https://appint.fromdoppler.net/Campaigns/Draft/",
     "isEnabled": false,
