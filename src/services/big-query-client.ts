@@ -10,6 +10,7 @@ export interface EmailList {
 export interface BigQueryClient {
   getEmailsData(): Promise<ResultWithoutExpectedErrors<EmailList>>;
   saveEmailsData(payload: EmailList): Promise<SaveEmailsResult>;
+  notifyNewEmails(payload: string[]): Promise<SaveEmailsResult>;
 }
 
 export class HttpBigQueryClient extends HttpBaseClient implements BigQueryClient {
@@ -45,6 +46,28 @@ export class HttpBigQueryClient extends HttpBaseClient implements BigQueryClient
       const response = await this.axios.request({
         method: 'PUT',
         url: `/big-query/${email}/allowed-emails`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        data: payload,
+      });
+      if (response.data) {
+        return { success: true };
+      } else {
+        return { success: false, error: response };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
+    }
+  }
+
+  public async notifyNewEmails(payload: string[]): Promise<SaveEmailsResult> {
+    try {
+      const { jwtToken, email } = this.getApiConnectionData(this.clientName);
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/big-query/${email}/notify-emails`,
         headers: { Authorization: `bearer ${jwtToken}` },
         data: payload,
       });

@@ -20,7 +20,8 @@ export const AuthorizationForm = ({ emails, onSubmit }) => {
   };
 
   const handleSubmit = async (values) => {
-    onSubmit(values);
+    const emailsToNotify = values.emails.filter((email) => emails.indexOf(email) === -1);
+    onSubmit(values, emailsToNotify);
   };
 
   const formikConfig = {

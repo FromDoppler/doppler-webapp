@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AuthorizationForm } from './AuthorizationForm';
+import userEvent from '@testing-library/user-event';
 
 describe('AuthorizationForm ', () => {
   it('should not show tag cloud', () => {
@@ -48,7 +49,7 @@ describe('AuthorizationForm ', () => {
     const emails = [];
 
     // Act
-    const { container } = render(
+    render(
       <IntlProvider>
         <AuthorizationForm emails={emails} onSubmit={onSubmit} />
       </IntlProvider>,
@@ -59,49 +60,47 @@ describe('AuthorizationForm ', () => {
     const getErrors = () => screen.queryByRole('alert');
     let cloudTags = getCloudTags();
     let errors;
-
     const input = screen.getByRole('textbox');
     const addButton = screen.getByRole('button', { name: 'add tag' });
     expect(getCloudTags()).not.toBeInTheDocument();
     expect(input.value).toBe('');
-
     // add first tag (simulated with click event)
-    await fireEvent.change(input, { target: { value: tagToAdd1 } });
-    fireEvent.click(addButton);
+    await userEvent.type(input, tagToAdd1);
+    userEvent.click(addButton);
     cloudTags = getCloudTags();
     errors = getErrors();
     expect(cloudTags).toBeInTheDocument();
     expect(errors).not.toBeInTheDocument();
     // emails.length+1 because the first tag was added
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
-
     // fails when add second tag (simulated with enter event)
-    await fireEvent.change(input, { target: { value: invalidTag } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    await userEvent.type(input, invalidTag);
+    userEvent.type(input, '{enter}');
     cloudTags = getCloudTags();
     errors = getErrors();
     // the same amount of tag is kept because it was not added
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
     expect(errors).toBeInTheDocument();
-
     // success when add second tag (simulated with enter event)
-    await fireEvent.change(input, { target: { value: tagToAdd2 } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+    await userEvent.clear(input);
+    await userEvent.type(input, tagToAdd2);
+    userEvent.type(input, '{enter}');
     cloudTags = getCloudTags();
     errors = getErrors();
     // emails.length+2 because the second tag was added
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 2);
     expect(errors).not.toBeInTheDocument();
-
     // simulate submit form
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    fireEvent.click(submitButton);
-    expect(submitButton).toBeDisabled();
+    userEvent.click(submitButton);
+    await act(async () => expect(submitButton).toBeDisabled());
     await waitFor(() =>
-      expect(onSubmit).toHaveBeenCalledWith({
-        emails: [tagToAdd1, tagToAdd2],
-      }),
+      expect(onSubmit).toHaveBeenCalledWith(
+        {
+          emails: [tagToAdd1, tagToAdd2],
+        },
+        [tagToAdd1, tagToAdd2],
+      ),
     );
-    expect(submitButton).not.toBeDisabled();
   });
 });

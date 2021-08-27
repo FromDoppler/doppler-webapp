@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitForElementToBeRemoved, screen, logRoles } from '@testing-library/react';
+import { render, waitForElementToBeRemoved, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { AuthorizationPage } from './AuthorizationPage';
 import { AppServicesProvider } from '../../../services/pure-di';
@@ -10,30 +10,37 @@ describe('test for validate authorization form component ', () => {
     emails: ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'],
   };
 
-  const bigQueryClientDouble = {
+  const bigQueryClientDouble = (success) => ({
     getEmailsData: async () => {
       return { emails: result.emails };
     },
-  };
+
+    notifyNewEmails: async () => ({
+      success: success,
+    }),
+  });
 
   const featuresDouble = (bigQueryEnabled) => ({
     bigQuery: bigQueryEnabled,
   });
 
-  const dopplerUserApiClientDouble = (bigQueryEnabled) => ({
+  const dopplerUserApiClientDouble = (bigQueryEnabled, success) => ({
     getFeatures: async () => ({
-      success: true,
+      success: success,
       value: featuresDouble(bigQueryEnabled),
     }),
   });
 
   it('Validate if loading box is hide from initial form', async () => {
+    //Arrange
+    const bigQueryEnabled = false;
+    const success = true;
     //Act
     render(
       <AppServicesProvider
         forcedServices={{
-          bigQueryClient: bigQueryClientDouble,
-          dopplerUserApiClient: dopplerUserApiClientDouble(false),
+          bigQueryClient: bigQueryClientDouble(success),
+          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled, success),
         }}
       >
         <IntlProvider>
@@ -51,6 +58,7 @@ describe('test for validate authorization form component ', () => {
   it('renders big-query free account page', async () => {
     // Arrange
     const bigQueryEnabled = false;
+    const success = true;
     const texts = [
       'big_query.free_text_summary',
       'big_query.free_text_strong',
@@ -63,7 +71,7 @@ describe('test for validate authorization form component ', () => {
     render(
       <AppServicesProvider
         forcedServices={{
-          bigQueryClient: bigQueryClientDouble,
+          bigQueryClient: bigQueryClientDouble(success),
           dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled),
         }}
       >
@@ -81,15 +89,16 @@ describe('test for validate authorization form component ', () => {
   });
 
   it('renders big-query control panel page', async () => {
-    // Arrange
+    //Arrange
     const bigQueryEnabled = true;
+    const success = true;
 
     //act
     render(
       <AppServicesProvider
         forcedServices={{
-          bigQueryClient: bigQueryClientDouble,
-          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled),
+          bigQueryClient: bigQueryClientDouble(success),
+          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled, success),
         }}
       >
         <IntlProvider>
