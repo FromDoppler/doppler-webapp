@@ -82,45 +82,71 @@ const messages_en = {
     banner_exclusive_features_description: 'If you need special features, we can provide a service designed for you.',
     banner_exclusive_features_title: 'Ask for custom features for your business',
     big_data_tooltip: 'Big Data feature',
-    calculate_price: 'Calculate Price',
-    card_agencies_description: 'Manage all your clients all in one spot.',
+    calculate_price: 'Estimate Price',
+    card_agencies_description: 'Manage multiple accounts from one place.',
     card_agencies_title: 'Agencies',
-    card_free_description: 'Try a FREE Doppler account with no contracts or credit cards. Until 500 Contacts.',
+    card_free_description: 'Send unlimited Campaigns up to 500 Contacts, with no contracts or credit cards.',
     card_free_title: 'FREE',
-    card_plus_description: 'Advanced features for professionals with custom needs.',
+    card_plus_description: 'Increase the effectiveness of your Campaigns with Big Data. You’ll have custom support!',
     card_plus_title: 'Plus',
-    card_standard_description: 'Try our plans that best fit to your needs, monthly or prepaids.',
-    card_standard_title: 'Standard',
-    compare_features: 'Compare Features',
+    card_standard_description: 'Add features to your strategy choosing the Plan type.',
+    card_standard_title: 'Advanced',
     current_plan: 'Current Plan',
     features_HTML_agencies: `
-    <option>Manage several accounts</option>
-    <option>Manage access to different accounts</option>
-    <option>Manage roles</option>`,
+    <star>Access to Client Manager dashboard to manage multiple accounts.</star>
+    <star>Setting permission levels and accesses for each account or client.</star>
+    <option>Personalization with your own logo.</option>
+    <option>Advanced Reports about each client’s Campaigns.</option>
+    <option>Exclusive advice to manage the Client Manager.</option>`,
     features_HTML_free: `
-    <option>Customer Support</option>
-    <option>Regular Campaigns</option>
-    <option>Basic Automation Campaigns</option>`,
+    <option>Access to Doppler API.</option>
+    <option>Subscription Classic and Pop-up Forms.</option>
+    <option>Unlimited classic and social Campaigns.</option>
+    <option>Basic Email Automation.</option>
+    <option>Real-time Reports.</option>
+    <option>Customer Support through multiple channels.</option>
+    <option>Integrations with other platforms.</option>
+    <option>Emojis and Custom Fields in Subjects.</option>
+    <newOption>Best practises Guide in Subjects.</newOption>
+    <newOption>More effective Subjects List.</newOption>
+    <optionComingSoon>Smart cleaning of Contacts.</optionComingSoon>`,
     features_HTML_plus: `
-    <star>VIP Customer Support</star>
-    <newOption>Stop Campaigns</newOption>
-    <option>Custom domains for your Landing Pages</option>
-    <newBigData>Subject suggestion</newBigData>`,
+    <star>Up to 3 rewarded personalized Reports.</star>
+    <bigData>Integration with BigQuery and Data Analytics tools.</bigData>
+    <bigData>Google Data Studio dashboard 100% customizable.</bigData>
+    <bigData>Efficacy prediction in Subjects.</bigData>
+    <bigData>Smart Send Out at the best day and time for each Contact.</bigData>
+    <newOption>Contact Policy.</newOption>
+    <newOption>Stop Sending in progress.</newOption>
+    <optionComingSoon>Automatic Segments creation.</optionComingSoon>
+    <optionComingSoon>Automatic correction of wrong Email addresses.</optionComingSoon>
+    <optionComingSoon>Spam prediction.</optionComingSoon>
+    <optionComingSoon>Email Automation of Re Engagement.</optionComingSoon>
+    <optionComingSoon>Smart Templates.</optionComingSoon>`,
     features_HTML_standard: `
-    <option>Doppler API access</option>
-    <option>Site Behaviour Automation Campaigns</option>
-    <option>Custom signature Campaigns</option>`,
-    features_title_plus: 'All in standard and:',
-    features_title_standard: 'All in free and:',
+    <star>Advanced Email Automation for E-commerce.</star>
+    <star>On-Site Behaviour Analysis.</star>
+    <star>Advanced Reports.</star>
+    <star>SMS Campaigns.</star>
+    <star>Smart Send Out at the best time for each Contact.</star>
+    <option>A/B Test Campaigns.</option>
+    <option>Highly personalized Campaigns without Doppler’s signature.</option>
+    <optionComingSoon>WhatsApp button for Websites.</optionComingSoon>`,
+    features_title_agencies: 'Features of the Plus Plan, and:',
+    features_title_plus: 'Features of the Advanced Plan, and:',
+    features_title_standard: 'Features of the Free Plan, and:',
+    hide_features: 'Hide Features',
     increase_action_monthly_deliveries: 'Increase Deliveries',
     increase_action_prepaid: 'Buy Credits',
     increase_action_subscribers: 'Increase Contacts',
-    link_exclusive_features: 'Contact us',
+    link_exclusive_features: 'Request',
     new_label: 'New',
+    option_coming: 'Comming soon',
     per_month: 'per month',
     recommended: 'Recommended',
+    show_features: 'See all features',
     since: 'Since',
-    title: 'Plans sized up for your business',
+    title: 'Plans that go along with each stage of your business',
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },
   checkoutProcessForm: {
@@ -273,19 +299,28 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     title: 'Exclusive Features',
   },
   faq: {
-    answer_1: `In your account, select Update Plan. Choose your Plan and fill your billing info. Click on "I have a promotion code", then enter your code and validate it.`,
-    answer_2: `Due to your amount of Contacts, you can acquire a Monthly High Volume Plan that will suit your business needs with a cheaper cost per Email.`,
-    answer_3: `Prepaid Plans' Credits don't have any type of expiration. You can use them for your sendings whenever you want. Also, Credits do accumulate.`,
-    answer_4: `You can pay using International credit cards from Mastercard, VISA or Amex. In Mexico, Argentina or Spain, bank transfers are allowed for purchases from US$77.`,
-    answer_5: `There is no minimum time to stay using Doppler. If you downgrade, only the current month will be charged. Need a contract? we can do it, but we won't ask for one.`,
-    answer_6: `If you choose a Pay in advance Plan, after meeting the agreed time, it will renew automatically for the same period you've previously selected.`,
-    question_1: `How to apply a Promotion Code to access a discount?`,
-    question_2: `Is there a Monthly Plan for more than 100,000 Contacts?`,
-    question_3: `Do Prepaid Plans' Credits have a deadline for their use?`,
-    question_4: `Which payment methods are available to purchase a Paid Plan?`,
-    question_5: `Is there a minimum contract of permanence when buying a Paid Plan?`,
-    question_6: `How does renewal work when paying 3, 6, or 12 months in advanced?`,
-    title: `Frequently ask questions`,
+    answer_1: `International credit card Visa, Mastercard or American Express; bank transfer from a minimum amount (for Argentina, Mexico and Colombia clients);
+    credit card through Mercado Pago (for Argentina).`,
+    answer_2: `No, you can unsuscribe whenever you want and only the current month will be charged. If you need a contract for the provision of the service, we can do it.`,
+    answer_3: `Yes, all Plans are automatically renewed whether you pay every month or in advance. Renewal takes place on the first day of the month.`,
+    answer_4: `You could purchase a Plan by Emails, which has a lower unitary cost per Email as your Plan grows. If you have any other need,
+    we can estimate a Plan with additional Services.`,
+    answer_5: `No. Credits are accumulative and do not expire. You can use then to send Campaigns and make buybacks whenever you want.`,
+    answer_6: `Once you choose the Plan, selecting the Payment Method you’ll see your purchase summary at the right side of the screen. There you can enter your Promo Code,
+    if it is valid you’ll see the discount applied to the purchase of the Plan. Promo Codes are not accumulative with prepayment discounts.`,
+    answer_7: `Yes. Any Plan by Emails, Contacts or Credits allows to send SMS Campaigns and get Reports about them. Remember that SMS are not included in the price of the Plan.`,
+    answer_8: `In Plans by Emails, the total Emails you’ve purchased will be renewed at the first day of the month and they don’t accumulate.`,
+    answer_9: `No. Contacts you’ve imported into a free account are a part of the total Contacts of your new Plan.`,
+    question_1: `Which are the available payment methods?`,
+    question_2: `Is there a minimun lenght of stay to unsuscribe?`,
+    question_3: `Plans are renew automatically?`,
+    question_4: `I have more than 100.000 Contacts. What Plan suits me?`,
+    question_5: `In Plans by Credits, is there a deadline to use them?`,
+    question_6: `How do I use a Promotional Code to purchase a Plan?`,
+    question_7: `Do I need a Paid Plan to do SMS Marketing?`,
+    question_8: `What happens if I don’t use all the Email I’ve purchased per month?`,
+    question_9: `When I buy a Plan, can I replace the Contacts I’ve imported into a free account?`,
+    title: `FAQs about Plans`,
   },
   feature_panel: {
     email_automation: `Email Automation`,

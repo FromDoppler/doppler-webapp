@@ -112,10 +112,14 @@ describe('FreeCard component', () => {
 describe('AgenciesCard component', () => {
   it('should render AgenciesCard when showFeatures is false', async () => {
     // Act
+    const path = {
+      type: 'agencies',
+      current: 'current test',
+    };
     const { container } = render(
       <Router>
         <IntlProvider>
-          <AgenciesCard />
+          <AgenciesCard path={path} />
         </IntlProvider>
       </Router>,
     );
@@ -126,10 +130,14 @@ describe('AgenciesCard component', () => {
 
   it('should render AgenciesCard when showFeatures is true', async () => {
     // Act
+    const path = {
+      type: 'agencies',
+      current: 'current test',
+    };
     const { container } = render(
       <Router>
         <IntlProvider>
-          <AgenciesCard showFeatures={true} />
+          <AgenciesCard path={path} showFeatures={true} />
         </IntlProvider>
       </Router>,
     );
@@ -422,7 +430,7 @@ describe('ChangePlan component', () => {
     );
 
     act(() => {
-      const toggleButton = getByText('change_plan.compare_features');
+      const toggleButton = getByText('change_plan.show_features');
       fireEvent.click(toggleButton);
     });
 

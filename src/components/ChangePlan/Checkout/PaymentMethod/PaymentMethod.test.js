@@ -92,7 +92,7 @@ describe('PaymentMethod component', () => {
     expect(transferOption.checked).toEqual(false);
     expect(mercadoPagoOption.checked).toEqual(false);
 
-    expect(cardNumberElement.textContent.replaceAll(/\s/g, '')).toEqual(
+    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(
       fakePaymentMethodInformation.ccNumber,
     );
     expect(cardHolderElement.textContent).toEqual(fakePaymentMethodInformation.ccHolderName);
