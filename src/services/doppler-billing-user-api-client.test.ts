@@ -3,7 +3,10 @@ import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
 import { HttpDopplerBillingUserApiClient } from './doppler-billing-user-api-client';
-import { fakeBillingInformation } from './doppler-billing-user-api-client.double';
+import {
+  fakeBillingInformation,
+  fakePaymentMethodInformation,
+} from './doppler-billing-user-api-client.double';
 
 const consoleError = console.error;
 const jwtToken = 'jwtToken';
@@ -85,6 +88,42 @@ describe('HttpDopplerBillingUserApiClient', () => {
 
     // Act
     const result = await dopplerBillingUserApiClient.updateBillingInformation(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
+  it('should get payment method information', async () => {
+    // Arrange
+    const paymentMethodInformation = {
+      data: fakePaymentMethodInformation,
+      status: 200,
+    };
+    const request = jest.fn(async () => paymentMethodInformation);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail to get payment method information', async () => {
+    // Arrange
+    const response = {
+      status: 500,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getPaymentMethodData();
 
     // Assert
     expect(request).toBeCalledTimes(1);

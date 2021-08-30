@@ -78,6 +78,6 @@ describe('Checkout component', () => {
     // Assert
     expect(getAllByText('checkoutProcessForm.contact_information_title').length).toBe(2);
     expect(getAllByText('checkoutProcessForm.billing_information_title').length).toBe(1);
-    expect(getAllByText('checkoutProcessForm.payment_method_title').length).toBe(1);
+    expect(getAllByText('checkoutProcessForm.payment_method.title').length).toBe(1);
   });
 });

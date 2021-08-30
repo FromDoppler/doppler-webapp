@@ -25,6 +25,7 @@ import { HardcodedDopplerUserApiClient } from './services/doppler-user-api-clien
 import { HardcodedDopplerContactPolicyApiClient } from './services/doppler-contact-policy-api-client.double';
 import { HardcodedStaticDataClient } from './services/static-data-client.double';
 import { HardcodedDopplerBillingUserApiClient } from './services/doppler-billing-user-api-client.double';
+import { HardcodedDopplerAccountPlansApiClient } from './services/doppler-account-plans-api-client.double';
 
 import Offline from './components/Offline/Offline';
 polyfill();
@@ -51,6 +52,7 @@ const forcedServices =
         dopplerContactPolicyApiClient: new HardcodedDopplerContactPolicyApiClient(),
         staticDataClient: new HardcodedStaticDataClient(),
         dopplerBillingUserApiClient: new HardcodedDopplerBillingUserApiClient(),
+        dopplerAccountPlansApiClient: new HardcodedDopplerAccountPlansApiClient(),
       }
     : {};
 

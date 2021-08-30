@@ -6,6 +6,7 @@ import { RefObject } from 'react';
 export interface DopplerBillingUserApiClient {
   getBillingInformationData(): Promise<ResultWithoutExpectedErrors<BillingInformation>>;
   updateBillingInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -27,6 +28,20 @@ export interface BillingInformation {
 
 export interface Features {
   contactPolicies: boolean;
+}
+
+export interface PaymentMethod {
+  ccHolderName: string;
+  ccNumber: string;
+  ccSecurityCode: string;
+  ccExpiryDate: string;
+  ccType: string;
+  paymentMethodName: string;
+  renewalMonth: number;
+  razonSocial: string;
+  idConsumerType: string;
+  identificationType: string;
+  identificationNumber: string;
 }
 
 export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
@@ -91,6 +106,25 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     };
   }
 
+  private mapPaymentMethod(data: any): PaymentMethod {
+    return {
+      ccHolderName: data.ccHolderFullName,
+      ccNumber: data.ccNumber,
+      ccSecurityCode: data.ccVerification,
+      ccExpiryDate:
+        data.ccExpMonth && data.ccExpYear
+          ? data.ccExpMonth.padStart(2, '0') + '/' + data.ccExpYear
+          : '',
+      ccType: data.ccType,
+      paymentMethodName: data.paymentMethodName,
+      renewalMonth: data.renewalMonth,
+      razonSocial: data.razonSocial,
+      idConsumerType: data.idConsumerType,
+      identificationType: data.identificationType,
+      identificationNumber: data.identificationNumber,
+    };
+  }
+
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>
   > {
@@ -128,6 +162,26 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true };
       } else {
         return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/payment-methods/current`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: this.mapPaymentMethod(response.data) };
+      } else {
+        return { success: false, error: response.data.title };
       }
     } catch (error) {
       return { success: false, error: error };
