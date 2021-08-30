@@ -24,4 +24,10 @@ export class HardcodedBigQueryClient implements BigQueryClient {
     await timeout(500);
     return { success: true };
   }
+
+  public async notifyNewEmails(payload: string[]): Promise<SaveEmailsResult> {
+    console.log('notifyNewEmails: ', payload);
+    await timeout(500);
+    return { success: true };
+  }
 }
