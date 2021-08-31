@@ -78,49 +78,75 @@ const messages_es = {
   },
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,
-    ask_demo: 'Solicita una demo',
-    banner_exclusive_features_description: 'Si necesitas funcionalidades especiales, podemos brindarte un servicio pensado para ti.',
-    banner_exclusive_features_title: 'Solicita características personalizadas para tu negocio',
+    ask_demo: 'Solicitar demo',
+    banner_exclusive_features_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras? Podemos diseñar un Plan a la medida de tu negocio.',
+    banner_exclusive_features_title: 'Servicios adicionales',
     big_data_tooltip: 'Funcionalidad Big Data',
     calculate_price: 'Calcular Precio',
-    card_agencies_description: 'Gestiona y monitorea las cuentas de tus clientes desde un solo lugar.',
+    card_agencies_description: 'Gestiona múltiples cuentas desde un solo lugar.',
     card_agencies_title: 'Agencias',
-    card_free_description: 'Prueba Doppler GRATIS sin contratos ni tarjetas de crédito. Hasta 500 Contactos.',
+    card_free_description: 'Envía Campañas ilimitadas hasta 500 Contactos, sin contratos ni tarjetas de crédito.',
     card_free_title: 'GRATUITO',
-    card_plus_description: 'Funciones avanzadas para profesionales que necesitan mas personalización.',
+    card_plus_description: 'Aumenta la efectividad de tus Campañas con Big Data. ¡Contarás con atención personalizada!',
     card_plus_title: 'Plus',
-    card_standard_description: 'Prueba nuestros planes que se ajusten mas a tus necesidades: mensuales o prepagos.',
-    card_standard_title: 'Standard',
-    compare_features: 'Comparar Funcionalidades',
+    card_standard_description: 'Suma funcionalidades a tu estrategia eligiendo el tipo de Plan.',
+    card_standard_title: 'Avanzado',
     current_plan: 'Plan Actual',
     features_HTML_agencies: `
-    <option>Administración de varias cuentas</option>
-    <option>Administración de permisos</option>
-    <option>Administración de roles</option>`,
+    <star>Acceso al panel de Client Manager para gestionar múltiples cuentas.</star>
+    <star>Configuración de niveles de permiso y accesos para cada cuenta o cliente.</star>
+    <option>Personalización con el logo de tu empresa.</option>
+    <option>Reportes Avanzados sobre el desempeño de las Campañas de cada cliente.</option>
+    <option>Asesoramiento exclusivo para la gestión del Client Manager.</option>`,
     features_HTML_free: `
-    <option>Atención al Cliente</option>
-    <option>Campañas Convencionales</option>
-    <option>Campañas Automation</option>`,
+    <option>Acceso a la API de Doppler.</option>
+    <option>Formularios de Suscripción Clásicos y Pop-up.</option>
+    <option>Campañas clásicas y sociales ilimitadas.</option>
+    <option>Email Automation básico.</option>
+    <option>Reportes en tiempo real.</option>
+    <option>Atención al Cliente por múltiples canales.</option>
+    <option>Integraciones con otras plataformas.</option>
+    <option>Emojis y Campos Personalizados en Asuntos.</option>
+    <newOption>Guía de buenas prácticas en Asuntos.</newOption>
+    <newOption>Listado de Asuntos más efectivos.</newOption>
+    <optionComingSoon>Limpieza inteligente de Contactos.</optionComingSoon>`,
     features_HTML_plus: `
-    <star>Atención preferencial</star>
-    <newOption>Detener Campañas</newOption>
-    <option>Landing pages con dominio personalizado</option>
-    <newBigData>Recomendación de Asuntos</newBigData>`,
+    <star>Hasta 3 Reportes personalizados bonificados.</star>
+    <bigData>Integración con BigQuery y herramientas de Data Analytics.</bigData>
+    <bigData>Tablero de Google Data Studio 100% personalizable.</bigData>
+    <bigData>Predicción de eficacia en Asuntos.</bigData>
+    <bigData>Envío Inteligente en el mejor día y horario para cada Contacto.</bigData>
+    <newOption>Política de Contacto.</newOption>
+    <newOption>Detener Envío en progreso.</newOption>
+    <optionComingSoon>Creación automática de Segmentos.</optionComingSoon>
+    <optionComingSoon>Corrección automática de direcciones de Email incorrectas.</optionComingSoon>
+    <optionComingSoon>Predicción de Spam.</optionComingSoon>
+    <optionComingSoon>Email Automation de Re Engagement.</optionComingSoon>
+    <optionComingSoon>Plantillas Inteligentes.</optionComingSoon>`,
     features_HTML_standard: `
-    <option>Acceso a la API de Doppler</option>
-    <option>Campañas Automation de Comportamiento en Sitio</option>
-    <option>Envíos con tu firma personalizada</option>`,
-    features_title_plus: 'Todo lo de standard mas:',
-    features_title_standard: 'Todo lo de gratis mas:',
+    <star>Email Automation avanzado para E-commerce.</star>
+    <star>Análisis de Comportamiento en Sitio.</star>
+    <star>Reportes Avanzados.</star>
+    <star>Campañas SMS.</star>
+    <star>Envío Inteligente en el mejor horario para cada Contacto.</star>
+    <option>Campañas Test A/B.</option>
+    <option>Campañas 100% personalizadas sin la firma de Doppler.</option>
+    <optionComingSoon>Botón de WhatsApp para Sitios Web.</optionComingSoon>`,
+    features_title_agencies: 'Funcionalidades del Plan Plus, más:',
+    features_title_plus: 'Funcionalidades del Plan Avanzado, más:',
+    features_title_standard: 'Funcionalidades del Plan Gratuito, más:',
+    hide_features: 'Ocultar Funcionalidades',
     increase_action_monthly_deliveries: 'Aumentar Envíos',
     increase_action_prepaid: 'Comprar Créditos',
     increase_action_subscribers: 'Aumentar Contactos',
-    link_exclusive_features: 'Contáctanos',
+    link_exclusive_features: 'Solicitar',
     new_label: 'Nuevo',
+    option_coming: 'Próximamente',
     per_month: 'por mes',
     recommended: 'Recomendado',
+    show_features: 'Ver todas las Funcionalidades',
     since: 'Desde',
-    title: 'Planes a la medida de tu negocio',
+    title: 'Planes que acompañan cada etapa de tu negocio',
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   checkoutProcessForm: {
@@ -272,19 +298,28 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     title: 'Características personalizadas',
   },
   faq: {
-    answer_1: `En tu cuenta, selecciona Actualizar Plan. Elige tu Plan y completa tus datos. Haz clic en "Poseo un código de promoción", luego ingrésalo y valídalo.`,
-    answer_2: `Dependiendo de la cantidad de Contactos que poseas, puedes adquirir un Plan Mensual de Alto Volumen que se adecuará mejor a tu necesidad y tendrá un menor costo por Email.`,
-    answer_3: `Los Créditos de Planes Prepagos no tienen ningún tipo de restricción ni vencimiento. Podrás utilizarlos para hacer tus envíos cuando lo desees.`,
-    answer_4: `Podrás pagar con Tarjetas de Crédito internacionales (Mastercard, VISA o Amex). En México, Argentina o España, también con transferencia bancaria a partir de US$77.`,
-    answer_5: `No existe un tiempo mínimo que debas cumplir dentro de Doppler. Solo se cobrará el mes vigente. Si necesitas un contrato, este puede realizarse pero no es excluyente.`,
-    answer_6: `Si has seleccionado un Plan de Pago por adelantado, luego de cumplirse el tiempo pactado, el mismo se renovará automáticamente por el mismo período de tiempo elegido.`,
-    question_1: `¿Cómo se aplica un Código de Promoción para acceder a un descuento?`,
-    question_2: `¿Se puede adquirir un Plan Mensual para más de 100.000 Contactos?`,
-    question_3: `¿Los Créditos de Planes Prepagos tienen fecha límite para su uso?`,
-    question_4: `¿Cuáles son los métodos de pago disponibles para adquirir un Plan Pago?`,
-    question_5: `¿Existe un contrato o mínimo de permanencia al comprar un Plan Pago?`,
-    question_6: `¿Cómo es la renovación del Plan al pagar por adelantado 3, 6, o 12 meses?`,
-    title: `Preguntas frecuentes`,
+    answer_1: `Tarjeta de crédito internacional Visa, Mastercard o American Express; transferencia bancaria a partir de un monto mínimo (para clientes de Argentina, México y Colombia);
+    tarjeta de crédito a través de Mercado Pago (para Argentina).`,
+    answer_2: `No, puedes darte de baja cuando quieras y solo se cobrará el mes en curso. Si necesitas un contrato por la prestación del servicio, podemos hacerlo.`,
+    answer_3: `Sí, todos los Planes se renuevan automáticamente tanto si pagas todos los meses o por adelantado. La renovación se realiza el primer día del mes.`,
+    answer_4: `Podrías adquirir un Plan por Envíos, que ofrece un costo unitario por Email más bajo a medida que aumenta el tamaño del Plan.
+    Y si tienes alguna otra necesidad, podemos cotizar un Plan con Servicios adicionales.`,
+    answer_5: `No. Los Créditos son acumulables y no se vencen. Puedes utilizarlos para enviar Campañas y hacer recompras cuando quieras.`,
+    answer_6: `Una vez que elijas el Plan, al seleccionar el Método de Pago verás tu resumen de compra a la derecha de la pantalla.
+    Allí podrás ingresar tu Código de Promoción, y si este es válido verás el descuento que se aplicará a la compra del Plan. Los Códigos de Promoción no son acumulables con descuentos por pago adelantado.`,
+    answer_7: `Sí. Cualquier Plan por Envíos, Contactos o Créditos permite enviar Campañas de SMS y obtener Reportes sobre ellos. Ten en cuenta que los SMS no vienen incluídos dentro del precio del Plan.`,
+    answer_8: `En los Planes por Envíos, el total que hayas contratado se renovará el primer día del mes y no se acumulan.`,
+    answer_9: `No. Los Contactos que hayas importado en una cuenta gratuita se contabilizarán dentro del total que hayas contratado.`,
+    question_1: `¿Cuáles son los métodos de pago disponibles?`,
+    question_2: `¿Hay un tiempo mínimo de permanencia para darme de baja?`,
+    question_3: `¿Los Planes se renuevan automáticamente?`,
+    question_4: `Tengo más de 100.000 Contactos. ¿Qué Plan me conviene?`,
+    question_5: `En los Planes por Créditos, ¿hay una fecha límite para usarlos?`,
+    question_6: `¿Cómo aplico un Código de Promoción para contratar un Plan?`,
+    question_7: `¿Necesito tener un Plan Pago para hacer SMS Marketing?`,
+    question_8: `¿Qué pasa si no uso todos los Envíos que contraté por mes?`,
+    question_9: `Al comprar un Plan, ¿puedo reemplazar los Contactos que subí en la versión gratis?`,
+    title: `Preguntas frecuentes sobre Planes`,
   },
   feature_panel: {
     email_automation: `Email Automation`,

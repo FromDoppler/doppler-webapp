@@ -45,6 +45,14 @@ export const BulletOptions = ({ type }) => {
             {chunks} <NewLabel>{_('change_plan.new_label')}</NewLabel>
           </OptionItem>
         ),
+        optionComingSoon: (chunks) => (
+          <OptionItem
+            key={type + '-optioncoming' + chunks.toString().substring(1, 20)}
+            bullet={<BasicBullet />}
+          >
+            {chunks} <OptionComing>{_('change_plan.option_coming')}</OptionComing>
+          </OptionItem>
+        ),
         newStar: (chunks) => (
           <OptionItem
             key={type + '-newstar' + chunks.toString().substring(1, 20)}
@@ -107,6 +115,10 @@ export const NewLabel = ({ children }) => {
   return <span className="dp-new">{children}</span>;
 };
 
+export const OptionComing = ({ children }) => {
+  return <span className="dp-coming">{children}</span>;
+};
+
 export const BigDataBullet = ({ children }) => {
   return (
     <div className="dp-tooltip-container">
@@ -139,7 +151,7 @@ export const FreeCard = ({ showFeatures }) => {
   );
 };
 
-export const AgenciesCard = ({ showFeatures }) => {
+export const AgenciesCard = ({ path, showFeatures }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
@@ -157,6 +169,7 @@ export const AgenciesCard = ({ showFeatures }) => {
       <CardAction url="/email-marketing-for-agencies">{_('change_plan.ask_demo')}</CardAction>
       <Collapse isOpen={showFeatures}>
         <CardFeatures>
+          {!path.current ? <h4>{_(`change_plan.features_title_${path.type}`)}</h4> : ''}
           <BulletOptions type={'agencies'} />
         </CardFeatures>
       </Collapse>
@@ -271,7 +284,11 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                       path.type === 'free' ? (
                         <FreeCard key={index} showFeatures={isFeaturesVisible}></FreeCard>
                       ) : path.type === 'agencies' ? (
-                        <AgenciesCard key={index} showFeatures={isFeaturesVisible}></AgenciesCard>
+                        <AgenciesCard
+                          path={path}
+                          key={index}
+                          showFeatures={isFeaturesVisible}
+                        ></AgenciesCard>
                       ) : (
                         <CardWithPrice
                           key={index}
@@ -294,7 +311,9 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                   }`}
                   onClick={() => toggleFeatures()}
                 >
-                  {_('change_plan.compare_features')}
+                  {isFeaturesVisible
+                    ? _('change_plan.hide_features')
+                    : _('change_plan.show_features')}
                 </button>
               </div>
               <S.Banner className="col-sm-12">

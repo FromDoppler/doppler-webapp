@@ -26,4 +26,16 @@ export const topics = [
     question: <FormattedMessage id="faq.question_6" />,
     answer: <FormattedMessageMarkdown id="faq.answer_6" />,
   },
+  {
+    question: <FormattedMessage id="faq.question_7" />,
+    answer: <FormattedMessageMarkdown id="faq.answer_7" />,
+  },
+  {
+    question: <FormattedMessage id="faq.question_8" />,
+    answer: <FormattedMessageMarkdown id="faq.answer_8" />,
+  },
+  {
+    question: <FormattedMessage id="faq.question_9" />,
+    answer: <FormattedMessageMarkdown id="faq.answer_9" />,
+  },
 ];
