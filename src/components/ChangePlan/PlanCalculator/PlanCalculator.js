@@ -143,7 +143,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
         <div className="dp-rowflex">
           <div className="col-sm-12" style={{ textAlign: 'center' }}>
             <h1 className="dp-tit-plans">{_(`plan_calculator.plan_${pathType}_title`)}</h1>
-            <p>{_('plan_calculator.subtitle')}</p>
+            <p>{_(`plan_calculator.plan_${pathType}_subtitle`)}</p>
             <div className="dp-align-center dp-tabs-plans col-sm-9">
               <NavigatorTabs
                 tabs={state.planTypes}

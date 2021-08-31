@@ -323,7 +323,14 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
                     src={_('common.ui_library_image', { imageUrl: 'asset-enterprise.svg' })}
                   />
                   <h2>{_('change_plan.banner_exclusive_features_title')}</h2>
-                  <p>{_('change_plan.banner_exclusive_features_description')}</p>
+                  <p>
+                    <FormattedMessage
+                      id={'change_plan.banner_exclusive_features_description'}
+                      values={{
+                        Bold: (chunk) => <strong>{chunk}</strong>,
+                      }}
+                    />
+                  </p>
                 </div>
                 <Link
                   className="dp-button button-medium secondary-green button--round"
