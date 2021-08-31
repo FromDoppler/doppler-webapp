@@ -46,7 +46,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-intl": "^5.20.10",
     "react-markdown": "^5.0.3",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^5.2.1",
     "react-scripts": "4.0.3",
     "react-side-effect": ">=2.1.1",
     "react-test-renderer": "^16.14.0",
