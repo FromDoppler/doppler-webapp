@@ -26,6 +26,7 @@ import {
   isZendeskChatOnline,
   openZendeskChatWithMessage,
 } from '../../utils';
+import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 
 const fieldNames = {
   user: 'user',
@@ -132,6 +133,8 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
   };
 
   const formMessage = useMemo(() => getForgotErrorMessage(location), [location]);
+
+  useLinkedinInsightTag();
 
   useEffect(() => {
     if (isActivactionInProgress(location) && typeof window.gtag === 'function') {

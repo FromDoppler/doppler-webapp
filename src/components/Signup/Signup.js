@@ -21,6 +21,7 @@ import queryString from 'query-string';
 import { Redirect } from 'react-router-dom';
 import { extractParameter, isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
 import * as S from './Signup.styles';
+import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -68,6 +69,7 @@ const Signup = function ({
   location,
   dependencies: { dopplerLegacyClient, originResolver, localStorage, utmCookiesManager },
 }) {
+  useLinkedinInsightTag();
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
