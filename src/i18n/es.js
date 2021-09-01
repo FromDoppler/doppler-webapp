@@ -234,7 +234,7 @@ const messages_es = {
     amount_description: 'Enviar hasta',
     error_invalid_range_msg_MD: 'Puedes configurar hasta **999 Emails y 30 días** como máximo.',
     exclude_list_description_MD: `
-Puedes **seleccionar hasta 10 Listas** para que sean excluídas del límite máximo de envíos. Esto significa que **los Contactos de las Listas excluídas recibirán todas las Campañas que envíes.**`,
+Puedes seleccionar **hasta 10 Listas** para que sean excluídas del límite de envíos. Los Contactos de las Listas excluídas **recibirán todas tus Campañas.**`,
     exclude_list_selector: {
       description_MD: `Los Contactos de las Listas que excluyas recibirán todas tus Campañas. **Recuerda que puedes seleccionar hasta {maxToSelect} Listas.**`,
       max_limit_exceeded: 'Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.',
