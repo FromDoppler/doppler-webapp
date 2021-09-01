@@ -21,6 +21,7 @@ import { Promotional } from '../shared/Promotional/Promotional';
 import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
 import Modal from '../Modal/Modal';
 import { SubscriberListSelector } from '../SubscriberListSelector/SubscriberListSelector';
+import contactPolicyPreview from '../../img/contact-policy-preview.gif';
 
 const maxListsToSelect = 10;
 const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
@@ -362,7 +363,7 @@ export const ContactPolicy = InjectAppServices(
         actionUrl={_('contact_policy.promotional.upgrade_plan_url')}
         logoUrl={_('common.ui_library_image', { imageUrl: 'icon-pcontacto.svg' })}
         //TODO: Replace icon and image urls
-        previewUrl={_('common.ui_library_image', { imageUrl: 'no-list.jpg' })}
+        previewUrl={contactPolicyPreview}
       />
     );
   },
