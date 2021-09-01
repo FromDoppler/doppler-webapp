@@ -36,10 +36,17 @@ const HeaderUserMenu = ({ user }) => {
         <div className="user-plan--container">
           <div className="user-plan--type">
             {!user.hasClientManager && (user.plan.isSubscribers || user.plan.isMonthlyByEmail) ? (
-              <p className="user-plan--monthly-text">
-                <strong>{user.plan.planName}</strong> ({user.plan.maxSubscribers}{' '}
-                {user.plan.itemDescription})
-              </p>
+              <>
+                <p className="user-plan--monthly-text">
+                  <strong>{user.plan.planName}</strong> ({user.plan.maxSubscribers}{' '}
+                  {user.plan.itemDescription})
+                </p>
+                {user.plan.buttonUrl && !user.plan.pendingFreeUpgrade && (
+                  <a className="user-plan" href={user.plan.buttonUrl}>
+                    {user.plan.buttonText}
+                  </a>
+                )}
+              </>
             ) : !user.hasClientManager ? (
               <p className="user-plan--monthly-text">{_('header.plan_prepaid')}</p>
             ) : (
@@ -112,15 +119,6 @@ const HeaderUserMenu = ({ user }) => {
                     <p>
                       <strong>{user.plan.remainingCredits}</strong> {user.plan.description}
                     </p>
-                    {!user.hasClientManager &&
-                    user.plan.buttonUrl &&
-                    !user.plan.pendingFreeUpgrade ? (
-                      <a className="user-plan" href={user.plan.buttonUrl}>
-                        {user.plan.buttonText}
-                      </a>
-                    ) : (
-                      ''
-                    )}
                   </div>
                 )}
                 {Object.keys(user.sms).length ? (
