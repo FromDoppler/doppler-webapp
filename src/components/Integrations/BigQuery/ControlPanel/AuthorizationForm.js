@@ -4,7 +4,6 @@ import { useIntl } from 'react-intl';
 import { validateEmail } from '../../../../validations';
 import { CloudTagField } from '../../../form-helpers/CloudTagField';
 import { FormattedMessage } from 'react-intl';
-import { SubmitButton } from '../../../form-helpers/form-helpers';
 
 const fieldNames = {
   emails: 'emails',
@@ -34,7 +33,7 @@ export const AuthorizationForm = ({ emails, onSubmit }) => {
 
   return (
     <Formik {...formikConfig}>
-      <Form className="dp-add-tags" aria-label="form" noValidate>
+      <Form className="dp-add-tags" aria-label="form" noValidate id="big-query-configuration-form">
         <fieldset>
           <legend>{_('big_query.add_permission_google_account')}</legend>
           <CloudTagField
@@ -52,9 +51,6 @@ export const AuthorizationForm = ({ emails, onSubmit }) => {
             )}
           />
         </fieldset>
-        <SubmitButton className="dp-button button-medium primary-green m-t-30">
-          {_('common.save')}
-        </SubmitButton>
       </Form>
     </Formik>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AuthorizationForm } from './AuthorizationForm';
@@ -90,17 +90,5 @@ describe('AuthorizationForm ', () => {
     // emails.length+2 because the second tag was added
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 2);
     expect(errors).not.toBeInTheDocument();
-    // simulate submit form
-    const submitButton = screen.getByRole('button', { name: 'common.save' });
-    userEvent.click(submitButton);
-    await act(async () => expect(submitButton).toBeDisabled());
-    await waitFor(() =>
-      expect(onSubmit).toHaveBeenCalledWith(
-        {
-          emails: [tagToAdd1, tagToAdd2],
-        },
-        [tagToAdd1, tagToAdd2],
-      ),
-    );
   });
 });
