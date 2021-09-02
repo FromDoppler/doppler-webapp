@@ -914,7 +914,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   public async requestSuggestionUpgradeForm(
     model: RequestUpgradeModel,
   ): Promise<ReturnUpgradeFormResult> {
-    const response = await this.axios.post('/WebApp/RequestSuggestionUpgradeDemo', {
+    const response = await this.axios.post('/WebApp/RequestSuggestionUpgradeForm', {
       Email: model.email,
       Firstname: model.firstname,
       Lastname: model.lastname,
