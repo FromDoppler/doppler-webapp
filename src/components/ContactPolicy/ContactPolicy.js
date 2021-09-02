@@ -21,7 +21,7 @@ import { Promotional } from '../shared/Promotional/Promotional';
 import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
 import Modal from '../Modal/Modal';
 import { SubscriberListSelector } from '../SubscriberListSelector/SubscriberListSelector';
-import contactPolicyPreview from '../../img/contact-policy-preview.gif';
+import contactPolicyPreview from './contact-policy-preview.gif';
 
 const maxListsToSelect = 10;
 const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
