@@ -196,7 +196,7 @@ describe('UpgradeSuggestionForm component', () => {
       fireEvent.change(inputPhone, { target: { value: '' } });
     });
 
-    act(() => {
+    await act(async () => {
       const submitButton = container.querySelector('button[type="submit"]');
       fireEvent.submit(submitButton);
     });

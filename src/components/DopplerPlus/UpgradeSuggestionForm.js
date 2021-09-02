@@ -140,13 +140,13 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
                     </FieldItem>
                     <FieldItem className="field-item">
                       <label htmlFor={fieldNames.message}>
-                        <FormattedMessage id="common.optional_message" />
+                        <FormattedMessage id="upgrade_suggestion_form.message" />
                       </label>
                       <Field
                         component="textarea"
                         name={fieldNames.message}
                         id={fieldNames.message}
-                        placeholder={_('upgrade_suggestion_form.message')}
+                        placeholder={_('upgrade_suggestion_form.message_placeholder')}
                       />
                     </FieldItem>
                     <FieldItem className="field-item">

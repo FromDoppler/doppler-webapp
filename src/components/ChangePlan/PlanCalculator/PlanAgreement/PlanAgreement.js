@@ -50,7 +50,11 @@ export const PlanAgreement = ({ planData }) => {
       ) : (
         ''
       )}
-      <p className="dp-plan-disclaimer">{_('plan_calculator.discount_clarification')}</p>
+      {planData.plan.type === 'prepaid' ? (
+        <p className="dp-plan-disclaimer">{_('plan_calculator.discount_clarification_prepaid')}</p>
+      ) : (
+        <p className="dp-plan-disclaimer">{_('plan_calculator.discount_clarification')}</p>
+      )}
     </div>
   );
 };

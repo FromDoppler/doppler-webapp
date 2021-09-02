@@ -59,11 +59,7 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
           <FormattedMessage
             id={bannerInfo.banner.messageId}
             values={{
-              Link: (chunk) => (
-                <Link to={bannerInfo.link}>
-                  <strong>{chunk}</strong>
-                </Link>
-              ),
+              Link: (chunk) => <Link to={bannerInfo.link}>{chunk}</Link>,
             }}
           />
         </p>
