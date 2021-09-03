@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import AgenciesForm from './AgenciesForm';
 import { AppServicesProvider } from '../../services/pure-di';
@@ -7,8 +7,6 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-
 import { act } from 'react-dom/test-utils';
 
 describe('AgenciesForm component', () => {
-  afterEach(cleanup);
-
   const dependencies = {
     appSessionRef: {
       current: {

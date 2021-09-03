@@ -1,15 +1,15 @@
 import React from 'react';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import ExclusiveForm from './ExclusiveForm';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 
 describe('ExclusiveForm component', () => {
-  afterEach(cleanup);
-
-  const dependencies = {
+  const captchaResponseToken = 'hardcodedResponseToken';
+  const dependencies = (mock) => ({
     appSessionRef: {
       current: {
         userData: {
@@ -20,209 +20,110 @@ describe('ExclusiveForm component', () => {
       },
     },
     dopplerLegacyClient: {
-      requestExclusiveFeaturesDemo: async () => {
-        return { success: true };
-      },
+      requestExclusiveFeaturesDemo: mock,
     },
     captchaUtilsService: {
       useCaptcha: () => {
         const Captcha = () => null;
         const verifyCaptcha = async () => {
-          return { success: true, captchaResponseToken: 'hardcodedResponseToken' };
+          return { success: true, captchaResponseToken };
         };
         const recaptchaRef = null;
         return [Captcha, verifyCaptcha, recaptchaRef];
       },
     },
-  };
+  });
 
-  const ExclusiveFormElement = () => (
-    <AppServicesProvider forcedServices={dependencies}>
+  const ExclusiveFormElement = ({ mock }) => (
+    <AppServicesProvider forcedServices={dependencies(mock)}>
       <DopplerIntlProvider>
         <ExclusiveForm />
       </DopplerIntlProvider>
     </AppServicesProvider>
   );
-  jest.useFakeTimers();
 
   it('should show success message if submit succesfully', async () => {
     // Arrange
-    const { container, getByText } = render(<ExclusiveFormElement />);
+    const email = 'hardcoded@email.com';
+    const firstname = 'Juan';
+    const lastname = 'Perez';
+    const phone = '+54 223 655-8877';
+    const mock = jest.fn().mockResolvedValue({ success: true });
 
     // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
+    render(<ExclusiveFormElement mock={mock} />);
 
     // Assert
-    expect(getByText('exclusive_form.success')).toBeInTheDocument();
+    const inputEmail = await screen.findByRole('textbox', { name: 'signup.label_email' });
+    expect(inputEmail).toHaveValue(email);
+
+    let inputName = screen.getByRole('textbox', { name: 'signup.label_firstname' });
+    userEvent.type(inputName, firstname);
+    inputName = await screen.findByRole('textbox', { name: 'signup.label_firstname' });
+    expect(inputName).toHaveValue(firstname);
+
+    let inputLastname = screen.getByRole('textbox', { name: 'signup.label_lastname' });
+    userEvent.type(inputLastname, lastname);
+    inputLastname = await screen.findByRole('textbox', { name: 'signup.label_lastname' });
+    expect(inputLastname).toHaveValue(lastname);
+
+    let inputPhone = screen.getByRole('textbox', { name: 'signup.label_phone' });
+    userEvent.paste(inputPhone, phone);
+    inputPhone = await screen.findByRole('textbox', { name: 'signup.label_phone' });
+    expect(inputPhone).toHaveValue(phone);
+
+    expect(screen.queryByText('exclusive_form.success')).not.toBeInTheDocument();
+    const submitButton = await screen.getByRole('button', { name: 'exclusive_form.demo' });
+
+    userEvent.click(submitButton);
+    await act(async () => expect(submitButton).toBeDisabled());
+
+    expect(mock).toHaveBeenCalledTimes(1);
+    expect(mock).toHaveBeenCalledWith({
+      captchaResponseToken,
+      email,
+      features: [],
+      firstname,
+      lastname,
+      message: '',
+      phone,
+      range_time: '',
+      undefined: '',
+    });
+    expect(screen.getByText('exclusive_form.success')).toBeInTheDocument();
   });
 
   it('should show messages for empty required fields', async () => {
     // Arrange
-    const { container, getAllByText } = render(<ExclusiveFormElement />);
+    const emptyValue = '';
+    const mock = jest.fn().mockResolvedValue({ success: true });
 
     // Act
-    act(() => {
-      const inputEmail = container.querySelector('input#email');
-      fireEvent.change(inputEmail, { target: { value: '' } });
-
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: '' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: '' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '' } });
-    });
-
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
+    render(<ExclusiveFormElement mock={mock} />);
 
     // Assert
-    await waitFor(() => {
-      expect(getAllByText('validation_messages.error_required_field').length).toBe(4);
-      expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-    });
-  });
+    let inputName = screen.getByRole('textbox', { name: 'signup.label_firstname' });
+    userEvent.clear(inputName);
+    inputName = await screen.findByRole('textbox', { name: 'signup.label_firstname' });
+    expect(inputName).toHaveValue(emptyValue);
 
-  it('should show error message if email field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<ExclusiveFormElement />);
+    let inputLastname = screen.getByRole('textbox', { name: 'signup.label_lastname' });
+    userEvent.clear(inputLastname);
+    inputLastname = await screen.findByRole('textbox', { name: 'signup.label_lastname' });
+    expect(inputLastname).toHaveValue(emptyValue);
 
-    // Act
-    act(() => {
-      const inputEmail = container.querySelector('input#email');
-      fireEvent.change(inputEmail, { target: { value: '' } });
+    let inputPhone = screen.getByRole('textbox', { name: 'signup.label_phone' });
+    userEvent.clear(inputPhone);
+    inputPhone = await screen.findByRole('textbox', { name: 'signup.label_phone' });
+    expect(inputPhone).toHaveValue(emptyValue);
 
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
+    expect(screen.queryByText('exclusive_form.success')).not.toBeInTheDocument();
 
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
+    const submitButton = await screen.getByRole('button', { name: 'exclusive_form.demo' });
+    userEvent.click(submitButton);
+    await act(async () => expect(submitButton).toBeDisabled());
 
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-  });
-
-  it('should show error message if name field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<ExclusiveFormElement />);
-
-    // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: '' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-      expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-    });
-  });
-
-  it('should show error message if lastname field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<ExclusiveFormElement />);
-
-    // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: '' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-      expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-    });
-  });
-
-  it('should show error message if phone field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<ExclusiveFormElement />);
-
-    // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '' } });
-    });
-
-    expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-      expect(container.querySelector('.dp-wrap-confirmation')).toBeNull();
-    });
+    expect(screen.getAllByText('validation_messages.error_required_field').length).toBe(3);
+    expect(screen.queryByText('exclusive_form.success')).not.toBeInTheDocument();
   });
 });
