@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import HeaderUserMenu from './HeaderUserMenu';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
-const userData = {
+let userData = {
   fullname: 'John Miller',
   email: 'john@doppler.com',
   avatar: {
@@ -51,12 +51,15 @@ describe('Header user menu', () => {
 
   it('user have monhtly plan', () => {
     // Arrange
-    userData.plan = {
-      isMonthlyByEmail: 'true',
-      description: 'Remaining Emails',
-      planName: 'Monthly Plan',
-      maxSubscribers: 50000,
-      buttonText: 'upgrade',
+    userData = {
+      ...userData,
+      plan: {
+        isMonthlyByEmail: 'true',
+        description: 'Remaining Emails',
+        planName: 'Monthly Plan',
+        maxSubscribers: 50000,
+        buttonText: 'upgrade',
+      },
     };
 
     // Act
@@ -73,10 +76,15 @@ describe('Header user menu', () => {
 
   it('user is clienManager', () => {
     // Arrange
-    userData.plan = {
-      clientManager: {},
-      buttonUrl: 'https://app2.fromdoppler.com/ControlPanel',
-      buttonText: 'Upgrade',
+    userData = {
+      ...userData,
+      plan: {
+        clientManager: {},
+        isSubscribers: true,
+        buttonUrl: 'https://app2.fromdoppler.com/ControlPanel',
+        buttonText: 'Upgrade',
+        pendingFreeUpgrade: false,
+      },
     };
 
     // Act
@@ -104,7 +112,10 @@ describe('Header user menu', () => {
 
   it('should not show SMS text when feature is disabled or is not implented yet', () => {
     // Arrange
-    userData.sms = {};
+    userData = {
+      ...userData,
+      sms: {},
+    };
 
     // Act
     const { queryByText } = render(
