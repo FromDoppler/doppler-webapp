@@ -2,6 +2,140 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Guide Lines
+
+### Test
+
+- It's recommended to test from the user's point of view, hiding implementation details. [More details](https://testing-library.com/docs/).
+
+- Recommended documentation for [test implementation](https://github.com/FromDoppler/doppler-webapp/pull/1504).
+
+- Test phases: 
+
+  - **Arrange:** a series of input data is created to be able to run the tests.
+
+  - **Act:** tests are run with the input data.
+
+  - **Assert**: the result obtained is analyzed to see if it matches what is expected.
+
+- Pre-commit hook is used in local development (husky+link-staged). [More details](https://github.com/FromDoppler/doppler-webapp/pull/1523).
+
+- There's no QA team, so each development must be tested. Also, if a new development is not tested, coverage decreases. If the coverage is below the accepted limit, the merge will not be possible. [More details](https://github.com/FromDoppler/doppler-webapp/pull/1593).
+
+### Code organization
+
+- **Components:** This is located in the *src/components* path. Each should be located in a separate folders and must contain: 
+
+  - component implementation
+
+  - tests
+
+  - styles
+
+  - images
+
+  Also, the component is organized internally in the following order:
+
+  - hooks are located at the top
+
+  - constants and states together
+
+  - functions.
+
+  **Outside the component** the variables or functions that do not depend on some props. [See slack conversation thread for more details](https://makingsense.slack.com/archives/CGJ72QFQX/p1625754680182000).
+
+- **Hooks:** This located in *src/hooks* path. Each should be located in a separate folders and must contain: 
+
+  - hook implementation
+
+  - tests
+
+- **Services:** This is located in the *src/services* path. Each should be located in a separate folder and must contain:
+
+  - service implementation
+
+  - tests
+
+  - service double
+
+- **Translations:** This is located in *src/i18n* path. There are two files: *en.js* and *es.js*. If the translation is common, it's added within the *common* property, otherwise, it's added in the property that contains the translations of the corresponding module.
+
+- **Gif/Images:** The reused gif/images are located in the *src/img* path. The particular images are located in the folder of the component that uses them. Example: a gif for the contact policy promotional page.
+
+### Procure to use declarative style instead of the imperative style
+
+- Use *const* instead of *let* and *var*. Example:
+
+  ~~~
+  // Not recommended
+  let result;
+  if(someCondition) {
+    result = calculationA();
+  } else {
+    result = calculationB();
+  }
+
+  // Better
+  const result = someCondition ? calculationA() : calculationB();
+  ~~~  
+  [Reference documentation](https://jrsinclair.com/articles/2021/rethinking-the-javascript-ternary-operator/).
+
+- Use High Order Functions when it’s possible. Examples:
+
+  ~~~
+  // Not recommended 
+  for(let i=0; i < cities.length; i++) {
+    const city = cities[i];
+    // to do something with city
+  } 
+
+  // Better
+  cities.forEach((city) => {
+    // to do something with city
+  });
+  ~~~
+
+  ~~~
+  // Not recommended 
+  for(let i=0; i < myArray.length; i++) {
+    myArray.key = “a value”;
+    myArray.otherKey = “a value”;
+  } 
+
+  // Better
+  const newArray = myArray.map((item) => ({
+    ...item,
+    key: “a value”,
+    otherKey: “a value”,
+  }));
+  ~~~
+  
+### Others
+
+- Use composition instead of inheritance to reuse code between components. [More details](https://reactjs.org/docs/composition-vs-inheritance.html).
+
+- Use *named imports* instead of *default imports*. [More details](https://humanwhocodes.com/blog/2019/01/stop-using-default-exports-javascript-module/).
+
+- Use pronounceable and expressive names for variables, always prioritizing the *camelcase style*. Avoid using names that refer to the data type.
+
+- Use the *useTimeout* hook on components instead of *setTimeout*. [More details](https://github.com/FromDoppler/doppler-webapp/pull/1428).
+
+- Use a maximum number of 2 parameters for functions. If the number is exceeded, use an object.
+
+- Use the [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) operator. Example:
+
+  ~~~
+  // Not recommended
+  if(obj.first && obj.first.second) { 
+    // ...to do something 
+  }
+
+  // Better
+  if(obj?.first?.second) {
+    // ...to do something
+  }
+  ~~~
+
 ## Cointinuous Deployment and commit format
 
 We use [semantic release](https://github.com/semantic-release/semantic-release) to generate each tag for automatic versioning, that's why it's important to have each commit formatted correctly, this tool uses [Angular commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format) format by default that uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
