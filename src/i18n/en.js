@@ -235,7 +235,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     amount_description: 'Send up to',
     error_invalid_range_msg_MD: 'You can set up to **999 Emails and 30 days** maximum.',
     exclude_list_description_MD: `
-You can **select up to 10 Lists** in order to exclude them from the maximum limit of Emails. This means that **Contacts of excluded Lists will receive all the Campaigns you send.**`,
+You can select **up to 10 Lists** to exclude them from the limit of Emails. Contacts of excluded Lists **will receive all your Campaigns.**`,
     exclude_list_selector: {
       description_MD: `Contacts of excluded Lists will receive all your Campaigns. **Remember you can select up to {maxToSelect} Lists.**`,
       max_limit_exceeded: 'You’ve already select the maximum of Lists you can exclude from the Contact Policy.',
