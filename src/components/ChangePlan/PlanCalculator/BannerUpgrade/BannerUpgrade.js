@@ -27,11 +27,11 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
         return {
           banner: {
             ...bannerInfo,
-            link: `/email-marketing-agencies`,
+            link: `/upgrade-suggestion-form`,
           },
           suggestion: {
             ...suggestionInfo,
-            link: '#',
+            link: `/plan-selection/${currentPlan.featureSet}/monthly-deliveries`,
           },
         };
       default:
@@ -59,7 +59,7 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
           <FormattedMessage
             id={bannerInfo.banner.messageId}
             values={{
-              Link: (chunk) => <Link to={bannerInfo.link}>{chunk}</Link>,
+              Link: (chunk) => <Link to={bannerInfo.banner.link}>{chunk}</Link>,
             }}
           />
         </p>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { BannerUpgrade } from './BannerUpgrade';
@@ -23,8 +23,6 @@ const DependenciesContainer = ({ children }) => (
 );
 
 describe('BannerUpgrade component', () => {
-  afterEach(cleanup);
-
   it('should not show banner when user is not positioned on the maximum plan for the current feature set', () => {
     // Arrange
     const currentPlan = {
