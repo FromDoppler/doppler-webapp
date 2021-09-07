@@ -66,5 +66,5 @@ Promotional.propTypes = {
   actionUrl: PropTypes.string.isRequired,
   logoUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   previewUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  caption: PropTypes.string,
+  caption: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };

@@ -4,8 +4,9 @@ import { AuthorizationForm } from './ControlPanel/AuthorizationForm';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Promotional } from '../../shared/Promotional/Promotional';
 import { useIntl } from 'react-intl';
-import dataStudioGif from '../../../img/google-data-studio.gif';
-import bigQueryLogo from './styles/bigquery_logo.png';
+import dataStudioGif from './google-data-studio.gif';
+import bigQueryLogo from './bigquery_logo.png';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 
 const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiClient } }) => {
   const intl = useIntl();
@@ -59,23 +60,102 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
       <Promotional
         title={_('big_query.free_title')}
         description={_('big_query.free_text_summary')}
-        features={[_('big_query.free_ul_item_insights'), _('big_query.free_ul_item_filter')]}
+        features={[
+          _('big_query.free_ul_item_strategy'),
+          _('big_query.free_ul_item_insights'),
+          _('big_query.free_ul_item_filter'),
+        ]}
         paragraph={_('big_query.free_text_strong')}
         actionText={_('big_query.free_btn_redirect').toUpperCase()}
         actionUrl={_('big_query.upgrade_plan_url')}
         logoUrl={bigQueryLogo}
         previewUrl={dataStudioGif}
+        caption={<FormattedMessageMarkdown id="big_query.free_text_data_studio_MD" />}
       />
     );
   }
-
   return (
-    <div className="dp-container">
-      <div className="dp-rowflex p-t-48">
-        <div className="col-lg-5">
-          <AuthorizationForm emails={data} onSubmit={onSubmit} />
+    <div data-active-menu="35" className="dp-library">
+      <header className="hero-banner">
+        <div className="dp-container">
+          <div className="dp-rowflex">
+            <div className="col-sm-12 col-md-12 col-lg-12">
+              <nav className="dp-breadcrumb">
+                <ul>
+                  <li>
+                    <a href={_('big_query.url_legacy_doppler')}>{_('big_query.plus_beginning')}</a>
+                  </li>
+                  <li>
+                    <a href={_('big_query.url_legacy_control_panel')}>
+                      {_('big_query.plus_configuration')}
+                    </a>
+                  </li>
+                  <li>
+                    <a href={_('big_query.url_legacy_control_panel')}>
+                      {_('big_query.plus_control_panel')}
+                    </a>
+                  </li>
+                  <li>{_('big_query.plus_big_query')}</li>
+                </ul>
+              </nav>
+              <h2>{_('big_query.plus_title')}</h2>
+            </div>
+            <div className="col-lg-7 col-md-7 col-sm-12">
+              <FormattedMessageMarkdown id="big_query.plus_header_MD" />
+            </div>
+          </div>
+          <span className="arrow"></span>
         </div>
-      </div>
+      </header>
+      <section className="dp-container m-t-60">
+        <div className="dp-rowflex">
+          <div className="col-lg-6 col-md-12 col-sm-12 m-b-24 p-b-42">
+            <div className="dp-content-left">
+              <span>{_('big_query.plus_step_one')}</span>
+              <strong>
+                <div className="p-heading">
+                  <FormattedMessageMarkdown id="big_query.plus_body_step_one_MD" />
+                </div>
+              </strong>
+              <p className="m-t-24">{_('big_query.plus_step_one_paragraph')}</p>
+              <div className="m-t-24">
+                <FormattedMessageMarkdown id="big_query.plus_step_one_paragraph_MD" />
+              </div>
+              <AuthorizationForm emails={data} onSubmit={onSubmit} />
+            </div>
+          </div>
+          <div className="col-lg-6 col-md-12 col-sm-12 m-b-24 p-b-42">
+            <div className="dp-content-right">
+              <span>{_('big_query.plus_step_two')}</span>
+              <strong>
+                <div className="p-heading">
+                  <FormattedMessageMarkdown id="big_query.plus_body_step_two_MD" />
+                </div>
+              </strong>
+              <div className="m-t-24">
+                <FormattedMessageMarkdown id="big_query.plus_step_two_paragraph_MD" />
+              </div>
+              <div className="dp-screen">
+                <img src={dataStudioGif} alt={_('big_query.free_alt_image')} />
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-12 m-b-24">
+            <hr className="dp-h-divider"></hr>
+            <button type="button" className="dp-button button-medium primary-grey m-t-30 m-r-24">
+              {_('common.cancel')}
+            </button>
+            <button type="button">
+              <input
+                type="submit"
+                className="dp-button button-medium primary-green m-t-30"
+                form="big-query-configuration-form"
+                value={_('common.save')}
+              ></input>
+            </button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

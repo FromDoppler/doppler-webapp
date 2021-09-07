@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, waitForElementToBeRemoved, screen } from '@testing-library/react';
+import { render, waitForElementToBeRemoved, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { AuthorizationPage } from './AuthorizationPage';
 import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import userEvent from '@testing-library/user-event';
 
 describe('test for validate authorization form component ', () => {
   const result = {
@@ -14,7 +15,9 @@ describe('test for validate authorization form component ', () => {
     getEmailsData: async () => {
       return { emails: result.emails };
     },
-
+    saveEmailsData: async () => {
+      return { success: success };
+    },
     notifyNewEmails: async () => ({
       success: success,
     }),
@@ -112,5 +115,37 @@ describe('test for validate authorization form component ', () => {
     await waitForElementToBeRemoved(loader);
     expect(screen.getByRole('form')).toBeInTheDocument();
     expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
+  });
+
+  it('control panel page validate submit', async () => {
+    //Arrange
+    const bigQueryEnabled = true;
+    const success = true;
+    const jsdomAlert = window.alert;
+    window.alert = () => {};
+
+    //act
+    render(
+      <AppServicesProvider
+        forcedServices={{
+          bigQueryClient: bigQueryClientDouble(success),
+          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled, success),
+        }}
+      >
+        <IntlProvider>
+          <AuthorizationPage />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    //assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+    expect(screen.getByRole('form')).toBeInTheDocument();
+    expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
+    // simulate submit form
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    await act(async () => userEvent.click(submitButton));
+    window.alert = jsdomAlert;
   });
 });
