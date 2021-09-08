@@ -176,7 +176,6 @@ const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
           minFee: userPlan.fee,
           minEmailsByMonth: userPlan.emailsByMonth,
         }),
-        ...getUpgradeSubscribersPlans(planList),
       ];
       break;
 

@@ -260,7 +260,7 @@ describe('Doppler plan client', () => {
     var types = planService.getPlanTypes(currentPlan, 'standard', planList);
 
     // Assert
-    expect(types.length).toBe(2);
+    expect(types.length).toBe(1);
   });
 
   it('should get correct plans for free user - selected path plus, type subscribers', async () => {
@@ -334,7 +334,7 @@ describe('Doppler plan client', () => {
     expect(plans.length).toBeGreaterThan(0);
   });
 
-  it('should get higher subscriber plans when user type: monthly-deliveries', async () => {
+  it('should get no subscriber plans when user type: monthly-deliveries', async () => {
     // Arrange
     const currentPlan = {
       type: 'monthly-deliveries',
@@ -351,7 +351,7 @@ describe('Doppler plan client', () => {
     const plans = await planService.getPlans(currentPlan, 'standard', 'subscribers', planList);
 
     // Assert
-    expect(plans.length).toBe(2);
+    expect(plans.length).toBe(0);
   });
 
   it('should get plansfor subscriber user - selected path standard and type monthly', () => {
