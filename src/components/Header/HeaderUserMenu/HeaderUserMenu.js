@@ -48,7 +48,14 @@ const HeaderUserMenu = ({ user }) => {
                 )}
               </>
             ) : !user.hasClientManager ? (
-              <p className="user-plan--monthly-text">{_('header.plan_prepaid')}</p>
+              <>
+                <p className="user-plan--monthly-text">{_('header.plan_prepaid')}</p>
+                {user.plan.buttonUrl && !user.plan.pendingFreeUpgrade && (
+                  <a className="user-plan" href={user.plan.buttonUrl}>
+                    {user.plan.buttonText}
+                  </a>
+                )}
+              </>
             ) : (
               ''
             )}

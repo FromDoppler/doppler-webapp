@@ -74,6 +74,32 @@ describe('Header user menu', () => {
     expect(getByText('upgrade')).toBeInTheDocument();
   });
 
+  it('should render a button if the plan has buttonText and buttonUrl properties', () => {
+    // Arrange
+    userData = {
+      ...userData,
+      plan: {
+        remainingCredits: 200000,
+        description: 'Remaining Credits',
+        buttonText: 'upgrade',
+        buttonUrl: 'https://link-to-upgrade.com',
+      },
+    };
+
+    // Act
+    const { getByText } = render(
+      <IntlProvider>
+        <HeaderUserMenu user={userData} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    const upgradeLink = getByText('upgrade');
+    expect(getByText(userData.plan.description)).toBeInTheDocument();
+    expect(upgradeLink).toBeInTheDocument();
+    expect(upgradeLink).toHaveAttribute('href', userData.plan.buttonUrl);
+  });
+
   it('user is clienManager', () => {
     // Arrange
     userData = {
