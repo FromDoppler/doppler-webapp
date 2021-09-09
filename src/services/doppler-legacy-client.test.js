@@ -67,6 +67,111 @@ const userData = {
     },
   },
 };
+
+const montlhyRawPlan = {
+  data: {
+    data: [
+      {
+        IdUserTypePlan: 43,
+        Description: '3,000,000',
+        EmailQty: 3000000,
+        Fee: 1836,
+        ExtraEmailCost: 0.00061,
+        IdUserType: 2,
+        SubscribersQty: null,
+        PlanType: 2,
+        DiscountXPlan: [
+          {
+            IdDiscountPlan: 214,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 0,
+            IdPaymentMethod: 1,
+            MonthPlan: 1,
+            ApplyPromo: true,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 215,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 0,
+            IdPaymentMethod: 3,
+            MonthPlan: 1,
+            ApplyPromo: true,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 216,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 5,
+            IdPaymentMethod: 1,
+            MonthPlan: 3,
+            ApplyPromo: false,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 217,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 5,
+            IdPaymentMethod: 3,
+            MonthPlan: 3,
+            ApplyPromo: false,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 218,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 15,
+            IdPaymentMethod: 1,
+            MonthPlan: 6,
+            ApplyPromo: false,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 219,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 15,
+            IdPaymentMethod: 3,
+            MonthPlan: 6,
+            ApplyPromo: false,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 220,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 25,
+            IdPaymentMethod: 1,
+            MonthPlan: 12,
+            ApplyPromo: false,
+            IdItem: 0,
+          },
+          {
+            IdDiscountPlan: 221,
+            IdUserTypePlan: 43,
+            Description: null,
+            DiscountPlanFee: 25,
+            IdPaymentMethod: 3,
+            MonthPlan: 12,
+            ApplyPromo: false,
+            IdItem: 0,
+          },
+        ],
+        EmailParameterEnabled: false,
+        CancelCampaignEnabled: false,
+        SiteTrackingLicensed: false,
+        SmartCampaignsEnabled: false,
+        ShippingLimitEnabled: false,
+      },
+    ],
+  },
+};
+
 describe('Doppler legacy client', () => {
   beforeEach(() => {
     axios.mockClear();
@@ -305,5 +410,20 @@ describe('Doppler legacy client', () => {
     expect(action.nav.length).not.toEqual(0);
     expect(action.user).toBeDefined();
     expect(action.user.idUser).toEqual(1000);
+  });
+
+  it('should parse a monthly plan without discounts', async () => {
+    //Arrange
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    axios.get.mockImplementation(() => montlhyRawPlan);
+    // Act
+    const planList = await sut.getAllPlans();
+    // Assert
+    expect(planList).toBeDefined();
+    expect(planList[0].type).toBe('monthly-deliveries');
+    expect(planList[0].billingCycleDetails).toBeUndefined();
   });
 });

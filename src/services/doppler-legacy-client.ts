@@ -485,7 +485,6 @@ function parsePlan(json: any) {
         fee: fee,
         featureSet: featureSet,
         features: features,
-        billingCycleDetails: billingCycleDetails,
       };
     case 'subscribers':
       return {
