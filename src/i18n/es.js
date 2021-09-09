@@ -32,7 +32,7 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
-const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
+const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 
 const messages_es = {
@@ -227,11 +227,11 @@ const messages_es = {
     control_panel_section_url: `${urlControlPanel}`,
     control_panel_url: `${urlControlPanelMain}`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
-    draft_url: `${urlDraft}`,
     emails: 'Emails',
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
+    homeUrl: `${urlDraft}`,
     message: `Mensaje`,
     message_last_plan: `Cuéntanos tus necesidades y diseñaremos el Plan perfecto para ti`,
     message_success: `¡Hecho! Tu solicitud ha sido enviada`,
