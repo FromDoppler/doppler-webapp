@@ -205,7 +205,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                             </div>
                             <div className="dp-action">
                               <a
-                                href={_('common.draft_url')}
+                                href={_('common.homeUrl')}
                                 className="dp-button button-medium primary-green"
                               >
                                 {_('agencies.submitted')}

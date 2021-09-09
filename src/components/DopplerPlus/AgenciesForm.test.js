@@ -71,7 +71,7 @@ describe('AgenciesForm component', () => {
 
     expect(screen.getByRole('link', { name: 'agencies.submitted' })).toHaveAttribute(
       'href',
-      'common.draft_url',
+      'common.homeUrl',
     );
   });
 
