@@ -68,6 +68,11 @@ describe('AgenciesForm component', () => {
     await waitFor(() => {
       return expect(getByText('agencies.success_msg')).toBeInTheDocument();
     });
+
+    expect(screen.getByRole('link', { name: 'agencies.submitted' })).toHaveAttribute(
+      'href',
+      'common.draft_url',
+    );
   });
 
   it('should show messages for empty required fields', async () => {

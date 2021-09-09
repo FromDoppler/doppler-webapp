@@ -32,7 +32,7 @@ const urlSiteContact = `${urlSite}/contacto/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
-const urlDraft = `${urlDopplerLegacy}/Campaigns/Draft/`;
+const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 
 const messages_es = {
