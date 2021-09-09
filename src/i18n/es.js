@@ -23,7 +23,7 @@ const subjectCanceledAccountNoPay = `?subject=Cuenta%20cancelada%20por%20falta%2
 const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Login`;
 const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%20intentos%20fallidos%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
-const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
+const urlPlanSelection = `/plan-selection`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
 const urlSiteFromSignup = `${urlSite}/`;
 const urlSiteFromLogin = `${urlSite}/`;
@@ -37,8 +37,6 @@ const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/Upgr
 
 const messages_es = {
   agencies: {
-    breadcrumb: 'Planes',
-    breadcrumb_url: `${urlBuyMonthly}`,
     feature_access: 'Acceso al panel de Client Manager para gestionar las cuentas de tus clientes.',
     feature_admin: 'Administración de perfiles de usuario y permisos de acceso para tus clientes.',
     feature_consultancy: 'Asesoramiento exclusivo para gestionar múltiples cuentas.',
@@ -220,6 +218,8 @@ const messages_es = {
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,
+    breadcrumb_plans: 'Planes',
+    breadcrumb_plans_url: `${urlPlanSelection}`,
     cancel: `Cancelar`,
     connect: `Conectar`,
     control_panel: `Panel de Control`,
@@ -290,8 +290,6 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
   empty_notification_text: `No tienes notificaciones pendientes.`,
   exclusive_form: {
     advisory: 'Asesoría y Consultoría.',
-    breadcrumb: 'Planes',
-    breadcrumb_url: `${urlBuyMonthly}`,
     custom_onboarding: 'Onboarding personalizado',
     custom_reports: 'Reportes a medida',
     dedicated_ip: 'IPs Dedicadas',
@@ -763,8 +761,6 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     update: `Actualizar Plan`,
   },
   upgrade_suggestion_form: {
-    breadcrumb: 'Planes',
-    breadcrumb_url: `${urlBuyMonthly}`,
     description: 'Cuéntanos cuáles son tus necesidades y diseñaremos el Plan ideal para ti.',
     form_hour_contact: '¿En qué horario podemos contactarte?',
     form_legend: 'Completa el siguiente formulario',

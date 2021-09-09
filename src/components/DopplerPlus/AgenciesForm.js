@@ -93,7 +93,10 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
           <Breadcrumb>
-            <BreadcrumbItem href={_('agencies.breadcrumb_url')} text={_('agencies.breadcrumb')} />
+            <BreadcrumbItem
+              href={_('common.breadcrumb_plans_url')}
+              text={_('common.breadcrumb_plans')}
+            />
             <BreadcrumbItem text={_('agencies.title')} />
           </Breadcrumb>
           <h2>{_('agencies.title')}</h2>

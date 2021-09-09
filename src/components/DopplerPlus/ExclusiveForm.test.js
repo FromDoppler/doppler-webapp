@@ -91,6 +91,10 @@ describe('ExclusiveForm component', () => {
       undefined: '',
     });
     expect(screen.getByText('exclusive_form.success')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'common.breadcrumb_plans' })).toHaveAttribute(
+      'href',
+      'common.breadcrumb_plans_url',
+    );
   });
 
   it('should show messages for empty required fields', async () => {

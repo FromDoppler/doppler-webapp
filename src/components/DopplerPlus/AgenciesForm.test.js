@@ -73,6 +73,10 @@ describe('AgenciesForm component', () => {
       'href',
       'common.homeUrl',
     );
+    expect(screen.getByRole('link', { name: 'common.breadcrumb_plans' })).toHaveAttribute(
+      'href',
+      'common.breadcrumb_plans_url',
+    );
   });
 
   it('should show messages for empty required fields', async () => {

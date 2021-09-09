@@ -65,9 +65,7 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
           <nav className="dp-breadcrumb">
             <ul>
               <li>
-                <a href={_('upgrade_suggestion_form.breadcrumb_url')}>
-                  {_('upgrade_suggestion_form.breadcrumb')}
-                </a>
+                <a href={_('common.breadcrumb_plans_url')}>{_('common.breadcrumb_plans')}</a>
               </li>
               <li>{_('upgrade_suggestion_form.title')}</li>
             </ul>

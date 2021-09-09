@@ -23,13 +23,13 @@ const subjectCanceledAccountNoPay = `?subject=Cuenta%20cancelada%20por%20falta%2
 const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Login`;
 const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%20intentos%20fallidos%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
-const urlBuyMonthly = `${urlControlPanel}/AccountPreferences/UpgradeAccount?Plan=monthly`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
 const urlSiteFromSignup = `${urlSite}/en/`;
 const urlSiteFromLogin = `${urlSite}/en/`;
 const urlSiteFromForgot = `${urlSite}/en/`;
 const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
+const urlPlanSelection = `/plan-selection`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
@@ -37,8 +37,6 @@ const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/Upgr
 
 const messages_en = {
   agencies: {
-    breadcrumb: 'Plans',
-    breadcrumb_url: `${urlBuyMonthly}`,
     feature_access: 'Access to the Client Manager panel to manage your clients’ accounts.',
     feature_admin: 'Administration of user profiles and access permissions for each of your clients.',
     feature_consultancy: 'Exclusive advisory to manage multiple accounts.',
@@ -219,6 +217,8 @@ const messages_en = {
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
+    breadcrumb_plans: 'Plans',
+    breadcrumb_plans_url: `${urlPlanSelection}`,
     cancel: `Cancel`,
     connect: `Connect`,
     control_panel: `Control Panel`,
@@ -290,8 +290,6 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
   empty_notification_text: `You don't have pending notifications.`,
   exclusive_form: {
     advisory: 'Advice and consultancy.',
-    breadcrumb: 'Plans',
-    breadcrumb_url: `${urlBuyMonthly}`,
     custom_onboarding: 'Custom Onboarding',
     custom_reports: 'Custom Reports',
     dedicated_ip: 'Dedicated IPs ',
@@ -761,8 +759,6 @@ With Doppler you can generate Segments with common interests, create Forms to at
     update: `Update Plan`,
   },
   upgrade_suggestion_form: {
-    breadcrumb: 'Plans',
-    breadcrumb_url: `${urlBuyMonthly}`,
     description: `Tell us about your needs and we'll create the perfect Plan for you.`,
     form_hour_contact: 'At what time can we contact you?',
     form_legend: 'Complete the following plan form',
