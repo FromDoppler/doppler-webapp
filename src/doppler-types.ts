@@ -61,7 +61,6 @@ export interface MonthlyRenewalDeliveriesPlan {
   fee: number;
   featureSet: 'standard' | 'plus';
   featureList: Features[];
-  billingCycleDetails: AdvancePayOptions[];
 }
 
 export interface PrepaidPack {
