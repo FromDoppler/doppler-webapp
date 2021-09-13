@@ -1,10 +1,12 @@
 import { PaymentMethod } from './PaymentMethod';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import user from '@testing-library/user-event';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
 import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-plans-api-client.double';
+import { actionPage } from '../Checkout';
 
 const dependencies = (withError) => ({
   appSessionRef: {
@@ -35,17 +37,32 @@ const dependencies = (withError) => ({
   },
 });
 
+const mockedHandleSaveAndContinue = jest.fn();
+const mockedhandleChangeView = jest.fn();
 const initialProps = {
   showTitle: false,
+  handleChangeView: mockedhandleChangeView,
+  optionView: actionPage.READONLY,
 };
 
-const PaymentMethodElement = ({ withError }) => {
+const initialPropsWithUpdate = {
+  showTitle: false,
+  handleChangeView: mockedhandleChangeView,
+  optionView: actionPage.UPDATE,
+  handleSaveAndContinue: mockedHandleSaveAndContinue,
+};
+
+const PaymentMethodElement = ({ withError, updateView }) => {
   const services = dependencies(withError);
   return (
     <AppServicesProvider forcedServices={services}>
       <IntlProvider>
         <BrowserRouter>
-          <PaymentMethod {...initialProps} />
+          {updateView ? (
+            <PaymentMethod {...initialPropsWithUpdate} />
+          ) : (
+            <PaymentMethod {...initialProps} />
+          )}
         </BrowserRouter>
       </IntlProvider>
     </AppServicesProvider>
@@ -53,7 +70,7 @@ const PaymentMethodElement = ({ withError }) => {
 };
 
 describe('PaymentMethod component', () => {
-  it('should show loading box while getting data', async () => {
+  it('readoly view - should show loading box while getting data', async () => {
     // Act
     render(<PaymentMethodElement withError={false} />);
 
@@ -63,9 +80,9 @@ describe('PaymentMethod component', () => {
     await waitForElementToBeRemoved(loader);
   });
 
-  it('should load data from api correctly', async () => {
+  it('readonly view - should load data from api correctly', async () => {
     // Act
-    const { container } = render(<PaymentMethodElement withError={false} />);
+    render(<PaymentMethodElement withError={false} />);
 
     // Assert
     // Loader should disappear once request resolves
@@ -82,30 +99,15 @@ describe('PaymentMethod component', () => {
       name: 'checkoutProcessForm.payment_method.mercado_pago',
     });
 
-    const cardNumberElement = container.querySelector('.rccs__number');
-    const cardHolderElement = container.querySelector('.rccs__name');
-    const expiryDateElement = container.querySelector('.rccs__expiry__value');
-    const securityCodeElement = container.querySelector('.rccs__cvc');
-
     // Data should load correctly
     expect(creditCardOption.checked).toEqual(true);
     expect(transferOption.checked).toEqual(false);
     expect(mercadoPagoOption.checked).toEqual(false);
-
-    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(
-      fakePaymentMethodInformation.ccNumber,
-    );
-    expect(cardHolderElement.textContent).toEqual(fakePaymentMethodInformation.ccHolderName);
-    expect(expiryDateElement.textContent).toEqual(fakePaymentMethodInformation.ccExpiryDate);
-    expect(securityCodeElement.textContent).toEqual(fakePaymentMethodInformation.ccSecurityCode);
   });
 
-  it("should be check 'CC' as default when the the response is not success", async () => {
+  it("readonly view - should be check 'CC' as default when the the response is not success", async () => {
     // Act
-    const emptyCardNumber = '••••••••••••••••';
-    const emptyHolderName = 'YOUR NAME HERE';
-    const emptyExpiryDate = '••/••';
-    const { container } = render(<PaymentMethodElement withError={true} />);
+    render(<PaymentMethodElement withError={true} />);
 
     // Assert
     // Loader should disappear once request resolves
@@ -122,19 +124,29 @@ describe('PaymentMethod component', () => {
       name: 'checkoutProcessForm.payment_method.mercado_pago',
     });
 
-    const cardNumberElement = container.querySelector('.rccs__number');
-    const cardHolderElement = container.querySelector('.rccs__name');
-    const expiryDateElement = container.querySelector('.rccs__expiry__value');
-    const securityCodeElement = container.querySelector('.rccs__cvc');
-
     // Data should load correctly
     expect(creditCardOption.checked).toEqual(true);
     expect(transferOption.checked).toEqual(false);
     expect(mercadoPagoOption.checked).toEqual(false);
+  });
 
-    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(emptyCardNumber);
-    expect(cardHolderElement.textContent).toEqual(emptyHolderName);
-    expect(expiryDateElement.textContent).toEqual(emptyExpiryDate);
-    expect(securityCodeElement.textContent).toEqual('');
+  it('update view - should show messages for empty required fields', async () => {
+    // Act
+    render(<PaymentMethodElement withError={false} updateView={true} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Click save button
+    const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
+    user.click(submitButton);
+
+    // Validation error messages should be displayed
+    const validationErrorMessages = await screen.findAllByText(
+      'validation_messages.error_required_field',
+    );
+    expect(validationErrorMessages).toHaveLength(4);
   });
 });

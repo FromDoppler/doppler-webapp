@@ -14,11 +14,17 @@ const checkoutSteps = {
   paymentInformation: 'payment-information',
 };
 
+export const actionPage = {
+  READONLY: 'readOnly',
+  UPDATE: 'update',
+};
+
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
   const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
   const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
-  const [completePaymentInformationStep, setCompletePaymentInformationStep] = useState(false);
+  const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
+
   const intl = useIntl();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -98,13 +104,26 @@ const Checkout = () => {
                 <Step
                   active={activeStep === checkoutSteps.paymentInformation}
                   title={_('checkoutProcessForm.payment_method.title')}
-                  complete={completePaymentInformationStep}
+                  complete={
+                    paymentInformationAction === actionPage.READONLY &&
+                    completeContactInformationStep &&
+                    completeBillingInformationStep
+                  }
                   stepNumber={3}
+                  onActivate={() => {
+                    setPaymentInformationAction(actionPage.UPDATE);
+                    setActiveStep(checkoutSteps.paymentInformation);
+                  }}
+                  lastStep={true}
                 >
                   <PaymentMethod
+                    optionView={paymentInformationAction}
+                    handleChangeView={(view) => {
+                      setPaymentInformationAction(view);
+                    }}
                     handleSaveAndContinue={() => {
                       setNextCheckoutStep(activeStep);
-                      setCompletePaymentInformationStep(true);
+                      setPaymentInformationAction(actionPage.READONLY);
                     }}
                   />
                 </Step>

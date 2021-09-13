@@ -7,13 +7,30 @@ export const Discounts = ({
   sessionPlan,
   selectedPlanDiscount,
   disabled,
-  title,
+  handleChange,
 }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(
     selectedPlanDiscount ?? discountsList[0],
   );
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const applyDiscount = useCallback(
+    (planDiscount) => {
+      handleChange(planDiscount);
+      setSelectedDiscount(planDiscount);
+    },
+    [handleChange],
+  );
+
+  useEffect(() => {
+    if (sessionPlan.planSubscription > 1) {
+      const disccountAplied = discountsList.find(
+        (discount) => discount.monthsAmmount === sessionPlan.planSubscription,
+      );
+      applyDiscount(disccountAplied);
+    }
+  }, [applyDiscount, discountsList, sessionPlan.planSubscription]);
 
   const getDiscountDescription = (discountDescription) => {
     switch (discountDescription) {
@@ -26,19 +43,6 @@ export const Discounts = ({
         return '';
     }
   };
-
-  const applyDiscount = useCallback((planDiscount) => {
-    setSelectedDiscount(planDiscount);
-  }, []);
-
-  useEffect(() => {
-    if (sessionPlan.planSubscription > 1) {
-      const disccountAplied = discountsList.find(
-        (discount) => discount.monthsAmmount === sessionPlan.planSubscription,
-      );
-      applyDiscount(disccountAplied);
-    }
-  }, [applyDiscount, discountsList, sessionPlan.planSubscription]);
 
   return (
     <>
@@ -55,13 +59,14 @@ export const Discounts = ({
             {_('checkoutProcessForm.discount_subscription_subtitle')}
           </S.DiscountSubtitle>
         </>
-      ) : (
+      ) : discountsList.length ? (
         <div className="dp-wrap-subscription">
           <label>{_('checkoutProcessForm.discount_title')}</label>
           <ul>
             {discountsList.map((discount, index) => (
               <li key={index}>
                 <button
+                  type="button"
                   key={index}
                   className={`dp-button button-medium ${
                     discount.id === selectedDiscount.id ? 'btn-active' : ''
@@ -81,7 +86,7 @@ export const Discounts = ({
             ))}
           </ul>
         </div>
-      )}
+      ) : null}
     </>
   );
 };
