@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import PlanCalculator from './PlanCalculator';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -8,8 +8,6 @@ import { MemoryRouter, Route } from 'react-router-dom';
 import { orderPlanTypes } from '../../../utils';
 
 describe('PlanCalculator component', () => {
-  afterEach(cleanup);
-
   const dependencies = {
     appSessionRef: {
       current: {
@@ -496,7 +494,7 @@ describe('PlanCalculator component', () => {
     // Assert
     await waitFor(() => {
       expect(container.querySelector('.dp-calc-quantity h3')).toHaveTextContent('1,500');
-      expect(container.querySelector('.dp-cost-per-email')).not.toBeInTheDocument();
+      expect(container.querySelector('.dp-cost-per-email')).toBeInTheDocument();
       expect(container.querySelector('.dp-calc-quantity h4')).toHaveTextContent(
         'plans.prepaid_amount_description',
       );

@@ -130,7 +130,7 @@ describe('CreditCard component', () => {
     const { cardNumberElement, cardHolderElement, expiryDateElement, securityCodeElement } =
       getFormFields(container, false);
 
-    expect(cardNumberElement.textContent.replaceAll(/\s/g, '')).toEqual(
+    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(
       fakePaymentMethodInformation.ccNumber,
     );
     expect(cardHolderElement.textContent).toEqual(fakePaymentMethodInformation.ccHolderName);
@@ -177,7 +177,7 @@ describe('CreditCard component', () => {
     expect(inputExpiryDate.value).toEqual('');
     expect(inputHolderName.value).toEqual('');
     expect(inputSecurityCode.value).toEqual('');
-    expect(cardNumberElement.textContent.replaceAll(/\s/g, '')).toEqual(emptyCardNumber);
+    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(emptyCardNumber);
     expect(cardHolderElement.textContent).toEqual(emptyHolderName);
     expect(expiryDateElement.textContent).toEqual(emptyExpiryDate);
     expect(securityCodeElement.textContent).toEqual('');
@@ -201,7 +201,7 @@ describe('CreditCard component', () => {
     const { cardNumberElement, cardHolderElement, expiryDateElement, securityCodeElement } =
       getFormFields(container, false);
 
-    expect(cardNumberElement.textContent.replaceAll(/\s/g, '')).toEqual(emptyCardNumber);
+    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(emptyCardNumber);
     expect(cardHolderElement.textContent).toEqual(emptyHolderName);
     expect(expiryDateElement.textContent).toEqual(emptyExpiryDate);
     expect(securityCodeElement.textContent).toEqual('');

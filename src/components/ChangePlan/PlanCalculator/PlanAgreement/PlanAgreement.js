@@ -40,7 +40,7 @@ export const PlanAgreement = ({ planData }) => {
         </p>
       ) : null}
 
-      {planData.plan.type === 'monthly-deliveries' ? (
+      {planData.plan.type === 'monthly-deliveries' || planData.plan.type === 'prepaid' ? (
         <p className="dp-cost-per-email">
           {_('plan_calculator.cost_per_email')}{' '}
           <span className="dp-price-large-money">
