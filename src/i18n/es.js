@@ -317,7 +317,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     strategic_accompaniment: 'Acompañamiento Estratégico.',
     success: '¡Excelente! Nos pondremos en contacto a la brevedad',
     testAb: 'Campañas Test A/B',
-    title: 'Características personalizadas',
+    title: 'Servicios adicionales',
   },
   faq: {
     answer_1: `**Tarjeta de crédito internacional** Visa, Mastercard o American Express; **transferencia bancaria** a partir de un monto mínimo (para clientes de Argentina, México y Colombia);
@@ -769,16 +769,18 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     update: `Actualizar Plan`,
   },
   upgrade_suggestion_form: {
-    description: 'Cuéntanos cuáles son tus necesidades y diseñaremos el Plan ideal para ti.',
+    breadcrumb_increase_plan: 'Aumentar Plan',
+    breadcrumb_maximum_plan: 'Máximo de Plan',
+    description: 'Nuestro equipo comercial te asesorará acerca del Plan más conveniente de acuerdo a tus necesidades.',
     form_hour_contact: '¿En qué horario podemos contactarte?',
     form_legend: 'Completa el siguiente formulario',
     form_title: 'Completa el Formulario y nos contactaremos pronto',
     message: 'Selecciona los servicios adicionales de tu interés',
     message_placeholder: 'Escribe aquí tu mensaje',
     meta_description: 'Formulario para sugerir upgrade de plan.',
-    submit_button: 'Enviar consulta',
+    submit_button: 'Enviar',
     success: '¡Excelente! Nos pondremos en contacto a la brevedad',
-    title: 'Servicios adicionales',
+    title: 'Solicita un Plan mayor',
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chatea con el equipo de Atención al Cliente</button> para solucionarlo.`,

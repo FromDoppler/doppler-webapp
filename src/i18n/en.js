@@ -120,9 +120,9 @@ const messages_en = {
     <option>Customer Support through multiple channels.</option>
     <option>Integrations with other platforms.</option>
     <option>Emojis and Custom Fields in Subjects.</option>
-    <newOption>Best practises Guide in Subjects.</newOption>
+    <newOption>Best practices in Subjects Guide.</newOption>
     <newOption>More effective Subjects List.</newOption>
-    <optionComingSoon>Smart cleaning of Contacts.</optionComingSoon>`,
+    <optionComingSoon>Smart Contacts cleaning.</optionComingSoon>`,
     features_HTML_plus: `
     <star>Up to 3 rewarded personalized Reports.</star>
     <bigData>Integration with BigQuery and Data Analytics tools.</bigData>
@@ -317,7 +317,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     strategic_accompaniment: 'Strategic Accompaniment.',
     success: 'Excellent! We will get in touch shortly',
     testAb: 'A/B Test Campaigns',
-    title: 'Exclusive Features',
+    title: 'Aditional servicies',
   },
   faq: {
     answer_1: `**International credit** card Visa, Mastercard or American Express; **bank transfer** from a minimum amount (for Argentina, Mexico and Colombia clients);
@@ -767,7 +767,9 @@ With Doppler you can generate Segments with common interests, create Forms to at
     update: `Update Plan`,
   },
   upgrade_suggestion_form: {
-    description: `Tell us about your needs and we'll create the perfect Plan for you.`,
+    breadcrumb_increase_plan: 'Increase Plan',
+    breadcrumb_maximum_plan: 'Plan Maximum',
+    description: `Our sales team will advice you about the most convenient Plan according to your needs.`,
     form_hour_contact: 'At what time can we contact you?',
     form_legend: 'Complete the following plan form',
     form_title: 'Complete the Form and we’ll contact you soon',
@@ -776,7 +778,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     meta_description: 'Form to suggest plan upgrade.',
     submit_button: 'Send',
     success: 'Excellent! We will get in touch shortly',
-    title: 'Additional Services',
+    title: 'Ask for a bigger Plan',
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
