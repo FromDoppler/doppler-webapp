@@ -50,6 +50,7 @@ export interface SubscribersLimitedPlan {
   featureSet: 'standard' | 'plus';
   featureList: Features[];
   billingCycleDetails: AdvancePayOptions[];
+  currentSubscription: number;
 }
 
 export interface MonthlyRenewalDeliveriesPlan {

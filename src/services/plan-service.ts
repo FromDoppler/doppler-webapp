@@ -180,16 +180,23 @@ const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
       break;
 
     case 'subscribers':
-      potentialUpgradePlans = [
-        ...getUpgradeSubscribersPlans(planList, {
-          minFee: userPlan.fee,
-          minSubscriberLimit: userPlan.subscriberLimit,
-        }),
-        ...getUpgradeMonthlyPlans(planList, {
-          minFee: userPlan.fee,
-          minEmailsByMonth: 0,
-        }),
-      ];
+      userPlan.currentSubscription === 1
+        ? (potentialUpgradePlans = [
+            ...getUpgradeSubscribersPlans(planList, {
+              minFee: userPlan.fee,
+              minSubscriberLimit: userPlan.subscriberLimit,
+            }),
+            ...getUpgradeMonthlyPlans(planList, {
+              minFee: userPlan.fee,
+              minEmailsByMonth: 0,
+            }),
+          ])
+        : (potentialUpgradePlans = [
+            ...getUpgradeSubscribersPlans(planList, {
+              minFee: userPlan.fee,
+              minSubscriberLimit: userPlan.subscriberLimit,
+            }),
+          ]);
       break;
 
     default:
@@ -280,14 +287,23 @@ export class PlanService implements PlanHierarchy {
     return potentialUpgradePlansFilteredByPathAndTypeSorted;
   }
 
-  mapCurrentPlanFromTypeOrId = (planType: PlanType, planId: number, planList: Plan[]) => {
+  mapCurrentPlanFromTypeOrId = (
+    planType: PlanType,
+    planId: number,
+    subscription: number,
+    planList: Plan[],
+  ) => {
     const exclusivePlan = { type: 'exclusive' };
     switch (planType) {
       case 'subscribers':
       case 'monthly-deliveries':
         // for subscribers and monthly plan will be exclusive until id plan is deployed in doppler
         const monthlyPlan = getPlanBySessionPlanId(planId, planList);
-        return monthlyPlan ? monthlyPlan : exclusivePlan;
+        return monthlyPlan
+          ? planType === 'subscribers'
+            ? { ...monthlyPlan, currentSubscription: subscription }
+            : monthlyPlan
+          : exclusivePlan;
       case 'prepaid':
         return getCheapestPrepaidPlan(planList);
       case 'agencies':

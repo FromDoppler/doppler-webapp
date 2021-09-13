@@ -234,6 +234,7 @@ describe('Doppler plan client', () => {
       fee: 32,
       featureSet: 'standard',
       featureList: [],
+      currentSubscription: 1,
     };
 
     // Act
@@ -241,6 +242,26 @@ describe('Doppler plan client', () => {
 
     // Assert
     expect(types.length).toBe(2);
+  });
+
+  it('should get correct types for subscriber user - standard subscription > 1 month', () => {
+    // Arrange
+    const currentPlan = {
+      type: 'subscribers',
+      id: 20,
+      name: '2500-SUBSCRIBERS-STANDARD',
+      subscriberLimit: 2500,
+      fee: 32,
+      featureSet: 'standard',
+      featureList: [],
+      currentSubscription: 3,
+    };
+
+    // Act
+    var types = planService.getPlanTypes(currentPlan, 'standard', planList);
+
+    // Assert
+    expect(types.length).toBe(1);
   });
 
   it('should get correct types for monthly user - selected path standard', () => {
@@ -354,7 +375,7 @@ describe('Doppler plan client', () => {
     expect(plans.length).toBe(0);
   });
 
-  it('should get plansfor subscriber user - selected path standard and type monthly', () => {
+  it('should get plans for subscriber user - selected path standard and type monthly', () => {
     // Arrange
     const currentPlan = {
       type: 'subscribers',
@@ -364,6 +385,7 @@ describe('Doppler plan client', () => {
       fee: 32,
       featureSet: 'standard',
       featureList: [],
+      currentSubscription: 1,
     };
 
     // Act
