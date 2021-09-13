@@ -139,7 +139,7 @@ const ExclusiveForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } })
           <nav className="dp-breadcrumb">
             <ul>
               <li>
-                <a href={_('exclusive_form.breadcrumb_url')}>{_('exclusive_form.breadcrumb')}</a>
+                <a href={_('common.breadcrumb_plans_url')}>{_('common.breadcrumb_plans')}</a>
               </li>
               <li>{_('exclusive_form.title')}</li>
             </ul>
