@@ -15,7 +15,7 @@ describe('PlanCalculator component', () => {
       current: {
         userData: {
           user: {
-            plan: {},
+            plan: { planSubscription: 1 },
           },
         },
       },

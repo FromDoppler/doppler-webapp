@@ -244,6 +244,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
       const currentPlan = planService.mapCurrentPlanFromTypeOrId(
         sessionPlan.planType,
         sessionPlan.idPlan,
+        sessionPlan.planSubscription,
         planList,
       );
       const pathList = await planService.getPaths(currentPlan, planList);
