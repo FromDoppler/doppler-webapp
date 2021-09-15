@@ -95,6 +95,42 @@ describe('BannerUpgrade component', () => {
     expect(container.querySelector('.dp-calc-message')).toBeInTheDocument();
   });
 
+  it(`should show correct text in banner for subscribers plan type when there is no plan to upgrade`, () => {
+    // Arrange
+    const currentPlan = {
+      id: 10,
+      type: 'subscribers',
+      featureSet: featuresSets.STANDARD,
+    };
+
+    const sessionPlan = {
+      planSubscription: 3,
+    };
+    const potencialUpgradePlans = ['subscribers'];
+
+    const currentPlanList = [];
+    for (let i = 1; i <= 10; i++) {
+      currentPlanList.push({ ...currentPlan, id: i });
+    }
+
+    // Act
+    render(
+      <DependenciesContainer>
+        <BannerUpgrade
+          sessionPlan={sessionPlan}
+          currentPlan={currentPlan}
+          currentPlanList={currentPlanList}
+          potencialUpgradePlans={potencialUpgradePlans}
+        />
+      </DependenciesContainer>,
+    );
+
+    // Assert
+    expect(
+      screen.queryByText('plan_calculator.advice_for_subscribers_large_plan'),
+    ).toBeInTheDocument();
+  });
+
   describe.each([
     { planType: types.MONTHLY_DELIVERIES },
     { planType: types.PREPAID },
@@ -108,6 +144,11 @@ describe('BannerUpgrade component', () => {
         featureSet: featuresSets.STANDARD,
       };
 
+      const sessionPlan = {
+        planSubscription: 1,
+      };
+
+      const potencialUpgradePlans = ['subscribers', 'monthly-deliveries'];
       const currentPlanList = [];
       for (let i = 1; i <= 10; i++) {
         currentPlanList.push({ ...currentPlan, id: i });
@@ -116,7 +157,12 @@ describe('BannerUpgrade component', () => {
       // Act
       const { getByText } = render(
         <DependenciesContainer>
-          <BannerUpgrade currentPlan={currentPlan} currentPlanList={currentPlanList} />
+          <BannerUpgrade
+            sessionPlan={sessionPlan}
+            currentPlan={currentPlan}
+            currentPlanList={currentPlanList}
+            potencialUpgradePlans={potencialUpgradePlans}
+          />
         </DependenciesContainer>,
       );
 

@@ -2,7 +2,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => {
+export const BannerUpgrade = ({
+  sessionPlan,
+  currentPlan,
+  currentPlanList,
+  potencialUpgradePlans,
+}) => {
   const getUpgradeInfo = (type) => {
     const bannerInfo = { messageId: `plan_calculator.banner_for_${type.replace('-', '_')}` };
     const suggestionInfo = {
@@ -12,16 +17,28 @@ export const BannerUpgrade = ({ sessionPlan, currentPlan, currentPlanList }) => 
     switch (type) {
       case 'prepaid':
       case 'subscribers':
-        return {
-          banner: {
-            ...bannerInfo,
-            link: `/plan-selection/${currentPlan.featureSet}/monthly-deliveries`,
-          },
-          suggestion: {
-            ...suggestionInfo,
+        if (potencialUpgradePlans?.includes('monthly-deliveries')) {
+          return {
+            banner: {
+              ...bannerInfo,
+              link: `/plan-selection/${currentPlan.featureSet}/monthly-deliveries`,
+            },
+            suggestion: {
+              ...suggestionInfo,
+              link: `/upgrade-suggestion-form`,
+            },
+          };
+        } else {
+          const subscriberMonthlyPlan = {
+            messageId: 'plan_calculator.advice_for_subscribers_large_plan',
             link: `/upgrade-suggestion-form`,
-          },
-        };
+          };
+          return {
+            banner: subscriberMonthlyPlan,
+            suggestion: subscriberMonthlyPlan,
+          };
+        }
+
       case 'monthly-deliveries':
         // TODO: define where to go in this case
         return {

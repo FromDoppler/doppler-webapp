@@ -469,6 +469,7 @@ You'll find an Email with steps to follow.`,
     go_foward_pages: 'Go forward 5 pages',
   },
   plan_calculator: {
+    advice_for_subscribers_large_plan: 'Do you need more Contacts? <Link>Write to us</Link>.',
     banner_for_monthly_deliveries: `Do you need more Emails? <Link>Write to us</Link>.`,
     banner_for_prepaid: `Do you need more Credits? We reccomend you to get a <Link>Plan by Emails</Link>.`,
     banner_for_subscribers: `Do you need more Contacts? We reccomend you to get a <Link>Plan by Emails</Link>.`,
