@@ -8,38 +8,31 @@ import { Loading } from '../../Loading/Loading';
  * @param { import('../../../services/pure-di').AppServices } props.dependencies
  */
 const ReportsBox = ({ dateFrom, dateTo, emailFilter, today, visits, loading }) => {
+  const withEmail = 'with_email' === emailFilter;
+  const totalVisits = visits ?? 0;
+  const descriptionKey = withEmail
+    ? 'reports_box.visits_description_with_email'
+    : 'reports_box.visits_description_without_emails';
+  const titleKey = withEmail
+    ? 'reports_box.visits_with_email'
+    : 'reports_box.visits_without_emails';
+
   return (
     <div className={visits === 0 ? 'dp-box-shadow warning--kpi' : 'dp-box-shadow'}>
-      {loading ? (
-        <Loading />
-      ) : emailFilter === 'with_email' ? (
+      {loading && <Loading />}
+      {['with_email', 'without_email'].includes(emailFilter) ? (
         <>
           <div className="box-border--bottom">
-            <h3 className="number-kpi">{visits}</h3>
+            <h3 className="number-kpi">{totalVisits}</h3>
             <h6>
-              <FormattedMessage id="reports_box.visits_with_email" />
+              <FormattedMessage id={titleKey} />
             </h6>
             <small className="date-range">
               <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} today={today} />
             </small>
           </div>
           <p className="text-kpi">
-            <FormattedMessage id="reports_box.visits_description_with_email" />
-          </p>
-        </>
-      ) : emailFilter === 'without_email' ? (
-        <>
-          <div className="box-border--bottom">
-            <h3 className="number-kpi">{visits}</h3>
-            <h6>
-              <FormattedMessage id="reports_box.visits_without_emails" />
-            </h6>
-            <small className="date-range">
-              <FormattedDateRangeText dateFrom={dateFrom} dateTo={dateTo} today={today} />
-            </small>
-          </div>
-          <p className="text-kpi">
-            <FormattedMessage id="reports_box.visits_description_without_emails" />
+            <FormattedMessage id={descriptionKey} />
           </p>
         </>
       ) : (

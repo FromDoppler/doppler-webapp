@@ -17,7 +17,7 @@ describe('ReportsBox component', () => {
     const loading = true;
 
     // Act
-    const { container } = render(
+    const { container, getByText, getByRole } = render(
       <DopplerIntlProvider>
         <ReportsBox
           dateFrom={dateFrom}
@@ -32,6 +32,8 @@ describe('ReportsBox component', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(getByText('reports_box.visits_with_email')).toBeInTheDocument();
+    expect(getByRole('heading', { name: 0 })).toBeInTheDocument();
   });
 
   it('should show visits 0 and warning when dont have visits', () => {
