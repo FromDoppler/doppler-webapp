@@ -563,6 +563,7 @@ los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayu
       `,
     domain: `Dominio`,
     domain_not_verified_MD: `Tu dominio no está verificado. Es necesario para comenzar a obtener datos sobre tus visitas. [VERIFICAR DOMINIO](${urlSiteTracking}).`,
+    no_information: `No hay información disponible`,
     pages: `Página`,
     rank_time: `Período de tiempo analizado`,
     title: `Analiza el comportamiento de los usuarios y optimiza tu estrategia`,

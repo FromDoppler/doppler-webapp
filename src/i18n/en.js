@@ -562,6 +562,7 @@ by Doppler and how many don't. By tracking the user's journey you'll be able to 
       `,
     domain: `Domain`,
     domain_not_verified_MD: `Your domain is not verified. It is necessary to start obtaining data about your visits. [VERIFY DOMAIN](${urlSiteTracking}).`,
+    no_information: `No information available`,
     pages: `Pages`,
     rank_time: `Time period`,
     title: `Track users behavior, analyze it and optimize your Marketing actions`,

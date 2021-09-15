@@ -4,6 +4,8 @@ import * as S from './ReportsFilters.styles';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 
+export const placeholderDate = '--/--/----';
+
 const ReportsFilters = ({
   domains,
   domainSelected,
@@ -41,18 +43,24 @@ const ReportsFilters = ({
                     </option>
                   ))}
               </select>
-              {domainSelected ? (
-                <S.DropdownLegend>
-                  {domainSelected.verified_date ? (
-                    <>
-                      <FormattedMessage id="reports_filters.verified_domain" />{' '}
-                      <span>
+              <S.DropdownLegend>
+                <span>
+                  {domainSelected ? (
+                    domainSelected.verified_date ? (
+                      <>
+                        <FormattedMessage id="reports_filters.verified_domain" />{' '}
                         <FormattedDate value={domainSelected.verified_date} />
-                      </span>
+                      </>
+                    ) : (
+                      <FormattedMessage id="reports_filters.no_information" />
+                    )
+                  ) : (
+                    <>
+                      <FormattedMessage id="reports_filters.verified_domain" /> {placeholderDate}
                     </>
-                  ) : null}
-                </S.DropdownLegend>
-              ) : null}
+                  )}
+                </span>
+              </S.DropdownLegend>
             </fieldset>
           </div>
           <div className="col-sm-12 col-md-4 col-lg-4 m-b-12">
