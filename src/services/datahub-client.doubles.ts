@@ -56,7 +56,7 @@ const fakePagesData = [
   },
 ];
 
-const fakeTrafficSourcesData = [
+export const fakeTrafficSourcesData = [
   {
     sourceType: 'Email',
     qVisits: 2000,
@@ -169,6 +169,22 @@ const getFakeVisitsWeekdayHoursData = () => {
       qVisitsWithEmail: Math.floor(Math.random() * 100),
     };
   });
+};
+
+export const prepareFakeVisitsWeekdayHoursData = () => {
+  const data = getFakeVisitsWeekdayHoursData();
+
+  const visits = data.map((x) => ({
+    weekday: new Date(x.periods[0].from).getDay(),
+    hour: new Date(x.periods[0].to).getHours(),
+    qVisitors: x.qVisitors,
+    qVisitorsWithEmail: x.qVisitorsWithEmail,
+    qVisitorsWithOutEmail: x.qVisitors - x.qVisitorsWithEmail,
+    qVisits: x.qVisits,
+    qVisitsWithEmail: x.qVisitsWithEmail,
+  }));
+
+  return visits;
 };
 
 export class HardcodedDatahubClient implements DatahubClient {
@@ -340,26 +356,11 @@ export class HardcodedDatahubClient implements DatahubClient {
     console.log('getVisitsQuantitySummarizedByWeekdayAndHour', { domainName, dateFrom, dateTo });
     await timeout(1000);
 
-    const data = getFakeVisitsWeekdayHoursData();
-
-    const visits = data.map((x) => ({
-      weekday: new Date(x.periods[0].from).getDay(),
-      hour: new Date(x.periods[0].to).getHours(),
-      qVisitors: x.qVisitors,
-      qVisitorsWithEmail: x.qVisitorsWithEmail,
-      qVisitorsWithOutEmail: x.qVisitors - x.qVisitorsWithEmail,
-      qVisits: x.qVisits,
-      qVisitsWithEmail: x.qVisitsWithEmail,
-    }));
+    const data = prepareFakeVisitsWeekdayHoursData();
 
     return {
       success: true,
-      value: visits,
+      value: data,
     };
-
-    //return {
-    //  success: false,
-    //  error: new Error('Dummy error'),
-    //};
   }
 }

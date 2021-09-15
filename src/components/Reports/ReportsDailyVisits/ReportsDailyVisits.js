@@ -90,34 +90,36 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      setState({ loading: true });
-      const dailyVisitsData = await datahubClient.getVisitsQuantitySummarizedByDay({
-        domainName: domainName,
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-      });
-      if (!dailyVisitsData.success) {
-        setState({ loading: false });
-      } else {
-        setState({
-          loading: false,
-          chartData: {
-            json: dailyVisitsData.value,
-            keys: {
-              x: 'from',
-              value: ['qVisitors', 'qVisitorsWithEmail', 'qVisitorsWithOutEmail'],
-            },
-            classes: {
-              qVisitorsWithEmail: 'hide-graph',
-              qVisitorsWithOutEmail: 'hide-graph',
-            },
-          },
+    if (domainName) {
+      const fetchData = async () => {
+        setState({ loading: true });
+        const dailyVisitsData = await datahubClient.getVisitsQuantitySummarizedByDay({
+          domainName: domainName,
+          dateFrom: dateFrom,
+          dateTo: dateTo,
         });
-      }
-    };
+        if (!dailyVisitsData.success) {
+          setState({ loading: false });
+        } else {
+          setState({
+            loading: false,
+            chartData: {
+              json: dailyVisitsData.value,
+              keys: {
+                x: 'from',
+                value: ['qVisitors', 'qVisitorsWithEmail', 'qVisitorsWithOutEmail'],
+              },
+              classes: {
+                qVisitorsWithEmail: 'hide-graph',
+                qVisitorsWithOutEmail: 'hide-graph',
+              },
+            },
+          });
+        }
+      };
 
-    fetchData();
+      fetchData();
+    }
   }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
@@ -127,9 +129,8 @@ const ReportsDailyVisits = ({ domainName, dateFrom, dateTo, dependencies: { data
           <FormattedMessage id="reports_daily_visits.title" />
         </h6>
       </div>
-      {state.loading ? (
-        <Loading />
-      ) : !state.chartData ? (
+      {state.loading && <Loading />}
+      {!state.loading && !state.chartData ? (
         <p className="dp-boxshadow--error bounceIn">
           <FormattedMessage id="common.unexpected_error" />
         </p>

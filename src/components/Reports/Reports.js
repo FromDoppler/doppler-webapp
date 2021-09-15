@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { InjectAppServices } from '../../services/pure-di';
-import { Loading } from '../Loading/Loading';
 import { BoxMessage } from '../styles/messages';
 import { addDays, getStartOfDate } from '../../utils';
 import ReportsFilters from './ReportsFilters/ReportsFilters';
@@ -35,7 +34,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
     dailyView: periodSelectedDaysDefault === 1,
   });
 
-  const [totalVisits, setTotalVisits] = useState({});
+  const [totalVisits, setTotalVisits] = useState({ loading: true });
 
   const changeDomain = async (name) => {
     const domainFound = state.domains.find((item) => item.name === name);
@@ -113,11 +112,9 @@ const Reports = ({ dependencies: { datahubClient } }) => {
             changePeriod={changePeriod}
             isEnableWeeks
           />
-          {state.loading ? (
-            <Loading />
-          ) : state.domains ? (
+          {state.loading || (!state.loading && state.domains) ? (
             <section className="dp-container">
-              {!state.domainSelected.verified_date ? (
+              {state.domainSelected && !state.domainSelected.verified_date ? (
                 <BoxMessage className="dp-msj-error bounceIn" spaceTopBottom>
                   <span>
                     <FormattedMessageMarkdown id="reports_filters.domain_not_verified_MD" />
@@ -132,7 +129,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     today={state.dailyView}
                     emailFilter={'without_email'}
                     visits={totalVisits.withoutEmail}
-                    loading={totalVisits.loading}
+                    loading={state.loading || totalVisits.loading}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 m-b-24">
@@ -142,13 +139,13 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                     today={state.dailyView}
                     emailFilter={'with_email'}
                     visits={totalVisits.withEmail}
-                    loading={totalVisits.loading}
+                    loading={state.loading || totalVisits.loading}
                   />
                 </div>
                 {!state.dailyView ? (
                   <div className="col-sm-12 m-b-24">
                     <ReportsDailyVisits
-                      domainName={state.domainSelected.name}
+                      domainName={state.domainSelected?.name}
                       dateFrom={state.dateFrom}
                       dateTo={state.dateTo}
                     />
@@ -156,7 +153,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                 ) : null}
                 <div className="col-sm-12 m-b-24">
                   <ReportsTrafficSources
-                    domainName={state.domainSelected.name}
+                    domainName={state.domainSelected?.name}
                     dateFrom={state.dateFrom}
                     dateTo={state.dateTo}
                   />
@@ -164,7 +161,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                 {!state.dailyView ? (
                   <div className="col-sm-12 m-b-24">
                     <ReportsHoursVisits
-                      domainName={state.domainSelected.name}
+                      domainName={state.domainSelected?.name}
                       dateTo={state.dateTo}
                       dateFrom={state.dateFrom}
                     />
@@ -172,7 +169,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
                 ) : null}
                 <div className="col-sm-12 m-b-24">
                   <ReportsPageRanking
-                    domainName={state.domainSelected.name}
+                    domainName={state.domainSelected?.name}
                     dateTo={state.dateTo}
                     dateFrom={state.dateFrom}
                   />

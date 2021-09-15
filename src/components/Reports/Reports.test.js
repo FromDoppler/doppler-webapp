@@ -12,17 +12,25 @@ describe('Reports page', () => {
     // Arrange
     const datahubClientDouble = {
       getAccountDomains: async () => [],
+      getTotalVisitsOfPeriod: async () => 0,
+      getTrafficSourcesByPeriod: async () => [],
+      getVisitsQuantitySummarizedByDay: async () => [],
+      getVisitsQuantitySummarizedByWeekdayAndHour: async () => [],
+      getPagesRankingByPeriod: async () => [],
     };
+
     // Act
     const { getByText } = render(
-      <DopplerIntlProvider>
-        <Reports
-          dependencies={{
-            datahubClient: datahubClientDouble,
-            appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
-          }}
-        />
-      </DopplerIntlProvider>,
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: datahubClientDouble,
+        }}
+      >
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+        ,
+      </AppServicesProvider>,
     );
 
     // Assert
@@ -35,17 +43,23 @@ describe('Reports page', () => {
       getAccountDomains: async () => {
         return { success: false };
       },
+      getTotalVisitsOfPeriod: async () => 0,
+      getTrafficSourcesByPeriod: async () => [],
+      getVisitsQuantitySummarizedByDay: async () => [],
+      getVisitsQuantitySummarizedByWeekdayAndHour: async () => [],
+      getPagesRankingByPeriod: async () => [],
     };
     // Act
     const { getByText } = render(
-      <DopplerIntlProvider>
-        <Reports
-          dependencies={{
-            datahubClient: datahubClientDouble,
-            appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
-          }}
-        />
-      </DopplerIntlProvider>,
+      <AppServicesProvider
+        forcedServices={{
+          datahubClient: datahubClientDouble,
+        }}
+      >
+        <DopplerIntlProvider>
+          <Reports />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
     );
 
     // Assert
@@ -73,7 +87,7 @@ describe('Reports page', () => {
     };
 
     // Act
-    const { getByText, container } = render(
+    const { queryByText } = render(
       <AppServicesProvider
         forcedServices={{
           datahubClient: datahubClientDouble,
@@ -87,8 +101,7 @@ describe('Reports page', () => {
     );
 
     // Assert
-    expect(container.querySelectorAll('.loading-box')).toHaveLength(1);
-    await waitFor(() => expect(getByText('reports_filters.domain_not_verified_MD')));
+    await waitFor(() => expect(queryByText('reports_filters.domain_not_verified_MD')));
   });
 
   it('should show "no domains" message when the domain list is empty', async () => {
@@ -99,10 +112,13 @@ describe('Reports page', () => {
       },
       getTotalVisitsOfPeriod: async () => 0,
       getTrafficSourcesByPeriod: async () => [],
+      getVisitsQuantitySummarizedByDay: async () => [],
+      getVisitsQuantitySummarizedByWeekdayAndHour: async () => [],
+      getPagesRankingByPeriod: async () => [],
     };
 
     // Act
-    const { container, getByText } = render(
+    const { container, findByText } = render(
       <AppServicesProvider
         forcedServices={{
           datahubClient: datahubClientDouble,
@@ -114,10 +130,9 @@ describe('Reports page', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
-    expect(container.querySelectorAll('.loading-box')).toHaveLength(1);
 
     // Assert
     await waitFor(() => expect(container.querySelectorAll('.loading-box')).toHaveLength(0));
-    getByText('reports.no_domains_MD');
+    expect(await findByText('reports.no_domains_MD')).toBeInTheDocument();
   });
 });
