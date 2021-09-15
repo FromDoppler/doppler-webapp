@@ -503,6 +503,7 @@ function parsePlan(json: any) {
         id: id,
         name: `${emailsByMonth}-CREDITS`,
         credits: emailsByMonth,
+        extraEmailPrice: extraEmailPrice,
         price: fee,
         featureSet: 'standard',
       };
