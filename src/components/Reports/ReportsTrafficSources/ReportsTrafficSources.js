@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsTrafficSources.styles';
+import { fakeTrafficSourcesData } from '../../../services/datahub-client.doubles';
 
 const SafeDivide = (number, qVisitors) => {
   return qVisitors ? number / qVisitors : 0;
@@ -14,7 +15,10 @@ const ReportsTrafficSources = function ({
   dateTo,
   dependencies: { datahubClient },
 }) {
-  const [state, setState] = useState({ loading: true });
+  const [state, setState] = useState({
+    loading: true,
+    trafficSources: { items: fakeTrafficSourcesData },
+  });
 
   const numberFormatOptions = {
     style: 'percent',
@@ -53,9 +57,8 @@ const ReportsTrafficSources = function ({
         </h6>
       </div>
       <S.ContentContainer>
-        {state.loading ? (
-          <Loading />
-        ) : !state.trafficSources ? (
+        {state.loading && <Loading />}
+        {!state.loading && !state.trafficSources ? (
           <p className="dp-boxshadow--error bounceIn">
             <FormattedMessage id="common.unexpected_error" />
           </p>

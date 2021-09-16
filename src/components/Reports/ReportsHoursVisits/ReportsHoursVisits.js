@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedMessage, FormattedDateParts } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 import * as S from './ReportsHoursVisits.styles';
+import { prepareFakeVisitsWeekdayHoursData } from '../../../services/datahub-client.doubles';
 
 const createEmptyWeekDayHoursMatrix = () =>
   [...Array(7)].map(() =>
@@ -27,51 +28,69 @@ const FormatWeekDayIndex = ({ value, format }) => {
   );
 };
 
+const getProcessedVisits = (hoursVisitsdata) => {
+  const processedVisits = hoursVisitsdata.value.reduce(
+    (accumulator, item) => {
+      accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitors += item.qVisitors;
+      if (item.qVisitorsWithEmail || item.qVisitorsWithEmail === 0) {
+        accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitorsWithEmail +=
+          item.qVisitorsWithEmail;
+        accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitorsWithOutEmail +=
+          item.qVisitorsWithOutEmail;
+      }
+      if (item.qVisitors > accumulator.max) {
+        accumulator.max = item.qVisitors;
+      }
+      return accumulator;
+    },
+    { byWeekDayAndHour: createEmptyWeekDayHoursMatrix(), max: 0 },
+  );
+
+  return processedVisits;
+};
+
+const fakeData = getProcessedVisits({
+  success: true,
+  value: prepareFakeVisitsWeekdayHoursData(),
+});
+
 const ReportsHoursVisitsOld = ({
   domainName,
   dateFrom,
   dateTo,
   dependencies: { datahubClient },
 }) => {
-  const [state, setState] = useState({ loading: true });
+  const [state, setState] = useState({
+    loading: true,
+    visits: fakeData.byWeekDayAndHour,
+    minRange: fakeData.max / 3,
+    mediumRange: fakeData.max * (2 / 3),
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      setState({ loading: true });
-      const hoursVisitsdata = await datahubClient.getVisitsQuantitySummarizedByWeekdayAndHour({
-        domainName: domainName,
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-      });
-      if (!hoursVisitsdata.success) {
-        setState({ loading: false });
-      } else {
-        const processedVisits = hoursVisitsdata.value.reduce(
-          (accumulator, item) => {
-            accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitors += item.qVisitors;
-            if (item.qVisitorsWithEmail || item.qVisitorsWithEmail === 0) {
-              accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitorsWithEmail +=
-                item.qVisitorsWithEmail;
-              accumulator.byWeekDayAndHour[item.weekday][item.hour].qVisitorsWithOutEmail +=
-                item.qVisitorsWithOutEmail;
-            }
-            if (item.qVisitors > accumulator.max) {
-              accumulator.max = item.qVisitors;
-            }
-            return accumulator;
-          },
-          { byWeekDayAndHour: createEmptyWeekDayHoursMatrix(), max: 0 },
-        );
-        setState({
-          loading: false,
-          visits: processedVisits.byWeekDayAndHour,
-          minRange: processedVisits.max / 3,
-          mediumRange: processedVisits.max * (2 / 3),
+    if (domainName) {
+      const fetchData = async () => {
+        setState((state) => ({ ...state, loading: true }));
+        const hoursVisitsdata = await datahubClient.getVisitsQuantitySummarizedByWeekdayAndHour({
+          domainName: domainName,
+          dateFrom: dateFrom,
+          dateTo: dateTo,
         });
-      }
-    };
+        if (!hoursVisitsdata.success) {
+          setState({ loading: false });
+        } else {
+          const processedVisits = getProcessedVisits(hoursVisitsdata);
+          setState({
+            loading: false,
+            visits: processedVisits.byWeekDayAndHour,
+            minRange: processedVisits.max / 3,
+            mediumRange: processedVisits.max * (2 / 3),
+          });
+        }
+      };
 
-    fetchData();
+      fetchData();
+    }
   }, [datahubClient, dateFrom, dateTo, domainName]);
 
   return (
@@ -119,9 +138,8 @@ const ReportsHoursVisitsOld = ({
         </div>
       </S.Header>
       <S.ContentContainer>
-        {state.loading ? (
-          <Loading />
-        ) : state.visits ? (
+        {state.loading && <Loading />}
+        {state.visits ? (
           <S.List>
             {state.visits.map((weekDays, weekDayIndex) => (
               <S.Row key={weekDayIndex}>
