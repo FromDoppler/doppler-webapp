@@ -32,7 +32,6 @@ export const CloudTags = ({ tags, remove, afterRemove, disabled, render }) => {
           <span
             className={classNames({
               'dp-tag': true,
-              'dp-recently-add': index + 1 === tags.length,
             })}
           >
             {tag}
