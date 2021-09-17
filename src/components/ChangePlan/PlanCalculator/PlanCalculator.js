@@ -82,6 +82,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
         sessionPlan.planType,
         sessionPlan.idPlan,
         sessionPlan.planSubscription,
+        sessionPlan.subscribersCount,
         planList,
       );
       const planTypes = planService.getPlanTypes(currentPlan, pathType, planList);

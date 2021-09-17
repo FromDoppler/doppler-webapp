@@ -166,7 +166,10 @@ const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
       potentialUpgradePlans = [
         ...getPrepaidPacks(planList),
         ...getUpgradeMonthlyPlans(planList),
-        ...getUpgradeSubscribersPlans(planList),
+        ...getUpgradeSubscribersPlans(planList, {
+          minFee: 0,
+          minSubscriberLimit: userPlan.subscribersCount,
+        }),
       ];
       break;
 
@@ -291,6 +294,7 @@ export class PlanService implements PlanHierarchy {
     planType: PlanType,
     planId: number,
     subscription: number,
+    subscribersCount: number = 0,
     planList: Plan[],
   ) => {
     const exclusivePlan = { type: 'exclusive' };
@@ -305,7 +309,7 @@ export class PlanService implements PlanHierarchy {
             : monthlyPlan
           : exclusivePlan;
       case 'prepaid':
-        return getCheapestPrepaidPlan(planList);
+        return { ...getCheapestPrepaidPlan(planList), subscribersCount };
       case 'agencies':
         return {
           type: 'agency',
