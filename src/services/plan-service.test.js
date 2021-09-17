@@ -109,6 +109,76 @@ describe('Doppler plan client', () => {
     expect(paths.filter((plan) => plan.current).length > 0);
   });
 
+  it('should get the plans greater than or equal to the current subscribers', async () => {
+    // Arrange
+    const subscribersCount = 2600;
+    const pathType = 'standard';
+    const planType = 'subscribers';
+    const currentPlan = {
+      type: 'prepaid',
+      id: 2,
+      name: '1500-CREDITS',
+      credits: 1500,
+      price: 45,
+      featureSet: 'standard',
+      subscribersCount,
+    };
+
+    // Act
+    const plans = await planService.getPlans(currentPlan, pathType, planType, planList);
+
+    // Assert
+    expect(plans.length).toBe(1);
+    expect(plans[0].subscriberLimit >= subscribersCount).toBe(true);
+  });
+
+  it('should not return plans for contacts when the allowed amount is exceeded', async () => {
+    // Arrange
+    const subscribersCount = 10000;
+    const pathType = 'standard';
+    const planType = 'subscribers';
+    const currentPlan = {
+      type: 'prepaid',
+      id: 2,
+      name: '1500-CREDITS',
+      credits: 1500,
+      price: 45,
+      featureSet: 'standard',
+      subscribersCount,
+    };
+
+    // Act
+    const plans = await planService.getPlans(currentPlan, pathType, planType, planList);
+
+    // Assert
+    expect(plans.length).toBe(0);
+  });
+
+  it('should return all plans by contacts if the current contacts is less', async () => {
+    // Arrange
+    const subscribersCount = 1000;
+    const pathType = 'standard';
+    const planType = 'subscribers';
+    const currentPlan = {
+      type: 'prepaid',
+      id: 2,
+      name: '1500-CREDITS',
+      credits: 1500,
+      price: 45,
+      featureSet: 'standard',
+      subscribersCount,
+    };
+
+    // Act
+    const plans = await planService.getPlans(currentPlan, pathType, planType, planList);
+
+    // Assert
+    expect(plans.length).toBe(2);
+    plans.forEach((plan) => {
+      expect(plan.subscriberLimit >= subscribersCount).toBe(true);
+    });
+  });
+
   it('should get correct path for a current prepaid user', async () => {
     // Arrange
     const currentPlan = {
@@ -118,6 +188,7 @@ describe('Doppler plan client', () => {
       credits: 2500,
       price: 45,
       featureSet: 'standard',
+      subscribersCount: 0,
     };
 
     // Act
@@ -215,6 +286,7 @@ describe('Doppler plan client', () => {
       credits: 1500,
       price: 15,
       featureSet: 'standard',
+      subscribersCount: 0,
     };
 
     // Act
@@ -311,6 +383,7 @@ describe('Doppler plan client', () => {
       credits: 1500,
       price: 15,
       featureSet: 'standard',
+      subscribersCount: 0,
     };
 
     // Act

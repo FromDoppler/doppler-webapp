@@ -70,6 +70,7 @@ export interface PrepaidPack {
   name: string;
   credits: number;
   price: number;
+  subscribersCount: number;
   featureSet: 'standard';
 }
 

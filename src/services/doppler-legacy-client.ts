@@ -297,6 +297,7 @@ interface PlanEntry {
   idPlan: number;
   planDiscount: number;
   planSubscription: number;
+  subscribersCount: number;
 }
 
 interface SmsEntry {
@@ -414,6 +415,7 @@ function mapPlanEntry(json: any): PlanEntry {
     idPlan: json.idUserTypePlan ? json.idUserTypePlan : 0,
     planDiscount: json.planDiscount,
     planSubscription: json.monthPlan,
+    subscribersCount: json.subscribersCount,
   };
 }
 function mapSmsEntry(json: any): SmsEntry {
