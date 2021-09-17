@@ -6,7 +6,7 @@ import queryString from 'query-string';
 import { extractParameter, thousandSeparatorNumber } from '../../utils';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Collapse from '@kunukn/react-collapse';
 import * as S from './ChangePlan.styles';
 import { FAQ } from '../FAQ';
@@ -259,6 +259,10 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
     };
     fetchData();
   }, [planService, appSessionRef]);
+
+  if (state.currentPlan?.type === 'exclusive') {
+    return <Redirect to="/upgrade-suggestion-form" />;
+  }
 
   return (
     <>
