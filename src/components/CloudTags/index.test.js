@@ -17,7 +17,6 @@ describe('CloudTags component', () => {
     // Assert
     const allTags = screen.queryAllByRole('listitem');
     expect(allTags.length).toBe(tags.length);
-    expect(allTags[allTags.length - 1].querySelector('span')).toHaveClass('dp-recently-add');
   });
 
   it('should render CloudTags component when it has no tags', () => {
