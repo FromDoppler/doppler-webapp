@@ -470,6 +470,7 @@ Encontrarás un Email con los pasos a seguir.`,
     go_foward_pages: 'Avanzar 5 páginas',
   },
   plan_calculator: {
+    advice_for_subscribers_large_plan: '¿Necesitas más Contactos? <Link>Escríbenos</Link>.',
     banner_for_monthly_deliveries: `¿Necesitas más Envíos? <Link>Escríbenos</Link>.`,
     banner_for_prepaid: `¿Necesitas más Créditos? Te recomendamos los <Link>Planes por Envíos</Link>.`,
     banner_for_subscribers: `¿Necesitas más Contactos? Te recomendamos los <Link>Planes por Envíos</Link>.`,

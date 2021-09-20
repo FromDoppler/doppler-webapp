@@ -137,7 +137,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
   }
   const sessionPlan = appSessionRef.current.userData.user;
   const isEqualPlan = sessionPlan.plan.idPlan === planData.plan.id;
-  const hightestPlan = state.planList.length === 1 && isEqualPlan;
+  const hightestPlan = state.planList?.length === 1 && isEqualPlan;
 
   return state.success ? (
     <section className="dp-gray-page p-t-54 p-b-54">
@@ -175,6 +175,7 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                             sessionPlan={sessionPlan.plan}
                             currentPlan={planData.plan}
                             currentPlanList={state.planList}
+                            potencialUpgradePlans={state.planTypes}
                           />
                           {state.discountsList?.length ? (
                             <>
