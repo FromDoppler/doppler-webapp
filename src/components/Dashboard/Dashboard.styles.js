@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const article = styled.h2`
+export const Article = styled.h2`
   span {
     width: 25px;
     display: inline-block;

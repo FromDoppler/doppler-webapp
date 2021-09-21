@@ -23,7 +23,7 @@ export const Dashboard = () => {
       </header>
       <div className="dpsg-wrapper">
         <div className="dpsg-content-wrap">
-          <S.article className="dp-container">
+          <S.Article className="dp-container">
             <h2>
               <span>
                 <svg
@@ -49,7 +49,7 @@ export const Dashboard = () => {
                 <Carousel></Carousel>
               </div>
             </div>
-          </S.article>
+          </S.Article>
         </div>
       </div>
     </div>

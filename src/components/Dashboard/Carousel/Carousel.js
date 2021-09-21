@@ -3,7 +3,7 @@ import Slide from './Slide/Slide';
 
 const Carousel = ({ title, description, link }) => {
   return (
-    <div className="dp-carousel" id="carousel1" role="carousel">
+    <div className="dp-carousel" id="carousel1">
       <div className="dp-carousel-wrapper dp-carousel-orange">
         <div className="dp-carousel-content">
           <Slide></Slide>
