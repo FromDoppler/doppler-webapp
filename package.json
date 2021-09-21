@@ -149,7 +149,7 @@
     "comment": "Resolution to avoid test warning: [...] Please update the following components: SideEffect(NullComponent)"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.2.0",
+    "@testing-library/dom": "^8.5.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/react-credit-cards": "^0.8.1",
     "@types/styled-components": "^5.1.14",
