@@ -36,16 +36,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
     const emailsData = { emails: [...values.emails] };
     const { success } = await bigQueryClient.saveEmailsData(emailsData);
     if (success) {
-      if (emailsToNotify.length > 0) {
-        const { success } = await bigQueryClient.notifyNewEmails(emailsToNotify);
-        if (success) {
-          alert('success');
-        } else {
-          alert('error notifying new users');
-        }
-      } else {
-        alert('success');
-      }
+      alert('success');
     } else {
       alert('error saving data');
     }
