@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  waitFor,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { act } from 'react-dom/test-utils';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -14,9 +20,16 @@ import ChangePlan, {
   AgenciesCard,
   CardWithPrice,
 } from './ChangePlan';
-import { MemoryRouter as Router } from 'react-router-dom';
+import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
 import { allPlans } from '../../services/doppler-legacy-client.doubles';
+
+const RouterInspector = withRouter(({ match, location, history, target }) => {
+  target.match = match;
+  target.location = location;
+  target.history = history;
+  return null;
+});
 
 describe('OptionItem component', () => {
   it('should render OptionItem', async () => {
@@ -299,8 +312,6 @@ describe('BulletOptions component', () => {
 });
 
 describe('ChangePlan component', () => {
-  afterEach(cleanup);
-
   it('should render ChangePlan when plans list is empty', async () => {
     // Arrange
     const paths = [];
@@ -440,6 +451,52 @@ describe('ChangePlan component', () => {
           'visibility: hidden',
         ),
       );
+    });
+  });
+  it('should redirect to UpgradeForm when user has exclusive plan', async () => {
+    // Arrange
+    const paths = [{}];
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {},
+            },
+          },
+        },
+      },
+      planService: {
+        getPlanList: () => [],
+        mapCurrentPlanFromTypeOrId: () => ({
+          type: 'exclusive',
+        }),
+        getPaths: () => paths,
+      },
+    };
+
+    const currentRouteState = {};
+
+    // Act
+    act(() => {
+      render(
+        <Router>
+          <RouterInspector target={currentRouteState} />
+          <AppServicesProvider forcedServices={dependencies}>
+            <IntlProvider>
+              <ChangePlan location={{ search: null }} />
+            </IntlProvider>
+          </AppServicesProvider>
+        </Router>,
+      );
+    });
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Assert
+    await waitFor(() => {
+      expect(currentRouteState.location.pathname).toEqual('/upgrade-suggestion-form');
     });
   });
 });
