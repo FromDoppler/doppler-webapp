@@ -5,10 +5,11 @@ import Carousel from './Carousel';
 
 describe('Carousel component', () => {
   it('should show the active slide when its dot is checked', async () => {
+    // Act
     render(<Carousel />);
 
-    expect(document.querySelector('.active')).toBeInTheDocument();
-
+    // Assert
+    expect(document.querySelector('.dp-carousel-wrapper')).toBeInTheDocument();
     document.querySelector('.dp-carousel-dot').checked = true;
   });
 });

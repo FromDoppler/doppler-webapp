@@ -1,14 +1,10 @@
 import React from 'react';
-import Slide from './Slide/Slide';
 
-const Carousel = ({ title, description, link }) => {
+const Carousel = ({ children }) => {
   return (
     <div className="dp-carousel" id="carousel1">
       <div className="dp-carousel-wrapper dp-carousel-orange">
-        <div className="dp-carousel-content">
-          <Slide></Slide>
-          <Slide></Slide>
-        </div>
+        <div className="dp-carousel-content">{children}</div>
       </div>
       <div className="dp-carousel-dots">
         <input

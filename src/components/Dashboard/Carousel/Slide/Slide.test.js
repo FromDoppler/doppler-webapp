@@ -5,13 +5,10 @@ import Slide from './Slide';
 
 describe('Slide component', () => {
   it('should show the slide', async () => {
-    render(<Slide title="texto" description="desc" link="linkurl" />);
-    const title = screen.getByText('texto');
-    const description = screen.getByText('desc');
-    const link = screen.getByRole('link');
+    // Act
+    render(<Slide />);
 
-    expect(title).toBeInTheDocument();
-    expect(description).toBeInTheDocument();
-    expect(link).toBeInTheDocument();
+    // Assert
+    expect(document.querySelector('.dp-carousel-slide')).toBeInTheDocument();
   });
 });
