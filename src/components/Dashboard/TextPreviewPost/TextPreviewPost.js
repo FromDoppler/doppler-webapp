@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PreviewPost = ({ post }) => {
+export const TextPreviewPost = ({ post }) => {
   const { title, description, link } = post;
   return (
     <>
@@ -12,5 +12,3 @@ const PreviewPost = ({ post }) => {
     </>
   );
 };
-
-export default PreviewPost;

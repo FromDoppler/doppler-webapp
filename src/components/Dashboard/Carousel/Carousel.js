@@ -1,30 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Carousel = ({ children }) => {
+export const Carousel = ({ id, children, slideActiveDefault, color }) => {
+  const [activeSlide, setActiveSlide] = useState(slideActiveDefault ?? 0);
+
+  const changeSlide = (e) => setActiveSlide(parseInt(e.target.value));
+
+  const slides = children({ activeSlide });
+
   return (
-    <div className="dp-carousel" id="carousel1">
-      <div className="dp-carousel-wrapper dp-carousel-orange">
-        <div className="dp-carousel-content">{children}</div>
+    <div className="dp-carousel" id={`carousel${id}`}>
+      <div className={`dp-carousel-wrapper dp-carousel-${color}`}>
+        <div className="dp-carousel-content">{slides}</div>
       </div>
       <div className="dp-carousel-dots">
-        <input
-          className="dp-carousel-dot"
-          checked
-          type="radio"
-          value="first"
-          id="first"
-          name="carousel1"
-        />
-        <input
-          className="dp-carousel-dot"
-          type="radio"
-          value="second"
-          id="second"
-          name="carousel1"
-        />
+        {slides.map((child, index) => (
+          <input
+            key={`${id}${index}`}
+            className="dp-carousel-dot"
+            checked={activeSlide === index}
+            type="radio"
+            value={index}
+            onChange={changeSlide}
+          />
+        ))}
       </div>
     </div>
   );
 };
-
-export default Carousel;
