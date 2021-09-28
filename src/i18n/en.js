@@ -516,11 +516,6 @@ You'll find an Email with steps to follow.`,
     unknown_amount_description: ' ',
   },
   reports: {
-    allow_enable_trial_MD: `Activate the trial period and access detailed Reports on the behavior of users inside your
-    Website or E-commerce. Discover which are the most visited pages,
-    how many visitors have an Email identified by Doppler and how many don't. Any doubts? Press [HELP](${urlHelpAdvancedReports})`,
-    allow_enable_trial_button: `Start the trial`,
-    allow_enable_trial_title: `Try On-Site Tracking Automation for a limited time`,
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
     no_domains_MD: `
 Register the domain (s) you want to track and access to detailed Reports. Discover which are the
