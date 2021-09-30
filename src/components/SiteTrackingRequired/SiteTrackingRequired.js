@@ -68,50 +68,26 @@ export const SiteTrackingRequired = InjectAppServices(
     return (
       <section className="container-reports bg-message--grey">
         <div className="dp-wrapper-messages">
-          {reason === SiteTrackingNotAvailableReasons.trialNotAccepted ? (
-            // Any paid account can enable the trial
-            <>
-              <FormattedMessage tagName="h2" id="reports.allow_enable_trial_title" />
-              <FormattedMessageMarkdown
-                tagName="div"
-                linkTarget={'_blank'}
-                id="reports.allow_enable_trial_MD"
-              />
-              <div className="dp-messages-actions">
-                <button
-                  onClick={activateTrial}
-                  className={
-                    'dp-button button-medium primary-green' +
-                    ((state.isLoading && ' button--loading') || '')
-                  }
-                  disabled={state.isLoading}
-                >
-                  <FormattedMessage id="reports.allow_enable_trial_button" />
-                </button>
-              </div>
-            </>
-          ) : (
-            // SiteTrackingNotAvailableReasons.featureDisabled
-            // SiteTrackingNotAvailableReasons.thereAreNotDomains
-            // SiteTrackingNotAvailableReasons.noDatahubId
-            <>
-              <FormattedMessage tagName="h2" id="reports.datahub_not_domains_title" />
-              <FormattedMessageMarkdown
-                className="patch-no-domains"
-                linkTarget={'_blank'}
-                id="reports.no_domains_MD"
-              />
-              <div className="dp-messages-actions">
-                <FormattedMessage id="reports.no_domains_button_destination">
-                  {(url) => (
-                    <a href={url} className="dp-button button-medium primary-green">
-                      <FormattedMessage id="reports.no_domains_button" />
-                    </a>
-                  )}
-                </FormattedMessage>
-              </div>
-            </>
-          )}
+          <>
+            <FormattedMessage tagName="h2" id="reports.datahub_not_domains_title" />
+            <FormattedMessageMarkdown
+              className="patch-no-domains"
+              linkTarget={'_blank'}
+              id="reports.no_domains_MD"
+            />
+            <div className="dp-messages-actions">
+              <button
+                onClick={activateTrial}
+                className={
+                  'dp-button button-medium primary-green' +
+                  ((state.isLoading && ' button--loading') || '')
+                }
+                disabled={state.isLoading}
+              >
+                <FormattedMessage id="reports.no_domains_button" />
+              </button>
+            </div>
+          </>
         </div>
       </section>
     );

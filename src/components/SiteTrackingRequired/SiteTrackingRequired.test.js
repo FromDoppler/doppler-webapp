@@ -39,7 +39,7 @@ describe('site tracking', () => {
     );
 
     // Assert
-    expect(getByText('reports.allow_enable_trial_title')).toBeInTheDocument();
+    expect(getByText('reports.datahub_not_domains_title')).toBeInTheDocument();
   });
 
   it('should show not domains messages', () => {

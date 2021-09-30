@@ -517,11 +517,6 @@ Encontrarás un Email con los pasos a seguir.`,
     unknown_amount_description: ' ',
   },
   reports: {
-    allow_enable_trial_MD: `Activa el periodo de prueba y accede a Reportes detallados sobre el comportamiento de los
-    usuarios en tu Sitio Web o E-commerce. Descubre cuáles son las páginas más visitadas, cuántos
-    visitantes poseen un Email que Doppler ha identificado y cuántos no. ¿Necesitas ayuda? [HELP](${urlHelpAdvancedReports}).`,
-    allow_enable_trial_button: `Activa período de prueba`,
-    allow_enable_trial_title: `Prueba Automation de Comportamiento en Sitio por tiempo limitado`,
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
     no_domains_MD: `
 Registra el o los dominios sobre los que quieres realizar el seguimiento y accede a Reportes
