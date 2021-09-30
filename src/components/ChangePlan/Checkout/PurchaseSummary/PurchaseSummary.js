@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch, Redirect } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
@@ -35,7 +35,7 @@ export const PlanInformation = ({ plan, planType }) => {
   };
 
   return (
-    <li>
+    <>
       <span>
         {_(`checkoutProcessForm.purchase_summary.plan_type_${planType.replace('-', '_')}_label`)}
         <strong> {getQuantity()}</strong>
@@ -43,7 +43,7 @@ export const PlanInformation = ({ plan, planType }) => {
       <span>
         {dollarSymbol} <FormattedNumber value={plan?.fee} {...numberFormatOptions} />
       </span>
-    </li>
+    </>
   );
 };
 
@@ -52,7 +52,7 @@ export const MonthsToPayInformation = ({ plan, discount }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <li>
+    <>
       <span>
         {_(`checkoutProcessForm.purchase_summary.months_to_pay`)}{' '}
         <strong>
@@ -66,7 +66,7 @@ export const MonthsToPayInformation = ({ plan, discount }) => {
         {dollarSymbol}{' '}
         <FormattedNumber value={plan.fee * discount?.monthsAmmount} {...numberFormatOptions} />
       </span>
-    </li>
+    </>
   );
 };
 
@@ -76,18 +76,14 @@ export const DiscountPrice = ({ discountPrepayment }) => {
 
   return (
     <>
-      {discountPrepayment.amount > 0 ? (
-        <li>
-          <span>
-            {_(`checkoutProcessForm.purchase_summary.discount_for_prepayment`)}{' '}
-            <strong>- {discountPrepayment.discountPercentage}%</strong>
-          </span>
-          <span>
-            -{dollarSymbol}{' '}
-            <FormattedNumber value={discountPrepayment.amount} {...numberFormatOptions} />
-          </span>
-        </li>
-      ) : null}
+      <span>
+        {_(`checkoutProcessForm.purchase_summary.discount_for_prepayment`)}{' '}
+        <strong>- {discountPrepayment.discountPercentage}%</strong>
+      </span>
+      <span>
+        -{dollarSymbol}{' '}
+        <FormattedNumber value={discountPrepayment.amount} {...numberFormatOptions} />
+      </span>
     </>
   );
 };
@@ -98,15 +94,11 @@ export const DiscountPaymentPaid = ({ discountPaymentAlreadyPaid }) => {
 
   return (
     <>
-      {discountPaymentAlreadyPaid > 0 ? (
-        <li>
-          <span>{_(`checkoutProcessForm.purchase_summary.discount_for_payment_paid`)}</span>
-          <span>
-            -{dollarSymbol}{' '}
-            <FormattedNumber value={discountPaymentAlreadyPaid} {...numberFormatOptions} />
-          </span>
-        </li>
-      ) : null}
+      <span>{_(`checkoutProcessForm.purchase_summary.discount_for_payment_paid`)}</span>
+      <span>
+        -{dollarSymbol}{' '}
+        <FormattedNumber value={discountPaymentAlreadyPaid} {...numberFormatOptions} />
+      </span>
     </>
   );
 };
@@ -118,55 +110,31 @@ export const PriceWithDiscount = ({ price, discountPrepayment, discountPaymentAl
   const priceWithDiscount = price - discountPrepayment.amount - discountPaymentAlreadyPaid;
 
   return (
-    <li>
+    <>
       <span>{_(`checkoutProcessForm.purchase_summary.total`)}</span>
       <span>
         {' '}
         <span className="dp-money">{dollarSymbol} </span>
         <FormattedNumber value={priceWithDiscount} {...numberFormatOptions} />
       </span>
-    </li>
-  );
-};
-
-export const SuccessfulPurchase = ({ show }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  return (
-    <>
-      {show ? (
-        <>
-          <div className="dp-wrap-message dp-wrap-success">
-            <span className="dp-message-icon"></span>
-            <div className="dp-content-message">
-              <p>{_('checkoutProcessForm.purchase_summary.success_message')}</p>
-            </div>
-          </div>
-          <hr className="m-t-24 m-b-24"></hr>
-        </>
-      ) : null}
     </>
   );
 };
 
-export const FailedPurchase = ({ show }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+export const StatusMessage = ({ type, message, show }) => {
+  if (!show) {
+    return null;
+  }
 
   return (
     <>
-      {show ? (
-        <>
-          <div className="dp-wrap-message dp-wrap-cancel">
-            <span className="dp-message-icon"></span>
-            <div className="dp-content-message">
-              <p>{_('checkoutProcessForm.purchase_summary.error_message')}</p>
-            </div>
-          </div>
-          <hr className="m-t-24 m-b-24"></hr>
-        </>
-      ) : null}
+      <div className={`dp-wrap-message dp-wrap-${type}`}>
+        <span className="dp-message-icon" />
+        <div className="dp-content-message">
+          <p>{message}</p>
+        </div>
+      </div>
+      <hr className="m-t-24 m-b-24"></hr>
     </>
   );
 };
@@ -175,19 +143,16 @@ export const EditAddRecipients = ({ show }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  if (!show) {
+    return null;
+  }
+
   return (
     <>
-      {show ? (
-        <>
-          <p>{_('checkoutProcessForm.purchase_summary.send_invoice_email_message')}</p>
-          <p>
-            <strong></strong>
-          </p>
-          <button type="button" className="dp-link-recipients" style={{ color: '#33ad73' }}>
-            {_('checkoutProcessForm.purchase_summary.edit_add_recipients_button')}
-          </button>
-        </>
-      ) : null}
+      <p>{_('checkoutProcessForm.purchase_summary.send_invoice_email_message')}</p>
+      <button type="button" className="dp-link-recipients">
+        {_('checkoutProcessForm.purchase_summary.edit_add_recipients_button')}
+      </button>
     </>
   );
 };
@@ -228,11 +193,13 @@ export const TotalPurchase = ({ price, discountPrepayment, discountPaymentAlread
   return (
     <div className="dp-total-purchase">
       <ul>
-        <PriceWithDiscount
-          discountPrepayment={discountPrepayment}
-          price={price}
-          discountPaymentAlreadyPaid={discountPaymentAlreadyPaid}
-        />
+        <li>
+          <PriceWithDiscount
+            discountPrepayment={discountPrepayment}
+            price={price}
+            discountPaymentAlreadyPaid={discountPaymentAlreadyPaid}
+          />
+        </li>
         <li>
           <span className="dp-renewal">{`*${_(
             'checkoutProcessForm.purchase_summary.explanatory_legend',
@@ -243,6 +210,32 @@ export const TotalPurchase = ({ price, discountPrepayment, discountPaymentAlread
   );
 };
 
+export const ShoppingList = ({ state, planType }) => {
+  const { plan, discount } = state;
+  const { discountPrepayment, discountPaymentAlreadyPaid } = state.amountDetails;
+
+  return (
+    <ul className="dp-summary-list">
+      <li aria-label="units">
+        <PlanInformation plan={plan} planType={planType} />
+      </li>
+      <li aria-label="months to pay">
+        <MonthsToPayInformation discount={discount} plan={plan} planType={planType} />
+      </li>
+      {discountPrepayment.discountPercentage > 0 && (
+        <li aria-label="discount">
+          <DiscountPrice discountPrepayment={discountPrepayment} plan={plan} />
+        </li>
+      )}
+      {discountPaymentAlreadyPaid > 0 && (
+        <li>
+          <DiscountPaymentPaid discountPaymentAlreadyPaid={discountPaymentAlreadyPaid} />
+        </li>
+      )}
+    </ul>
+  );
+};
+
 export const PurchaseSummary = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient },
@@ -250,21 +243,20 @@ export const PurchaseSummary = InjectAppServices(
     canBuy,
   }) => {
     const location = useLocation();
+    const history = useHistory();
     const [state, setState] = useState({ loading: true, planData: {} });
     const [saved, setSaved] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(false);
-    const [redirectToUrl, setRedirectToUrl] = useState(false);
     const createTimeout = useTimeout();
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useRouteMatch().params;
-    const selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
+    const selectedDiscountId =
+      discountId === 0
+        ? extractParameter(location, queryString.parse, 'discountId') ?? 0
+        : discountId;
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
-
-    if (discountId === 0) {
-      discountId = selectedDiscountId;
-    }
 
     useEffect(() => {
       const fetchData = async () => {
@@ -279,12 +271,12 @@ export const PurchaseSummary = InjectAppServices(
         );
 
         const discount = discountsData.success
-          ? discountsData.value.find((d) => d.id.toString() === discountId)
+          ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
           : undefined;
 
         const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
           selectedPlan,
-          discountId,
+          selectedDiscountId,
           '',
         );
 
@@ -299,7 +291,12 @@ export const PurchaseSummary = InjectAppServices(
       };
 
       fetchData();
-    }, [dopplerAccountPlansApiClient, dopplerBillingUserApiClient, discountId, selectedPlan]);
+    }, [
+      dopplerAccountPlansApiClient,
+      dopplerBillingUserApiClient,
+      selectedDiscountId,
+      selectedPlan,
+    ]);
 
     const getPlanTypeTitle = () => {
       switch (planType) {
@@ -320,7 +317,7 @@ export const PurchaseSummary = InjectAppServices(
       setSaving(true);
       const result = await dopplerBillingUserApiClient.purchase({
         planId: state.plan.id,
-        discountId: state.discount.id,
+        discountId: state.discount?.id,
         total: 500,
       });
 
@@ -331,72 +328,56 @@ export const PurchaseSummary = InjectAppServices(
         setSaved(true);
         createTimeout(() => {
           setSaved(false);
-          setRedirectToUrl('/checkout-summary');
+          history.push('/checkout-summary');
         }, 3000);
       }
     };
 
+    // TODO: create a placeholder for purchase summary
+    if (state.loading) {
+      return <Loading page />;
+    }
+
+    const { discountPrepayment, discountPaymentAlreadyPaid } = state.amountDetails;
+
     return (
       <>
-        {redirectToUrl ? (
-          <Redirect to={redirectToUrl} />
-        ) : state.loading ? (
-          <Loading page />
-        ) : (
-          <>
-            <div className="dp-hiring-summary">
-              <header className="dp-header-summary">
-                <h6>{_('checkoutProcessForm.purchase_summary.header')}</h6>
-              </header>
-              <h3>{getPlanTypeTitle()}</h3>
-              <ul className="dp-summary-list">
-                <PlanInformation plan={state.plan} planType={planType} />
-                <MonthsToPayInformation
-                  discount={state.discount}
-                  plan={state.plan}
-                  planType={planType}
-                />
-                <DiscountPrice
-                  discountPrepayment={state.amountDetails.discountPrepayment}
-                  plan={state.plan}
-                />
-                <DiscountPaymentPaid
-                  discountPaymentAlreadyPaid={state.amountDetails.discountPaymentAlreadyPaid}
-                />
-              </ul>
-              <hr className="dp-hr-grey"></hr>
-              <Promocode />
-              <hr className="dp-hr-grey"></hr>
-              <TotalPurchase
-                discountPrepayment={state.amountDetails?.discountPrepayment}
-                price={state.plan.fee * state.discount?.monthsAmmount}
-                discountPaymentAlreadyPaid={state.amountDetails.discountPaymentAlreadyPaid}
-              />
-            </div>
-            <div>
-              <div className="dp-zigzag"></div>
-            </div>
-            <div className="dp-cta-pay">
-              <button
-                type="button"
-                className={
-                  'dp-button button-big primary-green' + ((saving && ' button--loading') || '')
-                }
-                disabled={!canBuy || saving}
-                onClick={() => proceedToBuy()}
-              >
-                {_('checkoutProcessForm.purchase_summary.buy_button')}
-              </button>
-              <button type="button" className="dp-button button-big">
-                <span className="ms-icon icon-lock dp-color-green"></span>
-                {_('checkoutProcessForm.purchase_summary.secure_payment_message')}
-              </button>
-            </div>
-            <SuccessfulPurchase show={saved} />
-            <FailedPurchase show={error} />
-            <EditAddRecipients show={false} />
-          </>
-        )}
+        <div className="dp-hiring-summary">
+          <header className="dp-header-summary">
+            <h6>{_('checkoutProcessForm.purchase_summary.header')}</h6>
+          </header>
+          <h3>{getPlanTypeTitle()}</h3>
+          <ShoppingList state={state} planType={planType} />
+          <hr className="dp-hr-grey" />
+          <Promocode />
+          <hr className="dp-hr-grey" />
+          <TotalPurchase
+            discountPrepayment={discountPrepayment}
+            price={state.plan.fee * state.discount?.monthsAmmount}
+            discountPaymentAlreadyPaid={discountPaymentAlreadyPaid}
+          />
+        </div>
+        <div className="dp-zigzag" />
+        <div className="dp-cta-pay">
+          <button
+            type="button"
+            className={'dp-button button-big primary-green' + (saving ? ' button--loading' : '')}
+            disabled={!canBuy || saving}
+            onClick={proceedToBuy}
+          >
+            {_('checkoutProcessForm.purchase_summary.buy_button')}
+          </button>
+          <button type="button" className="dp-button button-big">
+            <span className="ms-icon icon-lock dp-color-green" />
+            {_('checkoutProcessForm.purchase_summary.secure_payment_message')}
+          </button>
+        </div>
+        <StatusMessage
+          show={saved || error}
+          type={saved ? 'success' : 'cancel'}
+          message={_(`checkoutProcessForm.purchase_summary.${saved ? 'success' : 'error'}_message`)}
+        />
+        <EditAddRecipients show={false} />
       </>
     );
   },
