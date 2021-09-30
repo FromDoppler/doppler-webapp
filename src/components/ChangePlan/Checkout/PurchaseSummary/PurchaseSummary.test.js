@@ -71,7 +71,7 @@ describe('PurchaseSummary component', () => {
       },
     };
 
-    // Acn
+    // Ac
     render(
       <PurchaseSummaryElement
         url="checkout/standard/subscribers"
@@ -86,84 +86,60 @@ describe('PurchaseSummary component', () => {
     await waitForElementToBeRemoved(loader);
   });
 
-  it('should show "Plan Standard - by contacts" when the planType is "subscribers"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
+  describe.each([
+    [
+      'should show "Plan Standard - by contacts" when the planType is "subscribers"',
+      'checkout/standard/subscribers',
+      'subscribers',
+    ],
+    [
+      'should show "Plan Standard - by emails" when the planType is "monthly"',
+      'checkout/standard/monthly-deliveries',
+      'monthly_deliveries',
+    ],
+    [
+      'should show "Plan Standard - by credits" when the planType is "prepaid"',
+      'checkout/standard/prepaid',
+      'prepaid',
+    ],
+  ])('plan information', (testName, url, planType) => {
+    it(testName, async () => {
+      // Arrange
+      const fakePlan = fakeSubscribersPlan;
 
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
+      const dopplerAccountPlansApiClientDouble = {
+        ...dopplerAccountPlansApiClientDoubleBase,
+        getPlanData: async () => {
+          return { success: true, value: fakePlan };
+        },
+        getPlanAmountDetailsData: async () => {
+          return { success: true, value: fakePlanAmountDetails };
+        },
+      };
 
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
+      // Act
+      render(
+        <PurchaseSummaryElement
+          url={url}
+          dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+          dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        />,
+      );
 
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+      // Assert
+      // Loader should disappear once request resolves
+      const loader = screen.getByTestId('wrapper-loading');
+      await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText(
+      const title =
         'checkoutProcessForm.purchase_summary.plan_standard_title' +
-          ' - ' +
-          'checkoutProcessForm.purchase_summary.plan_type_subscribers',
-      ),
-    ).not.toBeNull();
-    expect(
-      screen.getByText('checkoutProcessForm.purchase_summary.plan_type_subscribers_label'),
-    ).not.toBeNull();
-  });
-
-  it('should show "Plan Standard - by emails" when the planType is "monthly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/monthly-deliveries"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    expect(
-      screen.getByText(
-        'checkoutProcessForm.purchase_summary.plan_standard_title' +
-          ' - ' +
-          'checkoutProcessForm.purchase_summary.plan_type_monthly_deliveries',
-      ),
-    ).not.toBeNull();
-    expect(
-      screen.getByText('checkoutProcessForm.purchase_summary.plan_type_monthly_deliveries_label'),
-    ).not.toBeNull();
+        ' - ' +
+        `checkoutProcessForm.purchase_summary.plan_type_${planType}`;
+      expect(screen.getByText(title)).toBeInTheDocument();
+      expect(
+        screen.getByText(`checkoutProcessForm.purchase_summary.plan_type_${planType}_label`),
+      ).toBeInTheDocument();
+    });
   });
 
   it('should show the "contacts", "fee" of the plan', async () => {
@@ -179,6 +155,7 @@ describe('PurchaseSummary component', () => {
         return { success: true, value: fakePlanAmountDetails };
       },
     };
+
     // Act
     render(
       <PurchaseSummaryElement
@@ -193,207 +170,49 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent ===
-          'checkoutProcessForm.purchase_summary.plan_type_subscribers_label 1500';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === 'US$ 55.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+    expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent(1500);
+    expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent('US$ 55.00');
   });
 
-  it('should show the price for 1 month when the subscription is "Monthly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
+  describe.each([
+    ['should show the price for 1 month when the subscription is "Monthly"', 1, 'US$ 55.00'],
+    ['should show the price for 3 months when the subscription is "Quaterly"', 2, 'US$ 165.00'],
+    ['should show the price for 6 months when the subscription is "Half-Yearly"', 4, 'US$ 330.00'],
+    ['should show the price for 12 months when the subscription is "Yearly"', 6, 'US$ 660.00'],
+  ])('price by subscription', (testName, discountId, amount) => {
+    it(testName, async () => {
+      // Arrange
+      const fakePlan = fakeSubscribersPlan;
 
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=1"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
+      const dopplerAccountPlansApiClientDouble = {
+        ...dopplerAccountPlansApiClientDoubleBase,
+        getPlanData: async () => {
+          return { success: true, value: fakePlan };
+        },
+        getPlanAmountDetailsData: async () => {
+          return { success: true, value: fakePlanAmountDetails };
+        },
+      };
 
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+      // Act
+      render(
+        <PurchaseSummaryElement
+          url={`checkout/standard/subscribers?discountId=${discountId}`}
+          dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+          dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        />,
+      );
 
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent ===
-          'checkoutProcessForm.purchase_summary.months_to_pay checkoutProcessForm.purchase_summary.month_with_plural';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+      // Assert
+      // Loader should disappear once request resolves
+      const loader = screen.getByTestId('wrapper-loading');
+      await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getAllByText((content, node) => {
-        const hasText = (node) => node.textContent === 'US$ 55.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }).length,
-    ).toEqual(2);
-  });
-
-  it('should show the price for 3 months when the subscription is "Quaterly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=2"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent ===
-          'checkoutProcessForm.purchase_summary.months_to_pay checkoutProcessForm.purchase_summary.month_with_plural';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === 'US$ 165.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-  });
-
-  it('should show the price for 6 months when the subscription is "Half-Yearly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=4"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent ===
-          'checkoutProcessForm.purchase_summary.months_to_pay checkoutProcessForm.purchase_summary.month_with_plural';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === 'US$ 330.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-  });
-
-  it('should show the price for 12 months when the subscription is "Yearly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent ===
-          'checkoutProcessForm.purchase_summary.months_to_pay checkoutProcessForm.purchase_summary.month_with_plural';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === 'US$ 660.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+      expect(screen.getByRole('listitem', { name: 'months to pay' })).toHaveTextContent(
+        'checkoutProcessForm.purchase_summary.months_to_pay checkoutProcessForm.purchase_summary.month_with_plural',
+      );
+      expect(screen.getByRole('listitem', { name: 'months to pay' })).toHaveTextContent(amount);
+    });
   });
 
   it('should not show the discount when the subscription is "Monthly"', async () => {
@@ -409,6 +228,7 @@ describe('PurchaseSummary component', () => {
         return { success: true, value: fakePlanAmountDetails };
       },
     };
+
     // Act
     render(
       <PurchaseSummaryElement
@@ -424,166 +244,81 @@ describe('PurchaseSummary component', () => {
     await waitForElementToBeRemoved(loader);
 
     expect(
-      screen.queryByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent === 'checkoutProcessForm.purchase_summary.discount_for_prepayment';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).toBeNull();
+      screen.queryByText('checkoutProcessForm.purchase_summary.discount_for_prepayment'),
+    ).not.toBeInTheDocument();
   });
 
-  it('should show the discount when the subscription is "Quaterly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const fakePlanAmountDetails = {
-      discountPrepayment: { discountPercentage: 5, amount: 8.25 },
-      discountPaymentAlreadyPaid: 0,
-      total: 229.5,
-    };
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
+  describe.each([
+    [
+      'the subscription is "Quaterly"',
+      {
+        fakePlanAmountDetails: {
+          discountPrepayment: { discountPercentage: 5, amount: 8.25 },
+          discountPaymentAlreadyPaid: 0,
+          total: 229.5,
+        },
+        discountId: 2,
       },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
+    ],
+    [
+      'the subscription is "Half-Yearly"',
+      {
+        fakePlanAmountDetails: {
+          discountPrepayment: { discountPercentage: 15, amount: 49.5 },
+          discountPaymentAlreadyPaid: 0,
+          total: 229.5,
+        },
+        discountId: 4,
       },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=2"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent === 'checkoutProcessForm.purchase_summary.discount_for_prepayment - 5%';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === '-US$ 8.25';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-  });
-
-  it('should show the discount when the subscription is "Half-Yearly"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const fakePlanAmountDetails = {
-      discountPrepayment: { discountPercentage: 15, amount: 49.5 },
-      discountPaymentAlreadyPaid: 0,
-      total: 229.5,
-    };
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
+    ],
+    [
+      'the subscription is "Annual"',
+      {
+        fakePlanAmountDetails: {
+          discountPrepayment: { discountPercentage: 25, amount: 165.0 },
+          discountPaymentAlreadyPaid: 0,
+          total: 229.5,
+        },
+        discountId: 6,
       },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=4"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
+    ],
+  ])('should show the discount when', (testName, context) => {
+    it(testName, async () => {
+      // Arrange
+      const fakePlan = fakeSubscribersPlan;
+      const { discountId } = context;
+      const { discountPercentage, amount } = context.fakePlanAmountDetails.discountPrepayment;
 
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+      const dopplerAccountPlansApiClientDouble = {
+        ...dopplerAccountPlansApiClientDoubleBase,
+        getPlanData: async () => {
+          return { success: true, value: fakePlan };
+        },
+        getPlanAmountDetailsData: async () => {
+          return { success: true, value: context.fakePlanAmountDetails };
+        },
+      };
 
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent === 'checkoutProcessForm.purchase_summary.discount_for_prepayment - 15%';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+      // Act
+      render(
+        <PurchaseSummaryElement
+          url={`checkout/standard/subscribers?discountId=${discountId}`}
+          dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+          dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        />,
+      );
 
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === '-US$ 49.50';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-  });
+      // Assert
+      // Loader should disappear once request resolves
+      const loader = screen.getByTestId('wrapper-loading');
+      await waitForElementToBeRemoved(loader);
 
-  it('should show the discount when the subscription is "Annual"', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const fakePlanAmountDetails = {
-      discountPrepayment: { discountPercentage: 25, amount: 165 },
-      discountPaymentAlreadyPaid: 0,
-      total: 229.5,
-    };
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent === 'checkoutProcessForm.purchase_summary.discount_for_prepayment - 25%';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === '-US$ 165.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+      const discount = screen.getByRole('listitem', { name: 'discount' });
+      expect(discount).toHaveTextContent(
+        `checkoutProcessForm.purchase_summary.discount_for_prepayment - ${discountPercentage}%`,
+      );
+      expect(discount).toHaveTextContent(`-US$ ${amount}`);
+    });
   });
 
   it('should show the discount payment already paid', async () => {
@@ -605,6 +340,7 @@ describe('PurchaseSummary component', () => {
         return { success: true, value: fakePlanAmountDetails };
       },
     };
+
     // Act
     render(
       <PurchaseSummaryElement
@@ -620,21 +356,9 @@ describe('PurchaseSummary component', () => {
     await waitForElementToBeRemoved(loader);
 
     expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) =>
-          node.textContent === 'checkoutProcessForm.purchase_summary.discount_for_payment_paid';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === '-US$ 100.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+      screen.getByText('checkoutProcessForm.purchase_summary.discount_for_payment_paid'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('-US$ 100.00')).toBeInTheDocument();
   });
 
   it('should show the total with discount', async () => {
@@ -670,21 +394,8 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === 'checkoutProcessForm.purchase_summary.total';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
-
-    expect(
-      screen.getByText((content, node) => {
-        const hasText = (node) => node.textContent === ' US$ 395.00';
-        const nodeHasText = hasText(node);
-        return nodeHasText;
-      }),
-    ).not.toBeNull();
+    expect(screen.getByText('checkoutProcessForm.purchase_summary.total')).toBeInTheDocument();
+    expect(screen.getByText('395.00')).toBeInTheDocument();
   });
 
   it('should show disabled the "buy" button when canBuy is false', async () => {
@@ -706,6 +417,7 @@ describe('PurchaseSummary component', () => {
         return { success: true, value: fakePlanAmountDetails };
       },
     };
+
     // Act
     render(
       <PurchaseSummaryElement
@@ -745,6 +457,7 @@ describe('PurchaseSummary component', () => {
         return { success: true, value: fakePlanAmountDetails };
       },
     };
+
     // Act
     render(
       <PurchaseSummaryElement
@@ -806,22 +519,18 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    // Click save button
+    // Assert
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.buy_button',
     });
-
-    //console.log(submitButton);
     user.click(submitButton);
-
-    // Assert
     expect(submitButton).toBeDisabled();
 
     const summarySuccessMessage = await screen.findByText(
       'checkoutProcessForm.purchase_summary.success_message',
     );
 
-    expect(summarySuccessMessage).not.toBeNull();
+    expect(summarySuccessMessage).toBeInTheDocument();
   });
 
   it('should show error message when the buy process was failed', async () => {
@@ -861,25 +570,20 @@ describe('PurchaseSummary component', () => {
       />,
     );
 
-    // Loader should disappear once request resolves
+    // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    // Click save button
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.buy_button',
     });
-
-    //console.log(submitButton);
     user.click(submitButton);
-
-    // Assert
     expect(submitButton).toBeDisabled();
 
     const summaryErrorMessage = await screen.findByText(
       'checkoutProcessForm.purchase_summary.error_message',
     );
 
-    expect(summaryErrorMessage).not.toBeNull();
+    expect(summaryErrorMessage).toBeInTheDocument();
   });
 });
