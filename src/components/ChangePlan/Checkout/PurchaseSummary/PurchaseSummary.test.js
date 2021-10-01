@@ -395,7 +395,7 @@ describe('PurchaseSummary component', () => {
     await waitForElementToBeRemoved(loader);
 
     expect(screen.getByText('checkoutProcessForm.purchase_summary.total')).toBeInTheDocument();
-    expect(screen.getByText('395.00')).toBeInTheDocument();
+    expect(screen.getByText('229.50')).toBeInTheDocument();
   });
 
   it('should show disabled the "buy" button when canBuy is false', async () => {

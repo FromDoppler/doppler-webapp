@@ -103,24 +103,6 @@ export const DiscountPaymentPaid = ({ discountPaymentAlreadyPaid }) => {
   );
 };
 
-export const PriceWithDiscount = ({ price, discountPrepayment, discountPaymentAlreadyPaid }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const priceWithDiscount = price - discountPrepayment.amount - discountPaymentAlreadyPaid;
-
-  return (
-    <>
-      <span>{_(`checkoutProcessForm.purchase_summary.total`)}</span>
-      <span>
-        {' '}
-        <span className="dp-money">{dollarSymbol} </span>
-        <FormattedNumber value={priceWithDiscount} {...numberFormatOptions} />
-      </span>
-    </>
-  );
-};
-
 export const StatusMessage = ({ type, message, show }) => {
   if (!show) {
     return null;
@@ -186,7 +168,36 @@ export const Promocode = () => {
   );
 };
 
-export const TotalPurchase = ({ price, discountPrepayment, discountPaymentAlreadyPaid }) => {
+export const InvoiceInformation = ({ priceToPay }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <>
+      {priceToPay > 0 ? (
+        <li>
+          <h3 className="m-t-24">
+            {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`} {dollarSymbol}{' '}
+            <FormattedNumber value={priceToPay} {...numberFormatOptions} />
+          </h3>
+        </li>
+      ) : (
+        <li>
+          <h3 className="m-t-24">{`${_(
+            'checkoutProcessForm.purchase_summary.to_pay_from_next_month_legend',
+          )}`}</h3>
+        </li>
+      )}
+      <li>
+        <span className="dp-renewal">{`*${_(
+          'checkoutProcessForm.purchase_summary.explanatory_legend',
+        )}`}</span>
+      </li>
+    </>
+  );
+};
+
+export const TotalPurchase = ({ totalPlan, priceToPay }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -194,17 +205,14 @@ export const TotalPurchase = ({ price, discountPrepayment, discountPaymentAlread
     <div className="dp-total-purchase">
       <ul>
         <li>
-          <PriceWithDiscount
-            discountPrepayment={discountPrepayment}
-            price={price}
-            discountPaymentAlreadyPaid={discountPaymentAlreadyPaid}
-          />
+          <span>{_(`checkoutProcessForm.purchase_summary.total`)}</span>
+          <span>
+            {' '}
+            <span className="dp-money">{dollarSymbol} </span>
+            <FormattedNumber value={priceToPay} {...numberFormatOptions} />
+          </span>
         </li>
-        <li>
-          <span className="dp-renewal">{`*${_(
-            'checkoutProcessForm.purchase_summary.explanatory_legend',
-          )}`}</span>
-        </li>
+        <InvoiceInformation priceToPay={totalPlan} />
       </ul>
     </div>
   );
@@ -338,7 +346,7 @@ export const PurchaseSummary = InjectAppServices(
       return <Loading page />;
     }
 
-    const { discountPrepayment, discountPaymentAlreadyPaid } = state.amountDetails;
+    const { total } = state.amountDetails;
 
     return (
       <>
@@ -352,9 +360,8 @@ export const PurchaseSummary = InjectAppServices(
           <Promocode />
           <hr className="dp-hr-grey" />
           <TotalPurchase
-            discountPrepayment={discountPrepayment}
-            price={state.plan.fee * state.discount?.monthsAmmount}
-            discountPaymentAlreadyPaid={discountPaymentAlreadyPaid}
+            totalPlan={state.plan.fee * state.discount?.monthsAmmount}
+            priceToPay={total}
           />
         </div>
         <div className="dp-zigzag" />
