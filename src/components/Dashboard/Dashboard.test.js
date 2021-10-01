@@ -4,13 +4,11 @@ import '@testing-library/jest-dom/extend-expect';
 import { Dashboard } from './Dashboard';
 
 describe('Dashboard component', () => {
-  it('should show the hero-banner with a title', async () => {
+  it('should show the hero-banner', async () => {
     render(<Dashboard />);
 
     const header = screen.getByRole('banner');
-    const title = screen.getByRole('heading');
 
     expect(header).toBeInTheDocument();
-    expect(title).toBeInTheDocument();
   });
 });
