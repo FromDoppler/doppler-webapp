@@ -152,6 +152,7 @@ export const PaymentMethod = InjectAppServices(
     showTitle,
     handleSaveAndContinue,
     handleChangeView,
+    handleChangeDiscount,
     optionView,
   }) => {
     const location = useLocation();
@@ -261,6 +262,7 @@ export const PaymentMethod = InjectAppServices(
 
     const handleDiscountChange = (discount) => {
       setDiscountsInformation({ ...discountsInformation, selectedPlanDiscount: discount });
+      handleChangeDiscount(discount);
     };
 
     return (

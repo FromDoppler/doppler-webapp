@@ -1,16 +1,20 @@
 import React from 'react';
-import { render, cleanup, waitFor, fireEvent, getByText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 import Checkout from './Checkout';
 import {
   fakeIndustries,
   fakeQuestions,
   fakeStates,
 } from '../../../services/static-data-client.double';
+import { fakePlanAmountDetails } from '../../../services/doppler-account-plans-api-client';
+import { fakePlan } from '../../../services/doppler-account-plans-api-client.double';
+import { fakePaymentMethodInformation } from '../../../services//doppler-billing-user-api-client.double';
+import { fakeAccountPlanDiscounts } from '../../../services/doppler-account-plans-api-client.double';
 
 describe('Checkout component', () => {
   const contactInformation = {
@@ -41,16 +45,34 @@ describe('Checkout component', () => {
       getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
       getSecurityQuestionsData: async (language) => ({ success: true, value: fakeQuestions }),
     },
+    dopplerBillingUserApiClient: {
+      getPaymentMethodData: async () => {
+        return { success: true, value: fakePaymentMethodInformation };
+      },
+    },
+    dopplerAccountPlansApiClient: {
+      getDiscountsData: async () => {
+        return { success: true, value: fakeAccountPlanDiscounts };
+      },
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetails };
+      },
+    },
   };
 
   const CheckoutElement = () => (
-    <AppServicesProvider forcedServices={dependencies}>
-      <IntlProvider>
-        <BrowserRouter>
-          <Checkout />
-        </BrowserRouter>
-      </IntlProvider>
-    </AppServicesProvider>
+    <MemoryRouter initialEntries={['checkout/standard/subscribers']}>
+      <Route path="checkout/:pathType/:planType?">
+        <AppServicesProvider forcedServices={dependencies}>
+          <IntlProvider>
+            <Checkout />
+          </IntlProvider>
+        </AppServicesProvider>
+      </Route>
+    </MemoryRouter>
   );
 
   it('should show contact information', async () => {
@@ -66,7 +88,7 @@ describe('Checkout component', () => {
     expect(getAllByText('checkoutProcessForm.contact_information_title').length).toBe(2);
   });
 
-  it('should show contact information, billing information and payment method header', async () => {
+  it('should show contact information, billing information, payment method and purchase summary header', async () => {
     // Arrange
     let result;
     await act(async () => {
@@ -79,5 +101,6 @@ describe('Checkout component', () => {
     expect(getAllByText('checkoutProcessForm.contact_information_title').length).toBe(2);
     expect(getAllByText('checkoutProcessForm.billing_information_title').length).toBe(1);
     expect(getAllByText('checkoutProcessForm.payment_method.title').length).toBe(1);
+    expect(getAllByText('checkoutProcessForm.purchase_summary.header').length).toBe(1);
   });
 });

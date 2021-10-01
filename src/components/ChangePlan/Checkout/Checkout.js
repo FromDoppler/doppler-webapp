@@ -7,6 +7,7 @@ import { ContactInformation } from './ContactInformation/ContactInformation';
 import { BillingInformation } from './BillingInformation/BillingInformation';
 import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
+import { PurchaseSummary } from './PurchaseSummary/PurchaseSummary';
 
 const checkoutSteps = {
   contactInformation: 'contact-information',
@@ -24,6 +25,7 @@ const Checkout = () => {
   const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
   const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
   const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
+  const [selectedDiscountId, setSelectedDiscountId] = useState(0);
 
   const intl = useIntl();
 
@@ -125,10 +127,24 @@ const Checkout = () => {
                       setNextCheckoutStep(activeStep);
                       setPaymentInformationAction(actionPage.READONLY);
                     }}
+                    handleChangeDiscount={(discount) => {
+                      setSelectedDiscountId(discount.id);
+                    }}
                   />
                 </Step>
               </ul>
             </div>
+          </div>
+          <div className="dp-space-l24"></div>
+          <div className="col-lg-4 col-sm-12">
+            <PurchaseSummary
+              canBuy={
+                paymentInformationAction === actionPage.READONLY &&
+                completeContactInformationStep &&
+                completeBillingInformationStep
+              }
+              discountId={selectedDiscountId}
+            ></PurchaseSummary>
           </div>
         </div>
       </section>
