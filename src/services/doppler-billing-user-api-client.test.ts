@@ -6,6 +6,7 @@ import { HttpDopplerBillingUserApiClient } from './doppler-billing-user-api-clie
 import {
   fakeBillingInformation,
   fakePaymentMethodInformation,
+  fakePaymentMethod,
 } from './doppler-billing-user-api-client.double';
 
 const consoleError = console.error;
@@ -131,9 +132,46 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(result.success).toBe(false);
   });
 
+  it('should put payment method information', async () => {
+    // Arrange
+    const values = fakePaymentMethod;
+    const response = {
+      status: 200,
+    };
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updatePaymentMethod(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail to put payment method information', async () => {
+    // Arrange
+    const values = fakePaymentMethod;
+    const response = {
+      status: 500,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updatePaymentMethod(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
   it('should update payment method', async () => {
     // Arrange
-    const values = fakePaymentMethodInformation;
+    const values = fakePaymentMethod;
 
     const response = {
       status: 200,
