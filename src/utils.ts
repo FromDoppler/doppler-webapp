@@ -1,6 +1,6 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
-import { Plan, PrepaidPack, FeaturedPlan, PlanType } from './doppler-types';
+import { Plan, PrepaidPack, FeaturedPlan, PlanType, PlanTypeSet } from './doppler-types';
 import countriesEs from './i18n/countries-es.json';
 import countriesEn from './i18n/countries-en.json';
 
@@ -251,7 +251,11 @@ export function getPlanFee(plan: Plan): number {
   return plan.type === 'prepaid' ? (plan as PrepaidPack).price : (plan as FeaturedPlan).fee;
 }
 
-const firstPlansDefaultOrder: PlanType[] = ['subscribers', 'monthly-deliveries', 'prepaid'];
+const firstPlansDefaultOrder: PlanType[] = [
+  PlanTypeSet.byContacts,
+  PlanTypeSet.byEmails,
+  PlanTypeSet.byCredits,
+];
 
 export function orderPlanTypes(
   planTypes: PlanType[],

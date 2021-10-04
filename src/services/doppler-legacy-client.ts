@@ -1,6 +1,12 @@
 import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
 import { Property } from 'csstype';
-import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
+import {
+  Result,
+  EmptyResult,
+  EmptyResultWithoutExpectedErrors,
+  FeatureSet,
+  PlanTypeSet,
+} from '../doppler-types';
 import axiosRetry from 'axios-retry';
 import { addLogEntry, logAxiosRetryError } from '../utils';
 import {
@@ -366,20 +372,20 @@ export interface DopplerLegacyUpgradePlanContactModel {
 
 // dictionaries
 export const planTypeByIdUserType: { [idUserType: number]: PlanType } = {
-  1: 'free',
-  2: 'monthly-deliveries',
-  3: 'prepaid',
-  4: 'subscribers',
-  5: 'agencies',
-  6: 'agencies',
-  7: 'free',
-  8: 'agencies',
+  1: PlanTypeSet.free,
+  2: PlanTypeSet.byEmails,
+  3: PlanTypeSet.byCredits,
+  4: PlanTypeSet.byContacts,
+  5: PlanTypeSet.agencies,
+  6: PlanTypeSet.agencies,
+  7: PlanTypeSet.free,
+  8: PlanTypeSet.agencies,
 };
 
 export const pathTypeByType: { [type: number]: PathType } = {
-  1: 'free',
-  2: 'standard',
-  3: 'plus',
+  1: FeatureSet.free,
+  2: FeatureSet.small,
+  3: FeatureSet.full,
 };
 
 export const paymentTypeByPaymentMethod: { [paymentMehtod: number]: PaymentType } = {

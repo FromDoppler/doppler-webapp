@@ -13,6 +13,7 @@ import {
   SubscribersLimitedPlan,
   FreePlan,
   AgencyPlan,
+  FeatureSet,
 } from '../doppler-types';
 import { getPlanFee, orderPlanTypes } from '../utils';
 
@@ -94,7 +95,7 @@ const getFreePathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [FreePath] =
 
   return [
     {
-      type: 'free',
+      type: FeatureSet.free,
       current: userPlan.featureSet === 'free',
     },
   ];
@@ -109,7 +110,7 @@ const getAgencyPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [AgenciesP
 
   return [
     {
-      type: 'agencies',
+      type: FeatureSet.agencies,
       current: userPlan.featureSet === 'agency',
     },
   ];
@@ -125,7 +126,7 @@ const getStandardPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [Standar
 
   return [
     {
-      type: 'standard',
+      type: FeatureSet.small,
       current: userPlan.featureSet === 'standard',
       minimumFee: getPlanFee(cheapestPlan),
     },
@@ -143,7 +144,7 @@ const getPlusPathOrEmpty = (userPlan: Plan, planList: Plan[]): PlusPath[] => {
 
   return [
     {
-      type: 'plus',
+      type: FeatureSet.full,
       current: userPlan.featureSet === 'plus',
       minimumFee: cheapestPlan.fee,
     },

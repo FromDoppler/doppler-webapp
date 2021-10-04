@@ -11,15 +11,25 @@ export type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
 // TODO: Research how to fix it and rename EmptyResultWithoutExpectedErrors as EmptyResult
 export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedError;
 
-export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
+export enum FeatureSet {
+  free = 'free',
+  small = 'standard',
+  full = 'plus',
+  agencies = 'agencies',
+}
 
-export type PlanType =
-  | 'free'
-  | 'prepaid'
-  | 'monthly-deliveries'
-  | 'subscribers'
-  | 'agencies'
-  | 'demo';
+export enum PlanTypeSet {
+  free = 'free',
+  byCredits = 'prepaid',
+  byEmails = 'monthly-deliveries',
+  byContacts = 'subscribers',
+  agencies = 'agencies',
+  demo = 'demo',
+}
+
+export type PathType = FeatureSet;
+
+export type PlanType = PlanTypeSet;
 
 export type PaymentType = 'CC' | 'transfer';
 
@@ -42,42 +52,42 @@ export type Features =
   | 'shippingLimit';
 
 export interface SubscribersLimitedPlan {
-  type: 'subscribers';
+  type: PlanTypeSet.byContacts;
   id: number;
   name: string;
   subscriberLimit: number;
   fee: number;
-  featureSet: 'standard' | 'plus';
+  featureSet: FeatureSet.small | FeatureSet.full;
   featureList: Features[];
   billingCycleDetails: AdvancePayOptions[];
   currentSubscription: number;
 }
 
 export interface MonthlyRenewalDeliveriesPlan {
-  type: 'monthly-deliveries';
+  type: PlanTypeSet.byEmails;
   id: number;
   name: string;
   emailsByMonth: number;
   extraEmailPrice: number;
   fee: number;
-  featureSet: 'standard' | 'plus';
+  featureSet: FeatureSet.small | FeatureSet.full;
   featureList: Features[];
 }
 
 export interface PrepaidPack {
-  type: 'prepaid';
+  type: PlanTypeSet.byCredits;
   id: number;
   name: string;
   credits: number;
   price: number;
   subscribersCount: number;
-  featureSet: 'standard';
+  featureSet: FeatureSet.small;
 }
 
 export interface FreePlan {
-  type: 'free';
+  type: PlanTypeSet.free;
   subscriberLimit: number;
-  featureSet: 'free';
+  featureSet: FeatureSet.free;
 }
 
 export interface AgencyPlan {
@@ -86,7 +96,7 @@ export interface AgencyPlan {
 }
 
 export interface FreePath {
-  type: 'free';
+  type: FeatureSet.free;
   current: boolean;
 }
 
@@ -100,19 +110,19 @@ export type Plan =
 export type FeaturedPlan = SubscribersLimitedPlan | MonthlyRenewalDeliveriesPlan;
 
 export interface StandardPath {
-  type: 'standard';
+  type: FeatureSet.small;
   current: boolean;
   minimumFee: number;
 }
 
 export interface PlusPath {
-  type: 'plus';
+  type: FeatureSet.full;
   current: boolean;
   minimumFee: number;
 }
 
 export interface AgenciesPath {
-  type: 'agencies';
+  type: FeatureSet.agencies;
   current: boolean;
 }
 
