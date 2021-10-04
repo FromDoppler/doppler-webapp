@@ -9,7 +9,7 @@ import { getFormInitialValues, extractParameter } from '../../../../utils';
 import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-helpers';
 import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
-import { CreditCard } from './CreditCard';
+import { CreditCard, getCreditCardBrand } from './CreditCard';
 
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -243,7 +243,8 @@ export const PaymentMethod = InjectAppServices(
     const submitPaymentMethodForm = async (values) => {
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
         ...values,
-        discountId: discountsInformation.selectedPlanDiscount.id,
+        discountId: discountsInformation.selectedPlanDiscount,
+        ccType: getCreditCardBrand(values.number),
       });
 
       setError(!result.success);

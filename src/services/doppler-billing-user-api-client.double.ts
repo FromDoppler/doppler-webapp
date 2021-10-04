@@ -44,6 +44,15 @@ export const fakePaymentMethodInformation = {
   identificationNumber: '',
 };
 
+export const fakePaymentMethod = {
+  name: 'data.name',
+  number: 'data.number',
+  cvc: 'data.cvc',
+  paymentMethodName: 'data.paymentMethodName',
+  expiry: 'data.expiry',
+  ccType: 'data.ccType',
+};
+
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>

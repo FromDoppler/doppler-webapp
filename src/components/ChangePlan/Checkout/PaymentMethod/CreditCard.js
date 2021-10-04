@@ -40,23 +40,20 @@ const getCreditCardIssuer = (ccType) => {
   return ccType;
 };
 
-const getCreditCardBrand = (creditCardNumber) => {
-  // start without knowing the credit card brand
-  var result = 'unknown';
-
+export const getCreditCardBrand = (creditCardNumber) => {
   // first check for MasterCard
   if (/^5[1-5]/.test(creditCardNumber)) {
-    result = 'mastercard';
+    return 'mastercard';
   }
   // then check for Visa
   else if (/^4/.test(creditCardNumber)) {
-    result = 'visa';
+    return 'visa';
   }
   // then check for AmEx
   else if (/^3[47]/.test(creditCardNumber)) {
-    result = 'amex';
+    return 'amex';
   }
-  return result;
+  return 'unknown';
 };
 
 export const CreditCard = InjectAppServices(
