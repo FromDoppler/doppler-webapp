@@ -252,7 +252,13 @@ export const PurchaseSummary = InjectAppServices(
   }) => {
     const location = useLocation();
     const history = useHistory();
-    const [state, setState] = useState({ loading: true, planData: {} });
+    const [state, setState] = useState({
+      loading: true,
+      planData: {},
+      amountDetails: { total: 0, discountPrepayment: { discountPercentage: 0 } },
+      plan: { fee: 0 },
+      discount: { discountPercentage: 0, monthsAmmount: 1 },
+    });
     const [saved, setSaved] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(false);
@@ -341,15 +347,11 @@ export const PurchaseSummary = InjectAppServices(
       }
     };
 
-    // TODO: create a placeholder for purchase summary
-    if (state.loading) {
-      return <Loading page />;
-    }
-
     const { total } = state.amountDetails;
 
     return (
       <>
+        {state.loading && <Loading />}
         <div className="dp-hiring-summary">
           <header className="dp-header-summary">
             <h6>{_('checkoutProcessForm.purchase_summary.header')}</h6>
