@@ -21,11 +21,17 @@ const NewFeatures = () => {
       <section className="dp-container">
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
+            <h3>Dashboard</h3>
+            <Link to={'/dashboard'}>Ir a Dashboard</Link>
+          </div>
+        </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div style={{ marginLeft: '20px' }}>
             <h3>Compra de planes</h3>
             <Link to={'/plan-selection?promo-code=ALLPLANS'}>Ir a Comprar Plan</Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Plan Calculator</h3>
             <Link
@@ -37,7 +43,7 @@ const NewFeatures = () => {
             </Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow">
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Maestro de Suscriptores</h3>
             <Link to={`/reports/master-subscriber`}>Link</Link>
@@ -75,7 +81,7 @@ const NewFeatures = () => {
             <Link to={'/integrations/big-query'}>Ir al ventana de bigquery.</Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow m-t-36">
+        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
           <div className="m-l-24">
             <h3>Política de Contacto</h3>
             <Link to={'/sending-preferences/contact-policy'}>Ir a Política de Contacto</Link>
