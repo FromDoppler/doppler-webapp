@@ -136,6 +136,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       ccExpYear: data.expiry.split('/')[1],
       ccExpMonth: data.expiry.split('/')[0],
       ccType: data.ccType,
+      idSelectedPlan: data.idSelectedPlan,
     };
   }
 

@@ -76,6 +76,42 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(result.success).toBe(true);
   });
 
+  it('should update billing information with idselectedPlan correctly', async () => {
+    // Arrange
+    const values = fakePaymentMethod;
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updatePaymentMethod(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(request).toBeCalledWith(
+      expect.objectContaining({
+        method: 'PUT',
+        data: {
+          ccHolderFullName: 'data.name',
+          ccNumber: 'data.number',
+          ccVerification: 'data.cvc',
+          paymentMethodName: 'data.paymentMethodName',
+          ccExpYear: '21',
+          ccExpMonth: '12',
+          ccType: 'data.ccType',
+          idSelectedPlan: 'data.idSelectedPlan',
+        },
+        url: '/accounts/email@mail.com/payment-methods/current',
+      }),
+    );
+  });
+
   it('should set error when the connecting fail', async () => {
     // Arrange
     const values = fakeBillingInformation;

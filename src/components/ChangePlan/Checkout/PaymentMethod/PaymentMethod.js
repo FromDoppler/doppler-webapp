@@ -245,6 +245,7 @@ export const PaymentMethod = InjectAppServices(
         ...values,
         discountId: discountsInformation.selectedPlanDiscount,
         ccType: getCreditCardBrand(values.number),
+        idSelectedPlan: selectedPlan,
       });
 
       setError(!result.success);

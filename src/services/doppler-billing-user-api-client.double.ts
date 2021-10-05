@@ -49,8 +49,9 @@ export const fakePaymentMethod = {
   number: 'data.number',
   cvc: 'data.cvc',
   paymentMethodName: 'data.paymentMethodName',
-  expiry: 'data.expiry',
+  expiry: '12/21',
   ccType: 'data.ccType',
+  idSelectedPlan: 'data.idSelectedPlan',
 };
 
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
