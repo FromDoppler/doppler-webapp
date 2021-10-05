@@ -91,8 +91,8 @@ export interface FreePlan {
 }
 
 export interface AgencyPlan {
-  type: 'agency';
-  featureSet: 'agency';
+  type: PlanTypeSet.agencies;
+  featureSet: FeatureSet.agencies;
 }
 
 export interface FreePath {

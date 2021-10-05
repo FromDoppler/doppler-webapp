@@ -248,6 +248,7 @@ const ChangePlan = ({ location, dependencies: { planService, appSessionRef } }) 
         sessionPlan.subscribersCount,
         planList,
       );
+
       const pathList = await planService.getPaths(currentPlan, planList);
       if (pathList.length) {
         setState({

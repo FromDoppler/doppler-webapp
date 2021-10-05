@@ -14,6 +14,7 @@ import {
   FreePlan,
   AgencyPlan,
   FeatureSet,
+  PlanTypeSet,
 } from '../doppler-types';
 import { getPlanFee, orderPlanTypes } from '../utils';
 
@@ -67,7 +68,7 @@ const getFreePlans = (planList: Plan[]): FreePlan[] =>
   planList.filter((x) => x.type === 'free') as FreePlan[];
 
 const getAgencyPlans = (planList: Plan[]): AgencyPlan[] =>
-  planList.filter((x) => x.type === 'agency') as AgencyPlan[];
+  planList.filter((x) => x.type === PlanTypeSet.agencies) as AgencyPlan[];
 
 const getStandardPlans = (
   planList: Plan[],
@@ -111,7 +112,7 @@ const getAgencyPathOrEmpty = (userPlan: Plan, planList: Plan[]): [] | [AgenciesP
   return [
     {
       type: FeatureSet.agencies,
-      current: userPlan.featureSet === 'agency',
+      current: userPlan.featureSet === FeatureSet.agencies,
     },
   ];
 };
@@ -152,8 +153,8 @@ const getPlusPathOrEmpty = (userPlan: Plan, planList: Plan[]): PlusPath[] => {
 };
 
 const _agencyPlan: AgencyPlan = {
-  type: 'agency',
-  featureSet: 'agency',
+  type: PlanTypeSet.agencies,
+  featureSet: FeatureSet.agencies,
 };
 
 const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
@@ -313,8 +314,8 @@ export class PlanService implements PlanHierarchy {
         return { ...getCheapestPrepaidPlan(planList), subscribersCount };
       case 'agencies':
         return {
-          type: 'agency',
-          featureSet: 'agency',
+          type: PlanTypeSet.agencies,
+          featureSet: FeatureSet.agencies,
         };
       default:
         return {
