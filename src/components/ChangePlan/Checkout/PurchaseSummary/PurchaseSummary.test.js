@@ -82,7 +82,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
   });
 
@@ -128,7 +128,7 @@ describe('PurchaseSummary component', () => {
 
       // Assert
       // Loader should disappear once request resolves
-      const loader = screen.getByTestId('wrapper-loading');
+      const loader = screen.getByTestId('loading-box');
       await waitForElementToBeRemoved(loader);
 
       const title =
@@ -167,7 +167,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent(1500);
@@ -205,7 +205,7 @@ describe('PurchaseSummary component', () => {
 
       // Assert
       // Loader should disappear once request resolves
-      const loader = screen.getByTestId('wrapper-loading');
+      const loader = screen.getByTestId('loading-box');
       await waitForElementToBeRemoved(loader);
 
       expect(screen.getByRole('listitem', { name: 'months to pay' })).toHaveTextContent(
@@ -240,7 +240,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     expect(
@@ -310,7 +310,7 @@ describe('PurchaseSummary component', () => {
 
       // Assert
       // Loader should disappear once request resolves
-      const loader = screen.getByTestId('wrapper-loading');
+      const loader = screen.getByTestId('loading-box');
       await waitForElementToBeRemoved(loader);
 
       const discount = screen.getByRole('listitem', { name: 'discount' });
@@ -352,7 +352,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     expect(
@@ -391,7 +391,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     expect(screen.getByText('checkoutProcessForm.purchase_summary.total')).toBeInTheDocument();
@@ -430,7 +430,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     expect(
@@ -470,7 +470,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     expect(
@@ -516,7 +516,7 @@ describe('PurchaseSummary component', () => {
     );
 
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     // Assert
@@ -571,7 +571,7 @@ describe('PurchaseSummary component', () => {
     );
 
     // Assert
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     const submitButton = screen.getByRole('button', {
