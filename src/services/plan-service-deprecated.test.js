@@ -1,5 +1,5 @@
 import { HardcodedDopplerLegacyClient } from './doppler-legacy-client.doubles';
-import { PlanService } from './plan-service';
+import { PlanService } from './plan-service-deprecated';
 
 describe('Doppler plan client', () => {
   const dopplerLegacyClient = new HardcodedDopplerLegacyClient();

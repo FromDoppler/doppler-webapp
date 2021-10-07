@@ -174,7 +174,7 @@ describe('CardWithPrice component', () => {
     };
     const customShowFeatures = true;
     const promoCode = 'fake-code';
-    const linkWithPromoCode = `/plan-selection/${path.type}/${currentPlanType}?promo-code=${promoCode}`;
+    const linkWithPromoCode = `/plan-selection-deprecated/${path.type}/${currentPlanType}?promo-code=${promoCode}`;
 
     // Act
     const { getByText, container } = render(
@@ -209,7 +209,7 @@ describe('CardWithPrice component', () => {
       type: 'standard',
     };
     const promoCode = 'fake-code';
-    const linkWithPromoCode = `/plan-selection/${path.type}?promo-code=${promoCode}`;
+    const linkWithPromoCode = `/plan-selection-deprecated/${path.type}?promo-code=${promoCode}`;
 
     // Act
     const { getByText, container } = render(

@@ -21,7 +21,7 @@ export const BannerUpgrade = ({
           return {
             banner: {
               ...bannerInfo,
-              link: `/plan-selection/${currentPlan.featureSet}/monthly-deliveries`,
+              link: `/plan-selection-deprecated/${currentPlan.featureSet}/monthly-deliveries`,
             },
             suggestion: {
               ...suggestionInfo,
@@ -48,7 +48,7 @@ export const BannerUpgrade = ({
           },
           suggestion: {
             ...suggestionInfo,
-            link: `/plan-selection/${currentPlan.featureSet}/monthly-deliveries`,
+            link: `/plan-selection-deprecated/${currentPlan.featureSet}/monthly-deliveries`,
           },
         };
       default:

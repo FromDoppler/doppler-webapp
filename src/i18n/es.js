@@ -23,7 +23,7 @@ const subjectCanceledAccountNoPay = `?subject=Cuenta%20cancelada%20por%20falta%2
 const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Login`;
 const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%20intentos%20fallidos%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
-const urlPlanSelection = `/plan-selection`;
+const urlPlanSelection = `/plan-selection-deprecated`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
 const urlSiteFromSignup = `${urlSite}/`;
 const urlSiteFromLogin = `${urlSite}/`;

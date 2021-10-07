@@ -16,7 +16,7 @@ import { PlanPriceWithoutDiscounts } from './PlanPriceWithoutDiscounts/PlanPrice
 import { PlanPricePerMonth } from './PlanPricePerMonth/PlanPricePerMonth';
 import { PlanAgreement } from './PlanAgreement/PlanAgreement';
 import { PlanPrice } from './PlanPrice/PlanPrice';
-import { getMonthsByCycle, getPlanDescription } from '../../../services/plan-service';
+import { getMonthsByCycle, getPlanDescription } from '../../../services/plan-service-deprecated';
 
 const PlanCalculator = ({ location, dependencies: { planService, appSessionRef } }) => {
   const safePromoId = extractParameter(location, queryString.parse, 'promo-code') || '';
@@ -208,7 +208,9 @@ const PlanCalculator = ({ location, dependencies: { planService, appSessionRef }
                 <div className="dp-align-center dp-cta-plans">
                   <Link
                     className="dp-button button-medium primary-grey"
-                    to={`/plan-selection${safePromoId ? `?promo-code=${safePromoId}` : ''}`}
+                    to={`/plan-selection-deprecated${
+                      safePromoId ? `?promo-code=${safePromoId}` : ''
+                    }`}
                   >
                     {_('plan_calculator.button_back')}
                   </Link>

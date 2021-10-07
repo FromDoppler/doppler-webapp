@@ -29,8 +29,8 @@ describe('PlanCalculator component', () => {
   };
 
   const PlanCalculatorElement = ({ planServiceDouble }) => (
-    <MemoryRouter initialEntries={['plan-selection/standard']}>
-      <Route path="plan-selection/:pathType/:planType?">
+    <MemoryRouter initialEntries={['plan-selection-deprecated/standard']}>
+      <Route path="plan-selection-deprecated/:pathType/:planType?">
         <AppServicesProvider forcedServices={{ ...dependencies, planService: planServiceDouble }}>
           <IntlProvider>
             <PlanCalculator />
@@ -199,8 +199,8 @@ describe('PlanCalculator component', () => {
 
     // Act
     const { container, getByText } = render(
-      <MemoryRouter initialEntries={['plan-selection/standard']}>
-        <Route path="plan-selection/:pathType/:planType?">
+      <MemoryRouter initialEntries={['plan-selection-deprecated/standard']}>
+        <Route path="plan-selection-deprecated/:pathType/:planType?">
           <AppServicesProvider forcedServices={{ ...dependencies, planService: planServiceDouble }}>
             <IntlProvider>
               <PlanCalculator />
@@ -454,8 +454,8 @@ describe('PlanCalculator component', () => {
 
     // Act
     const { container } = render(
-      <MemoryRouter initialEntries={['plan-selection/standard']}>
-        <Route path="plan-selection/:pathType/:planType?">
+      <MemoryRouter initialEntries={['plan-selection-deprecated/standard']}>
+        <Route path="plan-selection-deprecated/:pathType/:planType?">
           <AppServicesProvider forcedServices={{ ...dependencies, planService: planServiceDouble }}>
             <IntlProvider>
               <PlanCalculator />
