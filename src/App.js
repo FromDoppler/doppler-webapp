@@ -20,16 +20,16 @@ import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampai
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
-import ChangePlan from './components/ChangePlan/ChangePlan';
-import PlanCalculator from './components/ChangePlan/PlanCalculator/PlanCalculator';
+import ChangePlanDeprecated from './components/ChangePlanDeprecated/ChangePlan';
+import PlanCalculator from './components/ChangePlanDeprecated/PlanCalculator/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { AuthorizationPage } from './components/Integrations/BigQuery/AuthorizationPage';
 import UpgradeSuggestionForm from './components/DopplerPlus/UpgradeSuggestionForm';
-import Checkout from './components/ChangePlan/Checkout/Checkout';
-import { CheckoutSummary } from './components/ChangePlan/Checkout/CheckoutSummary';
+import Checkout from './components/ChangePlanDeprecated/Checkout/Checkout';
+import { CheckoutSummary } from './components/ChangePlanDeprecated/Checkout/CheckoutSummary';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
 
@@ -125,9 +125,13 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 component={SubscribersLegacyUrlRedirect}
               />
               <PrivateRoute path="/new-features" exact component={NewFeatures} />
-              <PrivateRoute path={['/plan-selection']} exact component={ChangePlan} />
               <PrivateRoute
-                path={'/plan-selection/:pathType/:planType?'}
+                path={['/plan-selection-deprecated']}
+                exact
+                component={ChangePlanDeprecated}
+              />
+              <PrivateRoute
+                path={'/plan-selection-deprecated/:pathType/:planType?'}
                 exact
                 component={PlanCalculator}
               />

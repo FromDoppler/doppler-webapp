@@ -196,7 +196,7 @@ export const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }
           {/* TODO: it's not necessary. Can be used 'search' and add promoCode
           https://reactrouter.com/web/api/Link */}
           <Link
-            to={`/plan-selection/${path.type}/${currentPlanType}?${
+            to={`/plan-selection-deprecated/${path.type}/${currentPlanType}?${
               promoCode ? 'promo-code=' + promoCode : ''
             }`}
             className="dp-button button-medium secondary-green"
@@ -208,7 +208,9 @@ export const CardWithPrice = ({ path, showFeatures, currentPlanType, promoCode }
       ) : (
         // TODO: add action related to path only
         <CardAction
-          url={`/plan-selection/${path.type}?${promoCode ? 'promo-code=' + promoCode : ''}`}
+          url={`/plan-selection-deprecated/${path.type}?${
+            promoCode ? 'promo-code=' + promoCode : ''
+          }`}
         >
           {_('change_plan.calculate_price')}
         </CardAction>

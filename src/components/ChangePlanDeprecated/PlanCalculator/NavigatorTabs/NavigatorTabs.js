@@ -35,7 +35,7 @@ export const NavigatorTabs = ({ tabs, pathType, selectedPlanType }) => {
         {tabs.map((type, index) => (
           <li className="tab--item" key={index}>
             <Link
-              to={`/plan-selection/${pathType}/${type}`}
+              to={`/plan-selection-deprecated/${pathType}/${type}`}
               className={type === selectedPlanType ? 'tab--link active' : 'tab--link'}
             >
               {getTypePlanDescriptionWithTooltip(type)}

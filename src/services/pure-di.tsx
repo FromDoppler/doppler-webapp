@@ -11,7 +11,7 @@ import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
-import { PlanService } from './plan-service';
+import { PlanService } from './plan-service-deprecated';
 import { HttpManualStatusClient, ManualStatusClient } from './manual-status-client';
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
