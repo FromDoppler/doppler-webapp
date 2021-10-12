@@ -32,6 +32,7 @@ import Checkout from './components/ChangePlanDeprecated/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlanDeprecated/Checkout/CheckoutSummary';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
+import { ChangePlan } from './components/ChangePlan';
 
 /**
  * @param { Object } props - props
@@ -130,6 +131,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 exact
                 component={ChangePlanDeprecated}
               />
+              <PrivateRoute exact path="/plan-selection" component={ChangePlan} />
               <PrivateRoute
                 path={'/plan-selection-deprecated/:pathType/:planType?'}
                 exact
