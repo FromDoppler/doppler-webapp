@@ -17,8 +17,7 @@ export const ControlPanel = () => {
       <section className="dp-container">
         <div className="dp-rowflex">
           {controlPanelSections.map((section, index1) => (
-            <div key={`section-${index1}`}
-              className="col-lg-12 col-md-12 m-b-24">
+            <div key={`section-${index1}`} className="col-lg-12 col-md-12 m-b-24">
               <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                 <h2>{section.title}</h2>
                 <div className="dp-rowflex">

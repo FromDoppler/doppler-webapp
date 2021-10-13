@@ -7,9 +7,7 @@ export const ControlPanelBox = ({ linkUrl, imgSrc, imgAlt, iconName }) => {
       <div className="dp-box-shadow">
         <S.Link target="_self" className="dp-white" href={linkUrl}>
           <S.Image src={imgSrc} alt={imgAlt} />
-          <S.Text>
-            {iconName}
-          </S.Text>
+          <S.Text>{iconName}</S.Text>
         </S.Link>
       </div>
     </div>

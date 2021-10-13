@@ -10,7 +10,7 @@ describe('Control Panel component', () => {
     render(<ControlPanel />);
 
     // Assert
-    controlPanelSections.forEach(section => {
+    controlPanelSections.forEach((section) => {
       expect(screen.getByRole('heading', { name: section.title }));
       section.items.forEach((box) => {
         expect(screen.getByText(box.iconName)).toBeInTheDocument();

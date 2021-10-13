@@ -13,9 +13,7 @@ describe('Control Panel Box component', () => {
   };
 
   it('should render a control panel box', async () => {
-    render(
-      <ControlPanelBox {...box} />
-    );
+    render(<ControlPanelBox {...box} />);
 
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByRole('link')).toBeInTheDocument();
