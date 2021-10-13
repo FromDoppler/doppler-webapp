@@ -1,16 +1,16 @@
 export const CHANGE_PLAN_ACTIONS = {
-  SET_LOADING: 'SET_LOADING',
-  RECEIVE_PLAN: 'RECEIVE_PATHS',
+  FETCHING_STARTED: 'FETCHING_STARTED',
+  RECEIVE_PLANS: 'RECEIVE_PATHS',
 };
 
 export const changePlanReducer = (state, action) => {
   switch (action.type) {
-    case CHANGE_PLAN_ACTIONS.SET_LOADING:
+    case CHANGE_PLAN_ACTIONS.FETCHING_STARTED:
       return {
         ...state,
-        loading: !state.loading,
+        loading: true,
       };
-    case CHANGE_PLAN_ACTIONS.RECEIVE_PLAN:
+    case CHANGE_PLAN_ACTIONS.RECEIVE_PLANS:
       const { pathList, currentPlan } = action.payload;
       return {
         ...state,

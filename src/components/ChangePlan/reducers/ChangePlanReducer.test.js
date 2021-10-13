@@ -26,9 +26,9 @@ const currentPlan = {
 };
 
 describe('changePlanReducer', () => {
-  it(`${CHANGE_PLAN_ACTIONS.SET_LOADING} action`, () => {
+  it(`${CHANGE_PLAN_ACTIONS.FETCHING_STARTED} action`, () => {
     // Arrange
-    const action = { type: CHANGE_PLAN_ACTIONS.SET_LOADING };
+    const action = { type: CHANGE_PLAN_ACTIONS.FETCHING_STARTED };
 
     // Act
     const newState = changePlanReducer(INITIAL_STATE_CHANGE_PLAN, action);
@@ -40,10 +40,10 @@ describe('changePlanReducer', () => {
     });
   });
 
-  it(`${CHANGE_PLAN_ACTIONS.RECEIVE_PLAN} action`, () => {
+  it(`${CHANGE_PLAN_ACTIONS.RECEIVE_PLANS} action`, () => {
     // Arrange
     const action = {
-      type: CHANGE_PLAN_ACTIONS.RECEIVE_PLAN,
+      type: CHANGE_PLAN_ACTIONS.RECEIVE_PLANS,
       payload: {
         pathList,
         currentPlan,
@@ -62,7 +62,7 @@ describe('changePlanReducer', () => {
     });
   });
 
-  it('it should return initialState when the action is not defined', () => {
+  it('should return initialState when the action is not defined', () => {
     // Arrange
     const action = {
       type: 'my-action',

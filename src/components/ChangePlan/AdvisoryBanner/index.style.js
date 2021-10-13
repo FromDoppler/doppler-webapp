@@ -7,7 +7,7 @@ export const Banner = styled.div`
   border: 2px solid ${colors.faintGrey};
   border-radius: 3px;
   margin-top: ${spacings.spacesLvl11};
-  padding: 40px 50px 40px 40px !important;
+  padding: 40px 50px 40px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;

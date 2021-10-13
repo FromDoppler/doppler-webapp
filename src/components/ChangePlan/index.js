@@ -10,7 +10,7 @@ import { PlanList } from './PlanList';
 import { changePlanReducer, CHANGE_PLAN_ACTIONS } from './reducers/changePlanReducer';
 
 export const INITIAL_STATE_CHANGE_PLAN = {
-  loading: true,
+  loading: false,
   pathList: [],
   currentPlan: null,
 };
@@ -22,8 +22,15 @@ export const ChangePlan = () => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
+    dispatch({ type: CHANGE_PLAN_ACTIONS.FETCHING_STARTED });
     createTimeout(() => {
-      dispatch({ type: CHANGE_PLAN_ACTIONS.SET_LOADING });
+      dispatch({
+        type: CHANGE_PLAN_ACTIONS.RECEIVE_PLANS,
+        payload: {
+          pathList: INITIAL_STATE_CHANGE_PLAN.pathList,
+          currentPlan: null,
+        },
+      });
     }, 1000);
   }, [createTimeout]);
 

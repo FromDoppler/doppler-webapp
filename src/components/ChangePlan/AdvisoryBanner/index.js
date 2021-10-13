@@ -8,7 +8,7 @@ export const AdvisoryBanner = () => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <S.Banner className="col-sm-12">
+    <S.Banner>
       <div>
         <S.ImgEnterprise
           alt="enterprise icon"
