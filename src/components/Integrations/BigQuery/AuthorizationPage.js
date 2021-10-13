@@ -7,6 +7,9 @@ import { useIntl } from 'react-intl';
 import dataStudioGif from './google-data-studio.gif';
 import bigQueryLogo from './bigquery_logo.png';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
+import { ShowLikeFlash } from '../../shared/ShowLikeFlash/ShowLikeFlash';
+import { IconMessage } from '../../form-helpers/form-helpers';
+import { successMessageDelay } from '../../../utils';
 
 const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiClient } }) => {
   const intl = useIntl();
@@ -14,6 +17,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bigQueryEnabled, setBigQueryEnabled] = useState(false);
+  const [messageData, setMessageData] = useState(null);
 
   useEffect(() => {
     const isBigQueryPolicyEnabled = async () => {
@@ -32,13 +36,28 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
     fetchData();
   }, [bigQueryClient, dopplerUserApiClient]);
 
-  const onSubmit = async (values, emailsToNotify) => {
+  const FieldItemMessage = ({ message }) => (
+    <ShowLikeFlash delay={message.delay}>
+      <IconMessage {...message} className="bounceIn" />
+    </ShowLikeFlash>
+  );
+
+  const onSubmit = async (values) => {
     const emailsData = { emails: [...values.emails] };
     const { success } = await bigQueryClient.saveEmailsData(emailsData);
+
     if (success) {
-      alert('success');
+      setMessageData({
+        text: 'big_query.plus_message_saved',
+        type: 'success',
+        delay: successMessageDelay,
+      });
     } else {
-      alert('error saving data');
+      setMessageData({
+        text: 'big_query.plus_message_error',
+        type: 'cancel',
+        delay: successMessageDelay,
+      });
     }
   };
 
@@ -113,6 +132,9 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
                 <FormattedMessageMarkdown id="big_query.plus_step_one_paragraph_MD" />
               </div>
               <AuthorizationForm emails={data} onSubmit={onSubmit} />
+            </div>
+            <div className="p-t-30">
+              {messageData ? <FieldItemMessage message={messageData} /> : <></>}
             </div>
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 m-b-24 p-b-42">

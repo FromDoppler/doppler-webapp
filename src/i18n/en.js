@@ -76,6 +76,7 @@ const messages_en = {
     plus_configuration: `Configuration`,
     plus_control_panel: `Control Panel`,
     plus_header_MD: `Get detailed reports to analyze the performance of your Email & Automation Marketing Campaigns.`,
+    plus_message_error: `Error saving changes.`,
     plus_message_remember: `Remember to save changes.`,
     plus_message_saved: `Changes saved successfully.`,
     plus_paragraph_two: `Google BigQuery`,
