@@ -117,7 +117,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
               <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
               <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
               <PrivateRoute path="/subscribers/:email/:section" exact component={Subscribers} />
-              <PrivateRoute path="/controlPanel/" exact component={ControlPanel} />
+              <PrivateRoute path="/control-panel/" exact component={ControlPanel} />
               {/* TODO: delete this when urls change in MasterSubscribers */}
               {/* This is to keep backward compatibility with /reports/subscriber-history and /reports/subscriber-history */}
               <PrivateRoute
