@@ -6,8 +6,8 @@ import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { extractParameter } from '../../../../utils';
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
-import { paymentType } from '../PaymentMethod/PaymentMethod';
 import useTimeout from '../../../../hooks/useTimeout';
+import { paymentType } from '../PaymentMethod/PaymentMethod';
 
 const dollarSymbol = 'US$';
 
@@ -51,6 +51,9 @@ export const MonthsToPayInformation = ({ plan, discount }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const monthsCount = discount ? discount.monthsAmmount : 1;
+  const amount = discount ? plan.fee * discount.monthsAmmount : plan.fee;
+
   return (
     <>
       <span>
@@ -58,13 +61,12 @@ export const MonthsToPayInformation = ({ plan, discount }) => {
         <strong>
           <FormattedMessage
             id="checkoutProcessForm.purchase_summary.month_with_plural"
-            values={{ monthsCount: discount?.monthsAmmount }}
+            values={{ monthsCount: monthsCount }}
           ></FormattedMessage>
         </strong>
       </span>
       <span>
-        {dollarSymbol}{' '}
-        <FormattedNumber value={plan.fee * discount?.monthsAmmount} {...numberFormatOptions} />
+        {dollarSymbol} <FormattedNumber value={amount} {...numberFormatOptions} />
       </span>
     </>
   );
@@ -249,6 +251,7 @@ export const PurchaseSummary = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient },
     discountId,
+    paymentMethod,
     canBuy,
   }) => {
     const location = useLocation();
@@ -275,14 +278,18 @@ export const PurchaseSummary = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
-        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-        const paymentMethod = paymentMethodData.success
-          ? paymentMethodData.value.paymentMethodName
-          : paymentType.creditCard;
+        let paymentMethodType = paymentMethod;
+
+        if (paymentMethod === '') {
+          const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+          paymentMethodType = paymentMethodData.success
+            ? paymentMethodData.value.paymentMethodName
+            : paymentType.creditCard;
+        }
 
         const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
           selectedPlan,
-          paymentMethod,
+          paymentMethodType,
         );
 
         const discount = discountsData.success
@@ -311,6 +318,7 @@ export const PurchaseSummary = InjectAppServices(
       dopplerBillingUserApiClient,
       selectedDiscountId,
       selectedPlan,
+      paymentMethod,
     ]);
 
     const getPlanTypeTitle = () => {

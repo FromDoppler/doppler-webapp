@@ -132,7 +132,7 @@ export const ContactInformation = InjectAppServices(
                           label={`*${_('checkoutProcessForm.contact_information_firstname')}`}
                           withNameValidation
                           required
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                         />
                         <InputFieldItem
                           type="text"
@@ -154,7 +154,7 @@ export const ContactInformation = InjectAppServices(
                           label={`*${_('checkoutProcessForm.contact_information_address')}`}
                           withNameValidation
                           required
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                         />
                         <InputFieldItem
                           type="text"
@@ -176,7 +176,7 @@ export const ContactInformation = InjectAppServices(
                           defaultOption={defaultOption}
                           values={states}
                           required
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                         />
                         <SelectFieldItem
                           fieldName={fieldNames.country}
@@ -200,7 +200,7 @@ export const ContactInformation = InjectAppServices(
                           id="zipCode"
                           label={`${_('checkoutProcessForm.contact_information_zip_code')}`}
                           withNameValidation
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                         />
                         <PhoneFieldItem
                           fieldName={fieldNames.phone}
@@ -219,7 +219,7 @@ export const ContactInformation = InjectAppServices(
                           fieldName={fieldNames.company}
                           id="company"
                           label={`${_('checkoutProcessForm.contact_information_company')}`}
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                         />
                         <SelectFieldItem
                           fieldName={fieldNames.industry}

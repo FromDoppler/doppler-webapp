@@ -127,16 +127,19 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     };
   }
 
-  private mapCreditCardPaymentMethod(data: any): any {
+  private mapPaymentMethodToUpdate(data: any): any {
     return {
       ccHolderFullName: data.name,
-      ccNumber: data.number,
+      ccNumber: data.number?.replaceAll(' ', ''),
       ccVerification: data.cvc,
       paymentMethodName: data.paymentMethodName,
-      ccExpYear: data.expiry.split('/')[1],
-      ccExpMonth: data.expiry.split('/')[0],
+      ccExpYear: data.expiry?.split('/')[1],
+      ccExpMonth: data.expiry?.split('/')[0],
       ccType: data.ccType,
       idSelectedPlan: data.idSelectedPlan,
+      razonSocial: data.businessName,
+      idConsumerType: data.consumerType,
+      identificationNumber: data.identificationNumber,
     };
   }
 
@@ -210,7 +213,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       const response = await this.axios.request({
         method: 'PUT',
         url: `/accounts/${email}/payment-methods/current`,
-        data: this.mapCreditCardPaymentMethod(values),
+        data: this.mapPaymentMethodToUpdate(values),
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

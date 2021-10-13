@@ -101,3 +101,32 @@ export function combineValidations(
     return null;
   };
 }
+
+export function validateCuit(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_cuit',
+): true | string | null {
+  if (!value) {
+    return null;
+  }
+
+  const regexCuit = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
+
+  if (!regexCuit.test(value)) {
+    return commonErrorKey;
+  }
+
+  var mult = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+  var total = 0;
+  for (var i = 0; i < mult.length; i++) {
+    total += parseInt(value[i]) * mult[i];
+  }
+  var mod = total % 11;
+  var digit = mod === 0 ? 0 : mod === 1 ? 9 : 11 - mod;
+
+  if (digit !== parseInt(value[10])) {
+    return commonErrorKey;
+  }
+
+  return null;
+}

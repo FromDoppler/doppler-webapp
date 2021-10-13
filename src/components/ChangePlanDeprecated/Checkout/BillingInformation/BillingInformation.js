@@ -170,7 +170,7 @@ export const BillingInformation = InjectAppServices(
                           label={`*${_('checkoutProcessForm.billing_information_firstname')}`}
                           withNameValidation
                           required
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
                           style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
@@ -196,7 +196,7 @@ export const BillingInformation = InjectAppServices(
                           label={`*${_('checkoutProcessForm.billing_information_address')}`}
                           withNameValidation
                           required
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
                           style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
@@ -222,7 +222,7 @@ export const BillingInformation = InjectAppServices(
                           defaultOption={defaultOption}
                           values={states}
                           required
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
                           style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
@@ -250,7 +250,7 @@ export const BillingInformation = InjectAppServices(
                           id="zipCode"
                           label={`${_('checkoutProcessForm.billing_information_zip_code')}`}
                           withNameValidation
-                          className="field-item--50"
+                          className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
                           style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />

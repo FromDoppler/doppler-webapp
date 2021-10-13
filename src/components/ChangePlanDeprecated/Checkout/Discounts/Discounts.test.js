@@ -69,7 +69,19 @@ describe('Discount component', () => {
     );
 
     // Assert
-    expect(screen.queryByText('checkoutProcessForm.discount_title')).toBeNull();
+    expect(screen.queryByText('checkoutProcessForm.discount_title')).not.toBeNull();
+    expect(
+      screen.getByRole('button', { name: 'checkoutProcessForm.discount_monthly' }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'checkoutProcessForm.discount_quarterly' }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'checkoutProcessForm.discount_half_yearly' }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'checkoutProcessForm.discount_yearly' }),
+    ).toBeDisabled();
   });
 
   it("should show monthly discount element selected as default when the user doesn't select any subscription", async () => {

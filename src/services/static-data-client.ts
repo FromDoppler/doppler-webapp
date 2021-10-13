@@ -4,6 +4,7 @@ export interface StaticDataClient {
   getIndustriesData(language: string): Promise<any>;
   getStatesData(country: string, language: string): Promise<any>;
   getSecurityQuestionsData(language: string): Promise<any>;
+  getConsumerTypesData(country: string, language: string): Promise<any>;
 }
 
 export class HttpStaticDataClient implements StaticDataClient {
@@ -66,6 +67,34 @@ export class HttpStaticDataClient implements StaticDataClient {
         value: response.data[key],
       }));
       return { success: true, value: securityQuestions };
+    } catch (error) {
+      console.error('States file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getConsumerTypesData(country: string, language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url:
+          this.baseUrl +
+          `/${language === 'es' ? 'consumer-types-es-v1' : 'consumer-types-en-v1'}.json`,
+      });
+
+      const data: { [key: string]: any } = Object.keys(response.data)
+        .filter((key) => key.toLowerCase() === country.toLowerCase())
+        .reduce((obj, key) => {
+          return response.data[key];
+        }, {});
+
+      const consumerTypes = Object.keys(data).map((key) => ({ key: key, value: data[key] }));
+
+      const consumerTypesOrdered = consumerTypes.sort((a, b) =>
+        a.value.localeCompare(b.value, undefined, { sensitivity: 'base' }),
+      );
+
+      return { success: true, value: consumerTypesOrdered };
     } catch (error) {
       console.error('States file not accesible');
       return { success: false, error: error };
