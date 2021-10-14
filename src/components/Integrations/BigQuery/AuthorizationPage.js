@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Loading } from '../../Loading/Loading';
 import { AuthorizationForm } from './ControlPanel/AuthorizationForm';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -35,6 +35,8 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
     };
     fetchData();
   }, [bigQueryClient, dopplerUserApiClient]);
+
+  const onReset = useCallback(async () => {}, []);
 
   const FieldItemMessage = ({ message }) => (
     <ShowLikeFlash delay={message.delay}>
@@ -131,7 +133,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
               <div className="m-t-24">
                 <FormattedMessageMarkdown id="big_query.plus_step_one_paragraph_MD" />
               </div>
-              <AuthorizationForm emails={data} onSubmit={onSubmit} />
+              <AuthorizationForm emails={data} onSubmit={onSubmit} onReset={onReset} />
             </div>
             <div className="p-t-30">
               {messageData ? <FieldItemMessage message={messageData} /> : <></>}
@@ -155,7 +157,11 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
           </div>
           <div className="col-sm-12 m-b-24">
             <hr className="dp-h-divider"></hr>
-            <button type="button" className="dp-button button-medium primary-grey m-t-30 m-r-24">
+            <button
+              type="reset"
+              className="dp-button button-medium primary-grey m-t-30 m-r-24"
+              form="big-query-configuration-form"
+            >
               {_('common.cancel')}
             </button>
             <button type="button">

@@ -9,7 +9,7 @@ const fieldNames = {
   emails: 'emails',
 };
 
-export const AuthorizationForm = ({ emails, onSubmit }) => {
+export const AuthorizationForm = ({ emails, onSubmit, onReset }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -18,9 +18,12 @@ export const AuthorizationForm = ({ emails, onSubmit }) => {
     return errorKey ? <FormattedMessage id={errorKey} /> : null;
   };
 
+  const handleCancel = async () => {
+    console.log('aqui deberia llegar');
+  };
+
   const handleSubmit = async (values) => {
-    const emailsToNotify = values.emails.filter((email) => emails.indexOf(email) === -1);
-    onSubmit(values, emailsToNotify);
+    onSubmit(values);
   };
 
   const formikConfig = {
@@ -29,6 +32,7 @@ export const AuthorizationForm = ({ emails, onSubmit }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: handleSubmit,
+    onreset: handleCancel,
   };
 
   return (
