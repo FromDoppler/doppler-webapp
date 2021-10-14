@@ -11,8 +11,14 @@ export type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
 // TODO: Research how to fix it and rename EmptyResultWithoutExpectedErrors as EmptyResult
 export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedError;
 
+/** 
+ * @deprecated PathType is deprecated and will be removed. Please use PathwayType instead 
+ * */
 export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
 
+/** 
+ * @deprecated PlanType is deprecated and will be removed. Please use AccountType instead 
+ * */
 export type PlanType =
   | 'free'
   | 'prepaid'
