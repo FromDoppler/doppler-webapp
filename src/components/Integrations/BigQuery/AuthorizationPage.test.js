@@ -148,4 +148,65 @@ describe('test for validate authorization form component ', () => {
     await act(async () => userEvent.click(submitButton));
     window.alert = jsdomAlert;
   });
+
+  it('control panel show success message', async () => {
+    //Arrange
+    const bigQueryEnabled = true;
+    const success = true;
+
+    //act
+    render(
+      <AppServicesProvider
+        forcedServices={{
+          bigQueryClient: bigQueryClientDouble(success),
+          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled, success),
+        }}
+      >
+        <IntlProvider>
+          <AuthorizationPage />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    //assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+    expect(screen.getByRole('form')).toBeInTheDocument();
+    expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
+    // simulate submit form
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    await act(async () => userEvent.click(submitButton));
+    expect(screen.queryByText('big_query.plus_message_saved')).toBeInTheDocument();
+  });
+
+  it('control panel show error message', async () => {
+    //Arrange
+    const bigQueryEnabled = true;
+    const userApiSuccess = true;
+    const bigQuerySuccess = false;
+
+    //act
+    render(
+      <AppServicesProvider
+        forcedServices={{
+          bigQueryClient: bigQueryClientDouble(bigQuerySuccess),
+          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled, userApiSuccess),
+        }}
+      >
+        <IntlProvider>
+          <AuthorizationPage />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    //assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+    expect(screen.getByRole('form')).toBeInTheDocument();
+    expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
+    // simulate submit form
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    await act(async () => userEvent.click(submitButton));
+    expect(screen.queryByText('big_query.plus_message_error')).toBeInTheDocument();
+  });
 });
