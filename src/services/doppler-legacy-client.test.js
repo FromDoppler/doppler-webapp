@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { HttpDopplerLegacyClient } from './doppler-legacy-client';
+import { parsePlan } from './planMapping';
 jest.mock('axios');
 
 const userData = {
@@ -420,7 +421,7 @@ describe('Doppler legacy client', () => {
     });
     axios.get.mockImplementation(() => montlhyRawPlan);
     // Act
-    const planList = await sut.getAllPlans();
+    const planList = await sut.getAllPlans(parsePlan);
     // Assert
     expect(planList).toBeDefined();
     expect(planList[0].type).toBe('monthly-deliveries');

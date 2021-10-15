@@ -15,6 +15,7 @@ import {
   AgencyPlan,
 } from '../doppler-types';
 import { getPlanFee, orderPlanTypes } from '../utils';
+import { parsePlan } from './planMapping';
 
 export interface PlanHierarchy {
   getPaths(userPlan: Plan, planList: Plan[]): Path[];
@@ -236,10 +237,13 @@ export class PlanService implements PlanHierarchy {
     this.dopplerLegacyClient = dopplerLegacyClient;
   }
 
+  /**
+   * @deprecated getPlanList is deprecated and will be removed. Please use getPlanList from /src/services/planService/index.ts instead
+   * */
   async getPlanList(): Promise<Plan[]> {
     return this.PlanList.length
       ? this.PlanList
-      : (this.PlanList = await this.dopplerLegacyClient.getAllPlans());
+      : (this.PlanList = await this.dopplerLegacyClient.getAllPlans(parsePlan));
   }
 
   getPaths(userPlan: Plan, planList: Plan[]): Path[] {
