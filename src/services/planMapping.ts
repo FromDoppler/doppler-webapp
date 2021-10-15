@@ -1,7 +1,7 @@
-import { AdvancePayOptions, BillingCycle, PathType, PaymentType, PlanType } from "../doppler-types";
+import { AdvancePayOptions, BillingCycle, PathType, PaymentType, PlanType } from '../doppler-types';
 
-/** 
- * @deprecated planTypeByIdUserType is deprecated and will be removed. Please use planTypeByIdUserType from /src/services/planMapping.ts instead 
+/**
+ * @deprecated planTypeByIdUserType is deprecated and will be removed. Please use planTypeByIdUserType from /src/services/planMapping.ts instead
  * */
 export const planTypeByIdUserType: { [idUserType: number]: PlanType } = {
   1: 'free',
@@ -41,8 +41,8 @@ function mapAdvancePay(json: any): AdvancePayOptions {
   };
 }
 
-/** 
- * @deprecated parsePlan is deprecated and will be removed. Please use parsePlan function from /src/services/planMapping.ts instead 
+/**
+ * @deprecated parsePlan is deprecated and will be removed. Please use parsePlan function from /src/services/planMapping.ts instead
  * */
 export function parsePlan(json: any) {
   const id = json.IdUserTypePlan;

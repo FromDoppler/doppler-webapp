@@ -11,13 +11,32 @@ export type EmptyResult<TError> = { success: true } | ErrorResult<TError>;
 // TODO: Research how to fix it and rename EmptyResultWithoutExpectedErrors as EmptyResult
 export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedError;
 
-/** 
- * @deprecated PathType is deprecated and will be removed. Please use PathwayType instead 
+export const PATHWAY = {
+  free: 'free',
+  trial: 'trial',
+  standard: 'standard',
+  agencies: 'agencies',
+} as const;
+
+export const ACCOUNT = {
+  free: 'free',
+  trial: 'trial',
+  byCredit: 'prepaid',
+  byEmail: 'monthly-deliveries',
+  byContact: 'subscribers',
+  agencies: 'agencies',
+  demo: 'demo',
+} as const;
+
+/**
+ * @deprecated PathType is deprecated and will be removed. Please use PathwayType instead
  * */
 export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
 
-/** 
- * @deprecated PlanType is deprecated and will be removed. Please use AccountType instead 
+export type PathwayType = typeof PATHWAY[keyof typeof PATHWAY];
+
+/**
+ * @deprecated PlanType is deprecated and will be removed. Please use AccountType instead
  * */
 export type PlanType =
   | 'free'
@@ -26,6 +45,8 @@ export type PlanType =
   | 'subscribers'
   | 'agencies'
   | 'demo';
+
+export type AccountType = typeof ACCOUNT[keyof typeof ACCOUNT];
 
 export type PaymentType = 'CC' | 'transfer';
 

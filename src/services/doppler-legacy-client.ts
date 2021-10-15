@@ -2,7 +2,13 @@ import { AxiosError, AxiosInstance, AxiosStatic } from 'axios';
 import axiosRetry from 'axios-retry';
 import { Property } from 'csstype';
 import jwt_decode from 'jwt-decode';
-import { EmptyResult, EmptyResultWithoutExpectedErrors, Plan, PlanType, Result } from '../doppler-types';
+import {
+  EmptyResult,
+  EmptyResultWithoutExpectedErrors,
+  Plan,
+  PlanType,
+  Result,
+} from '../doppler-types';
 import { addLogEntry, logAxiosRetryError } from '../utils';
 import { planTypeByIdUserType } from './planMapping';
 
