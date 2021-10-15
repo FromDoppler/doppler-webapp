@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { ControlPanelBox } from './ControlPanelBox';
 import ControlPanelIconImg from '../account_icon.png';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 it('should render a control panel box', async () => {
   // Arrange
@@ -14,7 +15,11 @@ it('should render a control panel box', async () => {
   };
 
   //Act
-  render(<ControlPanelBox box={box} />);
+  render(
+    <IntlProvider>
+      <ControlPanelBox box={box} />
+    </IntlProvider>
+  );
 
   //Assert
   expect(screen.getByRole('img')).toBeInTheDocument();

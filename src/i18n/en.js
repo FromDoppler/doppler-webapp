@@ -1,9 +1,10 @@
-import signupBannerImagePath from '../img/signup-en.png';
+﻿import signupBannerImagePath from '../img/signup-en.png';
 import loginBannerImagePath from '../img/login-en.png';
 
 // Basic constants
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlWebApp = process.env.REACT_APP_DOPPLER_WEBAPP_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
@@ -345,6 +346,55 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     sent_deliveries: 'SENT DELIVERIES',
     welcome_message: 'Hello ',
     welcome_message_header: `This is your **Dashboard**. Here you’ll find relevant metrics of your account and complementary resources for your strategy. `,
+  },
+  control_panel:{
+    account_preferences: {
+      account_information_link:`${urlControlPanel}/AccountPreferences/GetAccountInformation`,
+      account_information_title: 'Account Information',
+      account_movements_link: `${urlControlPanel}/AccountPreferences/GetAccountHistory`,
+      account_movements_title: 'Account History',
+      billing_information_link: `${urlControlPanel}/AccountPreferences/BillingInformationSettings`,
+      billing_information_link_cm: `${urlControlPanel}/AccountPreferences/GetBillingInformation`,
+      billing_information_title: 'Billing Information',
+      contact_information_link: `${urlControlPanel}/AccountPreferences/GetContactInformation`,
+      contact_information_title: 'Contact Details',
+      plans_and_specs_link: `${urlWebApp}/AccountPreferences/plan-selection`,
+      plans_and_specs_title:'Pricing and Features',
+      sms_settings_link: `${urlControlPanel}/AccountPreferences/GetSmsConfiguration`,
+      sms_settings_title: 'SMS Settings',
+      title: 'Account Preferences',
+    },
+    campaign_preferences: {
+      bounce_handling_link:`${urlControlPanel}/CampaignsPreferences/GetUserReboundsCleanConfiguration`,
+      bounce_handling_title: 'Bounce Handling',
+      contact_policy_link:`${urlWebApp}/sending-preferences/contact-policy`,
+      contact_policy_title: 'Contact Policy',
+      email_parameter_link:`${urlControlPanel}/CampaignsPreferences/GetEmailParameterConfiguration`,
+      email_parameter_title: 'URL parameters',
+      footer_and_header_preferences_link:`${urlControlPanel}/CampaignsPreferences/GetFootAndHeaderPreferences`,
+      footer_and_header_preferences_title:'Header and Footer',
+      site_tracking_link:`${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`,
+      site_tracking_title: 'On-Site Tracking',
+      subscribers_scoring_link:`${urlControlPanel}/CampaignsPreferences/GetSubscribersScoringConfiguration`,
+      subscribers_scoring_title: 'Subscribers Scoring',
+      title:'Campaign Preferences',
+      unopened_mails_config_link:`${urlControlPanel}/CampaignsPreferences/GetUnopenedMailsConfiguration`,
+      unopened_mails_config_title: 'Not Opened Preferences',
+      unsubscription_link_link:`${urlControlPanel}/CampaignsPreferences/GetUnsubscriberLink`,
+      unsubscription_link_title: 'Unsubscribe Link',
+    },
+    social_preferences:{
+      auto_publish_link:`${urlControlPanel}/CampaignsPreferences/GetAutoPublishPreferences`,
+      auto_publish_title: 'Autopublicar',
+      rss_preferences_link:`${urlControlPanel}/CampaignsPreferences/GetRssPreferences`,
+      rss_preferences_title: 'RSS Feed',
+      social_network_link:`${urlControlPanel}/CampaignsPreferences/GetSocialNetworkShareXUsers`,
+      social_network_title: 'Social Media shares',
+      title: 'Social Media Preferences',
+      viralization_link:`${urlControlPanel}/CampaignsPreferences/GetSocialNetworkCustomizations`,
+      viralization_title: 'AutoPublish',
+    },
+    title: 'Control Panel',
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,

@@ -1,9 +1,10 @@
-import signupBannerImagePath from '../img/signup-es.png';
+﻿import signupBannerImagePath from '../img/signup-es.png';
 import loginBannerImagePath from '../img/login-es.png';
 
 // Basic constants
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlWebApp = process.env.REACT_APP_DOPPLER_WEBAPP_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
@@ -345,6 +346,55 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     sent_deliveries: 'CAMPAÑAS ENVIADAS',
     welcome_message: 'Hola ',
     welcome_message_header: `Este es tu **Tablero de Inicio**. Aquí encontrarás métricas relevantes de tu cuenta y recursos complementarios para tu estrategia.`,
+  },
+  control_panel:{
+    account_preferences: {
+      account_information_link:`${urlControlPanel}/AccountPreferences/GetAccountInformation`,
+      account_information_title: 'Información de la cuenta',
+      account_movements_link: `${urlControlPanel}/AccountPreferences/GetAccountHistory`,
+      account_movements_title: 'Movimientos de la Cuenta',
+      billing_information_link: `${urlControlPanel}/AccountPreferences/BillingInformationSettings`,
+      billing_information_link_cm: `${urlControlPanel}/AccountPreferences/GetBillingInformation`,
+      billing_information_title: 'Información de Facturación',
+      contact_information_link: `${urlControlPanel}/AccountPreferences/GetContactInformation`,
+      contact_information_title: 'Información de Contacto',
+      plans_and_specs_link: `${urlWebApp}/AccountPreferences/plan-selection`,
+      plans_and_specs_title:'Planes y Características',
+      sms_settings_link: `${urlControlPanel}/AccountPreferences/GetSmsConfiguration`,
+      sms_settings_title: 'Configuración de SMS',
+      title: 'Preferencias de Cuenta',
+    },
+    campaign_preferences: {
+      bounce_handling_link:`${urlControlPanel}/CampaignsPreferences/GetUserReboundsCleanConfiguration`,
+      bounce_handling_title: 'Administrador de Rebotes',
+      contact_policy_link:`${urlWebApp}/sending-preferences/contact-policy`,
+      contact_policy_title: 'Política de Contacto',
+      email_parameter_link:`${urlControlPanel}/CampaignsPreferences/GetEmailParameterConfiguration`,
+      email_parameter_title: 'Parámetros en Links',
+      footer_and_header_preferences_link:`${urlControlPanel}/CampaignsPreferences/GetFootAndHeaderPreferences`,
+      footer_and_header_preferences_title:'Encabezado y Pie de Email',
+      site_tracking_link:`${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`,
+      site_tracking_title: 'Seguimiento en Sitio',
+      subscribers_scoring_link:`${urlControlPanel}/CampaignsPreferences/GetSubscribersScoringConfiguration`,
+      subscribers_scoring_title: 'Calificación de Suscriptores',
+      title:'Preferencias de Campañas',
+      unopened_mails_config_link:`${urlControlPanel}/CampaignsPreferences/GetUnopenedMailsConfiguration`,
+      unopened_mails_config_title: 'Administración de Emails no abiertos',
+      unsubscription_link_link:`${urlControlPanel}/CampaignsPreferences/GetUnsubscriberLink`,
+      unsubscription_link_title: 'Link de Remoción',
+    },
+    social_preferences:{
+      auto_publish_link:`${urlControlPanel}/CampaignsPreferences/GetAutoPublishPreferences`,
+      auto_publish_title: 'Autopublicar',
+      rss_preferences_link:`${urlControlPanel}/CampaignsPreferences/GetRssPreferences`,
+      rss_preferences_title: 'Canal RSS',
+      social_network_link:`${urlControlPanel}/CampaignsPreferences/GetSocialNetworkShareXUsers`,
+      social_network_title: 'Compartir en Redes Sociales',
+      title: 'Preferencias de Redes Sociales',
+      viralization_link:`${urlControlPanel}/CampaignsPreferences/GetSocialNetworkCustomizations`,
+      viralization_title: 'Opciones de Viralización',
+    },
+    title: 'Control Panel',
   },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
