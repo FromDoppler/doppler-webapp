@@ -1,9 +1,21 @@
-function importAllImages(r) {
-  let images = {};
-  r.keys().forEach((item) => { images[item.replace('./', '')] = r(item); });
-  return images;
-}
-const images = importAllImages(require.context('./images', false, /\.(png|jpe?g|svg)$/));
+import account_information_icon from './images/account_information_icon.png';
+import account_movements_icon from './images/account_movements_icon.png';
+import contact_information_icon from './images/contact_information_icon.png';
+import billing_information_icon from './images/billing_information_icon.png';
+import sms_settings_icon from './images/sms_settings_icon.png';
+import plans_and_specs_icon from './images/plans_and_specs_icon.png';
+import footer_and_header_icon from './images/footer_and_header_icon.png';
+import unsubscription_link_icon from './images/unsubscription_link_icon.png';
+import unopened_mails_config_icon from './images/unopened_mails_config_icon.png';
+import subscribers_scoring_icon from './images/subscribers_scoring_icon.png';
+import bounce_handling_icon from './images/bounce_handling_icon.png';
+import contact_policy_icon from './images/contact_policy_icon.svg';
+import email_parameter_icon from './images/email_parameter_icon.png';
+import site_tracking_icon from './images/site_tracking_icon.png';
+import social_network_icon from './images/social_network_icon.png';
+import rss_preferences_icon from './images/rss_preferences_icon.png';
+import viralization_icon from './images/viralization_icon.png';
+import auto_publish_icon from './images/auto_publish_icon.png';
 
 export const controlPanelSections = [
   {
@@ -11,37 +23,37 @@ export const controlPanelSections = [
     items: [
       {
         linkUrl: 'control_panel.account_preferences.account_information_link',
-        imgSrc: images['account_information_icon.png'].default,
+        imgSrc: account_information_icon,
         imgAlt: 'control_panel.account_preferences.account_information_title',
         iconName: 'control_panel.account_preferences.account_information_title',
       },
       {
         linkUrl: 'control_panel.account_preferences.account_movements_link',
-        imgSrc: images['account_movements_icon.png'].default,
+        imgSrc: account_movements_icon,
         imgAlt: 'control_panel.account_preferences.account_movements_title',
         iconName: 'control_panel.account_preferences.account_movements_title',
       },
       {
         linkUrl: 'control_panel.account_preferences.contact_information_link',
-        imgSrc: images['contact_information_icon.png'].default,
+        imgSrc: contact_information_icon,
         imgAlt: 'control_panel.account_preferences.contact_information_title',
         iconName: 'control_panel.account_preferences.contact_information_title',
       },
       {
         linkUrl: 'control_panel.account_preferences.billing_information_link',
-        imgSrc: images['billing_information_icon.png'].default,
+        imgSrc: billing_information_icon,
         imgAlt: 'control_panel.account_preferences.billing_information_title',
         iconName: 'control_panel.account_preferences.billing_information_title',
       },
       {
         linkUrl: 'control_panel.account_preferences.sms_settings_link',
-        imgSrc: images['sms_settings_icon.png'].default,
+        imgSrc: sms_settings_icon,
         imgAlt: 'control_panel.account_preferences.sms_settings_title',
         iconName: 'control_panel.account_preferences.sms_settings_title',
       },
       {
         linkUrl: 'control_panel.account_preferences.plans_and_specs_link',
-        imgSrc: images['plans_and_specs_icon.png'].default,
+        imgSrc: plans_and_specs_icon,
         imgAlt: 'control_panel.account_preferences.plans_and_specs_title',
         iconName: 'control_panel.account_preferences.plans_and_specs_title',
       },
@@ -52,49 +64,49 @@ export const controlPanelSections = [
     items: [
       {
         linkUrl: 'control_panel.campaign_preferences.footer_and_header_preferences_link',
-        imgSrc: images['footer_and_header_icon.png'].default,
+        imgSrc: footer_and_header_icon,
         imgAlt: 'control_panel.campaign_preferences.footer_and_header_preferences_title',
         iconName: 'control_panel.campaign_preferences.footer_and_header_preferences_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.unsubscription_link_link',
-        imgSrc: images['unsubscription_link_icon.png'].default,
+        imgSrc: unsubscription_link_icon,
         imgAlt: 'control_panel.campaign_preferences.unsubscription_link_title',
         iconName: 'control_panel.campaign_preferences.unsubscription_link_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.unopened_mails_config_link',
-        imgSrc: images['unopened_mails_config_icon.png'].default,
+        imgSrc: unopened_mails_config_icon,
         imgAlt: 'control_panel.campaign_preferences.unopened_mails_config_title',
         iconName: 'control_panel.campaign_preferences.unopened_mails_config_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.subscribers_scoring_link',
-        imgSrc: images['subscribers_scoring_icon.png'].default,
+        imgSrc: subscribers_scoring_icon,
         imgAlt: 'control_panel.campaign_preferences.subscribers_scoring_title',
         iconName: 'control_panel.campaign_preferences.subscribers_scoring_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.bounce_handling_link',
-        imgSrc: images['bounce_handling_icon.png'].default,
+        imgSrc: bounce_handling_icon,
         imgAlt: 'control_panel.campaign_preferences.bounce_handling_title',
         iconName: 'control_panel.campaign_preferences.bounce_handling_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.contact_policy_link',
-        imgSrc: images['contact_policy_icon.svg'].default,
+        imgSrc: contact_policy_icon,
         imgAlt: 'control_panel.campaign_preferences.contact_policy_title',
         iconName: 'control_panel.campaign_preferences.contact_policy_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.email_parameter_link',
-        imgSrc: images['email_parameter_icon.png'].default,
+        imgSrc: email_parameter_icon,
         imgAlt: 'control_panel.campaign_preferences.email_parameter_title',
         iconName: 'control_panel.campaign_preferences.email_parameter_title',
       },
       {
         linkUrl: 'control_panel.campaign_preferences.site_tracking_link',
-        imgSrc: images['site_tracking_icon.png'].default,
+        imgSrc: site_tracking_icon,
         imgAlt: 'control_panel.campaign_preferences.site_tracking_title',
         iconName: 'control_panel.campaign_preferences.site_tracking_title',
       },
@@ -105,25 +117,25 @@ export const controlPanelSections = [
     items: [
       {
         linkUrl: 'control_panel.social_preferences.social_network_link',
-        imgSrc: images['social_network_icon.png'].default,
+        imgSrc: social_network_icon,
         imgAlt: 'control_panel.social_preferences.social_network_title',
         iconName: 'control_panel.social_preferences.social_network_title',
       },
       {
         linkUrl: 'control_panel.social_preferences.rss_preferences_link',
-        imgSrc: images['rss_preferences_icon.png'].default,
+        imgSrc: rss_preferences_icon,
         imgAlt: 'control_panel.social_preferences.rss_preferences_title',
         iconName: 'control_panel.social_preferences.rss_preferences_title',
       },
       {
         linkUrl: 'control_panel.social_preferences.viralization_link',
-        imgSrc: images['viralization_icon.png'].default,
+        imgSrc: viralization_icon,
         imgAlt: 'control_panel.social_preferences.viralization_title',
         iconName: 'control_panel.social_preferences.viralization_title',
       },
       {
         linkUrl: 'control_panel.social_preferences.auto_publish_link',
-        imgSrc: images['auto_publish_icon.png'].default,
+        imgSrc: auto_publish_icon,
         imgAlt: 'control_panel.social_preferences.auto_publish_title',
         iconName: 'control_panel.social_preferences.auto_publish_title',
       },

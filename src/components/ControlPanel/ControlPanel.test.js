@@ -11,7 +11,7 @@ describe('Control Panel component', () => {
     render(
       <IntlProvider>
         <ControlPanel />
-      </IntlProvider>
+      </IntlProvider>,
     );
     // Assert
     controlPanelSections.forEach((section) => {

@@ -8,17 +8,17 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 it('should render a control panel box', async () => {
   // Arrange
   const box = {
-    linkUrl: 'https://app2.fromdoppler.com/ControlPanel/AccountPreferences/GetAccountInformation',
+    linkUrl: 'control_panel.account_preferences.account_information_link',
     imgSrc: ControlPanelIconImg,
-    imgAlt: 'Información de la Cuenta',
-    iconName: 'Información de la Cuenta',
+    imgAlt: 'control_panel.account_preferences.account_information_title',
+    iconName: 'control_panel.account_preferences.account_information_title',
   };
 
   //Act
   render(
     <IntlProvider>
       <ControlPanelBox box={box} />
-    </IntlProvider>
+    </IntlProvider>,
   );
 
   //Assert

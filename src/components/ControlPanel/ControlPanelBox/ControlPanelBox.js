@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 
 export const ControlPanelBox = ({ box }) => {
   const _ = (id, values) => useIntl().formatMessage({ id }, values);
-  
+
   return (
     <div className="col-lg-3 col-md-4 col-sm-4 m-b-24">
       <div className="dp-box-shadow">
