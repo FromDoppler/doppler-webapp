@@ -317,6 +317,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     toggle_text: 'Set maximum number of Emails',
     tooltip_max_limit_exceeded: `You’ve already select the maximum of Lists you can exclude from the Contact Policy.`,
   },
+  dashboard: {
+    welcome_message: 'Hello ',
+    welcome_message_header: `This is your **Dashboard**. Here you’ll find relevant metrics of your account and complementary resources for your strategy. `,
+  },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
     description: 'Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!',

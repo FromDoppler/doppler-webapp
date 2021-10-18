@@ -107,36 +107,6 @@ describe('AgenciesForm component', () => {
     expect(getAllByText('validation_messages.error_required_field').length).toBe(4);
   });
 
-  it('should show error message if email field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<AgenciesFormElement />);
-
-    // Act
-    act(() => {
-      const inputEmail = container.querySelector('input#email');
-      fireEvent.change(inputEmail, { target: { value: '' } });
-
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      return expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-    });
-  });
-
   it('should show error message if name field is empty', async () => {
     // Arrange
     const { container, getByText } = render(<AgenciesFormElement />);

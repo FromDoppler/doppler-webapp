@@ -317,6 +317,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     toggle_text: 'Definir número máximo de envíos',
     tooltip_max_limit_exceeded: `Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.`,
   },
+  dashboard: {
+    welcome_message: 'Hola ',
+    welcome_message_header: `Este es tu **Tablero de Inicio**. Aquí encontrarás métricas relevantes de tu cuenta y recursos complementarios para tu estrategia.`,
+  },
   default_banner_data: {
     background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
     description: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
