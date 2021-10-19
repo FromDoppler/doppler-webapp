@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Carousel } from './Carousel/Carousel';
 import { Slide } from './Carousel/Slide/Slide';
+import { InjectAppServices } from '../../services/pure-di';
+import { useIntl } from 'react-intl';
 import { TextPreviewPost } from './TextPreviewPost/TextPreviewPost';
 import { KpiGroup, DashboardIconSubTitle, DashboardIconLink } from './Kpis/KpiGroup';
 import { Kpi } from './Kpis/Kpi';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 export const carouselColors = [{ orange: 'orange' }, { purple: 'purple' }];
 
@@ -71,8 +74,11 @@ export const postList = [
   },
 ];
 
-export const Dashboard = () => {
+export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const [kpiList, setKpiList] = useState({});
+  const userName = appSessionRef?.current.userData.user.fullname.split(' ')[0]; // Get firstname
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
     const campaings = kpiListFake.Campaings;
@@ -101,13 +107,12 @@ export const Dashboard = () => {
         <div className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12 col-md-12 col-lg-12">
-              <h2>¡Bienvenido Santiago!</h2>
+              <h2>
+                ¡{_('dashboard.welcome_message')} {userName}!
+              </h2>
             </div>
             <div className="col-sm-12">
-              <p>
-                Este es tu <b>Tablero de Inicio</b>. Echa un vistazo a tus estadísticas de
-                rendimiento y consejos personalizados.
-              </p>
+              <FormattedMessageMarkdown id="dashboard.welcome_message_header" />
             </div>
           </div>
           <span className="arrow"></span>
@@ -170,4 +175,4 @@ export const Dashboard = () => {
       </div>
     </div>
   );
-};
+});
