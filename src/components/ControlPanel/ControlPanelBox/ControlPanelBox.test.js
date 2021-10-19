@@ -8,7 +8,7 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 it('should render a control panel box', async () => {
   // Arrange
   const box = {
-    linkUrl: 'control_panel.account_preferences.account_information_link',
+    linkUrl: '/ControlPanel/AccountPreferences/GetAccountInformation',
     imgSrc: ControlPanelIconImg,
     imgAlt: 'control_panel.account_preferences.account_information_title',
     iconName: 'control_panel.account_preferences.account_information_title',
