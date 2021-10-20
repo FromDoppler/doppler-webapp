@@ -1,13 +1,18 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 export const TextPreviewPost = ({ post }) => {
-  const { title, description, link } = post;
+  const { title, description, link, linkDescription } = post;
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   return (
     <>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <a href={link}>
-        <span className="ms-icon icon-arrow-next"></span>Ver más
+      <h3>{_(title)}</h3>
+      <p>{_(description)}</p>
+      <a href={_(link)}>
+        <span className="ms-icon icon-arrow-next"></span>
+        {_(linkDescription)}
       </a>
     </>
   );

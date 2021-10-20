@@ -59,20 +59,40 @@ export const kpiListFake = {
   ],
 };
 
-export const postList = [
-  {
-    id: `1`,
-    title: `post 1`,
-    description: `¿Cuáles son las diferencias entre servicio al cliente y atención al cliente?`,
-    link: `http://localhost:3000/dashboard`,
-  },
-  {
-    id: `2`,
-    title: `post 2`,
-    description: `Asesorías, acompañamiento exclusivo, IPs dedicadas o funcionalidades extra.`,
-    link: `http://localhost:3000/dashboard`,
-  },
-];
+export const fakePostList = {
+  blog: [
+    {
+      id: `1`,
+      title: `dashboard.postListBlog_1_title`,
+      description: `dashboard.postListBlog_1_description`,
+      link: `dashboard.postListBlog_1_link`,
+      linkDescription: `dashboard.postListBlog_1_link_description`,
+    },
+    {
+      id: `2`,
+      title: `dashboard.postListBlog_2_title`,
+      description: `dashboard.postListBlog_2_description`,
+      link: `dashboard.postListBlog_2_link`,
+      linkDescription: `dashboard.postListBlog_2_link_description`,
+    },
+  ],
+  help: [
+    {
+      id: `1`,
+      title: `dashboard.postListHelp_1_title`,
+      description: `dashboard.postListHelp_1_description`,
+      link: `dashboard.postListHelp_1_link`,
+      linkDescription: `dashboard.postListHelp_1_link_description`,
+    },
+    {
+      id: `2`,
+      title: `dashboard.postListHelp_2_title`,
+      description: `dashboard.postListHelp_2_description`,
+      link: `dashboard.postListHelp_2_link`,
+      linkDescription: `dashboard.postListHelp_2_link_description`,
+    },
+  ],
+};
 
 export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const [kpiList, setKpiList] = useState({});
@@ -123,18 +143,18 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
           <div className="col-lg-12 col-md-12 m-b-24">
             <div className="dp-dashboard-title">
               <DashboardIconSubTitle
-                title="Mis Campañas"
+                title="dashboard.campaigns"
                 iconClass="deliveries"
               ></DashboardIconSubTitle>
-              <DashboardIconLink linkTitle="CAMPAÑAS ENVIADAS" link="#"></DashboardIconLink>
+              <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#"></DashboardIconLink>
             </div>
             <KpiGroup>{renderKpis('campaings')}</KpiGroup>
             <div className="dp-dashboard-title">
               <DashboardIconSubTitle
-                title="Mis Contactos"
+                title="dashboard.contacts"
                 iconClass="subscribers"
               ></DashboardIconSubTitle>
-              <DashboardIconLink linkTitle="CAMPAÑAS ENVIADAS" link="#"></DashboardIconLink>
+              <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#"></DashboardIconLink>
             </div>
             <KpiGroup disabled={true}>{renderKpis('subscribers')}</KpiGroup>
           </div>
@@ -142,7 +162,7 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
           <div className="col-sm-12 col-md-12">
             <div className="dp-dashboard-title">
               <DashboardIconSubTitle
-                title="Aprende con Doppler"
+                title="dashboard.learn_with_doppler"
                 iconClass="dp-learn-with-doppler"
               ></DashboardIconSubTitle>
             </div>
@@ -150,7 +170,7 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
               <div className="col-sm-12 col-md-6">
                 <Carousel id={'1'} color={'orange'}>
                   {({ activeSlide }) =>
-                    postList.map((post, index) => (
+                    fakePostList.blog.map((post, index) => (
                       <Slide key={post.id} active={activeSlide === index}>
                         <TextPreviewPost post={post} />
                       </Slide>
@@ -161,7 +181,7 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
               <div className="col-sm-12 col-md-6">
                 <Carousel id={'2'} color={'purple'}>
                   {({ activeSlide }) =>
-                    postList.map((post, index) => (
+                    fakePostList.help.map((post, index) => (
                       <Slide key={post.id} active={activeSlide === index}>
                         <TextPreviewPost post={post} />
                       </Slide>

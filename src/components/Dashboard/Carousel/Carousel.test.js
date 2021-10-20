@@ -2,9 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Carousel } from './Carousel';
-import { postList } from '../Dashboard';
+import { fakePostList } from '../Dashboard';
 import { Slide } from './Slide/Slide';
 import { TextPreviewPost } from '../TextPreviewPost/TextPreviewPost';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 describe('Carousel component', () => {
   it('should show the slides', async () => {
@@ -14,19 +15,22 @@ describe('Carousel component', () => {
 
     // Act
     const { container } = render(
-      <Carousel id={id} color={color}>
-        {(activeSlide) =>
-          postList.map((post) => (
-            <Slide key={post.id} active={activeSlide}>
-              <TextPreviewPost post={post} />
-            </Slide>
-          ))
-        }
-      </Carousel>,
+      <IntlProvider>
+        <Carousel id={id} color={color}>
+          {(activeSlide) =>
+            fakePostList.blog.map((post) => (
+              <Slide key={post.id} active={activeSlide}>
+                <TextPreviewPost post={post} />
+              </Slide>
+            ))
+          }
+        </Carousel>
+        ,
+      </IntlProvider>,
     );
 
     // Assert
-    postList.forEach((post) => expect(screen.getByText(post.title)).toBeInTheDocument());
+    fakePostList.blog.forEach((post) => expect(screen.getByText(post.title)).toBeInTheDocument());
     const element = container.querySelector(`.dp-carousel-${color}`);
     expect(element).toBeInTheDocument();
     const element2 = container.querySelector(`#carousel${id}`);
