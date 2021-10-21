@@ -168,7 +168,7 @@ export const Promocode = () => {
   );
 };
 
-export const InvoiceInformation = ({ priceToPay }) => {
+export const InvoiceInformation = ({ priceToPay, discount }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -178,7 +178,7 @@ export const InvoiceInformation = ({ priceToPay }) => {
         <li>
           <h3 className="m-t-24">
             {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`} {dollarSymbol}{' '}
-            <FormattedNumber value={priceToPay} {...numberFormatOptions} />
+            <FormattedNumber value={priceToPay - discount} {...numberFormatOptions} />
           </h3>
         </li>
       ) : (
@@ -197,9 +197,10 @@ export const InvoiceInformation = ({ priceToPay }) => {
   );
 };
 
-export const TotalPurchase = ({ totalPlan, priceToPay }) => {
+export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const { discountPrepayment } = state.amountDetails;
 
   return (
     <div className="dp-total-purchase">
@@ -212,7 +213,7 @@ export const TotalPurchase = ({ totalPlan, priceToPay }) => {
             <FormattedNumber value={priceToPay} {...numberFormatOptions} />
           </span>
         </li>
-        <InvoiceInformation priceToPay={totalPlan} />
+        <InvoiceInformation priceToPay={totalPlan} discount={discountPrepayment.amount} />
       </ul>
     </div>
   );
@@ -364,6 +365,7 @@ export const PurchaseSummary = InjectAppServices(
           <TotalPurchase
             totalPlan={state.plan.fee * state.discount?.monthsAmmount}
             priceToPay={total}
+            state={state}
           />
         </div>
         <div className="dp-zigzag" />
