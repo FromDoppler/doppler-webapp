@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 
 export const DashboardIconSubTitle = ({ title, iconClass }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   return (
     <h2>
       <span className={`dp-dashboard-icon-title ${iconClass}`}></span>
-      {title}
+      {_(title)}
     </h2>
   );
 };
 
 export const DashboardIconLink = ({ linkTitle, link }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
     <a href={`${link}`} className="dp-dashboard-title-link">
-      {linkTitle}
+      {_(linkTitle)}
     </a>
   );
 };

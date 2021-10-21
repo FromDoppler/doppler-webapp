@@ -318,6 +318,31 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     tooltip_max_limit_exceeded: `You’ve already select the maximum of Lists you can exclude from the Contact Policy.`,
   },
   dashboard: {
+    campaigns: 'My Deliveries',
+    contacts: 'My Contacts',
+    learn_with_doppler: 'Learn with Doppler',
+
+    postListBlog_1_description: 'How to create a File to Import your Contact List to Doppler',
+    postListBlog_1_link: 'https://help.fromdoppler.com/en/how-to-create-a-file-to-import-your-subscribers-list-to-doppler/?utm_source=direct',
+    postListBlog_1_link_description: 'Keep reading',
+    postListBlog_1_title: '#DopplerHelp',
+
+    postListBlog_2_description: 'How to create a Classic Campaign',
+    postListBlog_2_link: 'https://help.fromdoppler.com/en/how-to-create-a-classic-campaign?utm_source=direct',
+    postListBlog_2_link_description: 'Keep reading',
+    postListBlog_2_title: '#DopplerHelp',
+
+    postListHelp_1_description: `Take your Email & Automation Marketing strategy to another level`,
+    postListHelp_1_link: 'https://comercial.fromdoppler.com/demoday/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=demoday',
+    postListHelp_1_link_description: 'Register for free',
+    postListHelp_1_title: 'Demo Day',
+
+    postListHelp_2_description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
+    postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
+    postListHelp_2_link_description: 'Know more',
+    postListHelp_2_title: 'Aditional Services',
+
+    sent_deliveries: 'SENT DELIVERIES',
     welcome_message: 'Hello ',
     welcome_message_header: `This is your **Dashboard**. Here you’ll find relevant metrics of your account and complementary resources for your strategy. `,
   },

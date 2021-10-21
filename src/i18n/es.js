@@ -318,6 +318,31 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     tooltip_max_limit_exceeded: `Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.`,
   },
   dashboard: {
+    campaigns: 'Mis Campañas',
+    contacts: 'Mis Contactos',
+    learn_with_doppler: 'Aprende con Doppler',
+
+    postListBlog_1_description: '10 trucos para crear Campañas de texto plano atractivas',
+    postListBlog_1_link: 'https://blog.fromdoppler.com/campana-de-texto-plano/?utm_source=direct',
+    postListBlog_1_link_description: 'Sigue leyendo',
+    postListBlog_1_title: '#DopplerBlog',
+
+    postListBlog_2_description: '¿Cómo crear un Archivo para Importar mi Lista de Contactos?',
+    postListBlog_2_link: 'https://help.fromdoppler.com/es/como-crear-un-archivo-para-importar-mi-lista-de-suscriptores/?utm_source=direct',
+    postListBlog_2_link_description: 'Sigue leyendo',
+    postListBlog_2_title: '#DopplerHelp',
+
+    postListHelp_1_description: 'Lleva tu estrategia de Email & Automation Marketing a otro nivel',
+    postListHelp_1_link: 'https://comercial.fromdoppler.com/demoday/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=demoday',
+    postListHelp_1_link_description: 'Regístrate gratis',
+    postListHelp_1_title: 'Demo Day',
+
+    postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
+    postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
+    postListHelp_2_link_description: 'Escríbenos',
+    postListHelp_2_title: 'Servicios Adicionales',
+
+    sent_deliveries: 'CAMPAÑAS ENVIADAS',
     welcome_message: 'Hola ',
     welcome_message_header: `Este es tu **Tablero de Inicio**. Aquí encontrarás métricas relevantes de tu cuenta y recursos complementarios para tu estrategia.`,
   },
