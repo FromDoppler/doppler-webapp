@@ -23,4 +23,13 @@ const Text = styled.span`
   width: 180px;
 `;
 
-export { Link, Image, Text };
+const DisabledLink = styled.a`
+  display: inline-block;
+  padding: 40px 0px;
+  text-align: center;
+  position: relative;
+  pointer-events: none;
+  opacity: 0.4;
+`;
+
+export { Link, Image, Text, DisabledLink };
