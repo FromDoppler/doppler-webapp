@@ -287,16 +287,6 @@ export const PaymentMethod = InjectAppServices(
                         handleChange={(e) => handleChange(e, setFieldValue)}
                       />
                     </FieldItem>
-                    {error ? (
-                      <FieldItem className="field-item">
-                        <div className="dp-wrap-message dp-wrap-cancel">
-                          <span className="dp-message-icon"></span>
-                          <div className="dp-content-message">
-                            <p>{_('checkoutProcessForm.payment_method.error')}</p>
-                          </div>
-                        </div>
-                      </FieldItem>
-                    ) : null}
                     <PaymentType paymentMethodType={paymentMethodType} optionView={optionView} />
                     <FieldItem className="field-item">
                       <Discounts
@@ -308,6 +298,16 @@ export const PaymentMethod = InjectAppServices(
                       />
                     </FieldItem>
                     <PaymentNotes paymentMethodType={paymentMethodType} />
+                    {error ? (
+                      <FieldItem className="field-item">
+                        <div className="dp-wrap-message dp-wrap-cancel">
+                          <span className="dp-message-icon"></span>
+                          <div className="dp-content-message">
+                            <p>{_('checkoutProcessForm.payment_method.error')}</p>
+                          </div>
+                        </div>
+                      </FieldItem>
+                    ) : null}
                     {optionView === actionPage.UPDATE ? (
                       <FieldItem className="field-item">
                         <div className="dp-buttons-actions">
