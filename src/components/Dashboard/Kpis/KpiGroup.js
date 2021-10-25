@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import { Loading } from '../../Loading/Loading';
 
 export const DashboardIconSubTitle = ({ title, iconClass }) => {
   const intl = useIntl();
@@ -32,7 +33,7 @@ export const KpiOverlay = ({ titleLink, kpiOverlayLink }) => {
   );
 };
 
-export const KpiGroup = ({ children, disabled }) => {
+export const KpiGroup = ({ children, disabled, loading }) => {
   const [showOverlay, setShowOverlay] = useState(false);
   const toggleShow = () => setShowOverlay(!showOverlay);
 
@@ -43,7 +44,9 @@ export const KpiGroup = ({ children, disabled }) => {
       } `}
       onMouseLeave={toggleShow}
       onMouseEnter={toggleShow}
+      data-testid="dp-dashboard-panel"
     >
+      {loading && <Loading />}
       {children}
       <KpiOverlay
         titleLink="Empieza a enviar Campañas para ver tus resultados aquí"

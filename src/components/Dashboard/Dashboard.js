@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { TextPreviewPost } from './TextPreviewPost/TextPreviewPost';
 import { KpiGroup, DashboardIconSubTitle, DashboardIconLink } from './Kpis/KpiGroup';
 import { Kpi } from './Kpis/Kpi';
+import useTimeout from '../../hooks/useTimeout';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 export const carouselColors = [{ orange: 'orange' }, { purple: 'purple' }];
@@ -96,9 +97,11 @@ export const fakePostList = {
 
 export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const [kpiList, setKpiList] = useState({});
+  const [loading, setLoading] = useState(true);
   const userName = appSessionRef?.current.userData.user.fullname.split(' ')[0]; // Get firstname
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const createTimeout = useTimeout();
 
   useEffect(() => {
     const campaings = kpiListFake.Campaings;
@@ -108,7 +111,11 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
       campaings,
       subscribers,
     });
-  }, []);
+
+    createTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, [createTimeout]);
 
   const renderKpis = (listType) => {
     return kpiList[listType]?.map((kpi, index) => (
@@ -148,7 +155,7 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
               ></DashboardIconSubTitle>
               <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#"></DashboardIconLink>
             </div>
-            <KpiGroup>{renderKpis('campaings')}</KpiGroup>
+            <KpiGroup loading={loading}>{renderKpis('campaings')}</KpiGroup>
             <div className="dp-dashboard-title">
               <DashboardIconSubTitle
                 title="dashboard.contacts"
@@ -156,7 +163,9 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
               ></DashboardIconSubTitle>
               <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#"></DashboardIconLink>
             </div>
-            <KpiGroup disabled={true}>{renderKpis('subscribers')}</KpiGroup>
+            <KpiGroup loading={loading} disabled={true}>
+              {renderKpis('subscribers')}
+            </KpiGroup>
           </div>
           <div className="col-lg-3 col-sm-12"></div>
           <div className="col-sm-12 col-md-12">
