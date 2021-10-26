@@ -20,8 +20,6 @@ import ReportsPartialsCampaigns from './components/Reports/ReportsPartialsCampai
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
-import ChangePlanDeprecated from './components/ChangePlanDeprecated/ChangePlan';
-import PlanCalculator from './components/ChangePlanDeprecated/PlanCalculator/PlanCalculator';
 import AgenciesForm from './components/DopplerPlus/AgenciesForm';
 import InvoicesList from './components/InvoicesList/InvoicesList';
 import ExclusiveForm from './components/DopplerPlus/ExclusiveForm';
@@ -32,7 +30,6 @@ import Checkout from './components/ChangePlanDeprecated/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlanDeprecated/Checkout/CheckoutSummary';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
-import { ChangePlan } from './components/ChangePlan';
 
 /**
  * @param { Object } props - props
@@ -126,17 +123,6 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 component={SubscribersLegacyUrlRedirect}
               />
               <PrivateRoute path="/new-features" exact component={NewFeatures} />
-              <PrivateRoute
-                path={['/plan-selection-deprecated']}
-                exact
-                component={ChangePlanDeprecated}
-              />
-              <PrivateRoute exact path="/plan-selection" component={ChangePlan} />
-              <PrivateRoute
-                path={'/plan-selection-deprecated/:pathType/:planType?'}
-                exact
-                component={PlanCalculator}
-              />
               <PrivateRoute
                 path={['/upgrade-suggestion-form']}
                 exact
