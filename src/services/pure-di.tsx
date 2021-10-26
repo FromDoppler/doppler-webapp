@@ -11,7 +11,6 @@ import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
-import { PlanService } from './plan-service-deprecated';
 import { HttpManualStatusClient, ManualStatusClient } from './manual-status-client';
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
@@ -65,7 +64,6 @@ export interface AppServices {
   experimentalFeatures: ExperimentalFeatures;
   dopplerApiClient: DopplerApiClient;
   ipinfoClient: IpinfoClient;
-  planService: PlanService;
   dopplerBillingApiClient: DopplerBillingApiClient;
   dopplerUserApiClient: DopplerUserApiClient;
   captchaUtilsService: CaptchaUtilsService;
@@ -155,13 +153,6 @@ export class AppCompositionRoot implements AppServices {
           baseUrl: this.appConfiguration.dopplerLegacyUrl,
           window: this.window,
         }),
-    );
-  }
-
-  get planService() {
-    return this.singleton(
-      'planService',
-      () => new PlanService({ dopplerLegacyClient: this.dopplerLegacyClient }),
     );
   }
 
