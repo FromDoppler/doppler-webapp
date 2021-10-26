@@ -33,6 +33,12 @@ const NewFeatures = () => {
         </div>
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
+            <h3>Calculadora de planes</h3>
+            <Link to={`/plan-calculator`}>Ir a calculadora de planes</Link>
+          </div>
+        </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36">
+          <div style={{ marginLeft: '20px' }}>
             <h3>Página offline</h3>
             <Link to={'/offline'}>Ir a página offline</Link>
           </div>

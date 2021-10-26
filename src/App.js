@@ -30,6 +30,7 @@ import Checkout from './components/ChangePlanDeprecated/Checkout/Checkout';
 import { CheckoutSummary } from './components/ChangePlanDeprecated/Checkout/CheckoutSummary';
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
+import { PlanCalculator } from './components/Plans/PlanCalculator';
 
 /**
  * @param { Object } props - props
@@ -128,6 +129,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 exact
                 component={UpgradeSuggestionForm}
               />
+              <PrivateRoute path="/plan-calculator" exact component={PlanCalculator} />
               <PrivateRoute path={'/checkout/:pathType/:planType?'} exact component={Checkout} />
               <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
               <PrivateRoute path={'/email-marketing-exclusive'} exact component={ExclusiveForm} />
