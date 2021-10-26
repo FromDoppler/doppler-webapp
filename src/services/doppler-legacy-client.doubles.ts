@@ -211,7 +211,6 @@ export const allPlans = [
     name: '1500-CREDITS',
     credits: 1500,
     price: 15,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -219,7 +218,6 @@ export const allPlans = [
     name: '2500-CREDITS',
     credits: 2500,
     price: 45,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -227,7 +225,6 @@ export const allPlans = [
     name: '5000-CREDITS',
     credits: 5000,
     price: 85,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -235,7 +232,6 @@ export const allPlans = [
     name: '10000-CREDITS',
     credits: 10000,
     price: 120,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -243,7 +239,6 @@ export const allPlans = [
     name: '15000-CREDITS',
     credits: 15000,
     price: 185,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -251,7 +246,6 @@ export const allPlans = [
     name: '25000-CREDITS',
     credits: 25000,
     price: 250,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -259,7 +253,6 @@ export const allPlans = [
     name: '50000-CREDITS',
     credits: 50000,
     price: 400,
-    featureSet: 'standard',
   },
   {
     type: 'prepaid',
@@ -267,17 +260,14 @@ export const allPlans = [
     name: '100000-CREDITS',
     credits: 100000,
     price: 600,
-    featureSet: 'standard',
   },
   {
     type: 'monthly-deliveries',
     id: 11,
-    name: '700000-EMAILS-STANDARD',
+    name: '700000-EMAILS',
     emailsByMonth: 700000,
     extraEmailPrice: 0.00087,
     fee: 610,
-    featureSet: 'standard',
-    features: [],
     billingCycleDetails: [
       { id: 54, idPlan: 11, paymentType: 'CC', discountPercentage: 0, billingCycle: 'monthly' },
       {
@@ -300,12 +290,10 @@ export const allPlans = [
   {
     type: 'monthly-deliveries',
     id: 14,
-    name: '700000-EMAILS-PLUS',
+    name: '700000-EMAILS',
     emailsByMonth: 700000,
     extraEmailPrice: 0.00087,
     fee: 810,
-    featureSet: 'plus',
-    features: ['emailParameter'],
     billingCycleDetails: [
       { id: 54, idPlan: 11, paymentType: 'CC', discountPercentage: 0, billingCycle: 'monthly' },
       {
@@ -328,11 +316,9 @@ export const allPlans = [
   {
     type: 'subscribers',
     id: 19,
-    name: '2500-SUBSCRIBERS-STANDARD',
+    name: '2500-SUBSCRIBERS',
     subscriberLimit: 2500,
     fee: 29,
-    featureSet: 'standard',
-    featureList: [],
     billingCycleDetails: [
       { id: 8, idPlan: 19, paymentType: 'CC', discountPercentage: 0, billingCycle: 'monthly' },
       {
@@ -355,11 +341,9 @@ export const allPlans = [
   {
     type: 'subscribers',
     id: 19,
-    name: '3500-SUBSCRIBERS-STANDARD',
+    name: '3500-SUBSCRIBERS',
     subscriberLimit: 3500,
     fee: 32,
-    featureSet: 'standard',
-    featureList: [],
     billingCycleDetails: [
       { id: 8, idPlan: 19, paymentType: 'CC', discountPercentage: 0, billingCycle: 'monthly' },
       {
@@ -382,11 +366,9 @@ export const allPlans = [
   {
     type: 'subscribers',
     id: 32,
-    name: '2500-SUBSCRIBERS-PLUS',
+    name: '2500-SUBSCRIBERS',
     subscriberLimit: 2500,
     fee: 40,
-    featureSet: 'plus',
-    featureList: [],
     billingCycleDetails: [
       { id: 8, idPlan: 19, paymentType: 'CC', discountPercentage: 0, billingCycle: 'monthly' },
       {
