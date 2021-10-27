@@ -29,6 +29,7 @@ import {
   DopplerAccountPlansApiClient,
   HttpDopplerAccountPlansApiClient,
 } from './doppler-account-plans-api-client';
+import { PlanService } from './planService';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -73,6 +74,7 @@ export interface AppServices {
   staticDataClient: StaticDataClient;
   dopplerBillingUserApiClient: DopplerBillingUserApiClient;
   dopplerAccountPlansApiClient: DopplerAccountPlansApiClient;
+  planService: PlanService;
 }
 
 /**
@@ -276,6 +278,17 @@ export class AppCompositionRoot implements AppServices {
 
   get captchaUtilsService() {
     return this.singleton('captchaUtilsService', () => new CaptchaUtilsService());
+  }
+
+  get planService() {
+    return this.singleton(
+      'planService',
+      () =>
+        new PlanService({
+          dopplerLegacyClient: this.dopplerLegacyClient,
+          appSessionRef: this.appSessionRef,
+        }),
+    );
   }
 
   get manualStatusClient() {
