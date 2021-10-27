@@ -1,5 +1,6 @@
 import { allPlans, HardcodedDopplerLegacyClient } from '../doppler-legacy-client.doubles';
 import { agenciesPlan, exclusivePlan, freePlan, getCheaperPlan, PlanService } from '.';
+import { PLAN_TYPE } from '../../doppler-types';
 
 describe('planService', () => {
   it('should validate if call to get data only once', async () => {
@@ -32,7 +33,7 @@ describe('planService', () => {
     it('should return free plan', async () => {
       // Arrange
       const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
-      const appSessionRef = getAppSessionRef({ planType: 'free' });
+      const appSessionRef = getAppSessionRef({ planType: PLAN_TYPE.free });
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
@@ -46,7 +47,7 @@ describe('planService', () => {
     it('should return agencies plan', async () => {
       // Arrange
       const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
-      const appSessionRef = getAppSessionRef({ planType: 'agencies' });
+      const appSessionRef = getAppSessionRef({ planType: PLAN_TYPE.agencies });
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
@@ -61,7 +62,7 @@ describe('planService', () => {
       // Arrange
       const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
       const appSessionRef = getAppSessionRef({
-        planType: 'subscribers',
+        planType: PLAN_TYPE.byContact,
         idPlan: -1, // not found idPlan in PlanList
       });
 
@@ -82,7 +83,7 @@ describe('planService', () => {
       const subscription = 'monthly';
       const appSessionRef = getAppSessionRef({
         idPlan: planByContact?.id,
-        planType: 'subscribers',
+        planType: PLAN_TYPE.byContact,
         planSubscription: subscription,
       });
 
@@ -102,7 +103,7 @@ describe('planService', () => {
       const planByEmail = allPlans.find((plan) => (plan.type = 'monthly-deliveries'));
       const appSessionRef = getAppSessionRef({
         idPlan: planByEmail?.id,
-        planType: 'monthly-deliveries',
+        planType: PLAN_TYPE.byEmail,
       });
 
       // Act
@@ -119,18 +120,18 @@ describe('planService', () => {
 describe('getCheaperPlan function', () => {
   it('should sort plan by credit', async () => {
     // Arrange
-    const planType = 'prepaid';
+    const planType = PLAN_TYPE.byCredit;
     const planList = [
       {
-        type: 'prepaid',
+        type: PLAN_TYPE.byCredit,
         price: 45,
       },
       {
-        type: 'prepaid',
+        type: PLAN_TYPE.byCredit,
         price: 15,
       },
       {
-        type: 'prepaid',
+        type: PLAN_TYPE.byCredit,
         price: 85,
       },
     ];
@@ -140,7 +141,7 @@ describe('getCheaperPlan function', () => {
 
     // Assert
     expect(cheaperPlan).toEqual({
-      type: 'prepaid',
+      type: PLAN_TYPE.byCredit,
       price: 15,
     });
   });

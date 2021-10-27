@@ -1,16 +1,17 @@
+import { Plan, PLAN_TYPE, CreditPlan, EmailPlan, ContactPlan, PlanType } from '../../doppler-types';
 import { getPlanFee } from '../../utils';
 import { DopplerLegacyClient } from '../doppler-legacy-client';
 
 export const exclusivePlan = { type: 'exclusive' };
-export const freePlan = { type: 'free', subscriberLimit: 500 };
-export const agenciesPlan = { type: 'agencies' };
+export const freePlan = { type: PLAN_TYPE.free, subscriberLimit: 500 };
+export const agenciesPlan = { type: PLAN_TYPE.agencies };
 
 export interface PlanInterface {
-  getPlanList(): Promise<any[]>;
+  getPlanList(): Promise<Plan[]>;
 }
 
 export class PlanService implements PlanInterface {
-  private PlanList: any[] = [];
+  private PlanList: Plan[] = [];
   private readonly appSessionRef: any;
   private readonly dopplerLegacyClient: DopplerLegacyClient;
 
@@ -25,7 +26,7 @@ export class PlanService implements PlanInterface {
     this.appSessionRef = appSessionRef;
   }
 
-  async getPlanList(): Promise<any[]> {
+  async getPlanList(): Promise<Plan[]> {
     return this.PlanList.length
       ? this.PlanList
       : (this.PlanList = await this.dopplerLegacyClient.getAllPlans());
@@ -39,22 +40,22 @@ export class PlanService implements PlanInterface {
       subscribersCount,
     } = this.appSessionRef.current.userData.user.plan;
 
-    const findPlanById = (planId: number, planList: any[]) =>
-      planList.find((plan) => plan.id === planId);
+    const findPlanById = (planId: number, planList: Plan[]) =>
+      (planList as (CreditPlan | EmailPlan | ContactPlan)[]).find((plan) => plan.id === planId);
 
     switch (planType) {
-      case 'subscribers':
-      case 'monthly-deliveries':
+      case PLAN_TYPE.byContact:
+      case PLAN_TYPE.byEmail:
         // for subscribers and monthly plan will be exclusive until id plan is deployed in doppler
         const planFound = findPlanById(planId, this.PlanList);
         return planFound
-          ? planType === 'subscribers'
+          ? planType === PLAN_TYPE.byContact
             ? { ...planFound, currentSubscription: subscription }
             : planFound
           : exclusivePlan;
-      case 'prepaid':
+      case PLAN_TYPE.byCredit:
         return { ...getCheaperPlan(planType, this.PlanList), subscribersCount };
-      case 'agencies':
+      case PLAN_TYPE.agencies:
         return agenciesPlan;
       default:
         return freePlan;
@@ -62,12 +63,12 @@ export class PlanService implements PlanInterface {
   }
 }
 
-const filterPlansByType = (planType: any, planList: any[], fn: any = null) =>
+const filterPlansByType = (planType: PlanType, planList: Plan[], fn: any = null) =>
   planList.filter(fn ?? ((plan) => plan.type === planType));
 
 // sort the plans by price from lowest to highest
-export const getCheaperPlan = (planType: any, planList: any[]) => {
-  const compareByFee = (previousPlan: any, nextPlan: any): number => {
+export const getCheaperPlan = (planType: PlanType, planList: any[]) => {
+  const compareByFee = (previousPlan: Plan, nextPlan: Plan): number => {
     const priceOfPreviousPlan = getPlanFee(previousPlan);
     const priceOfNextPlan = getPlanFee(nextPlan);
 

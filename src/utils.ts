@@ -1,6 +1,6 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
-import { Plan, PrepaidPack, FeaturedPlan, PlanType } from './doppler-types';
+import { Plan, CreditPlan, FeaturedPlan, PlanType } from './doppler-types';
 import countriesEs from './i18n/countries-es.json';
 import countriesEn from './i18n/countries-en.json';
 
@@ -248,7 +248,7 @@ export function openZendeskChatWithMessage(message: string) {
 }
 
 export function getPlanFee(plan: Plan): number {
-  return plan.type === 'prepaid' ? (plan as PrepaidPack).price : (plan as FeaturedPlan).fee;
+  return plan.type === 'prepaid' ? (plan as CreditPlan).price : (plan as FeaturedPlan).fee;
 }
 
 const firstPlansDefaultOrder: PlanType[] = ['subscribers', 'monthly-deliveries', 'prepaid'];
