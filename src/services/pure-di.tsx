@@ -1,4 +1,4 @@
-import axios, { AxiosStatic } from 'axios';
+﻿import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
@@ -30,6 +30,7 @@ import {
   HttpDopplerAccountPlansApiClient,
 } from './doppler-account-plans-api-client';
 import { PlanService } from './planService';
+import { ControlPanelService } from './control-panel-service';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -75,6 +76,7 @@ export interface AppServices {
   dopplerBillingUserApiClient: DopplerBillingUserApiClient;
   dopplerAccountPlansApiClient: DopplerAccountPlansApiClient;
   planService: PlanService;
+  controlPanelService: ControlPanelService;
 }
 
 /**
@@ -349,6 +351,16 @@ export class AppCompositionRoot implements AppServices {
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerAccountPlansApiUrl,
           connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get controlPanelService() {
+    return this.singleton(
+      'controlPanelService',
+      () =>
+        new ControlPanelService({
+          appSessionRef: this.appSessionRef,
         }),
     );
   }
