@@ -251,7 +251,7 @@ export function getPlanFee(plan: Plan): number {
   return plan.type === 'prepaid' ? (plan as CreditPlan).price : (plan as FeaturedPlan).fee;
 }
 
-const firstPlansDefaultOrder: PlanType[] = ['subscribers', 'monthly-deliveries', 'prepaid'];
+export const firstPlansDefaultOrder: PlanType[] = ['subscribers', 'monthly-deliveries', 'prepaid'];
 
 export function orderPlanTypes(
   planTypes: PlanType[],

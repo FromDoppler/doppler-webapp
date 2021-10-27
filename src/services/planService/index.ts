@@ -1,5 +1,5 @@
 import { Plan, PLAN_TYPE, CreditPlan, EmailPlan, ContactPlan, PlanType } from '../../doppler-types';
-import { getPlanFee } from '../../utils';
+import { getPlanFee, orderPlanTypes } from '../../utils';
 import { DopplerLegacyClient } from '../doppler-legacy-client';
 
 export const exclusivePlan = { type: 'exclusive' };
@@ -61,6 +61,17 @@ export class PlanService implements PlanInterface {
         return freePlan;
     }
   }
+
+  getPlanTypes(): PlanType[] {
+    const currentPlan: any = this.getCurrentPlan();
+
+    const potentialUpgradePlans: Plan[] = getPotentialUpgrades(currentPlan, this.PlanList);
+
+    const typesAllowed: PlanType[] = potentialUpgradePlans.map((plan) => plan.type);
+    const distinctTypesAllowed: PlanType[] = [...Array.from(new Set<PlanType>(typesAllowed))];
+
+    return orderPlanTypes(distinctTypesAllowed);
+  }
 }
 
 const filterPlansByType = (planType: PlanType, planList: Plan[], fn: any = null) =>
@@ -81,3 +92,79 @@ export const getCheaperPlan = (planType: PlanType, planList: any[]) => {
   const cheaperPlan = filterPlansByType(planType, planList).sort(compareByFee);
   return cheaperPlan[0];
 };
+
+export const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] => {
+  switch (userPlan.type) {
+    case PLAN_TYPE.free:
+      return planList;
+
+    case PLAN_TYPE.byCredit:
+      return [
+        ...filterPlansByType(PLAN_TYPE.byCredit, planList),
+        ...filterPlansByType(PLAN_TYPE.byEmail, planList),
+        ...getPotentialUpgradesPlansByContact(planList, {
+          minFee: 0,
+          minSubscriberLimit: userPlan.subscribersCount,
+        }),
+      ];
+
+    case PLAN_TYPE.byEmail:
+      return [
+        ...getPotentialUpgradesPlansByEmail(planList, {
+          minFee: userPlan.fee,
+          minEmailsByMonth: userPlan.emailsByMonth,
+        }),
+      ];
+
+    case PLAN_TYPE.byContact:
+      if (userPlan.currentSubscription === 1) {
+        return [
+          ...getPotentialUpgradesPlansByContact(planList, {
+            minFee: userPlan.fee,
+            minSubscriberLimit: userPlan.subscriberLimit,
+          }),
+          ...getPotentialUpgradesPlansByEmail(planList, {
+            minFee: userPlan.fee,
+            minEmailsByMonth: 0,
+          }),
+        ];
+      } else {
+        return [
+          ...getPotentialUpgradesPlansByContact(planList, {
+            minFee: userPlan.fee,
+            minSubscriberLimit: userPlan.subscriberLimit,
+          }),
+        ];
+      }
+    default:
+      return [];
+  }
+};
+
+export const getPotentialUpgradesPlansByEmail = (
+  planList: Plan[],
+  { minFee, minEmailsByMonth }: { minFee: number; minEmailsByMonth: number } = {
+    minFee: 0,
+    minEmailsByMonth: 0,
+  },
+): EmailPlan[] =>
+  planList.filter(
+    (plan) =>
+      plan.type === PLAN_TYPE.byEmail &&
+      plan.fee >= minFee &&
+      plan.emailsByMonth >= minEmailsByMonth,
+  ) as EmailPlan[];
+
+export const getPotentialUpgradesPlansByContact = (
+  planList: Plan[],
+  { minFee, minSubscriberLimit }: { minFee: number; minSubscriberLimit: number } = {
+    minFee: 0,
+    minSubscriberLimit: 0,
+  },
+): ContactPlan[] =>
+  planList.filter(
+    (plan) =>
+      plan.type === PLAN_TYPE.byContact &&
+      plan.fee >= minFee &&
+      plan.subscriberLimit >= minSubscriberLimit,
+  ) as ContactPlan[];
