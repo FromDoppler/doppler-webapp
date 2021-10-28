@@ -9,7 +9,7 @@ const fieldNames = {
   emails: 'emails',
 };
 
-export const AuthorizationForm = ({ emails, onSubmit, onReset }) => {
+export const AuthorizationForm = ({ emails, onSubmit }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -18,11 +18,7 @@ export const AuthorizationForm = ({ emails, onSubmit, onReset }) => {
     return errorKey ? <FormattedMessage id={errorKey} /> : null;
   };
 
-  const handleCancel = async () => {
-    console.log('aqui deberia llegar');
-  };
-
-  const handleSubmit = async (values) => {
+  const handleSubmit = (values) => {
     onSubmit(values);
   };
 
@@ -32,7 +28,6 @@ export const AuthorizationForm = ({ emails, onSubmit, onReset }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: handleSubmit,
-    onreset: handleCancel,
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loading } from '../../Loading/Loading';
 import { AuthorizationForm } from './ControlPanel/AuthorizationForm';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -36,8 +36,6 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
     fetchData();
   }, [bigQueryClient, dopplerUserApiClient]);
 
-  const onReset = useCallback(async () => {}, []);
-
   const FieldItemMessage = ({ message }) => (
     <ShowLikeFlash delay={message.delay}>
       <IconMessage {...message} className="bounceIn" />
@@ -54,6 +52,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
         type: 'success',
         delay: successMessageDelay,
       });
+      setData(emailsData.emails);
     } else {
       setMessageData({
         text: 'big_query.plus_message_error',
@@ -133,7 +132,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
               <div className="m-t-24">
                 <FormattedMessageMarkdown id="big_query.plus_step_one_paragraph_MD" />
               </div>
-              <AuthorizationForm emails={data} onSubmit={onSubmit} onReset={onReset} />
+              <AuthorizationForm emails={data} onSubmit={onSubmit} />
             </div>
             <div className="p-t-30">
               {messageData ? <FieldItemMessage message={messageData} /> : <></>}
@@ -157,17 +156,18 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
           </div>
           <div className="col-sm-12 m-b-24">
             <hr className="dp-h-divider"></hr>
-            <button
-              type="reset"
-              className="dp-button button-medium primary-grey m-t-30 m-r-24"
-              form="big-query-configuration-form"
-            >
-              {_('common.cancel')}
+            <button type="reset">
+              <input
+                type="reset"
+                className="dp-button button-medium primary-grey m-t-30 m-r-12"
+                form="big-query-configuration-form"
+                value={_('common.cancel')}
+              />
             </button>
             <button type="button">
               <input
                 type="submit"
-                className="dp-button button-medium primary-green m-t-30"
+                className="dp-button button-medium primary-green m-l-12"
                 form="big-query-configuration-form"
                 value={_('common.save')}
               ></input>
