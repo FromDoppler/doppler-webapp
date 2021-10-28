@@ -10,12 +10,16 @@ export const ControlPanelBox = ({ box, disabled = false }) => {
       <div className="dp-box-shadow">
         {disabled ? (
           <S.DisabledLink target="_self" className="dp-white" disabled>
-            <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+            <div>
+              <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+            </div>
             <S.Text>{_(box.iconName)}</S.Text>
           </S.DisabledLink>
         ) : (
           <S.Link target="_self" className="dp-white" href={box.linkUrl}>
-            <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+            <div>
+              <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+            </div>
             <S.Text>{_(box.iconName)}</S.Text>
           </S.Link>
         )}
