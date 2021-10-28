@@ -18,9 +18,8 @@ export const AuthorizationForm = ({ emails, onSubmit }) => {
     return errorKey ? <FormattedMessage id={errorKey} /> : null;
   };
 
-  const handleSubmit = async (values) => {
-    const emailsToNotify = values.emails.filter((email) => emails.indexOf(email) === -1);
-    onSubmit(values, emailsToNotify);
+  const handleSubmit = (values) => {
+    onSubmit(values);
   };
 
   const formikConfig = {

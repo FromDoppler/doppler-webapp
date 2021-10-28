@@ -52,6 +52,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
         type: 'success',
         delay: successMessageDelay,
       });
+      setData(emailsData.emails);
     } else {
       setMessageData({
         text: 'big_query.plus_message_error',
@@ -155,13 +156,18 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
           </div>
           <div className="col-sm-12 m-b-24">
             <hr className="dp-h-divider"></hr>
-            <button type="button" className="dp-button button-medium primary-grey m-t-30 m-r-24">
-              {_('common.cancel')}
+            <button type="reset">
+              <input
+                type="reset"
+                className="dp-button button-medium primary-grey m-t-30 m-r-12"
+                form="big-query-configuration-form"
+                value={_('common.cancel')}
+              />
             </button>
             <button type="button">
               <input
                 type="submit"
-                className="dp-button button-medium primary-green m-t-30"
+                className="dp-button button-medium primary-green m-l-12"
                 form="big-query-configuration-form"
                 value={_('common.save')}
               ></input>

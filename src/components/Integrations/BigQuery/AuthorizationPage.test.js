@@ -6,14 +6,21 @@ import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import userEvent from '@testing-library/user-event';
 
+const emails = ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'];
+
 describe('test for validate authorization form component ', () => {
   const result = {
-    emails: ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'],
+    emails: emails,
   };
 
   const bigQueryClientDouble = (success) => ({
     getEmailsData: async () => {
-      return { emails: result.emails };
+      return {
+        success,
+        value: {
+          emails: result.emails,
+        },
+      };
     },
     saveEmailsData: async () => {
       return { success: success };
@@ -208,5 +215,54 @@ describe('test for validate authorization form component ', () => {
     const submitButton = screen.getByRole('button', { name: 'common.save' });
     await act(async () => userEvent.click(submitButton));
     expect(screen.queryByText('big_query.plus_message_error')).toBeInTheDocument();
+  });
+
+  it('should remove tags when click on cancel button', async () => {
+    // Arrange
+    const tagToAdd1 = 'harcode_1@mail.com';
+    const bigQueryEnabled = true;
+    const userApiSuccess = true;
+    const bigQuerySuccess = true;
+
+    // Act
+    render(
+      <AppServicesProvider
+        forcedServices={{
+          bigQueryClient: bigQueryClientDouble(bigQuerySuccess),
+          dopplerUserApiClient: dopplerUserApiClientDouble(bigQueryEnabled, userApiSuccess),
+        }}
+      >
+        <IntlProvider>
+          <AuthorizationPage />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const getCloudTags = () => screen.queryByRole('list', { name: 'cloud tags' });
+    const getErrors = () => screen.queryByRole('alert');
+    let cloudTags = getCloudTags();
+    let errors;
+    const input = screen.getByRole('textbox');
+    const addButton = screen.getByRole('button', { name: 'add tag' });
+    expect(getCloudTags()).toBeInTheDocument();
+    expect(input.value).toBe('');
+    // add first tag (simulated with click event)
+    await userEvent.type(input, tagToAdd1);
+    userEvent.click(addButton);
+    cloudTags = getCloudTags();
+    errors = getErrors();
+    expect(cloudTags).toBeInTheDocument();
+    expect(errors).not.toBeInTheDocument();
+    // emails.length+1 because the first tag was added
+    expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
+
+    // Assert
+    const cancelButton = screen.getByRole('button', { name: 'common.cancel' });
+    await act(async () => userEvent.click(cancelButton));
+    //validate number initial of emails
+    expect(cloudTags.querySelectorAll('li').length).toBe(emails.length);
   });
 });
