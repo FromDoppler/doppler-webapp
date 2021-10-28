@@ -35,5 +35,5 @@ it('should render disabled control panel box', async () => {
   );
 
   //Assert
-  expect(screen.getByRole('img').parentElement).toHaveAttribute('disabled');
+  expect(screen.getByText(box.iconName).parentElement).toHaveAttribute('disabled');
 });
