@@ -13,13 +13,15 @@ export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedErr
 
 export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
 
-export type PlanType =
-  | 'free'
-  | 'prepaid'
-  | 'monthly-deliveries'
-  | 'subscribers'
-  | 'agencies'
-  | 'demo';
+export const PLAN_TYPE = {
+  free: 'free',
+  byCredit: 'prepaid',
+  byEmail: 'monthly-deliveries',
+  byContact: 'subscribers',
+  agencies: 'agencies',
+} as const;
+
+export type PlanType = typeof PLAN_TYPE[keyof typeof PLAN_TYPE];
 
 export type PaymentType = 'CC' | 'transfer';
 
@@ -41,48 +43,41 @@ export type Features =
   | 'smartCampaigns'
   | 'shippingLimit';
 
-export interface SubscribersLimitedPlan {
+export interface ContactPlan {
   type: 'subscribers';
   id: number;
   name: string;
   subscriberLimit: number;
   fee: number;
-  featureSet: 'standard' | 'plus';
-  featureList: Features[];
   billingCycleDetails: AdvancePayOptions[];
   currentSubscription: number;
 }
 
-export interface MonthlyRenewalDeliveriesPlan {
+export interface EmailPlan {
   type: 'monthly-deliveries';
   id: number;
   name: string;
   emailsByMonth: number;
   extraEmailPrice: number;
   fee: number;
-  featureSet: 'standard' | 'plus';
-  featureList: Features[];
 }
 
-export interface PrepaidPack {
+export interface CreditPlan {
   type: 'prepaid';
   id: number;
   name: string;
   credits: number;
   price: number;
   subscribersCount: number;
-  featureSet: 'standard';
 }
 
 export interface FreePlan {
   type: 'free';
   subscriberLimit: number;
-  featureSet: 'free';
 }
 
-export interface AgencyPlan {
-  type: 'agency';
-  featureSet: 'agency';
+export interface AgenciesPlan {
+  type: 'agencies';
 }
 
 export interface FreePath {
@@ -90,14 +85,9 @@ export interface FreePath {
   current: boolean;
 }
 
-export type Plan =
-  | SubscribersLimitedPlan
-  | FreePlan
-  | PrepaidPack
-  | MonthlyRenewalDeliveriesPlan
-  | AgencyPlan;
+export type Plan = ContactPlan | FreePlan | CreditPlan | EmailPlan | AgenciesPlan;
 
-export type FeaturedPlan = SubscribersLimitedPlan | MonthlyRenewalDeliveriesPlan;
+export type FeaturedPlan = ContactPlan | EmailPlan;
 
 export interface StandardPath {
   type: 'standard';
