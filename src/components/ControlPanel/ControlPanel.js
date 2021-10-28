@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { ControlPanelBox } from './ControlPanelBox/ControlPanelBox';
-import { controlPanelSections } from './controlPanelSections';
 import { useIntl } from 'react-intl';
+import { InjectAppServices } from '../../services/pure-di';
 
-export const ControlPanel = () => {
-  const _ = (id, values) => useIntl().formatMessage({ id }, values);
+export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelService } }) => {
+  const getInitialSections = () => controlPanelService.getControlPanelSections();
+  const [controlPanelSections] = useState(getInitialSections);
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id }, values);
 
   return (
     <>
@@ -24,9 +27,17 @@ export const ControlPanel = () => {
               <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                 <h2>{_(section.title)}</h2>
                 <div className="dp-rowflex">
-                  {section.items.map((box, indexBox) => (
-                    <ControlPanelBox box={box} key={`box-${indexBox}`} />
-                  ))}
+                  {section.boxes.map((box, indexBox) =>
+                    box.linkUrl !== '' ? (
+                      <ControlPanelBox
+                        box={box}
+                        key={`box-${indexBox}`}
+                        disabled={!!box.disabled}
+                      />
+                    ) : (
+                      <div key={`box-${indexBox}`}></div>
+                    ),
+                  )}
                 </div>
               </div>
             </div>
@@ -35,4 +46,4 @@ export const ControlPanel = () => {
       </section>
     </>
   );
-};
+});

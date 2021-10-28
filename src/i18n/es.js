@@ -345,7 +345,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       title: 'Preferencias de Redes Sociales',
       viralization_title: 'Opciones de Viralización',
     },
-    title: 'Control Panel',
+    title: 'Panel de Control',
   },
   dashboard: {
     campaigns: 'Mis Campañas',
