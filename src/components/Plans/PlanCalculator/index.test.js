@@ -6,14 +6,16 @@ import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { allPlans } from '../../../services/doppler-legacy-client.doubles';
 import { PLAN_TYPE } from '../../../doppler-types';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 describe('PlanCalculator component', () => {
   it('should render PlanCalculator', async () => {
     // Arrange
+    const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const forcedServices = {
       planService: {
         getPlanList: async () => allPlans,
-        getPlanTypes: () => [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit],
+        getPlanTypes: () => planTypes,
       },
     };
 
@@ -21,7 +23,9 @@ describe('PlanCalculator component', () => {
     render(
       <AppServicesProvider forcedServices={forcedServices}>
         <IntlProvider>
-          <PlanCalculator />
+          <Router>
+            <PlanCalculator />
+          </Router>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -29,5 +33,8 @@ describe('PlanCalculator component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
+
+    const listTabs = screen.getByRole('list', { name: 'navigator tabs' });
+    expect(listTabs.children.length).toBe(planTypes.length);
   });
 });
