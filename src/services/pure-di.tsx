@@ -1,4 +1,4 @@
-﻿import axios, { AxiosStatic } from 'axios';
+import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
 import { OnlineSessionManager, SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
