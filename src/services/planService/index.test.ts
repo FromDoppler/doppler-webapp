@@ -30,6 +30,26 @@ describe('planService', () => {
     expect(plans).toBe(allPlans);
   });
 
+  describe.each([
+    ['should return only plans by contacts when planType is by contacts', PLAN_TYPE.byContact],
+    ['should return only plans by emails when planType is by emails', PLAN_TYPE.byEmail],
+    ['should return only plans by credits when planType is by credits', PLAN_TYPE.byCredit],
+  ])('getPlansByType method', (testName, planType) => {
+    it(testName, async () => {
+      // Arrange
+      const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
+      const appSessionRef = getAppSessionRef({ planType: PLAN_TYPE.free });
+
+      // Act
+      const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
+      await planService.getPlanList();
+      const plansByType = planService.getPlansByType(planType);
+
+      // Assert
+      expect(plansByType).toEqual(allPlans.filter((plan) => plan.type === planType));
+    });
+  });
+
   describe('getPlanTypes method', () => {
     it('should return plans by credit, email and contact when the plan is free', async () => {
       // Arrange
