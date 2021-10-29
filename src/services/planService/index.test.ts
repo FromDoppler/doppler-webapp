@@ -38,8 +38,7 @@ describe('planService', () => {
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
-      await planService.getPlanList();
-      const orderPlanTypes = planService.getPlanTypes();
+      const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
       expect(orderPlanTypes).toEqual(firstPlansDefaultOrder);
@@ -56,8 +55,7 @@ describe('planService', () => {
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
-      await planService.getPlanList();
-      const orderPlanTypes = planService.getPlanTypes();
+      const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
       expect(orderPlanTypes).toEqual([PLAN_TYPE.byEmail]);
@@ -70,8 +68,7 @@ describe('planService', () => {
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
-      await planService.getPlanList();
-      const orderPlanTypes = planService.getPlanTypes();
+      const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
       expect(orderPlanTypes).toEqual(firstPlansDefaultOrder);
@@ -89,8 +86,7 @@ describe('planService', () => {
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
-      await planService.getPlanList();
-      const orderPlanTypes = planService.getPlanTypes();
+      const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
       expect(orderPlanTypes).toEqual(
@@ -110,8 +106,7 @@ describe('planService', () => {
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
-      await planService.getPlanList();
-      const orderPlanTypes = planService.getPlanTypes();
+      const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
       expect(orderPlanTypes).toEqual([PLAN_TYPE.byContact]);

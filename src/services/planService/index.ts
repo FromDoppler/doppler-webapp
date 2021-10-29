@@ -62,10 +62,11 @@ export class PlanService implements PlanInterface {
     }
   }
 
-  getPlanTypes(): PlanType[] {
+  async getPlanTypes(): Promise<PlanType[]> {
+    const planList = await this.getPlanList();
     const currentPlan: any = this.getCurrentPlan();
 
-    const potentialUpgradePlans: Plan[] = getPotentialUpgrades(currentPlan, this.PlanList);
+    const potentialUpgradePlans: Plan[] = getPotentialUpgrades(currentPlan, planList);
 
     const typesAllowed: PlanType[] = potentialUpgradePlans.map((plan) => plan.type);
     const distinctTypesAllowed: PlanType[] = [...Array.from(new Set<PlanType>(typesAllowed))];
