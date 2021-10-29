@@ -35,6 +35,21 @@ describe('planTypesReducer', () => {
     });
   });
 
+  it(`${PLAN_TYPES_ACTIONS.FETCH_FAILED} action`, () => {
+    // Arrange
+    const action = { type: PLAN_TYPES_ACTIONS.FETCH_FAILED };
+
+    // Act
+    const newState = planTypesReducer(INITIAL_STATE_PLAN_TYPES, action);
+
+    // Assert
+    expect(newState).toEqual({
+      ...INITIAL_STATE_PLAN_TYPES,
+      loading: false,
+      hasError: true,
+    });
+  });
+
   it('should return initialState when the action is not defined', () => {
     // Arrange
     const action = {
