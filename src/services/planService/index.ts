@@ -74,10 +74,11 @@ export class PlanService implements PlanInterface {
     return orderPlanTypes(distinctTypesAllowed);
   }
 
-  getPlansByType(planType: PlanType): Plan[] {
+  async getPlansByType(planType: PlanType): Promise<Plan[]> {
     const currentPlan: any = this.getCurrentPlan();
+    const planList = await this.getPlanList();
 
-    const potentialUpgradePlans = getPotentialUpgrades(currentPlan, this.PlanList);
+    const potentialUpgradePlans = getPotentialUpgrades(currentPlan, planList);
     const plansByType = filterPlansByType(planType, potentialUpgradePlans);
 
     return plansByType.sort(compareByFee);

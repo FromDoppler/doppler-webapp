@@ -42,8 +42,7 @@ describe('planService', () => {
 
       // Act
       const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
-      await planService.getPlanList();
-      const plansByType = planService.getPlansByType(planType);
+      const plansByType = await planService.getPlansByType(planType);
 
       // Assert
       expect(plansByType).toEqual(allPlans.filter((plan) => plan.type === planType));
