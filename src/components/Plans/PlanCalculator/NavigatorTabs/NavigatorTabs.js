@@ -24,7 +24,7 @@ export const NavigatorTabs = ({ tabs, selectedPlanType }) => {
 
   return (
     <nav className="tabs-wrapper">
-      <ul className="tabs-nav">
+      <ul className="tabs-nav" aria-label="navigator tabs">
         {tabs.map((type) => (
           <li data-testid="tab-item--plan-calculator" className="tab--item" key={type}>
             <Link
