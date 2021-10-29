@@ -73,6 +73,16 @@ export class PlanService implements PlanInterface {
 
     return orderPlanTypes(distinctTypesAllowed);
   }
+
+  async getPlansByType(planType: PlanType): Promise<Plan[]> {
+    const currentPlan: any = this.getCurrentPlan();
+    const planList = await this.getPlanList();
+
+    const potentialUpgradePlans = getPotentialUpgrades(currentPlan, planList);
+    const plansByType = filterPlansByType(planType, potentialUpgradePlans);
+
+    return plansByType.sort(compareByFee);
+  }
 }
 
 const filterPlansByType = (planType: PlanType, planList: Plan[], fn: any = null) =>
@@ -80,16 +90,6 @@ const filterPlansByType = (planType: PlanType, planList: Plan[], fn: any = null)
 
 // sort the plans by price from lowest to highest
 export const getCheaperPlan = (planType: PlanType, planList: any[]) => {
-  const compareByFee = (previousPlan: Plan, nextPlan: Plan): number => {
-    const priceOfPreviousPlan = getPlanFee(previousPlan);
-    const priceOfNextPlan = getPlanFee(nextPlan);
-
-    return priceOfPreviousPlan < priceOfNextPlan
-      ? -1
-      : priceOfPreviousPlan > priceOfNextPlan
-      ? 1
-      : 0;
-  };
   const cheaperPlan = filterPlansByType(planType, planList).sort(compareByFee);
   return cheaperPlan[0];
 };
@@ -169,3 +169,10 @@ export const getPotentialUpgradesPlansByContact = (
       plan.fee >= minFee &&
       plan.subscriberLimit >= minSubscriberLimit,
   ) as ContactPlan[];
+
+const compareByFee = (previousPlan: Plan, nextPlan: Plan): number => {
+  const priceOfPreviousPlan = getPlanFee(previousPlan);
+  const priceOfNextPlan = getPlanFee(nextPlan);
+
+  return priceOfPreviousPlan < priceOfNextPlan ? -1 : priceOfPreviousPlan > priceOfNextPlan ? 1 : 0;
+};
