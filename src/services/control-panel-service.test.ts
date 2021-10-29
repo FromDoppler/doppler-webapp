@@ -46,7 +46,7 @@ describe('Control Panel Service', () => {
     );
   });
 
-  it('should get an empty box', async () => {
+  it('should get a hidden box', async () => {
     // Arrange
     const userData = {
       user: {
@@ -63,7 +63,7 @@ describe('Control Panel Service', () => {
     const result = controlPanelService.getControlPanelSections();
 
     // Assert
-    expect(result[1].boxes[7].linkUrl === '').toBe(true);
+    expect(result[1].boxes[7].hidden === true).toBe(true);
   });
 
   it('should get a disabled box and GetBillingInformation link', async () => {

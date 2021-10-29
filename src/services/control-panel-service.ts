@@ -51,6 +51,7 @@ interface Box {
   imgAlt: string;
   iconName: string;
   disabled?: boolean;
+  hidden?: boolean;
 }
 
 interface ControlPanelSection {
@@ -163,14 +164,13 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: 'control_panel.campaign_preferences.email_parameter_title',
             iconName: 'control_panel.campaign_preferences.email_parameter_title',
           },
-          siteTrackingEnabled
-            ? {
-                linkUrl: `${urlCampaignsPreferences}/SiteTrackingSettings`,
-                imgSrc: site_tracking_icon,
-                imgAlt: 'control_panel.campaign_preferences.site_tracking_title',
-                iconName: 'control_panel.campaign_preferences.site_tracking_title',
-              }
-            : { linkUrl: '', imgSrc: '', imgAlt: '', iconName: '' },
+          {
+            linkUrl: `${urlCampaignsPreferences}/SiteTrackingSettings`,
+            imgSrc: site_tracking_icon,
+            imgAlt: 'control_panel.campaign_preferences.site_tracking_title',
+            iconName: 'control_panel.campaign_preferences.site_tracking_title',
+            hidden: !siteTrackingEnabled,
+          },
         ],
       },
       {

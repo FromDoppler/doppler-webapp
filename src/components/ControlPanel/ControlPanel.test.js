@@ -6,13 +6,13 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-
 import { AppServicesProvider } from '../../services/pure-di';
 
 describe('Control Panel component', () => {
-  const controlPanelSectionDouble = (link) => ({
+  const controlPanelSectionDouble = () => ({
     getControlPanelSections: () => [
       {
         title: 'control_panel.account_preferences.title',
         boxes: [
           {
-            linkUrl: link,
+            linkUrl: 'link',
             imgSrc: 'Imagen',
             imgAlt: 'control_panel.account_preferences.account_information_title',
             iconName: 'control_panel.account_preferences.account_information_title',
@@ -22,13 +22,13 @@ describe('Control Panel component', () => {
     ],
   });
 
-  const dependencies = (link) => ({
-    controlPanelService: controlPanelSectionDouble(link),
+  const dependencies = () => ({
+    controlPanelService: controlPanelSectionDouble(),
   });
 
-  const ControlPanelComponent = ({ link }) => {
+  const ControlPanelComponent = () => {
     return (
-      <AppServicesProvider forcedServices={dependencies(link)}>
+      <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider>
           <ControlPanel />
         </DopplerIntlProvider>
@@ -38,22 +38,12 @@ describe('Control Panel component', () => {
 
   it('should render sections and boxes', async () => {
     // Act
-    render(<ControlPanelComponent link="link" />);
+    render(<ControlPanelComponent />);
 
     // Assert
     expect(screen.getByRole('heading', { name: 'control_panel.account_preferences.title' }));
     expect(
       screen.getByText('control_panel.account_preferences.account_information_title'),
     ).toBeInTheDocument();
-  });
-
-  it('should not render box when empty link', async () => {
-    // Act
-    render(<ControlPanelComponent link="" />);
-
-    // Assert
-    expect(
-      screen.queryByText('control_panel.account_preferences.account_information_title'),
-    ).not.toBeInTheDocument();
   });
 });

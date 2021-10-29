@@ -2,8 +2,12 @@ import React from 'react';
 import * as S from './ControlPanelBox.styles';
 import { useIntl } from 'react-intl';
 
-export const ControlPanelBox = ({ box, disabled = false }) => {
+export const ControlPanelBox = ({ box, disabled = false, hidden = false }) => {
   const _ = (id, values) => useIntl().formatMessage({ id }, values);
+
+  if (hidden) {
+    return <></>;
+  }
 
   return (
     <div className="col-lg-3 col-md-4 col-sm-4 m-b-24">
