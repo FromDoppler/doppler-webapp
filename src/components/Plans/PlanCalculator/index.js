@@ -11,24 +11,35 @@ import {
   planTypesReducer,
   PLAN_TYPES_ACTIONS,
 } from './reducers/planTypesReducer';
+import { UnexpectedError } from './UnexpectedError';
 
 export const PlanCalculator = InjectAppServices(({ dependencies: { planService } }) => {
-  const [{ planTypes, loading }, dispatch] = useReducer(planTypesReducer, INITIAL_STATE_PLAN_TYPES);
+  const [{ planTypes, loading, hasError }, dispatch] = useReducer(
+    planTypesReducer,
+    INITIAL_STATE_PLAN_TYPES,
+  );
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: PLAN_TYPES_ACTIONS.FETCHING_STARTED });
-      await planService.getPlanList();
-      const _planTypes = planService.getPlanTypes();
-      dispatch({ type: PLAN_TYPES_ACTIONS.RECEIVE_PLAN_TYPES, payload: _planTypes });
+      try {
+        dispatch({ type: PLAN_TYPES_ACTIONS.FETCHING_STARTED });
+        const _planTypes = await planService.getPlanTypes();
+        dispatch({ type: PLAN_TYPES_ACTIONS.RECEIVE_PLAN_TYPES, payload: _planTypes });
+      } catch (error) {
+        dispatch({ type: PLAN_TYPES_ACTIONS.FETCH_FAILED });
+      }
     };
     fetchData();
   }, [planService]);
 
   if (loading) {
     return <Loading page />;
+  }
+
+  if (hasError) {
+    return <UnexpectedError />;
   }
 
   return (
