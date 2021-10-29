@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { MemoryRouter as Router } from 'react-router-dom';
-import { PLAN_TYPE } from '../../../../doppler-types';
+import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../../doppler-types';
 
 import { NavigatorTabs } from './NavigatorTabs';
 
@@ -22,5 +22,14 @@ describe('NavigatorTabs Component', () => {
     //Assert
     const allTabs = screen.queryAllByRole('listitem');
     expect(allTabs.length).toBe(planTypes.length);
+
+    const links = screen.getAllByRole('link');
+
+    links.forEach((link, index) => {
+      expect(link).toHaveAttribute(
+        'href',
+        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}`,
+      );
+    });
   });
 });
