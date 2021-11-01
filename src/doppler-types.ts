@@ -27,12 +27,6 @@ export const URL_PLAN_TYPE = {
   [PLAN_TYPE.byCredit]: 'by-credits',
 } as const;
 
-export const PLAN_TYPE_FROM_URL = {
-  [URL_PLAN_TYPE[PLAN_TYPE.byContact]]: PLAN_TYPE.byContact,
-  [URL_PLAN_TYPE[PLAN_TYPE.byEmail]]: PLAN_TYPE.byEmail,
-  [URL_PLAN_TYPE[PLAN_TYPE.byCredit]]: PLAN_TYPE.byCredit,
-} as const;
-
 export type PlanType = typeof PLAN_TYPE[keyof typeof PLAN_TYPE];
 
 export type PaymentType = 'CC' | 'transfer';

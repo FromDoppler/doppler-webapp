@@ -1,14 +1,19 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
-import { PLAN_TYPE_FROM_URL } from '../../../doppler-types';
 import useTimeout from '../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../services/pure-di';
+import { getPlanTypeFromUrlSegment } from '../../../utils';
 import { FAQ } from '../../FAQ';
 import { topics } from '../../FAQ/constants';
 import { Loading } from '../../Loading/Loading';
 import * as S from './index.styles';
 import { NavigatorTabs } from './NavigatorTabs/NavigatorTabs';
+import {
+  INITIAL_STATE_PLANS_BY_TYPE,
+  plansByTypeReducer,
+  PLANS_BY_TYPE_ACTIONS,
+} from './reducers/plansByTypeReducer';
 import {
   INITIAL_STATE_PLAN_TYPES,
   planTypesReducer,
@@ -19,16 +24,21 @@ import { UnexpectedError } from './UnexpectedError';
 
 const INITIAL_VALUE_OF_SLIDER = 0;
 export const PlanCalculator = InjectAppServices(({ dependencies: { planService } }) => {
-  const [{ planTypes, sliderValuesRange, loading, hasError }, dispatch] = useReducer(
+  const [{ planTypes, loading, hasError }, dispatch] = useReducer(
     planTypesReducer,
     INITIAL_STATE_PLAN_TYPES,
+  );
+  const [{ sliderValuesRange, hasError: hasErrorPlansByType }, dispatchPlansByType] = useReducer(
+    plansByTypeReducer,
+    INITIAL_STATE_PLANS_BY_TYPE,
   );
   const [activeClass, setActiveClass] = useState('active');
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(INITIAL_VALUE_OF_SLIDER);
   const createTimeout = useTimeout();
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const { planType } = useParams();
+  const { planType: planTypeUrlSegment } = useParams();
+  const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,11 +56,16 @@ export const PlanCalculator = InjectAppServices(({ dependencies: { planService }
   useEffect(() => {
     const fetchPlansByType = async () => {
       try {
-        dispatch({ type: PLAN_TYPES_ACTIONS.FETCHING_PLANS_BY_TYPE_STARTED });
-        const _plansByType = await planService.getPlansByType(PLAN_TYPE_FROM_URL[planType]);
-        dispatch({ type: PLAN_TYPES_ACTIONS.RECEIVE_PLANS_BY_TYPES, payload: _plansByType });
+        dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.FETCHING_STARTED });
+        const _plansByType = await planService.getPlansByType(
+          getPlanTypeFromUrlSegment(planTypeUrlSegment),
+        );
+        dispatchPlansByType({
+          type: PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE,
+          payload: _plansByType,
+        });
       } catch (error) {
-        dispatch({ type: PLAN_TYPES_ACTIONS.FETCH_FAILED });
+        dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.FETCH_FAILED });
       }
     };
 
@@ -58,12 +73,12 @@ export const PlanCalculator = InjectAppServices(({ dependencies: { planService }
       setSelectedPlanIndex(INITIAL_VALUE_OF_SLIDER);
       fetchPlansByType();
     }
-  }, [planService, planType, planTypes]);
+  }, [planService, planTypeUrlSegment, planTypes]);
 
   useEffect(() => {
     setActiveClass('');
     createTimeout(() => setActiveClass('active'), 0);
-  }, [planType, createTimeout]);
+  }, [planTypeUrlSegment, createTimeout]);
 
   const handleSliderChange = (e) => {
     const { value } = e.target;
@@ -75,11 +90,9 @@ export const PlanCalculator = InjectAppServices(({ dependencies: { planService }
     return <Loading page />;
   }
 
-  if (hasError) {
+  if (hasError || hasErrorPlansByType || selectedPlanType === 'unknown') {
     return <UnexpectedError />;
   }
-
-  const selectedPlanType = PLAN_TYPE_FROM_URL[planType];
 
   return (
     <>

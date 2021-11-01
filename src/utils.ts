@@ -1,6 +1,13 @@
 import urlParse from 'url-parse';
 import { useEffect, useRef } from 'react';
-import { Plan, CreditPlan, FeaturedPlan, PlanType } from './doppler-types';
+import {
+  Plan,
+  CreditPlan,
+  FeaturedPlan,
+  PlanType,
+  URL_PLAN_TYPE,
+  PLAN_TYPE,
+} from './doppler-types';
 import countriesEs from './i18n/countries-es.json';
 import countriesEn from './i18n/countries-en.json';
 
@@ -326,4 +333,20 @@ export const successMessageDelay = 3000;
 
 export const concatClasses = (...args: any[]) => {
   return args.filter((x) => x).join(' ');
+};
+
+export const getPlanTypeFromUrlSegment = (planTypeUrlSegment: string) => {
+  switch (planTypeUrlSegment) {
+    case URL_PLAN_TYPE[PLAN_TYPE.byContact]:
+      return PLAN_TYPE.byContact;
+
+    case URL_PLAN_TYPE[PLAN_TYPE.byEmail]:
+      return PLAN_TYPE.byEmail;
+
+    case URL_PLAN_TYPE[PLAN_TYPE.byCredit]:
+      return PLAN_TYPE.byCredit;
+
+    default:
+      return 'unknown';
+  }
 };
