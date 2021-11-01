@@ -35,5 +35,17 @@ it('should render disabled control panel box', async () => {
   );
 
   //Assert
-  expect(screen.getByRole('img').parentElement).toHaveAttribute('disabled');
+  expect(screen.getByText(box.iconName).parentElement).toHaveAttribute('disabled');
+});
+
+it('should not render control panel box when hidden propertie is true', async () => {
+  //Act
+  render(
+    <IntlProvider>
+      <ControlPanelBox box={box} hidden={true} />
+    </IntlProvider>,
+  );
+
+  //Assert
+  expect(screen.queryByText(box.iconName)).not.toBeInTheDocument();
 });

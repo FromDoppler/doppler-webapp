@@ -5,12 +5,13 @@ const Link = styled.a`
   padding: 40px 0px;
   text-align: center;
   position: relative;
+  height: 200px;
+  width: 100%;
 `;
 
 const Image = styled.img`
   height: 80px;
   margin: 0 0 16px 0;
-  width: 100px;
 `;
 
 const Text = styled.span`

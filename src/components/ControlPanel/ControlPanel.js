@@ -27,17 +27,14 @@ export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelSer
               <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                 <h2>{_(section.title)}</h2>
                 <div className="dp-rowflex">
-                  {section.boxes.map((box, indexBox) =>
-                    box.linkUrl !== '' ? (
-                      <ControlPanelBox
-                        box={box}
-                        key={`box-${indexBox}`}
-                        disabled={!!box.disabled}
-                      />
-                    ) : (
-                      <div key={`box-${indexBox}`}></div>
-                    ),
-                  )}
+                  {section.boxes.map((box, indexBox) => (
+                    <ControlPanelBox
+                      box={box}
+                      key={`box-${indexBox}`}
+                      disabled={!!box.disabled}
+                      hidden={!!box.hidden}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

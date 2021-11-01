@@ -16,13 +16,30 @@ import social_network_icon from '../components/ControlPanel/images/social_networ
 import rss_preferences_icon from '../components/ControlPanel/images/rss_preferences_icon.png';
 import viralization_icon from '../components/ControlPanel/images/viralization_icon.png';
 import auto_publish_icon from '../components/ControlPanel/images/auto_publish_icon.png';
+import bigquery_icon from '../components/ControlPanel/images/bigquery_icon.png';
+import bmw_crm_icon from '../components/ControlPanel/images/bmw_crm_icon.png';
+import easycommerce_icon from '../components/ControlPanel/images/easycommerce_icon.svg';
+import google_analitics_icon from '../components/ControlPanel/images/google_analitics_icon.png';
+import magento_icon from '../components/ControlPanel/images/magento_icon.png';
+import prestashop_icon from '../components/ControlPanel/images/prestashop_icon.png';
+import shopify_icon from '../components/ControlPanel/images/shopify_icon.png';
+import Tiendanube_icon from '../components/ControlPanel/images/Tiendanube_icon.svg';
+import tokko_icon from '../components/ControlPanel/images/tokko_icon.png';
+import Typeform_icon from '../components/ControlPanel/images/Typeform_icon.png';
+import Unbounce_icon from '../components/ControlPanel/images/Unbounce_icon.svg';
+import vtex_icon from '../components/ControlPanel/images/vtex_icon.svg';
+import woocommerce_icon from '../components/ControlPanel/images/woocommerce_icon.png';
+import zoho_icon from '../components/ControlPanel/images/zoho_icon.png';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
-const urlControlPanel = process.env.REACT_APP_DOPPLER_LEGACY_URL + '/ControlPanel';
+const urlBase = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlControlPanel = `${urlBase}/ControlPanel`;
+const urlIntegrations = `${urlBase}/Integration/Integration`;
 const urlAccountPreferences = `${urlControlPanel}/AccountPreferences`;
 const urlCampaignsPreferences = `${urlControlPanel}/CampaignsPreferences`;
 const urlSocialPreferences = `${urlControlPanel}/SocialPreferences`;
+const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
 
 export interface ControlPanelService {
   getControlPanelSections(): ControlPanelSection[];
@@ -34,6 +51,7 @@ interface Box {
   imgAlt: string;
   iconName: string;
   disabled?: boolean;
+  hidden?: boolean;
 }
 
 interface ControlPanelSection {
@@ -146,14 +164,13 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: 'control_panel.campaign_preferences.email_parameter_title',
             iconName: 'control_panel.campaign_preferences.email_parameter_title',
           },
-          siteTrackingEnabled
-            ? {
-                linkUrl: `${urlCampaignsPreferences}/SiteTrackingSettings`,
-                imgSrc: site_tracking_icon,
-                imgAlt: 'control_panel.campaign_preferences.site_tracking_title',
-                iconName: 'control_panel.campaign_preferences.site_tracking_title',
-              }
-            : { linkUrl: '', imgSrc: '', imgAlt: '', iconName: '' },
+          {
+            linkUrl: `${urlCampaignsPreferences}/SiteTrackingSettings`,
+            imgSrc: site_tracking_icon,
+            imgAlt: 'control_panel.campaign_preferences.site_tracking_title',
+            iconName: 'control_panel.campaign_preferences.site_tracking_title',
+            hidden: !siteTrackingEnabled,
+          },
         ],
       },
       {
@@ -182,6 +199,95 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: auto_publish_icon,
             imgAlt: 'control_panel.social_preferences.auto_publish_title',
             iconName: 'control_panel.social_preferences.auto_publish_title',
+          },
+        ],
+      },
+      {
+        title: 'control_panel.native_integrations.title',
+        boxes: [
+          {
+            linkUrl: `${urlAdvancedPreferences}/GetGoogleAnaliyticPreferences`,
+            imgSrc: google_analitics_icon,
+            imgAlt: 'control_panel.native_integrations.google_Analityc_title',
+            iconName: 'control_panel.native_integrations.google_Analityc_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/ZohoSection`,
+            imgSrc: zoho_icon,
+            imgAlt: 'control_panel.native_integrations.zoho_title',
+            iconName: 'control_panel.native_integrations.zoho_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/TokkoSection`,
+            imgSrc: tokko_icon,
+            imgAlt: 'control_panel.native_integrations.tokko_title',
+            iconName: 'control_panel.native_integrations.tokko_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/TiendaNubeSection`,
+            imgSrc: Tiendanube_icon,
+            imgAlt: 'control_panel.native_integrations.tiendanube_title',
+            iconName: 'control_panel.native_integrations.tiendanube_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/VtexSection`,
+            imgSrc: vtex_icon,
+            imgAlt: 'control_panel.native_integrations.vtex_title',
+            iconName: 'control_panel.native_integrations.vtex_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/PrestashopSection`,
+            imgSrc: prestashop_icon,
+            imgAlt: 'control_panel.native_integrations.prestashop_title',
+            iconName: 'control_panel.native_integrations.prestashop_title',
+          },
+          {
+            linkUrl: '/integrations/shopify',
+            imgSrc: shopify_icon,
+            imgAlt: 'control_panel.native_integrations.shopify_title',
+            iconName: 'control_panel.native_integrations.shopify_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/WebHookIntegration?integrationType=Unbounce`,
+            imgSrc: Unbounce_icon,
+            imgAlt: 'control_panel.native_integrations.unbounce_title',
+            iconName: 'control_panel.native_integrations.unbounce_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/MagentoSection`,
+            imgSrc: magento_icon,
+            imgAlt: 'control_panel.native_integrations.magento_title',
+            iconName: 'control_panel.native_integrations.magento_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/WebHookIntegration?integrationType=Typeform`,
+            imgSrc: Typeform_icon,
+            imgAlt: 'control_panel.native_integrations.typeform_title',
+            iconName: 'control_panel.native_integrations.typeform_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/WooCommerceSection`,
+            imgSrc: woocommerce_icon,
+            imgAlt: 'control_panel.native_integrations.woocommerce_title',
+            iconName: 'control_panel.native_integrations.woocommerce_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/EasycommerceSection`,
+            imgSrc: easycommerce_icon,
+            imgAlt: 'control_panel.native_integrations.easycommerce_title',
+            iconName: 'control_panel.native_integrations.easycommerce_title',
+          },
+          {
+            linkUrl: `${urlIntegrations}/BmwCrmSection`,
+            imgSrc: bmw_crm_icon,
+            imgAlt: 'control_panel.native_integrations.bmw_rsp_crm_title',
+            iconName: 'control_panel.native_integrations.bmw_rsp_crm_title',
+          },
+          {
+            linkUrl: '/integrations/big-query',
+            imgSrc: bigquery_icon,
+            imgAlt: 'control_panel.native_integrations.big_query_title',
+            iconName: 'control_panel.native_integrations.big_query_title',
           },
         ],
       },
