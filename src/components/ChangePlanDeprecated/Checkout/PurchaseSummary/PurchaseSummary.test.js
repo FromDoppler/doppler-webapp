@@ -171,14 +171,14 @@ describe('PurchaseSummary component', () => {
     await waitForElementToBeRemoved(loader);
 
     expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent(1500);
-    expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent('US$ 55.00');
+    expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent('US$ 55');
   });
 
   describe.each([
-    ['should show the price for 1 month when the subscription is "Monthly"', 1, 'US$ 55.00'],
-    ['should show the price for 3 months when the subscription is "Quaterly"', 2, 'US$ 165.00'],
-    ['should show the price for 6 months when the subscription is "Half-Yearly"', 4, 'US$ 330.00'],
-    ['should show the price for 12 months when the subscription is "Yearly"', 6, 'US$ 660.00'],
+    ['should show the price for 1 month when the subscription is "Monthly"', 1, 'US$ 55'],
+    ['should show the price for 3 months when the subscription is "Quaterly"', 2, 'US$ 165'],
+    ['should show the price for 6 months when the subscription is "Half-Yearly"', 4, 'US$ 330'],
+    ['should show the price for 12 months when the subscription is "Yearly"', 6, 'US$ 660'],
   ])('price by subscription', (testName, discountId, amount) => {
     it(testName, async () => {
       // Arrange
@@ -253,9 +253,9 @@ describe('PurchaseSummary component', () => {
       'the subscription is "Quaterly"',
       {
         fakePlanAmountDetails: {
-          discountPrepayment: { discountPercentage: 5, amount: 8.25 },
+          discountPrepayment: { discountPercentage: 5, amount: 8 },
           discountPaymentAlreadyPaid: 0,
-          total: 229.5,
+          total: 229,
         },
         discountId: 2,
       },
@@ -264,9 +264,9 @@ describe('PurchaseSummary component', () => {
       'the subscription is "Half-Yearly"',
       {
         fakePlanAmountDetails: {
-          discountPrepayment: { discountPercentage: 15, amount: 49.5 },
+          discountPrepayment: { discountPercentage: 15, amount: 49 },
           discountPaymentAlreadyPaid: 0,
-          total: 229.5,
+          total: 229,
         },
         discountId: 4,
       },
@@ -275,9 +275,9 @@ describe('PurchaseSummary component', () => {
       'the subscription is "Annual"',
       {
         fakePlanAmountDetails: {
-          discountPrepayment: { discountPercentage: 25, amount: 165.0 },
+          discountPrepayment: { discountPercentage: 25, amount: 165 },
           discountPaymentAlreadyPaid: 0,
-          total: 229.5,
+          total: 229,
         },
         discountId: 6,
       },
@@ -328,7 +328,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 0, amount: 0 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      total: 229,
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -358,7 +358,7 @@ describe('PurchaseSummary component', () => {
     expect(
       screen.getByText('checkoutProcessForm.purchase_summary.discount_for_payment_paid'),
     ).toBeInTheDocument();
-    expect(screen.getByText('-US$ 100.00')).toBeInTheDocument();
+    expect(screen.getByText('-US$ 100')).toBeInTheDocument();
   });
 
   it('should show the total with discount', async () => {
@@ -368,7 +368,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 25, amount: 165 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      total: 229,
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -395,7 +395,7 @@ describe('PurchaseSummary component', () => {
     await waitForElementToBeRemoved(loader);
 
     expect(screen.getByText('checkoutProcessForm.purchase_summary.total')).toBeInTheDocument();
-    expect(screen.getByText('229.50')).toBeInTheDocument();
+    expect(screen.getByText('229')).toBeInTheDocument();
   });
 
   it('should show disabled the "buy" button when canBuy is false', async () => {
@@ -405,7 +405,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 25, amount: 165 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      total: 229,
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -445,7 +445,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 25, amount: 165 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      total: 229,
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -485,7 +485,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 25, amount: 165 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      total: 229,
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -540,7 +540,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 25, amount: 165 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      total: 229,
     };
 
     const dopplerAccountPlansApiClientDouble = {
