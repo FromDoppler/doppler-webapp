@@ -21,6 +21,12 @@ export const PLAN_TYPE = {
   agencies: 'agencies',
 } as const;
 
+export const URL_PLAN_TYPE = {
+  [PLAN_TYPE.byContact]: 'by-contacts',
+  [PLAN_TYPE.byEmail]: 'by-emails',
+  [PLAN_TYPE.byCredit]: 'by-credits',
+} as const;
+
 export type PlanType = typeof PLAN_TYPE[keyof typeof PLAN_TYPE];
 
 export type PaymentType = 'CC' | 'transfer';

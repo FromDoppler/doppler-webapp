@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
+import { PLAN_TYPE, URL_PLAN_TYPE } from '../../doppler-types';
 
 const NewFeatures = () => {
   return (
@@ -34,7 +35,9 @@ const NewFeatures = () => {
         <div className="dp-block-wlp dp-box-shadow m-t-36">
           <div style={{ marginLeft: '20px' }}>
             <h3>Calculadora de planes</h3>
-            <Link to={`/plan-calculator`}>Ir a calculadora de planes</Link>
+            <Link to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`}>
+              Ir a calculadora de planes
+            </Link>
           </div>
         </div>
         <div className="dp-block-wlp dp-box-shadow m-t-36">

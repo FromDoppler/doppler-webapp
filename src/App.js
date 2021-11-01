@@ -129,7 +129,11 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 exact
                 component={UpgradeSuggestionForm}
               />
-              <PrivateRoute path="/plan-calculator" exact component={PlanCalculator} />
+              <PrivateRoute
+                path="/plan-selection/premium/:planType?"
+                exact
+                component={PlanCalculator}
+              />
               <PrivateRoute path={'/checkout/:pathType/:planType?'} exact component={Checkout} />
               <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
               <PrivateRoute path={'/email-marketing-exclusive'} exact component={ExclusiveForm} />
