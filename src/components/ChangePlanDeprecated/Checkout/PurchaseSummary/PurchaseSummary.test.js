@@ -132,7 +132,7 @@ describe('PurchaseSummary component', () => {
       await waitForElementToBeRemoved(loader);
 
       const title =
-        'checkoutProcessForm.purchase_summary.plan_standard_title' +
+        'checkoutProcessForm.purchase_summary.plan_premium_title' +
         ' - ' +
         `checkoutProcessForm.purchase_summary.plan_type_${planType}`;
       expect(screen.getByText(title)).toBeInTheDocument();

@@ -228,7 +228,7 @@ const messages_en = {
       header: 'Purchase summary',
       month_with_plural: `{monthsCount, plural, one {# month}other {# months} }`,
       months_to_pay: 'Months to pay:',
-      plan_standard_title: 'STANDARD plan',
+      plan_premium_title: 'PREMIUM Plan',
       plan_type_monthly_deliveries: 'by Emails',
       plan_type_monthly_deliveries_label: 'Emails',
       plan_type_prepaid: 'by Credits',
