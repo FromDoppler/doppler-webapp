@@ -327,7 +327,7 @@ export const PurchaseSummary = InjectAppServices(
         case 'subscribers':
         case 'monthly-deliveries':
           return (
-            _('checkoutProcessForm.purchase_summary.plan_standard_title') +
+            _('checkoutProcessForm.purchase_summary.plan_premium_title') +
             ' - ' +
             _(`checkoutProcessForm.purchase_summary.plan_type_${planType.replace('-', '_')}`)
           );

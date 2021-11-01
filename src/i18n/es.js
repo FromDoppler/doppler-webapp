@@ -229,7 +229,7 @@ const messages_es = {
       header: 'Resumen de compra',
       month_with_plural: `{monthsCount, plural, one {# mes}other {# meses} }`,
       months_to_pay: 'Meses a abonar:',
-      plan_standard_title: 'Plan STANDARD',
+      plan_premium_title: 'Plan PREMIUM',
       plan_type_monthly_deliveries: 'por Envíos',
       plan_type_monthly_deliveries_label: 'Envíos:',
       plan_type_prepaid: 'por Créditos',
