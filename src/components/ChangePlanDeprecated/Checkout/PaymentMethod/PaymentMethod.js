@@ -10,6 +10,7 @@ import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-
 import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
+import { Transfer } from './Transfer';
 
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -17,6 +18,9 @@ export const fieldNames = {
   name: 'name',
   expiry: 'expiry',
   cvc: 'cvc',
+  consumerType: 'consumerType',
+  businessName: 'businessName',
+  identificationNumber: 'identificationNumber',
 };
 
 export const paymentType = {
@@ -40,6 +44,8 @@ const paymentMethods = [
   },
 ];
 
+const countriesAvailableTransfer = ['ar', 'co', 'mx'];
+
 //TODO: Remove the stykes when the UI Library is updated
 const considerationNoteStyle = {
   fontSize: '13px',
@@ -57,47 +63,52 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
-const PaymentMethodField = ({ optionView, handleChange }) => {
+const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, handleChange }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const allowTransfer = countriesAvailableTransfer.filter((c) => c === billingCountry)[0];
 
   return (
     <Field name="paymentMethodName">
       {({ field }) => (
         <ul role="group" aria-labelledby="checkbox-group" className="dp-radio-input">
-          {paymentMethods.map((paymentMethod) => (
-            <li key={paymentMethod.value}>
-              <div className="dp-volume-option">
-                <label>
-                  <input
-                    aria-label={paymentMethod.description}
-                    id={paymentMethod.value}
-                    type="radio"
-                    name={fieldNames.paymentMethodName}
-                    {...field}
-                    value={paymentMethod.value}
-                    checked={field.value === paymentMethod.value}
-                    disabled={
-                      optionView === actionPage.READONLY && field.value !== paymentMethod.value
-                    }
-                    onChange={handleChange}
-                  />
-                  {paymentMethod.value !== paymentType.mercadoPago ? (
-                    <span>{_(paymentMethod.description)}</span>
-                  ) : (
-                    <span>
-                      <img
-                        src={_('common.ui_library_image', {
-                          imageUrl: 'mercado-pago.svg',
-                        })}
-                        alt="Mercado pago"
-                      ></img>
-                    </span>
-                  )}
-                </label>
-              </div>
-            </li>
-          ))}
+          {paymentMethods.map((paymentMethod) =>
+            (paymentMethod.value === paymentType.transfer && allowTransfer) ||
+            paymentMethod.value !== paymentType.transfer ? (
+              <li key={paymentMethod.value}>
+                <div className="dp-volume-option">
+                  <label>
+                    <input
+                      aria-label={paymentMethod.description}
+                      id={paymentMethod.value}
+                      type="radio"
+                      name={fieldNames.paymentMethodName}
+                      {...field}
+                      value={paymentMethod.value}
+                      checked={field.value === paymentMethod.value}
+                      disabled={
+                        optionView === actionPage.READONLY && field.value !== paymentMethod.value
+                      }
+                      onChange={handleChange}
+                    />
+                    {paymentMethod.value !== paymentType.mercadoPago ? (
+                      <span>{_(paymentMethod.description)}</span>
+                    ) : (
+                      <span>
+                        <img
+                          src={_('common.ui_library_image', {
+                            imageUrl: 'mercado-pago.svg',
+                          })}
+                          alt="Mercado pago"
+                        ></img>
+                      </span>
+                    )}
+                  </label>
+                </div>
+              </li>
+            ) : null,
+          )}
         </ul>
       )}
     </Field>
@@ -111,6 +122,8 @@ const PaymentType = ({ paymentMethodType, optionView }) => {
         switch (paymentMethodType) {
           case paymentType.creditCard:
             return <CreditCard optionView={optionView}></CreditCard>;
+          case paymentType.transfer:
+            return <Transfer optionView={optionView}></Transfer>;
           default:
             return null;
         }
@@ -153,11 +166,12 @@ export const PaymentMethod = InjectAppServices(
     handleSaveAndContinue,
     handleChangeView,
     handleChangeDiscount,
+    handleChangePaymentMethod,
     optionView,
   }) => {
     const location = useLocation();
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
-    const selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
+    let selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
     const intl = useIntl();
     const [state, setState] = useState({ loading: true, paymentMethod: {} });
     const [discountsInformation, setDiscountsInformation] = useState({
@@ -166,19 +180,26 @@ export const PaymentMethod = InjectAppServices(
       plan: {},
     });
     const [error, setError] = useState(false);
-    const [paymentMethodType, setPaymentMethodType] = useState(paymentType.creditCard);
+    const [paymentMethodType, setPaymentMethodType] = useState('');
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
       const fetchData = async () => {
         const sessionPlan = appSessionRef.current.userData.user;
+        const billingInformationResult =
+          await dopplerBillingUserApiClient.getBillingInformationData();
         const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
         const paymentMethod = paymentMethodData.success
           ? paymentMethodData.value.paymentMethodName
           : paymentType.creditCard;
+
+        if (paymentMethodType === '') {
+          setPaymentMethodType(paymentMethod);
+        }
+
         const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
           selectedPlan,
-          paymentMethod,
+          paymentMethodType === '' ? paymentMethod : paymentMethodType,
         );
 
         const selectedPlanDiscount = discountsData.success
@@ -195,9 +216,8 @@ export const PaymentMethod = InjectAppServices(
           handleChangeView(actionPage.UPDATE);
         }
 
-        setPaymentMethodType(paymentMethod);
-
         setState({
+          billingCountry: billingInformationResult.value.country,
           paymentMethod: paymentMethodData.success
             ? paymentMethodData.value
             : { paymentMethodName: paymentType.creditCard },
@@ -212,6 +232,7 @@ export const PaymentMethod = InjectAppServices(
       selectedPlan,
       selectedDiscountId,
       handleChangeView,
+      paymentMethodType,
     ]);
 
     const getDiscountData = async (selectedPlan, paymentMethod) => {
@@ -221,12 +242,14 @@ export const PaymentMethod = InjectAppServices(
         paymentMethod,
       );
 
-      const selectedPlanDiscount = discountsData.success
+      const discount = discountsData.success
         ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
         : undefined;
 
+      handleChangeDiscount(discount ?? discountsData.value[0]);
+
       setDiscountsInformation({
-        selectedPlanDiscount,
+        selectedPlanDiscount: discount ?? discountsData.value[0],
         discounts: discountsData.success ? discountsData.value : [],
         plan: sessionPlan.plan,
       });
@@ -238,6 +261,7 @@ export const PaymentMethod = InjectAppServices(
       setPaymentMethodType(value);
       getDiscountData(selectedPlan, value);
       setError(false);
+      handleChangePaymentMethod(value);
     };
 
     const submitPaymentMethodForm = async (values) => {
@@ -283,6 +307,8 @@ export const PaymentMethod = InjectAppServices(
                   <FieldGroup>
                     <FieldItem className="field-item m-b-24">
                       <PaymentMethodField
+                        billingCountry={state.billingCountry}
+                        paymentMethodType={paymentMethodType}
                         optionView={optionView}
                         handleChange={(e) => handleChange(e, setFieldValue)}
                       />

@@ -54,6 +54,20 @@ export const fakePaymentMethod = {
   idSelectedPlan: 'data.idSelectedPlan',
 };
 
+export const fakePaymentMethodInformationWithTransfer = {
+  ccHolderName: '',
+  ccNumber: '',
+  ccExpiryDate: '',
+  ccType: '',
+  ccSecurityCode: '',
+  paymentMethodName: 'TRANSF',
+  renewalMonth: 1,
+  razonSocial: 'test',
+  idConsumerType: 'CF',
+  identificationType: '',
+  identificationNumber: '12345678',
+};
+
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>

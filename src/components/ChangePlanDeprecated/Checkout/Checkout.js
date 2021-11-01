@@ -26,7 +26,7 @@ const Checkout = () => {
   const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
   const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
   const [selectedDiscountId, setSelectedDiscountId] = useState(0);
-
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const intl = useIntl();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -130,6 +130,9 @@ const Checkout = () => {
                     handleChangeDiscount={(discount) => {
                       setSelectedDiscountId(discount.id);
                     }}
+                    handleChangePaymentMethod={(paymentMethod) => {
+                      setSelectedPaymentMethod(paymentMethod);
+                    }}
                   />
                 </Step>
               </ul>
@@ -144,6 +147,7 @@ const Checkout = () => {
                 completeBillingInformationStep
               }
               discountId={selectedDiscountId}
+              paymentMethod={selectedPaymentMethod}
             ></PurchaseSummary>
           </div>
         </div>

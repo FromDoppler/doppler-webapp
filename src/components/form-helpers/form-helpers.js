@@ -9,6 +9,7 @@ import {
   validateName,
   combineValidations,
   validateMinLength,
+  validateCuit,
 } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
@@ -643,3 +644,26 @@ export const WrapInTooltip = ({ children, when = true, text }) => {
     children
   );
 };
+
+export const CuitFieldItem = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  required,
+  validate,
+  ...rest
+}) => (
+  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <label htmlFor={fieldName}>{label}</label>
+    <Field
+      type="text"
+      name={fieldName}
+      id={fieldName}
+      placeholder={placeholder}
+      validate={combineValidations(createRequiredValidation(required), validate && validateCuit)}
+      {...rest}
+    />
+  </FieldItem>
+);

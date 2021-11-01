@@ -42,6 +42,16 @@ export const fakeStates = [
   { key: 'AR-T', value: 'Tucumán' },
 ];
 
+export const fakeConsumerTypes = [
+  { key: 'CF', value: 'Consumidor Final' },
+  { key: 'RI', value: 'Responsable Inscripto' },
+  { key: 'RNI', value: 'Responsable No Inscripto' },
+  { key: 'MT', value: 'Monotributo' },
+  { key: 'EX', value: 'Exento' },
+  { key: 'NG', value: 'No Gravado' },
+  { key: 'NC', value: 'No Categorizado' },
+];
+
 export class HardcodedStaticDataClient implements StaticDataClient {
   public async getIndustriesData(language: string): Promise<any> {
     await timeout(1500);
@@ -63,6 +73,14 @@ export class HardcodedStaticDataClient implements StaticDataClient {
     await timeout(1500);
     return {
       value: fakeQuestions,
+      success: true,
+    };
+  }
+
+  public async getConsumerTypesData(country: string, language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakeConsumerTypes,
       success: true,
     };
   }
