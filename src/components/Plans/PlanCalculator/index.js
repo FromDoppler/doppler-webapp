@@ -9,6 +9,7 @@ import { topics } from '../../FAQ/constants';
 import { Loading } from '../../Loading/Loading';
 import * as S from './index.styles';
 import { NavigatorTabs } from './NavigatorTabs/NavigatorTabs';
+import { PlanCalculatorButtons } from './PlanCalculatorButtons';
 import {
   INITIAL_STATE_PLANS_BY_TYPE,
   plansByTypeReducer,
@@ -28,10 +29,8 @@ export const PlanCalculator = InjectAppServices(({ dependencies: { planService }
     planTypesReducer,
     INITIAL_STATE_PLAN_TYPES,
   );
-  const [{ sliderValuesRange, hasError: hasErrorPlansByType }, dispatchPlansByType] = useReducer(
-    plansByTypeReducer,
-    INITIAL_STATE_PLANS_BY_TYPE,
-  );
+  const [{ plansByType, sliderValuesRange, hasError: hasErrorPlansByType }, dispatchPlansByType] =
+    useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
   const [activeClass, setActiveClass] = useState('active');
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(INITIAL_VALUE_OF_SLIDER);
   const createTimeout = useTimeout();
@@ -125,6 +124,7 @@ export const PlanCalculator = InjectAppServices(({ dependencies: { planService }
                   </div>
                 </article>
               </S.PlanTabContainer>
+              <PlanCalculatorButtons selectedPlanId={plansByType[selectedPlanIndex]?.id} />
             </div>
           </div>
         </section>

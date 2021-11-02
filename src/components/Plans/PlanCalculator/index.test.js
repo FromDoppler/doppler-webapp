@@ -15,6 +15,17 @@ describe('PlanCalculator component', () => {
     // Arrange
     const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+              },
+            },
+          },
+        },
+      },
       planService: {
         getPlanTypes: async () => planTypes,
         getPlansByType: async () => plansByContacts,
@@ -46,8 +57,18 @@ describe('PlanCalculator component', () => {
 
   it('should render Unexpected error when has error', async () => {
     // Arrange
-    const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+              },
+            },
+          },
+        },
+      },
       planService: {
         getPlanTypes: async () => {
           throw 'something wrong';
