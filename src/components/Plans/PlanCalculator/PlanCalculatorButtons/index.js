@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useQuery } from '../../../../hooks/useQuery';
+import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { TooltipContainer } from '../../../TooltipContainer/TooltipContainer';
 import * as S from './index.styles';
@@ -9,7 +9,7 @@ export const PlanCalculatorButtons = InjectAppServices(
   ({ selectedPlanId, selectedDiscountId, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const query = useQuery();
+    const query = useQueryParams();
     const promoCode = query.get('promo-code');
 
     const sessionPlan = appSessionRef.current.userData.user;
