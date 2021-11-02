@@ -329,6 +329,12 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       sms_settings_title: 'Configuración de SMS',
       title: 'Preferencias de Cuenta',
     },
+    advanced_preferences: {
+      api_key: 'Doppler API',
+      custom_domain: 'Dominios de Landing Pages',
+      domain_key: 'DKIM y SPF',
+      title: 'Preferencias Avanzadas',
+    },
     campaign_preferences: {
       bounce_handling_title: 'Administrador de Rebotes',
       contact_policy_title: 'Política de Contacto',

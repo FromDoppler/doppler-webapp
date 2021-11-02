@@ -329,6 +329,12 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       sms_settings_title: 'SMS Settings',
       title: 'Account Preferences',
     },
+    advanced_preferences: {
+      api_key: 'Doppler API',
+      custom_domain: 'Landing Pages domains',
+      domain_key: 'DKIM & SPF',
+      title: 'Preferencias Avanzadas',
+    },
     campaign_preferences: {
       bounce_handling_title: 'Bounce Handling',
       contact_policy_title: 'Contact Policy',
