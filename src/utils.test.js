@@ -12,11 +12,30 @@ import {
   compactNumber,
   orderPlanTypes,
   getFormInitialValues,
+  getPlanTypeFromUrlSegment,
 } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
+import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 
 describe('utils', () => {
+  describe.each([
+    ['should return plan type when the selected tab is by contact', PLAN_TYPE.byContact],
+    ['should return plan type when the selected tab is by email', PLAN_TYPE.byEmail],
+    ['should return plan type when the selected tab is by credit', PLAN_TYPE.byCredit],
+  ])('getPlanTypeFromUrlSegment function', (testName, planType) => {
+    it(testName, () => {
+      // Arrange
+      const planTypeUrl = URL_PLAN_TYPE[planType];
+
+      // Act
+      const planTypeFromUrl = getPlanTypeFromUrlSegment(planTypeUrl);
+
+      // Assert
+      expect(planTypeFromUrl).toBe(planType);
+    });
+  });
+
   describe('orderPlanTypes', () => {
     it('should sort plan types when all first plans are present', () => {
       // Arrange
