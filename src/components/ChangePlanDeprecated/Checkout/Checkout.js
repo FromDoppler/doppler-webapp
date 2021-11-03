@@ -128,7 +128,7 @@ const Checkout = () => {
                       setPaymentInformationAction(actionPage.READONLY);
                     }}
                     handleChangeDiscount={(discount) => {
-                      setSelectedDiscountId(discount.id);
+                      setSelectedDiscountId(discount?.id);
                     }}
                     handleChangePaymentMethod={(paymentMethod) => {
                       setSelectedPaymentMethod(paymentMethod);

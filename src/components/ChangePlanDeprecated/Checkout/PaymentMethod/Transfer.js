@@ -64,7 +64,7 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes }) => {
 
   const initializeDefaultValues = (consumerType) => {
     setValues({
-      [fieldNames.indentificationNumber]: '',
+      [fieldNames.identificationNumber]: '',
       [fieldNames.businessName]: '',
       [fieldNames.consumerType]: consumerType,
       [fieldNames.paymentMethodName]: paymentType.transfer,
