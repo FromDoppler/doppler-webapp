@@ -11,6 +11,11 @@ import { ShowLikeFlash } from '../../shared/ShowLikeFlash/ShowLikeFlash';
 import { IconMessage } from '../../form-helpers/form-helpers';
 import { successMessageDelay } from '../../../utils';
 
+const FieldItemMessage = ({ message }) => (
+  <ShowLikeFlash delay={message.delay}>
+    <IconMessage {...message} className="bounceIn" />
+  </ShowLikeFlash>
+);
 const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiClient } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -35,12 +40,6 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
     };
     fetchData();
   }, [bigQueryClient, dopplerUserApiClient]);
-
-  const FieldItemMessage = ({ message }) => (
-    <ShowLikeFlash delay={message.delay}>
-      <IconMessage {...message} className="bounceIn" />
-    </ShowLikeFlash>
-  );
 
   const onSubmit = async (values) => {
     const emailsData = { emails: [...values.emails] };
