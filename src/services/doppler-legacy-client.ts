@@ -259,6 +259,7 @@ export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   utm_cookies: UTMCookie[];
   gclid: string;
   utm_content: string;
+  origin_inbound: string;
 }
 
 export interface ResendRegistrationModel extends PayloadWithCaptchaToken {
@@ -736,6 +737,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         UTMCookies: model.utm_cookies,
         gclid: model.gclid,
         UTMContent: model.utm_content,
+        Origin_Inbound: model.origin_inbound,
       });
 
       if (!response.data.success) {
