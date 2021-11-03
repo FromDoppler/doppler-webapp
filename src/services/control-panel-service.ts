@@ -55,10 +55,12 @@ interface Box {
   iconName: string;
   disabled?: boolean;
   hidden?: boolean;
+  status?: string;
 }
 
 interface ControlPanelSection {
   title: string;
+  showStatus?: boolean;
   boxes: Box[];
 }
 
@@ -207,6 +209,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.advanced_preferences.title',
+        showStatus: true,
         boxes: [
           {
             linkUrl: `${urlAdvancedPreferences}/GetDopplerApiInformation`,
@@ -230,6 +233,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.native_integrations.title',
+        showStatus: true,
         boxes: [
           {
             linkUrl: `${urlAdvancedPreferences}/GetGoogleAnaliyticPreferences`,

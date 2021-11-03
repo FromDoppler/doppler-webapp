@@ -31,6 +31,14 @@ const DisabledLink = styled.a`
   position: relative;
   pointer-events: none;
   opacity: 0.4;
+  height: 200px;
+  width: 100%;
 `;
 
-export { Link, Image, Text, DisabledLink };
+const StatusImage = styled.img`
+  position: absolute;
+  z-index: 1;
+  margin: 5px;
+`;
+
+export { Link, Image, Text, DisabledLink, StatusImage };
