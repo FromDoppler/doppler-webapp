@@ -54,6 +54,12 @@ export const fakePaymentMethod = {
   idSelectedPlan: 'data.idSelectedPlan',
 };
 
+export const fakeAgreement = {
+  total: 'data.total',
+  discountId: '12',
+  planId: '34',
+};
+
 export const fakePaymentMethodInformationWithTransfer = {
   ccHolderName: '',
   ccNumber: '',

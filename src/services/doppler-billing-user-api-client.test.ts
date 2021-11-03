@@ -7,6 +7,7 @@ import {
   fakeBillingInformation,
   fakePaymentMethodInformation,
   fakePaymentMethod,
+  fakeAgreement,
 } from './doppler-billing-user-api-client.double';
 
 const consoleError = console.error;
@@ -227,11 +228,7 @@ describe('HttpDopplerBillingUserApiClient', () => {
 
   it('should purchase', async () => {
     // Arrange
-    const values = {
-      planId: 1,
-      discountId: 1,
-      total: 500,
-    };
+    const values = fakeAgreement;
 
     const response = {
       status: 200,
@@ -247,5 +244,34 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
+  });
+
+  it('should create agreement when user purchase new plan', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.purchase(fakeAgreement);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(request).toBeCalledWith(
+      expect.objectContaining({
+        method: 'POST',
+        data: {
+          total: 'data.total',
+          discountId: '12',
+          planId: '34',
+        },
+        url: '/accounts/email@mail.com/agreements',
+      }),
+    );
   });
 });
