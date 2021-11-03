@@ -245,6 +245,8 @@ const messages_es = {
       success_message: 'Pago procesado con éxito.',
       to_pay_from_next_month_legend: 'A pagar en tu próxima factura',
       total: 'TOTAL:',
+      transfer_explanatory_legend:
+        'La renovación es automática y puedes cancelarla cuando quieras. El precio del Plan puede estar sujeto a impuestos, de acuerdo a tu categoría impositiva. Los encontrarás detallados en la factura.',
       your_next_billing_legend: 'Tu próxima factura será de',
     },
     save_continue: 'Guardar y continuar',

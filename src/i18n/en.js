@@ -244,6 +244,7 @@ const messages_en = {
       success_message: 'Payment successfully processed.',
       to_pay_from_next_month_legend: 'To be paid on your next invoice',
       total: 'TOTAL:',
+      transfer_explanatory_legend: 'The renewal is automatic and you can cancel it whenever you want. Price Plan may be taxable, according to your tax category. You’ll find them detailed on the invoice.',
       your_next_billing_legend: 'Your next billing will be for',
     },
     save_continue: 'Save and continue',
