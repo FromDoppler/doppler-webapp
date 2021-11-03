@@ -29,6 +29,7 @@ const dopplerBillingUserApiClientDoubleBase = {
 const PurchaseSummaryElement = ({
   url,
   canBuy,
+  paymentMethod,
   dopplerAccountPlansApiClientDouble,
   dopplerBillingUserApiClientDouble,
 }) => {
@@ -41,7 +42,7 @@ const PurchaseSummaryElement = ({
       <Route path="checkout/:pathType/:planType?">
         <AppServicesProvider forcedServices={services}>
           <IntlProvider>
-            <PurchaseSummary discountId={0} canBuy={canBuy} />
+            <PurchaseSummary discountId={0} canBuy={canBuy} paymentMethod={paymentMethod} />
           </IntlProvider>
         </AppServicesProvider>
       </Route>
@@ -585,5 +586,74 @@ describe('PurchaseSummary component', () => {
     );
 
     expect(summaryErrorMessage).toBeInTheDocument();
+  });
+});
+
+describe.each([
+  [
+    'the payment method is "Credit Card"',
+    {
+      fakePaymentMethodInformation: {
+        ccHolderName: 'Juan Perez',
+        ccNumber: '************1111',
+        ccExpiryDate: '12/25',
+        ccType: 'Visa',
+        ccSecurityCode: '***',
+        paymentMethodName: 'CC',
+      },
+      informationLegend: '*checkoutProcessForm.purchase_summary.explanatory_legend',
+    },
+  ],
+  [
+    'the payment method is "Transfer"',
+    {
+      fakePaymentMethodInformation: {
+        paymentMethodName: 'TRANSF',
+        razonSocial: 'test',
+        idConsumerType: 'CF',
+        identificationType: '',
+        identificationNumber: '12345678',
+      },
+      informationLegend: '*checkoutProcessForm.purchase_summary.transfer_explanatory_legend',
+    },
+  ],
+])('should show the correct information legend when', (testName, context) => {
+  it(testName, async () => {
+    // Arrange
+    const dopplerBillingUserApiClientDouble = {
+      getPaymentMethodData: async () => {
+        return { success: true, value: context.fakePaymentMethodInformation };
+      },
+      purchase: async () => {
+        return { success: false };
+      },
+    };
+
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakeSubscribersPlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetails };
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/subscribers`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        paymentMethod={''}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.getByText(context.informationLegend)).toBeInTheDocument();
   });
 });

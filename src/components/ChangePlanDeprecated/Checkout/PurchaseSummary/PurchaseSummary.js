@@ -170,7 +170,7 @@ export const Promocode = () => {
   );
 };
 
-export const InvoiceInformation = ({ priceToPay, discount }) => {
+export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -191,9 +191,11 @@ export const InvoiceInformation = ({ priceToPay, discount }) => {
         </li>
       )}
       <li>
-        <span className="dp-renewal">{`*${_(
-          'checkoutProcessForm.purchase_summary.explanatory_legend',
-        )}`}</span>
+        <span className="dp-renewal">
+          {paymentMethodType === paymentType.creditCard
+            ? `*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`
+            : `*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
+        </span>
       </li>
     </>
   );
@@ -215,7 +217,11 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
             <FormattedNumber value={priceToPay} {...numberFormatOptions} />
           </span>
         </li>
-        <InvoiceInformation priceToPay={totalPlan} discount={discountPrepayment.amount} />
+        <InvoiceInformation
+          priceToPay={totalPlan}
+          discount={discountPrepayment.amount}
+          paymentMethodType={state.paymentMethodType}
+        />
       </ul>
     </div>
   );
@@ -306,6 +312,7 @@ export const PurchaseSummary = InjectAppServices(
 
         setState({
           loading: false,
+          paymentMethodType,
           plan: planData.value,
           discount,
           amountDetails: amountDetailsData.value,
