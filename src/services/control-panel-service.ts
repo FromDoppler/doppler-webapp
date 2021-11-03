@@ -30,6 +30,9 @@ import Unbounce_icon from '../components/ControlPanel/images/Unbounce_icon.svg';
 import vtex_icon from '../components/ControlPanel/images/vtex_icon.svg';
 import woocommerce_icon from '../components/ControlPanel/images/woocommerce_icon.png';
 import zoho_icon from '../components/ControlPanel/images/zoho_icon.png';
+import custom_domain_icon from '../components/ControlPanel/images/custom_domain_icon.png';
+import domain_key_icon from '../components/ControlPanel/images/domain_key_icon.png';
+import doppler_api_icon from '../components/ControlPanel/images/doppler_api_icon.png';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
@@ -199,6 +202,29 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: auto_publish_icon,
             imgAlt: 'control_panel.social_preferences.auto_publish_title',
             iconName: 'control_panel.social_preferences.auto_publish_title',
+          },
+        ],
+      },
+      {
+        title: 'control_panel.advanced_preferences.title',
+        boxes: [
+          {
+            linkUrl: `${urlAdvancedPreferences}/GetDopplerApiInformation`,
+            imgSrc: doppler_api_icon,
+            imgAlt: 'control_panel.advanced_preferences.api_key',
+            iconName: 'control_panel.advanced_preferences.api_key',
+          },
+          {
+            linkUrl: `${urlAdvancedPreferences}/dkim`,
+            imgSrc: domain_key_icon,
+            imgAlt: 'control_panel.advanced_preferences.domain_key',
+            iconName: 'control_panel.advanced_preferences.domain_key',
+          },
+          {
+            linkUrl: `${urlAdvancedPreferences}/CustomDomains`,
+            imgSrc: custom_domain_icon,
+            imgAlt: 'control_panel.advanced_preferences.custom_domain',
+            iconName: 'control_panel.advanced_preferences.custom_domain',
           },
         ],
       },
