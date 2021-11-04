@@ -24,11 +24,11 @@ export const PlanInformation = ({ plan, planType }) => {
 
   const getQuantity = () => {
     switch (planType) {
-      case 'prepaid':
+      case PLAN_TYPE.byCredit:
         return plan?.emailQty;
-      case 'subscribers':
+      case PLAN_TYPE.byContact:
         return plan?.subscribersQty;
-      case 'monthly-deliveries':
+      case PLAN_TYPE.byEmail:
         return plan?.emailQty;
       default:
         return 0;
@@ -346,9 +346,9 @@ export const PurchaseSummary = InjectAppServices(
 
     const getPlanTypeTitle = () => {
       switch (planType) {
-        case 'prepaid':
-        case 'subscribers':
-        case 'monthly-deliveries':
+        case PLAN_TYPE.byCredit:
+        case PLAN_TYPE.byContact:
+        case PLAN_TYPE.byEmail:
           return (
             _('checkoutProcessForm.purchase_summary.plan_premium_title') +
             ' - ' +
