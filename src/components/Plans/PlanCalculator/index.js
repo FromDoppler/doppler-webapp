@@ -100,7 +100,7 @@ export const PlanCalculator = InjectAppServices(
     const hightestPlan = plansByType.length === 1 && isEqualPlan;
 
     const selectedPlan = plansByType[selectedPlanIndex];
-    
+
     return (
       <>
         <section className="dp-gray-page p-t-54 p-b-54">

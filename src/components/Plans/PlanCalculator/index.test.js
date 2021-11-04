@@ -87,14 +87,14 @@ describe('PlanCalculator component', () => {
                   idPlan: plansByType[plansByType.length - 1].id,
                 },
               },
-              planService: {
-                getPlanTypes: async () => planTypes,
-                getPlansByType: async () => plansByType,
-              },
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+        planService: {
+          getPlanTypes: async () => planTypes,
+          getPlansByType: async () => plansByType,
+        },
+      };
 
       // Act
       render(
@@ -108,7 +108,7 @@ describe('PlanCalculator component', () => {
           </IntlProvider>
         </AppServicesProvider>,
       );
-      
+
       // Assert
       const loader = screen.getByTestId('wrapper-loading');
       await waitForElementToBeRemoved(loader);
@@ -134,6 +134,7 @@ describe('PlanCalculator component', () => {
             user: {
               plan: {
                 idPlan: highestPlanSlider.id,
+              },
             },
           },
         },
@@ -142,23 +143,22 @@ describe('PlanCalculator component', () => {
         getPlanTypes: async () => planTypes,
         getPlansByType: async () => [highestPlanSlider],
       },
-    }
-  }
+    };
 
-  // Act
-  render(
-    <AppServicesProvider forcedServices={forcedServices}>
-      <IntlProvider>
-        <Router
-          initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
-        >
-          <Route path="/plan-selection/premium/:planType?">
-            <PlanCalculator />
-          </Route>
-        </Router>
-      </IntlProvider>
-    </AppServicesProvider>,
-  );
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculator />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
 
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
