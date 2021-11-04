@@ -7,6 +7,12 @@ import disconnected from '../images/disconnected.png';
 
 export const ControlPanelBox = ({ box, disabled = false, hidden = false }) => {
   const _ = (id, values) => useIntl().formatMessage({ id }, values);
+  const statusImage =
+    box.status === 'connected'
+      ? connected
+      : box.status === 'alert'
+      ? connection_alert
+      : disconnected;
 
   if (hidden) {
     return <></>;
@@ -25,16 +31,7 @@ export const ControlPanelBox = ({ box, disabled = false, hidden = false }) => {
         ) : (
           <>
             {box.status ? (
-              <S.StatusImage
-                src={
-                  box.status === 'connected'
-                    ? connected
-                    : box.status === 'alert'
-                    ? connection_alert
-                    : disconnected
-                }
-                alt=""
-              />
+              <S.StatusImage src={statusImage} alt={box.status} aria-label="status image" />
             ) : (
               <></>
             )}

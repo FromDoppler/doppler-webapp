@@ -9,27 +9,28 @@ import connected from './images/connected.png';
 import connection_alert from './images/connection_alert.png';
 import disconnected from './images/disconnected.png';
 
+const sortByStatus = (a, b) => {
+  return a.status
+    ? a.status === 'alert' && b.status !== 'alert'
+      ? -1
+      : a.status === 'alert' && b.status === 'alert'
+      ? 0
+      : a.status === 'disconnected'
+      ? 1
+      : a.status === 'connected' && b.status === 'alert'
+      ? 1
+      : a.status === 'connected' && b.status === 'connected'
+      ? 0
+      : -1
+    : 2;
+};
+
 export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelService } }) => {
   const getInitialSections = () => controlPanelService.getControlPanelSections();
   const [controlPanelSections] = useState(getInitialSections);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
 
-  const sortByStatus = (a, b) => {
-    return a.status
-      ? a.status === 'alert' && b.status !== 'alert'
-        ? -1
-        : a.status === 'alert' && b.status === 'alert'
-        ? 0
-        : a.status === 'disconnected'
-        ? 1
-        : a.status === 'connected' && b.status === 'alert'
-        ? 1
-        : a.status === 'connected' && b.status === 'connected'
-        ? 0
-        : -1
-      : 2;
-  };
   return (
     <>
       <Helmet title={_('control_panel.title')} />
@@ -63,7 +64,7 @@ export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelSer
                     <></>
                   )}
                 </S.TitleContainer>
-                <div className="dp-rowflex">
+                <div className="dp-rowflex" aria-label="Boxes Container">
                   {controlPanelSections[indexSection].boxes
                     .sort(sortByStatus)
                     .map((box, indexBox) => (
