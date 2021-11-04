@@ -225,6 +225,7 @@ const messages_en = {
       edit_add_recipients_button: 'Edit or add recipients',
       error_message: 'Your payment couldn’t be processed. Choose a different payment method or try it later.',
       explanatory_legend: 'The renewal is automatic and you can cancel it whenever you want. Price Plan may be taxable.',
+      explanatory_legend_by_credits: 'Price Plan may be taxable, according to your tax category. You’ll find them detailed on the invoice.',
       header: 'Purchase summary',
       month_with_plural: `{monthsCount, plural, one {# month}other {# months} }`,
       months_to_pay: 'Months to pay:',

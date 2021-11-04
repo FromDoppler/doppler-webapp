@@ -8,6 +8,7 @@ import { fakePaymentMethodInformation } from '../../../../services/doppler-billi
 import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-plans-api-client.double';
 import { fakePlanAmountDetails } from '../../../..//services/doppler-account-plans-api-client';
 import user from '@testing-library/user-event';
+import { PLAN_TYPE } from '../../../../doppler-types';
 
 const dependencies = (dopplerAccountPlansApiClientDouble, dopplerBillingUserApiClientDouble) => ({
   dopplerBillingUserApiClient: dopplerBillingUserApiClientDouble,
@@ -591,7 +592,7 @@ describe('PurchaseSummary component', () => {
 
 describe.each([
   [
-    'the payment method is "Credit Card"',
+    'the payment method is "Credit Card" and not prepaid',
     {
       fakePaymentMethodInformation: {
         ccHolderName: 'Juan Perez',
@@ -602,10 +603,11 @@ describe.each([
         paymentMethodName: 'CC',
       },
       informationLegend: '*checkoutProcessForm.purchase_summary.explanatory_legend',
+      planType: PLAN_TYPE.byContact,
     },
   ],
   [
-    'the payment method is "Transfer"',
+    'the payment method is "Transfer" and not prepaid',
     {
       fakePaymentMethodInformation: {
         paymentMethodName: 'TRANSF',
@@ -615,6 +617,21 @@ describe.each([
         identificationNumber: '12345678',
       },
       informationLegend: '*checkoutProcessForm.purchase_summary.transfer_explanatory_legend',
+      planType: PLAN_TYPE.byContact,
+    },
+  ],
+  [
+    'the payment method is "Transfer" and prepaid',
+    {
+      fakePaymentMethodInformation: {
+        paymentMethodName: 'TRANSF',
+        razonSocial: 'test',
+        idConsumerType: 'CF',
+        identificationType: '',
+        identificationNumber: '12345678',
+      },
+      informationLegend: '*checkoutProcessForm.purchase_summary.explanatory_legend_by_credits',
+      planType: PLAN_TYPE.byCredit,
     },
   ],
 ])('should show the correct information legend when', (testName, context) => {
@@ -642,7 +659,7 @@ describe.each([
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/subscribers`}
+        url={`checkout/standard/${context.planType}`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         paymentMethod={''}
