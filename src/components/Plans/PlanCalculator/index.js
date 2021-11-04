@@ -7,6 +7,7 @@ import { getPlanTypeFromUrlSegment } from '../../../utils';
 import { FAQ } from '../../FAQ';
 import { topics } from '../../FAQ/constants';
 import { Loading } from '../../Loading/Loading';
+import { BannerUpgrade } from './BannerUpgrade/BannerUpgrade';
 import * as S from './index.styles';
 import { NavigatorTabs } from './NavigatorTabs/NavigatorTabs';
 import { PlanCalculatorButtons } from './PlanCalculatorButtons';
@@ -98,6 +99,8 @@ export const PlanCalculator = InjectAppServices(
     const isEqualPlan = sessionPlan.plan.idPlan === plansByType[selectedPlanIndex]?.id;
     const hightestPlan = plansByType.length === 1 && isEqualPlan;
 
+    const selectedPlan = plansByType[selectedPlanIndex];
+    
     return (
       <>
         <section className="dp-gray-page p-t-54 p-b-54">
@@ -122,6 +125,11 @@ export const PlanCalculator = InjectAppServices(
                                 selectedPlanIndex={selectedPlanIndex}
                                 handleChange={handleSliderChange}
                                 isVisible={!hightestPlan}
+                              />
+                              <BannerUpgrade
+                                currentPlan={selectedPlan}
+                                currentPlanList={plansByType}
+                                planTypes={planTypes}
                               />
                             </article>
                           </div>
