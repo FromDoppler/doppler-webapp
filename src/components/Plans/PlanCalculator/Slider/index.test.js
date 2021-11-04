@@ -54,4 +54,31 @@ describe('Slider Component', () => {
       screen.getByText(`plans.${planType.replace('-', '_')}_amount_description`),
     ).toBeInTheDocument();
   });
+
+  it('Should hide the Slider when isVisible is true', async () => {
+    //Arrange
+    const planType = PLAN_TYPE.byCredit;
+    const values = [10000];
+    const selectedPlanIndex = 0;
+
+    //Act
+    const { container } = render(
+      <IntlProvider>
+        <Slider
+          isVisible={false}
+          planType={planType}
+          values={values}
+          selectedPlanIndex={selectedPlanIndex}
+          handleChange={() => null}
+        />
+      </IntlProvider>,
+    );
+
+    //Assert
+    expect(screen.getByText('10,000')).toBeInTheDocument();
+    expect(
+      screen.getByText(`plans.${planType.replace('-', '_')}_amount_description`),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('slider')).not.toBeInTheDocument();
+  });
 });

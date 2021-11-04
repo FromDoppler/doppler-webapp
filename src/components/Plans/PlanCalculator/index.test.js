@@ -55,6 +55,51 @@ describe('PlanCalculator component', () => {
     expect(listTabs.children.length).toBe(planTypes.length);
   });
 
+  it('should hide the slider when the active plan equals the highest plan', async () => {
+    // Arrange
+    const highestPlanSlider = plansByContacts[plansByContacts.length - 1];
+    const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: highestPlanSlider.id,
+              },
+            },
+          },
+        },
+      },
+      planService: {
+        getPlanTypes: async () => planTypes,
+        getPlansByType: async () => [highestPlanSlider],
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculator />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const slider = screen.queryByRole('slider');
+    expect(slider).not.toBeInTheDocument();
+  });
+
   it('should render Unexpected error when has error', async () => {
     // Arrange
     const forcedServices = {
