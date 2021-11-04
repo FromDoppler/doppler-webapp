@@ -7,11 +7,11 @@ import { InjectAppServices } from '../../../../services/pure-di';
 export const BannerUpgrade = InjectAppServices(
   ({ currentPlan, currentPlanList, planTypes, dependencies: { appSessionRef } }) => {
     const sessionPlan = appSessionRef.current.userData.user;
-    const hightestPlan = currentPlanList.length === 1 && currentPlan.id === sessionPlan.idPlan;
-    const currentPlanSelected = currentPlan.id === currentPlanList[currentPlanList.length - 1].id;
+    const hightestPlan = currentPlanList.length === 1 && currentPlan?.id === sessionPlan.idPlan;
+    const currentPlanSelected = currentPlan?.id === currentPlanList[currentPlanList.length - 1]?.id;
 
-    if (currentPlanSelected) {
-      const upgradeInfo = getUpgradeInfo(currentPlan.type, planTypes);
+    if (currentPlanSelected && currentPlan) {
+      const upgradeInfo = getUpgradeInfo(currentPlan?.type, planTypes);
 
       if (hightestPlan) {
         return (
