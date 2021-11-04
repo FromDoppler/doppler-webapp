@@ -127,6 +127,14 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     };
   }
 
+  private mapAgreementToCreate(data: any): any {
+    return {
+      total: data.total,
+      discountId: data.discountId,
+      planId: data.planId,
+    };
+  }
+
   private mapPaymentMethodToUpdate(data: any): any {
     return {
       ccHolderFullName: data.name,
@@ -233,8 +241,8 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
 
       const response = await this.axios.request({
         method: 'POST',
-        url: `/accounts/${email}/billing`,
-        data: values,
+        url: `/accounts/${email}/agreements`,
+        data: this.mapAgreementToCreate(values),
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
