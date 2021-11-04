@@ -24,11 +24,11 @@ export const PlanInformation = ({ plan, planType }) => {
   const getQuantity = () => {
     switch (planType) {
       case 'prepaid':
-        return plan.emailQty;
+        return plan?.emailQty;
       case 'subscribers':
-        return plan.subscribersQty;
+        return plan?.subscribersQty;
       case 'monthly-deliveries':
-        return plan.emailQty;
+        return plan?.emailQty;
       default:
         return 0;
     }
@@ -52,7 +52,7 @@ export const MonthsToPayInformation = ({ plan, discount }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const monthsCount = discount ? discount.monthsAmmount : 1;
-  const amount = discount ? plan.fee * discount.monthsAmmount : plan.fee;
+  const amount = discount ? plan?.fee * discount?.monthsAmmount : plan?.fee;
 
   return (
     <>
@@ -219,7 +219,7 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
         </li>
         <InvoiceInformation
           priceToPay={totalPlan}
-          discount={discountPrepayment.amount}
+          discount={discountPrepayment?.amount}
           paymentMethodType={state.paymentMethodType}
         />
       </ul>
@@ -239,7 +239,7 @@ export const ShoppingList = ({ state, planType }) => {
       <li aria-label="months to pay">
         <MonthsToPayInformation discount={discount} plan={plan} planType={planType} />
       </li>
-      {discountPrepayment.discountPercentage > 0 && (
+      {discountPrepayment?.discountPercentage > 0 && (
         <li aria-label="discount">
           <DiscountPrice discountPrepayment={discountPrepayment} plan={plan} />
         </li>
@@ -304,7 +304,7 @@ export const PurchaseSummary = InjectAppServices(
 
         const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
           selectedPlan,
-          selectedDiscountId,
+          selectedDiscountId ?? 0,
           '',
         );
 
@@ -315,7 +315,7 @@ export const PurchaseSummary = InjectAppServices(
           paymentMethodType,
           plan: planData.value,
           discount,
-          amountDetails: amountDetailsData.value,
+          amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
         });
       };
 
@@ -378,7 +378,7 @@ export const PurchaseSummary = InjectAppServices(
           <Promocode />
           <hr className="dp-hr-grey" />
           <TotalPurchase
-            totalPlan={state.plan.fee * state.discount?.monthsAmmount}
+            totalPlan={state.plan?.fee * state.discount?.monthsAmmount}
             priceToPay={total}
             state={state}
           />

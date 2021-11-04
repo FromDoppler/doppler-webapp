@@ -83,7 +83,7 @@ export const Discounts = ({
       );
       applyDiscount(disccountAplied);
     } else {
-      const discountFilter = discountsList.filter((d) => d.id === selectedDiscount.id)[0];
+      const discountFilter = discountsList.filter((d) => d.id === selectedDiscount?.id)[0];
       const discount = discountFilter ?? selectedPlanDiscount ?? discountsList[0];
       setSelectedDiscount(discount);
     }

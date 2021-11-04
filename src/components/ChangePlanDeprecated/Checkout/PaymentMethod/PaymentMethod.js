@@ -12,6 +12,8 @@ import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer';
 
+const none = 'NONE';
+
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
   number: 'number',
@@ -189,12 +191,21 @@ export const PaymentMethod = InjectAppServices(
         const billingInformationResult =
           await dopplerBillingUserApiClient.getBillingInformationData();
         const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-        const paymentMethod = paymentMethodData.success
+        let paymentMethod = paymentMethodData.success
           ? paymentMethodData.value.paymentMethodName
           : paymentType.creditCard;
 
         if (paymentMethodType === '') {
+          if (paymentMethod === none) {
+            paymentMethod = paymentType.creditCard;
+            handleChangeView(actionPage.UPDATE);
+          }
+
           setPaymentMethodType(paymentMethod);
+        }
+
+        if (!paymentMethodData.success) {
+          handleChangeView(actionPage.UPDATE);
         }
 
         const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
@@ -211,10 +222,6 @@ export const PaymentMethod = InjectAppServices(
           discounts: discountsData.success ? discountsData.value : [],
           plan: sessionPlan.plan,
         });
-
-        if (!paymentMethodData.success) {
-          handleChangeView(actionPage.UPDATE);
-        }
 
         setState({
           billingCountry: billingInformationResult.value.country,
