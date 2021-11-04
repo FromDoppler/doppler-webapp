@@ -8,6 +8,7 @@ import { useLocation } from 'react-router';
 import queryString from 'query-string';
 import useTimeout from '../../../../hooks/useTimeout';
 import { paymentType } from '../PaymentMethod/PaymentMethod';
+import { PLAN_TYPE } from '../../../../doppler-types';
 
 const dollarSymbol = 'US$';
 
@@ -170,9 +171,25 @@ export const Promocode = () => {
   );
 };
 
-export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType }) => {
+export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, planType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const getTaxesLegend = (paymentMethodType, planType) => {
+    switch (planType) {
+      case PLAN_TYPE.byCredit:
+        return paymentMethodType === paymentType.creditCard
+          ? ''
+          : `*${_('checkoutProcessForm.purchase_summary.explanatory_legend_by_credits')}`;
+      case PLAN_TYPE.byContact:
+      case PLAN_TYPE.byEmail:
+        return paymentMethodType === paymentType.creditCard
+          ? `*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`
+          : `*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`;
+      default:
+        return '';
+    }
+  };
 
   return (
     <>
@@ -191,11 +208,7 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType }) 
         </li>
       )}
       <li>
-        <span className="dp-renewal">
-          {paymentMethodType === paymentType.creditCard
-            ? `*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`
-            : `*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
-        </span>
+        <span className="dp-renewal">{getTaxesLegend(paymentMethodType, planType)}</span>
       </li>
     </>
   );
@@ -218,6 +231,7 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
           </span>
         </li>
         <InvoiceInformation
+          planType={state.planType}
           priceToPay={totalPlan}
           discount={discountPrepayment?.amount}
           paymentMethodType={state.paymentMethodType}
@@ -316,6 +330,7 @@ export const PurchaseSummary = InjectAppServices(
           plan: planData.value,
           discount,
           amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
+          planType,
         });
       };
 
@@ -326,6 +341,7 @@ export const PurchaseSummary = InjectAppServices(
       selectedDiscountId,
       selectedPlan,
       paymentMethod,
+      planType,
     ]);
 
     const getPlanTypeTitle = () => {

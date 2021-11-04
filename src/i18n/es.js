@@ -226,6 +226,7 @@ const messages_es = {
       edit_add_recipients_button: 'Editar o agregar destinatarios',
       error_message: 'Tu pago no pudo procesarse. Elige otro método de pago o inténtalo más tarde.',
       explanatory_legend: 'La renovación es automática y puedes cancelarla cuando quieras. El precio del Plan puede estar sujeto a impuestos.',
+      explanatory_legend_by_credits: 'El precio del Plan puede estar sujeto a impuestos, de acuerdo a la categoría impositiva. Estos estarán detallados en tu factura.',
       header: 'Resumen de compra',
       month_with_plural: `{monthsCount, plural, one {# mes}other {# meses} }`,
       months_to_pay: 'Meses a abonar:',
