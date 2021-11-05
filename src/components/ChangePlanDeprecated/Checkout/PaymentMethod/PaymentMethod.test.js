@@ -13,7 +13,7 @@ import { actionPage } from '../Checkout';
 import { fakeConsumerTypes } from '../../../../services/static-data-client.double';
 import '@testing-library/jest-dom/extend-expect';
 
-const dependencies = (withError, paymentMethodData) => ({
+const dependencies = (withError, paymentMethodData, billingInformationData) => ({
   appSessionRef: {
     current: {
       userData: {
@@ -38,7 +38,7 @@ const dependencies = (withError, paymentMethodData) => ({
         : { success: false };
     },
     getBillingInformationData: async () => {
-      return { success: true, value: fakeBillingInformation };
+      return { success: true, value: billingInformationData };
     },
   },
   dopplerAccountPlansApiClient: {
@@ -72,8 +72,13 @@ const initialPropsWithUpdate = {
   handleChangeDiscount: mockedhandleChangeDiscount,
 };
 
-const PaymentMethodElement = ({ withError, paymentMethodData, updateView }) => {
-  const services = dependencies(withError, paymentMethodData);
+const PaymentMethodElement = ({
+  withError,
+  paymentMethodData,
+  updateView,
+  billingInformationData,
+}) => {
+  const services = dependencies(withError, paymentMethodData, billingInformationData);
   return (
     <AppServicesProvider forcedServices={services}>
       <IntlProvider>
@@ -93,7 +98,11 @@ describe('PaymentMethod component', () => {
   it('readoly view - should show loading box while getting data', async () => {
     // Act
     render(
-      <PaymentMethodElement withError={false} paymentMethodData={fakePaymentMethodInformation} />,
+      <PaymentMethodElement
+        withError={false}
+        paymentMethodData={fakePaymentMethodInformation}
+        billingInformationData={fakeBillingInformation}
+      />,
     );
 
     // Assert
@@ -105,7 +114,11 @@ describe('PaymentMethod component', () => {
   it('readonly view - should load data from api correctly', async () => {
     // Act
     render(
-      <PaymentMethodElement withError={false} paymentMethodData={fakePaymentMethodInformation} />,
+      <PaymentMethodElement
+        withError={false}
+        paymentMethodData={fakePaymentMethodInformation}
+        billingInformationData={fakeBillingInformation}
+      />,
     );
 
     // Assert
@@ -132,7 +145,11 @@ describe('PaymentMethod component', () => {
   it("readonly view - should be check 'CC' as default when the the response is not success", async () => {
     // Act
     render(
-      <PaymentMethodElement withError={true} paymentMethodData={fakePaymentMethodInformation} />,
+      <PaymentMethodElement
+        withError={true}
+        paymentMethodData={fakePaymentMethodInformation}
+        billingInformationData={fakeBillingInformation}
+      />,
     );
 
     // Assert
@@ -163,6 +180,7 @@ describe('PaymentMethod component', () => {
         withError={false}
         updateView={true}
         paymentMethodData={fakePaymentMethodInformation}
+        billingInformationData={fakeBillingInformation}
       />,
     );
 
@@ -197,6 +215,7 @@ describe('PaymentMethod component', () => {
         withError={false}
         updateView={true}
         paymentMethodData={fakeTransferInformation}
+        billingInformationData={fakeBillingInformation}
       />,
     );
 
@@ -249,6 +268,7 @@ describe('PaymentMethod component', () => {
             withError={false}
             updateView={true}
             paymentMethodData={fakeTransferInformation}
+            billingInformationData={fakeBillingInformation}
           />,
         );
 
@@ -271,4 +291,75 @@ describe('PaymentMethod component', () => {
       });
     },
   );
+
+  describe.each([
+    [
+      'should show only credit card option when billing country is different than Argentina, Mexico and Colombia',
+      'cl',
+      'CL-AT',
+    ],
+    [
+      'should show only credit card option and transfer disabled when billing country is equal Mexico or Colombia',
+      'mx',
+      'MX-DI',
+    ],
+    [
+      'should show only credit card, transfer disabled and mercadopago when billing country is equal Argentina',
+      'ar',
+      'AR-B',
+    ],
+  ])('update view - credit card ', (testName, country, state) => {
+    it(testName, async () => {
+      //Arrange
+      const fakeBillingInformation = {
+        sameAddressAsContact: false,
+        firstname: 'aa',
+        lastname: 'Test',
+        address: 'Alem 1234',
+        city: 'city',
+        province: state,
+        country: country,
+        zipCode: '7000',
+        phone: '+54 249 422-2222',
+      };
+
+      // Act
+      render(
+        <PaymentMethodElement
+          withError={true}
+          paymentMethodData={fakePaymentMethodInformation}
+          billingInformationData={fakeBillingInformation}
+        />,
+      );
+
+      // Assert
+      // Loader should disappear once request resolves
+      const loader = screen.getByTestId('wrapper-loading');
+      await waitForElementToBeRemoved(loader);
+
+      const creditCardOption = screen.queryByRole('radio', {
+        name: 'checkoutProcessForm.payment_method.credit_card',
+      });
+      const transferOption = screen.queryByRole('radio', {
+        name: 'checkoutProcessForm.payment_method.transfer',
+      });
+      const mercadoPagoOption = screen.queryByRole('radio', {
+        name: 'checkoutProcessForm.payment_method.mercado_pago',
+      });
+
+      expect(creditCardOption).toBeChecked(true);
+
+      if (country !== 'ar' && country !== 'mx' && country !== 'co') {
+        expect(transferOption).toBeNull();
+      } else {
+        expect(transferOption).toBeDisabled(true);
+      }
+
+      if (country !== 'ar') {
+        expect(mercadoPagoOption).toBeNull();
+      } else {
+        expect(mercadoPagoOption).not.toBeChecked(true);
+      }
+    });
+  });
 });
