@@ -588,6 +588,74 @@ describe('PurchaseSummary component', () => {
 
     expect(summaryErrorMessage).toBeInTheDocument();
   });
+
+  it('should not show the months to pay information legend when the user is "prepaid"', async () => {
+    // Arrange
+    const fakePlan = fakeSubscribersPlan;
+
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetails };
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/prepaid`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.queryByText('listitem', { name: 'months to pay' })).toBeNull();
+  });
+
+  it('should not show the next billing legend legend and next month legend when the user is "prepaid"', async () => {
+    // Arrange
+    const fakePlan = fakeSubscribersPlan;
+
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetails };
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/prepaid`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(
+      screen.queryByText('checkoutProcessForm.purchase_summary.your_next_billing_legend'),
+    ).toBeNull();
+
+    expect(
+      screen.queryByText('checkoutProcessForm.purchase_summary.to_pay_from_next_month_legend'),
+    ).toBeNull();
+  });
 });
 
 describe.each([

@@ -193,20 +193,23 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
 
   return (
     <>
-      {priceToPay > 0 ? (
-        <li>
-          <h3 className="m-t-24">
-            {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`} {dollarSymbol}{' '}
-            <FormattedNumber value={priceToPay - discount} {...numberFormatOptions} />
-          </h3>
-        </li>
-      ) : (
-        <li>
-          <h3 className="m-t-24">{`${_(
-            'checkoutProcessForm.purchase_summary.to_pay_from_next_month_legend',
-          )}`}</h3>
-        </li>
-      )}
+      {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
+        priceToPay > 0 ? (
+          <li>
+            <h3 className="m-t-24">
+              {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`}{' '}
+              {dollarSymbol}{' '}
+              <FormattedNumber value={priceToPay - discount} {...numberFormatOptions} />
+            </h3>
+          </li>
+        ) : (
+          <li>
+            <h3 className="m-t-24">{`${_(
+              'checkoutProcessForm.purchase_summary.to_pay_from_next_month_legend',
+            )}`}</h3>
+          </li>
+        )
+      ) : null}
       <li>
         <span className="dp-renewal">{getTaxesLegend(paymentMethodType, planType)}</span>
       </li>
@@ -250,9 +253,11 @@ export const ShoppingList = ({ state, planType }) => {
       <li aria-label="units">
         <PlanInformation plan={plan} planType={planType} />
       </li>
-      <li aria-label="months to pay">
-        <MonthsToPayInformation discount={discount} plan={plan} planType={planType} />
-      </li>
+      {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
+        <li aria-label="months to pay">
+          <MonthsToPayInformation discount={discount} plan={plan} planType={planType} />
+        </li>
+      ) : null}
       {discountPrepayment?.discountPercentage > 0 && (
         <li aria-label="discount">
           <DiscountPrice discountPrepayment={discountPrepayment} plan={plan} />
