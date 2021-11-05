@@ -49,3 +49,20 @@ it('should not render control panel box when hidden propertie is true', async ()
   //Assert
   expect(screen.queryByText(box.iconName)).not.toBeInTheDocument();
 });
+
+it('should render status image when status propertie is truthy', async () => {
+  //Arrenge
+  const box2 = {
+    ...box,
+    status: 'connected',
+  };
+  //Act
+  render(
+    <IntlProvider>
+      <ControlPanelBox box={box2} />
+    </IntlProvider>,
+  );
+
+  //Assert
+  expect(screen.getByRole('img', { name: 'status image' })).toBeInTheDocument();
+});

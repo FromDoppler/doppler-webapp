@@ -1,9 +1,18 @@
 import React from 'react';
 import * as S from './ControlPanelBox.styles';
 import { useIntl } from 'react-intl';
+import connected from '../images/connected.png';
+import connection_alert from '../images/connection_alert.png';
+import disconnected from '../images/disconnected.png';
 
 export const ControlPanelBox = ({ box, disabled = false, hidden = false }) => {
   const _ = (id, values) => useIntl().formatMessage({ id }, values);
+  const statusImage =
+    box.status === 'connected'
+      ? connected
+      : box.status === 'alert'
+      ? connection_alert
+      : disconnected;
 
   if (hidden) {
     return <></>;
@@ -20,12 +29,19 @@ export const ControlPanelBox = ({ box, disabled = false, hidden = false }) => {
             <S.Text>{_(box.iconName)}</S.Text>
           </S.DisabledLink>
         ) : (
-          <S.Link target="_self" className="dp-white" href={box.linkUrl}>
-            <div>
-              <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
-            </div>
-            <S.Text>{_(box.iconName)}</S.Text>
-          </S.Link>
+          <>
+            {box.status ? (
+              <S.StatusImage src={statusImage} alt={box.status} aria-label="status image" />
+            ) : (
+              <></>
+            )}
+            <S.Link target="_self" className="dp-white" href={box.linkUrl}>
+              <div>
+                <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+              </div>
+              <S.Text>{_(box.iconName)}</S.Text>
+            </S.Link>
+          </>
         )}
       </div>
     </div>

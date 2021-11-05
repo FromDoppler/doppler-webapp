@@ -373,6 +373,9 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       title: 'Preferencias de Redes Sociales',
       viralization_title: 'Opciones de Viralización',
     },
+    status_alert: 'ALERTA',
+    status_connected: 'INTEGRADO',
+    status_not_connected: 'NO INTEGRADO',
     title: 'Panel de Control',
   },
   dashboard: {
