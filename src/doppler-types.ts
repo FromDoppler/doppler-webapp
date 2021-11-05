@@ -27,6 +27,13 @@ export const URL_PLAN_TYPE = {
   [PLAN_TYPE.byCredit]: 'by-credits',
 } as const;
 
+export const SUBSCRIPTION_TYPE = {
+  monthly: 'monthly',
+  quarterly: 'quarterly',
+  biyearly: 'half-yearly',
+  yearly: 'yearly',
+} as const;
+
 export type PlanType = typeof PLAN_TYPE[keyof typeof PLAN_TYPE];
 
 export type PaymentType = 'CC' | 'transfer';
