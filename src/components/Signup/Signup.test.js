@@ -334,6 +334,7 @@ describe('Signup', () => {
       utm_term: null,
       gclid: null,
       utm_content: null,
+      origin_inbound: null,
     });
   });
 
@@ -365,7 +366,7 @@ describe('Signup', () => {
       },
     };
 
-    const search = '?utm_content=test-utm-content';
+    const search = '?utm_content=test-utm-content&origin_inbound=recursos-covid';
     const location = { search, pathname: `/signup/${search}` };
 
     // Act
@@ -422,6 +423,7 @@ describe('Signup', () => {
       utm_term: null,
       gclid: null,
       utm_content: 'test-utm-content',
+      origin_inbound: 'recursos-covid',
     });
   });
 });
