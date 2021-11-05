@@ -8,6 +8,7 @@ import { FAQ } from '../../FAQ';
 import { topics } from '../../FAQ/constants';
 import { Loading } from '../../Loading/Loading';
 import { BannerUpgrade } from './BannerUpgrade/BannerUpgrade';
+import { Discounts } from './Discounts';
 import * as S from './index.styles';
 import { NavigatorTabs } from './NavigatorTabs/NavigatorTabs';
 import { PlanCalculatorButtons } from './PlanCalculatorButtons';
@@ -31,8 +32,16 @@ export const PlanCalculator = InjectAppServices(
       planTypesReducer,
       INITIAL_STATE_PLAN_TYPES,
     );
-    const [{ plansByType, sliderValuesRange, hasError: hasErrorPlansByType }, dispatchPlansByType] =
-      useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
+    const [
+      {
+        plansByType,
+        sliderValuesRange,
+        discounts,
+        selectedDiscount,
+        hasError: hasErrorPlansByType,
+      },
+      dispatchPlansByType,
+    ] = useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
     const [activeClass, setActiveClass] = useState('active');
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(INITIAL_VALUE_OF_SLIDER);
     const createTimeout = useTimeout();
@@ -86,6 +95,17 @@ export const PlanCalculator = InjectAppServices(
       const { value } = e.target;
       const _selectedPlanIndex = parseInt(value);
       setSelectedPlanIndex(_selectedPlanIndex);
+      dispatchPlansByType({
+        type: PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN,
+        payload: _selectedPlanIndex,
+      });
+    };
+
+    const handleDiscountChange = (discount) => {
+      dispatchPlansByType({
+        type: PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT,
+        payload: discount,
+      });
     };
 
     if (loading) {
@@ -131,6 +151,16 @@ export const PlanCalculator = InjectAppServices(
                                 currentPlanList={plansByType}
                                 planTypes={planTypes}
                               />
+                              {discounts.length > 0 && (
+                                <>
+                                  <hr />
+                                  <Discounts
+                                    discounts={discounts}
+                                    selectedDiscount={selectedDiscount}
+                                    onSelectDiscount={handleDiscountChange}
+                                  />
+                                </>
+                              )}
                             </article>
                           </div>
                         </div>
@@ -138,7 +168,10 @@ export const PlanCalculator = InjectAppServices(
                     </div>
                   </article>
                 </S.PlanTabContainer>
-                <PlanCalculatorButtons selectedPlanId={plansByType[selectedPlanIndex]?.id} />
+                <PlanCalculatorButtons
+                  selectedPlanId={plansByType[selectedPlanIndex]?.id}
+                  selectedDiscountId={selectedDiscount?.id}
+                />
               </div>
             </div>
           </section>
