@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { SUBSCRIPTION_TYPE } from '../../../../doppler-types';
+import React from 'react';
 import { useIntl } from 'react-intl';
 
 export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => {
@@ -8,15 +7,7 @@ export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const getDiscountName = (subscriptionType) => {
-    switch (subscriptionType) {
-      case SUBSCRIPTION_TYPE.monthly:
-      case SUBSCRIPTION_TYPE.quarterly:
-      case SUBSCRIPTION_TYPE.biyearly:
-      case SUBSCRIPTION_TYPE.yearly:
-        return _('plan_calculator.discount_' + subscriptionType.replace('-', '_'));
-      default:
-        return '';
-    }
+    return _('plan_calculator.discount_' + subscriptionType.replace('-', '_'));
   };
 
   return (
