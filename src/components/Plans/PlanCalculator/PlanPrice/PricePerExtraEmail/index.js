@@ -12,19 +12,17 @@ export const PricePerExtraEmail = ({ selectedPlan }) => {
     ? unitPriceDecimals(selectedPlan.extraEmailPrice)
     : 0;
 
+  if (selectedPlan.type !== PLAN_TYPE.byEmail && selectedPlan.type !== PLAN_TYPE.byCredit) {
+    return <></>;
+  }
+
   return (
-    <>
-      {selectedPlan.type === PLAN_TYPE.byEmail || selectedPlan.type === PLAN_TYPE.byCredit ? (
-        <p className="dp-cost-per-email">
-          {_('plan_calculator.cost_per_email')}{' '}
-          <span className="dp-price-large-money">
-            <strong>US${extraEmailPrice}</strong>
-          </span>
-        </p>
-      ) : (
-        <></>
-      )}
-    </>
+    <p className="dp-cost-per-email">
+      {_('plan_calculator.cost_per_email')}{' '}
+      <span className="dp-price-large-money">
+        <strong>US${extraEmailPrice}</strong>
+      </span>
+    </p>
   );
 };
 

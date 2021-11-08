@@ -14,25 +14,21 @@ export const PriceWithDiscount = ({ selectedPlan, selectedDiscount }) => {
     planFee * (1 - discountPercentage / 100) * monthsAmmount,
   );
 
+  if (!discountPercentage) {
+    return <></>;
+  }
+
   return (
-    <>
-      {discountPercentage > 0 ? (
-        <p>
-          {_(
-            'plan_calculator.with_' +
-              selectedDiscount.subscriptionType.replace('-', '_') +
-              '_discount',
-          )}
-          <strong>
-            {' '}
-            US$
-            {planFeeWithDiscount}
-          </strong>
-        </p>
-      ) : (
-        <></>
+    <p>
+      {_(
+        'plan_calculator.with_' + selectedDiscount.subscriptionType.replace('-', '_') + '_discount',
       )}
-    </>
+      <strong>
+        {' '}
+        US$
+        {planFeeWithDiscount}
+      </strong>
+    </p>
   );
 };
 
