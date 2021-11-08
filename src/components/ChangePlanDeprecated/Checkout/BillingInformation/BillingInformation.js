@@ -117,6 +117,7 @@ export const BillingInformation = InjectAppServices(
       setFieldValue(fieldNames.country, country);
       const result = await staticDataClient.getStatesData(country, language);
       setStates(result.success ? result.value : []);
+      setFieldValue(fieldNames.province, '');
     };
 
     const submitBillingInformationForm = async (values) => {
