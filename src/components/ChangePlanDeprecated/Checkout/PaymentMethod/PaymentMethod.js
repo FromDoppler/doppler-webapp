@@ -70,8 +70,8 @@ const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, han
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const allowTransfer = countriesAvailableTransfer.filter((c) => c === billingCountry)[0];
-  const allowMercadoPago = countriesAvailableMercadoPago.filter((c) => c === billingCountry)[0];
+  const allowTransfer = countriesAvailableTransfer.find((c) => c === billingCountry);
+  const allowMercadoPago = countriesAvailableMercadoPago.find((c) => c === billingCountry);
 
   return (
     <Field name="paymentMethodName">
