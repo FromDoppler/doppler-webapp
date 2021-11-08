@@ -1,8 +1,9 @@
-import { PLAN_TYPE } from '../../../../doppler-types';
+import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../../doppler-types';
 import { allPlans } from '../../../../services/doppler-legacy-client.doubles';
 import {
   amountByPlanType,
   INITIAL_STATE_PLANS_BY_TYPE,
+  mapDiscount,
   plansByTypeReducer,
   PLANS_BY_TYPE_ACTIONS,
 } from './plansByTypeReducer';
@@ -34,11 +35,14 @@ describe('plansByTypeReducer', () => {
     const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
 
     // Assert
+    const discounts = plansByType[0].billingCycleDetails?.map(mapDiscount) ?? [];
     expect(newState).toEqual({
       ...INITIAL_STATE_PLANS_BY_TYPE,
       loading: false,
       plansByType,
       sliderValuesRange: plansByType.map(amountByPlanType),
+      discounts,
+      selectedDiscount: discounts[0],
     });
   });
 
@@ -54,6 +58,28 @@ describe('plansByTypeReducer', () => {
       ...INITIAL_STATE_PLANS_BY_TYPE,
       loading: false,
       hasError: true,
+    });
+  });
+
+  it(`${PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT} action`, () => {
+    // Arrange
+    const selectedDiscount = {
+      id: 2,
+      subscriptionType: SUBSCRIPTION_TYPE.quarterly,
+      discountPercentage: 10,
+    };
+    const action = {
+      type: PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT,
+      payload: selectedDiscount,
+    };
+
+    // Act
+    const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
+
+    // Assert
+    expect(newState).toEqual({
+      ...INITIAL_STATE_PLANS_BY_TYPE,
+      selectedDiscount,
     });
   });
 
