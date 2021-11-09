@@ -47,6 +47,7 @@ const paymentMethods = [
 ];
 
 const countriesAvailableTransfer = ['ar', 'co', 'mx'];
+const countriesAvailableMercadoPago = ['ar'];
 
 //TODO: Remove the stykes when the UI Library is updated
 const considerationNoteStyle = {
@@ -69,7 +70,8 @@ const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, han
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const allowTransfer = countriesAvailableTransfer.filter((c) => c === billingCountry)[0];
+  const allowTransfer = countriesAvailableTransfer.find((c) => c === billingCountry);
+  const allowMercadoPago = countriesAvailableMercadoPago.find((c) => c === billingCountry);
 
   return (
     <Field name="paymentMethodName">
@@ -77,7 +79,8 @@ const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, han
         <ul role="group" aria-labelledby="checkbox-group" className="dp-radio-input">
           {paymentMethods.map((paymentMethod) =>
             (paymentMethod.value === paymentType.transfer && allowTransfer) ||
-            paymentMethod.value !== paymentType.transfer ? (
+            (paymentMethod.value === paymentType.mercadoPago && allowMercadoPago) ||
+            paymentMethod.value === paymentType.creditCard ? (
               <li key={paymentMethod.value}>
                 <div className="dp-volume-option">
                   <label>
@@ -90,7 +93,11 @@ const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, han
                       value={paymentMethod.value}
                       checked={field.value === paymentMethod.value}
                       disabled={
-                        optionView === actionPage.READONLY && field.value !== paymentMethod.value
+                        (optionView === actionPage.READONLY &&
+                          field.value !== paymentMethod.value) ||
+                        (optionView === actionPage.UPDATE &&
+                          paymentMethod.value === paymentType.transfer &&
+                          field.value !== paymentMethod.value)
                       }
                       onChange={handleChange}
                     />
