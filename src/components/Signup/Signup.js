@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import {
   EmailFieldItem,
@@ -223,20 +223,10 @@ const Signup = function ({
           </header>
           <h5>{_('signup.sign_up')}</h5>
           <p className="content-subtitle">
-            <FormattedMessage
-              id={`signup.sign_up_sub`}
-              values={{
-                Link: (chunk) => (
-                  <Link
-                    to={{ pathname: '/login', search: location.search }}
-                    className="link--title"
-                  >
-                    {chunk}
-                  </Link>
-                ),
-                Bold: (chunk) => <strong>{chunk}</strong>,
-              }}
-            />
+            {_('signup.sign_up_sub')} {_('signup.do_you_already_have_an_account')}{' '}
+            <Link to={{ pathname: '/login', search: location.search }} className="link--title">
+              {_('signup.log_in')}
+            </Link>
           </p>
           <FormWithCaptcha
             className="signup-form"
