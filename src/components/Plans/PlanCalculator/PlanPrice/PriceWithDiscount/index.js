@@ -7,7 +7,7 @@ export const PriceWithDiscount = ({ selectedPlan, selectedDiscount }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const discountPercentage = selectedDiscount?.discountPercentage;
-  const monthsAmmount = selectedDiscount?.monthsAmmount;
+  const monthsAmmount = selectedDiscount?.numberMonths;
   const planFee = Math.round(getPlanFee(selectedPlan));
   const planFeeWithDiscount = thousandSeparatorNumber(
     intl.defaultLocale,
