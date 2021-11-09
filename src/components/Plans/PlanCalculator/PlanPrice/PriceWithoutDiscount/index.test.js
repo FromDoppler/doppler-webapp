@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { PlanPriceWithoutDiscounts } from './PlanPriceWithoutDiscounts';
-import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../doppler-types';
-import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { PriceWithoutDiscount } from '.';
+import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../../../doppler-types';
+import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
-describe('PlanPriceWithoutDiscounts', () => {
+describe('PriceWithoutDiscount', () => {
   it('should render price without discount when percentage is greather to 0', () => {
     // Arrange
     const selectedPlan = {
@@ -21,10 +21,7 @@ describe('PlanPriceWithoutDiscounts', () => {
     // Act
     render(
       <IntlProvider>
-        <PlanPriceWithoutDiscounts
-          selectedPlan={selectedPlan}
-          selectedDiscount={selectedDiscount}
-        />
+        <PriceWithoutDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
       </IntlProvider>,
     );
 
