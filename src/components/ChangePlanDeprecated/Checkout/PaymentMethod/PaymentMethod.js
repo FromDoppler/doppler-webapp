@@ -66,7 +66,7 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
-const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, handleChange }) => {
+const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, handleChange }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -97,7 +97,8 @@ const PaymentMethodField = ({ billingCountry, paymentMethodType, optionView, han
                           field.value !== paymentMethod.value) ||
                         (optionView === actionPage.UPDATE &&
                           paymentMethod.value === paymentType.transfer &&
-                          field.value !== paymentMethod.value)
+                          currentPaymentMethod !== paymentType.transfer &&
+                          currentPaymentMethod !== none)
                       }
                       onChange={handleChange}
                     />
@@ -198,9 +199,11 @@ export const PaymentMethod = InjectAppServices(
         const billingInformationResult =
           await dopplerBillingUserApiClient.getBillingInformationData();
         const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-        let paymentMethod = paymentMethodData.success
+        let currentPaymentMethod = paymentMethodData.success
           ? paymentMethodData.value.paymentMethodName
-          : paymentType.creditCard;
+          : none;
+
+        let paymentMethod = currentPaymentMethod;
 
         if (paymentMethodType === '') {
           if (paymentMethod === none) {
@@ -236,6 +239,7 @@ export const PaymentMethod = InjectAppServices(
             ? paymentMethodData.value
             : { paymentMethodName: paymentType.creditCard },
           loading: false,
+          currentPaymentMethod,
         });
       };
       fetchData();
@@ -322,7 +326,7 @@ export const PaymentMethod = InjectAppServices(
                     <FieldItem className="field-item m-b-24">
                       <PaymentMethodField
                         billingCountry={state.billingCountry}
-                        paymentMethodType={paymentMethodType}
+                        currentPaymentMethod={state.currentPaymentMethod}
                         optionView={optionView}
                         handleChange={(e) => handleChange(e, setFieldValue)}
                       />
