@@ -12,6 +12,7 @@ import { Discounts } from './Discounts';
 import * as S from './index.styles';
 import { NavigatorTabs } from './NavigatorTabs/NavigatorTabs';
 import { PlanCalculatorButtons } from './PlanCalculatorButtons';
+import { PlanPrice } from './PlanPrice';
 import {
   INITIAL_STATE_PLANS_BY_TYPE,
   plansByTypeReducer,
@@ -162,6 +163,12 @@ export const PlanCalculator = InjectAppServices(
                                 </>
                               )}
                             </article>
+                          </div>
+                          <div className="col-md-6 col-sm-12">
+                            <PlanPrice
+                              selectedPlan={selectedPlan}
+                              selectedDiscount={selectedDiscount}
+                            />
                           </div>
                         </div>
                       </div>

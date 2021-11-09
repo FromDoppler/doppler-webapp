@@ -56,4 +56,23 @@ describe('PlanPrice', () => {
     expect(screen.getByText('plan_calculator.discount_clarification_prepaid')).toBeInTheDocument();
     expect(screen.queryByText('plan_calculator.discount_clarification')).not.toBeInTheDocument();
   });
+
+  it('should return empty component when there is no selected plan ', () => {
+    // Arrange
+    const selectedPlan = null;
+    const selectedDiscount = null;
+
+    // Act
+    render(
+      <IntlProvider>
+        <PlanPrice selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    expect(screen.queryByText('plan_calculator.discount_clarification')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('plan_calculator.discount_clarification_prepaid'),
+    ).not.toBeInTheDocument();
+  });
 });

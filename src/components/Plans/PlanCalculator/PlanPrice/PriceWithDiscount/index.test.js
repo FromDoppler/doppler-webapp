@@ -15,7 +15,7 @@ describe('PriceWithDiscount', () => {
       id: 3,
       subscriptionType: SUBSCRIPTION_TYPE.yearly,
       discountPercentage: 40,
-      monthsAmmount: 12,
+      numberMonths: 12,
     };
 
     // Act

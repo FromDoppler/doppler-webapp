@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { getPlanFee, thousandSeparatorNumber } from '../../../../../utils';
 
-export const PlanPricePerMonth = ({ selectedPlan, discountPercentage }) => {
+export const PricePerMonth = ({ selectedPlan, discountPercentage }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const planFee = getPlanFee(selectedPlan);
