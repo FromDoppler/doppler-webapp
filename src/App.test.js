@@ -1,11 +1,11 @@
-import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import App from './App';
-import { AppServicesProvider } from './services/pure-di';
-import { MemoryRouter as Router, withRouter } from 'react-router-dom';
-import { timeout } from './utils';
+import { cleanup, render, waitFor } from '@testing-library/react';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
+import { MemoryRouter as Router, withRouter } from 'react-router-dom';
+import App from './App';
+import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
+import { AppServicesProvider } from './services/pure-di';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -934,6 +934,61 @@ describe('App component', () => {
 
       // Assert
       await waitFor(() => expect(dependencies.window.gtag).not.toBeCalled());
+    });
+  });
+
+  describe('PlanCalculator URL', () => {
+    const redirectUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`;
+
+    it(`should redirect to ${redirectUrl} when has not query params`, async () => {
+      // Act
+      const appSessionRef = { current: { status: 'unknown' } };
+      const dependencies = {
+        appSessionRef: appSessionRef,
+        sessionManager: createDoubleSessionManager(appSessionRef),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+      const currentRouteState = {};
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={[`/plan-selection`]}>
+            <RouterInspector target={currentRouteState} />
+            <App window={window} locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(currentRouteState.location.pathname).toEqual(redirectUrl);
+      expect(currentRouteState.location.search).toEqual('');
+    });
+
+    it(`should redirect to ${redirectUrl} when has query params`, async () => {
+      // Act
+      const promoCode = 'fake-promo-code';
+      const appSessionRef = { current: { status: 'unknown' } };
+      const dependencies = {
+        appSessionRef: appSessionRef,
+        sessionManager: createDoubleSessionManager(appSessionRef),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+      const currentRouteState = {};
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={[`/plan-selection?promo-code=${promoCode}`]}>
+            <RouterInspector target={currentRouteState} />
+            <App window={window} locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(currentRouteState.location.pathname).toEqual(redirectUrl);
+      expect(currentRouteState.location.search).toEqual(`?promo-code=${promoCode}`);
     });
   });
 });
