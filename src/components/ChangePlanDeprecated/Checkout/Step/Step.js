@@ -8,8 +8,10 @@ export const Step = ({ children, title, active, stepNumber, complete, lastStep, 
   return (
     <>
       <li className={`dp-box-shadow ${active || complete ? 'dp-form-successful' : ''}`}>
-        <span className={`dp-number-item ${active || complete ? ' dp-successful' : ''}`}>
-          {stepNumber}
+        <span
+          className={`dp-number-item ${active ? ' dp-successful' : complete ? 'dp-checked' : ''}`}
+        >
+          {active || !complete ? stepNumber : ''}
         </span>
         <label className="dp-accordion-thumb">{title}</label>
         {(!active || lastStep) && complete ? (
