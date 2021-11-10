@@ -202,6 +202,7 @@ const messages_en = {
     edit: 'Edit',
     empty_option_select: `Please select an option`,
     payment_method: {
+      availabled_credit_cards_legend: 'You can pay with any international credit card <bold>Visa, Mastercard or American Express</bold>.',
       business_name: 'Business name',
       considerations: 'Consideration:',
       considerations_credit_card_note_1: '<bold>Invoices in USD will be issued from United States</bold>, where is located our subsidiary Doppler LLC.',

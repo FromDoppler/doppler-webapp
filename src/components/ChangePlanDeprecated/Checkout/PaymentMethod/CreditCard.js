@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import { Loading } from '../../../Loading/Loading';
 import Cards from 'react-credit-cards';
@@ -54,6 +54,17 @@ export const getCreditCardBrand = (creditCardNumber) => {
     return 'amex';
   }
   return 'unknown';
+};
+
+const FormatMessageWithBoldWords = ({ id }) => {
+  return (
+    <FormattedMessage
+      id={id}
+      values={{
+        bold: (chunks) => <b>{chunks}</b>,
+      }}
+    />
+  );
 };
 
 export const CreditCard = InjectAppServices(
@@ -152,120 +163,131 @@ export const CreditCard = InjectAppServices(
                 />
               </li>
             ) : (
-              <FieldItem className="field-item field-credit-card">
-                <div className="campos">
-                  <div className="dp-field-inputs">
-                    <div className="campo-izq" style={{ flex: 1 }}>
-                      <FieldGroup>
-                        <InputMask
-                          mask={ccMask}
-                          value={number}
-                          onChange={(e) => onChangeNumber(e, setFieldValue)}
-                          onFocus={(e) => setFocus(e.target.name)}
-                          maskChar="-"
-                        >
-                          {(inputProps) => (
-                            <InputFieldItem
-                              {...inputProps}
-                              type="text"
-                              label={`*${_('checkoutProcessForm.payment_method.credit_card')}`}
-                              fieldName={fieldNames.number}
-                              id="number"
-                              required
-                            />
-                          )}
-                        </InputMask>
-                      </FieldGroup>
+              <>
+                <FieldItem className="field-item">
+                  <div className="dp-considerations">
+                    <p>
+                      <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.availabled_credit_cards_legend" />
+                    </p>
+                  </div>
+                </FieldItem>
+                <FieldItem className="field-item field-credit-card">
+                  <div className="campos">
+                    <div className="dp-field-inputs">
+                      <div className="campo-izq" style={{ flex: 1 }}>
+                        <FieldGroup>
+                          <InputMask
+                            mask={ccMask}
+                            value={number}
+                            onChange={(e) => onChangeNumber(e, setFieldValue)}
+                            onFocus={(e) => setFocus(e.target.name)}
+                            maskChar="-"
+                          >
+                            {(inputProps) => (
+                              <InputFieldItem
+                                {...inputProps}
+                                type="text"
+                                label={`*${_('checkoutProcessForm.payment_method.credit_card')}`}
+                                fieldName={fieldNames.number}
+                                id="number"
+                                required
+                              />
+                            )}
+                          </InputMask>
+                        </FieldGroup>
+                      </div>
+                      <div className="dp--expiry">
+                        <FieldGroup>
+                          <InputMask
+                            mask="99/99"
+                            maskChar="-"
+                            value={expiry}
+                            onChange={(e) => {
+                              setFieldValue(fieldNames.expiry, e.target.value);
+                              setExpiry(e.target.value);
+                            }}
+                            onFocus={(e) => setFocus(e.target.name)}
+                          >
+                            {(inputProps) => (
+                              <InputFieldItem
+                                {...inputProps}
+                                type="text"
+                                label={`*${_(
+                                  'checkoutProcessForm.payment_method.expiration_date',
+                                )}`}
+                                fieldName={fieldNames.expiry}
+                                id="expiry"
+                                required
+                              />
+                            )}
+                          </InputMask>
+                        </FieldGroup>
+                      </div>
                     </div>
-                    <div className="dp--expiry">
-                      <FieldGroup>
-                        <InputMask
-                          mask="99/99"
-                          maskChar="-"
-                          value={expiry}
-                          onChange={(e) => {
-                            setFieldValue(fieldNames.expiry, e.target.value);
-                            setExpiry(e.target.value);
-                          }}
-                          onFocus={(e) => setFocus(e.target.name)}
-                        >
-                          {(inputProps) => (
-                            <InputFieldItem
-                              {...inputProps}
-                              type="text"
-                              label={`*${_('checkoutProcessForm.payment_method.expiration_date')}`}
-                              fieldName={fieldNames.expiry}
-                              id="expiry"
-                              required
-                            />
-                          )}
-                        </InputMask>
-                      </FieldGroup>
+                    <div className="dp-field-inputs">
+                      <div className="campo-izq" style={{ flex: 1 }}>
+                        <FieldGroup>
+                          <InputFieldItem
+                            type="text"
+                            fieldName={fieldNames.name}
+                            id="name"
+                            label={`*${_('checkoutProcessForm.payment_method.holder_name')}`}
+                            required
+                            onChange={(e) => {
+                              setFieldValue('name', e.target.value);
+                              setName(e.target.value);
+                            }}
+                            onFocus={(e) => setFocus(e.target.name)}
+                            value={name}
+                            placeholder=""
+                          />
+                        </FieldGroup>
+                      </div>
+                      <div className="dp--cvv">
+                        <FieldGroup>
+                          <InputMask
+                            mask={cvcMask}
+                            maskChar="-"
+                            value={cvc}
+                            onChange={(e) => {
+                              setFieldValue(fieldNames.cvc, e.target.value);
+                              setCvc(e.target.value);
+                            }}
+                            onFocus={(e) => setFocus(e.target.name)}
+                          >
+                            {(inputProps) => (
+                              <InputFieldItem
+                                {...inputProps}
+                                type="tel"
+                                label={`*${_('checkoutProcessForm.payment_method.security_code')}`}
+                                fieldName={fieldNames.cvc}
+                                id="cvc"
+                                required
+                              />
+                            )}
+                          </InputMask>
+                        </FieldGroup>
+                      </div>
                     </div>
                   </div>
-                  <div className="dp-field-inputs">
-                    <div className="campo-izq" style={{ flex: 1 }}>
-                      <FieldGroup>
-                        <InputFieldItem
-                          type="text"
-                          fieldName={fieldNames.name}
-                          id="name"
-                          label={`*${_('checkoutProcessForm.payment_method.holder_name')}`}
-                          required
-                          onChange={(e) => {
-                            setFieldValue('name', e.target.value);
-                            setName(e.target.value);
-                          }}
-                          onFocus={(e) => setFocus(e.target.name)}
-                          value={name}
-                          placeholder=""
-                        />
-                      </FieldGroup>
-                    </div>
-                    <div className="dp--cvv">
-                      <FieldGroup>
-                        <InputMask
-                          mask={cvcMask}
-                          maskChar="-"
-                          value={cvc}
-                          onChange={(e) => {
-                            setFieldValue(fieldNames.cvc, e.target.value);
-                            setCvc(e.target.value);
-                          }}
-                          onFocus={(e) => setFocus(e.target.name)}
-                        >
-                          {(inputProps) => (
-                            <InputFieldItem
-                              {...inputProps}
-                              type="tel"
-                              label={`*${_('checkoutProcessForm.payment_method.security_code')}`}
-                              fieldName={fieldNames.cvc}
-                              id="cvc"
-                              required
-                            />
-                          )}
-                        </InputMask>
-                      </FieldGroup>
+                  <div className="tarjeta">
+                    <div className="dp-credit-card">
+                      <Cards
+                        cvc={cvc}
+                        expiry={expiry}
+                        focused={focus}
+                        name={name}
+                        number={number}
+                        acceptedCards={['visa', 'mastercard', 'amex']}
+                        placeholders={{
+                          name: _('checkoutProcessForm.payment_method.placeholder_holder_name'),
+                        }}
+                        locale={{ valid: _('checkoutProcessForm.payment_method.valid_thru') }}
+                      />
                     </div>
                   </div>
-                </div>
-                <div className="tarjeta">
-                  <div className="dp-credit-card">
-                    <Cards
-                      cvc={cvc}
-                      expiry={expiry}
-                      focused={focus}
-                      name={name}
-                      number={number}
-                      acceptedCards={['visa', 'mastercard', 'amex']}
-                      placeholders={{
-                        name: _('checkoutProcessForm.payment_method.placeholder_holder_name'),
-                      }}
-                      locale={{ valid: _('checkoutProcessForm.payment_method.valid_thru') }}
-                    />
-                  </div>
-                </div>
-              </FieldItem>
+                </FieldItem>
+              </>
             )}
           </FieldGroup>
         )}

@@ -203,6 +203,7 @@ const messages_es = {
     edit: 'Editar',
     empty_option_select: `Selecciona una opción`,
     payment_method: {
+      availabled_credit_cards_legend: 'Puedes pagar con cualquier tarjeta de crédito internacional <bold>Visa, Mastercard o American Express</bold>.',
       business_name: 'Razón social',
       considerations: 'Consideraciones:',
       considerations_credit_card_note_1: 'Emitiremos una <bold>factura en dólares desde Estados Unidos</bold>, donde se encuentra nuestra filial Doppler LLC.',

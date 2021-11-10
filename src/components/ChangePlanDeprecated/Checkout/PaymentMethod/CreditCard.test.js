@@ -7,6 +7,7 @@ import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-p
 import { actionPage } from '../Checkout';
 import { CreditCard } from './CreditCard';
 import { Formik } from 'formik';
+import '@testing-library/jest-dom/extend-expect';
 
 const dependencies = (withError) => ({
   appSessionRef: {
@@ -205,5 +206,34 @@ describe('CreditCard component', () => {
     expect(cardHolderElement.textContent).toEqual(emptyHolderName);
     expect(expiryDateElement.textContent).toEqual(emptyExpiryDate);
     expect(securityCodeElement.textContent).toEqual('');
+  });
+
+  it('update view - should show the available credit cards legend', async () => {
+    // Act
+    render(<CreditCardElement withError={false} updateView={actionPage.UPDATE} />);
+
+    // Assert
+    const avalilableCrediCardsLegend = screen.getByText(
+      'checkoutProcessForm.payment_method.availabled_credit_cards_legend',
+    );
+
+    expect(avalilableCrediCardsLegend).toBeInTheDocument();
+  });
+
+  it('readonly view - should hide the available credit cards legend', async () => {
+    // Act
+    render(<CreditCardElement withError={false} updateView={actionPage.READONLY} />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Assert
+    const avalilableCrediCardsLegend = screen.queryByText(
+      'checkoutProcessForm.payment_method.availabled_credit_cards_legend',
+    );
+
+    expect(avalilableCrediCardsLegend).not.toBeInTheDocument();
   });
 });
