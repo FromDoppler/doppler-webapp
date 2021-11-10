@@ -31,6 +31,7 @@ import { CheckoutSummary } from './components/ChangePlanDeprecated/Checkout/Chec
 import { Dashboard } from './components/Dashboard/Dashboard';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
 import { PlanCalculator } from './components/Plans/PlanCalculator';
+import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 
 /**
  * @param { Object } props - props
@@ -163,6 +164,11 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 to="/forgot-password?lang=es"
               />
               <RedirectWithQuery exact from="/forgot-password" to="/login/reset-password" />
+              <RedirectWithQuery
+                exact
+                from="/plan-selection"
+                to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`}
+              />
               {/* TODO: Implement NotFound page in place of redirect all to reports */}
               {/* <Route component={NotFound} /> */}
               <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
