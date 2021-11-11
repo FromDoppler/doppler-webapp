@@ -102,7 +102,6 @@ export const SubscriberListSelector = InjectAppServices(
     const [confirmDisabled, setConfirmDisabled] = useState(true);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const history = useHistory();
 
     const validateMaxLimit = useCallback(() => {
       if (maxToSelect) {
@@ -157,7 +156,9 @@ export const SubscriberListSelector = InjectAppServices(
           cancelButtonText={_('subscriber_list_selector.no_list.not_now')}
           actionButtonText={_('subscriber_list_selector.no_list.create_list')}
           onCancel={onCancel}
-          onAction={() => history.push(_('subscriber_list_selector.no_list.create_list_url'))}
+          onAction={() => {
+            window.location.href = _('subscriber_list_selector.no_list.create_list_url');
+          }}
         />
       );
     }
