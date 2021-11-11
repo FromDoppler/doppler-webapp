@@ -11,6 +11,7 @@ describe('NavigatorTabs Component', () => {
     //Arrange
     const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const selectedPlanType = PLAN_TYPE.byContact;
+
     //Act
     render(
       <IntlProvider>
@@ -19,6 +20,7 @@ describe('NavigatorTabs Component', () => {
         </Router>
       </IntlProvider>,
     );
+
     //Assert
     const allTabs = screen.queryAllByRole('listitem');
     expect(allTabs.length).toBe(planTypes.length);
@@ -29,6 +31,39 @@ describe('NavigatorTabs Component', () => {
       expect(link).toHaveAttribute(
         'href',
         `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}`,
+      );
+    });
+  });
+
+  test('NavigatorTab component render a tab for each planType with query params', () => {
+    //Arrange
+    const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
+    const selectedPlanType = PLAN_TYPE.byContact;
+    const search = '?origin=hello_bar&promo-code=fake-promo-code';
+
+    //Act
+    render(
+      <IntlProvider>
+        <Router
+          initialEntries={[
+            `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${search}`,
+          ]}
+        >
+          <NavigatorTabs tabs={planTypes} selectedPlanType={selectedPlanType} />
+        </Router>
+      </IntlProvider>,
+    );
+
+    //Assert
+    const allTabs = screen.queryAllByRole('listitem');
+    expect(allTabs.length).toBe(planTypes.length);
+
+    const links = screen.getAllByRole('link');
+
+    links.forEach((link, index) => {
+      expect(link).toHaveAttribute(
+        'href',
+        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}${search}`,
       );
     });
   });

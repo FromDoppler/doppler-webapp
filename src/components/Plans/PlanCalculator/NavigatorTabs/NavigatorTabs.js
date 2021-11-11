@@ -1,12 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { URL_PLAN_TYPE } from '../../../../doppler-types';
 import { TooltipContainer } from './../../../TooltipContainer/TooltipContainer';
 
 export const NavigatorTabs = ({ tabs, selectedPlanType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const location = useLocation();
 
   const getTypePlanDescriptionWithTooltip = (type) => {
     return (
@@ -29,7 +30,7 @@ export const NavigatorTabs = ({ tabs, selectedPlanType }) => {
         {tabs.map((type) => (
           <li data-testid="tab-item--plan-calculator" className="tab--item" key={type}>
             <Link
-              to={`/plan-selection/premium/${URL_PLAN_TYPE[type]}`}
+              to={`/plan-selection/premium/${URL_PLAN_TYPE[type]}${location.search}`}
               className={type === selectedPlanType ? 'tab--link active' : 'tab--link'}
             >
               {getTypePlanDescriptionWithTooltip(type)}
