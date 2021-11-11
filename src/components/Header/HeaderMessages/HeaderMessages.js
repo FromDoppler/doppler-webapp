@@ -8,7 +8,7 @@ const HeaderMessages = ({ alert, user }) => {
   const toggleModal = (isOpen) => setBuyModalIsOpen(isOpen);
 
   return alert.button && alert.button.action && alert.button.action !== 'updatePlanPopup' ? null : (
-    <div className={'messages-container ' + alert.type}>
+    <div className={'messages-container sticky ' + alert.type}>
       <div className="wrapper">
         <p>{alert.message}</p>
         {alert.button && alert.button.url ? (

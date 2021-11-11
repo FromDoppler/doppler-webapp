@@ -46,6 +46,7 @@ const Header = ({
       <header
         className={
           'header-main' +
+          (alert ? ' sticky' : ' ') +
           (isInactiveSection ? ' ' : ' header-open') +
           (user.clientManager ? ' dp-header--cm' : ' ')
         }
