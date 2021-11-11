@@ -209,7 +209,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.advanced_preferences.title',
-        showStatus: true,
+        showStatus: false,
         boxes: [
           {
             linkUrl: `${urlAdvancedPreferences}/GetDopplerApiInformation`,
@@ -233,7 +233,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.native_integrations.title',
-        showStatus: true,
+        showStatus: false,
         boxes: [
           {
             linkUrl: `${urlAdvancedPreferences}/GetGoogleAnaliyticPreferences`,

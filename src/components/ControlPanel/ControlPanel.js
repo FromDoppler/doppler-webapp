@@ -46,9 +46,9 @@ export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelSer
             <div key={`section-${indexSection}`} className="col-lg-12 col-md-12 m-b-24">
               <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                 <S.TitleContainer>
-                  <h2>{_(section.title)}</h2>
+                  <h3 className="m-b-24">{_(section.title)}</h3>
                   {section.showStatus ? (
-                    <S.StatusBoxContainer>
+                    <S.StatusBoxContainer className="m-b-24">
                       <S.StatusIcon src={connection_alert} alt="connection alert icon" />
                       <span className="yellow-color">{_('control_panel.status_alert')}</span>
                       <S.StatusIcon src={disconnected} alt="disconnected icon" />
