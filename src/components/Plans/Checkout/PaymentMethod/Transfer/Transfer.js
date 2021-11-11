@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InjectAppServices } from '../../../../services/pure-di';
+import { InjectAppServices } from '../../../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import {
   FieldGroup,
@@ -7,13 +7,17 @@ import {
   SelectFieldItem,
   InputFieldItem,
   CuitFieldItem,
-} from '../../../form-helpers/form-helpers';
-import { Loading } from '../../../Loading/Loading';
-import { actionPage } from '../Checkout';
+} from '../../../../form-helpers/form-helpers';
+import { Loading } from '../../../../Loading/Loading';
+import { actionPage } from '../../Checkout';
 import { useFormikContext } from 'formik';
-import { fieldNames, paymentType } from './PaymentMethod';
+import { fieldNames, paymentType } from '../PaymentMethod';
+import { validateCuit } from '../../../../../validations';
+import { TransferColombia } from './Colombia';
 
 export const finalConsumer = 'CF';
+const COD_ISO_AR = 'ar';
+const COD_ISO_CO = 'co';
 
 export const identificationTypes = [
   { key: 'CF', value: 'DNI/CUIL' },
@@ -97,6 +101,7 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes }) => {
             required
             validate={consumerType !== finalConsumer}
             className="field-item field-item--30"
+            validateIdentificationNumber={validateCuit}
           />
         ) : null}
         {consumerType !== '' && consumerType !== finalConsumer ? (
@@ -121,7 +126,13 @@ export const Transfer = InjectAppServices(
     optionView,
   }) => {
     const intl = useIntl();
-    const [state, setState] = useState({ loading: true, paymentMethod: {}, readOnly: true });
+    const [state, setState] = useState({
+      loading: true,
+      paymentMethod: {},
+      readOnly: true,
+      country: '',
+      responsableIVA: false,
+    });
 
     useEffect(() => {
       const getConsumerTypesData = async (country, language) => {
@@ -156,6 +167,8 @@ export const Transfer = InjectAppServices(
             identificationType,
             loading: false,
             readOnly: true,
+            country: billingInformationResult.value.country,
+            responsableIVA: paymentMethodData.value.responsableIVA,
           });
         } else {
           setState({
@@ -165,6 +178,8 @@ export const Transfer = InjectAppServices(
             selectedConsumerType,
             identificationType,
             consumerTypes,
+            country: billingInformationResult.value.country,
+            responsableIVA: paymentMethodData.value.responsableIVA,
           });
         }
       };
@@ -184,22 +199,29 @@ export const Transfer = InjectAppServices(
           <Loading page />
         ) : (
           <FieldGroup>
-            {state.readOnly ? (
-              <li aria-label="resume data" className="field-item field-item--70 dp-p-r">
-                <label>
-                  {state.selectedConsumerType?.value}, {state.identificationType?.value}:{' '}
-                  {state.paymentMethod?.identificationNumber}
-                  {state.identificationType.key !== finalConsumer
-                    ? `, ${state.paymentMethod?.razonSocial}`
-                    : ''}
-                </label>
-              </li>
-            ) : (
-              <TransferArgentina
-                consumerTypes={state.consumerTypes}
+            {state.country === COD_ISO_AR ? (
+              state.readOnly ? (
+                <li aria-label="resume data" className="field-item field-item--70 dp-p-r">
+                  <label>
+                    {state.selectedConsumerType?.value}, {state.identificationType?.value}:{' '}
+                    {state.paymentMethod?.identificationNumber}
+                    {state.identificationType.key !== finalConsumer
+                      ? `, ${state.paymentMethod?.razonSocial}`
+                      : ''}
+                  </label>
+                </li>
+              ) : (
+                <TransferArgentina
+                  consumerTypes={state.consumerTypes}
+                  paymentMethod={state.paymentMethod}
+                ></TransferArgentina>
+              )
+            ) : state.country === COD_ISO_CO ? (
+              <TransferColombia
                 paymentMethod={state.paymentMethod}
-              ></TransferArgentina>
-            )}
+                readOnly={state.readOnly}
+              ></TransferColombia>
+            ) : null}
           </FieldGroup>
         )}
       </>
