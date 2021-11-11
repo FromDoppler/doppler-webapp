@@ -33,6 +33,14 @@ import zoho_icon from '../components/ControlPanel/images/zoho_icon.png';
 import custom_domain_icon from '../components/ControlPanel/images/custom_domain_icon.png';
 import domain_key_icon from '../components/ControlPanel/images/domain_key_icon.png';
 import doppler_api_icon from '../components/ControlPanel/images/doppler_api_icon.png';
+import eventbrite_icon from '../components/ControlPanel/images/eventbrite_icon.png';
+import facebook_lead_ads_icon from '../components/ControlPanel/images/facebook_lead_ads_icon.png';
+import go_to_webinar_icon from '../components/ControlPanel/images/go_to_webinar_icon.png';
+import hubspot_icon from '../components/ControlPanel/images/hubspot_icon.png';
+import optin_monster_icon from '../components/ControlPanel/images/optin_monster_icon.png';
+import salesforce_icon from '../components/ControlPanel/images/salesforce_icon.png';
+import zapier_icon from '../components/ControlPanel/images/zapier_icon.png';
+
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
@@ -43,6 +51,7 @@ const urlAccountPreferences = `${urlControlPanel}/AccountPreferences`;
 const urlCampaignsPreferences = `${urlControlPanel}/CampaignsPreferences`;
 const urlSocialPreferences = `${urlControlPanel}/SocialPreferences`;
 const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
+const urlSitesHelp = process.env.REACT_APP_DOPPLER_HELP_URL;
 
 export interface ControlPanelService {
   getControlPanelSections(): ControlPanelSection[];
@@ -56,6 +65,7 @@ interface Box {
   disabled?: boolean;
   hidden?: boolean;
   status?: string;
+  targetBlank?: boolean;
 }
 
 interface ControlPanelSection {
@@ -77,7 +87,6 @@ export class ControlPanelService implements ControlPanelService {
         ? this.appSessionRef.current.userData
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
-    const siteTrackingEnabled = account !== 'none' ? account.features.siteTrackingEnabled : false;
 
     return [
       {
@@ -174,7 +183,6 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: site_tracking_icon,
             imgAlt: 'control_panel.campaign_preferences.site_tracking_title',
             iconName: 'control_panel.campaign_preferences.site_tracking_title',
-            hidden: !siteTrackingEnabled,
           },
         ],
       },
@@ -318,6 +326,60 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: bigquery_icon,
             imgAlt: 'control_panel.native_integrations.big_query_title',
             iconName: 'control_panel.native_integrations.big_query_title',
+          },
+        ],
+      },
+      {
+        title: 'control_panel.zapier_integrations.title',
+        boxes: [
+          {
+            linkUrl: `${urlSitesHelp}/es/integracion-con-zapier-glosario`,
+            imgSrc: zapier_icon,
+            imgAlt: 'control_panel.zapier_integrations.zapier',
+            iconName: 'control_panel.zapier_integrations.zapier',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-facebookleadads-utilizando-zapier`,
+            imgSrc: facebook_lead_ads_icon,
+            imgAlt: 'control_panel.zapier_integrations.lead_ads',
+            iconName: 'control_panel.zapier_integrations.lead_ads',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-optinmonster-utilizando-zapier`,
+            imgSrc: optin_monster_icon,
+            imgAlt: 'control_panel.zapier_integrations.optin_monster',
+            iconName: 'control_panel.zapier_integrations.optin_monster',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-hubspot-a-traves-de-zapier`,
+            imgSrc: hubspot_icon,
+            imgAlt: 'control_panel.zapier_integrations.hubspot',
+            iconName: 'control_panel.zapier_integrations.hubspot',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-salesforce-a-traves-de-zapier`,
+            imgSrc: salesforce_icon,
+            imgAlt: 'control_panel.zapier_integrations.salesforce',
+            iconName: 'control_panel.zapier_integrations.salesforce',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-eventbrite-a-traves-de-zapier`,
+            imgSrc: eventbrite_icon,
+            imgAlt: 'control_panel.zapier_integrations.eventbrite',
+            iconName: 'control_panel.zapier_integrations.eventbrite',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/integrar-doppler-con-gotowebinar-via-zapier`,
+            imgSrc: go_to_webinar_icon,
+            imgAlt: 'control_panel.zapier_integrations.go_to_webinar',
+            iconName: 'control_panel.zapier_integrations.go_to_webinar',
+            targetBlank: true,
           },
         ],
       },

@@ -378,6 +378,16 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     status_connected: 'INTEGRADO',
     status_not_connected: 'NO INTEGRADO',
     title: 'Panel de Control',
+    zapier_integrations: {
+      eventbrite: 'Eventbrite',
+      go_to_webinar: 'GoToWebinar',
+      hubspot: 'Hubspot',
+      lead_ads: 'Facebook Lead Ads',
+      optin_monster: 'OptinMonster',
+      salesforce: 'SalesForce',
+      title: 'Integraciones via Zapier',
+      zapier: 'zapier',
+    },
   },
   dashboard: {
     campaigns: 'Mis Campañas',
