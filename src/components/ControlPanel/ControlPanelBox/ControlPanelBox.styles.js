@@ -7,6 +7,7 @@ const Link = styled.a`
   position: relative;
   height: 200px;
   width: 100%;
+
   &:hover {
     box-shadow: 0 0 0 4px rgb(105 105 105 / 15%);
   }
