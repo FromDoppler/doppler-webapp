@@ -27,10 +27,16 @@ it('should render a control panel box', async () => {
 });
 
 it('should render disabled control panel box', async () => {
+  //Arrenge
+  const box1 = {
+    ...box,
+    disabled: true,
+  };
+
   //Act
   render(
     <IntlProvider>
-      <ControlPanelBox box={box} disabled={true} />
+      <ControlPanelBox box={box1} />
     </IntlProvider>,
   );
 
@@ -39,10 +45,16 @@ it('should render disabled control panel box', async () => {
 });
 
 it('should not render control panel box when hidden propertie is true', async () => {
+  //Arrenge
+  const box2 = {
+    ...box,
+    hidden: true,
+  };
+
   //Act
   render(
     <IntlProvider>
-      <ControlPanelBox box={box} hidden={true} />
+      <ControlPanelBox box={box2} />
     </IntlProvider>,
   );
 
@@ -52,14 +64,14 @@ it('should not render control panel box when hidden propertie is true', async ()
 
 it('should render status image when status propertie is truthy', async () => {
   //Arrenge
-  const box2 = {
+  const box3 = {
     ...box,
     status: 'connected',
   };
   //Act
   render(
     <IntlProvider>
-      <ControlPanelBox box={box2} />
+      <ControlPanelBox box={box3} />
     </IntlProvider>,
   );
 
