@@ -40,7 +40,16 @@ import hubspot_icon from '../components/ControlPanel/images/hubspot_icon.png';
 import optin_monster_icon from '../components/ControlPanel/images/optin_monster_icon.png';
 import salesforce_icon from '../components/ControlPanel/images/salesforce_icon.png';
 import zapier_icon from '../components/ControlPanel/images/zapier_icon.png';
-
+import facebook_icon from '../components/ControlPanel/images/facebook_icon.png';
+import infor_icon from '../components/ControlPanel/images/infor_icon.png';
+import lander__icon from '../components/ControlPanel/images/lander__icon.png';
+import learnpress_icon from '../components/ControlPanel/images/learnpress_icon.png';
+import payu_icon from '../components/ControlPanel/images/payu_icon.png';
+import sumaprop_icon from '../components/ControlPanel/images/sumaprop_icon.png';
+import viewed_icon from '../components/ControlPanel/images/viewed_icon.png';
+import wix_icon from '../components/ControlPanel/images/wix_icon.png';
+import wizell_icon from '../components/ControlPanel/images/wizell_icon.png';
+import xintel_icon from '../components/ControlPanel/images/xintel_icon.png';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
@@ -379,6 +388,81 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: go_to_webinar_icon,
             imgAlt: 'control_panel.zapier_integrations.go_to_webinar',
             iconName: 'control_panel.zapier_integrations.go_to_webinar',
+            targetBlank: true,
+          },
+        ],
+      },
+      {
+        title: 'control_panel.external_integrations.title',
+        boxes: [
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,
+            imgSrc: payu_icon,
+            imgAlt: 'control_panel.external_integrations.payU_title',
+            iconName: 'control_panel.external_integrations.payU_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-infor-crm`,
+            imgSrc: infor_icon,
+            imgAlt: 'control_panel.external_integrations.infor_title',
+            iconName: 'control_panel.external_integrations.infor_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-wizell-con-doppler`,
+            imgSrc: wizell_icon,
+            imgAlt: 'control_panel.external_integrations.wizell_title',
+            iconName: 'control_panel.external_integrations.wizell_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-xintel`,
+            imgSrc: xintel_icon,
+            imgAlt: 'control_panel.external_integrations.xintel_title',
+            iconName: 'control_panel.external_integrations.xintel_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-sumaprop`,
+            imgSrc: sumaprop_icon,
+            imgAlt: 'control_panel.external_integrations.sumaprop_title',
+            iconName: 'control_panel.external_integrations.sumaprop_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/insertar-formulario-en-wix`,
+            imgSrc: wix_icon,
+            imgAlt: 'control_panel.external_integrations.wix_title',
+            iconName: 'control_panel.external_integrations.wix_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/en/como-integrar-doppler-y-lander`,
+            imgSrc: lander__icon,
+            imgAlt: 'control_panel.external_integrations.lander_title',
+            iconName: 'control_panel.external_integrations.lander_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-formularios-de-wordpress-con-doppler`,
+            imgSrc: learnpress_icon,
+            imgAlt: 'control_panel.external_integrations.leanrpress_title',
+            iconName: 'control_panel.external_integrations.leanrpress_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-videos-en-tus-campanas`,
+            imgSrc: viewed_icon,
+            imgAlt: 'control_panel.external_integrations.viewed_title',
+            iconName: 'control_panel.external_integrations.viewed_title',
+            targetBlank: true,
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-publicar-un-formulario-en-una-facebook-tab`,
+            imgSrc: facebook_icon,
+            imgAlt: 'control_panel.external_integrations.facebook_title',
+            iconName: 'control_panel.external_integrations.facebook_title',
             targetBlank: true,
           },
         ],
