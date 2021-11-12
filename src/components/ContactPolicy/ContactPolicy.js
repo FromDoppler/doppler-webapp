@@ -330,9 +330,7 @@ export const ContactPolicy = InjectAppServices(
                             <span className="align-button m-l-24">
                               <button
                                 type="submit"
-                                disabled={
-                                  !(isValid && dirty) || isSubmitting || (formSubmitted && !error)
-                                }
+                                disabled={!isValid || !dirty || isSubmitting}
                                 className={
                                   'dp-button button-medium primary-green' +
                                   ((isSubmitting && ' button--loading') || '')
