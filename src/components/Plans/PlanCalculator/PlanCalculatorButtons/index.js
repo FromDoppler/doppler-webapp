@@ -16,13 +16,14 @@ export const PlanCalculatorButtons = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const query = useQueryParams();
-    const promoCode = query.get('promo-code');
+    const promoCode = query.get('promo-code') ?? query.get('PromoCode');
 
     const sessionPlan = appSessionRef.current.userData.user;
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
     const newCheckoutEnabled = experimentalFeatures.getFeature('newCheckoutEnabled');
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
+
     return (
       <div className="dp-container">
         <div className="dp-rowflex">
