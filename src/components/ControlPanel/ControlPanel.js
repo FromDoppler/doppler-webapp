@@ -68,12 +68,7 @@ export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelSer
                   {controlPanelSections[indexSection].boxes
                     .sort(sortByStatus)
                     .map((box, indexBox) => (
-                      <ControlPanelBox
-                        box={box}
-                        key={`box-${indexBox}`}
-                        disabled={!!box.disabled}
-                        hidden={!!box.hidden}
-                      />
+                      <ControlPanelBox box={box} key={`box-${indexBox}`} />
                     ))}
                 </div>
               </div>

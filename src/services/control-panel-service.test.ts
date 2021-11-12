@@ -24,9 +24,6 @@ describe('Control Panel Service', () => {
       user: {
         hasClientManager: false,
       },
-      features: {
-        siteTrackingEnabled: true,
-      },
     };
 
     const controlPanelService = createControlPanelService(userData);
@@ -44,26 +41,6 @@ describe('Control Panel Service', () => {
         });
       }),
     );
-  });
-
-  it('should get a hidden box', async () => {
-    // Arrange
-    const userData = {
-      user: {
-        hasClientManager: false,
-      },
-      features: {
-        siteTrackingEnabled: false,
-      },
-    };
-
-    const controlPanelService = createControlPanelService(userData);
-
-    // Act
-    const result = controlPanelService.getControlPanelSections();
-
-    // Assert
-    expect(result[1].boxes[7].hidden === true).toBe(true);
   });
 
   it('should get a disabled box and GetBillingInformation link', async () => {
