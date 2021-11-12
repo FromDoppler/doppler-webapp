@@ -213,7 +213,7 @@ describe('CreditCard component', () => {
     render(<CreditCardElement withError={false} updateView={actionPage.UPDATE} />);
 
     // Assert
-    const avalilableCrediCardsLegend = screen.getByText(
+    const avalilableCrediCardsLegend = await screen.findByText(
       'checkoutProcessForm.payment_method.availabled_credit_cards_legend',
     );
 
