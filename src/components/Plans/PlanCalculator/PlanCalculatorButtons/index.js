@@ -17,6 +17,7 @@ export const PlanCalculatorButtons = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const query = useQueryParams();
     const promoCode = query.get('promo-code') ?? query.get('PromoCode');
+    const originParam = query.get('origin');
 
     const sessionPlan = appSessionRef.current.userData.user;
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
@@ -48,6 +49,7 @@ export const PlanCalculatorButtons = InjectAppServices(
                   planId: selectedPlanId,
                   discountId: selectedDiscountId,
                   promoCode,
+                  originParam,
                   newCheckoutEnabled,
                 })}
               >
@@ -67,14 +69,17 @@ const getBuyPurchaseUrl = ({
   planId,
   discountId,
   promoCode,
+  originParam,
   newCheckoutEnabled,
 }) => {
   return newCheckoutEnabled
     ? `/checkout/premium/${planType}?selected-plan=${planId}` +
         `${discountId ? `&discountId=${discountId}` : ''}` +
-        `${promoCode ? `&PromoCode=${promoCode}` : ''}`
+        `${promoCode ? `&PromoCode=${promoCode}` : ''}` +
+        `${originParam ? `&origin=${originParam}` : ''}`
     : controlPanelUrl +
         `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True` +
         `${discountId ? `&IdDiscountPlan=${discountId}` : ''}` +
-        `${promoCode ? `&PromoCode=${promoCode}` : ''}`;
+        `${promoCode ? `&PromoCode=${promoCode}` : ''}` +
+        `${originParam ? `&origin=${originParam}` : ''}`;
 };
