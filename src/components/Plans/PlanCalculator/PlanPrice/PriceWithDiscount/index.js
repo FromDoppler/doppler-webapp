@@ -23,11 +23,7 @@ export const PriceWithDiscount = ({ selectedPlan, selectedDiscount }) => {
       {_(
         'plan_calculator.with_' + selectedDiscount.subscriptionType.replace('-', '_') + '_discount',
       )}
-      <strong>
-        {' '}
-        US$
-        {planFeeWithDiscount}
-      </strong>
+      <strong> US$ {planFeeWithDiscount}</strong>
     </p>
   );
 };

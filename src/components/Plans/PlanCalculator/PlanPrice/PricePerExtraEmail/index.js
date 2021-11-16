@@ -20,7 +20,7 @@ export const PricePerExtraEmail = ({ selectedPlan }) => {
     <p className="dp-cost-per-email">
       {_('plan_calculator.cost_per_email')}{' '}
       <span className="dp-price-large-money">
-        <strong>US${extraEmailPrice}</strong>
+        <strong>US$ {extraEmailPrice}</strong>
       </span>
     </p>
   );
