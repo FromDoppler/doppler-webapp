@@ -85,6 +85,43 @@ describe('plansByTypeReducer', () => {
     });
   });
 
+  it(`${PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN} action`, () => {
+    // Arrange
+    const plansByType = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
+
+    const actionPopulatePlans = {
+      type: PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE,
+      payload: plansByType,
+    };
+
+    const _selectedPlanIndex = 2;
+    const selectedDiscountIndex = 1;
+    const _discounts =
+      plansByType[_selectedPlanIndex]?.billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ??
+      [];
+
+    const selectedDiscount = _discounts[selectedDiscountIndex];
+
+    const action = {
+      type: PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN,
+      payload: {
+        _selectedPlanIndex,
+        selectedDiscountIndex,
+      },
+    };
+
+    // Act
+    const STATEPOPULATED = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, actionPopulatePlans);
+    const newState = plansByTypeReducer(STATEPOPULATED, action);
+
+    // Assert
+    expect(newState).toEqual({
+      ...STATEPOPULATED,
+      discounts: _discounts,
+      selectedDiscount,
+    });
+  });
+
   it('should return initialState when the action is not defined', () => {
     // Arrange
     const action = {

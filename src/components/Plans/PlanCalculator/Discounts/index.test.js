@@ -119,11 +119,11 @@ describe('Discount component', () => {
     // simulates that the 10% discount is selected
     selectedDiscountButton = getButtonByDiscount(FAKE_DISCOUNT_LIST[1]);
     userEvent.click(selectedDiscountButton);
-    expect(handleChange).toHaveBeenCalledWith(FAKE_DISCOUNT_LIST[1]);
+    expect(handleChange).toHaveBeenCalledWith(1, FAKE_DISCOUNT_LIST[1]);
 
     // simulates that the 25% discount is selected
     selectedDiscountButton = getButtonByDiscount(FAKE_DISCOUNT_LIST[2]);
     userEvent.click(selectedDiscountButton);
-    expect(handleChange).toHaveBeenCalledWith(FAKE_DISCOUNT_LIST[2]);
+    expect(handleChange).toHaveBeenCalledWith(2, FAKE_DISCOUNT_LIST[2]);
   });
 });

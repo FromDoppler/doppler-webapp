@@ -15,13 +15,15 @@ export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => 
       <div className="dp-wrap-subscription">
         <h4>{_('plan_calculator.discount_title')}</h4>
         <ul aria-label="discounts">
-          {discounts.map((discount) => (
+          {discounts.map((discount, index) => (
             <li key={discount.id}>
               <button
                 className={`dp-button button-medium ${
-                  discount.id === selectedDiscount?.id ? 'btn-active' : ''
+                  discount.discountPercentage === selectedDiscount?.discountPercentage
+                    ? 'btn-active'
+                    : ''
                 }`}
-                onClick={() => onSelectDiscount(discount)}
+                onClick={() => onSelectDiscount(index, discount)}
               >
                 {getDiscountName(discount.subscriptionType)}
               </button>

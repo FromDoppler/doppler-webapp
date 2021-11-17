@@ -51,16 +51,17 @@ export const plansByTypeReducer = (state, action) => {
         selectedDiscount,
       };
     case PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN:
-      const { payload: selectedPlanIndex } = action;
+      const { payload } = action;
+      const { _selectedPlanIndex: selectedPlanIndex, selectedDiscountIndex } = payload;
       const _discounts =
-        state.plansByType[selectedPlanIndex].billingCycleDetails
+        state.plansByType[selectedPlanIndex]?.billingCycleDetails
           ?.map(mapDiscount)
           .sort(orderDiscount) ?? [];
 
       return {
         ...state,
         discounts: _discounts,
-        selectedDiscount: _discounts[0],
+        selectedDiscount: _discounts[selectedDiscountIndex],
       };
     default:
       return state;
