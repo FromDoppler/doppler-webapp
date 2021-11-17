@@ -28,7 +28,8 @@ export const plansByTypeReducer = (state, action) => {
     case PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE:
       const { payload: plansByType } = action;
       const sliderValuesRange = plansByType.map(amountByPlanType);
-      const discounts = plansByType[0].billingCycleDetails?.map(mapDiscount) ?? [];
+      const discounts =
+        plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
       return {
         ...state,
         loading: false,
@@ -52,7 +53,9 @@ export const plansByTypeReducer = (state, action) => {
     case PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN:
       const { payload: selectedPlanIndex } = action;
       const _discounts =
-        state.plansByType[selectedPlanIndex].billingCycleDetails?.map(mapDiscount) ?? [];
+        state.plansByType[selectedPlanIndex].billingCycleDetails
+          ?.map(mapDiscount)
+          .sort(orderDiscount) ?? [];
 
       return {
         ...state,
@@ -85,6 +88,9 @@ export const mapDiscount = (discount) => ({
   numberMonths: getMonthsByCycle(discount.billingCycle),
   discountPercentage: discount.discountPercentage,
 });
+
+export const orderDiscount = (currentDiscount, nextDiscount) =>
+  currentDiscount.numberMonths - nextDiscount.numberMonths;
 
 export const getMonthsByCycle = (subscriptionType) => {
   switch (subscriptionType) {

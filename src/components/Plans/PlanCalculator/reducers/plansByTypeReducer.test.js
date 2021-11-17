@@ -4,6 +4,7 @@ import {
   amountByPlanType,
   INITIAL_STATE_PLANS_BY_TYPE,
   mapDiscount,
+  orderDiscount,
   plansByTypeReducer,
   PLANS_BY_TYPE_ACTIONS,
 } from './plansByTypeReducer';
@@ -35,7 +36,8 @@ describe('plansByTypeReducer', () => {
     const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
 
     // Assert
-    const discounts = plansByType[0].billingCycleDetails?.map(mapDiscount) ?? [];
+    const discounts =
+      plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
     expect(newState).toEqual({
       ...INITIAL_STATE_PLANS_BY_TYPE,
       loading: false,
