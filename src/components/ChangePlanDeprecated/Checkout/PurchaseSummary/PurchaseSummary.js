@@ -9,6 +9,7 @@ import queryString from 'query-string';
 import useTimeout from '../../../../hooks/useTimeout';
 import { paymentType } from '../PaymentMethod/PaymentMethod';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { InvoiceRecipients } from './InvoiceRecipients';
 
 const dollarSymbol = 'US$';
 
@@ -120,24 +121,6 @@ export const StatusMessage = ({ type, message, show }) => {
         </div>
       </div>
       <hr className="m-t-24 m-b-24"></hr>
-    </>
-  );
-};
-
-export const EditAddRecipients = ({ show }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  if (!show) {
-    return null;
-  }
-
-  return (
-    <>
-      <p>{_('checkoutProcessForm.purchase_summary.send_invoice_email_message')}</p>
-      <button type="button" className="dp-link-recipients">
-        {_('checkoutProcessForm.purchase_summary.edit_add_recipients_button')}
-      </button>
     </>
   );
 };
@@ -274,7 +257,7 @@ export const ShoppingList = ({ state, planType }) => {
 
 export const PurchaseSummary = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient },
+    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
     discountId,
     paymentMethod,
     canBuy,
@@ -291,6 +274,7 @@ export const PurchaseSummary = InjectAppServices(
     const [saved, setSaved] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(false);
+    const [recipients, setRecipients] = useState([]);
     const createTimeout = useTimeout();
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -304,6 +288,13 @@ export const PurchaseSummary = InjectAppServices(
     useEffect(() => {
       const fetchData = async () => {
         let paymentMethodType = paymentMethod;
+        const userEmail = appSessionRef.current.userData.user.email;
+
+        var invoiceRecipientsData = await dopplerBillingUserApiClient.getInvoiceRecipientsData();
+
+        setRecipients(
+          invoiceRecipientsData.success ? invoiceRecipientsData.value.recipients : [userEmail],
+        );
 
         if (paymentMethod === '') {
           const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
@@ -347,6 +338,7 @@ export const PurchaseSummary = InjectAppServices(
       selectedPlan,
       paymentMethod,
       planType,
+      appSessionRef,
     ]);
 
     const getPlanTypeTitle = () => {
@@ -382,6 +374,12 @@ export const PurchaseSummary = InjectAppServices(
           history.push('/checkout-summary');
         }, 3000);
       }
+    };
+
+    const updateInvoiceRecipients = async (recipients) => {
+      setRecipients(recipients);
+
+      await dopplerBillingUserApiClient.updateInvoiceRecipients(recipients, selectedPlan);
     };
 
     const { total } = state.amountDetails;
@@ -424,7 +422,13 @@ export const PurchaseSummary = InjectAppServices(
           type={saved ? 'success' : 'cancel'}
           message={_(`checkoutProcessForm.purchase_summary.${saved ? 'success' : 'error'}_message`)}
         />
-        <EditAddRecipients show={false} />
+        <InvoiceRecipients
+          emails={recipients}
+          viewOnly={true}
+          onSubmit={(values) => {
+            updateInvoiceRecipients(values.editRecipients);
+          }}
+        />
       </>
     );
   },

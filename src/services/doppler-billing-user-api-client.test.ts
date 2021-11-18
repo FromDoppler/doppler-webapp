@@ -8,6 +8,7 @@ import {
   fakePaymentMethodInformation,
   fakePaymentMethod,
   fakeAgreement,
+  fakeInvoiceRecipients,
 } from './doppler-billing-user-api-client.double';
 
 const consoleError = console.error;
@@ -273,5 +274,62 @@ describe('HttpDopplerBillingUserApiClient', () => {
         url: '/accounts/email@mail.com/agreements',
       }),
     );
+  });
+
+  it('should get invoice recipients information', async () => {
+    // Arrange
+    const invoiceRecipients = {
+      data: fakeInvoiceRecipients,
+      status: 200,
+    };
+    const request = jest.fn(async () => invoiceRecipients);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getInvoiceRecipientsData();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail to get invoice recipients information', async () => {
+    // Arrange
+    const response = {
+      status: 500,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getInvoiceRecipientsData();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
+  it('should update invoice recipients', async () => {
+    // Arrange
+    const values = fakeInvoiceRecipients;
+    const planId = 5;
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updateInvoiceRecipients(values, planId);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
   });
 });

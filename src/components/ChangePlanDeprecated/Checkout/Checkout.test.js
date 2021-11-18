@@ -13,7 +13,10 @@ import {
 } from '../../../services/static-data-client.double';
 import { fakePlanAmountDetails } from '../../../services/doppler-account-plans-api-client';
 import { fakePlan } from '../../../services/doppler-account-plans-api-client.double';
-import { fakePaymentMethodInformation } from '../../../services//doppler-billing-user-api-client.double';
+import {
+  fakeInvoiceRecipients,
+  fakePaymentMethodInformation,
+} from '../../../services//doppler-billing-user-api-client.double';
 import { fakeAccountPlanDiscounts } from '../../../services/doppler-account-plans-api-client.double';
 
 describe('Checkout component', () => {
@@ -32,6 +35,20 @@ describe('Checkout component', () => {
   };
 
   const dependencies = {
+    appSessionRef: {
+      current: {
+        userData: {
+          user: {
+            email: 'hardcoded@email.com',
+            plan: {
+              planType: '1',
+              planSubscription: 1,
+              monthPlan: 1,
+            },
+          },
+        },
+      },
+    },
     dopplerUserApiClient: {
       getContactInformationData: async () => {
         return { success: true, value: contactInformation };
@@ -48,6 +65,12 @@ describe('Checkout component', () => {
     dopplerBillingUserApiClient: {
       getPaymentMethodData: async () => {
         return { success: true, value: fakePaymentMethodInformation };
+      },
+      getInvoiceRecipientsData: async () => {
+        return { success: true, value: fakeInvoiceRecipients };
+      },
+      updateInvoiceRecipients: async () => {
+        return { success: true };
       },
     },
     dopplerAccountPlansApiClient: {
