@@ -815,7 +815,7 @@ deletion, security, cross-border data transfers and other issues.
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
     resend_email: `Resent it`,
     sign_up: `Email, Automation & Data Marketing`,
-    sign_up_sub: `Attract, Engage and Convert. Send unlimited Emails up to 500 Subscribers for free.`,
+    sign_up_sub: `Try Doppler for free and send <Bold>unlimited Campaigns to 500 Contacts for 90 days.</Bold> Already have an account? <Link>Log In</Link>`,
     thanks_for_registering: `Thank you for registering`,
     url_site: `${urlSiteFromSignup}`,
   },
