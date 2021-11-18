@@ -124,7 +124,10 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
               <span>{_('big_query.plus_step_one')}</span>
               <strong>
                 <div className="p-heading">
-                  <FormattedMessageMarkdown id="big_query.plus_body_step_one_MD" />
+                  <FormattedMessageMarkdown
+                    linkTarget={'_blank'}
+                    id="big_query.plus_body_step_one_MD"
+                  />
                 </div>
               </strong>
               <p className="m-t-24">{_('big_query.plus_step_one_paragraph')}</p>
@@ -142,7 +145,10 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
               <span>{_('big_query.plus_step_two')}</span>
               <strong>
                 <div className="p-heading">
-                  <FormattedMessageMarkdown id="big_query.plus_body_step_two_MD" />
+                  <FormattedMessageMarkdown
+                    linkTarget={'_blank'}
+                    id="big_query.plus_body_step_two_MD"
+                  />
                 </div>
               </strong>
               <div className="m-t-24">
