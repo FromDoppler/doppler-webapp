@@ -224,6 +224,7 @@ const messages_en = {
       discount_for_payment_paid: 'Positive balance:',
       discount_for_prepayment: 'Discount for prepayment:',
       edit_add_recipients_button: 'Edit or add recipients',
+      edit_add_recipients_confirmation_button: 'Confirm edit',
       error_message: 'Your payment couldn’t be processed. Choose a different payment method or try it later.',
       explanatory_legend: 'The renewal is automatic and you can cancel it whenever you want. Price Plan may be taxable.',
       explanatory_legend_by_credits: 'Price Plan may be taxable, according to your tax category. You’ll find them detailed on the invoice.',

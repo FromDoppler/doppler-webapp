@@ -4,13 +4,30 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { PurchaseSummary } from './PurchaseSummary';
-import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
+import {
+  fakeInvoiceRecipients,
+  fakePaymentMethodInformation,
+} from '../../../../services/doppler-billing-user-api-client.double';
 import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-plans-api-client.double';
 import { fakePlanAmountDetails } from '../../../..//services/doppler-account-plans-api-client';
 import user from '@testing-library/user-event';
 import { PLAN_TYPE } from '../../../../doppler-types';
 
 const dependencies = (dopplerAccountPlansApiClientDouble, dopplerBillingUserApiClientDouble) => ({
+  appSessionRef: {
+    current: {
+      userData: {
+        user: {
+          email: 'hardcoded@email.com',
+          plan: {
+            planType: '1',
+            planSubscription: 1,
+            monthPlan: 1,
+          },
+        },
+      },
+    },
+  },
   dopplerBillingUserApiClient: dopplerBillingUserApiClientDouble,
   dopplerAccountPlansApiClient: dopplerAccountPlansApiClientDouble,
 });
@@ -24,6 +41,12 @@ const dopplerAccountPlansApiClientDoubleBase = {
 const dopplerBillingUserApiClientDoubleBase = {
   getPaymentMethodData: async () => {
     return { success: true, value: fakePaymentMethodInformation };
+  },
+  getInvoiceRecipientsData: async () => {
+    return { success: true, value: fakeInvoiceRecipients };
+  },
+  updateInvoiceRecipients: async () => {
+    return { success: true };
   },
 };
 
@@ -711,6 +734,12 @@ describe.each([
       },
       purchase: async () => {
         return { success: false };
+      },
+      getInvoiceRecipientsData: async () => {
+        return { success: true, value: fakeInvoiceRecipients };
+      },
+      updateInvoiceRecipients: async () => {
+        return { success: true };
       },
     };
 

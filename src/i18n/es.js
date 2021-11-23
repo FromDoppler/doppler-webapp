@@ -225,6 +225,7 @@ const messages_es = {
       discount_for_payment_paid: 'Saldo a favor:',
       discount_for_prepayment: 'Descuento por pago adelantado:',
       edit_add_recipients_button: 'Editar o agregar destinatarios',
+      edit_add_recipients_confirmation_button: 'Confirmar edición',
       error_message: 'Tu pago no pudo procesarse. Elige otro método de pago o inténtalo más tarde.',
       explanatory_legend: 'La renovación es automática y puedes cancelarla cuando quieras. El precio del Plan puede estar sujeto a impuestos.',
       explanatory_legend_by_credits: 'El precio del Plan puede estar sujeto a impuestos, de acuerdo a la categoría impositiva. Estos estarán detallados en tu factura.',

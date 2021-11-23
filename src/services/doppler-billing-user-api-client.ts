@@ -9,6 +9,8 @@ export interface DopplerBillingUserApiClient {
   getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>>;
   updatePaymentMethod(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   purchase(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>>;
+  updateInvoiceRecipients(values: any, planId: number): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -151,6 +153,13 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     };
   }
 
+  private mapInvoiceRecipientsToUpdate(data: any, planId: number): any {
+    return {
+      planId: planId,
+      recipients: data,
+    };
+  }
+
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>
   > {
@@ -243,6 +252,50 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         method: 'POST',
         url: `/accounts/${email}/agreements`,
         data: this.mapAgreementToCreate(values),
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/billing-information/invoice-recipients`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updateInvoiceRecipients(
+    values: any,
+    planId: number,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/billing-information/invoice-recipients`,
+        data: this.mapInvoiceRecipientsToUpdate(values, planId),
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

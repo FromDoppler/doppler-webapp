@@ -74,6 +74,8 @@ export const fakePaymentMethodInformationWithTransfer = {
   identificationNumber: '12345678',
 };
 
+export const fakeInvoiceRecipients = ['harcode_1@mail.com', 'harcode_2@mail.com'];
+
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>
@@ -119,5 +121,27 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     console.log('purchase', values);
     await timeout(1500);
     return { success: true };
+  }
+
+  public async getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>> {
+    console.log('getInvoiceRecipientsData');
+    await timeout(1500);
+
+    return {
+      value: fakeInvoiceRecipients,
+      success: true,
+    };
+  }
+
+  public async updateInvoiceRecipients(
+    values: any,
+    planId: number,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log('updateInvoiceRecipients');
+    console.log(values);
+    return {
+      success: true,
+    };
   }
 }
