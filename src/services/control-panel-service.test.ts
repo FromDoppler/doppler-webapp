@@ -23,6 +23,9 @@ describe('Control Panel Service', () => {
     const userData = {
       user: {
         hasClientManager: false,
+        plan: {
+          isFreeAccount: false,
+        },
       },
     };
 
@@ -48,9 +51,9 @@ describe('Control Panel Service', () => {
     const userData = {
       user: {
         hasClientManager: true,
-      },
-      features: {
-        siteTrackingEnabled: false,
+        plan: {
+          isFreeAccount: false,
+        },
       },
     };
 
@@ -62,5 +65,27 @@ describe('Control Panel Service', () => {
     // Assert
     expect(result[0].boxes[3].linkUrl.includes('GetBillingInformation')).toBe(true);
     expect(result[0].boxes[4].disabled === true).toBe(true);
+  });
+
+  it('Account history, billing information and SMS settings boxes should be disabled ', async () => {
+    // Arrange
+    const userData = {
+      user: {
+        hasClientManager: false,
+        plan: {
+          isFreeAccount: true,
+        },
+      },
+    };
+
+    const controlPanelService = createControlPanelService(userData);
+
+    // Act
+    const result = controlPanelService.getControlPanelSections();
+
+    // Assert
+    expect(result[0].boxes[1].disabled).toBe(true);
+    expect(result[0].boxes[3].disabled).toBe(true);
+    expect(result[0].boxes[4].disabled).toBe(true);
   });
 });

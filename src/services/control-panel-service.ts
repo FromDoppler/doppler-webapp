@@ -96,6 +96,7 @@ export class ControlPanelService implements ControlPanelService {
         ? this.appSessionRef.current.userData
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
+    const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
 
     return [
       {
@@ -112,6 +113,7 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: account_movements_icon,
             imgAlt: 'control_panel.account_preferences.account_movements_title',
             iconName: 'control_panel.account_preferences.account_movements_title',
+            disabled: isFreeAccount,
           },
           {
             linkUrl: `${urlAccountPreferences}/GetContactInformation`,
@@ -126,19 +128,21 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: billing_information_icon,
             imgAlt: 'control_panel.account_preferences.billing_information_title',
             iconName: 'control_panel.account_preferences.billing_information_title',
+            disabled: isFreeAccount,
           },
           {
             linkUrl: `${urlAccountPreferences}/GetSmsConfiguration`,
             imgSrc: sms_settings_icon,
             imgAlt: 'control_panel.account_preferences.sms_settings_title',
             iconName: 'control_panel.account_preferences.sms_settings_title',
-            disabled: isClientManager,
+            disabled: isFreeAccount || isClientManager,
           },
           {
             linkUrl: 'AccountPreferences/plan-selection',
             imgSrc: plans_and_specs_icon,
             imgAlt: 'control_panel.account_preferences.plans_and_specs_title',
             iconName: 'control_panel.account_preferences.plans_and_specs_title',
+            hidden: true,
           },
         ],
       },
