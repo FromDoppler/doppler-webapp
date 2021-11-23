@@ -84,8 +84,8 @@ describe('Control Panel Service', () => {
     const result = controlPanelService.getControlPanelSections();
 
     // Assert
-    expect(result[0].boxes[1].disabled === true).toBe(true);
-    expect(result[0].boxes[3].disabled === true).toBe(true);
-    expect(result[0].boxes[4].disabled === true).toBe(true);
+    expect(result[0].boxes[1].disabled).toBe(true);
+    expect(result[0].boxes[3].disabled).toBe(true);
+    expect(result[0].boxes[4].disabled).toBe(true);
   });
 });
