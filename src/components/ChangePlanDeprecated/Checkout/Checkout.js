@@ -26,6 +26,7 @@ const Checkout = () => {
   const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
   const [selectedDiscountId, setSelectedDiscountId] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+  const [appliedPromocode, setAppliedPromocode] = useState(false);
   const intl = useIntl();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -111,6 +112,7 @@ const Checkout = () => {
                   >
                     <PaymentMethod
                       optionView={paymentInformationAction}
+                      appliedPromocode={appliedPromocode}
                       handleChangeView={(view) => {
                         setPaymentInformationAction(view);
                       }}
@@ -137,6 +139,9 @@ const Checkout = () => {
                   completeContactInformationStep &&
                   completeBillingInformationStep
                 }
+                onApplyPromocode={(promocode) => {
+                  setAppliedPromocode(promocode ? true : false);
+                }}
                 discountId={selectedDiscountId}
                 paymentMethod={selectedPaymentMethod}
               ></PurchaseSummary>

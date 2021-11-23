@@ -11,8 +11,10 @@ import {
   fakeQuestions,
   fakeStates,
 } from '../../../services/static-data-client.double';
-import { fakePlanAmountDetails } from '../../../services/doppler-account-plans-api-client';
-import { fakePlan } from '../../../services/doppler-account-plans-api-client.double';
+import {
+  fakePlan,
+  fakePlanAmountDetails,
+} from '../../../services/doppler-account-plans-api-client.double';
 import {
   fakeInvoiceRecipients,
   fakePaymentMethodInformation,

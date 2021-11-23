@@ -3,13 +3,6 @@ import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
-//TODO: Remove when the methods (getApportionmentAdjustmentData, getPlanData) are integrated with the API.
-export const fakePlanAmountDetails = {
-  discountPrepayment: { discountPercentage: 0, amount: 0 },
-  discountPaymentAlreadyPaid: 0,
-  total: 229.5,
-};
-
 export interface DopplerAccountPlansApiClient {
   getDiscountsData(
     planId: number,
@@ -23,6 +16,11 @@ export interface DopplerAccountPlansApiClient {
   ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>>;
 
   getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>>;
+
+  validatePromocode(
+    planId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<Promotion>>;
 }
 
 interface DopplerAccountPlansApiConnectionData {
@@ -35,6 +33,7 @@ export interface PlanDiscount {
   description: string;
   discountPercentage: number;
   monthsAmmount: number;
+  applyPromo: boolean;
 }
 
 export interface DiscountPrepayment {
@@ -42,9 +41,15 @@ export interface DiscountPrepayment {
   amount: number;
 }
 
+export interface DiscountPromocode {
+  discountPercentage: number;
+  amount: number;
+}
+
 export interface PlanAmountDetails {
   discountPaymentAlreadyPaid: number;
   discountPrepayment: DiscountPrepayment;
+  discountPromocode: DiscountPromocode;
   total: number;
 }
 
@@ -53,6 +58,11 @@ export interface Plan {
   subscribersQty: number;
   fee: number;
   type: string;
+}
+
+export interface Promotion {
+  extraCredits: number;
+  discountPercentage: number;
 }
 
 export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiClient {
@@ -113,6 +123,7 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
       description: this.getDiscountDescription(Number(discount.monthPlan)),
       discountPercentage: discount.discountPlanFee,
       monthsAmmount: Number(discount.monthPlan),
+      applyPromo: discount.applyPromo,
     }));
   }
 
@@ -149,7 +160,7 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/${planId}/calculate?discountId=${discountId}`,
+        url: `accounts/${email}/newplan/${planId}/calculate?discountId=${discountId}&promocode=${promocode}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -170,6 +181,29 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
       const response = await this.axios.request({
         method: 'GET',
         url: `plans/${planId}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async validatePromocode(
+    planId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<Promotion>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `plans/${planId}/validate/${promocode}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

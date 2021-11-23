@@ -8,8 +8,11 @@ import {
   fakeInvoiceRecipients,
   fakePaymentMethodInformation,
 } from '../../../../services/doppler-billing-user-api-client.double';
-import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-plans-api-client.double';
-import { fakePlanAmountDetails } from '../../../..//services/doppler-account-plans-api-client';
+import {
+  fakeAccountPlanDiscounts,
+  fakePromotion,
+  fakePlanAmountDetails,
+} from '../../../../services/doppler-account-plans-api-client.double';
 import user from '@testing-library/user-event';
 import { PLAN_TYPE } from '../../../../doppler-types';
 
