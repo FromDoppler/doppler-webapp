@@ -26,7 +26,6 @@ import {
 import { Slider } from './Slider';
 import { UnexpectedError } from './UnexpectedError';
 
-const INITIAL_VALUE_OF_SLIDER = 0;
 export const PlanCalculator = InjectAppServices(
   ({ dependencies: { planService, appSessionRef } }) => {
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
@@ -35,6 +34,7 @@ export const PlanCalculator = InjectAppServices(
     );
     const [
       {
+        selectedPlanIndex,
         plansByType,
         sliderValuesRange,
         discounts,
@@ -44,7 +44,6 @@ export const PlanCalculator = InjectAppServices(
       dispatchPlansByType,
     ] = useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
     const [activeClass, setActiveClass] = useState('active');
-    const [selectedPlanIndex, setSelectedPlanIndex] = useState(INITIAL_VALUE_OF_SLIDER);
     const createTimeout = useTimeout();
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -82,7 +81,6 @@ export const PlanCalculator = InjectAppServices(
       };
 
       if (planTypes.length > 0) {
-        setSelectedPlanIndex(INITIAL_VALUE_OF_SLIDER);
         fetchPlansByType();
       }
     }, [planService, planTypeUrlSegment, planTypes]);
@@ -95,7 +93,6 @@ export const PlanCalculator = InjectAppServices(
     const handleSliderChange = (e) => {
       const { value } = e.target;
       const _selectedPlanIndex = parseInt(value);
-      setSelectedPlanIndex(_selectedPlanIndex);
       dispatchPlansByType({
         type: PLANS_BY_TYPE_ACTIONS.SELECT_PLAN,
         payload: _selectedPlanIndex,

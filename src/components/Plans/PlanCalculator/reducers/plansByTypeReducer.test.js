@@ -28,13 +28,17 @@ describe('plansByTypeReducer', () => {
   it(`${PLANS_BY_TYPE_ACTIONS.FINISH_FETCH} action`, () => {
     // Arrange
     const plansByType = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
+    const initialState = {
+      ...INITIAL_STATE_PLANS_BY_TYPE,
+      selectedPlanIndex: 15, // An arbitrary plan
+    };
     const action = {
       type: PLANS_BY_TYPE_ACTIONS.FINISH_FETCH,
       payload: plansByType,
     };
 
     // Act
-    const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
+    const newState = plansByTypeReducer(initialState, action);
 
     // Assert
     const discounts =
@@ -42,6 +46,7 @@ describe('plansByTypeReducer', () => {
     expect(newState).toEqual(
       expect.objectContaining({
         loading: false,
+        selectedPlanIndex: 0,
         plansByType,
         sliderValuesRange: plansByType.map(amountByPlanType),
         discounts,
@@ -88,6 +93,31 @@ describe('plansByTypeReducer', () => {
       ...INITIAL_STATE_PLANS_BY_TYPE,
       selectedDiscount,
     });
+  });
+
+  it(`${PLANS_BY_TYPE_ACTIONS.SELECT_PLAN} action`, () => {
+    // Arrange
+    // TODO: it is not a realistic test because selectedPlanIndex should be one of the
+    // available plans
+    const initialState = {
+      ...INITIAL_STATE_PLANS_BY_TYPE,
+      plansByType: [{}, {}, {}, {}, {}, {}, {} ],
+    };
+    const selectedPlanIndex = 5;
+    const action = {
+      type: PLANS_BY_TYPE_ACTIONS.SELECT_PLAN,
+      payload: selectedPlanIndex,
+    };
+
+    // Act
+    const newState = plansByTypeReducer(initialState, action);
+
+    // Assert
+    expect(newState).toEqual(
+      expect.objectContaining({
+        selectedPlanIndex,
+      }),
+    );
   });
 
   it('should return initialState when the action is not defined', () => {
