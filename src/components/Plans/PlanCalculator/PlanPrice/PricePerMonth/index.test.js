@@ -29,4 +29,20 @@ describe('PricePerMonth component', () => {
     //Assert
     expect(screen.getByText(planFeeWithDiscount.toString())).toBeInTheDocument();
   });
+
+  it(`should hide the label "per month" when the plan is for credits`, () => {
+    //Arrange
+    const myFakePlan = allPlans.find((plan) => plan.type === PLAN_TYPE.byCredit);
+    const discountPercentage = 0;
+
+    //Act
+    render(
+      <IntlProvider>
+        <PricePerMonth selectedPlan={myFakePlan} discountPercentage={discountPercentage} />
+      </IntlProvider>,
+    );
+
+    //Assert
+    expect(screen.queryByText('plan_calculator.per_month')).not.toBeInTheDocument();
+  });
 });
