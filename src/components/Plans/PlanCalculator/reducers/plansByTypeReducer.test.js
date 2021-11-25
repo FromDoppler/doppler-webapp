@@ -18,10 +18,11 @@ describe('plansByTypeReducer', () => {
     const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
 
     // Assert
-    expect(newState).toEqual({
-      ...INITIAL_STATE_PLANS_BY_TYPE,
-      loading: !INITIAL_STATE_PLANS_BY_TYPE.loading,
-    });
+    expect(newState).toEqual(
+      expect.objectContaining({
+        loading: true,
+      }),
+    );
   });
 
   it(`${PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE} action`, () => {
@@ -38,14 +39,15 @@ describe('plansByTypeReducer', () => {
     // Assert
     const discounts =
       plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
-    expect(newState).toEqual({
-      ...INITIAL_STATE_PLANS_BY_TYPE,
-      loading: false,
-      plansByType,
-      sliderValuesRange: plansByType.map(amountByPlanType),
-      discounts,
-      selectedDiscount: discounts[0],
-    });
+    expect(newState).toEqual(
+      expect.objectContaining({
+        loading: false,
+        plansByType,
+        sliderValuesRange: plansByType.map(amountByPlanType),
+        discounts,
+        selectedDiscount: discounts[0],
+      }),
+    );
   });
 
   it(`${PLANS_BY_TYPE_ACTIONS.FETCH_FAILED} action`, () => {
@@ -56,15 +58,18 @@ describe('plansByTypeReducer', () => {
     const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
 
     // Assert
-    expect(newState).toEqual({
-      ...INITIAL_STATE_PLANS_BY_TYPE,
-      loading: false,
-      hasError: true,
-    });
+    expect(newState).toEqual(
+      expect.objectContaining({
+        loading: false,
+        hasError: true,
+      }),
+    );
   });
 
   it(`${PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT} action`, () => {
     // Arrange
+    // TODO: it is not a realistic test because selectedDiscount should be one of the
+    // plan's discounts
     const selectedDiscount = {
       id: 2,
       subscriptionType: SUBSCRIPTION_TYPE.quarterly,
