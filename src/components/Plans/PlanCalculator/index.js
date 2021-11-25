@@ -35,6 +35,7 @@ export const PlanCalculator = InjectAppServices(
     const [
       {
         selectedPlanIndex,
+        selectedPlan,
         plansByType,
         sliderValuesRange,
         discounts,
@@ -114,10 +115,8 @@ export const PlanCalculator = InjectAppServices(
       return <UnexpectedError />;
     }
 
-    const isEqualPlan = sessionPlan.plan.idPlan === plansByType[selectedPlanIndex]?.id;
+    const isEqualPlan = sessionPlan.plan.idPlan === selectedPlan?.id;
     const hightestPlan = plansByType.length === 1 && isEqualPlan;
-
-    const selectedPlan = plansByType[selectedPlanIndex];
 
     return (
       <>
@@ -173,7 +172,7 @@ export const PlanCalculator = InjectAppServices(
                   </article>
                 </S.PlanTabContainer>
                 <PlanCalculatorButtons
-                  selectedPlanId={plansByType[selectedPlanIndex]?.id}
+                  selectedPlanId={selectedPlan?.id}
                   selectedDiscountId={selectedDiscount?.id}
                 />
               </div>

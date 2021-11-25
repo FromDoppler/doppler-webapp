@@ -2,6 +2,7 @@ import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../../doppler-types';
 
 export const INITIAL_STATE_PLANS_BY_TYPE = {
   selectedPlanIndex: 0,
+  selectedPlan: null,
   plansByType: [],
   sliderValuesRange: [],
   discounts: [],
@@ -34,6 +35,7 @@ export const plansByTypeReducer = (state, action) => {
       return {
         ...state,
         selectedPlanIndex: 0,
+        selectedPlan: plansByType[0], // Assuming that there is at leas one plan
         loading: false,
         plansByType,
         sliderValuesRange,
@@ -62,6 +64,7 @@ export const plansByTypeReducer = (state, action) => {
       return {
         ...state,
         selectedPlanIndex,
+        selectedPlan: state.plansByType[selectedPlanIndex],
         discounts: _discounts,
         selectedDiscount: _discounts[0],
       };

@@ -47,6 +47,7 @@ describe('plansByTypeReducer', () => {
       expect.objectContaining({
         loading: false,
         selectedPlanIndex: 0,
+        selectedPlan: plansByType[0],
         plansByType,
         sliderValuesRange: plansByType.map(amountByPlanType),
         discounts,
@@ -97,11 +98,10 @@ describe('plansByTypeReducer', () => {
 
   it(`${PLANS_BY_TYPE_ACTIONS.SELECT_PLAN} action`, () => {
     // Arrange
-    // TODO: it is not a realistic test because selectedPlanIndex should be one of the
-    // available plans
+    const desiredPlan = { desiredPlan: true };
     const initialState = {
       ...INITIAL_STATE_PLANS_BY_TYPE,
-      plansByType: [{}, {}, {}, {}, {}, {}, {} ],
+      plansByType: [{}, {}, {}, {}, {}, desiredPlan, {}],
     };
     const selectedPlanIndex = 5;
     const action = {
@@ -116,6 +116,7 @@ describe('plansByTypeReducer', () => {
     expect(newState).toEqual(
       expect.objectContaining({
         selectedPlanIndex,
+        selectedPlan: desiredPlan,
       }),
     );
   });
