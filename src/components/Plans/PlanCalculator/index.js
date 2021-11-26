@@ -68,16 +68,16 @@ export const PlanCalculator = InjectAppServices(
     useEffect(() => {
       const fetchPlansByType = async () => {
         try {
-          dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.FETCHING_STARTED });
+          dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.START_FETCH });
           const _plansByType = await planService.getPlansByType(
             getPlanTypeFromUrlSegment(planTypeUrlSegment),
           );
           dispatchPlansByType({
-            type: PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE,
+            type: PLANS_BY_TYPE_ACTIONS.FINISH_FETCH,
             payload: _plansByType,
           });
         } catch (error) {
-          dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.FETCH_FAILED });
+          dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.FAIL_FETCH });
         }
       };
 
@@ -97,14 +97,14 @@ export const PlanCalculator = InjectAppServices(
       const _selectedPlanIndex = parseInt(value);
       setSelectedPlanIndex(_selectedPlanIndex);
       dispatchPlansByType({
-        type: PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN,
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_PLAN,
         payload: _selectedPlanIndex,
       });
     };
 
     const handleDiscountChange = (discount) => {
       dispatchPlansByType({
-        type: PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT,
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
         payload: discount,
       });
     };

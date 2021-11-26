@@ -10,9 +10,9 @@ import {
 } from './plansByTypeReducer';
 
 describe('plansByTypeReducer', () => {
-  it(`${PLANS_BY_TYPE_ACTIONS.FETCHING_STARTED} action`, () => {
+  it(`${PLANS_BY_TYPE_ACTIONS.START_FETCH} action`, () => {
     // Arrange
-    const action = { type: PLANS_BY_TYPE_ACTIONS.FETCHING_STARTED };
+    const action = { type: PLANS_BY_TYPE_ACTIONS.START_FETCH };
 
     // Act
     const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
@@ -25,11 +25,11 @@ describe('plansByTypeReducer', () => {
     );
   });
 
-  it(`${PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE} action`, () => {
+  it(`${PLANS_BY_TYPE_ACTIONS.FINISH_FETCH} action`, () => {
     // Arrange
     const plansByType = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
     const action = {
-      type: PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE,
+      type: PLANS_BY_TYPE_ACTIONS.FINISH_FETCH,
       payload: plansByType,
     };
 
@@ -50,9 +50,9 @@ describe('plansByTypeReducer', () => {
     );
   });
 
-  it(`${PLANS_BY_TYPE_ACTIONS.FETCH_FAILED} action`, () => {
+  it(`${PLANS_BY_TYPE_ACTIONS.FAIL_FETCH} action`, () => {
     // Arrange
-    const action = { type: PLANS_BY_TYPE_ACTIONS.FETCH_FAILED };
+    const action = { type: PLANS_BY_TYPE_ACTIONS.FAIL_FETCH };
 
     // Act
     const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
@@ -66,7 +66,7 @@ describe('plansByTypeReducer', () => {
     );
   });
 
-  it(`${PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT} action`, () => {
+  it(`${PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT} action`, () => {
     // Arrange
     // TODO: it is not a realistic test because selectedDiscount should be one of the
     // plan's discounts
@@ -76,7 +76,7 @@ describe('plansByTypeReducer', () => {
       discountPercentage: 10,
     };
     const action = {
-      type: PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT,
+      type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
       payload: selectedDiscount,
     };
 
