@@ -406,6 +406,9 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
   dashboard: {
     campaigns: 'Mis Campañas',
     contacts: 'Mis Contactos',
+    first_steps: {
+      section_name: 'Primeros Pasos',
+    },
     learn_with_doppler: 'Aprende con Doppler',
 
     postListBlog_1_description: '10 trucos para crear Campañas de texto plano atractivas',

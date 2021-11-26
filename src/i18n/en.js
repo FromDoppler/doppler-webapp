@@ -405,6 +405,9 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
   dashboard: {
     campaigns: 'My Deliveries',
     contacts: 'My Contacts',
+    first_steps: {
+      section_name: 'First Steps',
+    },
     learn_with_doppler: 'Learn with Doppler',
 
     postListBlog_1_description: 'How to create a File to Import your Contact List to Doppler',
