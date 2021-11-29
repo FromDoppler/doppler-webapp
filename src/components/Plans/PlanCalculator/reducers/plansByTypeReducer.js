@@ -1,6 +1,8 @@
 import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../../doppler-types';
 
 export const INITIAL_STATE_PLANS_BY_TYPE = {
+  selectedPlanIndex: 0,
+  selectedPlan: null,
   plansByType: [],
   sliderValuesRange: [],
   discounts: [],
@@ -10,47 +12,49 @@ export const INITIAL_STATE_PLANS_BY_TYPE = {
 };
 
 export const PLANS_BY_TYPE_ACTIONS = {
-  FETCHING_STARTED: 'FETCHING_STARTED',
-  RECEIVE_PLANS_BY_TYPE: 'RECEIVE_PLANS_BY_TYPE',
-  CHANGE_SELECTED_DISCOUNT: 'CHANGE_SELECTED_DISCOUNT',
-  SEARCH_DISCOUNTS_BY_INDEX_PLAN: 'SEARCH_DISCOUNTS_BY_INDEX_PLAN',
-  FETCH_FAILED: 'FETCH_FAILED',
+  START_FETCH: 'START_FETCH',
+  FINISH_FETCH: 'FINISH_FETCH',
+  SELECT_DISCOUNT: 'SELECT_DISCOUNT',
+  SELECT_PLAN: 'SELECT_PLAN',
+  FAIL_FETCH: 'FAIL_FETCH',
 };
 
 export const plansByTypeReducer = (state, action) => {
   switch (action.type) {
-    case PLANS_BY_TYPE_ACTIONS.FETCHING_STARTED:
+    case PLANS_BY_TYPE_ACTIONS.START_FETCH:
       return {
         ...state,
         loading: true,
         hasError: false,
       };
-    case PLANS_BY_TYPE_ACTIONS.RECEIVE_PLANS_BY_TYPE:
+    case PLANS_BY_TYPE_ACTIONS.FINISH_FETCH:
       const { payload: plansByType } = action;
       const sliderValuesRange = plansByType.map(amountByPlanType);
       const discounts =
         plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
       return {
         ...state,
+        selectedPlanIndex: 0,
+        selectedPlan: plansByType[0], // Assuming that there is at leas one plan
         loading: false,
         plansByType,
         sliderValuesRange,
         discounts,
         selectedDiscount: discounts[0],
       };
-    case PLANS_BY_TYPE_ACTIONS.FETCH_FAILED:
+    case PLANS_BY_TYPE_ACTIONS.FAIL_FETCH:
       return {
         ...state,
         loading: false,
         hasError: true,
       };
-    case PLANS_BY_TYPE_ACTIONS.CHANGE_SELECTED_DISCOUNT:
+    case PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT:
       const { payload: selectedDiscount } = action;
       return {
         ...state,
         selectedDiscount,
       };
-    case PLANS_BY_TYPE_ACTIONS.SEARCH_DISCOUNTS_BY_INDEX_PLAN:
+    case PLANS_BY_TYPE_ACTIONS.SELECT_PLAN:
       const { payload: selectedPlanIndex } = action;
       const _discounts =
         state.plansByType[selectedPlanIndex].billingCycleDetails
@@ -59,6 +63,8 @@ export const plansByTypeReducer = (state, action) => {
 
       return {
         ...state,
+        selectedPlanIndex,
+        selectedPlan: state.plansByType[selectedPlanIndex],
         discounts: _discounts,
         selectedDiscount: _discounts[0],
       };
