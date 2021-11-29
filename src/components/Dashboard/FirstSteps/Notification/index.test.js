@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Notification } from '.';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const notification = {
   iconClass: 'dp-step--welcome',
-  title: 'Welcome! You have already created your account',
-  description: 'continue completing the recommended actions that we list below to level up',
+  titleId: 'dashboard.first_steps.welcome_title',
+  descriptionId: 'dashboard.first_steps.welcome_description_MD',
 };
 
 describe('Notification component', () => {
@@ -16,14 +17,14 @@ describe('Notification component', () => {
     };
 
     // Act
-    render(<Notification {...props} />);
+    render(
+      <IntlProvider>
+        <Notification {...props} />
+      </IntlProvider>,
+    );
 
     // Arrange
-    expect(screen.getByText(props.title)).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /continue completing the recommended actions that we list below to level up/i,
-      ),
-    ).toBeInTheDocument();
+    expect(screen.getByText(props.titleId)).toBeInTheDocument();
+    expect(screen.getByText(props.descriptionId)).toBeInTheDocument();
   });
 });

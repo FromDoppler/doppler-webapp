@@ -1,9 +1,9 @@
+import { mapSystemUsageSummary } from '..';
 import {
   firstStepsFake,
   firstStepsReducer,
   FIRST_STEPS_ACTIONS,
   INITIAL_STATE_FIRST_STEPS,
-  orderItem,
 } from './firstStepsReducer';
 
 describe('firstStepsReducer', () => {
@@ -18,6 +18,7 @@ describe('firstStepsReducer', () => {
     expect(newState).toEqual({
       ...INITIAL_STATE_FIRST_STEPS,
       loading: !INITIAL_STATE_FIRST_STEPS.loading,
+      hasError: false,
     });
   });
 
@@ -25,7 +26,7 @@ describe('firstStepsReducer', () => {
     // Arrange
     const action = {
       type: FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS,
-      payload: firstStepsFake,
+      payload: mapSystemUsageSummary(firstStepsFake),
     };
 
     // Act
@@ -35,11 +36,8 @@ describe('firstStepsReducer', () => {
     expect(newState).toEqual({
       ...INITIAL_STATE_FIRST_STEPS,
       loading: false,
-      firstStepsData: {
-        ...firstStepsFake,
-        firstSteps: firstStepsFake.firstSteps.sort(orderItem),
-        notifications: firstStepsFake.notifications.sort(orderItem),
-      },
+      hasError: false,
+      firstStepsData: mapSystemUsageSummary(firstStepsFake),
     });
   });
 
