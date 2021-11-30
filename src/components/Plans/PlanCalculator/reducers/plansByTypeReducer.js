@@ -7,6 +7,7 @@ export const INITIAL_STATE_PLANS_BY_TYPE = {
   sliderValuesRange: [],
   discounts: [],
   selectedDiscount: null,
+  selectedDiscountIndex: 0,
   loading: false,
   hasError: false,
 };
@@ -41,6 +42,7 @@ export const plansByTypeReducer = (state, action) => {
         sliderValuesRange,
         discounts,
         selectedDiscount: discounts[0],
+        selectedDiscountIndex: 0,
       };
     case PLANS_BY_TYPE_ACTIONS.FAIL_FETCH:
       return {
@@ -50,9 +52,13 @@ export const plansByTypeReducer = (state, action) => {
       };
     case PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT:
       const { payload: selectedDiscount } = action;
+      const selectDiscountIndexAux = state.discounts.indexOf(selectedDiscount);
+      const selectedDiscountIndex = selectDiscountIndexAux !== -1 ? selectDiscountIndexAux : 0;
+
       return {
         ...state,
-        selectedDiscount,
+        selectedDiscount: state.discounts[selectedDiscountIndex],
+        selectedDiscountIndex,
       };
     case PLANS_BY_TYPE_ACTIONS.SELECT_PLAN:
       const { payload: selectedPlanIndex } = action;
@@ -60,13 +66,17 @@ export const plansByTypeReducer = (state, action) => {
         state.plansByType[selectedPlanIndex].billingCycleDetails
           ?.map(mapDiscount)
           .sort(orderDiscount) ?? [];
+      const selectedDiscountIndexAux = _discounts[state.selectedDiscountIndex]
+        ? state.selectedDiscountIndex
+        : 0;
 
       return {
         ...state,
         selectedPlanIndex,
         selectedPlan: state.plansByType[selectedPlanIndex],
         discounts: _discounts,
-        selectedDiscount: _discounts[0],
+        selectedDiscount: _discounts[selectedDiscountIndexAux],
+        selectedDiscountIndex: selectedDiscountIndexAux,
       };
     default:
       return state;
