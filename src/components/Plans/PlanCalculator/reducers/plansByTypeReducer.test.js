@@ -72,53 +72,251 @@ describe('plansByTypeReducer', () => {
     );
   });
 
-  it(`${PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT} action`, () => {
-    // Arrange
-    // TODO: it is not a realistic test because selectedDiscount should be one of the
-    // plan's discounts
-    const selectedDiscount = {
-      id: 2,
-      subscriptionType: SUBSCRIPTION_TYPE.quarterly,
-      discountPercentage: 10,
-    };
-    const action = {
-      type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
-      payload: selectedDiscount,
-    };
+  describe(`${PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT} action`, () => {
+    it(`should set a new discount and save discount position when index position exists`, () => {
+      // Arrange
+      // TODO: it is not a realistic test because selectedDiscount should be one of the
+      // plan's discounts
 
-    // Act
-    const newState = plansByTypeReducer(INITIAL_STATE_PLANS_BY_TYPE, action);
+      const discountA = {
+        id: 1,
+        subscriptionType: SUBSCRIPTION_TYPE.quarterly,
+        discountPercentage: 10,
+      };
 
-    // Assert
-    expect(newState).toEqual({
-      ...INITIAL_STATE_PLANS_BY_TYPE,
-      selectedDiscount,
+      const discountB = {
+        id: 2,
+        subscriptionType: SUBSCRIPTION_TYPE.monthly,
+        discountPercentage: 20,
+      };
+
+      const discounts = [discountA, discountB];
+
+      const expectedSelectedDiscountIndex = 1;
+
+      const initialState = {
+        ...INITIAL_STATE_PLANS_BY_TYPE,
+        discounts,
+      };
+
+      const action = {
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
+        payload: discountB,
+      };
+
+      // Act
+      const newState = plansByTypeReducer(initialState, action);
+
+      // Assert
+      expect(newState).toEqual(
+        expect.objectContaining({
+          ...initialState,
+          selectedDiscount: discountB,
+          selectedDiscountIndex: expectedSelectedDiscountIndex,
+        }),
+      );
+    });
+
+    it(`should set a new discount and reset discount position when index position does not exist`, () => {
+      // Arrange
+      // TODO: it is not a realistic test because selectedDiscount should be one of the
+      // plan's discounts
+
+      const discountA = {
+        id: 1,
+        subscriptionType: SUBSCRIPTION_TYPE.quarterly,
+        discountPercentage: 10,
+      };
+
+      const discountB = {
+        id: 2,
+        subscriptionType: SUBSCRIPTION_TYPE.monthly,
+        discountPercentage: 20,
+      };
+      const discountC = {
+        id: 3,
+        subscriptionType: SUBSCRIPTION_TYPE.yearly,
+        discountPercentage: 30,
+      };
+
+      const discounts = [discountA, discountB];
+
+      const expectedSelectedDiscountIndex = 0;
+
+      const initialState = {
+        ...INITIAL_STATE_PLANS_BY_TYPE,
+        discounts,
+      };
+
+      const action = {
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
+        payload: discountC,
+      };
+
+      // Act
+      const newState = plansByTypeReducer(initialState, action);
+
+      // Assert
+      expect(newState).toEqual(
+        expect.objectContaining({
+          ...initialState,
+          selectedDiscount: discountA,
+          selectedDiscountIndex: expectedSelectedDiscountIndex,
+        }),
+      );
     });
   });
 
-  it(`${PLANS_BY_TYPE_ACTIONS.SELECT_PLAN} action`, () => {
-    // Arrange
-    const desiredPlan = { desiredPlan: true };
-    const initialState = {
-      ...INITIAL_STATE_PLANS_BY_TYPE,
-      plansByType: [{}, {}, {}, {}, {}, desiredPlan, {}],
-    };
-    const selectedPlanIndex = 5;
-    const action = {
-      type: PLANS_BY_TYPE_ACTIONS.SELECT_PLAN,
-      payload: selectedPlanIndex,
-    };
+  describe(`${PLANS_BY_TYPE_ACTIONS.SELECT_PLAN} action`, () => {
+    it('Should select a new plan and set previous selected discount when its index exists in new plan discounts ', () => {
+      // Arrange
 
-    // Act
-    const newState = plansByTypeReducer(initialState, action);
+      const discountA = {
+        id: 1,
+        billingCycle: 'monthly',
+        discountPercentage: 10,
+      };
 
-    // Assert
-    expect(newState).toEqual(
-      expect.objectContaining({
-        selectedPlanIndex,
-        selectedPlan: desiredPlan,
-      }),
-    );
+      const discountB = {
+        id: 2,
+        billingCycle: 'quarterly',
+        discountPercentage: 20,
+      };
+      const discountC = {
+        id: 3,
+        billingCycle: 'yearly',
+        discountPercentage: 30,
+      };
+
+      const discounts = [discountA, discountB, discountC];
+      const desiredPlan = { desiredPlan: true, billingCycleDetails: discounts };
+      const initialState = {
+        ...INITIAL_STATE_PLANS_BY_TYPE,
+        plansByType: [{}, {}, desiredPlan, {}],
+        selectedDiscountIndex: 2,
+      };
+      const selectedPlanIndex = 2;
+      const expectedSelectedDiscountIndex = 2;
+      const expectedDiscounts = [
+        {
+          id: 1,
+          subscriptionType: 'monthly',
+          numberMonths: 1,
+          discountPercentage: 10,
+        },
+        {
+          id: 2,
+          subscriptionType: 'quarterly',
+          numberMonths: 3,
+          discountPercentage: 20,
+        },
+        {
+          id: 3,
+          subscriptionType: 'yearly',
+          numberMonths: 12,
+          discountPercentage: 30,
+        },
+      ];
+
+      const action = {
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_PLAN,
+        payload: selectedPlanIndex,
+      };
+
+      // Act
+      const newState = plansByTypeReducer(initialState, action);
+
+      // Assert
+      expect(newState).toEqual(
+        expect.objectContaining({
+          selectedPlanIndex,
+          selectedPlan: desiredPlan,
+          discounts: expectedDiscounts,
+          selectedDiscount: expectedDiscounts[2],
+          selectedDiscountIndex: expectedSelectedDiscountIndex,
+        }),
+      );
+    });
+
+    it('Should select a new plan and set first discount index when previous discount index does not exist in new plan discounts ', () => {
+      // Arrange
+
+      const discountA = {
+        id: 1,
+        billingCycle: 'monthly',
+        discountPercentage: 10,
+      };
+
+      const discountB = {
+        id: 2,
+        billingCycle: 'quarterly',
+        discountPercentage: 20,
+      };
+
+      const discounts = [discountA, discountB];
+      const previousDiscounts = [
+        {
+          id: 1,
+          subscriptionType: 'monthly',
+          numberMonths: 1,
+          discountPercentage: 10,
+        },
+        {
+          id: 2,
+          subscriptionType: 'quarterly',
+          numberMonths: 3,
+          discountPercentage: 20,
+        },
+        {
+          id: 3,
+          subscriptionType: 'monthly',
+          numberMonths: 12,
+          discountPercentage: 25,
+        },
+      ];
+      const desiredPlan = { desiredPlan: true, billingCycleDetails: discounts };
+      const initialState = {
+        ...INITIAL_STATE_PLANS_BY_TYPE,
+        plansByType: [{}, {}, {}, {}, {}, desiredPlan, {}],
+        selectedDiscountIndex: 2,
+        previousDiscounts,
+      };
+      const selectedPlanIndex = 5;
+      const expectedSelectedDiscountIndex = 0;
+      const expectedDiscounts = [
+        {
+          id: 1,
+          subscriptionType: 'monthly',
+          numberMonths: 1,
+          discountPercentage: 10,
+        },
+        {
+          id: 2,
+          subscriptionType: 'quarterly',
+          numberMonths: 3,
+          discountPercentage: 20,
+        },
+      ];
+
+      const action = {
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_PLAN,
+        payload: selectedPlanIndex,
+      };
+
+      // Act
+      const newState = plansByTypeReducer(initialState, action);
+
+      // Assert
+      expect(newState).toEqual(
+        expect.objectContaining({
+          selectedPlanIndex,
+          selectedPlan: desiredPlan,
+          discounts: expectedDiscounts,
+          selectedDiscount: expectedDiscounts[0],
+          selectedDiscountIndex: expectedSelectedDiscountIndex,
+        }),
+      );
+    });
   });
 
   it('should return initialState when the action is not defined', () => {
