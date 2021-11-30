@@ -393,6 +393,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     status_alert: 'ALERT',
     status_connected: 'CONNECTED',
     status_not_connected: 'NOT CONNECTED',
+    subtitle_MD: "Here you'll find all the **information about your account**, and you can configure your **Campaigns Preferences, domains and integrations** with other platforms.",
     title: 'Control Panel',
     zapier_integrations: {
       eventbrite: 'Eventbrite',

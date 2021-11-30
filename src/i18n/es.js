@@ -394,6 +394,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     status_alert: 'ALERTA',
     status_connected: 'INTEGRADO',
     status_not_connected: 'NO INTEGRADO',
+    subtitle_MD: 'Aquí encontrarás toda la **información relativa a tu cuenta** y podrás configurar tus **Preferencias de Campañas, dominios e integraciones** con otras plataformas.',
     title: 'Panel de Control',
     zapier_integrations: {
       eventbrite: 'Eventbrite',

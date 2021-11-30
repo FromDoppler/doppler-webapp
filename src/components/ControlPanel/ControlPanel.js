@@ -8,6 +8,7 @@ import * as S from './ControlPanel.styles';
 import connected from './images/connected.png';
 import connection_alert from './images/connection_alert.png';
 import disconnected from './images/disconnected.png';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 const sortByStatus = (a, b) => {
   return a.status
@@ -37,6 +38,7 @@ export const ControlPanel = InjectAppServices(({ dependencies: { controlPanelSer
       <HeaderSection>
         <div className="col-lg-10 col-md-12">
           <h2>{_('control_panel.title')}</h2>
+          <FormattedMessageMarkdown id={'control_panel.subtitle_MD'} />
         </div>
       </HeaderSection>
 
