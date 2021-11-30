@@ -7,11 +7,12 @@ import {
   PENDING_STATUS,
   WARNING_STATUS,
 } from '../reducers/firstStepsReducer';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const initialStepData = {
   status: PENDING_STATUS,
-  title: 'Create your first campaign',
-  description: 'Continue creating your first campaign',
+  titleId: 'dashboard.first_steps.has_campaings_created_title',
+  descriptionId: 'dashboard.first_steps.has_campaings_created_description_MD',
   textStep: 1,
 };
 
@@ -23,11 +24,15 @@ describe('ActionBox component', () => {
     };
 
     // Act
-    render(<ActionBox {...props} />);
+    render(
+      <IntlProvider>
+        <ActionBox {...props} />
+      </IntlProvider>,
+    );
 
     // Arrange
-    expect(screen.getByText(props.title)).toBeInTheDocument();
-    expect(screen.getByText(/Continue creating your first campaign/i)).toBeInTheDocument();
+    expect(screen.getByText(props.titleId)).toBeInTheDocument();
+    expect(screen.getByText(props.descriptionId)).toBeInTheDocument();
   });
 
   describe.each([
@@ -44,7 +49,11 @@ describe('ActionBox component', () => {
       };
 
       // Act
-      const { container } = render(<ActionBox {...props} />);
+      const { container } = render(
+        <IntlProvider>
+          <ActionBox {...props} />
+        </IntlProvider>,
+      );
 
       // Arrange
       expect(container.querySelector(`.${INFO_BY_STATE[status].classNames}`)).toBeInTheDocument();
