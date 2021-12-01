@@ -120,27 +120,20 @@ export const Discounts = ({
         </>
       ) : (
         <div className="dp-wrap-subscription">
-          <div className="dp-tooltip-container">
-            <label>{_('checkoutProcessForm.discount_title')}</label>
-            <ul>
-              {monthsOfRenewal.map((month, index) => (
-                <DiscountItem
-                  key={index}
-                  disabled={disabled}
-                  month={month}
-                  discountsList={discountsList}
-                  selectedDiscount={selectedDiscount}
-                  applyDiscount={applyDiscount}
-                  appliedPromocode={appliedPromocode}
-                />
-              ))}
-            </ul>
-            {appliedPromocode ? (
-              <div className="dp-tooltip-top">
-                <span>{_('checkoutProcessForm.payment_method.applied_promocode_tooltip')}</span>
-              </div>
-            ) : null}
-          </div>
+          <label>{_('checkoutProcessForm.discount_title')}</label>
+          <ul>
+            {monthsOfRenewal.map((month, index) => (
+              <DiscountItem
+                key={index}
+                disabled={disabled}
+                month={month}
+                discountsList={discountsList}
+                selectedDiscount={selectedDiscount}
+                applyDiscount={applyDiscount}
+                appliedPromocode={appliedPromocode}
+              />
+            ))}
+          </ul>
         </div>
       )}
     </>
