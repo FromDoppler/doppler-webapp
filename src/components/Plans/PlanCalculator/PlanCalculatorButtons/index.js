@@ -1,11 +1,10 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { TooltipContainer } from '../../../TooltipContainer/TooltipContainer';
 import * as S from './index.styles';
 import { getPlanTypeFromUrlSegment } from '../../../../utils';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export const PlanCalculatorButtons = InjectAppServices(
   ({
@@ -15,9 +14,7 @@ export const PlanCalculatorButtons = InjectAppServices(
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const query = useQueryParams();
-    const promoCode = query.get('promo-code') ?? query.get('PromoCode');
-    const originParam = query.get('origin');
+    const { search } = useLocation();
 
     const sessionPlan = appSessionRef.current.userData.user;
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
@@ -48,9 +45,8 @@ export const PlanCalculatorButtons = InjectAppServices(
                   planType: selectedPlanType,
                   planId: selectedPlanId,
                   discountId: selectedDiscountId,
-                  promoCode,
-                  originParam,
                   newCheckoutEnabled,
+                  search,
                 })}
               >
                 {_('plan_calculator.button_purchase')}
@@ -63,23 +59,36 @@ export const PlanCalculatorButtons = InjectAppServices(
   },
 );
 
+const getLegacyCheckoutPurchaseUrl = ({
+  controlPanelUrl,
+  planId,
+  discountId,
+  currentQueryParams,
+}) => {
+  return (
+    controlPanelUrl +
+    `/AccountPreferences/UpgradeAccountStep2${currentQueryParams}&IdUserTypePlan=${planId}&fromStep1=True` +
+    `${discountId ? `&IdDiscountPlan=${discountId}` : ''}`
+  );
+};
+
+const getNewCheckoutPurchaseUrl = ({ planType, planId, discountId, currentQueryParams }) => {
+  return (
+    `/checkout/premium/${planType}${currentQueryParams}&selected-plan=${planId}` +
+    `${discountId ? `&discountId=${discountId}` : ''}`
+  );
+};
+
 const getBuyPurchaseUrl = ({
   controlPanelUrl,
   planType,
   planId,
   discountId,
-  promoCode,
-  originParam,
   newCheckoutEnabled,
+  search,
 }) => {
+  const currentQueryParams = search ? `${search.replace('promo-code', 'PromoCode')}` : '';
   return newCheckoutEnabled
-    ? `/checkout/premium/${planType}?selected-plan=${planId}` +
-        `${discountId ? `&discountId=${discountId}` : ''}` +
-        `${promoCode ? `&PromoCode=${promoCode}` : ''}` +
-        `${originParam ? `&origin=${originParam}` : ''}`
-    : controlPanelUrl +
-        `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True` +
-        `${discountId ? `&IdDiscountPlan=${discountId}` : ''}` +
-        `${promoCode ? `&PromoCode=${promoCode}` : ''}` +
-        `${originParam ? `&origin=${originParam}` : ''}`;
+    ? getNewCheckoutPurchaseUrl({ planType, planId, discountId, currentQueryParams })
+    : getLegacyCheckoutPurchaseUrl({ controlPanelUrl, planId, discountId, currentQueryParams });
 };
