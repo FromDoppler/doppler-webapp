@@ -77,6 +77,7 @@ const PaymentMethodElement = ({
   paymentMethodData,
   updateView,
   billingInformationData,
+  appliedPromocode,
 }) => {
   const services = dependencies(withError, paymentMethodData, billingInformationData);
   return (
@@ -84,9 +85,9 @@ const PaymentMethodElement = ({
       <IntlProvider>
         <BrowserRouter>
           {updateView ? (
-            <PaymentMethod {...initialPropsWithUpdate} />
+            <PaymentMethod {...initialPropsWithUpdate} appliedPromocode={appliedPromocode} />
           ) : (
-            <PaymentMethod {...initialProps} />
+            <PaymentMethod {...initialProps} appliedPromocode={appliedPromocode} />
           )}
         </BrowserRouter>
       </IntlProvider>
@@ -244,6 +245,29 @@ describe('PaymentMethod component', () => {
       'validation_messages.error_invalid_cuit',
     );
     expect(validationErrorMessages).toBeInTheDocument();
+  });
+
+  it('should show information message when the promocode was applied', async () => {
+    // Act
+    render(
+      <PaymentMethodElement
+        withError={true}
+        paymentMethodData={fakePaymentMethodInformation}
+        billingInformationData={fakeBillingInformation}
+        appliedPromocode={true}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    //Promocode message should be displayed
+    const promocodeMessage = await screen.findByText(
+      'checkoutProcessForm.payment_method.applied_promocode_tooltip',
+    );
+    expect(promocodeMessage).toBeInTheDocument();
   });
 
   describe.each([

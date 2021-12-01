@@ -169,6 +169,26 @@ const PaymentNotes = ({ paymentMethodType }) => {
   }
 };
 
+const PromoCodeInformation = () => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <FieldGroup>
+      <li className="field-item">
+        <div className="dp-wrap-subscription">
+          <div className="dp-wrap-message dp-wrap-info">
+            <span className="dp-message-icon"></span>
+            <div className="dp-content-message">
+              <p>{_('checkoutProcessForm.payment_method.applied_promocode_tooltip')}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </FieldGroup>
+  );
+};
+
 export const PaymentMethod = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
@@ -343,6 +363,7 @@ export const PaymentMethod = InjectAppServices(
                         handleChange={handleDiscountChange}
                       />
                     </FieldItem>
+                    {appliedPromocode ? <PromoCodeInformation /> : null}
                     <PaymentNotes paymentMethodType={paymentMethodType} />
                     {error ? (
                       <FieldItem className="field-item">
