@@ -10,6 +10,7 @@ import useTimeout from '../../../../hooks/useTimeout';
 import { paymentType } from '../PaymentMethod/PaymentMethod';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { InvoiceRecipients } from './InvoiceRecipients';
+import { Promocode } from './Promocode';
 
 const dollarSymbol = 'US$';
 
@@ -107,6 +108,41 @@ export const DiscountPaymentPaid = ({ discountPaymentAlreadyPaid }) => {
   );
 };
 
+export const DiscountPromocode = ({ discountPromocode }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <>
+      <span>
+        {_(`checkoutProcessForm.purchase_summary.discount_for_promocode`)}{' '}
+        <strong>- {discountPromocode.discountPercentage}%</strong>
+      </span>
+      <span>
+        -{dollarSymbol}{' '}
+        <FormattedNumber value={discountPromocode.amount} {...numberFormatOptions} />
+      </span>
+    </>
+  );
+};
+
+export const CreditsPromocode = ({ extraCredits }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <>
+      <span>
+        {_(`checkoutProcessForm.purchase_summary.credits_for_promocode`)}{' '}
+        <strong>{extraCredits}</strong>
+      </span>
+      <span>
+        {dollarSymbol} <FormattedNumber value={0} {...numberFormatOptions} />
+      </span>
+    </>
+  );
+};
+
 export const StatusMessage = ({ type, message, show }) => {
   if (!show) {
     return null;
@@ -122,35 +158,6 @@ export const StatusMessage = ({ type, message, show }) => {
       </div>
       <hr className="m-t-24 m-b-24"></hr>
     </>
-  );
-};
-
-export const Promocode = () => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  return (
-    <form className="dp-promocode">
-      <fieldset>
-        <legend>{_('checkoutProcessForm.purchase_summary.promocode_legend')}</legend>
-        <label className="Promocode">
-          {_('checkoutProcessForm.purchase_summary.promocode_label')}
-        </label>
-        <div className="dp-tooltip-container">
-          <input
-            disabled={true}
-            type="text"
-            name="Promocode"
-            id="Promocode"
-            placeholder={_('checkoutProcessForm.purchase_summary.promocode_placeholder')}
-            className=""
-          />
-          <div className="dp-tooltip-top">
-            <span>{_('checkoutProcessForm.purchase_summary.promocode_tooltip')}</span>
-          </div>
-        </div>
-      </fieldset>
-    </form>
   );
 };
 
@@ -227,15 +234,20 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
   );
 };
 
-export const ShoppingList = ({ state, planType }) => {
+export const ShoppingList = ({ state, planType, promotion }) => {
   const { plan, discount } = state;
-  const { discountPrepayment, discountPaymentAlreadyPaid } = state.amountDetails;
+  const { discountPrepayment, discountPaymentAlreadyPaid, discountPromocode } = state.amountDetails;
 
   return (
     <ul className="dp-summary-list">
       <li aria-label="units">
         <PlanInformation plan={plan} planType={planType} />
       </li>
+      {promotion?.extraCredits > 0 && (
+        <li>
+          <CreditsPromocode extraCredits={promotion.extraCredits} />
+        </li>
+      )}
       {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
         <li aria-label="months to pay">
           <MonthsToPayInformation discount={discount} plan={plan} planType={planType} />
@@ -251,6 +263,11 @@ export const ShoppingList = ({ state, planType }) => {
           <DiscountPaymentPaid discountPaymentAlreadyPaid={discountPaymentAlreadyPaid} />
         </li>
       )}
+      {discountPromocode?.discountPercentage > 0 && (
+        <li>
+          <DiscountPromocode discountPromocode={discountPromocode} />
+        </li>
+      )}
     </ul>
   );
 };
@@ -261,6 +278,7 @@ export const PurchaseSummary = InjectAppServices(
     discountId,
     paymentMethod,
     canBuy,
+    onApplyPromocode,
   }) => {
     const location = useLocation();
     const history = useHistory();
@@ -284,6 +302,7 @@ export const PurchaseSummary = InjectAppServices(
         ? extractParameter(location, queryString.parse, 'discountId') ?? 0
         : discountId;
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
+    const selectedPromocode = extractParameter(location, queryString.parse, 'PromoCode') || '';
 
     useEffect(() => {
       const fetchData = async () => {
@@ -315,19 +334,20 @@ export const PurchaseSummary = InjectAppServices(
         const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
           selectedPlan,
           selectedDiscountId ?? 0,
-          '',
+          selectedPromocode,
         );
 
         const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlan);
 
-        setState({
+        setState((prevState) => ({
+          ...prevState,
           loading: false,
           paymentMethodType,
           plan: planData.value,
           discount,
           amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
           planType,
-        });
+        }));
       };
 
       fetchData();
@@ -339,6 +359,7 @@ export const PurchaseSummary = InjectAppServices(
       paymentMethod,
       planType,
       appSessionRef,
+      selectedPromocode,
     ]);
 
     const getPlanTypeTitle = () => {
@@ -382,6 +403,21 @@ export const PurchaseSummary = InjectAppServices(
       await dopplerBillingUserApiClient.updateInvoiceRecipients(recipients, selectedPlan);
     };
 
+    const applyPromocode = async (promotion) => {
+      const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
+        selectedPlan,
+        selectedDiscountId ?? 0,
+        promotion.promocode,
+      );
+
+      setState((prevState) => ({
+        ...prevState,
+        amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
+        promotion,
+      }));
+      onApplyPromocode(promotion.promocode);
+    };
+
     const { total } = state.amountDetails;
 
     return (
@@ -392,9 +428,16 @@ export const PurchaseSummary = InjectAppServices(
             <h6>{_('checkoutProcessForm.purchase_summary.header')}</h6>
           </header>
           <h3>{getPlanTypeTitle()}</h3>
-          <ShoppingList state={state} planType={planType} />
+          <ShoppingList state={state} planType={planType} promotion={state.promotion} />
           <hr className="dp-hr-grey" />
-          <Promocode />
+          <Promocode
+            allowPromocode={!state.discount ? true : state.discount.applyPromo}
+            disabled={!canBuy}
+            planId={selectedPlan}
+            callback={(promocode) => {
+              applyPromocode(promocode);
+            }}
+          />
           <hr className="dp-hr-grey" />
           <TotalPurchase
             totalPlan={state.plan?.fee * state.discount?.monthsAmmount}

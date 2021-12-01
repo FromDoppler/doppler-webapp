@@ -178,6 +178,7 @@ export const PaymentMethod = InjectAppServices(
     handleChangeDiscount,
     handleChangePaymentMethod,
     optionView,
+    appliedPromocode,
   }) => {
     const location = useLocation();
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
@@ -335,6 +336,7 @@ export const PaymentMethod = InjectAppServices(
                     <FieldItem className="field-item">
                       <Discounts
                         disabled={optionView === actionPage.READONLY}
+                        appliedPromocode={appliedPromocode}
                         discountsList={discountsInformation.discounts}
                         sessionPlan={discountsInformation.plan}
                         selectedPlanDiscount={discountsInformation.selectedPlanDiscount}

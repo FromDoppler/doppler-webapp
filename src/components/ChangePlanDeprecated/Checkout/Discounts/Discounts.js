@@ -4,7 +4,14 @@ import * as S from './Discounts.styles';
 
 const monthsOfRenewal = [1, 3, 6, 12];
 
-const DiscountItem = ({ discountsList, month, selectedDiscount, applyDiscount, disabled }) => {
+const DiscountItem = ({
+  discountsList,
+  month,
+  selectedDiscount,
+  applyDiscount,
+  disabled,
+  appliedPromocode,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -33,8 +40,8 @@ const DiscountItem = ({ discountsList, month, selectedDiscount, applyDiscount, d
       <button
         type="button"
         key={month}
-        disabled={!discount}
-        className={`dp-button button-medium ${selected ? 'btn-active' : ''}`}
+        disabled={!discount || appliedPromocode}
+        className={`dp-button button-medium ${selected && !appliedPromocode ? 'btn-active' : ''}`}
         onClick={() => {
           if (!disabled) {
             applyDiscount(discount);
@@ -55,6 +62,7 @@ export const Discounts = ({
   sessionPlan,
   selectedPlanDiscount,
   disabled,
+  appliedPromocode,
   handleChange,
 }) => {
   const [selectedDiscount, setSelectedDiscount] = useState(
@@ -112,19 +120,27 @@ export const Discounts = ({
         </>
       ) : (
         <div className="dp-wrap-subscription">
-          <label>{_('checkoutProcessForm.discount_title')}</label>
-          <ul>
-            {monthsOfRenewal.map((month, index) => (
-              <DiscountItem
-                key={index}
-                disabled={disabled}
-                month={month}
-                discountsList={discountsList}
-                selectedDiscount={selectedDiscount}
-                applyDiscount={applyDiscount}
-              />
-            ))}
-          </ul>
+          <div className="dp-tooltip-container">
+            <label>{_('checkoutProcessForm.discount_title')}</label>
+            <ul>
+              {monthsOfRenewal.map((month, index) => (
+                <DiscountItem
+                  key={index}
+                  disabled={disabled}
+                  month={month}
+                  discountsList={discountsList}
+                  selectedDiscount={selectedDiscount}
+                  applyDiscount={applyDiscount}
+                  appliedPromocode={appliedPromocode}
+                />
+              ))}
+            </ul>
+            {appliedPromocode ? (
+              <div className="dp-tooltip-top">
+                <span>{_('checkoutProcessForm.payment_method.applied_promocode_tooltip')}</span>
+              </div>
+            ) : null}
+          </div>
         </div>
       )}
     </>
