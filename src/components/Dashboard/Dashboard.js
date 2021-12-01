@@ -8,6 +8,7 @@ import { KpiGroup, DashboardIconSubTitle, DashboardIconLink } from './Kpis/KpiGr
 import { Kpi } from './Kpis/Kpi';
 import useTimeout from '../../hooks/useTimeout';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { FirstSteps } from './FirstSteps';
 
 export const carouselColors = [{ orange: 'orange' }, { purple: 'purple' }];
 
@@ -191,7 +192,9 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
               </div>
             </div>
           </div>
-          <div className="col-lg-4 col-sm-12"></div>
+          <div className="col-lg-4 col-sm-12">
+            <FirstSteps />
+          </div>
         </div>
       </div>
     </div>
