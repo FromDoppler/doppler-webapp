@@ -417,22 +417,22 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     campaigns: 'My Deliveries',
     contacts: 'My Contacts',
     first_steps: {
-      has_campaings_created_description_MD: `You can choose between three Campaigns types according to your business goals. [Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)
-
-      Want to go further? Try **Automatized Email and SMS Flows!**`,
+      has_campaings_created_description_MD: `
+You can choose between three Campaigns types according to your business goals. [Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)  
+Want to go further? Try **Automatized Email and SMS Flows!**`,
       has_campaings_created_title: 'Create your first Campaign',
       has_campaings_sent_description_MD: `
-      Analyze its results is essential to take decisions and optimize your strategy. [Find out the Doppler Reports section](${urlSentCampaigns}) or [find out the meaning of each indicator](${urlSummaryReport}).
+Analyze its results is essential to take decisions and optimize your strategy. [Find out the Doppler Reports section](${urlSentCampaigns}) or [find out the meaning of each indicator](${urlSummaryReport}).
       `,
       has_campaings_sent_title: 'Look at the metrics of your Campaign',
       has_domains_ready_description_MD: `
-      Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. [Activate them now](${urlDkim}).
+Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. [Activate them now](${urlDkim}).
       `,
       has_domains_ready_title: 'Configure DKIM and SPF',
       has_list_created_description_MD: `Start importing a file at Doppler with your Database. Fast and simple! [Do it now](${urlCreateSubscriberList}).`,
       has_list_created_title: 'Create a List and add Contacts',
       section_name: 'Your first steps in Doppler',
-      welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** :point_down:`,
+      welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** 👇`,
       welcome_title: 'You’ve created an account. Well done!',
     },
     learn_with_doppler: 'Learn with Doppler',
