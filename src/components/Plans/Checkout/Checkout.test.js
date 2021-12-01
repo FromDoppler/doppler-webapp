@@ -18,7 +18,7 @@ import {
 import {
   fakeInvoiceRecipients,
   fakePaymentMethodInformation,
-} from '../../../services//doppler-billing-user-api-client.double';
+} from '../../../services/doppler-billing-user-api-client.double';
 import { fakeAccountPlanDiscounts } from '../../../services/doppler-account-plans-api-client.double';
 
 describe('Checkout component', () => {
