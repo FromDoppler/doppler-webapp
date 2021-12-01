@@ -8,13 +8,13 @@ export const UNKNOWN_STATUS = 3;
 // TODO: move to ActionBox component
 export const INFO_BY_STATE = {
   [PENDING_STATUS]: {
-    classNames: 'dp-step--number',
+    classNames: 'dp-postcard--number',
   },
   [COMPLETED_STATUS]: {
-    classNames: 'dp-step--success',
+    classNames: 'dp-postcard--success',
   },
   [WARNING_STATUS]: {
-    classNames: 'dp-step--warning',
+    classNames: 'dp-postcard--warning',
   },
 };
 

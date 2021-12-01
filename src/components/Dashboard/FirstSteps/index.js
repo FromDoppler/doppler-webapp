@@ -15,6 +15,12 @@ import {
   UNKNOWN_STATUS,
   WARNING_STATUS,
 } from './reducers/firstStepsReducer';
+import classNames from 'classnames';
+import styled from 'styled-components';
+
+export const FirstStepsStyled = styled.div`
+  position: relative;
+`;
 
 export const FirstSteps = () => {
   const [{ firstStepsData, loading }, dispatch] = useReducer(
@@ -30,7 +36,7 @@ export const FirstSteps = () => {
     const fetchData = async () => {
       dispatch({ type: FIRST_STEPS_ACTIONS.FETCHING_STARTED });
       const data = await new Promise((resolve) => {
-        createTimeout(() => resolve(firstStepsFake), 2000);
+        createTimeout(() => resolve(firstStepsFake), 4000);
       });
       const dataMapped = mapSystemUsageSummary(data);
       dispatch({
@@ -50,9 +56,14 @@ export const FirstSteps = () => {
   const { firstSteps, notifications } = firstStepsData;
 
   return (
-    <>
+    <FirstStepsStyled
+      style={{ position: 'relative' }}
+      className={classNames({
+        'p-l-12 p-t-12 p-r-12 p-b-12': loading,
+      })}
+    >
       {loading && <Loading />}
-      <h2 className="dp-title-section-step">
+      <h2 className="dp-title-col-postcard">
         <span className="dp-icon-steps" />
         {_('dashboard.first_steps.section_name')}
       </h2>
@@ -62,7 +73,7 @@ export const FirstSteps = () => {
       {firstSteps.map((firstStep, index) => (
         <ActionBox key={index} {...firstStep} />
       ))}
-    </>
+    </FirstStepsStyled>
   );
 };
 
@@ -136,7 +147,7 @@ export const mapSystemUsageSummary = (systemUsageSummary) => {
     ],
     notifications: [
       {
-        iconClass: 'dp-welcom',
+        iconClass: 'dp-postcard--welcom',
         titleId: 'dashboard.first_steps.welcome_title',
         descriptionId: 'dashboard.first_steps.welcome_description_MD',
       },
