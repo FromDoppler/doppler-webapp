@@ -67,15 +67,17 @@ const getLegacyCheckoutPurchaseUrl = ({
 }) => {
   return (
     controlPanelUrl +
-    `/AccountPreferences/UpgradeAccountStep2${currentQueryParams}&IdUserTypePlan=${planId}&fromStep1=True` +
-    `${discountId ? `&IdDiscountPlan=${discountId}` : ''}`
+    `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True` +
+    `${discountId ? `&IdDiscountPlan=${discountId}` : ''}` +
+    `${currentQueryParams}`
   );
 };
 
 const getNewCheckoutPurchaseUrl = ({ planType, planId, discountId, currentQueryParams }) => {
   return (
-    `/checkout/premium/${planType}${currentQueryParams}&selected-plan=${planId}` +
-    `${discountId ? `&discountId=${discountId}` : ''}`
+    `/checkout/premium/${planType}?selected-plan=${planId}` +
+    `${discountId ? `&discountId=${discountId}` : ''}` +
+    `${currentQueryParams}`
   );
 };
 
@@ -87,7 +89,7 @@ const getBuyPurchaseUrl = ({
   newCheckoutEnabled,
   search,
 }) => {
-  const currentQueryParams = search ? `${search.replace('promo-code', 'PromoCode')}` : '';
+  const currentQueryParams = search ? `&${search.slice(1).replace('promo-code', 'PromoCode')}` : '';
   return newCheckoutEnabled
     ? getNewCheckoutPurchaseUrl({ planType, planId, discountId, currentQueryParams })
     : getLegacyCheckoutPurchaseUrl({ controlPanelUrl, planId, discountId, currentQueryParams });
