@@ -151,7 +151,7 @@ const PaymentNotes = ({ paymentMethodType }) => {
       return (
         <FieldGroup>
           <li className="field-item">
-            <div className="dp-wrap-subscription">
+            <div className="dp-considerations">
               <label>{_('checkoutProcessForm.payment_method.considerations')}</label>
               <p style={considerationNoteStyle}>
                 <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_credit_card_note_1" />
