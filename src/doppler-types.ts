@@ -122,3 +122,5 @@ export interface AgenciesPath {
 export interface AppStatus {
   offline: boolean;
 }
+
+export type IntegrationStatus = 'connected' | 'disconnected' | 'alert';

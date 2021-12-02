@@ -1,4 +1,9 @@
-import { DopplerUserApiClient, ContactInformation, Features } from './doppler-user-api-client';
+import {
+  DopplerUserApiClient,
+  ContactInformation,
+  Features,
+  IntegrationsStatus,
+} from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
 
@@ -21,6 +26,22 @@ export const fakeContactInformation = {
 const featuresResult = {
   contactPolicies: true,
   bigQuery: true,
+};
+
+const integrationsStatusResult: IntegrationsStatus = {
+  apiKeyStatus: 'connected',
+  dkimStatus: 'alert',
+  customDomainStatus: 'disconnected',
+  tokkoStatus: 'disconnected',
+  tiendanubeStatus: 'connected',
+  datahubStatus: 'disconnected',
+  prestashopStatus: 'disconnected',
+  shopifyStatus: 'disconnected',
+  magentoStatus: 'alert',
+  zohoStatus: 'connected',
+  wooCommerceStatus: 'disconnected',
+  easycommerceStatus: 'connected',
+  bmwRspCrmStatus: 'alert',
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
@@ -50,6 +71,16 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
 
     return {
       value: featuresResult,
+      success: true,
+    };
+  }
+
+  async getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>> {
+    console.log('getIntegrationsStatus');
+    await timeout(1500);
+
+    return {
+      value: integrationsStatusResult,
       success: true,
     };
   }

@@ -145,4 +145,37 @@ describe('HttpDopplerUserApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should get integrations connection status', async () => {
+    // Arrange
+    const response = {
+      data: {
+        apiKeyStatus: 'connected',
+        dkimStatus: 'alert',
+        customDomainStatus: 'disconnected',
+        tokkoStatus: 'disconnected',
+        tiendanubeStatus: 'connected',
+        datahubStatus: 'disconnected',
+        prestashopStatus: 'disconnected',
+        shopifyStatus: 'disconnected',
+        magentoStatus: 'alert',
+        zohoStatus: 'connected',
+        wooCommerceStatus: 'disconnected',
+        easycommerceStatus: 'connected',
+        bmwRspCrmStatus: 'alert',
+      },
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.getIntegrationsStatus();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });
