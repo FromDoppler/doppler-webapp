@@ -18,7 +18,7 @@ describe('FirstSteps component', () => {
 
     // Assert
     const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader, { timeout: 2500 });
+    await waitForElementToBeRemoved(loader, { timeout: 4500 });
 
     const firstSteps = firstStepsData.firstSteps;
     const notifications = firstStepsData.notifications;

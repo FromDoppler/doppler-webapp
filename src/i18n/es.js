@@ -418,22 +418,22 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     campaigns: 'Mis Campañas',
     contacts: 'Mis Contactos',
     first_steps: {
-      has_campaings_created_description_MD: `Podrás elegir entre tres tipos de Campañas de acuerdo a tus objetivos de negocio. [¡Pon manos a la obra!](${urlDopplerLegacy}/Campaigns/BasicInfo)
-
-      ¿Quieres ir más lejos? ¡Prueba **con Flujos Automatizados de Email y SMS**!`,
+      has_campaings_created_description_MD: `
+Podrás elegir entre tres tipos de Campañas de acuerdo a tus objetivos de negocio. [¡Pon manos a la obra!](${urlDopplerLegacy}/Campaigns/BasicInfo)
+¿Quieres ir más lejos? ¡Prueba **con Flujos Automatizados de Email y SMS**!`,
       has_campaings_created_title: 'Crea tu primera Campaña',
       has_campaings_sent_description_MD: `
-      Analizar sus resultados es fundamental para tomar decisiones y optimizar tu estrategia. [Descubre la sección de Reportes](${urlSentCampaigns}) o [averigua qué representa cada indicador](${urlSummaryReport}).
+Analizar sus resultados es fundamental para tomar decisiones y optimizar tu estrategia. [Descubre la sección de Reportes](${urlSentCampaigns}) o [averigua qué representa cada indicador](${urlSummaryReport}).
       `,
       has_campaings_sent_title: 'Revisa las métricas de tu Campaña',
       has_domains_ready_description_MD: `
-      Hazlo antes de enviar tu primera Campaña y asegúrate de que llegue a la Bandeja de Entrada de tus Contactos. [Actívalos ahora](${urlDkim}).
+Hazlo antes de enviar tu primera Campaña y asegúrate de que llegue a la Bandeja de Entrada de tus Contactos. [Actívalos ahora](${urlDkim}).
       `,
       has_domains_ready_title: 'Configura DKIM y SPF',
       has_list_created_description_MD: `Comienza importando un archivo en Doppler con tu Base de Datos. ¡Rápido y sencillo! [Hazlo ahora](${urlCreateSubscriberList}).`,
       has_list_created_title: 'Crea una Lista y añade Contactos',
       section_name: 'Tus primeros pasos en Doppler',
-      welcome_description_MD: `¿Quieres hacer del Email Marketing tu mejor aliado? Pon en marcha tu estrategia con estas **4 acciones** :point_down:`,
+      welcome_description_MD: `¿Quieres hacer del Email Marketing tu mejor aliado? Pon en marcha tu estrategia con estas **4 acciones** 👇`,
       welcome_title: 'Has creado una cuenta. ¡Bien hecho!',
     },
     learn_with_doppler: 'Aprende con Doppler',

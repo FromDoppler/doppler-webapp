@@ -14,12 +14,18 @@ export const ActionBox = ({ status, titleId, descriptionId, textStep }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <div className={`dp-step ${INFO_BY_STATE[status].classNames}`} role="alert" aria-label="step">
+    <div
+      className={`dp-postcard ${INFO_BY_STATE[status].classNames}`}
+      role="alert"
+      aria-label="step"
+    >
       <h4>
-        <span className="dp-iconstep">{status === PENDING_STATUS ? textStep : ''}</span>
+        <span className="dp-iconpostcard">{status === PENDING_STATUS ? textStep : ''}</span>
         {_(titleId)}
       </h4>
-      <FormattedMessageMarkdown id={descriptionId} />
+      <article>
+        <FormattedMessageMarkdown id={descriptionId} />
+      </article>
     </div>
   );
 };

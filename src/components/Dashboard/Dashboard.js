@@ -8,6 +8,7 @@ import { KpiGroup, DashboardIconSubTitle, DashboardIconLink } from './Kpis/KpiGr
 import { Kpi } from './Kpis/Kpi';
 import useTimeout from '../../hooks/useTimeout';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { FirstSteps } from './FirstSteps';
 
 export const carouselColors = [{ orange: 'orange' }, { purple: 'purple' }];
 
@@ -147,33 +148,24 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
       </header>
       <div className="dp-container">
         <div className="dp-rowflex">
-          <div className="col-lg-12 col-md-12 m-b-24">
+          <div className="col-lg-8 col-md-12 m-b-24">
             <div className="dp-dashboard-title">
-              <DashboardIconSubTitle
-                title="dashboard.campaigns"
-                iconClass="deliveries"
-              ></DashboardIconSubTitle>
-              <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#"></DashboardIconLink>
+              <DashboardIconSubTitle title="dashboard.campaigns" iconClass="deliveries" />
+              <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#" />
             </div>
             <KpiGroup loading={loading}>{renderKpis('campaings')}</KpiGroup>
             <div className="dp-dashboard-title">
-              <DashboardIconSubTitle
-                title="dashboard.contacts"
-                iconClass="subscribers"
-              ></DashboardIconSubTitle>
-              <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#"></DashboardIconLink>
+              <DashboardIconSubTitle title="dashboard.contacts" iconClass="subscribers" />
+              <DashboardIconLink linkTitle="dashboard.sent_deliveries" link="#" />
             </div>
             <KpiGroup loading={loading} disabled={true}>
               {renderKpis('subscribers')}
             </KpiGroup>
-          </div>
-          <div className="col-lg-3 col-sm-12"></div>
-          <div className="col-sm-12 col-md-12">
             <div className="dp-dashboard-title">
               <DashboardIconSubTitle
                 title="dashboard.learn_with_doppler"
                 iconClass="dp-learn-with-doppler"
-              ></DashboardIconSubTitle>
+              />
             </div>
             <div className="dp-rowflex">
               <div className="col-sm-12 col-md-6">
@@ -199,6 +191,9 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
                 </Carousel>
               </div>
             </div>
+          </div>
+          <div className="col-lg-4 col-sm-12">
+            <FirstSteps />
           </div>
         </div>
       </div>

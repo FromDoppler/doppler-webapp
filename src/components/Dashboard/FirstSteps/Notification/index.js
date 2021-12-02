@@ -8,12 +8,14 @@ export const Notification = ({ iconClass, titleId, descriptionId }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <div className={`dp-step ${iconClass}`} role="alert" aria-label="notification">
+    <div className={`dp-postcard ${iconClass}`} role="alert" aria-label="notification">
       <h4>
-        <span className="dp-iconstep" />
+        <span className="dp-iconpostcard" />
         {_(titleId)}
       </h4>
-      <FormattedMessageMarkdown id={descriptionId} />
+      <article>
+        <FormattedMessageMarkdown id={descriptionId} />
+      </article>
     </div>
   );
 };
