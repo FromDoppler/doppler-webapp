@@ -68,9 +68,15 @@ export class HttpSystemUsageSummaryClient implements SystemUsageSummaryClient {
       });
 
       if (response.status === 200 && response.data) {
+        const systemUsageSummary = {
+          hasListsCreated: response.data.hasListsCreated,
+          hasDomainsReady: response.data.hasDomainsReady,
+          hasCampaingsCreated: response.data.hasCampaingsCreated,
+          hasCampaingsSent: response.data.hasCampaingsSent,
+        };
         return {
           success: true,
-          value: response.data,
+          value: systemUsageSummary,
         };
       } else {
         return { success: false, error: response };
