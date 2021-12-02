@@ -7,6 +7,7 @@ export interface DopplerUserApiClient {
   getContactInformationData(): Promise<ResultWithoutExpectedErrors<ContactInformation>>;
   updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
+  getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
 }
 
 interface DopplerUserApiConnectionData {
@@ -33,6 +34,22 @@ export interface ContactInformation {
 export interface Features {
   contactPolicies: boolean;
   bigQuery: boolean;
+}
+
+export interface IntegrationsStatus {
+  apiKeyStatus: string;
+  dkimStatus: string;
+  customDomainStatus: string;
+  tokkoStatus: string;
+  tiendanubeStatus: string;
+  datahubStatus: string;
+  prestashopStatus: string;
+  shopifyStatus: string;
+  magentoStatus: string;
+  zohoStatus: string;
+  wooCommerceStatus: string;
+  easycommerceStatus: string;
+  bmwRspCrmStatus: string;
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
@@ -139,6 +156,25 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       const response = await this.axios.request({
         method: 'GET',
         url: `/accounts/${email}/features`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>> {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/integrations/status`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
