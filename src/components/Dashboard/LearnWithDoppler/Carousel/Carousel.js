@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const Carousel = ({ id, children, slideActiveDefault, color }) => {
+export const Carousel = ({ id, children, slideActiveDefault, color, ariaLabel }) => {
   const [activeSlide, setActiveSlide] = useState(slideActiveDefault ?? 0);
 
   const changeSlide = (e) => setActiveSlide(parseInt(e.target.value));
@@ -8,7 +8,7 @@ export const Carousel = ({ id, children, slideActiveDefault, color }) => {
   const slides = children({ activeSlide });
 
   return (
-    <div className="dp-carousel" id={`carousel${id}`}>
+    <div className="dp-carousel" id={`carousel${id}`} role="region" aria-label={ariaLabel}>
       <div className={`dp-carousel-wrapper dp-carousel-${color}`}>
         <div className="dp-carousel-content">{slides}</div>
       </div>

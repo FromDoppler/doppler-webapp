@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Carousel } from './Carousel';
-import { fakePostList } from '../Dashboard';
 import { Slide } from './Slide/Slide';
 import { TextPreviewPost } from '../TextPreviewPost/TextPreviewPost';
-import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { fakePostList } from '..';
 
 describe('Carousel component', () => {
   it('should show the slides', async () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { TextPreviewPost } from './TextPreviewPost';
-import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 describe('TextPreviewPost component', () => {
   it('should show the slide content', async () => {
