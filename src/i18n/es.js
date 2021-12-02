@@ -226,7 +226,7 @@ const messages_es = {
     },
     purchase_summary: {
       buy_button: 'COMPRAR',
-      credits_for_promocode: 'Créditos código:',
+      credits_for_promocode: 'Créditos extra:',
       discount_for_payment_paid: 'Saldo a favor:',
       discount_for_prepayment: 'Descuento por pago adelantado:',
       discount_for_promocode: 'Descuento código:',
