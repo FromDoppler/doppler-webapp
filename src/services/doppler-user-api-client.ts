@@ -1,4 +1,8 @@
-import { ResultWithoutExpectedErrors, EmptyResultWithoutExpectedErrors } from '../doppler-types';
+import {
+  ResultWithoutExpectedErrors,
+  EmptyResultWithoutExpectedErrors,
+  IntegrationStatus,
+} from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -37,19 +41,19 @@ export interface Features {
 }
 
 export interface IntegrationsStatus {
-  apiKeyStatus: string;
-  dkimStatus: string;
-  customDomainStatus: string;
-  tokkoStatus: string;
-  tiendanubeStatus: string;
-  datahubStatus: string;
-  prestashopStatus: string;
-  shopifyStatus: string;
-  magentoStatus: string;
-  zohoStatus: string;
-  wooCommerceStatus: string;
-  easycommerceStatus: string;
-  bmwRspCrmStatus: string;
+  apiKeyStatus: IntegrationStatus;
+  dkimStatus: IntegrationStatus;
+  customDomainStatus: IntegrationStatus;
+  tokkoStatus: IntegrationStatus;
+  tiendanubeStatus: IntegrationStatus;
+  datahubStatus: IntegrationStatus;
+  prestashopStatus: IntegrationStatus;
+  shopifyStatus: IntegrationStatus;
+  magentoStatus: IntegrationStatus;
+  zohoStatus: IntegrationStatus;
+  wooCommerceStatus: IntegrationStatus;
+  easycommerceStatus: IntegrationStatus;
+  bmwRspCrmStatus: IntegrationStatus;
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {

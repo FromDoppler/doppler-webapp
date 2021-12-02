@@ -28,7 +28,7 @@ const featuresResult = {
   bigQuery: true,
 };
 
-const integrationsStatusResult = {
+const integrationsStatusResult: IntegrationsStatus = {
   apiKeyStatus: 'connected',
   dkimStatus: 'alert',
   customDomainStatus: 'disconnected',
