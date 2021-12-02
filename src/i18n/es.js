@@ -419,7 +419,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     contacts: 'Mis Contactos',
     first_steps: {
       has_campaings_created_description_MD: `
-Podrás elegir entre tres tipos de Campañas de acuerdo a tus objetivos de negocio. [¡Pon manos a la obra!](${urlDopplerLegacy}/Campaigns/BasicInfo)  
+Podrás elegir entre tres tipos de Campañas de acuerdo a tus objetivos de negocio. [¡Pon manos a la obra!](${urlDopplerLegacy}/Campaigns/BasicInfo)
 ¿Quieres ir más lejos? ¡Prueba **con Flujos Automatizados de Email y SMS**!`,
       has_campaings_created_title: 'Crea tu primera Campaña',
       has_campaings_sent_description_MD: `

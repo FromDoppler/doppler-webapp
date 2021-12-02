@@ -418,7 +418,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     contacts: 'My Contacts',
     first_steps: {
       has_campaings_created_description_MD: `
-You can choose between three Campaigns types according to your business goals. [Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)  
+You can choose between three Campaigns types according to your business goals. [Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)
 Want to go further? Try **Automatized Email and SMS Flows!**`,
       has_campaings_created_title: 'Create your first Campaign',
       has_campaings_sent_description_MD: `
