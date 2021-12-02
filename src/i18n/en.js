@@ -225,7 +225,7 @@ const messages_en = {
     },
     purchase_summary: {
       buy_button: 'BUY',
-      credits_for_promocode: 'Credits code:',
+      credits_for_promocode: 'Extra Credits:',
       discount_for_payment_paid: 'Positive balance:',
       discount_for_prepayment: 'Discount for prepayment:',
       discount_for_promocode: 'Discount code:',
