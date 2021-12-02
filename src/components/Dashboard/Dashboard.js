@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Carousel } from './Carousel/Carousel';
-import { Slide } from './Carousel/Slide/Slide';
-import { InjectAppServices } from '../../services/pure-di';
 import { useIntl } from 'react-intl';
-import { TextPreviewPost } from './TextPreviewPost/TextPreviewPost';
-import { KpiGroup, DashboardIconSubTitle, DashboardIconLink } from './Kpis/KpiGroup';
-import { Kpi } from './Kpis/Kpi';
 import useTimeout from '../../hooks/useTimeout';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { InjectAppServices } from '../../services/pure-di';
 import { FirstSteps } from './FirstSteps';
-
-export const carouselColors = [{ orange: 'orange' }, { purple: 'purple' }];
+import { Kpi } from './Kpis/Kpi';
+import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from './Kpis/KpiGroup';
+import { LearnWithDoppler } from './LearnWithDoppler';
 
 export const kpiListFake = {
   Campaings: [
@@ -57,41 +53,6 @@ export const kpiListFake = {
       iconClass: `user-removed`,
       kpiPeriod: `ULTIMOS 30 DIAS`,
       active: true,
-    },
-  ],
-};
-
-export const fakePostList = {
-  blog: [
-    {
-      id: `1`,
-      title: `dashboard.postListBlog_1_title`,
-      description: `dashboard.postListBlog_1_description`,
-      link: `dashboard.postListBlog_1_link`,
-      linkDescription: `dashboard.postListBlog_1_link_description`,
-    },
-    {
-      id: `2`,
-      title: `dashboard.postListBlog_2_title`,
-      description: `dashboard.postListBlog_2_description`,
-      link: `dashboard.postListBlog_2_link`,
-      linkDescription: `dashboard.postListBlog_2_link_description`,
-    },
-  ],
-  help: [
-    {
-      id: `1`,
-      title: `dashboard.postListHelp_1_title`,
-      description: `dashboard.postListHelp_1_description`,
-      link: `dashboard.postListHelp_1_link`,
-      linkDescription: `dashboard.postListHelp_1_link_description`,
-    },
-    {
-      id: `2`,
-      title: `dashboard.postListHelp_2_title`,
-      description: `dashboard.postListHelp_2_description`,
-      link: `dashboard.postListHelp_2_link`,
-      linkDescription: `dashboard.postListHelp_2_link_description`,
     },
   ],
 };
@@ -167,30 +128,7 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
                 iconClass="dp-learn-with-doppler"
               />
             </div>
-            <div className="dp-rowflex">
-              <div className="col-sm-12 col-md-6">
-                <Carousel id={'1'} color={'orange'}>
-                  {({ activeSlide }) =>
-                    fakePostList.blog.map((post, index) => (
-                      <Slide key={post.id} active={activeSlide === index}>
-                        <TextPreviewPost post={post} />
-                      </Slide>
-                    ))
-                  }
-                </Carousel>
-              </div>
-              <div className="col-sm-12 col-md-6">
-                <Carousel id={'2'} color={'purple'}>
-                  {({ activeSlide }) =>
-                    fakePostList.help.map((post, index) => (
-                      <Slide key={post.id} active={activeSlide === index}>
-                        <TextPreviewPost post={post} />
-                      </Slide>
-                    ))
-                  }
-                </Carousel>
-              </div>
-            </div>
+            <LearnWithDoppler />
           </div>
           <div className="col-lg-4 col-sm-12">
             <FirstSteps />
