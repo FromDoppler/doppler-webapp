@@ -56,8 +56,9 @@ describe('PlanCalculator component', () => {
     expect(purchaseLink).toHaveAttribute(
       'href',
       'common.control_panel_section_url' +
-        `/AccountPreferences/UpgradeAccountStep2?PromoCode=fake-promo-code&origin_inbound=fake&IdUserTypePlan=${selectedPlanId}&fromStep1=True` +
-        `&IdDiscountPlan=${selectedDiscountId}`,
+        `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${selectedPlanId}&fromStep1=True` +
+        `&IdDiscountPlan=${selectedDiscountId}` +
+        `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
 
@@ -100,8 +101,9 @@ describe('PlanCalculator component', () => {
     expect(purchaseLink).not.toHaveClass('disabled');
     expect(purchaseLink).toHaveAttribute(
       'href',
-      `/checkout/premium/${PLAN_TYPE.byContact}?PromoCode=fake-promo-code&origin_inbound=fake&selected-plan=${selectedPlanId}` +
-        `&discountId=${selectedDiscountId}`,
+      `/checkout/premium/${PLAN_TYPE.byContact}?selected-plan=${selectedPlanId}` +
+        `&discountId=${selectedDiscountId}` +
+        `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
 
