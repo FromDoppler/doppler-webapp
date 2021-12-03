@@ -350,3 +350,9 @@ export const getPlanTypeFromUrlSegment = (planTypeUrlSegment: string) => {
       return 'unknown';
   }
 };
+
+export const objectKeystoLowerCase = (obj: any) =>
+  Object.keys(obj).reduce((acc: any, key) => {
+    acc[key.toLowerCase()] = obj[key];
+    return acc;
+  }, {});

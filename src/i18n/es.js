@@ -398,9 +398,9 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       title: 'Preferencias de Redes Sociales',
       viralization_title: 'Opciones de Viralización',
     },
-    status_alert: 'ALERTA',
-    status_connected: 'INTEGRADO',
-    status_not_connected: 'NO INTEGRADO',
+    status_alert: 'Problemas de conexión',
+    status_connected: 'Conectado',
+    status_not_connected: 'No conectado',
     subtitle_MD: 'Aquí encontrarás toda la **información relativa a tu cuenta** y podrás configurar tus **Preferencias de Campañas, dominios e integraciones** con otras plataformas.',
     title: 'Panel de Control',
     zapier_integrations: {
