@@ -30,6 +30,7 @@ import {
   HttpDopplerAccountPlansApiClient,
 } from './doppler-account-plans-api-client';
 import { PlanService } from './planService';
+import { HttpSystemUsageSummaryClient } from './dashboardService/SystemUsageSummary';
 import { ControlPanelService } from './control-panel-service';
 import { HttpReportClient, ReportClient } from './reports';
 import { CampaignSummaryService } from './campaignSummary';
@@ -82,6 +83,7 @@ export interface AppServices {
   planService: PlanService;
   campaignSummaryService: CampaignSummaryService;
   contactSummaryService: ContactSummaryService;
+  systemUsageSummary: HttpSystemUsageSummaryClient;
   controlPanelService: ControlPanelService;
 }
 
@@ -312,7 +314,7 @@ export class AppCompositionRoot implements AppServices {
     );
   }
 
-  get campaignSummaryService() {
+ get campaignSummaryService() {
     return this.singleton(
       'campaignSummaryService',
       () =>
@@ -328,6 +330,18 @@ export class AppCompositionRoot implements AppServices {
       () =>
         new ContactSummaryService({
           reportClient: this.reportClient,
+        }),
+    );
+  }
+
+    get systemUsageSummary() {
+    return this.singleton(
+      'systemUsageSummary',
+      () =>
+        new HttpSystemUsageSummaryClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerBillingApiUrl,
+          connectionDataRef: this.appSessionRef,
         }),
     );
   }

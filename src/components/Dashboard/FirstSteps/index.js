@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import useTimeout from '../../../hooks/useTimeout';
 import { Loading } from '../../Loading/Loading';
@@ -22,60 +23,60 @@ export const FirstStepsStyled = styled.div`
   position: relative;
 `;
 
-export const FirstSteps = () => {
-  const [{ firstStepsData, loading }, dispatch] = useReducer(
-    firstStepsReducer,
-    INITIAL_STATE_FIRST_STEPS,
-    initFirstStepsReducer,
-  );
-  const createTimeout = useTimeout();
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+export const FirstSteps = InjectAppServices(
+  ({ dependencies: { systemUsageSummary, appSessionRef } }) => {
+    const [{ firstStepsData, loading }, dispatch] = useReducer(
+      firstStepsReducer,
+      INITIAL_STATE_FIRST_STEPS,
+      initFirstStepsReducer,
+    );
+    const createTimeout = useTimeout();
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: FIRST_STEPS_ACTIONS.FETCHING_STARTED });
-      const data = await new Promise((resolve) => {
-        createTimeout(() => resolve(firstStepsFake), 4000);
-      });
-      const dataMapped = mapSystemUsageSummary(data);
-      dispatch({
-        type: FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS,
-        payload: {
-          ...dataMapped,
-          firstSteps: dataMapped.firstSteps.filter(
-            (firstStep) => firstStep.status !== UNKNOWN_STATUS,
-          ),
-        },
-      });
-    };
+    useEffect(() => {
+      const fetchData = async () => {
+        dispatch({ type: FIRST_STEPS_ACTIONS.FETCHING_STARTED });
+        const data = await systemUsageSummary.getSystemUsageSummaryData();
+        const dataMapped = mapSystemUsageSummary(data);
+        dispatch({
+          type: FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS,
+          payload: {
+            ...dataMapped,
+            firstSteps: dataMapped.firstSteps.filter(
+              (firstStep) => firstStep.status !== UNKNOWN_STATUS,
+            ),
+          },
+        });
+      };
 
-    fetchData();
-  }, [createTimeout]);
+      fetchData();
+    }, [createTimeout, systemUsageSummary]);
 
-  const { firstSteps, notifications } = firstStepsData;
+    const { firstSteps, notifications } = firstStepsData;
 
-  return (
-    <FirstStepsStyled
-      style={{ position: 'relative' }}
-      className={classNames({
-        'p-l-12 p-t-12 p-r-12 p-b-12': loading,
-      })}
-    >
-      {loading && <Loading />}
-      <h2 className="dp-title-col-postcard">
-        <span className="dp-icon-steps" />
-        {_('dashboard.first_steps.section_name')}
-      </h2>
-      {notifications.map((notification, index) => (
-        <Notification key={index} {...notification} />
-      ))}
-      {firstSteps.map((firstStep, index) => (
-        <ActionBox key={index} {...firstStep} />
-      ))}
-    </FirstStepsStyled>
-  );
-};
+    return (
+      <FirstStepsStyled
+        style={{ position: 'relative' }}
+        className={classNames({
+          'p-l-12 p-t-12 p-r-12 p-b-12': loading,
+        })}
+      >
+        {loading && <Loading />}
+        <h2 className="dp-title-col-postcard">
+          <span className="dp-icon-steps" />
+          {_('dashboard.first_steps.section_name')}
+        </h2>
+        {notifications.map((notification, index) => (
+          <Notification key={index} {...notification} />
+        ))}
+        {firstSteps.map((firstStep, index) => (
+          <ActionBox key={index} {...firstStep} />
+        ))}
+      </FirstStepsStyled>
+    );
+  },
+);
 
 const isFirstStepsCompleted = (systemUsageSummary) => {
   const { hasListsCreated, hasCampaingsCreated, hasDomainsReady, hasCampaingsSent } =
