@@ -415,8 +415,20 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     },
   },
   dashboard: {
-    campaigns: 'Mis Campañas',
-    contacts: 'Mis Contactos',
+    campaigns: {
+      link_title: 'CAMPAÑAS ENVIADAS',
+      section_name: 'Mis Campañas',
+      totalCampaigns: 'Envíos totales',
+      totalCtr: 'Tasa de Clics',
+      totalOpen: 'Tasa de Apertura',
+    },
+    contacts: {
+      link_title: 'VER LISTADO MAESTRO',
+      section_name: 'Mis Contactos',
+      totalContacts: 'Contactos',
+      totalNewContacts: 'Contactos nuevos',
+      totalRemovedContacts: 'Contactos removidos',
+    },
     first_steps: {
       has_campaings_created_description_MD: `
 Podrás elegir entre tres tipos de Campañas de acuerdo a tus objetivos de negocio. [¡Pon manos a la obra!](${urlDopplerLegacy}/Campaigns/BasicInfo)
@@ -436,6 +448,7 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que llegue a la Bandej
       welcome_description_MD: `¿Quieres hacer del Email Marketing tu mejor aliado? Pon en marcha tu estrategia con estas **4 acciones** 👇`,
       welcome_title: 'Has creado una cuenta. ¡Bien hecho!',
     },
+    lastMonth: 'ÚLTIMOS 30 DÍAS',
     learn_with_doppler: 'Aprende con Doppler',
 
     postListBlog_1_description: '10 trucos para crear Campañas de texto plano atractivas',
@@ -458,7 +471,7 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que llegue a la Bandej
     postListHelp_2_link_description: 'Escríbenos',
     postListHelp_2_title: 'Servicios Adicionales',
 
-    sent_deliveries: 'CAMPAÑAS ENVIADAS',
+    total: 'TOTAL',
     welcome_message: 'Hola ',
     welcome_message_header: `Este es tu **Tablero de Inicio**. Aquí encontrarás métricas relevantes de tu cuenta y recursos complementarios para tu estrategia.`,
   },

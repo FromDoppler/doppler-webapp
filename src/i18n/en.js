@@ -414,8 +414,20 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
   },
   dashboard: {
-    campaigns: 'My Deliveries',
-    contacts: 'My Contacts',
+    campaigns: {
+      link_title: 'SENT DELIVERIES',
+      section_name: 'My Deliveries',
+      totalCampaigns: 'Total sends',
+      totalCtr: 'Click Through Rate',
+      totalOpen: 'Open Rate',
+    },
+    contacts: {
+      link_title: 'SEE MASTER LIST',
+      section_name: 'My Contacts',
+      totalContacts: 'Contacts',
+      totalNewContacts: 'New Contacts',
+      totalRemovedContacts: 'Removed Contacts',
+    },
     first_steps: {
       has_campaings_created_description_MD: `
 You can choose between three Campaigns types according to your business goals. [Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)
@@ -435,6 +447,7 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
       welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** 👇`,
       welcome_title: 'You’ve created an account. Well done!',
     },
+    lastMonth: 'ÚLTIMOS 30 DÍAS',
     learn_with_doppler: 'Learn with Doppler',
 
     postListBlog_1_description: 'How to create a File to Import your Contact List to Doppler',
@@ -457,7 +470,7 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
     postListHelp_2_link_description: 'Know more',
     postListHelp_2_title: 'Aditional Services',
 
-    sent_deliveries: 'SENT DELIVERIES',
+    total: 'TOTAL',
     welcome_message: 'Hello ',
     welcome_message_header: `This is your **Dashboard**. Here you’ll find relevant metrics of your account and complementary resources for your strategy. `,
   },
