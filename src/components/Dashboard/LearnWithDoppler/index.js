@@ -1,34 +1,43 @@
 import React from 'react';
+import { DashboardIconSubTitle } from '../Kpis/KpiGroup';
 import { Carousel } from './Carousel/Carousel';
 import { Slide } from './Carousel/Slide/Slide';
 import { TextPreviewPost } from './TextPreviewPost/TextPreviewPost';
 
 export const LearnWithDoppler = () => {
   return (
-    <div className="dp-rowflex">
-      <div className="col-sm-12 col-md-6">
-        <Carousel id="1" color="orange" ariaLabel="blog">
-          {({ activeSlide }) =>
-            fakePostList.blog.map((post, index) => (
-              <Slide key={post.id} active={activeSlide === index}>
-                <TextPreviewPost post={post} />
-              </Slide>
-            ))
-          }
-        </Carousel>
+    <>
+      <div className="dp-dashboard-title">
+        <DashboardIconSubTitle
+          title="dashboard.learn_with_doppler"
+          iconClass="dp-learn-with-doppler"
+        />
       </div>
-      <div className="col-sm-12 col-md-6">
-        <Carousel id="2" color="purple" ariaLabel="help">
-          {({ activeSlide }) =>
-            fakePostList.help.map((post, index) => (
-              <Slide key={post.id} active={activeSlide === index}>
-                <TextPreviewPost post={post} />
-              </Slide>
-            ))
-          }
-        </Carousel>
+      <div className="dp-rowflex">
+        <div className="col-sm-12 col-md-6">
+          <Carousel id="1" color="orange" ariaLabel="blog">
+            {({ activeSlide }) =>
+              fakePostList.blog.map((post, index) => (
+                <Slide key={post.id} active={activeSlide === index}>
+                  <TextPreviewPost post={post} />
+                </Slide>
+              ))
+            }
+          </Carousel>
+        </div>
+        <div className="col-sm-12 col-md-6">
+          <Carousel id="2" color="purple" ariaLabel="help">
+            {({ activeSlide }) =>
+              fakePostList.help.map((post, index) => (
+                <Slide key={post.id} active={activeSlide === index}>
+                  <TextPreviewPost post={post} />
+                </Slide>
+              ))
+            }
+          </Carousel>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
