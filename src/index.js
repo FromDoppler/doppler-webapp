@@ -28,6 +28,7 @@ import { HardcodedDopplerBillingUserApiClient } from './services/doppler-billing
 import { HardcodedDopplerAccountPlansApiClient } from './services/doppler-account-plans-api-client.double';
 
 import Offline from './components/Offline/Offline';
+import { HardcodedReportClient } from './services/reports/index.double';
 polyfill();
 
 if (document.querySelector('body').setActive) {
@@ -48,6 +49,7 @@ const forcedServices =
         ipinfoClient: new HardcodedIpinfoClient(),
         dopplerBillingApiClient: new HardcodedDopplerBillingApiClient(),
         bigQueryClient: new HardcodedBigQueryClient(),
+        reportClient: new HardcodedReportClient(),
         dopplerUserApiClient: new HardcodedDopplerUserApiClient(),
         dopplerContactPolicyApiClient: new HardcodedDopplerContactPolicyApiClient(),
         staticDataClient: new HardcodedStaticDataClient(),

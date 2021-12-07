@@ -1,8 +1,17 @@
 import '@testing-library/jest-dom/extend-expect';
 import { getByText, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import { CampaignSummary, fakeCampaignsSummary } from '.';
+import { CampaignSummary } from '.';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { mapCampaignsSummary } from './reducers/campaignSummaryReducer';
+import { fakeCampaignsSummary } from '../../../services/reports/index.double';
+import { AppServicesProvider } from '../../../services/pure-di';
+import { mapCampaignsSummary } from '../../../services/campaignSummary';
+
+const reportClientDouble = () => ({
+  getCampaignsSummary: async () => ({
+    success: true,
+    value: fakeCampaignsSummary,
+  }),
+});
 
 describe('CampaignSummary component', () => {
   it('should render CampaignSummary component', async () => {
@@ -11,9 +20,11 @@ describe('CampaignSummary component', () => {
 
     // Act
     render(
-      <IntlProvider>
-        <CampaignSummary />
-      </IntlProvider>,
+      <AppServicesProvider forcedServices={{ reportClient: reportClientDouble() }}>
+        <IntlProvider>
+          <CampaignSummary />
+        </IntlProvider>
+      </AppServicesProvider>,
     );
 
     // Assert
