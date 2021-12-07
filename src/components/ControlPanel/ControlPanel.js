@@ -49,16 +49,20 @@ export const ControlPanel = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
+        dispatch({
+          type: CONTROL_PANEL_SECTIONS_ACTIONS.START_FETCH,
+        });
+
         const _controlPanelSections = controlPanelService.getControlPanelSections();
         dispatch({
-          type: CONTROL_PANEL_SECTIONS_ACTIONS.FETCH_SECTIONS,
+          type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_SECTIONS,
           payload: _controlPanelSections,
         });
 
         const integrationsStatusResult = await dopplerUserApiClient.getIntegrationsStatus();
         if (integrationsStatusResult.success) {
           dispatch({
-            type: CONTROL_PANEL_SECTIONS_ACTIONS.FETCH_INTEGRATIONS_STATUS,
+            type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_INTEGRATIONS_STATUS,
             payload: integrationsStatusResult.value,
           });
         }

@@ -5,7 +5,7 @@ import {
 } from './controlPanelSectionsReducer';
 
 describe('controlPanelSectionsReducer', () => {
-  it("should fetch control panel's sections", () => {
+  it("should get control panel's sections", () => {
     // Arrange
     const fakeControlPanelSections = [
       {
@@ -33,7 +33,7 @@ describe('controlPanelSectionsReducer', () => {
       },
     ];
     const action = {
-      type: CONTROL_PANEL_SECTIONS_ACTIONS.FETCH_SECTIONS,
+      type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_SECTIONS,
       payload: fakeControlPanelSections,
     };
 
@@ -42,13 +42,12 @@ describe('controlPanelSectionsReducer', () => {
 
     // Assert
     expect(newState).toEqual({
-      ...INITIAL_STATE,
       loading: false,
       controlPanelSections: fakeControlPanelSections,
     });
   });
 
-  it('should add status to boxes', () => {
+  it('should add status to boxes with name', () => {
     // Arrange
     const fakeIntegrationsStatusResult = {
       Box1Status: 'connected',
@@ -82,6 +81,12 @@ describe('controlPanelSectionsReducer', () => {
               imgSrc: 'imagen3',
               imgAlt: 'imagen3',
               iconName: 'boxName3',
+            },
+            {
+              linkUrl: 'link4',
+              imgSrc: 'imagen4',
+              imgAlt: 'imagen4',
+              iconName: 'boxName4',
             },
           ],
         },
@@ -118,13 +123,19 @@ describe('controlPanelSectionsReducer', () => {
               iconName: 'boxName3',
               status: 'disconnected',
             },
+            {
+              linkUrl: 'link4',
+              imgSrc: 'imagen4',
+              imgAlt: 'imagen4',
+              iconName: 'boxName4',
+            },
           ],
         },
       ],
     };
 
     const action = {
-      type: CONTROL_PANEL_SECTIONS_ACTIONS.FETCH_INTEGRATIONS_STATUS,
+      type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_INTEGRATIONS_STATUS,
       payload: fakeIntegrationsStatusResult,
     };
 
@@ -138,7 +149,7 @@ describe('controlPanelSectionsReducer', () => {
     });
   });
 
-  it('should return initialState when the action is not defined', () => {
+  it('should return current state when the action is not defined', () => {
     // Arrange
     const action = {
       type: 'my-action',
@@ -149,5 +160,18 @@ describe('controlPanelSectionsReducer', () => {
 
     // Assert
     expect(newState).toEqual(INITIAL_STATE);
+  });
+
+  it('should set loading true for START_FETCH action', () => {
+    // Arrange
+    const action = {
+      type: CONTROL_PANEL_SECTIONS_ACTIONS.START_FETCH,
+    };
+
+    // Act
+    const newState = controlPanelSectionsReducer(INITIAL_STATE, action);
+
+    // Assert
+    expect(newState).toEqual({ loading: true });
   });
 });
