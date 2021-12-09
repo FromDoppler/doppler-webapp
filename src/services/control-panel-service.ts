@@ -75,6 +75,7 @@ interface Box {
   hidden?: boolean;
   status?: string;
   targetBlank?: boolean;
+  name?: string;
 }
 
 interface ControlPanelSection {
@@ -233,18 +234,21 @@ export class ControlPanelService implements ControlPanelService {
         showStatus: false,
         boxes: [
           {
+            name: 'ApiKey',
             linkUrl: `${urlAdvancedPreferences}/GetDopplerApiInformation`,
             imgSrc: doppler_api_icon,
             imgAlt: 'control_panel.advanced_preferences.api_key',
             iconName: 'control_panel.advanced_preferences.api_key',
           },
           {
+            name: 'DKIM',
             linkUrl: `${urlAdvancedPreferences}/dkim`,
             imgSrc: domain_key_icon,
             imgAlt: 'control_panel.advanced_preferences.domain_key',
             iconName: 'control_panel.advanced_preferences.domain_key',
           },
           {
+            name: 'CustomDomain',
             linkUrl: `${urlAdvancedPreferences}/CustomDomains`,
             imgSrc: custom_domain_icon,
             imgAlt: 'control_panel.advanced_preferences.custom_domain',
@@ -257,42 +261,49 @@ export class ControlPanelService implements ControlPanelService {
         showStatus: false,
         boxes: [
           {
+            name: 'GoogleAnaliytic',
             linkUrl: `${urlAdvancedPreferences}/GetGoogleAnaliyticPreferences`,
             imgSrc: google_analitics_icon,
             imgAlt: 'control_panel.native_integrations.google_Analityc_title',
             iconName: 'control_panel.native_integrations.google_Analityc_title',
           },
           {
+            name: 'Zoho',
             linkUrl: `${urlIntegrations}/ZohoSection`,
             imgSrc: zoho_icon,
             imgAlt: 'control_panel.native_integrations.zoho_title',
             iconName: 'control_panel.native_integrations.zoho_title',
           },
           {
+            name: 'Tokko',
             linkUrl: `${urlIntegrations}/TokkoSection`,
             imgSrc: tokko_icon,
             imgAlt: 'control_panel.native_integrations.tokko_title',
             iconName: 'control_panel.native_integrations.tokko_title',
           },
           {
+            name: 'Tiendanube',
             linkUrl: `${urlIntegrations}/TiendaNubeSection`,
             imgSrc: Tiendanube_icon,
             imgAlt: 'control_panel.native_integrations.tiendanube_title',
             iconName: 'control_panel.native_integrations.tiendanube_title',
           },
           {
+            name: 'Vtex',
             linkUrl: `${urlIntegrations}/VtexSection`,
             imgSrc: vtex_icon,
             imgAlt: 'control_panel.native_integrations.vtex_title',
             iconName: 'control_panel.native_integrations.vtex_title',
           },
           {
+            name: 'Prestashop',
             linkUrl: `${urlIntegrations}/PrestashopSection`,
             imgSrc: prestashop_icon,
             imgAlt: 'control_panel.native_integrations.prestashop_title',
             iconName: 'control_panel.native_integrations.prestashop_title',
           },
           {
+            name: 'Shopify',
             linkUrl: '/integrations/shopify',
             imgSrc: shopify_icon,
             imgAlt: 'control_panel.native_integrations.shopify_title',
@@ -305,6 +316,7 @@ export class ControlPanelService implements ControlPanelService {
             iconName: 'control_panel.native_integrations.unbounce_title',
           },
           {
+            name: 'Magento',
             linkUrl: `${urlIntegrations}/MagentoSection`,
             imgSrc: magento_icon,
             imgAlt: 'control_panel.native_integrations.magento_title',
@@ -317,24 +329,28 @@ export class ControlPanelService implements ControlPanelService {
             iconName: 'control_panel.native_integrations.typeform_title',
           },
           {
+            name: 'Woocommerce',
             linkUrl: `${urlIntegrations}/WooCommerceSection`,
             imgSrc: woocommerce_icon,
             imgAlt: 'control_panel.native_integrations.woocommerce_title',
             iconName: 'control_panel.native_integrations.woocommerce_title',
           },
           {
+            name: 'Easycommerce',
             linkUrl: `${urlIntegrations}/EasycommerceSection`,
             imgSrc: easycommerce_icon,
             imgAlt: 'control_panel.native_integrations.easycommerce_title',
             iconName: 'control_panel.native_integrations.easycommerce_title',
           },
           {
+            name: 'BmwRspCrm',
             linkUrl: `${urlIntegrations}/BmwCrmSection`,
             imgSrc: bmw_crm_icon,
             imgAlt: 'control_panel.native_integrations.bmw_rsp_crm_title',
             iconName: 'control_panel.native_integrations.bmw_rsp_crm_title',
           },
           {
+            name: 'BigQuery',
             linkUrl: '/integrations/big-query',
             imgSrc: bigquery_icon,
             imgAlt: 'control_panel.native_integrations.big_query_title',

@@ -13,6 +13,7 @@ import {
   orderPlanTypes,
   getFormInitialValues,
   getPlanTypeFromUrlSegment,
+  objectKeystoLowerCase,
 } from './utils';
 import { renderHook } from '@testing-library/react-hooks';
 import queryString from 'query-string';
@@ -639,6 +640,28 @@ describe('utils', () => {
 
       // Act
       const result = getFormInitialValues(fieldNames);
+
+      // Assert
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('objectKeystoLowerCase function', () => {
+    it('should return the same object with lowercase keys', () => {
+      // Arrange
+      const testingObject = {
+        Key0: 'value1',
+        KEY1: 'value2',
+        KeY2: 'value3',
+      };
+      const expectedResult = {
+        key0: 'value1',
+        key1: 'value2',
+        key2: 'value3',
+      };
+
+      // Act
+      const result = objectKeystoLowerCase(testingObject);
 
       // Assert
       expect(result).toEqual(expectedResult);
