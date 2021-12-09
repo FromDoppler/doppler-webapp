@@ -1,8 +1,17 @@
 import '@testing-library/jest-dom/extend-expect';
 import { getByText, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import { ContactSummary, fakeContactsSummary } from '.';
+import { ContactSummary } from '.';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { mapContactSummary } from './reducers/contactSummaryReducer';
+import { mapContactSummary } from '../../../services/contactSummary';
+import { fakeContactsSummary } from '../../../services/reports/index.double';
+import { AppServicesProvider } from '../../../services/pure-di';
+
+const getContactSummaryServiceDouble = () => ({
+  getContactsSummary: async () => ({
+    success: true,
+    value: mapContactSummary(fakeContactsSummary),
+  }),
+});
 
 describe('ContactSummary component', () => {
   it('should render ContactSummary component', async () => {
@@ -11,9 +20,13 @@ describe('ContactSummary component', () => {
 
     // Act
     render(
-      <IntlProvider>
-        <ContactSummary />
-      </IntlProvider>,
+      <AppServicesProvider
+        forcedServices={{ contactSummaryService: getContactSummaryServiceDouble() }}
+      >
+        <IntlProvider>
+          <ContactSummary />
+        </IntlProvider>
+      </AppServicesProvider>,
     );
 
     // Assert

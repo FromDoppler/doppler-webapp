@@ -5,13 +5,17 @@ import { act } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from 'react-router-dom';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../services/pure-di';
-import { fakeCampaignsSummary } from '../../services/reports/index.double';
+import { fakeCampaignsSummary, fakeContactsSummary } from '../../services/reports/index.double';
 import { Dashboard } from './Dashboard';
 
 const reportClientDouble = () => ({
   getCampaignsSummary: async () => ({
     success: true,
     value: fakeCampaignsSummary,
+  }),
+  getContactsSummary: async () => ({
+    success: true,
+    value: fakeContactsSummary,
   }),
 });
 

@@ -1,9 +1,7 @@
-import { fakeContactsSummary, INITIAL_STATE_CONTACTS_SUMMARY } from '..';
-import {
-  ACTIONS_CONTACTS_SUMMARY,
-  contactSummaryReducer,
-  mapContactSummary,
-} from './contactSummaryReducer';
+import { INITIAL_STATE_CONTACTS_SUMMARY } from '..';
+import { mapContactSummary } from '../../../../services/contactSummary';
+import { fakeContactsSummary } from '../../../../services/reports/index.double';
+import { ACTIONS_CONTACTS_SUMMARY, contactSummaryReducer } from './contactSummaryReducer';
 
 describe('contactSummaryReducer', () => {
   it(`${ACTIONS_CONTACTS_SUMMARY.START_FETCH} action`, () => {

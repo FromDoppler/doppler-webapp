@@ -33,6 +33,7 @@ import { PlanService } from './planService';
 import { ControlPanelService } from './control-panel-service';
 import { HttpReportClient, ReportClient } from './reports';
 import { CampaignSummaryService } from './campaignSummary';
+import { ContactSummaryService } from './contactSummary';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -80,6 +81,7 @@ export interface AppServices {
   dopplerAccountPlansApiClient: DopplerAccountPlansApiClient;
   planService: PlanService;
   campaignSummaryService: CampaignSummaryService;
+  contactSummaryService: ContactSummaryService;
   controlPanelService: ControlPanelService;
 }
 
@@ -315,6 +317,16 @@ export class AppCompositionRoot implements AppServices {
       'campaignSummaryService',
       () =>
         new CampaignSummaryService({
+          reportClient: this.reportClient,
+        }),
+    );
+  }
+
+  get contactSummaryService() {
+    return this.singleton(
+      'contactSummaryService',
+      () =>
+        new ContactSummaryService({
           reportClient: this.reportClient,
         }),
     );
