@@ -1,29 +1,10 @@
+import { mapCampaignsSummary } from '../../../../services/campaignSummary';
+
 export const ACTIONS_CAMPAIGNS_SUMMARY = {
   START_FETCH: 'START_FETCH',
   FINISH_FETCH: 'FINISH_FETCH',
   FAIL_FETCH: 'FAIL_FETCH',
 };
-
-export const mapCampaignsSummary = (campaignsSummary) => [
-  {
-    id: 1,
-    kpiTitleId: 'dashboard.campaigns.totalCampaigns',
-    kpiValue: campaignsSummary.totalSentEmails,
-    iconClass: 'deliveries',
-  },
-  {
-    id: 2,
-    kpiTitleId: 'dashboard.campaigns.totalOpen',
-    kpiValue: `${campaignsSummary.totalOpenClicks}%`,
-    iconClass: 'open-rate',
-  },
-  {
-    id: 3,
-    kpiTitleId: 'dashboard.campaigns.totalCtr',
-    kpiValue: `${campaignsSummary.clickThroughRate}%`,
-    iconClass: 'ctr',
-  },
-];
 
 export const initCampaignSummaryReducer = (state) => ({
   ...state,

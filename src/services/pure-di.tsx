@@ -31,6 +31,8 @@ import {
 } from './doppler-account-plans-api-client';
 import { PlanService } from './planService';
 import { ControlPanelService } from './control-panel-service';
+import { HttpReportClient, ReportClient } from './reports';
+import { CampaignSummaryService } from './campaignSummary';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -62,6 +64,7 @@ export interface AppServices {
   originResolver: OriginResolver;
   shopifyClient: ShopifyClient;
   bigQueryClient: BigQueryClient;
+  reportClient: ReportClient;
   dopplerSitesClient: DopplerSitesClient;
   experimentalFeatures: ExperimentalFeatures;
   dopplerApiClient: DopplerApiClient;
@@ -76,6 +79,7 @@ export interface AppServices {
   dopplerBillingUserApiClient: DopplerBillingUserApiClient;
   dopplerAccountPlansApiClient: DopplerAccountPlansApiClient;
   planService: PlanService;
+  campaignSummaryService: CampaignSummaryService;
   controlPanelService: ControlPanelService;
 }
 
@@ -123,6 +127,7 @@ export class AppCompositionRoot implements AppServices {
       },
       shopifyUrl: process.env.REACT_APP_SHOPIFY_URL as string,
       bigQueryUrl: process.env.REACT_APP_BIGQUERY_URL as string,
+      reportingUrl: process.env.REACT_APP_DOPPLER_REPORTING_URL as string,
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
       dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
@@ -190,6 +195,18 @@ export class AppCompositionRoot implements AppServices {
         new HttpBigQueryClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.bigQueryUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get reportClient() {
+    return this.singleton(
+      'reportClient',
+      () =>
+        new HttpReportClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.reportingUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );
@@ -289,6 +306,16 @@ export class AppCompositionRoot implements AppServices {
         new PlanService({
           dopplerLegacyClient: this.dopplerLegacyClient,
           appSessionRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get campaignSummaryService() {
+    return this.singleton(
+      'campaignSummaryService',
+      () =>
+        new CampaignSummaryService({
+          reportClient: this.reportClient,
         }),
     );
   }

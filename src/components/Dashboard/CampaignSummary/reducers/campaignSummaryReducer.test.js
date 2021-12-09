@@ -1,9 +1,7 @@
-import { fakeCampaignsSummary, INITIAL_STATE_CAMPAIGNS_SUMMARY } from '..';
-import {
-  ACTIONS_CAMPAIGNS_SUMMARY,
-  campaignSummaryReducer,
-  mapCampaignsSummary,
-} from './campaignSummaryReducer';
+import { INITIAL_STATE_CAMPAIGNS_SUMMARY } from '..';
+import { mapCampaignsSummary } from '../../../../services/campaignSummary';
+import { fakeCampaignsSummary } from '../../../../services/reports/index.double';
+import { ACTIONS_CAMPAIGNS_SUMMARY, campaignSummaryReducer } from './campaignSummaryReducer';
 
 describe('campaignSummaryReducer', () => {
   it(`${ACTIONS_CAMPAIGNS_SUMMARY.START_FETCH} action`, () => {

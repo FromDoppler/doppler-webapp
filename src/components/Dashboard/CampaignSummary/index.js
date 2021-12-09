@@ -1,19 +1,13 @@
 import React, { useEffect, useReducer } from 'react';
-import useTimeout from '../../../hooks/useTimeout';
+import { InjectAppServices } from '../../../services/pure-di';
+import { fakeCampaignsSummary } from '../../../services/reports/index.double';
 import { Kpi } from '../Kpis/Kpi';
 import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from '../Kpis/KpiGroup';
 import {
   ACTIONS_CAMPAIGNS_SUMMARY,
   campaignSummaryReducer,
   initCampaignSummaryReducer,
-  mapCampaignsSummary,
 } from './reducers/campaignSummaryReducer';
-
-export const fakeCampaignsSummary = {
-  totalSentEmails: 21.458,
-  totalOpenClicks: 57,
-  clickThroughRate: 15,
-};
 
 export const INITIAL_STATE_CAMPAIGNS_SUMMARY = {
   loading: false,
@@ -21,28 +15,23 @@ export const INITIAL_STATE_CAMPAIGNS_SUMMARY = {
   kpis: fakeCampaignsSummary,
 };
 
-export const CampaignSummary = () => {
+export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSummaryService } }) => {
   const [{ loading, kpis }, dispatch] = useReducer(
     campaignSummaryReducer,
     INITIAL_STATE_CAMPAIGNS_SUMMARY,
     initCampaignSummaryReducer,
   );
-  const createTimeout = useTimeout();
 
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.START_FETCH });
-      const data = await new Promise((resolve) => {
-        createTimeout(() => {
-          resolve(fakeCampaignsSummary);
-        }, 2000);
-      });
-      const mappedData = mapCampaignsSummary(data);
-      dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.FINISH_FETCH, payload: mappedData });
+      const response = await campaignSummaryService.getCampaignsSummary();
+      // TODO: define what to do in case of error
+      dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.FINISH_FETCH, payload: response.value });
     };
 
     fetchData();
-  }, [createTimeout]);
+  }, [campaignSummaryService]);
 
   return (
     <>
@@ -57,4 +46,4 @@ export const CampaignSummary = () => {
       </KpiGroup>
     </>
   );
-};
+});
