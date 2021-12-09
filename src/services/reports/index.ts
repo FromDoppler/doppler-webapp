@@ -7,11 +7,22 @@ export interface CampaignSummary {
   clickThroughRate: Number;
 }
 
+export interface ContactSummary {
+  totalSubscribers: Number;
+  newSubscribers: Number;
+  removedSubscribers: Number;
+}
+
 export interface ReportClient {
   getCampaignsSummary(query: {
     dateFrom: Date;
     dateTo: Date;
   }): Promise<ResultWithoutExpectedErrors<CampaignSummary>>;
+
+  getContactsSummary(query: {
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<ResultWithoutExpectedErrors<ContactSummary>>;
 }
 
 export class HttpReportClient extends HttpBaseClient implements ReportClient {
@@ -29,6 +40,35 @@ export class HttpReportClient extends HttpBaseClient implements ReportClient {
       const response = await this.axios.request({
         method: 'GET',
         url: `/${email}/summary/campaigns`,
+        params: {
+          startDate: dateFrom.toISOString(),
+          endDate: dateTo.toISOString(),
+        },
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      return {
+        success: true,
+        value: response.data,
+      };
+    } catch (error) {
+      console.error(error);
+      return { success: false, error };
+    }
+  }
+
+  public async getContactsSummary({
+    dateFrom,
+    dateTo,
+  }: {
+    dateFrom: Date;
+    dateTo: Date;
+  }): Promise<ResultWithoutExpectedErrors<ContactSummary>> {
+    try {
+      const { jwtToken, email } = this.getApiConnectionData(this.clientName);
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/${email}/summary/subscribers`,
         params: {
           startDate: dateFrom.toISOString(),
           endDate: dateTo.toISOString(),
