@@ -417,6 +417,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
   dashboard: {
     campaigns: {
       link_title: 'CAMPAÑAS ENVIADAS',
+      overlayMessage: `Aquí verás información relevante sobre tus Campañas. [Crea tu Campaña](${urlDopplerLegacy}/Campaigns/BasicInfo).`,
       section_name: 'Mis Campañas',
       totalCampaigns: 'Envíos totales',
       totalCtr: 'Tasa de Clics',

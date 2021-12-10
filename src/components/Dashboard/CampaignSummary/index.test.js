@@ -6,21 +6,20 @@ import { fakeCampaignsSummary } from '../../../services/reports/index.double';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { mapCampaignsSummary } from '../../../services/campaignSummary';
 
-const reportClientDouble = () => ({
-  getCampaignsSummary: async () => ({
-    success: true,
-    value: fakeCampaignsSummary,
-  }),
-});
-
 describe('CampaignSummary component', () => {
-  it('should render CampaignSummary component', async () => {
+  it('should render CampaignSummary component when has info', async () => {
     // Arrange
     const kpis = mapCampaignsSummary(fakeCampaignsSummary);
+    const campaignSummaryService = {
+      getCampaignsSummary: async () => ({
+        success: true,
+        value: mapCampaignsSummary(fakeCampaignsSummary),
+      }),
+    };
 
     // Act
     render(
-      <AppServicesProvider forcedServices={{ reportClient: reportClientDouble() }}>
+      <AppServicesProvider forcedServices={{ campaignSummaryService }}>
         <IntlProvider>
           <CampaignSummary />
         </IntlProvider>
@@ -36,5 +35,34 @@ describe('CampaignSummary component', () => {
       const node = allKpis[index];
       expect(getByText(node, kpi.kpiTitleId)).toBeInTheDocument();
     });
+  });
+
+  it('should render CampaignSummary component when has not info', async () => {
+    // Arrange
+    const campaignSummaryService = {
+      getCampaignsSummary: async () => ({
+        success: true,
+        value: mapCampaignsSummary({
+          totalSentEmails: 0,
+          totalOpenClicks: 0,
+          clickThroughRate: 0,
+        }),
+      }),
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={{ campaignSummaryService }}>
+        <IntlProvider>
+          <CampaignSummary />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader, { timeout: 4500 });
+
+    expect(screen.getByText('dashboard.campaigns.overlayMessage')).toBeInTheDocument();
   });
 });

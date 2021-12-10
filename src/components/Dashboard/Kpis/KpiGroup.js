@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
@@ -25,38 +25,19 @@ export const DashboardIconLink = ({ linkTitle, link }) => {
   );
 };
 
-export const KpiOverlay = ({ titleLink, kpiOverlayLink }) => {
+export const KpiGroup = ({ children, loading, disabled, overlay }) => {
   return (
-    <div className="dp-overlay">
-      <a href={`${kpiOverlayLink}`}>${titleLink}</a>
-    </div>
-  );
-};
-
-export const KpiGroup = ({ children, disabled, loading }) => {
-  const [showOverlay, setShowOverlay] = useState(false);
-  const toggleShow = () => setShowOverlay(!showOverlay);
-
-  return (
-    <div
-      className={`dp-rowflex dp-dashboard-panel ${disabled ? `disabled` : ``} ${
-        showOverlay && disabled ? `show` : ``
-      } `}
-      onMouseLeave={toggleShow}
-      onMouseEnter={toggleShow}
-      data-testid="dp-dashboard-panel"
-    >
+    <div className={`dp-rowflex dp-dashboard-panel ${disabled ? `disabled` : ''}`}>
       {loading && <Loading />}
       {children}
-      <KpiOverlay
-        titleLink="Empieza a enviar Campañas para ver tus resultados aquí"
-        kpiOverlayLink="#"
-      ></KpiOverlay>
+      <div className={`dp-overlay ${disabled ? `show` : ''}`}>{overlay}</div>
     </div>
   );
 };
 
 KpiGroup.propTypes = {
   children: PropTypes.node,
+  overlay: PropTypes.node,
+  loading: PropTypes.bool,
   disabled: PropTypes.bool,
 };

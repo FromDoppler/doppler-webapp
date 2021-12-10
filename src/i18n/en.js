@@ -416,6 +416,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
   dashboard: {
     campaigns: {
       link_title: 'SENT DELIVERIES',
+      overlayMessage: `Here you’ll see some relevant information about your Campaigns. [Create your Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo).`,
       section_name: 'My Deliveries',
       totalCampaigns: 'Total sends',
       totalCtr: 'Click Through Rate',
