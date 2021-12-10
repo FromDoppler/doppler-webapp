@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeContactsSummary } from '../../../services/reports/index.double';
 import { Kpi } from '../Kpis/Kpi';
@@ -33,13 +34,19 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
     fetchData();
   }, [contactSummaryService]);
 
+  const showOverlay = kpis[0]?.kpiValue === 0;
+
   return (
     <>
       <div className="dp-dashboard-title">
         <DashboardIconSubTitle title="dashboard.contacts.section_name" iconClass="subscribers" />
         <DashboardIconLink linkTitle="dashboard.contacts.link_title" link="#" />
       </div>
-      <KpiGroup loading={loading}>
+      <KpiGroup
+        loading={loading}
+        disabled={showOverlay}
+        overlay={<FormattedMessageMarkdown id="dashboard.contacts.overlayMessage" />}
+      >
         {kpis.map((kpi) => (
           <Kpi key={kpi.id} {...kpi} />
         ))}
