@@ -425,6 +425,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     },
     contacts: {
       link_title: 'VER LISTADO MAESTRO',
+      overlayMessage: `Aquí verás información relevante sobre tus Contactos. [Crea una Lista y añade Contactos](${urlCreateSubscriberList}).`,
       section_name: 'Mis Contactos',
       totalContacts: 'Contactos',
       totalNewContacts: 'Contactos nuevos',

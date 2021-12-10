@@ -3,8 +3,8 @@ import { getByText, render, screen, waitForElementToBeRemoved } from '@testing-l
 import { ContactSummary } from '.';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { mapContactSummary } from '../../../services/contactSummary';
-import { fakeContactsSummary } from '../../../services/reports/index.double';
 import { AppServicesProvider } from '../../../services/pure-di';
+import { fakeContactsSummary } from '../../../services/reports/index.double';
 
 const getContactSummaryServiceDouble = () => ({
   getContactsSummary: async () => ({
@@ -14,15 +14,19 @@ const getContactSummaryServiceDouble = () => ({
 });
 
 describe('ContactSummary component', () => {
-  it('should render ContactSummary component', async () => {
+  it('should render ContactSummary component when has info', async () => {
     // Arrange
     const kpis = mapContactSummary(fakeContactsSummary);
+    const contactSummaryService = {
+      getContactsSummary: async () => ({
+        success: true,
+        value: mapContactSummary(fakeContactsSummary),
+      }),
+    };
 
     // Act
     render(
-      <AppServicesProvider
-        forcedServices={{ contactSummaryService: getContactSummaryServiceDouble() }}
-      >
+      <AppServicesProvider forcedServices={{ contactSummaryService }}>
         <IntlProvider>
           <ContactSummary />
         </IntlProvider>
@@ -31,12 +35,41 @@ describe('ContactSummary component', () => {
 
     // Assert
     const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader, { timeout: 4500 });
+    await waitForElementToBeRemoved(loader);
 
     const allKpis = screen.getAllByRole('figure');
     kpis.forEach((kpi, index) => {
       const node = allKpis[index];
       expect(getByText(node, kpi.kpiTitleId)).toBeInTheDocument();
     });
+  });
+
+  it('should render ContactSummary component when has not info', async () => {
+    // Arrange
+    const contactSummaryService = {
+      getContactsSummary: async () => ({
+        success: true,
+        value: mapContactSummary({
+          totalSubscribers: 0,
+          newSubscribers: 0,
+          removedSubscribers: 0,
+        }),
+      }),
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={{ contactSummaryService }}>
+        <IntlProvider>
+          <ContactSummary />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.getByText('dashboard.contacts.overlayMessage')).toBeInTheDocument();
   });
 });

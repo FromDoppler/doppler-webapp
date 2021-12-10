@@ -424,6 +424,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     contacts: {
       link_title: 'SEE MASTER LIST',
+      overlayMessage: `Here you’ll see some relevant information about your Contacts. [Create a List and add Contacts](${urlCreateSubscriberList}).`,
       section_name: 'My Contacts',
       totalContacts: 'Contacts',
       totalNewContacts: 'New Contacts',
