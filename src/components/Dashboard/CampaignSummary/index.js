@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeCampaignsSummary } from '../../../services/reports/index.double';
 import { Kpi } from '../Kpis/Kpi';
@@ -33,13 +34,20 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
     fetchData();
   }, [campaignSummaryService]);
 
+  //   TODO: move logic to the service of campaigns
+  const showOverlay = kpis[0]?.kpiValue === 0;
+
   return (
     <>
       <div className="dp-dashboard-title">
         <DashboardIconSubTitle title="dashboard.campaigns.section_name" iconClass="deliveries" />
         <DashboardIconLink linkTitle="dashboard.campaigns.link_title" link="#" />
       </div>
-      <KpiGroup loading={loading}>
+      <KpiGroup
+        loading={loading}
+        disabled={showOverlay}
+        overlay={<FormattedMessageMarkdown id="dashboard.campaigns.overlayMessage" />}
+      >
         {kpis.map((kpi) => (
           <Kpi key={kpi.id} {...kpi} />
         ))}
