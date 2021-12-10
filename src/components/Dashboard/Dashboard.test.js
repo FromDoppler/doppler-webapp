@@ -48,8 +48,6 @@ describe('Dashboard component', () => {
     });
 
     // Assert
-    const header = screen.getByRole('banner');
-    expect(header).toBeInTheDocument();
     expect(screen.getByText(/Cecilia/i)).toBeInTheDocument();
     expect(screen.getByText(/dashboard.welcome_message_header/i)).toBeInTheDocument();
     expect(screen.getAllByRole('figure')).toHaveLength(6);

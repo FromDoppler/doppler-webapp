@@ -1,28 +1,24 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 import {
   COMPLETED_STATUS,
   INFO_BY_STATE,
   PENDING_STATUS,
   WARNING_STATUS,
 } from '../reducers/firstStepsReducer';
-import { useIntl } from 'react-intl';
-import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 
 export const ActionBox = ({ status, titleId, descriptionId, textStep }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
   return (
     <div
       className={`dp-postcard ${INFO_BY_STATE[status].classNames}`}
       role="alert"
       aria-label="step"
     >
-      <h4>
+      <header>
         <span className="dp-iconpostcard">{status === PENDING_STATUS ? textStep : ''}</span>
-        {_(titleId)}
-      </h4>
+        <FormattedMessageMarkdown id={titleId} />
+      </header>
       <article>
         <FormattedMessageMarkdown id={descriptionId} />
       </article>
