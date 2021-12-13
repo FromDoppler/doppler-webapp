@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
-import useTimeout from '../../../hooks/useTimeout';
 import { Loading } from '../../Loading/Loading';
 import { ActionBox } from './ActionBox';
 import { Notification } from './Notification';
@@ -29,7 +28,7 @@ export const FirstSteps = InjectAppServices(
       INITIAL_STATE_FIRST_STEPS,
       initFirstStepsReducer,
     );
-    const createTimeout = useTimeout();
+
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -55,7 +54,7 @@ export const FirstSteps = InjectAppServices(
       };
 
       fetchData();
-    }, [createTimeout, systemUsageSummary]);
+    }, [systemUsageSummary]);
 
     const { firstSteps, notifications } = firstStepsData;
 

@@ -5,7 +5,7 @@ import { SystemUsageSummary, SystemUsageSummaryClient } from './SystemUsageSumma
 export const fakeSystemUsageSummary = {
   hasListsCreated: false,
   hasDomainsReady: false,
-  hasCampaingsCreated: undefined,
+  hasCampaingsCreated: true,
   hasCampaingsSent: false,
 };
 

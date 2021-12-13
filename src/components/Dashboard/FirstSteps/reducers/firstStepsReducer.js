@@ -1,4 +1,5 @@
 import { mapSystemUsageSummary } from '..';
+import { fakeSystemUsageSummary } from '../../../../services/dashboardService/SystemUsageSummary.double';
 
 export const PENDING_STATUS = 0;
 export const COMPLETED_STATUS = 1;
@@ -18,21 +19,13 @@ export const INFO_BY_STATE = {
   },
 };
 
-// TODO: change name to systemUsageSummaryFake and move to FirstSteps component client
-export const firstStepsFake = {
-  hasListsCreated: false,
-  hasDomainsReady: false,
-  hasCampaingsCreated: false,
-  hasCampaingsSent: false,
-};
-
 export const initFirstStepsReducer = (state) => ({
   ...state,
   firstStepsData: mapSystemUsageSummary(state.firstStepsData),
 });
 
 export const INITIAL_STATE_FIRST_STEPS = {
-  firstStepsData: firstStepsFake,
+  firstStepsData: fakeSystemUsageSummary,
   loading: false,
   hasError: false,
 };

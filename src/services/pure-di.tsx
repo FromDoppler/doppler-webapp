@@ -314,7 +314,7 @@ export class AppCompositionRoot implements AppServices {
     );
   }
 
- get campaignSummaryService() {
+  get campaignSummaryService() {
     return this.singleton(
       'campaignSummaryService',
       () =>
@@ -334,13 +334,13 @@ export class AppCompositionRoot implements AppServices {
     );
   }
 
-    get systemUsageSummary() {
+  get systemUsageSummary() {
     return this.singleton(
       'systemUsageSummary',
       () =>
         new HttpSystemUsageSummaryClient({
           axiosStatic: this.axiosStatic,
-          baseUrl: this.appConfiguration.dopplerBillingApiUrl,
+          baseUrl: this.appConfiguration.reportingUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );

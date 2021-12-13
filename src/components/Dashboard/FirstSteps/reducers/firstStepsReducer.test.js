@@ -1,6 +1,6 @@
 import { mapSystemUsageSummary } from '..';
+import { fakeSystemUsageSummary } from '../../../../services/dashboardService/SystemUsageSummary.double';
 import {
-  firstStepsFake,
   firstStepsReducer,
   FIRST_STEPS_ACTIONS,
   INITIAL_STATE_FIRST_STEPS,
@@ -26,7 +26,7 @@ describe('firstStepsReducer', () => {
     // Arrange
     const action = {
       type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
-      payload: mapSystemUsageSummary(firstStepsFake),
+      payload: mapSystemUsageSummary(fakeSystemUsageSummary),
     };
 
     // Act
@@ -37,7 +37,7 @@ describe('firstStepsReducer', () => {
       ...INITIAL_STATE_FIRST_STEPS,
       loading: false,
       hasError: false,
-      firstStepsData: mapSystemUsageSummary(firstStepsFake),
+      firstStepsData: mapSystemUsageSummary(fakeSystemUsageSummary),
     });
   });
 
