@@ -7,7 +7,6 @@ import { ActionBox } from './ActionBox';
 import { Notification } from './Notification';
 import {
   COMPLETED_STATUS,
-  firstStepsFake,
   firstStepsReducer,
   FIRST_STEPS_ACTIONS,
   initFirstStepsReducer,
@@ -36,18 +35,23 @@ export const FirstSteps = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
-        dispatch({ type: FIRST_STEPS_ACTIONS.FETCHING_STARTED });
-        const data = await systemUsageSummary.getSystemUsageSummaryData();
-        const dataMapped = mapSystemUsageSummary(data);
-        dispatch({
-          type: FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS,
-          payload: {
-            ...dataMapped,
-            firstSteps: dataMapped.firstSteps.filter(
-              (firstStep) => firstStep.status !== UNKNOWN_STATUS,
-            ),
-          },
-        });
+        try {
+          dispatch({ type: FIRST_STEPS_ACTIONS.START_FETCH });
+          const { value: data } = await systemUsageSummary.getSystemUsageSummaryData();
+          // TODO: define what to do in case of error
+          const dataMapped = mapSystemUsageSummary(data);
+          dispatch({
+            type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
+            payload: {
+              ...dataMapped,
+              firstSteps: dataMapped.firstSteps.filter(
+                (firstStep) => firstStep.status !== UNKNOWN_STATUS,
+              ),
+            },
+          });
+        } catch (error) {
+          dispatch({ type: FIRST_STEPS_ACTIONS.FAIL_FETCH });
+        }
       };
 
       fetchData();
