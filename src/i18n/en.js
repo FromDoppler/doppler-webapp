@@ -35,7 +35,6 @@ const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 const urlDkim = `${urlDopplerLegacy}/ControlPanel/AdvancedPreferences/Dkim`;
-const urlSummaryReport = `${urlHelp}/discover-the-doppler-report-section`;
 const urlSentCampaigns = `${urlDopplerLegacy}/SentCampaigns.aspx`;
 
 const messages_en = {
@@ -415,16 +414,18 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
   },
   dashboard: {
     campaigns: {
-      link_title: 'SENT DELIVERIES',
-      overlayMessage: `Here you’ll see some relevant information about your Campaigns. [Create your Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo).`,
-      section_name: 'My Deliveries',
+      link_title: 'SEE ALL',
+      link_title_url: `${urlDopplerLegacy}/Campaigns/Sent/`,
+      overlayMessage: `Here you’ll see some relevant information about your Campaigns. **[Create your Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo)**.`,
+      section_name: 'My Campaigns',
       totalCampaigns: 'Total sends',
       totalCtr: 'Click Through Rate',
       totalOpen: 'Open Rate',
     },
     contacts: {
-      link_title: 'SEE MASTER LIST',
-      overlayMessage: `Here you’ll see some relevant information about your Contacts. [Create a List and add Contacts](${urlCreateSubscriberList}).`,
+      link_title: 'SEE ALL',
+      link_title_url: `${urlDopplerLegacy}/Lists/SubscribersList/`,
+      overlayMessage: `Here you’ll see some relevant information about your Contacts. **[Create a List and add Contacts](${urlCreateSubscriberList})**.`,
       section_name: 'My Contacts',
       totalContacts: 'Contacts',
       totalNewContacts: 'New Contacts',
@@ -432,25 +433,27 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     first_steps: {
       has_campaings_created_description_MD: `
-You can choose between three Campaigns types according to your business goals. [Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)
+You can choose between **three Campaigns types** according to your business goals. **[Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)**
+
 Want to go further? Try **Automatized Email and SMS Flows!**`,
       has_campaings_created_title: `#### [Create your first Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo)`,
       has_campaings_sent_description_MD: `
-Analyze its results is essential to take decisions and optimize your strategy. [Find out the Doppler Reports section](${urlSentCampaigns}) or [find out the meaning of each indicator](${urlSummaryReport}).
+Analyze it's results is essential to **take decisions and optimize** your strategy. **[Discover the Doppler Reports section](${urlSentCampaigns})**.
       `,
       has_campaings_sent_title: `#### [Look at the metrics of your Campaign](${urlSentCampaigns})`,
       has_domains_ready_description_MD: `
-Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. [Activate them now](${urlDkim}).
+Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. **[Activate them now](${urlDkim})**.
       `,
       has_domains_ready_title: `#### [Configure DKIM and SPF](${urlDkim})`,
-      has_list_created_description_MD: `Start importing a file at Doppler with your Database. Fast and simple! [Do it now](${urlCreateSubscriberList}).`,
+      has_list_created_description_MD: `Start importing a **file at Doppler with your Database**. Fast and simple! **[Do it now](${urlCreateSubscriberList})**.`,
       has_list_created_title: `#### [Create a List and add Contacts](${urlCreateSubscriberList})`,
-      section_name: 'Your first steps in Doppler',
+      section_name: 'First steps in Doppler',
       welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** 👇`,
       welcome_title: 'You’ve created an account. Well done!',
     },
-    lastMonth: 'ÚLTIMOS 30 DÍAS',
+    lastMonth: 'LAST 30 DAYS',
     learn_with_doppler: 'Learn with Doppler',
+    meta_title: 'Doppler | Dashboard',
 
     postListBlog_1_description: 'How to create a File to Import your Contact List to Doppler',
     postListBlog_1_link: 'https://help.fromdoppler.com/en/how-to-create-a-file-to-import-your-subscribers-list-to-doppler/?utm_source=direct',
@@ -462,14 +465,14 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
     postListBlog_2_link_description: 'Keep reading',
     postListBlog_2_title: '#DopplerHelp',
 
-    postListHelp_1_description: `Take your Email & Automation Marketing strategy to another level`,
+    postListHelp_1_description: `Free and online training: Take your strategy to the next level`,
     postListHelp_1_link: 'https://comercial.fromdoppler.com/demoday/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=demoday',
     postListHelp_1_link_description: 'Register for free',
     postListHelp_1_title: 'Demo Day',
 
     postListHelp_2_description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
-    postListHelp_2_link_description: 'Know more',
+    postListHelp_2_link_description: 'Write to us',
     postListHelp_2_title: 'Aditional Services',
 
     total: 'TOTAL',

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeContactsSummary } from '../../../services/reports/index.double';
@@ -22,6 +23,8 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
     INITIAL_STATE_CONTACTS_SUMMARY,
     initContactSummaryReducer,
   );
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +43,10 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
     <>
       <div className="dp-dashboard-title">
         <DashboardIconSubTitle title="dashboard.contacts.section_name" iconClass="subscribers" />
-        <DashboardIconLink linkTitle="dashboard.contacts.link_title" link="#" />
+        <DashboardIconLink
+          linkTitle="dashboard.contacts.link_title"
+          link={_('dashboard.contacts.link_title_url')}
+        />
       </div>
       <KpiGroup
         loading={loading}

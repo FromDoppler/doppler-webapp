@@ -32,7 +32,7 @@ describe('KpiGroup component', () => {
     const { container } = render(<KpiGroup {...props} />);
 
     // Assert
-    expect(container.querySelector('.dp-overlay.show')).toBeInTheDocument();
+    expect(container.querySelector('.dp-overlay')).toBeInTheDocument();
     expect(screen.getByText('lorem ipsum dolor sit amet...')).toBeInTheDocument();
   });
 
@@ -48,6 +48,6 @@ describe('KpiGroup component', () => {
     const { container } = render(<KpiGroup {...props} />);
 
     // Assert
-    expect(container.querySelector('.dp-overlay.show')).not.toBeInTheDocument();
+    expect(container.querySelector('.dp-overlay')).not.toBeInTheDocument();
   });
 });
