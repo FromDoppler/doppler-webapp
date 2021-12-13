@@ -15,6 +15,13 @@ export const fakePlan = {
   type: 'Subscribers',
 };
 
+export const fakePrepaidPlan = {
+  emailQty: 1500,
+  subscribersQty: 1500,
+  fee: 45,
+  type: 'prepaid',
+};
+
 export const fakeAccountPlanDiscounts = [
   { id: 1, monthsAmmount: 1, discountPercentage: 0, description: 'monthly', applyPromo: true },
   { id: 2, monthsAmmount: 3, discountPercentage: 5, description: 'quarterly', applyPromo: false },

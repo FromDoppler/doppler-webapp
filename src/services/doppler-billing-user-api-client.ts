@@ -2,6 +2,7 @@ import { ResultWithoutExpectedErrors, EmptyResultWithoutExpectedErrors } from '.
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
+import { PLAN_TYPE } from '../doppler-types';
 
 export interface DopplerBillingUserApiClient {
   getBillingInformationData(): Promise<ResultWithoutExpectedErrors<BillingInformation>>;
@@ -11,6 +12,7 @@ export interface DopplerBillingUserApiClient {
   purchase(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>>;
   updateInvoiceRecipients(values: any, planId: number): Promise<EmptyResultWithoutExpectedErrors>;
+  getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -46,6 +48,15 @@ export interface PaymentMethod {
   idConsumerType: string;
   identificationType: string;
   identificationNumber: string;
+}
+
+export interface UserPlan {
+  idPlan: number;
+  planSubscription: number;
+  planType: string;
+  remainingCredits: number;
+  emailQty: number;
+  subscribersQty: null;
 }
 
 export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
@@ -158,6 +169,30 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       planId: planId,
       recipients: data,
     };
+  }
+
+  private mapUserPlan(data: any): UserPlan {
+    return {
+      idPlan: data.idPlan,
+      planSubscription: data.planSubscription,
+      planType: this.mapPlanType(data.planType),
+      remainingCredits: data.remainingCredits,
+      emailQty: data.emailQty,
+      subscribersQty: data.subscribersQty,
+    };
+  }
+
+  private mapPlanType(type: any): string {
+    switch (type) {
+      case 'Individual':
+        return PLAN_TYPE.byCredit;
+      case 'Monthly':
+        return PLAN_TYPE.byEmail;
+      case 'Subscribers':
+        return PLAN_TYPE.byContact;
+      default:
+        return '';
+    }
   }
 
   public async getBillingInformationData(): Promise<
@@ -303,6 +338,26 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true };
       } else {
         return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/plans/current`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: this.mapUserPlan(response.data) };
+      } else {
+        return { success: false, error: response.data.title };
       }
     } catch (error) {
       return { success: false, error: error };

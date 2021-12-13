@@ -4,6 +4,7 @@ import {
   BillingInformation,
   DopplerBillingUserApiClient,
   PaymentMethod,
+  UserPlan,
 } from './doppler-billing-user-api-client';
 
 export const fakeBillingInformation = {
@@ -76,6 +77,15 @@ export const fakePaymentMethodInformationWithTransfer = {
 
 export const fakeInvoiceRecipients = ['harcode_1@mail.com', 'harcode_2@mail.com'];
 
+export const fakeUserPlan = {
+  idPlan: 1,
+  planSubscription: 0,
+  planType: 'prepaid',
+  remainingCredits: 69542,
+  emailQty: 1500,
+  subscribersQty: null,
+};
+
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
   public async getBillingInformationData(): Promise<
     ResultWithoutExpectedErrors<BillingInformation>
@@ -141,6 +151,16 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     console.log('updateInvoiceRecipients');
     console.log(values);
     return {
+      success: true,
+    };
+  }
+
+  public async getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>> {
+    console.log('getCurrentUserPlanData');
+    await timeout(1500);
+
+    return {
+      value: fakeUserPlan,
       success: true,
     };
   }

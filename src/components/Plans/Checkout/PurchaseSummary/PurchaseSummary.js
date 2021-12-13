@@ -383,6 +383,7 @@ export const PurchaseSummary = InjectAppServices(
         planId: selectedPlan,
         discountId: selectedDiscountId,
         total: state.amountDetails.total,
+        promocode: state.promotion?.promocode ?? '',
       });
 
       setError(!result.success);
@@ -392,7 +393,11 @@ export const PurchaseSummary = InjectAppServices(
         setSaved(true);
         createTimeout(() => {
           setSaved(false);
-          history.push('/checkout-summary');
+          history.push(
+            `/checkout-summary?planId=${selectedPlan}&paymentMethod=${state.paymentMethodType}${
+              state.discount?.description ? `&discount=${state.discount.description}` : ''
+            }${state.promotion?.promocode ? `&promo-code=${state.promotion.promocode}` : ''}`,
+          );
         }, 3000);
       }
     };

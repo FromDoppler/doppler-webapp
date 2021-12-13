@@ -9,6 +9,7 @@ import {
   fakePaymentMethod,
   fakeAgreement,
   fakeInvoiceRecipients,
+  fakeUserPlan,
 } from './doppler-billing-user-api-client.double';
 
 const consoleError = console.error;
@@ -331,5 +332,41 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
+  });
+
+  it('should get current plan information', async () => {
+    // Arrange
+    const userPlan = {
+      data: fakeUserPlan,
+      status: 200,
+    };
+    const request = jest.fn(async () => userPlan);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getCurrentUserPlanData();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail to get invoice recipients information', async () => {
+    // Arrange
+    const response = {
+      status: 500,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getCurrentUserPlanData();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
   });
 });
