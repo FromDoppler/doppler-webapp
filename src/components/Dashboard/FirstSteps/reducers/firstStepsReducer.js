@@ -1,4 +1,5 @@
 import { mapSystemUsageSummary } from '..';
+import { fakeSystemUsageSummary } from '../../../../services/dashboardService/SystemUsageSummary.double';
 
 export const PENDING_STATUS = 0;
 export const COMPLETED_STATUS = 1;
@@ -18,21 +19,13 @@ export const INFO_BY_STATE = {
   },
 };
 
-// TODO: change name to systemUsageSummaryFake and move to FirstSteps component client
-export const firstStepsFake = {
-  hasListsCreated: false,
-  hasDomainsReady: false,
-  hasCampaingsCreated: false,
-  hasCampaingsSent: false,
-};
-
 export const initFirstStepsReducer = (state) => ({
   ...state,
   firstStepsData: mapSystemUsageSummary(state.firstStepsData),
 });
 
 export const INITIAL_STATE_FIRST_STEPS = {
-  firstStepsData: firstStepsFake,
+  firstStepsData: fakeSystemUsageSummary,
   loading: false,
   hasError: false,
 };
@@ -44,20 +37,20 @@ RECEIVE_FIRST_STEPS -> FINISH_FETCH
 FETCH_FAILED -> FAIL_FETCH 
 */
 export const FIRST_STEPS_ACTIONS = {
-  FETCHING_STARTED: 'FETCHING_STARTED',
-  RECEIVE_FIRST_STEPS: 'RECEIVE_FIRST_STEPS',
-  FETCH_FAILED: 'FETCH_FAILED',
+  START_FETCH: 'START_FETCH',
+  FINISH_FETCH: 'FINISH_FETCH',
+  FAIL_FETCH: 'FAIL_FETCH',
 };
 
 export const firstStepsReducer = (state, action) => {
   switch (action.type) {
-    case FIRST_STEPS_ACTIONS.FETCHING_STARTED:
+    case FIRST_STEPS_ACTIONS.START_FETCH:
       return {
         ...state,
         loading: true,
         hasError: false,
       };
-    case FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS:
+    case FIRST_STEPS_ACTIONS.FINISH_FETCH:
       const { payload: firstStepsData } = action;
       return {
         ...state,
@@ -65,7 +58,7 @@ export const firstStepsReducer = (state, action) => {
         hasError: false,
         firstStepsData,
       };
-    case FIRST_STEPS_ACTIONS.FETCH_FAILED:
+    case FIRST_STEPS_ACTIONS.FAIL_FETCH:
       return {
         ...state,
         loading: false,

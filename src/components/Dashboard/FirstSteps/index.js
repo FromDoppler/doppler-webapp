@@ -1,12 +1,11 @@
 import React, { useEffect, useReducer } from 'react';
+import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
-import useTimeout from '../../../hooks/useTimeout';
 import { Loading } from '../../Loading/Loading';
 import { ActionBox } from './ActionBox';
 import { Notification } from './Notification';
 import {
   COMPLETED_STATUS,
-  firstStepsFake,
   firstStepsReducer,
   FIRST_STEPS_ACTIONS,
   initFirstStepsReducer,
@@ -22,60 +21,65 @@ export const FirstStepsStyled = styled.div`
   position: relative;
 `;
 
-export const FirstSteps = () => {
-  const [{ firstStepsData, loading }, dispatch] = useReducer(
-    firstStepsReducer,
-    INITIAL_STATE_FIRST_STEPS,
-    initFirstStepsReducer,
-  );
-  const createTimeout = useTimeout();
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+export const FirstSteps = InjectAppServices(
+  ({ dependencies: { systemUsageSummary, appSessionRef } }) => {
+    const [{ firstStepsData, loading }, dispatch] = useReducer(
+      firstStepsReducer,
+      INITIAL_STATE_FIRST_STEPS,
+      initFirstStepsReducer,
+    );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: FIRST_STEPS_ACTIONS.FETCHING_STARTED });
-      const data = await new Promise((resolve) => {
-        createTimeout(() => resolve(firstStepsFake), 4000);
-      });
-      const dataMapped = mapSystemUsageSummary(data);
-      dispatch({
-        type: FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS,
-        payload: {
-          ...dataMapped,
-          firstSteps: dataMapped.firstSteps.filter(
-            (firstStep) => firstStep.status !== UNKNOWN_STATUS,
-          ),
-        },
-      });
-    };
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-    fetchData();
-  }, [createTimeout]);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          dispatch({ type: FIRST_STEPS_ACTIONS.START_FETCH });
+          const { value: data } = await systemUsageSummary.getSystemUsageSummaryData();
+          // TODO: define what to do in case of error
+          const dataMapped = mapSystemUsageSummary(data);
+          dispatch({
+            type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
+            payload: {
+              ...dataMapped,
+              firstSteps: dataMapped.firstSteps.filter(
+                (firstStep) => firstStep.status !== UNKNOWN_STATUS,
+              ),
+            },
+          });
+        } catch (error) {
+          dispatch({ type: FIRST_STEPS_ACTIONS.FAIL_FETCH });
+        }
+      };
 
-  const { firstSteps, notifications } = firstStepsData;
+      fetchData();
+    }, [systemUsageSummary]);
 
-  return (
-    <FirstStepsStyled
-      style={{ position: 'relative' }}
-      className={classNames({
-        'p-l-12 p-t-12 p-r-12 p-b-12': loading,
-      })}
-    >
-      {loading && <Loading />}
-      <h2 className="dp-title-col-postcard">
-        <span className="dp-icon-steps" />
-        {_('dashboard.first_steps.section_name')}
-      </h2>
-      {notifications.map((notification, index) => (
-        <Notification key={index} {...notification} />
-      ))}
-      {firstSteps.map((firstStep, index) => (
-        <ActionBox key={index} {...firstStep} />
-      ))}
-    </FirstStepsStyled>
-  );
-};
+    const { firstSteps, notifications } = firstStepsData;
+
+    return (
+      <FirstStepsStyled
+        style={{ position: 'relative' }}
+        className={classNames({
+          'p-l-12 p-t-12 p-r-12 p-b-12': loading,
+        })}
+      >
+        {loading && <Loading />}
+        <h2 className="dp-title-col-postcard">
+          <span className="dp-icon-steps" />
+          {_('dashboard.first_steps.section_name')}
+        </h2>
+        {notifications.map((notification, index) => (
+          <Notification key={index} {...notification} />
+        ))}
+        {firstSteps.map((firstStep, index) => (
+          <ActionBox key={index} {...firstStep} />
+        ))}
+      </FirstStepsStyled>
+    );
+  },
+);
 
 const isFirstStepsCompleted = (systemUsageSummary) => {
   const { hasListsCreated, hasCampaingsCreated, hasDomainsReady, hasCampaingsSent } =
