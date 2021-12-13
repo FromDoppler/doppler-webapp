@@ -44,20 +44,20 @@ RECEIVE_FIRST_STEPS -> FINISH_FETCH
 FETCH_FAILED -> FAIL_FETCH 
 */
 export const FIRST_STEPS_ACTIONS = {
-  FETCHING_STARTED: 'FETCHING_STARTED',
-  RECEIVE_FIRST_STEPS: 'RECEIVE_FIRST_STEPS',
-  FETCH_FAILED: 'FETCH_FAILED',
+  START_FETCH: 'START_FETCH',
+  FINISH_FETCH: 'FINISH_FETCH',
+  FAIL_FETCH: 'FAIL_FETCH',
 };
 
 export const firstStepsReducer = (state, action) => {
   switch (action.type) {
-    case FIRST_STEPS_ACTIONS.FETCHING_STARTED:
+    case FIRST_STEPS_ACTIONS.START_FETCH:
       return {
         ...state,
         loading: true,
         hasError: false,
       };
-    case FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS:
+    case FIRST_STEPS_ACTIONS.FINISH_FETCH:
       const { payload: firstStepsData } = action;
       return {
         ...state,
@@ -65,7 +65,7 @@ export const firstStepsReducer = (state, action) => {
         hasError: false,
         firstStepsData,
       };
-    case FIRST_STEPS_ACTIONS.FETCH_FAILED:
+    case FIRST_STEPS_ACTIONS.FAIL_FETCH:
       return {
         ...state,
         loading: false,

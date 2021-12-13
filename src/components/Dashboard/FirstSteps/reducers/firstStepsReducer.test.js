@@ -7,9 +7,9 @@ import {
 } from './firstStepsReducer';
 
 describe('firstStepsReducer', () => {
-  it(`${FIRST_STEPS_ACTIONS.FETCHING_STARTED} action`, () => {
+  it(`${FIRST_STEPS_ACTIONS.START_FETCH} action`, () => {
     // Arrange
-    const action = { type: FIRST_STEPS_ACTIONS.FETCHING_STARTED };
+    const action = { type: FIRST_STEPS_ACTIONS.START_FETCH };
 
     // Act
     const newState = firstStepsReducer(INITIAL_STATE_FIRST_STEPS, action);
@@ -22,10 +22,10 @@ describe('firstStepsReducer', () => {
     });
   });
 
-  it(`${FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS} action`, () => {
+  it(`${FIRST_STEPS_ACTIONS.FINISH_FETCH} action`, () => {
     // Arrange
     const action = {
-      type: FIRST_STEPS_ACTIONS.RECEIVE_FIRST_STEPS,
+      type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
       payload: mapSystemUsageSummary(firstStepsFake),
     };
 
@@ -41,9 +41,9 @@ describe('firstStepsReducer', () => {
     });
   });
 
-  it(`${FIRST_STEPS_ACTIONS.FETCH_FAILED} action`, () => {
+  it(`${FIRST_STEPS_ACTIONS.FAIL_FETCH} action`, () => {
     // Arrange
-    const action = { type: FIRST_STEPS_ACTIONS.FETCH_FAILED };
+    const action = { type: FIRST_STEPS_ACTIONS.FAIL_FETCH };
 
     // Act
     const newState = firstStepsReducer(INITIAL_STATE_FIRST_STEPS, action);
