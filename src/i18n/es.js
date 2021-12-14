@@ -379,6 +379,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       easycommerce_title: 'Easycommerce',
       google_Analityc_title: 'Google Analytics',
       magento_title: 'Magento',
+      mercadolibre_title: 'MercadoLibre',
       prestashop_title: 'PrestaShop',
       shopify_title: 'Shopify',
       tiendanube_title: 'Tiendanube',
