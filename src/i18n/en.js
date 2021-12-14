@@ -178,6 +178,7 @@ const messages_en = {
     billing_information_same_address: 'Similar to Contact Information.',
     billing_information_title: `Billing Information`,
     billing_information_zip_code: 'Zip code',
+    button_back: 'Go back',
     contact_information_address: 'Address',
     contact_information_city: 'City',
     contact_information_company: 'Company',

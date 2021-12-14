@@ -179,6 +179,7 @@ const messages_es = {
     billing_information_same_address: 'Es la misma que la Información de Contacto.',
     billing_information_title: `Información de Facturación`,
     billing_information_zip_code: 'Código postal',
+    button_back: 'Volver',
     contact_information_address: 'Dirección',
     contact_information_city: 'Ciudad',
     contact_information_company: 'Empresa',
