@@ -2,6 +2,7 @@ import React from 'react';
 import { InjectAppServices } from '../services/pure-di';
 import RedirectToExternalUrl from './RedirectToExternalUrl';
 import { isWhitelisted } from './../utils';
+import { getDefaultView } from '../App';
 
 /**
  * @param { Object } props
@@ -20,7 +21,7 @@ function SafeRedirect({ to, dependencies }) {
   } else {
     return (
       <RedirectToExternalUrl
-        to={dependencies.appConfiguration.dopplerLegacyUrl + '/Campaigns/Draft'}
+        to={dependencies.appConfiguration.dopplerLegacyUrl + getDefaultView()}
       />
     );
   }

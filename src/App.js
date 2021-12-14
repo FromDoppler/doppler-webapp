@@ -38,6 +38,10 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
  * @param { string } props.locale - locale
  * @param { import('./services/pure-di').AppServices } props.dependencies - dependencies
  */
+
+export const getDefaultView = () =>
+  process.env.NODE_ENV !== 'production' ? '/dashboard' : '/Campaigns/Draft/';
+
 const App = ({ locale, location, window, dependencies: { appSessionRef, sessionManager } }) => {
   const [state, setState] = useState({
     dopplerSession: appSessionRef.current,
@@ -107,7 +111,7 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                   location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
                     <Redirect to={location.hash.replace('#', '')} />
                   ) : (
-                    <SafeRedirect to="/Campaigns/Draft" />
+                    <SafeRedirect to={getDefaultView()} />
                   )
                 }
               />
