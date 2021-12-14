@@ -50,6 +50,8 @@ import viewed_icon from '../components/ControlPanel/images/viewed_icon.png';
 import wix_icon from '../components/ControlPanel/images/wix_icon.png';
 import wizell_icon from '../components/ControlPanel/images/wizell_icon.png';
 import xintel_icon from '../components/ControlPanel/images/xintel_icon.png';
+import mercadolibre_icon from '../components/ControlPanel/images/mercadolibre_icon.png';
+
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
 
@@ -355,6 +357,14 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: bigquery_icon,
             imgAlt: 'control_panel.native_integrations.big_query_title',
             iconName: 'control_panel.native_integrations.big_query_title',
+          },
+          {
+            name: 'MercadoLibre',
+            linkUrl: `${urlIntegrations}/MercadoLibreSection`,
+            imgSrc: mercadolibre_icon,
+            imgAlt: 'control_panel.native_integrations.mercadolibre_title',
+            iconName: 'control_panel.native_integrations.mercadolibre_title',
+            hidden: true,
           },
         ],
       },
