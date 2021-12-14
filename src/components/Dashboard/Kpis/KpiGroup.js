@@ -30,7 +30,7 @@ export const KpiGroup = ({ children, loading, disabled, overlay }) => {
     <div className={`dp-rowflex dp-dashboard-panel ${disabled ? `disabled` : ''}`}>
       {loading && <Loading />}
       {children}
-      <div className={`dp-overlay ${disabled ? `show` : ''}`}>{overlay}</div>
+      {disabled && <div className="dp-overlay">{overlay}</div>}
     </div>
   );
 };

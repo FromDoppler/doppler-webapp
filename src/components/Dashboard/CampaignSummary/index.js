@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeCampaignsSummary } from '../../../services/reports/index.double';
@@ -22,6 +23,8 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
     INITIAL_STATE_CAMPAIGNS_SUMMARY,
     initCampaignSummaryReducer,
   );
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +44,10 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
     <>
       <div className="dp-dashboard-title">
         <DashboardIconSubTitle title="dashboard.campaigns.section_name" iconClass="deliveries" />
-        <DashboardIconLink linkTitle="dashboard.campaigns.link_title" link="#" />
+        <DashboardIconLink
+          linkTitle="dashboard.campaigns.link_title"
+          link={_('dashboard.campaigns.link_title_url')}
+        />
       </div>
       <KpiGroup
         loading={loading}
