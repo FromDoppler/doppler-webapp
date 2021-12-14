@@ -54,6 +54,9 @@ export interface IntegrationsStatus {
   wooCommerceStatus: IntegrationStatus;
   easycommerceStatus: IntegrationStatus;
   bmwRspCrmStatus: IntegrationStatus;
+  vtexStatus: IntegrationStatus;
+  googleAnaliyticStatus: IntegrationStatus;
+  bigQueryStatus: IntegrationStatus;
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
