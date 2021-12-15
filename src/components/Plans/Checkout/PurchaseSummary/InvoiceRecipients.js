@@ -61,7 +61,9 @@ export const InvoiceRecipients = ({ emails, viewOnly, onSubmit }) => {
                       render={({ value, onChange, onKeyDown }) => (
                         <input
                           type="email"
-                          placeholder={'Agregar destinatario'}
+                          placeholder={_(
+                            'checkoutProcessForm.purchase_summary.add_recipient_placeholder',
+                          )}
                           value={value}
                           onChange={onChange}
                           onKeyDown={onKeyDown}
