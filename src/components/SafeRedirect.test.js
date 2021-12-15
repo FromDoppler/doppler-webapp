@@ -14,7 +14,7 @@ describe('SafeRedirect component', () => {
         dopplerLegacyUrl: 'http://localhost:52191',
       },
     };
-    const toUrl = '/Campaigns/Draft';
+    const toUrl = '/dashboard';
 
     //Act
     const { getByText } = render(
@@ -120,7 +120,7 @@ describe('SafeRedirect component', () => {
   it('does not redirects to full url not whitelisted', () => {
     //Arrange
     const dependencies = {
-      window: { location: { href: '/Campaigns/Draft/' } },
+      window: { location: { href: '/dashboard/' } },
       appConfiguration: {
         dopplerLegacyUrl: 'http://localhost:52191',
       },
