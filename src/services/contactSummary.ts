@@ -1,5 +1,5 @@
 import { ResultWithoutExpectedErrors } from '../doppler-types';
-import { addDays, getStartOfDate } from '../utils';
+import { addDays } from '../utils';
 import { ContactSummary, ReportClient } from './reports/index';
 
 export interface ContactKpi {
@@ -22,7 +22,7 @@ export class ContactSummaryService implements ContactSummaryInterface {
   }
 
   async getContactsSummary(): Promise<ResultWithoutExpectedErrors<ContactKpi[]>> {
-    const dateTo = getStartOfDate(new Date()) ?? new Date();
+    const dateTo = new Date();
     const dateFrom = addDays(dateTo, -30);
     const response = await this.reportClient.getContactsSummary({
       dateFrom,

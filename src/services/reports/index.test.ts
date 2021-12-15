@@ -1,6 +1,6 @@
 import { AxiosStatic } from 'axios';
 import { RefObject } from 'react';
-import { addDays, getStartOfDate } from '../../utils';
+import { addDays } from '../../utils';
 import { DopplerLegacyUserData } from '../doppler-legacy-client';
 import { AppSession } from '../app-session';
 import { HttpReportClient } from '.';
@@ -27,7 +27,7 @@ function createHttpReportClient(axios: any) {
 describe('HttpReportClient', () => {
   it('should get campaign summary', async () => {
     // Arrange
-    const dateTo = getStartOfDate(new Date()) ?? new Date();
+    const dateTo = new Date();
     const dateFrom = addDays(dateTo, -30);
     const response = {
       headers: {},
@@ -57,7 +57,7 @@ describe('HttpReportClient', () => {
 
   it('should get contact summary', async () => {
     // Arrange
-    const dateTo = getStartOfDate(new Date()) ?? new Date();
+    const dateTo = new Date();
     const dateFrom = addDays(dateTo, -30);
     const response = {
       headers: {},
