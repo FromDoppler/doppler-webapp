@@ -1,5 +1,5 @@
 import { ResultWithoutExpectedErrors } from '../doppler-types';
-import { addDays, getStartOfDate } from '../utils';
+import { addDays } from '../utils';
 import { CampaignSummary, ReportClient } from './reports/index';
 
 export interface CampaignKpi {
@@ -21,7 +21,7 @@ export class CampaignSummaryService implements CampaignSummaryInterface {
   }
 
   async getCampaignsSummary(): Promise<ResultWithoutExpectedErrors<CampaignKpi[]>> {
-    const dateTo = getStartOfDate(new Date()) ?? new Date();
+    const dateTo = new Date();
     const dateFrom = addDays(dateTo, -30);
     const response = await this.reportClient.getCampaignsSummary({
       dateFrom,
