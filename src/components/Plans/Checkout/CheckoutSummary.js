@@ -1,12 +1,14 @@
 import React from 'react';
-import { extractParameter } from '../../../utils';
-import queryString from 'query-string';
 import SafeRedirect from '../../SafeRedirect';
 import { useLinkedinInsightTag } from '../../../hooks/useLinkedingInsightTag';
-export const CheckoutSummary = ({ location }) => {
+import { useQueryParams } from '../../../hooks/useQueryParams';
+
+export const CheckoutSummary = () => {
   useLinkedinInsightTag();
-  const redirect = extractParameter(location, queryString.parse, 'redirect');
-  const legacy = extractParameter(location, queryString.parse, 'legacy');
+
+  const query = useQueryParams();
+  const redirect = query.get('redirect');
+  const legacy = query.get('legacy');
 
   if (legacy) {
     if (redirect) {
