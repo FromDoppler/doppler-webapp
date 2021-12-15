@@ -41,22 +41,7 @@ export interface Features {
 }
 
 export interface IntegrationsStatus {
-  apiKeyStatus: IntegrationStatus;
-  dkimStatus: IntegrationStatus;
-  customDomainStatus: IntegrationStatus;
-  tokkoStatus: IntegrationStatus;
-  tiendanubeStatus: IntegrationStatus;
-  datahubStatus: IntegrationStatus;
-  prestashopStatus: IntegrationStatus;
-  shopifyStatus: IntegrationStatus;
-  magentoStatus: IntegrationStatus;
-  zohoStatus: IntegrationStatus;
-  wooCommerceStatus: IntegrationStatus;
-  easycommerceStatus: IntegrationStatus;
-  bmwRspCrmStatus: IntegrationStatus;
-  vtexStatus: IntegrationStatus;
-  googleAnaliyticStatus: IntegrationStatus;
-  bigQueryStatus: IntegrationStatus;
+  [key: string]: IntegrationStatus;
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
