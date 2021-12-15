@@ -199,7 +199,7 @@ export const CreditCard = InjectAppServices(
                       <div className="dp--expiry">
                         <FieldGroup>
                           <InputMask
-                            mask="99/99"
+                            mask="99/9999"
                             maskChar="-"
                             value={expiry}
                             onChange={(e) => {
