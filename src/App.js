@@ -39,8 +39,7 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
  * @param { import('./services/pure-di').AppServices } props.dependencies - dependencies
  */
 
-export const getDefaultView = () =>
-  process.env.NODE_ENV !== 'production' ? '/dashboard' : '/Campaigns/Draft/';
+const newDashboard = process.env.REACT_APP_NEW_DASHBOARD === 'true';
 
 const App = ({ locale, location, window, dependencies: { appSessionRef, sessionManager } }) => {
   const [state, setState] = useState({
@@ -108,10 +107,12 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 exact
                 path="/"
                 render={({ location }) =>
-                  location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
+                  newDashboard ? (
+                    <Redirect to="/dashboard" />
+                  ) : location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
                     <Redirect to={location.hash.replace('#', '')} />
                   ) : (
-                    <SafeRedirect to={getDefaultView()} />
+                    <SafeRedirect to="/Campaigns/Draft" />
                   )
                 }
               />
@@ -175,7 +176,15 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
               />
               {/* TODO: Implement NotFound page in place of redirect all to reports */}
               {/* <Route component={NotFound} /> */}
-              <Route component={() => <Redirect to={{ pathname: '/reports' }} />} />
+              <Route
+                component={() =>
+                  newDashboard ? (
+                    <Redirect to={{ pathname: '/dashboard' }} />
+                  ) : (
+                    <Redirect to={{ pathname: '/reports' }} />
+                  )
+                }
+              />
             </Switch>
           </>
         </DopplerIntlProvider>
