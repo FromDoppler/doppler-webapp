@@ -10,7 +10,7 @@ import { Redirect } from 'react-router-dom';
  * @param { import('../services/pure-di').AppServices } props.dependencies
  */
 function SafeRedirect({ to, dependencies }) {
-  const newDashboard = process.env.NEW_DASHBOARD === 'true';
+  const newDashboard = process.env.REACT_APP_NEW_DASHBOARD === 'true';
 
   const isPartialUrl = (url) => {
     return /^\/[^/]/.test(url);

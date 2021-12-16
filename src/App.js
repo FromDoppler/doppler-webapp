@@ -39,7 +39,7 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
  * @param { import('./services/pure-di').AppServices } props.dependencies - dependencies
  */
 
-const newDashboard = process.env.NEW_DASHBOARD === 'true';
+const newDashboard = process.env.REACT_APP_NEW_DASHBOARD === 'true';
 
 const App = ({ locale, location, window, dependencies: { appSessionRef, sessionManager } }) => {
   const [state, setState] = useState({
