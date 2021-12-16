@@ -42,6 +42,9 @@ const integrationsStatusResult: IntegrationsStatus = {
   wooCommerceStatus: 'disconnected',
   easycommerceStatus: 'connected',
   bmwRspCrmStatus: 'alert',
+  vtexStatus: 'alert',
+  googleAnaliyticStatus: 'connected',
+  bigQueryStatus: 'disconnected',
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
