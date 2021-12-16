@@ -224,6 +224,7 @@ const messages_en = {
       valid_thru: 'valid thru',
     },
     purchase_summary: {
+      add_recipient_placeholder: 'Add recipient',
       buy_button: 'BUY',
       credits_for_promocode: 'Extra Credits:',
       discount_for_payment_paid: 'Positive balance:',

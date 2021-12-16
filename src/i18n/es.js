@@ -225,6 +225,7 @@ const messages_es = {
       valid_thru: 'válido hasta',
     },
     purchase_summary: {
+      add_recipient_placeholder: 'Agregar destinatario',
       buy_button: 'COMPRAR',
       credits_for_promocode: 'Créditos extra:',
       discount_for_payment_paid: 'Saldo a favor:',
