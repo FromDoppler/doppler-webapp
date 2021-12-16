@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch, useHistory } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
@@ -281,7 +281,6 @@ export const PurchaseSummary = InjectAppServices(
     onApplyPromocode,
   }) => {
     const location = useLocation();
-    const history = useHistory();
     const [state, setState] = useState({
       loading: true,
       planData: {},
@@ -393,11 +392,11 @@ export const PurchaseSummary = InjectAppServices(
         setSaved(true);
         createTimeout(() => {
           setSaved(false);
-          history.push(
-            `/checkout-summary?planId=${selectedPlan}&paymentMethod=${state.paymentMethodType}${
-              state.discount?.description ? `&discount=${state.discount.description}` : ''
-            }${state.promotion?.promocode ? `&promo-code=${state.promotion.promocode}` : ''}`,
-          );
+          window.location.href = `/checkout-summary?planId=${selectedPlan}&paymentMethod=${
+            state.paymentMethodType
+          }${state.discount?.description ? `&discount=${state.discount.description}` : ''}${
+            state.promotion?.promocode ? `&promo-code=${state.promotion.promocode}` : ''
+          }`;
         }, 3000);
       }
     };
