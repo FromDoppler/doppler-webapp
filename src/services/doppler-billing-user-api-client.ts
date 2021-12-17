@@ -145,6 +145,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       total: data.total,
       discountId: data.discountId,
       planId: data.planId,
+      promocode: data.promocode,
     };
   }
 
