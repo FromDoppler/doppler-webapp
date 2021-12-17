@@ -47,7 +47,10 @@ export const mapCampaignsSummary = (campaignsSummary: CampaignSummary): Campaign
   {
     id: 2,
     kpiTitleId: 'dashboard.campaigns.totalOpen',
-    kpiValue: `${campaignsSummary.totalOpenClicks}%`,
+    kpiValue: `${calculateOpenRate(
+      campaignsSummary.totalOpenClicks,
+      campaignsSummary.totalSentEmails,
+    ).toFixed(2)}%`,
     iconClass: 'open-rate',
   },
   {
@@ -57,3 +60,6 @@ export const mapCampaignsSummary = (campaignsSummary: CampaignSummary): Campaign
     iconClass: 'ctr',
   },
 ];
+
+export const calculateOpenRate = (totalOpenClicks: number, totalSentEmails: number): number =>
+  totalSentEmails > 0 ? (totalOpenClicks / totalSentEmails) * 100 : 0;

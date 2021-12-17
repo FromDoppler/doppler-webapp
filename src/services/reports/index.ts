@@ -2,9 +2,9 @@ import { HttpBaseClient } from '../http-base-client';
 import { ResultWithoutExpectedErrors } from '../../doppler-types';
 
 export interface CampaignSummary {
-  totalSentEmails: Number;
-  totalOpenClicks: Number;
-  clickThroughRate: Number;
+  totalSentEmails: number;
+  totalOpenClicks: number;
+  clickThroughRate: number;
 }
 
 export interface ContactSummary {
