@@ -3,13 +3,13 @@ import { timeout } from '../../utils';
 import { CampaignSummary, ContactSummary, ReportClient } from './index';
 
 export const fakeCampaignsSummary = {
-  totalSentEmails: 21.458,
+  totalSentEmails: 21_458,
   totalOpenClicks: 57,
   clickThroughRate: 15,
 };
 
 export const fakeContactsSummary = {
-  totalSubscribers: 21.458,
+  totalSubscribers: 21_458,
   newSubscribers: 943,
   removedSubscribers: 32,
 };
