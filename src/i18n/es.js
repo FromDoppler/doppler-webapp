@@ -454,7 +454,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     },
     contacts: {
       link_title: 'VER TODOS',
-      link_title_url: `${urlDopplerLegacy}/Lists/SubscribersList/`,
+      link_title_url: `${urlMasterSubscriber}`,
       overlayMessage: `Aquí verás información relevante sobre tus Contactos. **[Crea una Lista y añade Contactos](${urlCreateSubscriberList})**.`,
       section_name: 'Mis Contactos',
       totalContacts: 'Contactos',
