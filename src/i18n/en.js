@@ -453,7 +453,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     contacts: {
       link_title: 'SEE ALL',
-      link_title_url: `${urlDopplerLegacy}/Lists/SubscribersList/`,
+      link_title_url: `${urlMasterSubscriber}`,
       overlayMessage: `Here you’ll see some relevant information about your Contacts. **[Create a List and add Contacts](${urlCreateSubscriberList})**.`,
       section_name: 'My Contacts',
       totalContacts: 'Contacts',
