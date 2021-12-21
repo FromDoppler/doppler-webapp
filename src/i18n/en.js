@@ -495,7 +495,7 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
     postListBlog_2_title: '#DopplerHelp',
 
     postListHelp_1_description: `Free and online training: Take your strategy to the next level`,
-    postListHelp_1_link: 'https://comercial.fromdoppler.com/demoday/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=demoday',
+    postListHelp_1_link: 'https://www.fromdoppler.com/demo-day/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=demoday',
     postListHelp_1_link_description: 'Register for free',
     postListHelp_1_title: 'Demo Day',
 
