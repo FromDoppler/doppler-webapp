@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { TooltipContainer } from '../../../TooltipContainer/TooltipContainer';
 import * as S from './index.styles';
 import { getPlanTypeFromUrlSegment } from '../../../../utils';
 import { useLocation, useParams } from 'react-router-dom';
+import { PLAN_TYPE } from '../../../../doppler-types';
+import { Loading } from '../../../Loading/Loading';
+
+const excludedCountries = ['AR', 'CO', 'MX'];
 
 export const PlanCalculatorButtons = InjectAppServices(
   ({
     selectedPlanId,
     selectedDiscountId,
-    dependencies: { appSessionRef, experimentalFeatures },
+    dependencies: { appSessionRef, experimentalFeatures, ipinfoClient },
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -21,6 +25,30 @@ export const PlanCalculatorButtons = InjectAppServices(
     const newCheckoutEnabled = experimentalFeatures.getFeature('newCheckoutEnabled');
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
+    const sessionPlanType = sessionPlan.plan.planType;
+
+    const [loading, setLoading] = useState(true);
+    const [countryCode, setCountryCode] = useState('');
+
+    useEffect(() => {
+      const fetchCountry = async () => {
+        setLoading(true);
+        const data = await ipinfoClient.getCountryCode();
+        setCountryCode(data);
+        setLoading(false);
+      };
+
+      fetchCountry();
+    }, [ipinfoClient]);
+
+    if (loading) {
+      return <Loading />;
+    }
+
+    const redirectNewCheckout =
+      (!excludedCountries.find((c) => c === countryCode) || newCheckoutEnabled) &&
+      sessionPlanType === PLAN_TYPE.free &&
+      selectedPlanType === PLAN_TYPE.byCredit;
 
     return (
       <div className="dp-container">
@@ -45,7 +73,7 @@ export const PlanCalculatorButtons = InjectAppServices(
                   planType: selectedPlanType,
                   planId: selectedPlanId,
                   discountId: selectedDiscountId,
-                  newCheckoutEnabled,
+                  newCheckoutEnabled: redirectNewCheckout,
                   search,
                 })}
               >

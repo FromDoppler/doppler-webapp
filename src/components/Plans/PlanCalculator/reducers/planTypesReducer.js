@@ -1,6 +1,6 @@
 export const INITIAL_STATE_PLAN_TYPES = {
   planTypes: [],
-  loading: false,
+  loading: true,
   hasError: false,
 };
 

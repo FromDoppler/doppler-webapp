@@ -24,6 +24,7 @@ describe('PlanCalculator component', () => {
             user: {
               plan: {
                 idPlan: 3,
+                planType: PLAN_TYPE.free,
               },
             },
           },
@@ -32,6 +33,12 @@ describe('PlanCalculator component', () => {
       planService: {
         getPlanTypes: async () => planTypes,
         getPlansByType: async () => plansByContacts,
+      },
+      experimentalFeatures: {
+        getFeature: () => false,
+      },
+      ipinfoClient: {
+        getCountryCode: () => 'CL',
       },
     };
 
@@ -85,6 +92,7 @@ describe('PlanCalculator component', () => {
               user: {
                 plan: {
                   idPlan: plansByType[plansByType.length - 1].id,
+                  planType: PLAN_TYPE.free,
                 },
               },
             },
@@ -93,6 +101,12 @@ describe('PlanCalculator component', () => {
         planService: {
           getPlanTypes: async () => planTypes,
           getPlansByType: async () => plansByType,
+        },
+        experimentalFeatures: {
+          getFeature: () => false,
+        },
+        ipinfoClient: {
+          getCountryCode: () => 'CL',
         },
       };
 
@@ -134,6 +148,7 @@ describe('PlanCalculator component', () => {
             user: {
               plan: {
                 idPlan: highestPlanSlider.id,
+                planType: PLAN_TYPE.free,
               },
             },
           },
@@ -142,6 +157,12 @@ describe('PlanCalculator component', () => {
       planService: {
         getPlanTypes: async () => planTypes,
         getPlansByType: async () => [highestPlanSlider],
+      },
+      experimentalFeatures: {
+        getFeature: () => false,
+      },
+      ipinfoClient: {
+        getCountryCode: () => 'CL',
       },
     };
 
@@ -177,6 +198,7 @@ describe('PlanCalculator component', () => {
             user: {
               plan: {
                 idPlan: 3,
+                planType: PLAN_TYPE.free,
               },
             },
           },
@@ -186,6 +208,12 @@ describe('PlanCalculator component', () => {
         getPlanTypes: async () => {
           throw 'something wrong';
         },
+      },
+      experimentalFeatures: {
+        getFeature: () => false,
+      },
+      ipinfoClient: {
+        getCountryCode: () => 'CL',
       },
     };
 
