@@ -1,8 +1,4 @@
-import { PLAN_TYPE } from '../../../../doppler-types';
-import { fakePromotion } from '../../../../services/doppler-account-plans-api-client.double';
 import {
-  fakePaymentMethodInformation,
-  fakePaymentMethodInformationWithTransfer,
   fakeBillingInformation,
   fakeUserPlan,
 } from '../../../../services/doppler-billing-user-api-client.double';
@@ -32,7 +28,7 @@ describe('checkoutSummaryReducer', () => {
     // Arrange
     const billingInformation = fakeBillingInformation;
     const currentUserPlan = fakeUserPlan;
-    const promotion = fakePromotion;
+    const extraCredits = 1500;
     const discount = 'quarterly';
     const paymentMethod = 'CC';
 
@@ -45,7 +41,7 @@ describe('checkoutSummaryReducer', () => {
       payload: {
         billingInformation,
         currentUserPlan,
-        promotion,
+        extraCredits,
         discount,
         paymentMethod,
       },
@@ -60,7 +56,7 @@ describe('checkoutSummaryReducer', () => {
         loading: false,
         billingCountry: billingInformation.country,
         remainingCredits: currentUserPlan.remainingCredits,
-        promotion,
+        extraCredits,
         discount,
         paymentMethod,
         quantity: currentUserPlan.emailQty,
