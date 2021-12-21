@@ -5,7 +5,6 @@ import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
 import { FormattedMessage } from 'react-intl';
 import Notifications from './Notifications';
 import { getCurrentPageForUrl } from '../../utils';
-import { Link } from 'react-router-dom';
 
 const getUpdatedSubNav = (currentSubNav, subMenuItem) => {
   return currentSubNav.map((item) => {
@@ -64,9 +63,7 @@ const Header = ({
 
         <div className="header-wrapper">
           <div className="logo">
-            <Link to={'/dashboard'}>
-              <span className="ms-icon icon-doppler-logo" />
-            </Link>
+            <span className="ms-icon icon-doppler-logo" />
           </div>
           <HeaderNav nav={updatedNav} isInactiveSection={isInactiveSection} />
           <nav className="nav-right-main">
