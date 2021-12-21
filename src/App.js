@@ -107,10 +107,10 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
                 exact
                 path="/"
                 render={({ location }) =>
-                  newDashboard ? (
-                    <Redirect to="/dashboard" />
-                  ) : location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
+                  location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
                     <Redirect to={location.hash.replace('#', '')} />
+                  ) : newDashboard ? (
+                    <Redirect to="/dashboard" />
                   ) : (
                     <SafeRedirect to="/Campaigns/Draft" />
                   )
