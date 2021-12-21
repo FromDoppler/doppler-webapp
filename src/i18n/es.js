@@ -496,7 +496,7 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     postListBlog_2_title: '#DopplerHelp',
 
     postListHelp_1_description: 'Entrenamiento online y gratuito: Lleva tu estrategia al próximo nivel',
-    postListHelp_1_link: 'https://comercial.fromdoppler.com/demoday/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=demoday',
+    postListHelp_1_link: 'https://www.fromdoppler.com/demo-day/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=demoday',
     postListHelp_1_link_description: 'Regístrate gratis',
     postListHelp_1_title: 'Demo Day',
 
