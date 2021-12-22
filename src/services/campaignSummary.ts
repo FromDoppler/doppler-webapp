@@ -56,7 +56,7 @@ export const mapCampaignsSummary = (campaignsSummary: CampaignSummary): Campaign
   {
     id: 3,
     kpiTitleId: 'dashboard.campaigns.totalCtr',
-    kpiValue: `${campaignsSummary.clickThroughRate}%`,
+    kpiValue: `${campaignsSummary.clickThroughRate.toFixed(2)}%`,
     iconClass: 'ctr',
   },
 ];
