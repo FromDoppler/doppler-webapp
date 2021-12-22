@@ -36,7 +36,7 @@ const PlanInformation = ({
   quantity,
   discount,
   paymentMethod,
-  promotion,
+  extraCredits,
   remainingCredits,
 }) => {
   const intl = useIntl();
@@ -59,10 +59,10 @@ const PlanInformation = ({
           <span>{_(`checkoutProcessSuccess.plan_type_${planType ?? ''}`)}</span>
           <h3>{quantity}</h3>
         </li>
-        {promotion?.extraCredits > 0 ? (
+        {extraCredits > 0 ? (
           <li>
             <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
-            <h3>{promotion?.extraCredits}</h3>
+            <h3>{extraCredits}</h3>
           </li>
         ) : null}
         {planType === PLAN_TYPE.byCredit ? (
@@ -154,7 +154,7 @@ export const CheckoutSummary = InjectAppServices(
         planType,
         discount,
         quantity,
-        promotion,
+        extraCredits,
         remainingCredits,
         hasError,
       },
@@ -167,20 +167,11 @@ export const CheckoutSummary = InjectAppServices(
     const planId = query.get('planId') ?? '';
     const paymentMethodType = query.get('paymentMethod') ?? '';
     const discountDescription = query.get('discount') ?? '';
-    const promocode = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+    const extraCreditsByPromocode = query.get('extraCredits') ?? 0;
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
-      const fetchPromocodeData = async (planId, promocode) => {
-        const data = await dopplerAccountPlansApiClient.validatePromocode(planId, promocode);
-        if (data.success) {
-          return data;
-        } else {
-          throw new exception();
-        }
-      };
-
       const fetchBillingInformationData = async () => {
         const data = await dopplerBillingUserApiClient.getBillingInformationData();
         if (data.success) {
@@ -205,18 +196,12 @@ export const CheckoutSummary = InjectAppServices(
           const billingInformationData = await fetchBillingInformationData();
           const currentUserPlanData = await fetchCurrentUserPlan();
 
-          let promotion = {};
-          if (promocode) {
-            const promotionData = await fetchPromocodeData(planId, promocode);
-            promotion = promotionData.success ? promotionData.value : {};
-          }
-
           dispatch({
             type: CHECKOUT_SUMMARY_ACTIONS.FINISH_FETCH,
             payload: {
               billingInformation: billingInformationData.value,
               currentUserPlan: currentUserPlanData.value,
-              promotion,
+              extraCredits: extraCreditsByPromocode,
               discount: discountDescription,
               paymentMethod: paymentMethodType,
             },
@@ -230,7 +215,7 @@ export const CheckoutSummary = InjectAppServices(
     }, [
       dopplerBillingUserApiClient,
       dopplerAccountPlansApiClient,
-      promocode,
+      extraCreditsByPromocode,
       discountDescription,
       paymentMethodType,
       planId,
@@ -281,7 +266,7 @@ export const CheckoutSummary = InjectAppServices(
             quantity={quantity}
             discount={discount}
             paymentMethod={paymentMethod}
-            promotion={promotion}
+            extraCredits={extraCredits}
             remainingCredits={remainingCredits}
           />
           {paymentMethod === paymentType.transfer ? (

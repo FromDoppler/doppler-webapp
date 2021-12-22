@@ -395,7 +395,7 @@ export const PurchaseSummary = InjectAppServices(
           window.location.href = `/checkout-summary?planId=${selectedPlan}&paymentMethod=${
             state.paymentMethodType
           }${state.discount?.description ? `&discount=${state.discount.description}` : ''}${
-            state.promotion?.promocode ? `&promo-code=${state.promotion.promocode}` : ''
+            state.promotion?.extraCredits ? `&extraCredits=${state.promotion.extraCredits}` : ''
           }`;
         }, 3000);
       }

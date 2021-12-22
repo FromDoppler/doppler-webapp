@@ -6,7 +6,7 @@ export const INITIAL_STATE_CHECKOUT_SUMMARY = {
   planType: PLAN_TYPE.byCredit,
   discount: '',
   quantity: '',
-  promotion: {},
+  extraCredits: 0,
   remainingCredits: 0,
   loading: false,
   hasError: false,
@@ -40,7 +40,7 @@ export const checkoutSummaryReducer = (state, action) => {
       };
     case CHECKOUT_SUMMARY_ACTIONS.FINISH_FETCH:
       const {
-        payload: { billingInformation, currentUserPlan, promotion, discount, paymentMethod },
+        payload: { billingInformation, currentUserPlan, extraCredits, discount, paymentMethod },
       } = action;
       const planType = currentUserPlan.planType;
 
@@ -52,7 +52,7 @@ export const checkoutSummaryReducer = (state, action) => {
         planType,
         discount: discount ?? '',
         quantity: getQuantity(planType, currentUserPlan),
-        promotion,
+        extraCredits,
         remainingCredits: currentUserPlan.remainingCredits,
       };
 

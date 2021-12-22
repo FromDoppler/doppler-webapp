@@ -166,7 +166,7 @@ describe('CheckoutSummary component', () => {
 
   describe.each([
     [
-      'without promocode',
+      'without extra credits',
       {
         url: 'checkout-summary',
         dopplerAccountPlansApiClientDouble: {
@@ -182,9 +182,9 @@ describe('CheckoutSummary component', () => {
       },
     ],
     [
-      'with promocode',
+      'with extra credits',
       {
-        url: 'checkout-summary?promo-code=test',
+        url: 'checkout-summary?extraCredits=2500',
         dopplerAccountPlansApiClientDouble: {
           ...dopplerAccountPlansApiClientDoubleBase,
           getPlanData: async () => {
@@ -192,9 +192,6 @@ describe('CheckoutSummary component', () => {
               success: true,
               value: fakePrepaidPlan,
             };
-          },
-          validatePromocode: async () => {
-            return { success: true, value: fakePromotion };
           },
         },
         showPromocodeSection: true,
