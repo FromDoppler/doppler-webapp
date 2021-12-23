@@ -296,12 +296,15 @@ export const PurchaseSummary = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useRouteMatch().params;
+    //TODO: Create a new PR to use query.get('selected-plan') instead of extractParameter(location, queryString.parse, 'selected-plan')
+    //should be this in for all parameters
     const selectedDiscountId =
       discountId === 0
         ? extractParameter(location, queryString.parse, 'discountId') ?? 0
         : discountId;
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
     const selectedPromocode = extractParameter(location, queryString.parse, 'PromoCode') || '';
+    const originInbound = extractParameter(location, queryString.parse, 'origin_inbound') || '';
 
     useEffect(() => {
       const fetchData = async () => {
@@ -383,6 +386,7 @@ export const PurchaseSummary = InjectAppServices(
         discountId: selectedDiscountId,
         total: state.amountDetails.total,
         promocode: state.promotion?.promocode ?? '',
+        originInbound,
       });
 
       setError(!result.success);
