@@ -341,6 +341,10 @@ export const PurchaseSummary = InjectAppServices(
 
         const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlan);
 
+        const validateData = selectedPromocode
+          ? await dopplerAccountPlansApiClient.validatePromocode(selectedPlan, selectedPromocode)
+          : undefined;
+
         setState((prevState) => ({
           ...prevState,
           loading: false,
@@ -349,6 +353,7 @@ export const PurchaseSummary = InjectAppServices(
           discount,
           amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
           planType,
+          promotion: validateData && validateData.success ? validateData.value : '',
         }));
       };
 
@@ -412,17 +417,19 @@ export const PurchaseSummary = InjectAppServices(
     };
 
     const applyPromocode = async (promotion) => {
-      const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
-        selectedPlan,
-        selectedDiscountId ?? 0,
-        promotion.promocode,
-      );
+      if (!selectedPromocode) {
+        const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
+          selectedPlan,
+          selectedDiscountId ?? 0,
+          promotion.promocode,
+        );
 
-      setState((prevState) => ({
-        ...prevState,
-        amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
-        promotion,
-      }));
+        setState((prevState) => ({
+          ...prevState,
+          amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
+          promotion,
+        }));
+      }
       onApplyPromocode(promotion.promocode);
     };
 
