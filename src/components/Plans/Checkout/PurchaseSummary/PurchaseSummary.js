@@ -274,7 +274,7 @@ export const ShoppingList = ({ state, planType, promotion }) => {
 
 export const PurchaseSummary = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
+    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient },
     discountId,
     paymentMethod,
     canBuy,
@@ -291,7 +291,6 @@ export const PurchaseSummary = InjectAppServices(
     const [saved, setSaved] = useState(false);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(false);
-    const [recipients, setRecipients] = useState([]);
     const createTimeout = useTimeout();
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -309,13 +308,6 @@ export const PurchaseSummary = InjectAppServices(
     useEffect(() => {
       const fetchData = async () => {
         let paymentMethodType = paymentMethod;
-        const userEmail = appSessionRef.current.userData.user.email;
-
-        var invoiceRecipientsData = await dopplerBillingUserApiClient.getInvoiceRecipientsData();
-
-        setRecipients(
-          invoiceRecipientsData.success ? invoiceRecipientsData.value.recipients : [userEmail],
-        );
 
         if (paymentMethod === '') {
           const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
@@ -365,7 +357,6 @@ export const PurchaseSummary = InjectAppServices(
       selectedPlan,
       paymentMethod,
       planType,
-      appSessionRef,
       selectedPromocode,
     ]);
 
@@ -408,12 +399,6 @@ export const PurchaseSummary = InjectAppServices(
           }`;
         }, 3000);
       }
-    };
-
-    const updateInvoiceRecipients = async (recipients) => {
-      setRecipients(recipients);
-
-      await dopplerBillingUserApiClient.updateInvoiceRecipients(recipients, selectedPlan);
     };
 
     const applyPromocode = async (promotion) => {
@@ -480,13 +465,7 @@ export const PurchaseSummary = InjectAppServices(
           type={saved ? 'success' : 'cancel'}
           message={_(`checkoutProcessForm.purchase_summary.${saved ? 'success' : 'error'}_message`)}
         />
-        <InvoiceRecipients
-          emails={recipients}
-          viewOnly={true}
-          onSubmit={(values) => {
-            updateInvoiceRecipients(values.editRecipients);
-          }}
-        />
+        <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
       </>
     );
   },
