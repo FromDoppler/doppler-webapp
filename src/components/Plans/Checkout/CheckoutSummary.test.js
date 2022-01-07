@@ -146,7 +146,7 @@ describe('CheckoutSummary component', () => {
     expect(
       screen.getByText(`checkoutProcessSuccess.plan_type_${currentUserFake.plan.planType}`),
     ).toBeInTheDocument();
-    expect(screen.getByText(`${fakePrepaidPlan.emailQty}`)).toBeInTheDocument();
+    expect(screen.getByText('1,500')).toBeInTheDocument();
     expect(
       screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
     ).not.toBeInTheDocument();
@@ -229,7 +229,7 @@ describe('CheckoutSummary component', () => {
       expect(
         screen.getByText(`checkoutProcessSuccess.plan_type_${currentUserFake.plan.planType}`),
       ).toBeInTheDocument();
-      expect(screen.getByText(`${fakePrepaidPlan.emailQty}`)).toBeInTheDocument();
+      expect(screen.getByText(`1,500`)).toBeInTheDocument();
 
       if (context.showPromocodeSection) {
         expect(

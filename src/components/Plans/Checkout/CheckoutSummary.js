@@ -16,6 +16,7 @@ import {
 } from './Reducers/checkoutSummaryReducer';
 import { exception } from 'react-ga';
 import { UnexpectedError } from '../PlanCalculator/UnexpectedError';
+import { thousandSeparatorNumber } from '../../../utils';
 
 const arCountry = 'ar';
 
@@ -57,18 +58,18 @@ const PlanInformation = ({
         </li>
         <li>
           <span>{_(`checkoutProcessSuccess.plan_type_${planType ?? ''}`)}</span>
-          <h3>{quantity}</h3>
+          <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
         </li>
         {extraCredits > 0 ? (
           <li>
             <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
-            <h3>{extraCredits}</h3>
+            <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
           </li>
         ) : null}
         {planType === PLAN_TYPE.byCredit ? (
           <li>
             <span>{_(`checkoutProcessSuccess.plan_type_prepaid_total`)}</span>
-            <h3>{remainingCredits}</h3>
+            <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
           </li>
         ) : null}
         <li>
