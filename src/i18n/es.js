@@ -408,6 +408,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       google_Analityc_title: 'Google Analytics',
       magento_title: 'Magento',
       mercadolibre_title: 'MercadoLibre',
+      mercadoshops_title: 'Mercado Shops',
       prestashop_title: 'PrestaShop',
       shopify_title: 'Shopify',
       tiendanube_title: 'Tiendanube',
