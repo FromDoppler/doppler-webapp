@@ -3,7 +3,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { Loading } from '../../../Loading/Loading';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
-import { extractParameter } from '../../../../utils';
+import { extractParameter, thousandSeparatorNumber } from '../../../../utils';
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
 import useTimeout from '../../../../hooks/useTimeout';
@@ -41,7 +41,7 @@ export const PlanInformation = ({ plan, planType }) => {
     <>
       <span>
         {_(`checkoutProcessForm.purchase_summary.plan_type_${planType.replace('-', '_')}_label`)}
-        <strong> {getQuantity()}</strong>
+        <strong> {thousandSeparatorNumber(intl.defaultLocale, getQuantity())}</strong>
       </span>
       <span>
         {dollarSymbol} <FormattedNumber value={plan?.fee} {...numberFormatOptions} />
@@ -134,7 +134,7 @@ export const CreditsPromocode = ({ extraCredits }) => {
     <>
       <span>
         {_(`checkoutProcessForm.purchase_summary.credits_for_promocode`)}{' '}
-        <strong>{extraCredits}</strong>
+        <strong>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</strong>
       </span>
       <span>
         {dollarSymbol} <FormattedNumber value={0} {...numberFormatOptions} />

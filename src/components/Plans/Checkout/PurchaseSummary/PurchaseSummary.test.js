@@ -198,7 +198,7 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent(1500);
+    expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent('1,500');
     expect(screen.getByRole('listitem', { name: 'units' })).toHaveTextContent('US$ 55.00');
   });
 
