@@ -51,6 +51,7 @@ import wix_icon from '../components/ControlPanel/images/wix_icon.png';
 import wizell_icon from '../components/ControlPanel/images/wizell_icon.png';
 import xintel_icon from '../components/ControlPanel/images/xintel_icon.png';
 import mercadolibre_icon from '../components/ControlPanel/images/mercadolibre_icon.png';
+import mercado_shops_icon from '../components/ControlPanel/images/mercadoshops_icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -277,7 +278,7 @@ export class ControlPanelService implements ControlPanelService {
             iconName: 'control_panel.native_integrations.zoho_title',
           },
           {
-            name: 'Tokko',
+            name: 'TokkoBroker',
             linkUrl: `${urlIntegrations}/TokkoSection`,
             imgSrc: tokko_icon,
             imgAlt: 'control_panel.native_integrations.tokko_title',
@@ -364,6 +365,14 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: mercadolibre_icon,
             imgAlt: 'control_panel.native_integrations.mercadolibre_title',
             iconName: 'control_panel.native_integrations.mercadolibre_title',
+            hidden: true,
+          },
+          {
+            name: 'MercadoShops',
+            linkUrl: `${urlIntegrations}/MercadoShopsSection`,
+            imgSrc: mercado_shops_icon,
+            imgAlt: 'control_panel.native_integrations.mercadoshops_title',
+            iconName: 'control_panel.native_integrations.mercadoshops_title',
             hidden: true,
           },
         ],

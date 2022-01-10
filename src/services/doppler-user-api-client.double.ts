@@ -32,8 +32,8 @@ const integrationsStatusResult: IntegrationsStatus = {
   apiKeyStatus: 'connected',
   dkimStatus: 'alert',
   customDomainStatus: 'disconnected',
-  tokkoStatus: 'disconnected',
   tiendanubeStatus: 'connected',
+  TokkoBrokerStatus: 'disconnected',
   datahubStatus: 'disconnected',
   prestashopStatus: 'disconnected',
   shopifyStatus: 'disconnected',
@@ -45,6 +45,8 @@ const integrationsStatusResult: IntegrationsStatus = {
   vtexStatus: 'alert',
   googleAnaliyticStatus: 'connected',
   bigQueryStatus: 'disconnected',
+  MercadoLibreStatus: 'connected',
+  MercadoShopsStatus: 'disconnected',
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
