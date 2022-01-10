@@ -372,7 +372,6 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: mercado_shops_icon,
             imgAlt: 'control_panel.native_integrations.mercadoshops_title',
             iconName: 'control_panel.native_integrations.mercadoshops_title',
-            hidden: true,
           },
         ],
       },
