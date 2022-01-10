@@ -261,7 +261,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.native_integrations.title',
-        showStatus: false,
+        showStatus: true,
         boxes: [
           {
             name: 'GoogleAnaliytic',
@@ -365,7 +365,6 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: mercadolibre_icon,
             imgAlt: 'control_panel.native_integrations.mercadolibre_title',
             iconName: 'control_panel.native_integrations.mercadolibre_title',
-            hidden: true,
           },
           {
             name: 'MercadoShops',
