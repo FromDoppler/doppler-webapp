@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import { InjectAppServices } from '../../../../services/pure-di';
-import { Loading } from '../../../Loading/Loading';
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
-import { extractParameter, thousandSeparatorNumber } from '../../../../utils';
-import { useLocation } from 'react-router';
 import queryString from 'query-string';
-import useTimeout from '../../../../hooks/useTimeout';
-import { paymentType } from '../PaymentMethod/PaymentMethod';
+import React, { useEffect, useState } from 'react';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
+import { useLocation } from 'react-router';
+import { useRouteMatch } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { InjectAppServices } from '../../../../services/pure-di';
+import { extractParameter, thousandSeparatorNumber } from '../../../../utils';
+import { Loading } from '../../../Loading/Loading';
+import { paymentType } from '../PaymentMethod/PaymentMethod';
 import { InvoiceRecipients } from './InvoiceRecipients';
+import { PlanPurchase } from './PlanPurchase';
 import { Promocode } from './Promocode';
 
 const dollarSymbol = 'US$';
@@ -143,24 +143,6 @@ export const CreditsPromocode = ({ extraCredits }) => {
   );
 };
 
-export const StatusMessage = ({ type, message, show }) => {
-  if (!show) {
-    return null;
-  }
-
-  return (
-    <>
-      <div className={`dp-wrap-message dp-wrap-${type}`}>
-        <span className="dp-message-icon" />
-        <div className="dp-content-message">
-          <p>{message}</p>
-        </div>
-      </div>
-      <hr className="m-t-24 m-b-24"></hr>
-    </>
-  );
-};
-
 export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, planType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -288,10 +270,6 @@ export const PurchaseSummary = InjectAppServices(
       plan: { fee: 0 },
       discount: { discountPercentage: 0, monthsAmmount: 1 },
     });
-    const [saved, setSaved] = useState(false);
-    const [saving, setSaving] = useState(false);
-    const [error, setError] = useState(false);
-    const createTimeout = useTimeout();
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useRouteMatch().params;
@@ -303,7 +281,6 @@ export const PurchaseSummary = InjectAppServices(
         : discountId;
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
     const selectedPromocode = extractParameter(location, queryString.parse, 'PromoCode') || '';
-    const originInbound = extractParameter(location, queryString.parse, 'origin_inbound') || '';
 
     useEffect(() => {
       const fetchData = async () => {
@@ -375,32 +352,6 @@ export const PurchaseSummary = InjectAppServices(
       }
     };
 
-    const proceedToBuy = async () => {
-      setSaving(true);
-      const result = await dopplerBillingUserApiClient.purchase({
-        planId: selectedPlan,
-        discountId: selectedDiscountId,
-        total: state.amountDetails.total,
-        promocode: state.promotion?.promocode ?? '',
-        originInbound,
-      });
-
-      setError(!result.success);
-      setSaving(false);
-
-      if (result.success) {
-        setSaved(true);
-        createTimeout(() => {
-          setSaved(false);
-          window.location.href = `/checkout-summary?planId=${selectedPlan}&paymentMethod=${
-            state.paymentMethodType
-          }${state.discount?.description ? `&discount=${state.discount.description}` : ''}${
-            state.promotion?.extraCredits ? `&extraCredits=${state.promotion.extraCredits}` : ''
-          }`;
-        }, 3000);
-      }
-    };
-
     const applyPromocode = async (promotion) => {
       if (!selectedPromocode) {
         const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
@@ -446,24 +397,13 @@ export const PurchaseSummary = InjectAppServices(
           />
         </div>
         <div className="dp-zigzag" />
-        <div className="dp-cta-pay">
-          <button
-            type="button"
-            className={'dp-button button-big primary-green' + (saving ? ' button--loading' : '')}
-            disabled={!canBuy || saving}
-            onClick={proceedToBuy}
-          >
-            {_('checkoutProcessForm.purchase_summary.buy_button')}
-          </button>
-          <button type="button" className="dp-button button-big">
-            <span className="ms-icon icon-lock dp-color-green" />
-            {_('checkoutProcessForm.purchase_summary.secure_payment_message')}
-          </button>
-        </div>
-        <StatusMessage
-          show={saved || error}
-          type={saved ? 'success' : 'cancel'}
-          message={_(`checkoutProcessForm.purchase_summary.${saved ? 'success' : 'error'}_message`)}
+        <PlanPurchase
+          canBuy={canBuy}
+          planId={selectedPlan}
+          discount={state.discount}
+          promotion={state.promotion}
+          total={total}
+          paymentMethod={state.paymentMethodType}
         />
         <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
       </>
