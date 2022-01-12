@@ -82,6 +82,7 @@ export const CreditCard = InjectAppServices(
     const [focus, setFocus] = useState('');
     const [ccMask, setCcMask] = useState(creditCardMasksByBrand.unknown);
     const [cvcMask, setCvcMask] = useState(secCodeMasksByBrand.unknown);
+    const [pasted, setPasted] = useState(false);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
@@ -132,13 +133,35 @@ export const CreditCard = InjectAppServices(
     ]);
 
     const onChangeNumber = (e) => {
-      const { value } = e.target;
+      if (!pasted) {
+        const { value } = e.target;
+        if (value.replaceAll('-', '').trim().length <= 2) {
+          setCreditCardMasks(value);
+        }
+        setFieldValue(fieldNames.number, value);
+        setNumber(value);
+        clearCvc();
+      }
+      setPasted(false);
+    };
+
+    const onPasteNumber = (e) => {
+      setPasted(true);
+      const value = e.clipboardData.getData('Text');
+      setCreditCardMasks(value);
       setFieldValue(fieldNames.number, value);
       setNumber(value);
-      if (value.replaceAll('-', '').trim().length <= 2) {
-        setCcMask(creditCardMasksByBrand[getCreditCardBrand(value)]);
-        setCvcMask(secCodeMasksByBrand[getCreditCardBrand(value)]);
-      }
+      clearCvc();
+    };
+
+    const setCreditCardMasks = (value) => {
+      setCcMask(creditCardMasksByBrand[getCreditCardBrand(value)]);
+      setCvcMask(secCodeMasksByBrand[getCreditCardBrand(value)]);
+    };
+
+    const clearCvc = () => {
+      setFieldValue(fieldNames.cvc, '');
+      setCvc('');
     };
 
     return (
@@ -180,6 +203,7 @@ export const CreditCard = InjectAppServices(
                             mask={ccMask}
                             value={number}
                             onChange={(e) => onChangeNumber(e, setFieldValue)}
+                            onPaste={(e) => onPasteNumber(e, setFieldValue)}
                             onFocus={(e) => setFocus(e.target.name)}
                             maskChar="-"
                           >
