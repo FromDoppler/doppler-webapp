@@ -79,6 +79,8 @@ interface Box {
   status?: string;
   targetBlank?: boolean;
   name?: string;
+  ribbonColor?: string;
+  ribbonText?: string;
 }
 
 interface ControlPanelSection {

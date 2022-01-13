@@ -21,6 +21,13 @@ export const ControlPanelBox = ({ box }) => {
   return (
     <div className="col-lg-3 col-md-4 col-sm-4 m-b-24">
       <div className="dp-box-shadow">
+        {!!box.ribbonColor && !!box.ribbonText ? (
+          <div className={`dp-ribbon dp-ribbon-top-right dp-ribbon-${box.ribbonColor}`}>
+            <span>{_(box.ribbonText)}</span>
+          </div>
+        ) : (
+          <></>
+        )}
         {!!box.disabled ? (
           <S.DisabledLink target="_self" className="dp-white" disabled>
             <div>
