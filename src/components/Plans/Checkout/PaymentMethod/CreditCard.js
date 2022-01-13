@@ -94,6 +94,11 @@ export const CreditCard = InjectAppServices(
           [fieldNames.cvc]: '',
           [fieldNames.paymentMethodName]: paymentType.creditCard,
         });
+
+        setNumber('');
+        setName('');
+        setExpiry('');
+        setCvc('');
       };
 
       const fetchData = async () => {
