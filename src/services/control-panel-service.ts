@@ -261,7 +261,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.native_integrations.title',
-        showStatus: true,
+        showStatus: false,
         boxes: [
           {
             name: 'GoogleAnaliytic',
