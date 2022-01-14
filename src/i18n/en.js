@@ -35,7 +35,6 @@ const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 const urlDkim = `${urlDopplerLegacy}/ControlPanel/AdvancedPreferences/Dkim`;
-const urlSentCampaigns = `${urlDopplerLegacy}/SentCampaigns.aspx`;
 
 const messages_en = {
   agencies: {
@@ -468,9 +467,9 @@ You can choose between **three Campaigns types** according to your business goal
 Want to go further? Try **Automatized Email and SMS Flows!**`,
       has_campaings_created_title: `#### [Create your first Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo)`,
       has_campaings_sent_description_MD: `
-Analyze it's results is essential to **take decisions and optimize** your strategy. **[Discover the Doppler Reports section](${urlSentCampaigns})**.
+Analyze it's results is essential to **take decisions and optimize** your strategy. **[Discover the Doppler Reports section](https://reports2.fromdoppler.com/SentCampaigns.aspx)**.
       `,
-      has_campaings_sent_title: `#### [Look at the metrics of your Campaign](${urlSentCampaigns})`,
+      has_campaings_sent_title: `#### [Look at the metrics of your Campaign](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
       has_domains_ready_description_MD: `
 Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. **[Activate them now](${urlDkim})**.
       `,

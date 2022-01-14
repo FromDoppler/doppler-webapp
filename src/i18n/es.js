@@ -35,7 +35,6 @@ const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 const urlDkim = `${urlDopplerLegacy}/ControlPanel/AdvancedPreferences/Dkim`;
-const urlSentCampaigns = `${urlDopplerLegacy}/SentCampaigns.aspx`;
 
 const messages_es = {
   agencies: {
@@ -469,9 +468,9 @@ Podrás elegir entre **tres tipos de Campañas** de acuerdo a tus objetivos de n
 ¿Quieres ir más lejos? ¡Prueba **con Flujos Automatizados de Email y SMS**!`,
       has_campaings_created_title: `#### [Crea tu primera Campaña](${urlDopplerLegacy}/Campaigns/BasicInfo)`,
       has_campaings_sent_description_MD: `
-Analizar sus resultados es fundamental para **tomar decisiones y optimizar** tu estrategia. **[Descubre la sección de Reportes](${urlSentCampaigns})**.
+Analizar sus resultados es fundamental para **tomar decisiones y optimizar** tu estrategia. **[Descubre la sección de Reportes](https://reports2.fromdoppler.com/SentCampaigns.aspx )**.
       `,
-      has_campaings_sent_title: `#### [Revisa las métricas de tu Campaña](${urlSentCampaigns})`,
+      has_campaings_sent_title: `#### [Revisa las métricas de tu Campaña](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
       has_domains_ready_description_MD: `
 Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Bandeja de Entrada** de tus Contactos. **[Actívalos ahora](${urlDkim})**.
       `,
