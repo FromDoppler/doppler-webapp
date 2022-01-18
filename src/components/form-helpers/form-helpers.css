@@ -25,3 +25,11 @@
 .captcha-legal-message a {
   color: inherit;
 }
+
+.dp-flag-disabled .iti--allow-dropdown .iti__flag-container:hover {
+  cursor: default;
+}
+
+.dp-flag-disabled .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag {
+  background-color: transparent;
+}
