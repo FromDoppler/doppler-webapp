@@ -737,6 +737,10 @@ You'll find an Email with steps to follow.`,
     subscribers_amount_description: 'Contactos',
     unknown_amount_description: ' ',
   },
+  promotional_ribbons: {
+    new: 'New',
+    promotional_ribbons: 'Coming soon',
+  },
   reports: {
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
     no_domains_MD: `

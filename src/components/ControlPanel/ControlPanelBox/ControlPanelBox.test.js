@@ -28,7 +28,7 @@ it('should render a control panel box', async () => {
 
 it('should render disabled control panel box', async () => {
   //Arrenge
-  const box1 = {
+  const modifiedBox = {
     ...box,
     disabled: true,
   };
@@ -36,7 +36,7 @@ it('should render disabled control panel box', async () => {
   //Act
   render(
     <IntlProvider>
-      <ControlPanelBox box={box1} />
+      <ControlPanelBox box={modifiedBox} />
     </IntlProvider>,
   );
 
@@ -44,9 +44,9 @@ it('should render disabled control panel box', async () => {
   expect(screen.getByText(box.iconName).parentElement).toHaveAttribute('disabled');
 });
 
-it('should not render control panel box when hidden propertie is true', async () => {
+it('should not render control panel box when hidden property is true', async () => {
   //Arrenge
-  const box2 = {
+  const modifiedBox = {
     ...box,
     hidden: true,
   };
@@ -54,7 +54,7 @@ it('should not render control panel box when hidden propertie is true', async ()
   //Act
   render(
     <IntlProvider>
-      <ControlPanelBox box={box2} />
+      <ControlPanelBox box={modifiedBox} />
     </IntlProvider>,
   );
 
@@ -62,19 +62,54 @@ it('should not render control panel box when hidden propertie is true', async ()
   expect(screen.queryByText(box.iconName)).not.toBeInTheDocument();
 });
 
-it('should render status image when status propertie is truthy', async () => {
+it('should render status image when status property is truthy', async () => {
   //Arrenge
-  const box3 = {
+  const modifiedBox = {
     ...box,
     status: 'connected',
   };
   //Act
   render(
     <IntlProvider>
-      <ControlPanelBox box={box3} />
+      <ControlPanelBox box={modifiedBox} />
     </IntlProvider>,
   );
 
   //Assert
   expect(screen.getByRole('img', { name: 'status image' })).toBeInTheDocument();
+});
+
+it('should render promotional ribbon when ribbonColor and ribbonText are truthy', async () => {
+  //Arrenge
+  const modifiedBox = {
+    ...box,
+    ribbonColor: 'orange',
+    ribbonText: 'promotional_ribbons.coming_soon',
+  };
+  //Act
+  render(
+    <IntlProvider>
+      <ControlPanelBox box={modifiedBox} />
+    </IntlProvider>,
+  );
+
+  //Assert
+  expect(screen.getByText(modifiedBox.ribbonText)).toBeInTheDocument();
+});
+
+it('should not render promotional ribbon when ribbonColor is null', async () => {
+  //Arrenge
+  const modifiedBox = {
+    ...box,
+    ribbonText: 'promotional_ribbons.coming_soon',
+  };
+  //Act
+  render(
+    <IntlProvider>
+      <ControlPanelBox box={modifiedBox} />
+    </IntlProvider>,
+  );
+
+  //Assert
+  expect(screen.queryByText(modifiedBox.ribbonText)).not.toBeInTheDocument();
 });

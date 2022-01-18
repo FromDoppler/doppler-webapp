@@ -79,6 +79,8 @@ interface Box {
   status?: string;
   targetBlank?: boolean;
   name?: string;
+  ribbonColor?: string;
+  ribbonText?: string;
 }
 
 interface ControlPanelSection {
@@ -365,6 +367,8 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: mercadolibre_icon,
             imgAlt: 'control_panel.native_integrations.mercadolibre_title',
             iconName: 'control_panel.native_integrations.mercadolibre_title',
+            ribbonColor: 'violet',
+            ribbonText: 'promotional_ribbons.new',
           },
           {
             name: 'MercadoShops',
@@ -372,6 +376,8 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: mercado_shops_icon,
             imgAlt: 'control_panel.native_integrations.mercadoshops_title',
             iconName: 'control_panel.native_integrations.mercadoshops_title',
+            ribbonColor: 'violet',
+            ribbonText: 'promotional_ribbons.new',
           },
         ],
       },

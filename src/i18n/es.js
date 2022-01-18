@@ -739,6 +739,10 @@ Encontrarás un Email con los pasos a seguir.`,
     subscribers_amount_description: 'Contactos',
     unknown_amount_description: ' ',
   },
+  promotional_ribbons: {
+    new: 'Nueva',
+    promotional_ribbons: 'Próximamente',
+  },
   reports: {
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
     no_domains_MD: `
