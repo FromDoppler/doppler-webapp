@@ -740,8 +740,8 @@ Encontrarás un Email con los pasos a seguir.`,
     unknown_amount_description: ' ',
   },
   promotional_ribbons: {
-    new: 'New',
-    promotional_ribbons: 'Coming soon',
+    new: 'Nueva',
+    promotional_ribbons: 'Próximamente',
   },
   reports: {
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,

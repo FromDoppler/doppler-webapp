@@ -738,8 +738,8 @@ You'll find an Email with steps to follow.`,
     unknown_amount_description: ' ',
   },
   promotional_ribbons: {
-    new: 'Nueva',
-    promotional_ribbons: 'Próximamente',
+    new: 'New',
+    promotional_ribbons: 'Coming soon',
   },
   reports: {
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,
