@@ -173,7 +173,6 @@ export const BillingInformation = InjectAppServices(
                           required
                           className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                         <InputFieldItem
                           type="text"
@@ -184,7 +183,6 @@ export const BillingInformation = InjectAppServices(
                           required
                           className="field-item--50"
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                       </FieldGroup>
                     </FieldItem>
@@ -199,7 +197,6 @@ export const BillingInformation = InjectAppServices(
                           required
                           className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                         <InputFieldItem
                           type="text"
@@ -210,7 +207,6 @@ export const BillingInformation = InjectAppServices(
                           required
                           className="field-item--50"
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                       </FieldGroup>
                     </FieldItem>
@@ -225,7 +221,6 @@ export const BillingInformation = InjectAppServices(
                           required
                           className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                         <SelectFieldItem
                           fieldName={fieldNames.country}
@@ -239,7 +234,6 @@ export const BillingInformation = InjectAppServices(
                             changeCountry(e, setFieldValue);
                           }}
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                       </FieldGroup>
                     </FieldItem>
@@ -253,17 +247,17 @@ export const BillingInformation = InjectAppServices(
                           withNameValidation
                           className="field-item--50 dp-p-r"
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                         <PhoneFieldItem
                           fieldName={fieldNames.phone}
                           id="phone"
                           label={`*${_('checkoutProcessForm.billing_information_phone')}`}
                           placeholder={_('forms.placeholder_phone')}
-                          className="field-item--50"
+                          className={`field-item--50 ${
+                            sameAddressInformation ? 'dp-flag-disabled' : ''
+                          }`}
                           required
                           disabled={sameAddressInformation}
-                          style={{ background: ` ${sameAddressInformation ? '#EAEAEA' : ''}` }}
                         />
                       </FieldGroup>
                     </FieldItem>
