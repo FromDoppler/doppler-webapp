@@ -72,6 +72,10 @@ export class OnlineSessionManager implements SessionManager {
   private async update() {
     try {
       const dopplerUserData = await this.dopplerLegacyClient.getUserData();
+
+      //This will be used by GTM and HotJar
+      (window as any).mainMenuData = dopplerUserData;
+
       this.updateSession(
         {
           status: 'authenticated',
