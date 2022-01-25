@@ -299,6 +299,8 @@ interface PlanEntry {
   planDiscount: number;
   planSubscription: number;
   subscribersCount: number;
+  planFee: number;
+  trialExpired: boolean;
 }
 
 interface SmsEntry {
@@ -306,6 +308,7 @@ interface SmsEntry {
   buttonUrl: string;
   description: string;
   remainingCredits: number;
+  smsEnabled: boolean;
 }
 
 interface AvatarEntry {
@@ -417,6 +420,8 @@ function mapPlanEntry(json: any): PlanEntry {
     planDiscount: json.planDiscount,
     planSubscription: json.monthPlan,
     subscribersCount: json.subscribersCount,
+    planFee: json.planFee,
+    trialExpired: json.trialExpired,
   };
 }
 function mapSmsEntry(json: any): SmsEntry {
@@ -425,6 +430,7 @@ function mapSmsEntry(json: any): SmsEntry {
     buttonUrl: json.buttonUrl,
     description: json.description,
     remainingCredits: (json.remainingCredits && JSON.parse(json.remainingCredits)) || 0,
+    smsEnabled: json.smsEnabled,
   };
 }
 
@@ -546,6 +552,7 @@ export function mapHeaderDataJson(json: any) {
       nav: (json.user.nav && json.user.nav.map(mapNavEntry)) || [],
       plan: mapPlanEntry(json.user.plan),
       sms: json.user.sms?.description ? mapSmsEntry(json.user.sms) : {},
+      hasCampaingSent: json.user.hasCampaingSent,
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
