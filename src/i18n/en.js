@@ -387,6 +387,8 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       unsubscription_link_title: 'Unsubscribe Link',
     },
     external_integrations: {
+      dynamics_link_url: `${urlHelp}/how-to-integrate-dynamics-with-doppler`,
+      dynamics_title: 'Microsoft Dynamics 365',
       facebook_title: 'Facebook',
       infor_title: 'Infor',
       lander_title: 'Lander',
@@ -738,8 +740,8 @@ You'll find an Email with steps to follow.`,
     unknown_amount_description: ' ',
   },
   promotional_ribbons: {
+    coming_soon: 'Coming soon',
     new: 'New',
-    promotional_ribbons: 'Coming soon',
   },
   reports: {
     datahub_not_domains_title: `Add your web domain and analyze the behavior of your users`,

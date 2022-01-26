@@ -52,6 +52,7 @@ import wizell_icon from '../components/ControlPanel/images/wizell_icon.png';
 import xintel_icon from '../components/ControlPanel/images/xintel_icon.png';
 import mercadolibre_icon from '../components/ControlPanel/images/mercadolibre_icon.png';
 import mercado_shops_icon from '../components/ControlPanel/images/mercadoshops_icon.png';
+import dynamics_icon from '../components/ControlPanel/images/dynamics_icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -507,6 +508,15 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: 'control_panel.external_integrations.facebook_title',
             iconName: 'control_panel.external_integrations.facebook_title',
             targetBlank: true,
+          },
+          {
+            linkUrl: `control_panel.external_integrations.dynamics_link_url`,
+            imgSrc: dynamics_icon,
+            imgAlt: 'control_panel.external_integrations.dynamics_title',
+            iconName: 'control_panel.external_integrations.dynamics_title',
+            targetBlank: true,
+            ribbonColor: 'violet',
+            ribbonText: 'promotional_ribbons.new',
           },
         ],
       },
