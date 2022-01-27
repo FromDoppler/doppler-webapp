@@ -388,6 +388,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       unsubscription_link_title: 'Link de Remoción',
     },
     external_integrations: {
+      dynamics_link_url: `${urlHelp}/como-integrar-dynamics-con-doppler`,
+      dynamics_title: 'Microsoft Dynamics 365',
       facebook_title: 'Facebook',
       infor_title: 'Infor',
       lander_title: 'Lander',
@@ -740,8 +742,8 @@ Encontrarás un Email con los pasos a seguir.`,
     unknown_amount_description: ' ',
   },
   promotional_ribbons: {
+    coming_soon: 'Próximamente',
     new: 'Nueva',
-    promotional_ribbons: 'Próximamente',
   },
   reports: {
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,

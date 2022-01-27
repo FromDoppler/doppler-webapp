@@ -6,7 +6,7 @@ import ControlPanelIconImg from '../images/account_information_icon.png';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const box = {
-  linkUrl: '/ControlPanel/AccountPreferences/GetAccountInformation',
+  linkUrl: 'control_panel.external_integrations.dynamics_link_url',
   imgSrc: ControlPanelIconImg,
   imgAlt: 'control_panel.account_preferences.account_information_title',
   iconName: 'control_panel.account_preferences.account_information_title',

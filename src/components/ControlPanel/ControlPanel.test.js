@@ -13,21 +13,21 @@ describe('Control Panel component', () => {
         showStatus: showStatus,
         boxes: [
           {
-            linkUrl: 'link1',
+            linkUrl: 'control_panel.external_integrations.dynamics_link_url',
             imgSrc: 'Imagen1',
             imgAlt: 'control_panel.account_preferences.account_information_title',
             iconName: 'control_panel.account_preferences.account_information_title',
             status: 'disconnected',
           },
           {
-            linkUrl: 'link2',
+            linkUrl: 'control_panel.external_integrations.dynamics_link_url',
             imgSrc: 'image2',
             imgAlt: 'control_panel.account_preferences.account_movements_title',
             iconName: 'control_panel.account_preferences.account_movements_title',
             status: 'alert',
           },
           {
-            linkUrl: 'link3',
+            linkUrl: 'control_panel.external_integrations.dynamics_link_url',
             imgSrc: 'image3',
             imgAlt: 'control_panel.account_preferences.contact_information_title',
             iconName: 'control_panel.account_preferences.contact_information_title',
