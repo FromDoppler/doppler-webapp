@@ -207,6 +207,7 @@ const messages_es = {
     payment_method: {
       applied_promocode_tooltip: 'Ya tienes un código de descuento aplicado.',
       availabled_credit_cards_legend: 'Puedes pagar con cualquier tarjeta de crédito internacional <bold>Visa, Mastercard o American Express</bold>.',
+      availabled_credit_cards_legend_alt_text: 'Tarjetas internacionales Visa, Mastercard, American Express',
       business_name: 'Razón social',
       considerations: 'Consideraciones:',
       considerations_credit_card_note_1: 'Emitiremos una <bold>factura en dólares desde Estados Unidos</bold>, donde se encuentra nuestra filial Doppler LLC.',

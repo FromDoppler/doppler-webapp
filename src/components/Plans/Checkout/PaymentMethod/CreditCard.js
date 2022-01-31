@@ -8,6 +8,13 @@ import { FieldGroup, FieldItem, InputFieldItem } from '../../../form-helpers/for
 import InputMask from 'react-input-mask';
 import { actionPage } from '../Checkout';
 import { fieldNames, paymentType } from './PaymentMethod';
+import creditCards from '../../../../img/credit-cards.svg';
+import styled from 'styled-components';
+
+export const CreditCardIcons = styled.img`
+  height: 30px;
+  width: 145px;
+`;
 
 const creditCardType = {
   mastercard: 'Mastercard',
@@ -197,6 +204,12 @@ export const CreditCard = InjectAppServices(
                     <p>
                       <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.availabled_credit_cards_legend" />
                     </p>
+                    <CreditCardIcons
+                      src={creditCards}
+                      alt={_(
+                        'checkoutProcessForm.payment_method.availabled_credit_cards_legend_alt_text',
+                      )}
+                    />
                   </div>
                 </FieldItem>
                 <FieldItem className="field-item field-credit-card">
