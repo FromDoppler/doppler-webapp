@@ -75,7 +75,7 @@ export const Promocode = InjectAppServices(
     const query = useQueryParams();
     const selectedPromocode = query.get('promo-code') ?? query.get('PromoCode') ?? '';
 
-    const apply = useCallback(
+    const validatePromocode = useCallback(
       async (promocode) => {
         setError('');
         if (!promocode) {
@@ -95,18 +95,14 @@ export const Promocode = InjectAppServices(
           setValidated(validateData.success);
         }
       },
-      [planId, dopplerAccountPlansApiClient, setValidated, setError, callback],
+      [planId, dopplerAccountPlansApiClient, callback],
     );
 
     useEffect(() => {
-      const fetchData = async () => {
-        if (selectedPromocode && allowPromocode) {
-          apply(selectedPromocode);
-        }
-      };
-
-      fetchData();
-    }, [allowPromocode, selectedPromocode, apply]);
+      if (selectedPromocode && allowPromocode) {
+        validatePromocode(selectedPromocode);
+      }
+    }, [allowPromocode, selectedPromocode, validatePromocode]);
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
@@ -115,12 +111,12 @@ export const Promocode = InjectAppServices(
       return initialValues;
     };
 
-    const validatePromocode = async (value) => {
-      apply(value.promocode);
+    const onSubmit = async (value) => {
+      validatePromocode(value.promocode);
     };
 
     return (
-      <Formik onSubmit={validatePromocode} initialValues={_getFormInitialValues()}>
+      <Formik onSubmit={onSubmit} initialValues={_getFormInitialValues()}>
         {() => (
           <Form className="dp-promocode" aria-label="form">
             <legend>{_('checkoutProcessForm.purchase_summary.promocode_header')}</legend>
