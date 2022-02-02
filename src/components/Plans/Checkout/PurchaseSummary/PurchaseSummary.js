@@ -1,11 +1,10 @@
-import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
-import { useLocation } from 'react-router';
 import { useRouteMatch } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { extractParameter, thousandSeparatorNumber } from '../../../../utils';
+import { thousandSeparatorNumber } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
 import { paymentType } from '../PaymentMethod/PaymentMethod';
 import { InvoiceRecipients } from './InvoiceRecipients';
@@ -262,7 +261,6 @@ export const PurchaseSummary = InjectAppServices(
     canBuy,
     onApplyPromocode,
   }) => {
-    const location = useLocation();
     const [state, setState] = useState({
       loading: true,
       planData: {},
@@ -273,14 +271,10 @@ export const PurchaseSummary = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useRouteMatch().params;
-    //TODO: Create a new PR to use query.get('selected-plan') instead of extractParameter(location, queryString.parse, 'selected-plan')
-    //should be this in for all parameters
-    const selectedDiscountId =
-      discountId === 0
-        ? extractParameter(location, queryString.parse, 'discountId') ?? 0
-        : discountId;
-    const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
-    const selectedPromocode = extractParameter(location, queryString.parse, 'PromoCode') || '';
+    const query = useQueryParams();
+    const selectedDiscountId = discountId === 0 ? query.get('discountId') ?? 0 : discountId;
+    const selectedPlan = query.get('selected-plan') ?? 0;
+    const selectedPromocode = query.get('PromoCode') ?? '';
 
     useEffect(() => {
       const fetchData = async () => {
