@@ -1,4 +1,4 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { Promocode } from './Promocode';
@@ -12,7 +12,10 @@ const dependencies = (dopplerAccountPlansApiClientDouble) => ({
   dopplerAccountPlansApiClient: dopplerAccountPlansApiClientDouble,
 });
 
-const mockedCallback = jest.fn();
+const getPromoCodeField = () =>
+  screen.findByRole('textbox', {
+    name: 'promocode',
+  });
 
 const PromocodeElement = ({
   allowPromocode,
@@ -20,6 +23,7 @@ const PromocodeElement = ({
   planId,
   url,
   dopplerAccountPlansApiClientDouble,
+  mockedCallback,
 }) => {
   const services = dependencies(dopplerAccountPlansApiClientDouble);
 
@@ -72,10 +76,11 @@ describe('Promocode component', () => {
 
   it('should show messages of required fields when the promocode is empty', async () => {
     //Arrange
+    const validatePromocodeMock = jest.fn(async () => {
+      return { success: false, value: fakePromotion };
+    });
     const dopplerAccountPlansApiClientDouble = {
-      validatePromocode: async () => {
-        return { success: true, value: fakePromotion };
-      },
+      validatePromocode: validatePromocodeMock,
     };
 
     // Act
@@ -101,38 +106,41 @@ describe('Promocode component', () => {
       'validation_messages.error_required_field',
     );
     expect(validationErrorMessages).toHaveLength(1);
+    expect(validatePromocodeMock).not.toHaveBeenCalled();
   });
 
   it('should show a invalid message when the promocode is invalid', async () => {
     //Arrange
+    const validatePromocodeMock = jest.fn(async () => {
+      return { success: false, value: fakePromotion };
+    });
+
     const dopplerAccountPlansApiClientDouble = {
-      validatePromocode: async () => {
-        return { success: false, value: fakePromotion };
-      },
+      validatePromocode: validatePromocodeMock,
     };
+    const mockedCallback = jest.fn();
+    const planId = 1;
+    const fakePromoCode = 'invalidpromocode';
 
     // Act
     render(
       <PromocodeElement
         allowPromocode={true}
         disabled={false}
-        planId={1}
+        planId={planId}
         url={'checkout/standard/subscribers'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        mockedCallback={mockedCallback}
       />,
     );
 
     // Assert
-    let promocodeInput = await screen.findByRole('textbox', {
-      name: 'promocode',
-    });
+    let promocodeInput = await getPromoCodeField();
     user.clear(promocodeInput);
-    user.type(promocodeInput, 'invalidpromocode');
+    user.type(promocodeInput, fakePromoCode);
 
-    promocodeInput = await screen.findByRole('textbox', {
-      name: 'promocode',
-    });
-    expect(promocodeInput).toHaveValue('invalidpromocode');
+    promocodeInput = await getPromoCodeField();
+    expect(promocodeInput).toHaveValue(fakePromoCode);
 
     // Click save button
     const submitButton = screen.getByRole('button', {
@@ -145,38 +153,41 @@ describe('Promocode component', () => {
       'checkoutProcessForm.purchase_summary.promocode_error_message',
     );
     expect(invalidMessage).toHaveLength(1);
+    expect(validatePromocodeMock).toHaveBeenCalledWith(planId, fakePromoCode);
+    expect(mockedCallback).not.toHaveBeenCalled();
   });
 
   it('should show success message when the user enters a valid promocode', async () => {
     //Arrange
+    const validatePromocodeMock = jest.fn(async () => {
+      return { success: true, value: fakePromotion };
+    });
     const dopplerAccountPlansApiClientDouble = {
-      validatePromocode: async () => {
-        return { success: true, value: fakePromotion };
-      },
+      validatePromocode: validatePromocodeMock,
     };
+    const mockedCallback = jest.fn();
+    const planId = 1;
+    const fakePromocode = 'promocode';
 
     // Act
     render(
       <PromocodeElement
         allowPromocode={true}
         disabled={false}
-        planId={1}
+        planId={planId}
         url={'checkout/standard/subscribers'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        mockedCallback={mockedCallback}
       />,
     );
 
     // Assert
-    let promocodeInput = await screen.findByRole('textbox', {
-      name: 'promocode',
-    });
+    let promocodeInput = await getPromoCodeField();
     user.clear(promocodeInput);
-    user.type(promocodeInput, 'promocode');
+    user.type(promocodeInput, fakePromocode);
 
-    promocodeInput = await screen.findByRole('textbox', {
-      name: 'promocode',
-    });
-    expect(promocodeInput).toHaveValue('promocode');
+    promocodeInput = await getPromoCodeField();
+    expect(promocodeInput).toHaveValue(fakePromocode);
 
     // Click save button
     const submitButton = screen.getByRole('button', {
@@ -190,39 +201,44 @@ describe('Promocode component', () => {
 
     expect(summarySuccessMessage).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
-    expect(mockedCallback).toBeCalledTimes(1);
+    expect(validatePromocodeMock).toHaveBeenCalledWith(planId, fakePromocode);
+    expect(mockedCallback).toHaveBeenCalledWith({ ...fakePromotion, promocode: fakePromocode });
   });
 
   it('should show success message when the promocode passed as parameter is valid', async () => {
     //Arrange
+    const validatePromocodeMock = jest.fn(async () => {
+      return { success: true, value: fakePromotion };
+    });
     const dopplerAccountPlansApiClientDouble = {
-      validatePromocode: async () => {
-        return { success: true, value: fakePromotion };
-      },
+      validatePromocode: validatePromocodeMock,
     };
+    const mockedCallback = jest.fn();
+    const planId = 1;
+    const fakePromocode = 'promocode';
 
     // Act
     render(
       <PromocodeElement
         allowPromocode={true}
         disabled={false}
-        planId={1}
+        planId={planId}
         url={'checkout/standard/subscribers?PromoCode=promocode'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        mockedCallback={mockedCallback}
       />,
     );
 
     // Assert
-    let promocodeInput = await screen.findByRole('textbox', {
-      name: 'promocode',
-    });
-    expect(promocodeInput).toHaveValue('promocode');
+    let promocodeInput = await getPromoCodeField();
+    expect(promocodeInput).toHaveValue(fakePromocode);
 
     const summarySuccessMessage = await screen.findByText(
       'checkoutProcessForm.purchase_summary.promocode_success_message',
     );
 
     expect(summarySuccessMessage).toBeInTheDocument();
-    expect(mockedCallback).toBeCalledTimes(1);
+    expect(validatePromocodeMock).toHaveBeenCalledWith(planId, fakePromocode);
+    expect(mockedCallback).toHaveBeenCalledWith({ ...fakePromotion, promocode: fakePromocode });
   });
 });
