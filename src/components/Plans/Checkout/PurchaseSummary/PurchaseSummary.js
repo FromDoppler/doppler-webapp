@@ -262,7 +262,9 @@ export const PurchaseSummary = InjectAppServices(
     onApplyPromocode,
   }) => {
     const [state, setState] = useState({
-      loading: true,
+      loadingPaymentInformation: true,
+      loadingPlanInformation: true,
+      loadingPromocodeValidation: true,
       planData: {},
       amountDetails: { total: 0, discountPrepayment: { discountPercentage: 0 } },
       plan: { fee: 0 },
@@ -280,7 +282,7 @@ export const PurchaseSummary = InjectAppServices(
       const fetchData = async () => {
         let paymentMethodType = paymentMethod;
 
-        if (paymentMethod === '') {
+        if (!paymentMethod) {
           const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
           paymentMethodType = paymentMethodData.success
             ? paymentMethodData.value.paymentMethodName
@@ -302,21 +304,13 @@ export const PurchaseSummary = InjectAppServices(
           selectedPromocode,
         );
 
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlan);
-
-        const validateData = selectedPromocode
-          ? await dopplerAccountPlansApiClient.validatePromocode(selectedPlan, selectedPromocode)
-          : undefined;
-
         setState((prevState) => ({
           ...prevState,
-          loading: false,
+          loadingPaymentInformation: false,
           paymentMethodType,
-          plan: planData.value,
           discount,
           amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
           planType,
-          promotion: validateData && validateData.success ? validateData.value : '',
         }));
       };
 
@@ -330,6 +324,36 @@ export const PurchaseSummary = InjectAppServices(
       planType,
       selectedPromocode,
     ]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlan);
+
+        setState((prevState) => ({
+          ...prevState,
+          loadingPlanInformation: false,
+          plan: planData.value,
+        }));
+      };
+
+      fetchData();
+    }, [dopplerAccountPlansApiClient, selectedPlan]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const validateData = selectedPromocode
+          ? await dopplerAccountPlansApiClient.validatePromocode(selectedPlan, selectedPromocode)
+          : undefined;
+
+        setState((prevState) => ({
+          ...prevState,
+          loadingPromocodeValidation: false,
+          promotion: validateData && validateData.success ? validateData.value : '',
+        }));
+      };
+
+      fetchData();
+    }, [dopplerAccountPlansApiClient, selectedPromocode, selectedPlan]);
 
     const getPlanTypeTitle = () => {
       switch (planType) {
@@ -364,10 +388,13 @@ export const PurchaseSummary = InjectAppServices(
     };
 
     const { total } = state.amountDetails;
+    const { loadingPaymentInformation, loadingPlanInformation, loadingPromocodeValidation } = state;
 
     return (
       <>
-        {state.loading && <Loading />}
+        {(loadingPaymentInformation || loadingPlanInformation || loadingPromocodeValidation) && (
+          <Loading />
+        )}
         <div className="dp-hiring-summary">
           <header className="dp-header-summary">
             <h6>{_('checkoutProcessForm.purchase_summary.header')}</h6>
