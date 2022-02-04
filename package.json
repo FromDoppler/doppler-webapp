@@ -149,6 +149,8 @@
     "comment": "Resolution to avoid test warning: [...] Please update the following components: SideEffect(NullComponent)"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
     "@testing-library/dom": "^8.5.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/react-credit-cards": "^0.8.1",
