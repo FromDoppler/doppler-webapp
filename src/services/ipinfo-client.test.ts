@@ -16,7 +16,7 @@ describe('HttpIpinfoClient', () => {
   it('should return the received country code', async () => {
     // Arrange
     const countryCode = 'FR';
-    const request = jest.fn(async () => ({ data: { country: countryCode } }));
+    const request = jest.fn(async () => ({ data: { ip: { country_code: countryCode } } }));
     const ipinfoClient = createHttpIpinfoClient({ request });
 
     // Act
@@ -72,7 +72,7 @@ describe('HttpIpinfoClient', () => {
   it('should call ipinfo API with the right parameters', async () => {
     // Arrange
     const countryCode = 'FR';
-    const request = jest.fn(async () => ({ data: { country: countryCode } }));
+    const request = jest.fn(async () => ({ data: { ip: { country_code: countryCode } } }));
     const ipinfoClient = createHttpIpinfoClient({ request });
 
     // Act
@@ -83,7 +83,7 @@ describe('HttpIpinfoClient', () => {
     expect(result).toBe(countryCode);
     expect(request).toHaveBeenCalledWith({
       method: 'GET',
-      url: 'https://ipinfo.io/json',
+      url: 'https://ip.nf/me.json',
     });
   });
 });

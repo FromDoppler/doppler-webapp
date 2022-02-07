@@ -16,9 +16,9 @@ export class HttpIpinfoClient implements IpinfoClient {
     try {
       const response = await this.axios.request({
         method: 'GET',
-        url: 'https://ipinfo.io/json',
+        url: 'https://ip.nf/me.json',
       });
-      const countryCode = (response.data && response.data.country) || defaultCountryCode;
+      const countryCode = (response.data && response.data.ip.country_code) || defaultCountryCode;
       return countryCode;
     } catch (error) {
       return defaultCountryCode;

@@ -12,7 +12,6 @@ describe('planTypesReducer', () => {
     // Assert
     expect(newState).toEqual({
       ...INITIAL_STATE_PLAN_TYPES,
-      loading: !INITIAL_STATE_PLAN_TYPES.loading,
     });
   });
 
