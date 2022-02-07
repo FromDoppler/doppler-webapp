@@ -224,7 +224,7 @@ export const CheckoutSummary = InjectAppServices(
 
     if (legacy) {
       if (redirect) {
-        return <SafeRedirect to={redirect} />;
+        return <SafeRedirect to={`/${redirect}`} />;
       }
       return <SafeRedirect to="/Campaigns/Draft" />;
     }
