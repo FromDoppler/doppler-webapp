@@ -48,7 +48,8 @@ export const PlanCalculatorButtons = InjectAppServices(
     const redirectNewCheckout =
       (!excludedCountries.find((c) => c === countryCode) || newCheckoutEnabled) &&
       sessionPlanType === PLAN_TYPE.free &&
-      selectedPlanType === PLAN_TYPE.byCredit;
+      (selectedPlanType === PLAN_TYPE.byCredit ||
+        (newCheckoutEnabled && selectedPlanType === PLAN_TYPE.byEmail));
 
     return (
       <div className="dp-container">
