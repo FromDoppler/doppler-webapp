@@ -12,6 +12,7 @@ import { PlanPurchase } from './PlanPurchase';
 import { Promocode } from './Promocode';
 
 const dollarSymbol = 'US$';
+const none = 'NONE';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -285,7 +286,9 @@ export const PurchaseSummary = InjectAppServices(
         if (!paymentMethod) {
           const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
           paymentMethodType = paymentMethodData.success
-            ? paymentMethodData.value.paymentMethodName
+            ? paymentMethodData.value.paymentMethodName !== none
+              ? paymentMethodData.value.paymentMethodName
+              : paymentType.creditCard
             : paymentType.creditCard;
         }
 

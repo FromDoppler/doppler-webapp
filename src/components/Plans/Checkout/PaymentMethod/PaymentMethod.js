@@ -11,6 +11,8 @@ import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer';
+import { useRouteMatch } from 'react-router-dom';
+import { PLAN_TYPE } from '../../../../doppler-types';
 
 const none = 'NONE';
 
@@ -213,6 +215,7 @@ export const PaymentMethod = InjectAppServices(
     const [error, setError] = useState(false);
     const [paymentMethodType, setPaymentMethodType] = useState('');
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const { planType } = useRouteMatch().params;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -239,18 +242,24 @@ export const PaymentMethod = InjectAppServices(
           handleChangeView(actionPage.UPDATE);
         }
 
-        const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
-          selectedPlan,
-          paymentMethodType === '' ? paymentMethod : paymentMethodType,
-        );
+        let discounts = [];
+        let selectedPlanDiscount = undefined;
 
-        const selectedPlanDiscount = discountsData.success
-          ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
-          : undefined;
+        if (planType === PLAN_TYPE.byContact) {
+          const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
+            selectedPlan,
+            paymentMethodType === '' ? paymentMethod : paymentMethodType,
+          );
+
+          discounts = discountsData.success ? discountsData.value : [];
+          selectedPlanDiscount = discountsData.success
+            ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
+            : undefined;
+        }
 
         setDiscountsInformation({
           selectedPlanDiscount,
-          discounts: discountsData.success ? discountsData.value : [],
+          discounts,
           plan: sessionPlan.plan,
         });
 
@@ -272,6 +281,7 @@ export const PaymentMethod = InjectAppServices(
       selectedDiscountId,
       handleChangeView,
       paymentMethodType,
+      planType,
     ]);
 
     const getDiscountData = async (selectedPlan, paymentMethod) => {
