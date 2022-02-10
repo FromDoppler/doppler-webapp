@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { PricePerExtraEmail } from './PricePerExtraEmail';
 import { PricePerMonth } from './PricePerMonth';
 import { PriceWithDiscount } from './PriceWithDiscount';
@@ -17,7 +18,7 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
 
   return (
     <div className="dp-price--wrapper">
-      <PriceWithoutDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
+      {selectedDiscount?.discountPercentage && <PriceWithoutDiscount selectedPlan={selectedPlan} />}
       <PricePerMonth
         selectedPlan={selectedPlan}
         discountPercentage={selectedDiscount?.discountPercentage}

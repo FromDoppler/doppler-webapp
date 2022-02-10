@@ -3,12 +3,9 @@ import { useIntl } from 'react-intl';
 import { getPlanFee, thousandSeparatorNumber } from '../../../../../utils';
 import PropTypes from 'prop-types';
 
-export const PriceWithoutDiscount = ({ selectedPlan, selectedDiscount }) => {
+export const PriceWithoutDiscount = ({ selectedPlan }) => {
   const intl = useIntl();
 
-  if (!selectedDiscount?.discountPercentage) {
-    return <></>;
-  }
   const formatedFee = thousandSeparatorNumber(intl.defaultLocale, getPlanFee(selectedPlan));
   return (
     <>
@@ -22,5 +19,4 @@ export const PriceWithoutDiscount = ({ selectedPlan, selectedDiscount }) => {
 
 PriceWithoutDiscount.propTypes = {
   selectedPlan: PropTypes.object,
-  selectedDiscount: PropTypes.object,
 };
