@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../../doppler-types';
 import { getPlanFee, thousandSeparatorNumber } from '../../../../../utils';
 
-export const PricePerMonth = ({ selectedPlan, discountPercentage }) => {
+export const TotalPrice = ({ selectedPlan, discountPercentage }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const planFee = getPlanFee(selectedPlan);

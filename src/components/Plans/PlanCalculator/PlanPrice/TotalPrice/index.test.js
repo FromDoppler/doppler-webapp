@@ -4,9 +4,9 @@ import { getPlanFee } from '../../../../../utils';
 import { PLAN_TYPE } from '../../../../../doppler-types';
 import { allPlans } from '../../../../../services/doppler-legacy-client.doubles';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { PricePerMonth } from '.';
+import { TotalPrice } from '.';
 
-describe('PricePerMonth component', () => {
+describe('TotalPrice component', () => {
   test(`Show correct price when plan type is ${PLAN_TYPE.byContact} and subscription is half-yearly`, () => {
     //Arrange
     const plansByType = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
@@ -20,7 +20,7 @@ describe('PricePerMonth component', () => {
 
     render(
       <IntlProvider>
-        <PricePerMonth
+        <TotalPrice
           selectedPlan={myFakePlan}
           discountPercentage={myFakePlanDetails.discountPercentage}
         />
@@ -38,7 +38,7 @@ describe('PricePerMonth component', () => {
     //Act
     render(
       <IntlProvider>
-        <PricePerMonth selectedPlan={myFakePlan} discountPercentage={discountPercentage} />
+        <TotalPrice selectedPlan={myFakePlan} discountPercentage={discountPercentage} />
       </IntlProvider>,
     );
 

@@ -4,9 +4,9 @@ import { useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { PricePerExtraEmail } from './PricePerExtraEmail';
-import { PricePerMonth } from './PricePerMonth';
 import { PriceWithDiscount } from './PriceWithDiscount';
 import { PriceWithoutDiscount } from './PriceWithoutDiscount';
+import { TotalPrice } from './TotalPrice';
 
 export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
   const intl = useIntl();
@@ -19,7 +19,7 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
   return (
     <div className="dp-price--wrapper">
       {selectedDiscount?.discountPercentage && <PriceWithoutDiscount selectedPlan={selectedPlan} />}
-      <PricePerMonth
+      <TotalPrice
         selectedPlan={selectedPlan}
         discountPercentage={selectedDiscount?.discountPercentage}
       />
