@@ -24,7 +24,9 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
         discountPercentage={selectedDiscount?.discountPercentage}
       />
       <div className="dp-agreement">
-        <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
+        {selectedDiscount?.discountPercentage && (
+          <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
+        )}
         <PricePerExtraEmail selectedPlan={selectedPlan} />
         {selectedPlan.type === PLAN_TYPE.byCredit ? (
           <p className="dp-plan-disclaimer">
