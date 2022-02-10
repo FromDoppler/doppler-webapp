@@ -17,13 +17,13 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
 
   return (
     <div className="dp-price--wrapper">
-      {selectedDiscount?.discountPercentage && <OldPrice selectedPlan={selectedPlan} />}
+      {selectedDiscount?.discountPercentage > 0 && <OldPrice selectedPlan={selectedPlan} />}
       <TotalPrice
         selectedPlan={selectedPlan}
         discountPercentage={selectedDiscount?.discountPercentage}
       />
       <div className="dp-agreement">
-        {selectedDiscount?.discountPercentage && (
+        {selectedDiscount?.discountPercentage > 0 && (
           <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
         )}
         {selectedPlan.type !== PLAN_TYPE.byContact && (
