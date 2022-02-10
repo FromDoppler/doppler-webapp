@@ -27,7 +27,9 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
         {selectedDiscount?.discountPercentage && (
           <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
         )}
-        <PricePerExtraEmail selectedPlan={selectedPlan} />
+        {selectedPlan.type !== PLAN_TYPE.byContact && (
+          <PricePerExtraEmail selectedPlan={selectedPlan} />
+        )}
         {selectedPlan.type === PLAN_TYPE.byCredit ? (
           <p className="dp-plan-disclaimer">
             {_('plan_calculator.discount_clarification_prepaid')}

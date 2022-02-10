@@ -24,22 +24,4 @@ describe('PricePerExtraEmail', () => {
     expect(screen.getByText('plan_calculator.cost_per_email')).toBeInTheDocument();
     expect(screen.getByText(/1.00000/i)).toBeInTheDocument();
   });
-
-  it('should return a empty component when plan type is by contact', () => {
-    // Arrange
-    const selectedPlan = {
-      type: PLAN_TYPE.byContact,
-      price: 30,
-    };
-
-    // Act
-    render(
-      <IntlProvider>
-        <PricePerExtraEmail selectedPlan={selectedPlan} />
-      </IntlProvider>,
-    );
-
-    // Assert
-    expect(screen.queryByText('plan_calculator.cost_per_email')).not.toBeInTheDocument();
-  });
 });
