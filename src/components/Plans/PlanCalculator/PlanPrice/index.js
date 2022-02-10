@@ -3,9 +3,9 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { PricePerExtraEmail } from './PricePerExtraEmail';
-import { PricePerMonth } from './PricePerMonth';
 import { PriceWithDiscount } from './PriceWithDiscount';
-import { PriceWithoutDiscount } from './PriceWithoutDiscount';
+import { OldPrice } from './OldPrice';
+import { TotalPrice } from './TotalPrice';
 
 export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
   const intl = useIntl();
@@ -17,14 +17,18 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
 
   return (
     <div className="dp-price--wrapper">
-      <PriceWithoutDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
-      <PricePerMonth
+      {selectedDiscount?.discountPercentage > 0 && <OldPrice selectedPlan={selectedPlan} />}
+      <TotalPrice
         selectedPlan={selectedPlan}
         discountPercentage={selectedDiscount?.discountPercentage}
       />
       <div className="dp-agreement">
-        <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
-        <PricePerExtraEmail selectedPlan={selectedPlan} />
+        {selectedDiscount?.discountPercentage > 0 && (
+          <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
+        )}
+        {selectedPlan.type !== PLAN_TYPE.byContact && (
+          <PricePerExtraEmail selectedPlan={selectedPlan} />
+        )}
         {selectedPlan.type === PLAN_TYPE.byCredit ? (
           <p className="dp-plan-disclaimer">
             {_('plan_calculator.discount_clarification_prepaid')}

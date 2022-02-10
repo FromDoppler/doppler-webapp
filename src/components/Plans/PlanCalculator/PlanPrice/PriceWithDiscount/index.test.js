@@ -33,23 +33,4 @@ describe('PriceWithDiscount', () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/216/i)).toBeInTheDocument();
   });
-
-  it('should return a empty component when discount percentage is 0', () => {
-    // Arrange
-    const selectedPlan = {
-      type: PLAN_TYPE.byCredit,
-      price: 30,
-    };
-    const selectedDiscount = null;
-
-    // Act
-    render(
-      <IntlProvider>
-        <PriceWithDiscount selectedPlan={selectedPlan} selectedDiscount={selectedDiscount} />
-      </IntlProvider>,
-    );
-
-    // Assert
-    expect(screen.queryByText('US$')).not.toBeInTheDocument();
-  });
 });

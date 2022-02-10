@@ -14,10 +14,6 @@ export const PriceWithDiscount = ({ selectedPlan, selectedDiscount }) => {
     planFee * (1 - discountPercentage / 100) * monthsAmmount,
   );
 
-  if (!discountPercentage) {
-    return <></>;
-  }
-
   return (
     <p>
       {_(
