@@ -497,10 +497,10 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
     postListBlog_2_link_description: 'Keep reading',
     postListBlog_2_title: '#DopplerHelp',
 
-    postListHelp_1_description: `Free and online training: Take your strategy to the next level`,
-    postListHelp_1_link: 'https://www.fromdoppler.com/demo-day/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=demoday',
-    postListHelp_1_link_description: 'Register for free',
-    postListHelp_1_title: 'Demo Day',
+    postListHelp_1_description: `Relive the talks of Digital Marketing leaders and be part of the #EMMS2021 community`,
+    postListHelp_1_link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=reviveelemms',
+    postListHelp_1_link_description: 'Watch Now',
+    postListHelp_1_title: '#EMMS2021',
 
     postListHelp_2_description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
