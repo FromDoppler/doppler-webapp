@@ -498,10 +498,10 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     postListBlog_2_link_description: 'Sigue leyendo',
     postListBlog_2_title: '#DopplerHelp',
 
-    postListHelp_1_description: 'Entrenamiento online y gratuito: Lleva tu estrategia al próximo nivel',
-    postListHelp_1_link: 'https://www.fromdoppler.com/demo-day/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=demoday',
-    postListHelp_1_link_description: 'Regístrate gratis',
-    postListHelp_1_title: 'Demo Day',
+    postListHelp_1_description: 'Revive las charlas de los líderes del Marketing Digital y sé parte de la comunidad #EMMS2021',
+    postListHelp_1_link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=reviveelemms',
+    postListHelp_1_link_description: 'Me interesa',
+    postListHelp_1_title: '#EMMS2021',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
