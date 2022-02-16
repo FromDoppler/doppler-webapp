@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useParams } from 'react-router-dom';
+import { useQueryParams } from '../../../hooks/useQueryParams';
 import useTimeout from '../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../services/pure-di';
 import { getPlanTypeFromUrlSegment } from '../../../utils';
@@ -23,11 +24,16 @@ import {
   planTypesReducer,
   PLAN_TYPES_ACTIONS,
 } from './reducers/planTypesReducer';
+import {
+  INITIAL_STATE_PROMOCODE,
+  promocodeReducer,
+  PROMOCODE_ACTIONS,
+} from './reducers/promocodeReducer';
 import { Slider } from './Slider';
 import { UnexpectedError } from './UnexpectedError';
 
 export const PlanCalculator = InjectAppServices(
-  ({ dependencies: { planService, appSessionRef } }) => {
+  ({ dependencies: { dopplerAccountPlansApiClient, planService, appSessionRef } }) => {
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
       planTypesReducer,
       INITIAL_STATE_PLAN_TYPES,
@@ -44,6 +50,10 @@ export const PlanCalculator = InjectAppServices(
       },
       dispatchPlansByType,
     ] = useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
+    const [
+      { promotion, loading: loadingPromocode, hasError: hasErrorPromocode },
+      dispatchPromocode,
+    ] = useReducer(promocodeReducer, INITIAL_STATE_PROMOCODE);
     const [activeClass, setActiveClass] = useState('active');
     const createTimeout = useTimeout();
     const intl = useIntl();
@@ -51,6 +61,7 @@ export const PlanCalculator = InjectAppServices(
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlan = appSessionRef.current.userData.user;
+    const query = useQueryParams();
 
     useEffect(() => {
       const fetchData = async () => {
@@ -90,6 +101,30 @@ export const PlanCalculator = InjectAppServices(
       setActiveClass('');
       createTimeout(() => setActiveClass('active'), 0);
     }, [planTypeUrlSegment, createTimeout]);
+
+    useEffect(() => {
+      const promocode = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+
+      const validatePromocode = async () => {
+        dispatchPromocode({ type: PROMOCODE_ACTIONS.START_FETCH });
+        const validateData = await dopplerAccountPlansApiClient.validatePromocode(
+          selectedPlan.id,
+          promocode,
+        );
+        if (!validateData.success) {
+          // TODO: define action to take when promocode is invalid
+          dispatchPromocode({ type: PROMOCODE_ACTIONS.FAIL_FETCH });
+        } else {
+          dispatchPromocode({
+            type: PROMOCODE_ACTIONS.FINISH_FETCH,
+            payload: validateData.value,
+          });
+        }
+      };
+      if (selectedPlan && promocode) {
+        validatePromocode();
+      }
+    }, [dopplerAccountPlansApiClient, query, selectedPlan]);
 
     const handleSliderChange = (e) => {
       const { value } = e.target;
@@ -155,6 +190,7 @@ export const PlanCalculator = InjectAppServices(
                                     discounts={discounts}
                                     selectedDiscount={selectedDiscount}
                                     onSelectDiscount={handleDiscountChange}
+                                    disabled={promotion.isValid}
                                   />
                                 </>
                               )}
@@ -164,6 +200,8 @@ export const PlanCalculator = InjectAppServices(
                             <PlanPrice
                               selectedPlan={selectedPlan}
                               selectedDiscount={selectedDiscount}
+                              promotion={promotion}
+                              loadingPromocode={loadingPromocode}
                             />
                           </div>
                         </div>
