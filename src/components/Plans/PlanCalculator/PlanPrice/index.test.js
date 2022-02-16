@@ -143,9 +143,7 @@ describe('PlanPrice', () => {
     expect(priceWithDiscount).toBeInTheDocument();
     // don't apply discount & promocode
     expect(priceWithDiscount).toHaveTextContent(selectedPlan.price);
-    expect(
-      screen.getByText('checkoutProcessForm.purchase_summary.promocode_error_message'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('plan_calculator.promocode_error_message')).toBeInTheDocument();
   });
 
   it('should show warning message when promocode is invalid and there is selected discount', () => {
@@ -185,9 +183,7 @@ describe('PlanPrice', () => {
     expect(priceWithDiscount).toBeInTheDocument();
     // don't apply discount & promocode
     expect(priceWithDiscount).toHaveTextContent(planFeeWithDiscount);
-    expect(
-      screen.getByText('checkoutProcessForm.purchase_summary.promocode_error_message'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('plan_calculator.promocode_error_message')).toBeInTheDocument();
   });
 
   it('should return empty component when there is no selected plan ', () => {

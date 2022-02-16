@@ -7,6 +7,7 @@ import { PriceWithDiscount } from './PriceWithDiscount';
 import { OldPrice } from './OldPrice';
 import { TotalPrice } from './TotalPrice';
 import styled, { css } from 'styled-components';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 
 const WarningMessage = styled.div`
   text-align: left;
@@ -36,7 +37,7 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount, promotion, loadingPr
         >
           <span className="dp-message-icon" />
           <div className="dp-content-message">
-            <p>{_('checkoutProcessForm.purchase_summary.promocode_error_message')}</p>
+            <FormattedMessageMarkdown id="plan_calculator.promocode_error_message" />
           </div>
         </WarningMessage>
       )}

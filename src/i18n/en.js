@@ -726,6 +726,10 @@ You'll find an Email with steps to follow.`,
     plan_type_prepaid_tooltip: `Perfect Plans for those who send Campaigns occasionally. Credits can be accumulated and they don’t have a deadline to be used! `,
     plan_type_subscribers: 'by Contacts',
     plan_type_subscribers_tooltip: 'Plans based on number of Contacts, with no sending limits. Paying in advanced you save up to 25%!',
+    promocode_error_message: `
+We couldn't apply the discount.
+
+Promo code isn’t valid.`,
     suggestion_for_monthly_deliveries: '¿Do you have more than 10.000.000 schedules? <Link>Contact us.</Link>',
     suggestion_for_prepaid: ' ',
     suggestion_for_subscribers: '¿Do you have more than de 100.000 contacts? We recommend our <Bold>SHIPPING PLANS</Bold>, <Link>contact us.</Link>',
