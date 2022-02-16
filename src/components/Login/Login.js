@@ -29,7 +29,7 @@ import {
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 
 const fieldNames = {
-  user: 'user',
+  user: 'email',
   password: 'password',
 };
 

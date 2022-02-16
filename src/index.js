@@ -68,7 +68,8 @@ const trackNavigation = (location) => {
   ReactGA.set({ page: locationPage });
   ReactGA.pageview(locationPage);
   const dataHubParams = getDataHubParams(locationPage);
-  window._dha && window._dha.track(dataHubParams);
+  window._dha &&
+    (window._dha.track(dataHubParams) || window._dha.trackDOMMutation(window._dha.trackInputEmail));
 };
 
 trackNavigation(window.location);
