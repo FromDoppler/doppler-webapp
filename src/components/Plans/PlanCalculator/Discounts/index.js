@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => {
+export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount, disabled }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -18,6 +18,7 @@ export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => 
           {discounts.map((discount) => (
             <li key={discount.id}>
               <button
+                disabled={disabled}
                 className={`dp-button button-medium ${
                   discount.id === selectedDiscount?.id ? 'btn-active' : ''
                 }`}
@@ -26,7 +27,9 @@ export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => 
                 {getDiscountName(discount.subscriptionType)}
               </button>
               {discount.discountPercentage > 0 && (
-                <span className="dp-discount">{`${discount.discountPercentage}% OFF`}</span>
+                <span
+                  className={`dp-discount ${disabled ? 'dp--disabled' : ''}`}
+                >{`${discount.discountPercentage}% OFF`}</span>
               )}
             </li>
           ))}
@@ -39,5 +42,5 @@ export const Discounts = ({ discounts, selectedDiscount, onSelectDiscount }) => 
 Discounts.propTypes = {
   discounts: PropTypes.array.isRequired,
   selectedDiscount: PropTypes.object,
-  onSelectDiscount: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };

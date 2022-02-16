@@ -126,4 +126,33 @@ describe('Discount component', () => {
     userEvent.click(selectedDiscountButton);
     expect(handleChange).toHaveBeenCalledWith(FAKE_DISCOUNT_LIST[2]);
   });
+
+  it('should disable buttons when the component is disabled', () => {
+    // Arrange
+    const selectedDiscount = null;
+    const handleChange = jest.fn();
+
+    // Act
+    render(
+      <IntlProvider>
+        <Discounts
+          discounts={FAKE_DISCOUNT_LIST}
+          selectedDiscount={selectedDiscount}
+          onSelectDiscount={handleChange}
+          disabled={true}
+        />
+      </IntlProvider>,
+    );
+
+    // Assert
+    const getDiscountName = (subscriptionType) =>
+      `plan_calculator.discount_${subscriptionType.replace('-', '_')}`;
+
+    FAKE_DISCOUNT_LIST.forEach((discount) => {
+      const discountButton = screen.getByRole('button', {
+        name: getDiscountName(discount.subscriptionType),
+      });
+      expect(discountButton).toBeDisabled();
+    });
+  });
 });
