@@ -50,10 +50,10 @@ export const PlanCalculator = InjectAppServices(
       },
       dispatchPlansByType,
     ] = useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
-    const [
-      { promotion, loading: loadingPromocode, hasError: hasErrorPromocode },
-      dispatchPromocode,
-    ] = useReducer(promocodeReducer, INITIAL_STATE_PROMOCODE);
+    const [{ promotion, loading: loadingPromocode }, dispatchPromocode] = useReducer(
+      promocodeReducer,
+      INITIAL_STATE_PROMOCODE,
+    );
     const [activeClass, setActiveClass] = useState('active');
     const createTimeout = useTimeout();
     const intl = useIntl();

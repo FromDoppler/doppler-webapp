@@ -9,7 +9,7 @@ export const OldPrice = ({ selectedPlan }) => {
   const formatedFee = thousandSeparatorNumber(intl.defaultLocale, getPlanFee(selectedPlan));
   return (
     <>
-      <span className="dp-price-old">
+      <span className="dp-price-old" data-testid="old-price">
         <span className="dp-price-old-money">US$</span>
         <span className="dp-price-old-amount">{formatedFee}</span>
       </span>

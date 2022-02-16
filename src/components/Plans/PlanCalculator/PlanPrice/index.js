@@ -6,8 +6,20 @@ import { PricePerExtraEmail } from './PricePerExtraEmail';
 import { PriceWithDiscount } from './PriceWithDiscount';
 import { OldPrice } from './OldPrice';
 import { TotalPrice } from './TotalPrice';
+import styled, { css } from 'styled-components';
 
-export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
+const WarningMessage = styled.div`
+  text-align: left;
+  position: relative;
+  top: -42px;
+  ${(props) =>
+    props.hasDiscount &&
+    css`
+      top: -6px;
+    `}
+`;
+
+export const PlanPrice = ({ selectedPlan, selectedDiscount, promotion, loadingPromocode }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -17,10 +29,25 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
 
   return (
     <div className="dp-price--wrapper">
-      {selectedDiscount?.discountPercentage > 0 && <OldPrice selectedPlan={selectedPlan} />}
+      {!loadingPromocode && !promotion.isValid && (
+        <WarningMessage
+          className="dp-wrap-message dp-wrap-cancel"
+          hasDiscount={selectedDiscount?.discountPercentage > 0}
+        >
+          <span className="dp-message-icon" />
+          <div className="dp-content-message">
+            <p>{_('checkoutProcessForm.purchase_summary.promocode_error_message')}</p>
+          </div>
+        </WarningMessage>
+      )}
+      {(selectedDiscount?.discountPercentage > 0 || promotion.isValid) && (
+        <OldPrice selectedPlan={selectedPlan} />
+      )}
       <TotalPrice
         selectedPlan={selectedPlan}
-        discountPercentage={selectedDiscount?.discountPercentage}
+        discountPercentage={
+          promotion.isValid ? promotion.discountPercentage : selectedDiscount?.discountPercentage
+        }
       />
       <div className="dp-agreement">
         {selectedDiscount?.discountPercentage > 0 && (
@@ -44,4 +71,6 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount }) => {
 PlanPrice.propTypes = {
   selectedPlan: PropTypes.object,
   selectedDiscount: PropTypes.object,
+  promotion: PropTypes.object,
+  loadingPromocode: PropTypes.bool,
 };
