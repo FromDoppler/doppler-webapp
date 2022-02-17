@@ -153,6 +153,9 @@ export const PlanCalculator = InjectAppServices(
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlan?.id;
     const hightestPlan = plansByType.length === 1 && isEqualPlan;
 
+    const promocode = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+    const hasPromocode = !!promocode;
+
     return (
       <>
         <section className="dp-gray-page p-t-54 p-b-54">
@@ -203,6 +206,7 @@ export const PlanCalculator = InjectAppServices(
                               selectedDiscount={selectedDiscount}
                               promotion={promotion}
                               loadingPromocode={loadingPromocode}
+                              hasPromocode={hasPromocode}
                             />
                           </div>
                         </div>
