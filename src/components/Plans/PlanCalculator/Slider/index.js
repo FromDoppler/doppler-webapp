@@ -38,7 +38,7 @@ export const Slider = ({
   const amountPlans = values.length;
 
   const units = thousandSeparatorNumber(intl.defaultLocale, values[selectedPlanIndex]);
-  const applyExtraCreditPromocode = planType === PLAN_TYPE.byCredit && promotion.isValid;
+  const applyExtraCreditPromocode = planType === PLAN_TYPE.byCredit && promotion.extraCredits > 0;
 
   const amount = applyExtraCreditPromocode
     ? thousandSeparatorNumber(
