@@ -20,7 +20,13 @@ const WarningMessage = styled.div`
     `}
 `;
 
-export const PlanPrice = ({ selectedPlan, selectedDiscount, promotion, loadingPromocode }) => {
+export const PlanPrice = ({
+  selectedPlan,
+  selectedDiscount,
+  promotion,
+  loadingPromocode,
+  hasPromocode,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -30,7 +36,7 @@ export const PlanPrice = ({ selectedPlan, selectedDiscount, promotion, loadingPr
 
   return (
     <div className="dp-price--wrapper">
-      {!loadingPromocode && !promotion.isValid && (
+      {hasPromocode && !loadingPromocode && !promotion.isValid && (
         <WarningMessage
           className="dp-wrap-message dp-wrap-cancel"
           hasDiscount={selectedDiscount?.discountPercentage > 0}
@@ -73,5 +79,6 @@ PlanPrice.propTypes = {
   selectedPlan: PropTypes.object,
   selectedDiscount: PropTypes.object,
   promotion: PropTypes.object,
+  hasPromocode: PropTypes.bool,
   loadingPromocode: PropTypes.bool,
 };

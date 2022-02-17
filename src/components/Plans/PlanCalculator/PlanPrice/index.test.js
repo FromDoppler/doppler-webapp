@@ -66,6 +66,7 @@ describe('PlanPrice', () => {
           selectedDiscount={selectedDiscount}
           promotion={promotion}
           loadingPromocode={loadingPromocode}
+          hasPromocode={false}
         />
       </IntlProvider>,
     );
@@ -102,6 +103,7 @@ describe('PlanPrice', () => {
           selectedDiscount={selectedDiscount}
           promotion={promotion}
           loadingPromocode={loadingPromocode}
+          hasPromocode={true}
         />
       </IntlProvider>,
     );
@@ -133,6 +135,7 @@ describe('PlanPrice', () => {
           selectedDiscount={selectedDiscount}
           promotion={promotion}
           loadingPromocode={loadingPromocode}
+          hasPromocode={true}
         />
       </IntlProvider>,
     );
@@ -172,6 +175,7 @@ describe('PlanPrice', () => {
           selectedDiscount={selectedDiscount}
           promotion={promotion}
           loadingPromocode={loadingPromocode}
+          hasPromocode={true}
         />
       </IntlProvider>,
     );
