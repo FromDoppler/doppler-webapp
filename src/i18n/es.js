@@ -728,6 +728,10 @@ Encontrarás un Email con los pasos a seguir.`,
     plan_type_prepaid_tooltip: 'Planes ideales para quienes envían Campañas esporádicamente. ¡Los créditos son acumulables y no tienen vencimiento!',
     plan_type_subscribers: 'por Contactos',
     plan_type_subscribers_tooltip: 'Planes basados en la cantidad de Contactos, sin límite de envíos. ¡Pagando por adelantado ahorras hasta 25%!',
+    promocode_error_message: `
+No pudimos aplicar el descuento.
+
+El código es inválido.`,
     suggestion_for_monthly_deliveries: '¿Realizas más de 10.000.000 de envíos? <Link>Contáctanos y te asesoraremos.</Link>',
     suggestion_for_prepaid: ' ',
     suggestion_for_subscribers: '¿Tienes más de 100.000 contactos? Te recomendamos nuestros <Bold>PLANES POR ENVÍOS</Bold>, <Link>contáctanos y te asesoraremos.</Link>',
