@@ -47,7 +47,7 @@ export const PlanPrice = ({
           </div>
         </WarningMessage>
       )}
-      {(selectedDiscount?.discountPercentage > 0 || promotion.isValid) && (
+      {(selectedDiscount?.discountPercentage > 0 || promotion.discountPercentage > 0) && (
         <OldPrice selectedPlan={selectedPlan} />
       )}
       <TotalPrice
