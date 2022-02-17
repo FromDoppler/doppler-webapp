@@ -177,6 +177,7 @@ export const PlanCalculator = InjectAppServices(
                                 selectedPlanIndex={selectedPlanIndex}
                                 handleChange={handleSliderChange}
                                 isVisible={!hightestPlan}
+                                promotion={promotion}
                               />
                               <BannerUpgrade
                                 currentPlan={selectedPlan}

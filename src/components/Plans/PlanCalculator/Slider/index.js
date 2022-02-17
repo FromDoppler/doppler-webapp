@@ -3,17 +3,55 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { compactNumber, thousandSeparatorNumber } from '../../../../utils';
+import styled from 'styled-components';
 
-export const Slider = ({ planType, values, selectedPlanIndex, handleChange, isVisible = true }) => {
+const OldCreditsStyled = styled.div`
+  padding: 0 !important;
+`;
+
+const OldCredits = ({ totalCredits }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <OldCreditsStyled className="dp-price--wrapper">
+      <span className="dp-price-old" data-testid="old-credits">
+        <span className="dp-price-old-amount">
+          {totalCredits} {_(`plans.${PLAN_TYPE.byCredit}_amount_description`)}
+        </span>
+      </span>
+    </OldCreditsStyled>
+  );
+};
+
+export const Slider = ({
+  planType,
+  values,
+  selectedPlanIndex,
+  handleChange,
+  promotion,
+  isVisible = true,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const amountPlans = values.length;
 
+  const units = thousandSeparatorNumber(intl.defaultLocale, values[selectedPlanIndex]);
+  const applyExtraCreditPromocode = planType === PLAN_TYPE.byCredit && promotion.isValid;
+
+  const amount = applyExtraCreditPromocode
+    ? thousandSeparatorNumber(
+        intl.defaultLocale,
+        values[selectedPlanIndex] + promotion.extraCredits,
+      )
+    : units;
+
   return (
     <>
       <div className="dp-calc-quantity">
-        <h3>{thousandSeparatorNumber(intl.defaultLocale, values[selectedPlanIndex])}</h3>
+        {applyExtraCreditPromocode && <OldCredits totalCredits={units} />}
+        <h3>{amount}</h3>
         <h4>{_(`plans.${planType.replace('-', '_')}_amount_description`)}</h4>
       </div>
       {isVisible && (
@@ -60,5 +98,6 @@ Slider.propTypes = {
   values: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectedPlanIndex: PropTypes.number.isRequired,
   handleChange: PropTypes.func,
+  promotion: PropTypes.object,
   isVisible: PropTypes.bool,
 };
