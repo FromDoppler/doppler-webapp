@@ -53,6 +53,7 @@ import xintel_icon from '../components/ControlPanel/images/xintel_icon.png';
 import mercadolibre_icon from '../components/ControlPanel/images/mercadolibre_icon.png';
 import mercado_shops_icon from '../components/ControlPanel/images/mercadoshops_icon.png';
 import dynamics_icon from '../components/ControlPanel/images/dynamics_icon.png';
+import mitienda_icon from '../components/ControlPanel/images/mitienda-icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -379,6 +380,16 @@ export class ControlPanelService implements ControlPanelService {
             iconName: 'control_panel.native_integrations.mercadoshops_title',
             ribbonColor: 'violet',
             ribbonText: 'promotional_ribbons.new',
+          },
+          {
+            name: 'MiTienda',
+            linkUrl: `${urlIntegrations}/MiTiendaSection`,
+            imgSrc: mitienda_icon,
+            imgAlt: 'control_panel.native_integrations.mitienda_title',
+            iconName: 'control_panel.native_integrations.mitienda_title',
+            ribbonColor: 'violet',
+            ribbonText: 'promotional_ribbons.new',
+            hidden: true,
           },
         ],
       },
