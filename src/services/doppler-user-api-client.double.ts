@@ -47,6 +47,7 @@ const integrationsStatusResult: IntegrationsStatus = {
   bigQueryStatus: 'disconnected',
   MercadoLibreStatus: 'connected',
   MercadoShopsStatus: 'disconnected',
+  MiTiendaStatus: 'connected',
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
