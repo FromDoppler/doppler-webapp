@@ -110,7 +110,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
         <article className="main-panel">
           <header>
             <h1 className="logo-doppler-new">
-              <a target="_blank" href={_('forgot_password.url_site')} rel="noopener noreferrer">
+              <a target="_blank" href={_('forgot_password.url_site') + location.search}>
                 Doppler
               </a>
             </h1>
