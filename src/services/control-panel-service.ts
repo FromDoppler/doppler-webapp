@@ -389,7 +389,6 @@ export class ControlPanelService implements ControlPanelService {
             iconName: 'control_panel.native_integrations.mitienda_title',
             ribbonColor: 'violet',
             ribbonText: 'promotional_ribbons.new',
-            hidden: true,
           },
         ],
       },
