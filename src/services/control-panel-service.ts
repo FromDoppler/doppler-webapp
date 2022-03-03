@@ -45,7 +45,6 @@ import infor_icon from '../components/ControlPanel/images/infor_icon.png';
 import lander__icon from '../components/ControlPanel/images/lander__icon.png';
 import learnpress_icon from '../components/ControlPanel/images/learnpress_icon.png';
 import payu_icon from '../components/ControlPanel/images/payu_icon.png';
-import sumaprop_icon from '../components/ControlPanel/images/sumaprop_icon.png';
 import viewed_icon from '../components/ControlPanel/images/viewed_icon.png';
 import wix_icon from '../components/ControlPanel/images/wix_icon.png';
 import wizell_icon from '../components/ControlPanel/images/wizell_icon.png';
@@ -475,13 +474,6 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: xintel_icon,
             imgAlt: 'control_panel.external_integrations.xintel_title',
             iconName: 'control_panel.external_integrations.xintel_title',
-            targetBlank: true,
-          },
-          {
-            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-sumaprop`,
-            imgSrc: sumaprop_icon,
-            imgAlt: 'control_panel.external_integrations.sumaprop_title',
-            iconName: 'control_panel.external_integrations.sumaprop_title',
             targetBlank: true,
           },
           {
