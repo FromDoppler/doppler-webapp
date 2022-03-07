@@ -48,7 +48,7 @@ export const PlanCalculatorButtons = InjectAppServices(
     const redirectNewCheckout =
       sessionPlanType === PLAN_TYPE.free &&
       ((!excludedCountries.find((c) => c === countryCode) &&
-        selectedPlanType === PLAN_TYPE.byCredit) ||
+        (selectedPlanType === PLAN_TYPE.byCredit || selectedPlanType === PLAN_TYPE.byEmail)) ||
         newCheckoutEnabled);
 
     return (
