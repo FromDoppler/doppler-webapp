@@ -1,5 +1,11 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  getByText,
+  queryByText,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
@@ -238,5 +244,70 @@ describe('PlanCalculator component', () => {
 
     const unexpectedError = screen.getByTestId('unexpected-error');
     expect(unexpectedError).toBeInTheDocument();
+  });
+
+  it('should make redirect when only by emails tab when the current plan is by emails', async () => {
+    // Arrange
+    const planTypes = [PLAN_TYPE.byEmail];
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byEmail,
+              },
+            },
+          },
+        },
+      },
+      planService: {
+        getPlanTypes: async () => planTypes,
+        getPlansByType: async () => plansByEmails,
+      },
+      experimentalFeatures: {
+        getFeature: () => false,
+      },
+      ipinfoClient: {
+        getCountryCode: () => 'CL',
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`]}>
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculator />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const listTabs = screen.getByRole('list', { name: 'navigator tabs' });
+    expect(listTabs.children.length).toBe(planTypes.length);
+    const byEmailsTab = getByText(
+      listTabs,
+      `plan_calculator.plan_type_${PLAN_TYPE.byEmail.replace('-', '_')}`,
+    );
+    expect(byEmailsTab).toBeInTheDocument();
+
+    const byContactsTab = queryByText(
+      listTabs,
+      `plan_calculator.plan_type_${PLAN_TYPE.byContact.replace('-', '_')}`,
+    );
+    expect(byContactsTab).not.toBeInTheDocument();
+    const byCreditsTab = queryByText(
+      listTabs,
+      `plan_calculator.plan_type_${PLAN_TYPE.byCredit.replace('-', '_')}`,
+    );
+    expect(byCreditsTab).not.toBeInTheDocument();
   });
 });
