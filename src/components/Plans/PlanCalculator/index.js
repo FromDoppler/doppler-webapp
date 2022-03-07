@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import useTimeout from '../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -62,6 +63,7 @@ export const PlanCalculator = InjectAppServices(
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlan = appSessionRef.current.userData.user;
     const query = useQueryParams();
+    const history = useHistory();
 
     useEffect(() => {
       const fetchData = async () => {
@@ -141,6 +143,26 @@ export const PlanCalculator = InjectAppServices(
         payload: discount,
       });
     };
+
+    useEffect(() => {
+      const { isFreeAccount: isTrial, planType } = appSessionRef.current.userData.user.plan;
+      if (!isTrial) {
+        switch (planType) {
+          case PLAN_TYPE.byEmail:
+            if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail]) {
+              history.push(
+                `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
+                  history.location.search
+                }`,
+              );
+            }
+            break;
+          default:
+            // TODO: define scenary
+            break;
+        }
+      }
+    }, [appSessionRef, planTypeUrlSegment, history]);
 
     if (loading) {
       return <Loading page />;
