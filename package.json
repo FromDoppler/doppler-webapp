@@ -35,7 +35,7 @@
     "polyfill-array-includes": "^2.0.0",
     "prettier": "^2.4.1",
     "prettier-check": "^2.0.0",
-    "promise-polyfill": "^8.2.0",
+    "promise-polyfill": "^8.2.1",
     "query-string": "^7.0.1",
     "react": "16.14.0",
     "react-credit-cards": "^0.8.3",
