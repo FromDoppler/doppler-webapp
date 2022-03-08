@@ -8,6 +8,7 @@ import { AppServicesProvider } from '../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { timeout } from '../../utils';
 import SignupConfirmation from './SignupConfirmation';
+import { UtmCookiesManager } from '../../services/utm-cookies-manager';
 
 const emptyResponse = { success: false, error: new Error('Dummy error') };
 
@@ -37,6 +38,7 @@ const defaultDependencies = {
     registerUser: () => ({ success: true }),
     resendRegistrationEmail: () => true,
   },
+  utmCookiesManager: new UtmCookiesManager({ cookie: '' }),
 };
 
 describe('Signup', () => {

@@ -358,7 +358,7 @@ export class AppCompositionRoot implements AppServices {
   }
 
   get utmCookiesManager() {
-    return this.singleton('utmCookiesManager', () => new UtmCookiesManager());
+    return this.singleton('utmCookiesManager', () => new UtmCookiesManager(this.window.document));
   }
 
   get dopplerContactPolicyApiClient() {
