@@ -499,10 +499,10 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     postListBlog_2_link_description: 'Sigue leyendo',
     postListBlog_2_title: '#DopplerHelp',
 
-    postListHelp_1_description: 'Revive las charlas de los líderes del Marketing Digital y sé parte de la comunidad #EMMS2021',
-    postListHelp_1_link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=reviveelemms',
-    postListHelp_1_link_description: 'Me interesa',
-    postListHelp_1_title: '#EMMS2021',
+    postListHelp_1_description: 'Descubre cómo potenciar las ventas de tu Tienda Online.',
+    postListHelp_1_link: 'https://evento.fromdoppler.com/ecommerce-revolution-summit/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=inbound-mesdelecommerce',
+    postListHelp_1_link_description: 'Regístrate gratis',
+    postListHelp_1_title: 'E-commerce Revolution Summit',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
