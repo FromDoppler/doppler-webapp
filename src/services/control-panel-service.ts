@@ -87,6 +87,7 @@ interface Box {
 interface ControlPanelSection {
   title: string;
   showStatus?: boolean;
+  anchorLink: string;
   boxes: Box[];
 }
 
@@ -108,6 +109,7 @@ export class ControlPanelService implements ControlPanelService {
     return [
       {
         title: 'control_panel.account_preferences.title',
+        anchorLink: 'account-preferences',
         boxes: [
           {
             linkUrl: `${urlAccountPreferences}/GetAccountInformation`,
@@ -155,6 +157,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.campaign_preferences.title',
+        anchorLink: 'campaign-preferences',
         boxes: [
           {
             linkUrl: `${urlCampaignsPreferences}/GetFootAndHeaderPreferences`,
@@ -208,6 +211,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.social_preferences.title',
+        anchorLink: 'social-preferences',
         boxes: [
           {
             linkUrl: `${urlSocialPreferences}/GetSocialNetworkShareXUsers`,
@@ -237,6 +241,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.advanced_preferences.title',
+        anchorLink: 'advanced-preferences',
         showStatus: false,
         boxes: [
           {
@@ -265,6 +270,7 @@ export class ControlPanelService implements ControlPanelService {
       {
         title: 'control_panel.native_integrations.title',
         showStatus: true,
+        anchorLink: 'native-integrations',
         boxes: [
           {
             name: 'GoogleAnaliytic',
@@ -393,6 +399,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.zapier_integrations.title',
+        anchorLink: 'zapier-integrations',
         boxes: [
           {
             linkUrl: `${urlSitesHelp}/es/integracion-con-zapier-glosario`,
@@ -447,6 +454,7 @@ export class ControlPanelService implements ControlPanelService {
       },
       {
         title: 'control_panel.external_integrations.title',
+        anchorLink: 'external-integrations',
         boxes: [
           {
             linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,

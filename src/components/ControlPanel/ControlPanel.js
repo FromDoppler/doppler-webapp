@@ -91,7 +91,9 @@ export const ControlPanel = InjectAppServices(
               <div key={`section-${indexSection}`} className="col-lg-12 col-md-12 m-b-24">
                 <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                   <S.TitleContainer>
-                    <h3 className="m-b-24">{_(section.title)}</h3>
+                    <h3 className="m-b-24" id={section.anchorLink}>
+                      {_(section.title)}
+                    </h3>
                     {section.showStatus ? (
                       <S.StatusBoxContainer className="m-b-24">
                         <S.StatusIcon src={connection_alert} alt="connection alert icon" />
