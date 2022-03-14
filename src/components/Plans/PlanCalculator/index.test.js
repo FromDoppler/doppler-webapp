@@ -310,4 +310,71 @@ describe('PlanCalculator component', () => {
     );
     expect(byCreditsTab).not.toBeInTheDocument();
   });
+
+  it('should make redirect to by contacts tab when the current plan is by contacts', async () => {
+    // Arrange
+    const planTypes = [PLAN_TYPE.byContact];
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byContact,
+              },
+            },
+          },
+        },
+      },
+      planService: {
+        getPlanTypes: async () => planTypes,
+        getPlansByType: async () => plansByContacts,
+      },
+      experimentalFeatures: {
+        getFeature: () => false,
+      },
+      ipinfoClient: {
+        getCountryCode: () => 'CL',
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculator />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const listTabs = screen.getByRole('list', { name: 'navigator tabs' });
+    expect(listTabs.children.length).toBe(planTypes.length);
+    const byContactsTab = getByText(
+      listTabs,
+      `plan_calculator.plan_type_${PLAN_TYPE.byContact.replace('-', '_')}`,
+    );
+    expect(byContactsTab).toBeInTheDocument();
+
+    const byCreditsTab = queryByText(
+      listTabs,
+      `plan_calculator.plan_type_${PLAN_TYPE.byCredit.replace('-', '_')}`,
+    );
+    expect(byCreditsTab).not.toBeInTheDocument();
+    const byEmailsTab = queryByText(
+      listTabs,
+      `plan_calculator.plan_type_${PLAN_TYPE.byEmail.replace('-', '_')}`,
+    );
+    expect(byEmailsTab).not.toBeInTheDocument();
+  });
 });

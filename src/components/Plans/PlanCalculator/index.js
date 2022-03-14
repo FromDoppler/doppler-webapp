@@ -145,7 +145,11 @@ export const PlanCalculator = InjectAppServices(
     };
 
     useEffect(() => {
-      const { isFreeAccount: isTrial, planType } = appSessionRef.current.userData.user.plan;
+      const {
+        isFreeAccount: isTrial,
+        planType,
+        planSubscription,
+      } = appSessionRef.current.userData.user.plan;
       if (!isTrial) {
         switch (planType) {
           case PLAN_TYPE.byEmail:
@@ -155,6 +159,21 @@ export const PlanCalculator = InjectAppServices(
                   history.location.search
                 }`,
               );
+            }
+            break;
+          case PLAN_TYPE.byContact:
+            if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byContact]) {
+              const isMonthlySubscription = planSubscription === 1;
+              if (
+                !isMonthlySubscription ||
+                (isMonthlySubscription && planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail])
+              ) {
+                history.push(
+                  `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
+                    history.location.search
+                  }`,
+                );
+              }
             }
             break;
           default:
