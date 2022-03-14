@@ -9,7 +9,6 @@ import {
   validateName,
   combineValidations,
   validateMinLength,
-  validateCuit,
 } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
@@ -653,6 +652,7 @@ export const CuitFieldItem = ({
   placeholder,
   required,
   validate,
+  validateIdentificationNumber,
   ...rest
 }) => (
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
@@ -662,7 +662,10 @@ export const CuitFieldItem = ({
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}
-      validate={combineValidations(createRequiredValidation(required), validate && validateCuit)}
+      validate={combineValidations(
+        createRequiredValidation(required),
+        validate && validateIdentificationNumber,
+      )}
       {...rest}
     />
   </FieldItem>

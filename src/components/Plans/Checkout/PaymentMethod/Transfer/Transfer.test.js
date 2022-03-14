@@ -1,16 +1,16 @@
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../services/pure-di';
+import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import { Transfer } from './Transfer';
 import {
   fakeBillingInformation,
   fakePaymentMethodInformationWithTransfer,
-} from '../../../../services/doppler-billing-user-api-client.double';
-import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-plans-api-client.double';
-import { fakeConsumerTypes } from '../../../../services/static-data-client.double';
-import { actionPage } from '../Checkout';
+} from '../../../../../services/doppler-billing-user-api-client.double';
+import { fakeAccountPlanDiscounts } from '../../../../../services/doppler-account-plans-api-client.double';
+import { fakeConsumerTypes } from '../../../../../services/static-data-client.double';
+import { actionPage } from '../../Checkout';
 import { Formik } from 'formik';
 
 const getFormFields = (isFinalConsumer) => {

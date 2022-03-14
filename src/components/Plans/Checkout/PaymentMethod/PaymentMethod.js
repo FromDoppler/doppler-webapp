@@ -10,7 +10,7 @@ import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-
 import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
-import { Transfer } from './Transfer';
+import { Transfer } from './Transfer/Transfer';
 import { useRouteMatch } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
 
@@ -25,6 +25,7 @@ export const fieldNames = {
   consumerType: 'consumerType',
   businessName: 'businessName',
   identificationNumber: 'identificationNumber',
+  responsableIVA: 'responsableIVA',
 };
 
 export const paymentType = {
@@ -222,9 +223,16 @@ export const PaymentMethod = InjectAppServices(
         const sessionPlan = appSessionRef.current.userData.user;
         const billingInformationResult =
           await dopplerBillingUserApiClient.getBillingInformationData();
+
+        const allowTransfer = countriesAvailableTransfer.find(
+          (c) => c === billingInformationResult.value.country,
+        );
+
         const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
         let currentPaymentMethod = paymentMethodData.success
-          ? paymentMethodData.value.paymentMethodName
+          ? paymentMethodData.value.paymentMethodName === paymentType.transfer && !allowTransfer
+            ? none
+            : paymentMethodData.value.paymentMethodName
           : none;
 
         let paymentMethod = currentPaymentMethod;

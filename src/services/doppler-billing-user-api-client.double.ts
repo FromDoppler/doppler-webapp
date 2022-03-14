@@ -43,6 +43,7 @@ export const fakePaymentMethodInformation = {
   idConsumerType: '',
   identificationType: '',
   identificationNumber: '',
+  responsableIVA: '0',
 };
 
 export const fakePaymentMethod = {
@@ -73,6 +74,7 @@ export const fakePaymentMethodInformationWithTransfer = {
   idConsumerType: 'CF',
   identificationType: '',
   identificationNumber: '12345678',
+  responsableIVA: '0',
 };
 
 export const fakeInvoiceRecipients = ['harcode_1@mail.com', 'harcode_2@mail.com'];
