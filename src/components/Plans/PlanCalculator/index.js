@@ -145,41 +145,13 @@ export const PlanCalculator = InjectAppServices(
     };
 
     useEffect(() => {
-      const {
-        isFreeAccount: isTrial,
-        planType,
-        planSubscription,
-      } = appSessionRef.current.userData.user.plan;
-      if (!isTrial) {
-        switch (planType) {
-          case PLAN_TYPE.byEmail:
-            if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail]) {
-              history.push(
-                `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
-                  history.location.search
-                }`,
-              );
-            }
-            break;
-          case PLAN_TYPE.byContact:
-            if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byContact]) {
-              const isMonthlySubscription = planSubscription === 1;
-              if (
-                !isMonthlySubscription ||
-                (isMonthlySubscription && planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail])
-              ) {
-                history.push(
-                  `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
-                    history.location.search
-                  }`,
-                );
-              }
-            }
-            break;
-          default:
-            // TODO: define scenary
-            break;
-        }
+      const urlToRedirect = getDefaultPlanType({
+        currentPlan: appSessionRef.current.userData.user.plan,
+        planTypeUrlSegment,
+        window,
+      });
+      if (urlToRedirect) {
+        history.push(urlToRedirect);
       }
     }, [appSessionRef, planTypeUrlSegment, history]);
 
@@ -268,3 +240,35 @@ export const PlanCalculator = InjectAppServices(
     );
   },
 );
+
+export const getDefaultPlanType = ({ currentPlan, planTypeUrlSegment, window }) => {
+  const { isFreeAccount: isTrial, planType, planSubscription } = currentPlan;
+  if (!isTrial) {
+    switch (planType) {
+      case PLAN_TYPE.byEmail:
+        if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail]) {
+          return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
+            window.location.search
+          }`;
+        }
+        break;
+      case PLAN_TYPE.byContact:
+        if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byContact]) {
+          const isMonthlySubscription = planSubscription === 1;
+          if (
+            !isMonthlySubscription ||
+            (isMonthlySubscription && planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail])
+          ) {
+            return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
+              window.location.search
+            }`;
+          }
+        }
+        break;
+      default:
+        // TODO: define scenary
+        break;
+    }
+  }
+  return null;
+};
