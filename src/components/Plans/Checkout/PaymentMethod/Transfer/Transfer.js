@@ -126,13 +126,10 @@ export const Transfer = InjectAppServices(
     optionView,
   }) => {
     const intl = useIntl();
-    const [state, setState] = useState({
-      loading: true,
-      paymentMethod: {},
-      readOnly: true,
-      country: '',
-      responsableIVA: false,
-    });
+    const [paymentMethod, setPaymentMethod] = useState({});
+    const [country, setCountry] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [consumerTypes, setConsumerTypes] = useState([]);
 
     useEffect(() => {
       const getConsumerTypesData = async (country, language) => {
@@ -142,84 +139,64 @@ export const Transfer = InjectAppServices(
       };
 
       const fetchData = async () => {
-        const billingInformationResult =
-          await dopplerBillingUserApiClient.getBillingInformationData();
+        const infoPromises = await Promise.all([
+          dopplerBillingUserApiClient.getBillingInformationData(),
+          dopplerBillingUserApiClient.getPaymentMethodData(),
+        ]);
+        const [billingInformationResult, paymentMethodData] = infoPromises;
 
-        const consumerTypes = await getConsumerTypesData(
-          billingInformationResult.value.country,
-          intl.locale,
-        );
+        setCountry(billingInformationResult.value.country);
+        setPaymentMethod(paymentMethodData.success ? paymentMethodData.value : {});
 
-        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-
-        const selectedConsumerType = consumerTypes.filter(
-          (ct) => ct.key === paymentMethodData.value.idConsumerType,
-        )[0];
-
-        const identificationType = identificationTypes.filter(
-          (ct) => ct.key === paymentMethodData.value.idConsumerType,
-        )[0];
-
-        if (optionView === actionPage.READONLY) {
-          setState({
-            paymentMethod: paymentMethodData.success ? paymentMethodData.value : {},
-            selectedConsumerType,
-            identificationType,
-            loading: false,
-            readOnly: true,
-            country: billingInformationResult.value.country,
-            responsableIVA: paymentMethodData.value.responsableIVA,
-          });
-        } else {
-          setState({
-            loading: false,
-            readOnly: false,
-            paymentMethod: paymentMethodData.success ? paymentMethodData.value : {},
-            selectedConsumerType,
-            identificationType,
-            consumerTypes,
-            country: billingInformationResult.value.country,
-            responsableIVA: paymentMethodData.value.responsableIVA,
-          });
+        if (billingInformationResult.value.country === COD_ISO_AR) {
+          const _consumerTypes = await getConsumerTypesData(
+            billingInformationResult.value.country,
+            intl.locale,
+          );
+          setConsumerTypes(_consumerTypes);
         }
+
+        setLoading(false);
       };
 
       fetchData();
-    }, [
-      dopplerBillingUserApiClient,
-      dopplerAccountPlansApiClient,
-      staticDataClient,
-      optionView,
-      intl.locale,
-    ]);
+    }, [dopplerBillingUserApiClient, dopplerAccountPlansApiClient, staticDataClient, intl.locale]);
+
+    const selectedConsumerType = consumerTypes.find(
+      (ct) => ct.key === paymentMethod?.idConsumerType,
+    );
+    const identificationType = identificationTypes.find(
+      (it) => it.key === paymentMethod?.idConsumerType,
+    );
+    const readOnly = optionView === actionPage.READONLY;
 
     return (
       <>
-        {state.loading ? (
+        {loading ? (
           <Loading page />
         ) : (
           <FieldGroup>
-            {state.country === COD_ISO_AR ? (
-              state.readOnly ? (
+            {country === COD_ISO_AR ? (
+              readOnly ? (
                 <li aria-label="resume data" className="field-item field-item--70 dp-p-r">
                   <label>
-                    {state.selectedConsumerType?.value}, {state.identificationType?.value}:{' '}
-                    {state.paymentMethod?.identificationNumber}
-                    {state.identificationType.key !== finalConsumer
-                      ? `, ${state.paymentMethod?.razonSocial}`
+                    {selectedConsumerType?.value}, {identificationType?.value}:{' '}
+                    {paymentMethod?.identificationNumber}
+                    {identificationType.key !== finalConsumer
+                      ? `, ${paymentMethod?.razonSocial}`
                       : ''}
                   </label>
                 </li>
               ) : (
                 <TransferArgentina
-                  consumerTypes={state.consumerTypes}
-                  paymentMethod={state.paymentMethod}
+                  consumerTypes={consumerTypes}
+                  paymentMethod={paymentMethod}
                 ></TransferArgentina>
               )
-            ) : state.country === COD_ISO_CO ? (
+            ) : country === COD_ISO_CO ? (
               <TransferColombia
-                paymentMethod={state.paymentMethod}
-                readOnly={state.readOnly}
+                paymentMethod={paymentMethod}
+                readOnly={readOnly}
               ></TransferColombia>
             ) : null}
           </FieldGroup>
