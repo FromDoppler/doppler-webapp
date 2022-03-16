@@ -84,7 +84,12 @@
     "arrowParens": "always"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "react/jsx-no-target-blank": [0, {
+        "allowReferrer": 1
+      }]
+    }
   },
   "browserslist": [
     ">0.2%",

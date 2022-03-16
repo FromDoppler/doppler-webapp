@@ -12,9 +12,9 @@ const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
 const urlPrivacy = `${urlSite}/legal/privacidad`;
-const urlPrivacyFromSignup = `${urlPrivacy}`;
-const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy}`;
-const urlPrivacyFromLogin = `${urlPrivacy}`;
+const urlPrivacyFromSignup = `${urlPrivacy + window.location.search}`;
+const urlPrivacyFromSignup_HTMLEncoded = `${urlPrivacy + window.location.search}`;
+const urlPrivacyFromLogin = `${urlPrivacy + window.location.search}`;
 const urlPrivacyFromForgot = `${urlPrivacy}`;
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 const mailtoAdmin = `mailto:administracion@fromdoppler.com`;
