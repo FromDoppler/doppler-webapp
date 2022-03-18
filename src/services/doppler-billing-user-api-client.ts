@@ -48,7 +48,6 @@ export interface PaymentMethod {
   idConsumerType: string;
   identificationType: string;
   identificationNumber: string;
-  responsableIVA: string;
 }
 
 export interface UserPlan {
@@ -138,7 +137,6 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       idConsumerType: data.idConsumerType,
       identificationType: data.identificationType,
       identificationNumber: data.identificationNumber,
-      responsableIVA: data.responsableIVA ? '1' : '0',
     };
   }
 
@@ -165,7 +163,6 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       razonSocial: data.businessName,
       idConsumerType: data.consumerType,
       identificationNumber: data.identificationNumber,
-      responsableIVA: data.responsableIVA === '1',
     };
   }
 

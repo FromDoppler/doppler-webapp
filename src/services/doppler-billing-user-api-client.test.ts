@@ -111,7 +111,6 @@ describe('HttpDopplerBillingUserApiClient', () => {
           identificationNumber: undefined,
           idSelectedPlan: 'data.idSelectedPlan',
           razonSocial: undefined,
-          responsableIVA: false,
         },
         url: '/accounts/email@mail.com/payment-methods/current',
       }),
