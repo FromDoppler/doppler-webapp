@@ -6,6 +6,7 @@ import { MemoryRouter as Router, withRouter } from 'react-router-dom';
 import App from './App';
 import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 import { AppServicesProvider } from './services/pure-di';
+import { UtmCookiesManager } from './services/utm-cookies-manager';
 
 function createDoubleSessionManager(appSessionRef) {
   const double = {
@@ -649,17 +650,15 @@ describe('App component', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
-        localStorage: createLocalStorageDouble(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        utmCookiesManager: new UtmCookiesManager({ document: { cookie: '' } }),
       };
-
-      createJsonParse();
 
       // Act
       act(() => {
         render(
           <AppServicesProvider forcedServices={dependencies}>
-            <Router initialEntries={['/signup?origin=testOrigin']}>
+            <Router initialEntries={['/signup?utm_source=testOrigin']}>
               <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
@@ -667,13 +666,12 @@ describe('App component', () => {
       });
 
       // Assert
-      const localStorageItems = dependencies.localStorage.getAllItems();
+      const localStorageItems = dependencies.utmCookiesManager.getUtmCookie();
       await waitFor(() => {
-        expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
-        expect(localStorageItems['dopplerFirstOrigin.value']).toEqual('testOrigin');
-        expect(localStorageItems['dopplerFirstOrigin.date']).toBeDefined();
-        expect(localStorageItems['UtmCookies']).toBeDefined();
-        const dopplerOriginDate = new Date(localStorageItems['dopplerFirstOrigin.date']);
+        expect(localStorageItems).toBeDefined();
+        expect(localStorageItems[0].UTMSource).toEqual('testOrigin');
+        expect(localStorageItems[0].date).toBeDefined();
+        const dopplerOriginDate = new Date(localStorageItems[0].date);
         expect(dopplerOriginDate).toBeDefined();
         expect(dopplerOriginDate.getFullYear()).toBeGreaterThan(2018);
       });
@@ -683,11 +681,9 @@ describe('App component', () => {
       // Arrange
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
-        localStorage: createLocalStorageDouble(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        utmCookiesManager: new UtmCookiesManager({ document: { cookie: '' } }),
       };
-
-      createJsonParse();
 
       // Act
       act(() => {
@@ -705,36 +701,44 @@ describe('App component', () => {
       });
 
       // Assert
-      const localStorageItems = dependencies.localStorage.getAllItems();
-      const utmCookiesObject = parse(localStorageItems['UtmCookies']);
+      const localStorageItems = dependencies.utmCookiesManager.getUtmCookie();
+
       await waitFor(() => {
-        expect(localStorageItems['UtmCookies']).toBeDefined();
-        expect(utmCookiesObject[0].UTMTerm).toEqual('testterm');
-        expect(utmCookiesObject[0].UTMCampaign).toEqual('testcampaign');
-        expect(utmCookiesObject[0].UTMMedium).toEqual('testmedium');
-        expect(utmCookiesObject[0].gclid).toEqual('testgclid');
-        expect(utmCookiesObject[0].UTMSource).toEqual('test');
+        expect(localStorageItems).toBeDefined();
+        expect(localStorageItems[0].UTMTerm).toEqual('testterm');
+        expect(localStorageItems[0].UTMCampaign).toEqual('testcampaign');
+        expect(localStorageItems[0].UTMMedium).toEqual('testmedium');
+        expect(localStorageItems[0].gclid).toEqual('testgclid');
+        expect(localStorageItems[0].UTMSource).toEqual('test');
       });
     });
 
     it('should accumulate utm parameters when there was a previous navigation', async () => {
       // Arrange
+      const fakeDocument = { document: { cookie: '' } };
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
-        localStorage: createLocalStorageDouble(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        utmCookiesManager: new UtmCookiesManager(fakeDocument),
       };
 
-      const utmCookie = {
-        date: new Date().toISOString(),
-        UTMSource: 'utmsource1',
-        UTMCampaign: 'utmcampaign1',
-        UTMMedium: 'utmmedium1',
-        UTMTerm: 'utmterm1',
-        gclid: 'gclid1',
-      };
-      dependencies.localStorage.setItem('UtmCookies', JSON.stringify(utmCookie));
-      createJsonParse(utmCookie);
+      const utmCookie = [
+        {
+          UTMSource: 'utmsource1',
+          UTMCampaign: 'utmcampaign1',
+          UTMMedium: 'utmmedium1',
+          UTMTerm: 'utmterm1',
+          gclid: 'gclid1',
+        },
+      ];
+
+      const cookiesAsJsonString = JSON.stringify(utmCookie);
+      fakeDocument.cookie =
+        'UtmCookies' +
+        '=' +
+        cookiesAsJsonString +
+        '; domain=.fromdoppler.com; path=/; expires=Fri, 31 Dec 2038 23:59:59 GMT;';
+
       // Act
       act(() => {
         render(
@@ -751,35 +755,37 @@ describe('App component', () => {
       });
 
       // Assert
-      const localStorageItems = dependencies.localStorage.getAllItems();
-      const utmCookiesObject = parse(localStorageItems['UtmCookies']);
+      const localStorageItems = dependencies.utmCookiesManager.getUtmCookie();
+
       await waitFor(() => {
-        expect(localStorageItems['UtmCookies']).toBeDefined();
-        expect(utmCookiesObject[0].UTMTerm).toEqual('utmterm1');
-        expect(utmCookiesObject[0].UTMCampaign).toEqual('utmcampaign1');
-        expect(utmCookiesObject[0].UTMMedium).toEqual('utmmedium1');
-        expect(utmCookiesObject[0].UTMSource).toEqual('utmsource1');
-        expect(utmCookiesObject[0].gclid).toEqual('gclid1');
-        expect(utmCookiesObject[1].UTMTerm).toEqual('testterm');
-        expect(utmCookiesObject[1].UTMCampaign).toEqual('testcampaign');
-        expect(utmCookiesObject[1].UTMMedium).toEqual('testmedium');
-        expect(utmCookiesObject[1].UTMSource).toEqual('test');
-        expect(utmCookiesObject[1].gclid).toEqual('testgclid');
-        expect(utmCookiesObject.length).toBeGreaterThan(1);
+        expect(localStorageItems).toBeDefined();
+        expect(localStorageItems[0].UTMTerm).toEqual('utmterm1');
+        expect(localStorageItems[0].UTMCampaign).toEqual('utmcampaign1');
+        expect(localStorageItems[0].UTMMedium).toEqual('utmmedium1');
+        expect(localStorageItems[0].UTMSource).toEqual('utmsource1');
+        expect(localStorageItems[0].gclid).toEqual('gclid1');
+        expect(localStorageItems[1].UTMTerm).toEqual('testterm');
+        expect(localStorageItems[1].UTMCampaign).toEqual('testcampaign');
+        expect(localStorageItems[1].UTMMedium).toEqual('testmedium');
+        expect(localStorageItems[1].UTMSource).toEqual('test');
+        expect(localStorageItems[1].gclid).toEqual('testgclid');
+        expect(localStorageItems.length).toBeGreaterThan(1);
       });
     });
 
     // TODO: fix this tests console warning
     it('should not be replaced in local storage if it already exists', async () => {
       // Arrange
+      const fakeDocument = { document: { cookie: '' } };
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
-        localStorage: createLocalStorageDouble(),
+        // localStorage: createLocalStorageDouble(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        utmCookiesManager: new UtmCookiesManager(fakeDocument),
       };
 
       const oldValue = 'old value';
-      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
+      dependencies.utmCookiesManager.setCookieEntry({ origin: oldValue });
 
       // Act
       render(
@@ -791,24 +797,33 @@ describe('App component', () => {
       );
 
       // Assert
-      const localStorageItems = dependencies.localStorage.getAllItems();
+      const localStorageItems = dependencies.utmCookiesManager.getUtmCookie();
       await waitFor(() => {
-        expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
-        expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
+        expect(localStorageItems).toBeDefined();
+        expect(localStorageItems.length).toBe(1);
+        expect(localStorageItems[0]).toBeDefined();
+        expect(localStorageItems[0].origin).toEqual(oldValue);
       });
     });
 
     // TODO: fix this tests console warning
     it('should not be cleaned in local storage when there is not origin URL parameter', async () => {
       // Arrange
+      const fakeDocument = { document: { cookie: '' } };
+
       const dependencies = {
         sessionManager: createDoubleSessionManager(),
-        localStorage: createLocalStorageDouble(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        utmCookiesManager: new UtmCookiesManager(fakeDocument),
       };
 
       const oldValue = 'old value';
-      dependencies.localStorage.setItem('dopplerFirstOrigin.value', oldValue);
+
+      const cookiesAsJsonString = JSON.stringify([{ origin: oldValue }]);
+      fakeDocument.cookie =
+        'UtmCookies=' +
+        cookiesAsJsonString +
+        '; domain=.fromdoppler.com; path=/; expires=Fri, 31 Dec 2038 23:59:59 GMT;';
 
       // Act
       render(
@@ -820,10 +835,11 @@ describe('App component', () => {
       );
 
       // Assert
-      const localStorageItems = dependencies.localStorage.getAllItems();
+      const localStorageItems = dependencies.utmCookiesManager.getUtmCookie();
       await waitFor(() => {
-        expect(localStorageItems['dopplerFirstOrigin.value']).toBeDefined();
-        expect(localStorageItems['dopplerFirstOrigin.value']).toEqual(oldValue);
+        expect(localStorageItems).toBeDefined();
+        expect(localStorageItems[0]).toBeDefined();
+        expect(localStorageItems[0].origin).toEqual(oldValue);
       });
     });
 
@@ -834,6 +850,7 @@ describe('App component', () => {
         sessionManager: createDoubleSessionManager(),
         localStorage: createLocalStorageDouble(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        utmCookiesManager: new UtmCookiesManager({ document: { cookie: '' } }),
       };
 
       // Act

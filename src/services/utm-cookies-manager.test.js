@@ -9,8 +9,8 @@ describe('Utm cookies manager', () => {
 
   beforeEach(() => {
     // Arrange
-    utmCookiesManager = new UtmCookiesManager();
-    storage = new FakeLocalStorage();
+    const fakeDocument = { cookie: '' };
+    utmCookiesManager = new UtmCookiesManager(fakeDocument);
   });
 
   it('should initialize add only an entry per instance', () => {
@@ -24,11 +24,11 @@ describe('Utm cookies manager', () => {
     };
 
     // Act
-    utmCookiesManager.setCookieEntry({ storage, ...utmParams });
-    utmCookiesManager.setCookieEntry({ storage, ...utmParams });
+    utmCookiesManager.setCookieEntry({ ...utmParams });
+    utmCookiesManager.setCookieEntry({ ...utmParams });
 
     // Assert
-    expect(utmCookiesManager.getUtmCookie(storage).length).toBe(1);
+    expect(utmCookiesManager.getUtmCookie().length).toBe(1);
   });
 
   it('should add utms into utmCookie', () => {
@@ -82,13 +82,13 @@ describe('Utm cookies manager', () => {
     const utmExclude = utmsParameterName.filter((item) => item !== 'UTMMedium');
 
     // Act
-    utmCookiesManager.setCookieEntry({ storage, UTMMedium: 'a-value' });
+    utmCookiesManager.setCookieEntry({ UTMMedium: 'a-value' });
 
     // Assert
-    expect(utmCookiesManager.getUtmCookie(storage)[0].UTMMedium).toBe('a-value');
-    utmExclude.map((utmKey) =>
-      expect(utmCookiesManager.getUtmCookie(storage)[0][utmKey]).toBeUndefined(),
-    );
+    const cookieArray = utmCookiesManager.getUtmCookie(storage);
+    expect(cookieArray[cookieArray.length - 1].UTMMedium).toBe('a-value');
+
+    utmExclude.map((utmKey) => expect(cookieArray[0][utmKey]).toBeUndefined());
   });
 
   it('should add UTMTerm parameter into utmCookie', () => {

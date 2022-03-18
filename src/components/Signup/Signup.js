@@ -86,7 +86,6 @@ const Signup = function ({
   const originInbound = getParameter(location, 'origin_inbound');
 
   utmCookiesManager.setCookieEntry({
-    storage: localStorage,
     UTMSource: utmSource,
     UTMCampaign: utmCampaign,
     UTMMedium: utmMedium,
@@ -95,7 +94,7 @@ const Signup = function ({
     UTMContent: utmContent,
     Origin_Inbound: originInbound,
   });
-  const utmCookies = utmCookiesManager.getUtmCookie(localStorage);
+  const utmCookies = utmCookiesManager.getUtmCookie();
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);

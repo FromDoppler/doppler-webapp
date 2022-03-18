@@ -234,10 +234,13 @@ export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
 
 interface UTMCookie {
   date: string;
-  utm_source: string;
-  utm_campaign: string;
-  utm_medium: string;
-  utm_term: string;
+  UTMSource: string;
+  UTMCampaign: string;
+  UTMMedium: string;
+  UTMTerm: string;
+  gclid: string;
+  UTMContent: string;
+  Origin_Inbound: string;
 }
 
 export interface UserRegistrationModel extends PayloadWithCaptchaToken {
