@@ -64,7 +64,6 @@ describe('Transer Colombia component', () => {
     const paymentMethod = {
       identificationNumber: '123456',
       razonSocial: 'Test Company',
-      responsableIVA: '0',
     };
 
     // Act
@@ -80,17 +79,7 @@ describe('Transer Colombia component', () => {
       name: '*checkoutProcessForm.payment_method.business_name',
     });
 
-    const inputResponsableIVAYes = await screen.findByRole('radio', {
-      name: 'checkoutProcessForm.payment_method.responsable_iva_yes',
-    });
-
-    const inputResponsableIVANo = await screen.findByRole('radio', {
-      name: 'checkoutProcessForm.payment_method.responsable_iva_no',
-    });
-
     expect(inputBusinessName).toHaveValue(paymentMethod.razonSocial);
     expect(inputIdentificationNumber).toHaveValue(paymentMethod.identificationNumber);
-    expect(inputResponsableIVANo).toBeChecked();
-    expect(inputResponsableIVAYes).not.toBeChecked();
   });
 });
