@@ -7,6 +7,7 @@ import { ContactSummary } from './ContactSummary';
 import { FirstSteps } from './FirstSteps';
 import { LearnWithDoppler } from './LearnWithDoppler';
 import { Helmet } from 'react-helmet';
+import { TypeformSurvey } from '../TypeformSurvey';
 
 export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const userName = appSessionRef?.current.userData.user.fullname.split(' ')[0]; // Get firstname
@@ -18,6 +19,7 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
       <Helmet>
         <title>{_('dashboard.meta_title')}</title>
       </Helmet>
+      <TypeformSurvey />
       <div className="dp-dashboard p-b-48">
         <header className="hero-banner">
           <div className="dp-container">
