@@ -35,6 +35,7 @@ import { ControlPanelService } from './control-panel-service';
 import { HttpReportClient, ReportClient } from './reports';
 import { CampaignSummaryService } from './campaignSummary';
 import { ContactSummaryService } from './contactSummary';
+import { HttpSurveyClient, SurveyClient } from './surveyService';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -66,6 +67,7 @@ export interface AppServices {
   originResolver: OriginResolver;
   shopifyClient: ShopifyClient;
   bigQueryClient: BigQueryClient;
+  surveyClient: SurveyClient;
   reportClient: ReportClient;
   dopplerSitesClient: DopplerSitesClient;
   experimentalFeatures: ExperimentalFeatures;
@@ -199,6 +201,18 @@ export class AppCompositionRoot implements AppServices {
         new HttpBigQueryClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.bigQueryUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get surveyClient() {
+    return this.singleton(
+      'surveyClient',
+      () =>
+        new HttpSurveyClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerLegacyUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );
