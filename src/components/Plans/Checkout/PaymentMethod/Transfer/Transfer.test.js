@@ -90,6 +90,7 @@ const initialPropsUpdateView = {
 const TransferElement = ({
   withError,
   updateView,
+  paymentMethod,
   dopplerAccountPlansApiClientDouble,
   dopplerBillingUserApiClientDouble,
 }) => {
@@ -104,10 +105,10 @@ const TransferElement = ({
         <BrowserRouter>
           {updateView === actionPage.UPDATE ? (
             <Formik>
-              <Transfer {...initialPropsUpdateView} />
+              <Transfer {...initialPropsUpdateView} paymentMethod={paymentMethod} />
             </Formik>
           ) : (
-            <Transfer {...initialPropsReonlyView} />
+            <Transfer {...initialPropsReonlyView} paymentMethod={paymentMethod} />
           )}
         </BrowserRouter>
       </IntlProvider>
@@ -117,21 +118,14 @@ const TransferElement = ({
 
 describe('Transer component', () => {
   it('should show loading box while getting data', async () => {
-    //Arrange
-    const dopplerBillingUserApiClientDouble = {
-      ...dopplerBillingUserApiClientDoubleBase,
-      getPaymentMethodData: async () => {
-        return { success: true, value: fakePaymentMethodInformationWithTransfer };
-      },
-    };
-
     // Act
     render(
       <TransferElement
         withError={false}
         updateView={actionPage.READONLY}
+        paymentMethod={fakePaymentMethodInformationWithTransfer}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
       />,
     );
 
@@ -142,21 +136,14 @@ describe('Transer component', () => {
   });
 
   it('should show the correct data in readonly view', async () => {
-    //Arrange
-    const dopplerBillingUserApiClientDouble = {
-      ...dopplerBillingUserApiClientDoubleBase,
-      getPaymentMethodData: async () => {
-        return { success: true, value: fakePaymentMethodInformationWithTransfer };
-      },
-    };
-
     // Act
     render(
       <TransferElement
         withError={false}
         updateView={actionPage.READONLY}
+        paymentMethod={fakePaymentMethodInformationWithTransfer}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
       />,
     );
 
@@ -200,20 +187,14 @@ describe('Transer component', () => {
           identificationNumber: identificationNumber,
         };
 
-        const dopplerBillingUserApiClientDouble = {
-          ...dopplerBillingUserApiClientDoubleBase,
-          getPaymentMethodData: async () => {
-            return { success: true, value: fakeTransferInformation };
-          },
-        };
-
         // Act
         render(
           <TransferElement
             withError={false}
             updateView={actionPage.UPDATE}
+            paymentMethod={fakeTransferInformation}
             dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
-            dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+            dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
           />,
         );
 

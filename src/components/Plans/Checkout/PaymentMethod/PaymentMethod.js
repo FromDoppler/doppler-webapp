@@ -128,7 +128,7 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
   );
 };
 
-const PaymentType = ({ paymentMethodType, optionView }) => {
+const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
   return (
     <>
       {(() => {
@@ -136,7 +136,7 @@ const PaymentType = ({ paymentMethodType, optionView }) => {
           case paymentType.creditCard:
             return <CreditCard optionView={optionView}></CreditCard>;
           case paymentType.transfer:
-            return <Transfer optionView={optionView}></Transfer>;
+            return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           default:
             return null;
         }
@@ -370,7 +370,11 @@ export const PaymentMethod = InjectAppServices(
                         handleChange={(e) => handleChange(e, setFieldValue)}
                       />
                     </FieldItem>
-                    <PaymentType paymentMethodType={paymentMethodType} optionView={optionView} />
+                    <PaymentType
+                      paymentMethodType={paymentMethodType}
+                      optionView={optionView}
+                      paymentMethod={state.paymentMethod}
+                    />
                     <FieldItem className="field-item">
                       <Discounts
                         disabled={optionView === actionPage.READONLY}

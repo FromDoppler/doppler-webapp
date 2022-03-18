@@ -124,9 +124,9 @@ export const Transfer = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, staticDataClient },
     optionView,
+    paymentMethod,
   }) => {
     const intl = useIntl();
-    const [paymentMethod, setPaymentMethod] = useState({});
     const [country, setCountry] = useState('');
     const [loading, setLoading] = useState(true);
     const [consumerTypes, setConsumerTypes] = useState([]);
@@ -139,14 +139,10 @@ export const Transfer = InjectAppServices(
       };
 
       const fetchData = async () => {
-        const infoPromises = await Promise.all([
-          dopplerBillingUserApiClient.getBillingInformationData(),
-          dopplerBillingUserApiClient.getPaymentMethodData(),
-        ]);
-        const [billingInformationResult, paymentMethodData] = infoPromises;
+        const billingInformationResult =
+          await dopplerBillingUserApiClient.getBillingInformationData();
 
         setCountry(billingInformationResult.value.country);
-        setPaymentMethod(paymentMethodData.success ? paymentMethodData.value : {});
 
         if (billingInformationResult.value.country === COD_ISO_AR) {
           const _consumerTypes = await getConsumerTypesData(
