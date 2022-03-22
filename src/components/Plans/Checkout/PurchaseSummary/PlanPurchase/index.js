@@ -42,7 +42,11 @@ export const PlanPurchase = InjectAppServices(
         createTimeout(() => {
           window.location.href = `/checkout-summary?planId=${planId}&paymentMethod=${paymentMethod}${
             discount?.description ? `&discount=${discount.description}` : ''
-          }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}`;
+          }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
+            promotion?.discountPercentage
+              ? `&discountPromocode=${promotion.discountPercentage}`
+              : ''
+          }`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setStatus(HAS_ERROR);
@@ -92,6 +96,7 @@ PlanPurchase.propTypes = {
     PropTypes.shape({
       promocode: PropTypes.string,
       extraCredits: PropTypes.string,
+      discountPercentage: PropTypes.number,
     }),
     PropTypes.string,
   ]),
