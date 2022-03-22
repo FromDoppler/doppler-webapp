@@ -4,7 +4,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { INITIAL_STATE_SURVEY, surveyReducer, SURVEY_ACTIONS } from './reducers/surveyReducer';
 
 export const TypeformSurvey = InjectAppServices(
-  ({ dependencies: { appSessionRef, surveyClient, experimentalFeatures } }) => {
+  ({ dependencies: { appSessionRef, surveyClient } }) => {
     const [{ surveyFormCompleted, loading }, dispatch] = useReducer(
       surveyReducer,
       INITIAL_STATE_SURVEY,
@@ -14,19 +14,18 @@ export const TypeformSurvey = InjectAppServices(
       const fetchData = async () => {
         dispatch({ type: SURVEY_ACTIONS.START_FETCH });
         const response = await surveyClient.getSurveyFormStatus();
-        console.log('response', response);
         if (response.success) {
-          dispatch({ type: SURVEY_ACTIONS.FINISH_FETCH, payload: response.value });
+          dispatch({
+            type: SURVEY_ACTIONS.FINISH_FETCH,
+            payload: { surveyFormCompleted: response.value },
+          });
         } else {
           dispatch({ type: SURVEY_ACTIONS.FAIL_FETCH });
         }
       };
 
-      const typeformEnabled = experimentalFeatures.getFeature('typeformEnabled');
-      if (typeformEnabled) {
-        fetchData();
-      }
-    }, [surveyClient, experimentalFeatures]);
+      fetchData();
+    }, [surveyClient]);
 
     if (loading || surveyFormCompleted) {
       return <div data-testid="empty-fragment" />;
