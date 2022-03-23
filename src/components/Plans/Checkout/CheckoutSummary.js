@@ -57,6 +57,10 @@ const PlanInformation = ({
           ></img>
         </li>
         <li>
+          <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+          <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
+        </li>
+        <li>
           <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
           <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
         </li>
