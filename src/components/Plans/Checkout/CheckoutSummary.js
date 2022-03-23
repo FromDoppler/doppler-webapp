@@ -19,6 +19,7 @@ import { UnexpectedError } from '../PlanCalculator/UnexpectedError';
 import { thousandSeparatorNumber } from '../../../utils';
 
 const arCountry = 'ar';
+const MAX_PERCENTAGE = '100';
 
 const FormatMessageWithSpecialStyle = ({ id }) => {
   return (
@@ -39,6 +40,7 @@ const PlanInformation = ({
   paymentMethod,
   extraCredits,
   remainingCredits,
+  discountPromocode,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -50,7 +52,10 @@ const PlanInformation = ({
           <img
             src={_('common.ui_library_image', {
               imageUrl: `${
-                paymentMethod === paymentType.creditCard ? 'checkout-success.svg' : 'on-hold.svg'
+                paymentMethod === paymentType.creditCard ||
+                (paymentMethod === paymentType.transfer && discountPromocode === MAX_PERCENTAGE)
+                  ? 'checkout-success.svg'
+                  : 'on-hold.svg'
               }`,
             })}
             alt=""
@@ -173,6 +178,7 @@ export const CheckoutSummary = InjectAppServices(
     const paymentMethodType = query.get('paymentMethod') ?? '';
     const discountDescription = query.get('discount') ?? '';
     const extraCreditsByPromocode = query.get('extraCredits') ?? 0;
+    const discountByPromocode = query.get('discountPromocode') ?? 0;
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -273,8 +279,9 @@ export const CheckoutSummary = InjectAppServices(
             paymentMethod={paymentMethod}
             extraCredits={extraCredits}
             remainingCredits={remainingCredits}
+            discountPromocode={discountByPromocode}
           />
-          {paymentMethod === paymentType.transfer ? (
+          {paymentMethod === paymentType.transfer && discountByPromocode !== MAX_PERCENTAGE ? (
             <TransferInformation billingCountry={billingCountry} />
           ) : paymentMethod === paymentType.mercadoPago ? (
             <MercadoPagoInformation />

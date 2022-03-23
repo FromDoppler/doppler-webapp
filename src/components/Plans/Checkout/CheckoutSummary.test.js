@@ -242,4 +242,116 @@ describe('CheckoutSummary component', () => {
       }
     });
   });
+
+  it('should not show the transfer message when the payment method is "Transfer" and promocode of the 100% discount ', async () => {
+    //Arrange
+    const currentUserFake = {
+      email: 'hardcoded@email.com',
+      plan: {
+        planType: PLAN_TYPE.byCredit,
+        planSubscription: 1,
+        monthPlan: 1,
+        remainingCredits: 5000,
+        emailQty: 1500,
+      },
+    };
+
+    const dopplerBillingUserApiClientDouble = {
+      ...dopplerBillingUserApiClientDoubleBase,
+      getPaymentMethodData: async () => {
+        return { success: true, value: fakePaymentMethodInformationWithTransfer };
+      },
+    };
+
+    // Ac
+    render(
+      <CheckoutSummaryElement
+        url="checkout-summary?planId=1&paymentMethod=TRANSF&discountPromocode=100"
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        currentUserFake={currentUserFake}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(
+      screen.getByText(`checkoutProcessSuccess.plan_type_${currentUserFake.plan.planType}`),
+    ).toBeInTheDocument();
+    expect(screen.getByText('1,500')).toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_message`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_note_1`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_note_2`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_note_3_ar`),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should show the transfer message when the payment method is "Transfer" with promocode smaller than 100%', async () => {
+    //Arrange
+    const currentUserFake = {
+      email: 'hardcoded@email.com',
+      plan: {
+        planType: PLAN_TYPE.byCredit,
+        planSubscription: 1,
+        monthPlan: 1,
+        remainingCredits: 5000,
+        emailQty: 1500,
+      },
+    };
+
+    const dopplerBillingUserApiClientDouble = {
+      ...dopplerBillingUserApiClientDoubleBase,
+      getPaymentMethodData: async () => {
+        return { success: true, value: fakePaymentMethodInformationWithTransfer };
+      },
+    };
+
+    // Ac
+    render(
+      <CheckoutSummaryElement
+        url="checkout-summary?planId=1&paymentMethod=TRANSF&discountPromocode=50"
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        currentUserFake={currentUserFake}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(
+      screen.getByText(`checkoutProcessSuccess.plan_type_${currentUserFake.plan.planType}`),
+    ).toBeInTheDocument();
+    expect(screen.getByText('1,500')).toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_message`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_1`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_2`),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_3_ar`),
+    ).toBeInTheDocument();
+  });
 });
