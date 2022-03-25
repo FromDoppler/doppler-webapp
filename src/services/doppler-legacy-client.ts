@@ -371,6 +371,10 @@ export interface DopplerLegacyUpgradePlanContactModel {
   IdClientTypePlanSelected: number;
 }
 
+export interface SurveyFormStatus {
+  surveyFormCompleted: Boolean;
+}
+
 // dictionaries
 export const planTypeByIdUserType: { [idUserType: number]: PlanType } = {
   1: 'free',
@@ -814,6 +818,33 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       SubscribersQty: x.SubscribersQty,
       EmailQty: x.EmailQty,
     }));
+  }
+
+  public async getSurveyFormStatus() {
+    try {
+      const response = await this.axios.get(`/Integration/Integration/GetSurveyFormStatus`);
+
+      return {
+        success: true,
+        value: response.data,
+      };
+    } catch (error) {
+      console.error(error);
+      return { success: false, error };
+    }
+  }
+
+  public async setSurveyToCompleted() {
+    try {
+      await this.axios.post(`/Integration/Integration/SetCompletedForm`);
+
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return { success: false, error };
+    }
   }
 
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
