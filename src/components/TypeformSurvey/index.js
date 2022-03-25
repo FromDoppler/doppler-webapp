@@ -4,7 +4,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { INITIAL_STATE_SURVEY, surveyReducer, SURVEY_ACTIONS } from './reducers/surveyReducer';
 
 export const TypeformSurvey = InjectAppServices(
-  ({ dependencies: { appSessionRef, surveyClient, experimentalFeatures } }) => {
+  ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
     const [{ surveyFormCompleted, loading }, dispatch] = useReducer(
       surveyReducer,
       INITIAL_STATE_SURVEY,
@@ -13,8 +13,7 @@ export const TypeformSurvey = InjectAppServices(
     useEffect(() => {
       const fetchData = async () => {
         dispatch({ type: SURVEY_ACTIONS.START_FETCH });
-        const response = await surveyClient.getSurveyFormStatus();
-        console.log('response', response);
+        const response = await dopplerLegacyClient.getSurveyFormStatus();
         if (response.success) {
           dispatch({ type: SURVEY_ACTIONS.FINISH_FETCH, payload: response.value });
         } else {
@@ -22,11 +21,8 @@ export const TypeformSurvey = InjectAppServices(
         }
       };
 
-      const typeformEnabled = experimentalFeatures.getFeature('typeformEnabled');
-      if (typeformEnabled) {
-        fetchData();
-      }
-    }, [surveyClient, experimentalFeatures]);
+      fetchData();
+    }, [dopplerLegacyClient]);
 
     if (loading || surveyFormCompleted) {
       return <div data-testid="empty-fragment" />;
@@ -45,9 +41,8 @@ export const TypeformSurvey = InjectAppServices(
           email: email,
           lastName: fullname,
         }}
-        onReady={async () => {
-          console.log('form ready');
-          await surveyClient.setSurveyToCompleted();
+        onSubmit={async () => {
+          await dopplerLegacyClient.setSurveyToCompleted();
         }}
       />
     );
