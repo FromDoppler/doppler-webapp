@@ -15,7 +15,7 @@ import InvoicesList from './components/InvoicesList/InvoicesList';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Offline from './components/Offline/Offline';
 import Checkout from './components/Plans/Checkout/Checkout';
-import { CheckoutSummary } from './components/Plans/Checkout/CheckoutSummary';
+import { CheckoutSummary } from './components/Plans/Checkout/CheckoutSummary/CheckoutSummary';
 import { GoToUpgrade } from './components/Plans/PlanCalculator/GoToUpgrade';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRouteWithLegacyFallback from './components/PublicRouteWithLegacyFallback';
