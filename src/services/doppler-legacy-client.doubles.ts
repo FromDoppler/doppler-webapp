@@ -98,6 +98,25 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     };
   }
 
+  public async getSurveyFormStatus() {
+    console.log('getSurveyFormStatus');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: { surveyFormCompleted: true },
+    };
+  }
+
+  public async setSurveyToCompleted() {
+    console.log('setSurveyToCompleted');
+    await timeout(1500);
+
+    return {
+      success: true,
+    };
+  }
+
   public async getUpgradePlanData(isSubscriberPlan: boolean) {
     console.log('getUpgradePlanData', { isSubscriberPlan });
     await timeout(3000);
