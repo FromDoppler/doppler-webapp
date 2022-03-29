@@ -230,6 +230,7 @@ export const PlanCalculator = InjectAppServices(
                 <PlanCalculatorButtons
                   selectedPlanId={selectedPlan?.id}
                   selectedDiscountId={selectedDiscount?.id}
+                  selectedMonthPlan={selectedDiscount?.numberMonths}
                 />
               </div>
             </div>

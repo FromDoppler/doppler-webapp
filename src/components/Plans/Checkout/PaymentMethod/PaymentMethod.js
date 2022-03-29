@@ -206,12 +206,14 @@ export const PaymentMethod = InjectAppServices(
     const location = useLocation();
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
     let selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
+    const selectedMonthPlan = extractParameter(location, queryString.parse, 'monthPlan') || 0;
     const intl = useIntl();
     const [state, setState] = useState({ loading: true, paymentMethod: {} });
     const [discountsInformation, setDiscountsInformation] = useState({
       selectedPlanDiscount: undefined,
       discounts: [],
       plan: {},
+      changed: false,
     });
     const [error, setError] = useState(false);
     const [paymentMethodType, setPaymentMethodType] = useState('');
@@ -261,8 +263,12 @@ export const PaymentMethod = InjectAppServices(
 
           discounts = discountsData.success ? discountsData.value : [];
           selectedPlanDiscount = discountsData.success
-            ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
+            ? discountsData.value.find((d) => d.monthsAmmount.toString() === selectedMonthPlan)
             : undefined;
+        }
+
+        if (!discountsInformation.changed) {
+          handleChangeDiscount(selectedPlanDiscount ?? discounts[0]);
         }
 
         setDiscountsInformation({
@@ -290,6 +296,9 @@ export const PaymentMethod = InjectAppServices(
       handleChangeView,
       paymentMethodType,
       planType,
+      handleChangeDiscount,
+      discountsInformation.changed,
+      selectedMonthPlan,
     ]);
 
     const getDiscountData = async (selectedPlan, paymentMethod) => {
@@ -344,7 +353,11 @@ export const PaymentMethod = InjectAppServices(
     };
 
     const handleDiscountChange = (discount) => {
-      setDiscountsInformation({ ...discountsInformation, selectedPlanDiscount: discount });
+      setDiscountsInformation({
+        ...discountsInformation,
+        selectedPlanDiscount: discount,
+        changed: true,
+      });
       handleChangeDiscount(discount);
     };
 

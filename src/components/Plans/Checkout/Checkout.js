@@ -25,6 +25,7 @@ const Checkout = () => {
   const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
   const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
   const [selectedDiscountId, setSelectedDiscountId] = useState(0);
+  const [selectedMonthPlan, setSelectedMonthPlan] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [appliedPromocode, setAppliedPromocode] = useState(false);
   const intl = useIntl();
@@ -122,6 +123,7 @@ const Checkout = () => {
                       }}
                       handleChangeDiscount={(discount) => {
                         setSelectedDiscountId(discount?.id);
+                        setSelectedMonthPlan(discount?.monthsAmmount);
                       }}
                       handleChangePaymentMethod={(paymentMethod) => {
                         setSelectedPaymentMethod(paymentMethod);
@@ -143,6 +145,7 @@ const Checkout = () => {
                   setAppliedPromocode(promocode ? true : false);
                 }}
                 discountId={selectedDiscountId}
+                monthPlan={selectedMonthPlan?.toString()}
                 paymentMethod={selectedPaymentMethod}
               ></PurchaseSummary>
             </div>

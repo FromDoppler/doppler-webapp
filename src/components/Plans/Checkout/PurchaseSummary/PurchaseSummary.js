@@ -258,6 +258,7 @@ export const PurchaseSummary = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient },
     discountId,
+    monthPlan,
     paymentMethod,
     canBuy,
     onApplyPromocode,
@@ -278,6 +279,7 @@ export const PurchaseSummary = InjectAppServices(
     const selectedDiscountId = discountId === 0 ? query.get('discountId') ?? 0 : discountId;
     const selectedPlan = query.get('selected-plan') ?? 0;
     const selectedPromocode = query.get('PromoCode') ?? '';
+    const selectedMonthPlan = monthPlan === 0 ? query.get('monthPlan') : monthPlan;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -298,12 +300,12 @@ export const PurchaseSummary = InjectAppServices(
         );
 
         const discount = discountsData.success
-          ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
+          ? discountsData.value.find((d) => d.monthsAmmount.toString() === selectedMonthPlan)
           : undefined;
 
         const amountDetailsData = await dopplerAccountPlansApiClient.getPlanAmountDetailsData(
           selectedPlan,
-          selectedDiscountId ?? 0,
+          discount ? discount.id : discountsData.value[0] ? discountsData.value[0].id : 0,
           selectedPromocode,
         );
 
@@ -311,7 +313,7 @@ export const PurchaseSummary = InjectAppServices(
           ...prevState,
           loadingPaymentInformation: false,
           paymentMethodType,
-          discount,
+          discount: discount ?? discountsData.value[0],
           amountDetails: amountDetailsData.success ? amountDetailsData.value : { total: 0 },
           planType,
         }));
@@ -326,6 +328,7 @@ export const PurchaseSummary = InjectAppServices(
       paymentMethod,
       planType,
       selectedPromocode,
+      selectedMonthPlan,
     ]);
 
     useEffect(() => {
