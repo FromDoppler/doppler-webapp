@@ -69,7 +69,12 @@ const PurchaseSummaryElement = ({
       <Route path="checkout/:pathType/:planType?">
         <AppServicesProvider forcedServices={services}>
           <IntlProvider>
-            <PurchaseSummary discountId={0} canBuy={canBuy} paymentMethod={paymentMethod} />
+            <PurchaseSummary
+              discountId={0}
+              canBuy={canBuy}
+              paymentMethod={paymentMethod}
+              monthPlan={0}
+            />
           </IntlProvider>
         </AppServicesProvider>
       </Route>
@@ -203,11 +208,16 @@ describe('PurchaseSummary component', () => {
   });
 
   describe.each([
-    ['should show the price for 1 month when the subscription is "Monthly"', 1, 'US$ 55.00'],
-    ['should show the price for 3 months when the subscription is "Quaterly"', 2, 'US$ 165.00'],
-    ['should show the price for 6 months when the subscription is "Half-Yearly"', 4, 'US$ 330.00'],
-    ['should show the price for 12 months when the subscription is "Yearly"', 6, 'US$ 660.00'],
-  ])('price by subscription', (testName, discountId, amount) => {
+    ['should show the price for 1 month when the subscription is "Monthly"', 1, 1, 'US$ 55.00'],
+    ['should show the price for 3 months when the subscription is "Quaterly"', 2, 3, 'US$ 165.00'],
+    [
+      'should show the price for 6 months when the subscription is "Half-Yearly"',
+      4,
+      6,
+      'US$ 330.00',
+    ],
+    ['should show the price for 12 months when the subscription is "Yearly"', 6, 12, 'US$ 660.00'],
+  ])('price by subscription', (testName, discountId, monthPlan, amount) => {
     it(testName, async () => {
       // Arrange
       const fakePlan = fakeSubscribersPlan;
@@ -225,7 +235,7 @@ describe('PurchaseSummary component', () => {
       // Act
       render(
         <PurchaseSummaryElement
-          url={`checkout/standard/subscribers?discountId=${discountId}`}
+          url={`checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         />,
@@ -260,7 +270,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=1"
+        url="checkout/standard/subscribers?discountId=1&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
       />,
@@ -286,6 +296,7 @@ describe('PurchaseSummary component', () => {
           total: 229.5,
         },
         discountId: 2,
+        monthPlan: 3,
       },
     ],
     [
@@ -297,6 +308,7 @@ describe('PurchaseSummary component', () => {
           total: 229.5,
         },
         discountId: 4,
+        monthPlan: 6,
       },
     ],
     [
@@ -308,13 +320,14 @@ describe('PurchaseSummary component', () => {
           total: 229.5,
         },
         discountId: 6,
+        monthPlan: 12,
       },
     ],
   ])('should show the discount when', (testName, context) => {
     it(testName, async () => {
       // Arrange
       const fakePlan = fakeSubscribersPlan;
-      const { discountId } = context;
+      const { discountId, monthPlan } = context;
       const { discountPercentage, amount } = context.fakePlanAmountDetails.discountPrepayment;
 
       const dopplerAccountPlansApiClientDouble = {
@@ -330,7 +343,7 @@ describe('PurchaseSummary component', () => {
       // Act
       render(
         <PurchaseSummaryElement
-          url={`checkout/standard/subscribers?discountId=${discountId}`}
+          url={`checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         />,
@@ -372,7 +385,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
+        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
       />,
@@ -411,7 +424,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
+        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
       />,
@@ -449,7 +462,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
+        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={false}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
@@ -489,7 +502,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
+        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
@@ -536,7 +549,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
+        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
@@ -591,7 +604,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6"
+        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}

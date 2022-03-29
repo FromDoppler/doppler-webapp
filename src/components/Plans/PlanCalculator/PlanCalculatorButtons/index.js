@@ -14,6 +14,7 @@ export const PlanCalculatorButtons = InjectAppServices(
   ({
     selectedPlanId,
     selectedDiscountId,
+    selectedMonthPlan,
     dependencies: { appSessionRef, experimentalFeatures, ipinfoClient },
   }) => {
     const intl = useIntl();
@@ -72,6 +73,7 @@ export const PlanCalculatorButtons = InjectAppServices(
                   planType: selectedPlanType,
                   planId: selectedPlanId,
                   discountId: selectedDiscountId,
+                  monthPlan: selectedMonthPlan,
                   newCheckoutEnabled: redirectNewCheckout,
                   search,
                 })}
@@ -100,10 +102,17 @@ const getLegacyCheckoutPurchaseUrl = ({
   );
 };
 
-const getNewCheckoutPurchaseUrl = ({ planType, planId, discountId, currentQueryParams }) => {
+const getNewCheckoutPurchaseUrl = ({
+  planType,
+  planId,
+  discountId,
+  monthPlan,
+  currentQueryParams,
+}) => {
   return (
     `/checkout/premium/${planType}?selected-plan=${planId}` +
     `${discountId ? `&discountId=${discountId}` : ''}` +
+    `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
     `${currentQueryParams}`
   );
 };
@@ -113,11 +122,12 @@ const getBuyPurchaseUrl = ({
   planType,
   planId,
   discountId,
+  monthPlan,
   newCheckoutEnabled,
   search,
 }) => {
   const currentQueryParams = search ? `&${search.slice(1).replace('promo-code', 'PromoCode')}` : '';
   return newCheckoutEnabled
-    ? getNewCheckoutPurchaseUrl({ planType, planId, discountId, currentQueryParams })
+    ? getNewCheckoutPurchaseUrl({ planType, planId, discountId, monthPlan, currentQueryParams })
     : getLegacyCheckoutPurchaseUrl({ controlPanelUrl, planId, discountId, currentQueryParams });
 };
