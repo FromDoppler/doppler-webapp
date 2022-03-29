@@ -1,27 +1,28 @@
 import React, { useEffect, useReducer } from 'react';
-import SafeRedirect from '../../SafeRedirect';
-import { useLinkedinInsightTag } from '../../../hooks/useLinkedingInsightTag';
-import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import SafeRedirect from '../../../SafeRedirect';
+import { useLinkedinInsightTag } from '../../../../hooks/useLinkedingInsightTag';
+import HeaderSection from '../../../shared/HeaderSection/HeaderSection';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { paymentType } from './PaymentMethod/PaymentMethod';
-import { PLAN_TYPE } from '../../../doppler-types';
-import { InjectAppServices } from '../../../services/pure-di';
-import { Loading } from '../../Loading/Loading';
-import { useQueryParams } from '../../../hooks/useQueryParams';
+import { paymentType } from '../PaymentMethod/PaymentMethod';
+import { InjectAppServices } from '../../../../services/pure-di';
+import { Loading } from '../../../Loading/Loading';
+import { useQueryParams } from '../../../../hooks/useQueryParams';
 import {
   checkoutSummaryReducer,
   CHECKOUT_SUMMARY_ACTIONS,
   INITIAL_STATE_CHECKOUT_SUMMARY,
-} from './Reducers/checkoutSummaryReducer';
+} from '../Reducers/checkoutSummaryReducer';
 import { exception } from 'react-ga';
-import { UnexpectedError } from '../PlanCalculator/UnexpectedError';
-import { thousandSeparatorNumber } from '../../../utils';
+import { UnexpectedError } from '../../PlanCalculator/UnexpectedError';
+import { thousandSeparatorNumber } from '../../../../utils';
+import { TransferInformation } from './TransferInformation/index';
+import { CheckoutSummaryButton } from './CheckoutSummaryButton';
+import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 
-const arCountry = 'ar';
-const MAX_PERCENTAGE = '100';
+export const MAX_PERCENTAGE = '100';
 
-const FormatMessageWithSpecialStyle = ({ id }) => {
+export const FormatMessageWithSpecialStyle = ({ id }) => {
   return (
     <FormattedMessage
       id={id}
@@ -49,17 +50,19 @@ const PlanInformation = ({
     <nav className="dp-kpi-success">
       <ul className="dp-rowflex">
         <li>
-          <img
-            src={_('common.ui_library_image', {
-              imageUrl: `${
-                paymentMethod === paymentType.creditCard ||
-                (paymentMethod === paymentType.transfer && discountPromocode === MAX_PERCENTAGE)
-                  ? 'checkout-success.svg'
-                  : 'on-hold.svg'
-              }`,
-            })}
-            alt=""
-          ></img>
+          <span className="dp-icon-kpis">
+            <img
+              src={_('common.ui_library_image', {
+                imageUrl: `${
+                  paymentMethod === paymentType.creditCard ||
+                  (paymentMethod === paymentType.transfer && discountPromocode === MAX_PERCENTAGE)
+                    ? 'checkout-success.svg'
+                    : 'three-points.svg'
+                }`,
+              })}
+              alt=""
+            ></img>
+          </span>
         </li>
         <li>
           <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
@@ -75,12 +78,12 @@ const PlanInformation = ({
             <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
           </li>
         ) : null}
-        {planType === PLAN_TYPE.byCredit ? (
-          <li>
-            <span>{_(`checkoutProcessSuccess.plan_type_prepaid_total`)}</span>
-            <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
-          </li>
-        ) : null}
+        <li>
+          <span>
+            {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
+          </span>
+          <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
+        </li>
         <li>
           {discount ? (
             <>
@@ -95,46 +98,6 @@ const PlanInformation = ({
         </li>
       </ul>
     </nav>
-  );
-};
-
-const TransferInformation = ({ billingCountry }) => {
-  return (
-    <>
-      <div className="dp-wrap-message dp-wrap-warning m-t-24">
-        <span className="dp-message-icon"></span>
-        <div className="dp-content-message">
-          <p>
-            <FormatMessageWithSpecialStyle
-              id={'checkoutProcessSuccess.flashcard_transfer_message'}
-            ></FormatMessageWithSpecialStyle>
-          </p>
-        </div>
-      </div>
-      <div className="dp-kpi-success">
-        <p>
-          <FormatMessageWithSpecialStyle
-            id={'checkoutProcessSuccess.flashcard_transfer_note_1'}
-          ></FormatMessageWithSpecialStyle>
-        </p>
-        {arCountry === billingCountry ? (
-          <p>
-            <FormatMessageWithSpecialStyle
-              id={'checkoutProcessSuccess.flashcard_transfer_note_2'}
-            ></FormatMessageWithSpecialStyle>
-          </p>
-        ) : null}
-        <p>
-          {
-            <FormatMessageWithSpecialStyle
-              id={`checkoutProcessSuccess.flashcard_transfer_note_3${
-                arCountry === billingCountry ? '_ar' : ''
-              }`}
-            ></FormatMessageWithSpecialStyle>
-          }
-        </p>
-      </div>
-    </>
   );
 };
 
@@ -254,22 +217,10 @@ export const CheckoutSummary = InjectAppServices(
           <meta name="checkout-success" />
         </Helmet>
         <HeaderSection>
-          <section className="dp-container">
-            <div className="dp-rowflex">
-              <div className="col-sm-12 col-md-12 col-lg-12">
-                <nav className="dp-breadcrumb">
-                  <ul>
-                    <li>
-                      <span className="dp-uppercase">
-                        {_('checkoutProcessSuccess.purchase_finished_title')}
-                      </span>
-                    </li>
-                  </ul>
-                </nav>
-                <h1>{_('checkoutProcessSuccess.title')}</h1>
-              </div>
-            </div>
-          </section>
+          <CheckoutSummaryTitle
+            paymentMethod={paymentMethod}
+            discountByPromocode={discountByPromocode}
+          />
         </HeaderSection>
         <section className="dp-container m-b-24">
           <PlanInformation
@@ -286,9 +237,11 @@ export const CheckoutSummary = InjectAppServices(
           ) : paymentMethod === paymentType.mercadoPago ? (
             <MercadoPagoInformation />
           ) : null}
-          <a href={'/dashboard'} className="dp-button button-medium primary-green m-t-24">
-            {_('checkoutProcessSuccess.start_using_new_plan_button')}
-          </a>
+
+          <CheckoutSummaryButton
+            paymentMethod={paymentMethod}
+            discountByPromocode={discountByPromocode}
+          />
         </section>
       </>
     );

@@ -1,6 +1,6 @@
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../services/pure-di';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route } from 'react-router-dom';
 import {
@@ -8,14 +8,14 @@ import {
   fakePaymentMethodInformationWithTransfer,
   fakeBillingInformation,
   fakeUserPlan,
-} from '../../../services/doppler-billing-user-api-client.double';
+} from '../../../../services/doppler-billing-user-api-client.double';
 import {
   fakeAccountPlanDiscounts,
   fakePromotion,
   fakePrepaidPlan,
-} from '../../../services/doppler-account-plans-api-client.double';
+} from '../../../../services/doppler-account-plans-api-client.double';
 import { CheckoutSummary } from './CheckoutSummary';
-import { PLAN_TYPE } from '../../../doppler-types';
+import { PLAN_TYPE } from '../../../../doppler-types';
 
 const dependencies = (
   dopplerAccountPlansApiClientDouble,
@@ -150,18 +150,6 @@ describe('CheckoutSummary component', () => {
     expect(
       screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
     ).not.toBeInTheDocument();
-    expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_message`),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_1`),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_2`),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_3_ar`),
-    ).toBeInTheDocument();
   });
 
   describe.each([
@@ -286,16 +274,19 @@ describe('CheckoutSummary component', () => {
       screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_message`),
+      screen.queryByText(`checkoutProcessSuccess.transfer_steps_title`),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_note_1`),
+      screen.queryByText(`checkoutProcessSuccess.transfer_check_email_with_invoice_message`),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_note_2`),
+      screen.queryByText(`checkoutProcessSuccess.transfer_pay_the_invoice_message`),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByText(`checkoutProcessSuccess.flashcard_transfer_note_3_ar`),
+      screen.queryByText(`checkoutProcessSuccess.transfer_send_the_receipt_message`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.transfer_confirmation_message`),
     ).not.toBeInTheDocument();
   });
 
@@ -341,17 +332,19 @@ describe('CheckoutSummary component', () => {
     expect(
       screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
     ).not.toBeInTheDocument();
+
+    expect(screen.getByText(`checkoutProcessSuccess.transfer_steps_title`)).toBeInTheDocument();
     expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_message`),
+      screen.getByText(`checkoutProcessSuccess.transfer_check_email_with_invoice_message`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_1`),
+      screen.getByText(`checkoutProcessSuccess.transfer_pay_the_invoice_message`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_2`),
+      screen.getByText(`checkoutProcessSuccess.transfer_send_the_receipt_message`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`checkoutProcessSuccess.flashcard_transfer_note_3_ar`),
+      screen.getByText(`checkoutProcessSuccess.transfer_confirmation_message`),
     ).toBeInTheDocument();
   });
 });
