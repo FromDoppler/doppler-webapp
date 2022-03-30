@@ -279,7 +279,7 @@ export const PurchaseSummary = InjectAppServices(
     const selectedDiscountId = discountId === 0 ? query.get('discountId') ?? 0 : discountId;
     const selectedPlan = query.get('selected-plan') ?? 0;
     const selectedPromocode = query.get('PromoCode') ?? '';
-    const selectedMonthPlan = monthPlan === 0 ? query.get('monthPlan') : monthPlan;
+    const selectedMonthPlan = monthPlan === '0' ? query.get('monthPlan') : monthPlan;
 
     useEffect(() => {
       const fetchData = async () => {

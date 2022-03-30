@@ -73,7 +73,7 @@ const PurchaseSummaryElement = ({
               discountId={0}
               canBuy={canBuy}
               paymentMethod={paymentMethod}
-              monthPlan={0}
+              monthPlan={'0'}
             />
           </IntlProvider>
         </AppServicesProvider>
@@ -208,15 +208,25 @@ describe('PurchaseSummary component', () => {
   });
 
   describe.each([
-    ['should show the price for 1 month when the subscription is "Monthly"', 1, 1, 'US$ 55.00'],
-    ['should show the price for 3 months when the subscription is "Quaterly"', 2, 3, 'US$ 165.00'],
+    ['should show the price for 1 month when the subscription is "Monthly"', 1, '1', 'US$ 55.00'],
+    [
+      'should show the price for 3 months when the subscription is "Quaterly"',
+      2,
+      '3',
+      'US$ 165.00',
+    ],
     [
       'should show the price for 6 months when the subscription is "Half-Yearly"',
       4,
-      6,
+      '6',
       'US$ 330.00',
     ],
-    ['should show the price for 12 months when the subscription is "Yearly"', 6, 12, 'US$ 660.00'],
+    [
+      'should show the price for 12 months when the subscription is "Yearly"',
+      6,
+      '12',
+      'US$ 660.00',
+    ],
   ])('price by subscription', (testName, discountId, monthPlan, amount) => {
     it(testName, async () => {
       // Arrange

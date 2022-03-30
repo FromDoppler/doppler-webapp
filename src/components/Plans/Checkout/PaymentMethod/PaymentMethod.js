@@ -275,6 +275,7 @@ export const PaymentMethod = InjectAppServices(
           selectedPlanDiscount,
           discounts,
           plan: sessionPlan.plan,
+          changed: true,
         });
 
         setState({
