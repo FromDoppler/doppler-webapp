@@ -24,7 +24,9 @@ export const TypeformSurvey = InjectAppServices(
       fetchData();
     }, [dopplerLegacyClient]);
 
-    if (loading || surveyFormCompleted) {
+    const { isFreeAccount: isTrial } = appSessionRef.current.userData.user.plan;
+
+    if (loading || surveyFormCompleted || !isTrial) {
       return <div data-testid="empty-fragment" />;
     }
 

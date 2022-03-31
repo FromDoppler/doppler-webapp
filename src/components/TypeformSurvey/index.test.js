@@ -18,6 +18,9 @@ describe('TypeformSurvey', () => {
               lang: 'es',
               fullname: 'Junior Campos',
               email: 'jcampos@makingsense.com',
+              plan: {
+                isFreeAccount: true,
+              },
             },
           },
         },
@@ -55,6 +58,9 @@ describe('TypeformSurvey', () => {
               lang: 'es',
               fullname: 'Junior Campos',
               email: 'jcampos@makingsense.com',
+              plan: {
+                isFreeAccount: true,
+              },
             },
           },
         },
@@ -76,5 +82,45 @@ describe('TypeformSurvey', () => {
     await waitForElementToBeRemoved(screen.getByTestId('empty-fragment'));
     expect(getSurveyFormStatusMock).toHaveBeenCalled();
     expect(await screen.findByTestId('iframe')).toBeInTheDocument();
+  });
+
+  it('should not render TypeformSurvey component when the user does not have a trial account', async () => {
+    // Arrange
+    const getSurveyFormStatusMock = jest.fn(async () => ({
+      success: true,
+      value: { surveyFormCompleted: true },
+    }));
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              lang: 'es',
+              fullname: 'Junior Campos',
+              email: 'jcampos@makingsense.com',
+              plan: {
+                isFreeAccount: false,
+              },
+            },
+          },
+        },
+      },
+      dopplerLegacyClient: {
+        getSurveyFormStatus: getSurveyFormStatusMock,
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <TypeformSurvey />
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(screen.getByTestId('empty-fragment')).toBeInTheDocument();
+
+    expect(getSurveyFormStatusMock).toHaveBeenCalled();
+    expect(await screen.findByTestId('empty-fragment')).toBeInTheDocument();
   });
 });

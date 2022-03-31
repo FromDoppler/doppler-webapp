@@ -26,11 +26,20 @@ describe('Dashboard component', () => {
         userData: {
           user: {
             fullname: 'Cecilia Bernat',
+            plan: {
+              isFreeAccount: true,
+            },
           },
         },
       },
     },
     reportClient: reportClientDouble(),
+    dopplerLegacyClient: {
+      getSurveyFormStatus: async () => ({
+        success: true,
+        value: { surveyFormCompleted: true },
+      }),
+    },
   };
 
   it('should show the hero-banner with personal welcome message', async () => {
