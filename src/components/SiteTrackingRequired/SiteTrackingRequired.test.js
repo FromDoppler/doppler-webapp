@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../services/pure-di';
 import { SiteTrackingRequired, SiteTrackingNotAvailableReasons } from './SiteTrackingRequired';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 describe('site tracking', () => {
   afterEach(cleanup);
@@ -16,7 +17,9 @@ describe('site tracking', () => {
     const { getByText } = render(
       <AppServicesProvider>
         <DopplerIntlProvider>
-          <SiteTrackingRequired reason={reason} />
+          <Router initialEntries={[`/`]}>
+            <SiteTrackingRequired reason={reason} />
+          </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -33,7 +36,9 @@ describe('site tracking', () => {
     const { getByText } = render(
       <AppServicesProvider>
         <DopplerIntlProvider>
-          <SiteTrackingRequired reason={reason} />
+          <Router initialEntries={[`/`]}>
+            <SiteTrackingRequired reason={reason} />
+          </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -50,7 +55,9 @@ describe('site tracking', () => {
     const { getByText } = render(
       <AppServicesProvider>
         <DopplerIntlProvider>
-          <SiteTrackingRequired reason={reason} />
+          <Router initialEntries={[`/`]}>
+            <SiteTrackingRequired reason={reason} />
+          </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -104,7 +111,9 @@ describe('site tracking', () => {
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider>
-          <SiteTrackingRequired reason={reason} />
+          <Router initialEntries={[`/`]}>
+            <SiteTrackingRequired reason={reason} />
+          </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );

@@ -4,6 +4,27 @@ import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import Reports from './Reports';
 import { AppServicesProvider } from '../../services/pure-di';
+import { MemoryRouter as Router } from 'react-router-dom';
+
+const typeformDependencies = {
+  appSessionRef: {
+    current: {
+      userData: {
+        user: {
+          plan: {
+            isFreeAccount: true,
+          },
+        },
+      },
+    },
+  },
+  dopplerLegacyClient: {
+    getSurveyFormStatus: async () => ({
+      success: true,
+      value: { surveyFormCompleted: true },
+    }),
+  },
+};
 
 describe('Reports page', () => {
   afterEach(cleanup);
@@ -24,6 +45,7 @@ describe('Reports page', () => {
       <AppServicesProvider
         forcedServices={{
           datahubClient: datahubClientDouble,
+          ...typeformDependencies,
         }}
       >
         <DopplerIntlProvider>
@@ -54,6 +76,7 @@ describe('Reports page', () => {
       <AppServicesProvider
         forcedServices={{
           datahubClient: datahubClientDouble,
+          ...typeformDependencies,
         }}
       >
         <DopplerIntlProvider>
@@ -92,6 +115,7 @@ describe('Reports page', () => {
         forcedServices={{
           datahubClient: datahubClientDouble,
           appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+          ...typeformDependencies,
         }}
       >
         <DopplerIntlProvider>
@@ -123,10 +147,13 @@ describe('Reports page', () => {
         forcedServices={{
           datahubClient: datahubClientDouble,
           appConfiguration: { dopplerLegacyUrl: 'http://test.localhost' },
+          ...typeformDependencies,
         }}
       >
         <DopplerIntlProvider>
-          <Reports />
+          <Router initialEntries={[`/`]}>
+            <Reports />
+          </Router>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
