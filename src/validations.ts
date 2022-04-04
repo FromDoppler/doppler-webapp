@@ -130,3 +130,28 @@ export function validateCuit(
 
   return null;
 }
+
+export function validateNit(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_nit',
+) {
+  if (!value || value.length > 16) {
+    return null;
+  }
+  // takes in account nits up to 16 characters
+
+  var multiplier = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 51];
+  var total = 0;
+  var lastElement = value.length - 2;
+  for (var i = 0; i < value.length - 1; i++) {
+    total += parseInt(value[lastElement - i]) * multiplier[i];
+  }
+  var mod = total % 11;
+  var digit = mod >= 2 ? 11 - mod : mod;
+
+  if (digit !== parseInt(value[value.length - 1])) {
+    return commonErrorKey;
+  }
+
+  return null;
+}
