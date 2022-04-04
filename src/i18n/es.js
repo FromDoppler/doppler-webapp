@@ -237,7 +237,7 @@ const messages_es = {
       discount_for_promocode: 'Descuento código:',
       edit_add_recipients_button: 'Editar o agregar destinatarios',
       edit_add_recipients_confirmation_button: 'Confirmar edición',
-      error_message: 'Tu pago no pudo procesarse. Elige otro método de pago o inténtalo más tarde.',
+      error_message: 'No pudimos procesar la operación. Elige otro método de pago o inténtalo más tarde.',
       explanatory_legend: 'La renovación es automática y puedes cancelarla cuando quieras. El precio del Plan puede estar sujeto a impuestos.',
       explanatory_legend_by_credits: 'El precio del Plan puede estar sujeto a impuestos, de acuerdo a la categoría impositiva. Estos estarán detallados en tu factura.',
       header: 'Resumen de compra',
@@ -260,7 +260,7 @@ const messages_es = {
       promocode_validate_button: 'Validar',
       secure_payment_message: 'Pago seguro',
       send_invoice_email_message: 'Enviaremos tu factura por mail a:',
-      success_message: 'Pago procesado con éxito.',
+      success_message: '¡Operación procesada con éxito!',
       to_pay_from_next_month_legend: 'A pagar en tu próxima factura',
       total: 'TOTAL:',
       transfer_explanatory_legend:
