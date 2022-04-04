@@ -15,6 +15,7 @@ import ReportsTrafficSources from './ReportsTrafficSources/ReportsTrafficSources
 import ReportsDailyVisits from './ReportsDailyVisits/ReportsDailyVisits';
 import ReportsHoursVisits from './ReportsHoursVisits/ReportsHoursVisits';
 import ReportsPageRanking from './ReportsPageRanking/ReportsPageRanking';
+import { TypeformSurvey } from '../TypeformSurvey';
 
 // This value means the today date
 const periodSelectedDaysDefault = 21;
@@ -100,6 +101,7 @@ const Reports = ({ dependencies: { datahubClient } }) => {
           </Helmet>
         )}
       </FormattedMessage>
+      <TypeformSurvey />
       {state.domains && !state.domainSelected ? (
         <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.thereAreNotDomains} />
       ) : (

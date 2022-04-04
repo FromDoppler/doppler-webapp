@@ -6,6 +6,8 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Promotional } from '../shared/Promotional/Promotional';
 import reportIcon from '../../img/reports-icon.png';
 import reportGif from '../../img/reports.gif';
+import { useLocation } from 'react-router-dom';
+import { TypeformSurvey } from '../TypeformSurvey';
 export const SiteTrackingNotAvailableReasons = {
   freeAccount: 'freeAccount',
   trialNotAccepted: 'trialNotAccepted',
@@ -28,6 +30,7 @@ export const SiteTrackingRequired = InjectAppServices(
   }) => {
     const [state, setState] = useState({});
     const intl = useIntl();
+    const location = useLocation();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     if (state.isActivatedTrial) {
@@ -65,8 +68,11 @@ export const SiteTrackingRequired = InjectAppServices(
       );
     }
 
+    const isShowTypeformSurvey = location.pathname === '/reports';
+
     return (
       <section className="container-reports bg-message--grey">
+        {isShowTypeformSurvey && <TypeformSurvey />}
         <div className="dp-wrapper-messages">
           <>
             <FormattedMessage tagName="h2" id="reports.datahub_not_domains_title" />
