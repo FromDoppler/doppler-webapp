@@ -52,6 +52,22 @@ export const fakeConsumerTypes = [
   { key: 'NC', value: 'No Categorizado' },
 ];
 
+export const fakeCfdi = [
+  { key: 'G03', value: 'G03' },
+  { key: 'P01', value: 'P01' },
+];
+
+export const fakePaymentWays = [
+  { key: 'CASH', value: 'CASH' },
+  { key: 'CHECK', value: 'CHECK' },
+  { key: 'TRANSFER', value: 'TRANSFER' },
+];
+
+export const fakePaymentTypes = [
+  { key: 'PPD', value: 'PPD' },
+  { key: 'PUE', value: 'PUE' },
+];
+
 export class HardcodedStaticDataClient implements StaticDataClient {
   public async getIndustriesData(language: string): Promise<any> {
     await timeout(1500);
@@ -81,6 +97,30 @@ export class HardcodedStaticDataClient implements StaticDataClient {
     await timeout(1500);
     return {
       value: fakeConsumerTypes,
+      success: true,
+    };
+  }
+
+  public async getUseCfdiData(language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakeCfdi,
+      success: true,
+    };
+  }
+
+  public async getPaymentWaysData(language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakePaymentWays,
+      success: true,
+    };
+  }
+
+  public async getPaymentTypesData(language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakePaymentTypes,
       success: true,
     };
   }
