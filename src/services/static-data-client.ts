@@ -5,6 +5,9 @@ export interface StaticDataClient {
   getStatesData(country: string, language: string): Promise<any>;
   getSecurityQuestionsData(language: string): Promise<any>;
   getConsumerTypesData(country: string, language: string): Promise<any>;
+  getUseCfdiData(language: string): Promise<any>;
+  getPaymentWaysData(language: string): Promise<any>;
+  getPaymentTypesData(language: string): Promise<any>;
 }
 
 export class HttpStaticDataClient implements StaticDataClient {
@@ -97,6 +100,45 @@ export class HttpStaticDataClient implements StaticDataClient {
       return { success: true, value: consumerTypesOrdered };
     } catch (error) {
       console.error('States file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getUseCfdiData(language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: this.baseUrl + `/'cfdi-${language}'.json`,
+      });
+      return { success: true, value: response.data };
+    } catch (error) {
+      console.error('CFDI file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getPaymentWaysData(language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: this.baseUrl + `/'payment-ways-${language}'.json`,
+      });
+      return { success: true, value: response.data };
+    } catch (error) {
+      console.error('Payment ways file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getPaymentTypesData(language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: this.baseUrl + `/'payment-types-${language}'.json`,
+      });
+      return { success: true, value: response.data };
+    } catch (error) {
+      console.error('Payment types file not accesible');
       return { success: false, error: error };
     }
   }
