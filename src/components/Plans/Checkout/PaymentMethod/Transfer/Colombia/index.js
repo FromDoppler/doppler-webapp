@@ -8,6 +8,7 @@ import {
 import { fieldNames, paymentType } from '../../PaymentMethod';
 import { useFormikContext } from 'formik';
 import { useIntl } from 'react-intl';
+import { validateNit } from '../../../../../../validations';
 
 export const TransferColombia = ({ paymentMethod, readOnly }) => {
   const { setValues } = useFormikContext();
@@ -52,9 +53,10 @@ export const TransferColombia = ({ paymentMethod, readOnly }) => {
                 fieldName={fieldNames.identificationNumber}
                 id="identificationNumber"
                 label={`*${_('checkoutProcessForm.payment_method.identification_type_colombia')}:`}
-                maxLength={10}
                 required
                 className="field-item field-item--30"
+                validate={true}
+                validateIdentificationNumber={validateNit}
               />
             </FieldGroup>
           </FieldItem>

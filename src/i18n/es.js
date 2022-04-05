@@ -1050,6 +1050,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_invalid_email_address: `¡Ouch! El formato del Email es incorrecto`,
     error_invalid_login: `¡Ouch! Hay un error en tu Usuario o Contraseña. Vuelve a intentarlo.`,
     error_invalid_name: `¡Ouch! Escribe usando solo letras y no números.`,
+    error_invalid_nit: `Ouch! El formato del NIT es incorrecto`,
     error_min_length: `¡Ouch! Minimo de caracteres invalido.`,
     error_min_length_2: `¡Ouch! Escribe al menos dos caracteres.`,
     error_password_character_length: `8 caracteres como mínimo`,
