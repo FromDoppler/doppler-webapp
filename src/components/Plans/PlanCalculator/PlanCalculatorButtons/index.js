@@ -8,7 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { Loading } from '../../../Loading/Loading';
 
-const excludedCountries = ['AR', 'CO', 'MX'];
+const excludedCountries = ['AR', 'MX'];
 
 export const PlanCalculatorButtons = InjectAppServices(
   ({
