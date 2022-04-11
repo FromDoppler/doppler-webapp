@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateName,
   validateMinLength,
+  validateRfc,
 } from './validations';
 
 describe('validations', () => {
@@ -812,6 +813,30 @@ describe('validations', () => {
 
       // Assert
       expect(result).toEqual('validation_messages.error_min_length');
+    });
+  });
+
+  describe('validateRfc', () => {
+    it('should show the invalid message when the RFC is incorrect', () => {
+      // Arrange
+      const value = '123456';
+
+      // Act
+      const result = validateRfc(value);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_rfc');
+    });
+
+    it('should be accept the value when the RFC is valid', () => {
+      // Arrange
+      const value = 'CAAR530917EV7';
+
+      // Act
+      const result = validateRfc(value);
+
+      // Assert
+      expect(result).toBeNull();
     });
   });
 });
