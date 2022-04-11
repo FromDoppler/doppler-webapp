@@ -2,7 +2,7 @@ import { ResultWithoutExpectedErrors, EmptyResultWithoutExpectedErrors } from '.
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
-import { PLAN_TYPE } from '../doppler-types';
+import { PLAN_TYPE, PaymentMethodType } from '../doppler-types';
 
 export interface DopplerBillingUserApiClient {
   getBillingInformationData(): Promise<ResultWithoutExpectedErrors<BillingInformation>>;
@@ -161,24 +161,29 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
   }
 
   private mapPaymentMethodToUpdate(data: any): any {
-    return {
-      ccHolderFullName: data.name,
-      ccNumber: data.number?.replaceAll(' ', ''),
-      ccVerification: data.cvc,
-      paymentMethodName: data.paymentMethodName,
-      ccExpYear: data.expiry?.split('/')[1],
-      ccExpMonth: data.expiry?.split('/')[0],
-      ccType: data.ccType,
-      idSelectedPlan: data.idSelectedPlan,
-      razonSocial: data.businessName,
-      idConsumerType: data.consumerType,
-      identificationNumber: data.identificationNumber,
-      bankName: data.bankName,
-      bankAccount: data.bankAccount,
-      paymentType: data.paymentType,
-      paymentWay: data.paymentWay,
-      useCFDI: data.cfdi,
-    };
+    return data.paymentMethodName === PaymentMethodType.creditCard
+      ? {
+          ccHolderFullName: data.name,
+          ccNumber: data.number?.replaceAll(' ', ''),
+          ccVerification: data.cvc,
+          paymentMethodName: data.paymentMethodName,
+          idSelectedPlan: data.idSelectedPlan,
+          ccExpYear: data.expiry?.split('/')[1],
+          ccExpMonth: data.expiry?.split('/')[0],
+          ccType: data.ccType,
+        }
+      : {
+          paymentMethodName: data.paymentMethodName,
+          idSelectedPlan: data.idSelectedPlan,
+          razonSocial: data.businessName,
+          idConsumerType: data.consumerType,
+          identificationNumber: data.identificationNumber,
+          bankName: data.bankName,
+          bankAccount: data.bankAccount,
+          paymentType: data.paymentType,
+          paymentWay: data.paymentWay,
+          useCFDI: data.cfdi,
+        };
   }
 
   private mapInvoiceRecipientsToUpdate(data: any, planId: number): any {
