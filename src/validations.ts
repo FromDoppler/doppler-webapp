@@ -4,6 +4,8 @@ const emailRegex =
 /* eslint-enable */
 const nameRegex = /^[\u00C0-\u1FFF\u2C00-\uD7FF\w][\u00C0-\u1FFF\u2C00-\uD7FF\w'`\-. ]+$/i;
 const accentRegex = /[\u00C0-\u00FF]/i;
+const rfcRegEx =
+  /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/i;
 
 export function validateEmail(
   value: string,
@@ -154,4 +156,46 @@ export function validateNit(
   }
 
   return null;
+}
+
+export function validateRfc(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_rfc',
+) {
+  if (!value) {
+    return null;
+  }
+
+  var rfcValue = value.trim().toUpperCase();
+  var rfcMatched = rfcValue.match(rfcRegEx);
+
+  if (!rfcMatched) {
+    return commonErrorKey;
+  }
+
+  var digit = rfcMatched.pop();
+  var rfcWithoutDigit = rfcMatched.slice(1).join('');
+  var len = rfcWithoutDigit.length;
+  var dictionary = '0123456789ABCDEFGHIJKLMN&OPQRSTUVWXYZ Ñ';
+  var index = len + 1;
+  var sum = len === 12 ? 0 : 481;
+
+  for (var i = 0; i < len; i++) {
+    sum += dictionary.indexOf(rfcWithoutDigit.charAt(i)) * (index - i);
+  }
+
+  var mod = 11 - (sum % 11);
+  var expectedDigit = mod === 11 ? '0' : mod === 10 ? 'A' : mod.toString();
+
+  var rfc = formatValidRfc(value);
+
+  if (digit !== expectedDigit && rfc !== 'XAXX010101000') {
+    return commonErrorKey;
+  }
+
+  return null;
+}
+
+function formatValidRfc(value: string) {
+  return value ? (value.match(rfcRegEx) ? value.match(rfcRegEx)?.slice(1).join('') : null) : null;
 }
