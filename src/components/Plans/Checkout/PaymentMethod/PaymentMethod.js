@@ -18,6 +18,10 @@ const none = 'NONE';
 
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
+  paymentType: 'paymentType',
+  paymentWay: 'paymentWay',
+  bankName: 'bankName',
+  bankAccount: 'bankAccount',
   number: 'number',
   name: 'name',
   expiry: 'expiry',
@@ -26,6 +30,7 @@ export const fieldNames = {
   businessName: 'businessName',
   identificationNumber: 'identificationNumber',
   responsableIVA: 'responsableIVA',
+  cfdi: 'cfdi',
 };
 
 export const paymentType = {

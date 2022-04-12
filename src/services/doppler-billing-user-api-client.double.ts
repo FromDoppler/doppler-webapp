@@ -44,6 +44,11 @@ export const fakePaymentMethodInformation = {
   identificationType: '',
   identificationNumber: '',
   responsableIVA: '0',
+  bankName: 'bank of america',
+  bankAccount: '1234',
+  paymentType: 'payment type',
+  paymentWay: 'TRANSF',
+  useCFDI: 'CAAR530917EV7',
 };
 
 export const fakePaymentMethod = {
