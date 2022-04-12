@@ -48,6 +48,11 @@ export interface PaymentMethod {
   idConsumerType: string;
   identificationType: string;
   identificationNumber: string;
+  bankName: string;
+  bankAccount: string;
+  paymentType: string;
+  paymentWay: string;
+  useCFDI: string;
 }
 
 export interface UserPlan {
@@ -137,6 +142,11 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       idConsumerType: data.idConsumerType,
       identificationType: data.identificationType,
       identificationNumber: data.identificationNumber,
+      bankName: data.bankName,
+      bankAccount: data.bankAccount,
+      paymentType: data.paymentType,
+      paymentWay: data.paymentWay,
+      useCFDI: data.useCFDI,
     };
   }
 
@@ -163,6 +173,11 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       razonSocial: data.businessName,
       idConsumerType: data.consumerType,
       identificationNumber: data.identificationNumber,
+      bankName: data.bankName,
+      bankAccount: data.bankAccount,
+      paymentType: data.paymentType,
+      paymentWay: data.paymentWay,
+      useCFDI: data.cfdi,
     };
   }
 

@@ -5,6 +5,7 @@ import { Loading } from '../../../../Loading/Loading';
 import { actionPage } from '../../Checkout';
 import { TransferColombia } from './Colombia';
 import { TransferArgentina } from './Argentina';
+import { TransferMexico } from './Mexico';
 
 export const finalConsumer = 'CF';
 export const identificationTypes = [
@@ -19,6 +20,7 @@ export const identificationTypes = [
 ];
 const COD_ISO_AR = 'ar';
 const COD_ISO_CO = 'co';
+const COD_ISO_MX = 'mx';
 
 export const Transfer = InjectAppServices(
   ({
@@ -44,7 +46,7 @@ export const Transfer = InjectAppServices(
 
         setCountry(billingInformationResult.value.country);
 
-        if (billingInformationResult.value.country === COD_ISO_AR) {
+        if ([COD_ISO_AR, COD_ISO_MX].includes(billingInformationResult.value.country)) {
           const _consumerTypes = await getConsumerTypesData(
             billingInformationResult.value.country,
             intl.locale,
@@ -67,6 +69,17 @@ export const Transfer = InjectAppServices(
     // Transfer Colombia
     if (country === COD_ISO_CO) {
       return <TransferColombia paymentMethod={paymentMethod} readOnly={readOnly} />;
+    }
+
+    // Transfer Mexico
+    if (country === COD_ISO_MX) {
+      return (
+        <TransferMexico
+          paymentMethod={paymentMethod}
+          readOnly={readOnly}
+          consumerTypes={consumerTypes}
+        />
+      );
     }
 
     // Default: Transfer Argentina
