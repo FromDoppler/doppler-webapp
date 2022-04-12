@@ -108,7 +108,7 @@ export class HttpStaticDataClient implements StaticDataClient {
     try {
       const response = await this.axios.request({
         method: 'GET',
-        url: this.baseUrl + `/'cfdi-${language}'.json`,
+        url: this.baseUrl + `/cfdi-${language}.json`,
       });
       return { success: true, value: response.data };
     } catch (error) {
@@ -121,7 +121,7 @@ export class HttpStaticDataClient implements StaticDataClient {
     try {
       const response = await this.axios.request({
         method: 'GET',
-        url: this.baseUrl + `/'payment-ways-${language}'.json`,
+        url: this.baseUrl + `/payment-ways-pay-${language}.json`,
       });
       return { success: true, value: response.data };
     } catch (error) {
@@ -134,7 +134,7 @@ export class HttpStaticDataClient implements StaticDataClient {
     try {
       const response = await this.axios.request({
         method: 'GET',
-        url: this.baseUrl + `/'payment-types-${language}'.json`,
+        url: this.baseUrl + `/payment-types-${language}.json`,
       });
       return { success: true, value: response.data };
     } catch (error) {
