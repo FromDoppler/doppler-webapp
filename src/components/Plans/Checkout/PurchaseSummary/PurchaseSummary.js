@@ -10,6 +10,11 @@ import { paymentType } from '../PaymentMethod/PaymentMethod';
 import { InvoiceRecipients } from './InvoiceRecipients';
 import { PlanPurchase } from './PlanPurchase';
 import { Promocode } from './Promocode';
+import styled from 'styled-components';
+
+const TaxesExclude = styled.span`
+  margin-top: 0 !important;
+`;
 
 const dollarSymbol = 'US$';
 const none = 'NONE';
@@ -155,9 +160,16 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
           : `*${_('checkoutProcessForm.purchase_summary.explanatory_legend_by_credits')}`;
       case PLAN_TYPE.byContact:
       case PLAN_TYPE.byEmail:
-        return paymentMethodType === paymentType.creditCard
-          ? `*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`
-          : `*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`;
+        return paymentMethodType === paymentType.creditCard ? (
+          `*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`
+        ) : (
+          <div>
+            {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
+            <div className="m-t-12">
+              {`${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend2')}`}
+            </div>
+          </div>
+        );
       default:
         return '';
     }
@@ -183,7 +195,7 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
         )
       ) : null}
       <li>
-        <span className="dp-renewal">{getTaxesLegend(paymentMethodType, planType)}</span>
+        <div className="dp-renewal">{getTaxesLegend(paymentMethodType, planType)}</div>
       </li>
     </>
   );
@@ -194,6 +206,8 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const { discountPrepayment } = state.amountDetails;
 
+  const isTransfer = state.paymentMethodType === paymentType.transfer;
+
   return (
     <div className="dp-total-purchase">
       <ul>
@@ -203,8 +217,16 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
             {' '}
             <span className="dp-money">{dollarSymbol} </span>
             <FormattedNumber value={priceToPay} {...numberFormatOptions} />
+            {isTransfer && '*'}
           </span>
         </li>
+        {isTransfer && (
+          <li>
+            <TaxesExclude className="dp-renewal">
+              {_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}
+            </TaxesExclude>
+          </li>
+        )}
         <InvoiceInformation
           planType={state.planType}
           priceToPay={totalPlan}
