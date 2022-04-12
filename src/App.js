@@ -32,6 +32,8 @@ import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { availableLanguageOrNull } from './i18n/utils';
 import { OriginCatcher } from './services/origin-management';
 import { InjectAppServices } from './services/pure-di';
+import MenuDemo from './components/MenuDemo/MenuDemo';
+import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 
 /**
  * @param { Object } props - props
@@ -157,6 +159,8 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
               />
               <PrivateRoute path="/integrations/big-query" exact component={AuthorizationPage} />
               <PrivateRoute path={['/checkout-summary']} exact component={CheckoutSummary} />
+              <PrivateRoute path="/menu-demo" exact component={MenuDemo} />
+              <PrivateRoute path="/editors-demo" component={EditorsDemo} />
               <PublicRouteWithLegacyFallback exact path="/login" />
               <PublicRouteWithLegacyFallback exact path="/signup" />
               <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
