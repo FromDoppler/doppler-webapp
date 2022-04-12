@@ -124,3 +124,9 @@ export interface AppStatus {
 }
 
 export type IntegrationStatus = 'connected' | 'disconnected' | 'alert';
+
+export const PaymentMethodType = {
+  creditCard: 'CC',
+  mercadoPago: 'MP',
+  transfer: 'TRANSF',
+};

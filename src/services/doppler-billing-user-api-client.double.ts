@@ -1,4 +1,8 @@
-import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
+import {
+  EmptyResultWithoutExpectedErrors,
+  PaymentMethodType,
+  ResultWithoutExpectedErrors,
+} from '../doppler-types';
 import { timeout } from '../utils';
 import {
   BillingInformation,
@@ -55,7 +59,7 @@ export const fakePaymentMethod = {
   name: 'data.name',
   number: 'data.number',
   cvc: 'data.cvc',
-  paymentMethodName: 'data.paymentMethodName',
+  paymentMethodName: PaymentMethodType.creditCard,
   expiry: '12/21',
   ccType: 'data.ccType',
   idSelectedPlan: 'data.idSelectedPlan',
