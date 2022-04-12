@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { TransferMexico } from '.';
+import { PAYMENT_WAY_TRANSFER, TransferMexico } from '.';
 import IntlProvider from '../../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../../../services/pure-di';
 import { Formik } from 'formik';
@@ -10,7 +10,7 @@ const fakePaymentMethod = {
   razonSocial: 'rason social',
   useCFDI: 'CAAR530917EV7',
   paymentType: 'PPD',
-  paymentWay: 'TRANSFER',
+  paymentWay: PAYMENT_WAY_TRANSFER,
   bankName: 'bank of america',
   bankAccount: '1234',
 };
@@ -25,7 +25,7 @@ const fakeCfdi = {
 export const fakePaymentWays = {
   CASH: 'CASH',
   CHECK: 'CHECK',
-  TRANSFER: 'TRANSFER',
+  TRANSFER: PAYMENT_WAY_TRANSFER,
 };
 
 export const fakePaymentTypes = [
@@ -72,7 +72,9 @@ describe('TransferMexico', () => {
 
     // Assert
     expect(await screen.findByRole('listitem', { name: 'resume data' })).toBeInTheDocument();
-    expect(screen.queryByRole('none', { name: 'transfer mexico fields' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('tabpanel', { name: 'transfer mexico fields' }),
+    ).not.toBeInTheDocument();
   });
 
   it('should render TransferMexico component when is updated', async () => {
@@ -97,6 +99,8 @@ describe('TransferMexico', () => {
 
     // Assert
     expect(screen.queryByRole('listitem', { name: 'resume data' })).not.toBeInTheDocument();
-    expect(await screen.findByRole('none', { name: 'transfer mexico fields' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('tabpanel', { name: 'transfer mexico fields' }),
+    ).toBeInTheDocument();
   });
 });

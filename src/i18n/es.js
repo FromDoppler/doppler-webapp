@@ -211,7 +211,7 @@ const messages_es = {
       bank_account: 'Últimos 4 dígitos de tu cuenta',
       bank_name: 'Nombre del banco',
       business_name: 'Razón social',
-      cfdi: 'CFDI',
+      cfdi: 'Uso de CFDI',
       considerations: 'Consideraciones:',
       considerations_credit_card_note_1: 'Emitiremos una <bold>factura en dólares desde Estados Unidos</bold>, donde se encuentra nuestra filial Doppler LLC.',
       considerations_credit_card_note_2: 'El <bold>monto a pagar</bold> corresponde al precio del Plan contratado y está <bold>sujeto a impuestos aplicables</bold> en cada país.',

@@ -9,9 +9,11 @@ import {
 import { fieldNames, paymentType } from '../../PaymentMethod';
 import { useFormikContext } from 'formik';
 import { useIntl } from 'react-intl';
-import { validateCuit } from '../../../../../../validations';
+import { validateRfc } from '../../../../../../validations';
 import { identificationTypes } from '../Transfer';
 import { InjectAppServices } from '../../../../../../services/pure-di';
+
+export const PAYMENT_WAY_TRANSFER = 'TRANSFER';
 
 export const TransferMexico = InjectAppServices(
   ({ dependencies: { staticDataClient }, paymentMethod, readOnly, consumerTypes }) => {
@@ -34,7 +36,7 @@ export const TransferMexico = InjectAppServices(
         [fieldNames.bankAccount]: paymentMethod.bankAccount,
         [fieldNames.paymentMethodName]: paymentType.transfer,
       });
-    }, [paymentMethod, paymentType]);
+    }, [paymentMethod, setValues]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -87,7 +89,7 @@ export const TransferMexico = InjectAppServices(
     }
 
     return (
-      <div role="none" aria-label="transfer mexico fields">
+      <div role="tabpanel" aria-label="transfer mexico fields">
         <FieldItem className="field-item">
           <FieldGroup>
             <SelectFieldItem
@@ -108,11 +110,10 @@ export const TransferMexico = InjectAppServices(
                 label={`*${
                   identificationTypes.find((ct) => ct.key === values.consumerType).value
                 }:`}
-                maxLength={11}
                 required
-                validate={false}
+                validate={true}
                 className="field-item field-item--30"
-                validateIdentificationNumber={validateCuit}
+                validateIdentificationNumber={validateRfc}
               />
             )}
           </FieldGroup>
@@ -163,7 +164,7 @@ export const TransferMexico = InjectAppServices(
                 />
               </FieldGroup>
             </FieldItem>
-            {values[fieldNames.paymentWay] === 'TRANSFER' && (
+            {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
               <FieldItem className="field-item">
                 <FieldGroup>
                   <InputFieldItem
@@ -183,7 +184,7 @@ export const TransferMexico = InjectAppServices(
                     minLength={4}
                     maxLength={4}
                     required
-                    className="field-item field-item--50 dp-p-r"
+                    className="field-item field-item--50"
                   />
                 </FieldGroup>
               </FieldItem>

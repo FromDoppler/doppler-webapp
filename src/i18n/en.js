@@ -210,7 +210,7 @@ const messages_en = {
       bank_account: 'Last 4 digits of your account',
       bank_name: 'Bank name',
       business_name: 'Business name',
-      cfdi: 'CFDI',
+      cfdi: 'Use of CFDI',
       considerations: 'Consideration:',
       considerations_credit_card_note_1: '<bold>Invoices in USD will be issued from United States</bold>, where is located our subsidiary Doppler LLC.',
       considerations_credit_card_note_2: 'The <bold>amount payable</bold> is similar to the amount of the purchased Plan, and <bold>it depends on applicable taxes</bold> in each country.',
