@@ -440,7 +440,9 @@ export const PurchaseSummary = InjectAppServices(
           />
           <hr className="dp-hr-grey" />
           <TotalPurchase
-            totalPlan={state.plan?.fee * state.discount?.monthsAmmount}
+            totalPlan={
+              state.discount ? state.plan?.fee * state.discount.monthsAmmount : state.plan?.fee
+            }
             priceToPay={total}
             state={state}
           />
