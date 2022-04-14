@@ -36,7 +36,17 @@ export const TransferMexico = InjectAppServices(
         [fieldNames.bankAccount]: paymentMethod.bankAccount,
         [fieldNames.paymentMethodName]: paymentType.transfer,
       });
-    }, [paymentMethod, setValues]);
+    }, [
+      paymentMethod.idConsumerType,
+      paymentMethod.identificationNumber,
+      paymentMethod.razonSocial,
+      paymentMethod.useCFDI,
+      paymentMethod.paymentType,
+      paymentMethod.paymentWay,
+      paymentMethod.bankName,
+      paymentMethod.bankAccount,
+      setValues,
+    ]);
 
     useEffect(() => {
       const fetchData = async () => {
