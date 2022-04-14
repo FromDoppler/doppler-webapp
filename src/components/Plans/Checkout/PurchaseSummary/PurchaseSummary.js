@@ -151,6 +151,7 @@ export const CreditsPromocode = ({ extraCredits }) => {
 export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, planType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const isTransfer = paymentMethodType === paymentType.transfer;
 
   const getTaxesLegend = (paymentMethodType, planType) => {
     switch (planType) {
@@ -184,6 +185,7 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
               {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`}{' '}
               {dollarSymbol}{' '}
               <FormattedNumber value={priceToPay - discount} {...numberFormatOptions} />
+              {isTransfer && '*'}
             </h3>
           </li>
         ) : (
