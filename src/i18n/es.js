@@ -515,10 +515,10 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     postListBlog_2_link_description: 'Sigue leyendo',
     postListBlog_2_title: '#DopplerHelp',
 
-    postListHelp_1_description: 'Lleva tu estrategia de Email & Automation Marketing a otro nivel',
-    postListHelp_1_link: 'https://www.fromdoppler.com/demo-day/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=inbound-demoday',
-    postListHelp_1_link_description: 'Regístrate gratis',
-    postListHelp_1_title: 'Demo Day: evento online y gratuito',
+    postListHelp_1_description: 'Certificación gratuita y online en Automation Marketing',
+    postListHelp_1_link: 'https://academy.fromdoppler.com/bootcamp/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=inbound-bootcamp',
+    postListHelp_1_link_description: 'Súmate',
+    postListHelp_1_title: 'Doppler Digital Bootcamp',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
