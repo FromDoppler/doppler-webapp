@@ -104,11 +104,11 @@ const TransferElement = ({
       <IntlProvider>
         <BrowserRouter>
           {updateView === actionPage.UPDATE ? (
-            <Formik>
+            <Formik initialValues={{}}>
               <Transfer {...initialPropsUpdateView} paymentMethod={paymentMethod} />
             </Formik>
           ) : (
-            <Formik>
+            <Formik initialValues={{}}>
               <Transfer {...initialPropsReonlyView} paymentMethod={paymentMethod} />
             </Formik>
           )}
@@ -153,9 +153,6 @@ describe('Transer component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent(
-      'Consumidor Final',
-    );
     expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent('DNI/CUIL');
     expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent(
       fakePaymentMethodInformationWithTransfer.identificationNumber,
