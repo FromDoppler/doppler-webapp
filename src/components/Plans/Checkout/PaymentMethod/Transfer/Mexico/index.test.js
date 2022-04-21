@@ -1,21 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { getAllByRole, getByText, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { PAYMENT_WAY_TRANSFER, TransferMexico } from '.';
 import IntlProvider from '../../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../../../services/pure-di';
 import { Formik } from 'formik';
-
-const fakePaymentMethod = {
-  identificationNumber: 'fake RFC value',
-  razonSocial: 'rason social',
-  useCFDI: 'CAAR530917EV7',
-  paymentType: 'PPD',
-  paymentWay: PAYMENT_WAY_TRANSFER,
-  bankName: 'bank of america',
-  bankAccount: '1234',
-};
-
-const fakeConsumerTypes = [{ key: 'RFC', value: 'Registro Federal de Contribuyentes' }];
+import userEvent from '@testing-library/user-event';
 
 const fakeCfdi = {
   G03: 'G03',
@@ -28,10 +17,10 @@ export const fakePaymentWays = {
   TRANSFER: PAYMENT_WAY_TRANSFER,
 };
 
-export const fakePaymentTypes = [
-  { key: 'PPD', value: 'PPD' },
-  { key: 'PUE', value: 'PUE' },
-];
+export const fakePaymentTypes = {
+  PPD: 'PPD',
+  PUE: 'PUE',
+};
 
 const services = {
   staticDataClient: {
@@ -51,9 +40,18 @@ const services = {
 };
 
 describe('TransferMexico', () => {
-  it('should render TransferMexico component when is readOnly', async () => {
+  it('should render the resume data when is read only mode', async () => {
     // Arrange
     const readOnly = true;
+    const fakePaymentMethod = {
+      identificationNumber: 'CAAR530917EV7',
+      razonSocial: 'Boris Marketing',
+      useCFDI: 'G03',
+      paymentType: 'PPD',
+      paymentWay: PAYMENT_WAY_TRANSFER,
+      bankName: 'bank of america',
+      bankAccount: '1234',
+    };
 
     // Act
     render(
@@ -71,36 +69,148 @@ describe('TransferMexico', () => {
     );
 
     // Assert
-    expect(await screen.findByRole('listitem', { name: 'resume data' })).toBeInTheDocument();
+    const resumeData = await screen.findByRole('listitem', { name: 'resume data' });
+    getByText(resumeData, /CAAR530917EV7/i);
+    getByText(resumeData, /Boris Marketing/i);
     expect(
       screen.queryByRole('tabpanel', { name: 'transfer mexico fields' }),
     ).not.toBeInTheDocument();
   });
 
-  it('should render TransferMexico component when is updated', async () => {
+  describe('should render TransferMexico component when is edit mode', () => {
     // Arrange
+    const fakeConsumerTypes = [{ key: 'RFC', value: 'Registro Federal de Contribuyentes' }];
     const readOnly = false;
-    const RFC = fakeConsumerTypes[0];
+    const fakePaymentMethod = {
+      identificationNumber: '',
+      razonSocial: '',
+      useCFDI: '',
+      paymentType: '',
+      paymentWay: '',
+      bankName: '',
+      bankAccount: '',
+    };
 
-    // Act
-    render(
-      <AppServicesProvider forcedServices={services}>
-        <IntlProvider>
-          <Formik initialValues={{}}>
-            <TransferMexico
-              readOnly={readOnly}
-              paymentMethod={{}}
-              consumerTypes={fakeConsumerTypes}
-            />
-          </Formik>
-        </IntlProvider>
-      </AppServicesProvider>,
-    );
+    it('should render the transfer mexico form', async () => {
+      // Act
+      render(
+        <AppServicesProvider forcedServices={services}>
+          <IntlProvider>
+            <Formik initialValues={{}}>
+              <TransferMexico
+                readOnly={readOnly}
+                paymentMethod={fakePaymentMethod}
+                consumerTypes={fakeConsumerTypes}
+              />
+            </Formik>
+          </IntlProvider>
+        </AppServicesProvider>,
+      );
 
-    // Assert
-    expect(screen.queryByRole('listitem', { name: 'resume data' })).not.toBeInTheDocument();
-    expect(
-      await screen.findByRole('tabpanel', { name: 'transfer mexico fields' }),
-    ).toBeInTheDocument();
+      // Assert
+      await screen.findByRole('tabpanel', { name: 'transfer mexico fields' });
+
+      // resume data is not visible when is edit mode
+      expect(screen.queryByRole('listitem', { name: 'resume data' })).not.toBeInTheDocument();
+    });
+
+    it('should render the transfer mexico form with the correct fields', async () => {
+      // Arrange
+      const RFC = fakeConsumerTypes[0];
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={services}>
+          <IntlProvider>
+            <Formik initialValues={{}}>
+              <TransferMexico
+                readOnly={readOnly}
+                paymentMethod={fakePaymentMethod}
+                consumerTypes={fakeConsumerTypes}
+              />
+            </Formik>
+          </IntlProvider>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      const getConsumerTypeField = () =>
+        screen.getByLabelText(/checkoutProcessForm.payment_method.consumer_type/i);
+      let consumerTypeField = getConsumerTypeField();
+
+      // Initially, all fields are not in the document
+      expect(screen.queryByLabelText(/RFC/i)).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.business_name/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.cfdi/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.title/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.payment_way/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.bank_name/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.bank_account/i),
+      ).not.toBeInTheDocument();
+
+      // +1 because default option is included
+      expect(getAllByRole(consumerTypeField, 'option')).toHaveLength(fakeConsumerTypes.length + 1);
+
+      // select "Registro Federal de Contribuyentes" option
+      userEvent.selectOptions(consumerTypeField, RFC.key);
+      consumerTypeField = await screen.findByLabelText(
+        /checkoutProcessForm.payment_method.consumer_type/i,
+      );
+      expect(consumerTypeField.value).toBe(RFC.key);
+
+      // RFC, rason social, cfdi, payment type and payment way are shown
+      screen.getByLabelText(/RFC/i);
+      screen.getByLabelText(/checkoutProcessForm.payment_method.business_name/i);
+      screen.getByLabelText(/checkoutProcessForm.payment_method.cfdi/i);
+      screen.getByLabelText(/checkoutProcessForm.payment_method.title/i);
+      screen.getByLabelText(/checkoutProcessForm.payment_method.payment_way/i);
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.bank_name/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.bank_account/i),
+      ).not.toBeInTheDocument();
+
+      // select "TRANSFER" option
+      let paymentWayField = screen.getByLabelText(
+        /checkoutProcessForm.payment_method.payment_way/i,
+      );
+      userEvent.selectOptions(paymentWayField, 'TRANSFER');
+      paymentWayField = await screen.findByLabelText(
+        /checkoutProcessForm.payment_method.payment_way/i,
+      );
+      expect(paymentWayField.value).toBe('TRANSFER');
+
+      // bank name & bank account fields are shown when "TRANSFER" is selected
+      await screen.findByLabelText(/checkoutProcessForm.payment_method.bank_name/i);
+      await screen.findByLabelText(/checkoutProcessForm.payment_method.bank_account/i);
+
+      // select "CASH" option
+      paymentWayField = screen.getByLabelText(/checkoutProcessForm.payment_method.payment_way/i);
+      userEvent.selectOptions(paymentWayField, 'CASH');
+      paymentWayField = await screen.findByLabelText(
+        /checkoutProcessForm.payment_method.payment_way/i,
+      );
+      expect(paymentWayField.value).toBe('CASH');
+
+      // bank name & bank account fields are not shown when payment way is not "TRANSFER"
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.bank_name/i),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByLabelText(/checkoutProcessForm.payment_method.bank_account/i),
+      ).not.toBeInTheDocument();
+    });
   });
 });
