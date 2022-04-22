@@ -271,7 +271,7 @@ describe('PaymentMethod component', () => {
   });
 
   describe.each([
-    ['should show messages for empty required fields for "Consumidor Final"', '', '', 'CF', 1],
+    ['should show messages for empty required fields for "Consumidor Final"', '', '', 'CF', 2],
     ['should show messages for empty required fields for "Responsable Inscripto"', '', '', 'RI', 2],
     ['should show messages for empty required fields without consumer type', '', '', '', 1],
   ])(
