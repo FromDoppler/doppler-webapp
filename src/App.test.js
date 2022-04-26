@@ -80,6 +80,34 @@ const defaultDependencies = {
   dopplerSitesClient: dopplerSitesClientDouble,
 };
 
+const getSurveyFormStatusMock = async () => ({
+  success: true,
+  value: { surveyFormCompleted: true },
+});
+
+const reportDependencies = {
+  dopplerLegacyClient: {
+    getSurveyFormStatus: getSurveyFormStatusMock,
+  },
+  datahubClient: {
+    getAccountDomains: async () => ({
+      success: true,
+      value: [],
+    }),
+    getTrafficSourcesByPeriod: async () => ({
+      success: true,
+      value: [],
+    }),
+    getPagesRankingByPeriod: async () => ({
+      success: true,
+      value: {
+        hasMorePages: false,
+        pages: [],
+      },
+    }),
+  },
+};
+
 describe('App component', () => {
   afterEach(cleanup);
 
@@ -159,6 +187,7 @@ describe('App component', () => {
         appSessionRef: appSessionRef,
         sessionManager: createDoubleSessionManager(appSessionRef),
         dopplerSitesClient: dopplerSitesClientDouble,
+        ...reportDependencies,
       };
 
       const { getByText, container } = render(
@@ -273,6 +302,7 @@ describe('App component', () => {
         appSessionRef: appSessionRef,
         sessionManager: createDoubleSessionManager(appSessionRef),
         dopplerSitesClient: dopplerSitesClientDouble,
+        ...reportDependencies,
       };
 
       const { getByText, container } = render(
@@ -522,6 +552,7 @@ describe('App component', () => {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
           dopplerSitesClient: dopplerSitesClientDouble,
+          ...reportDependencies,
         };
 
         const currentRouteState = {};
@@ -555,11 +586,12 @@ describe('App component', () => {
               },
               nav: [],
               features: {
-                siteTrackingEnabled: false,
-                siteTrackingActive: false,
-                emailParameterEnabled: false,
-                emailParameterActive: false,
+                siteTrackingEnabled: true,
+                siteTrackingActive: true,
+                emailParameterEnabled: true,
+                emailParameterActive: true,
               },
+              datahubCustomerId: true,
             },
           });
         });
@@ -583,6 +615,7 @@ describe('App component', () => {
           appSessionRef: appSessionRef,
           sessionManager: createDoubleSessionManager(appSessionRef),
           dopplerSitesClient: dopplerSitesClientDouble,
+          ...reportDependencies,
         };
 
         const currentRouteState = {};
@@ -616,11 +649,12 @@ describe('App component', () => {
               },
               nav: [],
               features: {
-                siteTrackingEnabled: false,
-                siteTrackingActive: false,
-                emailParameterEnabled: false,
-                emailParameterActive: false,
+                siteTrackingEnabled: true,
+                siteTrackingActive: true,
+                emailParameterEnabled: true,
+                emailParameterActive: true,
               },
+              datahubCustomerId: true,
             },
           });
         });
