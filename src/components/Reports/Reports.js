@@ -101,11 +101,11 @@ const Reports = ({ dependencies: { datahubClient } }) => {
           </Helmet>
         )}
       </FormattedMessage>
-      <TypeformSurvey />
       {state.domains && !state.domainSelected ? (
         <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.thereAreNotDomains} />
       ) : (
         <>
+          <TypeformSurvey />
           <ReportsFilters
             changeDomain={changeDomain}
             domains={state.domains}
