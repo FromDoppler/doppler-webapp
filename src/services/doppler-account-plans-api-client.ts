@@ -203,7 +203,7 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `plans/${planId}/validate/${promocode}`,
+        url: `plans/${planId}/validate/${encodeURIComponent(promocode)}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
