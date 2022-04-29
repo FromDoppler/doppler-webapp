@@ -52,6 +52,7 @@ export const fakePlanAmountDetailsWithPromocode = {
 export const fakePromotion = {
   extraCredits: 1543,
   discountPercentage: 17,
+  duration: 1,
 };
 
 export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlansApiClient {

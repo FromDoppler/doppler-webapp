@@ -63,6 +63,7 @@ export interface Plan {
 export interface Promotion {
   extraCredits: number;
   discountPercentage: number;
+  duration: number;
 }
 
 export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiClient {
