@@ -231,7 +231,9 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
         )}
         <InvoiceInformation
           planType={state.planType}
-          priceToPay={state.promotion?.duration === 1 ? totalPlan : priceToPay}
+          priceToPay={
+            state.promotion ? (state.promotion.duration === 1 ? totalPlan : priceToPay) : totalPlan
+          }
           discount={discountPrepayment?.amount}
           paymentMethodType={state.paymentMethodType}
         />
