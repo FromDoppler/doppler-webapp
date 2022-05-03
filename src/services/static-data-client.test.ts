@@ -1,6 +1,6 @@
 import { AxiosStatic } from 'axios';
 import { HttpStaticDataClient } from './static-data-client';
-import { fakeIndustries, fakeStates } from './static-data-client.double';
+import { fakeDocumentTypes, fakeIndustries, fakeStates } from './static-data-client.double';
 
 const consoleError = console.error;
 
@@ -198,6 +198,44 @@ describe('HttpStaticDataClient', () => {
 
     // Act
     const result = await staticDataClient.getPaymentWaysData('es');
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+    expect(result.error).not.toBe(undefined);
+  });
+
+  it('should get document types', async () => {
+    // Arrange
+    const fakeResponse = {
+      data: fakeDocumentTypes,
+      status: 200,
+    };
+
+    const request = jest.fn(async () => fakeResponse);
+    const staticDataClient = createHttpStaticDataClient({ request });
+
+    // Act
+    const result = await staticDataClient.getDocumentTypesData('es');
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result.success).toBe(true);
+  });
+
+  it('should set error when the connecting fail trying to get the document types information ', async () => {
+    // Arrange
+    const request = jest.fn(async () => {});
+    request.mockImplementation(() => {
+      throw new Error();
+    });
+    const staticDataClient = createHttpStaticDataClient({ request });
+
+    console.error = jest.fn(); // silence console error for this test run only
+
+    // Act
+    const result = await staticDataClient.getDocumentTypesData('es');
 
     // Assert
     expect(request).toBeCalledTimes(1);
