@@ -8,6 +8,7 @@ export interface StaticDataClient {
   getUseCfdiData(language: string): Promise<any>;
   getPaymentWaysData(language: string): Promise<any>;
   getPaymentTypesData(language: string): Promise<any>;
+  getDocumentTypesData(language: string): Promise<any>;
 }
 
 export class HttpStaticDataClient implements StaticDataClient {
@@ -139,6 +140,19 @@ export class HttpStaticDataClient implements StaticDataClient {
       return { success: true, value: response.data };
     } catch (error) {
       console.error('Payment types file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getDocumentTypesData(language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: this.baseUrl + `/document-types-${language}.json`,
+      });
+      return { success: true, value: response.data };
+    } catch (error) {
+      console.error('Document types file not accesible');
       return { success: false, error: error };
     }
   }

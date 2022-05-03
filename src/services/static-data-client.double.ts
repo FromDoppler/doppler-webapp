@@ -68,6 +68,11 @@ export const fakePaymentTypes = [
   { key: 'PUE', value: 'PUE' },
 ];
 
+export const fakeDocumentTypes = [
+  { key: 'DNI', value: 'DNI' },
+  { key: 'CI', value: 'Cedula' },
+];
+
 export class HardcodedStaticDataClient implements StaticDataClient {
   public async getIndustriesData(language: string): Promise<any> {
     await timeout(1500);
@@ -121,6 +126,14 @@ export class HardcodedStaticDataClient implements StaticDataClient {
     await timeout(1500);
     return {
       value: fakePaymentTypes,
+      success: true,
+    };
+  }
+
+  public async getDocumentTypesData(language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakeDocumentTypes,
       success: true,
     };
   }
