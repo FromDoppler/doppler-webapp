@@ -15,6 +15,7 @@ import {
   CONTROL_PANEL_SECTIONS_ACTIONS,
   controlPanelSectionsReducer,
 } from './reducers/controlPanelSectionsReducer';
+import useHashScrollHandler from '../../hooks/useHashScrollHandler';
 
 const sortByStatus = (a, b) => {
   return a.status
@@ -70,6 +71,8 @@ export const ControlPanel = InjectAppServices(
 
       fetchData();
     }, [controlPanelService, dopplerUserApiClient]);
+
+    useHashScrollHandler();
 
     if (loading) {
       return <Loading page />;
