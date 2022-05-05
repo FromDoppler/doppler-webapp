@@ -153,7 +153,7 @@ describe('Transer component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent('DNI/CUIL');
+    expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent('DNI');
     expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent(
       fakePaymentMethodInformationWithTransfer.identificationNumber,
     );

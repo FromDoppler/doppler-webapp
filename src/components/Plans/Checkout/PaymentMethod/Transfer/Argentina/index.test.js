@@ -118,7 +118,7 @@ describe('TransferArgentina', () => {
       let consumerTypeField = getConsumerTypeField();
 
       // Initially, DNI & rason social fields are not in the document
-      expect(screen.queryByLabelText(/DNI\/CUIL/i)).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(/DNI/i)).not.toBeInTheDocument();
       expect(
         screen.queryByLabelText(/checkoutProcessForm.payment_method.business_name/i),
       ).not.toBeInTheDocument();
@@ -135,24 +135,24 @@ describe('TransferArgentina', () => {
       screen.getByLabelText(/CUIT/i);
       screen.getByLabelText(/checkoutProcessForm.payment_method.business_name/i);
 
-      // DNI/CUIL field is not shown when consumer type is not final consumer
-      expect(screen.queryByLabelText(/DNI\/CUIL/i)).not.toBeInTheDocument();
+      // DNI field is not shown when consumer type is not final consumer
+      expect(screen.queryByLabelText(/DNI/i)).not.toBeInTheDocument();
 
       // select "Consumidor Final" option
       userEvent.selectOptions(consumerTypeField, finalConsumer);
       consumerTypeField = await screen.findByRole('combobox');
       expect(consumerTypeField.value).toBe(finalConsumer);
 
-      // DNI/CUIL field is shown because consumer type is final consumer
-      screen.getByLabelText(/DNI\/CUIL/i);
+      // DNI field is shown because consumer type is final consumer
+      screen.getByLabelText(/DNI/i);
 
-      // fill DNI/CUIL and rason social
-      userEvent.type(screen.getByLabelText(/DNI\/CUIL/i), '81544670');
+      // fill DNI and rason social
+      userEvent.type(screen.getByLabelText(/DNI/i), '81544670');
       userEvent.type(
         screen.getByLabelText(/checkoutProcessForm.payment_method.business_name/i),
         'Boris Marketing',
       );
-      expect(await screen.findByLabelText(/DNI\/CUIL/i)).toHaveValue('81544670');
+      expect(await screen.findByLabelText(/DNI/i)).toHaveValue(81544670);
       expect(
         await screen.findByLabelText(/checkoutProcessForm.payment_method.business_name/i),
       ).toHaveValue('Boris Marketing');
