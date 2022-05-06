@@ -645,10 +645,10 @@ export const WrapInTooltip = ({ children, when = true, text }) => {
 };
 
 export const CuitFieldItem = ({
+  type = 'text',
   className,
   fieldName,
   label,
-  type,
   placeholder,
   required,
   validate,
@@ -658,7 +658,7 @@ export const CuitFieldItem = ({
   <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
     <label htmlFor={fieldName}>{label}</label>
     <Field
-      type="text"
+      type={type}
       name={fieldName}
       id={fieldName}
       placeholder={placeholder}

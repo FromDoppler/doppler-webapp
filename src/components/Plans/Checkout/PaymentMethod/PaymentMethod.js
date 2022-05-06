@@ -13,6 +13,7 @@ import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer/Transfer';
 import { useRouteMatch } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 
 const none = 'NONE';
 
@@ -142,8 +143,10 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
             return <CreditCard optionView={optionView}></CreditCard>;
           case paymentType.transfer:
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
+          case paymentType.mercadoPago:
+            return <MercadoPagoArgentina optionView={optionView} />;
           default:
-            return null;
+            return <CreditCard optionView={optionView}></CreditCard>;
         }
       })()}
     </>
@@ -167,6 +170,28 @@ const PaymentNotes = ({ paymentMethodType }) => {
               <br />
               <p style={considerationNoteStyle}>
                 <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_credit_card_note_2" />
+              </p>
+            </div>
+          </li>
+        </FieldGroup>
+      );
+
+    case paymentType.mercadoPago:
+      return (
+        <FieldGroup>
+          <li className="field-item">
+            <div className="dp-considerations">
+              <label>{_('checkoutProcessForm.payment_method.considerations')}</label>
+              <p className="m-t-12" style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_mercado_pago_note_1" />
+              </p>
+              <br />
+              <p style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_mercado_pago_note_2" />
+              </p>
+              <br />
+              <p style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_mercado_pago_note_3" />
               </p>
             </div>
           </li>

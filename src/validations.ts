@@ -133,6 +133,14 @@ export function validateCuit(
   return null;
 }
 
+export const validateDni = (value: number, digits: number = 99999999) => {
+  if (value > digits) {
+    return 'validation_messages.error_invalid_dni';
+  }
+
+  return null;
+};
+
 export function validateNit(
   value: string,
   commonErrorKey: true | string = 'validation_messages.error_invalid_nit',
