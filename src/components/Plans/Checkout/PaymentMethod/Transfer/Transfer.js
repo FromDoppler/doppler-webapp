@@ -9,7 +9,7 @@ import { TransferMexico } from './Mexico';
 
 export const finalConsumer = 'CF';
 export const identificationTypes = [
-  { key: 'CF', value: 'DNI/CUIL' },
+  { key: 'CF', value: 'DNI' },
   { key: 'RI', value: 'CUIT' },
   { key: 'RNI', value: 'CUIT' },
   { key: 'MT', value: 'CUIT' },

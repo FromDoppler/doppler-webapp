@@ -9,7 +9,7 @@ import {
 } from '../../../../../form-helpers/form-helpers';
 import { useFormikContext } from 'formik';
 import { fieldNames, paymentType } from '../../PaymentMethod';
-import { validateCuit } from '../../../../../../validations';
+import { validateCuit, validateDni } from '../../../../../../validations';
 import { finalConsumer, identificationTypes } from '../Transfer';
 
 export const TransferArgentina = ({ paymentMethod, consumerTypes, readOnly }) => {
@@ -60,7 +60,7 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes, readOnly }) =>
           />
           {values[fieldNames.consumerType] && (
             <CuitFieldItem
-              type="text"
+              type={isFinalConsumer ? 'number' : 'text'}
               aria-label="identificationNumber"
               fieldName={fieldNames.identificationNumber}
               id={fieldNames.identificationNumber}
@@ -71,7 +71,7 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes, readOnly }) =>
               validate={true}
               className="field-item field-item--30"
               maxLength={isFinalConsumer ? 8 : null}
-              validateIdentificationNumber={!isFinalConsumer ? validateCuit : null}
+              validateIdentificationNumber={isFinalConsumer ? validateDni : validateCuit}
             />
           )}
         </FieldGroup>
