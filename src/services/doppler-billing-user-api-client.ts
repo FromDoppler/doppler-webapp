@@ -161,18 +161,9 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
   }
 
   private mapPaymentMethodToUpdate(data: any): any {
-    return data.paymentMethodName === PaymentMethodType.creditCard
-      ? {
-          ccHolderFullName: data.name,
-          ccNumber: data.number?.replaceAll(' ', ''),
-          ccVerification: data.cvc,
-          paymentMethodName: data.paymentMethodName,
-          idSelectedPlan: data.idSelectedPlan,
-          ccExpYear: data.expiry?.split('/')[1],
-          ccExpMonth: data.expiry?.split('/')[0],
-          ccType: data.ccType,
-        }
-      : {
+    switch (data.paymentMethodName) {
+      case PaymentMethodType.transfer:
+        return {
           paymentMethodName: data.paymentMethodName,
           idSelectedPlan: data.idSelectedPlan,
           razonSocial: data.businessName,
@@ -184,6 +175,32 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           paymentWay: data.paymentWay,
           useCFDI: data.cfdi,
         };
+
+      case PaymentMethodType.mercadoPago:
+        return {
+          ccHolderFullName: data.name,
+          ccNumber: data.number?.replaceAll(' ', ''),
+          ccVerification: data.cvc,
+          paymentMethodName: data.paymentMethodName,
+          idSelectedPlan: data.idSelectedPlan,
+          ccExpYear: data.expiry?.split('/')[1],
+          ccExpMonth: data.expiry?.split('/')[0],
+          ccType: data.ccType,
+          identificationNumber: `${data.identificationNumber}`,
+        };
+
+      default:
+        return {
+          ccHolderFullName: data.name,
+          ccNumber: data.number?.replaceAll(' ', ''),
+          ccVerification: data.cvc,
+          paymentMethodName: data.paymentMethodName,
+          idSelectedPlan: data.idSelectedPlan,
+          ccExpYear: data.expiry?.split('/')[1],
+          ccExpMonth: data.expiry?.split('/')[0],
+          ccType: data.ccType,
+        };
+    }
   }
 
   private mapInvoiceRecipientsToUpdate(data: any, planId: number): any {
