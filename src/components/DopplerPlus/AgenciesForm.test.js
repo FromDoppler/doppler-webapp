@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import AgenciesForm from './AgenciesForm';
+import AgenciesForm, { volumeOptions } from './AgenciesForm';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 
 describe('AgenciesForm component', () => {
   const dependencies = {
@@ -41,164 +41,62 @@ describe('AgenciesForm component', () => {
       </DopplerIntlProvider>
     </AppServicesProvider>
   );
-  jest.useFakeTimers();
+  // jest.useFakeTimers();
 
   it('should show success message if submit succesfully', async () => {
     // Arrange
-    const { container, getByText } = render(<AgenciesFormElement />);
+    const firstNameFake = 'Junior';
+    const lastNameFake = 'Campos';
+    const phoneFake = '+54 223 655-8877';
+    const contactFake = '17:00pm - 19:00pm';
 
     // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
+    render(<AgenciesFormElement />);
 
     // Assert
-    await waitFor(() => {
-      return expect(getByText('agencies.success_msg')).toBeInTheDocument();
+    const emailField = screen.getByLabelText(/forms.label_email/i);
+    const firstNameField = screen.getByLabelText(/forms.label_firstname/i);
+    const lastNameField = screen.getByLabelText(/forms.label_lastname/i);
+    const phoneField = screen.getByLabelText(/forms.label_phone/i);
+    const contactField = screen.getByLabelText(/forms.label_contact_schedule/i);
+    const option500To1000 = screen.getByLabelText(/agencies.volume_500/i);
+
+    expect(screen.queryByText(/agencies.success_msg/i)).not.toBeInTheDocument();
+
+    // all options are unselecteds
+    volumeOptions.forEach(async (volume) => {
+      expect(screen.getByLabelText(volume.description)).not.toBeChecked();
     });
 
-    expect(screen.getByRole('link', { name: 'agencies.submitted' })).toHaveAttribute(
-      'href',
-      'common.homeUrl',
-    );
-    expect(screen.getByRole('link', { name: 'common.breadcrumb_plans' })).toHaveAttribute(
-      'href',
-      'common.breadcrumb_plans_url',
-    );
-  });
+    // initial value from appSessionRef
+    expect(emailField).toHaveValue('hardcoded@email.com');
 
-  it('should show messages for empty required fields', async () => {
-    // Arrange
-    const { container, getAllByText } = render(<AgenciesFormElement />);
+    // fill firstname, phone and contact fields
+    userEvent.type(firstNameField, firstNameFake);
+    userEvent.paste(phoneField, phoneFake);
+    userEvent.type(contactField, contactFake);
+    // select between 500k - 1M option
+    userEvent.click(option500To1000);
 
-    // Act
-    act(() => {
-      const inputEmail = container.querySelector('input#email');
-      fireEvent.change(inputEmail, { target: { value: '' } });
+    expect(await screen.findByLabelText(/forms.label_firstname/i)).toHaveValue(firstNameFake);
+    expect(await screen.findByLabelText(/forms.label_phone/i)).toHaveValue(phoneFake);
+    expect(await screen.findByLabelText(/forms.label_contact_schedule/i)).toHaveValue(contactFake);
+    expect(await screen.findByLabelText(/agencies.volume_500/i)).toBeChecked();
 
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: '' } });
+    const submitButton = await screen.findByRole('button', { name: 'agencies.submit' });
+    expect(submitButton).toBeEnabled();
+    userEvent.click(submitButton);
 
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: '' } });
+    // don't show success message because last name field is empty
+    expect(screen.queryByText(/agencies.success_msg/i)).not.toBeInTheDocument();
+    screen.getByText('validation_messages.error_required_field');
 
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '' } });
-    });
+    // fill lastname
+    userEvent.type(lastNameField, lastNameFake);
+    expect(await screen.findByLabelText(/forms.label_lastname/i)).toHaveValue(lastNameFake);
 
-    await act(async () => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    expect(getAllByText('validation_messages.error_required_field').length).toBe(4);
-  });
-
-  it('should show error message if name field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<AgenciesFormElement />);
-
-    // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: '' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      return expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-    });
-  });
-
-  it('should show error message if lastname field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<AgenciesFormElement />);
-
-    // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: '' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
-    });
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      return expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-    });
-  });
-
-  it('should show error message if phone field is empty', async () => {
-    // Arrange
-    const { container, getByText } = render(<AgenciesFormElement />);
-
-    // Act
-    act(() => {
-      const inputName = container.querySelector('input#name');
-      fireEvent.change(inputName, { target: { value: 'Juan' } });
-
-      const inputLastname = container.querySelector('input#lastname');
-      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
-
-      const inputPhone = container.querySelector('input#phone');
-      fireEvent.change(inputPhone, { target: { value: '' } });
-    });
-
-    act(() => {
-      const submitButton = container.querySelector('button[type="submit"]');
-      fireEvent.submit(submitButton);
-    });
-
-    // Assert
-    await waitFor(() => {
-      return expect(getByText('validation_messages.error_required_field')).toBeInTheDocument();
-    });
-  });
-
-  it('should show features list in agencies form', () => {
-    //Arrange
-
-    //Act
-    const { container, getByText } = render(<AgenciesFormElement />);
-
-    //Assert
-    expect(getByText('agencies.feature_access')).toBeInTheDocument();
-    expect(getByText('agencies.feature_admin')).toBeInTheDocument();
-    expect(getByText('agencies.feature_custom')).toBeInTheDocument();
-    expect(getByText('agencies.feature_reports')).toBeInTheDocument();
-    expect(getByText('agencies.feature_consultancy')).toBeInTheDocument();
+    userEvent.click(submitButton);
+    expect(await screen.findByText(/agencies.success_msg/i)).toBeInTheDocument();
+    expect(screen.queryByText('validation_messages.error_required_field')).not.toBeInTheDocument();
   });
 });
