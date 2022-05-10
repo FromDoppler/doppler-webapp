@@ -17,46 +17,47 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
 import { getFormInitialValues } from '../../utils';
 
+export const volumeOptions = [
+  {
+    id: 'lessThan500k',
+    value: 'Menos de 500',
+    description: 'agencies.volume_0',
+  },
+  {
+    id: 'between500kAnd1m',
+    value: 'Entre 500k y 1m',
+    description: 'agencies.volume_500',
+  },
+  {
+    id: 'between1mAnd10m',
+    value: 'Entre 1m y 10m',
+    description: 'agencies.volume_1m',
+  },
+  {
+    id: 'moreThan10m',
+    value: 'Más de 10m',
+    description: 'agencies.volume_10m',
+  },
+  {
+    id: 'iDoNotKnow',
+    value: 'No lo sé',
+    description: 'agencies.volume_do_not_know',
+  },
+];
+
+const fieldNames = {
+  email: 'email',
+  firstname: 'firstname',
+  lastname: 'lastname',
+  phone: 'phone',
+  range_time: 'range_time',
+  volume: 'volume',
+};
+
 const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const volumeOptions = [
-    {
-      id: 'lessThan500k',
-      value: 'Menos de 500',
-      description: _('agencies.volume_0'),
-    },
-    {
-      id: 'between500kAnd1m',
-      value: 'Entre 500k y 1m',
-      description: _('agencies.volume_500'),
-    },
-    {
-      id: 'between1mAnd10m',
-      value: 'Entre 1m y 10m',
-      description: _('agencies.volume_1m'),
-    },
-    {
-      id: 'moreThan10m',
-      value: 'Más de 10m',
-      description: _('agencies.volume_10m'),
-    },
-    {
-      id: 'iDoNotKnow',
-      value: 'No lo sé',
-      description: _('agencies.volume_do_not_know'),
-    },
-  ];
-
-  const fieldNames = {
-    email: 'email',
-    firstname: 'firstname',
-    lastname: 'lastname',
-    phone: 'phone',
-    range_time: 'range_time',
-    volume: 'volume',
-  };
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const _getFormInitialValues = () => {
     const initialValues = getFormInitialValues(fieldNames);
@@ -65,8 +66,6 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
 
     return initialValues;
   };
-
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const validate = () => {
     setFormSubmitted(false);
@@ -136,6 +135,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                             withNameValidation
                             required
                             className="field-item--50"
+                            aria-label={_('forms.label_firstname')}
                           />
                           <InputFieldItem
                             type="text"
@@ -145,6 +145,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                             withNameValidation
                             required
                             className="field-item--50"
+                            aria-label={_('forms.label_lastname')}
                           />
                         </FieldGroup>
                       </fieldset>
@@ -157,6 +158,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                             label={`*${_('forms.label_phone')}`}
                             placeholder={_('forms.placeholder_phone')}
                             className="field-item--50"
+                            aria-label={_('forms.label_phone')}
                             required
                           />
                           <InputFieldItem
@@ -165,6 +167,7 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                             label={_('forms.label_contact_schedule')}
                             id="range_time"
                             className="field-item--50"
+                            aria-label={_('forms.label_contact_schedule')}
                           />
                         </FieldGroup>
                       </fieldset>
@@ -186,8 +189,9 @@ const AgenciesForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) 
                                     {...field}
                                     value={volumenOption.value}
                                     checked={field.value === volumenOption.value}
+                                    aria-label={_(volumenOption.description)}
                                   />
-                                  <span>{volumenOption.description}</span>
+                                  <span>{_(volumenOption.description)}</span>
                                 </label>
                               </div>
                             </li>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { FieldGroup, FieldItem, SubmitButton } from '../../../../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
@@ -17,12 +17,49 @@ export const InvoiceRecipients = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+    const updateInvoiceRecipients = useCallback(
+      (recipients) => {
+        const update = async () => {
+          const userEmail = appSessionRef.current.userData.user.email;
+          const recipientsToSend = recipients.length > 0 ? recipients : [userEmail];
+          const response = await dopplerBillingUserApiClient.updateInvoiceRecipients(
+            recipientsToSend,
+            selectedPlan,
+          );
+          if (response.success) {
+            setRecipients(recipientsToSend);
+          }
+          // TODO: define action to take when update fails
+        };
+        update();
+      },
+      [
+        selectedPlan,
+        dopplerBillingUserApiClient.updateInvoiceRecipients,
+        appSessionRef.current.userData.user.email,
+      ],
+    );
+
+    const submitEditRecipients = useCallback(
+      (values) => {
+        updateInvoiceRecipients(values[fieldNames.editRecipients]);
+        setEdit(false);
+      },
+      [updateInvoiceRecipients],
+    );
+
     useEffect(() => {
       const fetchData = async () => {
         const userEmail = appSessionRef.current.userData.user.email;
-        const response = await dopplerBillingUserApiClient.getInvoiceRecipientsData();
-        if (response.success) {
-          setRecipients(response.value.recipients);
+        const { success, value } = await dopplerBillingUserApiClient.getInvoiceRecipientsData();
+        if (success) {
+          if (value.recipients?.length > 0) {
+            setRecipients(value.recipients);
+          } else {
+            submitEditRecipients({
+              [fieldNames.editRecipients]: [userEmail],
+            });
+          }
         } else {
           // TODO: define action to take when update fails
           setRecipients([userEmail]);
@@ -30,27 +67,11 @@ export const InvoiceRecipients = InjectAppServices(
       };
 
       fetchData();
-    }, [appSessionRef, dopplerBillingUserApiClient]);
+    }, [appSessionRef, dopplerBillingUserApiClient, submitEditRecipients]);
 
     const _validateEmail = (value) => {
       const errorKey = validateEmail(value);
       return errorKey ? <FormattedMessage id={errorKey} /> : null;
-    };
-
-    const updateInvoiceRecipients = async (recipients) => {
-      const response = await dopplerBillingUserApiClient.updateInvoiceRecipients(
-        recipients,
-        selectedPlan,
-      );
-      if (response.success) {
-        setRecipients(recipients);
-      }
-      // TODO: define action to take when update fails
-    };
-
-    const submitEditRecipients = (values) => {
-      updateInvoiceRecipients(values[fieldNames.editRecipients]);
-      setEdit(false);
     };
 
     const formikConfig = {
