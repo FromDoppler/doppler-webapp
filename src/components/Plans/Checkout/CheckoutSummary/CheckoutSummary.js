@@ -56,7 +56,8 @@ const PlanInformation = ({
               src={_('common.ui_library_image', {
                 imageUrl: `${
                   paymentMethod === paymentType.creditCard ||
-                  (paymentMethod === paymentType.transfer && discountPromocode === MAX_PERCENTAGE)
+                  ([paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) &&
+                    discountPromocode === MAX_PERCENTAGE)
                     ? 'checkout-success.svg'
                     : 'three-points.svg'
                 }`,
