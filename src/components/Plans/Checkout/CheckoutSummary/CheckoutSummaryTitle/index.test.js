@@ -17,7 +17,7 @@ const CheckoutSummaryTitleElement = ({ paymentMethod, discountByPromocode }) => 
 
 describe('CheckoutSummaryTitle component', () => {
   it('should show the purchase finished when the payment method is "credit card"', async () => {
-    // Ac
+    // Act
     render(<CheckoutSummaryTitleElement paymentMethod={paymentType.creditCard} />);
 
     // Assert
@@ -30,7 +30,7 @@ describe('CheckoutSummaryTitle component', () => {
   });
 
   it('should show the purchase finished when the payment method is "transfer" and discountByPromocode is 100', async () => {
-    // Ac
+    // Act
     render(
       <CheckoutSummaryTitleElement
         paymentMethod={paymentType.transfer}
@@ -48,7 +48,7 @@ describe('CheckoutSummaryTitle component', () => {
   });
 
   it('should show purchase in process when the payment method is "transfer" and discountByPromocode is different to 100', async () => {
-    // Ac
+    // Act
     render(
       <CheckoutSummaryTitleElement paymentMethod={paymentType.transfer} discountByPromocode="50" />,
     );
@@ -58,6 +58,25 @@ describe('CheckoutSummaryTitle component', () => {
       screen.getByText(`checkoutProcessSuccess.transfer_purchase_finished_title`),
     ).toBeInTheDocument();
     expect(screen.getByText(`checkoutProcessSuccess.transfer_title`)).toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.purchase_finished_title`),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(`checkoutProcessSuccess.title`)).not.toBeInTheDocument();
+  });
+
+  it('should show purchase in process when the payment method is "mercado pago" and discountByPromocode is different to 100', async () => {
+    // Act
+    render(
+      <CheckoutSummaryTitleElement
+        paymentMethod={paymentType.mercadoPago}
+        discountByPromocode="50"
+      />,
+    );
+
+    // Assert
+    screen.getByText(`checkoutProcessSuccess.mercado_pago_purchase_finished_title`);
+    // It is the same title as in transfer
+    screen.getByText(`checkoutProcessSuccess.transfer_title`);
     expect(
       screen.queryByText(`checkoutProcessSuccess.purchase_finished_title`),
     ).not.toBeInTheDocument();

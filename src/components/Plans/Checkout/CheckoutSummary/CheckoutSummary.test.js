@@ -290,6 +290,57 @@ describe('CheckoutSummary component', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('should not show the mercado pago message when the payment method is "Mercado Pago" and promocode of the 100% discount ', async () => {
+    //Arrange
+    const currentUserFake = {
+      email: 'hardcoded@email.com',
+      plan: {
+        planType: PLAN_TYPE.byCredit,
+        planSubscription: 1,
+        monthPlan: 1,
+        remainingCredits: 5000,
+        emailQty: 1500,
+      },
+    };
+
+    const dopplerBillingUserApiClientDouble = {
+      ...dopplerBillingUserApiClientDoubleBase,
+      getPaymentMethodData: async () => {
+        return {
+          success: true,
+          value: {
+            ...fakePaymentMethod,
+            identificationNumber: '12345678',
+          },
+        };
+      },
+    };
+
+    // Ac
+    render(
+      <CheckoutSummaryElement
+        url="checkout-summary?planId=1&paymentMethod=MP&discountPromocode=100"
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        currentUserFake={currentUserFake}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    screen.getByText(`checkoutProcessSuccess.plan_type_${currentUserFake.plan.planType}`);
+    expect(screen.getByText('1,500')).toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.mercado_pago_warning_message`),
+    ).not.toBeInTheDocument();
+  });
+
   it('should show the transfer message when the payment method is "Transfer" with promocode smaller than 100%', async () => {
     //Arrange
     const currentUserFake = {
@@ -346,5 +397,55 @@ describe('CheckoutSummary component', () => {
     expect(
       screen.getByText(`checkoutProcessSuccess.transfer_confirmation_message`),
     ).toBeInTheDocument();
+  });
+
+  it('should show the mercado pago message when the payment method is "Mercado Pago" with promocode smaller than 100%', async () => {
+    //Arrange
+    const currentUserFake = {
+      email: 'hardcoded@email.com',
+      plan: {
+        planType: PLAN_TYPE.byCredit,
+        planSubscription: 1,
+        monthPlan: 1,
+        remainingCredits: 5000,
+        emailQty: 1500,
+      },
+    };
+
+    const dopplerBillingUserApiClientDouble = {
+      ...dopplerBillingUserApiClientDoubleBase,
+      getPaymentMethodData: async () => {
+        return {
+          success: true,
+          value: {
+            ...fakePaymentMethod,
+            identificationNumber: '12345678',
+          },
+        };
+      },
+    };
+
+    // Ac
+    render(
+      <CheckoutSummaryElement
+        url="checkout-summary?planId=1&paymentMethod=MP&discountPromocode=50"
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        currentUserFake={currentUserFake}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    screen.getByText(`checkoutProcessSuccess.plan_type_${currentUserFake.plan.planType}`);
+    screen.getByText('1,500');
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
+    ).not.toBeInTheDocument();
+
+    screen.getByText(`checkoutProcessSuccess.mercado_pago_warning_message`);
   });
 });
