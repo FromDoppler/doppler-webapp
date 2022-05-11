@@ -17,7 +17,7 @@ const CheckoutSummaryButtonElement = ({ paymentMethod, discountByPromocode }) =>
 
 describe('CheckoutSummaryButton component', () => {
   it('should show new plan button when the payment method is "credit card"', async () => {
-    // Ac
+    // Act
     render(<CheckoutSummaryButtonElement paymentMethod={paymentType.creditCard} />);
 
     // Assert
@@ -33,7 +33,7 @@ describe('CheckoutSummaryButton component', () => {
   });
 
   it('should show new plan button when the payment method is "transfer" and discountByPromocode is 100', async () => {
-    // Ac
+    // Act
     render(
       <CheckoutSummaryButtonElement
         paymentMethod={paymentType.transfer}
@@ -53,8 +53,31 @@ describe('CheckoutSummaryButton component', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('should show new plan button when the payment method is "mercado pago" and discountByPromocode is 100', async () => {
+    // Act
+    render(
+      <CheckoutSummaryButtonElement
+        paymentMethod={paymentType.mercadoPago}
+        discountByPromocode="100"
+      />,
+    );
+
+    // Assert
+    expect(
+      screen.getByText(`checkoutProcessSuccess.start_using_new_plan_button`),
+    ).toBeInTheDocument();
+
+    // is the same as transfer
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.transfer_explore_message`),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.transfer_explore_button`),
+    ).not.toBeInTheDocument();
+  });
+
   it('should show new explore section when the payment method is "transfer" and discountByPromocode is different to 100', async () => {
-    // Ac
+    // Act
     render(
       <CheckoutSummaryButtonElement
         paymentMethod={paymentType.transfer}
@@ -66,6 +89,27 @@ describe('CheckoutSummaryButton component', () => {
     expect(
       screen.queryByText(`checkoutProcessSuccess.start_using_new_plan_button`),
     ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.transfer_explore_message`),
+    ).toBeInTheDocument();
+    expect(screen.getByText(`checkoutProcessSuccess.transfer_explore_button`)).toBeInTheDocument();
+  });
+
+  it('should show new explore section when the payment method is "mercado pago" and discountByPromocode is different to 100', async () => {
+    // Act
+    render(
+      <CheckoutSummaryButtonElement
+        paymentMethod={paymentType.mercadoPago}
+        discountByPromocode="50"
+      />,
+    );
+
+    // Assert
+    expect(
+      screen.queryByText(`checkoutProcessSuccess.start_using_new_plan_button`),
+    ).not.toBeInTheDocument();
+
+    // because the text is the same as transfer
     expect(
       screen.queryByText(`checkoutProcessSuccess.transfer_explore_message`),
     ).toBeInTheDocument();

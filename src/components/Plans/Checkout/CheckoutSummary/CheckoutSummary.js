@@ -19,6 +19,7 @@ import { thousandSeparatorNumber } from '../../../../utils';
 import { TransferInformation } from './TransferInformation/index';
 import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
+import { MercadoPagoInformation } from './MercadoPagoInformation';
 
 export const MAX_PERCENTAGE = '100';
 
@@ -98,21 +99,6 @@ const PlanInformation = ({
         </li>
       </ul>
     </nav>
-  );
-};
-
-const MercadoPagoInformation = () => {
-  return (
-    <div className="dp-wrap-message dp-wrap-warning m-t-24">
-      <span className="dp-message-icon"></span>
-      <div className="dp-content-message">
-        <p>
-          <FormatMessageWithSpecialStyle
-            id={'checkoutProcessSuccess.flashcard_mercadopago_message'}
-          ></FormatMessageWithSpecialStyle>
-        </p>
-      </div>
-    </div>
   );
 };
 
@@ -234,7 +220,8 @@ export const CheckoutSummary = InjectAppServices(
           />
           {paymentMethod === paymentType.transfer && discountByPromocode !== MAX_PERCENTAGE ? (
             <TransferInformation billingCountry={billingCountry} />
-          ) : paymentMethod === paymentType.mercadoPago ? (
+          ) : paymentMethod === paymentType.mercadoPago &&
+            discountByPromocode !== MAX_PERCENTAGE ? (
             <MercadoPagoInformation />
           ) : null}
 

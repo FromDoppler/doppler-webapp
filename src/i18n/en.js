@@ -283,6 +283,15 @@ const messages_en = {
     discount_monthly: '1 month',
     discount_quarterly: '3 months',
     discount_yearly: '12 months',
+    mercado_pago_check_email_with_invoice_message: `
+Within the first 48 business hours, you will receive an email with the payment confirmation then you will be able to start enjoying your new plan.
+Payment details will be included in the invoice sent to the recipient you have indicated.`,
+    mercado_pago_contact_support: 'If you have doubts regarding the payment status, you can write to us at <Bold>administracion@fromdoppler.com</Bold>',
+    mercado_pago_error_in_pay: 'If the payment is rejected, we will contact you to help you choose another means of payment.',
+    mercado_pago_pay_the_invoice_message: 'The invoice with the payment details will be sent to the recipient you have indicated.',
+    mercado_pago_purchase_finished_title: 'Your payment is being processed',
+    mercado_pago_steps_title: 'Be sure to read the following information:',
+    mercado_pago_warning_message: 'We are processing your payment through Mercado Pago, this may take up to 48 business hours.',
     plan_type: 'Plan Type',
     plan_type_monthly_deliveries: 'Emails by Plan',
     plan_type_monthly_deliveries_availables: 'Available Emails',
