@@ -151,6 +151,10 @@ export const Header = styled.header`
         height: 31px;
         margin: ${spacings.spacesLvl0} auto;
       }
+
+      p {
+        font-size: 11px;
+      }
     }
   }
 
