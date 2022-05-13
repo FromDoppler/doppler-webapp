@@ -7,7 +7,7 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
-const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
+//const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
@@ -351,7 +351,7 @@ const messages_es = {
     send: `Enviar`,
     show: `Mostrar`,
     synchronizing: `Syncronizando`,
-    ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
+    ui_library_image: `${process.env.PUBLIC_URL}/images/{imageUrl}`,
     unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,
     unsaved_changes_message: `Es posible que no se guarden los cambios que realizó.`,
   },
@@ -542,10 +542,10 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     welcome_message_header: `Este es tu **Tablero de Inicio**. Aquí encontrarás métricas relevantes de tu cuenta y recursos complementarios para tu estrategia.`,
   },
   default_banner_data: {
-    background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
+    background_url: `${process.env.PUBLIC_URL}/images/violet-yellow.png`,
     description: 'Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!',
     functionality: 'Formularios de suscripción',
-    image_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/login-es.png`,
+    image_url: `${process.env.PUBLIC_URL}/images/login-es.png`,
     title: 'Suma contactos a tus Listas con Formularios personalizados',
   },
   empty_notification_text: `No tienes notificaciones pendientes.`,
