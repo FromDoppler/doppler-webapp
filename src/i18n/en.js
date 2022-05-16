@@ -7,7 +7,6 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
-//const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
