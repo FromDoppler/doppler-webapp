@@ -168,7 +168,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           idSelectedPlan: data.idSelectedPlan,
           razonSocial: data.businessName,
           idConsumerType: data.consumerType,
-          identificationNumber: data.identificationNumber,
+          identificationNumber: `${data.identificationNumber}`,
           bankName: data.bankName,
           bankAccount: data.bankAccount,
           paymentType: data.paymentType,
