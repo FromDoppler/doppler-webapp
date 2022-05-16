@@ -7,7 +7,6 @@ const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
-const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -352,7 +351,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     send: `Send`,
     show: `Show`,
     synchronizing: `Synchronizing`,
-    ui_library_image: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/{imageUrl}`,
+    ui_library_image: `${process.env.PUBLIC_URL}/images/{imageUrl}`,
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,
     unsaved_changes_message: `Changes that you made may not be saved.`,
   },
@@ -543,10 +542,10 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
     welcome_message_header: `This is your **Dashboard**. Here you’ll find relevant metrics of your account and complementary resources for your strategy. `,
   },
   default_banner_data: {
-    background_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/violet-yellow.png`,
+    background_url: `${process.env.PUBLIC_URL}/images/violet-yellow.png`,
     description: 'Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!',
     functionality: 'subscription forms',
-    image_url: `https://cdn.fromdoppler.com/doppler-ui-library/${dopplerUiLibraryVersion}/img/login-en.png`,
+    image_url: `${process.env.PUBLIC_URL}/images/login-en.png`,
     title: 'Add new contacts to your Lists using custom Forms',
   },
   empty_notification_text: `You don't have pending notifications.`,
