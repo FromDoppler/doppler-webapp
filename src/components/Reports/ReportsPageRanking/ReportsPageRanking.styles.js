@@ -16,10 +16,8 @@ export const ContentContainer = styled.div`
     position: relative;
   }
 
-  &.dp-nopadding {
-    .col-sm-12 {
-      padding: ${spacings.spacesLvl0};
-    }
+  .col-sm-12 {
+    padding: ${spacings.spacesLvl0};
   }
 `;
 

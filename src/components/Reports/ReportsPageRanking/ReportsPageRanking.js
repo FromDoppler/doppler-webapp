@@ -72,7 +72,7 @@ const ReportsPageRanking = ({ domainName, dateFrom, dateTo, dependencies: { data
           <h6 className="title-reports-box">
             <FormattedMessage id="reports_pageranking.top_pages" />
           </h6>
-          <S.ContentContainer className="dp-nopadding">
+          <S.ContentContainer>
             {state.pages.length === 0 ? (
               !state.error ? (
                 <p className="dp-boxshadow--usermsg bounceIn">

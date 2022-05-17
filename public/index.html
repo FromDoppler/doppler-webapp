@@ -19,6 +19,12 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
      <!-- Font Proxima Nova -->
     <link rel="stylesheet" href="https://use.typekit.net/fbq8dbp.css" />
+     <!-- Style library -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.fromdoppler.com/doppler-ui-library/%REACT_APP_DOPPLER_UI_LIBRARY_VERSION%/css/styles.css"
+    />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -69,15 +75,6 @@
         min-height: 100vh;
       }
     </style>
-    <!-- Manifest Style Guide -->
-      <script type="text/javascript">
-        window["style-guide-configuration"] = {
-        autoInitialize: true,
-      };
-        new AssetServices().load(
-          "%REACT_APP_STYLE_GUIDE_MANIFIEST_FILE%"
-        );
-      </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -112,6 +109,10 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script
+      type="text/javascript"
+      src="https://cdn.fromdoppler.com/doppler-ui-library/%REACT_APP_DOPPLER_UI_LIBRARY_VERSION%/js/app.js"
+    ></script>
     <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=d551604b-d03b-44e4-9ba6-7fdc92f56cb9"></script>
     <script src="https://cdn.fromdoppler.com/loader/v1/loader.js"></script>
   </body>
