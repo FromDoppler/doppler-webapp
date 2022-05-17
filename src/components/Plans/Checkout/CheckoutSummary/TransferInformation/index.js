@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export const TransferInformation = () => {
   const intl = useIntl();
@@ -51,7 +51,14 @@ export const TransferInformation = () => {
                       alt=""
                     ></img>
                   </span>
-                  <span>{_(`checkoutProcessSuccess.transfer_send_the_receipt_message`)}</span>
+                  <span>
+                    <FormattedMessage
+                      id={`checkoutProcessSuccess.transfer_send_the_receipt_message`}
+                      values={{
+                        Bold: (chunk) => <strong>{chunk}</strong>,
+                      }}
+                    />
+                  </span>
                 </li>
                 <li>
                   <span className="dp-wrapp-icon">

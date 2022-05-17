@@ -17,6 +17,8 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes, readOnly }) =>
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  const isFinalConsumer = values[fieldNames.consumerType] === finalConsumer;
+
   useEffect(() => {
     setValues({
       [fieldNames.consumerType]: paymentMethod.idConsumerType ?? '',
@@ -37,13 +39,16 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes, readOnly }) =>
         <label>
           {identificationTypes.find((ct) => ct.key === values[fieldNames.consumerType])?.value}:{' '}
           {values[fieldNames.identificationNumber]},{' '}
-          {_('checkoutProcessForm.payment_method.business_name')}: {values[fieldNames.businessName]}
+          {_(
+            isFinalConsumer
+              ? 'checkoutProcessForm.payment_method.first_last_name'
+              : 'checkoutProcessForm.payment_method.business_name',
+          )}
+          : {values[fieldNames.businessName]}
         </label>
       </li>
     );
   }
-
-  const isFinalConsumer = values[fieldNames.consumerType] === finalConsumer;
 
   return (
     <div role="tabpanel" aria-label="transfer argentina fields">
@@ -84,7 +89,11 @@ export const TransferArgentina = ({ paymentMethod, consumerTypes, readOnly }) =>
               aria-label="rason social"
               fieldName={fieldNames.businessName}
               id={fieldNames.businessName}
-              label={`*${_('checkoutProcessForm.payment_method.business_name')}`}
+              label={`*${_(
+                isFinalConsumer
+                  ? 'checkoutProcessForm.payment_method.first_last_name'
+                  : 'checkoutProcessForm.payment_method.business_name',
+              )}`}
               withNameValidation
               required
               className="field-item field-item--70 dp-p-r"
