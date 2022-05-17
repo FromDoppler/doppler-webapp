@@ -213,7 +213,8 @@ const messages_en = {
       considerations: 'Consideration:',
       considerations_credit_card_note_1: '<bold>Invoices in USD will be issued from United States</bold>, where is located our subsidiary Doppler LLC.',
       considerations_credit_card_note_2: 'The <bold>amount payable</bold> is similar to the amount of the purchased Plan, and <bold>it depends on applicable taxes</bold> in each country.',
-      considerations_mercado_pago_note_1: 'Invoices will be issued to <bold>Consumidor Final</bold> in <bold>Argentinian pesos</bold>, according to the Banco de la Nación Argentina selling exchange rate on that day.',
+      considerations_mercado_pago_note_1:
+        'Invoices will be issued to <bold>Consumidor Final</bold> in <bold>Argentinian pesos</bold>, according to the Banco de la Nación Argentina selling exchange rate  on the prior day.',
       considerations_mercado_pago_note_2: `We'll process the payment monthly through the Mercado Pago platform.`,
       considerations_mercado_pago_note_3: 'Charges will appear on your credit card statement as <bold>MERPAGO*DOPPLER.</bold>',
       consumer_type: 'Consumer',
@@ -286,7 +287,7 @@ const messages_en = {
     mercado_pago_check_email_with_invoice_message: `
 Within the first 48 business hours, you will receive an email with the payment confirmation then you will be able to start enjoying your new plan.
 Payment details will be included in the invoice sent to the recipient you have indicated.`,
-    mercado_pago_contact_support: 'If you have doubts regarding the payment status, you can write to us at <Bold>administracion@fromdoppler.com</Bold>',
+    mercado_pago_contact_support: 'If you have doubts regarding the payment status, you can write to us at <Bold>billing@fromdoppler.com</Bold>',
     mercado_pago_error_in_pay: 'If the payment is rejected, we will contact you to help you choose another means of payment.',
     mercado_pago_pay_the_invoice_message: 'The invoice with the payment details will be sent to the recipient you have indicated.',
     mercado_pago_purchase_finished_title: 'Your payment is being processed',
