@@ -149,12 +149,12 @@ describe('TransferArgentina', () => {
       // fill DNI and rason social
       userEvent.type(screen.getByLabelText(/DNI/i), '81544670');
       userEvent.type(
-        screen.getByLabelText(/checkoutProcessForm.payment_method.business_name/i),
+        screen.getByLabelText(/checkoutProcessForm.payment_method.first_last_name/i),
         'Boris Marketing',
       );
       expect(await screen.findByLabelText(/DNI/i)).toHaveValue(81544670);
       expect(
-        await screen.findByLabelText(/checkoutProcessForm.payment_method.business_name/i),
+        await screen.findByLabelText(/checkoutProcessForm.payment_method.first_last_name/i),
       ).toHaveValue('Boris Marketing');
     });
   });
