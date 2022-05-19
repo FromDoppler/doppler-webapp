@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
 import { PlanCalculatorButtons } from '.';
@@ -29,7 +29,7 @@ describe('PlanCalculator component', () => {
     },
   };
 
-  it('should render PlanCalculatorButtons when newCheckoutEnabled is false', async () => {
+  it('should render PlanCalculatorButtons when the user is free', async () => {
     // Arrange
     const selectedPlanId = 2;
     const selectedDiscountId = 1;
@@ -45,53 +45,56 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <PlanCalculatorButtons
-              selectedPlanId={selectedPlanId}
-              selectedDiscountId={selectedDiscountId}
-            />
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons
+                selectedPlanId={selectedPlanId}
+                selectedDiscountId={selectedDiscountId}
+              />
+            </Route>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
     );
 
     // Assert
-    const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader);
-
     const purchaseLink = screen.getByText('plan_calculator.button_purchase');
     expect(purchaseLink).not.toHaveClass('disabled');
     expect(purchaseLink).toHaveAttribute(
       'href',
-      'common.control_panel_section_url' +
-        `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${selectedPlanId}&fromStep1=True` +
-        `&IdDiscountPlan=${selectedDiscountId}` +
+      `/checkout/premium/${PLAN_TYPE.byContact}?selected-plan=${selectedPlanId}` +
+        `&discountId=${selectedDiscountId}` +
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
 
-  it('should render PlanCalculatorButtons when newCheckoutEnabled is true', async () => {
+  it('should render PlanCalculatorButtons when the user is not free', async () => {
     // Arrange
     const selectedPlanId = 2;
     const selectedDiscountId = 1;
 
+    const fakeForcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byContact,
+              },
+            },
+          },
+        },
+      },
+    };
+
     // Act
     render(
-      <AppServicesProvider
-        forcedServices={{
-          ...forcedServices,
-          experimentalFeatures: {
-            getFeature: () => true,
-          },
-          ipinfoClient: {
-            getCountryCode: () => 'CL',
-          },
-        }}
-      >
+      <AppServicesProvider forcedServices={fakeForcedServices}>
         <IntlProvider>
           <Router
             initialEntries={[
               `/plan-selection/premium/${
-                URL_PLAN_TYPE[PLAN_TYPE.byCredit]
+                URL_PLAN_TYPE[PLAN_TYPE.byContact]
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
@@ -107,15 +110,13 @@ describe('PlanCalculator component', () => {
     );
 
     // Assert
-    const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader);
-
     const purchaseLink = screen.getByText('plan_calculator.button_purchase');
     expect(purchaseLink).not.toHaveClass('disabled');
     expect(purchaseLink).toHaveAttribute(
       'href',
-      `/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=${selectedPlanId}` +
-        `&discountId=${selectedDiscountId}` +
+      'common.control_panel_section_url' +
+        `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${selectedPlanId}&fromStep1=True` +
+        `&IdDiscountPlan=${selectedDiscountId}` +
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
@@ -136,21 +137,18 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code`,
             ]}
           >
-            {/* <Route path="/plan-selection/premium/:planType?"> */}
-            <PlanCalculatorButtons
-              selectedPlanId={selectedPlanId}
-              selectedDiscountId={selectedDiscountId}
-            />
-            {/* </Route> */}
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons
+                selectedPlanId={selectedPlanId}
+                selectedDiscountId={selectedDiscountId}
+              />
+            </Route>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
     );
 
     // Assert
-    const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader);
-
     const purchaseLink = screen.getByText('plan_calculator.button_purchase');
     expect(purchaseLink).toHaveClass('disabled');
   });

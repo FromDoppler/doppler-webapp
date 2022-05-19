@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { TooltipContainer } from '../../../TooltipContainer/TooltipContainer';
@@ -6,49 +6,19 @@ import * as S from './index.styles';
 import { getPlanTypeFromUrlSegment } from '../../../../utils';
 import { useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
-import { Loading } from '../../../Loading/Loading';
-
-const excludedCountries = ['AR'];
 
 export const PlanCalculatorButtons = InjectAppServices(
-  ({
-    selectedPlanId,
-    selectedDiscountId,
-    selectedMonthPlan,
-    dependencies: { appSessionRef, experimentalFeatures, ipinfoClient },
-  }) => {
+  ({ selectedPlanId, selectedDiscountId, selectedMonthPlan, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { search } = useLocation();
 
     const sessionPlan = appSessionRef.current.userData.user;
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
-    const newCheckoutEnabled = experimentalFeatures.getFeature('newCheckoutEnabled');
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlanType = sessionPlan.plan.planType;
-
-    const [loading, setLoading] = useState(true);
-    const [countryCode, setCountryCode] = useState('');
-
-    useEffect(() => {
-      const fetchCountry = async () => {
-        setLoading(true);
-        const data = await ipinfoClient.getCountryCode();
-        setCountryCode(data);
-        setLoading(false);
-      };
-
-      fetchCountry();
-    }, [ipinfoClient]);
-
-    if (loading) {
-      return <Loading />;
-    }
-
-    const redirectNewCheckout =
-      sessionPlanType === PLAN_TYPE.free &&
-      (!excludedCountries.find((c) => c === countryCode) || newCheckoutEnabled);
+    const redirectNewCheckout = sessionPlanType === PLAN_TYPE.free;
 
     return (
       <div className="dp-container">
