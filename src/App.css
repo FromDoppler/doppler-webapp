@@ -73,13 +73,6 @@ body {
 
 .wrapper-loading .loading-page:after {
   content: '';
-  width: 3.3em;
-  height: 3.3em;
-  position: absolute;
-  border-radius: 50%;
-  border: 5px solid rgba(153, 153, 153, 0.3);
-  border-top-color: #999;
-  animation: dp-preloader-spin 0.7s infinite linear;
 }
 
 @keyframes dp-preloader-spin {
