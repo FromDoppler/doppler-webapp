@@ -13,6 +13,7 @@ export interface DopplerBillingUserApiClient {
   getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>>;
   updateInvoiceRecipients(values: any, planId: number): Promise<EmptyResultWithoutExpectedErrors>;
   getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>>;
+  updatePurchaseIntention(): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -397,6 +398,26 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true, value: this.mapUserPlan(response.data) };
       } else {
         return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updatePurchaseIntention(): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/purchase-intention`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
       }
     } catch (error) {
       return { success: false, error: error };
