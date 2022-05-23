@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -19,7 +19,7 @@ export const actionPage = {
   UPDATE: 'update',
 };
 
-const Checkout = () => {
+const Checkout = InjectAppServices(({ dependencies: { dopplerBillingUserApiClient } }) => {
   const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
   const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
   const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
@@ -52,6 +52,10 @@ const Checkout = () => {
 
     setActiveStep(nextStep);
   };
+
+  useEffect(() => {
+    dopplerBillingUserApiClient.updatePurchaseIntention();
+  });
 
   return (
     <>
@@ -169,6 +173,6 @@ const Checkout = () => {
       </section>
     </>
   );
-};
+});
 
 export default InjectAppServices(Checkout);
