@@ -1,7 +1,3 @@
-body {
-  overflow: hidden;
-}
-
 .App {
   text-align: center;
 }
@@ -86,4 +82,8 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.dp-hidden-page {
+  opacity: 0;
 }
