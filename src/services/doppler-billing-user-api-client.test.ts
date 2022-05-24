@@ -369,4 +369,21 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(false);
   });
+
+  it('should get success response when updating purchase intention', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.updatePurchaseIntention();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });

@@ -74,6 +74,9 @@ describe('Checkout component', () => {
       updateInvoiceRecipients: async () => {
         return { success: true };
       },
+      updatePurchaseIntention: async () => {
+        return { success: true };
+      },
     },
     dopplerAccountPlansApiClient: {
       getDiscountsData: async () => {
