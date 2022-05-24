@@ -49,41 +49,8 @@
   transition: height 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.wrapper-loading {
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  position: relative;
-  height: 100vh;
-  z-index: 1000;
-}
-
-.wrapper-loading .loading-page {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wrapper-loading .loading-page:after {
-  content: '';
-  width: 3.3em;
-  height: 3.3em;
-  position: absolute;
-  border-radius: 50%;
-  border: 5px solid rgba(153, 153, 153, 0.3);
-  border-top-color: #999;
-  animation: dp-preloader-spin 0.7s infinite linear;
-}
-
-@keyframes dp-preloader-spin {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
+/* Show and Hidden page */
 .dp-hidden-page {
   opacity: 0;
+  visibility: hidden;
 }
