@@ -134,9 +134,10 @@ export const PaymentMethodType = {
 export const FirstDataError = {
   invalidExpirationDate: 'DeclinedPaymentTransaction - Invalid Expiration Date [Bank]',
   invalidCreditCardNumber: 'DeclinedPaymentTransaction - Invalid Credit Card Number',
+  invalidCCNumber: 'DeclinedPaymentTransaction - Invalid CC Number [Bank]',
   declined: 'DeclinedPaymentTransaction - Declined [Bank]',
   suspectedFraud: 'DeclinedPaymentTransaction - Suspected Fraud [Bank]',
   insufficientFunds: 'DeclinedPaymentTransaction - Insufficient Funds [Bank]',
   cardVolumeExceeded: 'DeclinedPaymentTransaction - Card Volume Exceeded',
-  doNotHonor: 'DeclinedPaymentTransaction - Do Not Honor [Bank]',
+  doNotHonor: 'DoNotHonorPaymentResponse - Do Not Honor [Bank]',
 };

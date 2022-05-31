@@ -400,6 +400,7 @@ export const PaymentMethod = InjectAppServices(
         case FirstDataError.invalidExpirationDate:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
         case FirstDataError.invalidCreditCardNumber:
+        case FirstDataError.invalidCCNumber:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
