@@ -1,5 +1,5 @@
 import { PaymentMethod } from './PaymentMethod';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
@@ -13,7 +13,13 @@ import { actionPage } from '../Checkout';
 import { fakeConsumerTypes } from '../../../../services/static-data-client.double';
 import '@testing-library/jest-dom/extend-expect';
 
-const dependencies = (withError, paymentMethodData, billingInformationData) => ({
+const dependencies = (
+  withError,
+  paymentMethodData,
+  billingInformationData,
+  withFirstDataError,
+  firstDataError,
+) => ({
   appSessionRef: {
     current: {
       userData: {
@@ -39,6 +45,11 @@ const dependencies = (withError, paymentMethodData, billingInformationData) => (
     },
     getBillingInformationData: async () => {
       return { success: true, value: billingInformationData };
+    },
+    updatePaymentMethod: async () => {
+      return !withFirstDataError
+        ? { success: true }
+        : { success: false, error: { response: { data: firstDataError } } };
     },
   },
   dopplerAccountPlansApiClient: {
@@ -78,8 +89,16 @@ const PaymentMethodElement = ({
   updateView,
   billingInformationData,
   appliedPromocode,
+  withFirstDataError,
+  firstDataError,
 }) => {
-  const services = dependencies(withError, paymentMethodData, billingInformationData);
+  const services = dependencies(
+    withError,
+    paymentMethodData,
+    billingInformationData,
+    withFirstDataError,
+    firstDataError,
+  );
   return (
     <AppServicesProvider forcedServices={services}>
       <IntlProvider>
@@ -386,4 +405,74 @@ describe('PaymentMethod component', () => {
       }
     });
   });
+
+  describe.each([
+    [
+      'should show the expiration date invalid message when the user enter an incorrect date',
+      'checkoutProcessForm.payment_method.expiration_date',
+      '12/2021',
+      'DeclinedPaymentTransaction - Invalid Expiration Date [Bank]',
+      'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date',
+    ],
+    [
+      'should show the credit card number invalid message when the user enter an incorrect number',
+      'checkoutProcessForm.payment_method.credit_card',
+      '4999999999999999',
+      'DeclinedPaymentTransaction - Invalid Credit Card Number',
+      'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number',
+    ],
+  ])(
+    'update view - credit card - first data error',
+    (testName, fieldName, fieldValue, firstDataError, firstDataErrorKey) => {
+      it(testName, async () => {
+        // Act
+        render(
+          <PaymentMethodElement
+            withError={false}
+            updateView={true}
+            paymentMethodData={fakePaymentMethodInformation}
+            billingInformationData={fakeBillingInformation}
+            withFirstDataError={true}
+            firstDataError={firstDataError}
+          />,
+        );
+
+        // Loader should disappear once request resolves
+        const loader = screen.getByTestId('wrapper-loading');
+        await waitForElementToBeRemoved(loader);
+
+        const inputNumber = screen.getByRole('textbox', {
+          name: '*checkoutProcessForm.payment_method.credit_card',
+        });
+        const inputExpiryDate = screen.getByRole('textbox', {
+          name: '*checkoutProcessForm.payment_method.expiration_date',
+        });
+        const inputHolderName = screen.getByRole('textbox', {
+          name: '*checkoutProcessForm.payment_method.holder_name',
+        });
+        const inputSecurityCode = screen.getByRole('textbox', {
+          name: '*checkoutProcessForm.payment_method.security_code',
+        });
+
+        fireEvent.change(inputNumber, { target: { value: '4111111111111111' } });
+        fireEvent.change(inputExpiryDate, { target: { value: '12/2025' } });
+        const inputFiedToUpdate = screen.getByRole('textbox', {
+          name: '*' + fieldName,
+        });
+        fireEvent.change(inputFiedToUpdate, { target: { value: fieldValue } });
+        fireEvent.change(inputHolderName, { target: { value: 'test' } });
+        fireEvent.change(inputSecurityCode, { target: { value: '123' } });
+
+        // Click save button
+        const submitButton = screen.getByRole('button', {
+          name: 'checkoutProcessForm.save_continue',
+        });
+        user.click(submitButton);
+
+        // Validation error messages should be displayed
+        const error = await screen.findAllByText(firstDataErrorKey);
+        expect(error).not.toBeNull();
+      });
+    },
+  );
 });

@@ -130,3 +130,13 @@ export const PaymentMethodType = {
   mercadoPago: 'MP',
   transfer: 'TRANSF',
 };
+
+export const FirstDataError = {
+  invalidExpirationDate: 'DeclinedPaymentTransaction - Invalid Expiration Date [Bank]',
+  invalidCreditCardNumber: 'DeclinedPaymentTransaction - Invalid Credit Card Number',
+  declined: 'DeclinedPaymentTransaction - Declined [Bank]',
+  suspectedFraud: 'DeclinedPaymentTransaction - Suspected Fraud [Bank]',
+  insufficientFunds: 'DeclinedPaymentTransaction - Insufficient Funds [Bank]',
+  cardVolumeExceeded: 'DeclinedPaymentTransaction - Card Volume Exceeded',
+  doNotHonor: 'DeclinedPaymentTransaction - Do Not Honor [Bank]',
+};

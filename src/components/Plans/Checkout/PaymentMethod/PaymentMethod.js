@@ -12,7 +12,7 @@ import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer/Transfer';
 import { useRouteMatch } from 'react-router-dom';
-import { PLAN_TYPE } from '../../../../doppler-types';
+import { PLAN_TYPE, FirstDataError } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 
 const none = 'NONE';
@@ -245,7 +245,7 @@ export const PaymentMethod = InjectAppServices(
       plan: {},
       changed: false,
     });
-    const [error, setError] = useState(false);
+    const [error, setError] = useState({ error: false, message: '' });
     const [paymentMethodType, setPaymentMethodType] = useState('');
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useRouteMatch().params;
@@ -362,6 +362,7 @@ export const PaymentMethod = InjectAppServices(
     };
 
     const submitPaymentMethodForm = async (values) => {
+      setError({ error: false, message: '' });
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
         ...values,
         discountId: discountsInformation.selectedPlanDiscount,
@@ -369,9 +370,11 @@ export const PaymentMethod = InjectAppServices(
         idSelectedPlan: selectedPlan,
       });
 
-      setError(!result.success);
       if (result.success) {
+        setError({ error: false, message: '' });
         handleSaveAndContinue();
+      } else {
+        setError({ error: true, message: handleMessage(result.error) });
       }
     };
 
@@ -390,6 +393,25 @@ export const PaymentMethod = InjectAppServices(
         changed: true,
       });
       handleChangeDiscount(discount);
+    };
+
+    const handleMessage = (error) => {
+      switch (error.response.data) {
+        case FirstDataError.invalidExpirationDate:
+          return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
+        case FirstDataError.invalidCreditCardNumber:
+          return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
+        case FirstDataError.declined:
+          return 'checkoutProcessForm.payment_method.first_data_error.declined';
+        case FirstDataError.suspectedFraud:
+          return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
+        case FirstDataError.insufficientFunds:
+          return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
+        case FirstDataError.cardVolumeExceeded:
+          return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
+        default:
+          return 'checkoutProcessForm.payment_method.error';
+      }
     };
 
     return (
@@ -431,12 +453,12 @@ export const PaymentMethod = InjectAppServices(
                     </FieldItem>
                     {appliedPromocode ? <PromoCodeInformation /> : null}
                     <PaymentNotes paymentMethodType={paymentMethodType} />
-                    {error ? (
+                    {error.error ? (
                       <FieldItem className="field-item">
                         <div className="dp-wrap-message dp-wrap-cancel">
                           <span className="dp-message-icon"></span>
                           <div className="dp-content-message">
-                            <p>{_('checkoutProcessForm.payment_method.error')}</p>
+                            <p>{_(error.message)}</p>
                           </div>
                         </div>
                       </FieldItem>
