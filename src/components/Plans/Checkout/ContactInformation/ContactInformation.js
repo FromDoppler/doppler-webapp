@@ -48,9 +48,7 @@ export const ContactInformation = InjectAppServices(
           ? Object.keys(data.value).map((key) => ({ key: key, value: data.value[key] }))
           : [];
 
-        return industries.sort((a, b) =>
-          a.value.localeCompare(b.value, undefined, { sensitivity: 'base' }),
-        );
+        return industries;
       };
 
       const getQuestions = async (language) => {
