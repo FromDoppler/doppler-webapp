@@ -403,6 +403,7 @@ export const PaymentMethod = InjectAppServices(
         case FirstDataError.invalidCCNumber:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
+        case FirstDataError.doNotHonorDeclined:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
         case FirstDataError.suspectedFraud:
           return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';

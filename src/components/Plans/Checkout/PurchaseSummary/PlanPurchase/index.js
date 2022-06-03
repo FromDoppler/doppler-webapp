@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { useQueryParams } from '../../../../../hooks/useQueryParams';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../../services/pure-di';
+import { FirstDataError } from '../../../../../doppler-types';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
@@ -23,6 +24,7 @@ export const PlanPurchase = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [status, setStatus] = useState('');
+    const [messageError, setMessageError] = useState('');
     const createTimeout = useTimeout();
     const query = useQueryParams();
     const originInbound = query.get('origin_inbound') ?? '';
@@ -49,7 +51,29 @@ export const PlanPurchase = InjectAppServices(
           }`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
+        setMessageError(handleMessage(response.error));
         setStatus(HAS_ERROR);
+      }
+    };
+
+    const handleMessage = (error) => {
+      switch (error.response?.data) {
+        case FirstDataError.invalidExpirationDate:
+          return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
+        case FirstDataError.invalidCreditCardNumber:
+        case FirstDataError.invalidCCNumber:
+          return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
+        case FirstDataError.declined:
+        case FirstDataError.doNotHonorDeclined:
+          return 'checkoutProcessForm.payment_method.first_data_error.declined';
+        case FirstDataError.suspectedFraud:
+          return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
+        case FirstDataError.insufficientFunds:
+          return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
+        case FirstDataError.cardVolumeExceeded:
+          return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
+        default:
+          return 'checkoutProcessForm.purchase_summary.error_message';
       }
     };
 
@@ -74,9 +98,9 @@ export const PlanPurchase = InjectAppServices(
           <StatusMessage
             type={status === SAVED ? 'success' : 'cancel'}
             message={_(
-              `checkoutProcessForm.purchase_summary.${
-                status === SAVED ? 'success' : 'error'
-              }_message`,
+              status === SAVED
+                ? 'checkoutProcessForm.purchase_summary.success_message'
+                : messageError,
             )}
           />
         )}
