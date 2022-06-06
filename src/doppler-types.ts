@@ -136,6 +136,7 @@ export const FirstDataError = {
   invalidCreditCardNumber: 'DeclinedPaymentTransaction - Invalid Credit Card Number',
   invalidCCNumber: 'DeclinedPaymentTransaction - Invalid CC Number [Bank]',
   declined: 'DeclinedPaymentTransaction - Declined [Bank]',
+  doNotHonorDeclined: 'DoNotHonorPaymentResponse - Processor Decline [Bank]',
   suspectedFraud: 'DeclinedPaymentTransaction - Suspected Fraud [Bank]',
   insufficientFunds: 'DeclinedPaymentTransaction - Insufficient Funds [Bank]',
   cardVolumeExceeded: 'DeclinedPaymentTransaction - Card Volume Exceeded',

@@ -10,6 +10,7 @@ import { MemoryRouter as Router } from 'react-router-dom';
 const getFakePurchase = (success) => {
   const purchaseMock = jest.fn(async () => ({
     success,
+    error: { response: { data: success ? '' : 'error' } },
   }));
   const dependencies = {
     dopplerBillingUserApiClient: {

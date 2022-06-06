@@ -584,58 +584,94 @@ describe('PurchaseSummary component', () => {
     expect(summarySuccessMessage).toBeInTheDocument();
   });
 
-  it('should show error message when the buy process was failed', async () => {
-    // Arrange
-    const fakePlan = fakeSubscribersPlan;
-
-    const fakePlanAmountDetails = {
-      discountPrepayment: { discountPercentage: 25, amount: 165 },
-      discountPaymentAlreadyPaid: 100,
-      total: 229.5,
-    };
-
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-
-    const dopplerBillingUserApiClientDouble = {
-      ...dopplerBillingUserApiClientDoubleBase,
-      purchase: async () => {
-        return { success: false };
-      },
-    };
-
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
-        canBuy={true}
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
-      />,
-    );
-
-    // Assert
-    const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader);
-
-    const submitButton = screen.getByRole('button', {
-      name: 'checkoutProcessForm.purchase_summary.buy_button',
-    });
-    user.click(submitButton);
-    expect(submitButton).toBeDisabled();
-
-    const summaryErrorMessage = await screen.findByText(
+  describe.each([
+    [
+      'should show error message when the expiration date is invalid',
+      'DeclinedPaymentTransaction - Invalid Expiration Date [Bank]',
+      'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date',
+    ],
+    [
+      'should show error message when the credit card number is invalid',
+      'DeclinedPaymentTransaction - Invalid Credit Card Number',
+      'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number',
+    ],
+    [
+      'should show error message when the credit card was declined',
+      'DeclinedPaymentTransaction - Declined [Bank]',
+      'checkoutProcessForm.payment_method.first_data_error.declined',
+    ],
+    [
+      'should show error message when the first data throws a fraud exception',
+      'DeclinedPaymentTransaction - Suspected Fraud [Bank]',
+      'checkoutProcessForm.payment_method.first_data_error.suspected_fraud',
+    ],
+    [
+      'should show error message when the credit card has insufficient funds',
+      'DeclinedPaymentTransaction - Insufficient Funds [Bank]',
+      'checkoutProcessForm.payment_method.first_data_error.insufficient_funds',
+    ],
+    [
+      'should show error message when the user exceeded the daily limit of attempts with your card',
+      'DeclinedPaymentTransaction - Card Volume Exceeded',
+      'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded',
+    ],
+    [
+      'should show error message when the buy process throws an unexpected  excpetion',
+      'internal error',
       'checkoutProcessForm.purchase_summary.error_message',
-    );
+    ],
+  ])('Buy process', (testName, firstDataError, firstDataErrorKey) => {
+    it(testName, async () => {
+      // Arrange
+      const fakePlan = fakeSubscribersPlan;
 
-    expect(summaryErrorMessage).toBeInTheDocument();
+      const fakePlanAmountDetails = {
+        discountPrepayment: { discountPercentage: 25, amount: 165 },
+        discountPaymentAlreadyPaid: 100,
+        total: 229.5,
+      };
+
+      const dopplerAccountPlansApiClientDouble = {
+        ...dopplerAccountPlansApiClientDoubleBase,
+        getPlanData: async () => {
+          return { success: true, value: fakePlan };
+        },
+        getPlanAmountDetailsData: async () => {
+          return { success: true, value: fakePlanAmountDetails };
+        },
+      };
+
+      const dopplerBillingUserApiClientDouble = {
+        ...dopplerBillingUserApiClientDoubleBase,
+        purchase: async () => {
+          return { success: false, error: { response: { data: firstDataError } } };
+        },
+      };
+
+      // Act
+      render(
+        <PurchaseSummaryElement
+          url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+          canBuy={true}
+          dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+          dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        />,
+      );
+
+      // Assert
+      const loader = screen.getByTestId('loading-box');
+      await waitForElementToBeRemoved(loader);
+
+      const submitButton = screen.getByRole('button', {
+        name: 'checkoutProcessForm.purchase_summary.buy_button',
+      });
+      user.click(submitButton);
+      expect(submitButton).toBeDisabled();
+
+      const summaryErrorMessage = await screen.findByText(firstDataErrorKey);
+
+      expect(summaryErrorMessage).toBeInTheDocument();
+    });
   });
 
   it('should not show the months to pay information legend when the user is "prepaid"', async () => {
