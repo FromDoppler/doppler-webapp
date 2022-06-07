@@ -527,15 +527,15 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     learn_with_doppler: 'Aprende con Doppler',
     meta_title: 'Doppler | Tablero de Inicio',
 
-    postListBlog_1_description: '10 trucos para crear Campañas de texto plano atractivas',
-    postListBlog_1_link: 'https://blog.fromdoppler.com/campana-de-texto-plano/?utm_source=direct',
+    postListBlog_1_description: '¿Cómo activar y enviar Notificaciones Push?',
+    postListBlog_1_link: 'https://help.fromdoppler.com/es/como-activar-y-usar-envio-notificaciones-push/',
     postListBlog_1_link_description: 'Sigue leyendo',
-    postListBlog_1_title: '#DopplerBlog',
+    postListBlog_1_title: '#NuevaFuncionalidad',
 
-    postListBlog_2_description: '¿Cómo crear un Archivo para Importar mi Lista de Contactos?',
-    postListBlog_2_link: 'https://help.fromdoppler.com/es/como-crear-un-archivo-para-importar-mi-lista-de-suscriptores/?utm_source=direct',
+    postListBlog_2_description: 'Cómo replicar Campañas de Automation',
+    postListBlog_2_link: 'https://help.fromdoppler.com/es/replicar-campanas-automation/',
     postListBlog_2_link_description: 'Sigue leyendo',
-    postListBlog_2_title: '#DopplerHelp',
+    postListBlog_2_title: '#NuevaFuncionalidad',
 
     postListHelp_1_description: 'Certificación gratuita y online en Automation Marketing',
     postListHelp_1_link: 'https://academy.fromdoppler.com/bootcamp/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=inbound-bootcamp',
