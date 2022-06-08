@@ -300,7 +300,7 @@ export const CreditCard = InjectAppServices(
                             {(inputProps) => (
                               <InputFieldItem
                                 {...inputProps}
-                                type="tel"
+                                type="text"
                                 label={`*${_('checkoutProcessForm.payment_method.security_code')}`}
                                 fieldName={fieldNames.cvc}
                                 id="cvc"
