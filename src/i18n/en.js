@@ -528,15 +528,15 @@ Do it before sending your first Campaign, and make sure it will **reach your Con
     learn_with_doppler: 'Learn with Doppler',
     meta_title: 'Doppler | Dashboard',
 
-    postListBlog_1_description: 'How to create a File to Import your Contact List to Doppler',
-    postListBlog_1_link: 'https://help.fromdoppler.com/en/how-to-create-a-file-to-import-your-subscribers-list-to-doppler/?utm_source=direct',
+    postListBlog_1_description: 'How to activate and send Push Notifications?',
+    postListBlog_1_link: 'https://help.fromdoppler.com/en/how-to-active-and-use-send-push-notification',
     postListBlog_1_link_description: 'Keep reading',
-    postListBlog_1_title: '#DopplerHelp',
+    postListBlog_1_title: '#NewFeature',
 
-    postListBlog_2_description: 'How to create a Classic Campaign',
-    postListBlog_2_link: 'https://help.fromdoppler.com/en/how-to-create-a-classic-campaign?utm_source=direct',
+    postListBlog_2_description: 'How to replicate Automation Campaigns',
+    postListBlog_2_link: 'https://help.fromdoppler.com/en/how-to-replicate-automation-campaigns',
     postListBlog_2_link_description: 'Keep reading',
-    postListBlog_2_title: '#DopplerHelp',
+    postListBlog_2_title: '#NewFeature',
 
     postListHelp_1_description: `Relive the talks of Digital Marketing leaders and be part of the #EMMS2021 community`,
     postListHelp_1_link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=reviveelemms',
