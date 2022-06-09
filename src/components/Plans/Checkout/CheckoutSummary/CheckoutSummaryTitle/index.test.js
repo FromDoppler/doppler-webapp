@@ -1,16 +1,13 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import '@testing-library/jest-dom/extend-expect';
 import { paymentType } from '../../PaymentMethod/PaymentMethod';
 import { CheckoutSummaryTitle } from '.';
 
-const CheckoutSummaryTitleElement = ({ paymentMethod, discountByPromocode }) => {
+const CheckoutSummaryTitleElement = ({ paymentMethod, upgradePending }) => {
   return (
     <IntlProvider>
-      <CheckoutSummaryTitle
-        paymentMethod={paymentMethod}
-        discountByPromocode={discountByPromocode}
-      />
+      <CheckoutSummaryTitle paymentMethod={paymentMethod} upgradePending={upgradePending} />
     </IntlProvider>
   );
 };
@@ -29,13 +26,10 @@ describe('CheckoutSummaryTitle component', () => {
     expect(screen.queryByText(`checkoutProcessSuccess.transfer_title`)).not.toBeInTheDocument();
   });
 
-  it('should show the purchase finished when the payment method is "transfer" and discountByPromocode is 100', async () => {
+  it('should show the purchase finished when the payment method is "transfer" and not upgrade pending', async () => {
     // Act
     render(
-      <CheckoutSummaryTitleElement
-        paymentMethod={paymentType.transfer}
-        discountByPromocode="100"
-      />,
+      <CheckoutSummaryTitleElement paymentMethod={paymentType.transfer} upgradePending={false} />,
     );
 
     // Assert
@@ -47,10 +41,10 @@ describe('CheckoutSummaryTitle component', () => {
     expect(screen.queryByText(`checkoutProcessSuccess.transfer_title`)).not.toBeInTheDocument();
   });
 
-  it('should show purchase in process when the payment method is "transfer" and discountByPromocode is different to 100', async () => {
+  it('should show purchase in process when the payment method is "transfer" and upgrade pending', async () => {
     // Act
     render(
-      <CheckoutSummaryTitleElement paymentMethod={paymentType.transfer} discountByPromocode="50" />,
+      <CheckoutSummaryTitleElement paymentMethod={paymentType.transfer} upgradePending={true} />,
     );
 
     // Assert
@@ -64,13 +58,10 @@ describe('CheckoutSummaryTitle component', () => {
     expect(screen.queryByText(`checkoutProcessSuccess.title`)).not.toBeInTheDocument();
   });
 
-  it('should show purchase in process when the payment method is "mercado pago" and discountByPromocode is different to 100', async () => {
+  it('should show purchase in process when the payment method is "mercado pago" and upgrade pending', async () => {
     // Act
     render(
-      <CheckoutSummaryTitleElement
-        paymentMethod={paymentType.mercadoPago}
-        discountByPromocode="50"
-      />,
+      <CheckoutSummaryTitleElement paymentMethod={paymentType.mercadoPago} upgradePending={true} />,
     );
 
     // Assert

@@ -21,8 +21,6 @@ import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
 
-export const MAX_PERCENTAGE = '100';
-
 export const FormatMessageWithSpecialStyle = ({ id }) => {
   return (
     <FormattedMessage
@@ -42,7 +40,7 @@ const PlanInformation = ({
   paymentMethod,
   extraCredits,
   remainingCredits,
-  discountPromocode,
+  upgradePending,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -57,7 +55,7 @@ const PlanInformation = ({
                 imageUrl: `${
                   paymentMethod === paymentType.creditCard ||
                   ([paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) &&
-                    discountPromocode === MAX_PERCENTAGE)
+                    !upgradePending)
                     ? 'checkout-success.svg'
                     : 'three-points.svg'
                 }`,
@@ -104,7 +102,10 @@ const PlanInformation = ({
 };
 
 export const CheckoutSummary = InjectAppServices(
-  ({ dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient }, location }) => {
+  ({
+    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
+    location,
+  }) => {
     useLinkedinInsightTag();
     const [
       {
@@ -131,6 +132,8 @@ export const CheckoutSummary = InjectAppServices(
     const discountByPromocode = query.get('discountPromocode') ?? 0;
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    const upgradePending = appSessionRef.current.userData.user.plan.upgradePending;
 
     useEffect(() => {
       const fetchBillingInformationData = async () => {
@@ -217,19 +220,15 @@ export const CheckoutSummary = InjectAppServices(
             paymentMethod={paymentMethod}
             extraCredits={extraCredits}
             remainingCredits={remainingCredits}
-            discountPromocode={discountByPromocode}
+            upgradePending={upgradePending}
           />
-          {paymentMethod === paymentType.transfer && discountByPromocode !== MAX_PERCENTAGE ? (
+          {paymentMethod === paymentType.transfer && upgradePending ? (
             <TransferInformation billingCountry={billingCountry} />
-          ) : paymentMethod === paymentType.mercadoPago &&
-            discountByPromocode !== MAX_PERCENTAGE ? (
+          ) : paymentMethod === paymentType.mercadoPago && upgradePending ? (
             <MercadoPagoInformation />
           ) : null}
 
-          <CheckoutSummaryButton
-            paymentMethod={paymentMethod}
-            discountByPromocode={discountByPromocode}
-          />
+          <CheckoutSummaryButton paymentMethod={paymentMethod} upgradePending={upgradePending} />
         </section>
       </>
     );

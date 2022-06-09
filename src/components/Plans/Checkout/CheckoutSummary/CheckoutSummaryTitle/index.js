@@ -1,15 +1,14 @@
-import { MAX_PERCENTAGE } from '../CheckoutSummary';
 import { useIntl } from 'react-intl';
 import { paymentType } from '../../PaymentMethod/PaymentMethod';
 
-const getTitle = (paymentMethod, discountByPromocode) => {
-  if (paymentMethod === paymentType.transfer && discountByPromocode !== MAX_PERCENTAGE) {
+const getTitle = (paymentMethod, upgradePending) => {
+  if (paymentMethod === paymentType.transfer && upgradePending) {
     return {
       smallTitle: 'checkoutProcessSuccess.transfer_purchase_finished_title',
       largeTitle: 'checkoutProcessSuccess.transfer_title',
     };
   } else {
-    if (paymentMethod === paymentType.mercadoPago && discountByPromocode !== MAX_PERCENTAGE) {
+    if (paymentMethod === paymentType.mercadoPago && upgradePending) {
       return {
         smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
         largeTitle: 'checkoutProcessSuccess.transfer_title',
@@ -22,11 +21,11 @@ const getTitle = (paymentMethod, discountByPromocode) => {
   };
 };
 
-export const CheckoutSummaryTitle = ({ paymentMethod, discountByPromocode }) => {
+export const CheckoutSummaryTitle = ({ paymentMethod, upgradePending }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const title = getTitle(paymentMethod, discountByPromocode);
+  const title = getTitle(paymentMethod, upgradePending);
 
   return (
     <>
