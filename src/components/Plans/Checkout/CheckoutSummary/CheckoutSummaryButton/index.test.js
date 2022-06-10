@@ -4,13 +4,10 @@ import '@testing-library/jest-dom/extend-expect';
 import { paymentType } from '../../PaymentMethod/PaymentMethod';
 import { CheckoutSummaryButton } from '.';
 
-const CheckoutSummaryButtonElement = ({ paymentMethod, discountByPromocode }) => {
+const CheckoutSummaryButtonElement = ({ paymentMethod, upgradePending }) => {
   return (
     <IntlProvider>
-      <CheckoutSummaryButton
-        paymentMethod={paymentMethod}
-        discountByPromocode={discountByPromocode}
-      />
+      <CheckoutSummaryButton paymentMethod={paymentMethod} upgradePending={upgradePending} />
     </IntlProvider>
   );
 };
@@ -32,13 +29,10 @@ describe('CheckoutSummaryButton component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should show new plan button when the payment method is "transfer" and discountByPromocode is 100', async () => {
+  it('should show new plan button when the payment method is "transfer" and not upgrade pending', async () => {
     // Act
     render(
-      <CheckoutSummaryButtonElement
-        paymentMethod={paymentType.transfer}
-        discountByPromocode="100"
-      />,
+      <CheckoutSummaryButtonElement paymentMethod={paymentType.transfer} upgradePending={false} />,
     );
 
     // Assert
@@ -53,12 +47,12 @@ describe('CheckoutSummaryButton component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should show new plan button when the payment method is "mercado pago" and discountByPromocode is 100', async () => {
+  it('should show new plan button when the payment method is "mercado pago" and not upgrade pending', async () => {
     // Act
     render(
       <CheckoutSummaryButtonElement
         paymentMethod={paymentType.mercadoPago}
-        discountByPromocode="100"
+        upgradePending={false}
       />,
     );
 
@@ -76,13 +70,10 @@ describe('CheckoutSummaryButton component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should show new explore section when the payment method is "transfer" and discountByPromocode is different to 100', async () => {
+  it('should show new explore section when the payment method is "transfer" and upgrade pending', async () => {
     // Act
     render(
-      <CheckoutSummaryButtonElement
-        paymentMethod={paymentType.transfer}
-        discountByPromocode="50"
-      />,
+      <CheckoutSummaryButtonElement paymentMethod={paymentType.transfer} upgradePending={true} />,
     );
 
     // Assert
@@ -95,12 +86,12 @@ describe('CheckoutSummaryButton component', () => {
     expect(screen.getByText(`checkoutProcessSuccess.transfer_explore_button`)).toBeInTheDocument();
   });
 
-  it('should show new explore section when the payment method is "mercado pago" and discountByPromocode is different to 100', async () => {
+  it('should show new explore section when the payment method is "mercado pago" and upgrade pending', async () => {
     // Act
     render(
       <CheckoutSummaryButtonElement
         paymentMethod={paymentType.mercadoPago}
-        discountByPromocode="50"
+        upgradePending={true}
       />,
     );
 

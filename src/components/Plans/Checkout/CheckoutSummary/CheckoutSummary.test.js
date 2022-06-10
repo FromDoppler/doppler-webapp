@@ -39,6 +39,7 @@ const currentUserFake = {
     planType: 'prepaid',
     planSubscription: 1,
     monthPlan: 1,
+    upgradePendig: true,
   },
 };
 
@@ -300,6 +301,7 @@ describe('CheckoutSummary component', () => {
         monthPlan: 1,
         remainingCredits: 5000,
         emailQty: 1500,
+        upgradePendig: false,
       },
     };
 
@@ -351,6 +353,7 @@ describe('CheckoutSummary component', () => {
         monthPlan: 1,
         remainingCredits: 5000,
         emailQty: 1500,
+        upgradePending: true,
       },
     };
 
@@ -409,6 +412,7 @@ describe('CheckoutSummary component', () => {
         monthPlan: 1,
         remainingCredits: 5000,
         emailQty: 1500,
+        upgradePending: true,
       },
     };
 

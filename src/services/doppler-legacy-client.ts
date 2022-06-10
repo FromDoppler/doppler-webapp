@@ -304,6 +304,7 @@ interface PlanEntry {
   subscribersCount: number;
   planFee: number;
   trialExpired: boolean;
+  upgradePending: boolean;
 }
 
 interface SmsEntry {
@@ -429,6 +430,7 @@ function mapPlanEntry(json: any): PlanEntry {
     subscribersCount: json.subscribersCount,
     planFee: json.planFee,
     trialExpired: json.trialExpired,
+    upgradePending: json.upgradePending,
   };
 }
 function mapSmsEntry(json: any): SmsEntry {

@@ -1,15 +1,11 @@
-import { MAX_PERCENTAGE } from '../CheckoutSummary';
 import { useIntl } from 'react-intl';
 import { paymentType } from '../../PaymentMethod/PaymentMethod';
 
-export const CheckoutSummaryButton = ({ paymentMethod, discountByPromocode }) => {
+export const CheckoutSummaryButton = ({ paymentMethod, upgradePending }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  if (
-    [paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) &&
-    discountByPromocode !== MAX_PERCENTAGE
-  ) {
+  if ([paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) && upgradePending) {
     return (
       <div className="m-t-24">
         <p>
