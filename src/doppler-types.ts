@@ -142,3 +142,11 @@ export const FirstDataError = {
   cardVolumeExceeded: 'DeclinedPaymentTransaction - Card Volume Exceeded',
   doNotHonor: 'DoNotHonorPaymentResponse - Do Not Honor [Bank]',
 };
+
+export const MercadoPagoError = {
+  invalidExpirationDate: 'DeclinedPaymentTransaction - cc_rejected_bad_filled_date',
+  invalidSecurityCode: 'DeclinedPaymentTransaction - cc_rejected_bad_filled_security_code',
+  insufficientFunds: 'DeclinedPaymentTransaction - cc_rejected_insufficient_amount',
+  declinedOtherReason: 'DeclinedPaymentTransaction - cc_rejected_other_reason',
+  suspectedFraud: 'DeclinedPaymentTransaction - cc_rejected_high_risk',
+};
