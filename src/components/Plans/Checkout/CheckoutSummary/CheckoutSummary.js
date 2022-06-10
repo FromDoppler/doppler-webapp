@@ -129,7 +129,6 @@ export const CheckoutSummary = InjectAppServices(
     const paymentMethodType = query.get('paymentMethod') ?? '';
     const discountDescription = query.get('discount') ?? '';
     const extraCreditsByPromocode = query.get('extraCredits') ?? 0;
-    const discountByPromocode = query.get('discountPromocode') ?? 0;
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -207,10 +206,7 @@ export const CheckoutSummary = InjectAppServices(
           <meta name="checkout-success" />
         </Helmet>
         <HeaderSection>
-          <CheckoutSummaryTitle
-            paymentMethod={paymentMethod}
-            discountByPromocode={discountByPromocode}
-          />
+          <CheckoutSummaryTitle paymentMethod={paymentMethod} upgradePending={upgradePending} />
         </HeaderSection>
         <section className="dp-container m-b-24">
           <PlanInformation
