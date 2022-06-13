@@ -237,6 +237,9 @@ const messages_es = {
       holder_name: 'Nombre y apellido del titular',
       identification_type_colombia: 'NIT',
       mercado_pago: 'Mercado Pago',
+      mercado_pago_error: {
+        invalid_security_code: '¡Ouch! Tarjeta invalida. Inténtalo nuevamente o prueba con otra tarjeta.',
+      },
       payment_way: 'Forma de pago',
       placeholder_holder_name: 'tu nombre aquí',
       responsable_iva: 'Responsable IVA',

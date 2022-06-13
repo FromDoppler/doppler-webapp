@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useQueryParams } from '../../../../../hooks/useQueryParams';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../../services/pure-di';
-import { FirstDataError } from '../../../../../doppler-types';
+import { FirstDataError, MercadoPagoError } from '../../../../../doppler-types';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
@@ -59,19 +59,25 @@ export const PlanPurchase = InjectAppServices(
     const handleMessage = (error) => {
       switch (error.response?.data) {
         case FirstDataError.invalidExpirationDate:
+        case MercadoPagoError.invalidExpirationDate:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
         case FirstDataError.invalidCreditCardNumber:
         case FirstDataError.invalidCCNumber:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
         case FirstDataError.doNotHonorDeclined:
+        case MercadoPagoError.declinedOtherReason:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
         case FirstDataError.suspectedFraud:
+        case MercadoPagoError.suspectedFraud:
           return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
         case FirstDataError.insufficientFunds:
+        case MercadoPagoError.insufficientFunds:
           return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
         case FirstDataError.cardVolumeExceeded:
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
+        case MercadoPagoError.invalidSecurityCode:
+          return 'checkoutProcessForm.payment_method.mercado_pago_error.invalid_security_code';
         default:
           return 'checkoutProcessForm.purchase_summary.error_message';
       }

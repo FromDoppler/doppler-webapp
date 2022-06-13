@@ -235,6 +235,9 @@ const messages_en = {
       holder_name: 'First name and Last name of titular',
       identification_type_colombia: 'NIT',
       mercado_pago: 'Mercado Pago',
+      mercado_pago_error: {
+        invalid_security_code: 'Ouch! Invalid credit card. Please try again or try with another credit card.',
+      },
       payment_way: 'Payment way',
       placeholder_holder_name: 'your name here',
       responsable_iva: 'IVA Responsable',
