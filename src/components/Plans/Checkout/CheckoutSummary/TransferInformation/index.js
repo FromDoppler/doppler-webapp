@@ -19,38 +19,17 @@ export const TransferInformation = () => {
             <div className="dp-plan-detail">
               <ul className="dp-list-detail">
                 <li>
-                  <span className="dp-wrapp-icon">
-                    <img
-                      src={_('common.ui_library_image', {
-                        imageUrl: `${'inbox.svg'}`,
-                      })}
-                      alt=""
-                    ></img>
-                  </span>
+                  <span className="dp-wrapp-icon dpicon iconapp-mail-inbox" />
                   <span>
                     {_(`checkoutProcessSuccess.transfer_check_email_with_invoice_message`)}
                   </span>
                 </li>
                 <li>
-                  <span className="dp-wrapp-icon">
-                    <img
-                      src={_('common.ui_library_image', {
-                        imageUrl: `${'dollar-coin.svg'}`,
-                      })}
-                      alt=""
-                    ></img>
-                  </span>
+                  <span className="dp-wrapp-icon dpicon iconapp-dollar-coin" />
                   <span>{_(`checkoutProcessSuccess.transfer_pay_the_invoice_message`)}</span>
                 </li>
                 <li>
-                  <span className="dp-wrapp-icon">
-                    <img
-                      src={_('common.ui_library_image', {
-                        imageUrl: `${'create-mail.svg'}`,
-                      })}
-                      alt=""
-                    ></img>
-                  </span>
+                  <span className="dp-wrapp-icon dpicon iconapp-create-mail" />
                   <span>
                     <FormattedMessage
                       id={`checkoutProcessSuccess.transfer_send_the_receipt_message`}
@@ -61,14 +40,7 @@ export const TransferInformation = () => {
                   </span>
                 </li>
                 <li>
-                  <span className="dp-wrapp-icon">
-                    <img
-                      src={_('common.ui_library_image', {
-                        imageUrl: `${'approve-money.svg'}`,
-                      })}
-                      alt=""
-                    ></img>
-                  </span>
+                  <span className="dp-wrapp-icon dpicon iconapp-approve-money" />
                   <span>{_(`checkoutProcessSuccess.transfer_confirmation_message`)}</span>
                 </li>
               </ul>
