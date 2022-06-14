@@ -96,7 +96,15 @@ const getBuyPurchaseUrl = ({
   newCheckoutEnabled,
   search,
 }) => {
-  const currentQueryParams = search ? `&${search.slice(1).replace('promo-code', 'PromoCode')}` : '';
+  const params = new URLSearchParams(search.slice(1));
+  // these parameters are eliminated, so that they do not appear repeated in the url
+  params.delete('selected-plan');
+  params.delete('discountId');
+  params.delete('monthPlan');
+
+  const currentQueryParams = params.toString()
+    ? `&${params.toString().replace('promo-code', 'PromoCode')}`
+    : '';
   return newCheckoutEnabled
     ? getNewCheckoutPurchaseUrl({ planType, planId, discountId, monthPlan, currentQueryParams })
     : getLegacyCheckoutPurchaseUrl({ controlPanelUrl, planId, discountId, currentQueryParams });
