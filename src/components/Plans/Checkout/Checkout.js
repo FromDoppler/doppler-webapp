@@ -7,6 +7,8 @@ import { BillingInformation } from './BillingInformation/BillingInformation';
 import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
 import { PurchaseSummary } from './PurchaseSummary/PurchaseSummary';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 
 const checkoutSteps = {
   contactInformation: 'contact-information',
@@ -19,6 +21,11 @@ export const actionPage = {
   UPDATE: 'update',
 };
 
+const getPlanTypeFromLegacyPlanType = (planType) =>
+  Object.keys(URL_PLAN_TYPE).includes(planType)
+    ? URL_PLAN_TYPE[planType]
+    : URL_PLAN_TYPE[PLAN_TYPE.byContact];
+
 const Checkout = InjectAppServices(({ dependencies: { dopplerBillingUserApiClient } }) => {
   const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
   const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
@@ -29,6 +36,8 @@ const Checkout = InjectAppServices(({ dependencies: { dopplerBillingUserApiClien
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [appliedPromocode, setAppliedPromocode] = useState(false);
   const intl = useIntl();
+  const { pathType, planType } = useParams();
+  const { search } = useLocation();
 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -160,13 +169,14 @@ const Checkout = InjectAppServices(({ dependencies: { dopplerBillingUserApiClien
             <div className="col-lg-12 col-md-6 col-sm-12 m-b-24"></div>
             <div className="col-sm-12 m-b-24">
               <hr className="dp-h-divider" />
-              <button
-                type="button"
+              <Link
+                to={`/plan-selection/${pathType}/${getPlanTypeFromLegacyPlanType(
+                  planType,
+                )}${search}`}
                 className="dp-button button-medium primary-grey m-t-30 m-r-24"
-                onClick={() => window.history.back()}
               >
                 {_('checkoutProcessForm.button_back')}
-              </button>
+              </Link>
             </div>
           </div>
         </section>
