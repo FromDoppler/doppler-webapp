@@ -19,14 +19,7 @@ export const MercadoPagoInformation = () => {
             <div className="dp-plan-detail">
               <ul className="dp-list-detail">
                 <li>
-                  <span className="dp-wrapp-icon">
-                    <img
-                      src={_('common.ui_library_image', {
-                        imageUrl: `${'inbox.svg'}`,
-                      })}
-                      alt="invoice information"
-                    ></img>
-                  </span>
+                  <span className="dp-wrapp-icon dpicon iconapp-mail-inbox" />
                   <span>
                     {_(`checkoutProcessSuccess.mercado_pago_check_email_with_invoice_message`)}
                   </span>
