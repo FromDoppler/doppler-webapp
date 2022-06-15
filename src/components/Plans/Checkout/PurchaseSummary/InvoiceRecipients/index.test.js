@@ -16,6 +16,7 @@ const appSessionRef = {
     userData: {
       user: {
         fullname: 'Cecilia Bernat',
+        email: 'mail1@test.com',
       },
     },
   },
@@ -28,7 +29,7 @@ describe('InvoiceRecipients component', () => {
     const updateInvoiceRecipientsMock = jest.fn(async () => ({
       success: true,
     }));
-    const recipients = ['mail1@test.com'];
+    const recipients = [];
     const dependencies = {
       appSessionRef,
       dopplerBillingUserApiClient: {
@@ -58,8 +59,8 @@ describe('InvoiceRecipients component', () => {
       });
     const getRecipientsAdded = (cloudTags) => getAllByRole(cloudTags, 'listitem');
 
-    const initialRecipients = recipients.join(', ');
-    expect(await screen.findByText(initialRecipients)).toBeInTheDocument();
+    // Because when there are no recipients added, the user email is used
+    expect(await screen.findByText(appSessionRef.current.userData.user.email)).toBeInTheDocument();
     expect(getEditModeButton()).toBeInTheDocument();
     // The form is not displayed because it is in reading mode
     expect(screen.queryByRole('form')).not.toBeInTheDocument();
@@ -72,7 +73,7 @@ describe('InvoiceRecipients component', () => {
     expect(addButton).toBeInTheDocument();
 
     const cloudTags = screen.queryByRole('list', { name: 'cloud tags' });
-    getByText(getRecipientsAdded(cloudTags)[0], recipients[0]);
+    getByText(getRecipientsAdded(cloudTags)[0], appSessionRef.current.userData.user.email);
 
     // simulate add a tag
     const emailField = screen.getByPlaceholderText(
@@ -93,11 +94,15 @@ describe('InvoiceRecipients component', () => {
     });
     await userEvent.click(submitButton);
     await waitForElementToBeRemoved(screen.queryByRole('form'));
-    expect(await screen.findByText([...recipients, email2, email3].join(', '))).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        [appSessionRef.current.userData.user.email, email2, email3].join(', '),
+      ),
+    ).toBeInTheDocument();
     expect(getEditModeButton()).toBeInTheDocument();
     expect(updateInvoiceRecipientsMock).toHaveBeenCalled();
     expect(updateInvoiceRecipientsMock).toHaveBeenCalledWith(
-      [...recipients, email2, email3],
+      [appSessionRef.current.userData.user.email, email2, email3],
       selectedPlan,
     );
   });
