@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import useTimeout from '../../../hooks/useTimeout';
@@ -154,6 +154,10 @@ export const PlanCalculator = InjectAppServices(
         history.push(urlToRedirect);
       }
     }, [appSessionRef, planTypeUrlSegment, history]);
+
+    if (!hasError && !loading && planTypes.length === 0) {
+      return <Redirect to="/upgrade-suggestion-form" />;
+    }
 
     if (loading) {
       return <Loading page />;

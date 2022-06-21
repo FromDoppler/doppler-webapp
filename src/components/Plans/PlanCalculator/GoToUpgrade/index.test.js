@@ -4,9 +4,10 @@ import { MemoryRouter as Router, Route } from 'react-router-dom';
 import { GoToUpgrade } from '.';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../../doppler-types';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { allPlans } from '../../../../services/doppler-legacy-client.doubles';
 import { AppServicesProvider } from '../../../../services/pure-di';
 
-const getDependencies = (planData) => {
+const getDependencies = (planData, planTypes) => {
   return {
     appSessionRef: {
       current: {
@@ -18,8 +19,8 @@ const getDependencies = (planData) => {
       },
     },
     planService: {
-      getPlanTypes: async () => [],
-      getPlansByType: async () => [],
+      getPlanTypes: async () => planTypes,
+      getPlansByType: async () => allPlans,
     },
   };
 };
@@ -34,11 +35,14 @@ describe('GoToUpgrade Component', () => {
 
   it('should go to plan calculator when is a trial account', async () => {
     //Arrange
-    const dependencies = getDependencies({
-      idPlan: 3,
-      isFreeAccount: true,
-      planType: PLAN_TYPE.free,
-    });
+    const dependencies = getDependencies(
+      {
+        idPlan: 3,
+        isFreeAccount: true,
+        planType: PLAN_TYPE.free,
+      },
+      [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit],
+    );
 
     //Act
     render(
@@ -60,10 +64,13 @@ describe('GoToUpgrade Component', () => {
 
   it('should go to buy credits page when is a credits account', async () => {
     //Arrange
-    const dependencies = getDependencies({
-      isFreeAccount: false,
-      planType: PLAN_TYPE.byCredit,
-    });
+    const dependencies = getDependencies(
+      {
+        isFreeAccount: false,
+        planType: PLAN_TYPE.byCredit,
+      },
+      [PLAN_TYPE.byCredit],
+    );
 
     //Act
     render(
@@ -101,10 +108,13 @@ describe('GoToUpgrade Component', () => {
   ])('paid accounts with monthly subscription', (testName, planType) => {
     it(testName, async () => {
       //Arrange
-      const dependencies = getDependencies({
-        isFreeAccount: false,
-        planType: planType,
-      });
+      const dependencies = getDependencies(
+        {
+          isFreeAccount: false,
+          planType: planType,
+        },
+        [planType],
+      );
 
       //Act
       render(
