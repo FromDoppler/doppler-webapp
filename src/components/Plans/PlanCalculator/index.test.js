@@ -378,6 +378,58 @@ describe('PlanCalculator component', () => {
     expect(byEmailsTab).not.toBeInTheDocument();
   });
 
+  it('should be visible current description type', async () => {
+    // Arrange
+    const planTypes = [PLAN_TYPE.byContact];
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byContact,
+                planSubscription: 3,
+              },
+            },
+          },
+        },
+      },
+      planService: {
+        getPlanTypes: async () => planTypes,
+        getPlansByType: async () => plansByContacts,
+      },
+      experimentalFeatures: {
+        getFeature: () => false,
+      },
+      ipinfoClient: {
+        getCountryCode: () => 'CL',
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculator />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    screen.getByText('plan_calculator.current_subscription');
+    expect(screen.queryByText('plan_calculator.discount_title')).not.toBeInTheDocument();
+  });
+
   describe('Redirections when the type of plan is by email', () => {
     [
       {
