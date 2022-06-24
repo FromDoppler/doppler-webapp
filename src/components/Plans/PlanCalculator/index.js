@@ -31,6 +31,7 @@ import {
   PROMOCODE_ACTIONS,
 } from './reducers/promocodeReducer';
 import { Slider } from './Slider';
+import { SubscriptionType } from './SubscriptionType';
 import { UnexpectedError } from './UnexpectedError';
 
 export const PlanCalculator = InjectAppServices(
@@ -173,6 +174,8 @@ export const PlanCalculator = InjectAppServices(
     const promocode = query.get('promo-code') ?? query.get('PromoCode') ?? '';
     const hasPromocode = !!promocode;
 
+    const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
+
     return (
       <>
         <section className="dp-gray-page p-t-54 p-b-54">
@@ -204,14 +207,24 @@ export const PlanCalculator = InjectAppServices(
                                 currentPlanList={plansByType}
                                 planTypes={planTypes}
                               />
-                              {discounts.length > 0 && (
+                              {isMonthlySubscription ? (
+                                discounts.length > 0 && (
+                                  <>
+                                    <hr />
+                                    <Discounts
+                                      discounts={discounts}
+                                      selectedDiscount={selectedDiscount}
+                                      onSelectDiscount={handleDiscountChange}
+                                      disabled={promotion.isValid}
+                                    />
+                                  </>
+                                )
+                              ) : (
                                 <>
                                   <hr />
-                                  <Discounts
-                                    discounts={discounts}
-                                    selectedDiscount={selectedDiscount}
-                                    onSelectDiscount={handleDiscountChange}
-                                    disabled={promotion.isValid}
+                                  <SubscriptionType
+                                    period={selectedDiscount?.numberMonths}
+                                    discountPercentage={selectedDiscount?.discountPercentage}
                                   />
                                 </>
                               )}
