@@ -40,6 +40,8 @@ export const fakePlanAmountDetails = {
   discountPaymentAlreadyPaid: 0,
   discountPromocode: { discountPercentage: 0, amount: 0 },
   total: 229.5,
+  currentMonthTotal: 229.5,
+  nextMonthTotal: 229.5,
 };
 
 export const fakePlanAmountDetailsWithPromocode = {
@@ -47,6 +49,18 @@ export const fakePlanAmountDetailsWithPromocode = {
   discountPaymentAlreadyPaid: 0,
   discountPromocode: { discountPercentage: 10, amount: 10 },
   total: 229.5,
+  currentMonthTotal: 229.5,
+  nextMonthTotal: 229.5,
+};
+
+export const fakePlanAmountDetailsWithAdminDiscount = {
+  discountPrepayment: { discountPercentage: 0, amount: 0 },
+  discountPaymentAlreadyPaid: 0,
+  discountPromocode: { discountPercentage: 0, amount: 0 },
+  discountPlanFeeAdmin: { discountPercentage: 10, amount: 10 },
+  total: 229.5,
+  currentMonthTotal: 229.5,
+  nextMonthTotal: 229.5,
 };
 
 export const fakePromotion = {

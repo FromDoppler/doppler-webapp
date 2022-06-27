@@ -242,6 +242,7 @@ describe('CheckoutSummary component', () => {
         monthPlan: 1,
         remainingCredits: 5000,
         emailQty: 1500,
+        upgradePendig: false,
       },
     };
 
@@ -274,15 +275,13 @@ describe('CheckoutSummary component', () => {
     expect(
       screen.queryByText(`checkoutProcessSuccess.plan_type_prepaid_promocode`),
     ).not.toBeInTheDocument();
-    expect(
-      screen.queryByText(`checkoutProcessSuccess.transfer_steps_title`),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText(`checkoutProcessSuccess.transfer_steps_title`)).toBeInTheDocument();
     expect(
       screen.queryByText(`checkoutProcessSuccess.transfer_check_email_with_invoice_message`),
-    ).not.toBeInTheDocument();
+    ).toBeInTheDocument();
     expect(
       screen.queryByText(`checkoutProcessSuccess.transfer_pay_the_invoice_message`),
-    ).not.toBeInTheDocument();
+    ).toBeInTheDocument();
     expect(
       screen.queryByText(`checkoutProcessSuccess.transfer_send_the_receipt_message`),
     ).not.toBeInTheDocument();

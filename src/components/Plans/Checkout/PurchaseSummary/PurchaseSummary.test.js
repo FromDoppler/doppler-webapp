@@ -12,25 +12,17 @@ import {
   fakeAccountPlanDiscounts,
   fakePromotion,
   fakePlanAmountDetails,
+  fakePlanAmountDetailsWithAdminDiscount,
 } from '../../../../services/doppler-account-plans-api-client.double';
 import user from '@testing-library/user-event';
 import { PLAN_TYPE } from '../../../../doppler-types';
 
-const dependencies = (dopplerAccountPlansApiClientDouble, dopplerBillingUserApiClientDouble) => ({
-  appSessionRef: {
-    current: {
-      userData: {
-        user: {
-          email: 'hardcoded@email.com',
-          plan: {
-            planType: '1',
-            planSubscription: 1,
-            monthPlan: 1,
-          },
-        },
-      },
-    },
-  },
+const dependencies = (
+  dopplerAccountPlansApiClientDouble,
+  dopplerBillingUserApiClientDouble,
+  currentUser,
+) => ({
+  appSessionRef: currentUser,
   dopplerBillingUserApiClient: dopplerBillingUserApiClientDouble,
   dopplerAccountPlansApiClient: dopplerAccountPlansApiClientDouble,
 });
@@ -53,16 +45,34 @@ const dopplerBillingUserApiClientDoubleBase = {
   },
 };
 
+const currentUserBase = {
+  current: {
+    userData: {
+      user: {
+        email: 'hardcoded@email.com',
+        plan: {
+          planType: '1',
+          planSubscription: 1,
+          monthPlan: 1,
+          isFreeAccount: true,
+        },
+      },
+    },
+  },
+};
+
 const PurchaseSummaryElement = ({
   url,
   canBuy,
   paymentMethod,
   dopplerAccountPlansApiClientDouble,
   dopplerBillingUserApiClientDouble,
+  currentUser,
 }) => {
   const services = dependencies(
     dopplerAccountPlansApiClientDouble,
     dopplerBillingUserApiClientDouble,
+    currentUser,
   );
   return (
     <MemoryRouter initialEntries={[url]}>
@@ -110,6 +120,7 @@ describe('PurchaseSummary component', () => {
         url="checkout/standard/subscribers"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -156,6 +167,7 @@ describe('PurchaseSummary component', () => {
           url={url}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+          currentUser={currentUserBase}
         />,
       );
 
@@ -195,6 +207,7 @@ describe('PurchaseSummary component', () => {
         url="checkout/standard/subscribers"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -248,6 +261,7 @@ describe('PurchaseSummary component', () => {
           url={`checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+          currentUser={currentUserBase}
         />,
       );
 
@@ -283,6 +297,7 @@ describe('PurchaseSummary component', () => {
         url="checkout/standard/subscribers?discountId=1&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -356,6 +371,7 @@ describe('PurchaseSummary component', () => {
           url={`checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+          currentUser={currentUserBase}
         />,
       );
 
@@ -398,6 +414,7 @@ describe('PurchaseSummary component', () => {
         url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -419,7 +436,7 @@ describe('PurchaseSummary component', () => {
     const fakePlanAmountDetails = {
       discountPrepayment: { discountPercentage: 25, amount: 165 },
       discountPaymentAlreadyPaid: 100,
-      total: 229.5,
+      currentMonthTotal: 229.5,
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -437,6 +454,7 @@ describe('PurchaseSummary component', () => {
         url="checkout/standard/subscribers?discountId=6&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -476,6 +494,7 @@ describe('PurchaseSummary component', () => {
         canBuy={false}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -516,6 +535,7 @@ describe('PurchaseSummary component', () => {
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -563,6 +583,7 @@ describe('PurchaseSummary component', () => {
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -655,6 +676,7 @@ describe('PurchaseSummary component', () => {
           canBuy={true}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+          currentUser={currentUserBase}
         />,
       );
 
@@ -694,6 +716,7 @@ describe('PurchaseSummary component', () => {
         url={`checkout/standard/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -725,6 +748,7 @@ describe('PurchaseSummary component', () => {
         url={`checkout/standard/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -822,6 +846,7 @@ describe.each([
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         paymentMethod={''}
+        currentUser={currentUserBase}
       />,
     );
 
@@ -831,5 +856,162 @@ describe.each([
     await waitForElementToBeRemoved(loader);
 
     expect(screen.getByText(context.informationLegend)).toBeInTheDocument();
+  });
+});
+
+describe('PurchaseSummary component - Upgrade plan', () => {
+  it('should not show the promocode section', async () => {
+    // Arrange
+    const fakePlan = fakeSubscribersPlan;
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetails };
+      },
+    };
+
+    const currentUser = {
+      current: {
+        userData: {
+          user: {
+            email: 'hardcoded@email.com',
+            plan: {
+              planType: '1',
+              planSubscription: 1,
+              monthPlan: 1,
+              isFreeAccount: false,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/prepaid`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUser}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.queryByText('checkoutProcessForm.purchase_summary.promocode_header')).toBeNull();
+  });
+
+  it('should show the geneal discount when the user has an admin discount', async () => {
+    // Arrange
+    const fakePlan = fakeSubscribersPlan;
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetailsWithAdminDiscount };
+      },
+    };
+
+    const currentUser = {
+      current: {
+        userData: {
+          user: {
+            email: 'hardcoded@email.com',
+            plan: {
+              planType: '1',
+              planSubscription: 1,
+              monthPlan: 1,
+              isFreeAccount: false,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/prepaid`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUser}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(
+      screen.queryByText('checkoutProcessForm.purchase_summary.discount_for_admin'),
+    ).not.toBeNull();
+  });
+
+  it('should show the upgrade plan legend when the currentPriceToPay is 0 and plan type is by emails', async () => {
+    // Arrange
+    const fakePlan = fakeSubscribersPlan;
+    const fakeAmountDetails = {
+      discountPrepayment: { discountPercentage: 0, amount: 0 },
+      discountPaymentAlreadyPaid: 0,
+      discountPromocode: { discountPercentage: 0, amount: 0 },
+      discountPlanFeeAdmin: { discountPercentage: 0, amount: 0 },
+      total: 0,
+      currentMonthTotal: 0,
+      nextMonthTotal: 229.5,
+    };
+
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakeAmountDetails };
+      },
+    };
+
+    const currentUser = {
+      current: {
+        userData: {
+          user: {
+            email: 'hardcoded@email.com',
+            plan: {
+              planType: '1',
+              planSubscription: 1,
+              monthPlan: 1,
+              isFreeAccount: false,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/monthly-deliveries`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUser}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(
+      screen.queryByText('checkoutProcessForm.purchase_summary.upgrade_plan_legend'),
+    ).not.toBeNull();
   });
 });
