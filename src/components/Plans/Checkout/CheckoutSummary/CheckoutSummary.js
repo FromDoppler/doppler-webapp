@@ -220,8 +220,8 @@ export const CheckoutSummary = InjectAppServices(
           />
           {paymentMethod === paymentType.transfer && upgradePending ? (
             <TransferInformation billingCountry={billingCountry} />
-          ) : paymentMethod === paymentType.mercadoPago && upgradePending ? (
-            <MercadoPagoInformation />
+          ) : paymentMethod === paymentType.mercadoPago ? (
+            <MercadoPagoInformation upgradePending={upgradePending} />
           ) : null}
 
           <CheckoutSummaryButton paymentMethod={paymentMethod} upgradePending={upgradePending} />
