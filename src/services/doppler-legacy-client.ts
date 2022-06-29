@@ -426,7 +426,7 @@ function mapPlanEntry(json: any): PlanEntry {
     planType: planTypeByIdUserType[json.planType],
     idPlan: json.idUserTypePlan ? json.idUserTypePlan : 0,
     planDiscount: json.planDiscount,
-    planSubscription: json.monthPlan,
+    planSubscription: json.monthPlan ? json.monthPlan : 1,
     subscribersCount: json.subscribersCount,
     planFee: json.planFee,
     trialExpired: json.trialExpired,
