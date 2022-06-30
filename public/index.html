@@ -71,14 +71,14 @@
       }
     </style>
     <!-- Manifest Style Guide -->
-    <script src="https://cdn.fromdoppler.com/mfe-loader/loader-v1.1.1.js"></script>
+    <script src="https://cdn.fromdoppler.com/mfe-loader/loader-v2.0.0.js"></script>
       <script type="text/javascript">
         window["style-guide-configuration"] = {
         autoInitialize: true,
       };
-        new AssetServices().load(
-          "%REACT_APP_STYLE_GUIDE_MANIFIEST_FILE%"
-        );
+        assetServices.load({
+          manifestURL: "%REACT_APP_STYLE_GUIDE_MANIFIEST_FILE%"
+        });
       </script>
   </head>
   <body>
