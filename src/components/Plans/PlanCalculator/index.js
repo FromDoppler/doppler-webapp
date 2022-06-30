@@ -88,7 +88,10 @@ export const PlanCalculator = InjectAppServices(
           );
           dispatchPlansByType({
             type: PLANS_BY_TYPE_ACTIONS.FINISH_FETCH,
-            payload: _plansByType,
+            payload: {
+              plansByType: _plansByType,
+              currentSubscriptionUser: appSessionRef.current.userData.user.plan.planSubscription,
+            },
           });
         } catch (error) {
           dispatchPlansByType({ type: PLANS_BY_TYPE_ACTIONS.FAIL_FETCH });
@@ -98,7 +101,7 @@ export const PlanCalculator = InjectAppServices(
       if (planTypes.length > 0) {
         fetchPlansByType();
       }
-    }, [planService, planTypeUrlSegment, planTypes]);
+    }, [planService, appSessionRef, planTypeUrlSegment, planTypes]);
 
     useEffect(() => {
       setActiveClass('');

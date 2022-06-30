@@ -25,8 +25,9 @@ describe('plansByTypeReducer', () => {
     );
   });
 
-  it(`${PLANS_BY_TYPE_ACTIONS.FINISH_FETCH} action`, () => {
+  it(`${PLANS_BY_TYPE_ACTIONS.FINISH_FETCH} action with plan subscription equal to 1 month`, () => {
     // Arrange
+    const planSubscription = 1;
     const plansByType = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
     const initialState = {
       ...INITIAL_STATE_PLANS_BY_TYPE,
@@ -34,7 +35,10 @@ describe('plansByTypeReducer', () => {
     };
     const action = {
       type: PLANS_BY_TYPE_ACTIONS.FINISH_FETCH,
-      payload: plansByType,
+      payload: {
+        plansByType,
+        currentSubscriptionUser: planSubscription,
+      },
     };
 
     // Act
@@ -52,6 +56,41 @@ describe('plansByTypeReducer', () => {
         sliderValuesRange: plansByType.map(amountByPlanType),
         discounts,
         selectedDiscount: discounts[0],
+      }),
+    );
+  });
+
+  it(`${PLANS_BY_TYPE_ACTIONS.FINISH_FETCH} action with plan subscription equal to 3 months`, () => {
+    // Arrange
+    const planSubscription = 3;
+    const plansByType = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
+    const initialState = {
+      ...INITIAL_STATE_PLANS_BY_TYPE,
+      selectedPlanIndex: 15, // An arbitrary plan
+    };
+    const action = {
+      type: PLANS_BY_TYPE_ACTIONS.FINISH_FETCH,
+      payload: {
+        plansByType,
+        currentSubscriptionUser: planSubscription,
+      },
+    };
+
+    // Act
+    const newState = plansByTypeReducer(initialState, action);
+
+    // Assert
+    const discounts =
+      plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
+    expect(newState).toEqual(
+      expect.objectContaining({
+        loading: false,
+        selectedPlanIndex: 0,
+        selectedPlan: plansByType[0],
+        plansByType,
+        sliderValuesRange: plansByType.map(amountByPlanType),
+        discounts,
+        selectedDiscount: discounts[1],
       }),
     );
   });
