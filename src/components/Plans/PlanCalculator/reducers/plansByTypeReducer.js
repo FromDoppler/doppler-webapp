@@ -29,10 +29,13 @@ export const plansByTypeReducer = (state, action) => {
         hasError: false,
       };
     case PLANS_BY_TYPE_ACTIONS.FINISH_FETCH:
-      const { payload: plansByType } = action;
+      const { plansByType, currentSubscriptionUser } = action.payload;
       const sliderValuesRange = plansByType.map(amountByPlanType);
       const discounts =
         plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
+      const selectDiscountIndexByDefault = discounts.findIndex(
+        (discount) => discount.numberMonths === currentSubscriptionUser,
+      );
       return {
         ...state,
         selectedPlanIndex: 0,
@@ -41,8 +44,8 @@ export const plansByTypeReducer = (state, action) => {
         plansByType,
         sliderValuesRange,
         discounts,
-        selectedDiscount: discounts[0],
-        selectedDiscountIndex: 0,
+        selectedDiscount: discounts[selectDiscountIndexByDefault],
+        selectedDiscountIndex: selectDiscountIndexByDefault,
       };
     case PLANS_BY_TYPE_ACTIONS.FAIL_FETCH:
       return {
