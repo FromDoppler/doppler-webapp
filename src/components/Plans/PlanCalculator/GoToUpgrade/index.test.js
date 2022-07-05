@@ -102,48 +102,72 @@ describe('GoToUpgrade Component', () => {
     expect(window.location.href).toBe(`${process.env.REACT_APP_DOPPLER_LEGACY_URL}${partialUrl}`);
   });
 
-  describe.each([
-    ['should go to upgrade plan when is a contacts account', PLAN_TYPE.byContact],
-    ['should go to upgrade plan when is a emails account', PLAN_TYPE.byEmail],
-  ])('paid accounts with monthly subscription', (testName, planType) => {
-    it(testName, async () => {
-      //Arrange
-      const dependencies = getDependencies(
-        {
-          isFreeAccount: false,
-          planType: planType,
-        },
-        [planType],
-      );
+  it('should go to upgrade plan when is a contacts account', async () => {
+    //Arrange
+    const dependencies = getDependencies(
+      {
+        isFreeAccount: false,
+        planType: PLAN_TYPE.byContact,
+      },
+      [PLAN_TYPE.byContact],
+    );
 
-      //Act
-      render(
-        <IntlProvider>
-          <Router
-            initialEntries={[
-              `/plan-selection/premium/${
-                URL_PLAN_TYPE[PLAN_TYPE.byContact]
-              }?PromoCode=S4NV4L3NT1N&origin_inbound=fake`,
-            ]}
-          >
-            <Route path="/plan-selection/premium/:planType?">
-              <AppServicesProvider forcedServices={dependencies}>
-                <GoToUpgrade />
-              </AppServicesProvider>
-            </Route>
-          </Router>
-        </IntlProvider>,
-      );
+    //Act
+    render(
+      <IntlProvider>
+        <Router
+          initialEntries={[
+            `/plan-selection/premium/${
+              URL_PLAN_TYPE[PLAN_TYPE.byContact]
+            }?PromoCode=S4NV4L3NT1N&origin_inbound=fake`,
+          ]}
+        >
+          <Route path="/plan-selection/premium/:planType?">
+            <AppServicesProvider forcedServices={dependencies}>
+              <GoToUpgrade />
+            </AppServicesProvider>
+          </Route>
+        </Router>
+      </IntlProvider>,
+    );
 
-      //Assert
-      const planCalculatorTitle = screen.queryByText('plan_calculator.plan_premium_title');
-      expect(planCalculatorTitle).not.toBeInTheDocument();
+    //Assert
+    const planCalculatorTitle = screen.queryByText('plan_calculator.plan_premium_title');
+    expect(planCalculatorTitle).not.toBeInTheDocument();
 
-      const loader = screen.getByTestId('loading-box');
-      expect(loader).toBeInTheDocument();
+    const loader = screen.getByTestId('loading-box');
+    expect(loader).toBeInTheDocument();
 
-      const partialUrl = `/ControlPanel/AccountPreferences/GetAccountInformation?origin_inbound=fake`;
-      expect(window.location.href).toBe(`${process.env.REACT_APP_DOPPLER_LEGACY_URL}${partialUrl}`);
-    });
+    const partialUrl = `/ControlPanel/AccountPreferences/GetAccountInformation?origin_inbound=fake`;
+    expect(window.location.href).toBe(`${process.env.REACT_APP_DOPPLER_LEGACY_URL}${partialUrl}`);
+  });
+
+  it('should go to plan calculator when is a emails account', async () => {
+    //Arrange
+    const dependencies = getDependencies(
+      {
+        idPlan: 3,
+        isFreeAccount: true,
+        planType: PLAN_TYPE.byCredit,
+      },
+      [PLAN_TYPE.byEmail],
+    );
+
+    //Act
+    render(
+      <IntlProvider>
+        <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`]}>
+          <Route path="/plan-selection/premium/:planType?">
+            <AppServicesProvider forcedServices={dependencies}>
+              <GoToUpgrade />
+            </AppServicesProvider>
+          </Route>
+        </Router>
+      </IntlProvider>,
+    );
+
+    //Assert
+    const planCalculatorTitle = await screen.findByText('plan_calculator.plan_premium_title');
+    expect(planCalculatorTitle).toBeInTheDocument();
   });
 });
