@@ -172,6 +172,91 @@ const montlhyRawPlan = {
   },
 };
 
+const maxSubscribersData = {
+  data: {
+    success: true,
+    data: {
+      QuestionsList: [
+        {
+          Answer: {
+            AnswerType: 1,
+            AnswerOptions: [],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: 'Nombre',
+        },
+        {
+          Answer: {
+            AnswerType: 1,
+            AnswerOptions: [],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: 'Apellido',
+        },
+        {
+          Answer: {
+            AnswerType: 1,
+            AnswerOptions: [],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: 'Email',
+        },
+        {
+          Answer: {
+            AnswerType: 1,
+            AnswerOptions: [],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: 'Teléfono',
+        },
+        {
+          Answer: {
+            AnswerType: 3,
+            AnswerOptions: [
+              'Sitio Web',
+              'Evento',
+              'Landing Page',
+              'CRM',
+              'Agenda personal de contactos',
+              'Formulario en tienda física/offline',
+              'Otros',
+            ],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: '¿Cuál es la procedencia de tus Suscriptores?',
+        },
+        {
+          Answer: {
+            AnswerType: 2,
+            AnswerOptions: ['Opt-in', 'Doble Opt-in', 'Manual'],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: '¿Cómo fue el método de recolección de datos?',
+        },
+        {
+          Answer: {
+            AnswerType: 6,
+            AnswerOptions: [],
+            Value: '',
+            OptionsSelected: '',
+          },
+          Question: 'URL de registración:',
+        },
+      ],
+      IsSentSuccessEmail: false,
+      UrlReferrer: '',
+      UrlHelp:
+        'http://help.fromdoppler.com/por-que-debo-completar-un-formulario-al-cargar-mis-listas/',
+    },
+  },
+};
+
 describe('Doppler legacy client', () => {
   beforeEach(() => {
     axios.mockClear();
@@ -425,5 +510,20 @@ describe('Doppler legacy client', () => {
     expect(planList).toBeDefined();
     expect(planList[0].type).toBe('monthly-deliveries');
     expect(planList[0].billingCycleDetails).toBeUndefined();
+  });
+
+  it('should get validation subscriber form data', async () => {
+    // Arrange
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    axios.get.mockImplementation(() => maxSubscribersData);
+
+    // Act
+    const result = await sut.getMaxSubscribersData();
+
+    // Assert
+    expect(result).not.toBe(undefined);
   });
 });
