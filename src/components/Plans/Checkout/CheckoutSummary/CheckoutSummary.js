@@ -218,8 +218,8 @@ export const CheckoutSummary = InjectAppServices(
             remainingCredits={remainingCredits}
             upgradePending={upgradePending}
           />
-          {paymentMethod === paymentType.transfer && upgradePending ? (
-            <TransferInformation billingCountry={billingCountry} />
+          {paymentMethod === paymentType.transfer ? (
+            <TransferInformation billingCountry={billingCountry} upgradePending={upgradePending} />
           ) : paymentMethod === paymentType.mercadoPago ? (
             <MercadoPagoInformation upgradePending={upgradePending} />
           ) : null}

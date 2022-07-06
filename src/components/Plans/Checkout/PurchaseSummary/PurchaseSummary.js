@@ -131,6 +131,24 @@ export const DiscountPromocode = ({ discountPromocode }) => {
   );
 };
 
+export const DiscountPlanFeeAdmin = ({ discountPlanFeeAdmin }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <>
+      <span>
+        {_(`checkoutProcessForm.purchase_summary.discount_for_admin`)}{' '}
+        <strong>- {discountPlanFeeAdmin.discountPercentage}%</strong>
+      </span>
+      <span>
+        -{dollarSymbol}{' '}
+        <FormattedNumber value={discountPlanFeeAdmin.amount} {...numberFormatOptions} />
+      </span>
+    </>
+  );
+};
+
 export const CreditsPromocode = ({ extraCredits }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -148,7 +166,15 @@ export const CreditsPromocode = ({ extraCredits }) => {
   );
 };
 
-export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, planType }) => {
+export const InvoiceInformation = ({
+  priceToPay,
+  discount,
+  paymentMethodType,
+  planType,
+  isFree,
+  currentPriceToPay,
+  discountPlanFeeAdmin,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const isTransfer = paymentMethodType === paymentType.transfer;
@@ -162,10 +188,22 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
       case PLAN_TYPE.byContact:
       case PLAN_TYPE.byEmail:
         return paymentMethodType === paymentType.creditCard ? (
-          `*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`
+          <div>
+            {!isFree && currentPriceToPay === 0 && (
+              <div>{`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}</div>
+            )}
+            <div className="m-t-12">
+              {`*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`}
+            </div>
+          </div>
         ) : (
           <div>
             {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
+            {!isFree && currentPriceToPay === 0 && (
+              <div className="m-t-12">
+                {`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}
+              </div>
+            )}
             <div className="m-t-12">
               {`${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend2')}`}
             </div>
@@ -184,7 +222,10 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
             <h3 className="m-t-24">
               {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`}{' '}
               {dollarSymbol}{' '}
-              <FormattedNumber value={priceToPay - discount} {...numberFormatOptions} />
+              <FormattedNumber
+                value={priceToPay - discount - discountPlanFeeAdmin}
+                {...numberFormatOptions}
+              />
               {isTransfer && '*'}
             </h3>
           </li>
@@ -203,10 +244,10 @@ export const InvoiceInformation = ({ priceToPay, discount, paymentMethodType, pl
   );
 };
 
-export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
+export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMonthTotal }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const { discountPrepayment } = state.amountDetails;
+  const { discountPrepayment, discountPlanFeeAdmin } = state.amountDetails;
 
   const isTransfer = state.paymentMethodType === paymentType.transfer;
 
@@ -218,7 +259,7 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
           <span>
             {' '}
             <span className="dp-money">{dollarSymbol} </span>
-            <FormattedNumber value={priceToPay} {...numberFormatOptions} />
+            <FormattedNumber value={currentMonthTotal} {...numberFormatOptions} />
             {isTransfer && '*'}
           </span>
         </li>
@@ -231,11 +272,12 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
         )}
         <InvoiceInformation
           planType={state.planType}
-          priceToPay={
-            state.promotion ? (state.promotion.duration === 1 ? totalPlan : priceToPay) : totalPlan
-          }
+          priceToPay={totalPlan}
           discount={discountPrepayment?.amount}
           paymentMethodType={state.paymentMethodType}
+          isFree={isFree}
+          currentPriceToPay={currentMonthTotal}
+          discountPlanFeeAdmin={discountPlanFeeAdmin?.amount}
         />
       </ul>
     </div>
@@ -244,7 +286,12 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state }) => {
 
 export const ShoppingList = ({ state, planType, promotion }) => {
   const { plan, discount } = state;
-  const { discountPrepayment, discountPaymentAlreadyPaid, discountPromocode } = state.amountDetails;
+  const {
+    discountPrepayment,
+    discountPaymentAlreadyPaid,
+    discountPromocode,
+    discountPlanFeeAdmin,
+  } = state.amountDetails;
 
   return (
     <ul className="dp-summary-list">
@@ -276,13 +323,18 @@ export const ShoppingList = ({ state, planType, promotion }) => {
           <DiscountPromocode discountPromocode={discountPromocode} />
         </li>
       )}
+      {discountPlanFeeAdmin?.discountPercentage > 0 && (
+        <li>
+          <DiscountPlanFeeAdmin discountPlanFeeAdmin={discountPlanFeeAdmin} />
+        </li>
+      )}
     </ul>
   );
 };
 
 export const PurchaseSummary = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient },
+    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
     discountId,
     monthPlan,
     paymentMethod,
@@ -306,6 +358,7 @@ export const PurchaseSummary = InjectAppServices(
     const selectedPlan = query.get('selected-plan') ?? 0;
     const selectedPromocode = query.get('PromoCode') ?? '';
     const selectedMonthPlan = monthPlan === '0' ? query.get('monthPlan') : monthPlan;
+    const isFree = appSessionRef.current.userData.user.plan.isFreeAccount;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -419,7 +472,7 @@ export const PurchaseSummary = InjectAppServices(
       onApplyPromocode(promotion.promocode);
     };
 
-    const { total } = state.amountDetails;
+    const { total, currentMonthTotal, nextMonthTotal } = state.amountDetails;
     const { loadingPaymentInformation, loadingPlanInformation, loadingPromocodeValidation } = state;
 
     return (
@@ -434,21 +487,25 @@ export const PurchaseSummary = InjectAppServices(
           <h3>{getPlanTypeTitle()}</h3>
           <ShoppingList state={state} planType={planType} promotion={state.promotion} />
           <hr className="dp-hr-grey" />
-          <Promocode
-            allowPromocode={!state.discount ? true : state.discount.applyPromo}
-            disabled={!canBuy}
-            planId={selectedPlan}
-            callback={(promocode) => {
-              applyPromocode(promocode);
-            }}
-          />
-          <hr className="dp-hr-grey" />
+          {isFree && (
+            <div>
+              <Promocode
+                allowPromocode={!state.discount ? true : state.discount.applyPromo}
+                disabled={!canBuy}
+                planId={selectedPlan}
+                callback={(promocode) => {
+                  applyPromocode(promocode);
+                }}
+              />
+              <hr className="dp-hr-grey" />
+            </div>
+          )}
           <TotalPurchase
-            totalPlan={
-              state.discount ? state.plan?.fee * state.discount.monthsAmmount : state.plan?.fee
-            }
+            totalPlan={nextMonthTotal}
             priceToPay={total}
+            currentMonthTotal={currentMonthTotal}
             state={state}
+            isFree={isFree}
           />
         </div>
         <div className="dp-zigzag" />
@@ -457,7 +514,7 @@ export const PurchaseSummary = InjectAppServices(
           planId={selectedPlan}
           discount={state.discount}
           promotion={state.promotion}
-          total={total}
+          total={currentMonthTotal ?? 0}
           paymentMethod={state.paymentMethodType}
         />
         <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />

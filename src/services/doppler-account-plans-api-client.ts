@@ -51,6 +51,8 @@ export interface PlanAmountDetails {
   discountPrepayment: DiscountPrepayment;
   discountPromocode: DiscountPromocode;
   total: number;
+  currentMonthTotal: number;
+  nextMonthTotal: number;
 }
 
 export interface Plan {
