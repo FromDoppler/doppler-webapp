@@ -8,12 +8,14 @@ import { useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
 
 export const PlanCalculatorButtons = InjectAppServices(
-  ({ selectedPlanId, selectedDiscountId, selectedMonthPlan, dependencies: { appSessionRef } }) => {
+  ({ selectedPlanId, selectedDiscount, selectedMonthPlan, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { search } = useLocation();
 
     const sessionPlan = appSessionRef.current.userData.user;
+    const isEqualSubscription =
+      sessionPlan.plan.planSubscription === selectedDiscount?.numberMonths;
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
@@ -32,17 +34,19 @@ export const PlanCalculatorButtons = InjectAppServices(
               {_('plan_calculator.button_back')}
             </button>
             <TooltipContainer
-              visible={isEqualPlan}
+              visible={isEqualPlan && isEqualSubscription}
               content={_('plan_calculator.button_purchase_tooltip')}
               orientation="top"
             >
               <S.PurchaseLink
-                className={`dp-button button-medium primary-green ${isEqualPlan ? 'disabled' : ''}`}
+                className={`dp-button button-medium primary-green ${
+                  isEqualPlan && isEqualSubscription ? 'disabled' : ''
+                }`}
                 href={getBuyPurchaseUrl({
                   controlPanelUrl: _('common.control_panel_section_url'),
                   planType: selectedPlanType,
                   planId: selectedPlanId,
-                  discountId: selectedDiscountId,
+                  discountId: selectedDiscount?.id,
                   monthPlan: selectedMonthPlan,
                   newCheckoutEnabled: redirectNewCheckout,
                   search,
