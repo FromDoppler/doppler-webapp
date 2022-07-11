@@ -33,6 +33,7 @@ export interface DopplerLegacyClient {
   requestSuggestionUpgradeForm(
     requestUpgradeModel: RequestUpgradeModel,
   ): Promise<ReturnUpgradeFormResult>;
+  getMaxSubscribersData(): Promise<MaxSubscribersData>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -578,6 +579,60 @@ export function mapHeaderDataJson(json: any) {
 
 /* #endregion */
 
+/* #region Maxsubscribers data */
+export interface MaxSubscribersData {
+  isSentSuccessEmail: boolean;
+  questionsList: MaxSubscribersQuestion[];
+  urlHelp: string;
+  urlReferrer: string;
+}
+
+export interface MaxSubscribersQuestion {
+  question: string;
+  answer: SubscriberValidationAnswer;
+}
+
+export interface SubscriberValidationAnswer {
+  answerType: string;
+  answerOptions: string[];
+  value: string;
+  optionsSelected: string;
+}
+
+export enum AnswerType {
+  TEXTFIELD = 1,
+  CHECKBOX = 2,
+  CHECKBOX_WITH_TEXTAREA = 3,
+  DROPDOWN = 4,
+  RADIOBUTTON = 5,
+  URL = 6,
+}
+
+function mapMaxSubscribersQuestion(json: any): MaxSubscribersQuestion {
+  return {
+    question: json.Question,
+    answer: {
+      answerType: AnswerType[json.Answer?.AnswerType],
+      answerOptions: json.Answer?.AnswerOptions,
+      optionsSelected: json.Answer?.OptionsSelected ?? '',
+      value: json.Answer?.Value ?? '',
+    },
+  };
+}
+
+function mapMaxSubscribersData(json: any): MaxSubscribersData {
+  return {
+    isSentSuccessEmail: json.data?.IsSentSuccessEmail,
+    questionsList: json.data?.QuestionsList.map((question: any) =>
+      mapMaxSubscribersQuestion(question),
+    ),
+    urlHelp: json.data?.UrlHelp,
+    urlReferrer: json.data?.UrlReferrer,
+  };
+}
+
+/* #endregion */
+
 export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
@@ -1011,5 +1066,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       success: true,
     };
     // return { success: false };
+  }
+  public async getMaxSubscribersData(): Promise<MaxSubscribersData> {
+    const response = await this.axios.get('/sendmaxsubscribersemail/getmaxsubscribersdata');
+    return mapMaxSubscribersData(response.data);
   }
 }

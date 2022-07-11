@@ -15,6 +15,8 @@ import {
   RequestExclusiveFeaturesDemoResult,
   RequestUpgradeModel,
   ReturnUpgradeFormResult,
+  MaxSubscribersData,
+  AnswerType,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -220,6 +222,10 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     };
     // return { success: false };
   }
+  public async getMaxSubscribersData(): Promise<MaxSubscribersData> {
+    await 1500;
+    return maxSubscribersData;
+  }
 }
 
 // Dummy Data
@@ -408,3 +414,82 @@ export const allPlans = [
     ],
   },
 ];
+
+export const maxSubscribersData: MaxSubscribersData = {
+  questionsList: [
+    {
+      answer: {
+        answerType: AnswerType[1],
+        answerOptions: [],
+        value: '',
+        optionsSelected: '',
+      },
+      question: 'Nombre',
+    },
+    {
+      answer: {
+        answerType: AnswerType[1],
+        answerOptions: [],
+        value: '',
+        optionsSelected: '',
+      },
+      question: 'Apellido',
+    },
+    {
+      answer: {
+        answerType: AnswerType[1],
+        answerOptions: [],
+        value: '',
+        optionsSelected: '',
+      },
+      question: 'Email',
+    },
+    {
+      answer: {
+        answerType: AnswerType[1],
+        answerOptions: [],
+        value: '',
+        optionsSelected: '',
+      },
+      question: 'Teléfono',
+    },
+    {
+      answer: {
+        answerType: AnswerType[3],
+        answerOptions: [
+          'Sitio Web',
+          'Evento',
+          'Landing Page',
+          'CRM',
+          'Agenda personal de contactos',
+          'Formulario en tienda física/offline',
+          'Otros',
+        ],
+        value: '',
+        optionsSelected: '',
+      },
+      question: '¿Cuál es la procedencia de tus Suscriptores?',
+    },
+    {
+      answer: {
+        answerType: AnswerType[2],
+        answerOptions: ['Opt-in', 'Doble Opt-in', 'Manual'],
+        value: '',
+        optionsSelected: '',
+      },
+      question: '¿Cómo fue el método de recolección de datos?',
+    },
+    {
+      answer: {
+        answerType: AnswerType[6],
+        answerOptions: [],
+        value: '',
+        optionsSelected: '',
+      },
+      question: 'URL de registración:',
+    },
+  ],
+  isSentSuccessEmail: false,
+  urlReferrer: '',
+  urlHelp: 'http://help.fromdoppler.com/por-que-debo-completar-un-formulario-al-cargar-mis-listas/',
+};
