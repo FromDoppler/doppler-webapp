@@ -16,6 +16,7 @@ describe('PlanCalculator component', () => {
             plan: {
               idPlan: 3,
               planType: PLAN_TYPE.free,
+              planSubscription: 1,
             },
           },
         },
@@ -32,7 +33,10 @@ describe('PlanCalculator component', () => {
   it('should render PlanCalculatorButtons when the user is free', async () => {
     // Arrange
     const selectedPlanId = 2;
-    const selectedDiscountId = 1;
+    const selectedDiscount = {
+      id: 1,
+      numberMonths: 1,
+    };
 
     // Act
     render(
@@ -48,7 +52,7 @@ describe('PlanCalculator component', () => {
             <Route path="/plan-selection/premium/:planType?">
               <PlanCalculatorButtons
                 selectedPlanId={selectedPlanId}
-                selectedDiscountId={selectedDiscountId}
+                selectedDiscount={selectedDiscount}
               />
             </Route>
           </Router>
@@ -62,7 +66,7 @@ describe('PlanCalculator component', () => {
     expect(purchaseLink).toHaveAttribute(
       'href',
       `/checkout/premium/${PLAN_TYPE.byContact}?selected-plan=${selectedPlanId}` +
-        `&discountId=${selectedDiscountId}` +
+        `&discountId=${selectedDiscount.id}` +
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
@@ -70,7 +74,10 @@ describe('PlanCalculator component', () => {
   it('should render PlanCalculatorButtons when the user is not free', async () => {
     // Arrange
     const selectedPlanId = 2;
-    const selectedDiscountId = 1;
+    const selectedDiscount = {
+      id: 1,
+      numberMonths: 1,
+    };
 
     const fakeForcedServices = {
       appSessionRef: {
@@ -80,6 +87,7 @@ describe('PlanCalculator component', () => {
               plan: {
                 idPlan: 3,
                 planType: PLAN_TYPE.byContact,
+                planSubscription: 1,
               },
             },
           },
@@ -101,7 +109,7 @@ describe('PlanCalculator component', () => {
             <Route path="/plan-selection/premium/:planType?">
               <PlanCalculatorButtons
                 selectedPlanId={selectedPlanId}
-                selectedDiscountId={selectedDiscountId}
+                selectedDiscount={selectedDiscount}
               />
             </Route>
           </Router>
@@ -116,7 +124,7 @@ describe('PlanCalculator component', () => {
       'href',
       'common.control_panel_section_url' +
         `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${selectedPlanId}&fromStep1=True` +
-        `&IdDiscountPlan=${selectedDiscountId}` +
+        `&IdDiscountPlan=${selectedDiscount.id}` +
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
@@ -124,7 +132,10 @@ describe('PlanCalculator component', () => {
   it('should render PlanCalculatorButtons when selected plan is equal to user current plan', async () => {
     // Arrange
     const selectedPlanId = 3;
-    const selectedDiscountId = 1;
+    const selectedDiscount = {
+      id: 1,
+      numberMonths: 1,
+    };
 
     // Act
     render(
@@ -140,7 +151,58 @@ describe('PlanCalculator component', () => {
             <Route path="/plan-selection/premium/:planType?">
               <PlanCalculatorButtons
                 selectedPlanId={selectedPlanId}
-                selectedDiscountId={selectedDiscountId}
+                selectedDiscount={selectedDiscount}
+              />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const purchaseLink = screen.getByText('plan_calculator.button_purchase');
+    expect(purchaseLink).toHaveClass('disabled');
+  });
+
+  it('The buy button shoud be disabled when user has plan y discount equal to selected', async () => {
+    // Arrange
+    const selectedPlanId = 2;
+    const selectedDiscount = {
+      id: 1,
+      numberMonths: 3,
+    };
+
+    const fakeForcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 2,
+                planType: PLAN_TYPE.byContact,
+                planSubscription: 3,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={fakeForcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[
+              `/plan-selection/premium/${
+                URL_PLAN_TYPE[PLAN_TYPE.byContact]
+              }?promo-code=fake-promo-code&origin_inbound=fake`,
+            ]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons
+                selectedPlanId={selectedPlanId}
+                selectedDiscount={selectedDiscount}
               />
             </Route>
           </Router>
