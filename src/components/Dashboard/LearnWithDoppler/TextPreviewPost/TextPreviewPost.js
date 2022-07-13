@@ -10,7 +10,7 @@ export const TextPreviewPost = ({ post }) => {
     <>
       <h3>{_(title)}</h3>
       <p>{_(description)}</p>
-      <a href={_(link)}>
+      <a href={_(link)} target="_blank">
         <span className="ms-icon icon-arrow-next"></span>
         {_(linkDescription)}
       </a>
