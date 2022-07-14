@@ -193,16 +193,26 @@ const Message = ({ message }) => {
   );
 };
 export const FieldItem = connect(
-  ({ className, fieldName, children, formik: { errors, touched, submitCount } }) => (
+  ({
+    className,
+    fieldName,
+    children,
+    formik: { errors, touched, submitCount },
+    withErrors = true,
+  }) => (
     <li
       className={concatClasses(
         className,
-        submitCount && touched[fieldName] && errors[fieldName] ? 'error' : '',
+        withErrors && submitCount && touched[fieldName] && errors[fieldName] ? 'error' : '',
       )}
     >
       {children}
       {/* Boolean errors will not have message */}
-      {submitCount && touched[fieldName] && errors[fieldName] && errors[fieldName] !== true ? (
+      {withErrors &&
+      submitCount &&
+      touched[fieldName] &&
+      errors[fieldName] &&
+      errors[fieldName] !== true ? (
         <div className="dp-message dp-error-form">
           <Message message={errors[fieldName]} />
         </div>
@@ -503,11 +513,13 @@ export const CheckboxFieldItem = ({
   checkRequired,
   id,
   onChange,
+  withErrors = true,
   ...rest
 }) => (
   <FieldItem
     className={concatClasses('field-item field-item__checkbox', className)}
     fieldName={fieldName}
+    withErrors={withErrors}
   >
     <Field
       type="checkbox"
