@@ -1059,6 +1059,15 @@ With Doppler you can generate Segments with common interests, create Forms to at
     success: 'Excellent! We will get in touch shortly',
     title: 'Ask for a bigger Plan',
   },
+  validate_max_subscribers_form: {
+    checkbox_empty: 'Ouch! You must select at least one option.',
+    form_help: '* Want to know why we are asking for this info?',
+    form_help_link_text: 'Know more here',
+    info_text: '** We need to validate the data you provided.This might take a while to process. Thanks for your patience.',
+    subtitle: `Please, provide us with your contact information so we can complete this action.Complete the following Form so we can
+      validate your Subscribers’ origin. It will only take a few minutes. Thank you, we’ll contact you soon!`,
+    title: 'Validate your Subscribers’ Origin',
+  },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
     error_account_is_blocked_disabled_by_cm: `This account was blocked by the administrator. Get in touch for more information: `,

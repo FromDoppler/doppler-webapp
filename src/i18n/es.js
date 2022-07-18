@@ -1060,6 +1060,15 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     success: '¡Excelente! Nos pondremos en contacto a la brevedad',
     title: 'Solicita un Plan mayor',
   },
+  validate_max_subscribers_form: {
+    checkbox_empty: '¡Ouch! Tienes que seleccionar al menos una opción.',
+    form_help: '* ¿Quieres saber porqué te solicitamos esta información?',
+    form_help_link_text: 'Entérate aquí',
+    info_text: '** Este proceso puede presentar demoras ya que debemos analizar los datos en profundidad. Gracias por tu paciencia.',
+    subtitle: `Por favor, bríndanos tus datos de contacto para esta acción. Nos comunicaremos a la brevedad.Completa el siguiente
+      Formulario para que podamos validar el origen de tus Suscriptores. Sólo llevará un minuto. Muchas gracias.`,
+    title: 'Valida el origen de tus Suscriptores',
+  },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chatea con el equipo de Atención al Cliente</button> para solucionarlo.`,
     error_account_is_blocked_disabled_by_cm: `Esta cuenta fue bloqueada por el administrador. Contáctate para más información: `,

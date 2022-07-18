@@ -5,14 +5,19 @@ import {
   validateMaxSubscribersFormReducer,
   VALIDATE_MAX_SUBSCRIBERS_FORM_ACTIONS,
 } from './reducers/validateMaxSubscribersFormReducer';
+import { ValidateMaxSubscribersForm } from './ValidateMaxSubscribersForm';
 import { InjectAppServices } from '../../services/pure-di';
 import { UnexpectedError } from '../Plans/PlanCalculator/UnexpectedError';
 
-const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient } }) => {
+const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient }, handleClose }) => {
   const [{ loading, hasError, validationFormData }, dispatch] = useReducer(
     validateMaxSubscribersFormReducer,
     INITIAL_STATE,
   );
+
+  const handleSubmit = () => {
+    // TO DO: add submit logic
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +40,13 @@ const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient } }) => {
     return <UnexpectedError />;
   }
 
-  return <></>;
+  return (
+    <ValidateMaxSubscribersForm
+      validationFormData={validationFormData}
+      handleClose={handleClose}
+      handleSubmit={handleSubmit}
+    />
+  );
 };
 
 export default InjectAppServices(ValidateSubscribers);
