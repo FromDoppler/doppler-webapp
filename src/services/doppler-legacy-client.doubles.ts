@@ -226,6 +226,11 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await 1500;
     return maxSubscribersData;
   }
+
+  public async sendMaxSubscribersData(maxSubscribersData: MaxSubscribersData): Promise<boolean> {
+    await 1500;
+    return true;
+  }
 }
 
 // Dummy Data
@@ -422,7 +427,7 @@ export const maxSubscribersData: MaxSubscribersData = {
         answerType: AnswerType[1],
         answerOptions: [],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: 'Nombre',
     },
@@ -431,7 +436,7 @@ export const maxSubscribersData: MaxSubscribersData = {
         answerType: AnswerType[1],
         answerOptions: [],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: 'Apellido',
     },
@@ -440,7 +445,7 @@ export const maxSubscribersData: MaxSubscribersData = {
         answerType: AnswerType[1],
         answerOptions: [],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: 'Email',
     },
@@ -449,7 +454,7 @@ export const maxSubscribersData: MaxSubscribersData = {
         answerType: AnswerType[1],
         answerOptions: [],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: 'Teléfono',
     },
@@ -466,7 +471,7 @@ export const maxSubscribersData: MaxSubscribersData = {
           'Otros',
         ],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: '¿Cuál es la procedencia de tus Suscriptores?',
     },
@@ -475,7 +480,7 @@ export const maxSubscribersData: MaxSubscribersData = {
         answerType: AnswerType[2],
         answerOptions: ['Opt-in', 'Doble Opt-in', 'Manual'],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: '¿Cómo fue el método de recolección de datos?',
     },
@@ -484,7 +489,7 @@ export const maxSubscribersData: MaxSubscribersData = {
         answerType: AnswerType[6],
         answerOptions: [],
         value: '',
-        optionsSelected: '',
+        optionsSelected: [],
       },
       question: 'URL de registración:',
     },

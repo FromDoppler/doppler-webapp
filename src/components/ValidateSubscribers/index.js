@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { Loading } from '../Loading/Loading';
 import {
   INITIAL_STATE,
@@ -8,6 +8,7 @@ import {
 import { ValidateMaxSubscribersForm } from './ValidateMaxSubscribersForm';
 import { InjectAppServices } from '../../services/pure-di';
 import { UnexpectedError } from '../Plans/PlanCalculator/UnexpectedError';
+import { ValidateMaxSubscribersConfirmation } from './ValidateMaxSubscribersConfirm';
 
 const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient }, handleClose }) => {
   const [{ loading, hasError, validationFormData }, dispatch] = useReducer(
@@ -15,8 +16,11 @@ const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient }, handleClos
     INITIAL_STATE,
   );
 
-  const handleSubmit = () => {
-    // TO DO: add submit logic
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async () => {
+    const isSuccess = await dopplerLegacyClient.sendMaxSubscribersData(validationFormData);
+    setSuccess(isSuccess);
   };
 
   useEffect(() => {
@@ -38,6 +42,10 @@ const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient }, handleClos
 
   if (hasError) {
     return <UnexpectedError />;
+  }
+
+  if (success) {
+    return <ValidateMaxSubscribersConfirmation handleClose={handleClose} />;
   }
 
   return (

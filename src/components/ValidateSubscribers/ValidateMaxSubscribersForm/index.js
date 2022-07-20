@@ -23,16 +23,20 @@ export const ValidateMaxSubscribersForm = ({ validationFormData, handleClose, ha
     }
   });
 
-  const onSubmit = (values) => {
-    validationFormData.questionsList.forEach((questionItem, index) => {
-      if (isCheckbox(questionItem.answer)) {
-        questionItem.answer.optionsSelected = values[`answer${index}`];
-        questionItem.answer.value = values[`answer${index}_text`];
-      } else {
-        questionItem.answer.value = values[`answer${index}`];
-      }
-    });
-    handleSubmit();
+  const onSubmit = async (values, { setSubmitting }) => {
+    try {
+      validationFormData.questionsList.forEach((questionItem, index) => {
+        if (isCheckbox(questionItem.answer)) {
+          questionItem.answer.value = values[`answer${index}`].join('-');
+          questionItem.answer.text = values[`answer${index}_text`];
+        } else {
+          questionItem.answer.value = values[`answer${index}`];
+        }
+      });
+      await handleSubmit();
+    } catch (error) {
+      setSubmitting(false);
+    }
   };
 
   const validate = (values) => {

@@ -526,4 +526,35 @@ describe('Doppler legacy client', () => {
     // Assert
     expect(result).not.toBe(undefined);
   });
+
+  it('should get validation subscriber form data', async () => {
+    // Arrange
+    const data = {
+      isSentSuccessEmail: false,
+      questionsList: [
+        {
+          answer: {
+            answerType: 1,
+            answerOptions: [],
+            value: 'Test',
+            optionsSelected: [],
+          },
+          question: 'First Name',
+        },
+      ],
+      urlHelp: 'url',
+      urlReferrer: 'referrer',
+    };
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    axios.post.mockResolvedValue({ data: true });
+
+    // Act
+    const result = await sut.sendMaxSubscribersData(data);
+
+    // Assert
+    expect(result).toBeTruthy();
+  });
 });

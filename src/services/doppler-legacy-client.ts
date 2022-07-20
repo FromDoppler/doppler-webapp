@@ -34,6 +34,7 @@ export interface DopplerLegacyClient {
     requestUpgradeModel: RequestUpgradeModel,
   ): Promise<ReturnUpgradeFormResult>;
   getMaxSubscribersData(): Promise<MaxSubscribersData>;
+  sendMaxSubscribersData(maxSubscribersData: MaxSubscribersData): Promise<boolean>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -596,7 +597,7 @@ export interface SubscriberValidationAnswer {
   answerType: string;
   answerOptions: string[];
   value: string;
-  optionsSelected: string;
+  optionsSelected: string[];
 }
 
 export enum AnswerType {
@@ -614,7 +615,7 @@ function mapMaxSubscribersQuestion(json: any): MaxSubscribersQuestion {
     answer: {
       answerType: AnswerType[json.Answer?.AnswerType],
       answerOptions: json.Answer?.AnswerOptions,
-      optionsSelected: json.Answer?.OptionsSelected ?? '',
+      optionsSelected: json.Answer?.OptionsSelected ?? [],
       value: json.Answer?.Value ?? '',
     },
   };
@@ -628,6 +629,29 @@ function mapMaxSubscribersData(json: any): MaxSubscribersData {
     ),
     urlHelp: json.data?.UrlHelp,
     urlReferrer: json.data?.UrlReferrer,
+  };
+}
+
+function mapMaxSubscribersQuestionData(question: MaxSubscribersQuestion): any {
+  return {
+    Question: question.question,
+    Answer: {
+      AnswerType: AnswerType[question.answer?.answerType as any],
+      AnswerOptions: question.answer?.answerOptions,
+      OptionsSelected: question.answer?.optionsSelected.length === 0 ? null : [],
+      Value: question.answer?.value,
+    },
+  };
+}
+
+function mapMaxSubscribersDataToJson(maxSubscribersData: MaxSubscribersData): any {
+  return {
+    IsSentSuccessEmail: maxSubscribersData.isSentSuccessEmail,
+    QuestionsList: maxSubscribersData.questionsList.map((question: any) =>
+      mapMaxSubscribersQuestionData(question),
+    ),
+    UrlHelp: maxSubscribersData.urlHelp,
+    UrlReferrer: maxSubscribersData.urlReferrer,
   };
 }
 
@@ -1070,5 +1094,16 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   public async getMaxSubscribersData(): Promise<MaxSubscribersData> {
     const response = await this.axios.get('/sendmaxsubscribersemail/getmaxsubscribersdata');
     return mapMaxSubscribersData(response.data);
+  }
+
+  public async sendMaxSubscribersData(maxSubscribersData: MaxSubscribersData): Promise<boolean> {
+    const response = await this.axios.post(
+      '/sendmaxsubscribersemail/sendemailpopup',
+      mapMaxSubscribersDataToJson(maxSubscribersData),
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
+    );
+    return response.data;
   }
 }
