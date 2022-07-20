@@ -1060,10 +1060,12 @@ With Doppler you can generate Segments with common interests, create Forms to at
     title: 'Ask for a bigger Plan',
   },
   validate_max_subscribers_form: {
+    button_accept: 'Accept',
     checkbox_empty: 'Ouch! You must select at least one option.',
     form_help: '* Want to know why we are asking for this info?',
     form_help_link_text: 'Know more here',
     info_text: '** We need to validate the data you provided.This might take a while to process. Thanks for your patience.',
+    request_processed: 'Perfect! We are validating the origin of your Subscribers. Please, keep in mind this process might have a little delay.',
     subtitle: `Please, provide us with your contact information so we can complete this action.Complete the following Form so we can
       validate your Subscribers’ origin. It will only take a few minutes. Thank you, we’ll contact you soon!`,
     title: 'Validate your Subscribers’ Origin',
