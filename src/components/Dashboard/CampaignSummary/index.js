@@ -42,7 +42,7 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
 
   return (
     <>
-      <div className="dp-dashboard-title">
+      <div className="dp-dashboard-title" id="dashboard-sentCampaigns">
         <DashboardIconSubTitle title="dashboard.campaigns.section_name" iconClass="deliveries" />
         <DashboardIconLink
           linkTitle="dashboard.campaigns.link_title"

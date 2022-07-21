@@ -41,7 +41,7 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
 
   return (
     <>
-      <div className="dp-dashboard-title">
+      <div className="dp-dashboard-title" id="dashboard-masterConctacts">
         <DashboardIconSubTitle title="dashboard.contacts.section_name" iconClass="subscribers" />
         <DashboardIconLink
           linkTitle="dashboard.contacts.link_title"
