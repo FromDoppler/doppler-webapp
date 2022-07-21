@@ -18,7 +18,7 @@ export const LearnWithDoppler = () => {
           <Carousel id="1" color="orange" ariaLabel="blog">
             {({ activeSlide }) =>
               fakePostList.blog.map((post, index) => (
-                <Slide key={post.id} active={activeSlide === index}>
+                <Slide key={post.id} active={activeSlide === index} id={post.trackingId}>
                   <TextPreviewPost post={post} />
                 </Slide>
               ))
@@ -29,7 +29,7 @@ export const LearnWithDoppler = () => {
           <Carousel id="2" color="purple" ariaLabel="help">
             {({ activeSlide }) =>
               fakePostList.help.map((post, index) => (
-                <Slide key={post.id} active={activeSlide === index}>
+                <Slide key={post.id} active={activeSlide === index} id={post.trackingId}>
                   <TextPreviewPost post={post} />
                 </Slide>
               ))
@@ -49,6 +49,7 @@ export const fakePostList = {
       description: `dashboard.postListBlog_1_description`,
       link: `dashboard.postListBlog_1_link`,
       linkDescription: `dashboard.postListBlog_1_link_description`,
+      trackingId: `dashboard-learnWithDoppler-card1`,
     },
     {
       id: `2`,
@@ -56,6 +57,7 @@ export const fakePostList = {
       description: `dashboard.postListBlog_2_description`,
       link: `dashboard.postListBlog_2_link`,
       linkDescription: `dashboard.postListBlog_2_link_description`,
+      trackingId: `dashboard-learnWithDoppler-card2`,
     },
   ],
   help: [
@@ -65,6 +67,7 @@ export const fakePostList = {
       description: `dashboard.postListHelp_1_description`,
       link: `dashboard.postListHelp_1_link`,
       linkDescription: `dashboard.postListHelp_1_link_description`,
+      trackingId: `dashboard-learnWithDoppler-card3`,
     },
     {
       id: `2`,
@@ -72,6 +75,7 @@ export const fakePostList = {
       description: `dashboard.postListHelp_2_description`,
       link: `dashboard.postListHelp_2_link`,
       linkDescription: `dashboard.postListHelp_2_link_description`,
+      trackingId: `dashboard-learnWithDoppler-card4`,
     },
   ],
 };
