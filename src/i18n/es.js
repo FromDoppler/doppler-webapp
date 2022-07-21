@@ -543,10 +543,10 @@ Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Band
     postListBlog_2_link_description: 'Sigue leyendo',
     postListBlog_2_title: '#NuevaFuncionalidad',
 
-    postListHelp_1_description: 'Certificación gratuita y online en Automation Marketing',
-    postListHelp_1_link: 'https://academy.fromdoppler.com/bootcamp/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=inbound-bootcamp',
-    postListHelp_1_link_description: 'Súmate',
-    postListHelp_1_title: 'Doppler Digital Bootcamp',
+    postListHelp_1_description: '¡Ya llega el evento online más esperado por la comunidad del Marketing!',
+    postListHelp_1_link: 'https://goemms.com/',
+    postListHelp_1_link_description: 'Reservar cupo gratis',
+    postListHelp_1_title: '#EMMS2022',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
