@@ -102,6 +102,7 @@ const getListCreatedStep = (hasListsCreated) => ({
   titleId: 'dashboard.first_steps.has_list_created_title',
   descriptionId: 'dashboard.first_steps.has_list_created_description_MD',
   textStep: 1,
+  trackingId: 'dashboard-firstSteps-line1',
 });
 
 const getDomainsReadyStep = (hasDomainsReady) => ({
@@ -112,6 +113,7 @@ const getDomainsReadyStep = (hasDomainsReady) => ({
     : UNKNOWN_STATUS,
   titleId: `dashboard.first_steps.has_domains_ready_title`,
   descriptionId: 'dashboard.first_steps.has_domains_ready_description_MD',
+  trackingId: 'dashboard-firstSteps-line2',
 });
 
 const getCampaingsCreatedStep = (hasCampaingsCreated) => ({
@@ -123,6 +125,7 @@ const getCampaingsCreatedStep = (hasCampaingsCreated) => ({
   titleId: `dashboard.first_steps.has_campaings_created_title`,
   descriptionId: 'dashboard.first_steps.has_campaings_created_description_MD',
   textStep: 2,
+  trackingId: 'dashboard-firstSteps-line3',
 });
 
 const getCampaingsSentStep = (hasCampaingsSent) => ({
@@ -134,6 +137,7 @@ const getCampaingsSentStep = (hasCampaingsSent) => ({
   titleId: `dashboard.first_steps.has_campaings_sent_title`,
   descriptionId: 'dashboard.first_steps.has_campaings_sent_description_MD',
   textStep: 3,
+  trackingId: 'dashboard-firstSteps-line4',
 });
 
 // TODO: move to service folder to get system usage summary

@@ -8,12 +8,13 @@ import {
   WARNING_STATUS,
 } from '../reducers/firstStepsReducer';
 
-export const ActionBox = ({ status, titleId, descriptionId, textStep }) => {
+export const ActionBox = ({ status, titleId, descriptionId, textStep, trackingId }) => {
   return (
     <div
       className={`dp-postcard ${INFO_BY_STATE[status].classNames}`}
       role="alert"
       aria-label="step"
+      id={trackingId}
     >
       <header>
         <span className="dp-iconpostcard">{status === PENDING_STATUS ? textStep : ''}</span>
