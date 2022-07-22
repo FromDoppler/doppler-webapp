@@ -1061,10 +1061,12 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     title: 'Solicita un Plan mayor',
   },
   validate_max_subscribers_form: {
+    button_accept: 'Aceptar',
     checkbox_empty: '¡Ouch! Tienes que seleccionar al menos una opción.',
     form_help: '* ¿Quieres saber porqué te solicitamos esta información?',
     form_help_link_text: 'Entérate aquí',
     info_text: '** Este proceso puede presentar demoras ya que debemos analizar los datos en profundidad. Gracias por tu paciencia.',
+    request_processed: '¡Perfecto! Estamos validando el origen de tus Suscriptores. Por favor, recuerda que este proceso puede demorar.',
     subtitle: `Por favor, bríndanos tus datos de contacto para esta acción. Nos comunicaremos a la brevedad.Completa el siguiente
       Formulario para que podamos validar el origen de tus Suscriptores. Sólo llevará un minuto. Muchas gracias.`,
     title: 'Valida el origen de tus Suscriptores',
