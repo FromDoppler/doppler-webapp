@@ -19,7 +19,7 @@ export const GoToUpgrade = InjectAppServices(({ dependencies: { appSessionRef } 
           <SafeRedirect to={`/ControlPanel/AccountPreferences/BuyCreditsStep1${location.search}`} />
         </>
       );
-    } else {
+    } else if (planType !== PLAN_TYPE.byEmail) {
       const queryParams = new URLSearchParams(location.search);
       if (queryParams.has('PromoCode')) {
         // Delete PromoCode query parameter: https://docs.google.com/spreadsheets/d/1CSXmsVqZTwIhzPRH8_tcPohHmvDXffLTQ-veF-53698/edit#gid=0

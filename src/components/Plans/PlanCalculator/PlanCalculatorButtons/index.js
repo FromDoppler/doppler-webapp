@@ -20,7 +20,7 @@ export const PlanCalculatorButtons = InjectAppServices(
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlanType = sessionPlan.plan.planType;
-    const redirectNewCheckout = sessionPlanType === PLAN_TYPE.free;
+    const redirectNewCheckout = [PLAN_TYPE.free, PLAN_TYPE.byEmail].includes(sessionPlanType);
 
     return (
       <div className="dp-container">

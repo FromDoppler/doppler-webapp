@@ -214,4 +214,51 @@ describe('PlanCalculator component', () => {
     const purchaseLink = screen.getByText('plan_calculator.button_purchase');
     expect(purchaseLink).toHaveClass('disabled');
   });
+
+  it('should go to new checkout when the account type is by emails', async () => {
+    // Arrange
+    const selectedPlanId = 2;
+    const fakeForcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byEmail,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={fakeForcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[
+              `/plan-selection/premium/${
+                URL_PLAN_TYPE[PLAN_TYPE.byEmail]
+              }?promo-code=fake-promo-code&origin_inbound=fake`,
+            ]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const purchaseLink = screen.getByText('plan_calculator.button_purchase');
+    expect(purchaseLink).not.toHaveClass('disabled');
+    expect(purchaseLink).toHaveAttribute(
+      'href',
+      `/checkout/premium/${PLAN_TYPE.byEmail}?selected-plan=${selectedPlanId}` +
+        `&PromoCode=fake-promo-code&origin_inbound=fake`,
+    );
+  });
 });
