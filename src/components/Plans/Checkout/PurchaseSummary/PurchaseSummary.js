@@ -168,12 +168,10 @@ export const CreditsPromocode = ({ extraCredits }) => {
 
 export const InvoiceInformation = ({
   priceToPay,
-  discount,
   paymentMethodType,
   planType,
   isFree,
   currentPriceToPay,
-  discountPlanFeeAdmin,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -221,11 +219,7 @@ export const InvoiceInformation = ({
           <li>
             <h3 className="m-t-24">
               {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`}{' '}
-              {dollarSymbol}{' '}
-              <FormattedNumber
-                value={priceToPay - discount - discountPlanFeeAdmin}
-                {...numberFormatOptions}
-              />
+              {dollarSymbol} <FormattedNumber value={priceToPay} {...numberFormatOptions} />
               {isTransfer && '*'}
             </h3>
           </li>
@@ -247,7 +241,6 @@ export const InvoiceInformation = ({
 export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMonthTotal }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const { discountPrepayment, discountPlanFeeAdmin } = state.amountDetails;
 
   const isTransfer = state.paymentMethodType === paymentType.transfer;
 
@@ -273,11 +266,9 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMon
         <InvoiceInformation
           planType={state.planType}
           priceToPay={totalPlan}
-          discount={discountPrepayment?.amount}
           paymentMethodType={state.paymentMethodType}
           isFree={isFree}
           currentPriceToPay={currentMonthTotal}
-          discountPlanFeeAdmin={discountPlanFeeAdmin?.amount}
         />
       </ul>
     </div>
