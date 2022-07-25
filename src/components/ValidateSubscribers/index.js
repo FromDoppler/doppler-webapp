@@ -10,7 +10,11 @@ import { InjectAppServices } from '../../services/pure-di';
 import { UnexpectedError } from '../Plans/PlanCalculator/UnexpectedError';
 import { ValidateMaxSubscribersConfirmation } from './ValidateMaxSubscribersConfirm';
 
-const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient }, handleClose }) => {
+const ValidateSubscribers = ({
+  dependencies: { dopplerLegacyClient },
+  handleClose,
+  setNextAlert,
+}) => {
   const [{ loading, hasError, validationFormData }, dispatch] = useReducer(
     validateMaxSubscribersFormReducer,
     INITIAL_STATE,
@@ -20,7 +24,11 @@ const ValidateSubscribers = ({ dependencies: { dopplerLegacyClient }, handleClos
 
   const handleSubmit = async () => {
     const isSuccess = await dopplerLegacyClient.sendMaxSubscribersData(validationFormData);
-    setSuccess(isSuccess);
+    if (isSuccess) {
+      setSuccess(isSuccess);
+      setNextAlert();
+    }
+    return isSuccess;
   };
 
   useEffect(() => {

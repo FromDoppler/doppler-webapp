@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HeaderNav from './HeaderNav/HeaderNav';
 import HeaderMessages from './HeaderMessages/HeaderMessages';
 import HeaderUserMenu from './HeaderUserMenu/HeaderUserMenu';
@@ -38,16 +38,19 @@ const Header = ({
   userData: { user, nav, alert, notifications, emptyNotificationText },
   location: { pathname },
 }) => {
+  const [hasAlert, setHasAlert] = useState(alert !== undefined);
   const updatedNav = getUpdateMenu(pathname, nav);
   const currentPage = getCurrentPageForUrl(pathname);
   const isInactiveSection = !currentPage || !currentPage.menu;
   return (
     <div>
-      {alert ? <HeaderMessages alert={alert} user={user} /> : null}
+      {hasAlert ? (
+        <HeaderMessages alert={alert} user={user} closeAlert={() => setHasAlert(false)} />
+      ) : null}
       <header
         className={
           'header-main' +
-          (alert ? ' sticky' : ' ') +
+          (hasAlert ? ' sticky' : ' ') +
           (isInactiveSection ? ' ' : ' header-open') +
           (user.clientManager ? ' dp-header--cm' : ' ')
         }
