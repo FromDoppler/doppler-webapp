@@ -231,6 +231,11 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await 1500;
     return true;
   }
+
+  public async sendAcceptButtonAction(): Promise<boolean> {
+    await 1500;
+    return true;
+  }
 }
 
 // Dummy Data

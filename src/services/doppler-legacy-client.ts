@@ -35,6 +35,7 @@ export interface DopplerLegacyClient {
   ): Promise<ReturnUpgradeFormResult>;
   getMaxSubscribersData(): Promise<MaxSubscribersData>;
   sendMaxSubscribersData(maxSubscribersData: MaxSubscribersData): Promise<boolean>;
+  sendAcceptButtonAction(): Promise<boolean>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -549,6 +550,7 @@ export function mapHeaderDataJson(json: any) {
       },
       message: json.alert.message,
       type: json.alert.type,
+      nextAlert: json.alert.nextAlert,
     },
     nav: (json.nav && json.nav.map(mapNavMainEntry)) || [],
     user: {
@@ -1104,6 +1106,11 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       },
     );
+    return response.data;
+  }
+
+  public async sendAcceptButtonAction(): Promise<boolean> {
+    const response = await this.axios.post('accountpreferences/acceptbuttonaction');
     return response.data;
   }
 }
