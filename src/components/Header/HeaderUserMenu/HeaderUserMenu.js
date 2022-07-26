@@ -128,31 +128,27 @@ const HeaderUserMenu = ({ user }) => {
                     </p>
                   </div>
                 )}
-                {Object.keys(user.sms).length ? (
-                  <div className="user-plan--buyContainer">
-                    <p>
-                      <strong>
-                        US${' '}
-                        <FormattedNumber
-                          value={user.sms.remainingCredits}
-                          {...numberFormatOptions}
-                        />
-                      </strong>{' '}
-                      {user.sms.description}
-                    </p>
-                    {user.sms.buttonUrl ? (
-                      <a className="user-plan" target="_self" href={user.sms.buttonUrl}>
-                        {user.sms.buttonText}
-                      </a>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                ) : (
-                  ''
-                )}
               </div>
             </>
+          ) : (
+            ''
+          )}
+          {user.sms.smsEnabled ? (
+            <div className="user-plan--buyContainer">
+              <p>
+                <strong>
+                  US$ <FormattedNumber value={user.sms.remainingCredits} {...numberFormatOptions} />
+                </strong>{' '}
+                {user.sms.description}
+              </p>
+              {user.sms.buttonUrl ? (
+                <a className="user-plan" target="_self" href={user.sms.buttonUrl}>
+                  {user.sms.buttonText}
+                </a>
+              ) : (
+                ''
+              )}
+            </div>
           ) : (
             ''
           )}

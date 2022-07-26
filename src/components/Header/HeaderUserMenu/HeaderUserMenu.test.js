@@ -125,10 +125,19 @@ describe('Header user menu', () => {
   });
 
   it('should show available SMS text when user have SMS enabled', () => {
+    // Arrange
+    const userDataWithSmsEnabled = {
+      ...userData,
+      sms: {
+        ...userData.sms,
+        smsEnabled: true,
+      },
+    };
+
     // Act
     const { getByText } = render(
       <IntlProvider>
-        <HeaderUserMenu user={userData} />
+        <HeaderUserMenu user={userDataWithSmsEnabled} />
       </IntlProvider>,
     );
 
@@ -136,7 +145,7 @@ describe('Header user menu', () => {
     expect(getByText(userData.sms.description)).toBeInTheDocument();
   });
 
-  it('should not show SMS text when feature is disabled or is not implented yet', () => {
+  it('should not show SMS text when feature is not implented yet', () => {
     // Arrange
     userData = {
       ...userData,
@@ -147,6 +156,27 @@ describe('Header user menu', () => {
     const { queryByText } = render(
       <IntlProvider>
         <HeaderUserMenu user={userData} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    expect(queryByText('Available for SMS')).not.toBeInTheDocument();
+  });
+
+  it('should not show SMS text when feature is disabled', () => {
+    // Arrange
+    const userDataWithSmsDisabled = {
+      ...userData,
+      sms: {
+        ...userData.sms,
+        smsEnabled: false,
+      },
+    };
+
+    // Act
+    const { queryByText } = render(
+      <IntlProvider>
+        <HeaderUserMenu user={userDataWithSmsDisabled} />
       </IntlProvider>,
     );
 
