@@ -15,11 +15,11 @@ export const DashboardIconSubTitle = ({ title, iconClass }) => {
   );
 };
 
-export const DashboardIconLink = ({ linkTitle, link }) => {
+export const DashboardIconLink = ({ linkTitle, link, id }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
-    <a href={`${link}`} className="dp-dashboard-title-link">
+    <a href={`${link}`} className="dp-dashboard-title-link" id={id}>
       {_(linkTitle)}
     </a>
   );
