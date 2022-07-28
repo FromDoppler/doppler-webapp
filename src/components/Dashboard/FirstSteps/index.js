@@ -115,6 +115,7 @@ const getDomainsReadyStep = (hasDomainsReady) => ({
   titleId: `dashboard.first_steps.has_domains_ready_title`,
   descriptionId: 'dashboard.first_steps.has_domains_ready_description_MD',
   trackingId: 'dashboard-firstSteps-line2',
+  link: 'dashboard.first_steps.has_domains_ready_url',
 });
 
 const getCampaingsCreatedStep = (hasCampaingsCreated) => ({

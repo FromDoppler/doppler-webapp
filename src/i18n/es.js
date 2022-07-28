@@ -520,9 +520,10 @@ Analizar sus resultados es fundamental para **tomar decisiones y optimizar** tu 
       `,
       has_campaings_sent_title: `#### [Revisa las métricas de tu Campaña](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
       has_domains_ready_description_MD: `
-Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Bandeja de Entrada** de tus Contactos. **[Actívalos ahora](${urlDkim})**.
+<Paragraph>Hazlo antes de enviar tu primera Campaña y asegúrate de que <Bold>llegue a la Bandeja de Entrada</Bold> de tus Contactos. <Bold><Link>Actívalos ahora</Link></Bold>.</Paragraph>
       `,
-      has_domains_ready_title: `#### [Configura DKIM y SPF](${urlDkim})`,
+      has_domains_ready_title: `<Link>Configura DKIM y SPF</Link>`,
+      has_domains_ready_url: `${urlDkim}`,
       has_list_created_description_MD: `<Paragraph>Comienza importando un <Bold>archivo en Doppler con tu Base de Datos</Bold>. ¡Rápido y sencillo! <Bold><Link>Hazlo ahora</Link></Bold>.</Paragraph>`,
       has_list_created_title: `<Link>Crea una Lista y añade Contactos</Link>`,
       has_list_created_url: `${urlCreateSubscriberList}`,

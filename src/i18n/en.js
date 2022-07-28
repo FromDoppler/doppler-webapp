@@ -521,9 +521,10 @@ Analyze it's results is essential to **take decisions and optimize** your strate
       `,
       has_campaings_sent_title: `#### [Look at the metrics of your Campaign](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
       has_domains_ready_description_MD: `
-Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. **[Activate them now](${urlDkim})**.
+<Paragraph>Do it before sending your first Campaign, and make sure it will <Bold>reach your Contacts Inbox</Bold>. <Bold><Link>Activate them now</Link></Bold>.</Paragraph>
       `,
-      has_domains_ready_title: `#### [Configure DKIM and SPF](${urlDkim})`,
+      has_domains_ready_title: `<Link>Configure DKIM and SPF</Link>`,
+      has_domains_ready_url: `${urlDkim}`,
       has_list_created_description_MD: `<Paragraph>Start importing a <Bold>file at Doppler with your Database</Bold>. Fast and simple! <Bold><Link>Do it now</Link></Bold>.</Paragraph>`,
       has_list_created_title: `<Link>Create a List and add Contacts</Link>`,
       has_list_created_url: `${urlCreateSubscriberList}`,
