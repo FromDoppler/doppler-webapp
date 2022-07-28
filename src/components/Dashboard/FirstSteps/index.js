@@ -141,6 +141,7 @@ const getCampaingsSentStep = (hasCampaingsSent) => ({
   descriptionId: 'dashboard.first_steps.has_campaings_sent_description_MD',
   textStep: 3,
   trackingId: 'dashboard-firstSteps-line4',
+  link: 'dashboard.first_steps.has_campaings_sent_url',
 });
 
 // TODO: move to service folder to get system usage summary

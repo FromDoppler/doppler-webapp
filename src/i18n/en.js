@@ -518,9 +518,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       has_campaings_created_title: `<Link>Create your first Campaign</Link>`,
       has_campaings_created_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
       has_campaings_sent_description_MD: `
-Analyze it's results is essential to **take decisions and optimize** your strategy. **[Discover the Doppler Reports section](https://reports2.fromdoppler.com/SentCampaigns.aspx)**.
+<Paragraph>Analyze it's results is essential to <Bold>take decisions and optimize</Bold> your strategy. <Bold><Link>Discover the Doppler Reports section</Link></Bold>.</Paragraph>
       `,
-      has_campaings_sent_title: `#### [Look at the metrics of your Campaign](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
+      has_campaings_sent_title: `<Link>Look at the metrics of your Campaign</Link>`,
+      has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
 <Paragraph>Do it before sending your first Campaign, and make sure it will <Bold>reach your Contacts Inbox</Bold>. <Bold><Link>Activate them now</Link></Bold>.</Paragraph>
       `,

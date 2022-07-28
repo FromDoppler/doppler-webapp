@@ -517,9 +517,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       has_campaings_created_title: `<Link>Crea tu primera Campaña</Link>`,
       has_campaings_created_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
       has_campaings_sent_description_MD: `
-Analizar sus resultados es fundamental para **tomar decisiones y optimizar** tu estrategia. **[Descubre la sección de Reportes](https://reports2.fromdoppler.com/SentCampaigns.aspx )**.
+<Paragraph>Analizar sus resultados es fundamental para <Bold>tomar decisiones y optimizar</Bold> tu estrategia. <Bold><Link>Descubre la sección de Reportes</Link></Bold>.</Paragraph>
       `,
-      has_campaings_sent_title: `#### [Revisa las métricas de tu Campaña](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
+      has_campaings_sent_title: `<Link>Revisa las métricas de tu Campaña</Link>`,
+      has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
 <Paragraph>Hazlo antes de enviar tu primera Campaña y asegúrate de que <Bold>llegue a la Bandeja de Entrada</Bold> de tus Contactos. <Bold><Link>Actívalos ahora</Link></Bold>.</Paragraph>
       `,
