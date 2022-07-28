@@ -128,6 +128,7 @@ const getCampaingsCreatedStep = (hasCampaingsCreated) => ({
   descriptionId: 'dashboard.first_steps.has_campaings_created_description_MD',
   textStep: 2,
   trackingId: 'dashboard-firstSteps-line3',
+  link: 'dashboard.first_steps.has_campaings_created_url',
 });
 
 const getCampaingsSentStep = (hasCampaingsSent) => ({

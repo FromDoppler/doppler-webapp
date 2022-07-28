@@ -512,10 +512,11 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     first_steps: {
       has_campaings_created_description_MD: `
-You can choose between **three Campaigns types** according to your business goals. **[Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)**
+<Paragraph>You can choose between <Bold>three Campaigns types</Bold> according to your business goals. <Bold><Link>Get down to work!</Link></Bold></Paragraph>
 
-Want to go further? Try **Automatized Email and SMS Flows!**`,
-      has_campaings_created_title: `#### [Create your first Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo)`,
+<Paragraph>Want to go further? Try <Bold>Automatized Email and SMS Flows!</Bold></Paragraph>`,
+      has_campaings_created_title: `<Link>Create your first Campaign</Link>`,
+      has_campaings_created_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
       has_campaings_sent_description_MD: `
 Analyze it's results is essential to **take decisions and optimize** your strategy. **[Discover the Doppler Reports section](https://reports2.fromdoppler.com/SentCampaigns.aspx)**.
       `,
