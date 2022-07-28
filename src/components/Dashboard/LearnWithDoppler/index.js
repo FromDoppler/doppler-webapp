@@ -18,7 +18,7 @@ export const LearnWithDoppler = () => {
           <Carousel id="1" color="orange" ariaLabel="blog">
             {({ activeSlide }) =>
               fakePostList.blog.map((post, index) => (
-                <Slide key={post.id} active={activeSlide === index} id={post.trackingId}>
+                <Slide key={post.id} active={activeSlide === index}>
                   <TextPreviewPost post={post} />
                 </Slide>
               ))
@@ -29,7 +29,7 @@ export const LearnWithDoppler = () => {
           <Carousel id="2" color="purple" ariaLabel="help">
             {({ activeSlide }) =>
               fakePostList.help.map((post, index) => (
-                <Slide key={post.id} active={activeSlide === index} id={post.trackingId}>
+                <Slide key={post.id} active={activeSlide === index}>
                   <TextPreviewPost post={post} />
                 </Slide>
               ))
