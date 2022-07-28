@@ -103,6 +103,7 @@ const getListCreatedStep = (hasListsCreated) => ({
   descriptionId: 'dashboard.first_steps.has_list_created_description_MD',
   textStep: 1,
   trackingId: 'dashboard-firstSteps-line1',
+  link: 'dashboard.first_steps.has_list_created_url',
 });
 
 const getDomainsReadyStep = (hasDomainsReady) => ({

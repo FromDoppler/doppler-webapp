@@ -524,8 +524,9 @@ Analyze it's results is essential to **take decisions and optimize** your strate
 Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. **[Activate them now](${urlDkim})**.
       `,
       has_domains_ready_title: `#### [Configure DKIM and SPF](${urlDkim})`,
-      has_list_created_description_MD: `Start importing a **file at Doppler with your Database**. Fast and simple! **[Do it now](${urlCreateSubscriberList})**.`,
-      has_list_created_title: `#### [Create a List and add Contacts](${urlCreateSubscriberList})`,
+      has_list_created_description_MD: `<Paragraph>Start importing a <Bold>file at Doppler with your Database</Bold>. Fast and simple! <Bold><Link>Do it now</Link></Bold>.</Paragraph>`,
+      has_list_created_title: `<Link>Create a List and add Contacts</Link>`,
+      has_list_created_url: `${urlCreateSubscriberList}`,
       section_name: 'First steps in Doppler',
       welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** 👇`,
       welcome_title: 'You’ve created an account. Well done!',

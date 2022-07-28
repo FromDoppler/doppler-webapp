@@ -523,8 +523,9 @@ Analizar sus resultados es fundamental para **tomar decisiones y optimizar** tu 
 Hazlo antes de enviar tu primera Campaña y asegúrate de que **llegue a la Bandeja de Entrada** de tus Contactos. **[Actívalos ahora](${urlDkim})**.
       `,
       has_domains_ready_title: `#### [Configura DKIM y SPF](${urlDkim})`,
-      has_list_created_description_MD: `Comienza importando un **archivo en Doppler con tu Base de Datos**. ¡Rápido y sencillo! **[Hazlo ahora](${urlCreateSubscriberList})**.`,
-      has_list_created_title: `#### [Crea una Lista y añade Contactos](${urlCreateSubscriberList})`,
+      has_list_created_description_MD: `<Paragraph>Comienza importando un <Bold>archivo en Doppler con tu Base de Datos</Bold>. ¡Rápido y sencillo! <Bold><Link>Hazlo ahora</Link></Bold>.</Paragraph>`,
+      has_list_created_title: `<Link>Crea una Lista y añade Contactos</Link>`,
+      has_list_created_url: `${urlCreateSubscriberList}`,
       section_name: 'Primeros pasos en Doppler',
       welcome_description_MD: `¿Quieres hacer del Email Marketing tu mejor aliado? Pon en marcha tu estrategia con estas **4 acciones** 👇`,
       welcome_title: 'Has creado una cuenta. ¡Bien hecho!',
