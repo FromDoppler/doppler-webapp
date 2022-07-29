@@ -512,20 +512,24 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     first_steps: {
       has_campaings_created_description_MD: `
-You can choose between **three Campaigns types** according to your business goals. **[Get down to work!](${urlDopplerLegacy}/Campaigns/BasicInfo)**
+<Paragraph>You can choose between <Bold>three Campaigns types</Bold> according to your business goals. <Bold><Link>Get down to work!</Link></Bold></Paragraph>
 
-Want to go further? Try **Automatized Email and SMS Flows!**`,
-      has_campaings_created_title: `#### [Create your first Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo)`,
+<Paragraph>Want to go further? Try <Bold>Automatized Email and SMS Flows!</Bold></Paragraph>`,
+      has_campaings_created_title: `<Link>Create your first Campaign</Link>`,
+      has_campaings_created_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
       has_campaings_sent_description_MD: `
-Analyze it's results is essential to **take decisions and optimize** your strategy. **[Discover the Doppler Reports section](https://reports2.fromdoppler.com/SentCampaigns.aspx)**.
+<Paragraph>Analyze it's results is essential to <Bold>take decisions and optimize</Bold> your strategy. <Bold><Link>Discover the Doppler Reports section</Link></Bold>.</Paragraph>
       `,
-      has_campaings_sent_title: `#### [Look at the metrics of your Campaign](https://reports2.fromdoppler.com/SentCampaigns.aspx)`,
+      has_campaings_sent_title: `<Link>Look at the metrics of your Campaign</Link>`,
+      has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
-Do it before sending your first Campaign, and make sure it will **reach your Contacts Inbox**. **[Activate them now](${urlDkim})**.
+<Paragraph>Do it before sending your first Campaign, and make sure it will <Bold>reach your Contacts Inbox</Bold>. <Bold><Link>Activate them now</Link></Bold>.</Paragraph>
       `,
-      has_domains_ready_title: `#### [Configure DKIM and SPF](${urlDkim})`,
-      has_list_created_description_MD: `Start importing a **file at Doppler with your Database**. Fast and simple! **[Do it now](${urlCreateSubscriberList})**.`,
-      has_list_created_title: `#### [Create a List and add Contacts](${urlCreateSubscriberList})`,
+      has_domains_ready_title: `<Link>Configure DKIM and SPF</Link>`,
+      has_domains_ready_url: `${urlDkim}`,
+      has_list_created_description_MD: `<Paragraph>Start importing a <Bold>file at Doppler with your Database</Bold>. Fast and simple! <Bold><Link>Do it now</Link></Bold>.</Paragraph>`,
+      has_list_created_title: `<Link>Create a List and add Contacts</Link>`,
+      has_list_created_url: `${urlCreateSubscriberList}`,
       section_name: 'First steps in Doppler',
       welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** 👇`,
       welcome_title: 'You’ve created an account. Well done!',

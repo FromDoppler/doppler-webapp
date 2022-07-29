@@ -103,6 +103,7 @@ const getListCreatedStep = (hasListsCreated) => ({
   descriptionId: 'dashboard.first_steps.has_list_created_description_MD',
   textStep: 1,
   trackingId: 'dashboard-firstSteps-line1',
+  link: 'dashboard.first_steps.has_list_created_url',
 });
 
 const getDomainsReadyStep = (hasDomainsReady) => ({
@@ -114,6 +115,7 @@ const getDomainsReadyStep = (hasDomainsReady) => ({
   titleId: `dashboard.first_steps.has_domains_ready_title`,
   descriptionId: 'dashboard.first_steps.has_domains_ready_description_MD',
   trackingId: 'dashboard-firstSteps-line2',
+  link: 'dashboard.first_steps.has_domains_ready_url',
 });
 
 const getCampaingsCreatedStep = (hasCampaingsCreated) => ({
@@ -126,6 +128,7 @@ const getCampaingsCreatedStep = (hasCampaingsCreated) => ({
   descriptionId: 'dashboard.first_steps.has_campaings_created_description_MD',
   textStep: 2,
   trackingId: 'dashboard-firstSteps-line3',
+  link: 'dashboard.first_steps.has_campaings_created_url',
 });
 
 const getCampaingsSentStep = (hasCampaingsSent) => ({
@@ -138,6 +141,7 @@ const getCampaingsSentStep = (hasCampaingsSent) => ({
   descriptionId: 'dashboard.first_steps.has_campaings_sent_description_MD',
   textStep: 3,
   trackingId: 'dashboard-firstSteps-line4',
+  link: 'dashboard.first_steps.has_campaings_sent_url',
 });
 
 // TODO: move to service folder to get system usage summary
