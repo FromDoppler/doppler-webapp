@@ -5,6 +5,7 @@ import { useQueryParams } from '../../../../../hooks/useQueryParams';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import { FirstDataError, MercadoPagoError } from '../../../../../doppler-types';
+import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
@@ -28,6 +29,7 @@ export const PlanPurchase = InjectAppServices(
     const createTimeout = useTimeout();
     const query = useQueryParams();
     const originInbound = query.get('origin_inbound') ?? '';
+    const accountType = query.get(ACCOUNT_TYPE) ?? '';
 
     const proceedToBuy = async () => {
       setStatus(SAVING);
@@ -42,7 +44,7 @@ export const PlanPurchase = InjectAppServices(
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?planId=${planId}&paymentMethod=${paymentMethod}${
+          window.location.href = `/checkout-summary?planId=${planId}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
             discount?.description ? `&discount=${discount.description}` : ''
           }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
             promotion?.discountPercentage
