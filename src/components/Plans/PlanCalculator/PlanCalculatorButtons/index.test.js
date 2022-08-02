@@ -71,7 +71,7 @@ describe('PlanCalculator component', () => {
     );
   });
 
-  it('should render PlanCalculatorButtons when the user is not free', async () => {
+  it('should render PlanCalculatorButtons when the user is by credit', async () => {
     // Arrange
     const selectedPlanId = 2;
     const selectedDiscount = {
@@ -86,7 +86,7 @@ describe('PlanCalculator component', () => {
             user: {
               plan: {
                 idPlan: 3,
-                planType: PLAN_TYPE.byContact,
+                planType: PLAN_TYPE.byCredit,
                 planSubscription: 1,
               },
             },
@@ -102,7 +102,7 @@ describe('PlanCalculator component', () => {
           <Router
             initialEntries={[
               `/plan-selection/premium/${
-                URL_PLAN_TYPE[PLAN_TYPE.byContact]
+                URL_PLAN_TYPE[PLAN_TYPE.byCredit]
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
@@ -258,6 +258,53 @@ describe('PlanCalculator component', () => {
     expect(purchaseLink).toHaveAttribute(
       'href',
       `/checkout/premium/${PLAN_TYPE.byEmail}?selected-plan=${selectedPlanId}` +
+        `&PromoCode=fake-promo-code&origin_inbound=fake`,
+    );
+  });
+
+  it('should go to new checkout when the account type is by contacts', async () => {
+    // Arrange
+    const selectedPlanId = 2;
+    const fakeForcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byContact,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={fakeForcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[
+              `/plan-selection/premium/${
+                URL_PLAN_TYPE[PLAN_TYPE.byContact]
+              }?promo-code=fake-promo-code&origin_inbound=fake`,
+            ]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const purchaseLink = screen.getByText('plan_calculator.button_purchase');
+    expect(purchaseLink).not.toHaveClass('disabled');
+    expect(purchaseLink).toHaveAttribute(
+      'href',
+      `/checkout/premium/${PLAN_TYPE.byContact}?selected-plan=${selectedPlanId}` +
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
