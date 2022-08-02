@@ -4,6 +4,7 @@ import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import useTimeout from '../../../hooks/useTimeout';
+import { useUserTypeAsQueryParam } from '../../../hooks/useUserTypeAsQueryParam';
 import { InjectAppServices } from '../../../services/pure-di';
 import { getPlanTypeFromUrlSegment } from '../../../utils';
 import { FAQ } from '../../FAQ';
@@ -65,6 +66,8 @@ export const PlanCalculator = InjectAppServices(
     const sessionPlan = appSessionRef.current.userData.user;
     const query = useQueryParams();
     const history = useHistory();
+    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    useUserTypeAsQueryParam(isFreeAccount);
 
     useEffect(() => {
       const fetchData = async () => {

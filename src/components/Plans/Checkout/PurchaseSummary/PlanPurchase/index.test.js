@@ -6,6 +6,7 @@ import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-id
 import { AppServicesProvider } from '../../../../../services/pure-di';
 import { paymentType } from '../../PaymentMethod/PaymentMethod';
 import { MemoryRouter as Router } from 'react-router-dom';
+import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
 
 const getFakePurchase = (success) => {
   const purchaseMock = jest.fn(async () => ({
@@ -51,7 +52,7 @@ describe('PlanPurchase component', () => {
         <IntlProvider>
           <Router
             initialEntries={[
-              `/checkout/premium/subscribers?selected-plan=${props.planId}&origin_inbound=${originInbound}`,
+              `/checkout/premium/subscribers?selected-plan=${props.planId}&origin_inbound=${originInbound}&${ACCOUNT_TYPE}=FREE`,
             ]}
           >
             <PlanPurchase {...props} />
@@ -85,7 +86,7 @@ describe('PlanPurchase component', () => {
     // simulate redirect to checkout summary
     jest.advanceTimersByTime(DELAY_BEFORE_REDIRECT_TO_SUMMARY);
     expect(window.location.href).toBe(
-      `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}`,
+      `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=FREE`,
     );
   });
 
@@ -158,7 +159,11 @@ describe('PlanPurchase component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
-          <Router initialEntries={[`/checkout/premium/subscribers?selected-plan=${props.planId}`]}>
+          <Router
+            initialEntries={[
+              `/checkout/premium/subscribers?selected-plan=${props.planId}&${ACCOUNT_TYPE}=PAID`,
+            ]}
+          >
             <PlanPurchase {...props} />
           </Router>
         </IntlProvider>
@@ -192,7 +197,7 @@ describe('PlanPurchase component', () => {
     // simulate redirect to checkout summary
     jest.advanceTimersByTime(DELAY_BEFORE_REDIRECT_TO_SUMMARY);
     expect(window.location.href).toBe(
-      `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}&discount=${props.discount.description}&extraCredits=${props.promotion.extraCredits}`,
+      `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.description}&extraCredits=${props.promotion.extraCredits}`,
     );
   });
 });
