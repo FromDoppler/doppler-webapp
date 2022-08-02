@@ -10,34 +10,14 @@ export const GoToUpgrade = InjectAppServices(({ dependencies: { appSessionRef } 
   const { isFreeAccount: isTrial, planType } = appSessionRef.current.userData.user.plan;
   const location = useLocation();
 
-  if (!isTrial) {
-    if (planType === PLAN_TYPE.byCredit) {
-      // Redirect to buy credits with all query parameters
-      return (
-        <>
-          <Loading />
-          <SafeRedirect to={`/ControlPanel/AccountPreferences/BuyCreditsStep1${location.search}`} />
-        </>
-      );
-    } else if (planType !== PLAN_TYPE.byEmail) {
-      const queryParams = new URLSearchParams(location.search);
-      if (queryParams.has('PromoCode')) {
-        // Delete PromoCode query parameter: https://docs.google.com/spreadsheets/d/1CSXmsVqZTwIhzPRH8_tcPohHmvDXffLTQ-veF-53698/edit#gid=0
-        queryParams.delete('PromoCode');
-      }
-      const restQueryParams = queryParams.toString();
-      // Redirect to upgrade page with popup (without promocode query parameter)
-      return (
-        <>
-          <Loading />
-          <SafeRedirect
-            to={`/ControlPanel/AccountPreferences/GetAccountInformation${
-              restQueryParams ? `?${restQueryParams}` : ''
-            }`}
-          />
-        </>
-      );
-    }
+  if (!isTrial && planType === PLAN_TYPE.byCredit) {
+    // Redirect to buy credits with all query parameters
+    return (
+      <>
+        <Loading />
+        <SafeRedirect to={`/ControlPanel/AccountPreferences/BuyCreditsStep1${location.search}`} />
+      </>
+    );
   }
 
   return <PlanCalculator />;
