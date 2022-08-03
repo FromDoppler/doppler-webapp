@@ -51,14 +51,6 @@ function getParameter(location, parameter) {
   return extractParameter(location, queryString.parse, parameter);
 }
 
-function getSource(location) {
-  let utmSource = getParameter(location, 'utm_source');
-  if (!utmSource) {
-    utmSource = document.referrer || 'direct';
-  }
-  return utmSource;
-}
-
 /**
  * Signup Page
  * @param { Object } props
@@ -77,7 +69,7 @@ const Signup = function ({
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
 
-  const utmSource = getSource(location);
+  const utmSource = getParameter(location, 'utm_source') || 'direct';
   const utmCampaign = getParameter(location, 'utm_campaign');
   const utmMedium = getParameter(location, 'utm_medium');
   const utmTerm = getParameter(location, 'utm_term');
