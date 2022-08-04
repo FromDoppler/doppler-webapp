@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
+// TODO: rename it to Menu
 const MenuDemo = () => {
   useEffect(() => {
     window['doppler-menu-mfe-configuration'] = {
@@ -12,12 +12,8 @@ const MenuDemo = () => {
         manifestURL: process.env.REACT_APP_MENU_MFE_MANIFEST_FILE,
       });
   }, []);
-  return (
-    <div>
-      <Link to={'/editors-demo/campaigns/123'}>ir a Editors Demo</Link>
-      <div id="doppler-menu-mfe"></div>
-    </div>
-  );
+
+  return <div id="doppler-menu-mfe"></div>;
 };
 
 export default MenuDemo;
