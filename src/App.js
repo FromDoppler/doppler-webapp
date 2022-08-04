@@ -31,7 +31,6 @@ import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { availableLanguageOrNull } from './i18n/utils';
 import { OriginCatcher } from './services/origin-management';
 import { InjectAppServices } from './services/pure-di';
-import MenuDemo from './components/MenuDemo/MenuDemo';
 import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 
 /**
@@ -258,14 +257,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <CheckoutSummary />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/menu-demo"
-              element={
-                <PrivateRoute>
-                  <MenuDemo />
                 </PrivateRoute>
               }
             />

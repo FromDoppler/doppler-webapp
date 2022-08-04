@@ -9,6 +9,7 @@ import {
 import RedirectToLogin from './RedirectToLogin';
 import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
+import MenuDemo from './MenuDemo/MenuDemo';
 
 export default InjectAppServices(
   /**
@@ -28,6 +29,7 @@ export default InjectAppServices(
     if (dopplerSession.status === 'authenticated') {
       return (
         <div className="dp-app-container">
+          <MenuDemo />
           <Header userData={dopplerSession.userData} location={location} />
           {requireSiteTracking &&
           !dopplerSession.userData.features.siteTrackingEnabled &&
