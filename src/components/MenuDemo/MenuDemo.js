@@ -5,9 +5,12 @@ const MenuDemo = () => {
   useEffect(() => {
     window['doppler-menu-mfe-configuration'] = {
       dopplerMenuElementId: 'doppler-menu-mfe',
-      dmmUseDummies: true,
+      useDummies: false,
     };
-    new window.AssetServices().load(process.env.REACT_APP_MENU_MFE_MANIFEST_FILE);
+    window.assetServices &&
+      window.assetServices.load({
+        manifestURL: process.env.REACT_APP_MENU_MFE_MANIFEST_FILE,
+      });
   }, []);
   return (
     <div>
