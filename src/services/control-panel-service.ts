@@ -6,7 +6,6 @@ import sms_settings_icon from '../components/ControlPanel/images/sms_settings_ic
 import plans_and_specs_icon from '../components/ControlPanel/images/plans_and_specs_icon.png';
 import footer_and_header_icon from '../components/ControlPanel/images/footer_and_header_icon.png';
 import unsubscription_link_icon from '../components/ControlPanel/images/unsubscription_link_icon.png';
-import unopened_mails_config_icon from '../components/ControlPanel/images/unopened_mails_config_icon.png';
 import subscribers_scoring_icon from '../components/ControlPanel/images/subscribers_scoring_icon.png';
 import bounce_handling_icon from '../components/ControlPanel/images/bounce_handling_icon.png';
 import contact_policy_icon from '../components/ControlPanel/images/contact_policy_icon.svg';
@@ -170,12 +169,6 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: unsubscription_link_icon,
             imgAlt: 'control_panel.campaign_preferences.unsubscription_link_title',
             iconName: 'control_panel.campaign_preferences.unsubscription_link_title',
-          },
-          {
-            linkUrl: `${urlCampaignsPreferences}/GetUnopenedMailsConfiguration`,
-            imgSrc: unopened_mails_config_icon,
-            imgAlt: 'control_panel.campaign_preferences.unopened_mails_config_title',
-            iconName: 'control_panel.campaign_preferences.unopened_mails_config_title',
           },
           {
             linkUrl: `${urlCampaignsPreferences}/GetSubscribersScoringConfiguration`,
