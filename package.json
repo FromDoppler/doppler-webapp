@@ -114,6 +114,9 @@
         "lines": 72,
         "statements": 72
       }
+    },
+    "moduleNameMapper":{
+      "react-markdown": "<rootDir>/node_modules/react-markdown/react-markdown.min.js"
     }
   },
   "release": {

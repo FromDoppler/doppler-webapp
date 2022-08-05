@@ -1,6 +1,6 @@
 // Based on https://github.com/yahoo/react-intl/issues/513#issuecomment-252083860-permalink
 import React from 'react';
-import Markdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
 import { useIntl } from 'react-intl';
 import './FormattedMessageMarkdown.css';
 
@@ -20,8 +20,8 @@ export const FormattedMessageMarkdown = ({
   description = '',
   ...rest
 }) => (
-  <Markdown
-    source={useIntl().formatMessage({ id, defaultMessage, description }, values)}
+  <ReactMarkdown
+    children={useIntl().formatMessage({ id, defaultMessage, description }, values)}
     {...rest}
   />
 );
