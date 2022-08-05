@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import {
   SiteTrackingRequired,
@@ -30,7 +29,8 @@ export default InjectAppServices(
       return (
         <div className="dp-app-container">
           <MenuDemo />
-          <Header userData={dopplerSession.userData} location={location} />
+          {/* <Header userData={dopplerSession.userData} location={props.location} /> */}
+          {/* TODO: remove all Header related code */}
           {requireSiteTracking &&
           !dopplerSession.userData.features.siteTrackingEnabled &&
           !dopplerSession.userData.user.plan.isFreeAccount ? (
