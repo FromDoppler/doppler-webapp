@@ -4,12 +4,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import UpgradePlanForm from '../../UpgradePlanForm/UpgradePlanForm';
 import ValidateSubscribers from '../../ValidateSubscribers';
 
-const HeaderMessages = ({
-  alert,
-  user,
-  closeAlert,
-  dependencies: { dopplerLegacyClient, sessionManager },
-}) => {
+const HeaderMessages = ({ alert, user, closeAlert, dependencies: { dopplerLegacyClient } }) => {
   const [buyModalIsOpen, setBuyModalIsOpen] = useState(false);
   const toggleModal = (isOpen) => setBuyModalIsOpen(isOpen);
   const [nextAlert, setNextAlert] = useState(false);
