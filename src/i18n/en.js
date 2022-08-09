@@ -263,6 +263,7 @@ const messages_en = {
       explanatory_legend_by_credits: 'Price Plan may be taxable, according to your tax category. You’ll find them detailed on the invoice.',
       header: 'Purchase summary',
       month_with_plural: `{monthsCount, plural, one {# month}other {# months} }`,
+      months_to_hire: 'Months to hire:',
       months_to_pay: 'Months to pay:',
       plan_premium_title: 'PREMIUM Plan',
       plan_type_monthly_deliveries: 'by Emails',

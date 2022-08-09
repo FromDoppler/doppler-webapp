@@ -265,6 +265,7 @@ const messages_es = {
       explanatory_legend_by_credits: 'El precio del Plan puede estar sujeto a impuestos, de acuerdo a la categoría impositiva. Estos estarán detallados en tu factura.',
       header: 'Resumen de compra',
       month_with_plural: `{monthsCount, plural, one {# mes}other {# meses} }`,
+      months_to_hire: 'Meses a contratar:',
       months_to_pay: 'Meses a abonar:',
       plan_premium_title: 'Plan PREMIUM',
       plan_type_monthly_deliveries: 'por Envíos',
