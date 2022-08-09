@@ -25,7 +25,7 @@ describe('useTimeout hook', () => {
 
     // Assert
     jest.advanceTimersByTime(delay);
-    await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
+    expect(callback).toHaveBeenCalledTimes(1);
 
     expect(clearTimeout).toHaveBeenCalledTimes(0);
     unmount();
