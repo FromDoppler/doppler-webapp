@@ -7,7 +7,7 @@ const MenuDemo = () => {
       dopplerMenuElementId: 'doppler-menu-mfe',
       dmmUseDummies: true,
     };
-    new window.AssetServices().load(process.env.REACT_APP_MENU_MFE_MANIFIEST_FILE);
+    new window.AssetServices().load(process.env.REACT_APP_MENU_MFE_MANIFEST_FILE);
   }, []);
   return (
     <div>
