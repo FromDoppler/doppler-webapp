@@ -25,9 +25,12 @@ const numberFormatOptions = {
   maximumFractionDigits: 2,
 };
 
-export const PlanInformation = ({ plan, planType }) => {
+export const PlanInformation = ({ plan, planType, discount }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const monthsCount = discount ? discount.monthsAmmount : 1;
+  const amount = discount ? plan?.fee * monthsCount : plan?.fee;
 
   const getQuantity = () => {
     switch (planType) {
@@ -44,23 +47,44 @@ export const PlanInformation = ({ plan, planType }) => {
 
   return (
     <>
-      <span>
-        {_(`checkoutProcessForm.purchase_summary.plan_type_${planType.replace('-', '_')}_label`)}
-        <strong> {thousandSeparatorNumber(intl.defaultLocale, getQuantity())}</strong>
-      </span>
-      <span>
-        {dollarSymbol} <FormattedNumber value={plan?.fee} {...numberFormatOptions} />
-      </span>
+      <li aria-label="units">
+        <span>
+          {_(`checkoutProcessForm.purchase_summary.plan_type_${planType.replace('-', '_')}_label`)}
+          <strong> {thousandSeparatorNumber(intl.defaultLocale, getQuantity())}</strong>
+        </span>
+        <span>
+          {dollarSymbol} <FormattedNumber value={plan?.fee} {...numberFormatOptions} />
+        </span>
+      </li>
+      {planType === PLAN_TYPE.byContact && (
+        <>
+          <li>
+            <span>
+              {_(`checkoutProcessForm.purchase_summary.months_to_hire`)}{' '}
+              <strong>
+                <FormattedMessage
+                  id="checkoutProcessForm.purchase_summary.month_with_plural"
+                  values={{ monthsCount: monthsCount }}
+                ></FormattedMessage>
+              </strong>
+            </span>
+            <span>
+              {dollarSymbol} <FormattedNumber value={amount} {...numberFormatOptions} />
+            </span>
+          </li>
+          <br></br>
+        </>
+      )}
     </>
   );
 };
 
-export const MonthsToPayInformation = ({ plan, discount }) => {
+export const MonthsToPayInformation = ({ plan, discount, monthsToPay }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const monthsCount = discount ? discount.monthsAmmount : 1;
-  const amount = discount ? plan?.fee * discount?.monthsAmmount : plan?.fee;
+  const monthsCount = monthsToPay ? monthsToPay : discount ? discount.monthsAmmount : 1;
+  const amount = discount ? plan?.fee * monthsCount : plan?.fee;
 
   return (
     <>
@@ -286,9 +310,7 @@ export const ShoppingList = ({ state, planType, promotion }) => {
 
   return (
     <ul className="dp-summary-list">
-      <li aria-label="units">
-        <PlanInformation plan={plan} planType={planType} />
-      </li>
+      <PlanInformation plan={plan} planType={planType} discount={discount} />
       {promotion?.extraCredits > 0 && (
         <li>
           <CreditsPromocode extraCredits={promotion.extraCredits} />
@@ -296,7 +318,12 @@ export const ShoppingList = ({ state, planType, promotion }) => {
       )}
       {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
         <li aria-label="months to pay">
-          <MonthsToPayInformation discount={discount} plan={plan} planType={planType} />
+          <MonthsToPayInformation
+            discount={discount}
+            plan={plan}
+            planType={planType}
+            monthsToPay={discountPrepayment.monthsToPay}
+          />
         </li>
       ) : null}
       {discountPrepayment?.discountPercentage > 0 && (
