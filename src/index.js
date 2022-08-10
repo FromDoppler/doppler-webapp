@@ -26,8 +26,6 @@ import { HardcodedDopplerContactPolicyApiClient } from './services/doppler-conta
 import { HardcodedStaticDataClient } from './services/static-data-client.double';
 import { HardcodedDopplerBillingUserApiClient } from './services/doppler-billing-user-api-client.double';
 import { HardcodedDopplerAccountPlansApiClient } from './services/doppler-account-plans-api-client.double';
-
-import Offline from './components/Offline/Offline';
 import { HardcodedReportClient } from './services/reports/index.double';
 polyfill();
 
@@ -81,20 +79,15 @@ history.listen((location) => {
 
 // Choose hash router for cdn only
 const Router = process.env.REACT_APP_ROUTER === 'hash' ? HashRouter : BrowserRouter;
-// If needed to turn app offline, set REACT_APP_OFFLINE true for the enviroment needed i.e. env.production
-const turn_app_offline = process.env.REACT_APP_OFFLINE === 'true';
-if (turn_app_offline) {
-  ReactDOM.render(<Offline />, document.getElementById('root'));
-} else {
-  ReactDOM.render(
-    <AppServicesProvider forcedServices={forcedServices}>
-      <Router>
-        <App locale={locale} window={window} />
-      </Router>
-    </AppServicesProvider>,
-    document.getElementById('root'),
-  );
-}
+
+ReactDOM.render(
+  <AppServicesProvider forcedServices={forcedServices}>
+    <Router>
+      <App locale={locale} window={window} />
+    </Router>
+  </AppServicesProvider>,
+  document.getElementById('root'),
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
