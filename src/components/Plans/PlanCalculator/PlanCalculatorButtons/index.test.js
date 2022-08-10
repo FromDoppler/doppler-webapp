@@ -308,4 +308,46 @@ describe('PlanCalculator component', () => {
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
+
+  it('The buy button shoud be disabled when user has email plan equal to selected plan', async () => {
+    // Arrange
+    const selectedPlanId = 2;
+
+    const fakeForcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 2,
+                planType: PLAN_TYPE.byEmail,
+                isMonthlybyEmail: true,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={fakeForcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[
+              `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?origin_inbound=fake`,
+            ]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const purchaseLink = screen.getByText('plan_calculator.button_purchase');
+    expect(purchaseLink).toHaveClass('disabled');
+  });
 });
