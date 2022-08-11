@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
@@ -271,7 +271,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
     return legacyRedirectUrl ? (
       <SafeRedirect to={legacyRedirectUrl} />
     ) : (
-      <Redirect to={(location.state && location.state.from) || { pathname: '/' }} />
+      <Navigate to={location.state?.pathname || '/'} state={location.state?.from} />
     );
   }
 

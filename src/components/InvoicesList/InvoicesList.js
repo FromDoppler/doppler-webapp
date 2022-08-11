@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { FormattedDate, FormattedMessage, useIntl, FormattedNumber } from 'react-intl';
 import { Pagination } from '../shared/Pagination/Pagination';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { extractParameter } from '../../utils';
 import { Breadcrumb, BreadcrumbItem } from '../shared/Breadcrumb/Breadcrumb';
@@ -15,7 +15,6 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const location = useLocation();
-  const { url } = useRouteMatch();
   const invoicesPerPage = 10;
 
   const numberFormatOptions = {
@@ -188,7 +187,7 @@ const InvoicesList = ({ dependencies: { dopplerBillingApiClient } }) => {
                       <Pagination
                         currentPage={stateInvoices.currentPage}
                         pagesCount={stateInvoices.pagesCount}
-                        urlToGo={`${url}?`}
+                        urlToGo={`${location.pathname}?`}
                       />
                     </td>
                   </tr>

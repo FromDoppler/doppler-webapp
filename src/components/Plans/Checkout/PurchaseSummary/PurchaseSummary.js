@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
-import { useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../../services/pure-di';
@@ -371,7 +371,7 @@ export const PurchaseSummary = InjectAppServices(
     });
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const { planType } = useRouteMatch().params;
+    const { planType } = useParams();
     const query = useQueryParams();
     const selectedDiscountId = discountId === 0 ? query.get('discountId') ?? 0 : discountId;
     const selectedPlan = query.get('selected-plan') ?? 0;

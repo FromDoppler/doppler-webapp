@@ -1,6 +1,5 @@
 import React from 'react';
 import { InjectAppServices, AppServices } from './pure-di';
-import { withRouter } from 'react-router';
 import queryString from 'query-string';
 
 const DopplerFirstOriginLocalStorageKey = 'dopplerFirstOrigin.value';
@@ -69,4 +68,4 @@ function _OriginCatcher({
   return output;
 }
 
-export const OriginCatcher = withRouter(InjectAppServices(_OriginCatcher));
+export const OriginCatcher = InjectAppServices(_OriginCatcher);

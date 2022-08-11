@@ -6,7 +6,7 @@ import queryString from 'query-string';
 import { extractParameter } from '../../../utils';
 import { Pagination } from '../../shared/Pagination/Pagination';
 import SafeRedirect from '../../SafeRedirect';
-import { useLocation, useRouteMatch, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 const campaignsPerPage = 10;
 
@@ -42,7 +42,6 @@ const SubscriberSentCampaigns = ({
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const location = useLocation();
-  const { url } = useRouteMatch();
 
   useEffect(() => {
     setStateSentCampaigns({ loading: true });
@@ -109,7 +108,7 @@ const SubscriberSentCampaigns = ({
                   <Pagination
                     currentPage={stateSentCampaigns.currentPage}
                     pagesCount={stateSentCampaigns.pagesCount}
-                    urlToGo={`${url}?`}
+                    urlToGo={`${location.pathname}?`}
                   />
                 </td>
               </tr>

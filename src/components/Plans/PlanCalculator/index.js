@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import useTimeout from '../../../hooks/useTimeout';
@@ -65,7 +65,7 @@ export const PlanCalculator = InjectAppServices(
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlan = appSessionRef.current.userData.user;
     const query = useQueryParams();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
     useUserTypeAsQueryParam(isFreeAccount);
 
@@ -158,12 +158,12 @@ export const PlanCalculator = InjectAppServices(
         window,
       });
       if (urlToRedirect) {
-        history.push(urlToRedirect);
+        navigate(urlToRedirect);
       }
-    }, [appSessionRef, planTypeUrlSegment, history]);
+    }, [appSessionRef, planTypeUrlSegment, navigate]);
 
     if (!hasError && !loading && planTypes.length === 0) {
-      return <Redirect to="/upgrade-suggestion-form" />;
+      return <Navigate to="/upgrade-suggestion-form" />;
     }
 
     if (loading) {

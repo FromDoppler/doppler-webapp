@@ -7,8 +7,10 @@ import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import * as S from './ReportsPartialsCampaigns.styles';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import { useLocation } from 'react-router-dom';
 
-const ReportsPartialsCampaigns = ({ location, dependencies: { dopplerApiClient } }) => {
+const ReportsPartialsCampaigns = ({ dependencies: { dopplerApiClient } }) => {
+  const location = useLocation();
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [state, setState] = useState({ loading: true });
