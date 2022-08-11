@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import {
@@ -13,47 +13,46 @@ import { InjectAppServices } from '../services/pure-di';
 export default InjectAppServices(
   /**
    * @param { Object } props
-   * @param { React.Component } props.component
    * @param { Boolean } props.requireSiteTracking
    * @param { import('../services/pure-di').AppServices } props.dependencies
    */
   ({
-    component: Component,
     requireSiteTracking,
+    children,
     dependencies: {
       appSessionRef: { current: dopplerSession },
     },
-    ...rest
-  }) => (
-    <Route
-      {...rest}
-      render={(props) =>
-        dopplerSession.status === 'unknown' ? (
-          <Loading page />
-        ) : dopplerSession.status === 'authenticated' ? (
-          <div className="dp-app-container">
-            <Header userData={dopplerSession.userData} location={props.location} />
-            {requireSiteTracking &&
+  }) => {
+    const location = useLocation();
+
+    if (dopplerSession.status === 'authenticated') {
+      return (
+        <div className="dp-app-container">
+          <Header userData={dopplerSession.userData} location={location} />
+          {requireSiteTracking &&
+          !dopplerSession.userData.features.siteTrackingEnabled &&
+          !dopplerSession.userData.user.plan.isFreeAccount ? (
+            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.trialNotAccepted} />
+          ) : requireSiteTracking &&
             !dopplerSession.userData.features.siteTrackingEnabled &&
-            !dopplerSession.userData.user.plan.isFreeAccount ? (
-              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.trialNotAccepted} />
-            ) : requireSiteTracking &&
-              !dopplerSession.userData.features.siteTrackingEnabled &&
-              dopplerSession.userData.user.plan.isFreeAccount ? (
-              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.freeAccount} />
-            ) : requireSiteTracking && !dopplerSession.userData.datahubCustomerId ? (
-              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.noDatahubId} />
-            ) : requireSiteTracking && !dopplerSession.userData.features.siteTrackingActive ? (
-              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.featureDisabled} />
-            ) : (
-              <Component {...props} />
-            )}
-            <Footer />
-          </div>
-        ) : (
-          <RedirectToLogin from={props.location} />
-        )
-      }
-    />
-  ),
+            dopplerSession.userData.user.plan.isFreeAccount ? (
+            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.freeAccount} />
+          ) : requireSiteTracking && !dopplerSession.userData.datahubCustomerId ? (
+            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.noDatahubId} />
+          ) : requireSiteTracking && !dopplerSession.userData.features.siteTrackingActive ? (
+            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.featureDisabled} />
+          ) : (
+            children
+          )}
+          <Footer />
+        </div>
+      );
+    }
+
+    if (dopplerSession.status === 'unknown') {
+      return <Loading page />;
+    }
+
+    return <RedirectToLogin from={location} />;
+  },
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import { InjectAppServices } from '../services/pure-di';
 import RedirectToExternalUrl from './RedirectToExternalUrl';
 import { isWhitelisted } from './../utils';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 /**
  * @param { Object } props
@@ -21,7 +21,7 @@ function SafeRedirect({ to, dependencies }) {
   } else if (isWhitelisted(to)) {
     return <RedirectToExternalUrl to={to} />;
   } else if (newDashboard) {
-    <Redirect to="/" />;
+    <Navigate to="/" />;
   } else {
     return (
       <RedirectToExternalUrl

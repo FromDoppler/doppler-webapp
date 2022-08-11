@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
@@ -42,11 +42,12 @@ import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 
 const newDashboard = process.env.REACT_APP_NEW_DASHBOARD === 'true';
 
-const App = ({ locale, location, window, dependencies: { appSessionRef, sessionManager } }) => {
+const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }) => {
   const [state, setState] = useState({
     dopplerSession: appSessionRef.current,
     i18nLocale: locale,
   });
+  const location = useLocation();
 
   const langFromUrl = useRef(null);
 
@@ -100,88 +101,212 @@ const App = ({ locale, location, window, dependencies: { appSessionRef, sessionM
             <html lang={state.i18nLocale} />
           </Helmet>
           <OriginCatcher />
-          <Switch>
+          <Routes>
             <Route
-              exact
               path="/"
-              render={({ location }) =>
+              element={
                 location.hash.length && process.env.REACT_APP_ROUTER !== 'hash' ? (
-                  <Redirect to={location.hash.replace('#', '')} />
+                  <Navigate to={location.hash.replace('#', '')} />
                 ) : newDashboard ? (
-                  <Redirect to="/dashboard" />
+                  <Navigate to="/dashboard" />
                 ) : (
                   <SafeRedirect to="/Campaigns/Draft" />
                 )
               }
             />
-            <PrivateRoute path="/dashboard/" exact component={Dashboard} />
-            <PrivateRoute path="/reports/" exact requireSiteTracking component={Reports} />
-            <PrivateRoute path="/integrations/shopify" exact component={Shopify} />
-            <PrivateRoute path="/reports/master-subscriber" exact component={MasterSubscriber} />
-            <PrivateRoute path="/subscribers/:email/:section" exact component={Subscribers} />
-            <PrivateRoute path="/control-panel/" exact component={ControlPanel} />
+            <Route
+              path="/dashboard/"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/reports/"
+              element={
+                <PrivateRoute requireSiteTracking>
+                  <Reports />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/integrations/shopify"
+              element={
+                <PrivateRoute>
+                  <Shopify />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/reports/master-subscriber"
+              element={
+                <PrivateRoute>
+                  <MasterSubscriber />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/subscribers/:email/:section"
+              element={
+                <PrivateRoute>
+                  <Subscribers />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/control-panel/"
+              element={
+                <PrivateRoute>
+                  <ControlPanel />
+                </PrivateRoute>
+              }
+            />
             {/* TODO: delete this when urls change in MasterSubscribers */}
             {/* This is to keep backward compatibility with /reports/subscriber-history and /reports/subscriber-history */}
-            <PrivateRoute
+            <Route
               path="/reports/subscriber-:section"
-              exact
-              component={SubscribersLegacyUrlRedirect}
+              element={
+                <PrivateRoute>
+                  <SubscribersLegacyUrlRedirect />
+                </PrivateRoute>
+              }
             />
-            <PrivateRoute path="/new-features" exact component={NewFeatures} />
-            <PrivateRoute
-              path={['/upgrade-suggestion-form']}
-              exact
-              component={UpgradeSuggestionForm}
+            <Route
+              path="/new-features"
+              element={
+                <PrivateRoute>
+                  <NewFeatures />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/upgrade-suggestion-form"
+              element={
+                <PrivateRoute>
+                  <UpgradeSuggestionForm />
+                </PrivateRoute>
+              }
             />
             {/* TODO: GoToUpgrade should be removed when the calculator supports upgrade between paid accounts */}
-            <PrivateRoute path="/plan-selection/premium/:planType?" exact component={GoToUpgrade} />
-            <PrivateRoute path={'/checkout/:pathType/:planType?'} exact component={Checkout} />
-            <PrivateRoute path={'/email-marketing-for-agencies'} exact component={AgenciesForm} />
-            <PrivateRoute path={'/email-marketing-exclusive'} exact component={ExclusiveForm} />
-            <PrivateRoute
+            <Route
+              path="/plan-selection/premium/:planType"
+              element={
+                <PrivateRoute>
+                  <GoToUpgrade />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/checkout/:pathType/:planType"
+              element={
+                <PrivateRoute>
+                  <Checkout />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/email-marketing-for-agencies"
+              element={
+                <PrivateRoute>
+                  <AgenciesForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/email-marketing-exclusive"
+              element={
+                <PrivateRoute>
+                  <ExclusiveForm />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/reports/partials-campaigns"
-              exact
-              component={ReportsPartialsCampaigns}
+              element={
+                <PrivateRoute>
+                  <ReportsPartialsCampaigns />
+                </PrivateRoute>
+              }
             />
-            <PrivateRoute path={['/billing/invoices']} exact component={InvoicesList} />
-            <PrivateRoute
-              path={'/sending-preferences/contact-policy'}
-              exact
-              component={ContactPolicy}
+            <Route
+              path="/billing/invoices"
+              element={
+                <PrivateRoute>
+                  <InvoicesList />
+                </PrivateRoute>
+              }
             />
-            <PrivateRoute path="/integrations/big-query" exact component={AuthorizationPage} />
-            <PrivateRoute path={['/checkout-summary']} exact component={CheckoutSummary} />
-            <PrivateRoute path="/menu-demo" exact component={MenuDemo} />
-            <PrivateRoute path="/editors-demo" component={EditorsDemo} />
-            <PublicRouteWithLegacyFallback exact path="/login" />
-            <PublicRouteWithLegacyFallback exact path="/signup" />
-            <PublicRouteWithLegacyFallback exact path="/login/reset-password" />
-            <Route path="/signup/confirmation" exact component={SignupConfirmation} />
-            <RedirectWithQuery exact from="/ingresa" to="/login?lang=es" />
-            <RedirectWithQuery exact from="/registrate" to="/signup?lang=es" />
-            <RedirectWithQuery exact from="/ingresa/cambiar-clave" to="/forgot-password?lang=es" />
-            <RedirectWithQuery exact from="/forgot-password" to="/login/reset-password" />
-            <RedirectWithQuery
-              exact
-              from="/plan-selection"
-              to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`}
+            <Route
+              path="/sending-preferences/contact-policy"
+              element={
+                <PrivateRoute>
+                  <ContactPolicy />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/integrations/big-query"
+              element={
+                <PrivateRoute>
+                  <AuthorizationPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/checkout-summary"
+              element={
+                <PrivateRoute>
+                  <CheckoutSummary />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/menu-demo"
+              element={
+                <PrivateRoute>
+                  <MenuDemo />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/editors-demo"
+              element={
+                <PrivateRoute>
+                  <EditorsDemo />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/login" element={<PublicRouteWithLegacyFallback />} />
+            <Route path="/signup" element={<PublicRouteWithLegacyFallback />} />
+            <Route path="/login/reset-password" element={<PublicRouteWithLegacyFallback />} />
+            <Route path="/signup/confirmation" element={<SignupConfirmation />} />
+            <Route path="/ingresa" element={<RedirectWithQuery to="/login?lang=es" />} />
+            <Route path="/registrate" element={<RedirectWithQuery to="/signup?lang=es" />} />
+            <Route
+              path="/ingresa/cambiar-clave"
+              element={<RedirectWithQuery to="/forgot-password?lang=es" />}
+            />
+            <Route
+              path="/forgot-password"
+              element={<RedirectWithQuery to="/login/reset-password" />}
+            />
+            <Route
+              path="/plan-selection"
+              element={
+                <RedirectWithQuery
+                  to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`}
+                />
+              }
             />
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
-            <Route
-              component={() =>
-                newDashboard ? (
-                  <Redirect to={{ pathname: '/dashboard' }} />
-                ) : (
-                  <Redirect to={{ pathname: '/reports' }} />
-                )
-              }
-            />
-          </Switch>
+            <Route path="/*" element={<Navigate to={newDashboard ? '/dashboard' : '/reports'} />} />
+          </Routes>
         </>
       </DopplerIntlProvider>
     </>
   );
 };
 
-export default withRouter(InjectAppServices(App));
+export default InjectAppServices(App);
