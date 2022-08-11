@@ -6,13 +6,13 @@ const EditorsDemo = () => {
     window['doppler-session-mfe-configuration'] = {
       useDummies: true,
     };
-    new window.AssetServices().load(process.env.REACT_APP_SESSION_MFE_MANIFIEST_FILE);
+    new window.AssetServices().load(process.env.REACT_APP_SESSION_MFE_MANIFEST_FILE);
     window['editors-webapp-configuration'] = {
       basename: 'editors-demo',
       appElementId: 'doppler-editors-webapp',
       useDummies: true,
     };
-    new window.AssetServices().load(process.env.REACT_APP_EDITORS_MFE_MANIFIEST_FILE);
+    new window.AssetServices().load(process.env.REACT_APP_EDITORS_MFE_MANIFEST_FILE);
   }, []);
   return (
     <div>
