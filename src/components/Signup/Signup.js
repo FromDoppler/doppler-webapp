@@ -56,6 +56,8 @@ function getReferrerHostname() {
   try {
     return referrer && new URL(referrer).hostname;
   } catch (e) {
+    // When referrer is not a valid URL
+    // TODO: if it is not a valid scenario, remove error handling
     return null;
   }
 }
