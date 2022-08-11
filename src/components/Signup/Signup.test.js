@@ -3,7 +3,7 @@ import Signup from './Signup';
 import { render, cleanup, waitFor, fireEvent, act } from '@testing-library/react';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import DopplerIntlProviderWithIds from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { BrowserRouter, MemoryRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { timeout } from '../../utils';
@@ -207,20 +207,20 @@ describe('Signup', () => {
 
     // Act
     const { container, getByText } = render(
-      <BrowserRouter>
-        <AppServicesProvider forcedServices={dependencies}>
-          <DopplerIntlProviderWithIds>
-            <Signup location={location} />
-          </DopplerIntlProviderWithIds>
-        </AppServicesProvider>
-        <Route path="/signup/confirmation">
-          <AppServicesProvider forcedServices={dependencies}>
-            <DopplerIntlProviderWithIds>
-              <SignupConfirmation location={{ status: { resend: () => null } }} />
-            </DopplerIntlProviderWithIds>
-          </AppServicesProvider>
-        </Route>
-      </BrowserRouter>,
+      <AppServicesProvider forcedServices={dependencies}>
+        <DopplerIntlProviderWithIds>
+          <Router initialEntries={[location.pathname]}>
+            <Routes>
+              <Route path="/signup" element={<Signup location={location} />} />
+              <Route
+                path="/signup/confirmation"
+                element={<SignupConfirmation location={{ status: { resend: () => null } }} />}
+              />
+            </Routes>
+          </Router>
+          ,
+        </DopplerIntlProviderWithIds>
+      </AppServicesProvider>,
     );
 
     act(() => {

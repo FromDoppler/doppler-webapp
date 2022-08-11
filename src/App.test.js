@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { cleanup, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { MemoryRouter as Router, withRouter } from 'react-router-dom';
+import { MemoryRouter as Router, useLocation } from 'react-router-dom';
 import App from './App';
 import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 import { AppServicesProvider } from './services/pure-di';
@@ -44,12 +44,12 @@ function createLocalStorageDouble() {
   return double;
 }
 
-const RouterInspector = withRouter(({ match, location, history, target }) => {
-  target.match = match;
+const RouterInspector = ({ target }) => {
+  const location = useLocation();
+
   target.location = location;
-  target.history = history;
   return null;
-});
+};
 
 const emptyResponse = { success: false, error: new Error('Dummy error') };
 
@@ -405,13 +405,15 @@ describe('App component', () => {
 
         const { container } = render(
           <AppServicesProvider forcedServices={dependencies}>
-            <Router initialEntries={['/reports?param1=value1#hash']}>
+            <Router
+              initialEntries={['/reports?param1=value1#hash']}
+              location="/reports?param1=value1#hash"
+            >
               <RouterInspector target={currentRouteState} />
               <App window={window} locale="en" />
             </Router>
           </AppServicesProvider>,
         );
-
         expect(currentRouteState.location.pathname).toEqual('/reports');
         expect(currentRouteState.location.search).toEqual('?param1=value1');
         expect(currentRouteState.location.hash).toEqual('#hash');
@@ -432,8 +434,6 @@ describe('App component', () => {
           expect(currentRouteState.location.state.from.pathname).toEqual('/reports');
           expect(currentRouteState.location.state.from.search).toEqual('?param1=value1');
           expect(currentRouteState.location.state.from.hash).toEqual('#hash');
-          expect(currentRouteState.history.length).toEqual(1); // because the URL has been replaced in the redirect
-          expect(currentRouteState.history.action).toEqual('REPLACE');
           const headerEl = container.querySelector('.header-main');
           expect(headerEl).toBeNull();
           const menuEl = container.querySelector('.menu-main');
@@ -459,9 +459,7 @@ describe('App component', () => {
 
         {
           expect(currentRouteState.location.pathname).toEqual('/login');
-          expect(currentRouteState.location.state).toBeUndefined();
-          expect(currentRouteState.history.length).toEqual(1);
-          expect(currentRouteState.history.action).not.toEqual('REPLACE');
+          expect(currentRouteState.location.state).toBeNull();
           const headerEl = container.querySelector('.header-main');
           expect(headerEl).toBeNull();
           const menuEl = container.querySelector('.menu-main');
@@ -482,9 +480,7 @@ describe('App component', () => {
         // Assert
         await waitFor(() => {
           expect(currentRouteState.location.pathname).toEqual('/login');
-          expect(currentRouteState.location.state).toBeUndefined();
-          expect(currentRouteState.history.length).toEqual(1);
-          expect(currentRouteState.history.action).not.toEqual('REPLACE');
+          expect(currentRouteState.location.state).toBeNull();
           const headerEl = container.querySelector('.header-main');
           expect(headerEl).toBeNull();
           const menuEl = container.querySelector('.menu-main');
@@ -516,7 +512,7 @@ describe('App component', () => {
         );
 
         expect(currentRouteState.location.pathname).toEqual('/reports');
-        expect(currentRouteState.location.state).toBeUndefined();
+        expect(currentRouteState.location.state).toBeNull();
         const loadingEl = container.querySelector('.loading-page');
         expect(loadingEl).not.toBeNull();
         await waitFor(() => {});
@@ -533,8 +529,6 @@ describe('App component', () => {
           expect(currentRouteState.location.state).toBeDefined();
           expect(currentRouteState.location.state.from).toBeDefined();
           expect(currentRouteState.location.state.from.pathname).toEqual('/reports'); // because before redirecting to login, it redirected to reports
-          expect(currentRouteState.history.length).toEqual(1); // because the URL has been replaced in the redirect
-          expect(currentRouteState.history.action).toEqual('REPLACE');
           const headerEl = container.querySelector('.header-main');
           expect(headerEl).toBeNull();
           const menuEl = container.querySelector('.menu-main');
@@ -597,9 +591,7 @@ describe('App component', () => {
         });
         // Assert
         await waitFor(() => {
-          expect(currentRouteState.location.state).toBeUndefined();
-          expect(currentRouteState.history.length).toEqual(1);
-          expect(currentRouteState.history.action).toEqual('REPLACE');
+          expect(currentRouteState.location.state).toBeNull();
           const headerEl = container.querySelector('.header-main');
           expect(headerEl).not.toBeNull();
           const menuEl = container.querySelector('.menu-main');
@@ -664,9 +656,7 @@ describe('App component', () => {
           expect(currentRouteState.location.pathname).toEqual('/reports');
           expect(currentRouteState.location.search).toEqual('?param1=value1');
           expect(currentRouteState.location.hash).toEqual('#hash');
-          expect(currentRouteState.location.state).toBeUndefined();
-          expect(currentRouteState.history.length).toEqual(1);
-          expect(currentRouteState.history.action).not.toEqual('REPLACE');
+          expect(currentRouteState.location.state).toBeNull();
           const headerEl = container.querySelector('.header-main');
           expect(headerEl).not.toBeNull();
           const menuEl = container.querySelector('.menu-main');

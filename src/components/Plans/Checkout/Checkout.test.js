@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import Checkout from './Checkout';
 import {
   fakeIndustries,
@@ -92,15 +92,15 @@ describe('Checkout component', () => {
   };
 
   const CheckoutElement = () => (
-    <MemoryRouter initialEntries={['checkout/standard/subscribers']}>
-      <Route path="checkout/:pathType/:planType?">
-        <AppServicesProvider forcedServices={dependencies}>
-          <IntlProvider>
-            <Checkout />
-          </IntlProvider>
-        </AppServicesProvider>
-      </Route>
-    </MemoryRouter>
+    <AppServicesProvider forcedServices={dependencies}>
+      <IntlProvider>
+        <MemoryRouter initialEntries={['/checkout/standard/subscribers']}>
+          <Routes>
+            <Route path="/checkout/:pathType/:planType" element={<Checkout />} />
+          </Routes>
+        </MemoryRouter>
+      </IntlProvider>
+    </AppServicesProvider>
   );
 
   it('should show contact information', async () => {

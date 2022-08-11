@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 import ReportsPartialsCampaigns from './ReportsPartialsCampaigns';
+import { Router } from 'react-router-dom';
 
 describe('ReportsPartialsCampaigns component', () => {
   afterEach(cleanup);
@@ -26,7 +27,9 @@ describe('ReportsPartialsCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <ReportsPartialsCampaigns />
+          <Router location="/reports/partials-campaigns">
+            <ReportsPartialsCampaigns />
+          </Router>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -52,7 +55,9 @@ describe('ReportsPartialsCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <ReportsPartialsCampaigns />
+          <Router location="/reports/partials-campaigns">
+            <ReportsPartialsCampaigns />
+          </Router>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -95,7 +100,9 @@ describe('ReportsPartialsCampaigns component', () => {
         }}
       >
         <IntlProvider>
-          <ReportsPartialsCampaigns />
+          <Router location="/reports/partials-campaigns">
+            <ReportsPartialsCampaigns />
+          </Router>
         </IntlProvider>
       </AppServicesProvider>,
     );

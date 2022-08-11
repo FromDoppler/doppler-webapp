@@ -51,13 +51,6 @@ describe('ContactPolicy component', () => {
     ),
   });
 
-  const mockedGoBack = jest.fn();
-  const initialProps = {
-    history: {
-      goBack: mockedGoBack,
-    },
-  };
-
   const ContactPolicyComponent = ({
     isEnabled = true,
     isActive = false,
@@ -71,7 +64,7 @@ describe('ContactPolicy component', () => {
       <AppServicesProvider forcedServices={services}>
         <BrowserRouter>
           <DopplerIntlProvider>
-            <ContactPolicy {...initialProps} />
+            <ContactPolicy />
           </DopplerIntlProvider>
         </BrowserRouter>
       </AppServicesProvider>
@@ -716,29 +709,6 @@ describe('ContactPolicy component', () => {
     // Interval field should be highlighted and error message should be displayed
     expect(inputInterval).toHaveClass('dp-error-input');
     expect(screen.getByText('contact_policy.error_invalid_range_msg_MD')).toBeInTheDocument();
-  });
-
-  it('should call go back function if back button is pressed', async () => {
-    // Act
-    render(<ContactPolicyComponent />);
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
-    user.click(switchButton);
-    switchButton = await screen.findByRole('checkbox');
-    expect(switchButton).toBeChecked();
-
-    // Click back button
-    const backButton = screen.getByRole('button', { name: 'common.back' });
-    user.click(backButton);
-
-    // Go back function should be called
-    expect(mockedGoBack).toBeCalledTimes(1);
   });
 
   it('should disable add list button if the maximum number of lists has been added', async () => {

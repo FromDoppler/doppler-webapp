@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { MemoryRouter as Router, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { getDefaultPlanType, PlanCalculator } from '.';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -55,9 +55,9 @@ describe('PlanCalculator component', () => {
           <Router
             initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculator />
-            </Route>
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -121,9 +121,9 @@ describe('PlanCalculator component', () => {
         <AppServicesProvider forcedServices={forcedServices}>
           <IntlProvider>
             <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[planType]}`]}>
-              <Route path="/plan-selection/premium/:planType?">
-                <PlanCalculator />
-              </Route>
+              <Routes>
+                <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+              </Routes>
             </Router>
           </IntlProvider>
         </AppServicesProvider>,
@@ -179,9 +179,9 @@ describe('PlanCalculator component', () => {
           <Router
             initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculator />
-            </Route>
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -230,9 +230,9 @@ describe('PlanCalculator component', () => {
           <Router
             initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculator />
-            </Route>
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -279,9 +279,9 @@ describe('PlanCalculator component', () => {
       <AppServicesProvider forcedServices={forcedServices}>
         <IntlProvider>
           <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`]}>
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculator />
-            </Route>
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -346,9 +346,9 @@ describe('PlanCalculator component', () => {
           <Router
             initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculator />
-            </Route>
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -414,9 +414,9 @@ describe('PlanCalculator component', () => {
           <Router
             initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculator />
-            </Route>
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanCalculator />} />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,

@@ -3,7 +3,7 @@ import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Subscribers from './Subscribers';
 import { MemoryRouter } from 'react-router';
 
@@ -66,15 +66,15 @@ describe('Subscribers component', () => {
   ];
 
   const SubscribersElement = ({ dependencies, route }) => (
-    <MemoryRouter initialEntries={[route]}>
-      <Route path="subscribers/:email/:section">
-        <AppServicesProvider forcedServices={dependencies}>
-          <IntlProvider>
-            <Subscribers />
-          </IntlProvider>
-        </AppServicesProvider>
-      </Route>
-    </MemoryRouter>
+    <AppServicesProvider forcedServices={dependencies}>
+      <IntlProvider>
+        <MemoryRouter initialEntries={[route]}>
+          <Routes>
+            <Route path="/subscribers/:email/:section" element={<Subscribers />} />
+          </Routes>
+        </MemoryRouter>
+      </IntlProvider>
+    </AppServicesProvider>
   );
 
   it('redirect to master subscriber when subscriber does not exist', async () => {
@@ -95,7 +95,10 @@ describe('Subscribers component', () => {
 
     // Act
     render(
-      <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/history" />,
+      <SubscribersElement
+        dependencies={dependencies}
+        route="/subscribers/mailt@mail.com/history"
+      />,
     );
     // Assert
     await waitFor(() =>
@@ -125,7 +128,7 @@ describe('Subscribers component', () => {
     render(
       <SubscribersElement
         dependencies={dependencies}
-        route="subscribers/mailt@mail.com/undefined"
+        route="/subscribers/mailt@mail.com/undefined"
       />,
     );
     // Assert
@@ -156,7 +159,10 @@ describe('Subscribers component', () => {
 
     // Act
     const { getByText } = render(
-      <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/history" />,
+      <SubscribersElement
+        dependencies={dependencies}
+        route="/subscribers/mailt@mail.com/history"
+      />,
     );
     // Assert
     await waitFor(() => expect(getByText('Manuel')).toBeInTheDocument());
@@ -184,7 +190,10 @@ describe('Subscribers component', () => {
 
     // Act
     const { getByText } = render(
-      <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/history" />,
+      <SubscribersElement
+        dependencies={dependencies}
+        route="/subscribers/mailt@mail.com/history"
+      />,
     );
     // Assert
     await waitFor(() => expect(getByText('subscriber.status.standBy')).toBeInTheDocument());
@@ -210,7 +219,7 @@ describe('Subscribers component', () => {
 
     // Act
     const { getAllByText } = render(
-      <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/gdpr" />,
+      <SubscribersElement dependencies={dependencies} route="/subscribers/mailt@mail.com/gdpr" />,
     );
     // Assert
     await waitFor(() => expect(getAllByText('subscriber_gdpr.title')[0]).toBeInTheDocument());
@@ -236,7 +245,7 @@ describe('Subscribers component', () => {
 
     // Act
     render(
-      <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/gdpr" />,
+      <SubscribersElement dependencies={dependencies} route="/subscribers/mailt@mail.com/gdpr" />,
     );
 
     //Assert
@@ -263,7 +272,10 @@ describe('Subscribers component', () => {
 
     // Act
     const { getByText } = render(
-      <SubscribersElement dependencies={dependencies} route="subscribers/mailt@mail.com/history" />,
+      <SubscribersElement
+        dependencies={dependencies}
+        route="/subscribers/mailt@mail.com/history"
+      />,
     );
 
     // Assert
