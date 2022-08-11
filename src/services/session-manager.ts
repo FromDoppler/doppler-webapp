@@ -1,7 +1,6 @@
 import { DopplerLegacyClient } from './doppler-legacy-client';
 import { AppSession } from './app-session';
 import { MutableRefObject } from 'react';
-import { ManualStatusClient } from './manual-status-client';
 import { addLogEntry } from '../utils';
 
 const noop = () => {};
@@ -15,9 +14,7 @@ export interface SessionManager {
 export class OnlineSessionManager implements SessionManager {
   private readonly appSessionRef: MutableRefObject<AppSession>;
   private readonly dopplerLegacyClient: DopplerLegacyClient;
-  private readonly manualStatusClient: ManualStatusClient;
   private readonly keepAliveMilliseconds: number;
-  private readonly appStatusOverrideEnabled: boolean;
 
   private handler: (s: AppSession) => void = noop;
   private dopplerInterval: number | null = null;
@@ -26,20 +23,14 @@ export class OnlineSessionManager implements SessionManager {
     appSessionRef,
     dopplerLegacyClient,
     keepAliveMilliseconds,
-    appStatusOverrideEnabled,
-    manualStatusClient,
   }: {
     appSessionRef: MutableRefObject<AppSession>;
     dopplerLegacyClient: DopplerLegacyClient;
     keepAliveMilliseconds: number;
-    appStatusOverrideEnabled: boolean;
-    manualStatusClient: ManualStatusClient;
   }) {
     this.appSessionRef = appSessionRef;
     this.dopplerLegacyClient = dopplerLegacyClient;
     this.keepAliveMilliseconds = keepAliveMilliseconds;
-    this.appStatusOverrideEnabled = appStatusOverrideEnabled;
-    this.manualStatusClient = manualStatusClient;
   }
 
   public initialize(handler: (s: AppSession) => void) {
@@ -108,13 +99,6 @@ export class OnlineSessionManager implements SessionManager {
           });
         }
         this.updateSession({ status: 'non-authenticated' });
-      }
-      if (this.appStatusOverrideEnabled) {
-        const manualStatusData = await this.manualStatusClient.getStatusData();
-        if (manualStatusData.offline) {
-          this.updateSession({ status: 'maintenance' });
-          return;
-        }
       }
     }
   }

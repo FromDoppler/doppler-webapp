@@ -27,7 +27,6 @@ interface AuthenticatedAppSessionWithDatahub
 export type AppSession =
   | { status: 'unknown' }
   | { status: 'non-authenticated' }
-  | { status: 'maintenance' }
   | AuthenticatedAppSessionWithoutDatahub
   | AuthenticatedAppSessionWithDatahub;
 

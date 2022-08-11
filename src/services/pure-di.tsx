@@ -11,7 +11,6 @@ import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
 import { DopplerSitesClient, HttpDopplerSitesClient } from './doppler-sites-client';
 import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
-import { HttpManualStatusClient, ManualStatusClient } from './manual-status-client';
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
@@ -74,7 +73,6 @@ export interface AppServices {
   dopplerBillingApiClient: DopplerBillingApiClient;
   dopplerUserApiClient: DopplerUserApiClient;
   captchaUtilsService: CaptchaUtilsService;
-  manualStatusClient: ManualStatusClient;
   utmCookiesManager: UtmCookiesManager;
   dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
   staticDataClient: StaticDataClient;
@@ -135,7 +133,6 @@ export class AppCompositionRoot implements AppServices {
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
       dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
-      appStatusOverrideEnabled: process.env.REACT_APP_MANUAL_STATUS_ENABLED === 'true',
       appStatusOverrideFileUrl: process.env.REACT_APP_MANUAL_STATUS_FILE_URL as string,
       dopplerContactPolicyApiUrl: process.env.REACT_APP_DOPPLER_CONTACT_POLICY_URL as string,
       dopplerUsersApiUrl: process.env.REACT_APP_DOPPLER_USERS_API_URL as string,
@@ -237,8 +234,6 @@ export class AppCompositionRoot implements AppServices {
           appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
           dopplerLegacyClient: this.dopplerLegacyClient,
           keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
-          appStatusOverrideEnabled: this.appConfiguration.appStatusOverrideEnabled,
-          manualStatusClient: this.manualStatusClient,
         }),
     );
   }
@@ -342,17 +337,6 @@ export class AppCompositionRoot implements AppServices {
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.reportingUrl,
           connectionDataRef: this.appSessionRef,
-        }),
-    );
-  }
-
-  get manualStatusClient() {
-    return this.singleton(
-      'manualStatusClient',
-      () =>
-        new HttpManualStatusClient({
-          axiosStatic: this.axiosStatic,
-          appStatusOverrideFileUrl: this.appConfiguration.appStatusOverrideFileUrl,
         }),
     );
   }
