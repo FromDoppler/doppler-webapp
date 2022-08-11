@@ -151,7 +151,9 @@ describe('GoToUpgrade Component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
-          <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`]}>
+          <Router
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+          >
             <Routes>
               <Route path="/plan-selection/premium/:planType" element={<GoToUpgrade />} />
             </Routes>
