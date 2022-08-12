@@ -488,7 +488,9 @@ function parsePlan(json: any) {
   json.CancelCampaignEnabled && features.push('cancelCampaign');
   json.SiteTrackingLicensed && features.push('siteTracking');
   json.SmartCampaignsEnabled && features.push('smartCampaigns');
-  json.ShippingLimitEnabled && features.push('shippingLimit');
+  // TODO: the features are available for all users.
+  // Analyze the treatment to clean the code related with them.
+  features.push('shippingLimit');
 
   const billingCycleDetails = json.DiscountXPlan.length
     ? json.DiscountXPlan.filter(

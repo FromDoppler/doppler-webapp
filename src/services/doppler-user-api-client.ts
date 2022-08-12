@@ -142,6 +142,8 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     }
   }
 
+  // TODO: it should be removed, the features are available for all users.
+  // [Related ticket](https://makingsense.atlassian.net/browse/DOP-1097)
   public async getFeatures(): Promise<ResultWithoutExpectedErrors<Features>> {
     try {
       const { email, jwtToken } = this.getDopplerUserApiConnectionData();
