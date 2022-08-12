@@ -9,7 +9,7 @@ export class HardcodedDopplerSitesClient implements DopplerSitesClient {
     const response: any = {
       title: 'mi funcionalidad',
       functionality: 'mi funcionalidad',
-      description: 'mi descripcion',
+      description: '<p>mi descripcion</p>',
       image_url: 'https://qa.fromdoppler.com/wp-content/uploads/2019/06/login-es.746bf048.png',
       background_url: 'https://qa.fromdoppler.com/wp-content/uploads/2019/06/violet-yellow.png',
       font_color: '#000',
