@@ -308,12 +308,13 @@ export const ShoppingList = ({ state, planType, promotion }) => {
     discountPlanFeeAdmin,
   } = state.amountDetails;
 
+  const extraCredits = promotion?.extraCredits ?? discountPromocode?.extraCredits;
   return (
     <ul className="dp-summary-list">
       <PlanInformation plan={plan} planType={planType} discount={discount} />
-      {promotion?.extraCredits > 0 && (
+      {extraCredits > 0 && (
         <li>
-          <CreditsPromocode extraCredits={promotion.extraCredits} />
+          <CreditsPromocode extraCredits={extraCredits} />
         </li>
       )}
       {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
@@ -505,7 +506,7 @@ export const PurchaseSummary = InjectAppServices(
           <h3>{getPlanTypeTitle()}</h3>
           <ShoppingList state={state} planType={planType} promotion={state.promotion} />
           <hr className="dp-hr-grey" />
-          {isFree && (
+          {(isFree || planType === PLAN_TYPE.byCredit) && (
             <div>
               <Promocode
                 allowPromocode={!state.discount ? true : state.discount.applyPromo}
