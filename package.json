@@ -8,7 +8,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^7.0.2",
-    "@typeform/embed-react": "^1.13.0",
+    "@typeform/embed-react": "^1.19.0",
     "@types/intl-tel-input": "^17.0.4",
     "@types/jest": "^28.1.6",
     "@types/jwt-decode": "^3.1.0",
