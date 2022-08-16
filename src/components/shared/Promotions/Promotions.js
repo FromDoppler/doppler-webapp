@@ -55,7 +55,7 @@ const Promotions = function ({ type, page, dependencies: { dopplerSitesClient } 
           <article className="feature-content">
             <h6>{state.bannerData.functionality}</h6>
             <h1>{state.bannerData.title}</h1>
-            <p>{state.bannerData.description}</p>
+            <div dangerouslySetInnerHTML={{ __html: state.bannerData.description }} />
           </article>
           <figure className="content-img">
             <img src={state.bannerData.imageUrl} alt="" />
