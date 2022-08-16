@@ -13,6 +13,7 @@ import {
   fakePromotion,
   fakePlanAmountDetails,
   fakePlanAmountDetailsWithAdminDiscount,
+  fakePrepaidPlan,
 } from '../../../../services/doppler-account-plans-api-client.double';
 import user from '@testing-library/user-event';
 import { PLAN_TYPE } from '../../../../doppler-types';
@@ -879,6 +880,53 @@ describe('PurchaseSummary component - Upgrade plan', () => {
           user: {
             email: 'hardcoded@email.com',
             plan: {
+              planType: '2',
+              planSubscription: 1,
+              monthPlan: 1,
+              isFreeAccount: false,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <PurchaseSummaryElement
+        url={`checkout/standard/subscribers`}
+        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
+        currentUser={currentUser}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.queryByText('checkoutProcessForm.purchase_summary.promocode_header')).toBeNull();
+  });
+
+  it('should show the promocode section', async () => {
+    // Arrange
+    const fakePlan = fakePrepaidPlan;
+    const dopplerAccountPlansApiClientDouble = {
+      ...dopplerAccountPlansApiClientDoubleBase,
+      getPlanData: async () => {
+        return { success: true, value: fakePlan };
+      },
+      getPlanAmountDetailsData: async () => {
+        return { success: true, value: fakePlanAmountDetails };
+      },
+    };
+
+    const currentUser = {
+      current: {
+        userData: {
+          user: {
+            email: 'hardcoded@email.com',
+            plan: {
               planType: '1',
               planSubscription: 1,
               monthPlan: 1,
@@ -892,7 +940,7 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/prepaid`}
+        url={`checkout/premium/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUser}
@@ -904,7 +952,9 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.queryByText('checkoutProcessForm.purchase_summary.promocode_header')).toBeNull();
+    expect(
+      screen.queryByText('checkoutProcessForm.purchase_summary.promocode_header'),
+    ).not.toBeNull();
   });
 
   it('should show the geneal discount when the user has an admin discount', async () => {

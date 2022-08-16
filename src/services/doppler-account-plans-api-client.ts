@@ -44,6 +44,7 @@ export interface DiscountPrepayment {
 export interface DiscountPromocode {
   discountPercentage: number;
   amount: number;
+  extraCredits: number;
 }
 
 export interface PlanAmountDetails {
