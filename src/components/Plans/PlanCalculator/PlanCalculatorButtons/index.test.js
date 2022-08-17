@@ -122,9 +122,8 @@ describe('PlanCalculator component', () => {
     expect(purchaseLink).not.toHaveClass('disabled');
     expect(purchaseLink).toHaveAttribute(
       'href',
-      'common.control_panel_section_url' +
-        `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${selectedPlanId}&fromStep1=True` +
-        `&IdDiscountPlan=${selectedDiscount.id}` +
+      `/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=${selectedPlanId}` +
+        `&discountId=${selectedDiscount.id}` +
         `&PromoCode=fake-promo-code&origin_inbound=fake`,
     );
   });
@@ -349,5 +348,52 @@ describe('PlanCalculator component', () => {
     // Assert
     const purchaseLink = screen.getByText('plan_calculator.button_purchase');
     expect(purchaseLink).toHaveClass('disabled');
+  });
+
+  it('should go to new checkout when the account type is by credits', async () => {
+    // Arrange
+    const selectedPlanId = 2;
+    const fakeForcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.byCredit,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={fakeForcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[
+              `/plan-selection/premium/${
+                URL_PLAN_TYPE[PLAN_TYPE.byCredit]
+              }?promo-code=fake-promo-code&origin_inbound=fake`,
+            ]}
+          >
+            <Route path="/plan-selection/premium/:planType?">
+              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
+            </Route>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const purchaseLink = screen.getByText('plan_calculator.button_purchase');
+    expect(purchaseLink).not.toHaveClass('disabled');
+    expect(purchaseLink).toHaveAttribute(
+      'href',
+      `/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=${selectedPlanId}` +
+        `&PromoCode=fake-promo-code&origin_inbound=fake`,
+    );
   });
 });

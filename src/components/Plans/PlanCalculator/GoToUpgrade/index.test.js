@@ -62,14 +62,14 @@ describe('GoToUpgrade Component', () => {
     expect(planCalculatorTitle).toBeInTheDocument();
   });
 
-  it('should go to buy credits page when is a credits account', async () => {
+  it('should go to plan calculator when is a credits account', async () => {
     //Arrange
     const dependencies = getDependencies(
       {
         isFreeAccount: false,
         planType: PLAN_TYPE.byCredit,
       },
-      [PLAN_TYPE.byCredit],
+      [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit],
     );
 
     //Act
@@ -78,7 +78,7 @@ describe('GoToUpgrade Component', () => {
         <Router
           initialEntries={[
             `/plan-selection/premium/${
-              URL_PLAN_TYPE[PLAN_TYPE.byContact]
+              URL_PLAN_TYPE[PLAN_TYPE.byCredit]
             }?PromoCode=S4NV4L3NT1N&origin_inbound=fake`,
           ]}
         >
@@ -92,14 +92,8 @@ describe('GoToUpgrade Component', () => {
     );
 
     //Assert
-    const planCalculatorTitle = screen.queryByText('plan_calculator.plan_premium_title');
-    expect(planCalculatorTitle).not.toBeInTheDocument();
-
-    const loader = screen.getByTestId('loading-box');
-    expect(loader).toBeInTheDocument();
-
-    const partialUrl = `/ControlPanel/AccountPreferences/BuyCreditsStep1?PromoCode=S4NV4L3NT1N&origin_inbound=fake`;
-    expect(window.location.href).toBe(`${process.env.REACT_APP_DOPPLER_LEGACY_URL}${partialUrl}`);
+    const planCalculatorTitle = await screen.findByText('plan_calculator.plan_premium_title');
+    expect(planCalculatorTitle).toBeInTheDocument();
   });
 
   it('should go to plan calculator when is a emails account', async () => {
