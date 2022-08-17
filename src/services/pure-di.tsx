@@ -1,6 +1,6 @@
 import axios, { AxiosStatic } from 'axios';
 import { HttpDopplerLegacyClient, DopplerLegacyClient } from './doppler-legacy-client';
-import { OnlineSessionManager, SessionManager } from './session-manager';
+import { SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
@@ -34,6 +34,7 @@ import { ControlPanelService } from './control-panel-service';
 import { HttpReportClient, ReportClient } from './reports';
 import { CampaignSummaryService } from './campaignSummary';
 import { ContactSummaryService } from './contactSummary';
+import { SessionMfeSessionManager } from './sessionmfe-session-manager';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
@@ -229,11 +230,10 @@ export class AppCompositionRoot implements AppServices {
     return this.singleton(
       'sessionManager',
       () =>
-        new OnlineSessionManager({
+        new SessionMfeSessionManager({
           // Casting because only he will be allowed to update session
           appSessionRef: this.appSessionRef as MutableRefObject<AppSession>,
-          dopplerLegacyClient: this.dopplerLegacyClient,
-          keepAliveMilliseconds: this.appConfiguration.dopplerLegacyKeepAliveMilliseconds,
+          window: this.window,
         }),
     );
   }
