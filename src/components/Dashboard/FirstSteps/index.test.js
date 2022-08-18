@@ -31,16 +31,10 @@ describe('FirstSteps component', () => {
     await waitForElementToBeRemoved(loader, { timeout: 4500 });
 
     const firstSteps = firstStepsData.firstSteps;
-    const notifications = firstStepsData.notifications;
     const allSteps = screen.getAllByRole('alert', { name: 'step' });
-    const allNotifications = screen.getAllByRole('alert', { name: 'notification' });
     firstSteps.forEach((step, index) => {
       const node = allSteps[index];
       expect(getByText(node, step.titleId)).toBeInTheDocument();
-    });
-    notifications.forEach((notification, index) => {
-      const node = allNotifications[index];
-      expect(getByText(node, notification.titleId)).toBeInTheDocument();
     });
   });
 });

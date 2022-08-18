@@ -1,12 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { ActionBox } from '.';
 import '@testing-library/jest-dom/extend-expect';
-import {
-  COMPLETED_STATUS,
-  INFO_BY_STATE,
-  PENDING_STATUS,
-  WARNING_STATUS,
-} from '../reducers/firstStepsReducer';
+import { COMPLETED_STATUS, PENDING_STATUS } from '../reducers/firstStepsReducer';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const initialStepData = {
@@ -35,31 +30,43 @@ describe('ActionBox component', () => {
     expect(screen.getByText(props.descriptionId)).toBeInTheDocument();
   });
 
-  describe.each([
-    ['should render ActionBox component when status is pending', PENDING_STATUS],
-    ['should render ActionBox component when status is complete', COMPLETED_STATUS],
-    ['should render ActionBox component when status is warning', WARNING_STATUS],
-  ])('different states', (testName, status) => {
-    it(testName, () => {
-      // Arrange
-      const props = {
-        ...initialStepData,
-        status,
-        textStep: 2,
-      };
+  it('should render ActionBox component when status is pending', () => {
+    // Arrange
+    const props = {
+      ...initialStepData,
+      status: PENDING_STATUS,
+      textStep: 1,
+    };
 
-      // Act
-      const { container } = render(
-        <IntlProvider>
-          <ActionBox {...props} />
-        </IntlProvider>,
-      );
+    // Act
+    const { container } = render(
+      <IntlProvider>
+        <ActionBox {...props} />
+      </IntlProvider>,
+    );
 
-      // Arrange
-      expect(container.querySelector(`.${INFO_BY_STATE[status].classNames}`)).toBeInTheDocument();
-      if (props.status === PENDING_STATUS) {
-        expect(screen.getByText(props.textStep)).toBeInTheDocument();
-      }
-    });
+    // Arrange
+    expect(container.querySelector(`.dp-checked`)).not.toBeInTheDocument();
+    expect(screen.getByText(props.textStep)).toBeInTheDocument();
+  });
+
+  it('should render ActionBox component when status is complete', () => {
+    // Arrange
+    const props = {
+      ...initialStepData,
+      status: COMPLETED_STATUS,
+      textStep: 1,
+    };
+
+    // Act
+    const { container } = render(
+      <IntlProvider>
+        <ActionBox {...props} />
+      </IntlProvider>,
+    );
+
+    // Arrange
+    expect(container.querySelector(`.dp-checked`)).toBeInTheDocument();
+    expect(screen.queryByText(props.textStep)).not.toBeInTheDocument();
   });
 });

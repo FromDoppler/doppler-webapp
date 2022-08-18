@@ -512,23 +512,22 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     },
     first_steps: {
       has_campaings_created_description_MD: `
-<Paragraph>Podrás elegir entre <Bold>tres tipos de Campañas</Bold> de acuerdo a tus objetivos de negocio. <Bold><Link>¡Pon manos a la obra!</Link></Bold></Paragraph>
-
-<Paragraph>¿Quieres ir más lejos? ¡Prueba <Bold>con Flujos Automatizados de Email y SMS</Bold>!</Paragraph>`,
-      has_campaings_created_title: `<Link>Crea tu primera Campaña</Link>`,
+<Paragraph>Elige el tipo de campaña que se adapta mejor a ti y <Bold><Link>haz tu primer envío</Link></Bold>.</Paragraph>
+      `,
+      has_campaings_created_title: `Crea tu primer campaña`,
       has_campaings_created_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
       has_campaings_sent_description_MD: `
-<Paragraph>Analizar sus resultados es fundamental para <Bold>tomar decisiones y optimizar</Bold> tu estrategia. <Bold><Link>Descubre la sección de Reportes</Link></Bold>.</Paragraph>
+<Paragraph><Bold><Link>Realiza el seguimiento de tus métricas</Link></Bold> en el reporte de cada campaña que envíes.</Paragraph>
       `,
-      has_campaings_sent_title: `<Link>Revisa las métricas de tu Campaña</Link>`,
+      has_campaings_sent_title: `Revisa tus resultados`,
       has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
-<Paragraph>Hazlo antes de enviar tu primera Campaña y asegúrate de que <Bold>llegue a la Bandeja de Entrada</Bold> de tus Contactos. <Bold><Link>Actívalos ahora</Link></Bold>.</Paragraph>
+<Paragraph><Bold><Link>Configura DKIM y SPF</Link></Bold> para que tus contactos puedan recibir tus envíos exitosamente.</Paragraph>
       `,
-      has_domains_ready_title: `<Link>Configura DKIM y SPF</Link>`,
+      has_domains_ready_title: `Asegurate de no terminar en Spam`,
       has_domains_ready_url: `${urlDkim}`,
-      has_list_created_description_MD: `<Paragraph>Comienza importando un <Bold>archivo en Doppler con tu Base de Datos</Bold>. ¡Rápido y sencillo! <Bold><Link>Hazlo ahora</Link></Bold>.</Paragraph>`,
-      has_list_created_title: `<Link>Crea una Lista y añade Contactos</Link>`,
+      has_list_created_description_MD: `<Paragraph><Bold><Link>Crea una lista</Link></Bold> agregando tus contactos, o haz un formulario y consigue nuevos.</Paragraph>`,
+      has_list_created_title: `Crea tu primer lista`,
       has_list_created_url: `${urlCreateSubscriberList}`,
       section_name: 'Primeros pasos en Doppler',
       welcome_description_MD: `¿Quieres hacer del Email Marketing tu mejor aliado? Pon en marcha tu estrategia con estas **4 acciones** 👇`,
