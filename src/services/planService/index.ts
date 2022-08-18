@@ -100,14 +100,7 @@ export const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] =
       return planList;
 
     case PLAN_TYPE.byCredit:
-      return [
-        ...filterPlansByType(PLAN_TYPE.byCredit, planList),
-        ...filterPlansByType(PLAN_TYPE.byEmail, planList),
-        ...getPotentialUpgradesPlansByContact(planList, {
-          minFee: 0,
-          minSubscriberLimit: userPlan.subscribersCount,
-        }),
-      ];
+      return [...filterPlansByType(PLAN_TYPE.byCredit, planList)];
 
     case PLAN_TYPE.byEmail:
       return [
@@ -118,25 +111,12 @@ export const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] =
       ];
 
     case PLAN_TYPE.byContact:
-      if (userPlan.currentSubscription === 1) {
-        return [
-          ...getPotentialUpgradesPlansByContact(planList, {
-            minFee: userPlan.fee,
-            minSubscriberLimit: userPlan.subscriberLimit,
-          }),
-          ...getPotentialUpgradesPlansByEmail(planList, {
-            minFee: userPlan.fee,
-            minEmailsByMonth: 0,
-          }),
-        ];
-      } else {
-        return [
-          ...getPotentialUpgradesPlansByContact(planList, {
-            minFee: userPlan.fee,
-            minSubscriberLimit: userPlan.subscriberLimit,
-          }),
-        ];
-      }
+      return [
+        ...getPotentialUpgradesPlansByContact(planList, {
+          minFee: userPlan.fee,
+          minSubscriberLimit: userPlan.subscriberLimit,
+        }),
+      ];
     default:
       return [];
   }
