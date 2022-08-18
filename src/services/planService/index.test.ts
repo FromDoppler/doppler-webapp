@@ -80,7 +80,7 @@ describe('planService', () => {
       expect(orderPlanTypes).toEqual([PLAN_TYPE.byEmail]);
     });
 
-    it('should return plans by credit, email and contact when the plan is credit', async () => {
+    it('should return plans by credit when the plan is credit', async () => {
       // Arrange
       const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
       const appSessionRef = getAppSessionRef({ planType: PLAN_TYPE.byCredit, subscribersCount: 0 });
@@ -90,10 +90,10 @@ describe('planService', () => {
       const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
-      expect(orderPlanTypes).toEqual(firstPlansDefaultOrder);
+      expect(orderPlanTypes).toEqual([PLAN_TYPE.byCredit]);
     });
 
-    it('should return plans by email and contact when the plan is contact and monthly', async () => {
+    it('should return plans by contact when the plan is contact', async () => {
       // Arrange
       const planByContact = allPlans.find((plan) => plan.type === PLAN_TYPE.byContact);
       const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
@@ -108,9 +108,7 @@ describe('planService', () => {
       const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
-      expect(orderPlanTypes).toEqual(
-        firstPlansDefaultOrder.filter((planType) => planType !== PLAN_TYPE.byCredit),
-      );
+      expect(orderPlanTypes).toEqual([PLAN_TYPE.byContact]);
     });
 
     it('should return plan by contact when the plan is contact and annual', async () => {
