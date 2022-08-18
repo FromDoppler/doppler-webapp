@@ -3,9 +3,9 @@ import { ResultWithoutExpectedErrors } from '../../doppler-types';
 import { SystemUsageSummary, SystemUsageSummaryClient } from './SystemUsageSummary';
 
 export const fakeSystemUsageSummary = {
-  hasListsCreated: false,
+  hasListsCreated: true,
   hasDomainsReady: false,
-  hasCampaingsCreated: true,
+  hasCampaingsCreated: false,
   hasCampaingsSent: false,
 };
 

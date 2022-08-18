@@ -495,7 +495,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     campaigns: {
       link_title: 'VER TODAS',
       link_title_url: `${urlDopplerLegacy}/Campaigns/Sent/`,
-      overlayMessage: `Aquí verás información relevante sobre tus Campañas. **[Crea tu Campaña](${urlDopplerLegacy}/Campaigns/BasicInfo)**.`,
+      overlayMessage: `Aquí encontrarás información sobre el rendimiento de tus últimas campañas.`,
+      overlayMessageButton: '<Link>Crear una campaña</Link>',
       section_name: 'Mis Campañas',
       totalCampaigns: 'Envíos totales',
       totalCtr: 'Tasa de Clics',
@@ -504,7 +505,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     contacts: {
       link_title: 'VER TODOS',
       link_title_url: `${urlMasterSubscriber}`,
-      overlayMessage: `Aquí verás información relevante sobre tus Contactos. **[Crea una Lista y añade Contactos](${urlCreateSubscriberList})**.`,
+      overlayMessage: `Aquí encontrarás los datos más relevantes sobre tus listas de contactos.`,
+      overlayMessageButton: '<Link>Agregar contactos</Link>',
       section_name: 'Mis Contactos',
       totalContacts: 'Contactos',
       totalNewContacts: 'Contactos nuevos',

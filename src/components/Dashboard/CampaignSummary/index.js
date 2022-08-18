@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
-import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeCampaignsSummary } from '../../../services/reports/index.double';
 import { Kpi } from '../Kpis/Kpi';
 import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from '../Kpis/KpiGroup';
+import { OverlaySection } from '../OverlaySection';
 import {
   ACTIONS_CAMPAIGNS_SUMMARY,
   campaignSummaryReducer,
@@ -53,7 +53,13 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
       <KpiGroup
         loading={loading}
         disabled={showOverlay}
-        overlay={<FormattedMessageMarkdown id="dashboard.campaigns.overlayMessage" />}
+        overlay={
+          <OverlaySection
+            messageKey="dashboard.campaigns.overlayMessage"
+            textLinkKey="dashboard.campaigns.overlayMessageButton"
+            urlKey="dashboard.first_steps.has_campaings_created_url"
+          />
+        }
       >
         {kpis.map((kpi) => (
           <Kpi key={kpi.id} {...kpi} />
