@@ -266,7 +266,7 @@ const messages_es = {
       header: 'Resumen de compra',
       month_with_plural: `{monthsCount, plural, one {# mes}other {# meses} }`,
       months_to_hire: 'Meses a contratar:',
-      months_to_pay: 'Meses a abonar:',
+      months_to_pay: 'Diferencia de meses a abonar:',
       plan_premium_title: 'Plan PREMIUM',
       plan_type_monthly_deliveries: 'por Envíos',
       plan_type_monthly_deliveries_label: 'Envíos:',
