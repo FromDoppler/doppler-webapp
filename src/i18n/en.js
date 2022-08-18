@@ -264,7 +264,7 @@ const messages_en = {
       header: 'Purchase summary',
       month_with_plural: `{monthsCount, plural, one {# month}other {# months} }`,
       months_to_hire: 'Months to hire:',
-      months_to_pay: 'Months to pay:',
+      months_to_pay: 'Difference of months to pay:',
       plan_premium_title: 'PREMIUM Plan',
       plan_type_monthly_deliveries: 'by Emails',
       plan_type_monthly_deliveries_label: 'Emails',
