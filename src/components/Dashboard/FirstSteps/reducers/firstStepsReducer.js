@@ -3,21 +3,7 @@ import { fakeSystemUsageSummary } from '../../../../services/dashboardService/Sy
 
 export const PENDING_STATUS = 0;
 export const COMPLETED_STATUS = 1;
-export const WARNING_STATUS = 2;
-export const UNKNOWN_STATUS = 3;
-
-// TODO: move to ActionBox component
-export const INFO_BY_STATE = {
-  [PENDING_STATUS]: {
-    classNames: 'dp-postcard--number',
-  },
-  [COMPLETED_STATUS]: {
-    classNames: 'dp-postcard--success',
-  },
-  [WARNING_STATUS]: {
-    classNames: 'dp-postcard--warning',
-  },
-};
+export const UNKNOWN_STATUS = 2;
 
 export const initFirstStepsReducer = (state) => ({
   ...state,

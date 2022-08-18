@@ -496,7 +496,8 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     campaigns: {
       link_title: 'SEE ALL',
       link_title_url: `${urlDopplerLegacy}/Campaigns/Sent/`,
-      overlayMessage: `Here you’ll see some relevant information about your Campaigns. **[Create your Campaign](${urlDopplerLegacy}/Campaigns/BasicInfo)**.`,
+      overlayMessage: `Here you will find information about the performance of your latest campaigns.`,
+      overlayMessageButton: '<Link>Create campaign</Link>',
       section_name: 'My Campaigns',
       totalCampaigns: 'Total sends',
       totalCtr: 'Click Through Rate',
@@ -505,7 +506,8 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     contacts: {
       link_title: 'SEE ALL',
       link_title_url: `${urlMasterSubscriber}`,
-      overlayMessage: `Here you’ll see some relevant information about your Contacts. **[Create a List and add Contacts](${urlCreateSubscriberList})**.`,
+      overlayMessage: `Here you will find the most relevant data about your contact lists.`,
+      overlayMessageButton: '<Link>Add contacts</Link>',
       section_name: 'My Contacts',
       totalContacts: 'Contacts',
       totalNewContacts: 'New Contacts',
@@ -513,23 +515,22 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     first_steps: {
       has_campaings_created_description_MD: `
-<Paragraph>You can choose between <Bold>three Campaigns types</Bold> according to your business goals. <Bold><Link>Get down to work!</Link></Bold></Paragraph>
-
-<Paragraph>Want to go further? Try <Bold>Automatized Email and SMS Flows!</Bold></Paragraph>`,
-      has_campaings_created_title: `<Link>Create your first Campaign</Link>`,
+<Paragraph>Choose the type of campaign that suits best for your business and <Bold><Link>send your first campaign</Link></Bold>.</Paragraph>
+      `,
+      has_campaings_created_title: `Create your first Campaign`,
       has_campaings_created_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
       has_campaings_sent_description_MD: `
-<Paragraph>Analyze it's results is essential to <Bold>take decisions and optimize</Bold> your strategy. <Bold><Link>Discover the Doppler Reports section</Link></Bold>.</Paragraph>
+<Paragraph><Bold><Link>Track the metrics</Link></Bold> for each campaign you have sent to see how they performed.</Paragraph>
       `,
-      has_campaings_sent_title: `<Link>Look at the metrics of your Campaign</Link>`,
+      has_campaings_sent_title: `Review the reports of your campaigns`,
       has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
-<Paragraph>Do it before sending your first Campaign, and make sure it will <Bold>reach your Contacts Inbox</Bold>. <Bold><Link>Activate them now</Link></Bold>.</Paragraph>
+<Paragraph><Bold><Link>Configure DKIM & SPF</Link></Bold> so that your contacts can receive your mailings successfully.</Paragraph>
       `,
-      has_domains_ready_title: `<Link>Configure DKIM and SPF</Link>`,
+      has_domains_ready_title: `Avoid ending up in spam`,
       has_domains_ready_url: `${urlDkim}`,
-      has_list_created_description_MD: `<Paragraph>Start importing a <Bold>file at Doppler with your Database</Bold>. Fast and simple! <Bold><Link>Do it now</Link></Bold>.</Paragraph>`,
-      has_list_created_title: `<Link>Create a List and add Contacts</Link>`,
+      has_list_created_description_MD: `<Paragraph><Bold><Link>Create a list</Link></Bold> by adding your contacts, or create a form and get new ones. </Paragraph>`,
+      has_list_created_title: `Create your first list`,
       has_list_created_url: `${urlCreateSubscriberList}`,
       section_name: 'First steps in Doppler',
       welcome_description_MD: `Want to boost your business with Email Marketing? Start doing these **4 actions** 👇`,

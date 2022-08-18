@@ -1,39 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  COMPLETED_STATUS,
-  INFO_BY_STATE,
-  PENDING_STATUS,
-  WARNING_STATUS,
-} from '../reducers/firstStepsReducer';
+import { COMPLETED_STATUS, PENDING_STATUS } from '../reducers/firstStepsReducer';
 
 export const ActionBox = ({ status, titleId, descriptionId, textStep, link, trackingId }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <div
-      className={`dp-postcard ${INFO_BY_STATE[status].classNames}`}
-      role="alert"
-      aria-label="step"
-    >
-      <header>
-        <span className="dp-iconpostcard">{status === PENDING_STATUS ? textStep : ''}</span>
-        <FormattedMessage
-          id={titleId}
-          values={{
-            Link: (chunk) => (
-              <h4>
-                <a href={_(link)} id={trackingId}>
-                  {chunk}
-                </a>
-              </h4>
-            ),
-          }}
-        />
-      </header>
-      <article>
+    <div role="alert" aria-label="step">
+      {status === COMPLETED_STATUS ? (
+        <span className="dp-stepper-number dp-checked" />
+      ) : (
+        <span className="dp-stepper-number">{textStep}</span>
+      )}
+      <h4 className={status === COMPLETED_STATUS ? 'dp-crossed-text' : ''}>
+        <FormattedMessage id={titleId} />
+      </h4>
+      {status !== COMPLETED_STATUS && (
         <FormattedMessage
           id={descriptionId}
           values={{
@@ -46,13 +30,13 @@ export const ActionBox = ({ status, titleId, descriptionId, textStep, link, trac
             Bold: (chunk) => <strong>{chunk}</strong>,
           }}
         />
-      </article>
+      )}
     </div>
   );
 };
 
 ActionBox.propTypes = {
-  status: PropTypes.oneOf([PENDING_STATUS, COMPLETED_STATUS, WARNING_STATUS]).isRequired,
+  status: PropTypes.oneOf([PENDING_STATUS, COMPLETED_STATUS]).isRequired,
   titleId: PropTypes.string.isRequired,
   descriptionId: PropTypes.string,
   textStep: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

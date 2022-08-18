@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
-import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeContactsSummary } from '../../../services/reports/index.double';
 import { Kpi } from '../Kpis/Kpi';
 import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from '../Kpis/KpiGroup';
+import { OverlaySection } from '../OverlaySection';
 import {
   ACTIONS_CONTACTS_SUMMARY,
   contactSummaryReducer,
@@ -52,7 +52,13 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
       <KpiGroup
         loading={loading}
         disabled={showOverlay}
-        overlay={<FormattedMessageMarkdown id="dashboard.contacts.overlayMessage" />}
+        overlay={
+          <OverlaySection
+            messageKey="dashboard.contacts.overlayMessage"
+            textLinkKey="dashboard.contacts.overlayMessageButton"
+            urlKey="dashboard.first_steps.has_list_created_url"
+          />
+        }
       >
         {kpis.map((kpi) => (
           <Kpi key={kpi.id} {...kpi} />
