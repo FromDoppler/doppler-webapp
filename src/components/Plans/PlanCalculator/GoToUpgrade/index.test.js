@@ -96,8 +96,8 @@ describe('GoToUpgrade Component', () => {
     );
 
     //Assert
-    const planCalculatorTitle = screen.queryByText('plan_calculator.plan_premium_title');
-    expect(planCalculatorTitle).not.toBeInTheDocument();
+    const planCalculatorTitle = await screen.findByText('plan_calculator.plan_premium_title');
+    expect(planCalculatorTitle).toBeInTheDocument();
   });
 
   it('should go to plan calculator when is a emails account', async () => {

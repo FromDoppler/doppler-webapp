@@ -363,9 +363,12 @@ describe('PlanCalculator component', () => {
               `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
-            </Route>
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={<PlanCalculatorButtons selectedPlanId={selectedPlanId} />}
+              />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -405,9 +408,12 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
-            </Route>
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={<PlanCalculatorButtons selectedPlanId={selectedPlanId} />}
+              />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
