@@ -18,7 +18,7 @@ import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { extractParameter, isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
 import * as S from './Signup.styles';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
@@ -112,23 +112,6 @@ const Signup = function ({
     setBlockedDomains((x) => [...x, domain]);
   };
 
-  if (registeredUser) {
-    const resend = (captchaResponseToken) =>
-      dopplerLegacyClient.resendRegistrationEmail({
-        email: registeredUser,
-        captchaResponseToken: captchaResponseToken,
-      });
-    return (
-      <Redirect
-        to={{
-          pathname: '/signup/confirmation',
-          status: { resend: resend },
-          search: location.search,
-        }}
-      />
-    );
-  }
-
   const validate = (values) => {
     const errors = {};
 
@@ -206,6 +189,23 @@ const Signup = function ({
       setSubmitting(false);
     }
   };
+
+  if (registeredUser) {
+    const resend = (captchaResponseToken) =>
+      dopplerLegacyClient.resendRegistrationEmail({
+        email: registeredUser,
+        captchaResponseToken: captchaResponseToken,
+      });
+    return (
+      <Navigate
+        to={{
+          pathname: '/signup/confirmation',
+          search: location.search,
+        }}
+        state={{ resend }}
+      />
+    );
+  }
 
   return (
     <div className="dp-app-container">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { InjectAppServices } from '../services/pure-di';
 import Login from './Login/Login';
 import Signup from './Signup/Signup';
@@ -30,10 +30,7 @@ function loginRedirectionDataResolver(routeComponentProps, location) {
     page: '/SignIn/',
     parameters: [],
   };
-  const from =
-    routeComponentProps.location &&
-    routeComponentProps.location.state &&
-    routeComponentProps.location.state.from;
+  const from = routeComponentProps.state?.from;
   if (from) {
     const basePath = `${location.protocol}//${location.host}${location.pathname}`;
     const appPath = `${from.pathname}${from.search}${from.hash}`;
@@ -65,57 +62,47 @@ function forgotPasswordRedirectionDataResolver() {
  * @param { import('../services/app-session').AppSession } props.dopplerSession
  */
 function PublicRouteWithLegacyFallback({
-  path,
   dependencies: {
     appConfiguration: { dopplerLegacyUrl, useLegacy },
     window: { location },
   },
-  ...rest
 }) {
-  const page = pagesByPath[path];
+  const routeComponentProps = useLocation();
+  const page = pagesByPath[routeComponentProps.pathname];
   if (!page) {
-    throw new Error(`${path} is an invalid path for PublicRouteWithLegacyFallback`);
+    throw new Error(
+      `${routeComponentProps.pathname} is an invalid path for PublicRouteWithLegacyFallback`,
+    );
   }
 
-  return (
-    <>
-      <Helmet>
-        <body className="showZohoTitleDiv" />
-      </Helmet>
-      <Route
-        {...rest}
-        render={(props) => {
-          const forceWebapp = /[?&]force-webapp(&.*)?$/.test(props.location.search);
-          const forceLegacy = /[?&]force-legacy(&.*)?$/.test(props.location.search);
+  const forceWebapp = /[?&]force-webapp(&.*)?$/.test(routeComponentProps.search);
+  const forceLegacy = /[?&]force-legacy(&.*)?$/.test(routeComponentProps.search);
+  if (forceWebapp || (!forceLegacy && (!useLegacy || !useLegacy[page.name]))) {
+    const Component = page.webAppComponent;
+    return (
+      <>
+        <Helmet>
+          <body className="showZohoTitleDiv" />
+        </Helmet>
+        <Component location={routeComponentProps} />
+      </>
+    );
+  }
 
-          if (forceWebapp || (!forceLegacy && (!useLegacy || !useLegacy[page.name]))) {
-            const Component = page.webAppComponent;
-            return <Component {...props} />;
-          }
+  const redirectionData = page.legacyRedirectDataResolver(routeComponentProps, location);
 
-          const redirectionData = page.legacyRedirectDataResolver(props, location);
+  // TODO: improve this parsing code and logic
+  // TODO: consider send language, lang and id parameters based on current locale
+  if (routeComponentProps.search?.[0] === '?') {
+    const currentParameters = routeComponentProps.search.substring(1);
+    redirectionData.parameters.push(currentParameters);
+  }
 
-          // TODO: improve this parsing code and logic
-          // TODO: consider send language, lang and id parameters based on current locale
-          if (
-            props.location.search &&
-            props.location.search.length &&
-            props.location.search[0] === '?'
-          ) {
-            const currentParameters = props.location.search.substring(1);
-            redirectionData.parameters.push(currentParameters);
-          }
+  const parametersString = redirectionData.parameters.filter((x) => !!x).join('&');
+  const destinationUrl =
+    `${dopplerLegacyUrl}${redirectionData.page}` + (parametersString && '?' + parametersString);
 
-          const parametersString = redirectionData.parameters.filter((x) => !!x).join('&');
-          const destinationUrl =
-            `${dopplerLegacyUrl}${redirectionData.page}` +
-            (parametersString && '?' + parametersString);
-
-          return <RedirectToExternalUrl to={destinationUrl} />;
-        }}
-      />
-    </>
-  );
+  return <RedirectToExternalUrl to={destinationUrl} />;
 }
 
 export default InjectAppServices(PublicRouteWithLegacyFallback);

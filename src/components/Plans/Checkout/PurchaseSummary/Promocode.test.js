@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import user from '@testing-library/user-event';
 import { fakePromotion } from '../../../../services/doppler-account-plans-api-client.double';
 import '@testing-library/jest-dom/extend-expect';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 const dependencies = (dopplerAccountPlansApiClientDouble) => ({
   dopplerAccountPlansApiClient: dopplerAccountPlansApiClientDouble,
@@ -28,20 +28,25 @@ const PromocodeElement = ({
   const services = dependencies(dopplerAccountPlansApiClientDouble);
 
   return (
-    <MemoryRouter initialEntries={[url]}>
-      <Route path={'checkout/:pathType/:planType?'}>
-        <AppServicesProvider forcedServices={services}>
-          <IntlProvider>
-            <Promocode
-              allowPromocode={allowPromocode}
-              disabled={disabled}
-              planId={planId}
-              callback={mockedCallback}
+    <AppServicesProvider forcedServices={services}>
+      <IntlProvider>
+        <MemoryRouter initialEntries={[url]}>
+          <Routes>
+            <Route
+              path={'/checkout/:pathType/:planType'}
+              element={
+                <Promocode
+                  allowPromocode={allowPromocode}
+                  disabled={disabled}
+                  planId={planId}
+                  callback={mockedCallback}
+                />
+              }
             />
-          </IntlProvider>
-        </AppServicesProvider>
-      </Route>
-    </MemoryRouter>
+          </Routes>
+        </MemoryRouter>
+      </IntlProvider>
+    </AppServicesProvider>
   );
 };
 
@@ -60,7 +65,7 @@ describe('Promocode component', () => {
         allowPromocode={false}
         disabled={false}
         planId={1}
-        url={'checkout/standard/subscribers'}
+        url={'/checkout/standard/subscribers'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
       />,
     );
@@ -89,7 +94,7 @@ describe('Promocode component', () => {
         allowPromocode={true}
         disabled={false}
         planId={1}
-        url={'checkout/standard/subscribers'}
+        url={'/checkout/standard/subscribers'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
       />,
     );
@@ -128,7 +133,7 @@ describe('Promocode component', () => {
         allowPromocode={true}
         disabled={false}
         planId={planId}
-        url={'checkout/standard/subscribers'}
+        url={'/checkout/standard/subscribers'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         mockedCallback={mockedCallback}
       />,
@@ -175,7 +180,7 @@ describe('Promocode component', () => {
         allowPromocode={true}
         disabled={false}
         planId={planId}
-        url={'checkout/standard/subscribers'}
+        url={'/checkout/standard/subscribers'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         mockedCallback={mockedCallback}
       />,
@@ -223,7 +228,7 @@ describe('Promocode component', () => {
         allowPromocode={true}
         disabled={false}
         planId={planId}
-        url={'checkout/standard/subscribers?PromoCode=promocode'}
+        url={'/checkout/standard/subscribers?PromoCode=promocode'}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         mockedCallback={mockedCallback}
       />,

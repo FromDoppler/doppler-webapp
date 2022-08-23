@@ -2,7 +2,7 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PurchaseSummary } from './PurchaseSummary';
 import {
   fakeInvoiceRecipients,
@@ -76,20 +76,25 @@ const PurchaseSummaryElement = ({
     currentUser,
   );
   return (
-    <MemoryRouter initialEntries={[url]}>
-      <Route path="checkout/:pathType/:planType?">
-        <AppServicesProvider forcedServices={services}>
-          <IntlProvider>
-            <PurchaseSummary
-              discountId={0}
-              canBuy={canBuy}
-              paymentMethod={paymentMethod}
-              monthPlan={'0'}
+    <AppServicesProvider forcedServices={services}>
+      <IntlProvider>
+        <MemoryRouter initialEntries={[url]}>
+          <Routes>
+            <Route
+              path="/checkout/:pathType/:planType"
+              element={
+                <PurchaseSummary
+                  discountId={0}
+                  canBuy={canBuy}
+                  paymentMethod={paymentMethod}
+                  monthPlan={'0'}
+                />
+              }
             />
-          </IntlProvider>
-        </AppServicesProvider>
-      </Route>
-    </MemoryRouter>
+          </Routes>
+        </MemoryRouter>
+      </IntlProvider>
+    </AppServicesProvider>
   );
 };
 
@@ -118,7 +123,7 @@ describe('PurchaseSummary component', () => {
     // Ac
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers"
+        url="/checkout/standard/subscribers"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -134,17 +139,17 @@ describe('PurchaseSummary component', () => {
   describe.each([
     [
       'should show "Plan Standard - by contacts" when the planType is "subscribers"',
-      'checkout/standard/subscribers',
+      '/checkout/standard/subscribers',
       'subscribers',
     ],
     [
       'should show "Plan Standard - by emails" when the planType is "monthly"',
-      'checkout/standard/monthly-deliveries',
+      '/checkout/standard/monthly-deliveries',
       'monthly_deliveries',
     ],
     [
       'should show "Plan Standard - by credits" when the planType is "prepaid"',
-      'checkout/standard/prepaid',
+      '/checkout/standard/prepaid',
       'prepaid',
     ],
   ])('plan information', (testName, url, planType) => {
@@ -205,7 +210,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers"
+        url="/checkout/standard/subscribers"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -259,7 +264,7 @@ describe('PurchaseSummary component', () => {
       // Act
       render(
         <PurchaseSummaryElement
-          url={`checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
+          url={`/checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
           currentUser={currentUserBase}
@@ -295,7 +300,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=1&monthPlan=1"
+        url="/checkout/standard/subscribers?discountId=1&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -369,7 +374,7 @@ describe('PurchaseSummary component', () => {
       // Act
       render(
         <PurchaseSummaryElement
-          url={`checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
+          url={`/checkout/standard/subscribers?discountId=${discountId}&monthPlan=${monthPlan}`}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
           currentUser={currentUserBase}
@@ -412,7 +417,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+        url="/checkout/standard/subscribers?discountId=6&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -452,7 +457,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+        url="/checkout/standard/subscribers?discountId=6&monthPlan=1"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -491,7 +496,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+        url="/checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={false}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
@@ -532,7 +537,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+        url="/checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
@@ -580,7 +585,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+        url="/checkout/standard/subscribers?discountId=6&monthPlan=1"
         canBuy={true}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
@@ -673,7 +678,7 @@ describe('PurchaseSummary component', () => {
       // Act
       render(
         <PurchaseSummaryElement
-          url="checkout/standard/subscribers?discountId=6&monthPlan=1"
+          url="/checkout/standard/subscribers?discountId=6&monthPlan=1"
           canBuy={true}
           dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
           dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
@@ -714,7 +719,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/prepaid`}
+        url={`/checkout/standard/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -746,7 +751,7 @@ describe('PurchaseSummary component', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/prepaid`}
+        url={`/checkout/standard/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUserBase}
@@ -843,7 +848,7 @@ describe.each([
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/${context.planType}`}
+        url={`/checkout/standard/${context.planType}`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         paymentMethod={''}
@@ -880,53 +885,6 @@ describe('PurchaseSummary component - Upgrade plan', () => {
           user: {
             email: 'hardcoded@email.com',
             plan: {
-              planType: '2',
-              planSubscription: 1,
-              monthPlan: 1,
-              isFreeAccount: false,
-            },
-          },
-        },
-      },
-    };
-
-    // Act
-    render(
-      <PurchaseSummaryElement
-        url={`checkout/standard/subscribers`}
-        dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
-        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
-        currentUser={currentUser}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader);
-
-    expect(screen.queryByText('checkoutProcessForm.purchase_summary.promocode_header')).toBeNull();
-  });
-
-  it('should show the promocode section', async () => {
-    // Arrange
-    const fakePlan = fakePrepaidPlan;
-    const dopplerAccountPlansApiClientDouble = {
-      ...dopplerAccountPlansApiClientDoubleBase,
-      getPlanData: async () => {
-        return { success: true, value: fakePlan };
-      },
-      getPlanAmountDetailsData: async () => {
-        return { success: true, value: fakePlanAmountDetails };
-      },
-    };
-
-    const currentUser = {
-      current: {
-        userData: {
-          user: {
-            email: 'hardcoded@email.com',
-            plan: {
               planType: '1',
               planSubscription: 1,
               monthPlan: 1,
@@ -940,7 +898,7 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/premium/prepaid`}
+        url={`/checkout/premium/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUser}
@@ -989,7 +947,7 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/prepaid`}
+        url={`/checkout/standard/prepaid`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUser}
@@ -1048,7 +1006,7 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     // Act
     render(
       <PurchaseSummaryElement
-        url={`checkout/standard/monthly-deliveries`}
+        url={`/checkout/standard/monthly-deliveries`}
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDouble}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUser={currentUser}

@@ -15,13 +15,13 @@ import { Form, Formik } from 'formik';
 import { InjectAppServices } from '../../services/pure-di';
 import { Loading } from '../Loading/Loading';
 import { getFormInitialValues, successMessageDelay } from '../../utils';
-import { Prompt } from 'react-router-dom';
 import { ShowLikeFlash } from '../shared/ShowLikeFlash/ShowLikeFlash';
 import { Promotional } from '../shared/Promotional/Promotional';
 import { CloudTagCompoundField } from '../form-helpers/CloudTagCompoundField';
 import Modal from '../Modal/Modal';
 import { SubscriberListSelector } from '../SubscriberListSelector/SubscriberListSelector';
 import contactPolicyPreview from './contact-policy-preview.gif';
+import { useNavigate } from 'react-router-dom';
 
 const maxListsToSelect = 10;
 const limitExceededMessageKey = 'contact_policy.tooltip_max_limit_exceeded';
@@ -34,10 +34,8 @@ const fieldNames = {
 };
 
 export const ContactPolicy = InjectAppServices(
-  ({
-    dependencies: { dopplerUserApiClient, dopplerContactPolicyApiClient, appSessionRef },
-    history,
-  }) => {
+  ({ dependencies: { dopplerUserApiClient, dopplerContactPolicyApiClient, appSessionRef } }) => {
+    const navigate = useNavigate();
     const [enabled, setEnabled] = useState(false);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState({});
@@ -223,10 +221,11 @@ export const ContactPolicy = InjectAppServices(
               >
                 {({ values, errors, isSubmitting, isValid, dirty, setFieldValue }) => (
                   <>
-                    <Prompt
+                    {/* TODO: this is not currently supported in the current released version of v6 (https://reactrouter.com/docs/en/v6/upgrading/v5#prompt-is-not-currently-supported) */}
+                    {/* <Prompt
                       when={dirty && !modalIsOpen}
                       message={_('common.unsaved_changes_message')}
-                    />
+                    /> */}
                     <Form className="dp-contact-policy-form" aria-label="settings">
                       <fieldset>
                         <legend>{_('contact_policy.title')}</legend>
@@ -323,7 +322,7 @@ export const ContactPolicy = InjectAppServices(
                             <button
                               type="button"
                               className="dp-button button-medium primary-grey"
-                              onClick={() => history.goBack()}
+                              onClick={() => navigate(-1)}
                             >
                               {_('common.back')}
                             </button>

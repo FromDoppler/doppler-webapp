@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { useRouteMatch, generatePath } from 'react-router-dom';
+import { generatePath, useParams, useLocation } from 'react-router-dom';
 import { Loading } from '../../Loading/Loading';
 import SafeRedirect from '../../SafeRedirect';
 import SubscriberGdprPermissions from '../GDPRPermissions/SubscriberGdprPermissions';
@@ -13,7 +13,8 @@ import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
-  const { path, params } = useRouteMatch();
+  const { pathname: path } = useLocation();
+  const params = useParams();
   const { email, section } = params;
   const [state, setState] = useState({ loading: true });
   const intl = useIntl();

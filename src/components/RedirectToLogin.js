@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 /**
  * @param { Object } props
@@ -9,12 +9,5 @@ import { Redirect } from 'react-router-dom';
  * @param { string } props.from.hash;
  */
 export default function RedirectToLogin({ from }) {
-  return (
-    <Redirect
-      to={{
-        pathname: '/login',
-        state: { from: from },
-      }}
-    />
-  );
+  return <Navigate to="/login" state={{ from }} />;
 }

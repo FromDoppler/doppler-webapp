@@ -11,7 +11,7 @@ import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer/Transfer';
-import { useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { PLAN_TYPE, FirstDataError } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 
@@ -248,7 +248,7 @@ export const PaymentMethod = InjectAppServices(
     const [error, setError] = useState({ error: false, message: '' });
     const [paymentMethodType, setPaymentMethodType] = useState('');
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const { planType } = useRouteMatch().params;
+    const { planType } = useParams();
 
     useEffect(() => {
       const fetchData = async () => {

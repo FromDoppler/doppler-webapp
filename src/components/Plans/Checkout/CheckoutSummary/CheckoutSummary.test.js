@@ -2,7 +2,7 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import {
   fakePaymentMethodInformation,
   fakePaymentMethodInformationWithTransfer,
@@ -79,15 +79,15 @@ const CheckoutSummaryElement = ({
     currentUserFake,
   );
   return (
-    <MemoryRouter initialEntries={[url]}>
-      <Route path="checkout-summary">
-        <AppServicesProvider forcedServices={services}>
-          <IntlProvider>
-            <CheckoutSummary />
-          </IntlProvider>
-        </AppServicesProvider>
-      </Route>
-    </MemoryRouter>
+    <AppServicesProvider forcedServices={services}>
+      <IntlProvider>
+        <MemoryRouter initialEntries={[url]}>
+          <Routes>
+            <Route path="/checkout-summary" element={<CheckoutSummary />} />
+          </Routes>
+        </MemoryRouter>
+      </IntlProvider>
+    </AppServicesProvider>
   );
 };
 
@@ -96,7 +96,7 @@ describe('CheckoutSummary component', () => {
     // Ac
     render(
       <CheckoutSummaryElement
-        url="checkout-summary"
+        url="/checkout-summary"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDoubleBase}
         currentUserFake={currentUserFake}
@@ -132,7 +132,7 @@ describe('CheckoutSummary component', () => {
     // Ac
     render(
       <CheckoutSummaryElement
-        url="checkout-summary?planId=1&paymentMethod=TRANSF"
+        url="/checkout-summary?planId=1&paymentMethod=TRANSF"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         currentUserFake={currentUserFake}
@@ -157,7 +157,7 @@ describe('CheckoutSummary component', () => {
     [
       'without extra credits',
       {
-        url: 'checkout-summary',
+        url: '/checkout-summary',
         dopplerAccountPlansApiClientDouble: {
           ...dopplerAccountPlansApiClientDoubleBase,
           getPlanData: async () => {
@@ -173,7 +173,7 @@ describe('CheckoutSummary component', () => {
     [
       'with extra credits',
       {
-        url: 'checkout-summary?extraCredits=2500',
+        url: '/checkout-summary?extraCredits=2500',
         dopplerAccountPlansApiClientDouble: {
           ...dopplerAccountPlansApiClientDoubleBase,
           getPlanData: async () => {
@@ -256,7 +256,7 @@ describe('CheckoutSummary component', () => {
     // Ac
     render(
       <CheckoutSummaryElement
-        url="checkout-summary?planId=1&paymentMethod=TRANSF&discountPromocode=100"
+        url="/checkout-summary?planId=1&paymentMethod=TRANSF&discountPromocode=100"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         currentUserFake={currentUserFake}
@@ -320,7 +320,7 @@ describe('CheckoutSummary component', () => {
     // Ac
     render(
       <CheckoutSummaryElement
-        url="checkout-summary?planId=1&paymentMethod=MP&discountPromocode=100"
+        url="/checkout-summary?planId=1&paymentMethod=MP&discountPromocode=100"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         currentUserFake={currentUserFake}
@@ -366,7 +366,7 @@ describe('CheckoutSummary component', () => {
     // Ac
     render(
       <CheckoutSummaryElement
-        url="checkout-summary?planId=1&paymentMethod=TRANSF&discountPromocode=50"
+        url="/checkout-summary?planId=1&paymentMethod=TRANSF&discountPromocode=50"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         currentUserFake={currentUserFake}
@@ -431,7 +431,7 @@ describe('CheckoutSummary component', () => {
     // Ac
     render(
       <CheckoutSummaryElement
-        url="checkout-summary?planId=1&paymentMethod=MP&discountPromocode=50"
+        url="/checkout-summary?planId=1&paymentMethod=MP&discountPromocode=50"
         dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
         dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
         currentUserFake={currentUserFake}

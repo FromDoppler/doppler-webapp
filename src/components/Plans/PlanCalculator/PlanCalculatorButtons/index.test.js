@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { MemoryRouter as Router, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import { PlanCalculatorButtons } from '.';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../../doppler-types';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -49,12 +49,17 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons
-                selectedPlanId={selectedPlanId}
-                selectedDiscount={selectedDiscount}
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={
+                  <PlanCalculatorButtons
+                    selectedPlanId={selectedPlanId}
+                    selectedDiscount={selectedDiscount}
+                  />
+                }
               />
-            </Route>
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -106,12 +111,17 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons
-                selectedPlanId={selectedPlanId}
-                selectedDiscount={selectedDiscount}
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={
+                  <PlanCalculatorButtons
+                    selectedPlanId={selectedPlanId}
+                    selectedDiscount={selectedDiscount}
+                  />
+                }
               />
-            </Route>
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -147,12 +157,17 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons
-                selectedPlanId={selectedPlanId}
-                selectedDiscount={selectedDiscount}
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={
+                  <PlanCalculatorButtons
+                    selectedPlanId={selectedPlanId}
+                    selectedDiscount={selectedDiscount}
+                  />
+                }
               />
-            </Route>
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -198,12 +213,17 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons
-                selectedPlanId={selectedPlanId}
-                selectedDiscount={selectedDiscount}
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={
+                  <PlanCalculatorButtons
+                    selectedPlanId={selectedPlanId}
+                    selectedDiscount={selectedDiscount}
+                  />
+                }
               />
-            </Route>
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -243,9 +263,12 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
-            </Route>
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={<PlanCalculatorButtons selectedPlanId={selectedPlanId} />}
+              />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -290,9 +313,12 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
-            </Route>
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={<PlanCalculatorButtons selectedPlanId={selectedPlanId} />}
+              />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -337,9 +363,12 @@ describe('PlanCalculator component', () => {
               `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
-            </Route>
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={<PlanCalculatorButtons selectedPlanId={selectedPlanId} />}
+              />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -379,9 +408,12 @@ describe('PlanCalculator component', () => {
               }?promo-code=fake-promo-code&origin_inbound=fake`,
             ]}
           >
-            <Route path="/plan-selection/premium/:planType?">
-              <PlanCalculatorButtons selectedPlanId={selectedPlanId} />
-            </Route>
+            <Routes>
+              <Route
+                path="/plan-selection/premium/:planType"
+                element={<PlanCalculatorButtons selectedPlanId={selectedPlanId} />}
+              />
+            </Routes>
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
