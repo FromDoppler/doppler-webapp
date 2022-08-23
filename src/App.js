@@ -2,7 +2,7 @@ import queryString from 'query-string';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import './App.css';
+import './App.scss';
 import { ContactPolicy } from './components/ContactPolicy/ContactPolicy';
 import { ControlPanel } from './components/ControlPanel/ControlPanel';
 import { Dashboard } from './components/Dashboard/Dashboard';
