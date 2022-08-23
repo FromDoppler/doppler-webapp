@@ -17,8 +17,8 @@
     "@types/react-dom": "^17.0.13",
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/react-intl": "^3.0.0",
-    "@types/url-parse": "^1.4.8",
     "@types/react-router-dom": "^5.3.3",
+    "@types/url-parse": "^1.4.8",
     "axios": "^0.27.2",
     "axios-retry": "^3.3.1",
     "c3": "^0.7.20",
@@ -118,7 +118,7 @@
         "statements": 72
       }
     },
-    "moduleNameMapper":{
+    "moduleNameMapper": {
       "react-markdown": "<rootDir>/node_modules/react-markdown/react-markdown.min.js"
     }
   },
@@ -169,6 +169,11 @@
     "@types/styled-components": "^5.1.15",
     "husky": "^8.0.1",
     "jest-environment-jsdom-sixteen": "^2.0.0",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "postcss-scss": "^4.0.4",
+    "sass": "^1.54.5",
+    "stylelint-config-standard-scss": "^5.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0"
   }
 }
