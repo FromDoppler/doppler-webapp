@@ -79,7 +79,7 @@ export const PlanInformation = ({ plan, planType, discount }) => {
   );
 };
 
-export const MonthsToPayInformation = ({ plan, discount, monthsToPay }) => {
+export const MonthsToPayInformation = ({ plan, discount, monthsToPay, planType }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -89,7 +89,9 @@ export const MonthsToPayInformation = ({ plan, discount, monthsToPay }) => {
   return (
     <>
       <span>
-        {_(`checkoutProcessForm.purchase_summary.months_to_pay`)}{' '}
+        {planType !== PLAN_TYPE.byContact
+          ? _(`checkoutProcessForm.purchase_summary.months_to_pay`)
+          : _(`checkoutProcessForm.purchase_summary.difference_months_to_pay`)}{' '}
         <strong>
           <FormattedMessage
             id="checkoutProcessForm.purchase_summary.month_with_plural"

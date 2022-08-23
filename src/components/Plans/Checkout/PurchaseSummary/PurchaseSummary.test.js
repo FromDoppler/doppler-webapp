@@ -277,7 +277,7 @@ describe('PurchaseSummary component', () => {
       await waitForElementToBeRemoved(loader);
 
       expect(screen.getByRole('listitem', { name: 'months to pay' })).toHaveTextContent(
-        'checkoutProcessForm.purchase_summary.months_to_pay checkoutProcessForm.purchase_summary.month_with_plural',
+        'checkoutProcessForm.purchase_summary.difference_months_to_pay checkoutProcessForm.purchase_summary.month_with_plural',
       );
       expect(screen.getByRole('listitem', { name: 'months to pay' })).toHaveTextContent(amount);
     });
