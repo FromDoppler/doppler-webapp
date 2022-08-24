@@ -266,7 +266,7 @@ export const PlanCalculator = InjectAppServices(
 );
 
 export const getDefaultPlanType = ({ currentPlan, planTypeUrlSegment, window }) => {
-  const { isFreeAccount: isTrial, planType, planSubscription } = currentPlan;
+  const { isFreeAccount: isTrial, planType } = currentPlan;
   if (!isTrial) {
     switch (planType) {
       case PLAN_TYPE.byEmail:
@@ -278,15 +278,16 @@ export const getDefaultPlanType = ({ currentPlan, planTypeUrlSegment, window }) 
         break;
       case PLAN_TYPE.byContact:
         if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byContact]) {
-          const isMonthlySubscription = planSubscription === 1;
-          if (
-            !isMonthlySubscription ||
-            (isMonthlySubscription && planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail])
-          ) {
-            return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
-              window.location.search
-            }`;
-          }
+          return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
+            window.location.search
+          }`;
+        }
+        break;
+      case PLAN_TYPE.byCredit:
+        if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byCredit]) {
+          return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byCredit]}${
+            window.location.search
+          }`;
         }
         break;
       default:
