@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
@@ -18,7 +18,6 @@ import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
-import { Navigate } from 'react-router-dom';
 import { extractParameter, isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
 import * as S from './Signup.styles';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
@@ -73,10 +72,10 @@ const Signup = function ({
   dependencies: { dopplerLegacyClient, originResolver, localStorage, utmCookiesManager },
 }) {
   useLinkedinInsightTag();
+  const navigate = useNavigate();
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const [registeredUser, setRegisteredUser] = useState(null);
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
 
@@ -150,7 +149,14 @@ const Signup = function ({
       origin_inbound: originInbound,
     });
     if (result.success) {
-      setRegisteredUser(values[fieldNames.email]);
+      const hasQueryParams = location.search.length > 0;
+      const registeredUser = values[fieldNames.email].trim();
+
+      navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
+        state: {
+          registeredUser,
+        },
+      });
     } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
       addExistentEmailAddress(values[fieldNames.email]);
       validateForm();
@@ -189,23 +195,6 @@ const Signup = function ({
       setSubmitting(false);
     }
   };
-
-  if (registeredUser) {
-    const resend = (captchaResponseToken) =>
-      dopplerLegacyClient.resendRegistrationEmail({
-        email: registeredUser,
-        captchaResponseToken: captchaResponseToken,
-      });
-    return (
-      <Navigate
-        to={{
-          pathname: '/signup/confirmation',
-          search: location.search,
-        }}
-        state={{ resend }}
-      />
-    );
-  }
 
   return (
     <div className="dp-app-container">

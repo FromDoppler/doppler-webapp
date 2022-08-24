@@ -12,21 +12,31 @@ import { InjectAppServices } from '../../services/pure-di';
  * @param { Function } props.resend - Function to resend registration email.
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const SignupConfirmation = function ({ dependencies: { captchaUtilsService } }) {
+const SignupConfirmation = function ({
+  dependencies: { captchaUtilsService, dopplerLegacyClient },
+}) {
   const location = useLocation();
+  const registeredUser = location.state?.registeredUser;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [resentTimes, setResentTimes] = useState(0);
   const [Captcha, verifyCaptcha] = captchaUtilsService.useCaptcha();
 
-  if (!location.state || !location.state.resend) {
+  if (!registeredUser) {
     return <Navigate to="/signup" />;
   }
+
   const incrementAndResend = async () => {
+    const resend = (captchaResponseToken) =>
+      dopplerLegacyClient.resendRegistrationEmail({
+        email: registeredUser,
+        captchaResponseToken,
+      });
+
     const captchaResult = await verifyCaptcha();
     if (captchaResult.success) {
       setResentTimes((times) => times + 1);
-      location.state.resend(captchaResult.captchaResponseToken);
+      resend(captchaResult.captchaResponseToken);
     } else {
       console.log(captchaResult);
     }
