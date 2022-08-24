@@ -626,13 +626,16 @@ describe('PlanCalculator component', () => {
         },
       };
       const planTypeUrlSegment = URL_PLAN_TYPE[PLAN_TYPE.byEmail];
+      const expectedUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
+        window.location.search
+      }`;
 
       // Act
       const urlToRedirect = getDefaultPlanType({ currentPlan, planTypeUrlSegment, window });
 
       // Assert
       // because don't need to make redirect
-      expect(urlToRedirect).toBeNull();
+      expect(urlToRedirect).toBe(expectedUrl);
     });
   });
 });
