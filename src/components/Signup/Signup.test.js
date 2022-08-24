@@ -203,7 +203,7 @@ describe('Signup', () => {
   it('should redirect to confirmation page when submit', async () => {
     // Arrange
     const dependencies = defaultDependencies;
-    const location = { search: 'test', pathname: '/signup' };
+    const location = { search: '?test', pathname: '/signup' };
 
     // Act
     const { container, getByText } = render(
