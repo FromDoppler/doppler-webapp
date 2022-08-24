@@ -16,7 +16,7 @@ import countriesLocalized from '../../i18n/countries-localized.json';
 import intlTelInput from 'intl-tel-input';
 // This import is required to add window.intlTelInputUtils, otherwise phone validation does not work
 import 'intl-tel-input/build/js/utils';
-import './form-helpers.css';
+import './form-helpers.scss';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
