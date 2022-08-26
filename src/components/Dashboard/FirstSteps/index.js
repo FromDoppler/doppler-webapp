@@ -105,10 +105,10 @@ const getDomainsReadyStep = (hasDomainsReady) => ({
   link: 'dashboard.first_steps.has_domains_ready_url',
 });
 
-const getCampaingsCreatedStep = (hasCampaingsCreated) => ({
-  status: hasCampaingsCreated
+const getCampaingsCreatedAndSentStep = (hasCampaingsCreatedAndSent) => ({
+  status: hasCampaingsCreatedAndSent
     ? COMPLETED_STATUS
-    : hasCampaingsCreated === false
+    : hasCampaingsCreatedAndSent === false
     ? PENDING_STATUS
     : UNKNOWN_STATUS,
   titleId: `dashboard.first_steps.has_campaings_created_title`,
@@ -141,7 +141,7 @@ export const mapSystemUsageSummary = (systemUsageSummary) => {
     firstSteps: [
       getListCreatedStep(hasListsCreated),
       getDomainsReadyStep(hasDomainsReady),
-      getCampaingsCreatedStep(hasCampaingsCreated),
+      getCampaingsCreatedAndSentStep(hasCampaingsCreated && hasCampaingsSent),
       getCampaingsSentStep(hasCampaingsSent),
     ],
   };
