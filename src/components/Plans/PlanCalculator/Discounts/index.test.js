@@ -89,7 +89,7 @@ describe('Discount component', () => {
     expect(selectedDiscountButton).toHaveClass('btn-active');
   });
 
-  it('should call onSelectDiscount with selected discount', () => {
+  it('should call onSelectDiscount with selected discount', async () => {
     // Arrange
     const selectedDiscount = null;
     const handleChange = jest.fn();
@@ -118,12 +118,12 @@ describe('Discount component', () => {
 
     // simulates that the 10% discount is selected
     selectedDiscountButton = getButtonByDiscount(FAKE_DISCOUNT_LIST[1]);
-    userEvent.click(selectedDiscountButton);
+    await userEvent.click(selectedDiscountButton);
     expect(handleChange).toHaveBeenCalledWith(FAKE_DISCOUNT_LIST[1]);
 
     // simulates that the 25% discount is selected
     selectedDiscountButton = getButtonByDiscount(FAKE_DISCOUNT_LIST[2]);
-    userEvent.click(selectedDiscountButton);
+    await userEvent.click(selectedDiscountButton);
     expect(handleChange).toHaveBeenCalledWith(FAKE_DISCOUNT_LIST[2]);
   });
 

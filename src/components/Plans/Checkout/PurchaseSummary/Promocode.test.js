@@ -104,7 +104,7 @@ describe('Promocode component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.promocode_validate_button',
     });
-    user.click(submitButton);
+    await user.click(submitButton);
 
     // Validation error messages should be displayed
     const validationErrorMessages = await screen.findAllByText(
@@ -141,8 +141,8 @@ describe('Promocode component', () => {
 
     // Assert
     let promocodeInput = await getPromoCodeField();
-    user.clear(promocodeInput);
-    user.type(promocodeInput, fakePromoCode);
+    await user.clear(promocodeInput);
+    await user.type(promocodeInput, fakePromoCode);
 
     promocodeInput = await getPromoCodeField();
     expect(promocodeInput).toHaveValue(fakePromoCode);
@@ -151,7 +151,7 @@ describe('Promocode component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.promocode_validate_button',
     });
-    user.click(submitButton);
+    await user.click(submitButton);
 
     // Invalid error message should be displayed
     const invalidMessage = await screen.findAllByText(
@@ -188,8 +188,8 @@ describe('Promocode component', () => {
 
     // Assert
     let promocodeInput = await getPromoCodeField();
-    user.clear(promocodeInput);
-    user.type(promocodeInput, fakePromocode);
+    await user.clear(promocodeInput);
+    await user.type(promocodeInput, fakePromocode);
 
     promocodeInput = await getPromoCodeField();
     expect(promocodeInput).toHaveValue(fakePromocode);
@@ -198,7 +198,7 @@ describe('Promocode component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.promocode_validate_button',
     });
-    user.click(submitButton);
+    await user.click(submitButton);
 
     const summarySuccessMessage = await screen.findByText(
       'checkoutProcessForm.purchase_summary.promocode_success_message',

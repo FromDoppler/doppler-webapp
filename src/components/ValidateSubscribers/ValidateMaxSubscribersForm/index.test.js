@@ -76,10 +76,8 @@ describe('ValidateSubscribersFormComponent', () => {
     );
 
     // Assert
-    await act(async () => {
-      const submitButton = await screen.getByRole('button', { name: 'common.save' });
-      userEvent.click(submitButton);
-    });
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    await await userEvent.click(submitButton);
     expect(handleSubmit).toBeCalledTimes(0);
   });
 
@@ -104,18 +102,18 @@ describe('ValidateSubscribersFormComponent', () => {
     );
 
     const inputName = await screen.getByRole('textbox', { name: /Name/i });
-    userEvent.clear(inputName);
-    userEvent.type(inputName, name);
+    await userEvent.clear(inputName);
+    await userEvent.type(inputName, name);
 
     const inputUrl = await screen.getByRole('textbox', { name: /URL/i });
-    userEvent.clear(inputUrl);
-    userEvent.type(inputUrl, url);
+    await userEvent.clear(inputUrl);
+    await userEvent.type(inputUrl, url);
 
     const checkboxSources = await screen.getByLabelText(sourceSelected);
-    userEvent.click(checkboxSources);
+    await userEvent.click(checkboxSources);
 
     const checkboxSubscriptionMethods = await screen.getByLabelText(subscriptionMethod);
-    userEvent.click(checkboxSubscriptionMethods);
+    await userEvent.click(checkboxSubscriptionMethods);
 
     // Assert
     expect(inputName).toHaveValue(name);
@@ -123,10 +121,8 @@ describe('ValidateSubscribersFormComponent', () => {
     expect(checkboxSources).toBeChecked();
     expect(checkboxSubscriptionMethods).toBeChecked();
 
-    await act(async () => {
-      const submitButton = await screen.getByRole('button', { name: 'common.save' });
-      userEvent.click(submitButton);
-    });
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    await userEvent.click(submitButton);
     expect(handleSubmit).toBeCalledTimes(1);
   });
 
@@ -144,10 +140,9 @@ describe('ValidateSubscribersFormComponent', () => {
     );
 
     const checkboxSources = await screen.getByLabelText(sourceSelected);
-    await act(async () => {
-      userEvent.click(checkboxSources);
-    });
-    const textarea = await screen.getByTestId('last-textarea');
+    await userEvent.click(checkboxSources);
+    const textarea = screen.getByTestId('last-textarea');
+
     // Assert
     expect(textarea.classList.contains('dp-show')).toBeTruthy();
     expect(textarea.classList.contains('dp-hide')).toBeFalsy();
@@ -163,7 +158,8 @@ describe('ValidateSubscribersFormComponent', () => {
       </AppServicesProvider>,
     );
 
-    const textarea = await screen.getByTestId('last-textarea');
+    const textarea = screen.getByTestId('last-textarea');
+
     // Assert
     expect(textarea.classList.contains('dp-hide')).toBeTruthy();
     expect(textarea.classList.contains('dp-show')).toBeFalsy();

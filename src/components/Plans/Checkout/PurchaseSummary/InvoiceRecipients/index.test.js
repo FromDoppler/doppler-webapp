@@ -66,7 +66,7 @@ describe('InvoiceRecipients component', () => {
     expect(screen.queryByRole('form')).not.toBeInTheDocument();
 
     // simulate click a edit button
-    userEvent.click(getEditModeButton());
+    await userEvent.click(getEditModeButton());
     expect(getEditModeButton()).not.toBeInTheDocument();
     expect(screen.queryByRole('form')).toBeInTheDocument();
     const addButton = screen.getByRole(`button`, { name: 'add tag' });
@@ -79,20 +79,20 @@ describe('InvoiceRecipients component', () => {
     const emailField = screen.getByPlaceholderText(
       'checkoutProcessForm.purchase_summary.add_recipient_placeholder',
     );
-    userEvent.type(emailField, email2);
-    userEvent.click(addButton);
+    await userEvent.type(emailField, email2);
+    await userEvent.click(addButton);
     expect(getByText(getRecipientsAdded(cloudTags)[1], email2)).toBeInTheDocument();
 
     // simulate add other tag
-    userEvent.type(emailField, email3);
-    userEvent.click(addButton);
+    await userEvent.type(emailField, email3);
+    await userEvent.click(addButton);
     expect(getByText(getRecipientsAdded(cloudTags)[2], email3)).toBeInTheDocument();
 
     // simulate update recipients
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.edit_add_recipients_confirmation_button',
     });
-    await userEvent.click(submitButton);
+    userEvent.click(submitButton);
     await waitForElementToBeRemoved(screen.queryByRole('form'));
     expect(
       await screen.findByText(

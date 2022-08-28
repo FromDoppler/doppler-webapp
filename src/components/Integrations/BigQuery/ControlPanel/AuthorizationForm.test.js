@@ -66,7 +66,7 @@ describe('AuthorizationForm ', () => {
     expect(input.value).toBe('');
     // add first tag (simulated with click event)
     await userEvent.type(input, tagToAdd1);
-    userEvent.click(addButton);
+    await userEvent.click(addButton);
     cloudTags = getCloudTags();
     errors = getErrors();
     expect(cloudTags).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('AuthorizationForm ', () => {
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
     // fails when add second tag (simulated with enter event)
     await userEvent.type(input, invalidTag);
-    userEvent.type(input, '{enter}');
+    await userEvent.type(input, '{enter}');
     cloudTags = getCloudTags();
     errors = getErrors();
     // the same amount of tag is kept because it was not added
@@ -84,7 +84,7 @@ describe('AuthorizationForm ', () => {
     // success when add second tag (simulated with enter event)
     await userEvent.clear(input);
     await userEvent.type(input, tagToAdd2);
-    userEvent.type(input, '{enter}');
+    await userEvent.type(input, '{enter}');
     cloudTags = getCloudTags();
     errors = getErrors();
     // emails.length+2 because the second tag was added

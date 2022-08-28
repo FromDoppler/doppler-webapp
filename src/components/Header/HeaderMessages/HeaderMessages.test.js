@@ -117,7 +117,7 @@ describe('Header Messages component', () => {
     );
 
     const okButton = await screen.getByRole('button', { name: 'Ok' });
-    userEvent.click(okButton);
+    await userEvent.click(okButton);
 
     // Assert
     expect(forcedServices.dopplerLegacyClient.sendAcceptButtonAction).toBeCalledTimes(1);
