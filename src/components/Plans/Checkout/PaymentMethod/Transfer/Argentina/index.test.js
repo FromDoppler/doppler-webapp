@@ -139,7 +139,7 @@ describe('TransferArgentina', () => {
       expect(screen.queryByLabelText(/DNI/i)).not.toBeInTheDocument();
 
       // select "Consumidor Final" option
-      userEvent.selectOptions(consumerTypeField, finalConsumer);
+      await userEvent.selectOptions(consumerTypeField, finalConsumer);
       consumerTypeField = await screen.findByRole('combobox');
       expect(consumerTypeField.value).toBe(finalConsumer);
 
@@ -147,8 +147,8 @@ describe('TransferArgentina', () => {
       screen.getByLabelText(/DNI/i);
 
       // fill DNI and rason social
-      userEvent.type(screen.getByLabelText(/DNI/i), '81544670');
-      userEvent.type(
+      await userEvent.type(screen.getByLabelText(/DNI/i), '81544670');
+      await userEvent.type(
         screen.getByLabelText(/checkoutProcessForm.payment_method.first_last_name/i),
         'Boris Marketing',
       );

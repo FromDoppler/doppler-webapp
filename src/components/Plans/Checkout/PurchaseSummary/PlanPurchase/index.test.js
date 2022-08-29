@@ -27,7 +27,6 @@ const getFakePurchase = (success) => {
 
 describe('PlanPurchase component', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
     Object.defineProperty(window, 'location', {
       writable: true,
       value: { assign: jest.fn() },
@@ -45,6 +44,8 @@ describe('PlanPurchase component', () => {
     };
     const successRequest = true;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
+    const user = userEvent.setup({ delay: null });
+    jest.useFakeTimers();
 
     // Act
     render(
@@ -71,8 +72,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    userEvent.click(getBuyButton());
-    expect(getBuyButton()).toBeDisabled();
+    await user.click(getBuyButton());
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,
@@ -88,6 +88,7 @@ describe('PlanPurchase component', () => {
     expect(window.location.href).toBe(
       `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=FREE`,
     );
+    jest.useRealTimers();
   });
 
   it('should generate an error in the purchase process', async () => {
@@ -122,8 +123,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    userEvent.click(getBuyButton());
-    expect(getBuyButton()).toBeDisabled();
+    await userEvent.click(getBuyButton());
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,
@@ -154,6 +154,8 @@ describe('PlanPurchase component', () => {
     };
     const successRequest = true;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
+    const user = userEvent.setup({ delay: null });
+    jest.useFakeTimers();
 
     // Act
     render(
@@ -180,8 +182,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    userEvent.click(getBuyButton());
-    expect(getBuyButton()).toBeDisabled();
+    await user.click(getBuyButton());
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,
@@ -199,5 +200,6 @@ describe('PlanPurchase component', () => {
     expect(window.location.href).toBe(
       `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.description}&extraCredits=${props.promotion.extraCredits}`,
     );
+    jest.useRealTimers();
   });
 });

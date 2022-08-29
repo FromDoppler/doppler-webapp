@@ -61,7 +61,7 @@ describe('ConfirmationBox component', () => {
     // Assert
     // Should call onCancel function
     const cancelButton = screen.getByRole('button', { name: texts.cancelButtonText });
-    user.click(cancelButton);
+    await user.click(cancelButton);
     expect(mockedOnCancel).toBeCalledTimes(1);
   });
 
@@ -72,7 +72,7 @@ describe('ConfirmationBox component', () => {
     // Assert
     // Should call onAction function
     const actionButton = screen.getByRole('button', { name: texts.actionButtonText });
-    user.click(actionButton);
+    await user.click(actionButton);
     expect(mockedOnAction).toBeCalledTimes(1);
   });
 });

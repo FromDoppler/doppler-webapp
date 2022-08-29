@@ -37,7 +37,7 @@ describe('Modal component', () => {
     render(<ModalComponent />);
 
     // Assert
-    user.click(screen.getByTestId('modal-close'));
+    await user.click(screen.getByTestId('modal-close'));
     expect(mockedOnClose).toBeCalledTimes(1);
   });
 });

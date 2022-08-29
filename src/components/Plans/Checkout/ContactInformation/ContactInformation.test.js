@@ -193,7 +193,7 @@ describe('Checkout component', () => {
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
-    user.click(submitButton);
+    await user.click(submitButton);
 
     // Validation error messages should be displayed
     const validationErrorMessages = await screen.findAllByText(
@@ -217,8 +217,8 @@ describe('Checkout component', () => {
     let inputFirstName = screen.getByRole('textbox', {
       name: '*checkoutProcessForm.contact_information_firstname',
     });
-    user.clear(inputFirstName);
-    user.type(inputFirstName, newFirstName);
+    await user.clear(inputFirstName);
+    await user.type(inputFirstName, newFirstName);
     inputFirstName = await screen.findByRole('textbox', {
       name: '*checkoutProcessForm.contact_information_firstname',
     });
@@ -228,9 +228,8 @@ describe('Checkout component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.save_continue',
     });
-    user.click(submitButton);
+    await user.click(submitButton);
 
-    await act(async () => expect(submitButton).toBeDisabled());
     expect(mockedHandleSaveAndContinue).toBeCalledTimes(1);
   });
 });

@@ -163,7 +163,7 @@ describe('TransferMexico', () => {
       expect(getAllByRole(consumerTypeField, 'option')).toHaveLength(fakeConsumerTypes.length + 1);
 
       // select "Registro Federal de Contribuyentes" option
-      userEvent.selectOptions(consumerTypeField, RFC.key);
+      await userEvent.selectOptions(consumerTypeField, RFC.key);
       consumerTypeField = await screen.findByLabelText(
         /checkoutProcessForm.payment_method.consumer_type/i,
       );
@@ -186,7 +186,7 @@ describe('TransferMexico', () => {
       let paymentWayField = screen.getByLabelText(
         /checkoutProcessForm.payment_method.payment_way/i,
       );
-      userEvent.selectOptions(paymentWayField, 'TRANSFER');
+      await userEvent.selectOptions(paymentWayField, 'TRANSFER');
       paymentWayField = await screen.findByLabelText(
         /checkoutProcessForm.payment_method.payment_way/i,
       );
@@ -198,7 +198,7 @@ describe('TransferMexico', () => {
 
       // select "CASH" option
       paymentWayField = screen.getByLabelText(/checkoutProcessForm.payment_method.payment_way/i);
-      userEvent.selectOptions(paymentWayField, 'CASH');
+      await userEvent.selectOptions(paymentWayField, 'CASH');
       paymentWayField = await screen.findByLabelText(
         /checkoutProcessForm.payment_method.payment_way/i,
       );

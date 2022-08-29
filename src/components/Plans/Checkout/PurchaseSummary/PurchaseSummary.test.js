@@ -601,7 +601,7 @@ describe('PurchaseSummary component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.buy_button',
     });
-    user.click(submitButton);
+    await user.click(submitButton);
     expect(submitButton).toBeDisabled();
 
     const summarySuccessMessage = await screen.findByText(
@@ -693,8 +693,7 @@ describe('PurchaseSummary component', () => {
       const submitButton = screen.getByRole('button', {
         name: 'checkoutProcessForm.purchase_summary.buy_button',
       });
-      user.click(submitButton);
-      expect(submitButton).toBeDisabled();
+      await user.click(submitButton);
 
       const summaryErrorMessage = await screen.findByText(firstDataErrorKey);
 

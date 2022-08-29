@@ -147,7 +147,7 @@ describe('SubscriberListSelector component', () => {
 
     // Select a list (one list is the max limit)
     const checkboxes = screen.getAllByRole('checkbox');
-    user.click(checkboxes[0]);
+    await user.click(checkboxes[0]);
 
     // Max limit exceeded message should be displayed
     const maxLimitExceededMessage = screen.getByText('subscriber_list_selector.max_limit_exceeded');
@@ -188,7 +188,7 @@ describe('SubscriberListSelector component', () => {
     const cancelButton = screen.getByRole('button', {
       name: 'common.cancel',
     });
-    user.click(cancelButton);
+    await user.click(cancelButton);
     expect(mockedCancel).toBeCalledTimes(1);
   });
 
@@ -213,14 +213,14 @@ describe('SubscriberListSelector component', () => {
     // Lists should be selected
     expect(table).toBeInTheDocument();
     expect(checkboxes[0]).toBeChecked();
-    user.click(checkboxes[0]);
+    await user.click(checkboxes[0]);
     expect(checkboxes[0]).not.toBeChecked();
 
     // Confirm button should be enabled
     expect(confirmButton).toBeEnabled();
 
     // Should call onConfirm function
-    user.click(confirmButton);
+    await user.click(confirmButton);
     expect(mockedConfirm).toBeCalledTimes(1);
   });
 

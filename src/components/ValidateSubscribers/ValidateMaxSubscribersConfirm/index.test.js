@@ -20,7 +20,7 @@ describe('ValidateMaxSubscribersConfirm', () => {
     const button = await screen.getByRole('button', {
       name: 'validate_max_subscribers_form.button_accept',
     });
-    userEvent.click(button);
+    await userEvent.click(button);
 
     // Assert
     expect(handleClose).toBeCalledTimes(1);

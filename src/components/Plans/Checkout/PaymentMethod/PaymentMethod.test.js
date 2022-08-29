@@ -211,7 +211,7 @@ describe('PaymentMethod component', () => {
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
-    user.click(submitButton);
+    await user.click(submitButton);
 
     // Validation error messages should be displayed
     const validationErrorMessages = await screen.findAllByText(
@@ -247,8 +247,8 @@ describe('PaymentMethod component', () => {
     let inputIdentificationNumber = await screen.findByRole('textbox', {
       name: 'identificationNumber',
     });
-    user.clear(inputIdentificationNumber);
-    user.type(inputIdentificationNumber, '12345678');
+    await user.clear(inputIdentificationNumber);
+    await user.type(inputIdentificationNumber, '12345678');
 
     inputIdentificationNumber = await screen.findByRole('textbox', {
       name: 'identificationNumber',
@@ -257,7 +257,7 @@ describe('PaymentMethod component', () => {
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
-    user.click(submitButton);
+    await user.click(submitButton);
 
     //Validation error messages should be displayed
     const validationErrorMessages = await screen.findByText(
@@ -324,7 +324,7 @@ describe('PaymentMethod component', () => {
         const submitButton = screen.getByRole('button', {
           name: 'checkoutProcessForm.save_continue',
         });
-        user.click(submitButton);
+        await user.click(submitButton);
 
         // Validation error messages should be displayed
         const validationErrorMessages = await screen.findAllByText(
@@ -467,7 +467,7 @@ describe('PaymentMethod component', () => {
         const submitButton = screen.getByRole('button', {
           name: 'checkoutProcessForm.save_continue',
         });
-        user.click(submitButton);
+        await user.click(submitButton);
 
         // Validation error messages should be displayed
         const error = await screen.findAllByText(firstDataErrorKey);

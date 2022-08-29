@@ -4,7 +4,6 @@ import '@testing-library/jest-dom/extend-expect';
 import ExclusiveForm from './ExclusiveForm';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 
 describe('ExclusiveForm component', () => {
@@ -58,25 +57,25 @@ describe('ExclusiveForm component', () => {
     expect(inputEmail).toHaveValue(email);
 
     let inputName = screen.getByRole('textbox', { name: 'signup.label_firstname' });
-    userEvent.type(inputName, firstname);
+    await userEvent.type(inputName, firstname);
     inputName = await screen.findByRole('textbox', { name: 'signup.label_firstname' });
     expect(inputName).toHaveValue(firstname);
 
     let inputLastname = screen.getByRole('textbox', { name: 'signup.label_lastname' });
-    userEvent.type(inputLastname, lastname);
+    await userEvent.type(inputLastname, lastname);
     inputLastname = await screen.findByRole('textbox', { name: 'signup.label_lastname' });
     expect(inputLastname).toHaveValue(lastname);
 
     let inputPhone = screen.getByRole('textbox', { name: 'signup.label_phone' });
-    userEvent.paste(inputPhone, phone);
+    inputPhone.focus();
+    await userEvent.paste(phone);
     inputPhone = await screen.findByRole('textbox', { name: 'signup.label_phone' });
     expect(inputPhone).toHaveValue(phone);
 
     expect(screen.queryByText('exclusive_form.success')).not.toBeInTheDocument();
-    const submitButton = await screen.getByRole('button', { name: 'exclusive_form.demo' });
+    const submitButton = screen.getByRole('button', { name: 'exclusive_form.demo' });
 
-    userEvent.click(submitButton);
-    await act(async () => expect(submitButton).toBeDisabled());
+    await userEvent.click(submitButton);
 
     expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith({
@@ -107,25 +106,24 @@ describe('ExclusiveForm component', () => {
 
     // Assert
     let inputName = screen.getByRole('textbox', { name: 'signup.label_firstname' });
-    userEvent.clear(inputName);
+    await userEvent.clear(inputName);
     inputName = await screen.findByRole('textbox', { name: 'signup.label_firstname' });
     expect(inputName).toHaveValue(emptyValue);
 
     let inputLastname = screen.getByRole('textbox', { name: 'signup.label_lastname' });
-    userEvent.clear(inputLastname);
+    await userEvent.clear(inputLastname);
     inputLastname = await screen.findByRole('textbox', { name: 'signup.label_lastname' });
     expect(inputLastname).toHaveValue(emptyValue);
 
     let inputPhone = screen.getByRole('textbox', { name: 'signup.label_phone' });
-    userEvent.clear(inputPhone);
+    await userEvent.clear(inputPhone);
     inputPhone = await screen.findByRole('textbox', { name: 'signup.label_phone' });
     expect(inputPhone).toHaveValue(emptyValue);
 
     expect(screen.queryByText('exclusive_form.success')).not.toBeInTheDocument();
 
     const submitButton = await screen.getByRole('button', { name: 'exclusive_form.demo' });
-    userEvent.click(submitButton);
-    await act(async () => expect(submitButton).toBeDisabled());
+    await userEvent.click(submitButton);
 
     expect(screen.getAllByText('validation_messages.error_required_field').length).toBe(3);
     expect(screen.queryByText('exclusive_form.success')).not.toBeInTheDocument();

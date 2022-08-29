@@ -119,19 +119,12 @@ describe('ValidateSubscribersComponent', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    await act(async () => {
-      const input = await screen.getByRole('textbox', { name: 'Nombre' });
-      userEvent.type(input, 'value');
-      const submitButton = await screen.getByRole('button', { name: 'common.save' });
-      userEvent.click(submitButton);
-    });
+    const input = await screen.getByRole('textbox', { name: 'Nombre' });
+    await userEvent.type(input, 'value');
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    await userEvent.click(submitButton);
 
     // Assert
-    await waitFor(async () => {
-      const validateMaxSubscribersConfirm = await screen.getByTestId(
-        'validate-subscribers-confirm',
-      );
-      expect(validateMaxSubscribersConfirm).toBeInTheDocument();
-    });
+    await screen.findByTestId('validate-subscribers-confirm');
   });
 });

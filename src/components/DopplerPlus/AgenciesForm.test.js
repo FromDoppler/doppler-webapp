@@ -72,11 +72,12 @@ describe('AgenciesForm component', () => {
     expect(emailField).toHaveValue('hardcoded@email.com');
 
     // fill firstname, phone and contact fields
-    userEvent.type(firstNameField, firstNameFake);
-    userEvent.paste(phoneField, phoneFake);
-    userEvent.type(contactField, contactFake);
+    await userEvent.type(firstNameField, firstNameFake);
+    phoneField.focus();
+    await userEvent.type(phoneField, phoneFake);
+    await userEvent.type(contactField, contactFake);
     // select between 500k - 1M option
-    userEvent.click(option500To1000);
+    await userEvent.click(option500To1000);
 
     expect(await screen.findByLabelText(/forms.label_firstname/i)).toHaveValue(firstNameFake);
     expect(await screen.findByLabelText(/forms.label_phone/i)).toHaveValue(phoneFake);
@@ -85,17 +86,17 @@ describe('AgenciesForm component', () => {
 
     const submitButton = await screen.findByRole('button', { name: 'agencies.submit' });
     expect(submitButton).toBeEnabled();
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
 
     // don't show success message because last name field is empty
     expect(screen.queryByText(/agencies.success_msg/i)).not.toBeInTheDocument();
     screen.getByText('validation_messages.error_required_field');
 
     // fill lastname
-    userEvent.type(lastNameField, lastNameFake);
+    await userEvent.type(lastNameField, lastNameFake);
     expect(await screen.findByLabelText(/forms.label_lastname/i)).toHaveValue(lastNameFake);
 
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     expect(await screen.findByText(/agencies.success_msg/i)).toBeInTheDocument();
     expect(screen.queryByText('validation_messages.error_required_field')).not.toBeInTheDocument();
   });
