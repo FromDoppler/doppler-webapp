@@ -161,7 +161,7 @@
     "comment": "Resolution to avoid test warning: [...] Please update the following components: SideEffect(NullComponent)"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.3",
+    "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@testing-library/dom": "^8.17.1",
     "@testing-library/user-event": "^14.4.3",
