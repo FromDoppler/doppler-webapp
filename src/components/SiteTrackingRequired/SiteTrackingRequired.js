@@ -71,7 +71,7 @@ export const SiteTrackingRequired = InjectAppServices(
     const isShowTypeformSurvey = location.pathname === '/reports';
 
     return (
-      <section className="container-reports bg-message--grey">
+      <section className="container-reports">
         {isShowTypeformSurvey && <TypeformSurvey />}
         <div className="dp-wrapper-messages">
           <>
