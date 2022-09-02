@@ -953,7 +953,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
   `,
     log_in: `Ingresa`,
     no_more_resend_MD: `¿Aún no has recibido el Email? Ya te lo hemos reenviado, si no llega en los próximos minutos, por favor [contáctate con Soporte](${mailtoSupport}).`,
-    placeholder_email: `Tu Email será tu Nombre de Usuario`,
+    placeholder_email: `Recibirás un Email de confirmación`,
     placeholder_password: `Escribe tu clave secreta`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_MD: `Acepto la [Política de Privacidad](${urlPrivacyFromSignup_HTMLEncoded}) de Doppler.`,

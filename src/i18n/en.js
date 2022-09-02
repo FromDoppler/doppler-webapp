@@ -953,7 +953,7 @@ deletion, security, cross-border data transfers and other issues.
   `,
     log_in: `Log In`,
     no_more_resend_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
-    placeholder_email: `Your Email will be your Username`,
+    placeholder_email: `You will receive a confirmation Email`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_MD: `I accept Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}).`,
