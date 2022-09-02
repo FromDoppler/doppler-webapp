@@ -85,14 +85,6 @@ pipeline {
             }
         }
     }
-    post { 
-        cleanup { 
-            cleanWs()
-            dir("${env.WORKSPACE}@tmp") {
-                deleteDir()
-            }
-        }
-    }
 }
 
 def boolean isVersionTag(String tag) {
