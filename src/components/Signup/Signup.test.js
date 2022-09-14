@@ -375,7 +375,7 @@ describe('Signup', () => {
     const { container } = render(
       <AppServicesProvider forcedServices={dependencies}>
         <DopplerIntlProvider locale="en">
-          <Router>
+          <Router initialEntries={[location.search]}>
             <Signup location={location} />
           </Router>
         </DopplerIntlProvider>
