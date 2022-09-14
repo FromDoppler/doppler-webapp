@@ -356,6 +356,7 @@ describe('Signup', () => {
         emailAlreadyExists: true,
       },
     }));
+    const utmCookies = [{ UTMContent: 'test-utm-content', Origin_Inbound: 'recursos-covid' }];
     const dependencies = {
       ...defaultDependencies,
       dopplerLegacyClient: {
@@ -364,7 +365,7 @@ describe('Signup', () => {
       },
       utmCookiesManager: {
         setCookieEntry: jest.fn(),
-        getUtmCookie: jest.fn().mockImplementation(() => []),
+        getUtmCookie: jest.fn().mockImplementation(() => utmCookies),
       },
     };
 
@@ -420,7 +421,7 @@ describe('Signup', () => {
       redirect: '',
       utm_source: 'direct',
       utm_campaign: null,
-      utm_cookies: [],
+      utm_cookies: utmCookies,
       utm_medium: null,
       utm_term: null,
       gclid: null,

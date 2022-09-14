@@ -67,24 +67,15 @@ const Signup = function ({
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
 
-  const utmSource = query.get('utm_source') || getReferrerHostname() || 'direct';
-  const utmCampaign = query.get('utm_campaign');
-  const utmMedium = query.get('utm_medium');
-  const utmTerm = query.get('utm_term');
-  const gclid = query.get('gclid');
-  const utmContent = query.get('utm_content');
-  const originInbound = query.get('origin_inbound');
-
   utmCookiesManager.setCookieEntry({
-    UTMSource: utmSource,
-    UTMCampaign: utmCampaign,
-    UTMMedium: utmMedium,
-    UTMTerm: utmTerm,
-    gclid,
-    UTMContent: utmContent,
-    Origin_Inbound: originInbound,
+    UTMSource: query.get('utm_source') || getReferrerHostname() || 'direct',
+    UTMCampaign: query.get('utm_campaign'),
+    UTMMedium: query.get('utm_medium'),
+    UTMTerm: query.get('utm_term'),
+    gclid: query.get('gclid'),
+    UTMContent: query.get('utm_content'),
+    Origin_Inbound: query.get('origin_inbound'),
   });
-  const utmCookies = utmCookiesManager.getUtmCookie();
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -119,6 +110,17 @@ const Signup = function ({
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     const redirectUrl = query.get('redirect');
+    const utmCookies = utmCookiesManager.getUtmCookie();
+
+    const {
+      UTMSource: utmSource = 'direct',
+      UTMCampaign: utmCampaign = null,
+      UTMMedium: utmMedium = null,
+      UTMTerm: utmTerm = null,
+      gclid = null,
+      UTMContent: utmContent = null,
+      Origin_Inbound: originInbound = null,
+    } = utmCookies[utmCookies.length - 1] || {};
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
