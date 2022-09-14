@@ -17,10 +17,10 @@ import {
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
-import queryString from 'query-string';
-import { extractParameter, isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
+import { isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
 import * as S from './Signup.styles';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
+import { useQueryParams } from '../../hooks/useQueryParams';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -36,19 +36,6 @@ const minLength = {
   min: 2,
   errorMessageKey: 'validation_messages.error_min_length_2',
 };
-
-/** Extract the page parameter from url*/
-function extractPage(location) {
-  return extractParameter(location, queryString.parse, 'page', 'Page');
-}
-
-function extractRedirect(location) {
-  return extractParameter(location, queryString.parse, 'redirect');
-}
-
-function getParameter(location, parameter) {
-  return extractParameter(location, queryString.parse, parameter);
-}
 
 function getReferrerHostname() {
   const referrer = document.referrer;
@@ -69,9 +56,10 @@ function getReferrerHostname() {
  */
 const Signup = function ({
   location,
-  dependencies: { dopplerLegacyClient, originResolver, localStorage, utmCookiesManager },
+  dependencies: { dopplerLegacyClient, originResolver, utmCookiesManager },
 }) {
   useLinkedinInsightTag();
+  const query = useQueryParams();
   const navigate = useNavigate();
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -79,24 +67,15 @@ const Signup = function ({
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
 
-  const utmSource = getParameter(location, 'utm_source') || getReferrerHostname() || 'direct';
-  const utmCampaign = getParameter(location, 'utm_campaign');
-  const utmMedium = getParameter(location, 'utm_medium');
-  const utmTerm = getParameter(location, 'utm_term');
-  const gclid = getParameter(location, 'gclid');
-  const utmContent = getParameter(location, 'utm_content');
-  const originInbound = getParameter(location, 'origin_inbound');
-
   utmCookiesManager.setCookieEntry({
-    UTMSource: utmSource,
-    UTMCampaign: utmCampaign,
-    UTMMedium: utmMedium,
-    UTMTerm: utmTerm,
-    gclid,
-    UTMContent: utmContent,
-    Origin_Inbound: originInbound,
+    UTMSource: query.get('utm_source') || getReferrerHostname() || 'direct',
+    UTMCampaign: query.get('utm_campaign'),
+    UTMMedium: query.get('utm_medium'),
+    UTMTerm: query.get('utm_term'),
+    gclid: query.get('gclid'),
+    UTMContent: query.get('utm_content'),
+    Origin_Inbound: query.get('origin_inbound'),
   });
-  const utmCookies = utmCookiesManager.getUtmCookie();
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -130,7 +109,18 @@ const Signup = function ({
   };
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
-    var redirectUrl = extractRedirect(location);
+    const redirectUrl = query.get('redirect');
+    const utmCookies = utmCookiesManager.getUtmCookie();
+
+    const {
+      UTMSource: utmSource = 'direct',
+      UTMCampaign: utmCampaign = null,
+      UTMMedium: utmMedium = null,
+      UTMTerm: utmTerm = null,
+      gclid = null,
+      UTMContent: utmContent = null,
+      Origin_Inbound: originInbound = null,
+    } = utmCookies[utmCookies.length - 1] || {};
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
@@ -195,6 +185,8 @@ const Signup = function ({
       setSubmitting(false);
     }
   };
+
+  const page = query.get('page') || query.get('Page');
 
   return (
     <div className="dp-app-container">
@@ -310,7 +302,7 @@ const Signup = function ({
             </small>
           </footer>
         </S.MainPanel>
-        <Promotions type="signup" page={extractPage(location)} />
+        <Promotions type="signup" page={page} />
       </main>
     </div>
   );
