@@ -1,6 +1,7 @@
 import React from 'react';
 import { InjectAppServices, AppServices } from './pure-di';
 import queryString from 'query-string';
+import { Location, useLocation } from 'react-router-dom';
 
 const DopplerFirstOriginLocalStorageKey = 'dopplerFirstOrigin.value';
 const DopplerFirstOriginDateLocalStorageKey = 'dopplerFirstOrigin.date';
@@ -40,13 +41,8 @@ function extractOrigin(location: Location | null): string | null {
     | null;
 }
 
-function _OriginCatcher({
-  dependencies: { localStorage },
-  location,
-}: {
-  dependencies: AppServices;
-  location: Location;
-}) {
+function _OriginCatcher({ dependencies: { localStorage } }: { dependencies: AppServices }) {
+  const location = useLocation();
   const output = <></>;
 
   const originFromUrl = extractOrigin(location);
