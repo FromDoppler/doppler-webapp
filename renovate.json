@@ -10,6 +10,7 @@
     ":enableVulnerabilityAlerts",
     ":semanticCommits"
   ],
+  "rebaseWhen": "never",
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
