@@ -28,7 +28,7 @@
     "env-cmd": "^10.1.0",
     "es6-object-assign": "^1.1.0",
     "formik": "^2.2.9",
-    "full-icu": "^1.4.0",
+    "full-icu": "1.5.0",
     "g": "^2.0.1",
     "history": "^5.3.0",
     "intl-tel-input": "^17.0.18",
