@@ -110,17 +110,17 @@ const Signup = function ({
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     const redirectUrl = query.get('redirect');
-    const utmCookies = utmCookiesManager.getUtmCookie();
+    const utmCookies = utmCookiesManager.getUtmCookie() ?? [];
 
-    const {
-      UTMSource: utmSource = 'direct',
-      UTMCampaign: utmCampaign = null,
-      UTMMedium: utmMedium = null,
-      UTMTerm: utmTerm = null,
-      gclid = null,
-      UTMContent: utmContent = null,
-      Origin_Inbound: originInbound = null,
-    } = utmCookies[utmCookies.length - 1] || {};
+    const lastUTMCookieEntry = utmCookies[utmCookies.length - 1] ?? {
+      UTMSource: 'direct',
+      UTMCampaign: null,
+      UTMMedium: null,
+      UTMTerm: null,
+      gclid: null,
+      UTMContent: null,
+      Origin_Inbound: null,
+    };
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
@@ -129,14 +129,14 @@ const Signup = function ({
       firstOrigin: originResolver.getFirstOrigin(),
       origin: originResolver.getCurrentOrigin(),
       redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
-      utm_source: utmSource,
-      utm_campaign: utmCampaign,
-      utm_medium: utmMedium,
-      utm_term: utmTerm,
+      utm_source: lastUTMCookieEntry.UTMSource,
+      utm_campaign: lastUTMCookieEntry.UTMCampaign,
+      utm_medium: lastUTMCookieEntry.UTMMedium,
+      utm_term: lastUTMCookieEntry.UTMTerm,
       utm_cookies: utmCookies,
-      gclid,
-      utm_content: utmContent,
-      origin_inbound: originInbound,
+      gclid: lastUTMCookieEntry.gclid,
+      utm_content: lastUTMCookieEntry.UTMContent,
+      origin_inbound: lastUTMCookieEntry.Origin_Inbound,
     });
     if (result.success) {
       const hasQueryParams = location.search.length > 0;
