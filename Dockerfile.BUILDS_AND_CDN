@@ -1,6 +1,6 @@
 ## Build layer
 # When update node ---> remember to update all .sh files
-FROM node:16.16.0 as build
+FROM node:18.9.0 as build
 WORKDIR /app
 COPY package.json yarn.lock ./
 ENV DISABLE_HUSKY=true
