@@ -254,6 +254,7 @@ describe('Signup', () => {
 
   it('should show that the email with whitespace already exists when submit', async () => {
     // Arrange
+    const utmCookies = null;
     const values = {
       firstname: 'Juan',
       lastname: 'Perez',
@@ -276,7 +277,7 @@ describe('Signup', () => {
       },
       utmCookiesManager: {
         setCookieEntry: jest.fn(),
-        getUtmCookie: jest.fn().mockImplementation(() => []),
+        getUtmCookie: jest.fn().mockImplementation(() => utmCookies),
       },
     };
 
@@ -331,7 +332,7 @@ describe('Signup', () => {
       redirect: '',
       utm_source: 'direct',
       utm_campaign: null,
-      utm_cookies: [],
+      utm_cookies: utmCookies,
       utm_medium: null,
       utm_term: null,
       gclid: null,
@@ -427,6 +428,204 @@ describe('Signup', () => {
       gclid: undefined,
       utm_content: 'test-utm-content',
       origin_inbound: 'recursos-covid',
+    });
+  });
+
+  it("should use UTM's last click from utm_cookies when the user accepts cookies", async () => {
+    // Arrange
+    const values = {
+      firstname: 'Juan',
+      lastname: 'Perez',
+      phone: '+54 223 655-8877',
+      email: ' hardcoded@hardcoded.com',
+      password: 'HarcodedPass123',
+      accept_privacy_policies: true,
+    };
+    const registerUser = jest.fn().mockImplementation(() => ({
+      success: false,
+      expectedError: {
+        emailAlreadyExists: true,
+      },
+    }));
+    const utmCookies = [
+      {
+        Date: '9/12/2022 8:31:27 PM +00:00',
+        UTMSource: 'direct',
+        UTMMedium: null,
+        UTMCampaign: null,
+        UTMTerm: null,
+        UTMContent: null,
+      },
+      {
+        Date: '9/12/2022 8:33:53 PM +00:00',
+        UTMSource: 'fromdoppler',
+        UTMMedium: 'email',
+        UTMCampaign: 'inbound-demodayseptiembre2022',
+        UTMTerm: null,
+        UTMContent: null,
+      },
+    ];
+    const dependencies = {
+      ...defaultDependencies,
+      dopplerLegacyClient: {
+        ...defaultDependencies.dopplerLegacyClient,
+        registerUser,
+      },
+      utmCookiesManager: {
+        setCookieEntry: jest.fn(),
+        getUtmCookie: jest.fn().mockImplementation(() => utmCookies),
+      },
+    };
+
+    const search =
+      '?utm_source=fromdoppler&utm_medium=email&utm_campaign=inbound-demodayseptiembre2022';
+    const location = { search, pathname: `/signup/${search}` };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <DopplerIntlProvider locale="en">
+          <Router initialEntries={[location.search]}>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    act(() => {
+      const inputName = container.querySelector('input#firstname');
+      fireEvent.change(inputName, { target: { value: 'Juan' } });
+
+      const inputLastname = container.querySelector('input#lastname');
+      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
+
+      const inputPhone = container.querySelector('input#phone');
+      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const inputEmail = container.querySelector('input#email');
+      fireEvent.change(inputEmail, { target: { value: 'hardcoded@hardcoded.com' } });
+
+      const inputPassword = container.querySelector('input#password');
+      fireEvent.change(inputPassword, { target: { value: 'HarcodedPass123' } });
+
+      const inputPrivacyPolicies = container.querySelector('input#accept_privacy_policies');
+      fireEvent.click(inputPrivacyPolicies);
+    });
+
+    act(() => {
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.submit(submitButton);
+    });
+
+    // Assert
+    await waitFor(() => expect(registerUser).toHaveBeenCalledTimes(1));
+    expect(registerUser).toHaveBeenCalledWith({
+      ...values,
+      email: values['email'].trim(),
+      accept_promotions: '',
+      firstOrigin: undefined,
+      captchaResponseToken: 'hardcodedResponseToken',
+      language: 'en',
+      origin: 'login', // 'login' by default
+      redirect: '',
+      utm_source: utmCookies[utmCookies.length - 1].UTMSource,
+      utm_campaign: utmCookies[utmCookies.length - 1].UTMCampaign,
+      utm_cookies: utmCookies,
+      utm_medium: utmCookies[utmCookies.length - 1].UTMMedium,
+      utm_term: null,
+      gclid: undefined,
+      utm_content: null,
+      origin_inbound: undefined,
+    });
+  });
+
+  it("should use UTM's last click from URL", async () => {
+    // Arrange
+    const values = {
+      firstname: 'Juan',
+      lastname: 'Perez',
+      phone: '+54 223 655-8877',
+      email: ' hardcoded@hardcoded.com',
+      password: 'HarcodedPass123',
+      accept_privacy_policies: true,
+    };
+    const registerUser = jest.fn().mockImplementation(() => ({
+      success: false,
+      expectedError: {
+        emailAlreadyExists: true,
+      },
+    }));
+    const utmCookies = null;
+    const dependencies = {
+      ...defaultDependencies,
+      dopplerLegacyClient: {
+        ...defaultDependencies.dopplerLegacyClient,
+        registerUser,
+      },
+      utmCookiesManager: {
+        setCookieEntry: jest.fn(),
+        getUtmCookie: jest.fn().mockImplementation(() => utmCookies),
+      },
+    };
+
+    const search = '';
+    const location = { search, pathname: `/signup/${search}` };
+
+    // Act
+    const { container } = render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <DopplerIntlProvider locale="en">
+          <Router initialEntries={[location.search]}>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    act(() => {
+      const inputName = container.querySelector('input#firstname');
+      fireEvent.change(inputName, { target: { value: 'Juan' } });
+
+      const inputLastname = container.querySelector('input#lastname');
+      fireEvent.change(inputLastname, { target: { value: 'Perez' } });
+
+      const inputPhone = container.querySelector('input#phone');
+      fireEvent.change(inputPhone, { target: { value: '+54 223 655-8877' } });
+
+      const inputEmail = container.querySelector('input#email');
+      fireEvent.change(inputEmail, { target: { value: 'hardcoded@hardcoded.com' } });
+
+      const inputPassword = container.querySelector('input#password');
+      fireEvent.change(inputPassword, { target: { value: 'HarcodedPass123' } });
+
+      const inputPrivacyPolicies = container.querySelector('input#accept_privacy_policies');
+      fireEvent.click(inputPrivacyPolicies);
+    });
+
+    act(() => {
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.submit(submitButton);
+    });
+
+    // Assert
+    await waitFor(() => expect(registerUser).toHaveBeenCalledTimes(1));
+    expect(registerUser).toHaveBeenCalledWith({
+      ...values,
+      email: values['email'].trim(),
+      accept_promotions: '',
+      firstOrigin: undefined,
+      captchaResponseToken: 'hardcodedResponseToken',
+      language: 'en',
+      origin: 'login', // 'login' by default
+      redirect: '',
+      utm_source: 'direct',
+      utm_campaign: null,
+      utm_cookies: utmCookies,
+      utm_medium: null,
+      utm_term: null,
+      gclid: null,
+      utm_content: null,
+      origin_inbound: null,
     });
   });
 });

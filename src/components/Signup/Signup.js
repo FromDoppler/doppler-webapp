@@ -67,7 +67,7 @@ const Signup = function ({
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
 
-  utmCookiesManager.setCookieEntry({
+  const utmParams = {
     UTMSource: query.get('utm_source') || getReferrerHostname() || 'direct',
     UTMCampaign: query.get('utm_campaign'),
     UTMMedium: query.get('utm_medium'),
@@ -75,7 +75,8 @@ const Signup = function ({
     gclid: query.get('gclid'),
     UTMContent: query.get('utm_content'),
     Origin_Inbound: query.get('origin_inbound'),
-  });
+  };
+  utmCookiesManager.setCookieEntry(utmParams);
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -112,15 +113,7 @@ const Signup = function ({
     const redirectUrl = query.get('redirect');
     const utmCookies = utmCookiesManager.getUtmCookie() ?? [];
 
-    const lastUTMCookieEntry = utmCookies[utmCookies.length - 1] ?? {
-      UTMSource: 'direct',
-      UTMCampaign: null,
-      UTMMedium: null,
-      UTMTerm: null,
-      gclid: null,
-      UTMContent: null,
-      Origin_Inbound: null,
-    };
+    const lastUTMCookieEntry = utmCookies[utmCookies.length - 1] ?? utmParams;
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
@@ -133,7 +126,7 @@ const Signup = function ({
       utm_campaign: lastUTMCookieEntry.UTMCampaign,
       utm_medium: lastUTMCookieEntry.UTMMedium,
       utm_term: lastUTMCookieEntry.UTMTerm,
-      utm_cookies: utmCookies,
+      utm_cookies: utmCookies.length ? utmCookies : null,
       gclid: lastUTMCookieEntry.gclid,
       utm_content: lastUTMCookieEntry.UTMContent,
       origin_inbound: lastUTMCookieEntry.Origin_Inbound,
