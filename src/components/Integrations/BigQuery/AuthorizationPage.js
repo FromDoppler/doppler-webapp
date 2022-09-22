@@ -114,7 +114,6 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
               <FormattedMessageMarkdown id="big_query.plus_header_MD" />
             </div>
           </div>
-          <span className="arrow"></span>
         </div>
       </header>
       <section className="dp-container m-t-60">
