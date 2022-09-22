@@ -454,7 +454,10 @@ export const PurchaseSummary = InjectAppServices(
         setState((prevState) => ({
           ...prevState,
           loadingPromocodeValidation: false,
-          promotion: validateData && validateData.success ? validateData.value : '',
+          promotion:
+            validateData && validateData.success
+              ? { ...validateData.value, promocode: selectedPromocode }
+              : '',
         }));
       };
 
