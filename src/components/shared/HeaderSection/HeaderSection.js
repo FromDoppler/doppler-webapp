@@ -5,7 +5,6 @@ const HeaderSection = ({ children }) => {
     <header className="hero-banner report-filters">
       <div className="dp-container">
         <div className="dp-rowflex">{children}</div>
-        <span className="arrow"></span>
       </div>
     </header>
   );

@@ -33,7 +33,6 @@ export const Dashboard = InjectAppServices(({ dependencies: { appSessionRef } })
                 <FormattedMessageMarkdown id="dashboard.welcome_message_header" />
               </div>
             </div>
-            <span className="arrow"></span>
           </div>
         </header>
         <div className="dp-container">
