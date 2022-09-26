@@ -29,7 +29,6 @@ import SignupConfirmation from './components/Signup/SignupConfirmation';
 import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { availableLanguageOrNull } from './i18n/utils';
-import { OriginCatcher } from './services/origin-management';
 import { InjectAppServices } from './services/pure-di';
 import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 
@@ -99,7 +98,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
           <Helmet>
             <html lang={state.i18nLocale} />
           </Helmet>
-          <OriginCatcher />
           <Routes>
             <Route
               path="/"
