@@ -150,3 +150,5 @@ export const MercadoPagoError = {
   declinedOtherReason: 'DeclinedPaymentTransaction - cc_rejected_other_reason',
   suspectedFraud: 'DeclinedPaymentTransaction - cc_rejected_high_risk',
 };
+
+export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
