@@ -201,6 +201,9 @@ export function isWhitelisted(url: string) {
     'https://app.fromdoppler.com/',
     'https://webappqa.fromdoppler.net/',
     'https://webappint.fromdoppler.net/',
+    'https://reports2.fromdoppler.com/',
+    'https://reportsqa.fromdoppler.net:400/',
+    'https://reportsint.fromdoppler.net:400/',
   ];
   return !!url && loginWhitelist.some((element) => url.startsWith(element));
 }
