@@ -14,9 +14,6 @@ export const PlanCalculatorButtons = InjectAppServices(
     const { search } = useLocation();
 
     const sessionPlan = appSessionRef.current.userData.user;
-    const isEqualSubscription =
-      sessionPlan.plan.planSubscription === selectedDiscount?.numberMonths;
-    const isMonthlyByEmail = sessionPlan.plan.isMonthlyByEmail;
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
@@ -40,13 +37,13 @@ export const PlanCalculatorButtons = InjectAppServices(
               {_('plan_calculator.button_back')}
             </button>
             <TooltipContainer
-              visible={isEqualPlan && isEqualSubscription}
+              visible={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
               content={_('plan_calculator.button_purchase_tooltip')}
               orientation="top"
             >
               <S.PurchaseLink
                 className={`dp-button button-medium primary-green ${
-                  isEqualPlan && (isEqualSubscription || isMonthlyByEmail) ? 'disabled' : ''
+                  isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit ? 'disabled' : ''
                 }`}
                 href={getBuyPurchaseUrl({
                   controlPanelUrl: _('common.control_panel_section_url'),
