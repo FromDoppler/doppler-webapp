@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
 
+/**
+ * @param { Object } props
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
+ */
 // TODO: rename it to Menu
 const MenuDemo = ({
   dependencies: {
     appConfiguration: { dopplerLegacyUrl: dopplerLegacyBaseUrl },
   },
 }) => {
-  // Ugly patch: it is required because in some pages we do not have the menu
-  // and we should show them without waiting.
-  document.getElementById('root')?.classList.remove('dp-show-page');
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Ugly patch: it is required to load menu early
+    // and do not render the page until it is shown
+    if (!window['doppler-menu-mfe-configuration']) {
+      document.getElementById('root')?.classList.remove('dp-show-page');
+    }
     window['doppler-menu-mfe-configuration'] = {
       dopplerMenuElementId: 'doppler-menu-mfe',
       useDummies: false,
