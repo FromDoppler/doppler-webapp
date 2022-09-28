@@ -94,6 +94,8 @@ export const PlanCalculator = InjectAppServices(
             payload: {
               plansByType: _plansByType,
               currentSubscriptionUser: appSessionRef.current.userData.user.plan.planSubscription,
+              currentPlanUser: appSessionRef.current.userData.user.plan.idPlan,
+              currentPlanType: appSessionRef.current.userData.user.plan.planType,
             },
           });
         } catch (error) {
@@ -221,7 +223,7 @@ export const PlanCalculator = InjectAppServices(
                                       discounts={discounts}
                                       selectedDiscount={selectedDiscount}
                                       onSelectDiscount={handleDiscountChange}
-                                      disabled={promotion.isValid}
+                                      disabled={promotion.isValid || isEqualPlan}
                                     />
                                   </>
                                 )
