@@ -4,7 +4,6 @@ import { SessionManager } from './session-manager';
 import React, { createContext, ReactNode, RefObject, MutableRefObject } from 'react';
 import { DatahubClient, HttpDatahubClient } from './datahub-client';
 import { AppSession, createAppSessionRef } from './app-session';
-import { OriginResolver, LocalStorageOriginResolver } from './origin-management';
 import { ShopifyClient, HttpShopifyClient } from './shopify-client';
 import { BigQueryClient, HttpBigQueryClient } from './big-query-client';
 import { DopplerApiClient, HttpDopplerApiClient } from './doppler-api-client';
@@ -63,7 +62,6 @@ export interface AppServices {
   dopplerLegacyClient: DopplerLegacyClient;
   sessionManager: SessionManager;
   localStorage: Storage;
-  originResolver: OriginResolver;
   shopifyClient: ShopifyClient;
   bigQueryClient: BigQueryClient;
   reportClient: ReportClient;
@@ -261,13 +259,6 @@ export class AppCompositionRoot implements AppServices {
 
   get localStorage() {
     return this.singleton('localStorage', () => this.window.localStorage);
-  }
-
-  get originResolver() {
-    return this.singleton(
-      'originResolver',
-      () => new LocalStorageOriginResolver(this.localStorage),
-    );
   }
 
   get dopplerBillingApiClient() {

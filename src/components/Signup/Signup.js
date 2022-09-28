@@ -54,10 +54,7 @@ function getReferrerHostname() {
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function ({
-  location,
-  dependencies: { dopplerLegacyClient, originResolver, utmCookiesManager },
-}) {
+const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCookiesManager } }) {
   useLinkedinInsightTag();
   const query = useQueryParams();
   const navigate = useNavigate();
@@ -111,6 +108,7 @@ const Signup = function ({
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     const redirectUrl = query.get('redirect');
+    const origin = query.get('origin') ?? query.get('Origin') ?? 'login';
     const utmCookies = utmCookiesManager.getUtmCookie() ?? [];
 
     const lastUTMCookieEntry = utmCookies[utmCookies.length - 1] ?? utmParams;
@@ -119,8 +117,7 @@ const Signup = function ({
       ...values,
       email: values[fieldNames.email].trim(),
       language: intl.locale,
-      firstOrigin: originResolver.getFirstOrigin(),
-      origin: originResolver.getCurrentOrigin(),
+      origin,
       redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
       utm_source: lastUTMCookieEntry.UTMSource,
       utm_campaign: lastUTMCookieEntry.UTMCampaign,
