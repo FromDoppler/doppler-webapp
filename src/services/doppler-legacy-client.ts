@@ -533,9 +533,13 @@ function parsePlan(json: any) {
 }
 
 function mapIdUserToken(jwtToken: string) {
-  if (jwtToken) {
-    var tokenDecoded = jwt_decode<any>(jwtToken);
-    return tokenDecoded.nameid || 0;
+  try {
+    if (jwtToken) {
+      var tokenDecoded = jwt_decode<any>(jwtToken);
+      return tokenDecoded.nameid || 0;
+    }
+  } catch (error) {
+    console.error(error);
   }
 
   return 0;
@@ -555,7 +559,7 @@ export function mapHeaderDataJson(json: any) {
     },
     nav: (json.nav && json.nav.map(mapNavMainEntry)) || [],
     user: {
-      idUser: mapIdUserToken(json.jwtToken),
+      idUser: mapIdUserToken(json.jwtToken), // TODO: read from content
       avatar: json.user.avatar,
       email: json.user.email,
       isLastPlanRequested: json.user.isLastPlanRequested,
