@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import {
   SiteTrackingRequired,
@@ -9,6 +8,7 @@ import {
 import RedirectToLogin from './RedirectToLogin';
 import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
+import MenuDemo from './MenuDemo/MenuDemo';
 
 export default InjectAppServices(
   /**
@@ -28,7 +28,9 @@ export default InjectAppServices(
     if (dopplerSession.status === 'authenticated') {
       return (
         <div className="dp-app-container">
-          <Header userData={dopplerSession.userData} location={location} />
+          <MenuDemo />
+          {/* <Header userData={dopplerSession.userData} location={props.location} /> */}
+          {/* TODO: remove all Header related code */}
           {requireSiteTracking &&
           !dopplerSession.userData.features.siteTrackingEnabled &&
           !dopplerSession.userData.user.plan.isFreeAccount ? (

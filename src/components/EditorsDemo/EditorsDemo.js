@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 const EditorsDemo = () => {
   useEffect(() => {
@@ -16,7 +15,6 @@ const EditorsDemo = () => {
   }, []);
   return (
     <div>
-      <Link to={'/menu-demo'}>ir a Menu Demo</Link>
       <div id="root-header"></div>
       <div id="doppler-editors-webapp"></div>
       <div id="root-footer"></div>

@@ -305,7 +305,7 @@ describe('App component', () => {
         ...reportDependencies,
       };
 
-      const { getByText, container } = render(
+      const { container } = render(
         <AppServicesProvider forcedServices={dependencies}>
           <Router initialEntries={['/reports']}>
             <App window={window} locale="en" />
@@ -341,8 +341,8 @@ describe('App component', () => {
       });
 
       // Assert
-      await waitFor(() => expect(getByText(expectedEmail)));
-      // TODO: test session manager behavior
+      const loadingElNow = container.querySelector('.loading-page');
+      expect(loadingElNow).toBeNull();
     });
 
     describe('not authenticated user', () => {
@@ -592,10 +592,8 @@ describe('App component', () => {
         // Assert
         await waitFor(() => {
           expect(currentRouteState.location.state).toBeNull();
-          const headerEl = container.querySelector('.header-main');
-          expect(headerEl).not.toBeNull();
-          const menuEl = container.querySelector('.menu-main');
-          expect(menuEl).not.toBeNull();
+          const reportsPageWithoutDomainsEl = container.querySelector('.patch-no-domains');
+          expect(reportsPageWithoutDomainsEl).not.toBeNull();
           const footerEl = container.querySelector('.dp-footer');
           expect(footerEl).not.toBeNull();
         });
@@ -657,10 +655,8 @@ describe('App component', () => {
           expect(currentRouteState.location.search).toEqual('?param1=value1');
           expect(currentRouteState.location.hash).toEqual('#hash');
           expect(currentRouteState.location.state).toBeNull();
-          const headerEl = container.querySelector('.header-main');
-          expect(headerEl).not.toBeNull();
-          const menuEl = container.querySelector('.menu-main');
-          expect(menuEl).not.toBeNull();
+          const reportsPageWithoutDomainsEl = container.querySelector('.patch-no-domains');
+          expect(reportsPageWithoutDomainsEl).not.toBeNull();
           const footerEl = container.querySelector('.dp-footer');
           expect(footerEl).not.toBeNull();
         });
