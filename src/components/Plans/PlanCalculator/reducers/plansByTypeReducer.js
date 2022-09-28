@@ -1,6 +1,8 @@
 import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../../doppler-types';
 
 export const INITIAL_STATE_PLANS_BY_TYPE = {
+  currentSubscriptionIndexUser: 0,
+  currentPlanUser: 0,
   selectedPlanIndex: 0,
   selectedPlan: null,
   plansByType: [],
@@ -29,7 +31,7 @@ export const plansByTypeReducer = (state, action) => {
         hasError: false,
       };
     case PLANS_BY_TYPE_ACTIONS.FINISH_FETCH:
-      const { plansByType, currentSubscriptionUser } = action.payload;
+      const { plansByType, currentSubscriptionUser, currentPlanType } = action.payload;
       const sliderValuesRange = plansByType.map(amountByPlanType);
       const discounts =
         plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
@@ -38,6 +40,8 @@ export const plansByTypeReducer = (state, action) => {
       );
       return {
         ...state,
+        currentSubscriptionIndexUser: selectDiscountIndexByDefault,
+        currentPlanUser: currentPlanType === PLAN_TYPE.free ? 0 : plansByType[0].id,
         selectedPlanIndex: 0,
         selectedPlan: plansByType[0], // Assuming that there is at leas one plan
         loading: false,
@@ -65,13 +69,18 @@ export const plansByTypeReducer = (state, action) => {
       };
     case PLANS_BY_TYPE_ACTIONS.SELECT_PLAN:
       const { payload: selectedPlanIndex } = action;
+
       const _discounts =
         state.plansByType[selectedPlanIndex].billingCycleDetails
           ?.map(mapDiscount)
           .sort(orderDiscount) ?? [];
-      const selectedDiscountIndexAux = _discounts[state.selectedDiscountIndex]
-        ? state.selectedDiscountIndex
-        : 0;
+
+      const selectedDiscountIndexAux =
+        state.currentPlanUser === state.plansByType[selectedPlanIndex].id
+          ? state.currentSubscriptionIndexUser
+          : _discounts[state.selectedDiscountIndex]
+          ? state.selectedDiscountIndex
+          : 0;
 
       return {
         ...state,
