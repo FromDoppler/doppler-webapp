@@ -25,6 +25,23 @@ const getFakePurchase = (success) => {
   };
 };
 
+const getFakePurchaseWithError = (error) => {
+  const purchaseMock = jest.fn(async () => ({
+    success: false,
+    error: { response: { data: error } },
+  }));
+  const dependencies = {
+    dopplerBillingUserApiClient: {
+      purchase: purchaseMock,
+    },
+  };
+
+  return {
+    purchaseMock,
+    dependencies,
+  };
+};
+
 describe('PlanPurchase component', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'location', {
@@ -201,5 +218,57 @@ describe('PlanPurchase component', () => {
       `/checkout-summary?planId=${props.planId}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.description}&extraCredits=${props.promotion.extraCredits}`,
     );
     jest.useRealTimers();
+  });
+
+  it('should generate an oly support upselling error in the purchase process', async () => {
+    //Arrange
+    const props = {
+      canBuy: true,
+      planId: '1',
+      total: 1_000,
+      paymentMethod: paymentType.transfer,
+    };
+
+    const { purchaseMock, dependencies } = getFakePurchaseWithError(
+      'Invalid selected plan. Only supports upselling.',
+    );
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <IntlProvider>
+          <Router initialEntries={[`/checkout/premium/subscribers?selected-plan=${props.planId}`]}>
+            <PlanPurchase {...props} />
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const getBuyButton = () =>
+      screen.queryByRole('button', {
+        name: 'checkoutProcessForm.purchase_summary.buy_button',
+      });
+
+    expect(getBuyButton()).toBeEnabled();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+    // simulate click to buy button
+    await userEvent.click(getBuyButton());
+    expect(purchaseMock).toHaveBeenCalledTimes(1);
+    expect(purchaseMock).toHaveBeenCalledWith({
+      planId: props.planId,
+      discountId: 0, // because hasn't discount
+      total: props.total,
+      promocode: '', // because hasn't promotion
+      originInbound: '', // because hasn't origin_inbound
+    });
+    expect(await screen.findByRole('alert', { name: 'cancel' })).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        'checkoutProcessForm.purchase_summary.error_only_supports_upselling_message',
+      ),
+    ).toBeInTheDocument();
+    expect(getBuyButton()).toBeEnabled();
   });
 });

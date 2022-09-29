@@ -4,7 +4,11 @@ import { useIntl } from 'react-intl';
 import { useQueryParams } from '../../../../../hooks/useQueryParams';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../../services/pure-di';
-import { FirstDataError, MercadoPagoError } from '../../../../../doppler-types';
+import {
+  FirstDataError,
+  MercadoPagoError,
+  OnlySupportUpSelling,
+} from '../../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
@@ -80,6 +84,8 @@ export const PlanPurchase = InjectAppServices(
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
         case MercadoPagoError.invalidSecurityCode:
           return 'checkoutProcessForm.payment_method.mercado_pago_error.invalid_security_code';
+        case OnlySupportUpSelling:
+          return 'checkoutProcessForm.purchase_summary.error_only_supports_upselling_message';
         default:
           return 'checkoutProcessForm.purchase_summary.error_message';
       }
