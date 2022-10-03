@@ -77,6 +77,7 @@ const SubscriberSentCampaigns = ({
 
   return (
     <div>
+      <meta name="doppler-menu-mfe:default-active-item" content="listMasterSubscriberMenu" />
       <div className="dp-table-responsive">
         {stateSentCampaigns.loading ? (
           <Loading page />

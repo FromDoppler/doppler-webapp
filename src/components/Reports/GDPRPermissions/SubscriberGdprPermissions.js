@@ -52,6 +52,7 @@ const SubscriberGdprPermissions = ({
 
   return (
     <div>
+      <meta name="doppler-menu-mfe:default-active-item" content="listCustomFieldMenu" />
       <div className="dp-table-responsive">
         {state.loading ? (
           <Loading page />
