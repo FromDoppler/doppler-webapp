@@ -94,6 +94,7 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
           </Breadcrumb>
           <h2>{currentSection.title}</h2>
           <p>{currentSection.description}</p>
+          <meta name="doppler-menu-mfe:default-active-item" content="listMasterSubscriberMenu" />
         </div>
       </HeaderSection>
 
