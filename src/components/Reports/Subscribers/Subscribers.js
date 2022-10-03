@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { generatePath, useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Loading } from '../../Loading/Loading';
 import SafeRedirect from '../../SafeRedirect';
 import SubscriberGdprPermissions from '../GDPRPermissions/SubscriberGdprPermissions';
@@ -13,7 +13,6 @@ import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 
 const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
-  const { pathname: path } = useLocation();
   const params = useParams();
   const { email, section } = params;
   const [state, setState] = useState({ loading: true });
@@ -36,7 +35,7 @@ const Subscribers = ({ dependencies: { dopplerApiClient } }) => {
   for (const sectionKey in sections) {
     const sectionValue = sections[sectionKey];
     tabsProperties.push({
-      url: generatePath(path, { ...params, section: sectionKey }),
+      url: `/subscribers/${email}/${sectionKey}`,
       active: sectionKey === section,
       label: sectionValue.title,
       key: sectionKey,
