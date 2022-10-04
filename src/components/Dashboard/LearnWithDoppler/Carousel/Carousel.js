@@ -1,15 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import useInterval from '../../../../hooks/useInterval';
 
-export const Carousel = ({ id, children, slideActiveDefault, color, ariaLabel }) => {
+const DEFAULT_TIME_INTERVAL = 6000;
+export const Carousel = ({
+  id,
+  children,
+  color,
+  ariaLabel,
+  numberOfItems,
+  slideActiveDefault,
+  timeInterval = DEFAULT_TIME_INTERVAL,
+}) => {
   const [activeSlide, setActiveSlide] = useState(slideActiveDefault ?? 0);
+  const createInterval = useInterval();
+  const intervalIdRef = useRef(null);
+  const pauseCarouselRef = useRef(false);
+  const activeSlideRef = useRef(null);
+  activeSlideRef.current = activeSlide;
 
-  const changeSlide = (e) => setActiveSlide(parseInt(e.target.value));
+  useEffect(() => {
+    const intervalId = createInterval(() => {
+      if (!pauseCarouselRef.current) {
+        const nextActiveSlider =
+          activeSlideRef.current >= numberOfItems - 1 ? 0 : activeSlideRef.current + 1;
+        setActiveSlide(nextActiveSlider);
+      }
+    }, timeInterval);
+    intervalIdRef.current = intervalId;
+  }, [createInterval, timeInterval, numberOfItems, children]);
 
-  const slides = children({ activeSlide });
+  const changeSlide = (e) => {
+    handleStop();
+    setActiveSlide(parseInt(e.target.value));
+  };
+
+  const handleMouseOver = () => {
+    pauseCarouselRef.current = true;
+  };
+
+  const handleMouseOut = () => {
+    pauseCarouselRef.current = false;
+  };
+
+  const handleStop = () => {
+    clearInterval(intervalIdRef.current);
+  };
+
+  const slides = children({ activeSlide, handleStop });
+  const mouseEvents = {
+    onMouseOver: handleMouseOver,
+    onMouseOut: handleMouseOut,
+  };
 
   return (
     <div className="dp-carousel" id={`carousel${id}`} role="region" aria-label={ariaLabel}>
-      <div className={`dp-carousel-wrapper dp-carousel-${color}`}>
+      <div className={`dp-carousel-wrapper dp-carousel-${color}`} {...mouseEvents}>
         <div className="dp-carousel-content">{slides}</div>
       </div>
       <div className="dp-carousel-dots">
@@ -21,6 +66,7 @@ export const Carousel = ({ id, children, slideActiveDefault, color, ariaLabel })
             type="radio"
             value={index}
             onChange={changeSlide}
+            {...mouseEvents}
           />
         ))}
       </div>

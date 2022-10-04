@@ -5,7 +5,7 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 import { fakePostList, LearnWithDoppler } from '.';
 
 describe('LearnWithDoppler component', () => {
-  it('should render blog carousel', async () => {
+  it('should render carousel', async () => {
     // Act
     render(
       <IntlProvider>
@@ -14,23 +14,8 @@ describe('LearnWithDoppler component', () => {
     );
 
     // Assert
-    const carousel = screen.getByRole('region', { name: 'blog' });
-    fakePostList.blog.forEach((post) => {
-      expect(getByText(carousel, post.title));
-    });
-  });
-
-  it('should render help carousel', async () => {
-    // Act
-    render(
-      <IntlProvider>
-        <LearnWithDoppler />
-      </IntlProvider>,
-    );
-
-    // Assert
-    const carousel = screen.getByRole('region', { name: 'help' });
-    fakePostList.help.forEach((post) => {
+    const carousel = screen.getByRole('region', { name: 'learn-with-doppler' });
+    fakePostList.forEach((post) => {
       expect(getByText(carousel, post.title));
     });
   });
