@@ -5,6 +5,8 @@ import { PLAN_TYPE } from '../../../../doppler-types';
 import { compactNumber, thousandSeparatorNumber } from '../../../../utils';
 import styled from 'styled-components';
 
+export const HIDE_MARKS_FROM = 9;
+
 const OldCreditsStyled = styled.div`
   padding: 0 !important;
 `;
@@ -21,6 +23,36 @@ const OldCredits = ({ totalCredits }) => {
         </span>
       </span>
     </OldCreditsStyled>
+  );
+};
+
+export const Tickmarks = ({
+  id,
+  values,
+  amountPlans,
+  handleChange,
+  hideMarksFrom = HIDE_MARKS_FROM,
+}) => {
+  const getHandleChange = (planIndex) => () => handleChange({ target: { value: planIndex } });
+
+  return (
+    <ul id={id} className="datalist">
+      {amountPlans >= hideMarksFrom
+        ? values.map((value, index) => (
+            <li key={index} onClick={getHandleChange(index)}>
+              {[0, amountPlans - 1].includes(index) && <strong>{compactNumber(value)}</strong>}
+            </li>
+          ))
+        : values.map((value, index) => (
+            <li key={index} onClick={getHandleChange(index)}>
+              {[0, amountPlans - 1].includes(index) ? (
+                <strong>{compactNumber(value)}</strong>
+              ) : (
+                compactNumber(value)
+              )}
+            </li>
+          ))}
+    </ul>
   );
 };
 
@@ -65,6 +97,7 @@ export const Slider = ({
             step={1}
             value={selectedPlanIndex}
             onChange={handleChange}
+            list="item-list"
           />
           <div
             className="progress-anchor"
@@ -74,18 +107,12 @@ export const Slider = ({
                 : { width: '100%' }
             }
           />
-          <div className="dp-indicator">
-            {amountPlans > 1 ? (
-              <span role="feed">
-                <strong>{compactNumber(values[0])}</strong>
-              </span>
-            ) : (
-              <span />
-            )}
-            <span>
-              <strong>{compactNumber(values[amountPlans - 1])}</strong>
-            </span>
-          </div>
+          <Tickmarks
+            id="item-list"
+            values={values}
+            amountPlans={amountPlans}
+            handleChange={handleChange}
+          />
         </div>
       )}
     </>
