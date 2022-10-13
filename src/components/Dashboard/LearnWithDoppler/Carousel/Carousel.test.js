@@ -18,7 +18,7 @@ describe('Carousel component', () => {
       <IntlProvider>
         <Carousel id={id} color={color}>
           {(activeSlide) =>
-            fakePostList.blog.map((post) => (
+            fakePostList.map((post) => (
               <Slide key={post.id} active={activeSlide}>
                 <TextPreviewPost post={post} />
               </Slide>
@@ -30,7 +30,7 @@ describe('Carousel component', () => {
     );
 
     // Assert
-    fakePostList.blog.forEach((post) => expect(screen.getByText(post.title)).toBeInTheDocument());
+    fakePostList.forEach((post) => expect(screen.getByText(post.title)).toBeInTheDocument());
     const element = container.querySelector(`.dp-carousel-${color}`);
     expect(element).toBeInTheDocument();
     const element2 = container.querySelector(`#carousel${id}`);
