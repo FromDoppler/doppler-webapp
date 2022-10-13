@@ -127,7 +127,8 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
   return (
     <>
       <Helmet title={_('shopify.title')} />
-      <section className="dp-container">
+      {/* TODO: this is temporal because the layout will be changed */}
+      <section className="container-reports">
         <div className="dp-rowflex">
           <div className="col-sm-12 m-t-24">
             <Breadcrumb>
