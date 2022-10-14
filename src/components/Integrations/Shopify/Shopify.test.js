@@ -1,9 +1,15 @@
 import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import {
+  render,
+  cleanup,
+  waitFor,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
-import Shopify from './Shopify';
+import Shopify, { FETCH_SHOPIFY_DATA_INTERVAL } from './Shopify';
 import { SubscriberListState } from '../../../services/shopify-client';
 
 const oneShop = [
@@ -48,6 +54,10 @@ const unexpectedErrorResponse = { success: false, message: 'Some random error' }
 
 describe('Shopify Component', () => {
   afterEach(cleanup);
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
 
   it('should show not connected user data', async () => {
     const shopifyClientDouble = {
@@ -204,5 +214,45 @@ describe('Shopify Component', () => {
       expect(container.querySelector('.dp-integration__status')).toBeInTheDocument();
       expect(getByText(listExist.value.amountSubscribers.toString()));
     });
+  });
+
+  it(`should execute get shopify data every ${
+    FETCH_SHOPIFY_DATA_INTERVAL / 1000
+  } seconds`, async () => {
+    const getShopifyDataMock = jest.fn().mockResolvedValue(oneShopConnected);
+    const getListDataMock = jest.fn().mockResolvedValue({
+      success: false,
+    });
+
+    const shopifyClientDouble = {
+      getShopifyData: getShopifyDataMock,
+    };
+    const dopplerApiClientDouble = {
+      getListData: getListDataMock,
+    };
+    const { container, getByText } = render(
+      <AppServicesProvider
+        forcedServices={{
+          shopifyClient: shopifyClientDouble,
+          dopplerApiClient: dopplerApiClientDouble,
+        }}
+      >
+        <DopplerIntlProvider>
+          <Shopify />
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    // because it's executed to start
+    expect(getShopifyDataMock).toHaveBeenCalledTimes(1);
+
+    jest.advanceTimersByTime(FETCH_SHOPIFY_DATA_INTERVAL);
+    expect(getShopifyDataMock).toHaveBeenCalledTimes(2);
+
+    jest.advanceTimersByTime(FETCH_SHOPIFY_DATA_INTERVAL);
+    expect(getShopifyDataMock).toHaveBeenCalledTimes(3);
   });
 });

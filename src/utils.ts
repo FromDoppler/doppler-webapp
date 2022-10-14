@@ -1,5 +1,4 @@
 import urlParse from 'url-parse';
-import { useEffect, useRef } from 'react';
 import {
   Plan,
   CreditPlan,
@@ -29,35 +28,6 @@ export function getDataHubParams(partialUrl: string) {
     hash: parsedUrl.hash,
     search: parsedUrl.query,
   };
-}
-
-export function useInterval({
-  callback,
-  delay,
-  runOnStart,
-}: {
-  callback: () => void;
-  delay: number;
-  runOnStart: boolean;
-}) {
-  const savedCallback = useRef<() => void>();
-
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current && savedCallback.current();
-    }
-    if (delay !== null) {
-      if (runOnStart) {
-        savedCallback.current && savedCallback.current();
-      }
-      const id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay, runOnStart]);
 }
 
 interface ResponseWithEtag {

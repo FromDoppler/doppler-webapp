@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
 import { FormattedDate, useIntl } from 'react-intl';
 import { SubscriberListState } from '../../../services/shopify-client';
-import { useInterval } from '../../../utils';
 import { StyledShopifyLogo } from './Shopify.styles';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
+import useInterval from '../../../hooks/useInterval';
 
-const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimentalFeatures } }) => {
+export const FETCH_SHOPIFY_DATA_INTERVAL = 20000;
+
+const Table = ({ list }) => {
   const intl = useIntl();
-
-  const [shopifyState, setShopifyState] = useState({
-    isLoading: true,
-  });
-
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const Table = ({ list }) => (
+  return (
     <table className="dp-c-table">
       <thead>
         <tr>
@@ -52,12 +49,60 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
       </tbody>
     </table>
   );
+};
 
-  const backButton = (
-    <a href={_('common.control_panel_url')} className="dp-button button-medium primary-grey">
-      {_('common.back')}
-    </a>
-  );
+const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const createInterval = useInterval();
+  const [shopifyState, setShopifyState] = useState({
+    isLoading: true,
+  });
+  const shopifyRef = useRef(shopifyState);
+  shopifyRef.current = shopifyState;
+
+  useEffect(() => {
+    const getShopifyData = async () => {
+      const getSubscribersAmountFromAPI = async (listId) => {
+        const resultAPI = await dopplerApiClient.getListData(listId);
+        return resultAPI.success ? resultAPI.value.amountSubscribers : null;
+      };
+
+      const updateSubscriberCount = async (list) => {
+        if (list) {
+          const subscribersCount = await getSubscribersAmountFromAPI(list.id);
+          if (subscribersCount != null) {
+            list.amountSubscribers = subscribersCount;
+          }
+        }
+        return list;
+      };
+
+      const shopifyResult = await shopifyClient.getShopifyData();
+      if (shopifyResult.value && shopifyResult.value.length) {
+        //updates only first shop
+        shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
+      }
+      return shopifyResult;
+    };
+
+    const fetchData = async () => {
+      const result = await getShopifyData();
+      if (!result.success && !shopifyRef.current.error) {
+        setShopifyState({
+          error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+        });
+      } else if (result.value !== shopifyRef.current.shops) {
+        setShopifyState({
+          shops: result.value,
+          isConnected: !!result.value.length,
+        });
+      }
+    };
+
+    fetchData();
+    createInterval(fetchData, FETCH_SHOPIFY_DATA_INTERVAL);
+  }, [createInterval, shopifyClient, dopplerApiClient]);
 
   const shopifyHeader = (
     <>
@@ -73,54 +118,17 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient, experimental
     </>
   );
 
-  const getSubscribersAmountFromAPI = async (listId) => {
-    const resultAPI = await dopplerApiClient.getListData(listId);
-    if (resultAPI.success) {
-      return resultAPI.value.amountSubscribers;
-    } else {
-      return null;
-    }
-  };
-
-  const updateSubscriberCount = async (list) => {
-    if (list) {
-      const subscribersCount = await getSubscribersAmountFromAPI(list.id);
-      list.amountSubscribers = subscribersCount != null ? subscribersCount : list.amountSubscribers;
-    }
-    return list;
-  };
-
-  const getShopifyData = async () => {
-    const shopifyResult = await shopifyClient.getShopifyData();
-    if (shopifyResult.value && shopifyResult.value.length) {
-      //updates only first shop
-      shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
-    }
-    return shopifyResult;
-  };
-
-  useInterval({
-    runOnStart: true,
-    delay: 20000,
-    callback: async () => {
-      const result = await getShopifyData();
-      if (!result.success && !shopifyState.error) {
-        setShopifyState({
-          error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
-        });
-      } else if (result.value !== shopifyState.shops) {
-        setShopifyState({
-          shops: result.value,
-          isConnected: !!result.value.length,
-        });
-      }
-    },
-  });
+  const backButton = (
+    <a href={_('common.control_panel_url')} className="dp-button button-medium primary-grey">
+      {_('common.back')}
+    </a>
+  );
 
   return (
     <>
       <Helmet title={_('shopify.title')} />
-      <section className="dp-container">
+      {/* TODO: this is temporal because the layout will be changed */}
+      <section className="container-reports">
         <div className="dp-rowflex">
           <div className="col-sm-12 m-t-24">
             <Breadcrumb>
