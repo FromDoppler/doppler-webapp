@@ -75,6 +75,8 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCoo
   };
   utmCookiesManager.setCookieEntry(utmParams);
 
+  const page = query.get('page') || query.get('Page');
+
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
   };
@@ -118,6 +120,7 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCoo
       email: values[fieldNames.email].trim(),
       language: intl.locale,
       origin,
+      page,
       redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
       utm_source: lastUTMCookieEntry.UTMSource,
       utm_campaign: lastUTMCookieEntry.UTMCampaign,
@@ -175,8 +178,6 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCoo
       setSubmitting(false);
     }
   };
-
-  const page = query.get('page') || query.get('Page');
 
   return (
     <div className="dp-app-container">
