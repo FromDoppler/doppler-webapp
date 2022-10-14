@@ -369,6 +369,7 @@ const messages_es = {
     save: `Guardar`,
     send: `Enviar`,
     show: `Mostrar`,
+    something_wrong: `¡Ouch! Ocurrio un error inesperado`,
     synchronizing: `Syncronizando`,
     ui_library_image: `${process.env.PUBLIC_URL}/images/{imageUrl}`,
     unexpected_error: `¡Ouch! Ocurrio un error inesperado, intenta nuevamente`,

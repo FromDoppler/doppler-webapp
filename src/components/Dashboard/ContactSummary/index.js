@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeContactsSummary } from '../../../services/reports/index.double';
+import { UnexpectedError } from '../../shared/UnexpectedError';
 import { Kpi } from '../Kpis/Kpi';
 import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from '../Kpis/KpiGroup';
 import { OverlaySection } from '../OverlaySection';
@@ -18,7 +19,7 @@ export const INITIAL_STATE_CONTACTS_SUMMARY = {
 };
 
 export const ContactSummary = InjectAppServices(({ dependencies: { contactSummaryService } }) => {
-  const [{ loading, kpis }, dispatch] = useReducer(
+  const [{ loading, hasError, kpis }, dispatch] = useReducer(
     contactSummaryReducer,
     INITIAL_STATE_CONTACTS_SUMMARY,
     initContactSummaryReducer,
@@ -30,8 +31,11 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
     const fetchData = async () => {
       dispatch({ type: ACTIONS_CONTACTS_SUMMARY.START_FETCH });
       const response = await contactSummaryService.getContactsSummary();
-      // TODO: define what to do in case of error
-      dispatch({ type: ACTIONS_CONTACTS_SUMMARY.FINISH_FETCH, payload: response.value });
+      if (response.success) {
+        dispatch({ type: ACTIONS_CONTACTS_SUMMARY.FINISH_FETCH, payload: response.value });
+      } else {
+        dispatch({ type: ACTIONS_CONTACTS_SUMMARY.FAIL_FETCH });
+      }
     };
 
     fetchData();
@@ -49,21 +53,25 @@ export const ContactSummary = InjectAppServices(({ dependencies: { contactSummar
           id="dashboard-masterConctacts"
         />
       </div>
-      <KpiGroup
-        loading={loading}
-        disabled={showOverlay}
-        overlay={
-          <OverlaySection
-            messageKey="dashboard.contacts.overlayMessage"
-            textLinkKey="dashboard.contacts.overlayMessageButton"
-            urlKey="dashboard.first_steps.has_list_created_url"
-          />
-        }
-      >
-        {kpis.map((kpi) => (
-          <Kpi key={kpi.id} {...kpi} />
-        ))}
-      </KpiGroup>
+      {!hasError ? (
+        <KpiGroup
+          loading={loading}
+          disabled={showOverlay}
+          overlay={
+            <OverlaySection
+              messageKey="dashboard.contacts.overlayMessage"
+              textLinkKey="dashboard.contacts.overlayMessageButton"
+              urlKey="dashboard.first_steps.has_list_created_url"
+            />
+          }
+        >
+          {kpis.map((kpi) => (
+            <Kpi key={kpi.id} {...kpi} />
+          ))}
+        </KpiGroup>
+      ) : (
+        <UnexpectedError msgId="common.something_wrong" />
+      )}
     </>
   );
 });

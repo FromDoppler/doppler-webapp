@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { fakeCampaignsSummary } from '../../../services/reports/index.double';
+import { UnexpectedError } from '../../shared/UnexpectedError';
 import { Kpi } from '../Kpis/Kpi';
 import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from '../Kpis/KpiGroup';
 import { OverlaySection } from '../OverlaySection';
@@ -18,7 +19,7 @@ export const INITIAL_STATE_CAMPAIGNS_SUMMARY = {
 };
 
 export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSummaryService } }) => {
-  const [{ loading, kpis }, dispatch] = useReducer(
+  const [{ loading, hasError, kpis }, dispatch] = useReducer(
     campaignSummaryReducer,
     INITIAL_STATE_CAMPAIGNS_SUMMARY,
     initCampaignSummaryReducer,
@@ -30,8 +31,11 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
     const fetchData = async () => {
       dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.START_FETCH });
       const response = await campaignSummaryService.getCampaignsSummary();
-      // TODO: define what to do in case of error
-      dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.FINISH_FETCH, payload: response.value });
+      if (response.success) {
+        dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.FINISH_FETCH, payload: response.value });
+      } else {
+        dispatch({ type: ACTIONS_CAMPAIGNS_SUMMARY.FAIL_FETCH });
+      }
     };
 
     fetchData();
@@ -50,21 +54,25 @@ export const CampaignSummary = InjectAppServices(({ dependencies: { campaignSumm
           id="dashboard-sentCampaigns"
         />
       </div>
-      <KpiGroup
-        loading={loading}
-        disabled={showOverlay}
-        overlay={
-          <OverlaySection
-            messageKey="dashboard.campaigns.overlayMessage"
-            textLinkKey="dashboard.campaigns.overlayMessageButton"
-            urlKey="dashboard.first_steps.has_campaings_created_url"
-          />
-        }
-      >
-        {kpis.map((kpi) => (
-          <Kpi key={kpi.id} {...kpi} />
-        ))}
-      </KpiGroup>
+      {!hasError ? (
+        <KpiGroup
+          loading={loading}
+          disabled={showOverlay}
+          overlay={
+            <OverlaySection
+              messageKey="dashboard.campaigns.overlayMessage"
+              textLinkKey="dashboard.campaigns.overlayMessageButton"
+              urlKey="dashboard.first_steps.has_campaings_created_url"
+            />
+          }
+        >
+          {kpis.map((kpi) => (
+            <Kpi key={kpi.id} {...kpi} />
+          ))}
+        </KpiGroup>
+      ) : (
+        <UnexpectedError msgId="common.something_wrong" />
+      )}
     </>
   );
 });
