@@ -61,9 +61,9 @@ const messages_en = {
     add_permission_google_account: `Add permission for Google accounts.`,
     free_alt_image: `big query`,
     free_btn_redirect: `Look at plus plans`,
-    free_text_data_studio_MD: `[Configure a predesigned dashboard in a few steps](https://datastudio.google.com/overview) and get Doppler’s reports in Google Data Studio.,
+    free_text_data_studio_MD: `[Configure a predesigned dashboard in a few steps](https://datastudio.google.com/overview) and get Doppler’s reports in Google Looker Studio.,
     or access BigQuery through another data visualization tool such as Tableau.`,
-    free_text_strong: `Boost your Campaigns with reports in Google Data Studio, Tableau, Power BI and other Data Analytics tools.`,
+    free_text_strong: `Boost your Campaigns with reports in Google Looker Studio, Tableau, Power BI and other Data Analytics tools.`,
     free_text_summary: `Get detailed reports to analyze the performance of your Email & Automation Marketing Campaigns. With this integration you can:`,
     free_title: `Connect Doppler with BigQuery`,
     free_ul_item_filter: `Apply different filters to focus the analysis on one or more strategy's issues.`,
@@ -72,7 +72,7 @@ const messages_en = {
     plus_beginning: `Start`,
     plus_big_query: `BigQuery`,
     plus_body_step_one_MD: `Give access to BigQuery. [HELP] (${urlHelp}/integrate-doppler-bigquery#accesses)`,
-    plus_body_step_two_MD: `Generate Doppler reports at Google Data Studio. [HELP](${urlHelp}/integrate-doppler-bigquery#create-reports)`,
+    plus_body_step_two_MD: `Generate Doppler reports at Google Looker Studio. [HELP](${urlHelp}/integrate-doppler-bigquery#create-reports)`,
     plus_configuration: `Configuration`,
     plus_control_panel: `Control Panel`,
     plus_header_MD: `Get detailed reports to analyze the performance of your Email & Automation Marketing Campaigns.`,
@@ -84,7 +84,7 @@ const messages_en = {
     plus_step_one_paragraph: `Users will access to the information of your Doppler account stored at BigQuery. They’ll receive an email telling about those accesses.`,
     plus_step_one_paragraph_MD: `**Psst!** You can only give access to **Google email addresses**, both Gmail and business domains. `,
     plus_step_two: `Second step:`,
-    plus_step_two_paragraph_MD: `Connect Doppler and BigQuery to get detailed reports. Doppler provides a **predesigned dashboard of Google Data Studio** that you can configure in a few steps.`,
+    plus_step_two_paragraph_MD: `Connect Doppler and BigQuery to get detailed reports. Doppler provides a **predesigned dashboard of Google Looker Studio** that you can configure in a few steps.`,
     plus_title: `Connect Doppler with BigQuery`,
     upgrade_plan_url: `${urlUpgradePlan}`,
     url_legacy_control_panel: `${urlControlPanelMain}`,
@@ -127,7 +127,7 @@ const messages_en = {
     features_HTML_plus: `
     <star>Up to 3 rewarded personalized Reports.</star>
     <bigData>Integration with BigQuery and Data Analytics tools.</bigData>
-    <bigData>Google Data Studio dashboard 100% customizable.</bigData>
+    <bigData>Google Looker Studio dashboard 100% customizable.</bigData>
     <bigData>Efficacy prediction in Subjects.</bigData>
     <bigData>Smart Send Out at the best day and time for each Contact.</bigData>
     <newOption>Contact Policy.</newOption>
