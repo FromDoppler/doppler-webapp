@@ -444,6 +444,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       leanrpress_title: 'LearnPress',
       payU_title: 'PayU',
       sumaprop_title: 'Sumaprop',
+      tiendup_title: 'TiendUp',
       title: 'Integraciones Externas',
       viewed_title: 'Viewed',
       wix_title: 'Wix',
