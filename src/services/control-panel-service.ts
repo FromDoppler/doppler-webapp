@@ -52,6 +52,7 @@ import mercadolibre_icon from '../components/ControlPanel/images/mercadolibre_ic
 import mercado_shops_icon from '../components/ControlPanel/images/mercadoshops_icon.png';
 import dynamics_icon from '../components/ControlPanel/images/dynamics_icon.png';
 import mitienda_icon from '../components/ControlPanel/images/mitienda-icon.png';
+import tiendup_icon from '../components/ControlPanel/images/tiendup_icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -517,6 +518,15 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: dynamics_icon,
             imgAlt: 'control_panel.external_integrations.dynamics_title',
             iconName: 'control_panel.external_integrations.dynamics_title',
+            targetBlank: true,
+            ribbonColor: 'violet',
+            ribbonText: 'promotional_ribbons.new',
+          },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-tiendup`,
+            imgSrc: tiendup_icon,
+            imgAlt: 'control_panel.external_integrations.tiendup_title',
+            iconName: 'control_panel.external_integrations.tiendup_title',
             targetBlank: true,
             ribbonColor: 'violet',
             ribbonText: 'promotional_ribbons.new',
