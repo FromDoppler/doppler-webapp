@@ -62,9 +62,9 @@ const messages_es = {
     add_permission_google_account: `Agregar permiso para cuentas de Google.`,
     free_alt_image: `big query`,
     free_btn_redirect: `Ver planes plus`,
-    free_text_data_studio_MD: `[Configura el tablero prediseñado de Google Data Studio en unos pocos pasos](https://developers.google.com/datastudio) para analizar reportes detallados sobre tus campañas,
+    free_text_data_studio_MD: `[Configura el tablero prediseñado de Google Looker Studio en unos pocos pasos](https://developers.google.com/datastudio) para analizar reportes detallados sobre tus campañas,
     tus suscriptores y otros datos de tu cuenta en un tablero personalizable`,
-    free_text_strong: `Potencia tus Campañas con reportes de Google Data Studio, Tableau, Power BI y otras herramientas de Data Analytics.`,
+    free_text_strong: `Potencia tus Campañas con reportes de Google Looker Studio, Tableau, Power BI y otras herramientas de Data Analytics.`,
     free_text_summary: `Accede a reportes detallados para analizar el rendimiento de tus Campañas de Email & Automation Marketing. Con esta integración podrás: `,
     free_title: `Conecta Doppler con BigQuery`,
     free_ul_item_filter: `Aplicar diferentes filtros para enfocar el análisis en uno o varios aspectos de tu estrategia.`,
@@ -85,7 +85,7 @@ const messages_es = {
     plus_step_one_paragraph: `Los usuarios tendrán acceso a la información de tu cuenta almacenada en BigQuery. Recibirán una notificación por correo electrónico informando que les has dado dichos accesos.`,
     plus_step_one_paragraph_MD: `**¡Psst!** Solo puedes otorgar acceso a **correos electrónicos de Google**, tanto de Gmail como de dominios empresariales.`,
     plus_step_two: `Segundo paso`,
-    plus_step_two_paragraph_MD: `Conecta Doppler y BigQuery para visualizar reportes detallados en tu herramienta de Data Analytics. Doppler te proveerá un **tablero prediseñado de Google Data Studio** que
+    plus_step_two_paragraph_MD: `Conecta Doppler y BigQuery para visualizar reportes detallados en tu herramienta de Data Analytics. Doppler te proveerá un **tablero prediseñado de Google Looker Studio** que
     podrás configurar en simples pasos.`,
     plus_title: `Conecta Doppler con BigQuery`,
     upgrade_plan_url: `${urlUpgradePlan}`,
@@ -129,7 +129,7 @@ const messages_es = {
     features_HTML_plus: `
     <star>Hasta 3 Reportes personalizados bonificados.</star>
     <bigData>Integración con BigQuery y herramientas de Data Analytics.</bigData>
-    <bigData>Tablero de Google Data Studio 100% personalizable.</bigData>
+    <bigData>Tablero de Google Looker Studio 100% personalizable.</bigData>
     <bigData>Predicción de eficacia en Asuntos.</bigData>
     <bigData>Envío Inteligente en el mejor día y horario para cada Contacto.</bigData>
     <newOption>Política de Contacto.</newOption>
