@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { ControlPanelBox } from './ControlPanelBox/ControlPanelBox';
@@ -42,7 +42,7 @@ const sortByStatus = (a, b) => {
 export const ControlPanel = InjectAppServices(
   ({ dependencies: { controlPanelService, dopplerUserApiClient } }) => {
     const intl = useIntl();
-    const _ = (id, values) => intl.formatMessage({ id }, values);
+    const _ = useCallback((id, values) => intl.formatMessage({ id }, values), [intl]);
     const [{ controlPanelSections, loading }, dispatch] = useReducer(
       controlPanelSectionsReducer,
       INITIAL_STATE,
@@ -54,7 +54,7 @@ export const ControlPanel = InjectAppServices(
           type: CONTROL_PANEL_SECTIONS_ACTIONS.START_FETCH,
         });
 
-        const _controlPanelSections = controlPanelService.getControlPanelSections();
+        const _controlPanelSections = controlPanelService.getControlPanelSections(_);
         dispatch({
           type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_SECTIONS,
           payload: _controlPanelSections,
@@ -70,7 +70,7 @@ export const ControlPanel = InjectAppServices(
       };
 
       fetchData();
-    }, [controlPanelService, dopplerUserApiClient]);
+    }, [controlPanelService, dopplerUserApiClient, _]);
 
     useHashScrollHandler();
 

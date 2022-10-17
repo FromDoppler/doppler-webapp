@@ -67,7 +67,7 @@ const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
 const urlSitesHelp = process.env.REACT_APP_DOPPLER_HELP_URL;
 
 export interface ControlPanelService {
-  getControlPanelSections(): ControlPanelSection[];
+  getControlPanelSections(_: (id: string, values?: any) => string): ControlPanelSection[];
 }
 
 interface Box {
@@ -98,7 +98,7 @@ export class ControlPanelService implements ControlPanelService {
     this.appSessionRef = appSessionRef;
   }
 
-  public getControlPanelSections(): ControlPanelSection[] {
+  public getControlPanelSections(_: (id: string, values?: any) => string): ControlPanelSection[] {
     const account =
       this.appSessionRef.current?.status === 'authenticated'
         ? this.appSessionRef.current.userData
@@ -514,7 +514,7 @@ export class ControlPanelService implements ControlPanelService {
             targetBlank: true,
           },
           {
-            linkUrl: `control_panel.external_integrations.dynamics_link_url`,
+            linkUrl: _('control_panel.external_integrations.dynamics_link_url'),
             imgSrc: dynamics_icon,
             imgAlt: 'control_panel.external_integrations.dynamics_title',
             iconName: 'control_panel.external_integrations.dynamics_title',

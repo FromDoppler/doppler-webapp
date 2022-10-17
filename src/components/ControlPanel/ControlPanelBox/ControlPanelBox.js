@@ -6,7 +6,8 @@ import connection_alert from '../images/connection_alert.png';
 import disconnected from '../images/disconnected.png';
 
 export const ControlPanelBox = ({ box }) => {
-  const _ = (id, values) => useIntl().formatMessage({ id }, values);
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id }, values);
   const statusImage =
     box.status === 'connected'
       ? connected
@@ -45,7 +46,7 @@ export const ControlPanelBox = ({ box }) => {
             <S.Link
               target={box.targetBlank ? '_blank' : '_self'}
               className="dp-white"
-              href={_(box.linkUrl)}
+              href={box.linkUrl}
             >
               <div>
                 <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
