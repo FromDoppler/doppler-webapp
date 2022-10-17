@@ -32,7 +32,7 @@ describe('Control Panel Service', () => {
     const controlPanelService = createControlPanelService(userData);
 
     // Act
-    const result = controlPanelService.getControlPanelSections();
+    const result = controlPanelService.getControlPanelSections((x) => x);
 
     // Assert
     expect(result).not.toBe(undefined);
@@ -60,7 +60,7 @@ describe('Control Panel Service', () => {
     const controlPanelService = createControlPanelService(userData);
 
     // Act
-    const result = controlPanelService.getControlPanelSections();
+    const result = controlPanelService.getControlPanelSections((x) => x);
 
     // Assert
     expect(result[0].boxes[3].linkUrl.includes('GetBillingInformation')).toBe(true);
@@ -81,7 +81,7 @@ describe('Control Panel Service', () => {
     const controlPanelService = createControlPanelService(userData);
 
     // Act
-    const result = controlPanelService.getControlPanelSections();
+    const result = controlPanelService.getControlPanelSections((x) => x);
 
     // Assert
     expect(result[0].boxes[1].disabled).toBe(true);
