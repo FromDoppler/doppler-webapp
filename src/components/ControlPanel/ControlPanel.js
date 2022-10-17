@@ -95,7 +95,7 @@ export const ControlPanel = InjectAppServices(
                 <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                   <S.TitleContainer>
                     <h3 className="m-b-24" id={section.anchorLink}>
-                      {_(section.title)}
+                      {section.title}
                     </h3>
                     {section.showStatus ? (
                       <S.StatusBoxContainer className="m-b-24">

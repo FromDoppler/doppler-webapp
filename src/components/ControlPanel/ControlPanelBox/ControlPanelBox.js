@@ -1,13 +1,10 @@
 import React from 'react';
 import * as S from './ControlPanelBox.styles';
-import { useIntl } from 'react-intl';
 import connected from '../images/connected.png';
 import connection_alert from '../images/connection_alert.png';
 import disconnected from '../images/disconnected.png';
 
 export const ControlPanelBox = ({ box }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id }, values);
   const statusImage =
     box.status === 'connected'
       ? connected
@@ -24,7 +21,7 @@ export const ControlPanelBox = ({ box }) => {
       <div className="dp-box-shadow">
         {!!box.ribbonColor && !!box.ribbonText ? (
           <div className={`dp-ribbon dp-ribbon-top-right dp-ribbon-${box.ribbonColor}`}>
-            <span>{_(box.ribbonText)}</span>
+            <span>{box.ribbonText}</span>
           </div>
         ) : (
           <></>
@@ -32,9 +29,9 @@ export const ControlPanelBox = ({ box }) => {
         {!!box.disabled ? (
           <S.DisabledLink target="_self" className="dp-white" disabled>
             <div>
-              <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+              <S.Image src={box.imgSrc} alt={box.imgAlt} />
             </div>
-            <S.Text>{_(box.iconName)}</S.Text>
+            <S.Text>{box.iconName}</S.Text>
           </S.DisabledLink>
         ) : (
           <>
@@ -49,9 +46,9 @@ export const ControlPanelBox = ({ box }) => {
               href={box.linkUrl}
             >
               <div>
-                <S.Image src={box.imgSrc} alt={_(box.imgAlt)} />
+                <S.Image src={box.imgSrc} alt={box.imgAlt} />
               </div>
-              <S.Text>{_(box.iconName)}</S.Text>
+              <S.Text>{box.iconName}</S.Text>
             </S.Link>
           </>
         )}
