@@ -12,9 +12,10 @@ import {
   PENDING_STATUS,
   UNKNOWN_STATUS,
 } from './reducers/firstStepsReducer';
+import { UnexpectedError } from '../../shared/UnexpectedError';
 
 export const FirstSteps = InjectAppServices(({ dependencies: { systemUsageSummary } }) => {
-  const [{ firstStepsData, loading }, dispatch] = useReducer(
+  const [{ firstStepsData, hasError, loading }, dispatch] = useReducer(
     firstStepsReducer,
     INITIAL_STATE_FIRST_STEPS,
     initFirstStepsReducer,
@@ -25,10 +26,10 @@ export const FirstSteps = InjectAppServices(({ dependencies: { systemUsageSummar
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        dispatch({ type: FIRST_STEPS_ACTIONS.START_FETCH });
-        const { value: data } = await systemUsageSummary.getSystemUsageSummaryData();
-        // TODO: define what to do in case of error
+      dispatch({ type: FIRST_STEPS_ACTIONS.START_FETCH });
+      const response = await systemUsageSummary.getSystemUsageSummaryData();
+      if (response.success) {
+        const { value: data } = response;
         const dataMapped = mapSystemUsageSummary(data);
         dispatch({
           type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
@@ -39,7 +40,7 @@ export const FirstSteps = InjectAppServices(({ dependencies: { systemUsageSummar
             ),
           },
         });
-      } catch (error) {
+      } else {
         dispatch({ type: FIRST_STEPS_ACTIONS.FAIL_FETCH });
       }
     };
@@ -56,13 +57,17 @@ export const FirstSteps = InjectAppServices(({ dependencies: { systemUsageSummar
         <span className="dp-icon-steps" />
         {_('dashboard.first_steps.section_name')}
       </h2>
-      <ul className="dp-stepper">
-        {firstSteps.map((firstStep, index) => (
-          <li key={firstStep.titleId}>
-            <ActionBox {...firstStep} />
-          </li>
-        ))}
-      </ul>
+      {!hasError ? (
+        <ul className="dp-stepper">
+          {firstSteps.map((firstStep, index) => (
+            <li key={firstStep.titleId}>
+              <ActionBox {...firstStep} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <UnexpectedError msgId="common.something_wrong" />
+      )}
     </>
   );
 });

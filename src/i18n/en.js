@@ -370,6 +370,7 @@ Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.goo
     save: `Save`,
     send: `Send`,
     show: `Show`,
+    something_wrong: `Ouch! An unexpected error occurred`,
     synchronizing: `Synchronizing`,
     ui_library_image: `${process.env.PUBLIC_URL}/images/{imageUrl}`,
     unexpected_error: `Ouch! An unexpected error occurred, please try again`,

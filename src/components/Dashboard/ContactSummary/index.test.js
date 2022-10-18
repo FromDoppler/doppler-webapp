@@ -72,4 +72,34 @@ describe('ContactSummary component', () => {
 
     expect(screen.getByText('dashboard.contacts.overlayMessage')).toBeInTheDocument();
   });
+
+  it('should render unexpected error', async () => {
+    // Arrange
+    const contactSummaryService = {
+      getContactsSummary: async () => ({
+        success: false,
+        error: 'something wrong!',
+      }),
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={{ contactSummaryService }}>
+        <IntlProvider>
+          <ContactSummary />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    // because kpis is not visible
+    expect(screen.queryByText('dashboard.contacts.overlayMessage')).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('figure')).toHaveLength(0);
+
+    // should render unexpected error because the request fail
+    screen.getByTestId('unexpected-error');
+  });
 });

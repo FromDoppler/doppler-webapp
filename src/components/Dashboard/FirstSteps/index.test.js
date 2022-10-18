@@ -28,7 +28,7 @@ describe('FirstSteps component', () => {
 
     // Assert
     const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader, { timeout: 4500 });
+    await waitForElementToBeRemoved(loader);
 
     const firstSteps = firstStepsData.firstSteps;
     const allSteps = screen.getAllByRole('alert', { name: 'step' });
@@ -36,5 +36,35 @@ describe('FirstSteps component', () => {
       const node = allSteps[index];
       expect(getByText(node, step.titleId)).toBeInTheDocument();
     });
+  });
+
+  it('should render unexpected error', async () => {
+    // Act
+    render(
+      <AppServicesProvider
+        forcedServices={{
+          systemUsageSummary: {
+            getSystemUsageSummaryData: async () => ({
+              success: false,
+              error: 'something wrong!',
+            }),
+          },
+        }}
+      >
+        <IntlProvider>
+          <FirstSteps />
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    // because first steps is not visible
+    expect(screen.queryByRole('list')).not.toBeInTheDocument();
+
+    // should render unexpected error because the request fail
+    screen.getByTestId('unexpected-error');
   });
 });
