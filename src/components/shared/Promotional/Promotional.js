@@ -14,7 +14,7 @@ export const Promotional = ({
   caption,
 }) => {
   return (
-    <section className="dp-gray-page p-t-54 p-b-54">
+    <section className="p-t-54 p-b-54">
       <div className="dp-container">
         <div className="dp-rowflex">
           <div className="col-sm-12">

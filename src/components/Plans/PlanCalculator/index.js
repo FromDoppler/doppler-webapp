@@ -186,7 +186,7 @@ export const PlanCalculator = InjectAppServices(
 
     return (
       <>
-        <section className="dp-gray-page p-t-54 p-b-54">
+        <section className="p-t-54 p-b-54">
           <section className="dp-container">
             <div className="dp-rowflex">
               <div className="col-sm-12 text-align--center">
