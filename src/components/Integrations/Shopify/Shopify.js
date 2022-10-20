@@ -131,6 +131,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
     isLoading: true,
   });
   const shopifyRef = useRef(shopifyState);
+  const getShopifyDataRef = useRef(null);
   shopifyRef.current = shopifyState;
 
   useEffect(() => {
@@ -172,6 +173,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
       }
     };
 
+    getShopifyDataRef.current = fetchData;
     fetchData();
     createInterval(fetchData, FETCH_SHOPIFY_DATA_INTERVAL);
   }, [createInterval, shopifyClient, dopplerApiClient, intl]);
@@ -229,7 +231,13 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                             <h2>{_('shopify.list_title')}</h2>
                             <p>{_('shopify.list_subtitle')}</p>
                           </div>
-                          {/*<button className="dp-button button--has-icon"><span className="ms-icon icon-reload"></span></button> TODO: enable this button when ready*/}
+                          <button
+                            onClick={getShopifyDataRef.current}
+                            className="dp-button button--has-icon"
+                            aria-label="sincronize"
+                          >
+                            <span className="ms-icon icon-reload" />
+                          </button>
                         </header>
                         <hr />
                         <div className="dp-block">
