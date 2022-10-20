@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl';
 
-export const UnexpectedError = ({ msgId }) => {
+export const UnexpectedError = ({ msgId, msg }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -8,7 +8,7 @@ export const UnexpectedError = ({ msgId }) => {
     <div data-testid="unexpected-error" className="dp-wrap-message dp-wrap-cancel">
       <span className="dp-message-icon" />
       <div className="dp-content-message">
-        <p>{_(msgId)}</p>
+        <p>{msgId ? _(msgId) : msg}</p>
       </div>
     </div>
   );

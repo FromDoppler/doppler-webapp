@@ -17,4 +17,19 @@ describe('UnexpectedError', () => {
     // Assert
     screen.getByText(msgId);
   });
+
+  it('should render UnexpectedError component when has msg', async () => {
+    // Arrange
+    const msg = 'Ouch! something wrong!';
+
+    // Act
+    render(
+      <DopplerIntlProvider>
+        <UnexpectedError msg={msg} />
+      </DopplerIntlProvider>,
+    );
+
+    // Assert
+    screen.getByText(msg);
+  });
 });
