@@ -255,6 +255,7 @@ export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   accept_privacy_policies: boolean;
   accept_promotions: boolean;
   origin: string;
+  page: string;
   language: string;
   redirect?: string;
   utm_source: string;
@@ -828,6 +829,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         PromotionsEnabled: !!model.accept_promotions,
         ClientTimeZoneOffset: -new Date().getTimezoneOffset(),
         Origin: model.origin,
+        page: model.page,
         Language: model.language || 'es',
         RecaptchaUserCode: model.captchaResponseToken,
         Redirect: model.redirect,

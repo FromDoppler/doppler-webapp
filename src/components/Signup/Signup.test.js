@@ -329,6 +329,7 @@ describe('Signup', () => {
       captchaResponseToken: 'hardcodedResponseToken',
       language: 'en',
       origin: 'login',
+      page: null,
       redirect: '',
       utm_source: 'direct',
       utm_campaign: null,
@@ -419,6 +420,7 @@ describe('Signup', () => {
       captchaResponseToken: 'hardcodedResponseToken',
       language: 'en',
       origin: 'login',
+      page: null,
       redirect: '',
       utm_source: undefined,
       utm_campaign: undefined,
@@ -527,6 +529,7 @@ describe('Signup', () => {
       captchaResponseToken: 'hardcodedResponseToken',
       language: 'en',
       origin: 'login', // 'login' by default
+      page: null,
       redirect: '',
       utm_source: utmCookies[utmCookies.length - 1].UTMSource,
       utm_campaign: utmCookies[utmCookies.length - 1].UTMCampaign,
@@ -617,6 +620,7 @@ describe('Signup', () => {
       captchaResponseToken: 'hardcodedResponseToken',
       language: 'en',
       origin: 'login', // 'login' by default
+      page: null,
       redirect: '',
       utm_source: 'direct',
       utm_campaign: null,
