@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Navigate, useLocation } from 'react-router-dom';
 import { InjectAppServices } from '../../services/pure-di';
@@ -62,9 +62,15 @@ const SignupConfirmation = function ({
           <>
             <Captcha />
             <p>
-              {_('signup.email_not_received')}{' '}
+              {_('signup.email_not_received')}
+              {'. '}
               <button type="button" className="dp-button link-green" onClick={incrementAndResend}>
-                {_('signup.resend_email')}
+                <FormattedMessage
+                  id={'signup.resend_email'}
+                  values={{
+                    underline: (chunks) => <u>{chunks}</u>,
+                  }}
+                />
               </button>
               .
             </p>
