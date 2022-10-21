@@ -202,7 +202,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
         });
       } else if (result.expectedError && result.expectedError.accountNotValidated) {
         setErrors({
-          _warning: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
+          _error: <LoginErrorAccountNotValidated email={values[fieldNames.user]} />,
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccount) {
         setErrors({

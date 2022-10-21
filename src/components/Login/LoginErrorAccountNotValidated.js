@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
@@ -29,12 +29,16 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
     return resentTimes === 0 ? (
       <>
         <Captcha />
-        <p>
-          {intl.formatMessage({ id: 'signup.email_not_received' })}{' '}
+        <p>{intl.formatMessage({ id: 'signup.email_not_received' })}</p>
+        <p class="p-t-12">
           <button type="button" onClick={incrementAndResend}>
-            {intl.formatMessage({ id: 'signup.resend_email' })}
+            <FormattedMessage
+              id={'signup.resend_email'}
+              values={{
+                underline: (chunks) => <u>{chunks}</u>,
+              }}
+            />
           </button>
-          .
         </p>
       </>
     ) : (
