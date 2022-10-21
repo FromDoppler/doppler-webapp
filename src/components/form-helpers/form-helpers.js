@@ -170,19 +170,19 @@ export const FormMessages = connect(
         : errors && errors['_warning']
         ? { message: errors['_warning'], className: 'dp-warning-message' }
         : errors && errors['_success']
-        ? { message: errors['_success'], className: 'dp-ok-message' }
+        ? { message: errors['_success'], className: 'dp-wrap-message dp-wrap-success' }
         : null;
     return formMessages ? (
-      errors && errors['_error'] ? (
-        <div className={`m-b-12 ${formMessages.className}`} role="alert" aria-label="cancel">
-          <span className="dp-message-icon" />
-          <div className="dp-content-message">
+      errors && errors['_warning'] ? (
+        <div className={`form-message bounceIn ${formMessages.className}`}>
+          <div>
             <Message message={formMessages.message} />
           </div>
         </div>
       ) : (
-        <div className={`form-message bounceIn ${formMessages.className}`}>
-          <div>
+        <div className={`m-b-12 ${formMessages.className}`} role="alert" aria-label="cancel">
+          <span className="dp-message-icon" />
+          <div className="dp-content-message">
             <Message message={formMessages.message} />
           </div>
         </div>
