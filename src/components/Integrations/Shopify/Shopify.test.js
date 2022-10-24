@@ -74,7 +74,7 @@ describe('Shopify Component', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => expect(getByText('shopify.header_disconnected_warning')));
   });
 
@@ -93,7 +93,7 @@ describe('Shopify Component', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => expect(getByText(oneShopConnected.value[0].shopName)));
   });
 
@@ -130,7 +130,7 @@ describe('Shopify Component', () => {
     );
 
     // Assert
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => expect(getByText('common.synchronizing')));
   });
 
@@ -149,7 +149,7 @@ describe('Shopify Component', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => {
       expect(getByText(moreThanOneShopConnected.value[0].shopName));
       expect(getByText(moreThanOneShopConnected.value[1].shopName));
@@ -171,7 +171,7 @@ describe('Shopify Component', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => expect(getByText('validation_messages.error_unexpected_MD')));
   });
 
@@ -209,7 +209,7 @@ describe('Shopify Component', () => {
     );
 
     // Assert
-    expect(container.querySelector('.loading-box')).toBeInTheDocument();
+    expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => {
       expect(container.querySelector('.dp-integration__status')).toBeInTheDocument();
       expect(getByText(listExist.value.amountSubscribers.toString()));
@@ -243,7 +243,7 @@ describe('Shopify Component', () => {
       </AppServicesProvider>,
     );
 
-    const loader = screen.getByTestId('loading-box');
+    const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
     // because it's executed to start

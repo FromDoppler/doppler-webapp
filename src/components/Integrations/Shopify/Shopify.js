@@ -8,8 +8,80 @@ import { StyledShopifyLogo } from './Shopify.styles';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 import useInterval from '../../../hooks/useInterval';
+import { UnexpectedError } from '../../shared/UnexpectedError';
+import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 
 export const FETCH_SHOPIFY_DATA_INTERVAL = 20000;
+
+const ConnectWithShopify = () => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <div className="dp-block">
+      <h2>{_('shopify.header_title')}</h2>
+      <FormattedMessageMarkdown linkTarget={'_blank'} id="shopify.header_subtitle_MD" />
+    </div>
+  );
+};
+
+const LastSyncronization = ({ shopName, lastSyncDate }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <div className="dp-block dp-integration__status">
+      <div className="dp-rowflex">
+        <div className="col-sm-12 col-md-1 col-lg-1 m-b-24">
+          <StyledShopifyLogo />
+        </div>
+        <div className="col-sm-12 col-md-8 col-lg-8 m-b-24">
+          <div className="status__data">
+            <ul>
+              <li>
+                <p>
+                  {_('shopify.header_synchronization_date')}{' '}
+                  <strong>
+                    <FormattedDate value={lastSyncDate} />
+                  </strong>
+                </p>
+                <p>
+                  {_('shopify.header_store')} <strong>{shopName}</strong>
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="col-sm-12 col-md-3 col-lg-3">
+          <div className="status__link dp-align-right">
+            <a
+              href={_('shopify.admin_apps_url', { shopName })}
+              className="dp-button button-medium primary-green"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {_('shopify.admin_apps')}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FooterBox = ({ children }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <footer className="dp-integration__actions">
+      <a href={_('common.control_panel_url')} className="dp-button button-medium primary-grey">
+        {_('common.back')}
+      </a>
+      {children}
+    </footer>
+  );
+};
 
 const Table = ({ list }) => {
   const intl = useIntl();
@@ -59,6 +131,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
     isLoading: true,
   });
   const shopifyRef = useRef(shopifyState);
+  const getShopifyDataRef = useRef(null);
   shopifyRef.current = shopifyState;
 
   useEffect(() => {
@@ -90,7 +163,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
       const result = await getShopifyData();
       if (!result.success && !shopifyRef.current.error) {
         setShopifyState({
-          error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+          error: intl.formatMessage({ id: 'validation_messages.error_unexpected_MD' }),
         });
       } else if (result.value !== shopifyRef.current.shops) {
         setShopifyState({
@@ -100,159 +173,111 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
       }
     };
 
+    getShopifyDataRef.current = fetchData;
     fetchData();
     createInterval(fetchData, FETCH_SHOPIFY_DATA_INTERVAL);
-  }, [createInterval, shopifyClient, dopplerApiClient]);
+  }, [createInterval, shopifyClient, dopplerApiClient, intl]);
 
-  const shopifyHeader = (
-    <>
-      <div className="dp-block">
-        <h2>{_('shopify.header_title')}</h2>
-        <FormattedMessageMarkdown
-          className={'header--text'}
-          linkTarget={'_blank'}
-          id="shopify.header_subtitle_MD"
-        />
-      </div>
-      <hr />
-    </>
-  );
+  const connect = () => setShopifyState({ isConnecting: true });
 
-  const backButton = (
-    <a href={_('common.control_panel_url')} className="dp-button button-medium primary-grey">
-      {_('common.back')}
-    </a>
-  );
+  if (shopifyState.isLoading) {
+    return <Loading page />;
+  }
 
   return (
     <>
       <Helmet title={_('shopify.title')} />
-      {/* TODO: this is temporal because the layout will be changed */}
-      <section className="container-reports">
+      <HeaderSection>
+        <div className="col-sm-12">
+          <Breadcrumb>
+            <BreadcrumbItem
+              href={_('common.control_panel_advanced_pref_url')}
+              text={_('common.control_panel')}
+            />
+            <BreadcrumbItem text={_('common.advanced_preferences')} />
+          </Breadcrumb>
+        </div>
+      </HeaderSection>
+      <section className="dp-container">
         <div className="dp-rowflex">
-          <div className="col-sm-12 m-t-24">
-            <Breadcrumb>
-              <BreadcrumbItem
-                href={_('common.control_panel_advanced_pref_url')}
-                text={_('common.control_panel')}
-              />
-              <BreadcrumbItem text={_('common.advanced_preferences')} />
-            </Breadcrumb>
-          </div>
           <div className="col-sm-12">
             <div className="dp-integration">
-              {shopifyState.isLoading ? (
+              {shopifyState.error ? (
                 <>
                   <div className="dp-box-shadow">
-                    {shopifyHeader}
-                    <div className="dp-block"></div>
+                    <ConnectWithShopify />
+                    <hr />
+                    <FooterBox />
                   </div>
-                  <Loading />
-                </>
-              ) : shopifyState.error ? (
-                <>
-                  <div className="dp-box-shadow">
-                    {shopifyHeader}
-                    <div className="dp-block">
-                      <div className="dp-msj-error bounceIn">{shopifyState.error}</div>
-                    </div>
+                  <div className="m-t-24 m-b-24">
+                    <UnexpectedError msg={shopifyState.error} />
                   </div>
-                  <footer className="dp-integration__actions">{backButton}</footer>
                 </>
               ) : shopifyState.isConnected ? (
-                <>
-                  {shopifyState.shops.map((shop) => (
-                    <div key={shop.shopName}>
-                      <div className="dp-box-shadow">
-                        {shopifyHeader}
-                        <div className="dp-block dp-integration__status">
-                          <div className="dp-rowflex">
-                            <div className="col-sm-12 col-md-1 col-lg-1 m-b-24">
-                              <StyledShopifyLogo />
-                            </div>
-                            <div className="col-sm-12 col-md-8 col-lg-8 m-b-24">
-                              <div className="status__data">
-                                <ul>
-                                  <li>
-                                    <p>
-                                      {_('shopify.header_synchronization_date')}{' '}
-                                      <strong>
-                                        <FormattedDate value={shop.synchronization_date} />
-                                      </strong>
-                                    </p>
-                                    <p>
-                                      {_('shopify.header_store')} <strong> {shop.shopName} </strong>
-                                    </p>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div className="col-sm-12 col-md-3 col-lg-3">
-                              <div className="status__link dp-align-right">
-                                <a
-                                  href={_('shopify.admin_apps_url', { shopName: shop.shopName })}
-                                  className="dp-button button-medium primary-green"
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                >
-                                  {_('shopify.admin_apps')}
-                                </a>
-                              </div>
-                            </div>
+                shopifyState.shops.map((shop) => (
+                  <React.Fragment key={shop.shopName}>
+                    <div className="dp-box-shadow">
+                      <ConnectWithShopify />
+                      <hr />
+                      <LastSyncronization
+                        shopName={shop.shopName}
+                        lastSyncDate={shop.synchronization_date}
+                      />
+                    </div>
+                    <div className="dp-box-shadow m-t-24 m-b-24">
+                      <div className="dp-integration__block dp-integration--info">
+                        <header className="dp-block">
+                          <div>
+                            <h2>{_('shopify.list_title')}</h2>
+                            <p>{_('shopify.list_subtitle')}</p>
                           </div>
-                        </div>
-                      </div>
-                      <div className="dp-box-shadow m-t-24 m-b-24">
-                        <div className="dp-integration__block dp-integration--info">
-                          <header className="dp-block">
-                            <div>
-                              <h2>{_('shopify.list_title')}</h2>
-                              <p>{_('shopify.list_subtitle')}</p>
-                            </div>
-                            {/*<button className="dp-button button--has-icon"><span class="ms-icon icon-reload"></span></button> TODO: enable this button when ready*/}
-                          </header>
-                          <hr />
-                          <div className="dp-block">
-                            <ul>
-                              <li key={shop.list.id}>
-                                <Table list={shop.list} />
-                              </li>
-                            </ul>
-                          </div>
+                          <button
+                            onClick={getShopifyDataRef.current}
+                            className="dp-button button--has-icon"
+                            aria-label="sincronize"
+                          >
+                            <span className="ms-icon icon-reload" />
+                          </button>
+                        </header>
+                        <hr />
+                        <div className="dp-block">
+                          <ul>
+                            <li key={shop.list.id}>
+                              <Table list={shop.list} />
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </>
+                  </React.Fragment>
+                ))
               ) : (
                 <>
-                  <div className="dp-integration__block">
-                    {shopifyHeader}
-                    <div className="dp-block">{_('shopify.header_disconnected_warning')}</div>
+                  <div className="dp-box-shadow">
+                    <ConnectWithShopify />
+                    <hr />
+                    <p className="dp-block">{_('shopify.header_disconnected_warning')}</p>
+                    <FooterBox>
+                      {!shopifyState.isConnecting ? (
+                        <a
+                          href={_('shopify.connect_url')}
+                          className="dp-button button-medium primary-green"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={connect}
+                        >
+                          {_('common.connect')}
+                        </a>
+                      ) : (
+                        <button
+                          disabled
+                          className="dp-button button-medium primary-green button--loading"
+                        >
+                          {_('common.connect')}
+                        </button>
+                      )}
+                    </FooterBox>
                   </div>
-                  <footer className="dp-integration__actions">
-                    {backButton}
-                    {!shopifyState.isConnecting ? (
-                      <a
-                        href={_('shopify.connect_url')}
-                        className="dp-button button-medium primary-green"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => {
-                          setShopifyState({ isConnecting: true });
-                        }}
-                      >
-                        {_('common.connect')}
-                      </a>
-                    ) : (
-                      <button
-                        disabled
-                        className="dp-button button-medium primary-green button--loading"
-                      >
-                        {_('common.connect')}
-                      </button>
-                    )}
-                  </footer>
                 </>
               )}
             </div>
