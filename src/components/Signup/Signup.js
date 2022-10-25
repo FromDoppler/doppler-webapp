@@ -142,6 +142,7 @@ const Signup = function ({
       navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
         state: {
           registeredUser,
+          contentActivation: bannerDataState.bannerData.contentActivation,
         },
       });
     } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
