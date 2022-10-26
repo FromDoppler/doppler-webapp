@@ -21,6 +21,7 @@ import { isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils'
 import * as S from './Signup.styles';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useQueryParams } from '../../hooks/useQueryParams';
+import { useGetBannerData } from '../../hooks/useGetBannerData';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -54,12 +55,17 @@ function getReferrerHostname() {
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCookiesManager } }) {
-  useLinkedinInsightTag();
-  const query = useQueryParams();
-  const navigate = useNavigate();
+const Signup = function ({
+  location,
+  dependencies: { dopplerLegacyClient, dopplerSitesClient, utmCookiesManager },
+}) {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const query = useQueryParams();
+  const page = query.get('page') || query.get('Page');
+  const bannerDataState = useGetBannerData({ dopplerSitesClient, intl, type: 'signup', page });
+  const navigate = useNavigate();
+  useLinkedinInsightTag();
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
@@ -74,8 +80,6 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCoo
     Origin_Inbound: query.get('origin_inbound'),
   };
   utmCookiesManager.setCookieEntry(utmParams);
-
-  const page = query.get('page') || query.get('Page');
 
   const addExistentEmailAddress = (email) => {
     setAlreadyExistentAddresses((x) => [...x, email]);
@@ -138,6 +142,7 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCoo
       navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
         state: {
           registeredUser,
+          contentActivation: bannerDataState.bannerData.contentActivation,
         },
       });
     } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
@@ -293,7 +298,7 @@ const Signup = function ({ location, dependencies: { dopplerLegacyClient, utmCoo
             </small>
           </footer>
         </S.MainPanel>
-        <Promotions type="signup" page={page} />
+        <Promotions {...bannerDataState} />
       </main>
     </div>
   );

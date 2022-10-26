@@ -12,6 +12,7 @@ export interface Promotions {
   imageUrl: string;
   backgroundUrl: string;
   fontColor: string;
+  contentActivation: string;
 }
 
 export type PromotionsResult = ResultWithoutExpectedErrors<Promotions>;
@@ -52,6 +53,7 @@ export class HttpDopplerSitesClient implements DopplerSitesClient {
           imageUrl: response.data.image_url,
           backgroundUrl: response.data.background_url,
           fontColor: response.data.font_color,
+          contentActivation: response.data.content_activation,
         },
       };
     } catch (error) {

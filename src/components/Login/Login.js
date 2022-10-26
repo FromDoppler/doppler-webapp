@@ -27,6 +27,7 @@ import {
   openZendeskChatWithMessage,
 } from '../../utils';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
+import { useGetBannerData } from '../../hooks/useGetBannerData';
 
 const fieldNames = {
   user: 'email',
@@ -113,11 +114,20 @@ const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
  * @param { import('history').Location } props.location - location
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, window } }) => {
+const Login = ({
+  location,
+  dependencies: { dopplerLegacyClient, dopplerSitesClient, sessionManager, window },
+}) => {
   const intl = useIntl();
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const bannerDataState = useGetBannerData({
+    dopplerSitesClient,
+    intl,
+    type: 'login',
+    page: extractPage(location),
+  });
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
@@ -354,7 +364,7 @@ const Login = ({ location, dependencies: { dopplerLegacyClient, sessionManager, 
             </small>
           </footer>
         </article>
-        <Promotions type="login" page={extractPage(location)} />
+        <Promotions {...bannerDataState} />
       </main>
     </div>
   );

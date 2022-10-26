@@ -3,6 +3,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Navigate, useLocation } from 'react-router-dom';
 import { InjectAppServices } from '../../services/pure-di';
+import { ConfirmationContent } from './ConfirmationContent';
 
 /**
  * Signup Confirmation Page
@@ -16,6 +17,7 @@ const SignupConfirmation = function ({
 }) {
   const location = useLocation();
   const registeredUser = location.state?.registeredUser;
+  const contentActivation = location.state?.contentActivation;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [resentTimes, setResentTimes] = useState(0);
@@ -50,14 +52,7 @@ const SignupConfirmation = function ({
             </a>
           </h1>
         </header>
-        <article className="confirmation-article">
-          <h1>{_('signup.thanks_for_registering')}</h1>
-          <p>{_('signup.check_inbox')}</p>
-          <span className="icon-registration m-bottom--lv6">
-            {_('signup.check_inbox_icon_description')}
-          </span>
-          <p className="text-italic">{_('signup.activate_account_instructions')}</p>
-        </article>
+        <ConfirmationContent contentActivation={contentActivation} />
         {resentTimes === 0 ? (
           <>
             <Captcha />

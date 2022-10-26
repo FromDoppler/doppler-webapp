@@ -17,6 +17,7 @@ import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
 import * as S from './ForgotPassword.styles';
 import { getFormInitialValues } from '../../utils';
+import { useGetBannerData } from '../../hooks/useGetBannerData';
 
 const fieldNames = {
   email: 'email',
@@ -28,10 +29,14 @@ const fieldNames = {
  * @param { import('react-intl').InjectedIntl } props.intl
  * @param { import('../../services/pure-di').AppServices } props.dependencies
  */
-const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => {
+const ForgotPassword = ({
+  location,
+  dependencies: { dopplerLegacyClient, dopplerSitesClient },
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [sentEmail, setSentEmail] = useState(null);
+  const bannerDataState = useGetBannerData({ dopplerSitesClient, intl, type: 'login' });
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
@@ -161,7 +166,7 @@ const ForgotPassword = ({ location, dependencies: { dopplerLegacyClient } }) => 
             </small>
           </footer>
         </article>
-        <Promotions type="login" />
+        <Promotions {...bannerDataState} />
       </main>
     </div>
   );
