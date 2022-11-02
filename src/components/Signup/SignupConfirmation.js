@@ -5,6 +5,8 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { InjectAppServices } from '../../services/pure-di';
 import { ConfirmationContent } from './ConfirmationContent';
 
+const mailtoSupport = `mailto:soporte@fromdoppler.com`;
+
 /**
  * Signup Confirmation Page
  * @param { Object } props
@@ -57,8 +59,7 @@ const SignupConfirmation = function ({
           <>
             <Captcha />
             <p>
-              {_('signup.email_not_received')}
-              {'. '}
+              {_('signup.email_not_received')}{' '}
               <button type="button" className="dp-button link-green" onClick={incrementAndResend}>
                 <FormattedMessage
                   id={'signup.resend_email'}
@@ -71,7 +72,14 @@ const SignupConfirmation = function ({
             </p>
           </>
         ) : (
-          <FormattedMessageMarkdown id="signup.no_more_resend_MD" />
+          <>
+            <p>
+              {intl.formatMessage({ id: 'signup.no_more_resend_MD' }) + ' '}
+              <a href={mailtoSupport} class="dp-message-link">
+                {intl.formatMessage({ id: 'signup.no_more_resend_MD_link' })}
+              </a>
+            </p>
+          </>
         )}
         <footer className="confirmation-footer">
           <small>

@@ -29,6 +29,91 @@ import {
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 
+const mailtoSupport = `mailto:soporte@fromdoppler.com`;
+
+const LinkToRecoverPassword = connect(
+  (
+    {
+      formik: {
+        values: { user },
+      },
+    },
+    location,
+  ) => {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    return (
+      <Link
+        to={{
+          pathname: '/login/reset-password',
+          state: { email: user },
+          search: location.search,
+        }}
+        className="dp-message-link"
+      >
+        {_('forgot_password.recover_password_link')}
+      </Link>
+    );
+  },
+);
+
+const ExpiredLink = () => {
+  return (
+    <>
+      <p>
+        <FormattedMessage id="forgot_password.expired_link" />
+      </p>
+      <LinkToRecoverPassword />
+    </>
+  );
+};
+
+const BlockedAccount = () => {
+  return (
+    <>
+      <p>
+        <FormattedMessage id="forgot_password.blocked_account_MD" />
+      </p>
+      <a href={mailtoSupport} class="dp-message-link">
+        <FormattedMessage id="forgot_password.blocked_account_MD_link" />
+      </a>
+    </>
+  );
+};
+
+const MaxAttemptsSecurityQuestion = connect(
+  (
+    {
+      formik: {
+        values: { user },
+      },
+    },
+    location,
+  ) => {
+    return (
+      <>
+        <p>
+          <FormattedMessage id="forgot_password.max_attempts_sec_question" />
+        </p>
+        <p>
+          <Link
+            to={{
+              pathname: '/login/reset-password',
+              state: { email: user },
+              search: location.search,
+            }}
+            className="dp-message-link"
+          >
+            <FormattedMessage id="forgot_password.max_attempts_sec_question_link" />
+          </Link>{' '}
+          <FormattedMessage id="forgot_password.max_attempts_sec_question_start_new_process" />
+        </p>
+      </>
+    );
+  },
+);
+
 const fieldNames = {
   user: 'email',
   password: 'password',
@@ -57,15 +142,15 @@ function getForgotErrorMessage(location) {
   parsedQuery = (parsedQuery && parsedQuery['message']) || null;
   switch (parsedQuery) {
     case 'ExpiredLink':
-      return { _error: 'forgot_password.expired_link' };
+      return { _error: <ExpiredLink /> };
     case 'ExpiredData':
       return { _error: 'forgot_password.expired_data' };
     case 'PassResetOk':
       return { _success: 'forgot_password.pass_reset_ok' };
     case 'BlockedAccount':
-      return { _error: <FormattedMessageMarkdown id="forgot_password.blocked_account_MD" /> };
+      return { _error: <BlockedAccount /> };
     case 'MaxAttemptsSecQuestion':
-      return { _error: 'forgot_password.max_attempts_sec_question' };
+      return { _error: <MaxAttemptsSecurityQuestion /> };
     default:
       return null;
   }
