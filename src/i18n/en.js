@@ -4,6 +4,7 @@ import loginBannerImagePath from '../img/login-en.png';
 // Basic constants
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlReports = process.env.REACT_APP_REPORTS_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
@@ -526,7 +527,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
 <Paragraph><Bold><Link>Track the metrics</Link></Bold> for each campaign you have sent to see how they performed.</Paragraph>
       `,
       has_campaings_sent_title: `Review the reports of your campaigns`,
-      has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
+      has_campaings_sent_url: `${urlReports}/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
 <Paragraph><Bold><Link>Configure DKIM & SPF</Link></Bold> so that your contacts can receive your mailings successfully.</Paragraph>
       `,

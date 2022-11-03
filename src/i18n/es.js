@@ -4,6 +4,7 @@ import loginBannerImagePath from '../img/login-es.png';
 // Basic constants
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlReports = process.env.REACT_APP_REPORTS_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
@@ -525,7 +526,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
 <Paragraph><Bold><Link>Realiza el seguimiento de tus métricas</Link></Bold> en el reporte de cada campaña que envíes.</Paragraph>
       `,
       has_campaings_sent_title: `Revisa tus resultados`,
-      has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
+      has_campaings_sent_url: `${urlReports}/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
 <Paragraph><Bold><Link>Configura DKIM y SPF</Link></Bold> para que tus contactos puedan recibir tus envíos exitosamente.</Paragraph>
       `,
