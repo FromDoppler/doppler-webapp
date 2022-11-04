@@ -264,7 +264,7 @@ export const InvoiceInformation = ({
   );
 };
 
-export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMonthTotal }) => {
+export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMonthTotal = 0 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
