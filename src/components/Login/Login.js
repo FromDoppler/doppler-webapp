@@ -114,6 +114,35 @@ const MaxAttemptsSecurityQuestion = connect(
   },
 );
 
+const BlockedAccountNotPayed = ({ messages }) => {
+  return (
+    <>
+      <p>
+        <FormattedMessage id={messages.msgReasonId} />
+      </p>
+      {isZendeskChatOnline() ? (
+        <p>
+          <FormattedMessage
+            id={'validation_messages.error_account_contact_zoho_chat'}
+            values={{
+              button: (chunk) => (
+                <button
+                  type="button"
+                  onClick={() => openZendeskChatWithMessage(messages.msgZohoChat)}
+                >
+                  {chunk}
+                </button>
+              ),
+            }}
+          />
+        </p>
+      ) : (
+        <FormattedMessageMarkdown id={messages.msgEmailContact} />
+      )}
+    </>
+  );
+};
+
 const fieldNames = {
   user: 'email',
   password: 'password',
@@ -279,9 +308,7 @@ const Login = ({
         }
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
         setErrors({
-          _error: (
-            <LoginErrorBasedOnCustomerSupport messages={errorMessages.blockedAccountNotPayed} />
-          ),
+          _error: <BlockedAccountNotPayed messages={errorMessages.blockedAccountNotPayed} />,
         });
       } else if (result.expectedError && result.expectedError.cancelatedAccountNotPayed) {
         setErrors({
