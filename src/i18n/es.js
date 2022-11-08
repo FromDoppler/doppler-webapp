@@ -563,6 +563,18 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListHelp_2_link_description: 'Escríbenos',
     postListHelp_2_title: 'Servicios Adicionales',
 
+    quick_actions: {
+      launch_automation: 'Lanzar automatización',
+      launch_automation_url: `${urlDopplerLegacy}/Automation/Automation/AutomationApp/`,
+      make_campaign: 'Crear campaña',
+      make_campaign_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
+      make_contact_list: 'Armar lista de contactos',
+      make_contact_list_url: urlCreateSubscriberList,
+      section_name: 'Acciones rápidas',
+      send_sms: 'Enviar SMS masivos',
+      send_sms_url: `${urlDopplerLegacy}/Automation/EditorConfig?idTaskType=12`,
+    },
+
     total: 'TOTAL',
     welcome_message: 'Hola ',
     welcome_message_header: `Este es tu **Tablero de Inicio**. Aquí encontrarás métricas relevantes de tu cuenta y recursos complementarios para tu estrategia.`,

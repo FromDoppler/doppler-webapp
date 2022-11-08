@@ -564,6 +564,18 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     postListHelp_2_link_description: 'Write to us',
     postListHelp_2_title: 'Aditional Services',
 
+    quick_actions: {
+      launch_automation: 'Lanzar automatización',
+      launch_automation_url: `${urlDopplerLegacy}/Automation/Automation/AutomationApp/`,
+      make_campaign: 'Crear campaña',
+      make_campaign_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
+      make_contact_list: 'Armar lista de contactos',
+      make_contact_list_url: urlCreateSubscriberList,
+      section_name: 'Acciones rápidas',
+      send_sms: 'Enviar SMS masivos',
+      send_sms_url: `${urlDopplerLegacy}/Automation/EditorConfig?idTaskType=12`,
+    },
+
     total: 'TOTAL',
     welcome_message: 'Hello ',
     welcome_message_header: `This is your **Dashboard**. Here you’ll find relevant metrics of your account and complementary resources for your strategy. `,
