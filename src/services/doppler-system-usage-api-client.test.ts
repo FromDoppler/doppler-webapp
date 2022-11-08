@@ -35,7 +35,11 @@ describe('HttpDopplerSystemUsageApiClient', () => {
     const userSystemUsage = {
       headers: {},
       status: 200,
-      data: { email: 'mail@makingsense.com', reportsSectionLastVisit: '2022-10-25T13:39:34.707Z' },
+      data: {
+        email: 'mail@makingsense.com',
+        reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+        firstStepsClosedSince: undefined,
+      },
     };
     const request = jest.fn(async () => userSystemUsage);
     const systemUsageClient = createHttpSystemUsageClient({ request });
@@ -47,5 +51,23 @@ describe('HttpDopplerSystemUsageApiClient', () => {
     expect(request).toBeCalled();
     expect(result.success).toBe(true);
     expect(result.value).toEqual(userSystemUsage.data);
+  });
+
+  it('should execute closeFirstSteps', async () => {
+    // Arrange
+    const response = {
+      headers: {},
+      status: 200,
+      data: { message: `Visit registered at 2022-10-25T13:39:34.707Z` },
+    };
+    const request = jest.fn(async () => response);
+    const systemUsageClient = createHttpSystemUsageClient({ request });
+
+    // Act
+    const result = await systemUsageClient.closeFirstSteps();
+
+    // Assert
+    expect(request).toBeCalled();
+    expect(result.success).toBe(true);
   });
 });
