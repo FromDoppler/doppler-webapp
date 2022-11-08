@@ -128,6 +128,7 @@ const BlockedAccountNotPayed = ({ messages }) => {
               button: (chunk) => (
                 <button
                   type="button"
+                  class="dp-message-link"
                   onClick={() => openZendeskChatWithMessage(messages.msgZohoChat)}
                 >
                   {chunk}
