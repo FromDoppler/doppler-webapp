@@ -1,4 +1,4 @@
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
 import { DopplerSystemUsageApiClient, SystemUsage } from './doppler-system-usage-api-client';
 
@@ -11,7 +11,16 @@ export class HardcodedDopplerSystemUsageApiClient implements DopplerSystemUsageA
       value: {
         email: 'my-mail@doppler.com',
         reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+        firstStepsClosedSince: undefined,
       },
+    };
+  }
+
+  public async closeFirstSteps(): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('DopplerSystemUsageApiClient');
+    await timeout(1500);
+    return {
+      success: true,
     };
   }
 }

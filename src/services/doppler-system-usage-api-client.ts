@@ -1,13 +1,15 @@
 import { HttpBaseClient } from './http-base-client';
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 
 export interface SystemUsage {
   email: string;
   reportsSectionLastVisit: string | undefined;
+  firstStepsClosedSince: string | undefined;
 }
 
 export interface DopplerSystemUsageApiClient {
   getUserSystemUsage(): Promise<ResultWithoutExpectedErrors<SystemUsage>>;
+  closeFirstSteps(): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 export class HttpDopplerSystemUsageApiClient
@@ -32,6 +34,7 @@ export class HttpDopplerSystemUsageApiClient
           value: {
             email: response.data.email,
             reportsSectionLastVisit: response.data.reportsSectionLastVisit,
+            firstStepsClosedSince: response.data.firstStepsClosedSince,
           },
         };
       } else {
@@ -39,6 +42,27 @@ export class HttpDopplerSystemUsageApiClient
       }
     } catch (error) {
       return { success: false, error };
+    }
+  }
+
+  public async closeFirstSteps(): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { jwtToken, email } = this.getApiConnectionData(this.clientName);
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/${email}/close-first-steps`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+      if (response.data) {
+        return { success: true };
+      } else {
+        return { success: false, error: response };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error,
+      };
     }
   }
 }
