@@ -1093,6 +1093,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_account_is_blocked_invalid_password_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta bloqueada por intentos fallidos?`,
     error_account_is_blocked_not_pay: `Ouch! This account has been suspended due to non-payment.`,
     error_account_is_blocked_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountNoPay}) for help.`,
+    error_account_is_blocked_not_pay_update_payment_information: `Update payment details`,
     error_account_is_blocked_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     error_account_is_canceled_not_pay: `Ouch! This account has been canceled due to non-payment.`,
     error_account_is_canceled_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectCanceledAccountNoPay}) for help.`,
