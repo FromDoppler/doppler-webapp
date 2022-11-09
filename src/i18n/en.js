@@ -518,6 +518,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       totalRemovedContacts: 'Removed Contacts',
     },
     first_steps: {
+      completed_message: `
+<Paragraph>Excellent! You have successfully completed the first steps in Doppler. Now you will find some useful shortcuts to the most frequently used functions.</Paragraph>
+      `,
+      enable_quick_actions: `Activate quick actions`,
       has_campaings_created_description_MD: `
 <Paragraph>Choose the type of campaign that suits best for your business and <Bold><Link>send your first campaign</Link></Bold>.</Paragraph>
       `,
