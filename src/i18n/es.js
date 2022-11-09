@@ -517,6 +517,9 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       totalRemovedContacts: 'Contactos removidos',
     },
     first_steps: {
+      completed_message: `
+<Paragraph>¡Excelente! Cumpliste con éxito los primeros pasos en Doppler. Ahora te serán útiles unos atajos a las funciones más usadas. <Button><Bold>Activar las acciones rápidas</Bold></Button>.</Paragraph>
+      `,
       has_campaings_created_description_MD: `
 <Paragraph>Elige el tipo de campaña que se adapta mejor a ti y <Bold><Link>haz tu primer envío</Link></Bold>.</Paragraph>
       `,
