@@ -63,7 +63,7 @@ const Signup = function ({
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const query = useQueryParams();
   const page = query.get('page') || query.get('Page');
-  const bannerDataState = useGetBannerData({ dopplerSitesClient, intl, type: 'signup', page });
+  const bannerDataState = useGetBannerData({ dopplerSitesClient, type: 'signup', page });
   const navigate = useNavigate();
   useLinkedinInsightTag();
 

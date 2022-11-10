@@ -35,7 +35,7 @@ const ForgotPassword = ({
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [sentEmail, setSentEmail] = useState(null);
-  const bannerDataState = useGetBannerData({ dopplerSitesClient, intl, type: 'login' });
+  const bannerDataState = useGetBannerData({ dopplerSitesClient, type: 'login' });
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
