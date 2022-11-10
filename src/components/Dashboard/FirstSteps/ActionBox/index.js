@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { COMPLETED_STATUS, PENDING_STATUS } from '../reducers/firstStepsReducer';
+import { COMPLETED_STATUS, PENDING_STATUS } from '../../reducers/firstStepsReducer';
 
 export const ActionBox = ({ status, titleId, descriptionId, textStep, link, trackingId }) => {
   const intl = useIntl();
