@@ -101,6 +101,50 @@ describe('Dashboard component', () => {
     expect(screen.getAllByRole('figure')).toHaveLength(6);
   });
 
+  it('should render QuickActions component', async () => {
+    // Arrange
+    const forcedServices = {
+      ...dependencies,
+      systemUsageSummary: {
+        getSystemUsageSummaryData: async () => ({
+          success: true,
+          value: {
+            hasListsCreated: true,
+            hasDomainsReady: true,
+            hasCampaingsCreated: true,
+            hasCampaingsSent: true,
+          },
+        }),
+      },
+      dopplerSystemUsageApiClient: {
+        getUserSystemUsage: async () => ({
+          success: true,
+          value: {
+            email: 'mail@makingsense.com',
+            reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+            firstStepsClosedSince: '2022-10-25T14:39:34.707Z',
+          },
+        }),
+      },
+    };
+
+    // Act
+    await act(async () => {
+      render(
+        <AppServicesProvider forcedServices={forcedServices}>
+          <IntlProvider>
+            <Dashboard />
+          </IntlProvider>
+        </AppServicesProvider>,
+      );
+    });
+
+    // Assert
+    expect(screen.queryByText('dashboard.first_steps.section_name')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('enable-quick-actions')).not.toBeInTheDocument();
+    screen.getByText('dashboard.quick_actions.section_name');
+  });
+
   describe('FirstSteps component', () => {
     it('should render FirstSteps component', async () => {
       // Arrange
@@ -224,6 +268,9 @@ describe('Dashboard component', () => {
       });
       // the last step is completed (the step is crossed)
       expect(lastStep).toHaveClass('dp-crossed-text');
+
+      // CompleteSteps component to be in the document
+      screen.getByTestId('enable-quick-actions');
     });
 
     it('should render unexpected error', async () => {

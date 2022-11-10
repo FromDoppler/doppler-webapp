@@ -126,10 +126,12 @@ export const mapSystemUsageSummary = (systemUsageSummary) => {
     hasDomainsReady,
     hasCampaingsSent,
     reportsSectionLastVisit,
+    firstStepsClosedSince,
   } = systemUsageSummary;
 
   return {
     completed: isFirstStepsCompleted(systemUsageSummary),
+    firstStepsClosedSince,
     firstSteps: [
       getListCreatedStep(hasListsCreated),
       getDomainsReadyStep(hasDomainsReady),
