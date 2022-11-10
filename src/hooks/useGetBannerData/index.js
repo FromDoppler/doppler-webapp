@@ -1,4 +1,6 @@
 import { useEffect, useReducer, useRef } from 'react';
+import { useIntl } from 'react-intl';
+import { useQueryParams } from '../useQueryParams';
 import {
   bannerDataReducer,
   BANNER_DATA_ACTIONS,
@@ -18,29 +20,27 @@ export const getDefaultBannerData = (intl) => {
   };
 };
 
-export const useGetBannerData = ({ dopplerSitesClient, intl, type, page }) => {
-  const intlRef = useRef(intl);
+export const useGetBannerData = ({ dopplerSitesClient, type, page }) => {
+  const intl = useIntl();
+  const query = useQueryParams();
+  const executedRef = useRef(false);
   const [state, dispatch] = useReducer(bannerDataReducer, INITIAL_STATE_BANNER_DATA);
 
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: BANNER_DATA_ACTIONS.START_FETCH });
-      const bannerData = await dopplerSitesClient.getBannerData(
-        intlRef.current.locale,
-        type,
-        page ?? '',
-      );
+      const bannerData = await dopplerSitesClient.getBannerData(intl.locale, type, page ?? '');
       dispatch({
         type: BANNER_DATA_ACTIONS.FINISH_FETCH,
-        payload:
-          !bannerData || !bannerData.success
-            ? getDefaultBannerData(intlRef.current)
-            : bannerData.value,
+        payload: !bannerData || !bannerData.success ? getDefaultBannerData(intl) : bannerData.value,
       });
     };
 
-    fetchData();
-  }, [dopplerSitesClient, intlRef, page, type]);
+    if (!executedRef.current && (!query.get('lang') || query.get('lang') === intl.locale)) {
+      executedRef.current = true;
+      fetchData();
+    }
+  }, [dopplerSitesClient, intl, executedRef, page, type, query]);
 
   return state;
 };

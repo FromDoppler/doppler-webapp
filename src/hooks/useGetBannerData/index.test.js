@@ -1,6 +1,20 @@
 import '@testing-library/jest-dom/extend-expect';
 import { renderHook } from '@testing-library/react-hooks';
 import { useGetBannerData } from '.';
+import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { MemoryRouter as Router } from 'react-router-dom';
+
+const createWrapper = (Wrapper) => {
+  return function CreatedWrapper({ children }) {
+    return <Wrapper>{children}</Wrapper>;
+  };
+};
+
+const Wrapper = ({ children }) => (
+  <IntlProvider>
+    <Router>{children}</Router>
+  </IntlProvider>
+);
 
 describe('useGetBannerData', () => {
   it('should complete getBannerData with success', async () => {
@@ -18,13 +32,14 @@ describe('useGetBannerData', () => {
     };
     const props = {
       dopplerSitesClient: dopplerSitesClientFake,
-      intl: jest.fn(),
       type: 'signup',
       page: 'dts',
     };
 
     // Act
-    const { result, waitForNextUpdate } = renderHook(() => useGetBannerData(props));
+    const { result, waitForNextUpdate } = renderHook(() => useGetBannerData(props), {
+      wrapper: createWrapper(Wrapper),
+    });
 
     // Assert
     expect(result.current.loading).toBe(true);
@@ -41,15 +56,14 @@ describe('useGetBannerData', () => {
     };
     const props = {
       dopplerSitesClient: dopplerSitesClientFake,
-      intl: {
-        formatMessage: jest.fn(({ id }) => id),
-      },
       type: 'signup',
       page: 'dts',
     };
 
     // Act
-    const { result, waitForNextUpdate } = renderHook(() => useGetBannerData(props));
+    const { result, waitForNextUpdate } = renderHook(() => useGetBannerData(props), {
+      wrapper: createWrapper(Wrapper),
+    });
 
     // Assert
     expect(result.current.loading).toBe(true);

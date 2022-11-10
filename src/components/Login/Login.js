@@ -239,7 +239,6 @@ const Login = ({
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const bannerDataState = useGetBannerData({
     dopplerSitesClient,
-    intl,
     type: 'login',
     page: extractPage(location),
   });
