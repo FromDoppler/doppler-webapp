@@ -1,9 +1,9 @@
-import { mapSystemUsageSummary } from '..';
-import { fakeSystemUsageSummary } from '../../../../services/dashboardService/SystemUsageSummary.double';
+import { fakeSystemUsageSummary } from '../../../services/dashboardService/SystemUsageSummary.double';
 import {
   firstStepsReducer,
   FIRST_STEPS_ACTIONS,
   INITIAL_STATE_FIRST_STEPS,
+  mapSystemUsageSummary,
 } from './firstStepsReducer';
 
 describe('firstStepsReducer', () => {
