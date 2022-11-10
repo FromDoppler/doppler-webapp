@@ -16,6 +16,14 @@ import {
   mapSystemUsageSummary,
   UNKNOWN_STATUS,
 } from './reducers/firstStepsReducer';
+import { CompleteSteps } from './CompleteSteps';
+import {
+  completeStepsReducer,
+  COMPLETE_STEPS_ACTIONS,
+  INITIAL_STATE_COMPLETE_STEPS,
+} from './reducers/completeStepsReducer';
+import { QuickActions } from './QuickActions';
+import { UnexpectedError } from '../shared/UnexpectedError';
 
 export const Dashboard = InjectAppServices(
   ({ dependencies: { appSessionRef, systemUsageSummary, dopplerSystemUsageApiClient } }) => {
@@ -24,6 +32,10 @@ export const Dashboard = InjectAppServices(
       INITIAL_STATE_FIRST_STEPS,
       initFirstStepsReducer,
     );
+    const [
+      { updated, hasError: hasErrorCompleteSteps, loading: loadingCompleteSteps },
+      dispatchCompleteSteps,
+    ] = useReducer(completeStepsReducer, INITIAL_STATE_COMPLETE_STEPS);
     const userName = appSessionRef?.current.userData.user.fullname.split(' ')[0]; // Get firstname
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -59,6 +71,26 @@ export const Dashboard = InjectAppServices(
       fetchData();
     }, [systemUsageSummary, dopplerSystemUsageApiClient]);
 
+    const handleCloseFirstStep = () => {
+      const updateData = async () => {
+        dispatchCompleteSteps({ type: COMPLETE_STEPS_ACTIONS.START_UPDATE });
+        const response = await dopplerSystemUsageApiClient.closeFirstSteps();
+        if (response.success) {
+          dispatchCompleteSteps({
+            type: COMPLETE_STEPS_ACTIONS.FINISH_UPDATE,
+          });
+        } else {
+          dispatchCompleteSteps({ type: COMPLETE_STEPS_ACTIONS.FAIL_UPDATE });
+        }
+      };
+
+      updateData();
+    };
+
+    const { firstStepsClosedSince, completed } = firstStepsData;
+
+    const showFirstStep = !firstStepsClosedSince && !updated;
+
     return (
       <>
         <Helmet>
@@ -88,11 +120,30 @@ export const Dashboard = InjectAppServices(
                 <LearnWithDoppler />
               </div>
               <div className="col-lg-4 col-sm-12">
-                <FirstSteps
-                  hasError={hasError}
-                  loading={loading}
-                  firstSteps={firstStepsData.firstSteps}
-                />
+                {showFirstStep ? (
+                  <>
+                    <FirstSteps
+                      hasError={hasError}
+                      loading={loading}
+                      firstSteps={firstStepsData.firstSteps}
+                    />
+                    {completed && (
+                      <>
+                        <CompleteSteps
+                          loading={loadingCompleteSteps}
+                          onClick={handleCloseFirstStep}
+                        />
+                        {hasErrorCompleteSteps && (
+                          <div className="m-t-6">
+                            <UnexpectedError msgId="common.something_wrong" />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <QuickActions />
+                )}
               </div>
             </div>
           </div>
