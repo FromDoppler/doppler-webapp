@@ -554,10 +554,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     postListBlog_2_link_description: 'Keep reading',
     postListBlog_2_title: '#NewFeature',
 
-    postListHelp_1_description: `Relive the talks of Digital Marketing leaders and be part of the #EMMS2021 community`,
-    postListHelp_1_link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=reviveelemms',
+    postListHelp_1_description: `The most expected Digital Marketing Conferences are now available.`,
+    postListHelp_1_link: 'https://goemms.com/registrado.php?utm_source=app&utm_campaign=postemms&utm_medium=notification',
     postListHelp_1_link_description: 'Watch Now',
-    postListHelp_1_title: '#EMMS2021',
+    postListHelp_1_title: 'EMMS 2022: RELIVE THE EVENT',
 
     postListHelp_2_description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
