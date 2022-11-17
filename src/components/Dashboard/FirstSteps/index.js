@@ -14,73 +14,88 @@ import {
 } from './reducers/firstStepsReducer';
 import { UnexpectedError } from '../../shared/UnexpectedError';
 
-export const FirstSteps = InjectAppServices(({ dependencies: { systemUsageSummary } }) => {
-  const [{ firstStepsData, hasError, loading }, dispatch] = useReducer(
-    firstStepsReducer,
-    INITIAL_STATE_FIRST_STEPS,
-    initFirstStepsReducer,
-  );
+export const FirstSteps = InjectAppServices(
+  ({ dependencies: { systemUsageSummary, dopplerSystemUsageApiClient } }) => {
+    const [{ firstStepsData, hasError, loading }, dispatch] = useReducer(
+      firstStepsReducer,
+      INITIAL_STATE_FIRST_STEPS,
+      initFirstStepsReducer,
+    );
 
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: FIRST_STEPS_ACTIONS.START_FETCH });
-      const response = await systemUsageSummary.getSystemUsageSummaryData();
-      if (response.success) {
-        const { value: data } = response;
-        const dataMapped = mapSystemUsageSummary(data);
-        dispatch({
-          type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
-          payload: {
-            ...dataMapped,
-            firstSteps: dataMapped.firstSteps.filter(
-              (firstStep) => firstStep.status !== UNKNOWN_STATUS,
-            ),
-          },
-        });
-      } else {
-        dispatch({ type: FIRST_STEPS_ACTIONS.FAIL_FETCH });
-      }
-    };
+    useEffect(() => {
+      // TODO: use getUserSystemUsage for the same purpose as getSystemUsageSummaryData
+      // TODO: remove systemUsageSummary service
+      const fetchData = async () => {
+        dispatch({ type: FIRST_STEPS_ACTIONS.START_FETCH });
+        const [systemUsageResponse, dopplerSystemUsageResponse] = await Promise.all([
+          systemUsageSummary.getSystemUsageSummaryData(),
+          dopplerSystemUsageApiClient.getUserSystemUsage(),
+        ]);
+        if (systemUsageResponse.success && dopplerSystemUsageResponse.success) {
+          const dataMapped = mapSystemUsageSummary({
+            ...systemUsageResponse.value,
+            ...dopplerSystemUsageResponse.value,
+          });
+          dispatch({
+            type: FIRST_STEPS_ACTIONS.FINISH_FETCH,
+            payload: {
+              ...dataMapped,
+              firstSteps: dataMapped.firstSteps.filter(
+                (firstStep) => firstStep.status !== UNKNOWN_STATUS,
+              ),
+            },
+          });
+        } else {
+          dispatch({ type: FIRST_STEPS_ACTIONS.FAIL_FETCH });
+        }
+      };
 
-    fetchData();
-  }, [systemUsageSummary]);
+      fetchData();
+    }, [systemUsageSummary, dopplerSystemUsageApiClient]);
 
-  const { firstSteps } = firstStepsData;
+    const { firstSteps } = firstStepsData;
 
-  return (
-    <>
-      {loading && <Loading />}
-      <h2 className="dp-title-col-postcard">
-        <span className="dp-icon-steps" />
-        {_('dashboard.first_steps.section_name')}
-      </h2>
-      {!hasError ? (
-        <ul className="dp-stepper">
-          {firstSteps.map((firstStep, index) => (
-            <li key={firstStep.titleId}>
-              <ActionBox {...firstStep} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <UnexpectedError msgId="common.something_wrong" />
-      )}
-    </>
-  );
-});
+    return (
+      <>
+        {loading && <Loading />}
+        <h2 className="dp-title-col-postcard">
+          <span className="dp-icon-steps" />
+          {_('dashboard.first_steps.section_name')}
+        </h2>
+        {!hasError ? (
+          <ul className="dp-stepper">
+            {firstSteps.map((firstStep, index) => (
+              <li key={firstStep.titleId}>
+                <ActionBox {...firstStep} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <UnexpectedError msgId="common.something_wrong" />
+        )}
+      </>
+    );
+  },
+);
 
 const isFirstStepsCompleted = (systemUsageSummary) => {
-  const { hasListsCreated, hasCampaingsCreated, hasDomainsReady, hasCampaingsSent } =
-    systemUsageSummary;
+  const {
+    hasListsCreated,
+    hasCampaingsCreated,
+    hasDomainsReady,
+    hasCampaingsSent,
+    reportsSectionLastVisit,
+  } = systemUsageSummary;
 
   return (
     hasListsCreated === true &&
     hasCampaingsCreated === true &&
     hasDomainsReady === true &&
-    hasCampaingsSent === true
+    hasCampaingsSent === true &&
+    reportsSectionLastVisit
   );
 };
 
@@ -123,12 +138,13 @@ const getCampaingsCreatedAndSentStep = (hasCampaingsCreatedAndSent) => ({
   link: 'dashboard.first_steps.has_campaings_created_url',
 });
 
-const getCampaingsSentStep = (hasCampaingsSent) => ({
-  status: hasCampaingsSent
-    ? COMPLETED_STATUS
-    : hasCampaingsSent === false
-    ? PENDING_STATUS
-    : UNKNOWN_STATUS,
+const getCampaingsSentStep = (hasCampaingsSent, reportsSectionLastVisit) => ({
+  status:
+    hasCampaingsSent && reportsSectionLastVisit
+      ? COMPLETED_STATUS
+      : hasCampaingsSent === false || !reportsSectionLastVisit
+      ? PENDING_STATUS
+      : UNKNOWN_STATUS,
   titleId: `dashboard.first_steps.has_campaings_sent_title`,
   descriptionId: 'dashboard.first_steps.has_campaings_sent_description_MD',
   textStep: 4,
@@ -138,8 +154,13 @@ const getCampaingsSentStep = (hasCampaingsSent) => ({
 
 // TODO: move to service folder to get system usage summary
 export const mapSystemUsageSummary = (systemUsageSummary) => {
-  const { hasListsCreated, hasCampaingsCreated, hasDomainsReady, hasCampaingsSent } =
-    systemUsageSummary;
+  const {
+    hasListsCreated,
+    hasCampaingsCreated,
+    hasDomainsReady,
+    hasCampaingsSent,
+    reportsSectionLastVisit,
+  } = systemUsageSummary;
 
   return {
     completed: isFirstStepsCompleted(systemUsageSummary),
@@ -147,7 +168,7 @@ export const mapSystemUsageSummary = (systemUsageSummary) => {
       getListCreatedStep(hasListsCreated),
       getDomainsReadyStep(hasDomainsReady),
       getCampaingsCreatedAndSentStep(hasCampaingsCreated && hasCampaingsSent),
-      getCampaingsSentStep(hasCampaingsSent),
+      getCampaingsSentStep(hasCampaingsSent, reportsSectionLastVisit),
     ],
   };
 };
