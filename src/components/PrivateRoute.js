@@ -9,6 +9,7 @@ import RedirectToLogin from './RedirectToLogin';
 import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
 import MenuDemo from './MenuDemo/MenuDemo';
+import { nonAuthenticatedBlockedUser } from '../doppler-types';
 
 export default InjectAppServices(
   /**
@@ -49,6 +50,10 @@ export default InjectAppServices(
           <Footer />
         </div>
       );
+    }
+
+    if (dopplerSession.status === nonAuthenticatedBlockedUser) {
+      return children;
     }
 
     if (dopplerSession.status === 'unknown') {

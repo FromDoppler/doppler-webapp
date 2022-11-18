@@ -181,7 +181,10 @@ export type LoginErrorResult =
       errorMessage: string;
     };
 
-export type LoginResult = Result<{ redirectUrl?: string }, LoginErrorResult>;
+export type LoginResult = Result<
+  { redirectUrl?: string; provisoryToken?: string },
+  LoginErrorResult
+>;
 
 export interface LoginModel extends PayloadWithCaptchaToken {
   username: string;
@@ -750,7 +753,10 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       if (!response.data.success) {
         switch (response.data.error) {
           case 'BlockedAccountNotPayed': {
-            return { expectedError: { blockedAccountNotPayed: true } };
+            return {
+              expectedError: { blockedAccountNotPayed: true },
+              provisoryToken: response.data.provisoryToken,
+            };
           }
           case 'AccountNotValidated': {
             return { expectedError: { accountNotValidated: true } };

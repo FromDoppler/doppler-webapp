@@ -2,6 +2,7 @@ import { AppSession } from './app-session';
 import { MutableRefObject } from 'react';
 import { SessionManager } from './session-manager';
 import { mapHeaderDataJson } from './doppler-legacy-client';
+import { nonAuthenticatedBlockedUser } from '../doppler-types';
 
 // Doppler Session MFE conventions
 // from https://github.com/FromDoppler/doppler-menu-mfe/blob/main/src/session/doppler-session-mfe-conventions.ts
@@ -10,6 +11,7 @@ export const DOPPLER_SESSION_STATE_UPDATE_EVENT_TYPE = 'doppler-session-state-up
 export type DopplerSessionState =
   | undefined
   | { status: 'non-authenticated' }
+  | { status: 'non-authenticated-blocked-user'; provisoryToken: string; email: string }
   | {
       status: 'authenticated';
       jwtToken: string;
@@ -31,6 +33,10 @@ const noop = () => {};
 function mapDopplerSessionState(dopplerSessionState: DopplerSessionState): AppSession {
   if (!dopplerSessionState) {
     return { status: 'unknown' };
+  }
+
+  if (dopplerSessionState.status === nonAuthenticatedBlockedUser) {
+    return dopplerSessionState;
   }
 
   if (dopplerSessionState.status !== 'authenticated') {
@@ -78,19 +84,26 @@ export class SessionMfeSessionManager implements SessionManager {
     window.restartDopplerSessionMonitor();
   }
 
+  public initialzeSessionWithBlockedUser(session: AppSession) {
+    this.appSessionRef.current = session;
+    this.handler(session);
+  }
+
   private updateSession(session: AppSession) {
     this.appSessionRef.current = session;
     this.handler(session);
   }
 
   private async update() {
-    const dopplerUserData = mapDopplerSessionState(this.window.dopplerSessionState);
+    if (this.appSessionRef.current.status !== nonAuthenticatedBlockedUser) {
+      const dopplerUserData = mapDopplerSessionState(this.window.dopplerSessionState);
 
-    if (dopplerUserData.status === 'authenticated') {
-      //This will be used by GTM and HotJar
-      (window as any).mainMenuData = dopplerUserData.userData;
+      if (dopplerUserData.status === 'authenticated') {
+        //This will be used by GTM and HotJar
+        (window as any).mainMenuData = dopplerUserData.userData;
+      }
+
+      this.updateSession(dopplerUserData);
     }
-
-    this.updateSession(dopplerUserData);
   }
 }

@@ -128,7 +128,7 @@ const BlockedAccountNotPayed = ({ messages }) => {
               button: (chunk) => (
                 <button
                   type="button"
-                  class="dp-message-link"
+                  className="dp-message-link"
                   onClick={() => openZendeskChatWithMessage(messages.msgZohoChat)}
                 >
                   {chunk}
@@ -307,6 +307,11 @@ const Login = ({
           setRedirectAfterLogin(true);
         }
       } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
+        sessionManager.initialzeSessionWithBlockedUser({
+          status: 'non-authenticated-blocked-user',
+          provisoryToken: result.provisoryToken,
+          email: values[fieldNames.user].trim(),
+        });
         setErrors({
           _error: <BlockedAccountNotPayed messages={errorMessages.blockedAccountNotPayed} />,
         });
