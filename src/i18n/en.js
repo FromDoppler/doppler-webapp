@@ -1067,6 +1067,28 @@ With Doppler you can generate Segments with common interests, create Forms to at
     users_with_email: `Users with email`,
     users_without_email: `Users without email`,
   },
+  updatePaymentMethod: {
+    button_back: 'Go back',
+    payment_method: {
+      save_continue_button: 'Save and continue',
+      success_message: 'Operation processed successfully!',
+      title: 'Payment method',
+      transfer_message_line1: 'The means of payment associated with your account is Bank Transfer.',
+      transfer_message_line2: `Please, contact [administracion@fromdoppler.com](${mailtoAdmin}) so that we can share your account statement and bank details to make the payment.`,
+    },
+    reprocess: {
+      invoices_declined_table: {
+        amount_column: 'Amount',
+        date_column: 'Date',
+        invoice_column: 'Invoice number',
+      },
+      payment_now_button: 'Pay now',
+      pending_amount_message: 'Your outstanding balance is',
+      success_message: 'Operation processed successfully!',
+      title: 'Reprocess',
+    },
+    title: `Update payment data and reprocess pending invoices`,
+  },
   upgradePlanForm: {
     confirmation_subtitle_contact: `You have just hired a new Monthly Plan to send unlimited Campaigns up to <bold>Contacts.</bold> We’ll send you an email with more details about the new Plan.`,
     confirmation_subtitle_shipping: `You have just hired a new Monthly Plan to send unlimited Campaigns up to <bold>Emails.</bold> We’ll send you an email with more details about the new Plan.`,

@@ -31,6 +31,7 @@ import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { availableLanguageOrNull } from './i18n/utils';
 import { InjectAppServices } from './services/pure-di';
 import EditorsDemo from './components/EditorsDemo/EditorsDemo';
+import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformation/index';
 
 /**
  * @param { Object } props - props
@@ -291,6 +292,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
             <Route path="/*" element={<Navigate to={newDashboard ? '/dashboard' : '/reports'} />} />
+            <Route
+              path="/update-payment-method"
+              element={
+                <PrivateRoute>
+                  <UpdatePaymentInformation />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </>
       </DopplerIntlProvider>

@@ -1068,6 +1068,28 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     users_with_email: `Usuarios con email`,
     users_without_email: `Usuarios sin email`,
   },
+  updatePaymentMethod: {
+    button_back: 'Volver',
+    payment_method: {
+      save_continue_button: 'Guardar y continuar',
+      success_message: '¡Operación procesada con éxito!',
+      title: 'Método de Pago',
+      transfer_message_line1: `El medio de pago asociado a tu cuenta es Transferencia Bancaria.`,
+      transfer_message_line2: `Por favor, comunicate a [administracion@fromdoppler.com](${mailtoAdmin}) para que podamos compartirte tu estado de cuenta y los datos bancarios para realizar el pago.`,
+    },
+    reprocess: {
+      invoices_declined_table: {
+        amount_column: 'Monto',
+        date_column: 'Fecha',
+        invoice_column: 'Numero de factura',
+      },
+      payment_now_button: 'Pagar ahora',
+      pending_amount_message: 'Tu saldo pendiente es',
+      success_message: '¡Operación procesada con éxito!',
+      title: 'Reproceso',
+    },
+    title: `Actualiza tus datos de pago y reprocesa las facturas pendientes`,
+  },
   upgradePlanForm: {
     confirmation_subtitle_contact: `Acabas de contratar un nuevo Plan Mensual para enviar Campañas ilimitadas hasta <bold>Contactos.</bold> Te enviaremos un email con el detalle del nuevo Plan.`,
     confirmation_subtitle_shipping: `Acabas de contratar un nuevo Plan Mensual para enviar Campañas ilimitadas hasta <bold>Envíos.</bold> Te enviaremos un email con el detalle del nuevo Plan.`,
