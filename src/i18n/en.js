@@ -518,6 +518,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       totalRemovedContacts: 'Removed Contacts',
     },
     first_steps: {
+      completed_message: `
+<Paragraph>Excellent! You have successfully completed the first steps in Doppler. Now you will find some useful shortcuts to the most frequently used functions.</Paragraph>
+      `,
+      enable_quick_actions: `Activate quick actions`,
       has_campaings_created_description_MD: `
 <Paragraph>Choose the type of campaign that suits best for your business and <Bold><Link>send your first campaign</Link></Bold>.</Paragraph>
       `,
@@ -563,6 +567,18 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
     postListHelp_2_link_description: 'Write to us',
     postListHelp_2_title: 'Aditional Services',
+
+    quick_actions: {
+      launch_automation: 'Launch automation',
+      launch_automation_url: `${urlDopplerLegacy}/Automation/Automation/AutomationApp/`,
+      make_campaign: 'Create campaign',
+      make_campaign_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
+      make_contact_list: 'Build a contact list',
+      make_contact_list_url: urlCreateSubscriberList,
+      section_name: 'Quick actions',
+      send_sms: 'Send bulk SMS',
+      send_sms_url: `${urlDopplerLegacy}/Automation/EditorConfig?idTaskType=12`,
+    },
 
     total: 'TOTAL',
     welcome_message: 'Hello ',

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { ActionBox } from '.';
 import '@testing-library/jest-dom/extend-expect';
-import { COMPLETED_STATUS, PENDING_STATUS } from '../reducers/firstStepsReducer';
+import { COMPLETED_STATUS, PENDING_STATUS } from '../../reducers/firstStepsReducer';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const initialStepData = {
