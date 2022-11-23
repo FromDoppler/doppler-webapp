@@ -7,6 +7,12 @@ interface AuthenticatedAppSession {
   jwtToken: string;
 }
 
+interface BlockedUserAppSession {
+  status: 'non-authenticated-blocked-user';
+  provisoryToken: string;
+  email: string;
+}
+
 interface AuthenticatedAppSessionWithoutDatahub extends AuthenticatedAppSession {
   datahubCustomerId?: null;
 }
@@ -27,6 +33,7 @@ interface AuthenticatedAppSessionWithDatahub
 export type AppSession =
   | { status: 'unknown' }
   | { status: 'non-authenticated' }
+  | BlockedUserAppSession
   | AuthenticatedAppSessionWithoutDatahub
   | AuthenticatedAppSessionWithDatahub;
 

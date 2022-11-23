@@ -152,3 +152,5 @@ export const MercadoPagoError = {
 };
 
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
+
+export const nonAuthenticatedBlockedUser = 'non-authenticated-blocked-user';
