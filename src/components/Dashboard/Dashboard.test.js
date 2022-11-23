@@ -48,6 +48,9 @@ describe('Dashboard component', () => {
             plan: {
               isFreeAccount: true,
             },
+            sms: {
+              smsEnabled: false,
+            },
           },
         },
       },
@@ -101,48 +104,112 @@ describe('Dashboard component', () => {
     expect(screen.getAllByRole('figure')).toHaveLength(6);
   });
 
-  it('should render QuickActions component', async () => {
-    // Arrange
-    const forcedServices = {
-      ...dependencies,
-      systemUsageSummary: {
-        getSystemUsageSummaryData: async () => ({
-          success: true,
-          value: {
-            hasListsCreated: true,
-            hasDomainsReady: true,
-            hasCampaingsCreated: true,
-            hasCampaingsSent: true,
-          },
-        }),
-      },
-      dopplerSystemUsageApiClient: {
-        getUserSystemUsage: async () => ({
-          success: true,
-          value: {
-            email: 'mail@makingsense.com',
-            reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
-            firstStepsClosedSince: '2022-10-25T14:39:34.707Z',
-          },
-        }),
-      },
-    };
+  describe('QuickActions component', () => {
+    it('should render QuickActions component', async () => {
+      // Arrange
+      const forcedServices = {
+        ...dependencies,
+        systemUsageSummary: {
+          getSystemUsageSummaryData: async () => ({
+            success: true,
+            value: {
+              hasListsCreated: true,
+              hasDomainsReady: true,
+              hasCampaingsCreated: true,
+              hasCampaingsSent: true,
+            },
+          }),
+        },
+        dopplerSystemUsageApiClient: {
+          getUserSystemUsage: async () => ({
+            success: true,
+            value: {
+              email: 'mail@makingsense.com',
+              reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+              firstStepsClosedSince: '2022-10-25T14:39:34.707Z',
+            },
+          }),
+        },
+      };
 
-    // Act
-    await act(async () => {
-      render(
-        <AppServicesProvider forcedServices={forcedServices}>
-          <IntlProvider>
-            <Dashboard />
-          </IntlProvider>
-        </AppServicesProvider>,
-      );
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={forcedServices}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      expect(screen.queryByText('dashboard.first_steps.section_name')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('enable-quick-actions')).not.toBeInTheDocument();
+      screen.getByText('dashboard.quick_actions.section_name');
+      // the SMS option is hide because smsEnabled = false
+      expect(screen.queryByText('dashboard.quick_actions.send_sms')).not.toBeInTheDocument();
     });
 
-    // Assert
-    expect(screen.queryByText('dashboard.first_steps.section_name')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('enable-quick-actions')).not.toBeInTheDocument();
-    screen.getByText('dashboard.quick_actions.section_name');
+    it('should render QuickActions component without SMS option', async () => {
+      // Arrange
+      const forcedServices = {
+        ...dependencies,
+        appSessionRef: {
+          current: {
+            userData: {
+              user: {
+                fullname: 'Cecilia Bernat',
+                plan: {
+                  isFreeAccount: false,
+                },
+                sms: {
+                  smsEnabled: true,
+                },
+              },
+            },
+          },
+        },
+        systemUsageSummary: {
+          getSystemUsageSummaryData: async () => ({
+            success: true,
+            value: {
+              hasListsCreated: true,
+              hasDomainsReady: true,
+              hasCampaingsCreated: true,
+              hasCampaingsSent: true,
+            },
+          }),
+        },
+        dopplerSystemUsageApiClient: {
+          getUserSystemUsage: async () => ({
+            success: true,
+            value: {
+              email: 'mail@makingsense.com',
+              reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+              firstStepsClosedSince: '2022-10-25T14:39:34.707Z',
+            },
+          }),
+        },
+      };
+
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={forcedServices}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      expect(screen.queryByText('dashboard.first_steps.section_name')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('enable-quick-actions')).not.toBeInTheDocument();
+      screen.getByText('dashboard.quick_actions.section_name');
+      screen.getByText('dashboard.quick_actions.send_sms');
+    });
   });
 
   describe('FirstSteps component', () => {
