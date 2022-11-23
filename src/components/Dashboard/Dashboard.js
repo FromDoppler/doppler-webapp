@@ -91,6 +91,8 @@ export const Dashboard = InjectAppServices(
 
     const showFirstStep = !firstStepsClosedSince && !updated;
 
+    const { user } = appSessionRef.current.userData;
+
     return (
       <>
         <Helmet>
@@ -142,7 +144,9 @@ export const Dashboard = InjectAppServices(
                     )}
                   </>
                 ) : (
-                  <QuickActions />
+                  <QuickActions
+                    quickActions={user.sms?.smsEnabled ? QUICK_ACTIONS : filteredQuickActions}
+                  />
                 )}
               </div>
             </div>
@@ -151,4 +155,27 @@ export const Dashboard = InjectAppServices(
       </>
     );
   },
+);
+
+export const QUICK_ACTIONS = [
+  {
+    labelId: 'dashboard.quick_actions.make_campaign',
+    linkId: 'dashboard.quick_actions.make_campaign_url',
+  },
+  {
+    labelId: 'dashboard.quick_actions.make_contact_list',
+    linkId: 'dashboard.quick_actions.make_contact_list_url',
+  },
+  {
+    labelId: 'dashboard.quick_actions.launch_automation',
+    linkId: 'dashboard.quick_actions.launch_automation_url',
+  },
+  {
+    labelId: 'dashboard.quick_actions.send_sms',
+    linkId: 'dashboard.quick_actions.send_sms_url',
+  },
+];
+
+export const filteredQuickActions = QUICK_ACTIONS.filter(
+  (qa) => !['dashboard.quick_actions.send_sms'].includes(qa.labelId),
 );
