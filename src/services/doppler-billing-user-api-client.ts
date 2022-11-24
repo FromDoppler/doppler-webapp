@@ -1,4 +1,8 @@
-import { ResultWithoutExpectedErrors, EmptyResultWithoutExpectedErrors } from '../doppler-types';
+import {
+  ResultWithoutExpectedErrors,
+  EmptyResultWithoutExpectedErrors,
+  nonAuthenticatedBlockedUser,
+} from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -14,6 +18,8 @@ export interface DopplerBillingUserApiClient {
   updateInvoiceRecipients(values: any, planId: number): Promise<EmptyResultWithoutExpectedErrors>;
   getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>>;
   updatePurchaseIntention(): Promise<EmptyResultWithoutExpectedErrors>;
+  reprocess(values: any): Promise<ResultWithoutExpectedErrors<ReprocessInformation>>;
+  getDeclinedInvoices(): Promise<ResultWithoutExpectedErrors<DeclinedInvoices>>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -65,6 +71,21 @@ export interface UserPlan {
   subscribersQty: null;
 }
 
+export interface ReprocessInformation {
+  allInvoicesProcessed: boolean;
+}
+
+export interface DeclinedInvoice {
+  date: Date;
+  invoiceNumber: string;
+  amount: number;
+}
+
+export interface DeclinedInvoices {
+  invoices: DeclinedInvoice[];
+  totalPending: number;
+}
+
 export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
@@ -90,15 +111,24 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     const connectionData = this.connectionDataRef.current;
     if (
       !connectionData ||
-      connectionData.status !== 'authenticated' ||
-      !connectionData.jwtToken ||
-      !connectionData.userData
+      (connectionData.status !== 'authenticated' &&
+        connectionData.status !== nonAuthenticatedBlockedUser) ||
+      (connectionData.status === 'authenticated' &&
+        !connectionData.jwtToken &&
+        !connectionData.userData) ||
+      (connectionData.status === nonAuthenticatedBlockedUser && !connectionData.provisoryToken)
     ) {
       throw new Error('Doppler Billing User API connection data is not available');
     }
     return {
-      jwtToken: connectionData.jwtToken,
-      email: connectionData.userData.user.email,
+      jwtToken:
+        connectionData.status === 'authenticated'
+          ? connectionData.jwtToken
+          : connectionData.provisoryToken,
+      email:
+        connectionData.status === 'authenticated'
+          ? connectionData.userData.user.email
+          : connectionData.email,
     };
   }
 
@@ -418,6 +448,46 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true };
       } else {
         return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async reprocess(): Promise<ResultWithoutExpectedErrors<ReprocessInformation>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/payments/reprocess`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getDeclinedInvoices(): Promise<ResultWithoutExpectedErrors<DeclinedInvoices>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/invoices/declined`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data };
       }
     } catch (error) {
       return { success: false, error: error };
