@@ -10,7 +10,7 @@ import {
   reprocessReducer,
   REPROCESS_ACTIONS,
 } from '../../Reducers/reprocessReducer';
-import { UnexpectedError } from '../../../PlanCalculator/UnexpectedError/index';
+import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
 
 const dollarSymbol = 'US$';
 const HAS_ERROR = 'HAS_ERROR';

@@ -16,7 +16,7 @@ import {
   updatePaymentInformationReducer,
   UPDATE_PAYMENT_INFORMATION_ACTIONS,
 } from '../../Reducers/updatePaymentInformationReducer';
-import { UnexpectedError } from '../../../PlanCalculator/UnexpectedError/index';
+import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
 
 const fieldNames = {
   paymentMethodName: 'paymentMethodName',
