@@ -1,12 +1,31 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { getByRole, getByText, render, screen } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from 'react-router-dom';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { fakeSystemUsageSummary } from '../../services/dashboardService/SystemUsageSummary.double';
 import { AppServicesProvider } from '../../services/pure-di';
 import { fakeCampaignsSummary, fakeContactsSummary } from '../../services/reports/index.double';
 import { Dashboard } from './Dashboard';
+import { mapSystemUsageSummary } from './reducers/firstStepsReducer';
+
+const systemUsageSummaryDouble = () => ({
+  getSystemUsageSummaryData: async () => ({
+    success: true,
+    value: fakeSystemUsageSummary,
+  }),
+});
+
+const dopplerSystemUsageApiClientDouble = () => ({
+  getUserSystemUsage: async () => ({
+    success: true,
+    value: {
+      email: 'mail@makingsense.com',
+      reportsSectionLastVisit: null,
+    },
+  }),
+});
 
 const reportClientDouble = () => ({
   getCampaignsSummary: async () => ({
@@ -29,6 +48,9 @@ describe('Dashboard component', () => {
             plan: {
               isFreeAccount: true,
             },
+            sms: {
+              smsEnabled: false,
+            },
           },
         },
       },
@@ -40,6 +62,8 @@ describe('Dashboard component', () => {
         value: { surveyFormCompleted: true },
       }),
     },
+    systemUsageSummary: systemUsageSummaryDouble(),
+    dopplerSystemUsageApiClient: dopplerSystemUsageApiClientDouble(),
   };
 
   it('should show the hero-banner with personal welcome message', async () => {
@@ -78,5 +102,272 @@ describe('Dashboard component', () => {
 
     // Assert
     expect(screen.getAllByRole('figure')).toHaveLength(6);
+  });
+
+  describe('QuickActions component', () => {
+    it('should render QuickActions component', async () => {
+      // Arrange
+      const forcedServices = {
+        ...dependencies,
+        systemUsageSummary: {
+          getSystemUsageSummaryData: async () => ({
+            success: true,
+            value: {
+              hasListsCreated: true,
+              hasDomainsReady: true,
+              hasCampaingsCreated: true,
+              hasCampaingsSent: true,
+            },
+          }),
+        },
+        dopplerSystemUsageApiClient: {
+          getUserSystemUsage: async () => ({
+            success: true,
+            value: {
+              email: 'mail@makingsense.com',
+              reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+              firstStepsClosedSince: '2022-10-25T14:39:34.707Z',
+            },
+          }),
+        },
+      };
+
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={forcedServices}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      expect(screen.queryByText('dashboard.first_steps.section_name')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('enable-quick-actions')).not.toBeInTheDocument();
+      screen.getByText('dashboard.quick_actions.section_name');
+      // the SMS option is hide because smsEnabled = false
+      expect(screen.queryByText('dashboard.quick_actions.send_sms')).not.toBeInTheDocument();
+    });
+
+    it('should render QuickActions component without SMS option', async () => {
+      // Arrange
+      const forcedServices = {
+        ...dependencies,
+        appSessionRef: {
+          current: {
+            userData: {
+              user: {
+                fullname: 'Cecilia Bernat',
+                plan: {
+                  isFreeAccount: false,
+                },
+                sms: {
+                  smsEnabled: true,
+                },
+              },
+            },
+          },
+        },
+        systemUsageSummary: {
+          getSystemUsageSummaryData: async () => ({
+            success: true,
+            value: {
+              hasListsCreated: true,
+              hasDomainsReady: true,
+              hasCampaingsCreated: true,
+              hasCampaingsSent: true,
+            },
+          }),
+        },
+        dopplerSystemUsageApiClient: {
+          getUserSystemUsage: async () => ({
+            success: true,
+            value: {
+              email: 'mail@makingsense.com',
+              reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+              firstStepsClosedSince: '2022-10-25T14:39:34.707Z',
+            },
+          }),
+        },
+      };
+
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={forcedServices}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      expect(screen.queryByText('dashboard.first_steps.section_name')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('enable-quick-actions')).not.toBeInTheDocument();
+      screen.getByText('dashboard.quick_actions.section_name');
+      screen.getByText('dashboard.quick_actions.send_sms');
+    });
+  });
+
+  describe('FirstSteps component', () => {
+    it('should render FirstSteps component', async () => {
+      // Arrange
+      const firstStepsData = mapSystemUsageSummary(fakeSystemUsageSummary);
+
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={dependencies}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const firstSteps = firstStepsData.firstSteps;
+      const allSteps = screen.getAllByRole('alert', { name: 'step' });
+      firstSteps.forEach((step, index) => {
+        const node = allSteps[index];
+        expect(getByText(node, step.titleId)).toBeInTheDocument();
+      });
+    });
+
+    it('should mark step 4 as not completed when user has not visited the reports section', async () => {
+      // Arrange
+      const forcedServices = {
+        ...dependencies,
+        systemUsageSummary: {
+          getSystemUsageSummaryData: async () => ({
+            success: true,
+            value: {
+              hasListsCreated: true,
+              hasDomainsReady: true,
+              hasCampaingsCreated: true,
+              hasCampaingsSent: true,
+            },
+          }),
+        },
+        dopplerSystemUsageApiClient: {
+          getUserSystemUsage: async () => ({
+            success: true,
+            value: {
+              email: 'mail@makingsense.com',
+              reportsSectionLastVisit: null,
+            },
+          }),
+        },
+      };
+
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={forcedServices}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const allSteps = screen.getAllByRole('alert', { name: 'step' });
+
+      // get last step
+      const lastStepNode = allSteps.slice(-1)[0];
+      const lastStep = getByRole(lastStepNode, 'heading', {
+        level: 4,
+        name: 'dashboard.first_steps.has_campaings_sent_title',
+      });
+      // the last step is incomplete (the step is not crossed)
+      expect(lastStep).not.toHaveClass('dp-crossed-text');
+    });
+
+    it('should mark step 4 as completed when user has visited the reports section', async () => {
+      // Arrange
+      const forcedServices = {
+        ...dependencies,
+        systemUsageSummary: {
+          getSystemUsageSummaryData: async () => ({
+            success: true,
+            value: {
+              hasListsCreated: true,
+              hasDomainsReady: true,
+              hasCampaingsCreated: true,
+              hasCampaingsSent: true,
+            },
+          }),
+        },
+        dopplerSystemUsageApiClient: {
+          getUserSystemUsage: async () => ({
+            success: true,
+            value: {
+              email: 'mail@makingsense.com',
+              reportsSectionLastVisit: '2022-10-25T13:39:34.707Z',
+            },
+          }),
+        },
+      };
+
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider forcedServices={forcedServices}>
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      const allSteps = screen.getAllByRole('alert', { name: 'step' });
+
+      // get last step
+      const lastStepNode = allSteps.slice(-1)[0];
+      const lastStep = getByRole(lastStepNode, 'heading', {
+        level: 4,
+        name: 'dashboard.first_steps.has_campaings_sent_title',
+      });
+      // the last step is completed (the step is crossed)
+      expect(lastStep).toHaveClass('dp-crossed-text');
+
+      // CompleteSteps component to be in the document
+      screen.getByTestId('enable-quick-actions');
+    });
+
+    it('should render unexpected error', async () => {
+      // Act
+      await act(async () => {
+        render(
+          <AppServicesProvider
+            forcedServices={{
+              ...dependencies,
+              systemUsageSummary: {
+                getSystemUsageSummaryData: async () => ({
+                  success: false,
+                  error: 'something wrong!',
+                }),
+              },
+            }}
+          >
+            <IntlProvider>
+              <Dashboard />
+            </IntlProvider>
+          </AppServicesProvider>,
+        );
+      });
+
+      // Assert
+      // because first steps is not visible
+      expect(screen.queryByRole('list')).not.toBeInTheDocument();
+
+      // should render unexpected error because the request fail
+      screen.getByTestId('unexpected-error');
+    });
   });
 });

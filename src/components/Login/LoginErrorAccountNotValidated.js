@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
-import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+
+const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 
 export const LoginErrorAccountNotValidated = InjectAppServices(
   /**
@@ -30,8 +31,8 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
       <>
         <Captcha />
         <p>{intl.formatMessage({ id: 'signup.email_not_received' })}</p>
-        <p class="p-t-12">
-          <button type="button" onClick={incrementAndResend}>
+        <p>
+          <button type="button" onClick={incrementAndResend} class="dp-message-link">
             <FormattedMessage
               id={'signup.resend_email'}
               values={{
@@ -42,7 +43,12 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
         </p>
       </>
     ) : (
-      <FormattedMessageMarkdown id="signup.no_more_resend_MD" />
+      <>
+        <p>{intl.formatMessage({ id: 'signup.no_more_resend_MD' })}</p>
+        <a href={mailtoSupport} class="dp-message-link">
+          {intl.formatMessage({ id: 'signup.no_more_resend_MD_link' })}
+        </a>
+      </>
     );
   },
 );

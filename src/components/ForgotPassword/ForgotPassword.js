@@ -15,7 +15,6 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Helmet } from 'react-helmet';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
-import * as S from './ForgotPassword.styles';
 import { getFormInitialValues } from '../../utils';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 
@@ -36,7 +35,7 @@ const ForgotPassword = ({
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [sentEmail, setSentEmail] = useState(null);
-  const bannerDataState = useGetBannerData({ dopplerSitesClient, intl, type: 'login' });
+  const bannerDataState = useGetBannerData({ dopplerSitesClient, type: 'login' });
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
@@ -97,9 +96,9 @@ const ForgotPassword = ({
           state: { email: email },
           search: location.search,
         }}
-        className="forgot-link"
+        className={sentEmail ? 'dp-message-link' : 'forgot-link'}
       >
-        <span className="triangle-right" />
+        {!sentEmail ? <span className="triangle-right" /> : null}
         {sentEmail ? _('forgot_password.back_login_after_forgot') : _('forgot_password.back_login')}
       </Link>
     );
@@ -124,15 +123,20 @@ const ForgotPassword = ({
           <h5>{_('login.forgot_password')}</h5>
           <p className="content-subtitle">{_('forgot_password.description')}</p>
           {sentEmail ? (
-            <S.MessageSuccess>
-              <div className="form-message dp-ok-message bounceIn">
+            <div
+              className={`m-b-36 m-t-12 dp-wrap-message dp-wrap-success`}
+              role="alert"
+              aria-label="cancel"
+            >
+              <span className="dp-message-icon" />
+              <div className="dp-content-message">
                 <FormattedMessageMarkdown
                   tagName="div"
                   id="forgot_password.confirmation_message_MD"
                 />
                 <LinkToLoginSuccess />
               </div>
-            </S.MessageSuccess>
+            </div>
           ) : (
             <FormWithCaptcha
               className="login-form"

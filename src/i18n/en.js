@@ -4,6 +4,7 @@ import loginBannerImagePath from '../img/login-en.png';
 // Basic constants
 const year = new Date().getFullYear();
 const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+const urlReports = process.env.REACT_APP_REPORTS_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
@@ -26,7 +27,6 @@ const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSet
 const urlSiteFromSignup = `${urlSite}/en/`;
 const urlSiteFromLogin = `${urlSite}/en/`;
 const urlSiteFromForgot = `${urlSite}/en/`;
-const urlSiteContact = `${urlSite}/en/contact/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlPlanSelection = `/plan-selection-deprecated`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
@@ -518,6 +518,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       totalRemovedContacts: 'Removed Contacts',
     },
     first_steps: {
+      completed_message: `
+<Paragraph>Excellent! You have successfully completed the first steps in Doppler. Now you will find some useful shortcuts to the most frequently used functions.</Paragraph>
+      `,
+      enable_quick_actions: `Activate quick actions`,
       has_campaings_created_description_MD: `
 <Paragraph>Choose the type of campaign that suits best for your business and <Bold><Link>send your first campaign</Link></Bold>.</Paragraph>
       `,
@@ -527,7 +531,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
 <Paragraph><Bold><Link>Track the metrics</Link></Bold> for each campaign you have sent to see how they performed.</Paragraph>
       `,
       has_campaings_sent_title: `Review the reports of your campaigns`,
-      has_campaings_sent_url: `https://reports2.fromdoppler.com/SentCampaigns.aspx`,
+      has_campaings_sent_url: `${urlReports}/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
 <Paragraph><Bold><Link>Configure DKIM & SPF</Link></Bold> so that your contacts can receive your mailings successfully.</Paragraph>
       `,
@@ -554,15 +558,27 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     postListBlog_2_link_description: 'Keep reading',
     postListBlog_2_title: '#NewFeature',
 
-    postListHelp_1_description: `Relive the talks of Digital Marketing leaders and be part of the #EMMS2021 community`,
-    postListHelp_1_link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=reviveelemms',
+    postListHelp_1_description: `The most expected Digital Marketing Conferences are now available.`,
+    postListHelp_1_link: 'https://goemms.com/registrado.php?utm_source=app&utm_campaign=postemms&utm_medium=notification',
     postListHelp_1_link_description: 'Watch Now',
-    postListHelp_1_title: '#EMMS2021',
+    postListHelp_1_title: 'EMMS 2022: RELIVE THE EVENT',
 
     postListHelp_2_description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
     postListHelp_2_link_description: 'Write to us',
     postListHelp_2_title: 'Aditional Services',
+
+    quick_actions: {
+      launch_automation: 'Launch automation',
+      launch_automation_url: `${urlDopplerLegacy}/Automation/Automation/AutomationApp/`,
+      make_campaign: 'Create campaign',
+      make_campaign_url: `${urlDopplerLegacy}/Campaigns/BasicInfo`,
+      make_contact_list: 'Build a contact list',
+      make_contact_list_url: urlCreateSubscriberList,
+      section_name: 'Quick actions',
+      send_sms: 'Send bulk SMS',
+      send_sms_url: `${urlDopplerLegacy}/Automation/EditorConfig?idTaskType=12`,
+    },
 
     total: 'TOTAL',
     welcome_message: 'Hello ',
@@ -636,7 +652,8 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
   forgot_password: {
     back_login: `Did you remember your Password? Go back to Log in.`,
     back_login_after_forgot: `Back to Log in`,
-    blocked_account_MD: `Your account has been cancelled. To know more please [contact us](${urlSiteContact}).`,
+    blocked_account_MD: `We deactivate your account. Contact us to help you recover it.`,
+    blocked_account_MD_link: `Contact support.`,
     button_request: `Request`,
     confirmation_message_MD: `
 Check your inbox!
@@ -645,11 +662,14 @@ You'll find an Email with steps to follow.`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromForgot}).`,
     description: `Don't worry! It happens. Enter your Email and we'll be glad to help you.`,
     expired_data: `Your data has expired. Please go back to the Email we sent you to reset your password.`,
-    expired_link: `Link expired, please click on Forgot your Password? to request a new one.`,
+    expired_link: `This link no longer works.`,
     image_path: `${loginBannerImagePath}`,
-    max_attempts_sec_question: `You didn't response correctly. Please, start again the process to reset your Doppler password.`,
-    pass_reset_ok: `Your Password has been changed successfully!`,
+    max_attempts_sec_question: `You entered an incorrect answer multiple times.`,
+    max_attempts_sec_question_link: `Reset your password`,
+    max_attempts_sec_question_start_new_process: `to start the process again.`,
+    pass_reset_ok: `You updated your password.`,
     placeholder_email: `Psst! Is the same Email you used to create your account`,
+    recover_password_link: `Recover password.`,
     url_site: `${urlSiteFromForgot}`,
   },
   forms: {
@@ -931,7 +951,7 @@ and create Abandoned Cart and Retargeting Product Automations. Any questions? Pr
     check_inbox_icon_description: `Check your inbox`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromSignup}).`,
     do_you_already_have_an_account: `Already have an account?`,
-    email_not_received: `Just one more step! Activate your account with the email you received from Doppler. Can't find it?`,
+    email_not_received: `To log in, first activate your account from the email you received from Doppler.`,
     head_description: `Attract, engage and convert clients using the Email Marketing Automation power. Try out Doppler!`,
     head_title: `Free Email Marketing Automation with no sending limits | Doppler`,
     image_path: `${signupBannerImagePath}`,
@@ -955,13 +975,14 @@ personal information, including information on access, conservation, rectificati
 deletion, security, cross-border data transfers and other issues.
   `,
     log_in: `Log In`,
-    no_more_resend_MD: `You haven't received the Email yet? We have already forwarded it to you, if it doesn't arrive in the next few minutes, please [contact Support](${mailtoSupport}).`,
+    no_more_resend_MD: `We already resent the activation email, check spam if you can't find it. Activate your account to enter.`,
+    no_more_resend_MD_link: `Contact support.`,
     placeholder_email: `You will receive a confirmation Email`,
     placeholder_password: `Enter your secret key`,
     placeholder_phone: `9 11 2345-6789`,
     privacy_policy_consent_MD: `I accept Doppler's [Privacy Policy](${urlPrivacyFromSignup_HTMLEncoded}).`,
     promotions_consent: `Sign me up for promotions about Doppler and allies.`,
-    resend_email: `<underline>Resend activation email</underline>`,
+    resend_email: `<underline>Resend activation email.</underline>`,
     sign_up: `Email, Automation & Data Marketing`,
     sign_up_sub: `Try Doppler for free and send <Bold>unlimited Campaigns to 500 Contacts for 90 days.</Bold> Already have an account? <Link>Log In</Link>`,
     thanks_for_registering: `Thank you for registering`,
@@ -1088,6 +1109,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_account_is_blocked_invalid_password_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta bloqueada por intentos fallidos?`,
     error_account_is_blocked_not_pay: `Ouch! This account has been suspended due to non-payment.`,
     error_account_is_blocked_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountNoPay}) for help.`,
+    error_account_is_blocked_not_pay_update_payment_information: `Update payment details`,
     error_account_is_blocked_not_pay_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta suspendida por falta de pago?`,
     error_account_is_canceled_not_pay: `Ouch! This account has been canceled due to non-payment.`,
     error_account_is_canceled_not_pay_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectCanceledAccountNoPay}) for help.`,
@@ -1104,7 +1126,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_invalid_domain: `Ouch! Something went wrong. Please check that your Email is correct or try another.`,
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
     error_invalid_email_address: `Ouch! Enter a valid Email.`,
-    error_invalid_login: `Ouch! There is an error in your Username or Password. Please, try again.`,
+    error_invalid_login: `The username or password is incorrect. Try again.`,
     error_invalid_name: `Ouch! Write only letters, not numbers.`,
     error_invalid_nit: `Ouch! Enter a valid NIT`,
     error_invalid_rfc: `Ouch! Enter a valid RFC`,

@@ -34,9 +34,12 @@ import { HttpReportClient, ReportClient } from './reports';
 import { CampaignSummaryService } from './campaignSummary';
 import { ContactSummaryService } from './contactSummary';
 import { SessionMfeSessionManager } from './sessionmfe-session-manager';
+import { DopplerSystemUsageApiClient } from './doppler-system-usage-api-client.double';
+import { HttpDopplerSystemUsageApiClient } from './doppler-system-usage-api-client';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;
+  dopplerSystemUsageApiUrl: string;
   dopplerLegacyUrl: string;
   dopplerSitesUrl: string;
   dopplerContactPolicyApiUrl: string;
@@ -76,6 +79,7 @@ export interface AppServices {
   dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
   staticDataClient: StaticDataClient;
   dopplerBillingUserApiClient: DopplerBillingUserApiClient;
+  dopplerSystemUsageApiClient: DopplerSystemUsageApiClient;
   dopplerAccountPlansApiClient: DopplerAccountPlansApiClient;
   planService: PlanService;
   campaignSummaryService: CampaignSummaryService;
@@ -132,6 +136,7 @@ export class AppCompositionRoot implements AppServices {
       dopplerApiUrl: process.env.REACT_APP_DOPPLER_API_URL as string,
       reportsUrl: process.env.REACT_APP_REPORTS_URL as string,
       dopplerBillingApiUrl: process.env.REACT_APP_DOPPLER_BILLING_API_URL as string,
+      dopplerSystemUsageApiUrl: process.env.REACT_APP_DOPPLER_SYSTEM_USAGE_URL as string,
       appStatusOverrideFileUrl: process.env.REACT_APP_MANUAL_STATUS_FILE_URL as string,
       dopplerContactPolicyApiUrl: process.env.REACT_APP_DOPPLER_CONTACT_POLICY_URL as string,
       dopplerUsersApiUrl: process.env.REACT_APP_DOPPLER_USERS_API_URL as string,
@@ -366,6 +371,18 @@ export class AppCompositionRoot implements AppServices {
         new HttpDopplerBillingUserApiClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerBillingUsersApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerSystemUsageApiClient() {
+    return this.singleton(
+      'dopplerSystemUsageApiClient',
+      () =>
+        new HttpDopplerSystemUsageApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerSystemUsageApiUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );
