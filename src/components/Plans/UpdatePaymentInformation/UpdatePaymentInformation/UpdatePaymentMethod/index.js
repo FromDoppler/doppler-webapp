@@ -16,6 +16,7 @@ import {
   updatePaymentInformationReducer,
   UPDATE_PAYMENT_INFORMATION_ACTIONS,
 } from '../../Reducers/updatePaymentInformationReducer';
+import { UnexpectedError } from '../../../PlanCalculator/UnexpectedError/index';
 
 const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -56,7 +57,7 @@ const SAVED = 'SAVED';
 
 export const UpdatePaymentMethod = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient }, optionView, handleSaveAndContinue }) => {
-    const [{ loading, paymentMethod }, dispatch] = useReducer(
+    const [{ loading, paymentMethod, hasError }, dispatch] = useReducer(
       updatePaymentInformationReducer,
       INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
     );
@@ -112,6 +113,10 @@ export const UpdatePaymentMethod = InjectAppServices(
 
     if (loading) {
       return <Loading />;
+    }
+
+    if (hasError) {
+      return <UnexpectedError />;
     }
 
     return (

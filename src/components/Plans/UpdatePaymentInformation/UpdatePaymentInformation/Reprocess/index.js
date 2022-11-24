@@ -10,6 +10,7 @@ import {
   reprocessReducer,
   REPROCESS_ACTIONS,
 } from '../../Reducers/reprocessReducer';
+import { UnexpectedError } from '../../../PlanCalculator/UnexpectedError/index';
 
 const dollarSymbol = 'US$';
 const HAS_ERROR = 'HAS_ERROR';
@@ -55,7 +56,7 @@ const DeclinedInvoices = ({ declinedInvoices }) => {
 };
 
 export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUserApiClient } }) => {
-  const [{ loading, declinedInvoices }, dispatch] = useReducer(
+  const [{ loading, declinedInvoices, hasError }, dispatch] = useReducer(
     reprocessReducer,
     INITIAL_STATE_REPROCESS,
   );
@@ -105,6 +106,10 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (hasError) {
+    return <UnexpectedError />;
   }
 
   return (
