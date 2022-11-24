@@ -103,103 +103,94 @@ const UpdatePaymentInformation = InjectAppServices(
       setActiveStep(nextStep);
     };
 
+    if (loading) {
+      return <Loading />;
+    }
+
     return (
       <>
-        {loading ? (
-          <Loading page />
-        ) : (
-          <>
-            <section className="dp-library dp-bg-softgrey">
-              <Helmet>
-                <title>{_('updatePaymentMethod.title')}</title>
-                <meta name="checkout" />
-              </Helmet>
-              <section className="dp-container">
-                <div className="dp-rowflex">
-                  <div className="col-sm-12 m-t-48">
-                    <h3 className="m-b-24 m-t-24">{_('updatePaymentMethod.title')}</h3>
-                  </div>
-                  <div className="col-md-12 col-lg-7 m-b-24">
-                    <div className="dp-wrapper-payment-process">
-                      {paymentMethod.paymentMethodName !== PaymentMethodType.transfer ? (
-                        <ul className="dp-accordion">
-                          <Step
-                            active={
-                              activeStep === updatePaymentInformationteps.paymentMethodInformation
-                            }
-                            title={_('updatePaymentMethod.payment_method.title')}
-                            complete={
-                              paymentInformationAction === actionPage.READONLY &&
-                              paymentMethod.paymentMethodName !== PaymentMethodType.transfer
-                            }
-                            stepNumber={1}
-                            onActivate={() => {
-                              setPaymentInformationAction(actionPage.UPDATE);
-                              setActiveStep(updatePaymentInformationteps.paymentMethodInformation);
-                            }}
-                            lastStep={
-                              paymentMethod.paymentMethodName !== PaymentMethodType.transfer
-                            }
-                          >
-                            <UpdatePaymentMethod
-                              optionView={paymentInformationAction}
-                              handleChangeView={(view) => {
-                                setPaymentInformationAction(view);
-                              }}
-                              handleSaveAndContinue={() => {
-                                setNextStep(activeStep);
-                                setPaymentInformationAction(actionPage.READONLY);
-                              }}
-                            />
-                          </Step>
-                          <Step
-                            active={
-                              activeStep === updatePaymentInformationteps.reprocessInformation
-                            }
-                            title={_('updatePaymentMethod.reprocess.title')}
-                            complete={false}
-                            stepNumber={2}
-                            onActivate={() =>
-                              setActiveStep(updatePaymentInformationteps.reprocessInformation)
-                            }
-                          >
-                            <Reprocess />
-                          </Step>
-                        </ul>
-                      ) : (
-                        <ul className="dp-accordion">
-                          <li className="dp-box-shadow dp-form-successful">
-                            {
-                              <div>
-                                <FormattedMessage id="updatePaymentMethod.payment_method.transfer_message_line1" />
-                                <FormattedMessageMarkdown id="updatePaymentMethod.payment_method.transfer_message_line2" />
-                              </div>
-                            }
-                          </li>
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                  <div className="dp-space-l24"></div>
+        <section className="dp-library dp-bg-softgrey">
+          <Helmet>
+            <title>{_('updatePaymentMethod.title')}</title>
+            <meta name="checkout" />
+          </Helmet>
+          <section className="dp-container">
+            <div className="dp-rowflex">
+              <div className="col-sm-12 m-t-48">
+                <h3 className="m-b-24 m-t-24">{_('updatePaymentMethod.title')}</h3>
+              </div>
+              <div className="col-md-12 col-lg-7 m-b-24">
+                <div className="dp-wrapper-payment-process">
+                  {paymentMethod.paymentMethodName !== PaymentMethodType.transfer ? (
+                    <ul className="dp-accordion">
+                      <Step
+                        active={
+                          activeStep === updatePaymentInformationteps.paymentMethodInformation
+                        }
+                        title={_('updatePaymentMethod.payment_method.title')}
+                        complete={
+                          paymentInformationAction === actionPage.READONLY &&
+                          paymentMethod.paymentMethodName !== PaymentMethodType.transfer
+                        }
+                        stepNumber={1}
+                        onActivate={() => {
+                          setPaymentInformationAction(actionPage.UPDATE);
+                          setActiveStep(updatePaymentInformationteps.paymentMethodInformation);
+                        }}
+                        lastStep={paymentMethod.paymentMethodName !== PaymentMethodType.transfer}
+                      >
+                        <UpdatePaymentMethod
+                          optionView={paymentInformationAction}
+                          handleChangeView={(view) => {
+                            setPaymentInformationAction(view);
+                          }}
+                          handleSaveAndContinue={() => {
+                            setNextStep(activeStep);
+                            setPaymentInformationAction(actionPage.READONLY);
+                          }}
+                        />
+                      </Step>
+                      <Step
+                        active={activeStep === updatePaymentInformationteps.reprocessInformation}
+                        title={_('updatePaymentMethod.reprocess.title')}
+                        complete={false}
+                        stepNumber={2}
+                        onActivate={() =>
+                          setActiveStep(updatePaymentInformationteps.reprocessInformation)
+                        }
+                      >
+                        <Reprocess />
+                      </Step>
+                    </ul>
+                  ) : (
+                    <ul className="dp-accordion">
+                      <li className="dp-box-shadow dp-form-successful">
+                        {
+                          <div>
+                            <FormattedMessage id="updatePaymentMethod.payment_method.transfer_message_line1" />
+                            <FormattedMessageMarkdown id="updatePaymentMethod.payment_method.transfer_message_line2" />
+                          </div>
+                        }
+                      </li>
+                    </ul>
+                  )}
                 </div>
-              </section>
-              <section className="dp-container">
-                <div className="dp-rowflex">
-                  <div className="col-lg-12 col-md-6 col-sm-12 m-b-24"></div>
-                  <div className="col-sm-12 m-b-24">
-                    <hr className="dp-h-divider" />
-                    <Link
-                      to={`/login`}
-                      className="dp-button button-medium primary-grey m-t-30 m-r-24"
-                    >
-                      {_('checkoutProcessForm.button_back')}
-                    </Link>
-                  </div>
-                </div>
-              </section>
-            </section>
-          </>
-        )}
+              </div>
+              <div className="dp-space-l24"></div>
+            </div>
+          </section>
+          <section className="dp-container">
+            <div className="dp-rowflex">
+              <div className="col-lg-12 col-md-6 col-sm-12 m-b-24"></div>
+              <div className="col-sm-12 m-b-24">
+                <hr className="dp-h-divider" />
+                <Link to={`/login`} className="dp-button button-medium primary-grey m-t-30 m-r-24">
+                  {_('checkoutProcessForm.button_back')}
+                </Link>
+              </div>
+            </div>
+          </section>
+        </section>
       </>
     );
   },

@@ -103,35 +103,33 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
 
   const showMessage = [SAVED, HAS_ERROR].includes(status);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      {loading ? (
-        <Loading page />
-      ) : (
-        <>
-          <div role="alert" aria-label="pending-ammount">
-            {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
-            <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
-          </div>
-          <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} />
-          {showMessage && (
-            <StatusMessage
-              type={status === SAVED ? 'success' : 'cancel'}
-              message={_(
-                status === SAVED ? 'updatePaymentMethod.reprocess.success_message' : messageError,
-              )}
-            />
+      <div role="alert" aria-label="pending-ammount">
+        {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
+        <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
+      </div>
+      <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} />
+      {showMessage && (
+        <StatusMessage
+          type={status === SAVED ? 'success' : 'cancel'}
+          message={_(
+            status === SAVED ? 'updatePaymentMethod.reprocess.success_message' : messageError,
           )}
-          {status !== SAVED && (
-            <button
-              type="button"
-              className="dp-button button-medium primary-green m-t-30"
-              onClick={reprocess}
-            >
-              <FormattedMessage id="updatePaymentMethod.reprocess.payment_now_button" />
-            </button>
-          )}
-        </>
+        />
+      )}
+      {status !== SAVED && (
+        <button
+          type="button"
+          className="dp-button button-medium primary-green m-t-30"
+          onClick={reprocess}
+        >
+          <FormattedMessage id="updatePaymentMethod.reprocess.payment_now_button" />
+        </button>
       )}
     </>
   );

@@ -44,7 +44,7 @@ describe('Reprocess component', () => {
 
     // // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
   });
 
@@ -54,7 +54,7 @@ describe('Reprocess component', () => {
 
     // // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     // Assert

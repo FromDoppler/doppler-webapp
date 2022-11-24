@@ -75,7 +75,7 @@ describe('UpdatePaymentMethod component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
   });
 
@@ -91,7 +91,7 @@ describe('UpdatePaymentMethod component', () => {
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
     // Click save button
@@ -138,7 +138,7 @@ describe('UpdatePaymentMethod component', () => {
         );
 
         // Loader should disappear once request resolves
-        const loader = screen.getByTestId('wrapper-loading');
+        const loader = screen.getByTestId('loading-box');
         await waitForElementToBeRemoved(loader);
 
         const inputNumber = screen.getByRole('textbox', {

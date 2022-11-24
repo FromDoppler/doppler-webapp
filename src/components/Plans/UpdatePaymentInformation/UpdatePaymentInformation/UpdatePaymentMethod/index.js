@@ -110,49 +110,47 @@ export const UpdatePaymentMethod = InjectAppServices(
 
     const showMessage = [SAVED, HAS_ERROR].includes(status);
 
+    if (loading) {
+      return <Loading />;
+    }
+
     return (
       <>
-        {loading ? (
-          <Loading page />
-        ) : (
-          <>
-            <Formik initialValues={_getFormInitialValues()} onSubmit={submitPaymentMethodForm}>
-              {() => (
-                <Form className="dp-form-payment-method">
-                  <legend>{_('updatePaymentMethod.payment_method.title')}</legend>
-                  <fieldset>
-                    <FieldGroup>
-                      <PaymentType
-                        paymentMethodType={paymentMethod.paymentMethodName}
-                        optionView={optionView}
-                        paymentMethod={paymentMethod}
-                      />
-                      {showMessage && (
-                        <StatusMessage
-                          type={status === SAVED ? 'success' : 'cancel'}
-                          message={_(
-                            status === SAVED
-                              ? 'updatePaymentMethod.payment_method.success_message'
-                              : errorMessageId,
-                          )}
-                        />
+        <Formik initialValues={_getFormInitialValues()} onSubmit={submitPaymentMethodForm}>
+          {() => (
+            <Form className="dp-form-payment-method">
+              <legend>{_('updatePaymentMethod.payment_method.title')}</legend>
+              <fieldset>
+                <FieldGroup>
+                  <PaymentType
+                    paymentMethodType={paymentMethod.paymentMethodName}
+                    optionView={optionView}
+                    paymentMethod={paymentMethod}
+                  />
+                  {showMessage && (
+                    <StatusMessage
+                      type={status === SAVED ? 'success' : 'cancel'}
+                      message={_(
+                        status === SAVED
+                          ? 'updatePaymentMethod.payment_method.success_message'
+                          : errorMessageId,
                       )}
-                      {optionView === actionPage.UPDATE ? (
-                        <FieldItem className="field-item">
-                          <div className="dp-buttons-actions">
-                            <SubmitButton className="dp-button button-medium primary-green">
-                              {_('updatePaymentMethod.payment_method.save_continue_button')}
-                            </SubmitButton>
-                          </div>
-                        </FieldItem>
-                      ) : null}
-                    </FieldGroup>
-                  </fieldset>
-                </Form>
-              )}
-            </Formik>
-          </>
-        )}
+                    />
+                  )}
+                  {optionView === actionPage.UPDATE ? (
+                    <FieldItem className="field-item">
+                      <div className="dp-buttons-actions">
+                        <SubmitButton className="dp-button button-medium primary-green">
+                          {_('updatePaymentMethod.payment_method.save_continue_button')}
+                        </SubmitButton>
+                      </div>
+                    </FieldItem>
+                  ) : null}
+                </FieldGroup>
+              </fieldset>
+            </Form>
+          )}
+        </Formik>
       </>
     );
   },
