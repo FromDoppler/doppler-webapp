@@ -58,9 +58,7 @@ describe('Reprocess component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Assert
-    expect(
-      screen.getByRole('pending-amount-section', { name: 'pending-ammount' }),
-    ).toHaveTextContent(
+    expect(screen.getByRole('alert', { name: 'pending-ammount' })).toHaveTextContent(
       `updatePaymentMethod.reprocess.pending_amount_message : US$ ${fakeDeclinedInvoices.totalPending}`,
     );
     expect(screen.getAllByRole('row', { name: 'invoice' }).length).toBe(

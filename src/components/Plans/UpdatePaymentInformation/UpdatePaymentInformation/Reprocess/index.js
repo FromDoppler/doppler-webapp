@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import { useIntl, FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { Loading } from '../../../../Loading/Loading';
 import { handleMessage } from '../index';
 import { StatusMessage } from '../../../Checkout/PurchaseSummary/PlanPurchase/index';
 import useTimeout from '../../../../../hooks/useTimeout';
+import {
+  INITIAL_STATE_REPROCESS,
+  reprocessReducer,
+  REPROCESS_ACTIONS,
+} from '../../Reducers/reprocessReducer';
 
 const dollarSymbol = 'US$';
 const HAS_ERROR = 'HAS_ERROR';
@@ -50,8 +55,12 @@ const DeclinedInvoices = ({ declinedInvoices }) => {
 };
 
 export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUserApiClient } }) => {
+  const [{ loading, declinedInvoices }, dispatch] = useReducer(
+    reprocessReducer,
+    INITIAL_STATE_REPROCESS,
+  );
+
   const intl = useIntl();
-  const [state, setState] = useState({ loading: true, declinedInvoices: { invoices: [] } });
   const [status, setStatus] = useState('');
   const [messageError, setMessageError] = useState('');
   const createTimeout = useTimeout();
@@ -59,13 +68,21 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
 
   useEffect(() => {
     const fetchData = async () => {
-      const declinedInvoices = await dopplerBillingUserApiClient.getDeclinedInvoices();
+      try {
+        dispatch({ type: REPROCESS_ACTIONS.START_FETCH });
+        const declinedInvoices = await dopplerBillingUserApiClient.getDeclinedInvoices();
 
-      setState({
-        declinedInvoices: declinedInvoices.success ? declinedInvoices.value : { invoices: [] },
-        loading: false,
-      });
+        dispatch({
+          type: REPROCESS_ACTIONS.FINISH_FETCH,
+          payload: {
+            declinedInvoices: declinedInvoices.value,
+          },
+        });
+      } catch (error) {
+        dispatch({ type: REPROCESS_ACTIONS.FAIL_FETCH });
+      }
     };
+
     fetchData();
   }, [dopplerBillingUserApiClient]);
 
@@ -88,15 +105,15 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
 
   return (
     <>
-      {state.loading ? (
+      {loading ? (
         <Loading page />
       ) : (
         <>
-          <div role="pending-amount-section" aria-label="pending-ammount">
+          <div role="alert" aria-label="pending-ammount">
             {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
-            <FormattedNumber value={state.declinedInvoices.totalPending} {...numberFormatOptions} />
+            <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
           </div>
-          <DeclinedInvoices declinedInvoices={state.declinedInvoices.invoices} />
+          <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} />
           {showMessage && (
             <StatusMessage
               type={status === SAVED ? 'success' : 'cancel'}

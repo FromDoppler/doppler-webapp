@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -9,6 +9,11 @@ import Reprocess from './Reprocess';
 import { FirstDataError, MercadoPagoError, PaymentMethodType } from '../../.././../doppler-types';
 import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 import { Loading } from '../../../Loading/Loading';
+import {
+  INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
+  updatePaymentInformationReducer,
+  UPDATE_PAYMENT_INFORMATION_ACTIONS,
+} from '../Reducers/updatePaymentInformationReducer';
 
 const updatePaymentInformationteps = {
   paymentMethodInformation: 'payment-method-information',
@@ -49,28 +54,33 @@ export const handleMessage = (error) => {
 
 const UpdatePaymentInformation = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient } }) => {
+    const [{ loading, paymentMethod }, dispatch] = useReducer(
+      updatePaymentInformationReducer,
+      INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
+    );
+
     const [activeStep, setActiveStep] = useState(
       updatePaymentInformationteps.paymentMethodInformation,
     );
     const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
-    const [paymentMethod, setPaymentMethod] = useState(PaymentMethodType.creditCard);
-    const [state, setState] = useState({ loading: true, paymentMethod: {} });
-
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
       const fetchData = async () => {
-        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-        let currentPaymentMethod = paymentMethodData.success
-          ? paymentMethodData.value.paymentMethodName
-          : PaymentMethodType.creditCard;
+        try {
+          dispatch({ type: UPDATE_PAYMENT_INFORMATION_ACTIONS.START_FETCH });
+          const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
 
-        setPaymentMethod(currentPaymentMethod);
-
-        setState({
-          loading: false,
-        });
+          dispatch({
+            type: UPDATE_PAYMENT_INFORMATION_ACTIONS.FINISH_FETCH,
+            payload: {
+              paymentMethod: paymentMethodData.value,
+            },
+          });
+        } catch (error) {
+          dispatch({ type: UPDATE_PAYMENT_INFORMATION_ACTIONS.FAIL_FETCH });
+        }
       };
       fetchData();
     }, [dopplerBillingUserApiClient]);
@@ -95,7 +105,7 @@ const UpdatePaymentInformation = InjectAppServices(
 
     return (
       <>
-        {state.loading ? (
+        {loading ? (
           <Loading page />
         ) : (
           <>
@@ -111,7 +121,7 @@ const UpdatePaymentInformation = InjectAppServices(
                   </div>
                   <div className="col-md-12 col-lg-7 m-b-24">
                     <div className="dp-wrapper-payment-process">
-                      {paymentMethod !== PaymentMethodType.transfer ? (
+                      {paymentMethod.paymentMethodName !== PaymentMethodType.transfer ? (
                         <ul className="dp-accordion">
                           <Step
                             active={
@@ -120,17 +130,18 @@ const UpdatePaymentInformation = InjectAppServices(
                             title={_('updatePaymentMethod.payment_method.title')}
                             complete={
                               paymentInformationAction === actionPage.READONLY &&
-                              paymentMethod !== PaymentMethodType.transfer
+                              paymentMethod.paymentMethodName !== PaymentMethodType.transfer
                             }
                             stepNumber={1}
                             onActivate={() => {
                               setPaymentInformationAction(actionPage.UPDATE);
                               setActiveStep(updatePaymentInformationteps.paymentMethodInformation);
                             }}
-                            lastStep={paymentMethod !== PaymentMethodType.transfer}
+                            lastStep={
+                              paymentMethod.paymentMethodName !== PaymentMethodType.transfer
+                            }
                           >
                             <UpdatePaymentMethod
-                              paymentMethod={state.paymentMethod}
                               optionView={paymentInformationAction}
                               handleChangeView={(view) => {
                                 setPaymentInformationAction(view);

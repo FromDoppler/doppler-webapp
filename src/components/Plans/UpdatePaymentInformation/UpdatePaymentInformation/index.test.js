@@ -25,8 +25,6 @@ describe('UpdatePaymentInformation component', () => {
 
   it('should show payment method and reprocess header', async () => {
     // Arrange
-    let result;
-
     const dependencies = {
       dopplerBillingUserApiClient: {
         getPaymentMethodData: async () => {
@@ -35,23 +33,19 @@ describe('UpdatePaymentInformation component', () => {
       },
     };
 
-    result = render(<UpdatePaymentInformationElement dependencies={dependencies} />);
+    render(<UpdatePaymentInformationElement dependencies={dependencies} />);
 
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    const { getAllByText } = result;
-
     // Assert
-    expect(getAllByText('updatePaymentMethod.payment_method.title').length).toBe(2);
-    expect(getAllByText('updatePaymentMethod.reprocess.title').length).toBe(1);
+    expect(screen.getAllByText('updatePaymentMethod.payment_method.title').length).toBe(2);
+    expect(screen.getAllByText('updatePaymentMethod.reprocess.title').length).toBe(1);
   });
 
   it('should show transfer message', async () => {
     // Arrange
-    let result;
-
     const dependencies = {
       dopplerBillingUserApiClient: {
         getPaymentMethodData: async () => {
@@ -60,20 +54,18 @@ describe('UpdatePaymentInformation component', () => {
       },
     };
 
-    result = render(<UpdatePaymentInformationElement dependencies={dependencies} />);
+    render(<UpdatePaymentInformationElement dependencies={dependencies} />);
 
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    const { getAllByText } = result;
-
     // Assert
-    expect(getAllByText('updatePaymentMethod.payment_method.transfer_message_line1').length).toBe(
-      1,
-    );
-    expect(getAllByText('updatePaymentMethod.payment_method.transfer_message_line2').length).toBe(
-      1,
-    );
+    expect(
+      screen.getAllByText('updatePaymentMethod.payment_method.transfer_message_line1').length,
+    ).toBe(1);
+    expect(
+      screen.getAllByText('updatePaymentMethod.payment_method.transfer_message_line2').length,
+    ).toBe(1);
   });
 });
