@@ -23,6 +23,7 @@ export class HardcodedDopplerSitesClient implements DopplerSitesClient {
         imageUrl: response.image_url,
         backgroundUrl: response.background_url,
         fontColor: response.font_color,
+        contentActivation: undefined,
       },
     };
     //return {
