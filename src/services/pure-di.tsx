@@ -34,8 +34,10 @@ import { HttpReportClient, ReportClient } from './reports';
 import { CampaignSummaryService } from './campaignSummary';
 import { ContactSummaryService } from './contactSummary';
 import { SessionMfeSessionManager } from './sessionmfe-session-manager';
-import { DopplerSystemUsageApiClient } from './doppler-system-usage-api-client.double';
-import { HttpDopplerSystemUsageApiClient } from './doppler-system-usage-api-client';
+import {
+  DopplerSystemUsageApiClient,
+  HttpDopplerSystemUsageApiClient,
+} from './doppler-system-usage-api-client';
 
 interface AppConfiguration {
   dopplerBillingApiUrl: string;

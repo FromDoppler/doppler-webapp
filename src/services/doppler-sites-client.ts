@@ -12,7 +12,7 @@ export interface Promotions {
   imageUrl: string;
   backgroundUrl: string;
   fontColor: string;
-  contentActivation: string;
+  contentActivation: string | undefined;
 }
 
 export type PromotionsResult = ResultWithoutExpectedErrors<Promotions>;
