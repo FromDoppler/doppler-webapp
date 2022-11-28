@@ -19,7 +19,7 @@ import bigquery_icon from '../components/ControlPanel/images/bigquery_icon.png';
 import bmw_crm_icon from '../components/ControlPanel/images/bmw_crm_icon.png';
 import easycommerce_icon from '../components/ControlPanel/images/easycommerce_icon.svg';
 import google_analitics_icon from '../components/ControlPanel/images/google_analitics_icon.png';
-import magento_icon from '../components/ControlPanel/images/magento_icon.png';
+import adobe_commerce_icon from '../components/ControlPanel/images/adobe_commerce_icon.png';
 import prestashop_icon from '../components/ControlPanel/images/prestashop_icon.png';
 import shopify_icon from '../components/ControlPanel/images/shopify_icon.png';
 import Tiendanube_icon from '../components/ControlPanel/images/Tiendanube_icon.svg';
@@ -607,7 +607,7 @@ export class ControlPanelService implements ControlPanelService {
           {
             name: 'Magento',
             linkUrl: `${urlIntegrations}/MagentoSection`,
-            imgSrc: magento_icon,
+            imgSrc: adobe_commerce_icon,
             imgAlt: _('control_panel.native_integrations.magento_title'),
             iconName: _('control_panel.native_integrations.magento_title'),
           },
