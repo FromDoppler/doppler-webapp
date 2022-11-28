@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup, render, waitFor } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MemoryRouter as Router, useLocation } from 'react-router-dom';
@@ -343,6 +343,7 @@ describe('App component', () => {
       // Assert
       const loadingElNow = container.querySelector('.loading-page');
       expect(loadingElNow).toBeNull();
+      expect(await screen.findByTestId('empty-fragment')).toBeInTheDocument();
     });
 
     describe('not authenticated user', () => {
