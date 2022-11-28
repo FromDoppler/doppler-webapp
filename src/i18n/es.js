@@ -457,7 +457,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       bmw_rsp_crm_title: 'RSP CRM',
       easycommerce_title: 'Easycommerce',
       google_Analityc_title: 'Google Analytics',
-      magento_title: 'Magento',
+      magento_title: 'Adobe Commerce',
       mercadolibre_title: 'MercadoLibre',
       mercadoshops_title: 'Mercado Shops',
       mitienda_title: 'MiTienda',
