@@ -1067,6 +1067,22 @@ With Doppler you can generate Segments with common interests, create Forms to at
     users_with_email: `Users with email`,
     users_without_email: `Users without email`,
   },
+  updatePaymentInformationSuccess: {
+    all_invoices_processed_message: 'Your account has been reactivated. Go to the Login and enter your account',
+    all_invoices_processed_title: 'Excellent! Your reprocess has been successful.',
+    back_button: 'Back',
+    go_to_login_button: 'Login',
+    not_all_invoices_processed_legend:
+      'In any case, your account has been reactivated <bold>momentarily</bold> so that you can use the service. We will contact you to manage the payment of the remaining balance.',
+    not_all_invoices_processed_message: 'You still have an outstanding balance. Any of the due invoices could not be processed correctly:',
+    not_all_invoices_processed_title: 'The reprocess has been partially successful.',
+    payment_pending_message_line1: 'Your payment is being processed and may take up to 48 business hours to be approved.',
+    payment_pending_message_line2: 'Your account has been reactivated <bold>momentarily</bold> so you can use the service. We will contact you in case the charge is rejected.',
+    rejected_payments_legend: '<bold>Try another card</bold> or <bold>contact us</bold> so we can help you.',
+    rejected_payments_message: 'Due invoices could not be processed correctly:',
+    rejected_payments_title: 'Ouch! The reprocess has been rejected.',
+    title: 'Reprocess finished',
+  },
   updatePaymentMethod: {
     button_back: 'Go back',
     payment_method: {
@@ -1081,6 +1097,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
         amount_column: 'Amount',
         date_column: 'Date',
         invoice_column: 'Invoice number',
+        error_column: 'Error/Reason',
       },
       payment_now_button: 'Pay now',
       pending_amount_message: 'Your outstanding balance is',
