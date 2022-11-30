@@ -12,6 +12,8 @@ import {
 } from '../Reducers/reprocessReducer';
 import { DeclinedInvoicesList } from '../DeclinedInvoicesList/index';
 import Footer from '../../../Footer/Footer';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
+import { useNavigate } from 'react-router-dom';
 
 const FormatMessageWithBoldWords = ({ id }) => {
   return (
@@ -24,26 +26,46 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
-const SuccessfulMessage = ({ allInvoicesProcessed, declinedInvoices }) => {
+const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
     <>
-      <p className="p-l-12">
-        {allInvoicesProcessed === 'true'
-          ? _('updatePaymentInformationSuccess.all_invoices_processed_message')
-          : _('updatePaymentInformationSuccess.not_all_invoices_processed_message')}
-      </p>
-      {allInvoicesProcessed !== 'true' && (
+      {anyPendingInvoices === 'true' ? (
         <>
+          <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
+            <p>
+              <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.payment_pending_message_line1" />
+            </p>
+          </div>
           <div className="col-md-12 col-lg-8 m-b-24 m-t-24">
-            <DeclinedInvoicesList declinedInvoices={declinedInvoices.invoices} />
+            <DeclinedInvoicesList declinedInvoices={invoices.invoices} />
           </div>
           <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
             <p>
-              <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.not_all_invoices_processed_legend" />
+              <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.payment_pending_message_line2" />
             </p>
           </div>
+        </>
+      ) : (
+        <>
+          <p className="p-l-12">
+            {allInvoicesProcessed === 'true'
+              ? _('updatePaymentInformationSuccess.all_invoices_processed_message')
+              : _('updatePaymentInformationSuccess.not_all_invoices_processed_message')}
+          </p>
+          {allInvoicesProcessed !== 'true' && (
+            <>
+              <div className="col-md-12 col-lg-8 m-b-24 m-t-24">
+                <DeclinedInvoicesList declinedInvoices={invoices.invoices} />
+              </div>
+              <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
+                <p>
+                  <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.not_all_invoices_processed_legend" />
+                </p>
+              </div>
+            </>
+          )}
         </>
       )}
     </>
@@ -52,6 +74,7 @@ const SuccessfulMessage = ({ allInvoicesProcessed, declinedInvoices }) => {
 
 const FailedMessage = ({ declinedInvoices }) => {
   const intl = useIntl();
+  const navigate = useNavigate();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
     <>
@@ -60,27 +83,38 @@ const FailedMessage = ({ declinedInvoices }) => {
         <DeclinedInvoicesList declinedInvoices={declinedInvoices.invoices} />
       </div>
       <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
-        <p>
-          <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.rejected_payments_legend" />
-        </p>
+        <div className="dp-rowflex">
+          <p>
+            <button
+              className="dp-button link-green"
+              onClick={() => navigate('/update-payment-method')}
+            >
+              {_('updatePaymentInformationSuccess.rejected_payments_legend_1')}
+            </button>{' '}
+          </p>
+          <FormattedMessageMarkdown
+            id="updatePaymentInformationSuccess.rejected_payments_legend_2"
+            linkTarget={'_blank'}
+          />
+        </div>
       </div>
     </>
   );
 };
 
 export const PaymentInformationSummary = InjectAppServices(
-  ({
-    dependencies: { dopplerBillingUserApiClient },
-  }) => {
+  ({ dependencies: { dopplerBillingUserApiClient } }) => {
     const [{ loading, declinedInvoices, hasError }, dispatch] = useReducer(
       reprocessReducer,
       INITIAL_STATE_REPROCESS,
     );
 
     const query = useQueryParams();
-    const allInvoicesProcessed = query.get('allInvoicesProcessed') ?? '';
+    const allInvoicesProcessed = query.get('allInvoicesProcessed') ?? 'false';
+    const anyPendingInvoices = query.get('anyPendingInvoices') ?? 'false';
     const successful = query.get('success') ?? '';
     const intl = useIntl();
+    const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
@@ -103,6 +137,10 @@ export const PaymentInformationSummary = InjectAppServices(
       fetchData();
     }, [dopplerBillingUserApiClient]);
 
+    const redirect = (url) => {
+      navigate(url);
+    };
+
     return (
       <>
         <div className="dp-app-container">
@@ -121,19 +159,25 @@ export const PaymentInformationSummary = InjectAppServices(
               <FailedMessage declinedInvoices={declinedInvoices} />
             ) : (
               <SuccessfulMessage
+                anyPendingInvoices={anyPendingInvoices}
                 allInvoicesProcessed={allInvoicesProcessed}
-                declinedInvoices={declinedInvoices}
+                invoices={declinedInvoices}
               />
             )}
             <div className="p-l-12">
               <hr className="dp-separator" />
             </div>
             <div className="p-l-12">
-              <a href={'/login'} className="dp-button button-medium primary-green m-t-24">
+              <button
+                className="dp-button button-medium primary-green m-t-24"
+                onClick={() =>
+                  redirect(successful === 'true' ? '/login' : '/update-payment-method')
+                }
+              >
                 {successful === 'true'
                   ? _('updatePaymentInformationSuccess.go_to_login_button')
                   : _('updatePaymentInformationSuccess.back_button')}
-              </a>
+              </button>
             </div>
           </section>
           <Footer />

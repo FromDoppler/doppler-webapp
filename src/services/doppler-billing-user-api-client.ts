@@ -480,7 +480,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${email}/invoices/declined`,
+        url: `/accounts/${email}/invoices?withStatus=2`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
