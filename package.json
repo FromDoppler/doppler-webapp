@@ -60,8 +60,8 @@
     "url-parse": "^1.5.10"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "verify": "yarn prettier-check && yarn eclint && yarn test:ci && yarn stylelint",
     "build:production": "env-cmd -f .env.production yarn build",
     "build:qa": "env-cmd -f .env.qa yarn build",
@@ -69,9 +69,9 @@
     "build:development": "env-cmd -f .env.development yarn build",
     "build:demo": "env-cmd -f .env.demo yarn build",
     "test:ci": "cross-env CI=true react-scripts test --coverage --env=jest-environment-jsdom-sixteen --testTimeout=120000",
-    "test:related": "react-scripts test --env=jest-environment-jsdom-sixteen --testTimeout=120000 -b --findRelatedTests",
-    "test": "react-scripts test --coverage --env=jest-environment-jsdom-sixteen --watchAll=true --testTimeout=120000",
-    "eject": "react-scripts eject",
+    "test:related": "react-scripts --openssl-legacy-provider test --env=jest-environment-jsdom-sixteen --testTimeout=120000 -b --findRelatedTests",
+    "test": "react-scripts --openssl-legacy-provider test --coverage --env=jest-environment-jsdom-sixteen --watchAll=true --testTimeout=120000",
+    "eject": "react-scripts --openssl-legacy-provider eject",
     "eclint": "eclint check  src/**/*.js",
     "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\"",
     "prettier-check": "prettier-check \"src/**/*.{js,jsx,ts,tsx,css}\"",
