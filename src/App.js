@@ -32,6 +32,7 @@ import { availableLanguageOrNull } from './i18n/utils';
 import { InjectAppServices } from './services/pure-di';
 import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformation/index';
+import UpdatePaymentInformationSummary from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformationSummary/index';
 
 /**
  * @param { Object } props - props
@@ -297,6 +298,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <UpdatePaymentInformation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/payment-information-summary"
+              element={
+                <PrivateRoute>
+                  <UpdatePaymentInformationSummary />
                 </PrivateRoute>
               }
             />
