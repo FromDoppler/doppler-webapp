@@ -35,7 +35,6 @@ const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
 const urlDkim = `${urlDopplerLegacy}/ControlPanel/AdvancedPreferences/Dkim`;
-const urlUpdatePaymentInformation = `/update-payment-method`;
 
 const messages_es = {
   agencies: {
@@ -1087,16 +1086,6 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     rejected_payments_message: ' Las facturas adeudadas no han podido ser procesadas correctamente:',
     rejected_payments_title: '¡Ouch! El reproceso ha sido rechazado.',
     title: 'Reproceso finalizado',
-  },
-  updatePaymentMethod: {
-    button_back: 'Volver',
-    payment_method: {
-      success_message: '¡Operación procesada con éxito!',
-      title: 'Método de Pago',
-      transfer_message: 'No se pueden actualizar los datos del pago debido a que el metodo de pago es por transferencia.',
-    },
-    save_continue: 'Guardar y continuar',
-    title: `Actualizacion de datos de pago y reprocesar los pagos pendientes`,
   },
   updatePaymentMethod: {
     button_back: 'Volver',

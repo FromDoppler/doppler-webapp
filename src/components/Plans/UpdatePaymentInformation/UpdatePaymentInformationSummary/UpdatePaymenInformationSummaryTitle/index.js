@@ -59,7 +59,7 @@ export const UpdatePaymentInformationSummaryTitle = ({
                       src={_('common.ui_library_image', {
                         imageUrl: `${
                           successful === 'true'
-                            ? allInvoicesProcessed == 'true'
+                            ? allInvoicesProcessed === 'true'
                               ? 'checkout-success.svg'
                               : 'three-points.svg'
                             : 'error-message.svg'
