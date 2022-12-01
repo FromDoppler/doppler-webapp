@@ -11,7 +11,7 @@ import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer/Transfer';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { PLAN_TYPE, FirstDataError } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 
@@ -248,6 +248,7 @@ export const PaymentMethod = InjectAppServices(
     });
     const [error, setError] = useState({ error: false, message: '' });
     const [paymentMethodType, setPaymentMethodType] = useState('');
+    const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useParams();
 
@@ -376,7 +377,7 @@ export const PaymentMethod = InjectAppServices(
         handleSaveAndContinue();
       } else {
         if (result.error.response.data === userCanceledError) {
-          window.location.href = '/login';
+          navigate('/login');
         } else {
           setError({ error: true, message: handleMessage(result.error) });
         }
