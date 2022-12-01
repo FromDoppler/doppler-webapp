@@ -14,6 +14,8 @@ import { DeclinedInvoicesList } from '../DeclinedInvoicesList/index';
 import Footer from '../../../Footer/Footer';
 import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 import { useNavigate } from 'react-router-dom';
+import { Loading } from '../../../Loading/Loading';
+import { UnexpectedError } from '../../../shared/UnexpectedError/index';
 
 const FormatMessageWithBoldWords = ({ id }) => {
   return (
@@ -141,6 +143,14 @@ export const PaymentInformationSummary = InjectAppServices(
       navigate(url);
     };
 
+    if (loading) {
+      return <Loading />;
+    }
+
+    if (hasError) {
+      return <UnexpectedError />;
+    }
+
     return (
       <>
         <div className="dp-app-container">
@@ -152,6 +162,7 @@ export const PaymentInformationSummary = InjectAppServices(
             <UpdatePaymentInformationSummaryTitle
               allInvoicesProcessed={allInvoicesProcessed}
               successful={successful}
+              anyPendingInvoices={anyPendingInvoices}
             />
           </HeaderSection>
           <section className="dp-container m-b-24">
