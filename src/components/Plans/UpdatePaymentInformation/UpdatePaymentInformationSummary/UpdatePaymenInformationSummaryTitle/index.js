@@ -1,10 +1,17 @@
 import { useIntl } from 'react-intl';
 
-const getTitle = (allInvoicesProcessed, successful) => {
+const getTitle = (allInvoicesProcessed, successful, anyPendingInvoices) => {
   if (successful === 'false') {
     return {
       smallTitle: 'updatePaymentInformationSuccess.title',
       largeTitle: 'updatePaymentInformationSuccess.rejected_payments_title',
+    };
+  }
+
+  if (anyPendingInvoices === 'true') {
+    return {
+      smallTitle: 'updatePaymentInformationSuccess.title',
+      largeTitle: 'updatePaymentInformationSuccess.payment_pending_title',
     };
   }
 
@@ -21,11 +28,15 @@ const getTitle = (allInvoicesProcessed, successful) => {
   };
 };
 
-export const UpdatePaymentInformationSummaryTitle = ({ allInvoicesProcessed, successful }) => {
+export const UpdatePaymentInformationSummaryTitle = ({
+  allInvoicesProcessed,
+  successful,
+  anyPendingInvoices,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const title = getTitle(allInvoicesProcessed, successful);
+  const title = getTitle(allInvoicesProcessed, successful, anyPendingInvoices);
 
   return (
     <>
