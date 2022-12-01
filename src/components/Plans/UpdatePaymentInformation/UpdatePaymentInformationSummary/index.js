@@ -114,7 +114,7 @@ export const PaymentInformationSummary = InjectAppServices(
     const query = useQueryParams();
     const allInvoicesProcessed = query.get('allInvoicesProcessed') ?? 'false';
     const anyPendingInvoices = query.get('anyPendingInvoices') ?? 'false';
-    const successful = query.get('success') ?? '';
+    const successful = query.get('success') ?? 'false';
     const intl = useIntl();
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);

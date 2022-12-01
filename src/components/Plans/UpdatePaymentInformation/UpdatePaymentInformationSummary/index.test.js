@@ -37,7 +37,7 @@ const UpdatePaymentInformationSummaryElement = ({ url, dopplerBillingUserApiClie
 
 describe('UpdatePaymentInformationSummary component', () => {
   it('should show loading box while getting data', async () => {
-    // Ac
+    // Act
     render(
       <UpdatePaymentInformationSummaryElement
         url="/payment-information-summary?success=true&allInvoicesProcessed=false&anyPendingInvoices=true"
@@ -52,7 +52,7 @@ describe('UpdatePaymentInformationSummary component', () => {
   });
 
   it('should show the reprocess has been successful when success is true and allInvoicesProcessed is true', async () => {
-    //Arrange
+    // Act
     render(
       <UpdatePaymentInformationSummaryElement
         url="/payment-information-summary?success=true&allInvoicesProcessed=true&anyPendingInvoices=false"
@@ -65,17 +65,12 @@ describe('UpdatePaymentInformationSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.all_invoices_processed_message`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.all_invoices_processed_message`),
-    ).toBeInTheDocument();
+    screen.getByText(`updatePaymentInformationSuccess.all_invoices_processed_message`);
+    screen.getByText(`updatePaymentInformationSuccess.all_invoices_processed_message`);
   });
 
   it('should show the reprocess has been partially successful when success is true and allInvoicesProcessed is false', async () => {
-    //Arrange
+    // Act
     render(
       <UpdatePaymentInformationSummaryElement
         url="/payment-information-summary?success=true&allInvoicesProcessed=false&anyPendingInvoices=false"
@@ -88,21 +83,13 @@ describe('UpdatePaymentInformationSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.not_all_invoices_processed_title`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.not_all_invoices_processed_legend`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.not_all_invoices_processed_message`),
-    ).toBeInTheDocument();
+    screen.getByText(`updatePaymentInformationSuccess.not_all_invoices_processed_title`);
+    screen.getByText(`updatePaymentInformationSuccess.not_all_invoices_processed_legend`);
+    screen.getByText(`updatePaymentInformationSuccess.not_all_invoices_processed_message`);
   });
 
   it('should show the reprocess has been partially successful when success is true and anyPendingInvoices is true', async () => {
-    //Arrange
+    // Act
     render(
       <UpdatePaymentInformationSummaryElement
         url="/payment-information-summary?success=true&allInvoicesProcessed=false&anyPendingInvoices=true"
@@ -115,21 +102,13 @@ describe('UpdatePaymentInformationSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.payment_pending_title`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.payment_pending_message_line1`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.payment_pending_message_line2`),
-    ).toBeInTheDocument();
+    screen.getByText(`updatePaymentInformationSuccess.payment_pending_title`);
+    screen.getByText(`updatePaymentInformationSuccess.payment_pending_message_line1`);
+    screen.getByText(`updatePaymentInformationSuccess.payment_pending_message_line2`);
   });
 
   it('should show the reprocess has been rejected when success is false', async () => {
-    //Arrange
+    // Act
     render(
       <UpdatePaymentInformationSummaryElement
         url="/payment-information-summary?success=false&allInvoicesProcessed=false&anyPendingInvoices=false"
@@ -142,20 +121,9 @@ describe('UpdatePaymentInformationSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.rejected_payments_title`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.rejected_payments_legend_1`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.rejected_payments_legend_2`),
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(`updatePaymentInformationSuccess.rejected_payments_message`),
-    ).toBeInTheDocument();
+    screen.getByText(`updatePaymentInformationSuccess.rejected_payments_title`);
+    screen.getByText(`updatePaymentInformationSuccess.rejected_payments_legend_1`);
+    screen.getByText(`updatePaymentInformationSuccess.rejected_payments_legend_2`);
+    screen.getByText(`updatePaymentInformationSuccess.rejected_payments_message`);
   });
 });
