@@ -16,6 +16,7 @@ import { PLAN_TYPE, FirstDataError } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 
 const none = 'NONE';
+const userCanceledError = 'UserCanceled';
 
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -374,7 +375,11 @@ export const PaymentMethod = InjectAppServices(
         setError({ error: false, message: '' });
         handleSaveAndContinue();
       } else {
-        setError({ error: true, message: handleMessage(result.error) });
+        if (result.error.response.data === userCanceledError) {
+          window.location.href = '/login';
+        } else {
+          setError({ error: true, message: handleMessage(result.error) });
+        }
       }
     };
 
