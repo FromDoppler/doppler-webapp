@@ -11,6 +11,7 @@ import {
   REPROCESS_ACTIONS,
 } from '../../Reducers/reprocessReducer';
 import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
+import { useNavigate } from 'react-router-dom';
 
 const dollarSymbol = 'US$';
 const HAS_ERROR = 'HAS_ERROR';
@@ -65,6 +66,7 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
   const [status, setStatus] = useState('');
   const [messageError, setMessageError] = useState('');
   const createTimeout = useTimeout();
+  const navigate = useNavigate();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
@@ -94,7 +96,9 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
       setStatus(SAVED);
 
       createTimeout(() => {
-        window.location.href = `login`;
+        navigate(
+          `/payment-information-summary?allInvoicesProcessed=${result.value.allInvoicesProcessed}&success=${result.success}&anyPendingInvoices=${result.value.anyPendingInvoices}`,
+        );
       }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
     } else {
       setMessageError(handleMessage(result.error));

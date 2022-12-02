@@ -8,6 +8,10 @@ import { AppSession } from './app-session';
 import { RefObject } from 'react';
 import { PLAN_TYPE, PaymentMethodType } from '../doppler-types';
 
+export const Approved = 0;
+export const Pending = 1;
+export const Declined = 2;
+
 export interface DopplerBillingUserApiClient {
   getBillingInformationData(): Promise<ResultWithoutExpectedErrors<BillingInformation>>;
   updateBillingInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
@@ -480,7 +484,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${email}/invoices/declined`,
+        url: `/accounts/${email}/invoices?withStatus=${Declined}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

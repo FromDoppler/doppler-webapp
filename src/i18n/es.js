@@ -1068,6 +1068,25 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     users_with_email: `Usuarios con email`,
     users_without_email: `Usuarios sin email`,
   },
+  updatePaymentInformationSuccess: {
+    all_invoices_processed_message: 'Tu cuenta ha sido reactivada. Redirijate al Login e ingresa a tu cuenta',
+    all_invoices_processed_title: '¡Excelente! Tu reproceso ha sido exitoso.',
+    back_button: 'Volver',
+    go_to_login_button: 'Login',
+    not_all_invoices_processed_legend:
+      'De todas maneras, tu cuenta ha sido reactivada <bold>momentáneamente</bold> para que puedas hacer uso del servicio. Nos pondremos en contacto contigo para gestionar el pago del saldo restante.',
+    not_all_invoices_processed_message: 'Aún tienes saldo pendiente. Alguna de las facturas adeudadas no ha podido procesarse correctamente:',
+    not_all_invoices_processed_title: 'El reproceso ha sido parciamente exitoso.',
+    payment_pending_message_line1: 'Tu pago está siendo procesado y puede demorar hasta 48 horas hábiles en aprobarse:',
+    payment_pending_message_line2:
+      'De todas maneras, tu cuenta ha sido reactivada <bold>momentáneamente</bold> para que puedas hacer uso del servicio. Nos pondremos en contacto contigo en caso de que el cobro sea rechazado.',
+    payment_pending_title: 'El reproceso ha sido parciamente exitoso.',
+    rejected_payments_legend_1: `Intenta con otra tarjeta`,
+    rejected_payments_legend_2: `o [contáctanos](${mailtoSupport}) para que podamos ayudarte.`,
+    rejected_payments_message: ' Las facturas adeudadas no han podido ser procesadas correctamente:',
+    rejected_payments_title: '¡Ouch! El reproceso ha sido rechazado.',
+    title: 'Reproceso finalizado',
+  },
   updatePaymentMethod: {
     button_back: 'Volver',
     payment_method: {
@@ -1081,6 +1100,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
       invoices_declined_table: {
         amount_column: 'Monto',
         date_column: 'Fecha',
+        error_column: 'Error/Motivo',
         invoice_column: 'Numero de factura',
       },
       payment_now_button: 'Pagar ahora',
