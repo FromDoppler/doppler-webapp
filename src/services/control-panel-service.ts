@@ -389,6 +389,13 @@ export class ControlPanelService implements ControlPanelService {
             ribbonColor: 'violet',
             ribbonText: _('promotional_ribbons.new'),
           },
+          {
+            linkUrl: `${urlSitesHelp}/es/como-publicar-un-formulario-en-una-facebook-tab`,
+            imgSrc: facebook_icon,
+            imgAlt: _('control_panel.external_integrations.facebook_title'),
+            iconName: _('control_panel.external_integrations.facebook_title'),
+            targetBlank: true,
+          },
         ],
       },
       {
@@ -504,13 +511,6 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: viewed_icon,
             imgAlt: _('control_panel.external_integrations.viewed_title'),
             iconName: _('control_panel.external_integrations.viewed_title'),
-            targetBlank: true,
-          },
-          {
-            linkUrl: `${urlSitesHelp}/es/como-publicar-un-formulario-en-una-facebook-tab`,
-            imgSrc: facebook_icon,
-            imgAlt: _('control_panel.external_integrations.facebook_title'),
-            iconName: _('control_panel.external_integrations.facebook_title'),
             targetBlank: true,
           },
           {
