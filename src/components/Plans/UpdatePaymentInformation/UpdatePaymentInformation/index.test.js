@@ -61,11 +61,9 @@ describe('UpdatePaymentInformation component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Assert
-    expect(
-      screen.getAllByText('updatePaymentMethod.payment_method.transfer_message_line1').length,
-    ).toBe(1);
-    expect(
-      screen.getAllByText('updatePaymentMethod.payment_method.transfer_message_line2').length,
-    ).toBe(1);
+    screen.getByText('*updatePaymentMethod.payment_method.transfer.firstname');
+    screen.getByText('*updatePaymentMethod.payment_method.transfer.lastname');
+    screen.getByText('*updatePaymentMethod.payment_method.transfer.phone');
+    screen.getByText('*updatePaymentMethod.payment_method.transfer.email');
   });
 });
