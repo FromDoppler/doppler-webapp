@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { Step } from '../../Checkout/Step/Step';
 import { Link } from 'react-router-dom';
 import UpdatePaymentMethod from './UpdatePaymentMethod';
 import Reprocess from './Reprocess';
 import { FirstDataError, MercadoPagoError, PaymentMethodType } from '../../.././../doppler-types';
-import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
+import { ContactInformation } from './ContactInformation/index';
 import { Loading } from '../../../Loading/Loading';
 import {
   INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
@@ -169,14 +169,7 @@ const UpdatePaymentInformation = InjectAppServices(
                     </ul>
                   ) : (
                     <ul className="dp-accordion">
-                      <li className="dp-box-shadow dp-form-successful">
-                        {
-                          <div>
-                            <FormattedMessage id="updatePaymentMethod.payment_method.transfer_message_line1" />
-                            <FormattedMessageMarkdown id="updatePaymentMethod.payment_method.transfer_message_line2" />
-                          </div>
-                        }
-                      </li>
+                      <ContactInformation />
                     </ul>
                   )}
                 </div>

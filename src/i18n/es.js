@@ -1093,8 +1093,17 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
       save_continue_button: 'Guardar y continuar',
       success_message: '¡Operación procesada con éxito!',
       title: 'Método de Pago',
-      transfer_message_line1: `El medio de pago asociado a tu cuenta es Transferencia Bancaria.`,
-      transfer_message_line2: `Por favor, comunicate a [administracion@fromdoppler.com](${mailtoAdmin}) para que podamos compartirte tu estado de cuenta y los datos bancarios para realizar el pago.`,
+      transfer: {
+        email: 'Email de contacto',
+        firstname: 'Nombre',
+        lastname: 'Apellido',
+        note_legend: `Por favor, envianos tu informacion de contacto para que podamos compartirte tu estado de cuenta y los datos bancarios para realizar el pago.`,
+        phone: 'Teléfono',
+        send_button: 'Enviar',
+        send_email_error_message: '¡Ouch! No se ha podido enviar el email.',
+        send_email_success_message: '¡El email ha sido enviado con éxito!',
+        title: 'Informacion de contacto',
+      },
     },
     reprocess: {
       invoices_declined_table: {

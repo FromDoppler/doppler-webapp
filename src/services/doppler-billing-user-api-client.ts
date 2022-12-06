@@ -24,6 +24,7 @@ export interface DopplerBillingUserApiClient {
   updatePurchaseIntention(): Promise<EmptyResultWithoutExpectedErrors>;
   reprocess(values: any): Promise<ResultWithoutExpectedErrors<ReprocessInformation>>;
   getInvoices(invoicesTypes: string[]): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>>;
+  sendContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -255,6 +256,15 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       remainingCredits: data.remainingCredits,
       emailQty: data.emailQty,
       subscribersQty: data.subscribersQty,
+    };
+  }
+
+  private mapSendContantInformation(data: any): any {
+    return {
+      userName: data.firstname,
+      userLastname: data.lastname,
+      userEmail: data.email,
+      phoneNumber: data.phone,
     };
   }
 
@@ -502,6 +512,27 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true, value: response.data };
       } else {
         return { success: false, error: response.data };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async sendContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/payments/reprocess/send-contact-information-notification`,
+        data: this.mapSendContantInformation(values),
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
       }
     } catch (error) {
       return { success: false, error: error };
