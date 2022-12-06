@@ -26,6 +26,7 @@ const MenuDemo = ({
           document.getElementById('root')?.classList.add('dp-show-page');
         }
       },
+      beamerId: process.env.REACT_APP_BEAMER_ID,
     };
     window.assetServices &&
       window.assetServices.load({
