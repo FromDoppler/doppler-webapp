@@ -123,7 +123,10 @@ export const PaymentInformationSummary = InjectAppServices(
       const fetchData = async () => {
         try {
           dispatch({ type: REPROCESS_ACTIONS.START_FETCH });
-          const declinedInvoices = await dopplerBillingUserApiClient.getDeclinedInvoices();
+          const declinedInvoices = await dopplerBillingUserApiClient.getInvoices([
+            'pending',
+            'declined',
+          ]);
 
           dispatch({
             type: REPROCESS_ACTIONS.FINISH_FETCH,

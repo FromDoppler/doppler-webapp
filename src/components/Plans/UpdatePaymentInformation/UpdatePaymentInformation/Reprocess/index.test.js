@@ -3,12 +3,12 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { fakeDeclinedInvoices } from '../../../../../services/doppler-billing-user-api-client.double';
+import { fakeInvoices } from '../../../../../services/doppler-billing-user-api-client.double';
 import '@testing-library/jest-dom/extend-expect';
 
 const dependencies = (withError, declinedInvoices, withFirstDataError, firstDataError) => ({
   dopplerBillingUserApiClient: {
-    getDeclinedInvoices: async () => {
+    getInvoices: async (values) => {
       return !withError
         ? {
             success: true,
@@ -40,7 +40,7 @@ const ReprocessElement = ({ withError, declinedInvoices, withFirstDataError, fir
 describe('Reprocess component', () => {
   it('should show loading box while getting data', async () => {
     // Act
-    render(<ReprocessElement withError={false} declinedInvoices={fakeDeclinedInvoices} />);
+    render(<ReprocessElement withError={false} declinedInvoices={fakeInvoices} />);
 
     // // Assert
     // Loader should disappear once request resolves
@@ -50,7 +50,7 @@ describe('Reprocess component', () => {
 
   it('should show the information', async () => {
     // Act
-    render(<ReprocessElement withError={false} declinedInvoices={fakeDeclinedInvoices} />);
+    render(<ReprocessElement withError={false} declinedInvoices={fakeInvoices} />);
 
     // // Assert
     // Loader should disappear once request resolves
@@ -59,10 +59,10 @@ describe('Reprocess component', () => {
 
     // Assert
     expect(screen.getByRole('alert', { name: 'pending-ammount' })).toHaveTextContent(
-      `updatePaymentMethod.reprocess.pending_amount_message : US$ ${fakeDeclinedInvoices.totalPending}`,
+      `updatePaymentMethod.reprocess.pending_amount_message : US$ ${fakeInvoices.totalPending}`,
     );
     expect(screen.getAllByRole('row', { name: 'invoice' }).length).toBe(
-      fakeDeclinedInvoices.invoices.length,
+      fakeInvoices.invoices.length,
     );
     expect(screen.getAllByText('updatePaymentMethod.reprocess.payment_now_button').length).toBe(1);
   });

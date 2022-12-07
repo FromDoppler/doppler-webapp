@@ -23,7 +23,6 @@ export interface DopplerBillingUserApiClient {
   getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>>;
   updatePurchaseIntention(): Promise<EmptyResultWithoutExpectedErrors>;
   reprocess(values: any): Promise<ResultWithoutExpectedErrors<ReprocessInformation>>;
-  getDeclinedInvoices(): Promise<ResultWithoutExpectedErrors<DeclinedInvoices>>;
   getInvoices(invoicesTypes: string[]): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>>;
 }
 
@@ -91,17 +90,6 @@ export interface Invoice {
 export interface GetInvoicesResult {
   totalPending: number;
   invoices: Invoice[];
-}
-
-export interface DeclinedInvoice {
-  date: Date;
-  invoiceNumber: string;
-  amount: number;
-}
-
-export interface DeclinedInvoices {
-  invoices: DeclinedInvoice[];
-  totalPending: number;
 }
 
 export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
@@ -486,26 +474,6 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true, value: response.data };
       } else {
         return { success: false };
-      }
-    } catch (error) {
-      return { success: false, error: error };
-    }
-  }
-
-  public async getDeclinedInvoices(): Promise<ResultWithoutExpectedErrors<DeclinedInvoices>> {
-    try {
-      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
-
-      const response = await this.axios.request({
-        method: 'GET',
-        url: `/accounts/${email}/invoices?withStatus=${Declined}`,
-        headers: { Authorization: `bearer ${jwtToken}` },
-      });
-
-      if (response.status === 200 && response.data) {
-        return { success: true, value: response.data };
-      } else {
-        return { success: false, error: response.data };
       }
     } catch (error) {
       return { success: false, error: error };
