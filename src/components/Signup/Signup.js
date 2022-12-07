@@ -114,7 +114,7 @@ const Signup = function ({
 
   const onSubmit = async (values, { setSubmitting, setErrors, validateForm }) => {
     const redirectUrl = query.get('redirect');
-    const origin = query.get('origin') ?? query.get('Origin') ?? 'login';
+    const origin = query.get('origin') ?? query.get('Origin');
     const utmCookies = utmCookiesManager.getUtmCookie() ?? [];
 
     const lastUTMCookieEntry = utmCookies[utmCookies.length - 1] ?? utmParams;
