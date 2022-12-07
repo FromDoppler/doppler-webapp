@@ -4,15 +4,15 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import UpdatePaymentInformationSummary from '.';
-import { fakeDeclinedInvoices } from '../../../../services/doppler-billing-user-api-client.double';
+import { fakeInvoices } from '../../../../services/doppler-billing-user-api-client.double';
 
 const dependencies = (dopplerBillingUserApiClientDouble) => ({
   dopplerBillingUserApiClient: dopplerBillingUserApiClientDouble,
 });
 
 const dopplerBillingUserApiClientDoubleBase = {
-  getDeclinedInvoices: async () => {
-    return { success: true, value: fakeDeclinedInvoices };
+  getInvoices: async (values) => {
+    return { success: true, value: fakeInvoices };
   },
 };
 
