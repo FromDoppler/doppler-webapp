@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import HeaderSection from '../shared/HeaderSection/HeaderSection';
-import { ControlPanelBox } from './ControlPanelBox/ControlPanelBox';
+import { ControlPanelBox } from '../shared/ControlPanelBox/ControlPanelBox';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import * as S from './ControlPanel.styles';

@@ -1,8 +1,8 @@
 import React from 'react';
 import * as S from './ControlPanelBox.styles';
-import connected from '../images/connected.png';
-import connection_alert from '../images/connection_alert.png';
-import disconnected from '../images/disconnected.png';
+import connected from '../../Integrations/Section/images/connected.png';
+import connection_alert from '../../Integrations/Section/images/connection_alert.png';
+import disconnected from '../../Integrations/Section/images/disconnected.png';
 
 export const ControlPanelBox = ({ box }) => {
   const statusImage =
