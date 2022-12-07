@@ -7,6 +7,7 @@ import { timeout } from '../utils';
 import {
   BillingInformation,
   DeclinedInvoices,
+  GetInvoicesResult,
   DopplerBillingUserApiClient,
   PaymentMethod,
   ReprocessInformation,
@@ -106,6 +107,14 @@ export const fakeReprocessInformation = {
 export const fakeDeclinedInvoices = {
   invoices: [{ date: new Date(), invoiceNumber: '123', amount: 5 }],
   totalPending: 8.0,
+};
+
+export const fakeInvoices = {
+  invoices: [
+    { date: new Date(), invoiceNumber: '123', amount: 16.0, error: '', status: 'declined' },
+    { date: new Date(), invoiceNumber: '124', amount: 8.0, error: '', status: 'approved' },
+  ],
+  totalPending: 16.0,
 };
 
 export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserApiClient {
@@ -212,6 +221,16 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
 
     return {
       value: fakeDeclinedInvoices,
+      success: true,
+    };
+  }
+
+  public async getInvoices(): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>> {
+    console.log('getInvoices');
+    await timeout(1500);
+
+    return {
+      value: fakeInvoices,
       success: true,
     };
   }

@@ -24,6 +24,7 @@ export interface DopplerBillingUserApiClient {
   updatePurchaseIntention(): Promise<EmptyResultWithoutExpectedErrors>;
   reprocess(values: any): Promise<ResultWithoutExpectedErrors<ReprocessInformation>>;
   getDeclinedInvoices(): Promise<ResultWithoutExpectedErrors<DeclinedInvoices>>;
+  getInvoices(invoicesTypes: string[]): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -77,6 +78,19 @@ export interface UserPlan {
 
 export interface ReprocessInformation {
   allInvoicesProcessed: boolean;
+}
+
+export interface Invoice {
+  date: Date;
+  invoiceNumber: string;
+  amount: number;
+  error: string;
+  status: string;
+}
+
+export interface GetInvoicesResult {
+  totalPending: number;
+  invoices: Invoice[];
 }
 
 export interface DeclinedInvoice {
@@ -485,6 +499,34 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       const response = await this.axios.request({
         method: 'GET',
         url: `/accounts/${email}/invoices?withStatus=${Declined}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getInvoices(
+    invoicesTypes: string[],
+  ): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      let queryParams = invoicesTypes.length > 0 ? `?withStatus=${invoicesTypes[0]}` : '';
+
+      for (let i = 1; i < invoicesTypes.length; i++) {
+        queryParams += `&withStatus=${invoicesTypes[i]}`;
+      }
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/invoices${queryParams}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
