@@ -1,10 +1,38 @@
 import { useIntl, FormattedDate, FormattedNumber } from 'react-intl';
+import { FirstDataError, MercadoPagoError } from '../../.././../doppler-types';
 
 const dollarSymbol = 'US$';
 const numberFormatOptions = {
   style: 'decimal',
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
+};
+
+const translateCreditCardError = (creditCardError) => {
+  switch (creditCardError.response?.data) {
+    case FirstDataError.invalidExpirationDate:
+    case MercadoPagoError.invalidExpirationDate:
+      return 'updatePaymentInformationSuccess.credit_card_error.invalid_expiration_date';
+    case FirstDataError.invalidCreditCardNumber:
+    case FirstDataError.invalidCCNumber:
+      return 'updatePaymentInformationSuccess.credit_card_error.invalid_credit_card_number';
+    case FirstDataError.declined:
+    case FirstDataError.doNotHonorDeclined:
+    case MercadoPagoError.declinedOtherReason:
+      return 'cupdatePaymentInformationSuccess.credit_card_error.declined';
+    case FirstDataError.suspectedFraud:
+    case MercadoPagoError.suspectedFraud:
+      return 'updatePaymentInformationSuccess.credit_card_error.suspected_fraud';
+    case FirstDataError.insufficientFunds:
+    case MercadoPagoError.insufficientFunds:
+      return 'updatePaymentInformationSuccess.credit_card_error.insufficient_funds';
+    case FirstDataError.cardVolumeExceeded:
+      return 'updatePaymentInformationSuccess.credit_card_error.card_volume_exceeded';
+    case MercadoPagoError.invalidSecurityCode:
+      return 'updatePaymentInformationSuccess.credit_card_error.invalid_security_code';
+    default:
+      return 'updatePaymentInformationSuccess.credit_card_error.default';
+  }
 };
 
 export const DeclinedInvoicesList = ({ declinedInvoices }) => {
@@ -31,7 +59,7 @@ export const DeclinedInvoicesList = ({ declinedInvoices }) => {
             <td>
               {dollarSymbol} <FormattedNumber value={invoice.amount} {...numberFormatOptions} />
             </td>
-            <td>{invoice.error}</td>
+            <td>{_(translateCreditCardError(invoice.error))}</td>
           </tr>
         ))}
       </tbody>
