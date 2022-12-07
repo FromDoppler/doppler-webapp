@@ -13,6 +13,8 @@ import { Form, Formik } from 'formik';
 import { getFormInitialValues } from '../../../../../utils';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { useNavigate } from 'react-router-dom';
+import * as S from '../../index.styles';
+import { StatusMessage } from './StatusMessage';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -21,14 +23,10 @@ const fieldNames = {
   phone: 'phone',
 };
 
-const displayBlockStyle = {
-  display: 'block',
-};
-
 export const DELAY_BEFORE_REDIRECT_TO_LOGIN = 3000;
 
-const HAS_ERROR = 'HAS_ERROR';
-const SAVED = 'SAVED';
+export const HAS_ERROR = 'HAS_ERROR';
+export const SAVED = 'SAVED';
 
 export const ContactInformation = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient } }) => {
@@ -46,7 +44,6 @@ export const ContactInformation = InjectAppServices(
       const result = await dopplerBillingUserApiClient.sendContactInformation(values);
       if (result.success) {
         setStatus(SAVED);
-
         createTimeout(() => {
           navigate('/login');
         }, DELAY_BEFORE_REDIRECT_TO_LOGIN);
@@ -64,7 +61,7 @@ export const ContactInformation = InjectAppServices(
     return (
       <li className="dp-box-shadow dp-form-successful">
         <div className="dp-wrapper-payment-process">
-          <div className="dp-accordion-panel" style={displayBlockStyle}>
+          <S.AccordionPanel>
             <div className="dp-accordion-content">
               <div className="dp-accordion-thumb">
                 {_('updatePaymentMethod.payment_method.transfer.title')}
@@ -138,36 +135,14 @@ export const ContactInformation = InjectAppServices(
                             </div>
                           </FieldItem>
                         )}
-                        {showMessage && (
-                          <FieldItem className="field-item">
-                            <div
-                              className={`dp-wrap-message dp-wrap-${
-                                status === SAVED ? 'success' : 'cancel'
-                              }`}
-                              role="alert"
-                              aria-label={status === SAVED ? 'success' : 'cancel'}
-                            >
-                              <span className="dp-message-icon" />
-                              <div className="dp-content-message">
-                                <p>
-                                  {_(
-                                    status === SAVED
-                                      ? 'updatePaymentMethod.payment_method.transfer.send_email_success_message'
-                                      : 'updatePaymentMethod.payment_method.transfer.send_email_error_message',
-                                  )}
-                                </p>
-                              </div>
-                            </div>
-                            <hr className="m-t-24 m-b-24" />
-                          </FieldItem>
-                        )}
+                        {showMessage && <StatusMessage status={status} />}
                       </FieldGroup>
                     </fieldset>
                   </Form>
                 )}
               </Formik>
             </div>
-          </div>
+          </S.AccordionPanel>
         </div>
       </li>
     );

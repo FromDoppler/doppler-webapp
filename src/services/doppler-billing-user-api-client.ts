@@ -532,7 +532,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       if (response.status === 200) {
         return { success: true };
       } else {
-        return { success: false };
+        return { success: false, error: response.data };
       }
     } catch (error) {
       return { success: false, error: error };
