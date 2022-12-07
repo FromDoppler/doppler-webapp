@@ -1072,6 +1072,16 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     all_invoices_processed_message: 'Tu cuenta ha sido reactivada. Redirijate al Login e ingresa a tu cuenta',
     all_invoices_processed_title: '¡Excelente! Tu reproceso ha sido exitoso.',
     back_button: 'Volver',
+    credit_card_error: {
+      card_volume_exceeded: 'Superaste el límite diario de intentos con tu tarjeta.',
+      declined: 'Transacción no aprobada. Comunicate con el emisor de tu tarjeta.',
+      default: 'No pudimos procesar la operación. Elige otro método de pago o inténtalo más tarde.',
+      doNotHonor: '¡Ouch! Transacción no aprobada. Comunicate con el emisor de tu tarjeta.',
+      insufficient_funds: 'Tarjeta con fondos insuficientes. Prueba con otra tarjeta.',
+      invalid_credit_card_number: 'Tarjeta invalida. Inténtalo nuevamente o prueba con otra tarjeta.',
+      invalid_expiration_date: 'Tarjeta invalida. Inténtalo nuevamente o prueba con otra tarjeta.',
+      suspected_fraud: 'Transacción no aprobada. Comunicate con el emisor de tu tarjeta.',
+    },
     go_to_login_button: 'Login',
     not_all_invoices_processed_legend:
       'De todas maneras, tu cuenta ha sido reactivada <bold>momentáneamente</bold> para que puedas hacer uso del servicio. Nos pondremos en contacto contigo para gestionar el pago del saldo restante.',
