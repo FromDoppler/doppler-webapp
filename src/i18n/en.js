@@ -1090,8 +1090,17 @@ With Doppler you can generate Segments with common interests, create Forms to at
       save_continue_button: 'Save and continue',
       success_message: 'Operation processed successfully!',
       title: 'Payment method',
-      transfer_message_line1: 'The means of payment associated with your account is Bank Transfer.',
-      transfer_message_line2: `Please, contact [administracion@fromdoppler.com](${mailtoAdmin}) so that we can share your account statement and bank details to make the payment.`,
+      transfer: {
+        email: 'Contact email',
+        firstname: 'First name',
+        lastname: 'Last name',
+        note_legend: `Please, send us your contact information so that we can share your account statement and bank details to make the payment.`,
+        phone: 'Phone number',
+        send_button: 'Send',
+        send_email_error_message: 'Ouch! The email could not be sent.',
+        send_email_success_message: 'The email has been sent successfully!',
+        title: 'Contact information',
+      },
     },
     reprocess: {
       invoices_declined_table: {
