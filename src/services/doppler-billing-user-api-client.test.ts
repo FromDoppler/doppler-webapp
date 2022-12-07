@@ -10,6 +10,7 @@ import {
   fakeAgreement,
   fakeInvoiceRecipients,
   fakeUserPlan,
+  fakeInvoices,
 } from './doppler-billing-user-api-client.double';
 
 const consoleError = console.error;
@@ -385,5 +386,30 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
+  });
+
+  it('should get invoices', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+      data: fakeInvoices,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.getInvoices(['pending', 'approved']);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(request).toBeCalledWith(
+      expect.objectContaining({
+        method: 'GET',
+        url: '/accounts/email@mail.com/invoices?withStatus=pending&withStatus=approved',
+      }),
+    );
   });
 });
