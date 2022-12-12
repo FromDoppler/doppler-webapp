@@ -33,6 +33,7 @@ import { InjectAppServices } from './services/pure-di';
 import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformation/index';
 import UpdatePaymentInformationSummary from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformationSummary/index';
+import IntegrationsSection from './components/Integrations/index';
 
 /**
  * @param { Object } props - props
@@ -306,6 +307,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <UpdatePaymentInformationSummary />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/integrations/"
+              element={
+                <PrivateRoute>
+                  <IntegrationsSection />
                 </PrivateRoute>
               }
             />

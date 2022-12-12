@@ -4,17 +4,16 @@ import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { ControlPanelBox } from '../shared/ControlPanelBox/ControlPanelBox';
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
-import * as S from './ControlPanel.styles';
+import * as S from './index.styles';
 import connected from './images/connected.png';
 import connection_alert from './images/connection_alert.png';
 import disconnected from './images/disconnected.png';
-import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Loading } from '../Loading/Loading';
 import {
   INITIAL_STATE,
-  CONTROL_PANEL_SECTIONS_ACTIONS,
-  controlPanelSectionsReducer,
-} from './reducers/controlPanelSectionsReducer';
+  INTEGRATION_SECTION_ACTIONS,
+  IntegrationReducer,
+} from './reducers/IntegrationReducer';
 import useHashScrollHandler from '../../hooks/useHashScrollHandler';
 
 const sortByStatus = (a, b) => {
@@ -39,31 +38,31 @@ const sortByStatus = (a, b) => {
     : 1;
 };
 
-export const ControlPanel = InjectAppServices(
+export const IntegrationsSection = InjectAppServices(
   ({ dependencies: { controlPanelService, dopplerUserApiClient } }) => {
     const intl = useIntl();
     const _ = useCallback((id, values) => intl.formatMessage({ id }, values), [intl]);
-    const [{ controlPanelSections, loading }, dispatch] = useReducer(
-      controlPanelSectionsReducer,
+    const [{ integrationSection, loading }, dispatch] = useReducer(
+      IntegrationReducer,
       INITIAL_STATE,
     );
 
     useEffect(() => {
       const fetchData = async () => {
         dispatch({
-          type: CONTROL_PANEL_SECTIONS_ACTIONS.START_FETCH,
+          type: INTEGRATION_SECTION_ACTIONS.START_FETCH,
         });
 
-        const _controlPanelSections = controlPanelService.getControlPanelSections(_);
+        const _integrationSection = controlPanelService.getControlPanelSections(_, true);
         dispatch({
-          type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_SECTIONS,
-          payload: _controlPanelSections,
+          type: INTEGRATION_SECTION_ACTIONS.GET_SECTIONS,
+          payload: _integrationSection,
         });
 
         const integrationsStatusResult = await dopplerUserApiClient.getIntegrationsStatus();
         if (integrationsStatusResult.success) {
           dispatch({
-            type: CONTROL_PANEL_SECTIONS_ACTIONS.GET_INTEGRATIONS_STATUS,
+            type: INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS,
             payload: integrationsStatusResult.value,
           });
         }
@@ -80,17 +79,16 @@ export const ControlPanel = InjectAppServices(
 
     return (
       <>
-        <Helmet title={_('control_panel.title')} />
+        <Helmet title={_('integrations.title')} />
         <HeaderSection>
           <div className="col-lg-10 col-md-12">
-            <h2>{_('control_panel.title')}</h2>
-            <FormattedMessageMarkdown id={'control_panel.subtitle_MD'} />
+            <h2>{_('integrations.title')}</h2>
           </div>
         </HeaderSection>
 
         <section className="dp-container">
           <div className="dp-rowflex">
-            {controlPanelSections.map((section, indexSection) => (
+            {integrationSection.map((section, indexSection) => (
               <div key={`section-${indexSection}`} className="col-lg-12 col-md-12 m-b-24">
                 <div className="dp-bg-ghostwhite dp-box-shadow m-b-24">
                   <S.TitleContainer>
@@ -100,14 +98,14 @@ export const ControlPanel = InjectAppServices(
                     {section.showStatus ? (
                       <S.StatusBoxContainer className="m-b-24">
                         <S.StatusIcon src={connection_alert} alt="connection alert icon" />
-                        <span className="yellow-color">{_('control_panel.status_alert')}</span>
+                        <span className="yellow-color">{_('integrations.status_alert')}</span>
                         <S.StatusIcon src={disconnected} alt="disconnected icon" />
                         <span className="lightgrey-color">
-                          {_('control_panel.status_not_connected')}
+                          {_('integrations.status_not_connected')}
                         </span>
                         <S.StatusIcon src={connected} alt="connection icon" />
                         <span className="lightgreen-color">
-                          {_('control_panel.status_connected')}
+                          {_('integrations.status_connected')}
                         </span>
                       </S.StatusBoxContainer>
                     ) : (
@@ -115,7 +113,7 @@ export const ControlPanel = InjectAppServices(
                     )}
                   </S.TitleContainer>
                   <div className="dp-rowflex" aria-label="Boxes Container">
-                    {controlPanelSections[indexSection].boxes
+                    {integrationSection[indexSection].boxes
                       .sort(sortByStatus)
                       .map((box, indexBox) => (
                         <ControlPanelBox box={box} key={`box-${indexBox}`} />
@@ -130,3 +128,5 @@ export const ControlPanel = InjectAppServices(
     );
   },
 );
+
+export default InjectAppServices(IntegrationsSection);

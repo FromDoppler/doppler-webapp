@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { ControlPanelBox } from './ControlPanelBox';
-import ControlPanelIconImg from '../images/account_information_icon.png';
+import ControlPanelIconImg from '../../ControlPanel/images/account_information_icon.png';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 const box = {

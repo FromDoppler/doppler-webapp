@@ -67,7 +67,10 @@ const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
 const urlSitesHelp = process.env.REACT_APP_DOPPLER_HELP_URL;
 
 export interface ControlPanelService {
-  getControlPanelSections(_: (id: string, values?: any) => string): ControlPanelSection[];
+  getControlPanelSections(
+    _: (id: string, values?: any) => string,
+    getIntegrationSection: boolean,
+  ): ControlPanelSection[];
 }
 
 interface Box {
@@ -98,13 +101,293 @@ export class ControlPanelService implements ControlPanelService {
     this.appSessionRef = appSessionRef;
   }
 
-  public getControlPanelSections(_: (id: string, values?: any) => string): ControlPanelSection[] {
+  public getControlPanelSections(
+    _: (id: string, values?: any) => string,
+    getIntegrationSection = false,
+  ): ControlPanelSection[] {
     const account =
       this.appSessionRef.current?.status === 'authenticated'
         ? this.appSessionRef.current.userData
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
+
+    if (getIntegrationSection) {
+      return [
+        {
+          title: _('integrations.native_integrations.title'),
+          showStatus: true,
+          anchorLink: 'native-integrations',
+          boxes: [
+            {
+              name: 'GoogleAnaliytic',
+              linkUrl: `${urlAdvancedPreferences}/GetGoogleAnaliyticPreferences`,
+              imgSrc: google_analitics_icon,
+              imgAlt: _('integrations.native_integrations.google_Analityc_title'),
+              iconName: _('integrations.native_integrations.google_Analityc_title'),
+            },
+            {
+              name: 'Zoho',
+              linkUrl: `${urlIntegrations}/ZohoSection`,
+              imgSrc: zoho_icon,
+              imgAlt: _('integrations.native_integrations.zoho_title'),
+              iconName: _('integrations.native_integrations.zoho_title'),
+            },
+            {
+              name: 'TokkoBroker',
+              linkUrl: `${urlIntegrations}/TokkoSection`,
+              imgSrc: tokko_icon,
+              imgAlt: _('integrations.native_integrations.tokko_title'),
+              iconName: _('integrations.native_integrations.tokko_title'),
+            },
+            {
+              name: 'Tiendanube',
+              linkUrl: `${urlIntegrations}/TiendaNubeSection`,
+              imgSrc: Tiendanube_icon,
+              imgAlt: _('integrations.native_integrations.tiendanube_title'),
+              iconName: _('integrations.native_integrations.tiendanube_title'),
+            },
+            {
+              name: 'Vtex',
+              linkUrl: `${urlIntegrations}/VtexSection`,
+              imgSrc: vtex_icon,
+              imgAlt: _('integrations.native_integrations.vtex_title'),
+              iconName: _('integrations.native_integrations.vtex_title'),
+            },
+            {
+              name: 'Prestashop',
+              linkUrl: `${urlIntegrations}/PrestashopSection`,
+              imgSrc: prestashop_icon,
+              imgAlt: _('integrations.native_integrations.prestashop_title'),
+              iconName: _('integrations.native_integrations.prestashop_title'),
+            },
+            {
+              name: 'Shopify',
+              linkUrl: '/integrations/shopify',
+              imgSrc: shopify_icon,
+              imgAlt: _('integrations.native_integrations.shopify_title'),
+              iconName: _('integrations.native_integrations.shopify_title'),
+            },
+            {
+              linkUrl: `${urlIntegrations}/WebHookIntegration?integrationType=Unbounce`,
+              imgSrc: Unbounce_icon,
+              imgAlt: _('integrations.native_integrations.unbounce_title'),
+              iconName: _('integrations.native_integrations.unbounce_title'),
+            },
+            {
+              name: 'Magento',
+              linkUrl: `${urlIntegrations}/MagentoSection`,
+              imgSrc: magento_icon,
+              imgAlt: _('integrations.native_integrations.magento_title'),
+              iconName: _('integrations.native_integrations.magento_title'),
+            },
+            {
+              linkUrl: `${urlIntegrations}/WebHookIntegration?integrationType=Typeform`,
+              imgSrc: Typeform_icon,
+              imgAlt: _('integrations.native_integrations.typeform_title'),
+              iconName: _('integrations.native_integrations.typeform_title'),
+            },
+            {
+              name: 'Woocommerce',
+              linkUrl: `${urlIntegrations}/WooCommerceSection`,
+              imgSrc: woocommerce_icon,
+              imgAlt: _('integrations.native_integrations.woocommerce_title'),
+              iconName: _('integrations.native_integrations.woocommerce_title'),
+            },
+            {
+              name: 'Easycommerce',
+              linkUrl: `${urlIntegrations}/EasycommerceSection`,
+              imgSrc: easycommerce_icon,
+              imgAlt: _('integrations.native_integrations.easycommerce_title'),
+              iconName: _('integrations.native_integrations.easycommerce_title'),
+            },
+            {
+              name: 'BmwRspCrm',
+              linkUrl: `${urlIntegrations}/BmwCrmSection`,
+              imgSrc: bmw_crm_icon,
+              imgAlt: _('integrations.native_integrations.bmw_rsp_crm_title'),
+              iconName: _('integrations.native_integrations.bmw_rsp_crm_title'),
+            },
+            {
+              name: 'BigQuery',
+              linkUrl: '/integrations/big-query',
+              imgSrc: bigquery_icon,
+              imgAlt: _('integrations.native_integrations.big_query_title'),
+              iconName: _('integrations.native_integrations.big_query_title'),
+            },
+            {
+              name: 'MercadoLibre',
+              linkUrl: `${urlIntegrations}/MercadoLibreSection`,
+              imgSrc: mercadolibre_icon,
+              imgAlt: _('integrations.native_integrations.mercadolibre_title'),
+              iconName: _('integrations.native_integrations.mercadolibre_title'),
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              name: 'MercadoShops',
+              linkUrl: `${urlIntegrations}/MercadoShopsSection`,
+              imgSrc: mercado_shops_icon,
+              imgAlt: _('integrations.native_integrations.mercadoshops_title'),
+              iconName: _('integrations.native_integrations.mercadoshops_title'),
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              name: 'MiTienda',
+              linkUrl: `${urlIntegrations}/MiTiendaSection`,
+              imgSrc: mitienda_icon,
+              imgAlt: _('integrations.native_integrations.mitienda_title'),
+              iconName: _('integrations.native_integrations.mitienda_title'),
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-publicar-un-formulario-en-una-facebook-tab`,
+              imgSrc: facebook_icon,
+              imgAlt: _('integrations.external_integrations.facebook_title'),
+              iconName: _('integrations.external_integrations.facebook_title'),
+              targetBlank: true,
+            },
+          ],
+        },
+        {
+          title: _('integrations.zapier_integrations.title'),
+          anchorLink: 'zapier-integrations',
+          boxes: [
+            {
+              linkUrl: `${urlSitesHelp}/es/integracion-con-zapier-glosario`,
+              imgSrc: zapier_icon,
+              imgAlt: _('integrations.zapier_integrations.zapier'),
+              iconName: _('integrations.zapier_integrations.zapier'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-facebookleadads-utilizando-zapier`,
+              imgSrc: facebook_lead_ads_icon,
+              imgAlt: _('integrations.zapier_integrations.lead_ads'),
+              iconName: _('integrations.zapier_integrations.lead_ads'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-optinmonster-utilizando-zapier`,
+              imgSrc: optin_monster_icon,
+              imgAlt: _('integrations.zapier_integrations.optin_monster'),
+              iconName: _('integrations.zapier_integrations.optin_monster'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-hubspot-a-traves-de-zapier`,
+              imgSrc: hubspot_icon,
+              imgAlt: _('integrations.zapier_integrations.hubspot'),
+              iconName: _('integrations.zapier_integrations.hubspot'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-salesforce-a-traves-de-zapier`,
+              imgSrc: salesforce_icon,
+              imgAlt: _('integrations.zapier_integrations.salesforce'),
+              iconName: _('integrations.zapier_integrations.salesforce'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-eventbrite-a-traves-de-zapier`,
+              imgSrc: eventbrite_icon,
+              imgAlt: _('integrations.zapier_integrations.eventbrite'),
+              iconName: _('integrations.zapier_integrations.eventbrite'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/integrar-doppler-con-gotowebinar-via-zapier`,
+              imgSrc: go_to_webinar_icon,
+              imgAlt: _('integrations.zapier_integrations.go_to_webinar'),
+              iconName: _('integrations.zapier_integrations.go_to_webinar'),
+              targetBlank: true,
+            },
+          ],
+        },
+        {
+          title: _('integrations.external_integrations.title'),
+          anchorLink: 'external-integrations',
+          boxes: [
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,
+              imgSrc: payu_icon,
+              imgAlt: _('integrations.external_integrations.payU_title'),
+              iconName: _('integrations.external_integrations.payU_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-infor-crm`,
+              imgSrc: infor_icon,
+              imgAlt: _('integrations.external_integrations.infor_title'),
+              iconName: _('integrations.external_integrations.infor_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-wizell-con-doppler`,
+              imgSrc: wizell_icon,
+              imgAlt: _('integrations.external_integrations.wizell_title'),
+              iconName: _('integrations.external_integrations.wizell_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-xintel`,
+              imgSrc: xintel_icon,
+              imgAlt: _('integrations.external_integrations.xintel_title'),
+              iconName: _('integrations.external_integrations.xintel_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/insertar-formulario-en-wix`,
+              imgSrc: wix_icon,
+              imgAlt: _('integrations.external_integrations.wix_title'),
+              iconName: _('integrations.external_integrations.wix_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/en/como-integrar-doppler-y-lander`,
+              imgSrc: lander__icon,
+              imgAlt: _('integrations.external_integrations.lander_title'),
+              iconName: _('integrations.external_integrations.lander_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-formularios-de-wordpress-con-doppler`,
+              imgSrc: learnpress_icon,
+              imgAlt: _('integrations.external_integrations.leanrpress_title'),
+              iconName: _('integrations.external_integrations.leanrpress_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-videos-en-tus-campanas`,
+              imgSrc: viewed_icon,
+              imgAlt: _('integrations.external_integrations.viewed_title'),
+              iconName: _('integrations.external_integrations.viewed_title'),
+              targetBlank: true,
+            },
+            {
+              linkUrl: _('integrations.external_integrations.dynamics_link_url'),
+              imgSrc: dynamics_icon,
+              imgAlt: _('integrations.external_integrations.dynamics_title'),
+              iconName: _('integrations.external_integrations.dynamics_title'),
+              targetBlank: true,
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-tiendup`,
+              imgSrc: tiendup_icon,
+              imgAlt: _('integrations.external_integrations.tiendup_title'),
+              iconName: _('integrations.external_integrations.tiendup_title'),
+              targetBlank: true,
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+          ],
+        },
+      ];
+    }
 
     return [
       {
