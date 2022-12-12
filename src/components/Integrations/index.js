@@ -1,20 +1,20 @@
 import React, { useReducer, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import { ControlPanelBox } from '../../shared/ControlPanelBox/ControlPanelBox';
+import HeaderSection from '../shared/HeaderSection/HeaderSection';
+import { ControlPanelBox } from '../shared/ControlPanelBox/ControlPanelBox';
 import { useIntl } from 'react-intl';
-import { InjectAppServices } from '../../../services/pure-di';
+import { InjectAppServices } from '../../services/pure-di';
 import * as S from './index.styles';
 import connected from './images/connected.png';
 import connection_alert from './images/connection_alert.png';
 import disconnected from './images/disconnected.png';
-import { Loading } from '../../Loading/Loading';
+import { Loading } from '../Loading/Loading';
 import {
   INITIAL_STATE,
   INTEGRATION_SECTION_ACTIONS,
-  SectionReducer,
-} from './reducers/SectionReducer';
-import useHashScrollHandler from '../../../hooks/useHashScrollHandler';
+  IntegrationReducer,
+} from './reducers/IntegrationReducer';
+import useHashScrollHandler from '../../hooks/useHashScrollHandler';
 
 const sortByStatus = (a, b) => {
   return a.status
@@ -42,7 +42,10 @@ export const IntegrationsSection = InjectAppServices(
   ({ dependencies: { controlPanelService, dopplerUserApiClient } }) => {
     const intl = useIntl();
     const _ = useCallback((id, values) => intl.formatMessage({ id }, values), [intl]);
-    const [{ integrationSection, loading }, dispatch] = useReducer(SectionReducer, INITIAL_STATE);
+    const [{ integrationSection, loading }, dispatch] = useReducer(
+      IntegrationReducer,
+      INITIAL_STATE,
+    );
 
     useEffect(() => {
       const fetchData = async () => {

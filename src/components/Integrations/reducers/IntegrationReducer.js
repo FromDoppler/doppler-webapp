@@ -1,4 +1,4 @@
-import { objectKeystoLowerCase } from '../../../../utils';
+import { objectKeystoLowerCase } from '../../../utils';
 
 export const INITIAL_STATE = {
   integrationSection: [],
@@ -33,7 +33,7 @@ export const INTEGRATION_SECTION_ACTIONS = {
   GET_INTEGRATIONS_STATUS: 'GET_INTEGRATIONS_STATUS',
 };
 
-export const SectionReducer = (state, action) => {
+export const IntegrationReducer = (state, action) => {
   switch (action.type) {
     case INTEGRATION_SECTION_ACTIONS.START_FETCH:
       return {

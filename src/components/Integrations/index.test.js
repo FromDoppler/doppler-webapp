@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { IntegrationsSection } from '.';
-import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../services/pure-di';
+import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../services/pure-di';
 
 describe('Integration Section component', () => {
   const integrationSectionDouble = (showStatus) => ({

@@ -1,6 +1,10 @@
-import { INITIAL_STATE, INTEGRATION_SECTION_ACTIONS, SectionReducer } from './SectionReducer';
+import {
+  INITIAL_STATE,
+  INTEGRATION_SECTION_ACTIONS,
+  IntegrationReducer,
+} from './IntegrationReducer';
 
-describe('IntegrationsSectionReducer', () => {
+describe('IntegrationReducer', () => {
   it("should get integration's sections", () => {
     // Arrange
     const fakeIntegrationSection = [
@@ -34,7 +38,7 @@ describe('IntegrationsSectionReducer', () => {
     };
 
     // Act
-    const newState = SectionReducer(INITIAL_STATE, action);
+    const newState = IntegrationReducer(INITIAL_STATE, action);
 
     // Assert
     expect(newState).toEqual({
@@ -136,7 +140,7 @@ describe('IntegrationsSectionReducer', () => {
     };
 
     // Act
-    const newState = SectionReducer(initialState, action);
+    const newState = IntegrationReducer(initialState, action);
 
     // Assert
     expect(newState).toEqual({
@@ -152,7 +156,7 @@ describe('IntegrationsSectionReducer', () => {
     };
 
     // Act
-    const newState = SectionReducer(INITIAL_STATE, action);
+    const newState = IntegrationReducer(INITIAL_STATE, action);
 
     // Assert
     expect(newState).toEqual(INITIAL_STATE);
@@ -165,7 +169,7 @@ describe('IntegrationsSectionReducer', () => {
     };
 
     // Act
-    const newState = SectionReducer(INITIAL_STATE, action);
+    const newState = IntegrationReducer(INITIAL_STATE, action);
 
     // Assert
     expect(newState).toEqual({ loading: true });
