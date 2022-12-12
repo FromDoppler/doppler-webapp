@@ -37,7 +37,7 @@
     "prettier": "^2.7.1",
     "prettier-check": "^2.0.0",
     "promise-polyfill": "^8.2.3",
-    "query-string": "^7.1.1",
+    "query-string": "^8.0.0",
     "react": "16.14.0",
     "react-credit-cards": "^0.8.3",
     "react-dom": "16.14.0",
