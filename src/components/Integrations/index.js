@@ -42,7 +42,7 @@ export const IntegrationsSection = InjectAppServices(
   ({ dependencies: { controlPanelService, dopplerUserApiClient } }) => {
     const intl = useIntl();
     const _ = useCallback((id, values) => intl.formatMessage({ id }, values), [intl]);
-    const [{ integrationSection, loading }, dispatch] = useReducer(
+    const [{ integrationSection, loading, loadingStatus }, dispatch] = useReducer(
       IntegrationReducer,
       INITIAL_STATE,
     );
@@ -64,6 +64,10 @@ export const IntegrationsSection = InjectAppServices(
           dispatch({
             type: INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS,
             payload: integrationsStatusResult.value,
+          });
+        } else {
+          dispatch({
+            type: INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS_FAILED,
           });
         }
       };
@@ -95,7 +99,7 @@ export const IntegrationsSection = InjectAppServices(
                     <h3 className="m-b-24" id={section.anchorLink}>
                       {section.title}
                     </h3>
-                    {section.showStatus ? (
+                    {section.showStatus && !loadingStatus ? (
                       <S.StatusBoxContainer className="m-b-24">
                         <S.StatusIcon src={connection_alert} alt="connection alert icon" />
                         <span className="yellow-color">{_('integrations.status_alert')}</span>
@@ -112,13 +116,17 @@ export const IntegrationsSection = InjectAppServices(
                       <></>
                     )}
                   </S.TitleContainer>
-                  <div className="dp-rowflex" aria-label="Boxes Container">
-                    {integrationSection[indexSection].boxes
-                      .sort(sortByStatus)
-                      .map((box, indexBox) => (
-                        <ControlPanelBox box={box} key={`box-${indexBox}`} />
-                      ))}
-                  </div>
+                  {section.showStatus && loadingStatus ? (
+                    <Loading page />
+                  ) : (
+                    <div className="dp-rowflex" aria-label="Boxes Container">
+                      {integrationSection[indexSection].boxes
+                        .sort(sortByStatus)
+                        .map((box, indexBox) => (
+                          <ControlPanelBox box={box} key={`box-${indexBox}`} />
+                        ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

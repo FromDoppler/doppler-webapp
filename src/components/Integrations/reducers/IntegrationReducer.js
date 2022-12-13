@@ -3,6 +3,7 @@ import { objectKeystoLowerCase } from '../../../utils';
 export const INITIAL_STATE = {
   integrationSection: [],
   loading: false,
+  loadingStatus: false,
 };
 
 const addConnectionStatusToBoxes = (integrationsStatus, integrationSection) => {
@@ -31,6 +32,7 @@ export const INTEGRATION_SECTION_ACTIONS = {
   START_FETCH: 'START_FETCH',
   GET_SECTIONS: 'GET_SECTIONS',
   GET_INTEGRATIONS_STATUS: 'GET_INTEGRATIONS_STATUS',
+  GET_INTEGRATIONS_STATUS_FAILED: 'GET_INTEGRATIONS_STATUS_FAILED',
 };
 
 export const IntegrationReducer = (state, action) => {
@@ -45,6 +47,7 @@ export const IntegrationReducer = (state, action) => {
       return {
         loading: false,
         integrationSection,
+        loadingStatus: true,
       };
 
     case INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS:
@@ -53,6 +56,14 @@ export const IntegrationReducer = (state, action) => {
       return {
         integrationSection: addConnectionStatusToBoxes(lowercaseObj, state.integrationSection),
         loading: false,
+        loadingStatus: false,
+      };
+
+    case INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS_FAILED:
+      return {
+        loading: false,
+        integrationSection: state.integrationSection,
+        loadingStatus: false,
       };
 
     default:
