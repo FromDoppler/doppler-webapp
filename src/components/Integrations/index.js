@@ -42,7 +42,7 @@ export const IntegrationsSection = InjectAppServices(
   ({ dependencies: { controlPanelService, dopplerUserApiClient } }) => {
     const intl = useIntl();
     const _ = useCallback((id, values) => intl.formatMessage({ id }, values), [intl]);
-    const [{ integrationSection, loading, loadingStatus }, dispatch] = useReducer(
+    const [{ integrationSection, loadingPage, loadingNativeIntegrations }, dispatch] = useReducer(
       IntegrationReducer,
       INITIAL_STATE,
     );
@@ -77,7 +77,7 @@ export const IntegrationsSection = InjectAppServices(
 
     useHashScrollHandler();
 
-    if (loading) {
+    if (loadingPage) {
       return <Loading page />;
     }
 
@@ -99,7 +99,7 @@ export const IntegrationsSection = InjectAppServices(
                     <h3 className="m-b-24" id={section.anchorLink}>
                       {section.title}
                     </h3>
-                    {section.showStatus && !loadingStatus ? (
+                    {section.showStatus && !loadingNativeIntegrations ? (
                       <S.StatusBoxContainer className="m-b-24">
                         <S.StatusIcon src={connection_alert} alt="connection alert icon" />
                         <span className="yellow-color">{_('integrations.status_alert')}</span>
@@ -116,7 +116,7 @@ export const IntegrationsSection = InjectAppServices(
                       <></>
                     )}
                   </S.TitleContainer>
-                  {section.showStatus && loadingStatus ? (
+                  {section.showStatus && loadingNativeIntegrations ? (
                     <Loading page />
                   ) : (
                     <div className="dp-rowflex" aria-label="Boxes Container">

@@ -2,8 +2,8 @@ import { objectKeystoLowerCase } from '../../../utils';
 
 export const INITIAL_STATE = {
   integrationSection: [],
-  loading: false,
-  loadingStatus: false,
+  loadingPage: false,
+  loadingNativeIntegrations: false,
 };
 
 const addConnectionStatusToBoxes = (integrationsStatus, integrationSection) => {
@@ -39,15 +39,15 @@ export const IntegrationReducer = (state, action) => {
   switch (action.type) {
     case INTEGRATION_SECTION_ACTIONS.START_FETCH:
       return {
-        loading: true,
+        loadingPage: true,
       };
 
     case INTEGRATION_SECTION_ACTIONS.GET_SECTIONS:
       const { payload: integrationSection } = action;
       return {
-        loading: false,
+        loadingPage: false,
         integrationSection,
-        loadingStatus: true,
+        loadingNativeIntegrations: true,
       };
 
     case INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS:
@@ -55,15 +55,15 @@ export const IntegrationReducer = (state, action) => {
       const lowercaseObj = objectKeystoLowerCase(integrationsStatusResult);
       return {
         integrationSection: addConnectionStatusToBoxes(lowercaseObj, state.integrationSection),
-        loading: false,
-        loadingStatus: false,
+        loadingPage: false,
+        loadingNativeIntegrations: false,
       };
 
     case INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS_FAILED:
       return {
-        loading: false,
+        loadingPage: false,
         integrationSection: state.integrationSection,
-        loadingStatus: false,
+        loadingNativeIntegrations: false,
       };
 
     default:

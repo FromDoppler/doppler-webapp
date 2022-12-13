@@ -42,9 +42,9 @@ describe('IntegrationReducer', () => {
 
     // Assert
     expect(newState).toEqual({
-      loading: false,
+      loadingPage: false,
       integrationSection: fakeIntegrationSection,
-      loadingStatus: true,
+      loadingNativeIntegrations: true,
     });
   });
 
@@ -146,8 +146,8 @@ describe('IntegrationReducer', () => {
     // Assert
     expect(newState).toEqual({
       ...expectedState,
-      loading: false,
-      loadingStatus: false,
+      loadingPage: false,
+      loadingNativeIntegrations: false,
     });
   });
 
@@ -174,7 +174,7 @@ describe('IntegrationReducer', () => {
     const newState = IntegrationReducer(INITIAL_STATE, action);
 
     // Assert
-    expect(newState).toEqual({ loading: true });
+    expect(newState).toEqual({ loadingPage: true });
   });
 
   it('should set loadingStatus false and keep integrationSection unchanged for GET_INTEGRATIONS_STATUS_FAILED action', () => {
@@ -184,7 +184,7 @@ describe('IntegrationReducer', () => {
     };
 
     const fakeState = {
-      loading: false,
+      loadingPage: false,
       integrationSection: [
         {
           title: 'title',
@@ -208,7 +208,7 @@ describe('IntegrationReducer', () => {
     // Assert
     expect(newState).toEqual({
       ...fakeState,
-      loadingStatus: false,
+      loadingNativeIntegrations: false,
     });
   });
 });
