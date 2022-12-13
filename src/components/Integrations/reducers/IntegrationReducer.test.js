@@ -42,8 +42,9 @@ describe('IntegrationReducer', () => {
 
     // Assert
     expect(newState).toEqual({
-      loading: false,
+      loadingPage: false,
       integrationSection: fakeIntegrationSection,
+      loadingNativeIntegrations: true,
     });
   });
 
@@ -145,7 +146,8 @@ describe('IntegrationReducer', () => {
     // Assert
     expect(newState).toEqual({
       ...expectedState,
-      loading: false,
+      loadingPage: false,
+      loadingNativeIntegrations: false,
     });
   });
 
@@ -172,6 +174,41 @@ describe('IntegrationReducer', () => {
     const newState = IntegrationReducer(INITIAL_STATE, action);
 
     // Assert
-    expect(newState).toEqual({ loading: true });
+    expect(newState).toEqual({ loadingPage: true });
+  });
+
+  it('should set loadingStatus false and keep integrationSection unchanged for GET_INTEGRATIONS_STATUS_FAILED action', () => {
+    // Arrange
+    const action = {
+      type: INTEGRATION_SECTION_ACTIONS.GET_INTEGRATIONS_STATUS_FAILED,
+    };
+
+    const fakeState = {
+      loadingPage: false,
+      integrationSection: [
+        {
+          title: 'title',
+          showStatus: true,
+          boxes: [
+            {
+              name: 'Box1',
+              linkUrl: 'link1',
+              imgSrc: 'imagen1',
+              imgAlt: 'imagen1',
+              iconName: 'boxName1',
+            },
+          ],
+        },
+      ],
+    };
+
+    // Act
+    const newState = IntegrationReducer(fakeState, action);
+
+    // Assert
+    expect(newState).toEqual({
+      ...fakeState,
+      loadingNativeIntegrations: false,
+    });
   });
 });

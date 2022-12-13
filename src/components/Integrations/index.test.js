@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import { IntegrationsSection } from '.';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -54,7 +55,9 @@ describe('Integration Section component', () => {
 
   it('should render sections and boxes', async () => {
     // Act
-    render(<IntegrationsSectionComponent />);
+    await act(async () => {
+      render(<IntegrationsSectionComponent />);
+    });
 
     // Assert
     expect(screen.getByRole('heading', { name: 'integrations.native_integrations.title' }));
@@ -65,7 +68,9 @@ describe('Integration Section component', () => {
 
   it('should render status description title', async () => {
     // Act
-    render(<IntegrationsSectionComponent showStatus={true} />);
+    await act(async () => {
+      render(<IntegrationsSectionComponent showStatus={true} />);
+    });
 
     // Assert
     expect(screen.getByText('integrations.status_alert')).toBeInTheDocument();
@@ -75,7 +80,9 @@ describe('Integration Section component', () => {
 
   it('should not render status description title', async () => {
     // Act
-    render(<IntegrationsSectionComponent />);
+    await act(async () => {
+      render(<IntegrationsSectionComponent />);
+    });
 
     // Assert
     expect(screen.queryByText('integrations.status_alert')).not.toBeInTheDocument();
@@ -85,7 +92,9 @@ describe('Integration Section component', () => {
 
   it('should render boxes ordered by status', async () => {
     // Act
-    render(<IntegrationsSectionComponent />);
+    await act(async () => {
+      render(<IntegrationsSectionComponent />);
+    });
 
     // Assert
     const boxesList = screen.getByLabelText('Boxes Container').childNodes;
