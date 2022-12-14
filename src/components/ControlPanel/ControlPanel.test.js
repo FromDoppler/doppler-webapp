@@ -6,45 +6,29 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-
 import { AppServicesProvider } from '../../services/pure-di';
 
 describe('Control Panel component', () => {
-  const controlPanelSectionDouble = (showStatus) => ({
+  const controlPanelSectionDouble = () => ({
     getControlPanelSections: () => [
       {
         title: 'control_panel.account_preferences.title',
-        showStatus: showStatus,
         boxes: [
           {
             linkUrl: 'control_panel.external_integrations.dynamics_link_url',
             imgSrc: 'Imagen1',
             imgAlt: 'control_panel.account_preferences.account_information_title',
             iconName: 'control_panel.account_preferences.account_information_title',
-            status: 'disconnected',
-          },
-          {
-            linkUrl: 'control_panel.external_integrations.dynamics_link_url',
-            imgSrc: 'image2',
-            imgAlt: 'control_panel.account_preferences.account_movements_title',
-            iconName: 'control_panel.account_preferences.account_movements_title',
-            status: 'alert',
-          },
-          {
-            linkUrl: 'control_panel.external_integrations.dynamics_link_url',
-            imgSrc: 'image3',
-            imgAlt: 'control_panel.account_preferences.contact_information_title',
-            iconName: 'control_panel.account_preferences.contact_information_title',
-            status: 'connected',
           },
         ],
       },
     ],
   });
 
-  const dependencies = (showStatus) => ({
-    controlPanelService: controlPanelSectionDouble(showStatus),
+  const dependencies = () => ({
+    controlPanelService: controlPanelSectionDouble(),
   });
 
-  const ControlPanelComponent = ({ showStatus = false }) => {
+  const ControlPanelComponent = () => {
     return (
-      <AppServicesProvider forcedServices={dependencies(showStatus)}>
+      <AppServicesProvider forcedServices={dependencies()}>
         <DopplerIntlProvider>
           <ControlPanel />
         </DopplerIntlProvider>
@@ -61,42 +45,5 @@ describe('Control Panel component', () => {
     expect(
       screen.getByText('control_panel.account_preferences.account_information_title'),
     ).toBeInTheDocument();
-  });
-
-  it('should render status description title', async () => {
-    // Act
-    render(<ControlPanelComponent showStatus={true} />);
-
-    // Assert
-    expect(screen.getByText('control_panel.status_alert')).toBeInTheDocument();
-    expect(screen.getByText('control_panel.status_not_connected')).toBeInTheDocument();
-    expect(screen.getByText('control_panel.status_connected')).toBeInTheDocument();
-  });
-
-  it('should not render status description title', async () => {
-    // Act
-    render(<ControlPanelComponent />);
-
-    // Assert
-    expect(screen.queryByText('control_panel.status_alert')).not.toBeInTheDocument();
-    expect(screen.queryByText('control_panel.status_not_connected')).not.toBeInTheDocument();
-    expect(screen.queryByText('control_panel.status_connected')).not.toBeInTheDocument();
-  });
-
-  it('should render boxes ordered by status', async () => {
-    // Act
-    render(<ControlPanelComponent />);
-
-    // Assert
-    const boxesList = screen.getByLabelText('Boxes Container').childNodes;
-    expect(boxesList[0]).toHaveTextContent(
-      'control_panel.account_preferences.account_movements_title',
-    );
-    expect(boxesList[1]).toHaveTextContent(
-      'control_panel.account_preferences.contact_information_title',
-    );
-    expect(boxesList[2]).toHaveTextContent(
-      'control_panel.account_preferences.account_information_title',
-    );
   });
 });
