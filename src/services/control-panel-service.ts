@@ -249,6 +249,15 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.external_integrations.facebook_title'),
               targetBlank: true,
             },
+            {
+              name: 'Jumpseller',
+              linkUrl: `${urlIntegrations}/JumpsellerSection`,
+              imgSrc: mitienda_icon,
+              imgAlt: _('integrations.native_integrations.jumpseller_title'),
+              iconName: _('integrations.native_integrations.jumpseller_title'),
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
           ],
         },
         {

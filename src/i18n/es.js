@@ -1,4 +1,4 @@
-import signupBannerImagePath from '../img/signup-es.png';
+﻿import signupBannerImagePath from '../img/signup-es.png';
 import loginBannerImagePath from '../img/login-es.png';
 
 // Basic constants
@@ -665,6 +665,7 @@ Encontrarás un Email con los pasos a seguir.`,
       bmw_rsp_crm_title: 'RSP CRM',
       easycommerce_title: 'Easycommerce',
       google_Analityc_title: 'Google Analytics',
+      jumpseller_title: 'Jumpseller',
       magento_title: 'Adobe Commerce',
       mercadolibre_title: 'MercadoLibre',
       mercadoshops_title: 'Mercado Shops',
