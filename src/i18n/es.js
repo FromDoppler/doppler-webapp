@@ -1,4 +1,4 @@
-﻿import signupBannerImagePath from '../img/signup-es.png';
+import signupBannerImagePath from '../img/signup-es.png';
 import loginBannerImagePath from '../img/login-es.png';
 
 // Basic constants
