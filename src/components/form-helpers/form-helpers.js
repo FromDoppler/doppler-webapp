@@ -208,17 +208,24 @@ export const FieldItem = connect(
     children,
     formik: { errors, touched, submitCount },
     withErrors = true,
+    // TODO: withSubmitCount and submitAccount should be removed when the change is made in all forms
+    withSubmitCount = true,
   }) => (
     <li
       className={concatClasses(
         className,
-        withErrors && submitCount && touched[fieldName] && errors[fieldName] ? 'error' : '',
+        withErrors &&
+          (withSubmitCount ? submitCount : true) &&
+          touched[fieldName] &&
+          errors[fieldName]
+          ? 'error'
+          : '',
       )}
     >
       {children}
       {/* Boolean errors will not have message */}
       {withErrors &&
-      submitCount &&
+      (withSubmitCount ? submitCount : true) &&
       touched[fieldName] &&
       errors[fieldName] &&
       errors[fieldName] !== true ? (
@@ -309,6 +316,7 @@ const _PhoneFieldItem = ({
   fieldName,
   label,
   placeholder,
+  withSubmitCount = true,
   required,
   formik: { values, handleChange, handleBlur, setFieldValue },
   dependencies: { ipinfoClient },
@@ -369,7 +377,11 @@ const _PhoneFieldItem = ({
   }
 
   return (
-    <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <FieldItem
+      className={concatClasses('field-item', className)}
+      fieldName={fieldName}
+      withSubmitCount={withSubmitCount}
+    >
       <label htmlFor={fieldName}>{label}</label>
       <Field
         type="tel"
@@ -400,10 +412,15 @@ export const InputFieldItem = ({
   placeholder,
   required,
   withNameValidation,
+  withSubmitCount = true,
   minLength,
   ...rest
 }) => (
-  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+  <FieldItem
+    className={concatClasses('field-item', className)}
+    fieldName={fieldName}
+    withSubmitCount={withSubmitCount}
+  >
     <label htmlFor={fieldName}>{label}</label>
     <Field
       type={type}
@@ -426,10 +443,15 @@ export const EmailFieldItem = ({
   label,
   type,
   placeholder,
+  withSubmitCount = true,
   required,
   ...rest
 }) => (
-  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+  <FieldItem
+    className={concatClasses('field-item', className)}
+    fieldName={fieldName}
+    withSubmitCount={withSubmitCount}
+  >
     <label htmlFor={fieldName}>{label}</label>
     <Field
       type="text"
@@ -502,6 +524,7 @@ export const ValidatedPasswordFieldItem = ({
   fieldName,
   label,
   placeholder,
+  withSubmitCount = true,
   ...rest
 }) => (
   <PasswordWrapper className={concatClasses('field-item', className)} fieldName={fieldName}>
@@ -523,12 +546,14 @@ export const CheckboxFieldItem = ({
   id,
   onChange,
   withErrors = true,
+  withSubmitCount = true,
   ...rest
 }) => (
   <FieldItem
     className={concatClasses('field-item field-item__checkbox', className)}
     fieldName={fieldName}
     withErrors={withErrors}
+    withSubmitCount={withSubmitCount}
   >
     <Field
       type="checkbox"
