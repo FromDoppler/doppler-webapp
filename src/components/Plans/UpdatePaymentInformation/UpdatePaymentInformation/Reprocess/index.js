@@ -118,11 +118,13 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
 
   return (
     <>
-      <div role="alert" aria-label="pending-ammount">
-        {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
-        <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
+      <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} showError={false} />
+      <div role="alert" aria-label="pending-ammount" className="p-t-24 p-b-24">
+        <b>
+          {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
+          <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
+        </b>
       </div>
-      <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} />
       {showMessage && (
         <StatusMessage
           type={status === SAVED ? 'success' : 'cancel'}

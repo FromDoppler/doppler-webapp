@@ -28,22 +28,25 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
-const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices }) => {
+const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices, email }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
     <>
       {anyPendingInvoices === 'true' ? (
         <>
-          <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
+          <div className="col-md-12 col-lg-9 m-b-24 m-t-24p-l-12">
             <p>
-              <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.payment_pending_message_line1" />
+              <FormattedMessage
+                id="updatePaymentInformationSuccess.payment_pending_message_line1"
+                values={{ userEmail: <b>{email}</b> }}
+              />
             </p>
           </div>
-          <div className="col-md-12 col-lg-8 m-b-24 m-t-24">
-            <DeclinedInvoicesList declinedInvoices={invoices.invoices} />
+          <div className="col-md-12 col-lg-9 m-b-24 m-t-24">
+            <DeclinedInvoicesList declinedInvoices={invoices.invoices} showError={false} />
           </div>
-          <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
+          <div className="col-md-12 col-lg-9 m-b-24 m-t-24p-l-12">
             <p>
               <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.payment_pending_message_line2" />
             </p>
@@ -52,16 +55,21 @@ const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices 
       ) : (
         <>
           <p className="p-l-12">
-            {allInvoicesProcessed === 'true'
-              ? _('updatePaymentInformationSuccess.all_invoices_processed_message')
-              : _('updatePaymentInformationSuccess.not_all_invoices_processed_message')}
+            {allInvoicesProcessed === 'true' ? (
+              _('updatePaymentInformationSuccess.all_invoices_processed_message')
+            ) : (
+              <FormattedMessage
+                id="updatePaymentInformationSuccess.not_all_invoices_processed_message"
+                values={{ userEmail: <b>{email}</b> }}
+              />
+            )}
           </p>
           {allInvoicesProcessed !== 'true' && (
             <>
-              <div className="col-md-12 col-lg-8 m-b-24 m-t-24">
-                <DeclinedInvoicesList declinedInvoices={invoices.invoices} />
+              <div className="col-md-12 col-lg-9 m-b-24 m-t-24">
+                <DeclinedInvoicesList declinedInvoices={invoices.invoices} showError={true} />
               </div>
-              <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
+              <div className="col-md-12 col-lg-9 m-b-24 m-t-24p-l-12">
                 <p>
                   <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.not_all_invoices_processed_legend" />
                 </p>
@@ -76,24 +84,19 @@ const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices 
 
 const FailedMessage = ({ declinedInvoices }) => {
   const intl = useIntl();
-  const navigate = useNavigate();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   return (
     <>
       <p className="p-l-12">{_('updatePaymentInformationSuccess.rejected_payments_message')}</p>
-      <div className="col-md-12 col-lg-8 m-b-24 m-t-24">
-        <DeclinedInvoicesList declinedInvoices={declinedInvoices.invoices} />
+      <div className="col-md-12 col-lg-9 m-b-24 m-t-24">
+        <DeclinedInvoicesList declinedInvoices={declinedInvoices.invoices} showError={true} />
       </div>
-      <div className="col-md-12 col-lg-8 m-b-24 m-t-24p-l-12">
+      <div className="col-md-12 col-lg-9 m-b-24 m-t-24 m-l-12">
         <div className="dp-rowflex">
           <p>
-            <button
-              className="dp-button link-green"
-              onClick={() => navigate('/update-payment-method')}
-            >
-              {_('updatePaymentInformationSuccess.rejected_payments_legend_1')}
-            </button>{' '}
+            <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.rejected_payments_legend_1" />
           </p>
+          <p>&nbsp;</p>
           <FormattedMessageMarkdown
             id="updatePaymentInformationSuccess.rejected_payments_legend_2"
             linkTarget={'_blank'}
@@ -105,7 +108,7 @@ const FailedMessage = ({ declinedInvoices }) => {
 };
 
 export const PaymentInformationSummary = InjectAppServices(
-  ({ dependencies: { dopplerBillingUserApiClient } }) => {
+  ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
     const [{ loading, declinedInvoices, hasError }, dispatch] = useReducer(
       reprocessReducer,
       INITIAL_STATE_REPROCESS,
@@ -176,6 +179,7 @@ export const PaymentInformationSummary = InjectAppServices(
                 anyPendingInvoices={anyPendingInvoices}
                 allInvoicesProcessed={allInvoicesProcessed}
                 invoices={declinedInvoices}
+                email={appSessionRef.current.email}
               />
             )}
             <div className="p-l-12">

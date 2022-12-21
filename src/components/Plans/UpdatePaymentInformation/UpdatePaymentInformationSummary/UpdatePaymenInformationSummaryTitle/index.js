@@ -42,14 +42,16 @@ export const UpdatePaymentInformationSummaryTitle = ({
     <section className="dp-container">
       <div className="dp-rowflex">
         <div className="col-sm-12 col-md-12 col-lg-12 m-l-12">
-          <nav className="dp-breadcrumb">
-            <ul>
-              <li>
-                <span className="dp-uppercase">{_(title.smallTitle)}</span>
-              </li>
-            </ul>
-          </nav>
-
+          {((successful === 'true' && allInvoicesProcessed === 'true') ||
+            successful === 'false') && (
+            <nav className="dp-breadcrumb">
+              <ul>
+                <li>
+                  <span className="dp-uppercase">{_(title.smallTitle)}</span>
+                </li>
+              </ul>
+            </nav>
+          )}
           <nav className="p-t-0 p-b-18 p-l-12">
             <ul className="dp-rowflex">
               <li>
