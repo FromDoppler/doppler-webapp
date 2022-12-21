@@ -273,8 +273,14 @@ const Signup = function ({
                   fieldName={fieldNames.accept_privacy_policies}
                   className={'label--policy'}
                   label={
-                    <FormattedMessageMarkdown
-                      linkTarget={'_blank'}
+                    <FormattedMessage
+                      values={{
+                        Link: (chunk) => (
+                          <a href={_('signup.privacy_policy_consent_url')} target="_blank">
+                            {chunk}
+                          </a>
+                        ),
+                      }}
                       id="signup.privacy_policy_consent_MD"
                     />
                   }
