@@ -268,7 +268,7 @@ const Signup = function ({
               </FieldGroup>
             </fieldset>
             <fieldset>
-              <FieldGroup>
+              <FieldGroup className="dp-items-accept">
                 <CheckboxFieldItem
                   fieldName={fieldNames.accept_privacy_policies}
                   className={'label--policy'}
