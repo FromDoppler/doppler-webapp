@@ -149,6 +149,7 @@ export const MercadoPagoError = {
   insufficientFunds: 'DeclinedPaymentTransaction - cc_rejected_insufficient_amount',
   declinedOtherReason: 'DeclinedPaymentTransaction - cc_rejected_other_reason',
   suspectedFraud: 'DeclinedPaymentTransaction - cc_rejected_high_risk',
+  pending: 'Pending',
 };
 
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';

@@ -9,7 +9,7 @@ const numberFormatOptions = {
 };
 
 const translateCreditCardError = (creditCardError) => {
-  switch (creditCardError.response?.data) {
+  switch (creditCardError) {
     case FirstDataError.invalidExpirationDate:
     case MercadoPagoError.invalidExpirationDate:
       return 'updatePaymentInformationSuccess.credit_card_error.invalid_expiration_date';
@@ -30,12 +30,14 @@ const translateCreditCardError = (creditCardError) => {
       return 'updatePaymentInformationSuccess.credit_card_error.card_volume_exceeded';
     case MercadoPagoError.invalidSecurityCode:
       return 'updatePaymentInformationSuccess.credit_card_error.invalid_security_code';
+    case MercadoPagoError.pending:
+      return 'updatePaymentInformationSuccess.credit_card_error.pending';
     default:
       return 'updatePaymentInformationSuccess.credit_card_error.default';
   }
 };
 
-export const DeclinedInvoicesList = ({ declinedInvoices }) => {
+export const DeclinedInvoicesList = ({ declinedInvoices, showError }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -45,8 +47,10 @@ export const DeclinedInvoicesList = ({ declinedInvoices }) => {
         <tr>
           <th>{_('updatePaymentMethod.reprocess.invoices_declined_table.date_column')}</th>
           <th>{_('updatePaymentMethod.reprocess.invoices_declined_table.invoice_column')}</th>
+          {showError && (
+            <th>{_('updatePaymentMethod.reprocess.invoices_declined_table.error_column')}</th>
+          )}
           <th>{_('updatePaymentMethod.reprocess.invoices_declined_table.amount_column')}</th>
-          <th>{_('updatePaymentMethod.reprocess.invoices_declined_table.error_column')}</th>
         </tr>
       </thead>
       <tbody>
@@ -56,10 +60,10 @@ export const DeclinedInvoicesList = ({ declinedInvoices }) => {
               <FormattedDate value={invoice.date} />
             </td>
             <td>{invoice.invoiceNumber}</td>
+            {showError && <td>{_(translateCreditCardError(invoice.error))}</td>}
             <td>
               {dollarSymbol} <FormattedNumber value={invoice.amount} {...numberFormatOptions} />
             </td>
-            <td>{_(translateCreditCardError(invoice.error))}</td>
           </tr>
         ))}
       </tbody>
