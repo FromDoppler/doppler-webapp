@@ -234,6 +234,7 @@ const Signup = function ({
                   minLength={minLength}
                   required
                   withNameValidation
+                  withSubmitCount={false}
                 />
                 <InputFieldItem
                   className="field-item--50"
@@ -243,12 +244,14 @@ const Signup = function ({
                   minLength={minLength}
                   required
                   withNameValidation
+                  withSubmitCount={false}
                 />
                 <PhoneFieldItem
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
                   placeholder={_('signup.placeholder_phone')}
                   required
+                  withSubmitCount={false}
                 />
               </FieldGroup>
             </fieldset>
@@ -259,6 +262,7 @@ const Signup = function ({
                   label={_('signup.label_email')}
                   placeholder={_('signup.placeholder_email')}
                   required
+                  withSubmitCount={false}
                 />
                 <ValidatedPasswordFieldItem
                   fieldName={fieldNames.password}
@@ -285,6 +289,7 @@ const Signup = function ({
                     />
                   }
                   checkRequired
+                  withSubmitCount={false}
                 />
                 <CheckboxFieldItem
                   fieldName={fieldNames.accept_promotions}
