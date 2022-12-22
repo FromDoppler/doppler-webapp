@@ -40,8 +40,14 @@ const defaultDependencies = {
   },
   utmCookiesManager: new UtmCookiesManager({ cookie: '' }),
 };
+const spyScroll = jest.fn();
 
 describe('Signup', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'scroll', { value: spyScroll });
+    Object.defineProperty(window, 'scrollY', { value: 1 });
+    spyScroll.mockClear();
+  });
   afterEach(cleanup);
 
   it('should not show errors on blur but after first submit', async () => {
