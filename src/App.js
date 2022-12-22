@@ -34,6 +34,10 @@ import EditorsDemo from './components/EditorsDemo/EditorsDemo';
 import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformation/index';
 import UpdatePaymentInformationSummary from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformationSummary/index';
 import IntegrationsSection from './components/Integrations/index';
+import smoothscroll from 'smoothscroll-polyfill';
+
+// https://www.npmjs.com/package/smoothscroll-polyfill
+smoothscroll.polyfill();
 
 /**
  * @param { Object } props - props
