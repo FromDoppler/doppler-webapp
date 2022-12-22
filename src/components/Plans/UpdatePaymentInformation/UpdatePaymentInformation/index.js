@@ -60,9 +60,7 @@ const UpdatePaymentInformation = InjectAppServices(
       INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
     );
 
-    const [activeStep, setActiveStep] = useState(
-      updatePaymentInformationteps.paymentMethodInformation,
-    );
+    const [activeStep, setActiveStep] = useState(updatePaymentInformationteps.reprocessInformation);
     const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -90,14 +88,14 @@ const UpdatePaymentInformation = InjectAppServices(
       let nextStep = activeStep;
 
       switch (activeStep) {
-        case updatePaymentInformationteps.paymentMethodInformation:
-          nextStep = updatePaymentInformationteps.reprocessInformation;
-          break;
         case updatePaymentInformationteps.reprocessInformation:
-          nextStep = updatePaymentInformationteps.reprocessInformation;
+          nextStep = updatePaymentInformationteps.paymentMethodInformation;
+          break;
+        case updatePaymentInformationteps.paymentMethodInformation:
+          nextStep = updatePaymentInformationteps.paymentMethodInformation;
           break;
         default:
-          nextStep = updatePaymentInformationteps.paymentMethodInformation;
+          nextStep = updatePaymentInformationteps.reprocessInformation;
           break;
       }
 
@@ -129,26 +127,17 @@ const UpdatePaymentInformation = InjectAppServices(
                   {paymentMethod.paymentMethodName !== PaymentMethodType.transfer ? (
                     <ul className="dp-accordion">
                       <Step
-                        active={
+                        active={activeStep === updatePaymentInformationteps.reprocessInformation}
+                        title={_('updatePaymentMethod.reprocess.title')}
+                        complete={
                           activeStep === updatePaymentInformationteps.paymentMethodInformation
                         }
-                        title={_('updatePaymentMethod.payment_method.title')}
-                        complete={
-                          paymentInformationAction === actionPage.READONLY &&
-                          paymentMethod.paymentMethodName !== PaymentMethodType.transfer
-                        }
                         stepNumber={1}
-                        onActivate={() => {
-                          setPaymentInformationAction(actionPage.UPDATE);
-                          setActiveStep(updatePaymentInformationteps.paymentMethodInformation);
-                        }}
-                        lastStep={paymentMethod.paymentMethodName !== PaymentMethodType.transfer}
+                        onActivate={() =>
+                          setActiveStep(updatePaymentInformationteps.reprocessInformation)
+                        }
                       >
-                        <UpdatePaymentMethod
-                          optionView={paymentInformationAction}
-                          handleChangeView={(view) => {
-                            setPaymentInformationAction(view);
-                          }}
+                        <Reprocess
                           handleSaveAndContinue={() => {
                             setNextStep(activeStep);
                             setPaymentInformationAction(actionPage.READONLY);
@@ -156,15 +145,26 @@ const UpdatePaymentInformation = InjectAppServices(
                         />
                       </Step>
                       <Step
-                        active={activeStep === updatePaymentInformationteps.reprocessInformation}
-                        title={_('updatePaymentMethod.reprocess.title')}
-                        complete={false}
-                        stepNumber={2}
-                        onActivate={() =>
-                          setActiveStep(updatePaymentInformationteps.reprocessInformation)
+                        active={
+                          activeStep === updatePaymentInformationteps.paymentMethodInformation
                         }
+                        title={_('updatePaymentMethod.payment_method.title')}
+                        complete={
+                          activeStep === updatePaymentInformationteps.paymentMethodInformation
+                        }
+                        stepNumber={2}
+                        onActivate={() => {
+                          setPaymentInformationAction(actionPage.UPDATE);
+                          setActiveStep(updatePaymentInformationteps.paymentMethodInformation);
+                        }}
+                        lastStep={true}
                       >
-                        <Reprocess />
+                        <UpdatePaymentMethod
+                          optionView={paymentInformationAction}
+                          handleChangeView={(view) => {
+                            setPaymentInformationAction(view);
+                          }}
+                        />
                       </Step>
                     </ul>
                   ) : (

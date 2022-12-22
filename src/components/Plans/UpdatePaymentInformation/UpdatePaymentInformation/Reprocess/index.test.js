@@ -16,11 +16,6 @@ const dependencies = (withError, declinedInvoices, withFirstDataError, firstData
           }
         : { success: false };
     },
-    reprocess: async () => {
-      return !withFirstDataError
-        ? { success: true }
-        : { success: false, error: { response: { data: firstDataError } } };
-    },
   },
 });
 

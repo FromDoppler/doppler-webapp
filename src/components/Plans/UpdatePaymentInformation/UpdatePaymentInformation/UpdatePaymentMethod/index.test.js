@@ -23,6 +23,11 @@ const dependencies = (withError, paymentMethodData, withFirstDataError, firstDat
         ? { success: true }
         : { success: false, error: { response: { data: firstDataError } } };
     },
+    reprocess: async () => {
+      return !withFirstDataError
+        ? { success: true }
+        : { success: false, error: { response: { data: firstDataError } } };
+    },
   },
 });
 

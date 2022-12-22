@@ -17,6 +17,8 @@ import {
   UPDATE_PAYMENT_INFORMATION_ACTIONS,
 } from '../../Reducers/updatePaymentInformationReducer';
 import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
+import { useNavigate } from 'react-router-dom';
+import useTimeout from '../../../../../hooks/useTimeout';
 
 const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -35,6 +37,10 @@ const fieldNames = {
   cfdi: 'cfdi',
 };
 
+const HAS_ERROR = 'HAS_ERROR';
+const SAVED = 'SAVED';
+export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
+
 const PaymentType = ({ paymentMethodType, optionView }) => {
   return (
     <>
@@ -52,9 +58,6 @@ const PaymentType = ({ paymentMethodType, optionView }) => {
   );
 };
 
-const HAS_ERROR = 'HAS_ERROR';
-const SAVED = 'SAVED';
-
 export const UpdatePaymentMethod = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient }, optionView, handleSaveAndContinue }) => {
     const [{ loading, paymentMethod, hasError }, dispatch] = useReducer(
@@ -63,6 +66,8 @@ export const UpdatePaymentMethod = InjectAppServices(
     );
 
     const intl = useIntl();
+    const createTimeout = useTimeout();
+    const navigate = useNavigate();
     const [status, setStatus] = useState('');
     const [errorMessageId, setErrorMessageId] = useState('');
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -93,8 +98,20 @@ export const UpdatePaymentMethod = InjectAppServices(
       });
 
       if (result.success) {
-        setStatus(SAVED);
-        handleSaveAndContinue();
+        const reprocessResult = await dopplerBillingUserApiClient.reprocess();
+
+        if (reprocessResult.success) {
+          setStatus(SAVED);
+
+          createTimeout(() => {
+            navigate(
+              `/payment-information-summary?allInvoicesProcessed=${reprocessResult.value.allInvoicesProcessed}&success=${reprocessResult.success}&anyPendingInvoices=${reprocessResult.value.anyPendingInvoices}`,
+            );
+          }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
+        } else {
+          setErrorMessageId(handleMessage(result.error));
+          setStatus(HAS_ERROR);
+        }
       } else {
         setErrorMessageId(handleMessage(result.error));
         setStatus(HAS_ERROR);
