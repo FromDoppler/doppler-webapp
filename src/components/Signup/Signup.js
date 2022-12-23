@@ -22,6 +22,7 @@ import * as S from './Signup.styles';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
+import { ScrollToFieldError } from '../shared/ScrollToFieldError';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -223,6 +224,7 @@ const Signup = function ({
             onSubmit={onSubmit}
             validate={validate}
           >
+            <ScrollToFieldError fieldsOrder={Object.values(fieldNames)} />
             <fieldset>
               <FieldGroup>
                 <InputFieldItem
