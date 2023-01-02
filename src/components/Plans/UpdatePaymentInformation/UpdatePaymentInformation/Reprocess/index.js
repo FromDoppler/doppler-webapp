@@ -1,22 +1,15 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import { useIntl, FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
 import { Loading } from '../../../../Loading/Loading';
-import { handleMessage } from '../index';
-import { StatusMessage } from '../../../Checkout/PurchaseSummary/PlanPurchase/index';
-import useTimeout from '../../../../../hooks/useTimeout';
 import {
   INITIAL_STATE_REPROCESS,
   reprocessReducer,
   REPROCESS_ACTIONS,
 } from '../../Reducers/reprocessReducer';
 import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
-import { useNavigate } from 'react-router-dom';
 
 const dollarSymbol = 'US$';
-const HAS_ERROR = 'HAS_ERROR';
-const SAVED = 'SAVED';
-export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -56,84 +49,57 @@ const DeclinedInvoices = ({ declinedInvoices }) => {
   );
 };
 
-export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUserApiClient } }) => {
-  const [{ loading, declinedInvoices, hasError }, dispatch] = useReducer(
-    reprocessReducer,
-    INITIAL_STATE_REPROCESS,
-  );
+export const Reprocess = InjectAppServices(
+  ({ dependencies: { dopplerBillingUserApiClient }, handleSaveAndContinue }) => {
+    const [{ loading, declinedInvoices, hasError }, dispatch] = useReducer(
+      reprocessReducer,
+      INITIAL_STATE_REPROCESS,
+    );
 
-  const intl = useIntl();
-  const [status, setStatus] = useState('');
-  const [messageError, setMessageError] = useState('');
-  const createTimeout = useTimeout();
-  const navigate = useNavigate();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch({ type: REPROCESS_ACTIONS.START_FETCH });
-        const declinedInvoices = await dopplerBillingUserApiClient.getInvoices(['declined']);
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          dispatch({ type: REPROCESS_ACTIONS.START_FETCH });
+          const declinedInvoices = await dopplerBillingUserApiClient.getInvoices(['declined']);
 
-        dispatch({
-          type: REPROCESS_ACTIONS.FINISH_FETCH,
-          payload: {
-            declinedInvoices: declinedInvoices.value,
-          },
-        });
-      } catch (error) {
-        dispatch({ type: REPROCESS_ACTIONS.FAIL_FETCH });
-      }
+          dispatch({
+            type: REPROCESS_ACTIONS.FINISH_FETCH,
+            payload: {
+              declinedInvoices: declinedInvoices.value,
+            },
+          });
+        } catch (error) {
+          dispatch({ type: REPROCESS_ACTIONS.FAIL_FETCH });
+        }
+      };
+
+      fetchData();
+    }, [dopplerBillingUserApiClient]);
+
+    const reprocess = async () => {
+      handleSaveAndContinue();
     };
 
-    fetchData();
-  }, [dopplerBillingUserApiClient]);
-
-  const reprocess = async () => {
-    const result = await dopplerBillingUserApiClient.reprocess();
-
-    if (result.success) {
-      setStatus(SAVED);
-
-      createTimeout(() => {
-        navigate(
-          `/payment-information-summary?allInvoicesProcessed=${result.value.allInvoicesProcessed}&success=${result.success}&anyPendingInvoices=${result.value.anyPendingInvoices}`,
-        );
-      }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
-    } else {
-      setMessageError(handleMessage(result.error));
-      setStatus(HAS_ERROR);
+    if (loading) {
+      return <Loading />;
     }
-  };
 
-  const showMessage = [SAVED, HAS_ERROR].includes(status);
+    if (hasError) {
+      return <UnexpectedError />;
+    }
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (hasError) {
-    return <UnexpectedError />;
-  }
-
-  return (
-    <>
-      <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} showError={false} />
-      <div role="alert" aria-label="pending-ammount" className="p-t-24 p-b-24">
-        <b>
-          {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
-          <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
-        </b>
-      </div>
-      {showMessage && (
-        <StatusMessage
-          type={status === SAVED ? 'success' : 'cancel'}
-          message={_(
-            status === SAVED ? 'updatePaymentMethod.reprocess.success_message' : messageError,
-          )}
-        />
-      )}
-      {status !== SAVED && (
+    return (
+      <>
+        <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} showError={false} />
+        <div role="alert" aria-label="pending-ammount" className="p-t-24 p-b-24">
+          <b>
+            {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
+            <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
+          </b>
+        </div>
         <button
           type="button"
           className="dp-button button-medium primary-green m-t-30"
@@ -141,9 +107,9 @@ export const Reprocess = InjectAppServices(({ dependencies: { dopplerBillingUser
         >
           <FormattedMessage id="updatePaymentMethod.reprocess.payment_now_button" />
         </button>
-      )}
-    </>
-  );
-});
+      </>
+    );
+  },
+);
 
 export default InjectAppServices(Reprocess);

@@ -1103,7 +1103,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
   updatePaymentMethod: {
     button_back: 'Go back',
     payment_method: {
-      save_continue_button: 'Save and continue',
+      save_continue_button: 'Save and pay',
       success_message: 'Operation processed successfully!',
       title: 'Payment method',
       transfer: {
@@ -1120,12 +1120,12 @@ With Doppler you can generate Segments with common interests, create Forms to at
     },
     reprocess: {
       invoices_declined_table: {
-        amount_column: 'Value',
+        amount_column: 'Amount',
         date_column: 'Invoice date',
         error_column: 'Reason that prevented the payment',
         invoice_column: 'Invoice number',
       },
-      payment_now_button: 'Pay',
+      payment_now_button: 'Pay all',
       pending_amount_message: 'Total',
       success_message: 'Operation processed successfully!',
       title: 'Overdue payments',

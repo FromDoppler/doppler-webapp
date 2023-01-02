@@ -40,7 +40,7 @@ describe('UpdatePaymentInformation component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Assert
-    expect(screen.getAllByText('updatePaymentMethod.payment_method.title').length).toBe(2);
+    expect(screen.getAllByText('updatePaymentMethod.payment_method.title').length).toBe(1);
     expect(screen.getAllByText('updatePaymentMethod.reprocess.title').length).toBe(1);
   });
 
