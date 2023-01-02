@@ -977,6 +977,7 @@ Digital Ocean, Cogeco Peer1 y Rackspace como empresas de hosting.
 la recopilación y el uso de su información personal por parte de Doppler, incluida información sobre acceso, conservación, rectificación,
 eliminación, seguridad, transferencias transfronterizas y otros temas.
   `,
+    legal_tittle: `Lee sobre protección de datos en Doppler.`,
     log_in: `Ingresa`,
     no_more_resend_MD: `Ya te reenviamos el email de activación, revisa en spam si no lo encuentras. Activa tu cuenta para ingresar.`,
     no_more_resend_MD_link: `Contactar a soporte.`,

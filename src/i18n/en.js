@@ -977,6 +977,7 @@ you'll find additional information about the data storage and use of your
 personal information, including information on access, conservation, rectification,
 deletion, security, cross-border data transfers and other issues.
   `,
+    legal_tittle: `Read about data protection in Doppler.`,
     log_in: `Log In`,
     no_more_resend_MD: `We already resent the activation email, check spam if you can't find it. Activate your account to enter.`,
     no_more_resend_MD_link: `Contact support.`,
