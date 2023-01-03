@@ -201,8 +201,7 @@ const Signup = function ({
             </h1>
             <LanguageSelector urlParameters={location.search} />
           </header>
-          <h5>{_('signup.sign_up')}</h5>
-          <p className="content-subtitle">
+          <p id="content-subtitle" className="content-subtitle">
             <FormattedMessage
               id={`signup.sign_up_sub`}
               values={{
