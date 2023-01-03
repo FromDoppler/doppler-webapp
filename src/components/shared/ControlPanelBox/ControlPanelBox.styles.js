@@ -14,7 +14,7 @@ const Link = styled.a`
 `;
 
 const Image = styled.img`
-  height: 80px;
+  height: 70px;
   margin: 0 0 16px 0;
 `;
 
