@@ -302,9 +302,14 @@ const Signup = function ({
             <FormMessages />
             <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
           </FormWithCaptcha>
-          <div className="content-legal">
-            <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
-          </div>
+          <ul id="legal-accordion" className="dp-accordion content-legal">
+            <li>
+              <span className="dp-accordion-thumb">{_('signup.legal_tittle')}</span>
+              <div className="dp-accordion-panel">
+                <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
+              </div>
+            </li>
+          </ul>
           <footer>
             <small>
               <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
