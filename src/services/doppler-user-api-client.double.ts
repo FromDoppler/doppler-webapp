@@ -48,6 +48,7 @@ const integrationsStatusResult: IntegrationsStatus = {
   MercadoLibreStatus: 'connected',
   MercadoShopsStatus: 'disconnected',
   MiTiendaStatus: 'connected',
+  JumpsellerStatus: 'disconnected',
 };
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
