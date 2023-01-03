@@ -247,10 +247,10 @@ const Signup = function ({
                   withNameValidation
                   withSubmitCount={false}
                 />
-                <PhoneFieldItem
-                  fieldName={fieldNames.phone}
-                  label={_('signup.label_phone')}
-                  placeholder={_('signup.placeholder_phone')}
+                <EmailFieldItem
+                  fieldName={fieldNames.email}
+                  label={_('signup.label_email')}
+                  placeholder={_('signup.placeholder_email')}
                   required
                   withSubmitCount={false}
                 />
@@ -258,10 +258,10 @@ const Signup = function ({
             </fieldset>
             <fieldset>
               <FieldGroup>
-                <EmailFieldItem
-                  fieldName={fieldNames.email}
-                  label={_('signup.label_email')}
-                  placeholder={_('signup.placeholder_email')}
+                <PhoneFieldItem
+                  fieldName={fieldNames.phone}
+                  label={_('signup.label_phone')}
+                  placeholder={_('signup.placeholder_phone')}
                   required
                   withSubmitCount={false}
                 />
