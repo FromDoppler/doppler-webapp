@@ -231,6 +231,7 @@ const Signup = function ({
                   className="field-item--50"
                   fieldName={fieldNames.firstname}
                   label={_('signup.label_firstname')}
+                  placeholder={_('signup.placeholder_first_name')}
                   type="text"
                   minLength={minLength}
                   required
@@ -241,6 +242,7 @@ const Signup = function ({
                   className="field-item--50"
                   fieldName={fieldNames.lastname}
                   label={_('signup.label_lastname')}
+                  placeholder={_('signup.placeholder_last_name')}
                   type="text"
                   minLength={minLength}
                   required
@@ -251,7 +253,7 @@ const Signup = function ({
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
                   placeholder={_('signup.placeholder_email')}
-                  required
+                  required="validation_messages.error_invalid_email_address"
                   withSubmitCount={false}
                 />
               </FieldGroup>
@@ -262,7 +264,7 @@ const Signup = function ({
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
                   placeholder={_('signup.placeholder_phone')}
-                  required
+                  required="validation_messages.error_phone_required"
                   withSubmitCount={false}
                 />
                 <ValidatedPasswordFieldItem

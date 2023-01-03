@@ -269,11 +269,11 @@ const PasswordWrapper = connect(
               <span className={passwordMessageCharClass}>
                 <FormattedMessage id="validation_messages.error_password_character_length" />
               </span>
-              <span className={passwordMessageDigitClass}>
-                <FormattedMessage id="validation_messages.error_password_digit" />
-              </span>
               <span className={passwordMessageLetterClass}>
                 <FormattedMessage id="validation_messages.error_password_letter" />
+              </span>
+              <span className={passwordMessageDigitClass}>
+                <FormattedMessage id="validation_messages.error_password_digit" />
               </span>
             </p>
           ) : (
