@@ -201,8 +201,7 @@ const Signup = function ({
             </h1>
             <LanguageSelector urlParameters={location.search} />
           </header>
-          <h5>{_('signup.sign_up')}</h5>
-          <p className="content-subtitle">
+          <p id="content-subtitle" className="content-subtitle">
             <FormattedMessage
               id={`signup.sign_up_sub`}
               values={{
@@ -232,6 +231,7 @@ const Signup = function ({
                   className="field-item--50"
                   fieldName={fieldNames.firstname}
                   label={_('signup.label_firstname')}
+                  placeholder={_('signup.placeholder_first_name')}
                   type="text"
                   minLength={minLength}
                   required
@@ -242,28 +242,29 @@ const Signup = function ({
                   className="field-item--50"
                   fieldName={fieldNames.lastname}
                   label={_('signup.label_lastname')}
+                  placeholder={_('signup.placeholder_last_name')}
                   type="text"
                   minLength={minLength}
                   required
                   withNameValidation
                   withSubmitCount={false}
                 />
-                <PhoneFieldItem
-                  fieldName={fieldNames.phone}
-                  label={_('signup.label_phone')}
-                  placeholder={_('signup.placeholder_phone')}
-                  required
+                <EmailFieldItem
+                  fieldName={fieldNames.email}
+                  label={_('signup.label_email')}
+                  placeholder={_('signup.placeholder_email')}
+                  required="validation_messages.error_invalid_email_address"
                   withSubmitCount={false}
                 />
               </FieldGroup>
             </fieldset>
             <fieldset>
               <FieldGroup>
-                <EmailFieldItem
-                  fieldName={fieldNames.email}
-                  label={_('signup.label_email')}
-                  placeholder={_('signup.placeholder_email')}
-                  required
+                <PhoneFieldItem
+                  fieldName={fieldNames.phone}
+                  label={_('signup.label_phone')}
+                  placeholder={_('signup.placeholder_phone')}
+                  required="validation_messages.error_phone_required"
                   withSubmitCount={false}
                 />
                 <ValidatedPasswordFieldItem

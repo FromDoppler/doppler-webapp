@@ -20,4 +20,9 @@ export const MainPanel = styled.article`
       font-weight: normal;
     }
   }
+
+  #content-subtitle {
+    margin-top: ${spacings.spacesLvl4};
+    font-style: normal;
+  }
 `;
