@@ -96,14 +96,7 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
                     <a href={_('big_query.url_legacy_doppler')}>{_('big_query.plus_beginning')}</a>
                   </li>
                   <li>
-                    <a href={_('big_query.url_legacy_control_panel')}>
-                      {_('big_query.plus_configuration')}
-                    </a>
-                  </li>
-                  <li>
-                    <a href={_('big_query.url_legacy_control_panel')}>
-                      {_('big_query.plus_control_panel')}
-                    </a>
+                    <a href="/Integrations#native-integrations">{_('common.integrations')}</a>
                   </li>
                   <li>{_('big_query.plus_big_query')}</li>
                 </ul>

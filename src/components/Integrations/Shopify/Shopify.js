@@ -75,7 +75,7 @@ const FooterBox = ({ children }) => {
 
   return (
     <footer className="dp-integration__actions">
-      <a href={_('common.control_panel_url')} className="dp-button button-medium primary-grey">
+      <a href="/Integrations#native-integrations" className="dp-button button-medium primary-grey">
         {_('common.back')}
       </a>
       {children}
@@ -191,10 +191,10 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
         <div className="col-sm-12">
           <Breadcrumb>
             <BreadcrumbItem
-              href={_('common.control_panel_advanced_pref_url')}
-              text={_('common.control_panel')}
+              href="/Integrations#native-integrations"
+              text={_('common.integrations')}
             />
-            <BreadcrumbItem text={_('common.advanced_preferences')} />
+            <BreadcrumbItem text={_('integrations.native_integrations.shopify_title')} />
           </Breadcrumb>
         </div>
       </HeaderSection>
