@@ -222,6 +222,15 @@ const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
   );
 };
 
+export const getPathFromLocation = (location) => {
+  if (location.state?.from?.pathname) {
+    const { pathname, search } = location.state.from;
+    return `${pathname}${search}`;
+  }
+
+  return '/';
+};
+
 /**
  * Login Page
  * @param { Object } props - props
@@ -398,7 +407,7 @@ const Login = ({
     return legacyRedirectUrl ? (
       <SafeRedirect to={legacyRedirectUrl} />
     ) : (
-      <Navigate to={location.state?.pathname || '/'} state={location.state?.from} />
+      <Navigate to={getPathFromLocation(location)} state={location.state?.from} />
     );
   }
 
