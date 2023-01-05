@@ -145,8 +145,12 @@ export const PaymentInformationSummary = InjectAppServices(
       fetchData();
     }, [dopplerBillingUserApiClient]);
 
-    const redirect = (url) => {
-      navigate(url);
+    const redirect = (successful) => {
+      if (successful === 'true') {
+        window.location.href = '/login';
+      } else {
+        navigate('/update-payment-method');
+      }
     };
 
     if (loading) {
@@ -188,9 +192,7 @@ export const PaymentInformationSummary = InjectAppServices(
             <div className="p-l-12">
               <button
                 className="dp-button button-medium primary-green m-t-24"
-                onClick={() =>
-                  redirect(successful === 'true' ? '/login' : '/update-payment-method')
-                }
+                onClick={() => redirect(successful)}
               >
                 {successful === 'true'
                   ? _('updatePaymentInformationSuccess.go_to_login_button')

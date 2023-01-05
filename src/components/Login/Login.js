@@ -120,26 +120,16 @@ const BlockedAccountNotPayed = ({ messages }) => {
       <p>
         <FormattedMessage id={messages.msgReasonId} />
       </p>
-      {isZendeskChatOnline() ? (
-        <p>
-          <FormattedMessage
-            id={'validation_messages.error_account_contact_zoho_chat'}
-            values={{
-              button: (chunk) => (
-                <button
-                  type="button"
-                  className="dp-message-link"
-                  onClick={() => openZendeskChatWithMessage(messages.msgZohoChat)}
-                >
-                  {chunk}
-                </button>
-              ),
-            }}
-          />
-        </p>
-      ) : (
-        <FormattedMessageMarkdown id={messages.msgEmailContact} />
-      )}
+      <p>
+        <Link
+          to={{
+            pathname: '/update-payment-method',
+          }}
+          className="dp-message-link"
+        >
+          <FormattedMessage id="validation_messages.error_account_is_blocked_not_pay_update_payment_information" />
+        </Link>
+      </p>
     </>
   );
 };
