@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Loading } from '../../Loading/Loading';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -75,9 +76,12 @@ const FooterBox = ({ children }) => {
 
   return (
     <footer className="dp-integration__actions">
-      <a href="/Integrations#native-integrations" className="dp-button button-medium primary-grey">
+      <Link
+        to={'/integrations#native-integrations'}
+        className="dp-button button-medium primary-grey"
+      >
         {_('common.back')}
-      </a>
+      </Link>
       {children}
     </footer>
   );
@@ -191,7 +195,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
         <div className="col-sm-12">
           <Breadcrumb>
             <BreadcrumbItem
-              href="/Integrations#native-integrations"
+              href="/integrations#native-integrations"
               text={_('common.integrations')}
             />
             <BreadcrumbItem text={_('integrations.native_integrations.shopify_title')} />

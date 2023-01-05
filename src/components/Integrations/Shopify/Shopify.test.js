@@ -11,6 +11,7 @@ import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-i
 import { AppServicesProvider } from '../../../services/pure-di';
 import Shopify, { FETCH_SHOPIFY_DATA_INTERVAL } from './Shopify';
 import { SubscriberListState } from '../../../services/shopify-client';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 const oneShop = [
   {
@@ -70,10 +71,15 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+
     expect(container.querySelector('.wrapper-loading')).toBeInTheDocument();
     await waitFor(() => expect(getByText('shopify.header_disconnected_warning')));
   });
@@ -167,7 +173,11 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
