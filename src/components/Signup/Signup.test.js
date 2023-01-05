@@ -255,7 +255,7 @@ describe('Signup', () => {
     });
 
     // Assert
-    await waitFor(() => expect(getByText('signup.thanks_for_registering')).toBeInTheDocument());
+    await waitFor(() => expect(getByText('signup.check_your_email')).toBeInTheDocument());
   });
 
   it('should show that the email with whitespace already exists when submit', async () => {
