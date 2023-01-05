@@ -10,6 +10,7 @@ import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown
 import { ShowLikeFlash } from '../../shared/ShowLikeFlash/ShowLikeFlash';
 import { IconMessage } from '../../form-helpers/form-helpers';
 import { successMessageDelay } from '../../../utils';
+import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 
 const FieldItemMessage = ({ message }) => (
   <ShowLikeFlash delay={message.delay}>
@@ -90,24 +91,17 @@ const AuthorizationLayout = ({ dependencies: { bigQueryClient, dopplerUserApiCli
         <div className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12 col-md-12 col-lg-12">
-              <nav className="dp-breadcrumb">
-                <ul>
-                  <li>
-                    <a href={_('big_query.url_legacy_doppler')}>{_('big_query.plus_beginning')}</a>
-                  </li>
-                  <li>
-                    <a href={_('big_query.url_legacy_control_panel')}>
-                      {_('big_query.plus_configuration')}
-                    </a>
-                  </li>
-                  <li>
-                    <a href={_('big_query.url_legacy_control_panel')}>
-                      {_('big_query.plus_control_panel')}
-                    </a>
-                  </li>
-                  <li>{_('big_query.plus_big_query')}</li>
-                </ul>
-              </nav>
+              <Breadcrumb>
+                <BreadcrumbItem
+                  href={_('big_query.url_legacy_doppler')}
+                  text={_('big_query.plus_beginning')}
+                />
+                <BreadcrumbItem
+                  href="/integrations#native-integrations"
+                  text={_('common.integrations')}
+                />
+                <BreadcrumbItem text={_('big_query.plus_big_query')} />
+              </Breadcrumb>
               <h2>{_('big_query.plus_title')}</h2>
             </div>
             <div className="col-lg-7 col-md-7 col-sm-12">
