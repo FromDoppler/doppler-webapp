@@ -14,6 +14,10 @@ export const MainPanel = styled.article`
 
     .dp-accordion-panel {
       padding-top: ${spacings.spacesLvl2};
+
+      a {
+        display: inline;
+      }
     }
 
     span.dp-accordion-thumb {
