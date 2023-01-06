@@ -45,13 +45,13 @@ export const DefaultConfirmationContent = ({
           </p>
         </>
       ) : (
-        <div data-testid="warning-message" className="dp-wrap-message dp-wrap-warning">
+        <div className="dp-wrap-message dp-wrap-warning">
           <span className="dp-message-icon"></span>
           <div className="dp-content-message">
             <p>
-              {intl.formatMessage({ id: 'signup.no_more_resend_MD' }) + ' '}
+              {_('signup.no_more_resend_MD')}{' '}
               <a href={mailtoSupport} className="dp-message-link">
-                {intl.formatMessage({ id: 'signup.no_more_resend_MD_link' })}
+                {_('signup.no_more_resend_MD_link')}
               </a>
             </p>
           </div>
@@ -69,7 +69,7 @@ export const DefaultConfirmationContent = ({
           values={{
             a: (chunks) => (
               <a
-                href={`https://www.fromdoppler.com/${intl.locale}/contact/?utm_source=direct`}
+                href={`${process.env.REACT_APP_DOPPLER_SITES_URL}/${intl.locale}/contact/?utm_source=direct`}
                 rel="noopener"
                 target="_blank"
               >

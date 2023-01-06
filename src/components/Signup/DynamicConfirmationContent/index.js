@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 
-export const ConfirmationContent = function ({
+export const DynamicConfirmationContent = function ({
   contentActivation,
   registeredUser,
   incrementAndResend,
@@ -23,7 +23,7 @@ export const ConfirmationContent = function ({
               <span class="dp-message-icon"></span>
               <div class="dp-content-message">
                 <p>
-                  ${intl.formatMessage({ id: 'signup.no_more_resend_MD' }) + ' '}
+                  ${intl.formatMessage({ id: 'signup.no_more_resend_MD' })}${' '}
                   <a href=${mailtoSupport} class="dp-message-link">
                     ${intl.formatMessage({ id: 'signup.no_more_resend_MD_link' })}
                   </a>

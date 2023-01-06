@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { Navigate, useLocation } from 'react-router-dom';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
-import { ConfirmationContent } from './ConfirmationContent';
+import { DynamicConfirmationContent } from './DynamicConfirmationContent';
 import { DefaultConfirmationContent } from './DefaultConfirmationContent';
 
 /**
@@ -57,7 +57,7 @@ const SignupConfirmation = function ({
       </header>
       <article className="confirmation-article">
         {contentActivation ? (
-          <ConfirmationContent
+          <DynamicConfirmationContent
             contentActivation={contentActivation}
             registeredUser={registeredUser}
             incrementAndResend={incrementAndResend}
