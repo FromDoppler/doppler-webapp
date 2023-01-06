@@ -53,7 +53,6 @@ import mercado_shops_icon from '../components/Integrations/images/mercadoshops_i
 import dynamics_icon from '../components/Integrations/images/dynamics_icon.png';
 import mitienda_icon from '../components/Integrations/images/mitienda-icon.png';
 import tiendup_icon from '../components/Integrations/images/tiendup_icon.png';
-import jumpseller_icon from '../components/Integrations/images/jumpseller_icon.svg';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -249,15 +248,6 @@ export class ControlPanelService implements ControlPanelService {
               imgAlt: _('integrations.external_integrations.facebook_title'),
               iconName: _('integrations.external_integrations.facebook_title'),
               targetBlank: true,
-            },
-            {
-              name: 'Jumpseller',
-              linkUrl: `${urlIntegrations}/JumpsellerSection`,
-              imgSrc: jumpseller_icon,
-              imgAlt: _('integrations.native_integrations.jumpseller_title'),
-              iconName: _('integrations.native_integrations.jumpseller_title'),
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
           ],
         },
