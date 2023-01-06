@@ -53,7 +53,6 @@ import mercado_shops_icon from '../components/Integrations/images/mercadoshops_i
 import dynamics_icon from '../components/Integrations/images/dynamics_icon.png';
 import mitienda_icon from '../components/Integrations/images/mitienda-icon.png';
 import tiendup_icon from '../components/Integrations/images/tiendup_icon.png';
-import jumpseller_icon from '../components/Integrations/images/jumpseller_icon.svg';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
