@@ -56,6 +56,7 @@ const SignupConfirmation = function ({
         </h1>
       </header>
       <article className="confirmation-article">
+        <Captcha />
         {contentActivation ? (
           <DynamicConfirmationContent
             contentActivation={contentActivation}
@@ -70,7 +71,6 @@ const SignupConfirmation = function ({
             registeredUser={registeredUser}
             resentTimes={resentTimes}
             mailtoSupport={mailtoSupport}
-            Captcha={Captcha}
           />
         )}
       </article>

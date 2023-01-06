@@ -5,7 +5,6 @@ export const DefaultConfirmationContent = ({
   registeredUser,
   resentTimes,
   mailtoSupport,
-  Captcha,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -13,26 +12,25 @@ export const DefaultConfirmationContent = ({
   return (
     <>
       <h1>{_('signup.check_your_email')}</h1>
-      <p>
+      <h2>
         {_('signup.check_email')}
         <strong>{registeredUser}</strong>
         {_('signup.check_email_2')}
-      </p>
-      <p>
+      </h2>
+      <h2>
         <FormattedMessage
           id={'signup.access_new_account'}
           values={{
             strong: (chunks) => <strong>{chunks}</strong>,
           }}
         />
-      </p>
+      </h2>
       <div className="dp-divisor-line">
         <span className="dp-line"></span>
       </div>
       {resentTimes === 0 ? (
         <>
-          <Captcha />
-          <p>
+          <p className="dp-paragraph-grey">
             {_('signup.if_didnt_receive_email')}
             <button type="button" className="dp-button link-green" onClick={incrementAndResend}>
               <FormattedMessage

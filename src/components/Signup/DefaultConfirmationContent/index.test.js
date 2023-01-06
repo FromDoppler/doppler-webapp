@@ -12,7 +12,6 @@ describe('DefaultConfirmationContent', () => {
     const registeredUser = 'harcodedUser@mail.com';
     const resentTimes = 1;
     const mailtoSupport = 'mailtoSupport@mail.com';
-    const Captcha = () => null;
 
     // Act
     render(
@@ -23,7 +22,6 @@ describe('DefaultConfirmationContent', () => {
             registeredUser={registeredUser}
             resentTimes={resentTimes}
             mailtoSupport={mailtoSupport}
-            Captcha={Captcha}
           />
         </Router>
       </DopplerIntlProvider>,
@@ -39,7 +37,6 @@ describe('DefaultConfirmationContent', () => {
     const registeredUser = 'harcodedUser@mail.com';
     const resentTimes = 0;
     const mailtoSupport = 'mailtoSupport@mail.com';
-    const Captcha = () => null;
 
     // Act
     render(
@@ -50,7 +47,6 @@ describe('DefaultConfirmationContent', () => {
             registeredUser={registeredUser}
             resentTimes={resentTimes}
             mailtoSupport={mailtoSupport}
-            Captcha={Captcha}
           />
         </Router>
       </DopplerIntlProvider>,
