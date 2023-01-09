@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { useIntl } from 'react-intl';
 import { Navigate, useLocation } from 'react-router-dom';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
-import { ConfirmationContent } from './ConfirmationContent';
-
-const mailtoSupport = `mailto:soporte@fromdoppler.com`;
+import { DynamicConfirmationContent } from './DynamicConfirmationContent';
+import { DefaultConfirmationContent } from './DefaultConfirmationContent';
 
 /**
  * Signup Confirmation Page
@@ -20,10 +19,12 @@ const SignupConfirmation = function ({
   const location = useLocation();
   const registeredUser = location.state?.registeredUser;
   const contentActivation = location.state?.contentActivation;
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [resentTimes, setResentTimes] = useState(0);
   const [Captcha, verifyCaptcha] = captchaUtilsService.useCaptcha();
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 
   if (!registeredUser) {
     return <Navigate to="/signup" />;
@@ -44,50 +45,41 @@ const SignupConfirmation = function ({
       console.log(captchaResult);
     }
   };
+
   return (
-    <div className="dp-app-container">
-      <main className="confirmation-main">
-        <header className="confirmation-header">
-          <h1 className="logo-doppler-new">
-            <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
-              Doppler
-            </a>
-          </h1>
-        </header>
-        <ConfirmationContent contentActivation={contentActivation} />
-        {resentTimes === 0 ? (
-          <>
-            <Captcha />
-            <p>
-              {_('signup.email_not_received')}{' '}
-              <button type="button" className="dp-button link-green" onClick={incrementAndResend}>
-                <FormattedMessage
-                  id={'signup.resend_email'}
-                  values={{
-                    underline: (chunks) => <u>{chunks}</u>,
-                  }}
-                />
-              </button>
-              .
-            </p>
-          </>
+    <main className="confirmation-main">
+      <header className="confirmation-header">
+        <h1 className="logo-doppler-new">
+          <a target="_blank" href={_('signup.url_site')} rel="noopener noreferrer">
+            Doppler
+          </a>
+        </h1>
+      </header>
+      <article className="confirmation-article">
+        <Captcha />
+        {contentActivation ? (
+          <DynamicConfirmationContent
+            contentActivation={contentActivation}
+            registeredUser={registeredUser}
+            incrementAndResend={incrementAndResend}
+            mailtoSupport={mailtoSupport}
+            resentTimes={resentTimes}
+          />
         ) : (
-          <>
-            <p>
-              {intl.formatMessage({ id: 'signup.no_more_resend_MD' }) + ' '}
-              <a href={mailtoSupport} class="dp-message-link">
-                {intl.formatMessage({ id: 'signup.no_more_resend_MD_link' })}
-              </a>
-            </p>
-          </>
+          <DefaultConfirmationContent
+            incrementAndResend={incrementAndResend}
+            registeredUser={registeredUser}
+            resentTimes={resentTimes}
+            mailtoSupport={mailtoSupport}
+          />
         )}
-        <footer className="confirmation-footer">
-          <small>
-            <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
-          </small>
-        </footer>
-      </main>
-    </div>
+      </article>
+      <footer className="confirmation-footer">
+        <small>
+          <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
+        </small>
+      </footer>
+    </main>
   );
 };
 
