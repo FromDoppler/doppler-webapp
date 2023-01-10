@@ -120,8 +120,11 @@ const UpdatePaymentInformation = InjectAppServices(
           <section className="dp-container">
             <div className="dp-rowflex">
               <div className="col-sm-12 m-t-48">
-                <h3 className="m-b-24 m-t-24">{_('updatePaymentMethod.title')}</h3>
+                {paymentMethod.paymentMethodName !== PaymentMethodType.transfer ? (
+                  <h3 className="m-b-24 m-t-24">{_('updatePaymentMethod.title')}</h3>
+                ) : null}
               </div>
+
               <div className="col-md-12 col-lg-7 m-b-24">
                 <div className="dp-wrapper-payment-process">
                   {paymentMethod.paymentMethodName !== PaymentMethodType.transfer ? (

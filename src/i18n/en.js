@@ -1120,12 +1120,13 @@ With Doppler you can generate Segments with common interests, create Forms to at
         email: 'Email',
         firstname: 'First name',
         lastname: 'Last name',
-        note_legend: `We would like to contact you so that you receive the details of your overdue invoices and the bank details you need to make payments. Please send us your contact information.`,
+        note_legend: `Please confirm your contact information so we can send you the details of your overdue invoices and the bank account to make the transfers.
+        We will contact you to help you resolve the overdue payments.`,
         phone: 'Phone',
         send_button: 'Send my information',
         send_email_error_message: 'Ouch! The email could not be sent.',
         send_email_success_message: 'The email has been sent successfully!',
-        title: 'Contact information',
+        title: 'We need to contact you',
       },
     },
     reprocess: {
