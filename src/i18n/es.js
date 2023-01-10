@@ -1121,12 +1121,13 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
         email: 'Email',
         firstname: 'Nombre',
         lastname: 'Apellido',
-        note_legend: `Queremos contactarte para que recibas el detalle de tus facturas pendientes y los datos bancarios que necesitas para realizar los pagos. Por favor, envíanos tu información de contacto.`,
+        note_legend: `Por favor, confirma tu información de contacto para que te enviemos el detalle de tus facturas pendientes y la cuenta bancaria donde hacer las transferencias.
+        Te contactaremos para ayudarte a resolver tus pagos pendientes.`,
         phone: 'Teléfono',
         send_button: 'Enviar mi información',
         send_email_error_message: '¡Ouch! No se ha podido enviar el email.',
         send_email_success_message: '¡El email ha sido enviado con éxito!',
-        title: 'Información de contacto',
+        title: 'Necesitamos contactarte',
       },
     },
     reprocess: {
