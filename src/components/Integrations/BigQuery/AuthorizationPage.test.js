@@ -5,6 +5,7 @@ import { AuthorizationPage } from './AuthorizationPage';
 import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 const emails = ['email1@gmail.com', 'email2@gmail.com', 'email3@gmail.com'];
 
@@ -112,7 +113,11 @@ describe('test for validate authorization form component ', () => {
         }}
       >
         <IntlProvider>
-          <AuthorizationPage />
+          <MemoryRouter initialEntries={['/authorizationPage']}>
+            <Routes>
+              <Route path="/authorizationPage" element={<AuthorizationPage />} />
+            </Routes>
+          </MemoryRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -140,7 +145,11 @@ describe('test for validate authorization form component ', () => {
         }}
       >
         <IntlProvider>
-          <AuthorizationPage />
+          <MemoryRouter initialEntries={['/authorizationPage']}>
+            <Routes>
+              <Route path="/authorizationPage" element={<AuthorizationPage />} />
+            </Routes>
+          </MemoryRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -170,7 +179,11 @@ describe('test for validate authorization form component ', () => {
         }}
       >
         <IntlProvider>
-          <AuthorizationPage />
+          <MemoryRouter initialEntries={['/authorizationPage']}>
+            <Routes>
+              <Route path="/authorizationPage" element={<AuthorizationPage />} />
+            </Routes>
+          </MemoryRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -201,7 +214,11 @@ describe('test for validate authorization form component ', () => {
         }}
       >
         <IntlProvider>
-          <AuthorizationPage />
+          <MemoryRouter initialEntries={['/authorizationPage']}>
+            <Routes>
+              <Route path="/authorizationPage" element={<AuthorizationPage />} />
+            </Routes>
+          </MemoryRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -233,7 +250,11 @@ describe('test for validate authorization form component ', () => {
         }}
       >
         <IntlProvider>
-          <AuthorizationPage />
+          <MemoryRouter initialEntries={['/authorizationPage']}>
+            <Routes>
+              <Route path="/authorizationPage" element={<AuthorizationPage />} />
+            </Routes>
+          </MemoryRouter>
         </IntlProvider>
       </AppServicesProvider>,
     );
