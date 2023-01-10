@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 import { BrowserRouter } from 'react-router-dom';
@@ -57,5 +57,33 @@ describe('Breadcrumb Component', () => {
 
     // Asserts
     expect(container.querySelector('.dp-breadcrumb li a')).not.toBeInTheDocument();
+  });
+
+  it('Should render Link component when href redirects inside webapp', () => {
+    //Act
+    render(
+      <BrowserRouter>
+        <Breadcrumb>
+          <BreadcrumbItem href={'/Test'} text={'Item Test'} />
+        </Breadcrumb>
+      </BrowserRouter>,
+    );
+
+    // Asserts
+    expect(screen.queryByTestId('internal-link')).toBeInTheDocument();
+  });
+
+  it('Should not render Link component when href redirects outside webapp', () => {
+    //Act
+    render(
+      <BrowserRouter>
+        <Breadcrumb>
+          <BreadcrumbItem href={'http://Test'} text={'Item Test'} />
+        </Breadcrumb>
+      </BrowserRouter>,
+    );
+
+    // Asserts
+    expect(screen.queryByTestId('internal-link')).not.toBeInTheDocument();
   });
 });
