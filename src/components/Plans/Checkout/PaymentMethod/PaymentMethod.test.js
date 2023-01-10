@@ -147,7 +147,7 @@ describe('PaymentMethod component', () => {
     await waitForElementToBeRemoved(loader);
 
     const creditCardOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method.credit_card',
+      name: 'checkoutProcessForm.payment_method.credit_card_option',
     });
     const transferOption = screen.getByRole('radio', {
       name: 'checkoutProcessForm.payment_method.transfer',
@@ -178,7 +178,7 @@ describe('PaymentMethod component', () => {
     await waitForElementToBeRemoved(loader);
 
     const creditCardOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method.credit_card',
+      name: 'checkoutProcessForm.payment_method.credit_card_option',
     });
     const transferOption = screen.getByRole('radio', {
       name: 'checkoutProcessForm.payment_method.transfer',
@@ -381,7 +381,7 @@ describe('PaymentMethod component', () => {
       await waitForElementToBeRemoved(loader);
 
       const creditCardOption = screen.queryByRole('radio', {
-        name: 'checkoutProcessForm.payment_method.credit_card',
+        name: 'checkoutProcessForm.payment_method.credit_card_option',
       });
       const transferOption = screen.queryByRole('radio', {
         name: 'checkoutProcessForm.payment_method.transfer',

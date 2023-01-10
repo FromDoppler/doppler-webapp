@@ -44,7 +44,7 @@ export const paymentType = {
 const paymentMethods = [
   {
     value: paymentType.creditCard,
-    description: 'checkoutProcessForm.payment_method.credit_card',
+    description: 'checkoutProcessForm.payment_method.credit_card_option',
   },
   {
     value: paymentType.transfer,
