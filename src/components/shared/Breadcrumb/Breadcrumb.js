@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Breadcrumb = ({ children }) => {
   return (
@@ -12,9 +13,17 @@ const BreadcrumbItem = ({ href, text }) => {
   return (
     <>
       {!!href ? (
-        <li>
-          <a href={href}>{text}</a>
-        </li>
+        href.startsWith('http') ? (
+          <li>
+            <a href={href}>{text}</a>
+          </li>
+        ) : (
+          <li>
+            <Link to={href} data-testid="internal-link">
+              {text}
+            </Link>
+          </li>
+        )
       ) : (
         <li>{text}</li>
       )}
