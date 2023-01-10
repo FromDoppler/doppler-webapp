@@ -221,6 +221,7 @@ const messages_es = {
       considerations_mercado_pago_note_3: 'El cargo aparecerá en el resumen de tu Tarjeta de Crédito como <bold>MERPAGO*DOPPLER.</bold>',
       consumer_type: 'Consumidor',
       credit_card: 'Número de tarjeta',
+      credit_card_option: 'Tarjeta de crédito',
       dni: 'DNI',
       error: '¡Ouch! Esta Tarjeta de Crédito no permite cobros por parte de Doppler LLC. Comunícate con la empresa emisora para autorizarlos.',
       expiration_date: 'Fecha de vencimiento',
