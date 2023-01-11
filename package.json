@@ -53,7 +53,7 @@
     "react-scripts": "4.0.3",
     "react-side-effect": ">=2.1.2",
     "react-test-renderer": "^16.14.0",
-    "semantic-release": "^19.0.0",
+    "semantic-release": "^20.0.0",
     "smoothscroll-polyfill": "^0.4.4",
     "styled-components": "^5.0.0",
     "stylelint": "^14.11.0",
