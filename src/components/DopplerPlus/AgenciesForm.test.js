@@ -5,6 +5,7 @@ import AgenciesForm, { volumeOptions } from './AgenciesForm';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 describe('AgenciesForm component', () => {
   const dependencies = {
@@ -37,7 +38,11 @@ describe('AgenciesForm component', () => {
   const AgenciesFormElement = () => (
     <AppServicesProvider forcedServices={dependencies}>
       <DopplerIntlProvider>
-        <AgenciesForm />
+        <MemoryRouter initialEntries={['/AgenciesForm']}>
+          <Routes>
+            <Route path="/AgenciesForm" element={<AgenciesForm />} />
+          </Routes>
+        </MemoryRouter>
       </DopplerIntlProvider>
     </AppServicesProvider>
   );

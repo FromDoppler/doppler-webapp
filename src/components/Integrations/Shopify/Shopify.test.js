@@ -95,7 +95,11 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -130,7 +134,11 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -151,7 +159,11 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -213,7 +225,11 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
@@ -248,7 +264,11 @@ describe('Shopify Component', () => {
         }}
       >
         <DopplerIntlProvider>
-          <Shopify />
+          <MemoryRouter initialEntries={['/shopify']}>
+            <Routes>
+              <Route path="/shopify" element={<Shopify />} />
+            </Routes>
+          </MemoryRouter>
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
