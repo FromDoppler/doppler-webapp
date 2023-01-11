@@ -13,17 +13,15 @@ const BreadcrumbItem = ({ href, text }) => {
   return (
     <>
       {!!href ? (
-        href.startsWith('http') ? (
-          <li>
+        <li>
+          {/^(?:[a-z]+:)?\/\//.test(href) ? (
             <a href={href}>{text}</a>
-          </li>
-        ) : (
-          <li>
+          ) : (
             <Link to={href} data-testid="internal-link">
               {text}
             </Link>
-          </li>
-        )
+          )}
+        </li>
       ) : (
         <li>{text}</li>
       )}
