@@ -161,18 +161,22 @@ export const QUICK_ACTIONS = [
   {
     labelId: 'dashboard.quick_actions.make_campaign',
     linkId: 'dashboard.quick_actions.make_campaign_url',
+    trackingId: `dashboard-crearCampania`,
   },
   {
     labelId: 'dashboard.quick_actions.make_contact_list',
     linkId: 'dashboard.quick_actions.make_contact_list_url',
+    trackingId: `dashboard-armarListaContactos`,
   },
   {
     labelId: 'dashboard.quick_actions.launch_automation',
     linkId: 'dashboard.quick_actions.launch_automation_url',
+    trackingId: `dashboard-lanzarAutomatizacion`,
   },
   {
     labelId: 'dashboard.quick_actions.send_sms',
     linkId: 'dashboard.quick_actions.send_sms_url',
+    trackingId: `dashboard-enviarSmsMasivos`,
   },
 ];
 
