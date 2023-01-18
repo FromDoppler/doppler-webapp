@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { InjectAppServices } from '../../../../../services/pure-di';
+import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl, FormattedMessage } from 'react-intl';
 import {
   FieldGroup,
@@ -8,12 +8,12 @@ import {
   PhoneFieldItem,
   EmailFieldItem,
   SubmitButton,
-} from '../../../../form-helpers/form-helpers';
+} from '../../../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
-import { getFormInitialValues } from '../../../../../utils';
-import useTimeout from '../../../../../hooks/useTimeout';
+import { getFormInitialValues } from '../../../../utils';
+import useTimeout from '../../../../hooks/useTimeout';
 import { useNavigate } from 'react-router-dom';
-import * as S from '../../index.styles';
+import * as S from '../index.styles';
 import { StatusMessage } from './StatusMessage';
 
 const fieldNames = {

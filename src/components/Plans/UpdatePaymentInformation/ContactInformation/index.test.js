@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
-import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../../services/pure-di';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../../services/pure-di';
 import { ContactInformation } from './index';
 import { BrowserRouter } from 'react-router-dom';
 

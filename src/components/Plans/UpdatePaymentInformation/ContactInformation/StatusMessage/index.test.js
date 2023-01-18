@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { AppServicesProvider } from '../../../../../../services/pure-di';
-import IntlProvider from '../../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../../../services/pure-di';
+import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { Formik } from 'formik';
 import { StatusMessage } from '.';
 import { HAS_ERROR, SAVED } from '..';

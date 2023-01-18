@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../services/pure-di';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../services/pure-di';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import UpdatePaymentInformation from '.';
 import {
   fakePaymentMethodInformation,
   fakePaymentMethodInformationWithTransfer,
-} from '../../../../services/doppler-billing-user-api-client.double';
+} from '../../../services/doppler-billing-user-api-client.double';
 
 describe('UpdatePaymentInformation component', () => {
   const UpdatePaymentInformationElement = ({ dependencies }) => (

@@ -1,13 +1,13 @@
 import React, { useEffect, useReducer } from 'react';
-import { InjectAppServices } from '../../../../../services/pure-di';
+import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl, FormattedDate, FormattedNumber, FormattedMessage } from 'react-intl';
-import { Loading } from '../../../../Loading/Loading';
+import { Loading } from '../../../Loading/Loading';
 import {
   INITIAL_STATE_REPROCESS,
   reprocessReducer,
   REPROCESS_ACTIONS,
-} from '../../Reducers/reprocessReducer';
-import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
+} from '../Reducers/reprocessReducer';
+import { UnexpectedError } from '../../../shared/UnexpectedError/index';
 
 const dollarSymbol = 'US$';
 
