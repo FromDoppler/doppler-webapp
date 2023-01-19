@@ -31,7 +31,7 @@ import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { availableLanguageOrNull } from './i18n/utils';
 import { InjectAppServices } from './services/pure-di';
 import EditorsDemo from './components/EditorsDemo/EditorsDemo';
-import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformation/index';
+import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformation/index';
 import UpdatePaymentInformationSummary from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformationSummary/index';
 import IntegrationsSection from './components/Integrations/index';
 import smoothscroll from 'smoothscroll-polyfill';

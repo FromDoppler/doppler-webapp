@@ -1,20 +1,20 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { InjectAppServices } from '../../../../services/pure-di';
+import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import { Step } from '../../Checkout/Step/Step';
+import { Step } from '../Checkout/Step/Step';
 import { Link } from 'react-router-dom';
 import UpdatePaymentMethod from './UpdatePaymentMethod';
 import Reprocess from './Reprocess';
-import { FirstDataError, MercadoPagoError, PaymentMethodType } from '../../.././../doppler-types';
+import { FirstDataError, MercadoPagoError, PaymentMethodType } from '../../../doppler-types';
 import { ContactInformation } from './ContactInformation/index';
-import { Loading } from '../../../Loading/Loading';
+import { Loading } from '../../Loading/Loading';
 import {
   INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
   updatePaymentInformationReducer,
   UPDATE_PAYMENT_INFORMATION_ACTIONS,
-} from '../Reducers/updatePaymentInformationReducer';
-import { UnexpectedError } from '../../../shared/UnexpectedError/index';
+} from './Reducers/updatePaymentInformationReducer';
+import { UnexpectedError } from '../../shared/UnexpectedError/index';
 
 const updatePaymentInformationteps = {
   paymentMethodInformation: 'payment-method-information',

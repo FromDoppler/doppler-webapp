@@ -1,11 +1,11 @@
 import { UpdatePaymentMethod } from './index';
 import { render, screen, waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../../services/pure-di';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { fakePaymentMethodInformation } from '../../../../../services/doppler-billing-user-api-client.double';
-import { actionPage } from '../../../Checkout/Checkout';
+import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
+import { actionPage } from '../../Checkout/Checkout';
 import '@testing-library/jest-dom/extend-expect';
 
 const dependencies = (withError, paymentMethodData, withFirstDataError, firstDataError) => ({

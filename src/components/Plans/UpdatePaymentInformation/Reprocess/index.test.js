@@ -1,9 +1,9 @@
 import { Reprocess } from './index';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../../services/pure-di';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { fakeInvoices } from '../../../../../services/doppler-billing-user-api-client.double';
+import { fakeInvoices } from '../../../../services/doppler-billing-user-api-client.double';
 import '@testing-library/jest-dom/extend-expect';
 
 const dependencies = (withError, declinedInvoices, withFirstDataError, firstDataError) => ({

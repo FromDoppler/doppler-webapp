@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import { InjectAppServices } from '../../../../../services/pure-di';
+import { InjectAppServices } from '../../../../services/pure-di';
 import { useIntl } from 'react-intl';
-import { CreditCard, getCreditCardBrand } from '../../../Checkout/PaymentMethod/CreditCard';
-import { StatusMessage } from '../../../Checkout/PurchaseSummary/PlanPurchase/index';
-import { MercadoPagoArgentina } from '../../../Checkout/PaymentMethod/MercadoPagoArgentina';
-import { actionPage } from '../../../Checkout/Checkout';
-import { getFormInitialValues } from '../../../../../utils';
-import { Loading } from '../../../../Loading/Loading';
+import { CreditCard, getCreditCardBrand } from '../../Checkout/PaymentMethod/CreditCard';
+import { StatusMessage } from '../../Checkout/PurchaseSummary/PlanPurchase/index';
+import { MercadoPagoArgentina } from '../../Checkout/PaymentMethod/MercadoPagoArgentina';
+import { actionPage } from '../../Checkout/Checkout';
+import { getFormInitialValues } from '../../../../utils';
+import { Loading } from '../../../Loading/Loading';
 import { Form, Formik } from 'formik';
-import { FieldGroup, FieldItem, SubmitButton } from '../../../../form-helpers/form-helpers';
-import { PaymentMethodType } from '../../.././../../doppler-types';
+import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-helpers';
+import { PaymentMethodType } from '../.././../../doppler-types';
 import { handleMessage } from '../index';
 import {
   INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
   updatePaymentInformationReducer,
   UPDATE_PAYMENT_INFORMATION_ACTIONS,
-} from '../../Reducers/updatePaymentInformationReducer';
-import { UnexpectedError } from '../../../../shared/UnexpectedError/index';
+} from '../Reducers/updatePaymentInformationReducer';
+import { UnexpectedError } from '../../../shared/UnexpectedError/index';
 import { useNavigate } from 'react-router-dom';
-import useTimeout from '../../../../../hooks/useTimeout';
+import useTimeout from '../../../../hooks/useTimeout';
 
 const fieldNames = {
   paymentMethodName: 'paymentMethodName',

@@ -1,5 +1,5 @@
 import { SAVED } from '../index';
-import { FieldItem } from '../../../../../form-helpers/form-helpers';
+import { FieldItem } from '../../../../form-helpers/form-helpers';
 import { useIntl } from 'react-intl';
 
 export const StatusMessage = ({ status }) => {
