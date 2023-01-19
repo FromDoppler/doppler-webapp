@@ -11,7 +11,7 @@ export const QuickActions = ({ quickActions = [] }) => {
       <ul className="dp-quick-actions">
         {quickActions.map((qa, index) => (
           <li key={`qa-${index}`}>
-            <a href={_(qa.linkId)} target="_blank" id={qa.trackingId}>
+            <a href={_(qa.linkId)} id={qa.trackingId}>
               <span className="action-title">{_(qa.labelId)}</span>
               <span className="ms-icon icon-arrow-next" />
             </a>
