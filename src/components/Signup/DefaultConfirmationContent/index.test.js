@@ -10,7 +10,7 @@ describe('DefaultConfirmationContent', () => {
     // Arrange
     const incrementAndResend = () => {};
     const registeredUser = 'harcodedUser@mail.com';
-    const resentTimes = 1;
+    const resentTimes = 2;
     const mailtoSupport = 'mailtoSupport@mail.com';
 
     // Act
