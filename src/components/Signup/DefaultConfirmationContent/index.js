@@ -28,7 +28,7 @@ export const DefaultConfirmationContent = ({
       <div className="dp-divisor-line">
         <span className="dp-line"></span>
       </div>
-      {resentTimes === 0 ? (
+      {resentTimes <= 1 ? (
         <>
           <p className="dp-paragraph-grey">
             {_('signup.if_didnt_receive_email')}

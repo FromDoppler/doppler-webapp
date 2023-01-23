@@ -71,7 +71,7 @@ describe('DynamicConfirmationContent', () => {
       "<h1>Check your email</h1><p>Enter <strong>{{useremail}}</strong> to validate ir.</p><p>With this email you will access your new <strong>Doppler</strong> account.</p><div class='separator-line'></div><p class='confirmation-main__p-2 confirmation-main__p-2--italic'>Do you have doubts? <a>Contact us</a> and we will help you</p><div class='confirmationPage__main__separator'><img src='https://www.fromdoppler.com/img/confirmation-page/separator.png' alt='separator'></div><p id='resend-email-p'>If you didn’t receive the email, <button id='resend-email' class='dp-button link-green'>request resend.</button>";
     const incrementAndResend = jest.fn();
     const registeredUser = 'harcodedUser@mail.com';
-    const resentTimes = 1;
+    const resentTimes = 2;
     const mailtoSupport = 'mailtoSupport@mail.com';
 
     // Act

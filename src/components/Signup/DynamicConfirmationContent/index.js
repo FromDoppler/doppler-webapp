@@ -15,7 +15,7 @@ export const DynamicConfirmationContent = function ({
     if (resendEmailButton) {
       resendEmailButton.addEventListener('click', incrementAndResend, false);
 
-      if (resentTimes !== 0) {
+      if (resentTimes > 1) {
         const resendEmailText = document.querySelector('p#resend-email-p');
         if (resendEmailText) {
           resendEmailText.innerHTML = `
