@@ -129,6 +129,7 @@ export const PaymentInformationSummary = InjectAppServices(
           const declinedInvoices = await dopplerBillingUserApiClient.getInvoices([
             'pending',
             'declined',
+            'failed',
           ]);
 
           dispatch({
