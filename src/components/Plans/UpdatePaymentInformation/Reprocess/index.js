@@ -63,7 +63,10 @@ export const Reprocess = InjectAppServices(
       const fetchData = async () => {
         try {
           dispatch({ type: REPROCESS_ACTIONS.START_FETCH });
-          const declinedInvoices = await dopplerBillingUserApiClient.getInvoices(['declined']);
+          const declinedInvoices = await dopplerBillingUserApiClient.getInvoices([
+            'declined',
+            'failed',
+          ]);
 
           dispatch({
             type: REPROCESS_ACTIONS.FINISH_FETCH,
