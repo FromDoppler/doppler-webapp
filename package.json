@@ -121,7 +121,10 @@
     },
     "moduleNameMapper": {
       "react-markdown": "<rootDir>/node_modules/react-markdown/react-markdown.min.js"
-    }
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!query-string|filter-obj|intl-tel-input)"
+    ]
   },
   "release": {
     "branches": [
