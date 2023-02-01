@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AppServicesProvider } from './services/pure-di';
@@ -84,13 +83,14 @@ history.listen((location) => {
 // Choose hash router for cdn only
 const Router = process.env.REACT_APP_ROUTER === 'hash' ? HashRouter : BrowserRouter;
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
   <AppServicesProvider forcedServices={forcedServices}>
     <Router>
       <App locale={locale} window={window} />
     </Router>
   </AppServicesProvider>,
-  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
