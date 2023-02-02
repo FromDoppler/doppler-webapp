@@ -14,7 +14,6 @@ const Promotions = function ({ loading, bannerData }) {
         <div
           className="feature-panel--bg"
           style={{
-            backgroundImage: `url(${bannerData.backgroundUrl})`,
             color: bannerData.fontColor,
           }}
         >
