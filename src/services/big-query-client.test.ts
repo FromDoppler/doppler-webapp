@@ -46,6 +46,6 @@ describe('HttpBigQueryClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
-    expect(result.value.emails[0]).toEqual(emails.data.emails[0]);
+    expect(result.value?.emails[0]).toEqual(emails.data.emails[0]);
   });
 });

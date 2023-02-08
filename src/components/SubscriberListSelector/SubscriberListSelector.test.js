@@ -1,4 +1,11 @@
-import { render, screen, waitForElementToBeRemoved, fireEvent, act } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+  fireEvent,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import { scrollableContainerId, SubscriberListSelector } from './SubscriberListSelector';
@@ -233,7 +240,9 @@ describe('SubscriberListSelector component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Should call onNoList function
-    expect(mockedNoList).toBeCalledTimes(1);
+    await waitFor(() => {
+      expect(mockedNoList).toBeCalledTimes(1);
+    });
   });
 
   it('should call onError function if an error occurred', async () => {

@@ -793,7 +793,7 @@ describe('HttpDopplerApiClient', () => {
       expect(result.success).toBe(true);
       expect(result.value).not.toBe(null);
       expect(result.value.items).toHaveLength(httpResponseBody.data.items.length);
-      result.value.items.map((item) =>
+      result.value.items.map((item: any) =>
         expect(item).toMatchObject({
           name: expect.any(String),
           id: expect.any(Number),
