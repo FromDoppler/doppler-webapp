@@ -1,14 +1,13 @@
 import '@testing-library/jest-dom/extend-expect';
 import useTimeout from '.';
 import { renderHook, act } from '@testing-library/react-hooks';
-import { waitFor } from '@testing-library/react';
 
 describe('useTimeout hook', () => {
   const delay = 1000;
   let callback;
 
   beforeEach(() => {
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
     callback = jest.fn();
   });
 

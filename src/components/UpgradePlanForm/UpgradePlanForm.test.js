@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, cleanup, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -57,7 +56,7 @@ describe('Upgrade plan form component', () => {
     };
 
     //Act
-    const { getByText } = render(
+    const { findByText } = render(
       <AppServicesProvider
         forcedServices={{
           ...dependencies,
@@ -72,7 +71,7 @@ describe('Upgrade plan form component', () => {
     await waitFor(() => {});
 
     //Assert
-    expect(getByText('upgradePlanForm.title')).toBeInTheDocument();
+    expect(await findByText('upgradePlanForm.title')).toBeInTheDocument();
   });
 
   it('renders upgrade popup for monthly subscribers without selector because the user has the last plan', async () => {

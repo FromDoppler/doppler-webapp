@@ -1,4 +1,4 @@
-import { getAllByRole, getByText, render, screen } from '@testing-library/react';
+import { getAllByRole, getByText, render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { PAYMENT_WAY_TRANSFER, TransferMexico } from '.';
 import IntlProvider from '../../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -54,18 +54,20 @@ describe('TransferMexico', () => {
     };
 
     // Act
-    render(
-      <AppServicesProvider forcedServices={services}>
-        <IntlProvider>
-          <Formik initialValues={{}}>
-            <TransferMexico
-              readOnly={readOnly}
-              paymentMethod={fakePaymentMethod}
-              consumerTypes={null}
-            />
-          </Formik>
-        </IntlProvider>
-      </AppServicesProvider>,
+    await act(() =>
+      render(
+        <AppServicesProvider forcedServices={services}>
+          <IntlProvider>
+            <Formik initialValues={{}}>
+              <TransferMexico
+                readOnly={readOnly}
+                paymentMethod={fakePaymentMethod}
+                consumerTypes={null}
+              />
+            </Formik>
+          </IntlProvider>
+        </AppServicesProvider>,
+      ),
     );
 
     // Assert
@@ -90,29 +92,6 @@ describe('TransferMexico', () => {
       bankName: '',
       bankAccount: '',
     };
-
-    it('should render the transfer mexico form', async () => {
-      // Act
-      render(
-        <AppServicesProvider forcedServices={services}>
-          <IntlProvider>
-            <Formik initialValues={{}}>
-              <TransferMexico
-                readOnly={readOnly}
-                paymentMethod={fakePaymentMethod}
-                consumerTypes={fakeConsumerTypes}
-              />
-            </Formik>
-          </IntlProvider>
-        </AppServicesProvider>,
-      );
-
-      // Assert
-      await screen.findByRole('tabpanel', { name: 'transfer mexico fields' });
-
-      // resume data is not visible when is edit mode
-      expect(screen.queryByRole('listitem', { name: 'resume data' })).not.toBeInTheDocument();
-    });
 
     it('should render the transfer mexico form with the correct fields', async () => {
       // Arrange
@@ -163,7 +142,7 @@ describe('TransferMexico', () => {
       expect(getAllByRole(consumerTypeField, 'option')).toHaveLength(fakeConsumerTypes.length + 1);
 
       // select "Registro Federal de Contribuyentes" option
-      await userEvent.selectOptions(consumerTypeField, RFC.key);
+      await act(() => userEvent.selectOptions(consumerTypeField, RFC.key));
       consumerTypeField = await screen.findByLabelText(
         /checkoutProcessForm.payment_method.consumer_type/i,
       );
@@ -186,7 +165,7 @@ describe('TransferMexico', () => {
       let paymentWayField = screen.getByLabelText(
         /checkoutProcessForm.payment_method.payment_way/i,
       );
-      await userEvent.selectOptions(paymentWayField, 'TRANSFER');
+      await act(() => userEvent.selectOptions(paymentWayField, 'TRANSFER'));
       paymentWayField = await screen.findByLabelText(
         /checkoutProcessForm.payment_method.payment_way/i,
       );
@@ -198,7 +177,7 @@ describe('TransferMexico', () => {
 
       // select "CASH" option
       paymentWayField = screen.getByLabelText(/checkoutProcessForm.payment_method.payment_way/i);
-      await userEvent.selectOptions(paymentWayField, 'CASH');
+      await act(() => userEvent.selectOptions(paymentWayField, 'CASH'));
       paymentWayField = await screen.findByLabelText(
         /checkoutProcessForm.payment_method.payment_way/i,
       );

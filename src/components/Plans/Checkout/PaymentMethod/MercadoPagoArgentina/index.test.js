@@ -1,22 +1,11 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import { fakePaymentMethodInformation } from '../../../../../services/doppler-billing-user-api-client.double';
 import { actionPage } from '../../Checkout';
 import { Formik } from 'formik';
 import '@testing-library/jest-dom/extend-expect';
 import { MercadoPagoArgentina } from '.';
-
-const dependencies = (withError) => ({
-  dopplerBillingUserApiClient: {
-    getPaymentMethodData: async () => {
-      return !withError
-        ? { success: true, value: { ...fakePaymentMethodInformation, dni: 12345678 } }
-        : { success: false };
-    },
-  },
-});
 
 const mockedSetFieldValue = jest.fn();
 const initialPropsReonlyView = {
@@ -67,36 +56,34 @@ const getCreditCardFields = (container, updateView) => {
   };
 };
 
-const MercadoPagoArgentinaElement = ({ withError, updateView }) => {
-  const services = dependencies(withError);
+const MercadoPagoArgentinaElement = ({ updateView }) => {
   return (
-    <AppServicesProvider forcedServices={services}>
-      <IntlProvider>
-        <BrowserRouter>
-          <Formik>
-            {updateView === actionPage.UPDATE ? (
-              <MercadoPagoArgentina {...initialPropsUpdateView} />
-            ) : (
-              <MercadoPagoArgentina {...initialPropsReonlyView} />
-            )}
-          </Formik>
-        </BrowserRouter>
-      </IntlProvider>
-    </AppServicesProvider>
+    <IntlProvider>
+      <BrowserRouter>
+        <Formik>
+          {updateView === actionPage.UPDATE ? (
+            <MercadoPagoArgentina
+              {...initialPropsUpdateView}
+              paymentMethod={{ ...fakePaymentMethodInformation, dni: 12345678 }}
+            />
+          ) : (
+            <MercadoPagoArgentina
+              {...initialPropsReonlyView}
+              paymentMethod={{ ...fakePaymentMethodInformation, dni: 12345678 }}
+            />
+          )}
+        </Formik>
+      </BrowserRouter>
+    </IntlProvider>
   );
 };
 
 describe('MercadoPagoArgentina component', () => {
   it('readonly view - should load data from api correctly', async () => {
     // Act
-    const { container } = render(
-      <MercadoPagoArgentinaElement withError={false} updateView={actionPage.READONLY} />,
-    );
+    const { container } = render(<MercadoPagoArgentinaElement updateView={actionPage.READONLY} />);
 
     // Assert
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
     const { cardNumberElement, cardHolderElement, expiryDateElement, securityCodeElement } =
       getCreditCardFields(container, false);
 

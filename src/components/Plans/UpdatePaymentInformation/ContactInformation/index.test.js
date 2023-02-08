@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -33,7 +33,7 @@ describe('ContactInformation component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'updatePaymentMethod.payment_method.transfer.send_button',
     });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Validation error messages should be displayed
     const validationErrorMessages = await screen.findAllByText(
@@ -75,17 +75,19 @@ describe('ContactInformation component', () => {
     const emailField = screen.getByLabelText(/updatePaymentMethod.payment_method.transfer.email/i);
 
     // fill fields
-    await user.type(firstNameField, firstname);
-    await user.type(lastNameField, lastname);
-    phoneField.focus();
-    await user.type(phoneField, phone);
-    await user.type(emailField, email);
+    await act(() => user.type(firstNameField, firstname));
+    await act(() => user.type(lastNameField, lastname));
+    act(() => phoneField.focus());
+    await act(() => user.type(phoneField, phone));
+    await act(() => user.type(emailField, email));
 
     // Click save button
-    await user.click(
-      screen.getByRole('button', {
-        name: 'updatePaymentMethod.payment_method.transfer.send_button',
-      }),
+    await act(() =>
+      user.click(
+        screen.getByRole('button', {
+          name: 'updatePaymentMethod.payment_method.transfer.send_button',
+        }),
+      ),
     );
 
     expect(sendContactInformationMock).toHaveBeenCalledWith({

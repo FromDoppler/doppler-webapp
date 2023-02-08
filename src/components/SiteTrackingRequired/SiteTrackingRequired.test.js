@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { screen, render, cleanup, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../services/pure-di';
 import { SiteTrackingRequired, SiteTrackingNotAvailableReasons } from './SiteTrackingRequired';
 import { MemoryRouter as Router } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 
 describe('site tracking', () => {
   afterEach(cleanup);
@@ -108,17 +108,19 @@ describe('site tracking', () => {
     };
 
     // Act
-    const { container } = render(
-      <AppServicesProvider forcedServices={dependencies}>
-        <DopplerIntlProvider>
-          <Router initialEntries={[`/`]}>
-            <SiteTrackingRequired reason={reason} />
-          </Router>
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
+    await act(() =>
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <DopplerIntlProvider>
+            <Router initialEntries={[`/`]}>
+              <SiteTrackingRequired reason={reason} />
+            </Router>
+          </DopplerIntlProvider>
+        </AppServicesProvider>,
+      ),
     );
 
-    container.querySelector('button').click();
+    await act(() => userEvent.click(screen.getByRole('button')));
 
     // Assert
     await waitFor(() => {

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { ScrollToFieldError } from '.';
@@ -72,7 +72,7 @@ describe('ScrollToFieldError', () => {
 
   it('should to do autoFocus in the first field with error when the form is submitted', async () => {
     // Arrange
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
     const behavior = {
       left: 0,
       behavior: 'smooth',
@@ -124,9 +124,11 @@ describe('ScrollToFieldError', () => {
     expect(getFirstNameField()).toHaveFocus();
 
     // fill in first name with a valid name
-    userEvent.type(getFirstNameField(), 'Junior');
+    jest.useRealTimers();
+    await act(() => userEvent.type(getFirstNameField(), 'Junior'));
 
     // click to submit buton
+    jest.useFakeTimers('legacy');
     userEvent.click(screen.getByRole('button', { type: 'submit' }));
 
     // rerender with only one error because first name was filled
@@ -137,13 +139,15 @@ describe('ScrollToFieldError', () => {
         [fieldNames.email]: 'validation_messages.error_required_field',
       },
     }));
-    rerender(
-      <FormikWrapper onSubmit={onSubmit}>
-        <ScrollToFieldError
-          useFormikContext={customUseFormikContext}
-          fieldsOrder={Object.values(fieldNames)}
-        />
-      </FormikWrapper>,
+    await act(() =>
+      rerender(
+        <FormikWrapper onSubmit={onSubmit}>
+          <ScrollToFieldError
+            useFormikContext={customUseFormikContext}
+            fieldsOrder={Object.values(fieldNames)}
+          />
+        </FormikWrapper>,
+      ),
     );
 
     // simulate scroll with smooth behavior
@@ -151,7 +155,6 @@ describe('ScrollToFieldError', () => {
 
     expect(spyScroll).toHaveBeenCalledTimes(2);
     expect(spyScroll).toBeCalledWith(expect.objectContaining(behavior));
-
     // the first field with error it is email. It should have auto focus
     expect(getEmailField()).toHaveFocus();
   });

@@ -7,7 +7,7 @@ describe('useInterval hook', () => {
   let callback;
 
   beforeEach(() => {
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
     callback = jest.fn();
   });
 

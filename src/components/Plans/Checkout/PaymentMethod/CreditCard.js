@@ -76,8 +76,9 @@ const FormatMessageWithBoldWords = ({ id }) => {
 
 export const CreditCard = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
+    dependencies: { dopplerAccountPlansApiClient, appSessionRef },
     optionView,
+    paymentMethod,
   }) => {
     const intl = useIntl();
     const { setFieldValue, setValues } = useFormikContext();
@@ -108,12 +109,11 @@ export const CreditCard = InjectAppServices(
         setCvc('');
       };
 
-      const fetchData = async () => {
-        if (optionView === actionPage.READONLY) {
-          const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-          setState({
-            paymentMethod: paymentMethodData.success
-              ? paymentMethodData.value
+      if (optionView === actionPage.READONLY) {
+        setState({
+          paymentMethod:
+            paymentMethod && Object.keys(paymentMethod).length > 1
+              ? paymentMethod
               : {
                   ccSecurityCode: '',
                   ccExpiryDate: '',
@@ -121,25 +121,22 @@ export const CreditCard = InjectAppServices(
                   ccNumber: '',
                   ccType: '',
                 },
-            loading: false,
-            readOnly: true,
-          });
-        } else {
-          initializeDefaultValues();
-          setState({
-            loading: false,
-            readOnly: false,
-            paymentMethod: {},
-          });
-        }
-      };
-
-      fetchData();
+          loading: false,
+          readOnly: true,
+        });
+      } else {
+        initializeDefaultValues();
+        setState({
+          loading: false,
+          readOnly: false,
+          paymentMethod: {},
+        });
+      }
     }, [
-      dopplerBillingUserApiClient,
       dopplerAccountPlansApiClient,
       appSessionRef,
       optionView,
+      paymentMethod,
       setFieldValue,
       setValues,
     ]);

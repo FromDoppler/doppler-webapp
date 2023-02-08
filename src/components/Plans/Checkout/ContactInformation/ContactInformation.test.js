@@ -1,7 +1,5 @@
-import React from 'react';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
@@ -193,7 +191,7 @@ describe('Checkout component', () => {
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Validation error messages should be displayed
     const validationErrorMessages = await screen.findAllByText(
@@ -217,8 +215,8 @@ describe('Checkout component', () => {
     let inputFirstName = screen.getByRole('textbox', {
       name: '*checkoutProcessForm.contact_information_firstname',
     });
-    await user.clear(inputFirstName);
-    await user.type(inputFirstName, newFirstName);
+    await act(() => user.clear(inputFirstName));
+    await act(() => user.type(inputFirstName, newFirstName));
     inputFirstName = await screen.findByRole('textbox', {
       name: '*checkoutProcessForm.contact_information_firstname',
     });
@@ -228,7 +226,7 @@ describe('Checkout component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.save_continue',
     });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     expect(mockedHandleSaveAndContinue).toBeCalledTimes(1);
   });

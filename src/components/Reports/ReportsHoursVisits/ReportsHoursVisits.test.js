@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { render, cleanup, waitFor, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import ReportsHoursVisits from './ReportsHoursVisits';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -39,7 +38,7 @@ describe('reports weekday and hours visits', () => {
     };
 
     // Act
-    const { container, getByText } = render(
+    const { container } = render(
       <AppServicesProvider
         forcedServices={{
           datahubClient: dataHubClientDouble,
@@ -53,7 +52,7 @@ describe('reports weekday and hours visits', () => {
 
     // Assert
     expect(container.querySelector('.loading-box')).toBeInTheDocument();
-    await waitFor(() => expect(getByText('common.unexpected_error')));
+    await waitFor(() => expect(screen.queryByText('common.unexpected_error')).toBeInTheDocument());
   });
 
   it('should show the graphic with the data', async () => {

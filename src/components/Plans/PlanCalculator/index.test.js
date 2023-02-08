@@ -5,6 +5,7 @@ import {
   render,
   screen,
   waitForElementToBeRemoved,
+  waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
@@ -192,8 +193,10 @@ describe('PlanCalculator component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    const slider = screen.queryByRole('slider');
-    expect(slider).not.toBeInTheDocument();
+    await waitFor(() => {
+      const slider = screen.queryByRole('slider');
+      expect(slider).not.toBeInTheDocument();
+    });
   });
 
   it('should render Unexpected error when has error', async () => {

@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
@@ -118,7 +118,7 @@ const TransferElement = ({
   );
 };
 
-describe('Transer component', () => {
+describe('Transfer component', () => {
   it('should show loading box while getting data', async () => {
     // Act
     render(
@@ -132,9 +132,11 @@ describe('Transer component', () => {
     );
 
     // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    await waitFor(async () => {
+      // Loader should disappear once request resolves
+      const loader = screen.getByTestId('wrapper-loading');
+      await waitForElementToBeRemoved(loader);
+    });
   });
 
   it('should show the correct data in readonly view', async () => {
@@ -153,10 +155,12 @@ describe('Transer component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent('DNI');
-    expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent(
-      fakePaymentMethodInformationWithTransfer.identificationNumber,
-    );
+    await waitFor(async () => {
+      expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent('DNI');
+      expect(screen.getByRole('listitem', { name: 'resume data' })).toHaveTextContent(
+        fakePaymentMethodInformationWithTransfer.identificationNumber,
+      );
+    });
   });
 
   // describe.each([

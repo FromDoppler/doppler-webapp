@@ -1,4 +1,4 @@
-import { getAllByRole, getByText, render, screen } from '@testing-library/react';
+import { getAllByRole, getByText, render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { TransferArgentina } from '.';
 import IntlProvider from '../../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -17,16 +17,18 @@ describe('TransferArgentina', () => {
     };
 
     // Act
-    render(
-      <IntlProvider>
-        <Formik initialValues={{}}>
-          <TransferArgentina
-            readOnly={readOnly}
-            paymentMethod={fakePaymentMethod}
-            consumerTypes={null}
-          />
-        </Formik>
-      </IntlProvider>,
+    await act(() =>
+      render(
+        <IntlProvider>
+          <Formik initialValues={{}}>
+            <TransferArgentina
+              readOnly={readOnly}
+              paymentMethod={fakePaymentMethod}
+              consumerTypes={null}
+            />
+          </Formik>
+        </IntlProvider>,
+      ),
     );
 
     // Assert
@@ -80,16 +82,18 @@ describe('TransferArgentina', () => {
 
     it('should render the transfer argentina form', async () => {
       // Act
-      render(
-        <IntlProvider>
-          <Formik initialValues={{}}>
-            <TransferArgentina
-              readOnly={readOnly}
-              paymentMethod={fakePaymentMethod}
-              consumerTypes={fakeConsumerTypes}
-            />
-          </Formik>
-        </IntlProvider>,
+      await act(() =>
+        render(
+          <IntlProvider>
+            <Formik initialValues={{}}>
+              <TransferArgentina
+                readOnly={readOnly}
+                paymentMethod={fakePaymentMethod}
+                consumerTypes={fakeConsumerTypes}
+              />
+            </Formik>
+          </IntlProvider>,
+        ),
       );
 
       // Assert
@@ -127,7 +131,7 @@ describe('TransferArgentina', () => {
       expect(getAllByRole(consumerTypeField, 'option')).toHaveLength(fakeConsumerTypes.length + 1);
 
       // select "Responsable Inscripto" option
-      await userEvent.selectOptions(consumerTypeField, 'RI');
+      await act(() => userEvent.selectOptions(consumerTypeField, 'RI'));
       consumerTypeField = await screen.findByRole('combobox');
       expect(consumerTypeField.value).toBe('RI');
 
@@ -139,7 +143,7 @@ describe('TransferArgentina', () => {
       expect(screen.queryByLabelText(/DNI/i)).not.toBeInTheDocument();
 
       // select "Consumidor Final" option
-      await userEvent.selectOptions(consumerTypeField, finalConsumer);
+      await act(() => userEvent.selectOptions(consumerTypeField, finalConsumer));
       consumerTypeField = await screen.findByRole('combobox');
       expect(consumerTypeField.value).toBe(finalConsumer);
 
@@ -147,10 +151,12 @@ describe('TransferArgentina', () => {
       screen.getByLabelText(/DNI/i);
 
       // fill DNI and rason social
-      await userEvent.type(screen.getByLabelText(/DNI/i), '81544670');
-      await userEvent.type(
-        screen.getByLabelText(/checkoutProcessForm.payment_method.first_last_name/i),
-        'Boris Marketing',
+      await act(() => userEvent.type(screen.getByLabelText(/DNI/i), '81544670'));
+      await act(() =>
+        userEvent.type(
+          screen.getByLabelText(/checkoutProcessForm.payment_method.first_last_name/i),
+          'Boris Marketing',
+        ),
       );
       expect(await screen.findByLabelText(/DNI/i)).toHaveValue(81544670);
       expect(

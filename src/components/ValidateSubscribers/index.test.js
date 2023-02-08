@@ -1,11 +1,10 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import IntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import ValidateSubscribers from './';
 import { maxSubscribersData } from '../../services/doppler-legacy-client.doubles';
 import { AppServicesProvider } from '../../services/pure-di';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 
 describe('ValidateSubscribersComponent', () => {
   it('should render Loading when there is no data', async () => {
@@ -111,7 +110,7 @@ describe('ValidateSubscribersComponent', () => {
     render(
       <AppServicesProvider forcedServices={forcedServices}>
         <IntlProvider>
-          <ValidateSubscribers />
+          <ValidateSubscribers setNextAlert={() => null} />
         </IntlProvider>
       </AppServicesProvider>,
     );
@@ -120,9 +119,9 @@ describe('ValidateSubscribersComponent', () => {
     await waitForElementToBeRemoved(loader);
 
     const input = await screen.getByRole('textbox', { name: 'Nombre' });
-    await userEvent.type(input, 'value');
+    await act(() => userEvent.type(input, 'value'));
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
 
     // Assert
     await screen.findByTestId('validate-subscribers-confirm');

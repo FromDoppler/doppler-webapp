@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
@@ -10,10 +10,8 @@ import {
 } from '../../../../services/doppler-billing-user-api-client.double';
 import {
   fakeAccountPlanDiscounts,
-  fakePromotion,
   fakePlanAmountDetails,
   fakePlanAmountDetailsWithAdminDiscount,
-  fakePrepaidPlan,
 } from '../../../../services/doppler-account-plans-api-client.double';
 import user from '@testing-library/user-event';
 import { PLAN_TYPE } from '../../../../doppler-types';
@@ -601,7 +599,7 @@ describe('PurchaseSummary component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.buy_button',
     });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
     expect(submitButton).toBeDisabled();
 
     const summarySuccessMessage = await screen.findByText(
@@ -693,7 +691,7 @@ describe('PurchaseSummary component', () => {
       const submitButton = screen.getByRole('button', {
         name: 'checkoutProcessForm.purchase_summary.buy_button',
       });
-      await user.click(submitButton);
+      await act(() => user.click(submitButton));
 
       const summaryErrorMessage = await screen.findByText(firstDataErrorKey);
 
