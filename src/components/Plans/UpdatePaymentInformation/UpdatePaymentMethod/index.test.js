@@ -93,18 +93,20 @@ describe('UpdatePaymentMethod component', () => {
 
   it('update view - should show messages for empty required fields', async () => {
     // Act
-    render(
-      <UpdatePaymentMethodElement
-        withError={false}
-        updateView={true}
-        paymentMethodData={fakePaymentMethodInformation}
-      />,
+    await act(async () =>
+      render(
+        <UpdatePaymentMethodElement
+          withError={false}
+          updateView={true}
+          paymentMethodData={fakePaymentMethodInformation}
+        />,
+      ),
     );
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('loading-box');
-    await waitForElementToBeRemoved(loader);
+    const loader = screen.queryByTestId('loading-box');
+    expect(loader).not.toBeInTheDocument();
 
     // Click save button
     const submitButton = screen.getByRole('button', {
@@ -141,7 +143,7 @@ describe('UpdatePaymentMethod component', () => {
     (testName, fieldName, fieldValue, firstDataError, firstDataErrorKey) => {
       it(testName, async () => {
         // Act
-        await act(() =>
+        await act(async () =>
           render(
             <UpdatePaymentMethodElement
               withError={false}
