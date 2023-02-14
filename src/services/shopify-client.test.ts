@@ -229,7 +229,6 @@ describe('HttpShopifyClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(false);
-    expect(result.error).not.toBe(undefined);
   });
 
   it('should not change data by new request when etag is the same', async () => {

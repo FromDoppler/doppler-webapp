@@ -41,15 +41,15 @@ const HAS_ERROR = 'HAS_ERROR';
 const SAVED = 'SAVED';
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 
-const PaymentType = ({ paymentMethodType, optionView }) => {
+const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
   return (
     <>
       {(() => {
         switch (paymentMethodType) {
           case PaymentMethodType.creditCard:
-            return <CreditCard optionView={optionView}></CreditCard>;
+            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
           case PaymentMethodType.mercadoPago:
-            return <MercadoPagoArgentina optionView={optionView} />;
+            return <MercadoPagoArgentina optionView={optionView} paymentMethod={paymentMethod} />;
           default:
             return null;
         }

@@ -1,11 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import {
-  getAllByRole,
-  getByText,
-  render,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { getAllByRole, getByText, render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { InvoiceRecipients } from '.';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -66,7 +60,7 @@ describe('InvoiceRecipients component', () => {
     expect(screen.queryByRole('form')).not.toBeInTheDocument();
 
     // simulate click a edit button
-    await userEvent.click(getEditModeButton());
+    await act(() => userEvent.click(getEditModeButton()));
     expect(getEditModeButton()).not.toBeInTheDocument();
     expect(screen.queryByRole('form')).toBeInTheDocument();
     const addButton = screen.getByRole(`button`, { name: 'add tag' });
@@ -79,21 +73,21 @@ describe('InvoiceRecipients component', () => {
     const emailField = screen.getByPlaceholderText(
       'checkoutProcessForm.purchase_summary.add_recipient_placeholder',
     );
-    await userEvent.type(emailField, email2);
-    await userEvent.click(addButton);
+    await act(() => userEvent.type(emailField, email2));
+    await act(() => userEvent.click(addButton));
     expect(getByText(getRecipientsAdded(cloudTags)[1], email2)).toBeInTheDocument();
 
     // simulate add other tag
-    await userEvent.type(emailField, email3);
-    await userEvent.click(addButton);
+    await act(() => userEvent.type(emailField, email3));
+    await act(() => userEvent.click(addButton));
     expect(getByText(getRecipientsAdded(cloudTags)[2], email3)).toBeInTheDocument();
 
     // simulate update recipients
     const submitButton = screen.getByRole('button', {
       name: 'checkoutProcessForm.purchase_summary.edit_add_recipients_confirmation_button',
     });
-    userEvent.click(submitButton);
-    await waitForElementToBeRemoved(screen.queryByRole('form'));
+    await act(() => userEvent.click(submitButton));
+    expect(screen.queryByRole('form')).not.toBeInTheDocument();
     expect(
       await screen.findByText(
         [appSessionRef.current.userData.user.email, email2, email3].join(', '),

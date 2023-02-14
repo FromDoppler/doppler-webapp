@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AuthorizationForm } from './AuthorizationForm';
@@ -65,8 +64,8 @@ describe('AuthorizationForm ', () => {
     expect(getCloudTags()).not.toBeInTheDocument();
     expect(input.value).toBe('');
     // add first tag (simulated with click event)
-    await userEvent.type(input, tagToAdd1);
-    await userEvent.click(addButton);
+    await act(() => userEvent.type(input, tagToAdd1));
+    await act(() => userEvent.click(addButton));
     cloudTags = getCloudTags();
     errors = getErrors();
     expect(cloudTags).toBeInTheDocument();
@@ -74,17 +73,17 @@ describe('AuthorizationForm ', () => {
     // emails.length+1 because the first tag was added
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
     // fails when add second tag (simulated with enter event)
-    await userEvent.type(input, invalidTag);
-    await userEvent.type(input, '{enter}');
+    await act(() => userEvent.type(input, invalidTag));
+    await act(() => userEvent.type(input, '{enter}'));
     cloudTags = getCloudTags();
     errors = getErrors();
     // the same amount of tag is kept because it was not added
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length + 1);
     expect(errors).toBeInTheDocument();
     // success when add second tag (simulated with enter event)
-    await userEvent.clear(input);
-    await userEvent.type(input, tagToAdd2);
-    await userEvent.type(input, '{enter}');
+    await act(() => userEvent.clear(input));
+    await act(() => userEvent.type(input, tagToAdd2));
+    await act(() => userEvent.type(input, '{enter}'));
     cloudTags = getCloudTags();
     errors = getErrors();
     // emails.length+2 because the second tag was added

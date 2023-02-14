@@ -1,5 +1,12 @@
 import { UpdatePaymentMethod } from './index';
-import { render, screen, waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+  fireEvent,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import user from '@testing-library/user-event';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
@@ -103,13 +110,15 @@ describe('UpdatePaymentMethod component', () => {
     const submitButton = screen.getByRole('button', {
       name: 'updatePaymentMethod.payment_method.save_continue_button',
     });
-    await user.click(submitButton);
+    user.click(submitButton);
 
-    // Validation error messages should be displayed
-    const validationErrorMessages = await screen.findAllByText(
-      'validation_messages.error_required_field',
-    );
-    expect(validationErrorMessages).toHaveLength(4);
+    await waitFor(async () => {
+      // Validation error messages should be displayed
+      const validationErrorMessages = await screen.findAllByText(
+        'validation_messages.error_required_field',
+      );
+      expect(validationErrorMessages).toHaveLength(4);
+    });
   });
 
   describe.each([
@@ -132,47 +141,51 @@ describe('UpdatePaymentMethod component', () => {
     (testName, fieldName, fieldValue, firstDataError, firstDataErrorKey) => {
       it(testName, async () => {
         // Act
-        render(
-          <UpdatePaymentMethodElement
-            withError={false}
-            updateView={true}
-            paymentMethodData={fakePaymentMethodInformation}
-            withFirstDataError={true}
-            firstDataError={firstDataError}
-          />,
+        await act(() =>
+          render(
+            <UpdatePaymentMethodElement
+              withError={false}
+              updateView={true}
+              paymentMethodData={fakePaymentMethodInformation}
+              withFirstDataError={true}
+              firstDataError={firstDataError}
+            />,
+          ),
         );
 
-        // Loader should disappear once request resolves
-        const loader = screen.getByTestId('loading-box');
-        await waitForElementToBeRemoved(loader);
+        await waitFor(() => {
+          // Loader should disappear once request resolves
+          const loader = screen.queryByTestId('loading-box');
+          expect(loader).not.toBeInTheDocument();
+        });
 
-        const inputNumber = screen.getByRole('textbox', {
+        const inputNumber = await screen.findByRole('textbox', {
           name: '*checkoutProcessForm.payment_method.credit_card',
         });
-        const inputExpiryDate = screen.getByRole('textbox', {
+        const inputExpiryDate = await screen.findByRole('textbox', {
           name: '*checkoutProcessForm.payment_method.expiration_date',
         });
-        const inputHolderName = screen.getByRole('textbox', {
+        const inputHolderName = await screen.findByRole('textbox', {
           name: '*checkoutProcessForm.payment_method.holder_name',
         });
-        const inputSecurityCode = screen.getByRole('textbox', {
+        const inputSecurityCode = await screen.findByRole('textbox', {
           name: '*checkoutProcessForm.payment_method.security_code',
         });
 
-        fireEvent.change(inputNumber, { target: { value: '4111111111111111' } });
-        fireEvent.change(inputExpiryDate, { target: { value: '12/2025' } });
-        const inputFiedToUpdate = screen.getByRole('textbox', {
+        await act(() => fireEvent.change(inputNumber, { target: { value: '4111111111111111' } }));
+        await act(() => fireEvent.change(inputExpiryDate, { target: { value: '12/2025' } }));
+        const inputFiedToUpdate = await screen.findByRole('textbox', {
           name: '*' + fieldName,
         });
-        fireEvent.change(inputFiedToUpdate, { target: { value: fieldValue } });
-        fireEvent.change(inputHolderName, { target: { value: 'test' } });
-        fireEvent.change(inputSecurityCode, { target: { value: '123' } });
+        await act(() => fireEvent.change(inputFiedToUpdate, { target: { value: fieldValue } }));
+        await act(() => fireEvent.change(inputHolderName, { target: { value: 'test' } }));
+        await act(() => fireEvent.change(inputSecurityCode, { target: { value: '123' } }));
 
         // Click save button
-        const submitButton = screen.getByRole('button', {
+        const submitButton = await screen.findByRole('button', {
           name: 'updatePaymentMethod.payment_method.save_continue_button',
         });
-        await user.click(submitButton);
+        await act(() => user.click(submitButton));
 
         // Validation error messages should be displayed
         const error = await screen.findAllByText(firstDataErrorKey);

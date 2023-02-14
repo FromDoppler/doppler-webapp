@@ -1,10 +1,8 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import UpgradeSuggestionForm from './UpgradeSuggestionForm';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 
 describe('UpgradeSuggestionForm component', () => {
@@ -58,18 +56,18 @@ describe('UpgradeSuggestionForm component', () => {
     expect(inputEmail).toHaveValue(email);
 
     let inputName = screen.getByRole('textbox', { name: 'signup.label_firstname' });
-    await userEvent.type(inputName, firstname);
+    await act(() => userEvent.type(inputName, firstname));
     inputName = await screen.findByRole('textbox', { name: 'signup.label_firstname' });
     expect(inputName).toHaveValue(firstname);
 
     let inputLastname = screen.getByRole('textbox', { name: 'signup.label_lastname' });
-    await userEvent.type(inputLastname, lastname);
+    await act(() => userEvent.type(inputLastname, lastname));
     inputLastname = await screen.findByRole('textbox', { name: 'signup.label_lastname' });
     expect(inputLastname).toHaveValue(lastname);
 
     let inputPhone = screen.getByRole('textbox', { name: 'signup.label_phone' });
-    inputPhone.focus();
-    await userEvent.paste(phone);
+    await act(() => inputPhone.focus());
+    await act(() => userEvent.paste(phone));
     inputPhone = await screen.findByRole('textbox', { name: 'signup.label_phone' });
     expect(inputPhone).toHaveValue(phone);
 
@@ -78,7 +76,7 @@ describe('UpgradeSuggestionForm component', () => {
       name: 'upgrade_suggestion_form.submit_button',
     });
 
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
 
     expect(mock).toHaveBeenCalledTimes(1);
     expect(mock).toHaveBeenCalledWith({
@@ -106,24 +104,24 @@ describe('UpgradeSuggestionForm component', () => {
 
     // Assert
     let inputName = screen.getByRole('textbox', { name: 'signup.label_firstname' });
-    await userEvent.clear(inputName);
+    await act(() => userEvent.clear(inputName));
     inputName = await screen.findByRole('textbox', { name: 'signup.label_firstname' });
     expect(inputName).toHaveValue(emptyValue);
 
     let inputLastname = screen.getByRole('textbox', { name: 'signup.label_lastname' });
-    await userEvent.clear(inputLastname);
+    await act(() => userEvent.clear(inputLastname));
     inputLastname = await screen.findByRole('textbox', { name: 'signup.label_lastname' });
     expect(inputLastname).toHaveValue(emptyValue);
 
     let inputPhone = screen.getByRole('textbox', { name: 'signup.label_phone' });
-    await userEvent.clear(inputPhone);
+    await act(() => userEvent.clear(inputPhone));
     inputPhone = await screen.findByRole('textbox', { name: 'signup.label_phone' });
     expect(inputPhone).toHaveValue(emptyValue);
 
     const submitButton = await screen.getByRole('button', {
       name: 'upgrade_suggestion_form.submit_button',
     });
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
 
     expect(screen.getAllByText('validation_messages.error_required_field').length).toBe(3);
     expect(screen.queryByText('upgrade_suggestion_form.success')).not.toBeInTheDocument();

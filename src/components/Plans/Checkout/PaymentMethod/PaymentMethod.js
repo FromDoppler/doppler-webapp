@@ -141,13 +141,13 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
       {(() => {
         switch (paymentMethodType) {
           case paymentType.creditCard:
-            return <CreditCard optionView={optionView}></CreditCard>;
+            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
           case paymentType.transfer:
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case paymentType.mercadoPago:
-            return <MercadoPagoArgentina optionView={optionView} />;
+            return <MercadoPagoArgentina optionView={optionView} paymentMethod={paymentMethod} />;
           default:
-            return <CreditCard optionView={optionView}></CreditCard>;
+            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
         }
       })()}
     </>

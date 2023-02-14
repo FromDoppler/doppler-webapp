@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DELAY_BEFORE_REDIRECT_TO_SUMMARY, PlanPurchase } from '.';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -62,7 +62,7 @@ describe('PlanPurchase component', () => {
     const successRequest = true;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
     const user = userEvent.setup({ delay: null });
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
 
     // Act
     render(
@@ -89,7 +89,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    await user.click(getBuyButton());
+    await act(() => user.click(getBuyButton()));
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,
@@ -140,7 +140,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    await userEvent.click(getBuyButton());
+    await act(() => userEvent.click(getBuyButton()));
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,
@@ -172,7 +172,7 @@ describe('PlanPurchase component', () => {
     const successRequest = true;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
     const user = userEvent.setup({ delay: null });
-    jest.useFakeTimers();
+    jest.useFakeTimers('legacy');
 
     // Act
     render(
@@ -199,7 +199,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    await user.click(getBuyButton());
+    await act(() => user.click(getBuyButton()));
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,
@@ -254,7 +254,7 @@ describe('PlanPurchase component', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
     // simulate click to buy button
-    await userEvent.click(getBuyButton());
+    await act(() => userEvent.click(getBuyButton()));
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       planId: props.planId,

@@ -68,6 +68,12 @@ describe('AppCompositionRoot', () => {
     const configuration = {
       dopplerLegacyKeepAliveMilliseconds: 123,
       dopplerLegacyUrl: 'http://legacy.localhost',
+      dopplerBillingApiUrl: 'http://subdomain.localhost',
+      dopplerSystemUsageApiUrl: 'http://subdomain.localhost',
+      dopplerSitesUrl: 'http://subdomain.localhost',
+      dopplerContactPolicyApiUrl: 'http://subdomain.localhost',
+      datahubUrl: 'http://subdomain.localhost',
+      recaptchaPublicKey: 'publick-key',
     };
 
     const sut = new AppCompositionRoot({ appConfiguration: configuration });

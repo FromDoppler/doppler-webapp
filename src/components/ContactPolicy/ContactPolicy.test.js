@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved, act } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -114,27 +113,27 @@ describe('ContactPolicy component', () => {
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
     expect(switchButton).not.toBeChecked();
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Set 10 emails
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
-    await user.type(inputAmount, '10');
+    await act(() => user.clear(inputAmount));
+    await act(() => user.type(inputAmount, '10'));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(10);
 
     // Set 14 days
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
-    await user.type(inputInterval, '14');
+    await act(() => user.clear(inputInterval));
+    await act(() => user.type(inputInterval, '14'));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(14);
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Success message should be displayed
     const successMessage = await screen.findByText('contact_policy.success_msg');
@@ -187,7 +186,7 @@ describe('ContactPolicy component', () => {
     expect(inputInterval).toBeDisabled();
 
     // Enable switch button
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
 
     // Switch should be checked and inputs fields enabled
@@ -235,13 +234,13 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Success message should be displayed
     let successMessage = await screen.findByText('contact_policy.success_msg');
@@ -249,7 +248,7 @@ describe('ContactPolicy component', () => {
 
     // Disable switch button
     switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).not.toBeChecked();
 
@@ -269,13 +268,13 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Success message should be displayed
     let successMessage = await screen.findByText('contact_policy.success_msg');
@@ -283,8 +282,8 @@ describe('ContactPolicy component', () => {
 
     // Change emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
-    await user.type(inputAmount, '10');
+    await act(() => user.clear(inputAmount));
+    await act(() => user.type(inputAmount, '10'));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(10);
 
@@ -304,13 +303,13 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Success message should be displayed
     let successMessage = await screen.findByText('contact_policy.success_msg');
@@ -318,8 +317,8 @@ describe('ContactPolicy component', () => {
 
     // Change interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
-    await user.type(inputInterval, '10');
+    await act(() => user.clear(inputInterval));
+    await act(() => user.type(inputInterval, '10'));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(10);
 
@@ -357,7 +356,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -380,8 +379,8 @@ describe('ContactPolicy component', () => {
 
     // Change emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
-    await user.type(inputAmount, '10');
+    await act(() => user.clear(inputAmount));
+    await act(() => user.type(inputAmount, '10'));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(10);
 
@@ -404,8 +403,8 @@ describe('ContactPolicy component', () => {
 
     // Change interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
-    await user.type(inputInterval, '14');
+    await act(() => user.clear(inputInterval));
+    await act(() => user.type(inputInterval, '14'));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(14);
 
@@ -428,21 +427,21 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Change emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
-    await user.type(inputAmount, '10');
+    await act(() => user.clear(inputAmount));
+    await act(() => user.type(inputAmount, '10'));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(10);
 
     // Change interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
-    await user.type(inputInterval, '14');
+    await act(() => user.clear(inputInterval));
+    await act(() => user.type(inputInterval, '14'));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(14);
 
@@ -450,7 +449,7 @@ describe('ContactPolicy component', () => {
     expect(submitButton).not.toBeDisabled();
 
     // Click save button
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Save button should be disabled
     submitButton = await screen.findByRole('button', { name: 'common.save' });
@@ -472,21 +471,21 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Change emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
-    await user.type(inputAmount, '10');
+    await act(() => user.clear(inputAmount));
+    await act(() => user.type(inputAmount, '10'));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(10);
 
     // Change interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
-    await user.type(inputInterval, '14');
+    await act(() => user.clear(inputInterval));
+    await act(() => user.type(inputInterval, '14'));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(14);
 
@@ -494,7 +493,7 @@ describe('ContactPolicy component', () => {
     expect(submitButton).not.toBeDisabled();
 
     // Click save button
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     // Save button should be enabled
     submitButton = await screen.findByRole('button', { name: 'common.save' });
@@ -516,7 +515,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -525,7 +524,7 @@ describe('ContactPolicy component', () => {
 
     // Clear emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
+    await act(() => user.clear(inputAmount));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(null);
 
@@ -548,7 +547,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -557,7 +556,7 @@ describe('ContactPolicy component', () => {
 
     // Clear interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
+    await act(() => user.clear(inputInterval));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(null);
 
@@ -580,7 +579,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -589,7 +588,7 @@ describe('ContactPolicy component', () => {
 
     // Clear emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
+    await act(() => user.clear(inputAmount));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(null);
 
@@ -616,7 +615,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -625,7 +624,7 @@ describe('ContactPolicy component', () => {
 
     // Clear interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
+    await act(() => user.clear(inputInterval));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(null);
 
@@ -652,7 +651,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -661,8 +660,8 @@ describe('ContactPolicy component', () => {
 
     // Clear emails amount
     let inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
-    await user.clear(inputAmount);
-    await user.type(inputAmount, '1000');
+    await act(() => user.clear(inputAmount));
+    await act(() => user.type(inputAmount, '1000'));
     inputAmount = await screen.findByRole('spinbutton', { name: 'common.emails' });
     expect(inputAmount).toHaveValue(1000);
 
@@ -689,7 +688,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -698,8 +697,8 @@ describe('ContactPolicy component', () => {
 
     // Clear interval
     let inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
-    await user.clear(inputInterval);
-    await user.type(inputInterval, '31');
+    await act(() => user.clear(inputInterval));
+    await act(() => user.type(inputInterval, '31'));
     inputInterval = await screen.findByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     expect(inputInterval).toHaveValue(31);
 
@@ -724,7 +723,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
@@ -744,13 +743,13 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     let switchButton = screen.getByRole('checkbox');
-    await user.click(switchButton);
+    await act(() => user.click(switchButton));
     switchButton = await screen.findByRole('checkbox');
     expect(switchButton).toBeChecked();
 
     // Add list button should be disabled
     const addButton = screen.getByRole('button', { name: 'add tag' });
-    await user.click(addButton);
+    await act(() => user.click(addButton));
 
     // Modal should be displayed
     const modal = await screen.findByTestId('modal');

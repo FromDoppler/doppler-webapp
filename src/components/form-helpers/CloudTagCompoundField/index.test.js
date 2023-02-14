@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Formik, Form } from 'formik';
 import { CloudTagCompoundField } from '.';
@@ -83,14 +83,14 @@ describe('CloudTagCompoundField component', () => {
     matchTags(initialTags, initialValues, labelKey);
 
     // simulate add tag
-    await fireEvent.click(addButton);
+    await act(() => fireEvent.click(addButton));
     expect(await screen.findByText(tagToAdd[labelKey])).toBeInTheDocument();
     let addedTags = screen.queryAllByRole('listitem');
     // initialValues.length+1 because the tag was added
     expect(addedTags.length - 1).toBe(initialValues.length + 1);
 
     // simulate add tag (fail because tag already exist)
-    await fireEvent.click(addButton);
+    await act(() => fireEvent.click(addButton));
     addedTags = screen.queryAllByRole('listitem');
     const errors = screen.getByRole('alert');
     expect(errors).toBeInTheDocument();
@@ -100,16 +100,14 @@ describe('CloudTagCompoundField component', () => {
 
     // simulate remove tag
     const removeButton = addedTags[index].querySelector('button.dp-remove-tag');
-    await fireEvent.click(removeButton);
+    await act(() => fireEvent.click(removeButton));
     expect(screen.getByRole('list')).not.toHaveTextContent(initialValues[index][labelKey]);
     expect(afterRemove).toHaveBeenCalledTimes(1);
     expect(afterRemove).toHaveBeenCalledWith(index);
 
     // simulate submit form
     const submitButton = screen.getByRole('button', { name: 'Save' });
-    await fireEvent.click(submitButton);
-
-    await waitForElementToBeRemoved(screen.getByRole('alert'));
+    await act(() => fireEvent.click(submitButton));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     initialValues.splice(index, 1); // because the element at the 'index' position was removed

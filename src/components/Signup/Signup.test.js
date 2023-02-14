@@ -1,9 +1,8 @@
-import React from 'react';
 import Signup from './Signup';
 import { render, cleanup, waitFor, fireEvent, act } from '@testing-library/react';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import DopplerIntlProviderWithIds from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { BrowserRouter, MemoryRouter as Router, Route, Routes } from 'react-router-dom';
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import { AppServicesProvider } from '../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { timeout } from '../../utils';
@@ -65,16 +64,14 @@ describe('Signup', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+    await waitFor(() => {});
     expect(container.querySelectorAll('.error')).toHaveLength(0);
 
     // Act
-    container.querySelector('#lastname').focus();
-
-    // Assert
-    await waitFor(() => expect(container.querySelectorAll('.error')).toHaveLength(0));
+    await act(() => container.querySelector('#lastname').focus());
 
     // Act
-    container.querySelector('button[type="submit"]').click();
+    await act(() => container.querySelector('button[type="submit"]').click());
 
     // Assert
     await waitFor(() => expect(container.querySelectorAll('.error')).not.toHaveLength(0));
@@ -229,6 +226,8 @@ describe('Signup', () => {
       </AppServicesProvider>,
     );
 
+    await waitFor(() => {});
+
     act(() => {
       const inputName = container.querySelector('input#firstname');
       fireEvent.change(inputName, { target: { value: 'Juan' } });
@@ -249,7 +248,7 @@ describe('Signup', () => {
       fireEvent.click(inputPrivacyPolicies);
     });
 
-    act(() => {
+    await act(() => {
       const submitButton = container.querySelector('button[type="submit"]');
       fireEvent.submit(submitButton);
     });

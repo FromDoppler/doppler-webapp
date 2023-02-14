@@ -1,5 +1,11 @@
-import React from 'react';
-import { render, screen, waitForElementToBeRemoved, fireEvent, act } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+  fireEvent,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import { scrollableContainerId, SubscriberListSelector } from './SubscriberListSelector';
@@ -69,7 +75,7 @@ describe('SubscriberListSelector component', () => {
   it('should show loading box while getting data', async () => {
     // Act
     render(<SubscriberListSelectorComponent />);
-    //
+
     // Assert
     // Loader should disappear once request resolves
     const loader = screen.getByTestId('wrapper-loading');
@@ -147,7 +153,7 @@ describe('SubscriberListSelector component', () => {
 
     // Select a list (one list is the max limit)
     const checkboxes = screen.getAllByRole('checkbox');
-    await user.click(checkboxes[0]);
+    await act(() => user.click(checkboxes[0]));
 
     // Max limit exceeded message should be displayed
     const maxLimitExceededMessage = screen.getByText('subscriber_list_selector.max_limit_exceeded');
@@ -188,7 +194,7 @@ describe('SubscriberListSelector component', () => {
     const cancelButton = screen.getByRole('button', {
       name: 'common.cancel',
     });
-    await user.click(cancelButton);
+    await act(() => user.click(cancelButton));
     expect(mockedCancel).toBeCalledTimes(1);
   });
 
@@ -213,14 +219,14 @@ describe('SubscriberListSelector component', () => {
     // Lists should be selected
     expect(table).toBeInTheDocument();
     expect(checkboxes[0]).toBeChecked();
-    await user.click(checkboxes[0]);
+    await act(() => user.click(checkboxes[0]));
     expect(checkboxes[0]).not.toBeChecked();
 
     // Confirm button should be enabled
     expect(confirmButton).toBeEnabled();
 
     // Should call onConfirm function
-    await user.click(confirmButton);
+    await act(() => user.click(confirmButton));
     expect(mockedConfirm).toBeCalledTimes(1);
   });
 
@@ -234,7 +240,9 @@ describe('SubscriberListSelector component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Should call onNoList function
-    expect(mockedNoList).toBeCalledTimes(1);
+    await waitFor(() => {
+      expect(mockedNoList).toBeCalledTimes(1);
+    });
   });
 
   it('should call onError function if an error occurred', async () => {
@@ -247,7 +255,9 @@ describe('SubscriberListSelector component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Should call onNoList function
-    expect(mockedError).toBeCalledTimes(1);
+    await waitFor(() => {
+      expect(mockedError).toBeCalledTimes(1);
+    });
   });
 
   it('should render the selected lists on each page', async () => {

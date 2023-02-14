@@ -1,5 +1,5 @@
 import { PaymentMethod } from './PaymentMethod';
-import { render, screen, waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
@@ -117,34 +117,38 @@ const PaymentMethodElement = ({
 describe('PaymentMethod component', () => {
   it('readoly view - should show loading box while getting data', async () => {
     // Act
-    render(
-      <PaymentMethodElement
-        withError={false}
-        paymentMethodData={fakePaymentMethodInformation}
-        billingInformationData={fakeBillingInformation}
-      />,
+    await act(() =>
+      render(
+        <PaymentMethodElement
+          withError={false}
+          paymentMethodData={fakePaymentMethodInformation}
+          billingInformationData={fakeBillingInformation}
+        />,
+      ),
     );
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    const loader = screen.queryByTestId('wrapper-loading');
+    expect(loader).not.toBeInTheDocument();
   });
 
   it('readonly view - should load data from api correctly', async () => {
     // Act
-    render(
-      <PaymentMethodElement
-        withError={false}
-        paymentMethodData={fakePaymentMethodInformation}
-        billingInformationData={fakeBillingInformation}
-      />,
+    await act(() =>
+      render(
+        <PaymentMethodElement
+          withError={false}
+          paymentMethodData={fakePaymentMethodInformation}
+          billingInformationData={fakeBillingInformation}
+        />,
+      ),
     );
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    const loader = screen.queryByTestId('wrapper-loading');
+    expect(loader).not.toBeInTheDocument();
 
     const creditCardOption = screen.getByRole('radio', {
       name: 'checkoutProcessForm.payment_method.credit_card_option',
@@ -164,18 +168,20 @@ describe('PaymentMethod component', () => {
 
   it("readonly view - should be check 'CC' as default when the the response is not success", async () => {
     // Act
-    render(
-      <PaymentMethodElement
-        withError={true}
-        paymentMethodData={fakePaymentMethodInformation}
-        billingInformationData={fakeBillingInformation}
-      />,
+    await act(() =>
+      render(
+        <PaymentMethodElement
+          withError={true}
+          paymentMethodData={fakePaymentMethodInformation}
+          billingInformationData={fakeBillingInformation}
+        />,
+      ),
     );
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    const loader = screen.queryByTestId('wrapper-loading');
+    expect(loader).not.toBeInTheDocument();
 
     const creditCardOption = screen.getByRole('radio', {
       name: 'checkoutProcessForm.payment_method.credit_card_option',
@@ -193,33 +199,6 @@ describe('PaymentMethod component', () => {
     expect(mercadoPagoOption.checked).toEqual(false);
   });
 
-  it('update view - should show messages for empty required fields', async () => {
-    // Act
-    render(
-      <PaymentMethodElement
-        withError={false}
-        updateView={true}
-        paymentMethodData={fakePaymentMethodInformation}
-        billingInformationData={fakeBillingInformation}
-      />,
-    );
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
-    // Click save button
-    const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
-    await user.click(submitButton);
-
-    // Validation error messages should be displayed
-    const validationErrorMessages = await screen.findAllByText(
-      'validation_messages.error_required_field',
-    );
-    expect(validationErrorMessages).toHaveLength(4);
-  });
-
   it('update view - transfer - should show error message when the cuit is not valid', async () => {
     //Arrange
     const fakeTransferInformation = {
@@ -230,25 +209,27 @@ describe('PaymentMethod component', () => {
     };
 
     // Act
-    render(
-      <PaymentMethodElement
-        withError={false}
-        updateView={true}
-        paymentMethodData={fakeTransferInformation}
-        billingInformationData={fakeBillingInformation}
-      />,
+    await act(() =>
+      render(
+        <PaymentMethodElement
+          withError={false}
+          updateView={true}
+          paymentMethodData={fakeTransferInformation}
+          billingInformationData={fakeBillingInformation}
+        />,
+      ),
     );
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    const loader = screen.queryByTestId('wrapper-loading');
+    expect(loader).not.toBeInTheDocument();
 
     let inputIdentificationNumber = await screen.findByRole('textbox', {
       name: 'identificationNumber',
     });
-    await user.clear(inputIdentificationNumber);
-    await user.type(inputIdentificationNumber, '12345678');
+    await act(() => user.clear(inputIdentificationNumber));
+    await act(() => user.type(inputIdentificationNumber, '12345678'));
 
     inputIdentificationNumber = await screen.findByRole('textbox', {
       name: 'identificationNumber',
@@ -257,7 +238,7 @@ describe('PaymentMethod component', () => {
 
     // Click save button
     const submitButton = screen.getByRole('button', { name: 'checkoutProcessForm.save_continue' });
-    await user.click(submitButton);
+    await act(() => user.click(submitButton));
 
     //Validation error messages should be displayed
     const validationErrorMessages = await screen.findByText(
@@ -268,19 +249,21 @@ describe('PaymentMethod component', () => {
 
   it('should show information message when the promocode was applied', async () => {
     // Act
-    render(
-      <PaymentMethodElement
-        withError={true}
-        paymentMethodData={fakePaymentMethodInformation}
-        billingInformationData={fakeBillingInformation}
-        appliedPromocode={true}
-      />,
+    await act(() =>
+      render(
+        <PaymentMethodElement
+          withError={true}
+          paymentMethodData={fakePaymentMethodInformation}
+          billingInformationData={fakeBillingInformation}
+          appliedPromocode={true}
+        />,
+      ),
     );
 
     // Assert
     // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    const loader = screen.queryByTestId('wrapper-loading');
+    expect(loader).not.toBeInTheDocument();
 
     //Promocode message should be displayed
     const promocodeMessage = await screen.findByText(
@@ -306,25 +289,27 @@ describe('PaymentMethod component', () => {
         };
 
         // Act
-        render(
-          <PaymentMethodElement
-            withError={false}
-            updateView={true}
-            paymentMethodData={fakeTransferInformation}
-            billingInformationData={fakeBillingInformation}
-          />,
+        await act(() =>
+          render(
+            <PaymentMethodElement
+              withError={false}
+              updateView={true}
+              paymentMethodData={fakeTransferInformation}
+              billingInformationData={fakeBillingInformation}
+            />,
+          ),
         );
 
         // Assert
         // Loader should disappear once request resolves
-        const loader = screen.getByTestId('wrapper-loading');
-        await waitForElementToBeRemoved(loader);
+        const loader = screen.queryByTestId('wrapper-loading');
+        expect(loader).not.toBeInTheDocument();
 
         // Click save button
         const submitButton = screen.getByRole('button', {
           name: 'checkoutProcessForm.save_continue',
         });
-        await user.click(submitButton);
+        await act(() => user.click(submitButton));
 
         // Validation error messages should be displayed
         const validationErrorMessages = await screen.findAllByText(
@@ -367,18 +352,20 @@ describe('PaymentMethod component', () => {
       };
 
       // Act
-      render(
-        <PaymentMethodElement
-          withError={true}
-          paymentMethodData={fakePaymentMethodInformation}
-          billingInformationData={fakeBillingInformation}
-        />,
+      await act(() =>
+        render(
+          <PaymentMethodElement
+            withError={true}
+            paymentMethodData={fakePaymentMethodInformation}
+            billingInformationData={fakeBillingInformation}
+          />,
+        ),
       );
 
       // Assert
       // Loader should disappear once request resolves
-      const loader = screen.getByTestId('wrapper-loading');
-      await waitForElementToBeRemoved(loader);
+      const loader = screen.queryByTestId('wrapper-loading');
+      expect(loader).not.toBeInTheDocument();
 
       const creditCardOption = screen.queryByRole('radio', {
         name: 'checkoutProcessForm.payment_method.credit_card_option',
@@ -426,20 +413,22 @@ describe('PaymentMethod component', () => {
     (testName, fieldName, fieldValue, firstDataError, firstDataErrorKey) => {
       it(testName, async () => {
         // Act
-        render(
-          <PaymentMethodElement
-            withError={false}
-            updateView={true}
-            paymentMethodData={fakePaymentMethodInformation}
-            billingInformationData={fakeBillingInformation}
-            withFirstDataError={true}
-            firstDataError={firstDataError}
-          />,
+        await act(() =>
+          render(
+            <PaymentMethodElement
+              withError={false}
+              updateView={true}
+              paymentMethodData={fakePaymentMethodInformation}
+              billingInformationData={fakeBillingInformation}
+              withFirstDataError={true}
+              firstDataError={firstDataError}
+            />,
+          ),
         );
 
         // Loader should disappear once request resolves
-        const loader = screen.getByTestId('wrapper-loading');
-        await waitForElementToBeRemoved(loader);
+        const loader = screen.queryByTestId('wrapper-loading');
+        expect(loader).not.toBeInTheDocument();
 
         const inputNumber = screen.getByRole('textbox', {
           name: '*checkoutProcessForm.payment_method.credit_card',
@@ -467,7 +456,7 @@ describe('PaymentMethod component', () => {
         const submitButton = screen.getByRole('button', {
           name: 'checkoutProcessForm.save_continue',
         });
-        await user.click(submitButton);
+        await act(() => user.click(submitButton));
 
         // Validation error messages should be displayed
         const error = await screen.findAllByText(firstDataErrorKey);

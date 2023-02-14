@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, waitForElementToBeRemoved, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { AuthorizationPage } from './AuthorizationPage';
@@ -161,7 +160,7 @@ describe('test for validate authorization form component ', () => {
     expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
     // simulate submit form
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
     window.alert = jsdomAlert;
   });
 
@@ -195,7 +194,7 @@ describe('test for validate authorization form component ', () => {
     expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
     // simulate submit form
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
     expect(screen.queryByText('big_query.plus_message_saved')).toBeInTheDocument();
   });
 
@@ -230,7 +229,7 @@ describe('test for validate authorization form component ', () => {
     expect(screen.queryByText('big_query.free_title')).not.toBeInTheDocument();
     // simulate submit form
     const submitButton = screen.getByRole('button', { name: 'common.save' });
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
     expect(screen.queryByText('big_query.plus_message_error')).toBeInTheDocument();
   });
 
@@ -271,8 +270,8 @@ describe('test for validate authorization form component ', () => {
     expect(getCloudTags()).toBeInTheDocument();
     expect(input.value).toBe('');
     // add first tag (simulated with click event)
-    await userEvent.type(input, tagToAdd1);
-    await userEvent.click(addButton);
+    await act(() => userEvent.type(input, tagToAdd1));
+    await act(() => userEvent.click(addButton));
     cloudTags = getCloudTags();
     errors = getErrors();
     expect(cloudTags).toBeInTheDocument();
@@ -282,7 +281,7 @@ describe('test for validate authorization form component ', () => {
 
     // Assert
     const cancelButton = screen.getByRole('button', { name: 'common.cancel' });
-    await userEvent.click(cancelButton);
+    await act(() => userEvent.click(cancelButton));
     //validate number initial of emails
     expect(cloudTags.querySelectorAll('li').length).toBe(emails.length);
   });

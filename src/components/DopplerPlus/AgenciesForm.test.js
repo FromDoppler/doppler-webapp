@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import AgenciesForm, { volumeOptions } from './AgenciesForm';
 import { AppServicesProvider } from '../../services/pure-di';
@@ -77,12 +76,12 @@ describe('AgenciesForm component', () => {
     expect(emailField).toHaveValue('hardcoded@email.com');
 
     // fill firstname, phone and contact fields
-    await userEvent.type(firstNameField, firstNameFake);
-    phoneField.focus();
-    await userEvent.type(phoneField, phoneFake);
-    await userEvent.type(contactField, contactFake);
+    await act(() => userEvent.type(firstNameField, firstNameFake));
+    await act(() => phoneField.focus());
+    await act(() => userEvent.type(phoneField, phoneFake));
+    await act(() => userEvent.type(contactField, contactFake));
     // select between 500k - 1M option
-    await userEvent.click(option500To1000);
+    await act(() => userEvent.click(option500To1000));
 
     expect(await screen.findByLabelText(/forms.label_firstname/i)).toHaveValue(firstNameFake);
     expect(await screen.findByLabelText(/forms.label_phone/i)).toHaveValue(phoneFake);
@@ -91,17 +90,17 @@ describe('AgenciesForm component', () => {
 
     const submitButton = await screen.findByRole('button', { name: 'agencies.submit' });
     expect(submitButton).toBeEnabled();
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
 
     // don't show success message because last name field is empty
     expect(screen.queryByText(/agencies.success_msg/i)).not.toBeInTheDocument();
     screen.getByText('validation_messages.error_required_field');
 
     // fill lastname
-    await userEvent.type(lastNameField, lastNameFake);
+    await act(() => userEvent.type(lastNameField, lastNameFake));
     expect(await screen.findByLabelText(/forms.label_lastname/i)).toHaveValue(lastNameFake);
 
-    await userEvent.click(submitButton);
+    await act(() => userEvent.click(submitButton));
     expect(await screen.findByText(/agencies.success_msg/i)).toBeInTheDocument();
     expect(screen.queryByText('validation_messages.error_required_field')).not.toBeInTheDocument();
   });

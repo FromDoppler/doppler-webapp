@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, act, waitFor } from '@testing-library/react';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
@@ -22,13 +22,6 @@ const dependencies = (withError) => ({
           },
         },
       },
-    },
-  },
-  dopplerBillingUserApiClient: {
-    getPaymentMethodData: async () => {
-      return !withError
-        ? { success: true, value: fakePaymentMethodInformation }
-        : { success: false };
     },
   },
   dopplerAccountPlansApiClient: {
@@ -95,9 +88,15 @@ const CreditCardElement = ({ withError, updateView }) => {
         <BrowserRouter>
           <Formik>
             {updateView === actionPage.UPDATE ? (
-              <CreditCard {...initialPropsUpdateView} />
+              <CreditCard
+                {...initialPropsUpdateView}
+                paymentMethod={withError ? null : { ...fakePaymentMethodInformation }}
+              />
             ) : (
-              <CreditCard {...initialPropsReonlyView} />
+              <CreditCard
+                {...initialPropsReonlyView}
+                paymentMethod={withError ? null : { ...fakePaymentMethodInformation }}
+              />
             )}
           </Formik>
         </BrowserRouter>
@@ -107,16 +106,6 @@ const CreditCardElement = ({ withError, updateView }) => {
 };
 
 describe('CreditCard component', () => {
-  it('should show loading box while getting data', async () => {
-    // Act
-    render(<CreditCardElement withError={false} updateView={actionPage.READONLY} />);
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-  });
-
   it('readonly view - should load data from api correctly', async () => {
     // Act
     const { container } = render(
@@ -124,19 +113,17 @@ describe('CreditCard component', () => {
     );
 
     // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
+    await waitFor(() => {
+      const { cardNumberElement, cardHolderElement, expiryDateElement, securityCodeElement } =
+        getFormFields(container, false);
 
-    const { cardNumberElement, cardHolderElement, expiryDateElement, securityCodeElement } =
-      getFormFields(container, false);
-
-    expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(
-      fakePaymentMethodInformation.ccNumber,
-    );
-    expect(cardHolderElement.textContent).toEqual(fakePaymentMethodInformation.ccHolderName);
-    expect(expiryDateElement.textContent).toEqual(fakePaymentMethodInformation.ccExpiryDate);
-    expect(securityCodeElement.textContent).toEqual(fakePaymentMethodInformation.ccSecurityCode);
+      expect(cardNumberElement.textContent.replace(/\s/g, '')).toEqual(
+        fakePaymentMethodInformation.ccNumber,
+      );
+      expect(cardHolderElement.textContent).toEqual(fakePaymentMethodInformation.ccHolderName);
+      expect(expiryDateElement.textContent).toEqual(fakePaymentMethodInformation.ccExpiryDate);
+      expect(securityCodeElement.textContent).toEqual(fakePaymentMethodInformation.ccSecurityCode);
+    });
   });
 
   it('update view - should show empty data', async () => {
@@ -195,10 +182,6 @@ describe('CreditCard component', () => {
     );
 
     // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
-
     const { cardNumberElement, cardHolderElement, expiryDateElement, securityCodeElement } =
       getFormFields(container, false);
 
@@ -210,7 +193,7 @@ describe('CreditCard component', () => {
 
   it('update view - should show the available credit cards legend', async () => {
     // Act
-    render(<CreditCardElement withError={false} updateView={actionPage.UPDATE} />);
+    await act(() => render(<CreditCardElement withError={false} updateView={actionPage.UPDATE} />));
 
     // Assert
     const avalilableCrediCardsLegend = await screen.findByText(
@@ -223,11 +206,6 @@ describe('CreditCard component', () => {
   it('readonly view - should hide the available credit cards legend', async () => {
     // Act
     render(<CreditCardElement withError={false} updateView={actionPage.READONLY} />);
-
-    // Assert
-    // Loader should disappear once request resolves
-    const loader = screen.getByTestId('wrapper-loading');
-    await waitForElementToBeRemoved(loader);
 
     // Assert
     const avalilableCrediCardsLegend = screen.queryByText(

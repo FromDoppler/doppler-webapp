@@ -12,7 +12,7 @@ function createHttpDopplerApiClient(axios: any) {
     current: {
       status: 'authenticated',
       jwtToken: 'jwtToken',
-      userData: { user: { email: 'email@mail.com', idUser: '1000' } } as DopplerLegacyUserData,
+      userData: { user: { email: 'email@mail.com' } } as DopplerLegacyUserData,
     },
   } as RefObject<AppSession>;
   const apiClient = new HttpDopplerBillingApiClient({
@@ -79,7 +79,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(2);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.downloadInvoiceUrl).not.toBe('');
     });
   });
@@ -141,7 +141,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(2);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.downloadInvoiceUrl).toBe('');
     });
   });
@@ -189,7 +189,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(2);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.downloadInvoiceUrl).toBe('');
     });
   });
@@ -254,7 +254,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.creationDate).toEqual(new Date('2020-09-29T00:00:00'));
     });
   });
@@ -347,7 +347,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.dueDate).toEqual(new Date('2020-09-29T00:00:00'));
     });
   });
@@ -394,7 +394,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.dueDate).toEqual(null);
     });
   });
@@ -444,7 +444,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.paidToDate).toEqual(invoicesCollection.items[0].paidToDate);
     });
   });
@@ -491,7 +491,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.paidToDate).toBe(undefined);
     });
   });
@@ -542,7 +542,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.balance).toEqual(invoicesCollection.items[0].balance);
     });
   });
@@ -589,7 +589,7 @@ describe('HttpDopplerBillingApiClient', () => {
     expect(result.value.items).not.toBe(undefined);
     expect(result.value.totalItems).toBe(1);
 
-    result.value.items.forEach((element) => {
+    result.value.items.forEach((element: any) => {
       expect(element.balance).toBe(undefined);
     });
   });

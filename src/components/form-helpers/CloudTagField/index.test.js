@@ -1,8 +1,7 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Formik, Form, FieldArray } from 'formik';
 import { CloudTagField, FieldArrayControl, FieldArrayError } from '.';
-import { act } from 'react-dom/test-utils';
 import { validateEmail } from '../../../validations';
 
 const fieldName = 'emails';
@@ -167,7 +166,7 @@ describe('CloudTagField component', () => {
     await fireEvent.change(emailField, { target: { value: email1 } });
     expect(emailField.value).toBe(email1);
     expect(addTagButton).not.toHaveAttribute('disabled');
-    await fireEvent.click(addTagButton);
+    await act(() => fireEvent.click(addTagButton));
 
     // add second tag (simulated with enter event)
     expect(addTagButton).toHaveAttribute('disabled');
@@ -213,7 +212,7 @@ describe('CloudTagField component', () => {
     await fireEvent.change(emailField, { target: { value: emailInvalid } });
     expect(emailField.value).toBe(emailInvalid);
     expect(addTagButton).not.toHaveAttribute('disabled');
-    await fireEvent.click(addTagButton);
+    await act(() => fireEvent.click(addTagButton));
 
     const cloudTags = screen.queryByRole('list', { name: 'cloud tags' });
     const errors = screen.queryByRole('alert');
@@ -226,7 +225,7 @@ describe('CloudTagField component', () => {
     expect(emailField.value).toBe(emailValid);
     expect(addTagButton).not.toHaveAttribute('disabled');
 
-    fireEvent.keyDown(emailField, { key: 'Enter', code: 'Enter' });
+    await act(() => fireEvent.keyDown(emailField, { key: 'Enter', code: 'Enter' }));
 
     expect(errors).not.toBeInTheDocument();
     expect(await screen.findByRole('list', { name: 'cloud tags' })).toBeInTheDocument();
