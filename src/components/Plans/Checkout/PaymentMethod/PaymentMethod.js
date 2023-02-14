@@ -372,6 +372,13 @@ export const PaymentMethod = InjectAppServices(
         idSelectedPlan: selectedPlan,
       });
 
+      const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+      setState({
+        ...state,
+        paymentMethod: paymentMethodData.success ? paymentMethodData.value : {},
+      });
+
       if (result.success) {
         setError({ error: false, message: '' });
         handleSaveAndContinue();
