@@ -40,7 +40,7 @@ const DiscountItem = ({
       <button
         type="button"
         key={month}
-        disabled={!discount || appliedPromocode}
+        disabled={!discount || appliedPromocode || disabled}
         className={`dp-button button-medium ${selected && !appliedPromocode ? 'btn-active' : ''}`}
         onClick={() => {
           if (!disabled) {

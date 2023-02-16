@@ -223,7 +223,7 @@ export const PlanCalculator = InjectAppServices(
                                       discounts={discounts}
                                       selectedDiscount={selectedDiscount}
                                       onSelectDiscount={handleDiscountChange}
-                                      disabled={promotion.isValid || isEqualPlan}
+                                      disabled={promotion.isValid || isEqualPlan || !isFreeAccount}
                                     />
                                   </>
                                 )
