@@ -14,6 +14,8 @@ import { Transfer } from './Transfer/Transfer';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PLAN_TYPE, FirstDataError } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
+import { ACCOUNT_TYPE, PAID_ACCOUNT } from '../../../../hooks/useUserTypeAsQueryParam';
+import { useQueryParams } from '../../../../hooks/useQueryParams';
 
 const none = 'NONE';
 const userCanceledError = 'UserCanceled';
@@ -238,6 +240,8 @@ export const PaymentMethod = InjectAppServices(
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
     let selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
     const selectedMonthPlan = extractParameter(location, queryString.parse, 'monthPlan') || 0;
+    const query = useQueryParams();
+    const accountType = query.get(ACCOUNT_TYPE) ?? '';
     const intl = useIntl();
     const [state, setState] = useState({ loading: true, paymentMethod: {} });
     const [discountsInformation, setDiscountsInformation] = useState({
@@ -458,7 +462,9 @@ export const PaymentMethod = InjectAppServices(
                     />
                     <FieldItem className="field-item">
                       <Discounts
-                        disabled={optionView === actionPage.READONLY}
+                        disabled={
+                          optionView === actionPage.READONLY || accountType === PAID_ACCOUNT
+                        }
                         appliedPromocode={appliedPromocode}
                         discountsList={discountsInformation.discounts}
                         sessionPlan={discountsInformation.plan}
