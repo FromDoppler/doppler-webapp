@@ -1,4 +1,4 @@
-import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -167,18 +167,20 @@ describe('Checkout component', () => {
     } = getFormFields();
 
     // Data should load correctly
-    expect(inputFirstName).toHaveValue(contactInformation.firstname);
-    expect(inputLastName).toHaveValue(contactInformation.lastname);
-    expect(inputAddress).toHaveValue(contactInformation.address);
-    expect(inputCity).toHaveValue(contactInformation.city);
-    expect(selectProvince).toHaveValue(contactInformation.province);
-    expect(selectCountry).toHaveValue(contactInformation.country);
-    expect(inputZipCode).toHaveValue(contactInformation.zipCode);
-    expect(inputPhone).toHaveValue(contactInformation.phone);
-    expect(inputCompany).toHaveValue(contactInformation.company);
-    expect(selectIndustry).toHaveValue(contactInformation.industry);
-    expect(selectQuestion).toHaveValue(contactInformation.idSecurityQuestion);
-    expect(inputAnswer).toHaveValue(contactInformation.answerSecurityQuestion);
+    await waitFor(() => {
+      expect(inputFirstName).toHaveValue(contactInformation.firstname);
+      expect(inputLastName).toHaveValue(contactInformation.lastname);
+      expect(inputAddress).toHaveValue(contactInformation.address);
+      expect(inputCity).toHaveValue(contactInformation.city);
+      expect(selectProvince).toHaveValue(contactInformation.province);
+      expect(selectCountry).toHaveValue(contactInformation.country);
+      expect(inputZipCode).toHaveValue(contactInformation.zipCode);
+      expect(inputPhone).toHaveValue(contactInformation.phone);
+      expect(inputCompany).toHaveValue(contactInformation.company);
+      expect(selectIndustry).toHaveValue(contactInformation.industry);
+      expect(selectQuestion).toHaveValue(contactInformation.idSecurityQuestion);
+      expect(inputAnswer).toHaveValue(contactInformation.answerSecurityQuestion);
+    });
   });
 
   it('should show messages for empty required fields', async () => {

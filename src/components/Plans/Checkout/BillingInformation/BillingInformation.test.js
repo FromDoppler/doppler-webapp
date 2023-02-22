@@ -1,4 +1,4 @@
-import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
@@ -133,24 +133,26 @@ describe('BillingInformation component', () => {
       inputPhone,
     } = getFormFields();
 
-    // Data should load correctly
-    expect(switchButton).not.toBeChecked();
-    expect(inputFirstName).toHaveValue(fakeBillingInformation.firstname);
-    expect(inputLastName).toHaveValue(fakeBillingInformation.lastname);
-    expect(inputAddress).toHaveValue(fakeBillingInformation.address);
-    expect(inputCity).toHaveValue(fakeBillingInformation.city);
-    expect(selectCountry).toHaveValue(fakeBillingInformation.country);
-    expect(selectProvince).toHaveValue(fakeBillingInformation.province);
-    expect(inputPhone).toHaveValue(fakeBillingInformation.phone);
+    await waitFor(() => {
+      // Data should load correctly
+      expect(switchButton).not.toBeChecked();
+      expect(inputFirstName).toHaveValue(fakeBillingInformation.firstname);
+      expect(inputLastName).toHaveValue(fakeBillingInformation.lastname);
+      expect(inputAddress).toHaveValue(fakeBillingInformation.address);
+      expect(inputCity).toHaveValue(fakeBillingInformation.city);
+      expect(selectCountry).toHaveValue(fakeBillingInformation.country);
+      expect(selectProvince).toHaveValue(fakeBillingInformation.province);
+      expect(inputPhone).toHaveValue(fakeBillingInformation.phone);
 
-    // form fields must not be disabled
-    expect(inputFirstName).not.toBeDisabled();
-    expect(inputLastName).not.toBeDisabled();
-    expect(inputAddress).not.toBeDisabled();
-    expect(inputCity).not.toBeDisabled();
-    expect(selectCountry).not.toBeDisabled();
-    expect(selectProvince).not.toBeDisabled();
-    expect(inputPhone).not.toBeDisabled();
+      // form fields must not be disabled
+      expect(inputFirstName).not.toBeDisabled();
+      expect(inputLastName).not.toBeDisabled();
+      expect(inputAddress).not.toBeDisabled();
+      expect(inputCity).not.toBeDisabled();
+      expect(selectCountry).not.toBeDisabled();
+      expect(selectProvince).not.toBeDisabled();
+      expect(inputPhone).not.toBeDisabled();
+    });
   });
 
   it('should show contact information when the billing information is empty', async () => {
@@ -173,24 +175,26 @@ describe('BillingInformation component', () => {
       inputPhone,
     } = getFormFields();
 
-    // Data should show information from contact information
-    expect(switchButton).toBeChecked();
-    expect(inputFirstName).toHaveValue(fakeContactInformation.firstname);
-    expect(inputLastName).toHaveValue(fakeContactInformation.lastname);
-    expect(inputAddress).toHaveValue(fakeContactInformation.address);
-    expect(inputCity).toHaveValue(fakeContactInformation.city);
-    expect(selectCountry).toHaveValue(fakeContactInformation.country);
-    expect(selectProvince).toHaveValue(fakeContactInformation.province);
-    expect(inputPhone).toHaveValue(fakeContactInformation.phone);
+    await waitFor(() => {
+      // Data should show information from contact information
+      expect(switchButton).toBeChecked();
+      expect(inputFirstName).toHaveValue(fakeContactInformation.firstname);
+      expect(inputLastName).toHaveValue(fakeContactInformation.lastname);
+      expect(inputAddress).toHaveValue(fakeContactInformation.address);
+      expect(inputCity).toHaveValue(fakeContactInformation.city);
+      expect(selectCountry).toHaveValue(fakeContactInformation.country);
+      expect(selectProvince).toHaveValue(fakeContactInformation.province);
+      expect(inputPhone).toHaveValue(fakeContactInformation.phone);
 
-    // form fields must be disabled
-    expect(inputFirstName).toBeDisabled();
-    expect(inputLastName).toBeDisabled();
-    expect(inputAddress).toBeDisabled();
-    expect(inputCity).toBeDisabled();
-    expect(selectCountry).toBeDisabled();
-    expect(selectProvince).toBeDisabled();
-    expect(inputPhone).toBeDisabled();
+      // form fields must be disabled
+      expect(inputFirstName).toBeDisabled();
+      expect(inputLastName).toBeDisabled();
+      expect(inputAddress).toBeDisabled();
+      expect(inputCity).toBeDisabled();
+      expect(selectCountry).toBeDisabled();
+      expect(selectProvince).toBeDisabled();
+      expect(inputPhone).toBeDisabled();
+    });
   });
 
   it('should call handleSaveAndContinue function if the submit was succesfully', async () => {
