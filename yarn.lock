@@ -3258,14 +3258,14 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
-"@testing-library/dom@^8.17.1":
-  version "8.17.1"
-  resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-8.17.1.tgz"
-  integrity sha512-KnH2MnJUzmFNPW6RIKfd+zf2Wue8mEKX0M3cpX6aKl5ZXrJM1/c/Pc8c2xDNYQCnJO48Sm5ITbMXgqTr3h4jxQ==
+"@testing-library/dom@^8.5.0":
+  version "8.20.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.20.0.tgz#914aa862cef0f5e89b98cc48e3445c4c921010f6"
+  integrity sha512-d9ULIT+a4EXLX3UU8FBjauG9NnsZHkHztXoIcTsOKoOw030fyjheN9svkTULjJxtYag9DZz5Jz5qkWZDPxTFwA==
   dependencies:
     "@babel/code-frame" "^7.10.4"
     "@babel/runtime" "^7.12.5"
-    "@types/aria-query" "^4.2.0"
+    "@types/aria-query" "^5.0.1"
     aria-query "^5.0.0"
     chalk "^4.1.0"
     dom-accessibility-api "^0.5.9"
@@ -3370,11 +3370,6 @@
   version "2.4.0"
   resolved "https://registry.npmjs.org/@typeform/embed/-/embed-2.4.0.tgz"
   integrity sha512-1OrVlCh43KkBKBCuzHb3aWFF0z9aOhev2mAxZR5gNx+gnhPTPWYH49wm+qClIPweR9Iu/Viv28NAAK9IpoJnug==
-
-"@types/aria-query@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.npmjs.org/@types/aria-query/-/aria-query-4.2.0.tgz"
-  integrity sha512-iIgQNzCm0v7QMhhe4Jjn9uRh+I6GoPmt03CbEtwx3ao8/EfoQcmgtqH4vQ5Db/lxiIGaWDv6nwvunuh0RyX0+A==
 
 "@types/aria-query@^5.0.1":
   version "5.0.1"
