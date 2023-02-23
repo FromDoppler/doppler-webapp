@@ -39,7 +39,6 @@ import hubspot_icon from '../components/Integrations/images/hubspot_icon.png';
 import optin_monster_icon from '../components/Integrations/images/optin_monster_icon.png';
 import salesforce_icon from '../components/Integrations/images/salesforce_icon.png';
 import zapier_icon from '../components/Integrations/images/zapier_icon.png';
-import facebook_icon from '../components/Integrations/images/facebook_icon.png';
 import infor_icon from '../components/Integrations/images/infor_icon.png';
 import lander__icon from '../components/Integrations/images/lander__icon.png';
 import learnpress_icon from '../components/Integrations/images/learnpress_icon.png';
@@ -242,13 +241,6 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.native_integrations.mitienda_title'),
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
-            },
-            {
-              linkUrl: `${urlSitesHelp}/es/como-publicar-un-formulario-en-una-facebook-tab`,
-              imgSrc: facebook_icon,
-              imgAlt: _('integrations.external_integrations.facebook_title'),
-              iconName: _('integrations.external_integrations.facebook_title'),
-              targetBlank: true,
             },
             {
               name: 'Jumpseller',
