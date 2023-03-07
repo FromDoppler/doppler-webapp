@@ -100,7 +100,11 @@ export const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] =
       return planList;
 
     case PLAN_TYPE.byCredit:
-      return [...filterPlansByType(PLAN_TYPE.byCredit, planList)];
+      return [
+        ...filterPlansByType(PLAN_TYPE.byContact, planList),
+        ...filterPlansByType(PLAN_TYPE.byEmail, planList),
+        ...filterPlansByType(PLAN_TYPE.byCredit, planList),
+      ];
 
     case PLAN_TYPE.byEmail:
       return [
