@@ -40,7 +40,6 @@ import optin_monster_icon from '../components/Integrations/images/optin_monster_
 import salesforce_icon from '../components/Integrations/images/salesforce_icon.png';
 import zapier_icon from '../components/Integrations/images/zapier_icon.png';
 import infor_icon from '../components/Integrations/images/infor_icon.png';
-import lander__icon from '../components/Integrations/images/lander__icon.png';
 import learnpress_icon from '../components/Integrations/images/learnpress_icon.png';
 import payu_icon from '../components/Integrations/images/payu_icon.png';
 import viewed_icon from '../components/Integrations/images/viewed_icon.png';
@@ -345,13 +344,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: wix_icon,
               imgAlt: _('integrations.external_integrations.wix_title'),
               iconName: _('integrations.external_integrations.wix_title'),
-              targetBlank: true,
-            },
-            {
-              linkUrl: `${urlSitesHelp}/en/como-integrar-doppler-y-lander`,
-              imgSrc: lander__icon,
-              imgAlt: _('integrations.external_integrations.lander_title'),
-              iconName: _('integrations.external_integrations.lander_title'),
               targetBlank: true,
             },
             {
