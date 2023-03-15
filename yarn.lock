@@ -2759,9 +2759,9 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@kunukn/react-collapse@^2.2.9":
-  version "2.2.9"
-  resolved "https://registry.npmjs.org/@kunukn/react-collapse/-/react-collapse-2.2.9.tgz"
-  integrity sha512-MKauq6R4HAHS/nGei+na8EpyO4qluTcoDeYetUnT1ME7K+CqxRCAIB4a4xo+gkufg2CuLhORA+s6sNjqm0oHEA==
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/@kunukn/react-collapse/-/react-collapse-2.2.10.tgz#cfbf4d4f39c44eac0a51d75dae4fe29fe7d6f1f2"
+  integrity sha512-1qCB9+UDw9tLolhFfO4ywfATylV0cflmkLYRGGV8mQhtAzYDPyDU0HUog98IdlmZBowcdfmxFTbtoD99Eyq5SA==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
