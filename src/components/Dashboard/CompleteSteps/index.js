@@ -1,10 +1,7 @@
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Loading } from '../../Loading/Loading';
 
-export const CompleteSteps = ({ loading, onClick }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
+export const CompleteSteps = ({ loading }) => {
   return (
     <>
       {loading && <Loading />}
@@ -16,16 +13,13 @@ export const CompleteSteps = ({ loading, onClick }) => {
             values={{
               Paragraph: (chunk) => <p>{chunk}</p>,
               Button: (chunk) => (
-                <button type="button" className="dp-button link-green" onClick={onClick}>
+                <button type="button" className="dp-button link-green">
                   {chunk}
                 </button>
               ),
               Bold: (chunk) => <strong>{chunk}</strong>,
             }}
           />
-          <button type="button" className="dp-message-link" onClick={onClick}>
-            {_('dashboard.first_steps.enable_quick_actions')}
-          </button>
         </div>
       </div>
     </>
