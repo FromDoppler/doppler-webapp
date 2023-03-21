@@ -178,6 +178,16 @@ export const QUICK_ACTIONS = [
     linkId: 'dashboard.quick_actions.send_sms_url',
     trackingId: `dashboard-enviarSmsMasivos`,
   },
+  {
+    labelId: 'dashboard.quick_actions.send_push_notification',
+    linkId: 'dashboard.quick_actions.send_push_notification_url',
+    trackingId: `dashboard-enviarNotificacionPush`,
+  },
+  {
+    labelId: 'dashboard.quick_actions.create_form',
+    linkId: 'dashboard.quick_actions.create_form_url',
+    trackingId: `dashboard-crearFormulario`,
+  },
 ];
 
 export const filteredQuickActions = QUICK_ACTIONS.filter(

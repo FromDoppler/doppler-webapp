@@ -520,6 +520,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListHelp_2_title: 'Servicios Adicionales',
 
     quick_actions: {
+      create_form: `Crear un formulario`,
+      create_form_url: `${urlDopplerLegacy}/Lists/Form/`,
       launch_automation: 'Lanzar automatización',
       launch_automation_url: `${urlDopplerLegacy}/Automation/Automation/AutomationApp/`,
       make_campaign: 'Crear campaña',
@@ -527,6 +529,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       make_contact_list: 'Armar lista de contactos',
       make_contact_list_url: urlCreateSubscriberList,
       section_name: 'Acciones rápidas',
+      send_push_notification: `Enviar una notificiación Push`,
+      send_push_notification_url: `${urlDopplerLegacy}/ControlPanel/CampaignsPreferences/SiteTrackingSettings`,
       send_sms: 'Enviar SMS masivos',
       send_sms_url: `${urlDopplerLegacy}/Automation/EditorConfig?idTaskType=12`,
     },
