@@ -509,10 +509,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListBlog_2_link_description: 'Sigue leyendo',
     postListBlog_2_title: '#NuevaFuncionalidad',
 
-    postListHelp_1_description: 'Las Conferencias de Marketing Digital más esperadas ya están disponibles.',
-    postListHelp_1_link: 'https://goemms.com/registrado.php?utm_source=app&utm_campaign=postemms&utm_medium=notification',
-    postListHelp_1_link_description: 'Ver ahora',
-    postListHelp_1_title: 'EMMS 2022: REVIVE EL EVENTO',
+    postListHelp_1_description: 'Inspírate y aprende con un evento exclusivo pensado para tu Tienda Online.',
+    postListHelp_1_link: 'http://goemms.com/ecommerce.php/?origin=destacadotablero',
+    postListHelp_1_link_description: 'RESERVAR CUPO GRATIS',
+    postListHelp_1_title: 'Llega una nueva edición del evento más esperado: EMMS E-commerce.',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
