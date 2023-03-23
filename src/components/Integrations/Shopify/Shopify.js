@@ -87,28 +87,24 @@ const FooterBox = ({ children }) => {
   );
 };
 
-const Table = ({ list }) => {
+const Table = ({ lists }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <table className="dp-c-table">
-      <thead>
-        <tr>
-          <th>{_('shopify.table_list')} </th>
-          <th> {_('shopify.table_shopify_customers_count')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.state === SubscriberListState.ready ? (
-          <tr>
+    <tbody>
+      {lists.map((list, index) =>
+        list.state === SubscriberListState.ready ? (
+          <tr key={index}>
+            <td>{_('shopify.entity_' + list.entity)}</td>
             <td>{list.name}</td>
             <td>{list.amountSubscribers}</td>
           </tr>
         ) : (
-          <tr className="sync">
+          <tr className="sync" key={index}>
             {list.state !== SubscriberListState.notAvailable ? (
               <>
+                <td>{_('shopify.entity_' + list.entity)}</td>
                 <td>{list.name}</td>
                 <td className="text-sync">
                   <span className="ms-icon icon-clock"></span>
@@ -116,14 +112,17 @@ const Table = ({ list }) => {
                 </td>
               </>
             ) : (
-              <td colSpan="2" className="text-sync">
-                {_('shopify.no_list_available')}
-              </td>
+              <>
+                <td>{_('shopify.entity_' + list.entity)}</td>
+                <td colSpan="2" className="text-sync">
+                  {_('shopify.no_list_available')}
+                </td>
+              </>
             )}
           </tr>
-        )}
-      </tbody>
-    </table>
+        ),
+      )}
+    </tbody>
   );
 };
 
@@ -148,17 +147,26 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
       const updateSubscriberCount = async (list) => {
         if (list) {
           const subscribersCount = await getSubscribersAmountFromAPI(list.id);
-          if (subscribersCount != null) {
-            list.amountSubscribers = subscribersCount;
+          if (subscribersCount) {
+            return {
+              ...list,
+              amountSubscribers: subscribersCount,
+            };
           }
+          return list;
         }
-        return list;
+        return null;
       };
 
       const shopifyResult = await shopifyClient.getShopifyData();
       if (shopifyResult.value && shopifyResult.value.length) {
         //updates only first shop
-        shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
+        // I'm using the old and reliable for loop here, because the forEach loop doesn't work properly with asynchronous functions
+        for (let index = 0; index < shopifyResult.value[0].lists.length; index++) {
+          shopifyResult.value[0].lists[index] = await updateSubscriberCount(
+            shopifyResult.value[0].lists[index],
+          );
+        }
       }
       return shopifyResult;
     };
@@ -245,11 +253,16 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                         </header>
                         <hr />
                         <div className="dp-block">
-                          <ul>
-                            <li key={shop.list.id}>
-                              <Table list={shop.list} />
-                            </li>
-                          </ul>
+                          <table className="dp-c-table">
+                            <thead>
+                              <tr>
+                                <th>{_('shopify.entity_title')}</th>
+                                <th>{_('shopify.table_list')}</th>
+                                <th> {_('shopify.table_shopify_customers_count')}</th>
+                              </tr>
+                            </thead>
+                            <Table lists={shop.lists} />
+                          </table>
                         </div>
                       </div>
                     </div>
