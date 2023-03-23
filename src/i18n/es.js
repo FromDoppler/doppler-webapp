@@ -1229,12 +1229,12 @@ los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayu
     header_disconnected_warning: `Al presionar "Conectar" serás redirigido a Shopify, donde podrás realizar todos los pasos necesarios para integrar.`,
     header_store: `Nombre de la cuenta:`,
     header_subtitle_MD: `
-Envía automáticamente los Contactos de tu tienda y toda su información a una Lista de Doppler. Además, podrás importar los productos de tu tienda en
+Envía automáticamente los Contactos de tu tienda y toda su información a Listas de Doppler. Además, podrás importar los productos de tu tienda en
 Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitado. ¿Tienes dudas? Presiona [HELP](${urlHelp}/como-integrar-doppler-y-shopify/).`,
     header_synchronization_date: `Fecha de última sincronización:`,
     header_title: `Conecta Doppler con tu tienda Shopify`,
     list_subtitle: `Puedes sincronizar los datos manualmente cuando gustes.`,
-    list_title: `Lista sincronizada`,
+    list_title: `Listas sincronizadas`,
     no_list_available: `Esperando Lista...`,
     table_list: `Nombre de la Lista`,
     table_shopify_customers_count: `Suscriptores`,

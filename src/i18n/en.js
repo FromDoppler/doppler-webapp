@@ -1228,12 +1228,12 @@ by Doppler and how many don't. By tracking the user's journey you'll be able to 
     header_disconnected_warning: `By pressing "Connect" you will be redirected to Shopify, where you can carry out the necessary steps to integrate.`,
     header_store: `Account name:`,
     header_subtitle_MD: `
-Automatically send all your E-commerce Contacts and their purchase data to a Doppler List. Also you can import your store products in Email Templates
+Automatically send all your E-commerce Contacts and their purchase data to Doppler's Lists. Also you can import your store products in Email Templates
 and create Abandoned Cart and Retargeting Product Automations. Any questions? Press [HELP](${urlHelp}/how-to-integrate-doppler-with-shopify/).`,
     header_synchronization_date: `Last synchronization date:`,
     header_title: `Connect Doppler with your Shopify store`,
     list_subtitle: `You can synchronize the data manually whenever you want.`,
-    list_title: `Synchronized List`,
+    list_title: `Synchronized Lists`,
     no_list_available: `Waiting for List...`,
     table_list: `List Name`,
     table_shopify_customers_count: `Subscribers`,

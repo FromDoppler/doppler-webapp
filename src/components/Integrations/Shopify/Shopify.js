@@ -102,9 +102,9 @@ const Table = ({ lists }) => {
           </tr>
         ) : (
           <tr className="sync" key={index}>
+            <td>{_('shopify.entity_' + list.entity)}</td>
             {list.state !== SubscriberListState.notAvailable ? (
               <>
-                <td>{_('shopify.entity_' + list.entity)}</td>
                 <td>{list.name}</td>
                 <td className="text-sync">
                   <span className="ms-icon icon-clock"></span>
@@ -112,12 +112,9 @@ const Table = ({ lists }) => {
                 </td>
               </>
             ) : (
-              <>
-                <td>{_('shopify.entity_' + list.entity)}</td>
-                <td colSpan="2" className="text-sync">
-                  {_('shopify.no_list_available')}
-                </td>
-              </>
+              <td colSpan="2" className="text-sync">
+                {_('shopify.no_list_available')}
+              </td>
             )}
           </tr>
         ),
