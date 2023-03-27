@@ -529,7 +529,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       make_contact_list: 'Armar lista de contactos',
       make_contact_list_url: urlCreateSubscriberList,
       section_name: 'Acciones rápidas',
-      send_push_notification: `Enviar una notificiación Push`,
+      send_push_notification: `Enviar una notificación Push`,
       send_push_notification_url: `${urlDopplerLegacy}/ControlPanel/CampaignsPreferences/SiteTrackingSettings`,
       send_sms: 'Enviar SMS masivos',
       send_sms_url: `${urlDopplerLegacy}/Automation/EditorConfig?idTaskType=12`,
