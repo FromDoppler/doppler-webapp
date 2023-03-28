@@ -263,7 +263,14 @@ export const InvoiceInformation = ({
   );
 };
 
-export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMonthTotal = 0 }) => {
+export const TotalPurchase = ({
+  totalPlan,
+  priceToPay,
+  state,
+  isFree,
+  currentMonthTotal = 0,
+  children,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -289,6 +296,7 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMon
             </TaxesExclude>
           </li>
         )}
+        {children}
         <InvoiceInformation
           planType={state.planType}
           priceToPay={totalPlan}
@@ -530,17 +538,18 @@ export const PurchaseSummary = InjectAppServices(
             currentMonthTotal={currentMonthTotal}
             state={state}
             isFree={isFree}
-          />
+          >
+            <PlanPurchase
+              canBuy={canBuy}
+              planId={selectedPlan}
+              discount={state.discount}
+              promotion={state.promotion}
+              total={currentMonthTotal ?? 0}
+              paymentMethod={state.paymentMethodType}
+            />
+          </TotalPurchase>
         </div>
         <div className="dp-zigzag" />
-        <PlanPurchase
-          canBuy={canBuy}
-          planId={selectedPlan}
-          discount={state.discount}
-          promotion={state.promotion}
-          total={currentMonthTotal ?? 0}
-          paymentMethod={state.paymentMethodType}
-        />
       </>
     );
   },

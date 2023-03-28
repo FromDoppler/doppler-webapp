@@ -498,9 +498,7 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByRole('button', { name: 'checkoutProcessForm.purchase_summary.buy_button' }),
-    ).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'buy' })).toBeDisabled();
   });
 
   it('should show enabled the "buy" button when canBuy is true', async () => {
@@ -539,9 +537,7 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByRole('button', { name: 'checkoutProcessForm.purchase_summary.buy_button' }),
-    ).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: 'buy' })).not.toBeDisabled();
   });
 
   it('should show success message when the buy process was successfully', async () => {
@@ -588,7 +584,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     const submitButton = screen.getByRole('button', {
-      name: 'checkoutProcessForm.purchase_summary.buy_button',
+      name: 'buy',
     });
     await act(() => user.click(submitButton));
     expect(submitButton).toBeDisabled();
@@ -680,7 +676,7 @@ describe('PurchaseSummary component', () => {
       await waitForElementToBeRemoved(loader);
 
       const submitButton = screen.getByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.buy_button',
+        name: 'buy',
       });
       await act(() => user.click(submitButton));
 
