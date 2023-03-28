@@ -283,6 +283,7 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMon
         </li>
         {isTransfer && (
           <li>
+            <span />
             <TaxesExclude className="dp-renewal">
               {_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}
             </TaxesExclude>
