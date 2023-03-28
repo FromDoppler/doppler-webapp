@@ -78,7 +78,6 @@ export const InvoiceRecipients = InjectAppServices(
 
     return (
       <>
-        <hr className="dp-hr-summary"></hr>
         <p className="m-b-12">
           {_('checkoutProcessForm.purchase_summary.send_invoice_email_message')}
         </p>

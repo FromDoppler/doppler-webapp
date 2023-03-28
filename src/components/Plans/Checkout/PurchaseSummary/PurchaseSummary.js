@@ -7,7 +7,6 @@ import { InjectAppServices } from '../../../../services/pure-di';
 import { thousandSeparatorNumber } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
 import { paymentType } from '../PaymentMethod/PaymentMethod';
-import { InvoiceRecipients } from './InvoiceRecipients';
 import { PlanPurchase } from './PlanPurchase';
 import { Promocode } from './Promocode';
 import styled from 'styled-components';
@@ -541,7 +540,6 @@ export const PurchaseSummary = InjectAppServices(
           total={currentMonthTotal ?? 0}
           paymentMethod={state.paymentMethodType}
         />
-        <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
       </>
     );
   },

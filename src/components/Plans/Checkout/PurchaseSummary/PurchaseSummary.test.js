@@ -4,10 +4,7 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PurchaseSummary } from './PurchaseSummary';
-import {
-  fakeInvoiceRecipients,
-  fakePaymentMethodInformation,
-} from '../../../../services/doppler-billing-user-api-client.double';
+import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
 import {
   fakeAccountPlanDiscounts,
   fakePlanAmountDetails,
@@ -35,12 +32,6 @@ const dopplerAccountPlansApiClientDoubleBase = {
 const dopplerBillingUserApiClientDoubleBase = {
   getPaymentMethodData: async () => {
     return { success: true, value: fakePaymentMethodInformation };
-  },
-  getInvoiceRecipientsData: async () => {
-    return { success: true, value: fakeInvoiceRecipients };
-  },
-  updateInvoiceRecipients: async () => {
-    return { success: true };
   },
 };
 
@@ -823,12 +814,6 @@ describe.each([
       },
       purchase: async () => {
         return { success: false };
-      },
-      getInvoiceRecipientsData: async () => {
-        return { success: true, value: fakeInvoiceRecipients };
-      },
-      updateInvoiceRecipients: async () => {
-        return { success: true };
       },
     };
 
