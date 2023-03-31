@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { FieldGroup, FieldItem, SubmitButton } from '../../../../form-helpers/form-helpers';
+import { FieldGroup, FieldItem } from '../../../../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
 import { validateEmail } from '../../../../../validations';
 import { CloudTagField } from '../../../../form-helpers/CloudTagField';
@@ -92,7 +92,7 @@ export const InvoiceRecipients = InjectAppServices(
           </>
         ) : (
           <Formik {...formikConfig}>
-            {() => (
+            {({ values, isSubmitting }) => (
               <Form className="dp-add-tags" aria-label="form" noValidate>
                 <legend>{_('checkoutProcessForm.purchase_summary.header')}</legend>
                 <fieldset>
@@ -117,11 +117,18 @@ export const InvoiceRecipients = InjectAppServices(
                   <FieldGroup>
                     <FieldItem className="field-item">
                       <div className="dp-buttons-actions">
-                        <SubmitButton className="dp-button button-medium primary-green">
+                        <button
+                          type="button"
+                          className={`dp-button button-medium primary-green ${
+                            isSubmitting ? 'button--loading' : ''
+                          }`}
+                          disabled={isSubmitting}
+                          onClick={() => submitEditRecipients(values)}
+                        >
                           {_(
                             'checkoutProcessForm.purchase_summary.edit_add_recipients_confirmation_button',
                           )}
-                        </SubmitButton>
+                        </button>
                       </div>
                     </FieldItem>
                   </FieldGroup>
