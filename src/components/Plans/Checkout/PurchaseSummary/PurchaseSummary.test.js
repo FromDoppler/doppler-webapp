@@ -4,7 +4,10 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PurchaseSummary } from './PurchaseSummary';
-import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
+import {
+  fakeInvoiceRecipients,
+  fakePaymentMethodInformation,
+} from '../../../../services/doppler-billing-user-api-client.double';
 import {
   fakeAccountPlanDiscounts,
   fakePlanAmountDetails,
@@ -32,6 +35,12 @@ const dopplerAccountPlansApiClientDoubleBase = {
 const dopplerBillingUserApiClientDoubleBase = {
   getPaymentMethodData: async () => {
     return { success: true, value: fakePaymentMethodInformation };
+  },
+  getInvoiceRecipientsData: async () => {
+    return { success: true, value: fakeInvoiceRecipients };
+  },
+  updateInvoiceRecipients: async () => {
+    return { success: true };
   },
 };
 
@@ -498,7 +507,9 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByRole('button', { name: 'buy' })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'checkoutProcessForm.purchase_summary.buy_button' }),
+    ).toBeDisabled();
   });
 
   it('should show enabled the "buy" button when canBuy is true', async () => {
@@ -537,7 +548,9 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByRole('button', { name: 'buy' })).not.toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'checkoutProcessForm.purchase_summary.buy_button' }),
+    ).not.toBeDisabled();
   });
 
   it('should show success message when the buy process was successfully', async () => {
@@ -584,7 +597,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     const submitButton = screen.getByRole('button', {
-      name: 'buy',
+      name: 'checkoutProcessForm.purchase_summary.buy_button',
     });
     await act(() => user.click(submitButton));
     expect(submitButton).toBeDisabled();
@@ -676,7 +689,7 @@ describe('PurchaseSummary component', () => {
       await waitForElementToBeRemoved(loader);
 
       const submitButton = screen.getByRole('button', {
-        name: 'buy',
+        name: 'checkoutProcessForm.purchase_summary.buy_button',
       });
       await act(() => user.click(submitButton));
 
@@ -810,6 +823,12 @@ describe.each([
       },
       purchase: async () => {
         return { success: false };
+      },
+      getInvoiceRecipientsData: async () => {
+        return { success: true, value: fakeInvoiceRecipients };
+      },
+      updateInvoiceRecipients: async () => {
+        return { success: true };
       },
     };
 

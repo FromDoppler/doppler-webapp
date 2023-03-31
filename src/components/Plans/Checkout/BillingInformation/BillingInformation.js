@@ -13,8 +13,6 @@ import {
 import { Form, Formik } from 'formik';
 import { getCountries, getFormInitialValues } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
-import { useQueryParams } from '../../../../hooks/useQueryParams';
-import { InvoiceRecipients } from './InvoiceRecipients';
 
 const fieldNames = {
   sameAddressAsContact: 'sameAddressAsContact',
@@ -55,8 +53,6 @@ export const BillingInformation = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const defaultOption = { key: '', value: _('checkoutProcessForm.empty_option_select') };
     const language = intl.locale;
-    const query = useQueryParams();
-    const selectedPlan = query.get('selected-plan') ?? 0;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -141,147 +137,142 @@ export const BillingInformation = InjectAppServices(
         {state.loading ? (
           <Loading page />
         ) : (
-          <>
-            <Formik
-              onSubmit={submitBillingInformationForm}
-              initialValues={_getFormInitialValues()}
-              validateOnMount={true}
-            >
-              {({ setFieldValue, isSubmitting, isValid, dirty }) => (
-                <Form className="dp-form-billing-information">
-                  <legend>{_('checkoutProcessForm.billing_information_title')}</legend>
-                  <fieldset>
-                    <FieldGroup>
-                      <FieldItem className="field-item">
-                        <fieldset>
-                          <FieldGroup>
-                            <CheckboxFieldItem
-                              fieldName="sameAddressAsContact"
-                              key="sameAddressAsContact"
-                              label={_('checkoutProcessForm.billing_information_same_address')}
-                              id="sameAddressAsContact"
-                              onChange={(e) => {
-                                handleSameAddressChange(e, setFieldValue);
-                              }}
-                            />
-                          </FieldGroup>
-                        </fieldset>
-                      </FieldItem>
-                      <FieldItem className="field-item">
+          <Formik
+            onSubmit={submitBillingInformationForm}
+            initialValues={_getFormInitialValues()}
+            validateOnMount={true}
+          >
+            {({ setFieldValue, isSubmitting, isValid, dirty }) => (
+              <Form className="dp-form-billing-information">
+                <legend>{_('checkoutProcessForm.billing_information_title')}</legend>
+                <fieldset>
+                  <FieldGroup>
+                    <FieldItem className="field-item">
+                      <fieldset>
                         <FieldGroup>
-                          <InputFieldItem
-                            type="text"
-                            fieldName={fieldNames.firstname}
-                            id="firstname"
-                            label={`*${_('checkoutProcessForm.billing_information_firstname')}`}
-                            withNameValidation
-                            required
-                            className="field-item--50 dp-p-r"
-                            disabled={sameAddressInformation}
-                          />
-                          <InputFieldItem
-                            type="text"
-                            label={`*${_('checkoutProcessForm.billing_information_lastname')}`}
-                            fieldName={fieldNames.lastname}
-                            id="lastname"
-                            withNameValidation
-                            required
-                            className="field-item--50"
-                            disabled={sameAddressInformation}
-                          />
-                        </FieldGroup>
-                      </FieldItem>
-                      <FieldItem className="field-item">
-                        <FieldGroup>
-                          <InputFieldItem
-                            type="text"
-                            fieldName={fieldNames.address}
-                            id="address"
-                            label={`*${_('checkoutProcessForm.billing_information_address')}`}
-                            withNameValidation
-                            required
-                            className="field-item--50 dp-p-r"
-                            disabled={sameAddressInformation}
-                          />
-                          <InputFieldItem
-                            type="text"
-                            label={`*${_('checkoutProcessForm.billing_information_city')}`}
-                            fieldName={fieldNames.city}
-                            id="city"
-                            withNameValidation
-                            required
-                            className="field-item--50"
-                            disabled={sameAddressInformation}
-                          />
-                        </FieldGroup>
-                      </FieldItem>
-                      <FieldItem className="field-item">
-                        <FieldGroup>
-                          <SelectFieldItem
-                            fieldName={fieldNames.province}
-                            id="province"
-                            label={`*${_('checkoutProcessForm.billing_information_province')}`}
-                            defaultOption={defaultOption}
-                            values={states}
-                            required
-                            className="field-item--50 dp-p-r"
-                            disabled={sameAddressInformation}
-                          />
-                          <SelectFieldItem
-                            fieldName={fieldNames.country}
-                            id="country"
-                            label={`*${_('checkoutProcessForm.billing_information_country')}`}
-                            defaultOption={defaultOption}
-                            values={getCountries(language)}
-                            required
-                            className="field-item--50"
+                          <CheckboxFieldItem
+                            fieldName="sameAddressAsContact"
+                            key="sameAddressAsContact"
+                            label={_('checkoutProcessForm.billing_information_same_address')}
+                            id="sameAddressAsContact"
                             onChange={(e) => {
-                              changeCountry(e, setFieldValue);
+                              handleSameAddressChange(e, setFieldValue);
                             }}
-                            disabled={sameAddressInformation}
                           />
                         </FieldGroup>
-                      </FieldItem>
-                      <FieldItem className="field-item">
-                        <FieldGroup>
-                          <InputFieldItem
-                            type="text"
-                            fieldName={fieldNames.zipCode}
-                            id="zipCode"
-                            label={`${_('checkoutProcessForm.billing_information_zip_code')}`}
-                            withNameValidation
-                            className="field-item--50 dp-p-r"
-                            disabled={sameAddressInformation}
-                          />
-                          <PhoneFieldItem
-                            fieldName={fieldNames.phone}
-                            id="phone"
-                            label={`*${_('checkoutProcessForm.billing_information_phone')}`}
-                            placeholder={_('forms.placeholder_phone')}
-                            className={`field-item--50 ${
-                              sameAddressInformation ? 'dp-flag-disabled' : ''
-                            }`}
-                            required
-                            disabled={sameAddressInformation}
-                          />
-                        </FieldGroup>
-                      </FieldItem>
-                      <FieldItem className="field-item">
-                        <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
-                      </FieldItem>
-                      <FieldItem className="field-item">
-                        <div className="dp-buttons-actions">
-                          <SubmitButton className="dp-button button-medium primary-green">
-                            {_('checkoutProcessForm.save_continue')}
-                          </SubmitButton>
-                        </div>
-                      </FieldItem>
-                    </FieldGroup>
-                  </fieldset>
-                </Form>
-              )}
-            </Formik>
-          </>
+                      </fieldset>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.firstname}
+                          id="firstname"
+                          label={`*${_('checkoutProcessForm.billing_information_firstname')}`}
+                          withNameValidation
+                          required
+                          className="field-item--50 dp-p-r"
+                          disabled={sameAddressInformation}
+                        />
+                        <InputFieldItem
+                          type="text"
+                          label={`*${_('checkoutProcessForm.billing_information_lastname')}`}
+                          fieldName={fieldNames.lastname}
+                          id="lastname"
+                          withNameValidation
+                          required
+                          className="field-item--50"
+                          disabled={sameAddressInformation}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.address}
+                          id="address"
+                          label={`*${_('checkoutProcessForm.billing_information_address')}`}
+                          withNameValidation
+                          required
+                          className="field-item--50 dp-p-r"
+                          disabled={sameAddressInformation}
+                        />
+                        <InputFieldItem
+                          type="text"
+                          label={`*${_('checkoutProcessForm.billing_information_city')}`}
+                          fieldName={fieldNames.city}
+                          id="city"
+                          withNameValidation
+                          required
+                          className="field-item--50"
+                          disabled={sameAddressInformation}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <SelectFieldItem
+                          fieldName={fieldNames.province}
+                          id="province"
+                          label={`*${_('checkoutProcessForm.billing_information_province')}`}
+                          defaultOption={defaultOption}
+                          values={states}
+                          required
+                          className="field-item--50 dp-p-r"
+                          disabled={sameAddressInformation}
+                        />
+                        <SelectFieldItem
+                          fieldName={fieldNames.country}
+                          id="country"
+                          label={`*${_('checkoutProcessForm.billing_information_country')}`}
+                          defaultOption={defaultOption}
+                          values={getCountries(language)}
+                          required
+                          className="field-item--50"
+                          onChange={(e) => {
+                            changeCountry(e, setFieldValue);
+                          }}
+                          disabled={sameAddressInformation}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <FieldGroup>
+                        <InputFieldItem
+                          type="text"
+                          fieldName={fieldNames.zipCode}
+                          id="zipCode"
+                          label={`${_('checkoutProcessForm.billing_information_zip_code')}`}
+                          withNameValidation
+                          className="field-item--50 dp-p-r"
+                          disabled={sameAddressInformation}
+                        />
+                        <PhoneFieldItem
+                          fieldName={fieldNames.phone}
+                          id="phone"
+                          label={`*${_('checkoutProcessForm.billing_information_phone')}`}
+                          placeholder={_('forms.placeholder_phone')}
+                          className={`field-item--50 ${
+                            sameAddressInformation ? 'dp-flag-disabled' : ''
+                          }`}
+                          required
+                          disabled={sameAddressInformation}
+                        />
+                      </FieldGroup>
+                    </FieldItem>
+                    <FieldItem className="field-item">
+                      <div className="dp-buttons-actions">
+                        <SubmitButton className="dp-button button-medium primary-green">
+                          {_('checkoutProcessForm.save_continue')}
+                        </SubmitButton>
+                      </div>
+                    </FieldItem>
+                  </FieldGroup>
+                </fieldset>
+              </Form>
+            )}
+          </Formik>
         )}
       </>
     );
