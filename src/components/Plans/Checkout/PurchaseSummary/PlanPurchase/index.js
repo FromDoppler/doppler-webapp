@@ -96,20 +96,18 @@ export const PlanPurchase = InjectAppServices(
 
     return (
       <>
-        <li className="m-t-18">
+        <div className="dp-cta-pay">
           <BuyPlanButton
             textButton={_('checkoutProcessForm.purchase_summary.buy_button')}
             canBuy={canBuy}
             disabledBuy={disabledBuy}
             proceedToBuy={proceedToBuy}
           />
-        </li>
-        <li>
-          <button type="button" className="dp-button button-big" aria-label="secure payment">
-            <span className="ms-icon dpicon iconapp-padlock p-r-6" />
+          <button type="button" className="dp-button button-big">
+            <span className="ms-icon icon-lock dp-color-green" />
             {_('checkoutProcessForm.purchase_summary.secure_payment_message')}
           </button>
-        </li>
+        </div>
         {showMessage && (
           <StatusMessage
             type={status === SAVED ? 'success' : 'cancel'}
@@ -162,7 +160,6 @@ export const BuyPlanButton = ({ textButton, status, disabledBuy, proceedToBuy })
     className={'dp-button button-big primary-green' + (status === SAVING ? ' button--loading' : '')}
     disabled={disabledBuy}
     onClick={proceedToBuy}
-    aria-label="buy"
   >
     {textButton}
   </button>
