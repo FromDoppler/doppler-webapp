@@ -82,7 +82,7 @@ describe('PlanPurchase component', () => {
     // Assert
     const getBuyButton = () =>
       screen.queryByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.buy_button',
+        name: 'buy',
       });
 
     expect(getBuyButton()).toBeEnabled();
@@ -133,7 +133,7 @@ describe('PlanPurchase component', () => {
     // Assert
     const getBuyButton = () =>
       screen.queryByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.buy_button',
+        name: 'buy',
       });
 
     expect(getBuyButton()).toBeEnabled();
@@ -192,7 +192,7 @@ describe('PlanPurchase component', () => {
     // Assert
     const getBuyButton = () =>
       screen.queryByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.buy_button',
+        name: 'buy',
       });
 
     expect(getBuyButton()).toBeEnabled();
@@ -247,7 +247,7 @@ describe('PlanPurchase component', () => {
     // Assert
     const getBuyButton = () =>
       screen.queryByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.buy_button',
+        name: 'buy',
       });
 
     expect(getBuyButton()).toBeEnabled();

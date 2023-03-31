@@ -9,6 +9,7 @@ import { BillingInformation } from './BillingInformation';
 import {
   fakeBillingInformation,
   fakeBillingInformationWithEmptyData,
+  fakeInvoiceRecipients,
 } from '../../../../services/doppler-billing-user-api-client.double';
 import { fakeContactInformation } from '../../../../services/doppler-user-api-client.double';
 
@@ -26,6 +27,21 @@ const getBillingInformation = (withEmptyData, useContactInformationAsBilling) =>
 };
 
 const dependencies = (withEmptyData, useContactInformationAsBilling = true) => ({
+  appSessionRef: {
+    current: {
+      userData: {
+        user: {
+          email: 'hardcoded@email.com',
+          plan: {
+            planType: '1',
+            planSubscription: 1,
+            monthPlan: 1,
+            isFreeAccount: true,
+          },
+        },
+      },
+    },
+  },
   dopplerUserApiClient: {
     getContactInformationData: async () => {
       return { success: true, value: fakeContactInformation };
@@ -40,6 +56,12 @@ const dependencies = (withEmptyData, useContactInformationAsBilling = true) => (
     },
     updateBillingInformation: async (values) => {
       return Promise.resolve({ success: true });
+    },
+    getInvoiceRecipientsData: async () => {
+      return { success: true, value: fakeInvoiceRecipients };
+    },
+    updateInvoiceRecipients: async () => {
+      return { success: true };
     },
   },
   staticDataClient: {
