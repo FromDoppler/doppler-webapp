@@ -251,11 +251,8 @@ export const TotalPurchase = ({
           </span>
         </li>
         {isTransfer && (
-          <li>
-            <span />
-            <TaxesExclude className="dp-taxes-excluded">
-              {_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}
-            </TaxesExclude>
+          <li className="dp-taxes-excluded">
+            <TaxesExclude>{_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}</TaxesExclude>
           </li>
         )}
         {children}
