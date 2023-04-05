@@ -202,41 +202,6 @@ export const InvoiceInformation = ({
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const isTransfer = paymentMethodType === paymentType.transfer;
 
-  const getTaxesLegend = (paymentMethodType, planType) => {
-    switch (planType) {
-      case PLAN_TYPE.byCredit:
-        return paymentMethodType === paymentType.creditCard
-          ? ''
-          : `*${_('checkoutProcessForm.purchase_summary.explanatory_legend_by_credits')}`;
-      case PLAN_TYPE.byContact:
-      case PLAN_TYPE.byEmail:
-        return paymentMethodType === paymentType.creditCard ? (
-          <div>
-            {!isFree && currentPriceToPay === 0 && (
-              <div>{`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}</div>
-            )}
-            <div className="m-t-12">
-              {`*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`}
-            </div>
-          </div>
-        ) : (
-          <div>
-            {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
-            {!isFree && currentPriceToPay === 0 && (
-              <div className="m-t-12">
-                {`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}
-              </div>
-            )}
-            <div className="m-t-12">
-              {`${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend2')}`}
-            </div>
-          </div>
-        );
-      default:
-        return '';
-    }
-  };
-
   return (
     <>
       {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
@@ -256,9 +221,6 @@ export const InvoiceInformation = ({
           </li>
         )
       ) : null}
-      <li>
-        <div className="dp-renewal">{getTaxesLegend(paymentMethodType, planType)}</div>
-      </li>
     </>
   );
 };
@@ -291,7 +253,7 @@ export const TotalPurchase = ({
         {isTransfer && (
           <li>
             <span />
-            <TaxesExclude className="dp-renewal">
+            <TaxesExclude className="dp-taxes-excluded">
               {_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}
             </TaxesExclude>
           </li>
@@ -504,6 +466,41 @@ export const PurchaseSummary = InjectAppServices(
       onApplyPromocode(promotion.promocode);
     };
 
+    const getTaxesLegend = (paymentMethodType, planType) => {
+      switch (planType) {
+        case PLAN_TYPE.byCredit:
+          return paymentMethodType === paymentType.creditCard
+            ? ''
+            : `*${_('checkoutProcessForm.purchase_summary.explanatory_legend_by_credits')}`;
+        case PLAN_TYPE.byContact:
+        case PLAN_TYPE.byEmail:
+          return paymentMethodType === paymentType.creditCard ? (
+            <div>
+              {!isFree && currentMonthTotal === 0 && (
+                <div>{`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}</div>
+              )}
+              <div className={!isFree && currentMonthTotal === 0 ? `m-t-12` : ''}>
+                {`*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`}
+              </div>
+            </div>
+          ) : (
+            <div>
+              {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
+              {!isFree && currentMonthTotal === 0 && (
+                <div className="m-t-12">
+                  {`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}
+                </div>
+              )}
+              <div className="m-t-12">
+                {`${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend2')}`}
+              </div>
+            </div>
+          );
+        default:
+          return '';
+      }
+    };
+
     const { total, currentMonthTotal, nextMonthTotal } = state.amountDetails;
     const { loadingPaymentInformation, loadingPlanInformation, loadingPromocodeValidation } = state;
 
@@ -549,7 +546,7 @@ export const PurchaseSummary = InjectAppServices(
             />
           </TotalPurchase>
         </div>
-        <div className="dp-zigzag" />
+        <div className="dp-renewal">{getTaxesLegend(state.paymentMethodType, state.planType)}</div>
       </>
     );
   },
