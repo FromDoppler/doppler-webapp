@@ -197,6 +197,7 @@ export const InvoiceInformation = ({
   planType,
   isFree,
   currentPriceToPay,
+  positiveBalance,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -205,7 +206,7 @@ export const InvoiceInformation = ({
   return (
     <>
       {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
-        priceToPay > 0 ? (
+        priceToPay > 0 && positiveBalance === 0 ? (
           <li>
             <h3 className="m-t-24">
               {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`}{' '}
@@ -213,13 +214,26 @@ export const InvoiceInformation = ({
               {isTransfer && '*'}
             </h3>
           </li>
-        ) : (
+        ) : positiveBalance === 0 ? (
           <li>
             <h3 className="m-t-24">{`${_(
               'checkoutProcessForm.purchase_summary.to_pay_from_next_month_legend',
             )}`}</h3>
           </li>
-        )
+        ) : positiveBalance > 0 ? (
+          <div>
+            <h4>
+              <FormattedMessage
+                id="checkoutProcessForm.purchase_summary.positive_balance_message"
+                values={{
+                  positiveBalance: (
+                    <FormattedNumber value={positiveBalance} {...numberFormatOptions} />
+                  ),
+                }}
+              ></FormattedMessage>
+            </h4>
+          </div>
+        ) : null
       ) : null}
     </>
   );
@@ -231,6 +245,7 @@ export const TotalPurchase = ({
   state,
   isFree,
   currentMonthTotal = 0,
+  positiveBalance = 0,
   children,
 }) => {
   const intl = useIntl();
@@ -262,6 +277,7 @@ export const TotalPurchase = ({
           paymentMethodType={state.paymentMethodType}
           isFree={isFree}
           currentPriceToPay={currentMonthTotal}
+          positiveBalance={positiveBalance}
         />
       </ul>
     </div>
@@ -498,7 +514,7 @@ export const PurchaseSummary = InjectAppServices(
       }
     };
 
-    const { total, currentMonthTotal, nextMonthTotal } = state.amountDetails;
+    const { total, currentMonthTotal, nextMonthTotal, positiveBalance } = state.amountDetails;
     const { loadingPaymentInformation, loadingPlanInformation, loadingPromocodeValidation } = state;
 
     return (
@@ -532,6 +548,7 @@ export const PurchaseSummary = InjectAppServices(
             currentMonthTotal={currentMonthTotal}
             state={state}
             isFree={isFree}
+            positiveBalance={positiveBalance}
           >
             <PlanPurchase
               canBuy={canBuy}
