@@ -500,18 +500,18 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     meta_title: 'Doppler | Tablero de Inicio',
 
-    postListBlog_1_description: '¿Cómo activar y enviar Notificaciones Push?',
+    postListBlog_1_description: 'Utiliza las Notificaciones Push para llegar a más clientes.\n¡Están incluidas en tu plan!',
     postListBlog_1_link: 'https://help.fromdoppler.com/es/como-activar-y-usar-envio-notificaciones-push/',
     postListBlog_1_link_description: 'Sigue leyendo',
-    postListBlog_1_title: '#NuevaFuncionalidad',
+    postListBlog_1_title: '#FuncionalidadDestacada',
 
-    postListBlog_2_description: 'Cómo replicar Campañas de Automation',
+    postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están incluidas en tu plan!',
     postListBlog_2_link: 'https://help.fromdoppler.com/es/replicar-campanas-automation/',
     postListBlog_2_link_description: 'Sigue leyendo',
-    postListBlog_2_title: '#NuevaFuncionalidad',
+    postListBlog_2_title: '#FuncionalidadDestacada',
 
     postListHelp_1_description: 'Inspírate y aprende con un evento exclusivo pensado para tu Tienda Online.',
-    postListHelp_1_link: 'http://goemms.com/ecommerce.php/?origin=destacadotablero',
+    postListHelp_1_link: 'http://goemms.com/ecommerce.php?origin=destacadotablero',
     postListHelp_1_link_description: 'RESERVAR CUPO GRATIS',
     postListHelp_1_title: 'Llega una nueva edición del evento más esperado: EMMS E-commerce.',
 
