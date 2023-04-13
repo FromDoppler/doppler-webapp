@@ -501,13 +501,13 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     meta_title: 'Doppler | Tablero de Inicio',
 
     postListBlog_1_description: 'Utiliza las Notificaciones Push para llegar a más clientes.\n¡Están incluidas en tu plan!',
-    postListBlog_1_link: 'https://help.fromdoppler.com/es/como-activar-y-usar-envio-notificaciones-push/',
-    postListBlog_1_link_description: 'Sigue leyendo',
+    postListBlog_1_link: 'https://help.fromdoppler.com/es/como-activar-y-usar-envio-notificaciones-push/?origin=destacadotablero',
+    postListBlog_1_link_description: 'Mira cómo implementarlas',
     postListBlog_1_title: '#FuncionalidadDestacada',
 
-    postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están incluidas en tu plan!',
-    postListBlog_2_link: 'https://help.fromdoppler.com/es/replicar-campanas-automation/',
-    postListBlog_2_link_description: 'Sigue leyendo',
+    postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
+    postListBlog_2_link: 'https://help.fromdoppler.com/es/formulario-de-suscripcion/?origin=destacadotablero',
+    postListBlog_2_link_description: 'Mira cómo implementarlos',
     postListBlog_2_title: '#FuncionalidadDestacada',
 
     postListHelp_1_description: 'Inspírate y aprende con un evento exclusivo pensado para tu Tienda Online.',
