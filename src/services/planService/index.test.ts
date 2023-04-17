@@ -90,7 +90,7 @@ describe('planService', () => {
       const orderPlanTypes = await planService.getPlanTypes();
 
       // Assert
-      expect(orderPlanTypes).toEqual([PLAN_TYPE.byCredit]);
+      expect(orderPlanTypes).toEqual([PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit]);
     });
 
     it('should return plans by contact when the plan is contact', async () => {

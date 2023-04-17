@@ -100,7 +100,13 @@ export const getPotentialUpgrades = (userPlan: Plan, planList: Plan[]): Plan[] =
       return planList;
 
     case PLAN_TYPE.byCredit:
-      return [...filterPlansByType(PLAN_TYPE.byCredit, planList)];
+      return [
+        ...getPotentialUpgradesContactsPlansFromCredits(planList, {
+          minSubscriberLimit: userPlan.subscribersCount,
+        }),
+        ...filterPlansByType(PLAN_TYPE.byEmail, planList),
+        ...filterPlansByType(PLAN_TYPE.byCredit, planList),
+      ];
 
     case PLAN_TYPE.byEmail:
       return [
@@ -156,3 +162,13 @@ const compareByFee = (previousPlan: Plan, nextPlan: Plan): number => {
 
   return priceOfPreviousPlan < priceOfNextPlan ? -1 : priceOfPreviousPlan > priceOfNextPlan ? 1 : 0;
 };
+
+export const getPotentialUpgradesContactsPlansFromCredits = (
+  planList: Plan[],
+  { minSubscriberLimit }: { minSubscriberLimit: number } = {
+    minSubscriberLimit: 0,
+  },
+): ContactPlan[] =>
+  planList.filter(
+    (plan) => plan.type === PLAN_TYPE.byContact && plan.subscriberLimit >= minSubscriberLimit,
+  ) as ContactPlan[];

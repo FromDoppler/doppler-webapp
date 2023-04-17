@@ -489,7 +489,7 @@ export const PurchaseSummary = InjectAppServices(
         case PLAN_TYPE.byEmail:
           return paymentMethodType === paymentType.creditCard ? (
             <div>
-              {!isFree && currentMonthTotal === 0 && (
+              {!isFree && majorThat21st === true && (
                 <div>{`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}</div>
               )}
               <div className={!isFree && currentMonthTotal === 0 ? `m-t-12` : ''}>
@@ -499,7 +499,7 @@ export const PurchaseSummary = InjectAppServices(
           ) : (
             <div>
               {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
-              {!isFree && currentMonthTotal === 0 && (
+              {!isFree && majorThat21st === true && (
                 <div className="m-t-12">
                   {`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}
                 </div>
@@ -514,7 +514,8 @@ export const PurchaseSummary = InjectAppServices(
       }
     };
 
-    const { total, currentMonthTotal, nextMonthTotal, positiveBalance } = state.amountDetails;
+    const { total, currentMonthTotal, nextMonthTotal, positiveBalance, majorThat21st } =
+      state.amountDetails;
     const { loadingPaymentInformation, loadingPlanInformation, loadingPromocodeValidation } = state;
 
     return (
