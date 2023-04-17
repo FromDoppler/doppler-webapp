@@ -27,4 +27,4 @@ export MSYS2_ARG_CONV_EXCL="*"
 #        yarn semantic-release \
 #    "
 
-echo "Moved to jenkinsfile ..."
+echo "Moved to doppler-jenkins-ci.groovy ..."
