@@ -21,6 +21,7 @@ export const TransferMexico = InjectAppServices(
     const [cfdis, setFdis] = useState([]);
     const [paymentTypes, setPaymentTypes] = useState([]);
     const [paymentways, setPaymentWays] = useState([]);
+    const [taxRegime, setTaxRegime] = useState([]);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -35,6 +36,7 @@ export const TransferMexico = InjectAppServices(
         [fieldNames.bankName]: paymentMethod.bankName,
         [fieldNames.bankAccount]: paymentMethod.bankAccount,
         [fieldNames.paymentMethodName]: paymentType.transfer,
+        [fieldNames.taxRegime]: paymentMethod.taxRegime,
       });
     }, [
       paymentMethod.idConsumerType,
@@ -45,6 +47,7 @@ export const TransferMexico = InjectAppServices(
       paymentMethod.paymentWay,
       paymentMethod.bankName,
       paymentMethod.bankAccount,
+      paymentMethod.taxRegime,
       setValues,
     ]);
 
@@ -78,6 +81,16 @@ export const TransferMexico = InjectAppServices(
             }))
           : [];
         setPaymentWays(paymentWaysMapped);
+
+        // tax regime values
+        const taxRegimeResponse = await staticDataClient.getTaxRegimes(language);
+        const taxRegimeMapped = taxRegimeResponse.success
+          ? Object.keys(taxRegimeResponse.value).map((key) => ({
+              key,
+              value: taxRegimeResponse.value[key],
+            }))
+          : [];
+        setTaxRegime(taxRegimeMapped);
       };
 
       if (!readOnly) {
@@ -174,9 +187,18 @@ export const TransferMexico = InjectAppServices(
                 />
               </FieldGroup>
             </FieldItem>
-            {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
-              <FieldItem className="field-item">
-                <FieldGroup>
+            <FieldItem className="field-item">
+              <FieldGroup>
+                <SelectFieldItem
+                  fieldName={fieldNames.taxRegime}
+                  id={fieldNames.taxRegime}
+                  label={`*${_('checkoutProcessForm.payment_method.tax_regime')}`}
+                  defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
+                  values={taxRegime}
+                  required
+                  className="field-item field-item--50 dp-p-r"
+                />
+                {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
                   <InputFieldItem
                     type="text"
                     fieldName={fieldNames.bankName}
@@ -186,6 +208,12 @@ export const TransferMexico = InjectAppServices(
                     required
                     className="field-item field-item--50 dp-p-r"
                   />
+                )}
+              </FieldGroup>
+            </FieldItem>
+            {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
+              <FieldItem className="field-item">
+                <FieldGroup>
                   <InputFieldItem
                     type="text"
                     fieldName={fieldNames.bankAccount}

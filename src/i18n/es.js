@@ -247,6 +247,7 @@ const messages_es = {
       responsable_iva_no: 'No',
       responsable_iva_yes: 'Si',
       security_code: 'Código de seguridad',
+      tax_regime: 'Regimen fiscal',
       title: 'Método de Pago',
       transfer: 'Transferencia',
       valid_thru: 'válido hasta',

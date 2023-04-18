@@ -55,6 +55,7 @@ export const fakePaymentMethodInformation = {
   paymentType: 'payment type',
   paymentWay: 'TRANSF',
   useCFDI: 'CAAR530917EV7',
+  taxRegime: '603',
 };
 
 export const fakePaymentMethod = {
