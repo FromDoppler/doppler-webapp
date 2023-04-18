@@ -9,6 +9,7 @@ export interface StaticDataClient {
   getPaymentWaysData(language: string): Promise<any>;
   getPaymentTypesData(language: string): Promise<any>;
   getDocumentTypesData(language: string): Promise<any>;
+  getTaxRegimes(language: string): Promise<any>;
 }
 
 export class HttpStaticDataClient implements StaticDataClient {
@@ -153,6 +154,19 @@ export class HttpStaticDataClient implements StaticDataClient {
       return { success: true, value: response.data };
     } catch (error) {
       console.error('Document types file not accesible');
+      return { success: false, error: error };
+    }
+  }
+
+  public async getTaxRegimes(language: string): Promise<any> {
+    try {
+      const response = await this.axios.request({
+        method: 'GET',
+        url: this.baseUrl + `tax-regimes-${language}.json`,
+      });
+      return { success: true, value: response.data };
+    } catch (error) {
+      console.error('Tax regimes file not accesible');
       return { success: false, error: error };
     }
   }
