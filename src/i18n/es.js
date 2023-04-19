@@ -166,7 +166,7 @@ const messages_es = {
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   checkoutProcessForm: {
-    billing_information_address: 'Dirección',
+    billing_information_address: 'Dirección fiscal',
     billing_information_answer_question: 'Ingresa la respuesta a la pregunta elegida:',
     billing_information_choose_question: 'Elige la pregunta que prefieras:',
     billing_information_city: 'Ciudad',

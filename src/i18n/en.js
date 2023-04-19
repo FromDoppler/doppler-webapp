@@ -164,7 +164,7 @@ const messages_en = {
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },
   checkoutProcessForm: {
-    billing_information_address: 'Address',
+    billing_information_address: 'Fiscal address',
     billing_information_answer_question: 'Enter the answer to the chosen question:',
     billing_information_choose_question: 'Choose the question you prefer:',
     billing_information_city: 'City',
