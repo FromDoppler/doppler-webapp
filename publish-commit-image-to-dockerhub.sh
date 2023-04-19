@@ -10,22 +10,22 @@ versionPre=$5
 #   sh publish-to-dockerhub.sh production dopplerdock/doppler-webapp 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5 beta1
 #   sh publish-to-dockerhub.sh demo dopplerdock/doppler-webapp 94f85efb9c3689f409104ef7cde6813652ca59fb v12.34.5 pr123
 
-if [ -z ${environment} ]
+if [ -z "${environment}" ]
 then
   echo "Missing environment (1st parameter)"
   exit 1
 fi
-if [ -z ${imageName} ]
+if [ -z "${imageName}" ]
 then
   echo "Missing imageName (2st parameter)"
   exit 1
 fi
-if [ -z ${commit} ]
+if [ -z "${commit}" ]
 then
   echo "Missing commit (3nd parameter)"
   exit 1
 fi
-if [ -z ${version} ]
+if [ -z "${version}" ]
 then
   echo "Missing version (4th parameter)"
   exit 1
@@ -38,7 +38,7 @@ set -u
 
 # Lines added to get the script running in the script path shell context
 # reference: http://www.ostricher.com/2014/10/the-right-way-to-get-the-directory-of-a-bash-script/
-cd $(dirname $0)
+cd "$(dirname "$0")"
 
 # To avoid issues with MINGW y Git Bash, see:
 # https://github.com/docker/toolbox/issues/673
@@ -64,12 +64,12 @@ versionBuild=${commit}
 
 versionFull=${version}
 
-if [ ! -z ${versionPre} ]
+if [ -n "${versionPre}" ]
 then
   versionFull=${versionFull}-${versionPre}
 fi
 
-if [ ! -z ${versionBuild} ]
+if [ -n "${versionBuild}" ]
 then
   versionFull=${versionFull}+${versionBuild}
 fi
@@ -81,23 +81,22 @@ fi
 #                  | <version core> "-" <pre-release> "+" <build>
 #
 # <version core> ::= <major> "." <minor> "." <patch>
-versionBuild="$(echo ${versionFull}+ | cut -d'+' -f2)"
-versionMayorMinorPatchPre="$(echo ${versionFull} | cut -d'+' -f1)" # v0.0.0-xxx (ignoring `+` if exists)
-versionPre="$(echo ${versionMayorMinorPatchPre}- | cut -d'-' -f2)"
-versionMayorMinorPatch="$(echo ${versionMayorMinorPatchPre} | cut -d'-' -f1)" # v0.0.0 (ignoring `-` if exists)
-versionMayor="$(echo ${versionMayorMinorPatch} | cut -d'.' -f1)" # v0
-versionMinor="$(echo ${versionMayorMinorPatch} | cut -d'.' -f2)"
+versionBuild="$(echo "${versionFull}"+ | cut -d'+' -f2)"
+versionMayorMinorPatchPre="$(echo "${versionFull}" | cut -d'+' -f1)" # v0.0.0-xxx (ignoring `+` if exists)
+versionPre="$(echo "${versionMayorMinorPatchPre}"- | cut -d'-' -f2)"
+versionMayorMinorPatch="$(echo "${versionMayorMinorPatchPre}" | cut -d'-' -f1)" # v0.0.0 (ignoring `-` if exists)
+versionMayor="$(echo "${versionMayorMinorPatch}" | cut -d'.' -f1)" # v0
+versionMinor="$(echo "${versionMayorMinorPatch}" | cut -d'.' -f2)"
 versionMayorMinor=${versionMayor}.${versionMinor} # v0.0
-versionPatch="$(echo ${versionMayorMinorPatch} | cut -d'.' -f3)"
 
-if [ -z ${versionBuild} ]
+if [ -z "${versionBuild}" ]
 then
   versionFullForTag=${versionMayorMinorPatchPre}
 else
   versionFullForTag=${versionMayorMinorPatchPre}_${versionBuild}
 fi
 
-if [ ! -z ${versionPre} ]
+if [ -n "${versionPre}" ]
 then
   preReleasePrefix="pre-"
 else
@@ -105,16 +104,16 @@ else
 fi
 # endregion Ugly code to deal with versions
 
-docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}
-docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayor}
-docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinor}
-docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatch}
-docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}
-docker tag local-doppler-webapp:${environment}-commit-${commit} ${imageName}:${preReleasePrefix}${environment}-${versionFullForTag}
+docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"
+docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayor}"
+docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinor}"
+docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatch}"
+docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatchPre}"
+docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionFullForTag}"
 
-docker push ${imageName}:${preReleasePrefix}${environment}
-docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayor}
-docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinor}
-docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatch}
-docker push ${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}
-docker push ${imageName}:${preReleasePrefix}${environment}-${versionFullForTag}
+docker push "${imageName}":${preReleasePrefix}"${environment}"
+docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayor}"
+docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinor}"
+docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatch}"
+docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatchPre}"
+docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionFullForTag}"
