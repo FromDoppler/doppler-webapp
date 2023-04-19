@@ -113,6 +113,12 @@ export const TransferMexico = InjectAppServices(
 
     return (
       <div role="tabpanel" aria-label="transfer mexico fields">
+        <div className="dp-wrap-message dp-wrap-warning">
+          <span className="dp-message-icon"></span>
+          <div className="dp-content-message">
+            <p>{_('checkoutProcessForm.payment_method.warning_mex_transfer')}</p>
+          </div>
+        </div>
         <FieldItem className="field-item">
           <FieldGroup>
             <SelectFieldItem

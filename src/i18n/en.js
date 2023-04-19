@@ -249,6 +249,7 @@ const messages_en = {
       title: 'Payment Method',
       transfer: 'Bank transfer',
       valid_thru: 'valid thru',
+      warning_mex_transfer: 'The data you enter must match the information that appears on your proof of tax situation.',
     },
     purchase_summary: {
       add_recipient_placeholder: 'Add recipient',

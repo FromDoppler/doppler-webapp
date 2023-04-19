@@ -251,6 +251,7 @@ const messages_es = {
       title: 'Método de Pago',
       transfer: 'Transferencia',
       valid_thru: 'válido hasta',
+      warning_mex_transfer: 'Los datos que ingreses deben coincidir con la información que aparece en tu constancia de situación fiscal.',
     },
     purchase_summary: {
       add_recipient_placeholder: 'Agregar destinatario',
