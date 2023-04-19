@@ -45,7 +45,7 @@ echo pkgCommitId: "$pkgCommitId"
 
 # TODO: Remove these steps in favor of publishing to `fromdoppler` organization.
 for environment in ${environments}; do
-    echo Publishing "${environment}"...
+    echo Publishing "${environment}..."
 
     docker build --pull \
         --build-arg environment="$environment" \

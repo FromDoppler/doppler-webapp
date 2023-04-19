@@ -91,7 +91,7 @@
         });
         window['doppler-session-mfe-configuration'] = {
           dopplerLegacyBaseUrl: '%REACT_APP_DOPPLER_LEGACY_URL%',
-          useDummies: false
+          useDummies: '%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true'
         };
         assetServices.load({
           manifestURL: '%REACT_APP_SESSION_MFE_MANIFEST_FILE%'

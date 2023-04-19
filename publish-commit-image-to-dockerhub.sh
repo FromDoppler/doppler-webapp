@@ -104,16 +104,16 @@ else
 fi
 # endregion Ugly code to deal with versions
 
-docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"
-docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayor}"
-docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinor}"
-docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatch}"
-docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatchPre}"
-docker tag local-doppler-webapp:"${environment}"-commit-"${commit}" "${imageName}":${preReleasePrefix}"${environment}"-"${versionFullForTag}"
+docker tag "local-doppler-webapp:${environment}-commit-${commit}" "${imageName}:${preReleasePrefix}${environment}"
+docker tag "local-doppler-webapp:${environment}-commit-${commit}" "${imageName}:${preReleasePrefix}${environment}-${versionMayor}"
+docker tag "local-doppler-webapp:${environment}-commit-${commit}" "${imageName}:${preReleasePrefix}${environment}-${versionMayorMinor}"
+docker tag "local-doppler-webapp:${environment}-commit-${commit}" "${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatch}"
+docker tag "local-doppler-webapp:${environment}-commit-${commit}" "${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}"
+docker tag "local-doppler-webapp:${environment}-commit-${commit}" "${imageName}:${preReleasePrefix}${environment}-${versionFullForTag}"
 
-docker push "${imageName}":${preReleasePrefix}"${environment}"
-docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayor}"
-docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinor}"
-docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatch}"
-docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionMayorMinorPatchPre}"
-docker push "${imageName}":${preReleasePrefix}"${environment}"-"${versionFullForTag}"
+docker push "${imageName}:${preReleasePrefix}${environment}"
+docker push "${imageName}:${preReleasePrefix}${environment}-${versionMayor}"
+docker push "${imageName}:${preReleasePrefix}${environment}-${versionMayorMinor}"
+docker push "${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatch}"
+docker push "${imageName}:${preReleasePrefix}${environment}-${versionMayorMinorPatchPre}"
+docker push "${imageName}:${preReleasePrefix}${environment}-${versionFullForTag}"
