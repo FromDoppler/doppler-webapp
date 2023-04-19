@@ -222,7 +222,7 @@ export const TransferMexico = InjectAppServices(
                     minLength={4}
                     maxLength={4}
                     required
-                    className="field-item field-item--50"
+                    className="field-item field-item--50 dp-p-r"
                   />
                 </FieldGroup>
               </FieldItem>
