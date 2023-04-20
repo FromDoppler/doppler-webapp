@@ -9,9 +9,9 @@ provided tools in the library are not enough.
 For example, we need to translate country names for our phone input component, in that case
 we choose for using three different JSON files:
 
-* [Country names in Spanish](./countries-es.json)
-* [Country names in English](./countries-en.json)
-* [Local name of the country](./countries-localized.json)
+- [Country names in Spanish](./countries-es.json)
+- [Country names in English](./countries-en.json)
+- [Local name of the country](./countries-localized.json)
 
 All of JSONs are indexed by ISO country code, and we merged them using this format:
 `{name in current lang: es/en} ({local name})`, with the exception when the total length
@@ -51,53 +51,54 @@ Finally, as a compromise solution, we choose simply using JavaScript files, with
 ## .js language files
 
 Using standard JavaScript .js files for defining content, is not the perfect solution, mainly
-because of they have too much flexibility. 
+because of they have too much flexibility.
 
 For that reason we decided to following some conventions:
 
-* Avoid complex imperative code.
+- Avoid complex imperative code.
 
-* Limit the usage of variables and conscientiously consider each variable added.
+- Limit the usage of variables and conscientiously consider each variable added.
 
-* Limit the dependencies in the same way.
+- Limit the dependencies in the same way.
 
-* Export only one default object defined in a JSON like way.
+- Export only one default object defined in a JSON like way.
 
-* In the result object, define all string properties using [ES6 Template Strings](https://developers.google.com/web/updates/2015/01/ES6-Template-Strings), in order to support line breaks.
+- In the result object, define all string properties using [ES6 Template Strings](https://developers.google.com/web/updates/2015/01/ES6-Template-Strings), in order to support line breaks.
 
-* When some variable or property has HTML formatted content use the `_HTML` suffix.
+- When some variable or property has HTML formatted content use the `_HTML` suffix.
 
-* When some variable or property has Markdown formatted content use the `_MD` suffix.
+- When some variable or property has Markdown formatted content use the `_MD` suffix.
 
-* Try to keep lines shortner than 100 characters in HTML and Markdown content.
+- Try to keep lines shortner than 100 characters in HTML and Markdown content.
 
-* When the content takes more than a line, start the value with a line ending and finalize in the 
-same way.
+- When the content takes more than a line, start the value with a line ending and finalize in the
+  same way.
 
-    For Markdown do not use indentation inside the value, in HTML make honor to current
-indentation level inside the value.
+      For Markdown do not use indentation inside the value, in HTML make honor to current
 
-    Markdown example:
+  indentation level inside the value.
 
-    ```js
-    export default {
-      common: {
-        copyright_MD: `
-    © ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).
-    `,
-        // . . .
-    ```
+      Markdown example:
 
-    HTML example:
+      ```js
+      export default {
+        common: {
+          copyright_MD: `
+      © ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).
+      `,
+          // . . .
+      ```
 
-    ```js
-    export default {
-      common: {
-        copyright_MD: `
-          <p>
-            © ${year} Doppler LLC. All rights reserved.
-            <a href="${urlPrivacy}">Privacy Policy & Legals</a>.
-          </p>
-        `,
-        // . . .
-    ```
+      HTML example:
+
+      ```js
+      export default {
+        common: {
+          copyright_MD: `
+            <p>
+              © ${year} Doppler LLC. All rights reserved.
+              <a href="${urlPrivacy}">Privacy Policy & Legals</a>.
+            </p>
+          `,
+          // . . .
+      ```
