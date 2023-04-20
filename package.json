@@ -79,12 +79,6 @@
     "stylelint": "stylelint \"src/**/*.{js,css}\" --config \"src/.stylelintrc.json\"",
     "prepare": "node ./prepare.js"
   },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "arrowParens": "always"
-  },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
