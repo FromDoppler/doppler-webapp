@@ -15,10 +15,7 @@
     {
       "matchDepTypes": ["devDependencies"],
       "automerge": true,
-      "schedule": [
-        "after 10pm every weekday",
-        "before 5am every weekday"
-      ]
+      "schedule": ["after 10pm every weekday", "before 5am every weekday"]
     }
   ]
 }

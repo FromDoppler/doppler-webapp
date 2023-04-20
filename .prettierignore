@@ -1,8 +1,2 @@
-Dockerfile
-/**/*.*
-!src/**/*.ts
-!src/**/*.tsx
-!src/**/*.js
-!src/**/*.jsx
-!src/**/*.css
+coverage/
 src/doppler-types.ts

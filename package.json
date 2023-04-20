@@ -74,8 +74,8 @@
     "test": "react-scripts --openssl-legacy-provider test --coverage --env=jest-environment-jsdom --watchAll=true --testTimeout=120000",
     "eject": "react-scripts --openssl-legacy-provider eject",
     "eclint": "eclint check  src/**/*.js",
-    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\"",
-    "prettier-check": "prettier-check \"src/**/*.{js,jsx,ts,tsx,css}\"",
+    "prettier": "prettier --write \"**/*.{html,css,scss,less,js,jsx,ts,tsx,md,yml,yaml,json}\"",
+    "prettier-check": "prettier-check \"**/*.{html,css,scss,less,js,jsx,ts,tsx,md,yml,yaml,json}\"",
     "stylelint": "stylelint \"src/**/*.{js,css}\" --config \"src/.stylelintrc.json\"",
     "prepare": "node ./prepare.js"
   },

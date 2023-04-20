@@ -23,14 +23,20 @@
     "declaration-block-no-duplicate-properties": null,
     "block-no-empty": null,
     "color-no-invalid-hex": true,
-    "comment-empty-line-before": [ "always", {
-      "ignore": ["stylelint-commands", "after-comment"]
-    } ],
+    "comment-empty-line-before": [
+      "always",
+      {
+        "ignore": ["stylelint-commands", "after-comment"]
+      }
+    ],
     "max-empty-lines": 2,
-    "rule-empty-line-before": [ "always", {
-      "except": ["first-nested"],
-      "ignore": ["after-comment"]
-    }],
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
     "unit-allowed-list": ["px", "em", "rem", "%", "s", "deg", "vh", "vm", "vmin", "vmax", "ms"]
   }
 }
