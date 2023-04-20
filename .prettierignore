@@ -5,3 +5,4 @@ Dockerfile
 !src/**/*.js
 !src/**/*.jsx
 !src/**/*.css
+src/doppler-types.ts
