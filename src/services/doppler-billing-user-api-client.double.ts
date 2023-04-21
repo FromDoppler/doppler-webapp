@@ -55,7 +55,7 @@ export const fakePaymentMethodInformation = {
   paymentType: 'payment type',
   paymentWay: 'TRANSF',
   useCFDI: 'CAAR530917EV7',
-  taxRegime: '603',
+  taxRegime: 603,
 };
 
 export const fakePaymentMethod = {
@@ -87,6 +87,7 @@ export const fakePaymentMethodInformationWithTransfer = {
   identificationType: '',
   identificationNumber: '12345678',
   responsableIVA: '0',
+  taxRegime: 0,
 };
 
 export const fakeInvoiceRecipients = ['harcode_1@mail.com', 'harcode_2@mail.com'];

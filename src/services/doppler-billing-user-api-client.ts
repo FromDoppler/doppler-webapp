@@ -65,7 +65,7 @@ export interface PaymentMethod {
   paymentType: string;
   paymentWay: string;
   useCFDI: string;
-  taxRegime: string;
+  taxRegime: number;
 }
 
 export interface UserPlan {
