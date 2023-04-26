@@ -162,7 +162,7 @@ export class HttpStaticDataClient implements StaticDataClient {
     try {
       const response = await this.axios.request({
         method: 'GET',
-        url: this.baseUrl + `tax-regimes-${language}.json`,
+        url: this.baseUrl + `/tax-regimes-${language}.json`,
       });
       return { success: true, value: response.data };
     } catch (error) {
