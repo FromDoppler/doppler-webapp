@@ -193,18 +193,9 @@ export const TransferMexico = InjectAppServices(
                 />
               </FieldGroup>
             </FieldItem>
-            <FieldItem className="field-item">
-              <FieldGroup>
-                <SelectFieldItem
-                  fieldName={fieldNames.taxRegime}
-                  id={fieldNames.taxRegime}
-                  label={`*${_('checkoutProcessForm.payment_method.tax_regime')}`}
-                  defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
-                  values={taxRegime}
-                  required
-                  className="field-item field-item--50 dp-p-r"
-                />
-                {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
+            {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
+              <FieldItem className="field-item">
+                <FieldGroup>
                   <InputFieldItem
                     type="text"
                     fieldName={fieldNames.bankName}
@@ -214,12 +205,6 @@ export const TransferMexico = InjectAppServices(
                     required
                     className="field-item field-item--50 dp-p-r"
                   />
-                )}
-              </FieldGroup>
-            </FieldItem>
-            {values[fieldNames.paymentWay] === PAYMENT_WAY_TRANSFER && (
-              <FieldItem className="field-item">
-                <FieldGroup>
                   <InputFieldItem
                     type="text"
                     fieldName={fieldNames.bankAccount}
@@ -228,11 +213,24 @@ export const TransferMexico = InjectAppServices(
                     minLength={4}
                     maxLength={4}
                     required
-                    className="field-item field-item--50 dp-p-r"
+                    className="field-item field-item--50"
                   />
                 </FieldGroup>
               </FieldItem>
             )}
+            <FieldItem className="field-item">
+              <FieldGroup>
+                <SelectFieldItem
+                  fieldName={fieldNames.taxRegime}
+                  id={fieldNames.taxRegime}
+                  label={`*${_('checkoutProcessForm.payment_method.tax_regime')}`}
+                  defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
+                  values={taxRegime}
+                  required
+                  className="field-item dp-p-r"
+                />
+              </FieldGroup>
+            </FieldItem>
           </>
         )}
       </div>
