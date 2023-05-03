@@ -16,6 +16,14 @@ const appSessionRef = {
   },
 };
 
+const matchTags = (cloudTags, currentTags) => {
+  let tag = cloudTags.firstChild;
+  currentTags.forEach((email) => {
+    expect(tag).toHaveTextContent(email);
+    tag = tag.nextSibling;
+  });
+};
+
 describe('InvoiceRecipients component', () => {
   it('should add recipients', async () => {
     //Arrange
@@ -49,7 +57,7 @@ describe('InvoiceRecipients component', () => {
     // Assert
     const getEditModeButton = () =>
       screen.queryByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.edit_add_recipients_button',
+        name: 'edit or add recipients',
       });
     const getRecipientsAdded = (cloudTags) => getAllByRole(cloudTags, 'listitem');
 
@@ -88,11 +96,10 @@ describe('InvoiceRecipients component', () => {
     });
     await act(() => userEvent.click(submitButton));
     expect(screen.queryByRole('form')).not.toBeInTheDocument();
-    expect(
-      await screen.findByText(
-        [appSessionRef.current.userData.user.email, email2, email3].join(', '),
-      ),
-    ).toBeInTheDocument();
+
+    const cloudTagsAdded = screen.getByRole('list', { name: 'cloud tags' });
+    matchTags(cloudTagsAdded, [appSessionRef.current.userData.user.email, email2, email3]);
+
     expect(getEditModeButton()).toBeInTheDocument();
     expect(updateInvoiceRecipientsMock).toHaveBeenCalled();
     expect(updateInvoiceRecipientsMock).toHaveBeenCalledWith(

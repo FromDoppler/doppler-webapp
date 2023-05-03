@@ -266,7 +266,7 @@ export const BillingInformation = InjectAppServices(
                           />
                         </FieldGroup>
                       </FieldItem>
-                      <FieldItem className="field-item">
+                      <FieldItem className="field-item field-item--50 dp-p-r">
                         <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
                       </FieldItem>
                       <FieldItem className="field-item">
