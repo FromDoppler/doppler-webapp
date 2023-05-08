@@ -275,7 +275,7 @@ const messages_en = {
       plan_type_prepaid_label: 'Credits:',
       plan_type_subscribers: 'by Contacts',
       plan_type_subscribers_label: 'Contacts:',
-      positive_balance_message: 'You have a credit balance of US$ {positiveBalance} due to your plan change. We will deduct it from your next invoices.',
+      positive_balance_message: 'You have a credit balance of US$ {positiveBalance} for the unused credits from your last purchase. We will deduct it from your next bills.',
       promocode_error_message: 'Invalid promo code',
       promocode_header: 'Promocode',
       promocode_label: 'Promo code',

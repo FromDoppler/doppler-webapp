@@ -942,10 +942,11 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     ).not.toBeNull();
   });
 
-  it('should show the upgrade plan legend when the currentPriceToPay is 0 and plan type is by emails', async () => {
+  it('should show the upgrade plan legend when the majorThat21st is true and plan type is by emails', async () => {
     // Arrange
     const fakePlan = fakeSubscribersPlan;
     const fakeAmountDetails = {
+      majorThat21st: true,
       discountPrepayment: { discountPercentage: 0, amount: 0 },
       discountPaymentAlreadyPaid: 0,
       discountPromocode: { discountPercentage: 0, amount: 0 },

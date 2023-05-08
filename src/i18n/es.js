@@ -277,7 +277,7 @@ const messages_es = {
       plan_type_prepaid_label: 'Créditos:',
       plan_type_subscribers: 'por Contactos',
       plan_type_subscribers_label: 'Contactos:',
-      positive_balance_message: 'Tienes un saldo a favor de US$ {positiveBalance} por haber cambiado de plan. Lo descontaremos de tus próximas facturas.',
+      positive_balance_message: 'Tienes un saldo a favor de US$ {positiveBalance} por los créditos no utilizados de tu última compra. Lo descontaremos de tus próximas facturas.',
       promocode_error_message: 'Código de descuento inválido',
       promocode_header: 'Código de descuento',
       promocode_label: 'Código de descuento',
