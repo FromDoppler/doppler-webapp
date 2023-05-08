@@ -22,6 +22,11 @@ export const fakePaymentTypes = {
   PUE: 'PUE',
 };
 
+export const fakeTaxRegimes = {
+  601: '601',
+  602: '602',
+};
+
 const services = {
   staticDataClient: {
     getUseCfdiData: async (language) => ({
@@ -35,6 +40,10 @@ const services = {
     getPaymentWaysData: async (language) => ({
       success: true,
       value: fakePaymentWays,
+    }),
+    getTaxRegimes: async (language) => ({
+      success: true,
+      value: fakeTaxRegimes,
     }),
   },
 };

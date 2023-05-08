@@ -65,6 +65,7 @@ export interface PaymentMethod {
   paymentType: string;
   paymentWay: string;
   useCFDI: string;
+  taxRegime: number;
 }
 
 export interface UserPlan {
@@ -185,6 +186,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       paymentType: data.paymentType,
       paymentWay: data.paymentWay,
       useCFDI: data.useCFDI,
+      taxRegime: data.taxRegime,
     };
   }
 
@@ -212,6 +214,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           paymentType: data.paymentType,
           paymentWay: data.paymentWay,
           useCFDI: data.cfdi,
+          taxRegime: data.taxRegime,
         };
 
       case PaymentMethodType.mercadoPago:

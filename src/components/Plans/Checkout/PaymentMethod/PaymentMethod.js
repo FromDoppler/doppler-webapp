@@ -35,6 +35,7 @@ export const fieldNames = {
   identificationNumber: 'identificationNumber',
   responsableIVA: 'responsableIVA',
   cfdi: 'cfdi',
+  taxRegime: 'taxRegime',
 };
 
 export const paymentType = {

@@ -164,7 +164,7 @@ const messages_en = {
     until_x_subscribers: `Until {subscribers} Contacts.`,
   },
   checkoutProcessForm: {
-    billing_information_address: 'Address',
+    billing_information_address: 'Fiscal address',
     billing_information_answer_question: 'Enter the answer to the chosen question:',
     billing_information_choose_question: 'Choose the question you prefer:',
     billing_information_city: 'City',
@@ -245,9 +245,11 @@ const messages_en = {
       responsable_iva_no: 'No',
       responsable_iva_yes: 'Yes',
       security_code: 'Security code',
+      tax_regime: 'Tax regime',
       title: 'Payment Method',
       transfer: 'Bank transfer',
       valid_thru: 'valid thru',
+      warning_mex_transfer: 'The data you enter must match the information that appears on your proof of tax situation.',
     },
     purchase_summary: {
       add_recipient_placeholder: 'Add recipient',

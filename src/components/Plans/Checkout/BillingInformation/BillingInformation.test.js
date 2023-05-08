@@ -269,6 +269,6 @@ describe('BillingInformation component', () => {
     const validationErrorMessages = await screen.findAllByText(
       'validation_messages.error_required_field',
     );
-    expect(validationErrorMessages).toHaveLength(7);
+    expect(validationErrorMessages).toHaveLength(8);
   });
 });

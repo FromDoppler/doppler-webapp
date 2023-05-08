@@ -248,8 +248,9 @@ export const BillingInformation = InjectAppServices(
                             type="text"
                             fieldName={fieldNames.zipCode}
                             id="zipCode"
-                            label={`${_('checkoutProcessForm.billing_information_zip_code')}`}
+                            label={`*${_('checkoutProcessForm.billing_information_zip_code')}`}
                             withNameValidation
+                            required
                             className="field-item--50 dp-p-r"
                             disabled={sameAddressInformation}
                           />

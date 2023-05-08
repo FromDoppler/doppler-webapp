@@ -21,6 +21,7 @@ export const TransferMexico = InjectAppServices(
     const [cfdis, setFdis] = useState([]);
     const [paymentTypes, setPaymentTypes] = useState([]);
     const [paymentways, setPaymentWays] = useState([]);
+    const [taxRegime, setTaxRegime] = useState([]);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -35,6 +36,7 @@ export const TransferMexico = InjectAppServices(
         [fieldNames.bankName]: paymentMethod.bankName,
         [fieldNames.bankAccount]: paymentMethod.bankAccount,
         [fieldNames.paymentMethodName]: paymentType.transfer,
+        [fieldNames.taxRegime]: paymentMethod.taxRegime,
       });
     }, [
       paymentMethod.idConsumerType,
@@ -45,6 +47,7 @@ export const TransferMexico = InjectAppServices(
       paymentMethod.paymentWay,
       paymentMethod.bankName,
       paymentMethod.bankAccount,
+      paymentMethod.taxRegime,
       setValues,
     ]);
 
@@ -78,6 +81,16 @@ export const TransferMexico = InjectAppServices(
             }))
           : [];
         setPaymentWays(paymentWaysMapped);
+
+        // tax regime values
+        const taxRegimeResponse = await staticDataClient.getTaxRegimes(language);
+        const taxRegimeMapped = taxRegimeResponse.success
+          ? Object.keys(taxRegimeResponse.value).map((key) => ({
+              key,
+              value: taxRegimeResponse.value[key],
+            }))
+          : [];
+        setTaxRegime(taxRegimeMapped);
       };
 
       if (!readOnly) {
@@ -100,6 +113,12 @@ export const TransferMexico = InjectAppServices(
 
     return (
       <div role="tabpanel" aria-label="transfer mexico fields">
+        <div className="dp-wrap-message dp-wrap-warning">
+          <span className="dp-message-icon"></span>
+          <div className="dp-content-message">
+            <p>{_('checkoutProcessForm.payment_method.warning_mex_transfer')}</p>
+          </div>
+        </div>
         <FieldItem className="field-item">
           <FieldGroup>
             <SelectFieldItem
@@ -199,6 +218,19 @@ export const TransferMexico = InjectAppServices(
                 </FieldGroup>
               </FieldItem>
             )}
+            <FieldItem className="field-item">
+              <FieldGroup>
+                <SelectFieldItem
+                  fieldName={fieldNames.taxRegime}
+                  id={fieldNames.taxRegime}
+                  label={`*${_('checkoutProcessForm.payment_method.tax_regime')}`}
+                  defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
+                  values={taxRegime}
+                  required
+                  className="field-item dp-p-r"
+                />
+              </FieldGroup>
+            </FieldItem>
           </>
         )}
       </div>

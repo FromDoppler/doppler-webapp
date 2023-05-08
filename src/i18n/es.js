@@ -166,7 +166,7 @@ const messages_es = {
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   checkoutProcessForm: {
-    billing_information_address: 'Dirección',
+    billing_information_address: 'Dirección fiscal',
     billing_information_answer_question: 'Ingresa la respuesta a la pregunta elegida:',
     billing_information_choose_question: 'Elige la pregunta que prefieras:',
     billing_information_city: 'Ciudad',
@@ -247,9 +247,11 @@ const messages_es = {
       responsable_iva_no: 'No',
       responsable_iva_yes: 'Si',
       security_code: 'Código de seguridad',
+      tax_regime: 'Regimen fiscal',
       title: 'Método de Pago',
       transfer: 'Transferencia',
       valid_thru: 'válido hasta',
+      warning_mex_transfer: 'Los datos que ingreses deben coincidir con la información que aparece en tu constancia de situación fiscal.',
     },
     purchase_summary: {
       add_recipient_placeholder: 'Agregar destinatario',
