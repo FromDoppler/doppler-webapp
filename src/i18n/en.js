@@ -318,6 +318,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     plan_type_monthly_deliveries: 'Emails by Plan',
     plan_type_monthly_deliveries_availables: 'Available Emails',
     plan_type_monthly_deliveries_label: 'By Emails',
+    plan_type_monthly_deliveries_monthly_renovation: 'Monthly',
     plan_type_prepaid: 'Credits by Plan',
     plan_type_prepaid_availables: 'Available Credits',
     plan_type_prepaid_label: 'By Credits',

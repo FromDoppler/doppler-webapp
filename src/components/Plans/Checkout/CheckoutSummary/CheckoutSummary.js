@@ -20,6 +20,7 @@ import { TransferInformation } from './TransferInformation/index';
 import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
+import { PLAN_TYPE } from '../../../../doppler-types';
 
 export const FormatMessageWithSpecialStyle = ({ id }) => {
   return (
@@ -85,10 +86,15 @@ const PlanInformation = ({
           <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
         </li>
         <li>
-          {discount ? (
+          {planType === PLAN_TYPE.byContact && discount ? (
             <>
               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
               <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
+            </>
+          ) : planType === PLAN_TYPE.byEmail ? (
+            <>
+              <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+              <h3>{_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}</h3>
             </>
           ) : (
             <h3 className="m-t-36">
