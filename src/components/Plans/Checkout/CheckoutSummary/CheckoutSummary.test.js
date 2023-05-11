@@ -43,6 +43,33 @@ const currentUserFake = {
   },
 };
 
+const userPlanByEmailFake = {
+  idPlan: 1,
+  planSubscription: 0,
+  planType: PLAN_TYPE.byEmail,
+  remainingCredits: 69542,
+  emailQty: 1500,
+  subscribersQty: null,
+};
+
+const userPlanByCreditsFake = {
+  idPlan: 1,
+  planSubscription: 0,
+  planType: PLAN_TYPE.byCredit,
+  remainingCredits: 69542,
+  emailQty: 1500,
+  subscribersQty: null,
+};
+
+const userPlanByContactFake = {
+  idPlan: 1,
+  planSubscription: 0,
+  planType: PLAN_TYPE.byContact,
+  remainingCredits: 69542,
+  emailQty: 1500,
+  subscribersQty: null,
+};
+
 const dopplerAccountPlansApiClientDoubleBase = {
   validatePromocode: async () => {
     return { success: true, value: fakePromotion };
@@ -450,5 +477,66 @@ describe('CheckoutSummary component', () => {
     ).not.toBeInTheDocument();
 
     screen.getByText(`checkoutProcessSuccess.mercado_pago_warning_message`);
+  });
+
+  describe.each([
+    [
+      '1 month renovation message when the plan is contacts and discount is for 1 month',
+      {
+        url: '/checkout-summary?planId=1&paymentMethod=CC&discount=monthly',
+        dopplerBillingUserApiClientDouble: {
+          ...dopplerBillingUserApiClientDoubleBase,
+          getCurrentUserPlanData: async () => {
+            return { success: true, value: userPlanByContactFake };
+          },
+        },
+        message: `checkoutProcessSuccess.discount_monthly`,
+      },
+    ],
+    [
+      '1 month renovation message when the plan is emails',
+      {
+        url: '/checkout-summary?planId=1&paymentMethod=CC',
+        dopplerBillingUserApiClientDouble: {
+          ...dopplerBillingUserApiClientDoubleBase,
+          getCurrentUserPlanData: async () => {
+            return { success: true, value: userPlanByEmailFake };
+          },
+        },
+        message: `checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`,
+      },
+    ],
+    [
+      'no expiration message when the plan is credits',
+      {
+        url: '/checkout-summary?planId=1&paymentMethod=CC',
+        dopplerBillingUserApiClientDouble: {
+          ...dopplerBillingUserApiClientDoubleBase,
+          getCurrentUserPlanData: async () => {
+            return { success: true, value: userPlanByCreditsFake };
+          },
+        },
+        message: `checkoutProcessSuccess.plan_type_prepaid_no_expiration`,
+      },
+    ],
+  ])('should show the renovation message ', (testName, context) => {
+    it(testName, async () => {
+      // Ac
+      render(
+        <CheckoutSummaryElement
+          url={context.url}
+          dopplerAccountPlansApiClientDouble={dopplerAccountPlansApiClientDoubleBase}
+          dopplerBillingUserApiClientDouble={context.dopplerBillingUserApiClientDouble}
+          currentUserFake={currentUserFake}
+        />,
+      );
+
+      // Assert
+      // Loader should disappear once request resolves
+      const loader = screen.getByTestId('loading-box');
+      await waitForElementToBeRemoved(loader);
+
+      screen.getByText(context.message);
+    });
   });
 });

@@ -318,6 +318,7 @@ const messages_es = {
     plan_type_monthly_deliveries: 'Envíos por Plan',
     plan_type_monthly_deliveries_availables: 'Envíos Disponibles',
     plan_type_monthly_deliveries_label: 'Por Envíos',
+    plan_type_monthly_deliveries_monthly_renovation: 'Mensual',
     plan_type_prepaid: 'Créditos por Plan',
     plan_type_prepaid_availables: 'Créditos Disponibles',
     plan_type_prepaid_label: 'Por Créditos',
