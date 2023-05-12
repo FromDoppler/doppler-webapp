@@ -150,7 +150,7 @@ export const BillingInformation = InjectAppServices(
               {({ setFieldValue, isSubmitting, isValid, dirty }) => (
                 <Form className="dp-form-billing-information">
                   <legend>{_('checkoutProcessForm.billing_information_title')}</legend>
-                  <fieldset>
+                  <fieldset className="dp-form-fields">
                     <FieldGroup>
                       <FieldItem className="field-item">
                         <fieldset>
@@ -270,14 +270,14 @@ export const BillingInformation = InjectAppServices(
                       <FieldItem className="field-item field-item--50 dp-p-r">
                         <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
                       </FieldItem>
-                      <FieldItem className="field-item">
-                        <div className="dp-buttons-actions">
-                          <SubmitButton className="dp-button button-medium primary-green">
-                            {_('checkoutProcessForm.save_continue')}
-                          </SubmitButton>
-                        </div>
-                      </FieldItem>
                     </FieldGroup>
+                  </fieldset>
+                  <fieldset className="dp-footer-button m-t-18">
+                    <div className="dp-buttons-actions">
+                      <SubmitButton className="dp-button button-medium primary-green">
+                        {_('checkoutProcessForm.save_continue')}
+                      </SubmitButton>
+                    </div>
                   </fieldset>
                 </Form>
               )}
