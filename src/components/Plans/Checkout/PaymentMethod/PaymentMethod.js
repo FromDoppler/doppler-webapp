@@ -446,7 +446,7 @@ export const PaymentMethod = InjectAppServices(
             {({ setFieldValue }) => (
               <Form className="dp-form-payment-method">
                 <legend>{_('checkoutProcessForm.payment_method.title')}</legend>
-                <fieldset>
+                <fieldset className="dp-form-fields">
                   <FieldGroup>
                     <FieldItem className="field-item m-b-24">
                       <PaymentMethodField
@@ -485,17 +485,17 @@ export const PaymentMethod = InjectAppServices(
                         </div>
                       </FieldItem>
                     ) : null}
-                    {optionView === actionPage.UPDATE ? (
-                      <FieldItem className="field-item">
-                        <div className="dp-buttons-actions">
-                          <SubmitButton className="dp-button button-medium primary-green">
-                            {_('checkoutProcessForm.save_continue')}
-                          </SubmitButton>
-                        </div>
-                      </FieldItem>
-                    ) : null}
                   </FieldGroup>
                 </fieldset>
+                {optionView === actionPage.UPDATE ? (
+                  <fieldset className="dp-footer-button m-t-18">
+                    <div className="dp-buttons-actions">
+                      <SubmitButton className="dp-button button-medium primary-green">
+                        {_('checkoutProcessForm.save_continue')}
+                      </SubmitButton>
+                    </div>
+                  </fieldset>
+                ) : null}
               </Form>
             )}
           </Formik>
