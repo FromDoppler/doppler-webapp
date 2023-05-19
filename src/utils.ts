@@ -227,7 +227,7 @@ export function isZendeskChatOnline() {
 }
 
 export function openZendeskChatWithMessage(message: string) {
-  window.zE('webWidget', 'open');
+  window.zE('messenger', 'open');
 }
 
 export function getPlanFee(plan: Plan): number {
