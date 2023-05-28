@@ -1213,6 +1213,8 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_invalid_name: `¡Ouch! Escribe usando solo letras y no números.`,
     error_invalid_nit: `Ouch! El formato del NIT es incorrecto`,
     error_invalid_rfc: `Ouch! El formato del RFC es incorrecto`,
+    error_invalid_size_file: `El tamaño debe ser menor o igual a {maxSizeMB} megas`,
+    error_invalid_type_pdf: `El tipo de archivo no es un PDF`,
     error_min_length: `¡Ouch! Minimo de caracteres invalido.`,
     error_min_length_2: `¡Ouch! Escribe al menos dos caracteres.`,
     error_password_character_length: `8 caracteres mínimo`,
@@ -1228,6 +1230,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_required_field: `¡Ouch! El campo está vacío.`,
     error_unexpected_MD: `¡Ouch! Detectamos un problema de conexión. Por favor inténtalo nuevamente en unos minutos.`,
     error_unexpected_register_MD: `¡Ouch! Algo salió mal. Por favor, vuelve a intentarlo más tarde o [contacta a nuestro equipo de Soporte](${mailtoSupport}).`,
+    error_upload_file: `¡Ouch! Algo salió mal al cargar el Archivo. Inténtelo nuevamente.`,
   },
 };
 

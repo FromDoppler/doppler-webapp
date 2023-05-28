@@ -207,3 +207,14 @@ export function validateRfc(
 function formatValidRfc(value: string) {
   return value ? (value.match(rfcRegEx) ? value.match(rfcRegEx)?.slice(1).join('') : null) : null;
 }
+
+export function validatePDF(file: File, maxSizeMB: number): true | string | null {
+  if (!file?.type?.match(/application\/pdf/i)) {
+    return 'validation_messages.error_invalid_type_pdf';
+  }
+  if (Math.round(file?.size / 1000) > maxSizeMB * 1000) {
+    return 'validation_messages.error_invalid_size_file';
+  }
+
+  return null;
+}

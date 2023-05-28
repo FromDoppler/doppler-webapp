@@ -1212,6 +1212,8 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_invalid_name: `Ouch! Write only letters, not numbers.`,
     error_invalid_nit: `Ouch! Enter a valid NIT`,
     error_invalid_rfc: `Ouch! Enter a valid RFC`,
+    error_invalid_size_file: `Size must be less or equal to {maxSizeMB} megas`,
+    error_invalid_type_pdf: `Selected file type is not a PDF`,
     error_min_length: `Ouch! Enter a minimum characters count.`,
     error_min_length_2: `Ouch! Write at least two characters.`,
     error_password_character_length: `8 characters minimum`,
@@ -1227,6 +1229,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_required_field: `Ouch! The field is empty.`,
     error_unexpected_MD: `Ouch! There seems to be a connection problem. Please try again in a few minutes.`,
     error_unexpected_register_MD: `Ouch! Something went wrong. Please try again later or [contact our Support team](${mailtoSupport}).`,
+    error_upload_file: `Ouch! Something went wrong. Please try again.`,
   },
 };
 
