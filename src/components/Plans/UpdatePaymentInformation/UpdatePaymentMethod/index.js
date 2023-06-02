@@ -140,7 +140,7 @@ export const UpdatePaymentMethod = InjectAppServices(
       <>
         <Formik initialValues={_getFormInitialValues()} onSubmit={submitPaymentMethodForm}>
           {() => (
-            <Form className="dp-form-payment-method">
+            <Form className="dp-form-payment-method m-l-24 m-b-12 m-r-24">
               <legend>{_('updatePaymentMethod.payment_method.title')}</legend>
               <fieldset>
                 <FieldGroup>

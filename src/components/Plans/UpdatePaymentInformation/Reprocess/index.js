@@ -23,7 +23,7 @@ const DeclinedInvoices = ({ declinedInvoices }) => {
 
   return (
     <>
-      <table className="dp-c-table  m-t-24">
+      <table className="dp-c-table m-t-24">
         <thead>
           <tr>
             <th>{_('updatePaymentMethod.reprocess.invoices_declined_table.date_column')}</th>
@@ -66,6 +66,7 @@ export const Reprocess = InjectAppServices(
           const declinedInvoices = await dopplerBillingUserApiClient.getInvoices([
             'declined',
             'failed',
+            'clientFailed',
           ]);
 
           dispatch({
@@ -97,7 +98,7 @@ export const Reprocess = InjectAppServices(
     return (
       <>
         <DeclinedInvoices declinedInvoices={declinedInvoices.invoices} showError={false} />
-        <div role="alert" aria-label="pending-ammount" className="p-t-24 p-b-24">
+        <div role="alert" aria-label="pending-ammount" className="p-t-24 p-b-24 m-l-12">
           <b>
             {_('updatePaymentMethod.reprocess.pending_amount_message')} {': '} {dollarSymbol}{' '}
             <FormattedNumber value={declinedInvoices.totalPending} {...numberFormatOptions} />
@@ -105,7 +106,7 @@ export const Reprocess = InjectAppServices(
         </div>
         <button
           type="button"
-          className="dp-button button-medium primary-green m-t-30"
+          className="dp-button button-medium primary-green m-t-30 m-l-12 m-b-12"
           onClick={reprocess}
         >
           <FormattedMessage id="updatePaymentMethod.reprocess.payment_now_button" />
