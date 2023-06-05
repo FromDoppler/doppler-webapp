@@ -130,6 +130,7 @@ export const PaymentInformationSummary = InjectAppServices(
             'pending',
             'declined',
             'failed',
+            'clientFailed',
           ]);
 
           dispatch({
