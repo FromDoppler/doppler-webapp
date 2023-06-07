@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { connect, Field, Formik, Form } from 'formik';
+import { connect, Field, Formik, Form, useFormikContext } from 'formik';
 import { FormattedMessage, useIntl } from 'react-intl';
 import {
   validateEmail,
@@ -9,6 +9,7 @@ import {
   validateName,
   combineValidations,
   validateMinLength,
+  validatePDF,
 } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
@@ -22,6 +23,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
 import { addLogEntry, concatClasses } from '../../utils';
 import useTimeout from '../../hooks/useTimeout';
+import { colors } from '../styles/colors';
 
 function translateIntlTelInputCountryNames(language) {
   const countryData = window.intlTelInputGlobals.getCountryData();
@@ -58,6 +60,8 @@ function createRequiredValidation(requiredProp) {
 
   return (value) => validateRequiredField(value, requiredProp);
 }
+
+const createPDFValidation = (maxSizeMB) => (file) => validatePDF(file, maxSizeMB);
 
 function createMinLengthValidation(minLength) {
   return (value) => validateMinLength(value, minLength.min, minLength.errorMessageKey);
@@ -191,14 +195,14 @@ export const FormMessages = connect(
   },
 );
 
-const Message = ({ message }) => {
+const Message = ({ message, values = null }) => {
   const intl = useIntl();
   return React.isValidElement(message) ? (
     message
   ) : (
     // assuming string
     // TODO: also consider array of errors, and parameters for localization message placeholders
-    <p>{intl.formatMessage({ id: message })}</p>
+    <p>{intl.formatMessage({ id: message }, values)}</p>
   );
 };
 export const FieldItem = connect(
@@ -236,6 +240,31 @@ export const FieldItem = connect(
     </li>
   ),
 );
+
+const useFormikErrors = (fieldName, withSubmitCount, withErrors = true) => {
+  const { errors, touched, submitCount } = useFormikContext();
+
+  const showError =
+    withErrors &&
+    (withSubmitCount ? submitCount : true) &&
+    touched[fieldName] &&
+    errors[fieldName] &&
+    errors[fieldName] !== true;
+
+  return { showError, errors };
+};
+
+const MessageError = ({ showError, errors, fieldName, values = null }) => {
+  if (!showError) {
+    return null;
+  }
+
+  return (
+    <div className="assistance-wrap">
+      <Message message={errors[fieldName]} values={values} />
+    </div>
+  );
+};
 
 const PasswordWrapper = connect(
   ({ className, fieldName, children, formik: { errors, touched } }) => {
@@ -463,6 +492,176 @@ export const EmailFieldItem = ({
     />
   </FieldItem>
 );
+
+const CustomInputFile = ({ fileProps }) => (
+  <input
+    type="file"
+    accept={fileProps.accept}
+    name={fileProps.name}
+    id={fileProps.name}
+    onChange={fileProps.onChange}
+    onDrop={fileProps.onDrop}
+    onDragOver={fileProps.onDragOver}
+    onDragLeave={fileProps.onDragLeave}
+    style={fileProps.active ? { background: colors.greenBackground } : null}
+  />
+);
+
+const UploadedFile = ({ fileProps }) => (
+  <div className="dp-inputfile-overlay">
+    <span className="dp-namefile">{fileProps.currentFile.name}</span>
+    <div className="dp-btns-overlay">
+      <a
+        className="dp-download-pdf"
+        href={fileProps.currentFile.downloadURL}
+        download={fileProps.currentFile.name}
+        target="_blank"
+      >
+        download
+      </a>
+      <button className="dp-delete-pdf" type="button" onClick={fileProps.onRemove} />
+    </div>
+  </div>
+);
+
+// TODO: change this field to use given validations instead of just to be validating PDF
+export const UploadFileFieldItem = ({
+  className,
+  fieldName,
+  label,
+  withSubmitCount = true,
+  maxSizeMB = 25,
+  required,
+  disabled = false,
+  accept,
+  ...rest
+}) => {
+  const intl = useIntl();
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+  const { values, setFieldValue, setFieldError, submitCount } = useFormikContext();
+  const [active, setActive] = useState(false);
+  const [file, setFile] = useState(null);
+  const [fileDataURL, setFileDataURL] = useState(null);
+  const [initialFile, setInitialFile] = useState(null);
+
+  const fileObj = values[fieldName];
+  const fieldNameError = errors[fieldName];
+
+  useEffect(() => {
+    if (fieldNameError && submitCount > 0) {
+      setActive(false);
+    }
+  }, [fieldNameError, submitCount]);
+
+  useEffect(() => {
+    if (!file && !initialFile && fileObj) {
+      setInitialFile(fileObj);
+    }
+  }, [file, fileObj, initialFile]);
+
+  useEffect(() => {
+    let fileReader;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result) {
+          setFileDataURL(result);
+        }
+      };
+      fileReader.onerror = (e) => {
+        const { error } = e.target;
+        setFieldError(fieldName, 'validation_messages.error_upload_file');
+        console.log(error);
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      if (fileReader?.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file, setFieldError, fieldName]);
+
+  const onRemove = (e) => {
+    setFile('');
+    setFieldValue(fieldName, '');
+    setActive(false);
+    setInitialFile(null);
+    setFileDataURL(null);
+  };
+
+  const processFile = (file) => {
+    setFile(file);
+    setFieldValue(fieldName, file);
+    setActive(true);
+    setInitialFile(null);
+  };
+
+  const onChange = (e) => processFile(e.target.files[0]);
+
+  const onDrop = (e) => processFile(e.dataTransfer.files[0]);
+
+  const currentFile = file ? { name: file.name, downloadURL: fileDataURL } : initialFile;
+  const showReadMode = initialFile && currentFile?.downloadURL === initialFile.downloadURL;
+  const renderComponent = showReadMode
+    ? UploadedFile // This is read mode
+    : CustomInputFile; // This is write mode
+
+  return (
+    <li className={`field-item awa-form ${className}`}>
+      <label
+        className="dp-label-dropfile"
+        htmlFor={fieldName}
+        aria-disabled={disabled}
+        aria-invalid={showError}
+      >
+        {label}
+        <Field
+          name={fieldName}
+          id={fieldName}
+          validate={combineValidations(
+            createRequiredValidation(required),
+            createPDFValidation(maxSizeMB),
+          )}
+          component={renderComponent}
+          fileProps={
+            showReadMode
+              ? {
+                  currentFile,
+                  onRemove,
+                }
+              : {
+                  accept,
+                  active,
+                  onChange,
+                  onDrop,
+                  onDragOver: () => setActive(true),
+                  onDragLeave: () => setActive(false),
+                }
+          }
+          {...rest}
+        />
+        {!showError && !showReadMode && (
+          <div className="assistance-wrap">
+            <span>
+              {intl.formatMessage(
+                { id: 'validation_messages.error_invalid_size_file' },
+                { maxSizeMB },
+              )}
+            </span>
+          </div>
+        )}
+        <MessageError
+          fieldName={fieldName}
+          showError={showError}
+          errors={errors}
+          values={{ maxSizeMB }}
+        />
+      </label>
+    </li>
+  );
+};
 
 const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...rest }) => {
   const [passVisible, setPassVisible] = useState(false);
