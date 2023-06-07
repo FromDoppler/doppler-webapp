@@ -241,6 +241,10 @@ export const FieldItem = connect(
   ),
 );
 
+export const FieldItemAccessible = ({ className, children }) => (
+  <li className={`field-item awa-form ${className}`}>{children}</li>
+);
+
 const useFormikErrors = (fieldName, withSubmitCount, withErrors = true) => {
   const { errors, touched, submitCount } = useFormikContext();
 
@@ -492,6 +496,45 @@ export const EmailFieldItem = ({
     />
   </FieldItem>
 );
+
+// TODO: once this field completely replaces the EmailFieldItem component,
+// you should delete the old one and rename this new component to EmailFieldItem
+export const EmailFieldItemAccessible = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  withSubmitCount = true,
+  required,
+  disabled = false,
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+  return (
+    <FieldItemAccessible className={className}>
+      <label
+        className="labelcontrol"
+        htmlFor={fieldName}
+        aria-disabled={disabled}
+        data-required={required}
+      >
+        {label}
+        <Field
+          type="text"
+          name={fieldName}
+          id={fieldName}
+          placeholder={placeholder}
+          aria-invalid={showError}
+          disabled={disabled}
+          validate={combineValidations(createRequiredValidation(required), validateEmail)}
+          {...rest}
+        />
+        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
+      </label>
+    </FieldItemAccessible>
+  );
+};
 
 const CustomInputFile = ({ fileProps }) => (
   <input
