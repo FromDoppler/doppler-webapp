@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import {
-  EmailFieldItem,
   FieldGroup,
   SubmitButton,
   FormMessages,
   CaptchaLegalMessage,
   FormWithCaptcha,
+  EmailFieldItemAccessible,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { InjectAppServices } from '../../services/pure-di';
@@ -145,7 +145,7 @@ const ForgotPassword = ({
             >
               <fieldset>
                 <FieldGroup>
-                  <EmailFieldItem
+                  <EmailFieldItemAccessible
                     autoFocus
                     fieldName={fieldNames.email}
                     label={_('signup.label_email')}

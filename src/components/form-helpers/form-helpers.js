@@ -517,7 +517,7 @@ export const EmailFieldItemAccessible = ({
         className="labelcontrol"
         htmlFor={fieldName}
         aria-disabled={disabled}
-        data-required={required}
+        data-required={!!required}
       >
         {label}
         <Field
@@ -758,6 +758,7 @@ const BasePasswordFieldItemAccessible = ({
   required,
   withSubmitCount = true,
   children,
+  context = 'login',
   ...rest
 }) => {
   const [passVisible, setPassVisible] = useState(false);
@@ -788,13 +789,14 @@ const BasePasswordFieldItemAccessible = ({
           spellCheck="false"
           badinput="false"
           autoCapitalize="off"
-          aria-required={required}
+          aria-required={!!required}
           aria-invalid={showError}
           validate={createRequiredValidation(required)}
           {...rest}
         />
+        {context === 'login' && children}
       </div>
-      {children}
+      {context === 'signup' && children}
     </label>
   );
 };
