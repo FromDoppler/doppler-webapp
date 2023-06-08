@@ -750,16 +750,79 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...res
   );
 };
 
-export const PasswordFieldItem = ({ className, fieldName, label, placeholder, ...rest }) => (
-  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
-    <BasePasswordFieldItem
-      fieldName={fieldName}
-      label={label}
-      placeholder={placeholder}
-      {...rest}
-    />
-  </FieldItem>
-);
+// TODO: remove 'common.hide' and 'common.show' entries
+const BasePasswordFieldItemAccessible = ({
+  fieldName,
+  label,
+  placeholder,
+  required,
+  withSubmitCount = true,
+  children,
+  ...rest
+}) => {
+  const [passVisible, setPassVisible] = useState(false);
+  const type = passVisible ? 'text' : 'password';
+  const autocomplete = passVisible ? 'off' : 'current-password';
+  const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
+  const { showError } = useFormikErrors(fieldName, withSubmitCount);
+
+  return (
+    <label htmlFor={fieldName} className="labelpassword" data-required={required}>
+      {label}
+      <div className="dp-wrap-eyed">
+        <button
+          type="button"
+          id="see"
+          aria-label="see"
+          className={buttonClasses}
+          tabIndex="-1"
+          onClick={() => setPassVisible((current) => !current)}
+        />
+        <Field
+          type={type}
+          name={fieldName}
+          autoComplete={autocomplete}
+          id={fieldName}
+          placeholder={placeholder}
+          aria-placeholder={placeholder}
+          spellCheck="false"
+          badinput="false"
+          autoCapitalize="off"
+          aria-required={required}
+          aria-invalid={showError}
+          validate={createRequiredValidation(required)}
+          {...rest}
+        />
+      </div>
+      {children}
+    </label>
+  );
+};
+
+export const PasswordFieldItem = ({
+  className,
+  fieldName,
+  label,
+  placeholder,
+  withSubmitCount = true,
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+
+  return (
+    <FieldItemAccessible className={className}>
+      <BasePasswordFieldItemAccessible
+        fieldName={fieldName}
+        label={label}
+        placeholder={placeholder}
+        withSubmitCount={withSubmitCount}
+        {...rest}
+      >
+        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
+      </BasePasswordFieldItemAccessible>
+    </FieldItemAccessible>
+  );
+};
 
 export const ValidatedPasswordFieldItem = ({
   className,
