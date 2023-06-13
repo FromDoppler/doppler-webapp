@@ -4,15 +4,15 @@ import { Helmet } from 'react-helmet';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { InjectAppServices } from '../../services/pure-di';
 import {
-  EmailFieldItem,
   FieldGroup,
   FormWithCaptcha,
-  InputFieldItem,
-  CheckboxFieldItem,
   ValidatedPasswordFieldItem,
-  PhoneFieldItem,
   SubmitButton,
   FormMessages,
+  CheckboxFieldItemAccessible,
+  InputFieldItemAccessible,
+  EmailFieldItemAccessible,
+  PhoneFieldItemAccessible,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
@@ -226,7 +226,7 @@ const Signup = function ({
             <ScrollToFieldError fieldsOrder={Object.values(fieldNames)} />
             <fieldset>
               <FieldGroup>
-                <InputFieldItem
+                <InputFieldItemAccessible
                   autoFocus
                   className="field-item--50"
                   fieldName={fieldNames.firstname}
@@ -238,7 +238,7 @@ const Signup = function ({
                   withNameValidation
                   withSubmitCount={false}
                 />
-                <InputFieldItem
+                <InputFieldItemAccessible
                   className="field-item--50"
                   fieldName={fieldNames.lastname}
                   label={_('signup.label_lastname')}
@@ -249,7 +249,7 @@ const Signup = function ({
                   withNameValidation
                   withSubmitCount={false}
                 />
-                <EmailFieldItem
+                <EmailFieldItemAccessible
                   fieldName={fieldNames.email}
                   label={_('signup.label_email')}
                   placeholder={_('signup.placeholder_email')}
@@ -260,7 +260,7 @@ const Signup = function ({
             </fieldset>
             <fieldset>
               <FieldGroup>
-                <PhoneFieldItem
+                <PhoneFieldItemAccessible
                   fieldName={fieldNames.phone}
                   label={_('signup.label_phone')}
                   placeholder={_('signup.placeholder_phone')}
@@ -271,12 +271,13 @@ const Signup = function ({
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
                   placeholder={_('signup.placeholder_password')}
+                  required
                 />
               </FieldGroup>
             </fieldset>
             <fieldset>
               <FieldGroup className="dp-items-accept">
-                <CheckboxFieldItem
+                <CheckboxFieldItemAccessible
                   fieldName={fieldNames.accept_privacy_policies}
                   className={'label--policy'}
                   label={
@@ -294,7 +295,7 @@ const Signup = function ({
                   checkRequired
                   withSubmitCount={false}
                 />
-                <CheckboxFieldItem
+                <CheckboxFieldItemAccessible
                   fieldName={fieldNames.accept_promotions}
                   label={_('signup.promotions_consent')}
                 />
