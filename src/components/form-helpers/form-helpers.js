@@ -241,6 +241,10 @@ export const FieldItem = connect(
   ),
 );
 
+export const FieldItemAccessible = ({ className, children }) => (
+  <li className={`field-item awa-form ${className}`}>{children}</li>
+);
+
 const useFormikErrors = (fieldName, withSubmitCount, withErrors = true) => {
   const { errors, touched, submitCount } = useFormikContext();
 
@@ -493,6 +497,45 @@ export const EmailFieldItem = ({
   </FieldItem>
 );
 
+// TODO: once this field completely replaces the EmailFieldItem component,
+// you should delete the old one and rename this new component to EmailFieldItem
+export const EmailFieldItemAccessible = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  withSubmitCount = true,
+  required,
+  disabled = false,
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+  return (
+    <FieldItemAccessible className={className}>
+      <label
+        className="labelcontrol"
+        htmlFor={fieldName}
+        aria-disabled={disabled}
+        data-required={!!required}
+      >
+        {label}
+        <Field
+          type="text"
+          name={fieldName}
+          id={fieldName}
+          placeholder={placeholder}
+          aria-invalid={showError}
+          disabled={disabled}
+          validate={combineValidations(createRequiredValidation(required), validateEmail)}
+          {...rest}
+        />
+        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
+      </label>
+    </FieldItemAccessible>
+  );
+};
+
 const CustomInputFile = ({ fileProps }) => (
   <input
     type="file"
@@ -707,16 +750,81 @@ const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...res
   );
 };
 
-export const PasswordFieldItem = ({ className, fieldName, label, placeholder, ...rest }) => (
-  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
-    <BasePasswordFieldItem
-      fieldName={fieldName}
-      label={label}
-      placeholder={placeholder}
-      {...rest}
-    />
-  </FieldItem>
-);
+// TODO: remove 'common.hide' and 'common.show' entries
+const BasePasswordFieldItemAccessible = ({
+  fieldName,
+  label,
+  placeholder,
+  required,
+  withSubmitCount = true,
+  children,
+  context = 'login',
+  ...rest
+}) => {
+  const [passVisible, setPassVisible] = useState(false);
+  const type = passVisible ? 'text' : 'password';
+  const autocomplete = passVisible ? 'off' : 'current-password';
+  const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
+  const { showError } = useFormikErrors(fieldName, withSubmitCount);
+
+  return (
+    <label htmlFor={fieldName} className="labelpassword" data-required={required}>
+      {label}
+      <div className="dp-wrap-eyed">
+        <button
+          type="button"
+          id="see"
+          aria-label="see"
+          className={buttonClasses}
+          tabIndex="-1"
+          onClick={() => setPassVisible((current) => !current)}
+        />
+        <Field
+          type={type}
+          name={fieldName}
+          autoComplete={autocomplete}
+          id={fieldName}
+          placeholder={placeholder}
+          aria-placeholder={placeholder}
+          spellCheck="false"
+          badinput="false"
+          autoCapitalize="off"
+          aria-required={!!required}
+          aria-invalid={showError}
+          validate={createRequiredValidation(required)}
+          {...rest}
+        />
+        {context === 'login' && children}
+      </div>
+      {context === 'signup' && children}
+    </label>
+  );
+};
+
+export const PasswordFieldItem = ({
+  className,
+  fieldName,
+  label,
+  placeholder,
+  withSubmitCount = true,
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+
+  return (
+    <FieldItemAccessible className={className}>
+      <BasePasswordFieldItemAccessible
+        fieldName={fieldName}
+        label={label}
+        placeholder={placeholder}
+        withSubmitCount={withSubmitCount}
+        {...rest}
+      >
+        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
+      </BasePasswordFieldItemAccessible>
+    </FieldItemAccessible>
+  );
+};
 
 export const ValidatedPasswordFieldItem = ({
   className,
