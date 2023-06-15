@@ -245,6 +245,7 @@ const messages_en = {
       responsable_iva_no: 'No',
       responsable_iva_yes: 'Yes',
       security_code: 'Security code',
+      tax_certificate: 'Proof of tax situation',
       tax_regime: 'Tax regime',
       title: 'Payment Method',
       transfer: 'Bank transfer',
