@@ -5,6 +5,7 @@ import {
   InputFieldItem,
   CuitFieldItem,
   SelectFieldItem,
+  UploadFileFieldItem,
 } from '../../../../../form-helpers/form-helpers';
 import { fieldNames, paymentType } from '../../PaymentMethod';
 import { useFormikContext } from 'formik';
@@ -37,6 +38,7 @@ export const TransferMexico = InjectAppServices(
         [fieldNames.bankAccount]: paymentMethod.bankAccount,
         [fieldNames.paymentMethodName]: paymentType.transfer,
         [fieldNames.taxRegime]: paymentMethod.taxRegime,
+        [fieldNames.taxCertificate]: paymentMethod.taxCertificate ?? '',
       });
     }, [
       paymentMethod.idConsumerType,
@@ -48,6 +50,7 @@ export const TransferMexico = InjectAppServices(
       paymentMethod.bankName,
       paymentMethod.bankAccount,
       paymentMethod.taxRegime,
+      paymentMethod.taxCertificate,
       setValues,
     ]);
 
@@ -227,7 +230,14 @@ export const TransferMexico = InjectAppServices(
                   defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
                   values={taxRegime}
                   required
-                  className="field-item dp-p-r"
+                  className="field-item field-item--50 dp-p-r"
+                />
+                <UploadFileFieldItem
+                  fieldName={fieldNames.taxCertificate}
+                  label={`*${_('checkoutProcessForm.payment_method.tax_certificate')}`}
+                  accept="application/pdf"
+                  className="field-item--50"
+                  required={true}
                 />
               </FieldGroup>
             </FieldItem>
