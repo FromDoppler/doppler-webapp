@@ -154,6 +154,15 @@ export const MercadoPagoError = {
   pending: 'Pending',
 };
 
+export const CloverError = {
+  declined: 'DeclinedPaymentTransaction - card_declined',
+  invalidCreditCardNumber: 'DeclinedPaymentTransaction - invalid_number',
+  invalidExpirationMonth: 'DeclinedPaymentTransaction - invalid_expiry_month',
+  invalidExpirationYear: 'DeclinedPaymentTransaction - invalid_expiry_year',
+  invalidSecurityCode: 'DeclinedPaymentTransaction - incorrect_cvc"',
+  insufficientFunds: 'DeclinedPaymentTransaction - invalid_tip_amount',
+};
+
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
 
 export const nonAuthenticatedBlockedUser = 'non-authenticated-blocked-user';

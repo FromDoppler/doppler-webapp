@@ -12,7 +12,7 @@ import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer/Transfer';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PLAN_TYPE, FirstDataError } from '../../../../doppler-types';
+import { PLAN_TYPE, FirstDataError, CloverError } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 import { ACCOUNT_TYPE, PAID_ACCOUNT } from '../../../../hooks/useUserTypeAsQueryParam';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
@@ -416,16 +416,21 @@ export const PaymentMethod = InjectAppServices(
     const handleMessage = (error) => {
       switch (error.response.data) {
         case FirstDataError.invalidExpirationDate:
+        case CloverError.invalidExpirationMonth:
+        case CloverError.invalidExpirationYear:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
         case FirstDataError.invalidCreditCardNumber:
         case FirstDataError.invalidCCNumber:
+        case CloverError.invalidCreditCardNumber:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
         case FirstDataError.doNotHonorDeclined:
+        case CloverError.declined:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
         case FirstDataError.suspectedFraud:
           return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
         case FirstDataError.insufficientFunds:
+        case CloverError.insufficientFunds:
           return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
         case FirstDataError.cardVolumeExceeded:
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';

@@ -6,7 +6,12 @@ import { Step } from '../Checkout/Step/Step';
 import { Link } from 'react-router-dom';
 import UpdatePaymentMethod from './UpdatePaymentMethod';
 import Reprocess from './Reprocess';
-import { FirstDataError, MercadoPagoError, PaymentMethodType } from '../../../doppler-types';
+import {
+  FirstDataError,
+  MercadoPagoError,
+  CloverError,
+  PaymentMethodType,
+} from '../../../doppler-types';
 import { ContactInformation } from './ContactInformation/index';
 import { Loading } from '../../Loading/Loading';
 import {
@@ -30,23 +35,29 @@ export const handleMessage = (error) => {
   switch (error.response?.data) {
     case FirstDataError.invalidExpirationDate:
     case MercadoPagoError.invalidExpirationDate:
+    case CloverError.invalidExpirationMonth:
+    case CloverError.invalidExpirationYear:
       return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
     case FirstDataError.invalidCreditCardNumber:
     case FirstDataError.invalidCCNumber:
+    case CloverError.invalidCreditCardNumber:
       return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
     case FirstDataError.declined:
     case FirstDataError.doNotHonorDeclined:
     case MercadoPagoError.declinedOtherReason:
+    case CloverError.declined:
       return 'checkoutProcessForm.payment_method.first_data_error.declined';
     case FirstDataError.suspectedFraud:
     case MercadoPagoError.suspectedFraud:
       return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
     case FirstDataError.insufficientFunds:
     case MercadoPagoError.insufficientFunds:
+    case CloverError.insufficientFunds:
       return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
     case FirstDataError.cardVolumeExceeded:
       return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
     case MercadoPagoError.invalidSecurityCode:
+    case CloverError.invalidSecurityCode:
       return 'checkoutProcessForm.payment_method.mercado_pago_error.invalid_security_code';
     default:
       return 'checkoutProcessForm.purchase_summary.error_message';
