@@ -1,5 +1,5 @@
 import { useIntl, FormattedDate, FormattedNumber } from 'react-intl';
-import { FirstDataError, MercadoPagoError } from '../../.././../doppler-types';
+import { FirstDataError, MercadoPagoError, CloverError } from '../../.././../doppler-types';
 
 const dollarSymbol = 'US$';
 const numberFormatOptions = {
@@ -12,23 +12,29 @@ const translateCreditCardError = (creditCardError) => {
   switch (creditCardError) {
     case FirstDataError.invalidExpirationDate:
     case MercadoPagoError.invalidExpirationDate:
+    case CloverError.invalidExpirationMonth:
+    case CloverError.invalidExpirationYear:
       return 'updatePaymentInformationSuccess.credit_card_error.invalid_expiration_date';
     case FirstDataError.invalidCreditCardNumber:
     case FirstDataError.invalidCCNumber:
+    case CloverError.invalidCreditCardNumber:
       return 'updatePaymentInformationSuccess.credit_card_error.invalid_credit_card_number';
     case FirstDataError.declined:
     case FirstDataError.doNotHonorDeclined:
     case MercadoPagoError.declinedOtherReason:
+    case CloverError.declined:
       return 'cupdatePaymentInformationSuccess.credit_card_error.declined';
     case FirstDataError.suspectedFraud:
     case MercadoPagoError.suspectedFraud:
       return 'updatePaymentInformationSuccess.credit_card_error.suspected_fraud';
     case FirstDataError.insufficientFunds:
     case MercadoPagoError.insufficientFunds:
+    case CloverError.insufficientFunds:
       return 'updatePaymentInformationSuccess.credit_card_error.insufficient_funds';
     case FirstDataError.cardVolumeExceeded:
       return 'updatePaymentInformationSuccess.credit_card_error.card_volume_exceeded';
     case MercadoPagoError.invalidSecurityCode:
+    case CloverError.invalidSecurityCode:
       return 'updatePaymentInformationSuccess.credit_card_error.invalid_security_code';
     case MercadoPagoError.pending:
       return 'updatePaymentInformationSuccess.credit_card_error.pending';

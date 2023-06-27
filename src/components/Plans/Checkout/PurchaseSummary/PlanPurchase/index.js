@@ -7,6 +7,7 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import {
   FirstDataError,
   MercadoPagoError,
+  CloverError,
   OnlySupportUpSelling,
 } from '../../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
@@ -66,23 +67,29 @@ export const PlanPurchase = InjectAppServices(
       switch (error.response?.data) {
         case FirstDataError.invalidExpirationDate:
         case MercadoPagoError.invalidExpirationDate:
+        case CloverError.invalidExpirationMonth:
+        case CloverError.invalidExpirationYear:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
         case FirstDataError.invalidCreditCardNumber:
         case FirstDataError.invalidCCNumber:
+        case CloverError.invalidCreditCardNumber:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
         case FirstDataError.doNotHonorDeclined:
         case MercadoPagoError.declinedOtherReason:
+        case CloverError.declined:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
         case FirstDataError.suspectedFraud:
         case MercadoPagoError.suspectedFraud:
           return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
         case FirstDataError.insufficientFunds:
         case MercadoPagoError.insufficientFunds:
+        case CloverError.insufficientFunds:
           return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
         case FirstDataError.cardVolumeExceeded:
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
         case MercadoPagoError.invalidSecurityCode:
+        case CloverError.invalidSecurityCode:
           return 'checkoutProcessForm.payment_method.mercado_pago_error.invalid_security_code';
         case OnlySupportUpSelling:
           return 'checkoutProcessForm.purchase_summary.error_only_supports_upselling_message';
