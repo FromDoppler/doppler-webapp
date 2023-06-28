@@ -10,6 +10,7 @@ import {
   combineValidations,
   validateMinLength,
   validatePDF,
+  validateExpiry,
 } from '../../validations';
 import countriesEs from '../../i18n/countries-es.json';
 import countriesEn from '../../i18n/countries-en.json';
@@ -503,6 +504,7 @@ export const InputFieldItem = ({
   withNameValidation,
   withSubmitCount = true,
   minLength,
+  withExpiryDateValidation = false,
   ...rest
 }) => (
   <FieldItem
@@ -520,6 +522,7 @@ export const InputFieldItem = ({
         createRequiredValidation(required),
         minLength && createMinLengthValidation(minLength),
         withNameValidation && validateName,
+        withExpiryDateValidation && validateExpiry,
       )}
       {...rest}
     />
