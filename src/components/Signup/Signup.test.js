@@ -49,34 +49,6 @@ describe('Signup', () => {
   });
   afterEach(cleanup);
 
-  it('should not show errors on blur but after first submit', async () => {
-    // Arrange
-    const dependencies = defaultDependencies;
-    const location = { search: 'test', pathname: '/signup' };
-
-    // Act
-    const { container } = render(
-      <AppServicesProvider forcedServices={dependencies}>
-        <DopplerIntlProvider>
-          <Router>
-            <Signup location={location} />
-          </Router>
-        </DopplerIntlProvider>
-      </AppServicesProvider>,
-    );
-    await waitFor(() => {});
-    expect(container.querySelectorAll('.error')).toHaveLength(0);
-
-    // Act
-    await act(() => container.querySelector('#lastname').focus());
-
-    // Act
-    await act(() => container.querySelector('button[type="submit"]').click());
-
-    // Assert
-    await waitFor(() => expect(container.querySelectorAll('.error')).not.toHaveLength(0));
-  });
-
   it('should show Argentina below Argelia when selected language is ES', async () => {
     // Arrange
     const dependencies = defaultDependencies;

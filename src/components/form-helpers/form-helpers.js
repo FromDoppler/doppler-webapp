@@ -258,69 +258,17 @@ const useFormikErrors = (fieldName, withSubmitCount, withErrors = true) => {
   return { showError, errors };
 };
 
-const MessageError = ({ showError, errors, fieldName, values = null }) => {
+const MessageError = ({ id, showError, errors, fieldName, className, values = null }) => {
   if (!showError) {
     return null;
   }
 
   return (
-    <div className="assistance-wrap">
+    <div id={id ?? ''} className={className || 'assistance-wrap'}>
       <Message message={errors[fieldName]} values={values} />
     </div>
   );
 };
-
-const PasswordWrapper = connect(
-  ({ className, fieldName, children, formik: { errors, touched } }) => {
-    const fieldError = errors[fieldName];
-    const touchedField = touched[fieldName];
-
-    const passwordMessageCharClass =
-      !touchedField && fieldError && fieldError.empty
-        ? 'waiting-message'
-        : fieldError && (fieldError.charLength || fieldError.empty)
-        ? 'lack-message'
-        : 'complete-message';
-    const passwordMessageDigitClass =
-      !touchedField && fieldError && fieldError.empty
-        ? 'waiting-message'
-        : fieldError && (fieldError.digit || fieldError.empty)
-        ? 'lack-message'
-        : 'complete-message';
-    const passwordMessageLetterClass =
-      !touchedField && fieldError && fieldError.empty
-        ? 'waiting-message'
-        : fieldError && (fieldError.letter || fieldError.empty)
-        ? 'lack-message'
-        : 'complete-message';
-    return (
-      <li className={concatClasses(className, touchedField && fieldError ? 'error' : '')}>
-        {children}
-        <div className="wrapper-password">
-          {fieldError ? (
-            <p className="password-message">
-              <span className={passwordMessageCharClass}>
-                <FormattedMessage id="validation_messages.error_password_character_length" />
-              </span>
-              <span className={passwordMessageLetterClass}>
-                <FormattedMessage id="validation_messages.error_password_letter" />
-              </span>
-              <span className={passwordMessageDigitClass}>
-                <FormattedMessage id="validation_messages.error_password_digit" />
-              </span>
-            </p>
-          ) : (
-            <p className="password-message">
-              <span className="secure-message">
-                <FormattedMessage id="validation_messages.error_password_safe" />
-              </span>
-            </p>
-          )}
-        </div>
-      </li>
-    );
-  },
-);
 
 // This function is here, in global scope, to allow reusing without breaking dependencies of useEffect.
 // See https://reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functions-from-the-list-of-dependencies
@@ -437,6 +385,114 @@ const _PhoneFieldItem = ({
 
 export const PhoneFieldItem = connect(InjectAppServices(_PhoneFieldItem));
 
+/**
+ * Phone Field Item Component
+ * @param { Object } props - props
+ * @param { import('react-intl').InjectedIntl } props.intl - intl
+ * @param { import('formik').FormikProps<Values> } props.formik - formik
+ * @param { string } props.className - className
+ * @param { string } props.fieldName - fieldName
+ * @param { string } props.label - label
+ * @param { string } props.placeholder - placeholder
+ * @param { React.MutableRefObject<import('intl-tel-input').Plugin> } props.intlTelInputRef - intlTelInputRef
+ * @param { import('../../services/pure-di').AppServices } props.dependencies
+ */
+const _PhoneFieldItemAccessible = ({
+  className,
+  fieldName,
+  label,
+  placeholder,
+  withSubmitCount = true,
+  required,
+  dependencies: { ipinfoClient },
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+  const { values, handleChange, handleBlur, setFieldValue } = useFormikContext();
+  const intl = useIntl();
+  const inputElRef = useRef(null);
+  const intlTelInputRef = useRef(null);
+  const [eventListenerSet, setEventListenerSet] = useState(false);
+
+  const formatFieldValueAsInternationalNumber = () =>
+    _formatFieldValueAsInternationalNumber(intlTelInputRef.current, fieldName, setFieldValue);
+
+  const validatePhone = (value) => {
+    if (!value) {
+      return null;
+    }
+
+    const iti = intlTelInputRef.current;
+    if (iti && !iti.isValidNumber()) {
+      const errorCode = iti.getValidationError();
+      return errorCode === 1
+        ? 'validation_messages.error_phone_invalid_country'
+        : errorCode === 2
+        ? 'validation_messages.error_phone_too_short'
+        : errorCode === 3
+        ? 'validation_messages.error_phone_too_long'
+        : 'validation_messages.error_phone_invalid';
+    }
+
+    return null;
+  };
+  useEffect(() => {
+    translateIntlTelInputCountryNames(intl.locale);
+    const iti = intlTelInput(inputElRef.current, {
+      // It is to accept national numbers, not only formating
+      nationalMode: true,
+      separateDialCode: false,
+      autoPlaceholder: 'aggressive',
+      preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
+      initialCountry: 'auto',
+      geoIpLookup: async (success) => {
+        const countryCode = await ipinfoClient.getCountryCode();
+        success(countryCode);
+      },
+    });
+    intlTelInputRef.current = iti;
+    _formatFieldValueAsInternationalNumber(iti, fieldName, setFieldValue);
+    return () => {
+      setEventListenerSet(false);
+      iti.destroy();
+    };
+  }, [intl.locale, fieldName, setFieldValue, ipinfoClient]);
+
+  if (!eventListenerSet && inputElRef.current && intlTelInputRef.current) {
+    inputElRef.current.addEventListener('countrychange', handleChange);
+    setEventListenerSet(true);
+  }
+
+  return (
+    <FieldItemAccessible className={className}>
+      <label htmlFor={fieldName} className="labelcontrol" data-required={!!required}>
+        {label}
+        <Field
+          type="tel"
+          innerRef={inputElRef}
+          name={fieldName}
+          id={fieldName}
+          placeholder={placeholder}
+          aria-placeholder={placeholder}
+          aria-required={required}
+          aria-invalid={showError}
+          onChange={handleChange}
+          onBlur={(e) => {
+            formatFieldValueAsInternationalNumber();
+            handleBlur(e);
+          }}
+          value={values[fieldName]}
+          validate={combineValidations(createRequiredValidation(required), validatePhone)}
+          {...rest}
+        />
+        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
+      </label>
+    </FieldItemAccessible>
+  );
+};
+
+export const PhoneFieldItemAccessible = InjectAppServices(_PhoneFieldItemAccessible);
+
 export const InputFieldItem = ({
   className,
   fieldName,
@@ -469,6 +525,51 @@ export const InputFieldItem = ({
     />
   </FieldItem>
 );
+
+export const InputFieldItemAccessible = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  required,
+  withNameValidation,
+  withSubmitCount = true,
+  minLength,
+  disabled,
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+
+  return (
+    <FieldItemAccessible className={className}>
+      <label
+        htmlFor="name"
+        className="labelcontrol"
+        aria-disabled={disabled}
+        data-required={required}
+      >
+        {label}
+        <Field
+          type={type}
+          name={fieldName}
+          id={fieldName}
+          placeholder={placeholder}
+          aria-placeholder={placeholder}
+          aria-required={required}
+          aria-invalid={showError}
+          validate={combineValidations(
+            createRequiredValidation(required),
+            minLength && createMinLengthValidation(minLength),
+            withNameValidation && validateName,
+          )}
+          {...rest}
+        />
+        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
+      </label>
+    </FieldItemAccessible>
+  );
+};
 
 export const EmailFieldItem = ({
   className,
@@ -706,50 +807,6 @@ export const UploadFileFieldItem = ({
   );
 };
 
-const BasePasswordFieldItem = ({ fieldName, label, placeholder, required, ...rest }) => {
-  const [passVisible, setPassVisible] = useState(false);
-  const type = passVisible ? 'text' : 'password';
-  const autocomplete = passVisible ? 'off' : 'current-password';
-  const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
-  const buttonTextId = passVisible ? 'common.hide' : 'common.show';
-
-  return (
-    <>
-      <label htmlFor={fieldName}>
-        {label}
-        <button
-          type="button"
-          className={buttonClasses}
-          onClick={() => {
-            setPassVisible((current) => !current);
-          }}
-          // By the moment we will make it not accessible using keyboard
-          // In the future, we could move after the password input as,
-          // for example, Google does
-          tabIndex="-1"
-        >
-          <span className="content-eye">
-            {' '}
-            <FormattedMessage id={buttonTextId} />
-          </span>
-        </button>
-      </label>
-      <Field
-        type={type}
-        name={fieldName}
-        autoComplete={autocomplete}
-        id={fieldName}
-        placeholder={placeholder}
-        spellCheck="false"
-        badinput="false"
-        autoCapitalize="off"
-        validate={createRequiredValidation(required)}
-        {...rest}
-      />
-    </>
-  );
-};
-
 // TODO: remove 'common.hide' and 'common.show' entries
 const BasePasswordFieldItemAccessible = ({
   fieldName,
@@ -759,13 +816,13 @@ const BasePasswordFieldItemAccessible = ({
   withSubmitCount = true,
   children,
   context = 'login',
+  showError,
   ...rest
 }) => {
   const [passVisible, setPassVisible] = useState(false);
   const type = passVisible ? 'text' : 'password';
   const autocomplete = passVisible ? 'off' : 'current-password';
   const buttonClasses = passVisible ? 'show-hide icon-hide ms-icon' : 'show-hide ms-icon icon-view';
-  const { showError } = useFormikErrors(fieldName, withSubmitCount);
 
   return (
     <label htmlFor={fieldName} className="labelpassword" data-required={required}>
@@ -818,6 +875,7 @@ export const PasswordFieldItem = ({
         label={label}
         placeholder={placeholder}
         withSubmitCount={withSubmitCount}
+        showError={showError}
         {...rest}
       >
         <MessageError fieldName={fieldName} showError={showError} errors={errors} />
@@ -833,17 +891,67 @@ export const ValidatedPasswordFieldItem = ({
   placeholder,
   withSubmitCount = true,
   ...rest
-}) => (
-  <PasswordWrapper className={concatClasses('field-item', className)} fieldName={fieldName}>
-    <BasePasswordFieldItem
-      fieldName={fieldName}
-      label={label}
-      placeholder={placeholder}
-      validate={validatePassword}
-      {...rest}
-    />
-  </PasswordWrapper>
-);
+}) => {
+  const { errors, touched } = useFormikContext();
+
+  const fieldError = errors[fieldName];
+  const touchedField = touched[fieldName];
+
+  const passwordMessageCharClass =
+    !touchedField && fieldError && fieldError.empty
+      ? 'dp-message--default'
+      : fieldError && (fieldError.charLength || fieldError.empty)
+      ? 'dp-message--denied'
+      : 'dp-message--success';
+  const passwordMessageDigitClass =
+    !touchedField && fieldError && fieldError.empty
+      ? 'dp-message--default'
+      : fieldError && (fieldError.digit || fieldError.empty)
+      ? 'dp-message--denied'
+      : 'dp-message--success';
+  const passwordMessageLetterClass =
+    !touchedField && fieldError && fieldError.empty
+      ? 'dp-message--default'
+      : fieldError && (fieldError.letter || fieldError.empty)
+      ? 'dp-message--denied'
+      : 'dp-message--success';
+
+  return (
+    <FieldItemAccessible className={className}>
+      <BasePasswordFieldItemAccessible
+        fieldName={fieldName}
+        label={label}
+        placeholder={placeholder}
+        withSubmitCount={withSubmitCount}
+        validate={validatePassword}
+        showError={touchedField && !!fieldError}
+        {...rest}
+      >
+        <div className="wrapper-password">
+          {fieldError ? (
+            <p className="password-message">
+              <span className={passwordMessageCharClass}>
+                <FormattedMessage id="validation_messages.error_password_character_length" />
+              </span>
+              <span className={passwordMessageLetterClass}>
+                <FormattedMessage id="validation_messages.error_password_letter" />
+              </span>
+              <span className={passwordMessageDigitClass}>
+                <FormattedMessage id="validation_messages.error_password_digit" />
+              </span>
+            </p>
+          ) : (
+            <p className="password-message">
+              <span className="dp-message--secure">
+                <FormattedMessage id="validation_messages.error_password_safe" />
+              </span>
+            </p>
+          )}
+        </div>
+      </BasePasswordFieldItemAccessible>
+    </FieldItemAccessible>
+  );
+};
 
 export const CheckboxFieldItem = ({
   className,
@@ -874,6 +982,51 @@ export const CheckboxFieldItem = ({
     <label htmlFor={id || fieldName}> {label}</label>
   </FieldItem>
 );
+
+export const CheckboxFieldItemAccessible = ({
+  className,
+  fieldName,
+  label,
+  checkRequired,
+  id,
+  onChange,
+  withErrors = true,
+  withSubmitCount = true,
+  ...rest
+}) => {
+  const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
+
+  return (
+    <FieldItemAccessible className={className}>
+      <label
+        htmlFor={id || fieldName}
+        className="dp-label-checkbox"
+        aria-errormessage={`err${fieldName}`}
+        aria-invalid={showError}
+      >
+        <Field
+          type="checkbox"
+          name={fieldName}
+          id={id || fieldName}
+          validate={(value) => checkRequired && validateCheckRequired(value)}
+          onClick={onChange}
+          {...rest}
+        />
+        <span>{label}</span>
+      </label>
+      <MessageError
+        id={`err${fieldName}`}
+        fieldName={fieldName}
+        showError={showError}
+        errors={errors}
+        className="dp-errormessage"
+      />
+      {/* <p id={`err${fieldName}`} className="dp-errormessage">
+        ¡Ouch! Este checkbox no esta tildado
+      </p> */}
+    </FieldItemAccessible>
+  );
+};
 
 export const NumberField = connect(
   ({ required, onChangeValue, formik: { handleChange }, ...rest }) => (
