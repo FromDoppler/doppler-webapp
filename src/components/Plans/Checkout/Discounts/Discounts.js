@@ -114,7 +114,7 @@ export const Discounts = ({
             )}
           </S.DiscountTitle>
           <S.DiscountSubtitle className="dp-discount m-t-12">
-            <strong>{selectedDiscount.discountPercentage}% OFF</strong>{' '}
+            <strong>{selectedDiscount?.discountPercentage}% OFF</strong>{' '}
             {_('checkoutProcessForm.discount_subscription_subtitle')}
           </S.DiscountSubtitle>
         </>
