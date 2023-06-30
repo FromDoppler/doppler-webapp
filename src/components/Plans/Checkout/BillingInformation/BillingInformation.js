@@ -126,6 +126,7 @@ export const BillingInformation = InjectAppServices(
 
     const submitBillingInformationForm = async (values) => {
       const result = await dopplerBillingUserApiClient.updateBillingInformation(values);
+      console.log('result submitBillingInformationForm', result);
       if (result.success) {
         handleSaveAndContinue();
       }

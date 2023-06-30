@@ -103,6 +103,8 @@ export const Discounts = ({
     selectedDiscount?.id,
   ]);
 
+  console.log('selectedDiscount', selectedDiscount);
+
   return (
     <>
       {sessionPlan.planSubscription > 1 ? (
