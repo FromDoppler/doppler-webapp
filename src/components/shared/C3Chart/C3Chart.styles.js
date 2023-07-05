@@ -58,12 +58,6 @@ export const C3ChartStyled = styled.div`
     opacity: 0.3;
   }
 
-  .c3-target-withEmail {
-  }
-
-  .c3-target-withoutEmail {
-  }
-
   .c3-tooltip-container {
     background: ${colors.white};
     padding: ${spacings.spacesLvl4} ${spacings.spacesLvl5};
