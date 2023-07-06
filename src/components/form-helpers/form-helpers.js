@@ -698,7 +698,7 @@ export const UploadFileFieldItem = ({
   }, [fieldNameError, submitCount]);
 
   useEffect(() => {
-    if (!file && !initialFile && fileObj) {
+    if (!file && !initialFile && fileObj?.downloadURL) {
       setInitialFile(fileObj);
     }
   }, [file, fileObj, initialFile]);
@@ -766,7 +766,7 @@ export const UploadFileFieldItem = ({
           id={fieldName}
           validate={combineValidations(
             createRequiredValidation(required),
-            createPDFValidation(maxSizeMB),
+            !showReadMode && createPDFValidation(maxSizeMB),
           )}
           component={renderComponent}
           fileProps={
