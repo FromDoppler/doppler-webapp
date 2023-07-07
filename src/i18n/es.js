@@ -1210,6 +1210,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_invalid_domain: `¡Ouch! Algo salió mal. Por favor revisa que tu Email sea correcto o intenta con otro.`,
     error_invalid_domain_to_register_account: `¡Ouch! Email inválido para crear una cuenta.`,
     error_invalid_email_address: `Ingresa un email válido`,
+    error_invalid_expiry_date: `Ingresa una fecha de expiración válida`,
     error_invalid_login: `El usuario o la contraseña son incorrectos. Intenta de nuevo.`,
     error_invalid_name: `¡Ouch! Escribe usando solo letras y no números.`,
     error_invalid_nit: `Ouch! El formato del NIT es incorrecto`,

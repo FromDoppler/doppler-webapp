@@ -246,6 +246,7 @@ export const CreditCard = InjectAppServices(
                               setExpiry(e.target.value);
                             }}
                             onFocus={(e) => setFocus(e.target.name)}
+                            withExpiryDateValidation
                           >
                             {(inputProps) => (
                               <InputFieldItem

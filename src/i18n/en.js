@@ -1209,6 +1209,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_invalid_domain: `Ouch! Something went wrong. Please check that your Email is correct or try another.`,
     error_invalid_domain_to_register_account: `Ouch! Invalid Email to create an account.`,
     error_invalid_email_address: `Enter a valid Email`,
+    error_invalid_expiry_date: `Enter a valid expiry date`,
     error_invalid_login: `The username or password is incorrect. Try again.`,
     error_invalid_name: `Ouch! Write only letters, not numbers.`,
     error_invalid_nit: `Ouch! Enter a valid NIT`,
