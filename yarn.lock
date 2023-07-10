@@ -3520,17 +3520,17 @@
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
 "@typeform/embed-react@^2.0.0":
-  version "2.24.0"
-  resolved "https://registry.yarnpkg.com/@typeform/embed-react/-/embed-react-2.24.0.tgz#4f898829f6cc1550aa8339270b49e0fbbebdf604"
-  integrity sha512-YyvW+NbruI0QqCepju0DdNwWx1QpQnOm7m3fVIZzCN6DQ5MRRtCCiKPZm1VOeXDfveQPjf2OKEc/EqrNx/gvNg==
+  version "2.26.0"
+  resolved "https://registry.yarnpkg.com/@typeform/embed-react/-/embed-react-2.26.0.tgz#2a3dbde10f71bbccc48a0b81d6e395d622bebaf8"
+  integrity sha512-DXBmgsqiBy3RkNu/T2+O9758HcvkQOJrdpF6gJCT7U+JYdo4fqfRMFT9RBkMVymjQgQ3ZPrQw3oaINq0I3/s1g==
   dependencies:
-    "@typeform/embed" "2.13.0"
+    "@typeform/embed" "2.13.2"
     fast-deep-equal "^3.1.3"
 
-"@typeform/embed@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@typeform/embed/-/embed-2.13.0.tgz#d35bc2d1d801f674ce574c0330c37f1a6c3a2f98"
-  integrity sha512-gnOyMoFRcdMKTrUBjpTOqQyn0/2hy5zGRtd+nhleGFNwMUgCwrY80kBFeT+2Edw9tlBCt1zQHj3zEUIfJCPXFA==
+"@typeform/embed@2.13.2":
+  version "2.13.2"
+  resolved "https://registry.yarnpkg.com/@typeform/embed/-/embed-2.13.2.tgz#0fa6d75e9baac93b266808ecd7405e892e5d90c9"
+  integrity sha512-ZuIBsQMOII358IKI3OJtOR+iEAosBzl2XTT24vErHeLK7bNpUMkbuhpQdNoUF0Dkgk5Y2J89HUxPDQdfmR27XQ==
 
 "@types/aria-query@^5.0.1":
   version "5.0.1"
