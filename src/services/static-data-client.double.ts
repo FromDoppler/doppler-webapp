@@ -73,6 +73,12 @@ export const fakeDocumentTypes = [
   { key: 'CI', value: 'Cedula' },
 ];
 
+export const fakeTaxRegimes = {
+  '601': 'General de Ley Personas Morales',
+  '603': 'Personas Morales con Fines no Lucrativos',
+  '605': 'Sueldos y Salarios e Ingresos Asimilados a Salarios',
+};
+
 export class HardcodedStaticDataClient implements StaticDataClient {
   public async getIndustriesData(language: string): Promise<any> {
     await timeout(1500);
@@ -134,6 +140,14 @@ export class HardcodedStaticDataClient implements StaticDataClient {
     await timeout(1500);
     return {
       value: fakeDocumentTypes,
+      success: true,
+    };
+  }
+
+  public async getTaxRegimes(language: string): Promise<any> {
+    await timeout(1500);
+    return {
+      value: fakeTaxRegimes,
       success: true,
     };
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import * as S from './TextPreviewPost.styles';
 import { useIntl } from 'react-intl';
 
 export const TextPreviewPost = ({ post, handleStop }) => {
@@ -9,7 +10,7 @@ export const TextPreviewPost = ({ post, handleStop }) => {
   return (
     <>
       <h3>{_(title)}</h3>
-      <p>{_(description)}</p>
+      <S.P>{_(description)}</S.P>
       <a href={_(link)} target="_blank" id={trackingId} onClick={handleStop}>
         <span className="ms-icon icon-arrow-next"></span>
         {_(linkDescription)}

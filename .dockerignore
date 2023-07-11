@@ -4,4 +4,4 @@ build
 *.log
 .git
 Dockerfile*
-Jenkinsfile
+doppler-jenkins-ci.groovy

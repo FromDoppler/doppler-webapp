@@ -85,7 +85,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
 
     const expectedLang = availableLanguageOrNull(langFromUrlParameter);
 
-    window.zE('webWidget', 'setLocale', expectedLang ?? 'es');
+    window.zE('messenger:set', 'locale', expectedLang ?? 'es');
 
     if (!expectedLang) {
       langFromUrl.current = null;

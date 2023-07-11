@@ -4,6 +4,7 @@ const emailRegex =
 /* eslint-enable */
 const nameRegex = /^[\u00C0-\u1FFF\u2C00-\uD7FF\w][\u00C0-\u1FFF\u2C00-\uD7FF\w'`\-. ]+$/i;
 const accentRegex = /[\u00C0-\u00FF]/i;
+const expiryRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
 const rfcRegEx =
   /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/i;
 
@@ -141,6 +142,17 @@ export const validateDni = (value: number, digits: number = 99999999) => {
   return null;
 };
 
+export function validateExpiry(
+  value: string,
+  commonErrorKey: true | string = 'validation_messages.error_invalid_expiry_date',
+): true | string | null {
+  if (!value || expiryRegex.test(value)) {
+    return null;
+  } else {
+    return commonErrorKey;
+  }
+}
+
 export function validateNit(
   value: string,
   commonErrorKey: true | string = 'validation_messages.error_invalid_nit',
@@ -206,4 +218,15 @@ export function validateRfc(
 
 function formatValidRfc(value: string) {
   return value ? (value.match(rfcRegEx) ? value.match(rfcRegEx)?.slice(1).join('') : null) : null;
+}
+
+export function validatePDF(file: File, maxSizeMB: number): true | string | null {
+  if (!file?.type?.match(/application\/pdf/i)) {
+    return 'validation_messages.error_invalid_type_pdf';
+  }
+  if (Math.round(file?.size / 1000) > maxSizeMB * 1000) {
+    return 'validation_messages.error_invalid_size_file';
+  }
+
+  return null;
 }

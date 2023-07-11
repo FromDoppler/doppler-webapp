@@ -7,7 +7,6 @@ import { InjectAppServices } from '../../../../services/pure-di';
 import { thousandSeparatorNumber } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
 import { paymentType } from '../PaymentMethod/PaymentMethod';
-import { InvoiceRecipients } from './InvoiceRecipients';
 import { PlanPurchase } from './PlanPurchase';
 import { Promocode } from './Promocode';
 import styled from 'styled-components';
@@ -198,50 +197,16 @@ export const InvoiceInformation = ({
   planType,
   isFree,
   currentPriceToPay,
+  positiveBalance,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const isTransfer = paymentMethodType === paymentType.transfer;
 
-  const getTaxesLegend = (paymentMethodType, planType) => {
-    switch (planType) {
-      case PLAN_TYPE.byCredit:
-        return paymentMethodType === paymentType.creditCard
-          ? ''
-          : `*${_('checkoutProcessForm.purchase_summary.explanatory_legend_by_credits')}`;
-      case PLAN_TYPE.byContact:
-      case PLAN_TYPE.byEmail:
-        return paymentMethodType === paymentType.creditCard ? (
-          <div>
-            {!isFree && currentPriceToPay === 0 && (
-              <div>{`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}</div>
-            )}
-            <div className="m-t-12">
-              {`*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`}
-            </div>
-          </div>
-        ) : (
-          <div>
-            {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
-            {!isFree && currentPriceToPay === 0 && (
-              <div className="m-t-12">
-                {`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}
-              </div>
-            )}
-            <div className="m-t-12">
-              {`${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend2')}`}
-            </div>
-          </div>
-        );
-      default:
-        return '';
-    }
-  };
-
   return (
     <>
       {planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail ? (
-        priceToPay > 0 ? (
+        priceToPay > 0 && positiveBalance === 0 ? (
           <li>
             <h3 className="m-t-24">
               {`${_('checkoutProcessForm.purchase_summary.your_next_billing_legend')}`}{' '}
@@ -249,22 +214,40 @@ export const InvoiceInformation = ({
               {isTransfer && '*'}
             </h3>
           </li>
-        ) : (
+        ) : positiveBalance === 0 ? (
           <li>
             <h3 className="m-t-24">{`${_(
               'checkoutProcessForm.purchase_summary.to_pay_from_next_month_legend',
             )}`}</h3>
           </li>
-        )
+        ) : positiveBalance > 0 ? (
+          <div>
+            <h4>
+              <FormattedMessage
+                id="checkoutProcessForm.purchase_summary.positive_balance_message"
+                values={{
+                  positiveBalance: (
+                    <FormattedNumber value={positiveBalance} {...numberFormatOptions} />
+                  ),
+                }}
+              ></FormattedMessage>
+            </h4>
+          </div>
+        ) : null
       ) : null}
-      <li>
-        <div className="dp-renewal">{getTaxesLegend(paymentMethodType, planType)}</div>
-      </li>
     </>
   );
 };
 
-export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMonthTotal = 0 }) => {
+export const TotalPurchase = ({
+  totalPlan,
+  priceToPay,
+  state,
+  isFree,
+  currentMonthTotal = 0,
+  positiveBalance = 0,
+  children,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -283,18 +266,18 @@ export const TotalPurchase = ({ totalPlan, priceToPay, state, isFree, currentMon
           </span>
         </li>
         {isTransfer && (
-          <li>
-            <TaxesExclude className="dp-renewal">
-              {_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}
-            </TaxesExclude>
+          <li className="dp-taxes-excluded">
+            <TaxesExclude>{_(`checkoutProcessForm.purchase_summary.taxes_excluded`)}</TaxesExclude>
           </li>
         )}
+        {children}
         <InvoiceInformation
           planType={state.planType}
           priceToPay={totalPlan}
           paymentMethodType={state.paymentMethodType}
           isFree={isFree}
           currentPriceToPay={currentMonthTotal}
+          positiveBalance={positiveBalance}
         />
       </ul>
     </div>
@@ -496,7 +479,43 @@ export const PurchaseSummary = InjectAppServices(
       onApplyPromocode(promotion.promocode);
     };
 
-    const { total, currentMonthTotal, nextMonthTotal } = state.amountDetails;
+    const getTaxesLegend = (paymentMethodType, planType) => {
+      switch (planType) {
+        case PLAN_TYPE.byCredit:
+          return paymentMethodType === paymentType.creditCard
+            ? ''
+            : `*${_('checkoutProcessForm.purchase_summary.explanatory_legend_by_credits')}`;
+        case PLAN_TYPE.byContact:
+        case PLAN_TYPE.byEmail:
+          return paymentMethodType === paymentType.creditCard ? (
+            <div>
+              {!isFree && majorThat21st && (
+                <div>{`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}</div>
+              )}
+              <div className={!isFree && currentMonthTotal === 0 ? `m-t-12` : ''}>
+                {`*${_('checkoutProcessForm.purchase_summary.explanatory_legend')}`}
+              </div>
+            </div>
+          ) : (
+            <div>
+              {`*${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend')}`}
+              {!isFree && majorThat21st && (
+                <div className="m-t-12">
+                  {`${_('checkoutProcessForm.purchase_summary.upgrade_plan_legend')}`}
+                </div>
+              )}
+              <div className="m-t-12">
+                {`${_('checkoutProcessForm.purchase_summary.transfer_explanatory_legend2')}`}
+              </div>
+            </div>
+          );
+        default:
+          return '';
+      }
+    };
+
+    const { total, currentMonthTotal, nextMonthTotal, positiveBalance, majorThat21st } =
+      state.amountDetails;
     const { loadingPaymentInformation, loadingPlanInformation, loadingPromocodeValidation } = state;
 
     return (
@@ -530,18 +549,19 @@ export const PurchaseSummary = InjectAppServices(
             currentMonthTotal={currentMonthTotal}
             state={state}
             isFree={isFree}
-          />
+            positiveBalance={positiveBalance}
+          >
+            <PlanPurchase
+              canBuy={canBuy}
+              planId={selectedPlan}
+              discount={state.discount}
+              promotion={state.promotion}
+              total={currentMonthTotal ?? 0}
+              paymentMethod={state.paymentMethodType}
+            />
+          </TotalPurchase>
         </div>
-        <div className="dp-zigzag" />
-        <PlanPurchase
-          canBuy={canBuy}
-          planId={selectedPlan}
-          discount={state.discount}
-          promotion={state.promotion}
-          total={currentMonthTotal ?? 0}
-          paymentMethod={state.paymentMethodType}
-        />
-        <InvoiceRecipients viewOnly={true} selectedPlan={selectedPlan} />
+        <div className="dp-renewal">{getTaxesLegend(state.paymentMethodType, state.planType)}</div>
       </>
     );
   },

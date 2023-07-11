@@ -3,13 +3,13 @@ import { Link, Navigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import {
-  EmailFieldItem,
   FieldGroup,
   PasswordFieldItem,
   SubmitButton,
   FormWithCaptcha,
   FormMessages,
   CaptchaLegalMessage,
+  EmailFieldItemAccessible,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import SafeRedirect from '../SafeRedirect';
@@ -452,7 +452,7 @@ const Login = ({
           >
             <fieldset>
               <FieldGroup>
-                <EmailFieldItem
+                <EmailFieldItemAccessible
                   autoFocus
                   fieldName={fieldNames.user}
                   label={_('login.label_user')}

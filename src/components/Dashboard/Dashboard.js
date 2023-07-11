@@ -71,23 +71,25 @@ export const Dashboard = InjectAppServices(
       fetchData();
     }, [systemUsageSummary, dopplerSystemUsageApiClient]);
 
-    const handleCloseFirstStep = () => {
-      const updateData = async () => {
-        dispatchCompleteSteps({ type: COMPLETE_STEPS_ACTIONS.START_UPDATE });
-        const response = await dopplerSystemUsageApiClient.closeFirstSteps();
-        if (response.success) {
-          dispatchCompleteSteps({
-            type: COMPLETE_STEPS_ACTIONS.FINISH_UPDATE,
-          });
-        } else {
-          dispatchCompleteSteps({ type: COMPLETE_STEPS_ACTIONS.FAIL_UPDATE });
-        }
-      };
-
-      updateData();
-    };
-
     const { firstStepsClosedSince, completed } = firstStepsData;
+
+    useEffect(() => {
+      if (!firstStepsClosedSince && completed) {
+        const updateData = async () => {
+          dispatchCompleteSteps({ type: COMPLETE_STEPS_ACTIONS.START_UPDATE });
+          const response = await dopplerSystemUsageApiClient.closeFirstSteps();
+          if (response.success) {
+            dispatchCompleteSteps({
+              type: COMPLETE_STEPS_ACTIONS.FINISH_UPDATE,
+            });
+          } else {
+            dispatchCompleteSteps({ type: COMPLETE_STEPS_ACTIONS.FAIL_UPDATE });
+          }
+        };
+
+        setTimeout(async () => await updateData(), 5000);
+      }
+    }, [completed, firstStepsClosedSince, dopplerSystemUsageApiClient]);
 
     const showFirstStep = !firstStepsClosedSince && !updated;
 
@@ -131,10 +133,7 @@ export const Dashboard = InjectAppServices(
                     />
                     {completed && (
                       <>
-                        <CompleteSteps
-                          loading={loadingCompleteSteps}
-                          onClick={handleCloseFirstStep}
-                        />
+                        <CompleteSteps loading={loadingCompleteSteps} />
                         {hasErrorCompleteSteps && (
                           <div className="m-t-6">
                             <UnexpectedError msgId="common.something_wrong" />
@@ -177,6 +176,16 @@ export const QUICK_ACTIONS = [
     labelId: 'dashboard.quick_actions.send_sms',
     linkId: 'dashboard.quick_actions.send_sms_url',
     trackingId: `dashboard-enviarSmsMasivos`,
+  },
+  {
+    labelId: 'dashboard.quick_actions.send_push_notification',
+    linkId: 'dashboard.quick_actions.send_push_notification_url',
+    trackingId: `dashboard-enviarNotificacionPush`,
+  },
+  {
+    labelId: 'dashboard.quick_actions.create_form',
+    linkId: 'dashboard.quick_actions.create_form_url',
+    trackingId: `dashboard-crearFormulario`,
   },
 ];
 

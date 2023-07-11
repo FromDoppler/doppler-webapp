@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Recommended documentation for [test implementation](https://github.com/FromDoppler/doppler-webapp/pull/1504).
 
-- Test phases: 
+- Test phases:
 
   - **Arrange:** a series of input data is created to be able to run the tests.
 
@@ -24,7 +24,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Code organization
 
-- **Components:** This is located in the *src/components* path. Each should be located in a separate folders and must contain: 
+- **Components:** This is located in the _src/components_ path. Each should be located in a separate folders and must contain:
 
   - component implementation
 
@@ -44,13 +44,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
   **Outside the component** the variables or functions that do not depend on some props. [See slack conversation thread for more details](https://makingsense.slack.com/archives/CGJ72QFQX/p1625754680182000).
 
-- **Hooks:** This located in *src/hooks* path. Each should be located in a separate folders and must contain: 
+- **Hooks:** This located in _src/hooks_ path. Each should be located in a separate folders and must contain:
 
   - hook implementation
 
   - tests
 
-- **Services:** This is located in the *src/services* path. Each should be located in a separate folder and must contain:
+- **Services:** This is located in the _src/services_ path. Each should be located in a separate folder and must contain:
 
   - service implementation
 
@@ -58,15 +58,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
   - service double
 
-- **Translations:** This is located in *src/i18n* path. There are two files: *en.js* and *es.js*. If the translation is common, it's added within the *common* property, otherwise, it's added in the property that contains the translations of the corresponding module.
+- **Translations:** This is located in _src/i18n_ path. There are two files: _en.js_ and _es.js_. If the translation is common, it's added within the _common_ property, otherwise, it's added in the property that contains the translations of the corresponding module.
 
-- **Gif/Images:** The reused gif/images are located in the *src/img* path. The particular images are located in the folder of the component that uses them. Example: a gif for the contact policy promotional page.
+- **Gif/Images:** The reused gif/images are located in the _src/img_ path. The particular images are located in the folder of the component that uses them. Example: a gif for the contact policy promotional page.
 
 ### Procure to use declarative style instead of the imperative style
 
-- Use *const* instead of *let* and *var*. Example:
+- Use _const_ instead of _let_ and _var_. Example:
 
-  ~~~
+  ```
   // Not recommended
   let result;
   if(someCondition) {
@@ -77,30 +77,31 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
   // Better
   const result = someCondition ? calculationA() : calculationB();
-  ~~~  
+  ```
+
   [Reference documentation](https://jrsinclair.com/articles/2021/rethinking-the-javascript-ternary-operator/).
 
 - Use High Order Functions when it’s possible. Examples:
 
-  ~~~
-  // Not recommended 
+  ```
+  // Not recommended
   for(let i=0; i < cities.length; i++) {
     const city = cities[i];
     // to do something with city
-  } 
+  }
 
   // Better
   cities.forEach((city) => {
     // to do something with city
   });
-  ~~~
+  ```
 
-  ~~~
-  // Not recommended 
+  ```
+  // Not recommended
   for(let i=0; i < myArray.length; i++) {
     myArray.key = “a value”;
     myArray.otherKey = “a value”;
-  } 
+  }
 
   // Better
   const newArray = myArray.map((item) => ({
@@ -108,33 +109,33 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     key: “a value”,
     otherKey: “a value”,
   }));
-  ~~~
-  
+  ```
+
 ### Others
 
 - Use composition instead of inheritance to reuse code between components. [More details](https://reactjs.org/docs/composition-vs-inheritance.html).
 
-- Use *named imports* instead of *default imports*. [More details](https://humanwhocodes.com/blog/2019/01/stop-using-default-exports-javascript-module/).
+- Use _named imports_ instead of _default imports_. [More details](https://humanwhocodes.com/blog/2019/01/stop-using-default-exports-javascript-module/).
 
-- Use pronounceable and expressive names for variables, always prioritizing the *camelcase style*. Avoid using names that refer to the data type.
+- Use pronounceable and expressive names for variables, always prioritizing the _camelcase style_. Avoid using names that refer to the data type.
 
-- Use the *useTimeout* hook on components instead of *setTimeout*. [More details](https://github.com/FromDoppler/doppler-webapp/pull/1428).
+- Use the _useTimeout_ hook on components instead of _setTimeout_. [More details](https://github.com/FromDoppler/doppler-webapp/pull/1428).
 
 - Use a maximum number of 2 parameters for functions. If the number is exceeded, use an object.
 
 - Use the [optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) operator. Example:
 
-  ~~~
+  ```
   // Not recommended
-  if(obj.first && obj.first.second) { 
-    // ...to do something 
+  if(obj.first && obj.first.second) {
+    // ...to do something
   }
 
   // Better
   if(obj?.first?.second) {
     // ...to do something
   }
-  ~~~
+  ```
 
 ## Cointinuous Deployment and commit format
 
@@ -177,7 +178,7 @@ As a result of running CI, a temporal version of the code is published into CDN 
 
 To check the build number in the second check marked in each PR, while hovering in details the version is as marked in the image below.
 
-![PR view](PR-build-number.PNG "View build version in detail link")
+![PR view](PR-build-number.PNG 'View build version in detail link')
 
 Then a build code link with build number 2962 can be formatted as follows for all enviroments:
 
@@ -188,10 +189,10 @@ Then a build code link with build number 2962 can be formatted as follows for al
 - **QA:** <https://cdn.fromdoppler.com/doppler-webapp/qa-build2962/#/login>
 
 - **Demo:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
-Demo is like a local copy hosted into CDN (it uses doubles and no real data).
+  Demo is like a local copy hosted into CDN (it uses doubles and no real data).
 
 - **Development:** <https://cdn.fromdoppler.com/doppler-webapp/demo-build2962/#/login>
-Development is code that points to local Doppler (It is needed to have local Doppler copy running for this to work).
+  Development is code that points to local Doppler (It is needed to have local Doppler copy running for this to work).
 
 ## Small PRs
 
@@ -209,7 +210,7 @@ const PermissionExpandableRow = ({ dependencies: { experimentalFeatures } }) => 
 
   const isPermissionHistoryEnabled =
     experimentalFeatures && experimentalFeatures.getFeature('PermissionHistory');
-  ... 
+  ...
 
   return (
     <>

@@ -110,11 +110,11 @@ export const Discounts = ({
           <S.DiscountTitle className="p-t-24">
             {_(
               'checkoutProcessForm.discount_subscription_' +
-                selectedDiscount.description.replace('-', '_'),
+                selectedDiscount?.description.replace('-', '_'),
             )}
           </S.DiscountTitle>
           <S.DiscountSubtitle className="dp-discount m-t-12">
-            <strong>{selectedDiscount.discountPercentage}% OFF</strong>{' '}
+            <strong>{selectedDiscount?.discountPercentage}% OFF</strong>{' '}
             {_('checkoutProcessForm.discount_subscription_subtitle')}
           </S.DiscountSubtitle>
         </>

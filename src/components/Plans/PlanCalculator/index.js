@@ -286,7 +286,7 @@ export const getDefaultPlanType = ({ currentPlan, planTypeUrlSegment, window }) 
         }
         break;
       case PLAN_TYPE.byCredit:
-        if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byCredit]) {
+        if (!Object.values(URL_PLAN_TYPE).includes(planTypeUrlSegment)) {
           return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byCredit]}${
             window.location.search
           }`;

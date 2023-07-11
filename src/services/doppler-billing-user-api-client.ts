@@ -65,6 +65,8 @@ export interface PaymentMethod {
   paymentType: string;
   paymentWay: string;
   useCFDI: string;
+  taxRegime: number;
+  taxCertificate: object;
 }
 
 export interface UserPlan {
@@ -185,6 +187,8 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       paymentType: data.paymentType,
       paymentWay: data.paymentWay,
       useCFDI: data.useCFDI,
+      taxRegime: data.taxRegime,
+      taxCertificate: data.taxCertificate,
     };
   }
 
@@ -201,7 +205,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
   private mapPaymentMethodToUpdate(data: any): any {
     switch (data.paymentMethodName) {
       case PaymentMethodType.transfer:
-        return {
+        const payload: any = {
           paymentMethodName: data.paymentMethodName,
           idSelectedPlan: data.idSelectedPlan,
           razonSocial: data.businessName,
@@ -213,6 +217,17 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           paymentWay: data.paymentWay,
           useCFDI: data.cfdi,
         };
+
+        // these fields are used when transfer is mexico
+        if (data.taxRegime) {
+          payload.taxRegime = data.taxRegime;
+        }
+
+        if (data.taxCertificate) {
+          payload.taxCertificate = data.taxCertificate;
+        }
+
+        return payload;
 
       case PaymentMethodType.mercadoPago:
         return {
@@ -347,12 +362,17 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
   public async updatePaymentMethod(values: any): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+      const mappedValues = this.mapPaymentMethodToUpdate(values);
+      const formData = new FormData();
+      Object.entries(mappedValues).forEach(([key, value]: [string, any]) => {
+        formData.append(key, value);
+      });
 
       const response = await this.axios.request({
         method: 'PUT',
         url: `/accounts/${email}/payment-methods/current`,
-        data: this.mapPaymentMethodToUpdate(values),
-        headers: { Authorization: `bearer ${jwtToken}` },
+        data: formData,
+        headers: { Authorization: `bearer ${jwtToken}`, 'Content-Type': 'multipart/form-data' },
       });
 
       if (response.status === 200) {

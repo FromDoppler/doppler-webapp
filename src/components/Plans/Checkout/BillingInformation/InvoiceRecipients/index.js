@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { FieldGroup, FieldItem, SubmitButton } from '../../../../form-helpers/form-helpers';
+import { FieldGroup, FieldItem } from '../../../../form-helpers/form-helpers';
 import { Form, Formik } from 'formik';
 import { validateEmail } from '../../../../../validations';
 import { CloudTagField } from '../../../../form-helpers/CloudTagField';
@@ -78,51 +78,68 @@ export const InvoiceRecipients = InjectAppServices(
 
     return (
       <>
-        <hr className="dp-hr-summary"></hr>
-        <p className="m-b-12">
+        <p className="m-b-6">
           {_('checkoutProcessForm.purchase_summary.send_invoice_email_message')}
         </p>
         {!edit ? (
           <>
-            <p className="m-b-12">
-              <strong>{recipients?.join(', ')}</strong>
-            </p>
-            <button className="dp-button link-green" onClick={() => setEdit(true)}>
+            <ul className="dp-cloud-tags dp-overlay" aria-label="cloud tags">
+              {recipients.map((recipient, index) => (
+                <li key={`tag-${index}`}>
+                  <span className="dp-tag">{recipient}</span>
+                </li>
+              ))}
+            </ul>
+            <button
+              className="dp-button link-green m-t-18"
+              onClick={() => setEdit(true)}
+              aria-label="edit or add recipients"
+            >
+              <span className="dpicon iconapp-plus-sign m-r-6" />
               {_('checkoutProcessForm.purchase_summary.edit_add_recipients_button')}
             </button>
           </>
         ) : (
           <Formik {...formikConfig}>
-            {() => (
+            {({ values, isSubmitting }) => (
               <Form className="dp-add-tags" aria-label="form" noValidate>
                 <legend>{_('checkoutProcessForm.purchase_summary.header')}</legend>
                 <fieldset>
-                  <FieldGroup className="m-b-24">
-                    <CloudTagField
-                      fieldName={fieldNames.editRecipients}
-                      validateTag={_validateEmail}
-                      render={({ value, onChange, onKeyDown }) => (
-                        <input
-                          type="email"
-                          placeholder={_(
-                            'checkoutProcessForm.purchase_summary.add_recipient_placeholder',
-                          )}
-                          value={value}
-                          onChange={onChange}
-                          onKeyDown={onKeyDown}
-                          className="dp--dashed"
-                        />
-                      )}
-                    />
+                  <FieldGroup>
+                    <FieldItem className="field-item">
+                      <CloudTagField
+                        fieldName={fieldNames.editRecipients}
+                        validateTag={_validateEmail}
+                        render={({ value, onChange, onKeyDown }) => (
+                          <input
+                            type="email"
+                            placeholder={_(
+                              'checkoutProcessForm.purchase_summary.add_recipient_placeholder',
+                            )}
+                            value={value}
+                            onChange={onChange}
+                            onKeyDown={onKeyDown}
+                            className="dp--dashed"
+                          />
+                        )}
+                      />
+                    </FieldItem>
                   </FieldGroup>
                   <FieldGroup>
                     <FieldItem className="field-item">
                       <div className="dp-buttons-actions">
-                        <SubmitButton className="dp-button button-medium primary-green">
+                        <button
+                          type="button"
+                          className={`dp-button button-medium secondary-green ${
+                            isSubmitting ? 'button--loading' : ''
+                          }`}
+                          disabled={isSubmitting}
+                          onClick={() => submitEditRecipients(values)}
+                        >
                           {_(
                             'checkoutProcessForm.purchase_summary.edit_add_recipients_confirmation_button',
                           )}
-                        </SubmitButton>
+                        </button>
                       </div>
                     </FieldItem>
                   </FieldGroup>

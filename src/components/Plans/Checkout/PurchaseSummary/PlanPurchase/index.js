@@ -7,6 +7,7 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import {
   FirstDataError,
   MercadoPagoError,
+  CloverError,
   OnlySupportUpSelling,
 } from '../../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
@@ -66,23 +67,29 @@ export const PlanPurchase = InjectAppServices(
       switch (error.response?.data) {
         case FirstDataError.invalidExpirationDate:
         case MercadoPagoError.invalidExpirationDate:
+        case CloverError.invalidExpirationMonth:
+        case CloverError.invalidExpirationYear:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
         case FirstDataError.invalidCreditCardNumber:
         case FirstDataError.invalidCCNumber:
+        case CloverError.invalidCreditCardNumber:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
         case FirstDataError.doNotHonorDeclined:
         case MercadoPagoError.declinedOtherReason:
+        case CloverError.declined:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
         case FirstDataError.suspectedFraud:
         case MercadoPagoError.suspectedFraud:
           return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
         case FirstDataError.insufficientFunds:
         case MercadoPagoError.insufficientFunds:
+        case CloverError.insufficientFunds:
           return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
         case FirstDataError.cardVolumeExceeded:
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
         case MercadoPagoError.invalidSecurityCode:
+        case CloverError.invalidSecurityCode:
           return 'checkoutProcessForm.payment_method.mercado_pago_error.invalid_security_code';
         case OnlySupportUpSelling:
           return 'checkoutProcessForm.purchase_summary.error_only_supports_upselling_message';
@@ -96,18 +103,20 @@ export const PlanPurchase = InjectAppServices(
 
     return (
       <>
-        <div className="dp-cta-pay">
+        <li className="m-t-18">
           <BuyPlanButton
             textButton={_('checkoutProcessForm.purchase_summary.buy_button')}
             canBuy={canBuy}
             disabledBuy={disabledBuy}
             proceedToBuy={proceedToBuy}
           />
-          <button type="button" className="dp-button button-big">
-            <span className="ms-icon icon-lock dp-color-green" />
+        </li>
+        <li>
+          <button type="button" className="dp-button button-big" aria-label="secure payment">
+            <span className="ms-icon dpicon iconapp-padlock p-r-6" />
             {_('checkoutProcessForm.purchase_summary.secure_payment_message')}
           </button>
-        </div>
+        </li>
         {showMessage && (
           <StatusMessage
             type={status === SAVED ? 'success' : 'cancel'}
@@ -160,6 +169,7 @@ export const BuyPlanButton = ({ textButton, status, disabledBuy, proceedToBuy })
     className={'dp-button button-big primary-green' + (status === SAVING ? ' button--loading' : '')}
     disabled={disabledBuy}
     onClick={proceedToBuy}
+    aria-label="buy"
   >
     {textButton}
   </button>

@@ -119,7 +119,7 @@ export const ContactInformation = InjectAppServices(
             {({ setFieldValue }) => (
               <Form className="dp-form-payment-process">
                 <legend>{_('checkoutProcessForm.contact_information_title')}</legend>
-                <fieldset>
+                <fieldset className="dp-form-fields">
                   <FieldGroup>
                     <FieldItem className="field-item">
                       <FieldGroup>
@@ -256,14 +256,14 @@ export const ContactInformation = InjectAppServices(
                         />
                       </FieldGroup>
                     </FieldItem>
-                    <FieldItem className="field-item">
-                      <div className="dp-buttons-actions">
-                        <SubmitButton className="dp-button button-medium primary-green">
-                          {_('checkoutProcessForm.save_continue')}
-                        </SubmitButton>
-                      </div>
-                    </FieldItem>
                   </FieldGroup>
+                </fieldset>
+                <fieldset className="dp-footer-button m-t-18">
+                  <div className="dp-buttons-actions">
+                    <SubmitButton className="dp-button button-medium primary-green">
+                      {_('checkoutProcessForm.save_continue')}
+                    </SubmitButton>
+                  </div>
                 </fieldset>
               </Form>
             )}

@@ -98,22 +98,6 @@ describe('HttpDopplerBillingUserApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
-    expect(request).toBeCalledWith(
-      expect.objectContaining({
-        method: 'PUT',
-        data: {
-          ccHolderFullName: 'data.name',
-          ccNumber: 'data.number',
-          ccVerification: 'data.cvc',
-          paymentMethodName: 'CC',
-          ccExpYear: '21',
-          ccExpMonth: '12',
-          ccType: 'data.ccType',
-          idSelectedPlan: 'data.idSelectedPlan',
-        },
-        url: '/accounts/email@mail.com/payment-methods/current',
-      }),
-    );
   });
 
   it('should set error when the connecting fail', async () => {

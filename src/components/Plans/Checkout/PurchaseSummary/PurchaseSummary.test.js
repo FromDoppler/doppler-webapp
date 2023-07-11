@@ -4,10 +4,7 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { PurchaseSummary } from './PurchaseSummary';
-import {
-  fakeInvoiceRecipients,
-  fakePaymentMethodInformation,
-} from '../../../../services/doppler-billing-user-api-client.double';
+import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
 import {
   fakeAccountPlanDiscounts,
   fakePlanAmountDetails,
@@ -35,12 +32,6 @@ const dopplerAccountPlansApiClientDoubleBase = {
 const dopplerBillingUserApiClientDoubleBase = {
   getPaymentMethodData: async () => {
     return { success: true, value: fakePaymentMethodInformation };
-  },
-  getInvoiceRecipientsData: async () => {
-    return { success: true, value: fakeInvoiceRecipients };
-  },
-  updateInvoiceRecipients: async () => {
-    return { success: true };
   },
 };
 
@@ -507,9 +498,7 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByRole('button', { name: 'checkoutProcessForm.purchase_summary.buy_button' }),
-    ).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'buy' })).toBeDisabled();
   });
 
   it('should show enabled the "buy" button when canBuy is true', async () => {
@@ -548,9 +537,7 @@ describe('PurchaseSummary component', () => {
     const loader = screen.getByTestId('loading-box');
     await waitForElementToBeRemoved(loader);
 
-    expect(
-      screen.getByRole('button', { name: 'checkoutProcessForm.purchase_summary.buy_button' }),
-    ).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: 'buy' })).not.toBeDisabled();
   });
 
   it('should show success message when the buy process was successfully', async () => {
@@ -597,7 +584,7 @@ describe('PurchaseSummary component', () => {
 
     // Assert
     const submitButton = screen.getByRole('button', {
-      name: 'checkoutProcessForm.purchase_summary.buy_button',
+      name: 'buy',
     });
     await act(() => user.click(submitButton));
     expect(submitButton).toBeDisabled();
@@ -689,7 +676,7 @@ describe('PurchaseSummary component', () => {
       await waitForElementToBeRemoved(loader);
 
       const submitButton = screen.getByRole('button', {
-        name: 'checkoutProcessForm.purchase_summary.buy_button',
+        name: 'buy',
       });
       await act(() => user.click(submitButton));
 
@@ -824,12 +811,6 @@ describe.each([
       purchase: async () => {
         return { success: false };
       },
-      getInvoiceRecipientsData: async () => {
-        return { success: true, value: fakeInvoiceRecipients };
-      },
-      updateInvoiceRecipients: async () => {
-        return { success: true };
-      },
     };
 
     const dopplerAccountPlansApiClientDouble = {
@@ -961,10 +942,11 @@ describe('PurchaseSummary component - Upgrade plan', () => {
     ).not.toBeNull();
   });
 
-  it('should show the upgrade plan legend when the currentPriceToPay is 0 and plan type is by emails', async () => {
+  it('should show the upgrade plan legend when the majorThat21st is true and plan type is by emails', async () => {
     // Arrange
     const fakePlan = fakeSubscribersPlan;
     const fakeAmountDetails = {
+      majorThat21st: true,
       discountPrepayment: { discountPercentage: 0, amount: 0 },
       discountPaymentAlreadyPaid: 0,
       discountPromocode: { discountPercentage: 0, amount: 0 },

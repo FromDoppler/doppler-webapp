@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="dp-library">
   <head>
     <meta charset="utf-8" />
@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#000000" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
-    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#fab221">
-    <meta name="msapplication-TileColor" content="#fab221">
-    <meta name="theme-color" content="#fab221">
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#fab221" />
+    <meta name="msapplication-TileColor" content="#fab221" />
+    <meta name="theme-color" content="#fab221" />
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-     <!-- Font Proxima Nova -->
+    <!-- Font Proxima Nova -->
     <link rel="stylesheet" href="https://use.typekit.net/fbq8dbp.css" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -31,18 +31,28 @@
     <title>Doppler</title>
     <!-- Google Tag Manager -->
     <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-N9KCJTZ');
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-N9KCJTZ');
     </script>
     <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-TMMV2DF');
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-TMMV2DF');
     </script>
     <!-- End Google Tag Manager -->
     <script
@@ -72,46 +82,51 @@
     </style>
     <!-- Manifest Style Guide -->
     <script src="https://cdn.fromdoppler.com/mfe-loader/loader-v2.0.0.js"></script>
-      <script type="text/javascript">
-        window['style-guide-configuration'] = {
-          initUserMenuBehavior: true,
-          initAccordionBehavior: true,
-          initModalsBehavior: true,
-          initTabsBehavior: true,
-          initDopplerPlusBehavior: true,
-          initSliderBehavior: true,
-          initNestedTableBehavior: true,
-          initTipsBehavior: true,
-          initCarouselBehavior: true,
-          initDropdownButtonBehavior: true,
-          initExitEditorButtonBehavior: true
-        };
-        assetServices.load({
-          manifestURL: '%REACT_APP_STYLE_GUIDE_MANIFEST_FILE%'
-        });
-        window['doppler-session-mfe-configuration'] = {
-          dopplerLegacyBaseUrl: '%REACT_APP_DOPPLER_LEGACY_URL%',
-          useDummies: '%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true'
-        };
-        assetServices.load({
-          manifestURL: '%REACT_APP_SESSION_MFE_MANIFEST_FILE%'
-        });
-      </script>
+    <script type="text/javascript">
+      window['style-guide-configuration'] = {
+        initAccordionBehavior: true,
+        initModalsBehavior: true,
+        initTabsBehavior: true,
+        initDopplerPlusBehavior: true,
+        initSliderBehavior: true,
+        initNestedTableBehavior: true,
+        initTipsBehavior: true,
+        initCarouselBehavior: true,
+        initDropdownButtonBehavior: true,
+        initExitEditorButtonBehavior: true,
+      };
+      assetServices.load({
+        manifestURL: '%REACT_APP_STYLE_GUIDE_MANIFEST_FILE%',
+      });
+      window['doppler-session-mfe-configuration'] = {
+        dopplerLegacyBaseUrl: '%REACT_APP_DOPPLER_LEGACY_URL%',
+        useDummies: '%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true',
+      };
+      assetServices.load({
+        manifestURL: '%REACT_APP_SESSION_MFE_MANIFEST_FILE%',
+      });
+    </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
-      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N9KCJTZ"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-N9KCJTZ"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
     </noscript>
     <noscript>
-      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TMMV2DF"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-TMMV2DF"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
     <!-- <div class="loading-app wrapper-loading dp-disabled-loading">
       <div class="loading-page">
         <p class="flash">&nbsp;</p>
@@ -131,6 +146,9 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=d551604b-d03b-44e4-9ba6-7fdc92f56cb9"></script>
+    <script
+      id="ze-snippet"
+      src="https://static.zdassets.com/ekr/snippet.js?key=d551604b-d03b-44e4-9ba6-7fdc92f56cb9"
+    ></script>
   </body>
 </html>

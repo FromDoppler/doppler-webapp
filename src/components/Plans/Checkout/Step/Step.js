@@ -7,7 +7,11 @@ const displayBlockStyle = {
 export const Step = ({ children, title, active, stepNumber, complete, lastStep, onActivate }) => {
   return (
     <>
-      <li className={`dp-box-shadow ${active || complete ? 'dp-form-successful' : ''}`}>
+      <li
+        className={`dp-box-shadow ${active || complete ? 'dp-form-successful' : ''} ${
+          active ? 'dp-steps-payment-process' : ''
+        }`}
+      >
         <span
           className={`dp-number-item ${active ? ' dp-successful' : complete ? 'dp-checked' : ''}`}
         >

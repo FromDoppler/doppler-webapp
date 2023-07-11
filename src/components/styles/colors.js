@@ -14,4 +14,5 @@ export const colors = {
   purple2: '#BC9AC7',
   purple3: '#9B7BA6',
   red: '#e34f45',
+  greenBackground: '#e0f3ea',
 };
