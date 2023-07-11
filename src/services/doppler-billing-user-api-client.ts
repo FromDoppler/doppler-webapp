@@ -205,7 +205,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
   private mapPaymentMethodToUpdate(data: any): any {
     switch (data.paymentMethodName) {
       case PaymentMethodType.transfer:
-        return {
+        const payload: any = {
           paymentMethodName: data.paymentMethodName,
           idSelectedPlan: data.idSelectedPlan,
           razonSocial: data.businessName,
@@ -216,9 +216,18 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           paymentType: data.paymentType,
           paymentWay: data.paymentWay,
           useCFDI: data.cfdi,
-          taxRegime: data.taxRegime,
-          taxCertificate: data.taxCertificate,
         };
+
+        // these fields are used when transfer is mexico
+        if (data.taxRegime) {
+          payload.taxRegime = data.taxRegime;
+        }
+
+        if (data.taxCertificate) {
+          payload.taxCertificate = data.taxCertificate;
+        }
+
+        return payload;
 
       case PaymentMethodType.mercadoPago:
         return {
