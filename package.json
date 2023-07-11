@@ -42,7 +42,7 @@
     "react-credit-cards": "^0.8.3",
     "react-dom": "18.2.0",
     "react-ga": "^3.3.1",
-    "react-google-recaptcha": "^2.1.0",
+    "react-google-recaptcha": "^3.0.0",
     "react-helmet": "^6.1.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-input-mask": "^2.0.4",
