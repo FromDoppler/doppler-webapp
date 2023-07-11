@@ -6,7 +6,9 @@ export const C3ChartStyled = styled.div`
   margin: ${spacings.spacesLvl0} ${spacings.spacesLvl4} ${spacings.spacesLvl6};
 
   svg {
-    font: 400 11px 'Proxima-Nova', sans-serif;
+    font:
+      400 11px 'Proxima-Nova',
+      sans-serif;
     color: ${colors.softGrey};
     width: 100%;
     display: inline-block;
@@ -14,7 +16,9 @@ export const C3ChartStyled = styled.div`
 
   .tick {
     fill: ${colors.sightGrey};
-    font: 400 11px 'Proxima-Nova', sans-serif;
+    font:
+      400 11px 'Proxima-Nova',
+      sans-serif;
   }
 
   .domain {
@@ -63,7 +67,9 @@ export const C3ChartStyled = styled.div`
     padding: ${spacings.spacesLvl4} ${spacings.spacesLvl5};
     min-width: 180px;
     color: ${colors.darkGrey};
-    font: 400 12px 'Proxima-Nova', sans-serif;
+    font:
+      400 12px 'Proxima-Nova',
+      sans-serif;
     z-index: 10;
     box-shadow: 0 0 0 4px rgba(204, 204, 204, 0.3);
     border: 1px solid ${colors.softGrey};
