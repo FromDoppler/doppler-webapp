@@ -37,6 +37,7 @@ export const handleMessage = (error) => {
     case MercadoPagoError.invalidExpirationDate:
     case CloverError.invalidExpirationMonth:
     case CloverError.invalidExpirationYear:
+    case CloverError.invalidExpirationCard:
       return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
     case FirstDataError.invalidCreditCardNumber:
     case FirstDataError.invalidCCNumber:
