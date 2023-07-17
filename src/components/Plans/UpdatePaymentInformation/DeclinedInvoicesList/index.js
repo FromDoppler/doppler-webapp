@@ -14,6 +14,7 @@ const translateCreditCardError = (creditCardError) => {
     case MercadoPagoError.invalidExpirationDate:
     case CloverError.invalidExpirationMonth:
     case CloverError.invalidExpirationYear:
+    case CloverError.invalidExpirationCard:
       return 'updatePaymentInformationSuccess.credit_card_error.invalid_expiration_date';
     case FirstDataError.invalidCreditCardNumber:
     case FirstDataError.invalidCCNumber:

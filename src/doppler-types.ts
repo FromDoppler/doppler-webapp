@@ -161,6 +161,7 @@ export const CloverError = {
   invalidExpirationYear: 'DeclinedPaymentTransaction - invalid_expiry_year',
   invalidSecurityCode: 'DeclinedPaymentTransaction - incorrect_cvc"',
   insufficientFunds: 'DeclinedPaymentTransaction - invalid_tip_amount',
+  invalidExpirationCard: 'DeclinedPaymentTransaction - expired_card',
 };
 
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
