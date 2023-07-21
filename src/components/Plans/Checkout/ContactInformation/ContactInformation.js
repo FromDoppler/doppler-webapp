@@ -199,6 +199,7 @@ export const ContactInformation = InjectAppServices(
                           label={`${_('checkoutProcessForm.contact_information_zip_code')}`}
                           withNameValidation
                           className="field-item--50 dp-p-r"
+                          required
                         />
                         <PhoneFieldItem
                           fieldName={fieldNames.phone}

@@ -199,7 +199,7 @@ describe('Checkout component', () => {
     const validationErrorMessages = await screen.findAllByText(
       'validation_messages.error_required_field',
     );
-    expect(validationErrorMessages).toHaveLength(10);
+    expect(validationErrorMessages).toHaveLength(11);
   });
 
   it('should call handleSaveAndContinue function if the submit was succesfully', async () => {
