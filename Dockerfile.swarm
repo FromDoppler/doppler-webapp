@@ -1,4 +1,4 @@
-FROM node:20.4.0 As restore
+FROM node:20.5.0 As restore
 WORKDIR /app
 COPY package.json yarn.lock ./
 ENV DISABLE_HUSKY=true
