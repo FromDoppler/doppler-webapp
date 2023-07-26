@@ -92,6 +92,15 @@ const messages_es = {
     url_legacy_control_panel: `${urlControlPanelMain}`,
     url_legacy_doppler: `${urlDopplerLegacy}`,
   },
+  buy_process: {
+    discount_half_yearly: 'Semestral',
+    discount_monthly: 'Mensual',
+    discount_percentage: `Ahorra {discountPercentage}%`,
+    discount_quarterly: 'Trimestral',
+    discount_yearly: 'Anual',
+    min_monthly_plan_price: `Desde <Strong>{price}*/mes</Strong>`,
+    min_single_plan_price: `Desde <Strong>{price}*/único</Strong>`,
+  },
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,
     ask_demo: 'Solicitar demo',
