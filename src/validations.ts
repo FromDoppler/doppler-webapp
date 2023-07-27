@@ -113,7 +113,7 @@ export function validateCuit(
     return null;
   }
 
-  const regexCuit = /^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
+  const regexCuit = /^(20|23|24|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$/g;
 
   if (!regexCuit.test(value)) {
     return commonErrorKey;
