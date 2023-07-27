@@ -243,7 +243,7 @@ export class ControlPanelService implements ControlPanelService {
             },
             {
               name: 'Jumpseller',
-              linkUrl: `${urlIntegrations}/JumpsellerSection`,
+              linkUrl: `${urlIntegrations}/JumpsellerSectionOAuth2`,
               imgSrc: jumpseller_icon,
               imgAlt: _('integrations.native_integrations.jumpseller_title'),
               iconName: _('integrations.native_integrations.jumpseller_title'),
