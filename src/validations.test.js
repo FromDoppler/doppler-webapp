@@ -7,6 +7,7 @@ import {
   validateName,
   validateMinLength,
   validateRfc,
+  validateCuit,
 } from './validations';
 
 describe('validations', () => {
@@ -834,6 +835,30 @@ describe('validations', () => {
 
       // Act
       const result = validateRfc(value);
+
+      // Assert
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('validateCuit', () => {
+    it('should show the invalid message when the CUIT is incorrect', () => {
+      // Arrange
+      const value = '25123456789';
+
+      // Act
+      const result = validateCuit(value);
+
+      // Assert
+      expect(result).toEqual('validation_messages.error_invalid_cuit');
+    });
+
+    it('should be accept the value when the CUIT is valid', () => {
+      // Arrange
+      const value = '24331550929';
+
+      // Act
+      const result = validateCuit(value);
 
       // Assert
       expect(result).toBeNull();
