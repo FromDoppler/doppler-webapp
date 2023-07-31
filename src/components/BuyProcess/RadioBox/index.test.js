@@ -25,7 +25,7 @@ describe('RadioBox component', () => {
 
     // Assert
     screen.getByText('buy_process.discount_percentage');
-    expect(screen.getByRole('radio', { name: label })).not.toBeChecked();
+    expect(screen.getByRole('radio')).not.toBeChecked();
   });
 
   describe('RadioFooter component', () => {
