@@ -13,8 +13,8 @@ const RadioBox = ({
 }) => {
   return (
     <div className={`dp-input--radio dp-checkout-radio-${checked ? 'selected' : 'notselected'}`}>
-      {tooltip}
       <label aria-disabled={disabled}>
+        {tooltip}
         <input
           type="radio"
           name={name || 'radio'}
@@ -31,15 +31,18 @@ const RadioBox = ({
 };
 
 RadioBox.propTypes = {
-  value: PropTypes.shape({
-    id: PropTypes.number,
-    description: PropTypes.string,
-  }),
+  value: PropTypes.oneOfType([
+    PropTypes.shape({
+      id: PropTypes.number,
+      description: PropTypes.string,
+    }),
+    PropTypes.string,
+  ]),
   label: PropTypes.string.isRequired,
   checked: PropTypes.bool,
   name: PropTypes.string,
   disabled: PropTypes.bool,
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   tooltip: PropTypes.node,
   footer: PropTypes.node,
 };
