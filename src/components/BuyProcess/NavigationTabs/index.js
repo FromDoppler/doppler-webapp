@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { URL_PLAN_TYPE } from '../../../doppler-types';
@@ -19,16 +20,16 @@ const NavigationTabs = ({ planTypes, selectedPlanType }) => {
           <FieldItemAccessible
             data-testid="tab-item--plan-calculator"
             className="col-md-4 m-b-12"
-            key={planType}
+            key={planType.type}
           >
             <Link
-              to={`/plan-selection/premium/${URL_PLAN_TYPE[planType]}${location.search}`}
-              className={planType === selectedPlanType ? 'tab--link active' : 'tab--link'}
+              to={`/plan-selection/premium/${URL_PLAN_TYPE[planType.type]}${location.search}`}
+              className={planType.type === selectedPlanType ? 'tab--link active' : 'tab--link'}
             >
               <RadioBox
-                value={planType}
-                label={getTypePlanDescriptionWithTooltip(planType)}
-                checked={planType === selectedPlanType}
+                value={planType.type}
+                label={getTypePlanDescriptionWithTooltip(planType.type)}
+                checked={planType.type === selectedPlanType}
                 handleClick={null}
               />
             </Link>
@@ -37,6 +38,16 @@ const NavigationTabs = ({ planTypes, selectedPlanType }) => {
       </FieldGroup>
     </nav>
   );
+};
+
+NavigationTabs.propTypes = {
+  planTypes: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      minPrice: PropTypes.number,
+    }),
+  ).isRequired,
+  selectedPlanType: PropTypes.string.isRequired,
 };
 
 export default NavigationTabs;
