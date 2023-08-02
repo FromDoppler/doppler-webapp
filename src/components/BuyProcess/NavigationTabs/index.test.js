@@ -5,10 +5,15 @@ import NavigationTabs from '.';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { MemoryRouter as Router } from 'react-router-dom';
 
+const planTypes = [
+  { type: PLAN_TYPE.byContact, minPrice: 8 },
+  { type: PLAN_TYPE.byEmail, minPrice: 134 },
+  { type: PLAN_TYPE.byCredit, minPrice: 23 },
+];
+
 describe('NavigationTabs component', () => {
   it('should component render a tab for each planType', async () => {
     // Arrange
-    const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const selectedPlanType = PLAN_TYPE.byContact;
 
     // Act
@@ -29,14 +34,13 @@ describe('NavigationTabs component', () => {
     links.forEach((link, index) => {
       expect(link).toHaveAttribute(
         'href',
-        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}`,
+        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index].type]}`,
       );
     });
   });
 
   it('should render a tab for each planType with query params', () => {
     //Arrange
-    const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const selectedPlanType = PLAN_TYPE.byContact;
     const search = '?origin=hello_bar&promo-code=fake-promo-code';
 
@@ -62,7 +66,7 @@ describe('NavigationTabs component', () => {
     links.forEach((link, index) => {
       expect(link).toHaveAttribute(
         'href',
-        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}${search}`,
+        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index].type]}${search}`,
       );
     });
   });
