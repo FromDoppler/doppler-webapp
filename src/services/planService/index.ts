@@ -10,6 +10,11 @@ export interface PlanInterface {
   getPlanList(): Promise<Plan[]>;
 }
 
+export interface DistinctPlan {
+  type: PlanType;
+  minPrice: number;
+}
+
 export class PlanService implements PlanInterface {
   private PlanList: Plan[] = [];
   private readonly appSessionRef: any;
@@ -72,6 +77,30 @@ export class PlanService implements PlanInterface {
     const distinctTypesAllowed: PlanType[] = [...Array.from(new Set<PlanType>(typesAllowed))];
 
     return orderPlanTypes(distinctTypesAllowed);
+  }
+
+  async getDistinctPlans(): Promise<DistinctPlan[]> {
+    const planList = await this.getPlanList();
+    const currentPlan: any = this.getCurrentPlan();
+
+    const potentialUpgradePlans: Plan[] = getPotentialUpgrades(currentPlan, planList);
+
+    const typesAllowed: PlanType[] = potentialUpgradePlans.map((plan) => plan.type);
+    const distinctTypesAllowed: PlanType[] = [...Array.from(new Set<PlanType>(typesAllowed))];
+    const distinctPlanTypesOrdered = orderPlanTypes(distinctTypesAllowed);
+    const distinctPlansAllowed: { type: PlanType; minPrice: number }[] =
+      distinctPlanTypesOrdered.map((type) => {
+        const priceByPlanType: number = Math.min(
+          ...potentialUpgradePlans
+            .filter((plan) => plan.type === type)
+            .map((plan) => getPlanFee(plan)),
+        );
+        return {
+          type,
+          minPrice: priceByPlanType,
+        };
+      });
+    return distinctPlansAllowed;
   }
 
   async getPlansByType(planType: PlanType): Promise<Plan[]> {

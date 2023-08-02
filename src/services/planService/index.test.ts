@@ -130,6 +130,97 @@ describe('planService', () => {
     });
   });
 
+  describe('getDistinctPlans method', () => {
+    it('should return plans by credit, email and contact when the plan is free', async () => {
+      // Arrange
+      const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
+      const appSessionRef = getAppSessionRef({ planType: PLAN_TYPE.free });
+
+      // Act
+      const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
+      const orderPlanTypes = await planService.getDistinctPlans();
+
+      // Assert
+      expect(orderPlanTypes.map((distinctPlan) => distinctPlan.type)).toEqual(
+        firstPlansDefaultOrder,
+      );
+    });
+
+    it('should return plan by email when the plan is email', async () => {
+      // Arrange
+      const planByEmail = allPlans.find((plan) => plan.type === PLAN_TYPE.byEmail);
+      const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
+      const appSessionRef = getAppSessionRef({
+        idPlan: planByEmail?.id,
+        planType: PLAN_TYPE.byEmail,
+      });
+
+      // Act
+      const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
+      const orderPlanTypes = await planService.getDistinctPlans();
+
+      // Assert
+      expect(orderPlanTypes.map((distinctPlan) => distinctPlan.type)).toEqual([PLAN_TYPE.byEmail]);
+    });
+
+    it('should return plans by credit when the plan is credit', async () => {
+      // Arrange
+      const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
+      const appSessionRef = getAppSessionRef({ planType: PLAN_TYPE.byCredit, subscribersCount: 0 });
+
+      // Act
+      const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
+      const orderPlanTypes = await planService.getDistinctPlans();
+
+      // Assert
+      expect(orderPlanTypes.map((distinctPlan) => distinctPlan.type)).toEqual([
+        PLAN_TYPE.byContact,
+        PLAN_TYPE.byEmail,
+        PLAN_TYPE.byCredit,
+      ]);
+    });
+
+    it('should return plans by contact when the plan is contact', async () => {
+      // Arrange
+      const planByContact = allPlans.find((plan) => plan.type === PLAN_TYPE.byContact);
+      const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
+      const appSessionRef = getAppSessionRef({
+        idPlan: planByContact?.id,
+        planType: PLAN_TYPE.byContact,
+        planSubscription: 1,
+      });
+
+      // Act
+      const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
+      const orderPlanTypes = await planService.getDistinctPlans();
+
+      // Assert
+      expect(orderPlanTypes.map((distinctPlan) => distinctPlan.type)).toEqual([
+        PLAN_TYPE.byContact,
+      ]);
+    });
+
+    it('should return plan by contact when the plan is contact and annual', async () => {
+      // Arrange
+      const planByContact = allPlans.find((plan) => plan.type === PLAN_TYPE.byContact);
+      const dopplerLegacyClient = new HardcodedDopplerLegacyClient();
+      const appSessionRef = getAppSessionRef({
+        idPlan: planByContact?.id,
+        planType: PLAN_TYPE.byContact,
+        planSubscription: 12,
+      });
+
+      // Act
+      const planService = new PlanService({ dopplerLegacyClient, appSessionRef });
+      const orderPlanTypes = await planService.getDistinctPlans();
+
+      // Assert
+      expect(orderPlanTypes.map((distinctPlan) => distinctPlan.type)).toEqual([
+        PLAN_TYPE.byContact,
+      ]);
+    });
+  });
+
   describe('getCurrentPlan method', () => {
     it('should return free plan', async () => {
       // Arrange
