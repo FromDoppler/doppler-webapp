@@ -29,6 +29,7 @@ const urlSiteFromLogin = `${urlSite}/en/`;
 const urlSiteFromForgot = `${urlSite}/en/`;
 const urlControlPanelMain = `${urlControlPanel}/ControlPanel`;
 const urlPlanSelection = `/plan-selection-deprecated`;
+const urlPlanSelectionNew = `/plan-selection/premium/by-contacts`;
 const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
@@ -98,6 +99,12 @@ const messages_en = {
     discount_yearly: 'Yearly',
     min_monthly_plan_price: `From <Strong>{price}*/month</Strong>`,
     min_single_plan_price: `From <Strong>{price}*/single</Strong>`,
+    plan_selection: {
+      breadcumb_plan_text: `Marketing plan`,
+      breadcumb_plan_url: `${urlPlanSelectionNew}`,
+      plan_subtitle_MD: `Lorem ipsum dolor sit amet consectetur. Ac eleifend diam lobortis montes eget proin purus.`,
+      plan_title: `Choose your email marketing plan`,
+    },
   },
   change_plan: {
     all_of_plan: `Everything from {plan} plus:`,

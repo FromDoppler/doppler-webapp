@@ -25,6 +25,7 @@ const subjectCanceledAccountOtherReason = `?subject=Cuenta%20cancelada%20-%20Log
 const subjectBlockedAccountInvalidPassword = `?subject=Cuenta%20bloqueada%20por%20intentos%20fallidos%20-%20Login`;
 const urlControlPanel = `${urlDopplerLegacy}/ControlPanel`;
 const urlPlanSelection = `/plan-selection-deprecated`;
+const urlPlanSelectionNew = `/plan-selection/premium/by-contacts`;
 const urlSiteTracking = `${urlControlPanel}/CampaignsPreferences/SiteTrackingSettings`;
 const urlSiteFromSignup = `${urlSite}/`;
 const urlSiteFromLogin = `${urlSite}/`;
@@ -100,6 +101,12 @@ const messages_es = {
     discount_yearly: 'Anual',
     min_monthly_plan_price: `Desde <Strong>{price}*/mes</Strong>`,
     min_single_plan_price: `Desde <Strong>{price}*/único</Strong>`,
+    plan_selection: {
+      breadcumb_plan_text: `Plan marketing`,
+      breadcumb_plan_url: `${urlPlanSelectionNew}`,
+      plan_subtitle_MD: `Lorem ipsum dolor sit amet consectetur. Ac eleifend diam lobortis montes eget proin purus.`,
+      plan_title: `Elige tu plan de marketing`,
+    },
   },
   change_plan: {
     all_of_plan: `Todo lo de {plan} más:`,
