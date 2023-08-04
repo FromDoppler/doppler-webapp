@@ -36,6 +36,7 @@ import UpdatePaymentInformationSummary from './components/Plans/UpdatePaymentInf
 import IntegrationsSection from './components/Integrations/index';
 import smoothscroll from 'smoothscroll-polyfill';
 import { PlanTypes } from './components/BuyProcess/PlanTypes';
+import { PlanSelection } from './components/BuyProcess/PlanSelection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -320,6 +321,13 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <PlanTypes />
+                  </PrivateRoute>
+              } />
+            <Route
+              path="/buy-process/primer-pantalla/:planType"
+              element={
+                <PrivateRoute>
+                  <PlanSelection />
                 </PrivateRoute>
               }
             />
