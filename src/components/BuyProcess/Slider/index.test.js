@@ -2,15 +2,16 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { Slider, Tickmarks } from '.';
 import { BrowserRouter } from 'react-router-dom';
+import { compactNumber } from '../../../utils';
 
 describe('Slider component', () => {
   it('should render Slider component', async () => {
     // Arrange
-    const items = ['500', '1k', '5k', '20k', '100k'];
+    const items = ['500', '1000', '5000', '20000', '100000'];
     const selectedItemIndex = 0;
     const handleChange = jest.fn();
     const moreOptions = {
-      label: 'More than 100k',
+      label: 'More than 100000',
       relativePath: '/plan-selection/by-emails',
     };
 
@@ -56,7 +57,7 @@ describe('Slider component', () => {
 describe('Tickmarks component', () => {
   it('should render Tickmarks component', async () => {
     // Arrange
-    const items = ['500', '1k', '5k', '20k', '100k'];
+    const items = ['500', '1000', '5000', '20000', '100000'];
     const handleChange = jest.fn();
 
     // Act
@@ -64,13 +65,13 @@ describe('Tickmarks component', () => {
 
     // Assert
     items.forEach((item) => {
-      screen.getByText(item);
+      screen.getByText(compactNumber(item));
     });
   });
 
   it('should render Tickmarks component when is visible just the first item and the last item', async () => {
     // Arrange
-    const items = ['500', '1k', '5k', '20k', '100k'];
+    const items = ['500', '1000', '5000', '20000', '100000'];
     const handleChange = jest.fn();
 
     // Act
@@ -79,9 +80,9 @@ describe('Tickmarks component', () => {
     // Assert
     items.forEach((item, index) => {
       if ([0, items.length - 1].includes(index)) {
-        screen.getByText(item);
+        screen.getByText(compactNumber(item));
       } else {
-        expect(screen.queryByText(item)).not.toBeInTheDocument();
+        expect(screen.queryByText(compactNumber(item))).not.toBeInTheDocument();
       }
     });
   });

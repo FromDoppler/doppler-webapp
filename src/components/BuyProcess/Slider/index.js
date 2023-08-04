@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { compactNumber } from '../../../utils';
 
 export const HIDE_MARKS_FROM = 9;
 
@@ -12,12 +13,16 @@ export const Tickmarks = ({ id, items = [], handleChange, hideMarksFrom = HIDE_M
       {amountItems >= hideMarksFrom
         ? items.map((value, index) => (
             <li key={index} onClick={getHandleChange(index)}>
-              {[0, amountItems - 1].includes(index) && <strong>{value}</strong>}
+              {[0, amountItems - 1].includes(index) && <strong>{compactNumber(value)}</strong>}
             </li>
           ))
         : items.map((value, index) => (
             <li key={index} onClick={getHandleChange(index)}>
-              {[0, amountItems - 1].includes(index) ? <strong>{value}</strong> : value}
+              {[0, amountItems - 1].includes(index) ? (
+                <strong>{compactNumber(value)}</strong>
+              ) : (
+                compactNumber(value)
+              )}
             </li>
           ))}
     </ul>
@@ -41,7 +46,13 @@ export const Slider = ({
 
   return (
     <>
-      <div className="dp-calc-slider progress-bar">
+      <div className="dp-purchase-process--slider progress-bar">
+        <Tickmarks
+          id="item-list"
+          items={items}
+          handleChange={onChange}
+          hideMarksFrom={hideMarksFrom}
+        />
         <input
           className="range-slider"
           type="range"
@@ -60,12 +71,6 @@ export const Slider = ({
               ? { width: `${(selectedItemIndex * 100) / (amountItems - 1)}%` }
               : { width: '100%' }
           }
-        />
-        <Tickmarks
-          id="item-list"
-          items={items}
-          handleChange={onChange}
-          hideMarksFrom={hideMarksFrom}
         />
       </div>
       {moreOptions && (
