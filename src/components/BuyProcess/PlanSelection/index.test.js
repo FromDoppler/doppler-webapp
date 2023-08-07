@@ -5,15 +5,31 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
+import { allPlans } from '../../../services/doppler-legacy-client.doubles';
+
+const plansByContacts = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
 
 describe('PlanSelection component', () => {
   it('should render PlanSelection component', async () => {
     // Arrange
     const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.free,
+              },
+            },
+          },
+        },
+      },
       planService: {
         getDistinctPlans: async () =>
           planTypes.map((planType) => ({ type: planType, minPrice: 5 })),
+        getPlansByType: async () => plansByContacts,
       },
     };
     // Act
