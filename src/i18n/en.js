@@ -97,8 +97,8 @@ const messages_en = {
     discount_percentage: `Save {discountPercentage}%`,
     discount_quarterly: 'Quarterly',
     discount_yearly: 'Yearly',
-    min_monthly_plan_price: `From <Strong>{price}*/month</Strong>`,
-    min_single_plan_price: `From <Strong>{price}*/single</Strong>`,
+    min_monthly_plan_price: `<P>From <Strong>US\$\{price}*/month</Strong></P>`,
+    min_single_plan_price: `<P>From <Strong>US\$\{price}*/single</Strong></P>`,
     plan_selection: {
       breadcumb_plan_text: `Marketing plan`,
       breadcumb_plan_url: `${urlPlanSelectionNew}`,
