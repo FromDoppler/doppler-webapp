@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
 import { Navigate, useParams } from 'react-router-dom';
+import { PLAN_TYPE } from '../../../doppler-types';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
 import { getPlanTypeFromUrlSegment } from '../../../utils';
@@ -8,6 +9,7 @@ import { Loading } from '../../Loading/Loading';
 import { BreadcrumbNew, BreadcrumbNewItem } from '../../shared/BreadcrumbNew';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import NavigationTabs from '../NavigationTabs';
+import PaymentFrequency from '../PaymentFrequency';
 import { Slider } from '../Slider';
 import { UnexpectedError } from '../UnexpectedError';
 import {
@@ -20,6 +22,7 @@ import {
   planTypesReducer,
   PLAN_TYPES_ACTIONS,
 } from './reducers/planTypesReducer';
+import { SubscriptionType } from './SubscriptionType';
 
 export const PlanSelection = InjectAppServices(
   ({ dependencies: { planService, appSessionRef } }) => {
@@ -28,6 +31,7 @@ export const PlanSelection = InjectAppServices(
     const { planType: planTypeUrlSegment } = useParams();
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlan = appSessionRef.current.userData.user;
+    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
 
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
       planTypesReducer,
@@ -39,6 +43,8 @@ export const PlanSelection = InjectAppServices(
         selectedPlan,
         plansByType,
         sliderValuesRange,
+        discounts,
+        selectedDiscount,
         hasError: hasErrorPlansByType,
       },
       dispatchPlansByType,
@@ -92,6 +98,13 @@ export const PlanSelection = InjectAppServices(
       });
     };
 
+    const handleDiscountChange = (discount) => {
+      dispatchPlansByType({
+        type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
+        payload: discount,
+      });
+    };
+
     if (!hasError && !loading && planTypes.length === 0) {
       return <Navigate to="/upgrade-suggestion-form" />;
     }
@@ -106,6 +119,8 @@ export const PlanSelection = InjectAppServices(
 
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlan?.id;
     const hideSlider = plansByType.length === 1 && isEqualPlan;
+    const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
+    const isPlanByContacts = selectedPlanType === PLAN_TYPE.byContact;
 
     return (
       <div className="dp-container">
@@ -143,6 +158,24 @@ export const PlanSelection = InjectAppServices(
               />
             </div>
           )}
+
+          <div className="col-sm-12 col-md-8 col-lg-8">
+            {isMonthlySubscription ? (
+              discounts.length > 0 && (
+                <PaymentFrequency
+                  discounts={discounts}
+                  selectedDiscount={selectedDiscount}
+                  onSelectDiscount={handleDiscountChange}
+                  disabled={!isPlanByContacts || isEqualPlan || !isFreeAccount}
+                />
+              )
+            ) : (
+              <SubscriptionType
+                period={selectedDiscount?.numberMonths}
+                discountPercentage={selectedDiscount?.discountPercentage}
+              />
+            )}
+          </div>
         </div>
       </div>
     );
