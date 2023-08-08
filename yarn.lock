@@ -4459,9 +4459,9 @@
     "@types/node" "*"
 
 "@types/intl-tel-input@^18.0.0":
-  version "18.1.0"
-  resolved "https://registry.yarnpkg.com/@types/intl-tel-input/-/intl-tel-input-18.1.0.tgz#07c9ef317c2485c6f4cab69a7d0d41320a48f326"
-  integrity sha512-CakJFLF4S0WcQCnZpCNzhf1IBTCQo41idFiJYwkUHo3Tw2E1tpOHHkwG0BITZOfHD1z2+/pBMWLXP6ahIthNiA==
+  version "18.1.1"
+  resolved "https://registry.yarnpkg.com/@types/intl-tel-input/-/intl-tel-input-18.1.1.tgz#33a1f4a3a97b02f34d16c227d9083e3d69e6b322"
+  integrity sha512-lxxF5QhR57Q/KEaA+52x1mb8f4tVgFXpKWC6VCod1EpL9w61D6kzW5srLcMQrv0/fCZ1UsSJATqFowLeUhxQXQ==
   dependencies:
     "@types/jquery" "*"
 
