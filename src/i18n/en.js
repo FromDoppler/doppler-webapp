@@ -99,6 +99,7 @@ const messages_en = {
     discount_yearly: 'Yearly',
     min_monthly_plan_price: `<P>From <Strong>US\$\{price}*/month</Strong></P>`,
     min_single_plan_price: `<P>From <Strong>US\$\{price}*/single</Strong></P>`,
+    payment_frequency: `Select your payment frequency`,
     plan_selection: {
       breadcumb_plan_text: `Marketing plan`,
       breadcumb_plan_url: `${urlPlanSelectionNew}`,

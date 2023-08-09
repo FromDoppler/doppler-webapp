@@ -162,12 +162,15 @@ export const PlanSelection = InjectAppServices(
           <div className="col-sm-12 col-md-8 col-lg-8">
             {isMonthlySubscription ? (
               discounts.length > 0 && (
-                <PaymentFrequency
-                  discounts={discounts}
-                  selectedDiscount={selectedDiscount}
-                  onSelectDiscount={handleDiscountChange}
-                  disabled={!isPlanByContacts || isEqualPlan || !isFreeAccount}
-                />
+                <>
+                  <h2>{_('buy_process.payment_frequency')}</h2>
+                  <PaymentFrequency
+                    discounts={discounts}
+                    selectedDiscount={selectedDiscount}
+                    onSelectDiscount={handleDiscountChange}
+                    disabled={!isPlanByContacts || isEqualPlan || !isFreeAccount}
+                  />
+                </>
               )
             ) : (
               <SubscriptionType

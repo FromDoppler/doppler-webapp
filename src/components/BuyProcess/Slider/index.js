@@ -83,7 +83,7 @@ export const Slider = ({
 };
 
 Slider.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   selectedItemIndex: PropTypes.number,
   handleChange: PropTypes.func.isRequired,
   callbackMaxTop: PropTypes.func,
