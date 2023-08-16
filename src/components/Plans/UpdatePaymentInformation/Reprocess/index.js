@@ -67,6 +67,7 @@ export const Reprocess = InjectAppServices(
             'declined',
             'failed',
             'clientFailed',
+            'doNotHonor',
           ]);
 
           dispatch({

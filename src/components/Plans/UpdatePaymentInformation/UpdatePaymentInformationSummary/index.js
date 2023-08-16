@@ -131,6 +131,7 @@ export const PaymentInformationSummary = InjectAppServices(
             'declined',
             'failed',
             'clientFailed',
+            'doNotHonor',
           ]);
 
           dispatch({
