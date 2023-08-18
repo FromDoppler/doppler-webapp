@@ -94,6 +94,7 @@ export const UpdatePaymentMethod = InjectAppServices(
     const submitPaymentMethodForm = async (values) => {
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
         ...values,
+        idSelectedPlan: 0,
         ccType: getCreditCardBrand(values.number),
       });
 
