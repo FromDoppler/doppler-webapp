@@ -51,6 +51,7 @@
     "react-markdown": "^8.0.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-scroll": "^1.8.9",
     "react-side-effect": ">=2.1.2",
     "react-test-renderer": "^18.0.0",
     "semantic-release": "^21.0.0",
