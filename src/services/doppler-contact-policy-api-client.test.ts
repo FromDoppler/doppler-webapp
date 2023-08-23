@@ -12,6 +12,12 @@ const accountSettings = {
   emailsAmountByInterval: 20,
   intervalInDays: 7,
   excludedSubscribersLists: subscriberListCollection(2),
+  timeRestriction: {
+    timeSlotEnabled: true,
+    hourFrom: 5,
+    hourTo: 10,
+    weekdaysEnabled: false,
+  },
 };
 
 function createHttpDopplerContactPolicyApiClient(axios: any) {
@@ -56,6 +62,11 @@ describe('Doppler Contact Policy Api Client', () => {
     expect(result.value.intervalInDays).toBe(7);
     expect(result.value.excludedSubscribersLists).not.toBe(undefined);
     expect(result.value.excludedSubscribersLists).toHaveLength(2);
+    expect(result.value.timeRestriction).not.toBe(null);
+    expect(result.value.timeRestriction.timeSlotEnabled).toBe(true);
+    expect(result.value.timeRestriction.hourFrom).toBe(5);
+    expect(result.value.timeRestriction.hourTo).toBe(10);
+    expect(result.value.timeRestriction.weekdaysEnabled).toBe(false);
   });
 
   it('should get an error when requesting account settings', async () => {
