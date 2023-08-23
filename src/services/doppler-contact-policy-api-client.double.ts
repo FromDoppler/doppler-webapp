@@ -25,7 +25,12 @@ export class HardcodedDopplerContactPolicyApiClient implements DopplerContactPol
       emailsAmountByInterval: 20,
       intervalInDays: 7,
       excludedSubscribersLists: this.mapSubscriberList(subscriberListCollection(5)),
-      timeRestriction: null,
+      timeRestriction: {
+        timeSlotEnabled: false,
+        hourFrom: 1,
+        hourTo: 2,
+        weekdaysEnabled: false,
+      },
     };
 
     return {
