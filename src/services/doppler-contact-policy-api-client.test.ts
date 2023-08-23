@@ -19,6 +19,19 @@ const accountSettings = {
     weekdaysEnabled: false,
   },
 };
+const accountSettingsWithEmptyValues = {
+  accountName: emailAccount,
+  active: true,
+  emailsAmountByInterval: null,
+  intervalInDays: null,
+  excludedSubscribersLists: subscriberListCollection(2),
+  timeRestriction: {
+    timeSlotEnabled: true,
+    hourFrom: null,
+    hourTo: null,
+    weekdaysEnabled: false,
+  },
+};
 
 function createHttpDopplerContactPolicyApiClient(axios: any) {
   const axiosStatic = {
@@ -66,6 +79,39 @@ describe('Doppler Contact Policy Api Client', () => {
     expect(result.value.timeRestriction.timeSlotEnabled).toBe(true);
     expect(result.value.timeRestriction.hourFrom).toBe(5);
     expect(result.value.timeRestriction.hourTo).toBe(10);
+    expect(result.value.timeRestriction.weekdaysEnabled).toBe(false);
+  });
+
+  it('should consider default values for a response with empty values', async () => {
+    // Arrange
+    const response = {
+      data: accountSettingsWithEmptyValues,
+      status: 200,
+    };
+    const request = jest.fn(async () => response);
+    const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
+
+    const emailsAmountByIntervalDefault = 1;
+    const intervalInDaysDefault = 1;
+    const hourFromDefault = 0;
+    const hourToDefault = 0;
+
+    // Act
+    const result = await dopplerContactPolicyApiClient.getAccountSettings();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.value.active).toBe(true);
+    expect(result.value.emailsAmountByInterval).toBe(emailsAmountByIntervalDefault);
+    expect(result.value.intervalInDays).toBe(intervalInDaysDefault);
+    expect(result.value.excludedSubscribersLists).not.toBe(undefined);
+    expect(result.value.excludedSubscribersLists).toHaveLength(2);
+    expect(result.value.timeRestriction).not.toBe(null);
+    expect(result.value.timeRestriction.timeSlotEnabled).toBe(true);
+    expect(result.value.timeRestriction.hourFrom).toBe(hourFromDefault);
+    expect(result.value.timeRestriction.hourTo).toBe(hourToDefault);
     expect(result.value.timeRestriction.weekdaysEnabled).toBe(false);
   });
 
