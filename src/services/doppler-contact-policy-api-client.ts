@@ -78,6 +78,15 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
     }));
   }
 
+  private mapTimeRestriction(data: any): TimeRestriction {
+    return {
+      timeSlotEnabled: data.timeSlotEnabled,
+      hourFrom: data.hourFrom || 0,
+      hourTo: data.hourTo || 0,
+      weekdaysEnabled: data.weekdaysEnabled,
+    };
+  }
+
   async getAccountSettings(): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
     try {
       const { email, jwtToken } = this.getDopplerContactPolicyApiConnectionData();
@@ -96,7 +105,9 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
           excludedSubscribersLists: response.data.excludedSubscribersLists
             ? this.mapSubscriberList(response.data.excludedSubscribersLists)
             : [],
-          timeRestriction: null,
+          timeRestriction: response.data.timeRestriction
+            ? this.mapTimeRestriction(response.data.timeRestriction)
+            : null,
         };
 
         return {
