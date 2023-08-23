@@ -523,10 +523,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListBlog_2_link_description: 'Mira cómo implementarlos',
     postListBlog_2_title: '#FuncionalidadDestacada',
 
-    postListHelp_1_description: 'Inspírate y aprende con un evento exclusivo pensado para tu Tienda Online.',
-    postListHelp_1_link: 'http://goemms.com/ecommerce.php?origin=destacadotablero',
-    postListHelp_1_link_description: 'RESERVAR CUPO GRATIS',
-    postListHelp_1_title: 'Llega una nueva edición del evento más esperado: EMMS E-commerce.',
+    postListHelp_1_description: 'Descubre cuáles son las tendencias que aplican los mayores referentes internacionales y nútrete de ideas para implementar en tu negocio.',
+    postListHelp_1_link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=am-emmsdt-registros-ago23',
+    postListHelp_1_link_description: '¡Regístrate gratis!',
+    postListHelp_1_title: 'EMMS Digital Trends 2023 | Evento online',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
