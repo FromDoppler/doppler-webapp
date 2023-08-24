@@ -28,10 +28,10 @@ export interface SubscriberList {
 }
 
 export interface TimeRestriction {
-  timeSlotEnabled: boolean | null;
-  hourFrom: number | null;
-  hourTo: number | null;
-  weekdaysEnabled: boolean | null;
+  timeSlotEnabled: boolean;
+  hourFrom: number;
+  hourTo: number;
+  weekdaysEnabled: boolean;
 }
 
 export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyApiClient {
@@ -80,10 +80,10 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
 
   private mapTimeRestriction(data: any): TimeRestriction {
     return {
-      timeSlotEnabled: data.timeSlotEnabled,
+      timeSlotEnabled: data.timeSlotEnabled || false,
       hourFrom: data.hourFrom || 0,
       hourTo: data.hourTo || 0,
-      weekdaysEnabled: data.weekdaysEnabled,
+      weekdaysEnabled: data.weekdaysEnabled || false,
     };
   }
 

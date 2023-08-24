@@ -26,10 +26,10 @@ const accountSettingsWithEmptyValues = {
   intervalInDays: null,
   excludedSubscribersLists: subscriberListCollection(2),
   timeRestriction: {
-    timeSlotEnabled: true,
+    timeSlotEnabled: null,
     hourFrom: null,
     hourTo: null,
-    weekdaysEnabled: false,
+    weekdaysEnabled: null,
   },
 };
 
@@ -93,8 +93,10 @@ describe('Doppler Contact Policy Api Client', () => {
 
     const emailsAmountByIntervalDefault = 1;
     const intervalInDaysDefault = 1;
+    const timeSlotEnabledDefault = false;
     const hourFromDefault = 0;
     const hourToDefault = 0;
+    const weekdaysEnabledDefault = false;
 
     // Act
     const result = await dopplerContactPolicyApiClient.getAccountSettings();
@@ -109,10 +111,10 @@ describe('Doppler Contact Policy Api Client', () => {
     expect(result.value.excludedSubscribersLists).not.toBe(undefined);
     expect(result.value.excludedSubscribersLists).toHaveLength(2);
     expect(result.value.timeRestriction).not.toBe(null);
-    expect(result.value.timeRestriction.timeSlotEnabled).toBe(true);
+    expect(result.value.timeRestriction.timeSlotEnabled).toBe(timeSlotEnabledDefault);
     expect(result.value.timeRestriction.hourFrom).toBe(hourFromDefault);
     expect(result.value.timeRestriction.hourTo).toBe(hourToDefault);
-    expect(result.value.timeRestriction.weekdaysEnabled).toBe(false);
+    expect(result.value.timeRestriction.weekdaysEnabled).toBe(weekdaysEnabledDefault);
   });
 
   it('should get an error when requesting account settings', async () => {
