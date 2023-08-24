@@ -415,10 +415,13 @@ Puedes seleccionar **hasta 10 Listas** para que sean excluídas del límite de e
       upgrade_plan_url: `${urlUpgradePlan}`,
     },
     select_lists: 'Seleccionar Listas',
-    subtitle_MD: `
+    shipments_quantity: {
+      subtitle_MD: `
 Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un período de tiempo determinado.
 
 ¿Quieres saber más? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
+      title: 'Cantidad de envíos',
+    },
     success_msg: 'Los cambios han sido guardados.',
     title: 'Política de Contacto',
     toggle_text: 'Definir número máximo de envíos',

@@ -202,8 +202,7 @@ export const ContactPolicy = InjectAppServices(
               />
               <BreadcrumbItem text={_('contact_policy.title')} />
             </Breadcrumb>
-            <h2>{_('contact_policy.title')}</h2>
-            <FormattedMessageMarkdown linkTarget={'_blank'} id="contact_policy.subtitle_MD" />
+            <h1>{_('contact_policy.title')}</h1>
           </div>
         </HeaderSection>
         <section className="dp-container">
@@ -230,6 +229,13 @@ export const ContactPolicy = InjectAppServices(
                       <fieldset>
                         <legend>{_('contact_policy.title')}</legend>
                         <FieldGroup>
+                          <h2>{_('contact_policy.shipments_quantity.title')}</h2>
+                          <li className="field-item">
+                            <FormattedMessageMarkdown
+                              linkTarget={'_blank'}
+                              id="contact_policy.shipments_quantity.subtitle_MD"
+                            />
+                          </li>
                           <li className="field-item">
                             <SwitchField
                               id="contact-policy-switch"

@@ -416,10 +416,13 @@ You can select **up to 10 Lists** to exclude them from the limit of Emails. Cont
       upgrade_plan_url: `${urlUpgradePlan}`,
     },
     select_lists: 'Select Lists',
-    subtitle_MD: `
+    shipments_quantity: {
+      subtitle_MD: `
 Set a **maximum number of Emails** your Contacts will be able to receive from you in a period of time.
 
 Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
+      title: '(TBD)Quantity of shipments',
+    },
     success_msg: 'Changes have been saved.',
     title: 'Contact Policy',
     toggle_text: 'Set maximum number of Emails',
