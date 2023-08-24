@@ -324,6 +324,18 @@ export const ContactPolicy = InjectAppServices(
                             <hr />
                           </li>
 
+                          <h2>{_('contact_policy.time_restriction.title')}</h2>
+
+                          <li className="field-item">
+                            <FormattedMessageMarkdown
+                              linkTarget={'_blank'}
+                              id="contact_policy.time_restriction.legend"
+                            />
+                          </li>
+
+                          <li className="field-item">
+                            <hr />
+                          </li>
                           <li className="field-item">
                             <button
                               type="button"

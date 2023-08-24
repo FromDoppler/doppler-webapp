@@ -423,6 +423,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       title: 'Cantidad de envíos',
     },
     success_msg: 'Los cambios han sido guardados.',
+    time_restriction: {
+      legend: 'Configura y establece un rango de envíos para tus Campañas. Selecciona cuándo deseas que se ejecute el envío: ',
+      title: 'Restricción horaria',
+    },
     title: 'Política de Contacto',
     toggle_text: 'Definir número máximo de envíos',
     tooltip_max_limit_exceeded: `Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.`,
