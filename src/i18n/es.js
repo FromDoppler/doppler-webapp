@@ -426,6 +426,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     time_restriction: {
       legend: 'Configura y establece un rango de envíos para tus Campañas. Selecciona cuándo deseas que se ejecute el envío: ',
       title: 'Restricción horaria',
+      weekdays_toggle_text: 'Sólo de lunes a viernes',
     },
     title: 'Política de Contacto',
     toggle_text: 'Definir número máximo de envíos',

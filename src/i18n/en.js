@@ -427,6 +427,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     time_restriction: {
       legend: '(TBD)Configure and set a range of shipments for your Campaigns. Choose when you want the shipment to be executed:',
       title: '(TBD)Time restriction',
+      weekdays_toggle_text: '(TBD)Only from Monday to Friday',
     },
     title: 'Contact Policy',
     toggle_text: 'Set maximum number of Emails',
