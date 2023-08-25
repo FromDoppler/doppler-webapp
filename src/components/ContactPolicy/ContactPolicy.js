@@ -31,6 +31,15 @@ const fieldNames = {
   emailsAmountByInterval: 'emailsAmountByInterval',
   intervalInDays: 'intervalInDays',
   excludedSubscribersLists: 'excludedSubscribersLists',
+  timeRestriction: 'timeRestriction',
+  timeRestrictionFieldNames: {
+    hourFrom: 'hourFrom',
+    hourTo: 'hourTo',
+    timeSlotEnabled: 'timeSlotEnabled',
+    weekdaysEnabled: 'weekdaysEnabled',
+  },
+  timeRestrictionHourFrom: 'timeRestriction.hourFrom',
+  timeRestrictionHourTo: 'timeRestriction.hourTo',
   timeRestrictionTimeSlotEnabled: 'timeRestriction.timeSlotEnabled',
   timeRestrictionWeekdaysEnabled: 'timeRestriction.weekdaysEnabled',
 };
@@ -342,6 +351,50 @@ export const ContactPolicy = InjectAppServices(
                               text={_('contact_policy.time_restriction.time_slot_toggle_text')}
                               onToggle={() => hideMessage()}
                             />
+                          </li>
+                          <li className="field-item">
+                            <div className="dp-item-block">
+                              <div>
+                                <span>
+                                  {_('contact_policy.time_restriction.time_slot_hour_from_label')}
+                                </span>
+                                <NumberField
+                                  name={fieldNames.timeRestrictionHourFrom}
+                                  id="time-restriction-time-slot-from"
+                                  disabled={
+                                    !values[fieldNames.timeRestriction][
+                                      fieldNames.timeRestrictionFieldNames.timeSlotEnabled
+                                    ]
+                                  }
+                                  required
+                                  aria-label={_(
+                                    'contact_policy.time_restriction.hour_from_aria_label',
+                                  )}
+                                  onChangeValue={() => hideMessage()}
+                                />
+                                <span className="m-r-30">{_('common.hours_abbreviation')}</span>
+                              </div>
+                              <div>
+                                <span>
+                                  {_('contact_policy.time_restriction.time_slot_hour_to_label')}
+                                </span>
+                                <NumberField
+                                  name={fieldNames.timeRestrictionHourTo}
+                                  id="time-restriction-time-slot-to"
+                                  disabled={
+                                    !values[fieldNames.timeRestriction][
+                                      fieldNames.timeRestrictionFieldNames.timeSlotEnabled
+                                    ]
+                                  }
+                                  required
+                                  aria-label={_(
+                                    'contact_policy.time_restriction.hour_to_aria_label',
+                                  )}
+                                  onChangeValue={() => hideMessage()}
+                                />
+                                <span>{_('common.hours_abbreviation')}</span>
+                              </div>
+                            </div>
                           </li>
 
                           <li className="field-item">
