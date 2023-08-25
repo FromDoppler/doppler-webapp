@@ -19,11 +19,19 @@ export interface AccountSettings {
   emailsAmountByInterval: number | null;
   intervalInDays: number | null;
   excludedSubscribersLists: SubscriberList[] | null;
+  timeRestriction: TimeRestriction | null;
 }
 
 export interface SubscriberList {
   id: number;
   name: string;
+}
+
+export interface TimeRestriction {
+  timeSlotEnabled: boolean;
+  hourFrom: number;
+  hourTo: number;
+  weekdaysEnabled: boolean;
 }
 
 export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyApiClient {
@@ -70,6 +78,15 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
     }));
   }
 
+  private mapTimeRestriction(data: any): TimeRestriction {
+    return {
+      timeSlotEnabled: data.timeSlotEnabled || false,
+      hourFrom: data.hourFrom || 0,
+      hourTo: data.hourTo || 0,
+      weekdaysEnabled: data.weekdaysEnabled || false,
+    };
+  }
+
   async getAccountSettings(): Promise<ResultWithoutExpectedErrors<AccountSettings>> {
     try {
       const { email, jwtToken } = this.getDopplerContactPolicyApiConnectionData();
@@ -88,6 +105,9 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
           excludedSubscribersLists: response.data.excludedSubscribersLists
             ? this.mapSubscriberList(response.data.excludedSubscribersLists)
             : [],
+          timeRestriction: response.data.timeRestriction
+            ? this.mapTimeRestriction(response.data.timeRestriction)
+            : null,
         };
 
         return {
