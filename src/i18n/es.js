@@ -425,6 +425,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     success_msg: 'Los cambios han sido guardados.',
     time_restriction: {
       legend: 'Configura y establece un rango de envíos para tus Campañas. Selecciona cuándo deseas que se ejecute el envío: ',
+      time_slot_toggle_text: 'Sólo en determinada franja horaria teniendo en cuenta el huso horario de tu cuenta.',
       title: 'Restricción horaria',
       weekdays_toggle_text: 'Sólo de lunes a viernes',
     },

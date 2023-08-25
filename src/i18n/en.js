@@ -426,6 +426,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     success_msg: 'Changes have been saved.',
     time_restriction: {
       legend: '(TBD)Configure and set a range of shipments for your Campaigns. Choose when you want the shipment to be executed:',
+      time_slot_toggle_text: "(TBD)Only in a specific time slot considering your account's time zone.",
       title: '(TBD)Time restriction',
       weekdays_toggle_text: '(TBD)Only from Monday to Friday',
     },

@@ -89,7 +89,7 @@ describe('ContactPolicy component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    const switchButton = screen.getByRole('checkbox');
+    const switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     const inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
     const inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     const cloudTags = screen.getByRole('list', { name: 'cloud tags' });
@@ -111,10 +111,10 @@ describe('ContactPolicy component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).not.toBeChecked();
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Set 10 emails
@@ -149,7 +149,7 @@ describe('ContactPolicy component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    const switchButton = screen.getByRole('checkbox');
+    const switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     const inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
     const inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     const addButton = screen.getByRole('button', { name: 'add tag' });
@@ -174,7 +174,7 @@ describe('ContactPolicy component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     const inputAmount = screen.getByRole('spinbutton', { name: 'common.emails' });
     const inputInterval = screen.getByRole('spinbutton', { name: 'contact_policy.interval_unit' });
     const addButton = screen.getByRole('button', { name: 'add tag' });
@@ -187,7 +187,7 @@ describe('ContactPolicy component', () => {
 
     // Enable switch button
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
 
     // Switch should be checked and inputs fields enabled
     expect(switchButton).toBeChecked();
@@ -233,9 +233,9 @@ describe('ContactPolicy component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Click save button
@@ -247,9 +247,9 @@ describe('ContactPolicy component', () => {
     expect(successMessage).toBeInTheDocument();
 
     // Disable switch button
-    switchButton = screen.getByRole('checkbox');
+    switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).not.toBeChecked();
 
     // Success message should be hidden
@@ -267,9 +267,9 @@ describe('ContactPolicy component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Click save button
@@ -302,9 +302,9 @@ describe('ContactPolicy component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Click save button
@@ -355,9 +355,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -426,9 +426,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Change emails amount
@@ -470,9 +470,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Change emails amount
@@ -514,9 +514,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -546,9 +546,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -578,9 +578,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -614,9 +614,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -650,9 +650,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -687,9 +687,9 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Save button should be enabled
@@ -722,9 +722,9 @@ describe('ContactPolicy component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Add list button should be disabled
@@ -742,9 +742,9 @@ describe('ContactPolicy component', () => {
     await waitForElementToBeRemoved(loader);
 
     // Enable switch button
-    let switchButton = screen.getByRole('checkbox');
+    let switchButton = screen.getByRole('checkbox', { name: 'contact_policy.toggle_text' });
     await act(() => user.click(switchButton));
-    switchButton = await screen.findByRole('checkbox');
+    switchButton = await screen.findByRole('checkbox', { name: 'contact_policy.toggle_text' });
     expect(switchButton).toBeChecked();
 
     // Add list button should be disabled

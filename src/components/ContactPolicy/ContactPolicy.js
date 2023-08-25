@@ -31,6 +31,7 @@ const fieldNames = {
   emailsAmountByInterval: 'emailsAmountByInterval',
   intervalInDays: 'intervalInDays',
   excludedSubscribersLists: 'excludedSubscribersLists',
+  timeRestrictionTimeSlotEnabled: 'timeRestriction.timeSlotEnabled',
   timeRestrictionWeekdaysEnabled: 'timeRestriction.weekdaysEnabled',
 };
 
@@ -336,6 +337,15 @@ export const ContactPolicy = InjectAppServices(
 
                           <li className="field-item">
                             <SwitchField
+                              id="contact-policy-time-slot-switch"
+                              name={fieldNames.timeRestrictionTimeSlotEnabled}
+                              text={_('contact_policy.time_restriction.time_slot_toggle_text')}
+                              onToggle={() => hideMessage()}
+                            />
+                          </li>
+
+                          <li className="field-item">
+                            <SwitchField
                               id="contact-policy-weekdays-switch"
                               name={fieldNames.timeRestrictionWeekdaysEnabled}
                               text={_('contact_policy.time_restriction.weekdays_toggle_text')}
@@ -346,6 +356,7 @@ export const ContactPolicy = InjectAppServices(
                           <li className="field-item">
                             <hr />
                           </li>
+
                           <li className="field-item">
                             <button
                               type="button"
