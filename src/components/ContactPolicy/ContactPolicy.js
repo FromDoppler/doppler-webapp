@@ -38,9 +38,17 @@ const fieldNames = {
 };
 
 export const ContactPolicy = InjectAppServices(
-  ({ dependencies: { dopplerUserApiClient, dopplerContactPolicyApiClient, appSessionRef } }) => {
+  ({
+    dependencies: {
+      dopplerUserApiClient,
+      dopplerContactPolicyApiClient,
+      experimentalFeatures,
+      appSessionRef,
+    },
+  }) => {
     const navigate = useNavigate();
     const [enabled, setEnabled] = useState(false);
+    const [timeRestrictionEnabled, setTimeRestrictionEnabled] = useState(false);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState({});
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -80,6 +88,12 @@ export const ContactPolicy = InjectAppServices(
     };
 
     useEffect(() => {
+      // TODO: remove once the whole "time restriction" feature is implemented
+      const verifyExperimentalFeatures = () => {
+        const timeRestrictionEnabled = experimentalFeatures.getFeature('timeRestrictionEnabled');
+        setTimeRestrictionEnabled(timeRestrictionEnabled);
+      };
+
       const isContactPolicyEnabled = async () => {
         const { success, value } = await dopplerUserApiClient.getFeatures();
         return success && value.contactPolicies;
@@ -100,8 +114,9 @@ export const ContactPolicy = InjectAppServices(
         }
         setLoading(false);
       };
+      verifyExperimentalFeatures();
       fetchData();
-    }, [dopplerUserApiClient, dopplerContactPolicyApiClient, appSessionRef]);
+    }, [dopplerUserApiClient, dopplerContactPolicyApiClient, experimentalFeatures, appSessionRef]);
 
     const submitContactPolicyForm = async (values, { setSubmitting, resetForm }) => {
       setFormSubmitted(false);
@@ -328,72 +343,78 @@ export const ContactPolicy = InjectAppServices(
                             <hr />
                           </li>
 
-                          <h2>{_('contact_policy.time_restriction.title')}</h2>
+                          {timeRestrictionEnabled && (
+                            <div>
+                              <h2>{_('contact_policy.time_restriction.title')}</h2>
 
-                          <li className="field-item">
-                            <FormattedMessageMarkdown
-                              linkTarget={'_blank'}
-                              id="contact_policy.time_restriction.legend"
-                            />
-                          </li>
+                              <li className="field-item">
+                                <FormattedMessageMarkdown
+                                  linkTarget={'_blank'}
+                                  id="contact_policy.time_restriction.legend"
+                                />
+                              </li>
 
-                          <li className="field-item">
-                            <SwitchField
-                              id="contact-policy-time-slot-switch"
-                              name={fieldNames.timeRestrictionTimeSlotEnabled}
-                              text={_('contact_policy.time_restriction.time_slot_toggle_text')}
-                              onToggle={() => hideMessage()}
-                            />
-                          </li>
-                          <li className="field-item">
-                            <div className="dp-item-block">
-                              <div>
-                                <span>
-                                  {_('contact_policy.time_restriction.time_slot_hour_from_label')}
-                                </span>
-                                <NumberField
-                                  name={fieldNames.timeRestrictionHourFrom}
-                                  id="time-restriction-time-slot-from"
-                                  disabled={!values['timeRestriction']['timeSlotEnabled']}
-                                  required
-                                  aria-label={_(
-                                    'contact_policy.time_restriction.hour_from_aria_label',
-                                  )}
-                                  onChangeValue={() => hideMessage()}
+                              <li className="field-item">
+                                <SwitchField
+                                  id="contact-policy-time-slot-switch"
+                                  name={fieldNames.timeRestrictionTimeSlotEnabled}
+                                  text={_('contact_policy.time_restriction.time_slot_toggle_text')}
+                                  onToggle={() => hideMessage()}
                                 />
-                                <span className="m-r-30">{_('common.hours_abbreviation')}</span>
-                              </div>
-                              <div>
-                                <span>
-                                  {_('contact_policy.time_restriction.time_slot_hour_to_label')}
-                                </span>
-                                <NumberField
-                                  name={fieldNames.timeRestrictionHourTo}
-                                  id="time-restriction-time-slot-to"
-                                  disabled={!values['timeRestriction']['timeSlotEnabled']}
-                                  required
-                                  aria-label={_(
-                                    'contact_policy.time_restriction.hour_to_aria_label',
-                                  )}
-                                  onChangeValue={() => hideMessage()}
+                              </li>
+                              <li className="field-item">
+                                <div className="dp-item-block">
+                                  <div>
+                                    <span>
+                                      {_(
+                                        'contact_policy.time_restriction.time_slot_hour_from_label',
+                                      )}
+                                    </span>
+                                    <NumberField
+                                      name={fieldNames.timeRestrictionHourFrom}
+                                      id="time-restriction-time-slot-from"
+                                      disabled={!values['timeRestriction']['timeSlotEnabled']}
+                                      required
+                                      aria-label={_(
+                                        'contact_policy.time_restriction.hour_from_aria_label',
+                                      )}
+                                      onChangeValue={() => hideMessage()}
+                                    />
+                                    <span className="m-r-30">{_('common.hours_abbreviation')}</span>
+                                  </div>
+                                  <div>
+                                    <span>
+                                      {_('contact_policy.time_restriction.time_slot_hour_to_label')}
+                                    </span>
+                                    <NumberField
+                                      name={fieldNames.timeRestrictionHourTo}
+                                      id="time-restriction-time-slot-to"
+                                      disabled={!values['timeRestriction']['timeSlotEnabled']}
+                                      required
+                                      aria-label={_(
+                                        'contact_policy.time_restriction.hour_to_aria_label',
+                                      )}
+                                      onChangeValue={() => hideMessage()}
+                                    />
+                                    <span>{_('common.hours_abbreviation')}</span>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li className="field-item">
+                                <SwitchField
+                                  id="contact-policy-weekdays-switch"
+                                  name={fieldNames.timeRestrictionWeekdaysEnabled}
+                                  text={_('contact_policy.time_restriction.weekdays_toggle_text')}
+                                  onToggle={() => hideMessage()}
                                 />
-                                <span>{_('common.hours_abbreviation')}</span>
-                              </div>
+                              </li>
+
+                              <li className="field-item">
+                                <hr />
+                              </li>
                             </div>
-                          </li>
-
-                          <li className="field-item">
-                            <SwitchField
-                              id="contact-policy-weekdays-switch"
-                              name={fieldNames.timeRestrictionWeekdaysEnabled}
-                              text={_('contact_policy.time_restriction.weekdays_toggle_text')}
-                              onToggle={() => hideMessage()}
-                            />
-                          </li>
-
-                          <li className="field-item">
-                            <hr />
-                          </li>
+                          )}
 
                           <li className="field-item">
                             <button
