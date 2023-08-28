@@ -31,13 +31,6 @@ const fieldNames = {
   emailsAmountByInterval: 'emailsAmountByInterval',
   intervalInDays: 'intervalInDays',
   excludedSubscribersLists: 'excludedSubscribersLists',
-  timeRestriction: 'timeRestriction',
-  timeRestrictionFieldNames: {
-    hourFrom: 'hourFrom',
-    hourTo: 'hourTo',
-    timeSlotEnabled: 'timeSlotEnabled',
-    weekdaysEnabled: 'weekdaysEnabled',
-  },
   timeRestrictionHourFrom: 'timeRestriction.hourFrom',
   timeRestrictionHourTo: 'timeRestriction.hourTo',
   timeRestrictionTimeSlotEnabled: 'timeRestriction.timeSlotEnabled',
@@ -361,11 +354,7 @@ export const ContactPolicy = InjectAppServices(
                                 <NumberField
                                   name={fieldNames.timeRestrictionHourFrom}
                                   id="time-restriction-time-slot-from"
-                                  disabled={
-                                    !values[fieldNames.timeRestriction][
-                                      fieldNames.timeRestrictionFieldNames.timeSlotEnabled
-                                    ]
-                                  }
+                                  disabled={!values['timeRestriction']['timeSlotEnabled']}
                                   required
                                   aria-label={_(
                                     'contact_policy.time_restriction.hour_from_aria_label',
@@ -381,11 +370,7 @@ export const ContactPolicy = InjectAppServices(
                                 <NumberField
                                   name={fieldNames.timeRestrictionHourTo}
                                   id="time-restriction-time-slot-to"
-                                  disabled={
-                                    !values[fieldNames.timeRestriction][
-                                      fieldNames.timeRestrictionFieldNames.timeSlotEnabled
-                                    ]
-                                  }
+                                  disabled={!values['timeRestriction']['timeSlotEnabled']}
                                   required
                                   aria-label={_(
                                     'contact_policy.time_restriction.hour_to_aria_label',
