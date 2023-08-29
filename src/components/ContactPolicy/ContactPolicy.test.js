@@ -582,7 +582,7 @@ describe('ContactPolicy component', () => {
     let successMessage = await screen.findByText('contact_policy.success_msg');
     expect(successMessage).toBeInTheDocument();
 
-    // Change interval
+    // Change hour from
     let inputHourFrom = screen.getByRole('spinbutton', {
       name: 'contact_policy.time_restriction.hour_from_aria_label',
     });
@@ -1058,7 +1058,7 @@ describe('ContactPolicy component', () => {
     // Save button should be enabled
     expect(submitButton).not.toBeDisabled();
 
-    // Clear interval
+    // Clear hour from
     let inputHourFrom = screen.getByRole('spinbutton', {
       name: 'contact_policy.time_restriction.hour_from_aria_label',
     });
@@ -1184,6 +1184,94 @@ describe('ContactPolicy component', () => {
     expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
   });
 
+  it('should show error message and highlight the field if the hour from is empty', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButtonTimeSlot = screen.getByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    await act(() => user.click(switchButtonTimeSlot));
+    switchButtonTimeSlot = await screen.findByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    expect(switchButtonTimeSlot).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Clear hour from
+    let inputHourFrom = screen.getByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_from_aria_label',
+    });
+    await act(() => user.clear(inputHourFrom));
+    inputHourFrom = await screen.findByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_from_aria_label',
+    });
+    expect(inputHourFrom).toHaveValue(null);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
+    expect(inputHourFrom).toHaveClass('dp-error-input');
+    expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
+  });
+
+  it('should show error message and highlight the field if the hour to is empty', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButtonTimeSlot = screen.getByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    await act(() => user.click(switchButtonTimeSlot));
+    switchButtonTimeSlot = await screen.findByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    expect(switchButtonTimeSlot).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Clear hour to
+    let inputHourTo = screen.getByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_to_aria_label',
+    });
+    await act(() => user.clear(inputHourTo));
+    inputHourTo = await screen.findByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_to_aria_label',
+    });
+    expect(inputHourTo).toHaveValue(null);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
+    expect(inputHourTo).toHaveClass('dp-error-input');
+    expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
+  });
+
   it('should show error message and highlight the field if the emails amount is out of range', async () => {
     // Act
     render(<ContactPolicyComponent />);
@@ -1256,6 +1344,100 @@ describe('ContactPolicy component', () => {
     // Interval field should be highlighted and error message should be displayed
     expect(inputInterval).toHaveClass('dp-error-input');
     expect(screen.getByText('contact_policy.error_invalid_range_msg_MD')).toBeInTheDocument();
+  });
+
+  it('should show error message and highlight the field if the hour from is out of range', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButtonTimeSlot = screen.getByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    await act(() => user.click(switchButtonTimeSlot));
+    switchButtonTimeSlot = await screen.findByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    expect(switchButtonTimeSlot).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Set "hour from" out of range
+    let inputHourFrom = screen.getByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_from_aria_label',
+    });
+    await act(() => user.clear(inputHourFrom));
+    await act(() => user.type(inputHourFrom, '30'));
+    inputHourFrom = await screen.findByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_from_aria_label',
+    });
+    expect(inputHourFrom).toHaveValue(30);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
+    expect(inputHourFrom).toHaveClass('dp-error-input');
+    expect(
+      screen.getByText('contact_policy.time_restriction.error_invalid_range_of_hours_msg'),
+    ).toBeInTheDocument();
+  });
+
+  it('should show error message and highlight the field if the hour to is out of range', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButtonTimeSlot = screen.getByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    await act(() => user.click(switchButtonTimeSlot));
+    switchButtonTimeSlot = await screen.findByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    expect(switchButtonTimeSlot).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Set "hour to" out of range
+    let inputHourTo = screen.getByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_to_aria_label',
+    });
+    await act(() => user.clear(inputHourTo));
+    await act(() => user.type(inputHourTo, '30'));
+    inputHourTo = await screen.findByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_to_aria_label',
+    });
+    expect(inputHourTo).toHaveValue(30);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
+    expect(inputHourTo).toHaveClass('dp-error-input');
+    expect(
+      screen.getByText('contact_policy.time_restriction.error_invalid_range_of_hours_msg'),
+    ).toBeInTheDocument();
   });
 
   it('should disable add list button if the maximum number of lists has been added', async () => {
