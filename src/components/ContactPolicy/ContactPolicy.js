@@ -135,21 +135,36 @@ export const ContactPolicy = InjectAppServices(
 
       const amountIsEmpty = values.emailsAmountByInterval === '';
       const intervalIsEmpty = values.intervalInDays === '';
+      const hourFromEmpty = values.timeRestriction.hourFrom === '';
+      const hourToEmpty = values.timeRestriction.hourTo === '';
 
-      if (amountIsEmpty || intervalIsEmpty) {
+      if (amountIsEmpty || intervalIsEmpty || hourFromEmpty || hourToEmpty) {
         errors.emailsAmountByInterval = amountIsEmpty;
         errors.intervalInDays = intervalIsEmpty;
+        errors.timeRestrictionHourFrom = hourFromEmpty;
+        errors.timeRestrictionHourTo = hourToEmpty;
         errors.message = 'validation_messages.error_required_field';
       } else {
         const amountOutOfRange =
           values.emailsAmountByInterval < 1 || values.emailsAmountByInterval > 999;
         const intervalOutOfRange = values.intervalInDays < 1 || values.intervalInDays > 30;
 
+        const hourFromOutOfRange =
+          values.timeRestriction.hourFrom < 0 || values.timeRestriction.hourFrom > 23;
+        const hourToOutOfRange =
+          values.timeRestriction.hourTo < 0 || values.timeRestriction.hourTo > 23;
+
         if (amountOutOfRange || intervalOutOfRange) {
           errors.emailsAmountByInterval = amountOutOfRange;
           errors.intervalInDays = intervalOutOfRange;
           errors.message = (
             <FormattedMessageMarkdown id="contact_policy.error_invalid_range_msg_MD" />
+          );
+        } else if (hourFromOutOfRange || hourToOutOfRange) {
+          errors.timeRestrictionHourFrom = hourFromOutOfRange;
+          errors.timeRestrictionHourTo = hourToOutOfRange;
+          errors.message = (
+            <FormattedMessageMarkdown id="contact_policy.time_restriction.error_invalid_range_of_hours_msg" />
           );
         }
       }
@@ -366,6 +381,9 @@ export const ContactPolicy = InjectAppServices(
                                       )}
                                     </span>
                                     <NumberField
+                                      className={
+                                        errors.timeRestrictionHourFrom ? 'dp-error-input' : ''
+                                      }
                                       name={fieldNames.timeRestrictionHourFrom}
                                       id="time-restriction-time-slot-from"
                                       disabled={!values['timeRestriction']['timeSlotEnabled']}
@@ -382,6 +400,9 @@ export const ContactPolicy = InjectAppServices(
                                       {_('contact_policy.time_restriction.time_slot_hour_to_label')}
                                     </span>
                                     <NumberField
+                                      className={
+                                        errors.timeRestrictionHourTo ? 'dp-error-input' : ''
+                                      }
                                       name={fieldNames.timeRestrictionHourTo}
                                       id="time-restriction-time-slot-to"
                                       disabled={!values['timeRestriction']['timeSlotEnabled']}
