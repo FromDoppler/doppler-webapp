@@ -48,7 +48,6 @@ export const ContactPolicy = InjectAppServices(
   }) => {
     const navigate = useNavigate();
     const [enabled, setEnabled] = useState(false);
-    const [timeRestrictionEnabled, setTimeRestrictionEnabled] = useState(false);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState({});
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -58,6 +57,9 @@ export const ContactPolicy = InjectAppServices(
     const [selectedLists, setSelectedLists] = useState([]);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    // TODO: remove once the whole "time restriction" feature is implemented
+    const timeRestrictionEnabled = experimentalFeatures.getFeature('timeRestrictionEnabled');
 
     const FieldItemMessage = ({ errors }) => {
       let message = {};
@@ -88,12 +90,6 @@ export const ContactPolicy = InjectAppServices(
     };
 
     useEffect(() => {
-      // TODO: remove once the whole "time restriction" feature is implemented
-      const verifyExperimentalFeatures = () => {
-        const timeRestrictionEnabled = experimentalFeatures.getFeature('timeRestrictionEnabled');
-        setTimeRestrictionEnabled(timeRestrictionEnabled);
-      };
-
       const isContactPolicyEnabled = async () => {
         const { success, value } = await dopplerUserApiClient.getFeatures();
         return success && value.contactPolicies;
@@ -114,7 +110,6 @@ export const ContactPolicy = InjectAppServices(
         }
         setLoading(false);
       };
-      verifyExperimentalFeatures();
       fetchData();
     }, [dopplerUserApiClient, dopplerContactPolicyApiClient, experimentalFeatures, appSessionRef]);
 
