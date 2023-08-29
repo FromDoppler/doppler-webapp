@@ -347,14 +347,12 @@ export const ContactPolicy = InjectAppServices(
                             />
                           </li>
 
-                          <FieldItemMessage errors={errors} />
-
-                          <li className="field-item">
-                            <hr />
-                          </li>
-
                           {timeRestrictionEnabled && (
                             <div>
+                              <li className="field-item">
+                                <hr />
+                              </li>
+
                               <h2>{_('contact_policy.time_restriction.title')}</h2>
 
                               <li className="field-item">
@@ -425,12 +423,14 @@ export const ContactPolicy = InjectAppServices(
                                   onToggle={() => hideMessage()}
                                 />
                               </li>
-
-                              <li className="field-item">
-                                <hr />
-                              </li>
                             </div>
                           )}
+
+                          <FieldItemMessage errors={errors} />
+
+                          <li className="field-item">
+                            <hr />
+                          </li>
 
                           <li className="field-item">
                             <button
