@@ -374,6 +374,7 @@ const messages_es = {
     feature_no_available: `La funcionalidad no está disponible aún`,
     hide: `Ocultar`,
     homeUrl: `${urlDraft}`,
+    hours_abbreviation: 'hrs',
     integrations: `Integraciones`,
     message: `Mensaje`,
     message_last_plan: `Cuéntanos tus necesidades y diseñaremos el Plan perfecto para ti`,
@@ -415,11 +416,24 @@ Puedes seleccionar **hasta 10 Listas** para que sean excluídas del límite de e
       upgrade_plan_url: `${urlUpgradePlan}`,
     },
     select_lists: 'Seleccionar Listas',
-    subtitle_MD: `
+    shipments_quantity: {
+      subtitle_MD: `
 Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un período de tiempo determinado.
 
 ¿Quieres saber más? Presiona [HELP](${urlHelp}/politica-de-contacto).`,
+      title: 'Cantidad de envíos',
+    },
     success_msg: 'Los cambios han sido guardados.',
+    time_restriction: {
+      hour_from_aria_label: 'Hora Desde',
+      hour_to_aria_label: 'Hora Hasta',
+      legend: 'Configura y establece un rango de envíos para tus Campañas. Selecciona cuándo deseas que se ejecute el envío: ',
+      time_slot_hour_from_label: 'Desde',
+      time_slot_hour_to_label: 'Hasta',
+      time_slot_toggle_text: 'Sólo en determinada franja horaria teniendo en cuenta el huso horario de tu cuenta.',
+      title: 'Restricción horaria',
+      weekdays_toggle_text: 'Sólo de lunes a viernes',
+    },
     title: 'Política de Contacto',
     toggle_text: 'Definir número máximo de envíos',
     tooltip_max_limit_exceeded: `Has seleccionado el máximo de Listas que puedes excluir de la Política de Contacto.`,

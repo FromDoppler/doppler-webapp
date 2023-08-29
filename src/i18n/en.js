@@ -374,6 +374,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     feature_no_available: `The feature is not available yet`,
     hide: `Hide`,
     homeUrl: `${urlDraft}`,
+    hours_abbreviation: 'hs',
     integrations: `Integrations`,
     message: `Message`,
     message_last_plan: `Tell us more about your needs and we’ll create a perfect Plan for you`,
@@ -416,11 +417,24 @@ You can select **up to 10 Lists** to exclude them from the limit of Emails. Cont
       upgrade_plan_url: `${urlUpgradePlan}`,
     },
     select_lists: 'Select Lists',
-    subtitle_MD: `
+    shipments_quantity: {
+      subtitle_MD: `
 Set a **maximum number of Emails** your Contacts will be able to receive from you in a period of time.
 
 Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
+      title: 'Quantity of shipments',
+    },
     success_msg: 'Changes have been saved.',
+    time_restriction: {
+      hour_from_aria_label: 'Hour from',
+      hour_to_aria_label: 'Hour to',
+      legend: 'Configure and set a range of shipments for your Campaigns. Choose when you want the shipment to be executed:',
+      time_slot_hour_from_label: 'From',
+      time_slot_hour_to_label: 'To',
+      time_slot_toggle_text: "Only in a specific time slot considering your account's time zone.",
+      title: 'Time restriction',
+      weekdays_toggle_text: 'Only from Monday to Friday',
+    },
     title: 'Contact Policy',
     toggle_text: 'Set maximum number of Emails',
     tooltip_max_limit_exceeded: `You’ve already select the maximum of Lists you can exclude from the Contact Policy.`,

@@ -19,7 +19,7 @@ export interface AccountSettings {
   emailsAmountByInterval: number | null;
   intervalInDays: number | null;
   excludedSubscribersLists: SubscriberList[] | null;
-  timeRestriction: TimeRestriction | null;
+  timeRestriction: TimeRestriction;
 }
 
 export interface SubscriberList {
@@ -80,10 +80,10 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
 
   private mapTimeRestriction(data: any): TimeRestriction {
     return {
-      timeSlotEnabled: data.timeSlotEnabled || false,
-      hourFrom: data.hourFrom || 0,
-      hourTo: data.hourTo || 0,
-      weekdaysEnabled: data.weekdaysEnabled || false,
+      timeSlotEnabled: (data && data.timeSlotEnabled) || false,
+      hourFrom: (data && data.hourFrom) || 0,
+      hourTo: (data && data.hourTo) || 0,
+      weekdaysEnabled: (data && data.weekdaysEnabled) || false,
     };
   }
 
@@ -105,9 +105,7 @@ export class HttpDopplerContactPolicyApiClient implements DopplerContactPolicyAp
           excludedSubscribersLists: response.data.excludedSubscribersLists
             ? this.mapSubscriberList(response.data.excludedSubscribersLists)
             : [],
-          timeRestriction: response.data.timeRestriction
-            ? this.mapTimeRestriction(response.data.timeRestriction)
-            : null,
+          timeRestriction: this.mapTimeRestriction(response.data.timeRestriction),
         };
 
         return {

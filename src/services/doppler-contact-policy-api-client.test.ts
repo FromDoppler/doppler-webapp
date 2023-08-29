@@ -32,6 +32,14 @@ const accountSettingsWithEmptyValues = {
     weekdaysEnabled: null,
   },
 };
+const accountSettingsWithTimeRestrictionNull = {
+  accountName: emailAccount,
+  active: true,
+  emailsAmountByInterval: 20,
+  intervalInDays: 7,
+  excludedSubscribersLists: subscriberListCollection(2),
+  timeRestriction: null,
+};
 
 function createHttpDopplerContactPolicyApiClient(axios: any) {
   const axiosStatic = {
@@ -110,6 +118,34 @@ describe('Doppler Contact Policy Api Client', () => {
     expect(result.value.intervalInDays).toBe(intervalInDaysDefault);
     expect(result.value.excludedSubscribersLists).not.toBe(undefined);
     expect(result.value.excludedSubscribersLists).toHaveLength(2);
+    expect(result.value.timeRestriction).not.toBe(null);
+    expect(result.value.timeRestriction.timeSlotEnabled).toBe(timeSlotEnabledDefault);
+    expect(result.value.timeRestriction.hourFrom).toBe(hourFromDefault);
+    expect(result.value.timeRestriction.hourTo).toBe(hourToDefault);
+    expect(result.value.timeRestriction.weekdaysEnabled).toBe(weekdaysEnabledDefault);
+  });
+
+  it('should consider default "time restriction" values for a response with "timeRestriction" null', async () => {
+    // Arrange
+    const response = {
+      data: accountSettingsWithTimeRestrictionNull,
+      status: 200,
+    };
+    const request = jest.fn(async () => response);
+    const dopplerContactPolicyApiClient = createHttpDopplerContactPolicyApiClient({ request });
+
+    const timeSlotEnabledDefault = false;
+    const hourFromDefault = 0;
+    const hourToDefault = 0;
+    const weekdaysEnabledDefault = false;
+
+    // Act
+    const result = await dopplerContactPolicyApiClient.getAccountSettings();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
     expect(result.value.timeRestriction).not.toBe(null);
     expect(result.value.timeRestriction.timeSlotEnabled).toBe(timeSlotEnabledDefault);
     expect(result.value.timeRestriction.hourFrom).toBe(hourFromDefault);
