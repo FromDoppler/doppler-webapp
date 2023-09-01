@@ -1224,7 +1224,7 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Interval field should be highlighted and error message should be displayed
-    expect(inputHourFrom).toHaveClass('dp-error-input');
+    expect(inputHourFrom).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
   });
 
@@ -1268,7 +1268,7 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Interval field should be highlighted and error message should be displayed
-    expect(inputHourTo).toHaveClass('dp-error-input');
+    expect(inputHourTo).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByText('validation_messages.error_required_field')).toBeInTheDocument();
   });
 
@@ -1387,7 +1387,7 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Interval field should be highlighted and error message should be displayed
-    expect(inputHourFrom).toHaveClass('dp-error-input');
+    expect(inputHourFrom).toHaveAttribute('aria-invalid', 'true');
     expect(
       screen.getByText('contact_policy.time_restriction.error_invalid_range_of_hours_msg'),
     ).toBeInTheDocument();
@@ -1434,7 +1434,7 @@ describe('ContactPolicy component', () => {
     expect(submitButton).toBeDisabled();
 
     // Interval field should be highlighted and error message should be displayed
-    expect(inputHourTo).toHaveClass('dp-error-input');
+    expect(inputHourTo).toHaveAttribute('aria-invalid', 'true');
     expect(
       screen.getByText('contact_policy.time_restriction.error_invalid_range_of_hours_msg'),
     ).toBeInTheDocument();
