@@ -63,10 +63,7 @@ export const ContactPolicy = InjectAppServices(
 
     const FieldItemMessage = ({ errors }) => {
       let message = {};
-      if (errors.message) {
-        message.text = errors.message;
-        message.type = 'cancel';
-      } else if (errors[fieldNames.excludedSubscribersLists]) {
+      if (errors[fieldNames.excludedSubscribersLists]) {
         message.text = errors[fieldNames.excludedSubscribersLists];
         message.type = 'cancel';
       } else if (error) {
@@ -143,7 +140,7 @@ export const ContactPolicy = InjectAppServices(
         errors.intervalInDays = intervalIsEmpty;
         errors.timeRestrictionHourFrom = hourFromEmpty;
         errors.timeRestrictionHourTo = hourToEmpty;
-        errors.message = 'validation_messages.error_required_field';
+        errors.message = <FormattedMessageMarkdown id="validation_messages.error_required_field" />;
       } else {
         const amountOutOfRange =
           values.emailsAmountByInterval < 1 || values.emailsAmountByInterval > 999;
@@ -236,7 +233,7 @@ export const ContactPolicy = InjectAppServices(
         </HeaderSection>
         <section className="dp-container">
           <div className="dp-rowflex">
-            <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
+            <div className="col-lg-8 col-md-12 col-sm-12 m-b-24">
               <Formik
                 onSubmit={submitContactPolicyForm}
                 initialValues={{
@@ -274,11 +271,15 @@ export const ContactPolicy = InjectAppServices(
                             />
                           </li>
                           <li className="field-item">
-                            <div className="dp-item-block">
-                              <div>
+                            <div className="dp-item-block awa-form">
+                              <label
+                                className="labelcontrol"
+                                data-required="false"
+                                aria-disabled={!values[fieldNames.active]}
+                              >
                                 <span>{_('contact_policy.amount_description')}</span>
                                 <NumberField
-                                  className={errors.emailsAmountByInterval ? 'dp-error-input' : ''}
+                                  aria-invalid={errors.emailsAmountByInterval ? 'true' : 'false'}
                                   name={fieldNames.emailsAmountByInterval}
                                   id="contact-policy-input-amount"
                                   disabled={!values[fieldNames.active]}
@@ -287,11 +288,10 @@ export const ContactPolicy = InjectAppServices(
                                   onChangeValue={() => hideMessage()}
                                 />
                                 <span className="m-r-6">{_('common.emails')}</span>
-                              </div>
-                              <div>
+
                                 <span>{_('contact_policy.interval_description')}</span>
                                 <NumberField
-                                  className={errors.intervalInDays ? 'dp-error-input' : ''}
+                                  aria-invalid={errors.intervalInDays ? 'true' : 'false'}
                                   name={fieldNames.intervalInDays}
                                   id="contact-policy-input-interval"
                                   disabled={!values[fieldNames.active]}
@@ -300,7 +300,16 @@ export const ContactPolicy = InjectAppServices(
                                   onChangeValue={() => hideMessage()}
                                 />
                                 <span>{_('contact_policy.interval_unit')}</span>
-                              </div>
+                                <div
+                                  className={`dp-textmessage ${
+                                    errors.emailsAmountByInterval || errors.intervalInDays
+                                      ? 'show'
+                                      : ''
+                                  }`}
+                                >
+                                  {errors.message}
+                                </div>
+                              </label>
                             </div>
                           </li>
 
