@@ -63,10 +63,7 @@ export const ContactPolicy = InjectAppServices(
 
     const FieldItemMessage = ({ errors }) => {
       let message = {};
-      if (errors.message) {
-        message.text = errors.message;
-        message.type = 'cancel';
-      } else if (errors[fieldNames.excludedSubscribersLists]) {
+      if (errors[fieldNames.excludedSubscribersLists]) {
         message.text = errors[fieldNames.excludedSubscribersLists];
         message.type = 'cancel';
       } else if (error) {
@@ -130,46 +127,70 @@ export const ContactPolicy = InjectAppServices(
       }
     };
 
-    const validate = (values) => {
+    const validateShipmentsQuantitySwitch = (values) => {
       const errors = {};
 
       const amountIsEmpty = values.emailsAmountByInterval === '';
       const intervalIsEmpty = values.intervalInDays === '';
-      const hourFromEmpty = values.timeRestriction.hourFrom === '';
-      const hourToEmpty = values.timeRestriction.hourTo === '';
 
-      if (amountIsEmpty || intervalIsEmpty || hourFromEmpty || hourToEmpty) {
+      if (amountIsEmpty || intervalIsEmpty) {
         errors.emailsAmountByInterval = amountIsEmpty;
         errors.intervalInDays = intervalIsEmpty;
-        errors.timeRestrictionHourFrom = hourFromEmpty;
-        errors.timeRestrictionHourTo = hourToEmpty;
-        errors.message = 'validation_messages.error_required_field';
+        errors.messageForShipmentsQuantity = (
+          <FormattedMessageMarkdown id="validation_messages.error_required_field" />
+        );
       } else {
         const amountOutOfRange =
           values.emailsAmountByInterval < 1 || values.emailsAmountByInterval > 999;
         const intervalOutOfRange = values.intervalInDays < 1 || values.intervalInDays > 30;
 
+        if (amountOutOfRange || intervalOutOfRange) {
+          errors.emailsAmountByInterval = amountOutOfRange;
+          errors.intervalInDays = intervalOutOfRange;
+          errors.messageForShipmentsQuantity = (
+            <FormattedMessageMarkdown id="contact_policy.error_invalid_range_msg_MD" />
+          );
+        }
+      }
+
+      return errors;
+    };
+
+    const validateTimeSlotSwitch = (values) => {
+      const errors = {};
+
+      const hourFromEmpty = values.timeRestriction.hourFrom === '';
+      const hourToEmpty = values.timeRestriction.hourTo === '';
+
+      if (hourFromEmpty || hourToEmpty) {
+        errors.timeRestrictionHourFrom = hourFromEmpty;
+        errors.timeRestrictionHourTo = hourToEmpty;
+        errors.messageForTimeSlot = (
+          <FormattedMessageMarkdown id="validation_messages.error_required_field" />
+        );
+      } else {
         const hourFromOutOfRange =
           values.timeRestriction.hourFrom < 0 || values.timeRestriction.hourFrom > 23;
         const hourToOutOfRange =
           values.timeRestriction.hourTo < 0 || values.timeRestriction.hourTo > 23;
 
-        if (amountOutOfRange || intervalOutOfRange) {
-          errors.emailsAmountByInterval = amountOutOfRange;
-          errors.intervalInDays = intervalOutOfRange;
-          errors.message = (
-            <FormattedMessageMarkdown id="contact_policy.error_invalid_range_msg_MD" />
-          );
-        } else if (hourFromOutOfRange || hourToOutOfRange) {
+        if (hourFromOutOfRange || hourToOutOfRange) {
           errors.timeRestrictionHourFrom = hourFromOutOfRange;
           errors.timeRestrictionHourTo = hourToOutOfRange;
-          errors.message = (
+          errors.messageForTimeSlot = (
             <FormattedMessageMarkdown id="contact_policy.time_restriction.error_invalid_range_of_hours_msg" />
           );
         }
       }
 
       return errors;
+    };
+
+    const validate = (values) => {
+      const errorsShipmentsQuantitySwitch = validateShipmentsQuantitySwitch(values);
+      const errorsTimeSlotSwitch = validateTimeSlotSwitch(values);
+
+      return { ...errorsShipmentsQuantitySwitch, ...errorsTimeSlotSwitch };
     };
 
     const hideMessage = () => {
@@ -236,7 +257,7 @@ export const ContactPolicy = InjectAppServices(
         </HeaderSection>
         <section className="dp-container">
           <div className="dp-rowflex">
-            <div className="col-lg-6 col-md-12 col-sm-12 m-b-24">
+            <div className="col-lg-8 col-md-12 col-sm-12 m-b-24">
               <Formik
                 onSubmit={submitContactPolicyForm}
                 initialValues={{
@@ -274,11 +295,15 @@ export const ContactPolicy = InjectAppServices(
                             />
                           </li>
                           <li className="field-item">
-                            <div className="dp-item-block">
-                              <div>
+                            <div className="dp-item-block awa-form">
+                              <label
+                                className="labelcontrol"
+                                data-required="false"
+                                aria-disabled={!values[fieldNames.active]}
+                              >
                                 <span>{_('contact_policy.amount_description')}</span>
                                 <NumberField
-                                  className={errors.emailsAmountByInterval ? 'dp-error-input' : ''}
+                                  aria-invalid={errors.emailsAmountByInterval ? 'true' : 'false'}
                                   name={fieldNames.emailsAmountByInterval}
                                   id="contact-policy-input-amount"
                                   disabled={!values[fieldNames.active]}
@@ -287,11 +312,10 @@ export const ContactPolicy = InjectAppServices(
                                   onChangeValue={() => hideMessage()}
                                 />
                                 <span className="m-r-6">{_('common.emails')}</span>
-                              </div>
-                              <div>
+
                                 <span>{_('contact_policy.interval_description')}</span>
                                 <NumberField
-                                  className={errors.intervalInDays ? 'dp-error-input' : ''}
+                                  aria-invalid={errors.intervalInDays ? 'true' : 'false'}
                                   name={fieldNames.intervalInDays}
                                   id="contact-policy-input-interval"
                                   disabled={!values[fieldNames.active]}
@@ -300,7 +324,17 @@ export const ContactPolicy = InjectAppServices(
                                   onChangeValue={() => hideMessage()}
                                 />
                                 <span>{_('contact_policy.interval_unit')}</span>
-                              </div>
+
+                                <div
+                                  className={`dp-textmessage ${
+                                    errors.emailsAmountByInterval || errors.intervalInDays
+                                      ? 'show'
+                                      : ''
+                                  }`}
+                                >
+                                  {errors.messageForShipmentsQuantity}
+                                </div>
+                              </label>
                             </div>
                           </li>
 
@@ -371,16 +405,20 @@ export const ContactPolicy = InjectAppServices(
                                 />
                               </li>
                               <li className="field-item">
-                                <div className="dp-item-block">
-                                  <div>
+                                <div className="dp-item-block awa-form">
+                                  <label
+                                    className="labelcontrol"
+                                    data-required="false"
+                                    aria-disabled={!values['timeRestriction']['timeSlotEnabled']}
+                                  >
                                     <span>
                                       {_(
                                         'contact_policy.time_restriction.time_slot_hour_from_label',
                                       )}
                                     </span>
                                     <NumberField
-                                      className={
-                                        errors.timeRestrictionHourFrom ? 'dp-error-input' : ''
+                                      aria-invalid={
+                                        errors.timeRestrictionHourFrom ? 'true' : 'false'
                                       }
                                       name={fieldNames.timeRestrictionHourFrom}
                                       id="time-restriction-time-slot-from"
@@ -392,15 +430,12 @@ export const ContactPolicy = InjectAppServices(
                                       onChangeValue={() => hideMessage()}
                                     />
                                     <span className="m-r-30">{_('common.hours_abbreviation')}</span>
-                                  </div>
-                                  <div>
+
                                     <span>
                                       {_('contact_policy.time_restriction.time_slot_hour_to_label')}
                                     </span>
                                     <NumberField
-                                      className={
-                                        errors.timeRestrictionHourTo ? 'dp-error-input' : ''
-                                      }
+                                      aria-invalid={errors.timeRestrictionHourTo ? 'true' : 'false'}
                                       name={fieldNames.timeRestrictionHourTo}
                                       id="time-restriction-time-slot-to"
                                       disabled={!values['timeRestriction']['timeSlotEnabled']}
@@ -411,7 +446,18 @@ export const ContactPolicy = InjectAppServices(
                                       onChangeValue={() => hideMessage()}
                                     />
                                     <span>{_('common.hours_abbreviation')}</span>
-                                  </div>
+
+                                    <div
+                                      className={`dp-textmessage ${
+                                        errors.timeRestrictionHourFrom ||
+                                        errors.timeRestrictionHourTo
+                                          ? 'show'
+                                          : ''
+                                      }`}
+                                    >
+                                      {errors.messageForTimeSlot}
+                                    </div>
+                                  </label>
                                 </div>
                               </li>
 
