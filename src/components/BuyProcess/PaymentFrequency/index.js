@@ -1,9 +1,12 @@
 import { useIntl } from 'react-intl';
-import { FieldGroup, FieldItemAccessible } from '../../form-helpers/form-helpers';
-import { RadioBox, RadioTooltip } from '../RadioBox';
 import PropTypes from 'prop-types';
 
-const PaymentFrequency = ({ discounts, selectedDiscount, onSelectDiscount, disabled = false }) => {
+export const PaymentFrequency = ({
+  discounts,
+  selectedDiscount,
+  onSelectDiscount,
+  disabled = false,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -11,20 +14,25 @@ const PaymentFrequency = ({ discounts, selectedDiscount, onSelectDiscount, disab
     _('buy_process.discount_' + subscriptionType.replace('-', '_'));
 
   return (
-    <FieldGroup aria-label="suscription type">
-      {discounts.map((discount) => (
-        <FieldItemAccessible key={discount.id} className="col-sm-3 m-b-12">
-          <RadioBox
-            tooltip={<RadioTooltip discountPercentage={discount.discountPercentage} />}
-            value={discount}
-            label={getDiscountName(discount.subscriptionType)}
-            checked={discount.id === selectedDiscount?.id}
-            handleClick={onSelectDiscount}
-            disabled={disabled && discount.numberMonths > 1}
-          />
-        </FieldItemAccessible>
-      ))}
-    </FieldGroup>
+    <section>
+      <h4>Frecuencia de pago</h4>
+      <ul className="dp-payment-frequency">
+        {discounts.map((discount, index) => (
+          <li
+            key={`discount-${index}`}
+            className={discount.id === selectedDiscount?.id ? 'dp-active' : ''}
+            onClick={() => onSelectDiscount(discount)}
+          >
+            <p>
+              {getDiscountName(discount.subscriptionType)}
+              {discount.discountPercentage > 0 && (
+                <span className="dp-discount">-{discount.discountPercentage}%</span>
+              )}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
 
@@ -42,5 +50,3 @@ PaymentFrequency.propTypes = {
   onSelectDiscount: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
-
-export default PaymentFrequency;
