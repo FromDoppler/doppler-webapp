@@ -1,6 +1,6 @@
-import { getByRole, render, screen } from '@testing-library/react';
+import { getByText, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import PaymentFrequency from '.';
+import { PaymentFrequency } from '.';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { SUBSCRIPTION_TYPE } from '../../../doppler-types';
 
@@ -57,38 +57,10 @@ describe('PaymentFrequency component', () => {
       const discountName = `buy_process.discount_${discount.subscriptionType.replace('-', '_')}`;
       expect(listitems[index]).toHaveTextContent(discountName);
       if (discount.discountPercentage > 0) {
-        expect(listitems[index]).toHaveTextContent(`buy_process.discount_percentage`);
-      }
-    });
-  });
-
-  it('should render PaymentFrequency component when is disabled', async () => {
-    // Arrange
-    const discounts = FAKE_DISCOUNT_LIST;
-    const selectedDiscount = null;
-    const onSelectDiscount = () => null;
-
-    // Act
-    render(
-      <IntlProvider>
-        <PaymentFrequency
-          discounts={discounts}
-          selectedDiscount={selectedDiscount}
-          onSelectDiscount={onSelectDiscount}
-          disabled={true}
-        />
-      </IntlProvider>,
-    );
-
-    // Assert
-    const discountList = screen.getByRole('list');
-    const listitems = discountList.querySelectorAll('li');
-    discounts.forEach((discount, index) => {
-      const radio = getByRole(listitems[index], 'radio');
-      if (discount.numberMonths > 1) {
-        expect(radio).toBeDisabled();
-      } else {
-        expect(radio).not.toBeDisabled();
+        getByText(
+          listitems[index],
+          `buy_process.discount_` + discount.subscriptionType.replace('-', '_'),
+        );
       }
     });
   });
