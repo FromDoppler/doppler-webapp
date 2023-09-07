@@ -7,13 +7,12 @@ describe('ItemCart', () => {
   it("should render ItemCart component when don't show billing cycle", async () => {
     // Arrange
     const props = {
-      name: 'Email Plan',
-      featureList: ['500 contacts'],
-      isRemovible: false,
-      item: {
-        name: '500 contacts',
-        price: 8,
-      },
+      name: 'Marketing Plan',
+      featureList: ['Include 500 contacts'],
+      billingList: [
+        { label: 'Save 25%', amount: 'US $56,00*', strike: true },
+        { label: 'Yearly billing', amount: 'US$ 432,00*' },
+      ],
     };
 
     // Act
@@ -25,6 +24,9 @@ describe('ItemCart', () => {
     props.featureList.forEach((featureItem) => {
       screen.getByText(featureItem);
     });
+    props.billingList.forEach((billingItem) => {
+      screen.getByText(billingItem.label);
+    });
     expect(screen.queryByRole('button', { name: 'remove' })).not.toBeInTheDocument();
   });
 
@@ -34,13 +36,13 @@ describe('ItemCart', () => {
     const props = {
       name: 'Chat plan',
       featureList: ['1.000 conversations'],
+      billingList: [
+        { label: 'Save 25%', amount: 'US$ 288,00*', strike: true },
+        { label: 'Yearly billing', amount: 'US$ 216,00*' },
+      ],
       isRemovible: true,
       handleRemove: removeFake,
-      billing: {
-        label: 'Monthly billing',
-        amount: 'US$25',
-      },
-      item: {
+      data: {
         name: 1000,
         price: 25,
       },
@@ -52,16 +54,8 @@ describe('ItemCart', () => {
     // Assert
     expect(removeFake).not.toBeCalled();
 
-    screen.getByText(props.name);
-
-    props.featureList.forEach((featureItem) => {
-      screen.getByText(featureItem);
-    });
-    screen.getByText(/Monthly billing/i);
-    screen.getByText(/US\$25/i);
-
     const removeButton = screen.queryByRole('button', { name: 'remove' });
     await act(() => userEvent.click(removeButton));
-    expect(removeFake).toHaveBeenCalledWith(props.item);
+    expect(removeFake).toHaveBeenCalledWith(props.data);
   });
 });
