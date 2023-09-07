@@ -97,6 +97,21 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
     };
   }
 
+  public async getPlanBillingDetailsData(
+    planId: number,
+    planType: string,
+    discountId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>> {
+    console.log('getPlanBillingDetailsData');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: !promocode ? fakePlanAmountDetails : fakePlanAmountDetailsWithPromocode,
+    };
+  }
+
   public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
     console.log('getPlanData');
     await timeout(1500);

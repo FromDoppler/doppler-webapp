@@ -178,6 +178,31 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
+  public async getPlanBillingDetailsData(
+    planId: number,
+    planType: string,
+    discountId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>> {
+    try {
+      const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `accounts/${email}/newplan/${planType}/${planId}/calculate-amount?discountId=${discountId}&promocode=${promocode}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
   public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
     try {
       const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
