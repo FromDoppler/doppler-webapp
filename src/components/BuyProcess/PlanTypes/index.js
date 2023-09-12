@@ -8,6 +8,7 @@ import { useFetchPlanTypes } from '../../../hooks/useFetchPlanTypes';
 import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../../shared/UnexpectedError';
 import { Element as ScrollElement } from 'react-scroll';
+import { getQueryParamsWithAccountType } from '../../../utils';
 
 const planByContactsUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`;
 const planByEmailsUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`;
@@ -64,11 +65,13 @@ const TableRow = ({ row }) => (
   </tr>
 );
 
-export const PlanTypes = InjectAppServices(({ dependencies: { planService } }) => {
+export const PlanTypes = InjectAppServices(({ dependencies: { planService, appSessionRef } }) => {
   const intl = useIntl();
-  const { search } = useLocation();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const { planTypes, loading, hasError } = useFetchPlanTypes(planService);
+  const { search } = useLocation();
+  const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+  const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
 
   if (loading) {
     return <Loading page />;
@@ -102,7 +105,7 @@ export const PlanTypes = InjectAppServices(({ dependencies: { planService } }) =
               <article>
                 <div className="dp-align-center">
                   {mappedPlanTypes.map((item, index) => (
-                    <PlanTypeCard key={`plan-type${index}`} {...item} search={search} />
+                    <PlanTypeCard key={`plan-type${index}`} {...item} queryParams={queryParams} />
                   ))}
                 </div>
               </article>

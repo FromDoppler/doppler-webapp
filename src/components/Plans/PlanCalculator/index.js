@@ -4,9 +4,8 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import useTimeout from '../../../hooks/useTimeout';
-import { useUserTypeAsQueryParam } from '../../../hooks/useUserTypeAsQueryParam';
 import { InjectAppServices } from '../../../services/pure-di';
-import { getPlanTypeFromUrlSegment } from '../../../utils';
+import { getPlanTypeFromUrlSegment, getQueryParamsWithAccountType } from '../../../utils';
 import { FAQ } from '../../FAQ';
 import { topics } from '../../FAQ/constants';
 import { Loading } from '../../Loading/Loading';
@@ -67,7 +66,10 @@ export const PlanCalculator = InjectAppServices(
     const query = useQueryParams();
     const navigate = useNavigate();
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
-    useUserTypeAsQueryParam(isFreeAccount);
+    const queryParams = getQueryParamsWithAccountType({
+      search: window.location.search,
+      isFreeAccount,
+    });
 
     useEffect(() => {
       const fetchData = async () => {
@@ -193,7 +195,11 @@ export const PlanCalculator = InjectAppServices(
                 <h1 className="dp-tit-plans">{_(`plan_calculator.plan_premium_title`)}</h1>
                 <p>{_(`plan_calculator.plan_premium_subtitle`)}</p>
                 <div className="dp-align-center dp-tabs-plans col-sm-9">
-                  <NavigatorTabs tabs={planTypes} selectedPlanType={selectedPlanType} />
+                  <NavigatorTabs
+                    tabs={planTypes}
+                    selectedPlanType={selectedPlanType}
+                    queryParams={queryParams}
+                  />
                 </div>
                 <S.PlanTabContainer className="col-sm-12">
                   <article className={`tab--content ${activeClass}`}>
@@ -214,6 +220,7 @@ export const PlanCalculator = InjectAppServices(
                                 currentPlan={selectedPlan}
                                 currentPlanList={plansByType}
                                 planTypes={planTypes}
+                                queryParams={queryParams}
                               />
                               {isMonthlySubscription ? (
                                 discounts.length > 0 && (
@@ -269,26 +276,30 @@ export const PlanCalculator = InjectAppServices(
 
 export const getDefaultPlanType = ({ currentPlan, planTypeUrlSegment, window }) => {
   const { isFreeAccount: isTrial, planType } = currentPlan;
+  const queryParams = getQueryParamsWithAccountType({
+    search: window.location.search,
+    isFreeAccount: isTrial,
+  });
   if (!isTrial) {
     switch (planType) {
       case PLAN_TYPE.byEmail:
         if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail]) {
           return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
-            window.location.search
+            queryParams ? `?${queryParams}` : ''
           }`;
         }
         break;
       case PLAN_TYPE.byContact:
         if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byContact]) {
           return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
-            window.location.search
+            queryParams ? `?${queryParams}` : ''
           }`;
         }
         break;
       case PLAN_TYPE.byCredit:
         if (!Object.values(URL_PLAN_TYPE).includes(planTypeUrlSegment)) {
           return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byCredit]}${
-            window.location.search
+            queryParams ? `?${queryParams}` : ''
           }`;
         }
         break;

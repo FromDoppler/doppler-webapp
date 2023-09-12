@@ -21,7 +21,7 @@ export const PlanTypeCard = ({
   minPrice,
   scrollTo,
   disabled = false,
-  search,
+  queryParams,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -59,7 +59,7 @@ export const PlanTypeCard = ({
               }}
             />
             <Link
-              to={`${pathname}${search}`}
+              to={`${pathname}?${queryParams}`}
               className="dp-button button-medium primary-green dp-uppercase"
             >
               {_('plan_types.calculate_value_button_label')}

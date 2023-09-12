@@ -332,3 +332,27 @@ export const objectKeystoLowerCase = (obj: any) =>
     acc[key.toLowerCase()] = obj[key];
     return acc;
   }, {});
+
+export const ACCOUNT_TYPE = 'accountType';
+export const PAID_ACCOUNT = 'PAID';
+export const FREE_ACCOUNT = 'FREE';
+
+const getAccountType = (isFreeAccount: any) => (isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT);
+
+export const getQueryParamsWithAccountType = ({
+  search,
+  isFreeAccount,
+}: {
+  search: string;
+  isFreeAccount: boolean;
+}) => {
+  const params = new URLSearchParams(search);
+  const currentAccountType = getAccountType(isFreeAccount);
+
+  if (!params.has(ACCOUNT_TYPE)) {
+    params.append(ACCOUNT_TYPE, currentAccountType);
+  } else if (params.get(ACCOUNT_TYPE) !== currentAccountType) {
+    params.set(ACCOUNT_TYPE, currentAccountType);
+  }
+  return params.toString();
+};
