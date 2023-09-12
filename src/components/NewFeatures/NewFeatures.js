@@ -80,6 +80,12 @@ const NewFeatures = () => {
         </div>
         <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
           <div className="m-l-24">
+            <h3>tipos de planes</h3>
+            <Link to={'/plan-types'}>Ir a tipos de planes</Link>
+          </div>
+        </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+          <div className="m-l-24">
             <h3>Editors Demo MFE</h3>
             <Link to={'/editors-demo/campaigns/123'}>Ir a Editors Demo MFE</Link>
           </div>
