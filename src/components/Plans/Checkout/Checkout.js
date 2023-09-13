@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -9,7 +9,7 @@ import { Step } from './Step/Step';
 import { PurchaseSummary } from './PurchaseSummary/PurchaseSummary';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
-import { useUserTypeAsQueryParam } from '../../../hooks/useUserTypeAsQueryParam';
+import { getQueryParamsWithAccountType } from '../../../utils';
 
 const checkoutSteps = {
   contactInformation: 'contact-information',
@@ -41,7 +41,7 @@ const Checkout = InjectAppServices(
     const { pathType, planType } = useParams();
     const { search } = useLocation();
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
-    useUserTypeAsQueryParam(isFreeAccount);
+    const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -174,9 +174,9 @@ const Checkout = InjectAppServices(
               <div className="col-sm-12 m-b-24">
                 <hr className="dp-h-divider" />
                 <Link
-                  to={`/plan-selection/${pathType}/${getPlanTypeFromLegacyPlanType(
-                    planType,
-                  )}${search}`}
+                  to={`/plan-selection/${pathType}/${getPlanTypeFromLegacyPlanType(planType)}${
+                    queryParams ? `?${queryParams}` : ''
+                  }`}
                   className="dp-button button-medium primary-grey m-t-30 m-r-24"
                 >
                   {_('checkoutProcessForm.button_back')}

@@ -39,17 +39,21 @@ describe('NavigatorTabs Component', () => {
     //Arrange
     const planTypes = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail, PLAN_TYPE.byCredit];
     const selectedPlanType = PLAN_TYPE.byContact;
-    const search = '?origin=hello_bar&promo-code=fake-promo-code';
+    const queryParams = 'origin=hello_bar&promo-code=fake-promo-code&accountType=FREE';
 
     //Act
     render(
       <IntlProvider>
         <Router
           initialEntries={[
-            `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${search}`,
+            `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?${queryParams}`,
           ]}
         >
-          <NavigatorTabs tabs={planTypes} selectedPlanType={selectedPlanType} />
+          <NavigatorTabs
+            tabs={planTypes}
+            selectedPlanType={selectedPlanType}
+            queryParams={queryParams}
+          />
         </Router>
       </IntlProvider>,
     );
@@ -63,7 +67,7 @@ describe('NavigatorTabs Component', () => {
     links.forEach((link, index) => {
       expect(link).toHaveAttribute(
         'href',
-        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}${search}`,
+        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index]]}?${queryParams}`,
       );
     });
   });

@@ -1,17 +1,16 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getUpgradeInfo } from './getUpgradeInfo';
 import { InjectAppServices } from '../../../../services/pure-di';
 
 export const BannerUpgrade = InjectAppServices(
-  ({ currentPlan, currentPlanList, planTypes, dependencies: { appSessionRef } }) => {
+  ({ currentPlan, currentPlanList, planTypes, queryParams, dependencies: { appSessionRef } }) => {
     const sessionPlan = appSessionRef.current.userData.user;
     const hightestPlan = currentPlanList.length === 1 && currentPlan?.id === sessionPlan.idPlan;
     const currentPlanSelected = currentPlan?.id === currentPlanList[currentPlanList.length - 1]?.id;
 
     if (currentPlanSelected && currentPlan) {
-      const upgradeInfo = getUpgradeInfo(currentPlan?.type, planTypes);
+      const upgradeInfo = getUpgradeInfo(currentPlan?.type, planTypes, queryParams);
 
       if (hightestPlan) {
         return (

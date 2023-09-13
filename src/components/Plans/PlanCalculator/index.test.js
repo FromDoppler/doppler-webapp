@@ -15,6 +15,7 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { allPlans } from '../../../services/doppler-legacy-client.doubles';
 import { AppServicesProvider } from '../../../services/pure-di';
+import { getQueryParamsWithAccountType } from '../../../utils';
 
 const plansByContacts = allPlans.filter((plan) => plan.type === PLAN_TYPE.byContact);
 const plansByEmails = allPlans.filter((plan) => plan.type === PLAN_TYPE.byEmail);
@@ -462,11 +463,16 @@ describe('PlanCalculator component', () => {
           },
         };
         const { planTypeUrlSegment } = useCase;
-        const expectedUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
-          window.location.search
-        }`;
+        const queryParams = getQueryParamsWithAccountType({
+          search: window.location.search,
+          isFreeAccount: currentPlan.isFreeAccount,
+        });
+        const expectedUrl = `/plan-selection/premium/${
+          URL_PLAN_TYPE[PLAN_TYPE.byEmail]
+        }?${queryParams}`;
 
         // Act
+
         const urlToRedirect = getDefaultPlanType({ currentPlan, planTypeUrlSegment, window });
 
         // Assert
@@ -554,10 +560,15 @@ describe('PlanCalculator component', () => {
             search: '?promo-code=TEST_PROMOCODE',
           },
         };
+        const queryParams = getQueryParamsWithAccountType({
+          search: window.location.search,
+          isFreeAccount: currentPlan.isFreeAccount,
+        });
+
         const { planTypeUrlSegment } = useCase;
-        const expectedUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
-          window.location.search
-        }`;
+        const expectedUrl = `/plan-selection/premium/${
+          URL_PLAN_TYPE[PLAN_TYPE.byContact]
+        }?${queryParams}`;
 
         // Act
         const urlToRedirect = getDefaultPlanType({ currentPlan, planTypeUrlSegment, window });
@@ -581,10 +592,14 @@ describe('PlanCalculator component', () => {
           search: '?promo-code=TEST_PROMOCODE',
         },
       };
+      const queryParams = getQueryParamsWithAccountType({
+        search: window.location.search,
+        isFreeAccount: currentPlan.isFreeAccount,
+      });
       const planTypeUrlSegment = URL_PLAN_TYPE[PLAN_TYPE.byCredit];
-      const expectedUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
-        window.location.search
-      }`;
+      const expectedUrl = `/plan-selection/premium/${
+        URL_PLAN_TYPE[PLAN_TYPE.byContact]
+      }?${queryParams}`;
 
       // Act
       const urlToRedirect = getDefaultPlanType({ currentPlan, planTypeUrlSegment, window });
@@ -629,10 +644,14 @@ describe('PlanCalculator component', () => {
           search: '?promo-code=TEST_PROMOCODE',
         },
       };
+      const queryParams = getQueryParamsWithAccountType({
+        search: window.location.search,
+        isFreeAccount: currentPlan.isFreeAccount,
+      });
       const planTypeUrlSegment = URL_PLAN_TYPE[PLAN_TYPE.byEmail];
-      const expectedUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
-        window.location.search
-      }`;
+      const expectedUrl = `/plan-selection/premium/${
+        URL_PLAN_TYPE[PLAN_TYPE.byContact]
+      }?${queryParams}`;
 
       // Act
       const urlToRedirect = getDefaultPlanType({ currentPlan, planTypeUrlSegment, window });

@@ -1,9 +1,11 @@
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../../doppler-types';
 
-export const getUpgradeInfo = (type, planTypes) => {
+export const getUpgradeInfo = (type, planTypes, queryParams) => {
   const bannerInfo = {
     messageId: `plan_calculator.banner_for_${type.replace('-', '_')}`,
-    link: `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${window.location.search}`,
+    link: `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
+      queryParams ? `?${queryParams}` : ''
+    }`,
   };
   const suggestionInfo = {
     messageId: `plan_calculator.suggestion_for_${type.replace('-', '_')}`,
@@ -34,7 +36,9 @@ export const getUpgradeInfo = (type, planTypes) => {
         },
         suggestion: {
           ...suggestionInfo,
-          link: `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`,
+          link: `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
+            queryParams ? `?${queryParams}` : ''
+          }`,
         },
       };
     default:
