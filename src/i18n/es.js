@@ -528,10 +528,11 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     meta_title: 'Doppler | Tablero de Inicio',
 
-    postListBlog_1_description: 'Utiliza las Notificaciones Push para llegar a más clientes.\n¡Están incluidas en tu plan!',
-    postListBlog_1_link: 'https://help.fromdoppler.com/es/como-activar-y-usar-envio-notificaciones-push/?origin=destacadotablero',
+    postListBlog_1_description: 'Aprende los fundamentos de este canal y cómo desarrollar estrategias que realmente conviertan.',
+    postListBlog_1_link:
+      'https://academy.fromdoppler.com/cursos/curso-email-marketing/lessons/que-es-la-certificacion-en-email-marketing/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-nuevocurso-nutricion-sep23',
     postListBlog_1_link_description: 'Mira cómo implementarlas',
-    postListBlog_1_title: '#FuncionalidadDestacada',
+    postListBlog_1_title: 'Certifícate gratis en Email Marketing',
 
     postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
     postListBlog_2_link: 'https://help.fromdoppler.com/es/formulario-de-suscripcion/?origin=destacadotablero',
