@@ -132,6 +132,7 @@ export const PaymentInformationSummary = InjectAppServices(
             'failed',
             'clientFailed',
             'doNotHonor',
+            'mercadopagoException',
           ]);
 
           dispatch({

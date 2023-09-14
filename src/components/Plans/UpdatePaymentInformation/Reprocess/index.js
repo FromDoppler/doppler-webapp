@@ -68,6 +68,7 @@ export const Reprocess = InjectAppServices(
             'failed',
             'clientFailed',
             'doNotHonor',
+            'mercadopagoException',
           ]);
 
           dispatch({
