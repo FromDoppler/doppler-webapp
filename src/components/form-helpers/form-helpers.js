@@ -1179,3 +1179,30 @@ export const CuitFieldItem = ({
     />
   </FieldItem>
 );
+
+export const CbuFieldItem = ({
+  type = 'text',
+  className,
+  fieldName,
+  label,
+  placeholder,
+  required,
+  validate,
+  validateIdentificationNumber,
+  ...rest
+}) => (
+  <FieldItem className={concatClasses('field-item', className)} fieldName={fieldName}>
+    <label htmlFor={fieldName}>{label}</label>
+    <Field
+      type={type}
+      name={fieldName}
+      id={fieldName}
+      placeholder={placeholder}
+      validate={combineValidations(
+        createRequiredValidation(required),
+        validate && validateIdentificationNumber,
+      )}
+      {...rest}
+    />
+  </FieldItem>
+);

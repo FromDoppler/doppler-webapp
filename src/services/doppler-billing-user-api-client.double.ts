@@ -94,6 +94,23 @@ export const fakePaymentMethodInformationWithTransfer = {
   taxRegime: 0,
 };
 
+export const fakePaymentMethodInformationWithAutomaticDebit = {
+  ccHolderName: '',
+  ccNumber: '',
+  ccExpiryDate: '',
+  ccType: '',
+  ccSecurityCode: '',
+  paymentMethodName: 'DA',
+  renewalMonth: 1,
+  razonSocial: 'test',
+  idConsumerType: 'CF',
+  identificationType: '',
+  identificationNumber: '12345678',
+  responsableIVA: '0',
+  taxRegime: 0,
+  cbu: '2850590940090418135201',
+};
+
 export const fakeInvoiceRecipients = ['harcode_1@mail.com', 'harcode_2@mail.com'];
 
 export const fakeUserPlan = {

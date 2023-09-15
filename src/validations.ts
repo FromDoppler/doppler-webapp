@@ -230,3 +230,16 @@ export function validatePDF(file: File, maxSizeMB: number): true | string | null
 
   return null;
 }
+
+export const validateCbu = (
+  value: string,
+  commonErrorKey = 'validation_messages.error_invalid_cbu',
+) => {
+  const pattern = /^\d{22}$/;
+
+  if (!pattern.test(value)) {
+    return commonErrorKey;
+  }
+
+  return null;
+};
