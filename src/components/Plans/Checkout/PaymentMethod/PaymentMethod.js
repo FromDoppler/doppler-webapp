@@ -16,6 +16,7 @@ import { PLAN_TYPE, FirstDataError, CloverError } from '../../../../doppler-type
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 import { ACCOUNT_TYPE, PAID_ACCOUNT } from '../../../../hooks/useUserTypeAsQueryParam';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
+import { AutomaticDebit } from './AutomaticDebit/AutomaticDebit';
 
 const none = 'NONE';
 const userCanceledError = 'UserCanceled';
@@ -37,12 +38,15 @@ export const fieldNames = {
   cfdi: 'cfdi',
   taxRegime: 'taxRegime',
   taxCertificate: 'taxCertificate',
+  cbu: 'cbu',
+  withholdingAgent: 'withholdingAgent',
 };
 
 export const paymentType = {
   creditCard: 'CC',
   mercadoPago: 'MP',
   transfer: 'TRANSF',
+  automaticDebit: 'DA',
 };
 
 const paymentMethods = [
@@ -58,10 +62,15 @@ const paymentMethods = [
     value: paymentType.mercadoPago,
     description: 'checkoutProcessForm.payment_method.mercado_pago',
   },
+  {
+    value: paymentType.automaticDebit,
+    description: 'checkoutProcessForm.payment_method.automatic_debit',
+  },
 ];
 
 const countriesAvailableTransfer = ['ar', 'co', 'mx'];
 const countriesAvailableMercadoPago = ['ar'];
+const countriesAvailableAutomaticDebit = ['ar'];
 
 //TODO: Remove the stykes when the UI Library is updated
 const considerationNoteStyle = {
@@ -86,6 +95,7 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
 
   const allowTransfer = countriesAvailableTransfer.find((c) => c === billingCountry);
   const allowMercadoPago = countriesAvailableMercadoPago.find((c) => c === billingCountry);
+  const allowAutomaticDebit = countriesAvailableAutomaticDebit.find((c) => c === billingCountry);
 
   return (
     <Field name="paymentMethodName">
@@ -94,7 +104,8 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
           {paymentMethods.map((paymentMethod) =>
             (paymentMethod.value === paymentType.transfer && allowTransfer) ||
             (paymentMethod.value === paymentType.mercadoPago && allowMercadoPago) ||
-            paymentMethod.value === paymentType.creditCard ? (
+            paymentMethod.value === paymentType.creditCard ||
+            (paymentMethod.value === paymentType.automaticDebit && allowAutomaticDebit) ? (
               <li key={paymentMethod.value}>
                 <div className="dp-volume-option">
                   <label>
@@ -150,6 +161,8 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case paymentType.mercadoPago:
             return <MercadoPagoArgentina optionView={optionView} paymentMethod={paymentMethod} />;
+          case paymentType.automaticDebit:
+            return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
             return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
         }

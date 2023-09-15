@@ -131,6 +131,7 @@ export const PaymentMethodType = {
   creditCard: 'CC',
   mercadoPago: 'MP',
   transfer: 'TRANSF',
+  automaticDebit: 'DA'
 };
 
 export const FirstDataError = {

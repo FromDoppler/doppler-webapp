@@ -149,7 +149,7 @@ PlanPurchase.propTypes = {
     PropTypes.string,
   ]),
   total: PropTypes.number.isRequired,
-  paymentMethod: PropTypes.oneOf(['CC', 'MP', 'TRANSF']),
+  paymentMethod: PropTypes.oneOf(['CC', 'MP', 'TRANSF', 'DA']),
 };
 
 export const StatusMessage = ({ type, message }) => (
