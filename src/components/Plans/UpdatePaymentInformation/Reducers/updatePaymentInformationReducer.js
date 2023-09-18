@@ -20,13 +20,14 @@ export const updatePaymentInformationReducer = (state, action) => {
       };
     case UPDATE_PAYMENT_INFORMATION_ACTIONS.FINISH_FETCH:
       const {
-        payload: { paymentMethod },
+        payload: { paymentMethod, billingCountry },
       } = action;
 
       return {
         loading: false,
         hasError: false,
         paymentMethod,
+        billingCountry,
       };
 
     case UPDATE_PAYMENT_INFORMATION_ACTIONS.FAIL_FETCH:

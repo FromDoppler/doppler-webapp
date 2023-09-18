@@ -11,7 +11,10 @@ import user from '@testing-library/user-event';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
-import { fakePaymentMethodInformation } from '../../../../services/doppler-billing-user-api-client.double';
+import {
+  fakeBillingInformation,
+  fakePaymentMethodInformation,
+} from '../../../../services/doppler-billing-user-api-client.double';
 import { actionPage } from '../../Checkout/Checkout';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -22,6 +25,14 @@ const dependencies = (withError, paymentMethodData, withFirstDataError, firstDat
         ? {
             success: true,
             value: paymentMethodData,
+          }
+        : { success: false };
+    },
+    getBillingInformationData: async () => {
+      return !withError
+        ? {
+            success: true,
+            value: fakeBillingInformation,
           }
         : { success: false };
     },
