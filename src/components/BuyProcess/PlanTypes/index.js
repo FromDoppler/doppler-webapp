@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { PlanTypeCard } from './PlanTypeCard';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -72,6 +72,14 @@ export const PlanTypes = InjectAppServices(({ dependencies: { planService, appSe
   const { search } = useLocation();
   const { isFreeAccount } = appSessionRef.current.userData.user.plan;
   const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
+
+  if (!isFreeAccount) {
+    return (
+      <Navigate
+        to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?${queryParams}`}
+      />
+    );
+  }
 
   if (loading) {
     return <Loading page />;
