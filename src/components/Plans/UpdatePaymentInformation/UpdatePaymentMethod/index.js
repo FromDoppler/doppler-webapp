@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { CreditCard, getCreditCardBrand } from '../../Checkout/PaymentMethod/CreditCard';
 import { StatusMessage } from '../../Checkout/PurchaseSummary/PlanPurchase/index';
 import { MercadoPagoArgentina } from '../../Checkout/PaymentMethod/MercadoPagoArgentina';
+import { Transfer } from '../../Checkout/PaymentMethod/Transfer/Transfer';
 import { actionPage } from '../../Checkout/Checkout';
 import { getFormInitialValues } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
@@ -53,7 +54,6 @@ const fieldNames = {
   cfdi: 'cfdi',
 };
 
-const none = 'NONE';
 const HAS_ERROR = 'HAS_ERROR';
 const SAVED = 'SAVED';
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
@@ -64,12 +64,16 @@ const paymentMethods = [
     description: 'checkoutProcessForm.payment_method.credit_card_option',
   },
   {
+    value: PaymentMethodType.transfer,
+    description: 'checkoutProcessForm.payment_method.transfer',
+  },
+  {
     value: PaymentMethodType.mercadoPago,
     description: 'checkoutProcessForm.payment_method.mercado_pago',
   },
 ];
 
-const countriesAvailableTransfer = ['ar', 'co', 'mx'];
+const countriesAvailableTransfer = ['ar'];
 const countriesAvailableMercadoPago = ['ar'];
 
 const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
@@ -79,6 +83,8 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
         switch (paymentMethodType) {
           case PaymentMethodType.creditCard:
             return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+          case PaymentMethodType.transfer:
+            return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case PaymentMethodType.mercadoPago:
             return <MercadoPagoArgentina optionView={optionView} paymentMethod={paymentMethod} />;
           default:
@@ -116,12 +122,7 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
                       value={paymentMethod.value}
                       checked={field.value === paymentMethod.value}
                       disabled={
-                        (optionView === actionPage.READONLY &&
-                          field.value !== paymentMethod.value) ||
-                        (optionView === actionPage.UPDATE &&
-                          paymentMethod.value === PaymentMethodType.transfer &&
-                          currentPaymentMethod !== PaymentMethodType.transfer &&
-                          currentPaymentMethod !== none)
+                        optionView === actionPage.READONLY && field.value !== paymentMethod.value
                       }
                       onChange={handleChange}
                     />

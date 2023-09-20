@@ -1,5 +1,6 @@
 export const INITIAL_STATE_REPROCESS = {
   declinedInvoices: { invoices: [] },
+  paymentMethod: '',
   loading: false,
   hasError: false,
 };
@@ -20,13 +21,14 @@ export const reprocessReducer = (state, action) => {
       };
     case REPROCESS_ACTIONS.FINISH_FETCH:
       const {
-        payload: { declinedInvoices },
+        payload: { declinedInvoices, paymentMethod },
       } = action;
 
       return {
         loading: false,
         hasError: false,
         declinedInvoices,
+        paymentMethod,
       };
 
     case REPROCESS_ACTIONS.FAIL_FETCH:
