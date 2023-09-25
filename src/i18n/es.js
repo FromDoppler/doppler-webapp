@@ -1394,6 +1394,8 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     rejected_payments_message: ' Estos pagos pendientes fueron rechazados:',
     rejected_payments_title: 'Tu pago fue rechazado',
     title: 'Reproceso finalizado',
+    transfer_message: 'En breve recibirás la factura para saldar tu deuda.',
+    transfer_title: '¡Listo! Tu método de pago ha sido actualizado.',
   },
   updatePaymentMethod: {
     button_back: 'Volver',

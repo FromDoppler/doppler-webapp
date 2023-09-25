@@ -16,6 +16,7 @@ import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkd
 import { useNavigate } from 'react-router-dom';
 import { Loading } from '../../../Loading/Loading';
 import { UnexpectedError } from '../../../shared/UnexpectedError/index';
+import { PaymentMethodType } from '../../../../doppler-types';
 
 const FormatMessageWithBoldWords = ({ id }) => {
   return (
@@ -28,9 +29,13 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
-const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices, email }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+const SuccessfulMessage = ({
+  allInvoicesProcessed,
+  anyPendingInvoices,
+  invoices,
+  email,
+  paymentMethod,
+}) => {
   return (
     <>
       {anyPendingInvoices === 'true' ? (
@@ -56,7 +61,19 @@ const SuccessfulMessage = ({ allInvoicesProcessed, anyPendingInvoices, invoices,
         <>
           <p className="p-l-12">
             {allInvoicesProcessed === 'true' ? (
-              _('updatePaymentInformationSuccess.all_invoices_processed_message')
+              <>
+                <p>
+                  <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_message" />
+                </p>
+                {paymentMethod === PaymentMethodType.transfer && (
+                  <>
+                    <p>&nbsp;</p>
+                    <p>
+                      <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.transfer_message" />
+                    </p>
+                  </>
+                )}
+              </>
             ) : (
               <FormattedMessage
                 id="updatePaymentInformationSuccess.not_all_invoices_processed_message"
@@ -109,7 +126,7 @@ const FailedMessage = ({ declinedInvoices }) => {
 
 export const PaymentInformationSummary = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
-    const [{ loading, declinedInvoices, hasError }, dispatch] = useReducer(
+    const [{ loading, declinedInvoices, paymentMethod, hasError }, dispatch] = useReducer(
       reprocessReducer,
       INITIAL_STATE_REPROCESS,
     );
@@ -135,9 +152,12 @@ export const PaymentInformationSummary = InjectAppServices(
             'mercadopagoException',
           ]);
 
+          const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
           dispatch({
             type: REPROCESS_ACTIONS.FINISH_FETCH,
             payload: {
+              paymentMethod: paymentMethodData.value.paymentMethodName,
               declinedInvoices: declinedInvoices.value,
             },
           });
@@ -177,6 +197,7 @@ export const PaymentInformationSummary = InjectAppServices(
               allInvoicesProcessed={allInvoicesProcessed}
               successful={successful}
               anyPendingInvoices={anyPendingInvoices}
+              paymentMethod={paymentMethod}
             />
           </HeaderSection>
           <section className="dp-container m-b-24">
@@ -188,6 +209,7 @@ export const PaymentInformationSummary = InjectAppServices(
                 allInvoicesProcessed={allInvoicesProcessed}
                 invoices={declinedInvoices}
                 email={appSessionRef.current.email}
+                paymentMethod={paymentMethod}
               />
             )}
             <div className="p-l-12">

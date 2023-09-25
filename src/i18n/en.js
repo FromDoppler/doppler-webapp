@@ -1392,6 +1392,8 @@ With Doppler you can generate Segments with common interests, create Forms to at
     rejected_payments_message: 'These overdue payments were rejected:',
     rejected_payments_title: `Your payment was declined.`,
     title: 'Reprocess finished',
+    transfer_message: 'You will shortly receive the invoice to settle your debt.',
+    transfer_title: 'Done! Your payment method has been updated.',
   },
   updatePaymentMethod: {
     button_back: 'Go back',

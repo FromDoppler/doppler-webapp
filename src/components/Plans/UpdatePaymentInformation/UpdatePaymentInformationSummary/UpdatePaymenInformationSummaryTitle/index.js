@@ -1,6 +1,7 @@
 import { useIntl } from 'react-intl';
+import { PaymentMethodType } from '../../../../../doppler-types';
 
-const getTitle = (allInvoicesProcessed, successful, anyPendingInvoices) => {
+const getTitle = (allInvoicesProcessed, successful, anyPendingInvoices, paymentMethod) => {
   if (successful === 'false') {
     return {
       smallTitle: 'updatePaymentInformationSuccess.title',
@@ -8,35 +9,43 @@ const getTitle = (allInvoicesProcessed, successful, anyPendingInvoices) => {
     };
   }
 
-  if (anyPendingInvoices === 'true') {
+  if (paymentMethod !== PaymentMethodType.transfer) {
+    if (anyPendingInvoices === 'true') {
+      return {
+        smallTitle: 'updatePaymentInformationSuccess.title',
+        largeTitle: 'updatePaymentInformationSuccess.payment_pending_title',
+      };
+    }
+
+    if (allInvoicesProcessed !== 'true') {
+      return {
+        smallTitle: 'updatePaymentInformationSuccess.title',
+        largeTitle: 'updatePaymentInformationSuccess.not_all_invoices_processed_title',
+      };
+    }
+
     return {
       smallTitle: 'updatePaymentInformationSuccess.title',
-      largeTitle: 'updatePaymentInformationSuccess.payment_pending_title',
+      largeTitle: 'updatePaymentInformationSuccess.all_invoices_processed_title',
     };
-  }
-
-  if (allInvoicesProcessed !== 'true') {
+  } else {
     return {
       smallTitle: 'updatePaymentInformationSuccess.title',
-      largeTitle: 'updatePaymentInformationSuccess.not_all_invoices_processed_title',
+      largeTitle: 'updatePaymentInformationSuccess.transfer_title',
     };
   }
-
-  return {
-    smallTitle: 'updatePaymentInformationSuccess.title',
-    largeTitle: 'updatePaymentInformationSuccess.all_invoices_processed_title',
-  };
 };
 
 export const UpdatePaymentInformationSummaryTitle = ({
   allInvoicesProcessed,
   successful,
   anyPendingInvoices,
+  paymentMethod,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const title = getTitle(allInvoicesProcessed, successful, anyPendingInvoices);
+  const title = getTitle(allInvoicesProcessed, successful, anyPendingInvoices, paymentMethod);
 
   return (
     <section className="dp-container">

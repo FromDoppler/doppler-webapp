@@ -4,7 +4,11 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import UpdatePaymentInformationSummary from '.';
-import { fakeInvoices } from '../../../../services/doppler-billing-user-api-client.double';
+import {
+  fakeInvoices,
+  fakePaymentMethodInformation,
+  fakePaymentMethodInformationWithTransfer,
+} from '../../../../services/doppler-billing-user-api-client.double';
 
 const dependencies = (dopplerBillingUserApiClientDouble) => ({
   dopplerBillingUserApiClient: dopplerBillingUserApiClientDouble,
@@ -13,6 +17,9 @@ const dependencies = (dopplerBillingUserApiClientDouble) => ({
 const dopplerBillingUserApiClientDoubleBase = {
   getInvoices: async (values) => {
     return { success: true, value: fakeInvoices };
+  },
+  getPaymentMethodData: async (values) => {
+    return { success: true, value: fakePaymentMethodInformation };
   },
 };
 
@@ -125,5 +132,33 @@ describe('UpdatePaymentInformationSummary component', () => {
     screen.getByText(`updatePaymentInformationSuccess.rejected_payments_legend_1`);
     screen.getByText(`updatePaymentInformationSuccess.rejected_payments_legend_2`);
     screen.getByText(`updatePaymentInformationSuccess.rejected_payments_message`);
+  });
+
+  it('should show the reprocess has been successful when success is true and allInvoicesProcessed is true and payment method transf', async () => {
+    // Act
+    const dopplerBillingUserApiClientDouble = {
+      getInvoices: async (values) => {
+        return { success: true, value: fakeInvoices };
+      },
+      getPaymentMethodData: async (values) => {
+        return { success: true, value: fakePaymentMethodInformationWithTransfer };
+      },
+    };
+
+    render(
+      <UpdatePaymentInformationSummaryElement
+        url="/payment-information-summary?success=true&allInvoicesProcessed=true&anyPendingInvoices=false"
+        dopplerBillingUserApiClientDouble={dopplerBillingUserApiClientDouble}
+      />,
+    );
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('loading-box');
+    await waitForElementToBeRemoved(loader);
+
+    screen.getByText(`updatePaymentInformationSuccess.title`);
+    screen.getByText(`updatePaymentInformationSuccess.transfer_message`);
+    screen.getByText(`updatePaymentInformationSuccess.transfer_title`);
   });
 });
