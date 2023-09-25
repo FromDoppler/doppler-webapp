@@ -692,6 +692,8 @@ Encontrarás un Email con los pasos a seguir.`,
       viewed_title: 'Viewed',
       wix_title: 'Wix',
       wizell_title: 'Wizell',
+      wordpress_link_url: `${urlHelp}/como-integrar-formularios-de-wordpress-con-doppler`,
+      wordpress_title: 'Wordpress',
       xintel_title: 'Xintel',
     },
     native_integrations: {

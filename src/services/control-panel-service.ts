@@ -52,6 +52,7 @@ import dynamics_icon from '../components/Integrations/images/dynamics_icon.png';
 import mitienda_icon from '../components/Integrations/images/mitienda-icon.png';
 import tiendup_icon from '../components/Integrations/images/tiendup_icon.png';
 import jumpseller_icon from '../components/Integrations/images/jumpseller_icon.svg';
+import wordpress_icon from '../components/Integrations/images/wordpress_icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -377,6 +378,13 @@ export class ControlPanelService implements ControlPanelService {
               targetBlank: true,
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              linkUrl: _('integrations.external_integrations.wordpress_link_url'),
+              imgSrc: wordpress_icon,
+              imgAlt: _('integrations.external_integrations.wordpress_title'),
+              iconName: _('integrations.external_integrations.wordpress_title'),
+              targetBlank: true,
             },
           ],
         },
