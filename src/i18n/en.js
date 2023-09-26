@@ -691,6 +691,8 @@ You'll find an Email with steps to follow.`,
       viewed_title: 'Viewed',
       wix_title: 'Wix',
       wizell_title: 'Wizell',
+      wordpress_link_url: `${urlHelp}/how-to-integrate-wordpress-forms-with-doppler`,
+      wordpress_title: 'Wordpress',
       xintel_title: 'Xintel',
     },
     native_integrations: {
