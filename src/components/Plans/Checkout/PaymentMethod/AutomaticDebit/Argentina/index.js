@@ -30,14 +30,14 @@ export const AutomaticDebitArgentina = InjectAppServices(
         [fieldNames.businessName]: paymentMethod.razonSocial ?? '',
         [fieldNames.paymentMethodName]: paymentType.automaticDebit,
         [fieldNames.cbu]: paymentMethod.cbu ?? '',
-        [fieldNames.withholdingAgent]: paymentMethod.withholdingAgent ?? '',
+        [fieldNames.withHoldingAgent]: paymentMethod.withHoldingAgent ?? '',
       });
     }, [
       paymentMethod.idConsumerType,
       paymentMethod.identificationNumber,
       paymentMethod.razonSocial,
       paymentMethod.cbu,
-      paymentMethod.withholdingAgent,
+      paymentMethod.withHoldingAgent,
       setValues,
     ]);
 
@@ -132,8 +132,8 @@ export const AutomaticDebitArgentina = InjectAppServices(
           <FieldGroup className="dp-items-accept">
             <CheckboxFieldItemAccessible
               validate={handleIsWithholdingAgentCheckbox}
-              fieldName={fieldNames.withholdingAgent}
-              id={fieldNames.withholdingAgent}
+              fieldName={fieldNames.withHoldingAgent}
+              id={fieldNames.withHoldingAgent}
               className={'label--policy field-item field-item--70 dp-p-r'}
               label={_('checkoutProcessForm.payment_method.withholding_agent')}
               checkRequired
