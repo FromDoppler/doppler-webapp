@@ -54,12 +54,8 @@ const dopplerBillingUserApiClientDoubleBase = {
   },
 };
 
-const initialPropsReonlyView = {
+const initialPropsReadonlyView = {
   optionView: actionPage.READONLY,
-};
-
-const initialPropsUpdateView = {
-  optionView: actionPage.UPDATE,
 };
 
 const AutomaticDebitElement = ({
@@ -78,15 +74,9 @@ const AutomaticDebitElement = ({
     <AppServicesProvider forcedServices={services}>
       <IntlProvider>
         <BrowserRouter>
-          {updateView === actionPage.UPDATE ? (
-            <Formik initialValues={{}}>
-              <AutomaticDebit {...initialPropsUpdateView} paymentMethod={paymentMethod} />
-            </Formik>
-          ) : (
-            <Formik initialValues={{}}>
-              <AutomaticDebit {...initialPropsReonlyView} paymentMethod={paymentMethod} />
-            </Formik>
-          )}
+          <Formik initialValues={{}}>
+            <AutomaticDebit {...initialPropsReadonlyView} paymentMethod={paymentMethod} />
+          </Formik>
         </BrowserRouter>
       </IntlProvider>
     </AppServicesProvider>

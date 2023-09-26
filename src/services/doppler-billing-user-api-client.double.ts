@@ -60,6 +60,7 @@ export const fakePaymentMethodInformation = {
     name: 'example',
     downloadURL: 'https://example.com',
   },
+  cbu: '',
 };
 
 export const fakePaymentMethod = {

@@ -39,7 +39,7 @@ export const fieldNames = {
   taxRegime: 'taxRegime',
   taxCertificate: 'taxCertificate',
   cbu: 'cbu',
-  withholdingAgent: 'withholdingAgent',
+  withHoldingAgent: 'withHoldingAgent',
 };
 
 export const paymentType = {
