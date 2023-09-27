@@ -119,8 +119,9 @@ describe('AutomaticDebitArgentina', () => {
       );
 
       // Assert
-      const getConsumerTypeField = () => screen.getByRole('combobox');
-      let consumerTypeField = getConsumerTypeField();
+      const getWithHoldingAgentCheckbox = () =>
+        screen.getByLabelText(/checkoutProcessForm.payment_method.withholding_agent/i);
+      let withHoldingAgentCheckbox = getWithHoldingAgentCheckbox();
 
       // Initially, DNI & rason social & CBU fields are not in the document
       expect(screen.queryByLabelText(/DNI/i)).not.toBeInTheDocument();
@@ -130,6 +131,12 @@ describe('AutomaticDebitArgentina', () => {
       expect(
         screen.queryByLabelText(/checkoutProcessForm.payment_method.cbu/i),
       ).not.toBeInTheDocument();
+
+      //Check withholding agent checkbox
+      await act(() => userEvent.click(withHoldingAgentCheckbox));
+
+      const getConsumerTypeField = () => screen.getByRole('combobox');
+      let consumerTypeField = getConsumerTypeField();
 
       // +1 because default option is included
       expect(getAllByRole(consumerTypeField, 'option')).toHaveLength(fakeConsumerTypes.length + 1);
