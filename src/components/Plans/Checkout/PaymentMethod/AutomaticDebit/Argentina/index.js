@@ -66,68 +66,6 @@ export const AutomaticDebitArgentina = InjectAppServices(
 
     return (
       <div role="tabpanel" aria-label="automatic debit argentina fields">
-        <>
-          <FieldItem className="field-item">
-            <FieldGroup>
-              <SelectFieldItem
-                fieldName={fieldNames.consumerType}
-                id={fieldNames.consumerType}
-                label={`*${_('checkoutProcessForm.payment_method.consumer_type')}`}
-                defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
-                values={consumerTypes}
-                required
-                className="field-item field-item--70 dp-p-r"
-              />
-              {values[fieldNames.consumerType] && (
-                <CuitFieldItem
-                  type={isFinalConsumer ? 'number' : 'text'}
-                  aria-label="identificationNumber"
-                  fieldName={fieldNames.identificationNumber}
-                  id={fieldNames.identificationNumber}
-                  label={`*${
-                    identificationTypes.find((ct) => ct.key === values[fieldNames.consumerType])
-                      .value
-                  }:`}
-                  required
-                  validate={true}
-                  className="field-item field-item--30"
-                  maxLength={isFinalConsumer ? 8 : null}
-                  validateIdentificationNumber={isFinalConsumer ? validateDni : validateCuit}
-                />
-              )}
-            </FieldGroup>
-          </FieldItem>
-          {values[fieldNames.consumerType] && (
-            <FieldItem className="field-item">
-              <FieldGroup>
-                <InputFieldItem
-                  type="text"
-                  aria-label="rason social"
-                  fieldName={fieldNames.businessName}
-                  id={fieldNames.businessName}
-                  label={`*${_(
-                    isFinalConsumer
-                      ? 'checkoutProcessForm.payment_method.first_last_name'
-                      : 'checkoutProcessForm.payment_method.business_name',
-                  )}`}
-                  withNameValidation
-                  required
-                  className="field-item--50 dp-p-r"
-                />
-                <CbuFieldItem
-                  aria-label="cbu"
-                  fieldName={fieldNames.cbu}
-                  id={fieldNames.cbu}
-                  label={`*${_('checkoutProcessForm.payment_method.cbu')}`}
-                  required
-                  className="field-item--50"
-                  validate={true}
-                  validateIdentificationNumber={validateCbu}
-                />
-              </FieldGroup>
-            </FieldItem>
-          )}
-        </>
         <FieldItem className="field-item">
           <FieldGroup className="dp-items-accept">
             <CheckboxFieldItemAccessible
@@ -141,6 +79,70 @@ export const AutomaticDebitArgentina = InjectAppServices(
             />
           </FieldGroup>
         </FieldItem>
+        {values[fieldNames.withHoldingAgent] && (
+          <>
+            <FieldItem className="field-item">
+              <FieldGroup>
+                <SelectFieldItem
+                  fieldName={fieldNames.consumerType}
+                  id={fieldNames.consumerType}
+                  label={`*${_('checkoutProcessForm.payment_method.consumer_type')}`}
+                  defaultOption={{ key: '', value: _('checkoutProcessForm.empty_option_select') }}
+                  values={consumerTypes}
+                  required
+                  className="field-item field-item--70 dp-p-r"
+                />
+                {values[fieldNames.consumerType] && (
+                  <CuitFieldItem
+                    type={isFinalConsumer ? 'number' : 'text'}
+                    aria-label="identificationNumber"
+                    fieldName={fieldNames.identificationNumber}
+                    id={fieldNames.identificationNumber}
+                    label={`*${
+                      identificationTypes.find((ct) => ct.key === values[fieldNames.consumerType])
+                        .value
+                    }:`}
+                    required
+                    validate={true}
+                    className="field-item field-item--30"
+                    maxLength={isFinalConsumer ? 8 : null}
+                    validateIdentificationNumber={isFinalConsumer ? validateDni : validateCuit}
+                  />
+                )}
+              </FieldGroup>
+            </FieldItem>
+            {values[fieldNames.consumerType] && (
+              <FieldItem className="field-item">
+                <FieldGroup>
+                  <InputFieldItem
+                    type="text"
+                    aria-label="rason social"
+                    fieldName={fieldNames.businessName}
+                    id={fieldNames.businessName}
+                    label={`*${_(
+                      isFinalConsumer
+                        ? 'checkoutProcessForm.payment_method.first_last_name'
+                        : 'checkoutProcessForm.payment_method.business_name',
+                    )}`}
+                    withNameValidation
+                    required
+                    className="field-item--50 dp-p-r"
+                  />
+                  <CbuFieldItem
+                    aria-label="cbu"
+                    fieldName={fieldNames.cbu}
+                    id={fieldNames.cbu}
+                    label={`*${_('checkoutProcessForm.payment_method.cbu')}`}
+                    required
+                    className="field-item--50"
+                    validate={true}
+                    validateIdentificationNumber={validateCbu}
+                  />
+                </FieldGroup>
+              </FieldItem>
+            )}
+          </>
+        )}
       </div>
     );
   },
