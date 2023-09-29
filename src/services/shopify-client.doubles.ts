@@ -31,6 +31,21 @@ const oneShop = [
     ],
   },
 ];
+
+// Shop with single list for backwards compatibility
+// const oneShop = [
+//   {
+//     shopName: 'myshop.com',
+//     synchronization_date: new Date('2017-12-17'),
+//     list: {
+//       name: 'MyList',
+//       id: 1251,
+//       amountSubscribers: 2,
+//       state: SubscriberListState.ready,
+//     },
+//   },
+// ];
+
 // //Shop connected without list selected
 // const oneShopNoList = [
 //   {

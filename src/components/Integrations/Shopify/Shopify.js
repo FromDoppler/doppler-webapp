@@ -93,31 +93,51 @@ const Table = ({ lists }) => {
 
   return (
     <tbody>
-      {lists.map((list, index) =>
-        list.state === SubscriberListState.ready ? (
-          <tr key={index}>
-            <td>{_('shopify.entity_' + list.entity)}</td>
-            <td>{list.name}</td>
-            <td>{list.amountSubscribers}</td>
-          </tr>
-        ) : (
-          <tr className="sync" key={index}>
-            <td>{_('shopify.entity_' + list.entity)}</td>
-            {list.state !== SubscriberListState.notAvailable ? (
-              <>
-                <td>{list.name}</td>
-                <td className="text-sync">
-                  <span className="ms-icon icon-clock"></span>
-                  {_('common.synchronizing')}
+      {Array.isArray(lists) ? (
+        lists.map((list, index) =>
+          list.state === SubscriberListState.ready ? (
+            <tr key={index}>
+              <td>{_('shopify.entity_' + list.entity)}</td>
+              <td>{list.name}</td>
+              <td>{list.amountSubscribers}</td>
+            </tr>
+          ) : (
+            <tr className="sync" key={index}>
+              <td>{_('shopify.entity_' + list.entity)}</td>
+              {list.state !== SubscriberListState.notAvailable ? (
+                <>
+                  <td>{list.name}</td>
+                  <td className="text-sync">
+                    <span className="ms-icon icon-clock"></span>
+                    {_('common.synchronizing')}
+                  </td>
+                </>
+              ) : (
+                <td colSpan="2" className="text-sync">
+                  {_('shopify.no_list_available')}
                 </td>
-              </>
-            ) : (
-              <td colSpan="2" className="text-sync">
-                {_('shopify.no_list_available')}
-              </td>
-            )}
-          </tr>
-        ),
+              )}
+            </tr>
+          ),
+        )
+      ) : lists.state === SubscriberListState.ready ? (
+        <tr>
+          <td></td>
+          <td>{lists.name}</td>
+          <td>{lists.amountSubscribers}</td>
+        </tr>
+      ) : lists.state !== SubscriberListState.notAvailable ? (
+        <>
+          <td>{lists.name}</td>
+          <td className="text-sync">
+            <span className="ms-icon icon-clock"></span>
+            {_('common.synchronizing')}
+          </td>
+        </>
+      ) : (
+        <td colSpan="2" className="text-sync">
+          {_('shopify.no_list_available')}
+        </td>
       )}
     </tbody>
   );
@@ -157,12 +177,16 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
 
       const shopifyResult = await shopifyClient.getShopifyData();
       if (shopifyResult.value && shopifyResult.value.length) {
-        //updates only first shop
-        // I'm using the old and reliable for loop here, because the forEach loop doesn't work properly with asynchronous functions
-        for (let index = 0; index < shopifyResult.value[0].lists.length; index++) {
-          shopifyResult.value[0].lists[index] = await updateSubscriberCount(
-            shopifyResult.value[0].lists[index],
-          );
+        if (shopifyResult.value[0].list) {
+          shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
+        } else {
+          //updates only first shop
+          // I'm using the old and reliable for loop here, because the forEach loop doesn't work properly with asynchronous functions
+          for (let index = 0; index < shopifyResult.value[0].lists.length; index++) {
+            shopifyResult.value[0].lists[index] = await updateSubscriberCount(
+              shopifyResult.value[0].lists[index],
+            );
+          }
         }
       }
       return shopifyResult;
@@ -258,7 +282,11 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                                 <th> {_('shopify.table_shopify_customers_count')}</th>
                               </tr>
                             </thead>
-                            <Table lists={shop.lists} />
+                            {shop.list != null ? (
+                              <Table lists={shop.list} />
+                            ) : (
+                              <Table lists={shop.lists} />
+                            )}
                           </table>
                         </div>
                       </div>

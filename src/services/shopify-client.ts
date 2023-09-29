@@ -14,13 +14,14 @@ export interface SubscriberList {
   id: number;
   amountSubscribers: number;
   state: SubscriberListState;
-  entity: string | null;
+  entity?: string | null;
 }
 
 export interface ConnectedShop {
   shopName: string;
   synchronization_date: Date | null;
-  lists: SubscriberList[];
+  lists?: SubscriberList[];
+  list?: SubscriberList;
 }
 
 export interface ShopifyClient {
@@ -73,6 +74,18 @@ export class HttpShopifyClient implements ShopifyClient {
             : SubscriberListState.notAvailable,
         entity: list.type,
       })),
+      list: {
+        id: response.dopplerListId,
+        name: response.dopplerListName,
+        amountSubscribers: response.importedCustomersCount,
+        state:
+          !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
+            ? SubscriberListState.synchronizingContacts
+            : !!response.dopplerListId
+            ? SubscriberListState.ready
+            : SubscriberListState.notAvailable,
+        entity: null,
+      },
     };
   }
 
