@@ -30,33 +30,6 @@ describe('HttpShopifyClient', () => {
     console.error = consoleError; // Restore console error logs
   });
 
-  it('should set connected shop without list correctly', async () => {
-    // Arrange
-    const connectedWithoutListResponse = {
-      headers: {},
-      data: [
-        {
-          connectedOn: '2019-08-09T19:45:43.821Z',
-          importedCustomersCount: '0',
-          shopName: 'dopplerdevshop.myshopify.com',
-          shopifyAccessToken: '861f44ee45f6a3affcf50477d9774d20',
-        },
-      ],
-    };
-    const request = jest.fn(async () => connectedWithoutListResponse);
-    const shopifyClient = createHttpShopifyClient({ request });
-
-    // Act
-    const result = await shopifyClient.getShopifyData();
-
-    // Assert
-    expect(request).toBeCalledTimes(1);
-    expect(result).not.toBe(undefined);
-    expect(result.success).toBe(true);
-    expect(result.value[0].shopName).toEqual(connectedWithoutListResponse.data[0].shopName);
-    expect(result.value[0].list.state).toEqual(SubscriberListState.notAvailable);
-  });
-
   it('should set connected shop with list connected correctly', async () => {
     // Arrange
     const connectedWithListReadyResponse = {
@@ -64,14 +37,19 @@ describe('HttpShopifyClient', () => {
       data: [
         {
           connectedOn: '2019-08-09T15:13:52.262Z',
-          dopplerListId: '27311899',
-          dopplerListName: 'Shopify Contacto',
-          importedCustomersCount: '6',
           shopName: 'dopplerdevshop.myshopify.com',
           shopifyAccessToken: '2741255a41f37341d0fa6d64d58e5c86',
           syncProcessDopplerImportSubscribersTaskId: 'import-100544891',
           syncProcessInProgress: 'false',
           syncProcessLastRunDate: '2019-08-09T15:24:56.183Z',
+          lists: [
+            {
+              type: 'buyers',
+              dopplerListId: 123,
+              dopplerListName: 'shopify buyers',
+              importedCustomersCount: 1,
+            },
+          ],
         },
       ],
     };
@@ -86,9 +64,9 @@ describe('HttpShopifyClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
     expect(result.value[0].shopName).toEqual(connectedWithListReadyResponse.data[0].shopName);
-    expect(result.value[0].list.name).not.toBe(undefined);
-    expect(result.value[0].list.amountSubscribers).not.toBe(undefined);
-    expect(result.value[0].list.state).toEqual(SubscriberListState.ready);
+    expect(result.value[0].lists[0].name).not.toBe(undefined);
+    expect(result.value[0].lists[0].amountSubscribers).not.toBe(undefined);
+    expect(result.value[0].lists[0].state).toEqual(SubscriberListState.ready);
   });
 
   it('should set connected shop with list connected correctly even if sync flag is bool', async () => {
@@ -98,14 +76,19 @@ describe('HttpShopifyClient', () => {
       data: [
         {
           connectedOn: '2019-08-09T15:13:52.262Z',
-          dopplerListId: '27311899',
-          dopplerListName: 'Shopify Contacto',
-          importedCustomersCount: '6',
           shopName: 'dopplerdevshop.myshopify.com',
           shopifyAccessToken: '2741255a41f37341d0fa6d64d58e5c86',
           syncProcessDopplerImportSubscribersTaskId: 'import-100544891',
           syncProcessInProgress: false,
           syncProcessLastRunDate: '2019-08-09T15:24:56.183Z',
+          lists: [
+            {
+              type: 'buyers',
+              dopplerListId: 123,
+              dopplerListName: 'shopify buyers',
+              importedCustomersCount: 1,
+            },
+          ],
         },
       ],
     };
@@ -120,9 +103,9 @@ describe('HttpShopifyClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
     expect(result.value[0].shopName).toEqual(connectedWithListReadyResponseBool.data[0].shopName);
-    expect(result.value[0].list.name).not.toBe(undefined);
-    expect(result.value[0].list.amountSubscribers).not.toBe(undefined);
-    expect(result.value[0].list.state).toEqual(SubscriberListState.ready);
+    expect(result.value[0].lists[0].name).not.toBe(undefined);
+    expect(result.value[0].lists[0].amountSubscribers).not.toBe(undefined);
+    expect(result.value[0].lists[0].state).toEqual(SubscriberListState.ready);
   });
 
   it('should set connected shop with list connected but synchronizing contacts', async () => {
@@ -132,14 +115,19 @@ describe('HttpShopifyClient', () => {
       data: [
         {
           connectedOn: '2019-08-09T15:13:52.262Z',
-          dopplerListId: '27311899',
-          dopplerListName: 'Shopify Contacto',
-          importedCustomersCount: '6',
           shopName: 'dopplerdevshop.myshopify.com',
           shopifyAccessToken: '2741255a41f37341d0fa6d64d58e5c86',
           syncProcessDopplerImportSubscribersTaskId: 'import-100544891',
           syncProcessInProgress: 'true',
           syncProcessLastRunDate: '2019-08-09T15:24:56.183Z',
+          lists: [
+            {
+              type: 'buyers',
+              dopplerListId: 123,
+              dopplerListName: 'shopify buyers',
+              importedCustomersCount: 1,
+            },
+          ],
         },
       ],
     };
@@ -154,9 +142,9 @@ describe('HttpShopifyClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
     expect(result.value[0].shopName).toEqual(connectedWithListSyncResponse.data[0].shopName);
-    expect(result.value[0].list.name).not.toBe(undefined);
-    expect(result.value[0].list.amountSubscribers).not.toBe(undefined);
-    expect(result.value[0].list.state).toEqual(SubscriberListState.synchronizingContacts);
+    expect(result.value[0].lists[0].name).not.toBe(undefined);
+    expect(result.value[0].lists[0].amountSubscribers).not.toBe(undefined);
+    expect(result.value[0].lists[0].state).toEqual(SubscriberListState.synchronizingContacts);
   });
 
   it('should set connected shop with list connected but synchronizing contacts even if sync flag is bool', async () => {
@@ -166,14 +154,19 @@ describe('HttpShopifyClient', () => {
       data: [
         {
           connectedOn: '2019-08-09T15:13:52.262Z',
-          dopplerListId: '27311899',
-          dopplerListName: 'Shopify Contacto',
-          importedCustomersCount: '6',
           shopName: 'dopplerdevshop.myshopify.com',
           shopifyAccessToken: '2741255a41f37341d0fa6d64d58e5c86',
           syncProcessDopplerImportSubscribersTaskId: 'import-100544891',
           syncProcessInProgress: true,
           syncProcessLastRunDate: '2019-08-09T15:24:56.183Z',
+          lists: [
+            {
+              type: 'buyers',
+              dopplerListId: 123,
+              dopplerListName: 'shopify buyers',
+              importedCustomersCount: 1,
+            },
+          ],
         },
       ],
     };
@@ -188,9 +181,9 @@ describe('HttpShopifyClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
     expect(result.value[0].shopName).toEqual(connectedWithListSyncResponseBool.data[0].shopName);
-    expect(result.value[0].list.name).not.toBe(undefined);
-    expect(result.value[0].list.amountSubscribers).not.toBe(undefined);
-    expect(result.value[0].list.state).toEqual(SubscriberListState.synchronizingContacts);
+    expect(result.value[0].lists[0].name).not.toBe(undefined);
+    expect(result.value[0].lists[0].amountSubscribers).not.toBe(undefined);
+    expect(result.value[0].lists[0].state).toEqual(SubscriberListState.synchronizingContacts);
   });
 
   it('should set not connected shop', async () => {
@@ -240,9 +233,16 @@ describe('HttpShopifyClient', () => {
       data: [
         {
           connectedOn: '2019-08-09T19:45:43.821Z',
-          importedCustomersCount: '0',
           shopName: 'dopplerdevshop.myshopify.com',
           shopifyAccessToken: '861f44ee45f6a3affcf50477d9774d20',
+          lists: [
+            {
+              type: 'buyers',
+              dopplerListId: 123,
+              dopplerListName: 'shopify buyers',
+              importedCustomersCount: 1,
+            },
+          ],
         },
       ],
     };
@@ -268,9 +268,16 @@ describe('HttpShopifyClient', () => {
       data: [
         {
           connectedOn: '2019-08-09T19:45:43.821Z',
-          importedCustomersCount: '0',
           shopName: 'dopplerdevshop.myshopify.com',
           shopifyAccessToken: '861f44ee45f6a3affcf50477d9774d20',
+          lists: [
+            {
+              type: 'buyers',
+              dopplerListId: 123,
+              dopplerListName: 'shopify buyers',
+              importedCustomersCount: 1,
+            },
+          ],
         },
       ],
     };
