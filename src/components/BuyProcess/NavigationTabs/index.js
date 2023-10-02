@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { URL_PLAN_TYPE } from '../../../doppler-types';
 import { FieldGroup, FieldItemAccessible } from '../../form-helpers/form-helpers';
-import { RadioBox } from '../RadioBox';
+import { RadioBox, RadioInfo } from '../RadioBox';
 
 const RadioFooter = ({ text }) => <div className="dp-footer--radio">{text}</div>;
 
@@ -47,6 +47,7 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
                     }
                   />
                 }
+                info={<RadioInfo info={planType.info} />}
                 handleClick={null}
               />
             </Link>
@@ -62,6 +63,7 @@ NavigationTabs.propTypes = {
     PropTypes.shape({
       type: PropTypes.string,
       minPrice: PropTypes.number.isRequired,
+      info: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     }),
   ).isRequired,
   selectedPlanType: PropTypes.string.isRequired,
