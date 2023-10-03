@@ -126,18 +126,23 @@ const Table = ({ lists }) => {
           <td>{lists.name}</td>
           <td>{lists.amountSubscribers}</td>
         </tr>
-      ) : lists.state !== SubscriberListState.notAvailable ? (
-        <>
-          <td>{lists.name}</td>
-          <td className="text-sync">
-            <span className="ms-icon icon-clock"></span>
-            {_('common.synchronizing')}
-          </td>
-        </>
       ) : (
-        <td colSpan="2" className="text-sync">
-          {_('shopify.no_list_available')}
-        </td>
+        <tr className="sync">
+          lists.state !== SubscriberListState.notAvailable ? (
+          <>
+            <td></td>
+            <td>{lists.name}</td>
+            <td className="text-sync">
+              <span className="ms-icon icon-clock"></span>
+              {_('common.synchronizing')}
+            </td>
+          </>
+          ) : (
+          <td colSpan="2" className="text-sync">
+            {_('shopify.no_list_available')}
+          </td>
+          )
+        </tr>
       )}
     </tbody>
   );
