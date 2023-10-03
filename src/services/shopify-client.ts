@@ -20,7 +20,7 @@ export interface SubscriberList {
 export interface ConnectedShop {
   shopName: string;
   synchronization_date: Date | null;
-  lists?: SubscriberList[];
+  lists?: SubscriberList[] | null;
   list?: SubscriberList | null;
 }
 
@@ -62,18 +62,20 @@ export class HttpShopifyClient implements ShopifyClient {
     return {
       shopName: response.shopName,
       synchronization_date: response.connectedOn,
-      lists: response.lists.map((list: any) => ({
-        id: list.dopplerListId,
-        name: list.dopplerListName,
-        amountSubscribers: list.importedCustomersCount,
-        state:
-          !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
-            ? SubscriberListState.synchronizingContacts
-            : !!list.dopplerListId
-            ? SubscriberListState.ready
-            : SubscriberListState.notAvailable,
-        entity: list.type,
-      })),
+      lists: Array.isArray(response.lists)
+        ? response.lists.map((list: any) => ({
+            id: list.dopplerListId,
+            name: list.dopplerListName,
+            amountSubscribers: list.importedCustomersCount,
+            state:
+              !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
+                ? SubscriberListState.synchronizingContacts
+                : !!list.dopplerListId
+                ? SubscriberListState.ready
+                : SubscriberListState.notAvailable,
+            entity: list.type,
+          }))
+        : null,
       list: response.dopplerListId
         ? {
             id: response.dopplerListId,

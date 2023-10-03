@@ -127,7 +127,7 @@ const Table = ({ lists }) => {
           <td>{lists.amountSubscribers}</td>
         </tr>
       ) : (
-        <tr className="sync" key={index}>
+        <tr className="sync">
           lists.state !== SubscriberListState.notAvailable ? (
           <>
             <td></td>
