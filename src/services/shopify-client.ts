@@ -21,7 +21,7 @@ export interface ConnectedShop {
   shopName: string;
   synchronization_date: Date | null;
   lists?: SubscriberList[];
-  list?: SubscriberList;
+  list?: SubscriberList | null;
 }
 
 export interface ShopifyClient {
@@ -74,18 +74,20 @@ export class HttpShopifyClient implements ShopifyClient {
             : SubscriberListState.notAvailable,
         entity: list.type,
       })),
-      list: {
-        id: response.dopplerListId,
-        name: response.dopplerListName,
-        amountSubscribers: response.importedCustomersCount,
-        state:
-          !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
-            ? SubscriberListState.synchronizingContacts
-            : !!response.dopplerListId
-            ? SubscriberListState.ready
-            : SubscriberListState.notAvailable,
-        entity: null,
-      },
+      list: response.dopplerListId
+        ? {
+            id: response.dopplerListId,
+            name: response.dopplerListName,
+            amountSubscribers: response.importedCustomersCount,
+            state:
+              !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
+                ? SubscriberListState.synchronizingContacts
+                : !!response.dopplerListId
+                ? SubscriberListState.ready
+                : SubscriberListState.notAvailable,
+            entity: null,
+          }
+        : null,
     };
   }
 
