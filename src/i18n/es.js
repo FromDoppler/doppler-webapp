@@ -264,7 +264,7 @@ const messages_es = {
       transfer: 'Transferencia',
       valid_thru: 'válido hasta',
       warning_mex_transfer: 'Los datos que ingreses deben coincidir con la información que aparece en tu constancia de situación fiscal.',
-      withholding_agent: 'No soy agente de retencion',
+      withholding_agent: 'No soy agente de retención',
     },
     purchase_summary: {
       add_recipient_placeholder: 'Agregar destinatario',
@@ -1506,7 +1506,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_invalid_rfc: `Ouch! El formato del RFC es incorrecto`,
     error_invalid_size_file: `El archivo debe ser PDF, menor a {maxSizeMB} MB`,
     error_invalid_type_pdf: `El tipo de archivo no es un PDF`,
-    error_is_withholding_agent: 'Si sos agente de retencion no podes usar debito automatico',
+    error_is_withholding_agent: 'Si sos agente de retención no podes usar débito automático',
     error_min_length: `¡Ouch! Minimo de caracteres invalido.`,
     error_min_length_2: `¡Ouch! Escribe al menos dos caracteres.`,
     error_password_character_length: `8 caracteres mínimo`,
