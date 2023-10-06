@@ -39,6 +39,7 @@ export const AutomaticDebitArgentina = InjectAppServices(
       paymentMethod.razonSocial,
       paymentMethod.cbu,
       paymentMethod.withHoldingAgent,
+      paymentMethod.paymentMethodName,
       setValues,
     ]);
 
