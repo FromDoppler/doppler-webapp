@@ -30,7 +30,8 @@ export const AutomaticDebitArgentina = InjectAppServices(
         [fieldNames.businessName]: paymentMethod.razonSocial ?? '',
         [fieldNames.paymentMethodName]: paymentType.automaticDebit,
         [fieldNames.cbu]: paymentMethod.cbu ?? '',
-        [fieldNames.withHoldingAgent]: paymentMethod.withHoldingAgent ?? '',
+        [fieldNames.withHoldingAgent]:
+          paymentMethod.paymentMethodName === paymentType.automaticDebit,
       });
     }, [
       paymentMethod.idConsumerType,
