@@ -17,43 +17,34 @@ const oneShop = [
   {
     shopName: 'myshop.com',
     synchronization_date: new Date('2017-12-17'),
-    lists: [
-      {
-        name: 'MyList',
-        id: 1251,
-        amountSubscribers: 2,
-        state: SubscriberListState.ready,
-        entity: 'buyers',
-      },
-    ],
+    list: {
+      name: 'MyList',
+      id: 1251,
+      amountSubscribers: 2,
+      state: SubscriberListState.ready,
+    },
   },
 ];
 const twoShops = [
   {
     shopName: 'myshop.com',
     synchronization_date: new Date('2017-12-17'),
-    lists: [
-      {
-        name: 'MyList',
-        id: 1251,
-        amountSubscribers: 2,
-        state: SubscriberListState.ready,
-        entity: 'buyers',
-      },
-    ],
+    list: {
+      name: 'MyList',
+      id: 1251,
+      amountSubscribers: 2,
+      state: SubscriberListState.ready,
+    },
   },
   {
     shopName: 'myshop2.com',
     synchronization_date: new Date('2017-12-17'),
-    lists: [
-      {
-        name: 'MyList',
-        id: 1251,
-        amountSubscribers: 2,
-        state: SubscriberListState.ready,
-        entity: 'buyers',
-      },
-    ],
+    list: {
+      name: 'MyList',
+      id: 1251,
+      amountSubscribers: 2,
+      state: SubscriberListState.ready,
+    },
   },
 ];
 
@@ -122,15 +113,12 @@ describe('Shopify Component', () => {
       {
         shopName: 'myshop.com',
         synchronization_date: new Date('2017-12-17'),
-        lists: [
-          {
-            name: 'MyList',
-            id: 1251,
-            amountSubscribers: 2,
-            state: SubscriberListState.synchronizingContacts,
-            entity: 'buyers',
-          },
-        ],
+        list: {
+          name: 'MyList',
+          id: 1251,
+          amountSubscribers: 2,
+          state: SubscriberListState.synchronizingContacts,
+        },
       },
     ];
     const syncList = { success: true, value: oneShopSyncList };
@@ -218,7 +206,6 @@ describe('Shopify Component', () => {
         id: 27311899,
         amountSubscribers: 200,
         state: SubscriberListState.ready,
-        entity: null,
       },
     };
 

@@ -87,64 +87,43 @@ const FooterBox = ({ children }) => {
   );
 };
 
-const Table = ({ lists }) => {
+const Table = ({ list }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <tbody>
-      {Array.isArray(lists) ? (
-        lists.map((list, index) =>
-          list.state === SubscriberListState.ready ? (
-            <tr key={index}>
-              <td>{_('shopify.entity_' + list.entity)}</td>
-              <td>{list.name}</td>
-              <td>{list.amountSubscribers}</td>
-            </tr>
-          ) : (
-            <tr className="sync" key={index}>
-              <td>{_('shopify.entity_' + list.entity)}</td>
-              {list.state !== SubscriberListState.notAvailable ? (
-                <>
-                  <td>{list.name}</td>
-                  <td className="text-sync">
-                    <span className="ms-icon icon-clock"></span>
-                    {_('common.synchronizing')}
-                  </td>
-                </>
-              ) : (
-                <td colSpan="2" className="text-sync">
-                  {_('shopify.no_list_available')}
-                </td>
-              )}
-            </tr>
-          ),
-        )
-      ) : lists.state === SubscriberListState.ready ? (
+    <table className="dp-c-table">
+      <thead>
         <tr>
-          <td></td>
-          <td>{lists.name}</td>
-          <td>{lists.amountSubscribers}</td>
+          <th>{_('shopify.table_list')} </th>
+          <th> {_('shopify.table_shopify_customers_count')}</th>
         </tr>
-      ) : (
-        <tr className="sync">
-          lists.state !== SubscriberListState.notAvailable ? (
-          <>
-            <td></td>
-            <td>{lists.name}</td>
-            <td className="text-sync">
-              <span className="ms-icon icon-clock"></span>
-              {_('common.synchronizing')}
-            </td>
-          </>
-          ) : (
-          <td colSpan="2" className="text-sync">
-            {_('shopify.no_list_available')}
-          </td>
-          )
-        </tr>
-      )}
-    </tbody>
+      </thead>
+      <tbody>
+        {list.state === SubscriberListState.ready ? (
+          <tr>
+            <td>{list.name}</td>
+            <td>{list.amountSubscribers}</td>
+          </tr>
+        ) : (
+          <tr className="sync">
+            {list.state !== SubscriberListState.notAvailable ? (
+              <>
+                <td>{list.name}</td>
+                <td className="text-sync">
+                  <span className="ms-icon icon-clock"></span>
+                  {_('common.synchronizing')}
+                </td>
+              </>
+            ) : (
+              <td colSpan="2" className="text-sync">
+                {_('shopify.no_list_available')}
+              </td>
+            )}
+          </tr>
+        )}
+      </tbody>
+    </table>
   );
 };
 
@@ -169,30 +148,17 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
       const updateSubscriberCount = async (list) => {
         if (list) {
           const subscribersCount = await getSubscribersAmountFromAPI(list.id);
-          if (subscribersCount) {
-            return {
-              ...list,
-              amountSubscribers: subscribersCount,
-            };
+          if (subscribersCount != null) {
+            list.amountSubscribers = subscribersCount;
           }
-          return list;
         }
-        return null;
+        return list;
       };
 
       const shopifyResult = await shopifyClient.getShopifyData();
       if (shopifyResult.value && shopifyResult.value.length) {
-        if (shopifyResult.value[0].list) {
-          shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
-        } else {
-          //updates only first shop
-          // I'm using the old and reliable for loop here, because the forEach loop doesn't work properly with asynchronous functions
-          for (let index = 0; index < shopifyResult.value[0].lists.length; index++) {
-            shopifyResult.value[0].lists[index] = await updateSubscriberCount(
-              shopifyResult.value[0].lists[index],
-            );
-          }
-        }
+        //updates only first shop
+        shopifyResult.value[0].list = await updateSubscriberCount(shopifyResult.value[0].list);
       }
       return shopifyResult;
     };
@@ -279,20 +245,11 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                         </header>
                         <hr />
                         <div className="dp-block">
-                          <table className="dp-c-table">
-                            <thead>
-                              <tr>
-                                <th>{_('shopify.entity_title')}</th>
-                                <th>{_('shopify.table_list')}</th>
-                                <th> {_('shopify.table_shopify_customers_count')}</th>
-                              </tr>
-                            </thead>
-                            {shop.list != null ? (
-                              <Table lists={shop.list} />
-                            ) : (
-                              <Table lists={shop.lists} />
-                            )}
-                          </table>
+                          <ul>
+                            <li key={shop.list.id}>
+                              <Table list={shop.list} />
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </div>

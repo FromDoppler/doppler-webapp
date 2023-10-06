@@ -14,14 +14,12 @@ export interface SubscriberList {
   id: number;
   amountSubscribers: number;
   state: SubscriberListState;
-  entity?: string | null;
 }
 
 export interface ConnectedShop {
   shopName: string;
   synchronization_date: Date | null;
-  lists?: SubscriberList[] | null;
-  list?: SubscriberList | null;
+  list: SubscriberList;
 }
 
 export interface ShopifyClient {
@@ -62,34 +60,17 @@ export class HttpShopifyClient implements ShopifyClient {
     return {
       shopName: response.shopName,
       synchronization_date: response.connectedOn,
-      lists: Array.isArray(response.lists)
-        ? response.lists.map((list: any) => ({
-            id: list.dopplerListId,
-            name: list.dopplerListName,
-            amountSubscribers: list.importedCustomersCount,
-            state:
-              !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
-                ? SubscriberListState.synchronizingContacts
-                : !!list.dopplerListId
-                ? SubscriberListState.ready
-                : SubscriberListState.notAvailable,
-            entity: list.type,
-          }))
-        : null,
-      list: response.dopplerListId
-        ? {
-            id: response.dopplerListId,
-            name: response.dopplerListName,
-            amountSubscribers: response.importedCustomersCount,
-            state:
-              !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
-                ? SubscriberListState.synchronizingContacts
-                : !!response.dopplerListId
-                ? SubscriberListState.ready
-                : SubscriberListState.notAvailable,
-            entity: null,
-          }
-        : null,
+      list: {
+        id: response.dopplerListId,
+        name: response.dopplerListName,
+        amountSubscribers: response.importedCustomersCount,
+        state:
+          !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
+            ? SubscriberListState.synchronizingContacts
+            : !!response.dopplerListId
+            ? SubscriberListState.ready
+            : SubscriberListState.notAvailable,
+      },
     };
   }
 

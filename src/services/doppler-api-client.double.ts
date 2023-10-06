@@ -20,7 +20,6 @@ const listExist = {
     id: 27311899,
     amountSubscribers: 3,
     state: 1,
-    entity: 'buyers',
   },
 };
 
@@ -235,7 +234,6 @@ export const subscriberListCollection = (length: number) =>
       id: index,
       amountSubscribers: Math.round(Math.random() * (length - 1) + 1),
       state: index % 2 === 0 ? 1 : 0,
-      entity: null,
     };
   });
 

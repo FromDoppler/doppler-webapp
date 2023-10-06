@@ -6,46 +6,14 @@ const oneShop = [
   {
     shopName: 'myshop.com',
     synchronization_date: new Date('2017-12-17'),
-    lists: [
-      {
-        id: 1251,
-        name: 'shopify-buyers',
-        amountSubscribers: 0,
-        state: SubscriberListState.ready,
-        entity: 'buyers',
-      },
-      {
-        id: 1252,
-        name: 'shopify-customers',
-        amountSubscribers: 5805,
-        state: SubscriberListState.synchronizingContacts,
-        entity: 'customers',
-      },
-      {
-        id: 0,
-        name: 'shopify-contacts',
-        amountSubscribers: 5805,
-        state: SubscriberListState.notAvailable,
-        entity: 'contacts',
-      },
-    ],
+    list: {
+      name: 'MyList',
+      id: 1251,
+      amountSubscribers: 2,
+      state: SubscriberListState.ready,
+    },
   },
 ];
-
-// Shop with single list for backwards compatibility
-// const oneShop = [
-//   {
-//     shopName: 'myshop.com',
-//     synchronization_date: new Date('2017-12-17'),
-//     list: {
-//       name: 'MyList',
-//       id: 1251,
-//       amountSubscribers: 2,
-//       state: SubscriberListState.ready,
-//     },
-//   },
-// ];
-
 // //Shop connected without list selected
 // const oneShopNoList = [
 //   {

@@ -170,7 +170,6 @@ export class HttpDopplerApiClient implements DopplerApiClient {
         data.currentStatus === SubscriberListState.ready
           ? SubscriberListState.ready
           : SubscriberListState.synchronizingContacts,
-      entity: null,
     };
   }
 

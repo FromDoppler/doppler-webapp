@@ -4,7 +4,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 const RadioBox = ({
   tooltip,
   footer,
-  info,
   value,
   label,
   checked = false,
@@ -27,7 +26,6 @@ const RadioBox = ({
         <span>{label}</span>
         {footer}
       </label>
-      {info}
     </div>
   );
 };
@@ -47,7 +45,6 @@ RadioBox.propTypes = {
   handleClick: PropTypes.func,
   tooltip: PropTypes.node,
   footer: PropTypes.node,
-  info: PropTypes.node,
 };
 
 const RadioTooltip = ({ discountPercentage }) => {
@@ -83,12 +80,8 @@ const RadioFooter = ({ price }) => {
   );
 };
 
-const RadioInfo = ({ info }) => {
-  return <div className="dp-show-info">{info}</div>;
-};
-
 RadioFooter.propTypes = {
   price: PropTypes.string.isRequired,
 };
 
-export { RadioBox, RadioTooltip, RadioFooter, RadioInfo };
+export { RadioBox, RadioTooltip, RadioFooter };

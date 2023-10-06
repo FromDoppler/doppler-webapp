@@ -58,6 +58,9 @@ export const ContactPolicy = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+    // TODO: remove once the whole "time restriction" feature is implemented
+    const timeRestrictionEnabled = experimentalFeatures.getFeature('timeRestrictionEnabled');
+
     const FieldItemMessage = ({ errors }) => {
       let message = {};
       if (errors[fieldNames.excludedSubscribersLists]) {
@@ -378,89 +381,96 @@ export const ContactPolicy = InjectAppServices(
                             />
                           </li>
 
-                          <div>
-                            <li className="field-item">
-                              <hr />
-                            </li>
+                          {timeRestrictionEnabled && (
+                            <div>
+                              <li className="field-item">
+                                <hr />
+                              </li>
 
-                            <h2>{_('contact_policy.time_restriction.title')}</h2>
+                              <h2>{_('contact_policy.time_restriction.title')}</h2>
 
-                            <li className="field-item">
-                              <FormattedMessageMarkdown
-                                linkTarget={'_blank'}
-                                id="contact_policy.time_restriction.legend"
-                              />
-                            </li>
+                              <li className="field-item">
+                                <FormattedMessageMarkdown
+                                  linkTarget={'_blank'}
+                                  id="contact_policy.time_restriction.legend"
+                                />
+                              </li>
 
-                            <li className="field-item">
-                              <SwitchField
-                                id="contact-policy-time-slot-switch"
-                                name={fieldNames.timeRestrictionTimeSlotEnabled}
-                                text={_('contact_policy.time_restriction.time_slot_toggle_text')}
-                                onToggle={() => hideMessage()}
-                              />
-                            </li>
-                            <li className="field-item">
-                              <div className="dp-item-block awa-form">
-                                <label
-                                  className="labelcontrol"
-                                  data-required="false"
-                                  aria-disabled={!values['timeRestriction']['timeSlotEnabled']}
-                                >
-                                  <span>
-                                    {_('contact_policy.time_restriction.time_slot_hour_from_label')}
-                                  </span>
-                                  <NumberField
-                                    aria-invalid={errors.timeRestrictionHourFrom ? 'true' : 'false'}
-                                    name={fieldNames.timeRestrictionHourFrom}
-                                    id="time-restriction-time-slot-from"
-                                    disabled={!values['timeRestriction']['timeSlotEnabled']}
-                                    required
-                                    aria-label={_(
-                                      'contact_policy.time_restriction.hour_from_aria_label',
-                                    )}
-                                    onChangeValue={() => hideMessage()}
-                                  />
-                                  <span className="m-r-30">{_('common.hours_abbreviation')}</span>
-
-                                  <span>
-                                    {_('contact_policy.time_restriction.time_slot_hour_to_label')}
-                                  </span>
-                                  <NumberField
-                                    aria-invalid={errors.timeRestrictionHourTo ? 'true' : 'false'}
-                                    name={fieldNames.timeRestrictionHourTo}
-                                    id="time-restriction-time-slot-to"
-                                    disabled={!values['timeRestriction']['timeSlotEnabled']}
-                                    required
-                                    aria-label={_(
-                                      'contact_policy.time_restriction.hour_to_aria_label',
-                                    )}
-                                    onChangeValue={() => hideMessage()}
-                                  />
-                                  <span>{_('common.hours_abbreviation')}</span>
-
-                                  <div
-                                    className={`dp-textmessage ${
-                                      errors.timeRestrictionHourFrom || errors.timeRestrictionHourTo
-                                        ? 'show'
-                                        : ''
-                                    }`}
+                              <li className="field-item">
+                                <SwitchField
+                                  id="contact-policy-time-slot-switch"
+                                  name={fieldNames.timeRestrictionTimeSlotEnabled}
+                                  text={_('contact_policy.time_restriction.time_slot_toggle_text')}
+                                  onToggle={() => hideMessage()}
+                                />
+                              </li>
+                              <li className="field-item">
+                                <div className="dp-item-block awa-form">
+                                  <label
+                                    className="labelcontrol"
+                                    data-required="false"
+                                    aria-disabled={!values['timeRestriction']['timeSlotEnabled']}
                                   >
-                                    {errors.messageForTimeSlot}
-                                  </div>
-                                </label>
-                              </div>
-                            </li>
+                                    <span>
+                                      {_(
+                                        'contact_policy.time_restriction.time_slot_hour_from_label',
+                                      )}
+                                    </span>
+                                    <NumberField
+                                      aria-invalid={
+                                        errors.timeRestrictionHourFrom ? 'true' : 'false'
+                                      }
+                                      name={fieldNames.timeRestrictionHourFrom}
+                                      id="time-restriction-time-slot-from"
+                                      disabled={!values['timeRestriction']['timeSlotEnabled']}
+                                      required
+                                      aria-label={_(
+                                        'contact_policy.time_restriction.hour_from_aria_label',
+                                      )}
+                                      onChangeValue={() => hideMessage()}
+                                    />
+                                    <span className="m-r-30">{_('common.hours_abbreviation')}</span>
 
-                            <li className="field-item">
-                              <SwitchField
-                                id="contact-policy-weekdays-switch"
-                                name={fieldNames.timeRestrictionWeekdaysEnabled}
-                                text={_('contact_policy.time_restriction.weekdays_toggle_text')}
-                                onToggle={() => hideMessage()}
-                              />
-                            </li>
-                          </div>
+                                    <span>
+                                      {_('contact_policy.time_restriction.time_slot_hour_to_label')}
+                                    </span>
+                                    <NumberField
+                                      aria-invalid={errors.timeRestrictionHourTo ? 'true' : 'false'}
+                                      name={fieldNames.timeRestrictionHourTo}
+                                      id="time-restriction-time-slot-to"
+                                      disabled={!values['timeRestriction']['timeSlotEnabled']}
+                                      required
+                                      aria-label={_(
+                                        'contact_policy.time_restriction.hour_to_aria_label',
+                                      )}
+                                      onChangeValue={() => hideMessage()}
+                                    />
+                                    <span>{_('common.hours_abbreviation')}</span>
+
+                                    <div
+                                      className={`dp-textmessage ${
+                                        errors.timeRestrictionHourFrom ||
+                                        errors.timeRestrictionHourTo
+                                          ? 'show'
+                                          : ''
+                                      }`}
+                                    >
+                                      {errors.messageForTimeSlot}
+                                    </div>
+                                  </label>
+                                </div>
+                              </li>
+
+                              <li className="field-item">
+                                <SwitchField
+                                  id="contact-policy-weekdays-switch"
+                                  name={fieldNames.timeRestrictionWeekdaysEnabled}
+                                  text={_('contact_policy.time_restriction.weekdays_toggle_text')}
+                                  onToggle={() => hideMessage()}
+                                />
+                              </li>
+                            </div>
+                          )}
 
                           <FieldItemMessage errors={errors} />
 
