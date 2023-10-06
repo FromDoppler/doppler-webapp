@@ -48,13 +48,6 @@ describe('ContactPolicy component', () => {
     }),
   });
 
-  // TODO: remove once the whole "time restriction" feature is implemented
-  const experimentalFeaturesDouble = () => ({
-    getFeature: (featureName) => {
-      return featureName === 'timeRestrictionEnabled';
-    },
-  });
-
   const dependencies = (
     isActive,
     hasErrorOnUpdate,
@@ -68,7 +61,6 @@ describe('ContactPolicy component', () => {
       excludedSubscribersLists,
       isTimeSlotEnabled,
     ),
-    experimentalFeatures: experimentalFeaturesDouble(),
   });
 
   const ContactPolicyComponent = ({

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { RadioBox, RadioFooter, RadioTooltip } from '.';
+import { RadioBox, RadioFooter, RadioInfo, RadioTooltip } from '.';
 import { fakeAccountPlanDiscounts } from '../../../services/doppler-account-plans-api-client.double';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
@@ -42,6 +42,18 @@ describe('RadioBox component', () => {
 
       // Assert
       screen.getByText('buy_process.min_monthly_plan_price');
+    });
+  });
+
+  describe('RadioInfo component', () => {
+    it('should render RadioInfo component', async () => {
+      const info = 'this is a text';
+
+      // Act
+      render(<RadioInfo info={info} />);
+
+      // Assert
+      screen.getByText(info);
     });
   });
 
