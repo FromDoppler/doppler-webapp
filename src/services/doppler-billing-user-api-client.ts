@@ -67,6 +67,7 @@ export interface PaymentMethod {
   useCFDI: string;
   taxRegime: number;
   taxCertificate: object;
+  cbu: string;
 }
 
 export interface UserPlan {
@@ -189,6 +190,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       useCFDI: data.useCFDI,
       taxRegime: data.taxRegime,
       taxCertificate: data.taxCertificate,
+      cbu: data.cbu,
     };
   }
 
@@ -240,6 +242,21 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           ccExpMonth: data.expiry?.split('/')[0],
           ccType: data.ccType,
           identificationNumber: `${data.identificationNumber}`,
+        };
+
+      case PaymentMethodType.automaticDebit:
+        return {
+          paymentMethodName: data.paymentMethodName,
+          idSelectedPlan: data.idSelectedPlan,
+          razonSocial: data.businessName,
+          idConsumerType: data.consumerType,
+          identificationNumber: `${data.identificationNumber}`,
+          bankName: data.bankName,
+          bankAccount: data.bankAccount,
+          paymentType: data.paymentType,
+          paymentWay: data.paymentWay,
+          useCFDI: data.cfdi,
+          cbu: data.cbu,
         };
 
       default:

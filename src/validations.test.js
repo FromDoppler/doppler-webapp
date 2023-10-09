@@ -8,6 +8,7 @@ import {
   validateMinLength,
   validateRfc,
   validateCuit,
+  validateCbu,
 } from './validations';
 
 describe('validations', () => {
@@ -863,5 +864,51 @@ describe('validations', () => {
       // Assert
       expect(result).toBeNull();
     });
+  });
+});
+
+describe('validateCbu', () => {
+  it('should return null for a valid string of numbers with 22 digits ', () => {
+    // Arrange
+    const value = '2850590940090418135201';
+
+    // Act
+    const result = validateCbu(value);
+
+    // Assert
+    expect(result).toBeNull();
+  });
+
+  it('should return the error message for a string with non-digits characters', () => {
+    // Arrange
+    const value = 'A850590940090418135201';
+
+    // Act
+    const result = validateCbu(value);
+
+    // Assert
+    expect(result).toEqual('validation_messages.error_invalid_cbu');
+  });
+
+  it('should return the error message for a string with less than 22 digits', () => {
+    // Arrange
+    const value = '285059094009041813520'; //21 digits
+
+    // Act
+    const result = validateCbu(value);
+
+    // Assert
+    expect(result).toEqual('validation_messages.error_invalid_cbu');
+  });
+
+  it('should return the error message for a string with more than 22 digits', () => {
+    // Arrange
+    const value = '28505909400904181352012'; //23 digits
+
+    // Act
+    const result = validateCbu(value);
+
+    // Assert
+    expect(result).toEqual('validation_messages.error_invalid_cbu');
   });
 });
