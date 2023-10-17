@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
@@ -92,6 +92,7 @@ export const CreditCard = InjectAppServices(
     const [cvcMask, setCvcMask] = useState(secCodeMasksByBrand.unknown);
     const [pasted, setPasted] = useState(false);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const paymentMethodRef = useRef(paymentMethod);
 
     useEffect(() => {
       const initializeDefaultValues = () => {
@@ -112,8 +113,8 @@ export const CreditCard = InjectAppServices(
       if (optionView === actionPage.READONLY) {
         setState({
           paymentMethod:
-            paymentMethod && Object.keys(paymentMethod).length > 1
-              ? paymentMethod
+            paymentMethodRef.current && Object.keys(paymentMethodRef.current).length > 1
+              ? paymentMethodRef.current
               : {
                   ccSecurityCode: '',
                   ccExpiryDate: '',
@@ -136,7 +137,7 @@ export const CreditCard = InjectAppServices(
       dopplerAccountPlansApiClient,
       appSessionRef,
       optionView,
-      paymentMethod,
+      paymentMethodRef.current,
       setFieldValue,
       setValues,
     ]);
