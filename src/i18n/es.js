@@ -224,8 +224,8 @@ const messages_es = {
       cbu: 'CBU',
       cfdi: 'Uso de CFDI',
       considerations: 'Consideraciones:',
-      considerations_automatic_debit_note_1:
-        'La factura por tu abono mensual a Doppler será debitada automáticamente de tu cuenta bancaria entre los días 2 y 5 de cada mes, lo cual te permitirá tener el control de los pagos directamente desde el resumen de cuenta del banco.',
+      considerations_automatic_debit_note_1: `La factura por tu abono mensual a Doppler será debitada automáticamente de tu cuenta bancaria entre los días 2 y 5 de cada mes, 
+        lo cual te permitirá tener el control de los pagos directamente desde el resumen de cuenta del banco.`,
       considerations_credit_card_note_1: 'Emitiremos una <bold>factura en dólares desde Estados Unidos</bold>, donde se encuentra nuestra filial Doppler LLC.',
       considerations_credit_card_note_2: 'El <bold>monto a pagar</bold> corresponde al precio del Plan contratado y está <bold>sujeto a impuestos aplicables</bold> en cada país.',
       considerations_mercado_pago_note_1:

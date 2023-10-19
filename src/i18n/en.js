@@ -222,8 +222,8 @@ const messages_en = {
       cbu: 'CBU',
       cfdi: 'Use of CFDI',
       considerations: 'Consideration:',
-      considerations_automatic_debit_note_1:
-        'The invoice for your monthly subscription to Doppler will be automatically debited from your bank account between the 2nd and 5th of each month, allowing you to have control over payments directly from your bank statement.',
+      considerations_automatic_debit_note_1: `The invoice for your monthly subscription to Doppler will be automatically debited from your bank account between the 2nd and 5th of each month, 
+        allowing you to have control over payments directly from your bank statement.`,
       considerations_credit_card_note_1: '<bold>Invoices in USD will be issued from United States</bold>, where is located our subsidiary Doppler LLC.',
       considerations_credit_card_note_2: 'The <bold>amount payable</bold> is similar to the amount of the purchased Plan, and <bold>it depends on applicable taxes</bold> in each country.',
       considerations_mercado_pago_note_1:
