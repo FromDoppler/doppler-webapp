@@ -215,6 +215,21 @@ const PaymentNotes = ({ paymentMethodType }) => {
           </li>
         </FieldGroup>
       );
+
+    case paymentType.automaticDebit:
+      return (
+        <FieldGroup>
+          <li className="field-item">
+            <div className="dp-considerations">
+              <label>{_('checkoutProcessForm.payment_method.considerations')}</label>
+              <p style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_automatic_debit_note_1" />
+              </p>
+            </div>
+          </li>
+        </FieldGroup>
+      );
+
     default:
       return null;
   }
