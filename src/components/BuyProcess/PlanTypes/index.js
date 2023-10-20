@@ -144,10 +144,11 @@ export const PlanTypes = InjectAppServices(({ dependencies: { planService, appSe
               <span className="dp-visa" />
               <span className="dp-mastercard" />
               <span className="dp-american" />
-              <h4 className="dp-tit-transfer">
-                <span className="dpicon iconapp-card-accepted"></span>
-                {_('plan_types.payment_methods_banner.transfer_label')}
-              </h4>
+              <span className="dp-bank">
+                <span className="dpicon iconapp-bank">
+                  <span>{_('plan_types.payment_methods_banner.transfer_label')}</span>
+                </span>
+              </span>
             </section>
             <HeaderText
               title={_('plan_types.functionality_header.title')}

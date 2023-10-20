@@ -907,7 +907,7 @@ El código es inválido.`,
     page_title: 'Tipos de planes',
     payment_methods_banner: {
       title: 'Métodos de pago',
-      transfer_label: 'Transferencia',
+      transfer_label: 'Transferencia Bancaria',
     },
     see_all_features_label: 'Ver todas las funcionalidades',
     table: {
