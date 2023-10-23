@@ -906,7 +906,7 @@ Promo code isn’t valid.`,
     page_title: 'Types of plans',
     payment_methods_banner: {
       title: 'Payment methods',
-      transfer_label: 'Bank transfer',
+      transfer_label: 'Bank Transfer',
     },
     see_all_features_label: 'See all features',
     table: {
