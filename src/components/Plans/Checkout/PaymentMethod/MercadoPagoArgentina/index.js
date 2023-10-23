@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import { Loading } from '../../../../Loading/Loading';
@@ -74,7 +74,6 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
   const [cvcMask, setCvcMask] = useState(secCodeMasksByBrand.unknown);
   const [pasted, setPasted] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const paymentMethodRef = useRef(paymentMethod);
 
   useEffect(() => {
     const initializeDefaultValues = () => {
@@ -90,8 +89,8 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
 
     if (optionView === actionPage.READONLY) {
       setState({
-        paymentMethod: paymentMethodRef.current
-          ? paymentMethodRef.current
+        paymentMethod: paymentMethod
+          ? paymentMethod
           : {
               ccSecurityCode: '',
               ccExpiryDate: '',
@@ -110,7 +109,7 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
         paymentMethod: {},
       });
     }
-  }, [optionView, setFieldValue, setValues, paymentMethodRef.current]);
+  }, [optionView, setFieldValue, setValues, paymentMethod]);
 
   const onChangeNumber = (e) => {
     if (!pasted) {
