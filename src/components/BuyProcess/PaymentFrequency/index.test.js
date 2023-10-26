@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { PaymentFrequency } from '.';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { SUBSCRIPTION_TYPE } from '../../../doppler-types';
+import { MemoryRouter as Router } from 'react-router-dom';
 
 export const FAKE_DISCOUNT_LIST = [
   {
@@ -34,26 +35,28 @@ export const FAKE_DISCOUNT_LIST = [
 describe('PaymentFrequency component', () => {
   it('should render PaymentFrequency component', async () => {
     // Arrange
-    const discounts = FAKE_DISCOUNT_LIST;
-    const selectedDiscount = null;
-    const onSelectDiscount = () => null;
+    const paymentFrequenciesList = FAKE_DISCOUNT_LIST;
+    const currentSubscriptionUser = 1;
+    const onSelectPaymentFrequency = () => null;
 
     // Act
     render(
-      <IntlProvider>
-        <PaymentFrequency
-          discounts={discounts}
-          selectedDiscount={selectedDiscount}
-          onSelectDiscount={onSelectDiscount}
-          disabled={false}
-        />
-      </IntlProvider>,
+      <Router>
+        <IntlProvider>
+          <PaymentFrequency
+            paymentFrequenciesList={paymentFrequenciesList}
+            onSelectPaymentFrequency={onSelectPaymentFrequency}
+            currentSubscriptionUser={currentSubscriptionUser}
+            disabled={false}
+          />
+        </IntlProvider>
+      </Router>,
     );
 
     // Assert
-    const discountList = screen.getByRole('list');
-    const listitems = discountList.querySelectorAll('li');
-    discounts.forEach((discount, index) => {
+    const discountList = screen.getByRole('navigation');
+    const listitems = discountList.querySelectorAll('button');
+    paymentFrequenciesList.forEach((discount, index) => {
       const discountName = `buy_process.discount_${discount.subscriptionType.replace('-', '_')}`;
       expect(listitems[index]).toHaveTextContent(discountName);
       if (discount.discountPercentage > 0) {
