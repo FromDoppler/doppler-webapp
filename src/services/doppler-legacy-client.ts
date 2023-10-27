@@ -770,6 +770,12 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           case 'BlockedAccountInvalidPassword': {
             return { expectedError: { blockedAccountInvalidPassword: true } };
           }
+          case 'BlockedUserUnknownDevice': {
+            return { expectedError: { blockedUserUnknownDevice: true } };
+          }
+          case 'UserAccessDenied': {
+            return { expectedError: { userAccessDenied: true } };
+          }
           case 'InvalidLogin': {
             return { expectedError: { invalidLogin: true } };
           }
