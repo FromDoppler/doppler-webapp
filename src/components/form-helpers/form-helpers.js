@@ -179,9 +179,10 @@ export const FormMessages = connect(
         : null;
     return formMessages ? (
       errors && errors['_warning'] ? (
-        <div className={`form-message bounceIn ${formMessages.className}`}>
-          <div>
-            <Message message={formMessages.message} />
+        <div className="dp-wrap-message dp-wrap-warning bounceIn m-b-12">
+          <span className="dp-message-icon" />
+          <div className="dp-content-message">
+            <Message message={formMessages.message} textStyle={{ fontSize: '18px' }} />
           </div>
         </div>
       ) : (
@@ -196,14 +197,14 @@ export const FormMessages = connect(
   },
 );
 
-const Message = ({ message, values = null }) => {
+const Message = ({ message, values = null, textStyle }) => {
   const intl = useIntl();
   return React.isValidElement(message) ? (
     message
   ) : (
     // assuming string
     // TODO: also consider array of errors, and parameters for localization message placeholders
-    <p>{intl.formatMessage({ id: message }, values)}</p>
+    <p style={textStyle}>{intl.formatMessage({ id: message }, values)}</p>
   );
 };
 export const FieldItem = connect(
@@ -1075,12 +1076,12 @@ export const SwitchField = connect(
  * @param { import('formik').FormikProps<Values> } props.formik
  * @param { string } props.className
  */
-const _SubmitButton = ({ children, formik: { isSubmitting }, className }) => {
+const _SubmitButton = ({ children, formik: { isSubmitting }, className, disabled }) => {
   return (
     <>
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || disabled}
         className={
           'dp-button button-medium primary-green' +
           ((isSubmitting && ' button--loading') || '') +
