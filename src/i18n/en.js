@@ -1523,8 +1523,8 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_unexpected_MD: `Ouch! There seems to be a connection problem. Please try again in a few minutes.`,
     error_unexpected_register_MD: `Ouch! Something went wrong. Please try again later or [contact our Support team](${mailtoSupport}).`,
     error_upload_file: `Ouch! Something went wrong. Please try again.`,
-    warning_ip_validation_notification: `Revisa tu correo, hemos enviado un email de confirmación para comprobar que eres tu.`,
-    warning_user_access_denied: `Tu usuario no puede acceder porque esta pendiente de confirmar o fue rechazado desde el email de validación.`,
+    warning_ip_validation_notification: `Check your inbox! You'll find an Email with steps to follow.`,
+    warning_user_access_denied: `Ouch! Your login has been declined by the account owner.`,
   },
 };
 
