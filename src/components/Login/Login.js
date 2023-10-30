@@ -326,6 +326,11 @@ const Login = ({
         setErrors({
           _warning: 'validation_messages.warning_ip_validation_notification',
         });
+      } else if (result.expectedError && result.expectedError.blockedUserPendingConfirmation) {
+        setLoginDisabled(true);
+        setErrors({
+          _warning: 'validation_messages.warning_ip_validation_notification',
+        });
       } else if (result.expectedError && result.expectedError.userAccessDenied) {
         setLoginDisabled(true);
         setErrors({
