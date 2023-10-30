@@ -235,7 +235,6 @@ const Login = ({
   const intl = useIntl();
   const [redirectAfterLogin, setRedirectAfterLogin] = useState(false);
   const [redirectToUrl, setRedirectToUrl] = useState(false);
-  const [loginDisabled, setLoginDisabled] = useState(false);
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const bannerDataState = useGetBannerData({
     dopplerSitesClient,
@@ -322,17 +321,14 @@ const Login = ({
           ),
         });
       } else if (result.expectedError && result.expectedError.blockedUserUnknownDevice) {
-        setLoginDisabled(true);
         setErrors({
           _warning: 'validation_messages.warning_ip_validation_notification',
         });
       } else if (result.expectedError && result.expectedError.blockedUserPendingConfirmation) {
-        setLoginDisabled(true);
         setErrors({
           _warning: 'validation_messages.warning_ip_validation_notification',
         });
       } else if (result.expectedError && result.expectedError.userAccessDenied) {
-        setLoginDisabled(true);
         setErrors({
           _warning: 'validation_messages.warning_user_access_denied',
         });
@@ -485,9 +481,7 @@ const Login = ({
             </fieldset>
             <fieldset>
               <FormMessages />
-              <SubmitButton className="button--round" disabled={loginDisabled}>
-                {_('login.button_login')}
-              </SubmitButton>
+              <SubmitButton className="button--round">{_('login.button_login')}</SubmitButton>
               <LinkToForgotPassword />
             </fieldset>
           </FormWithCaptcha>
