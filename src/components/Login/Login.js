@@ -330,10 +330,9 @@ const Login = ({
         });
       } else if (result.expectedError && result.expectedError.userAccessDenied) {
         setErrors({
-          _warning: 'validation_messages.warning_user_access_denied',
+          _error: 'validation_messages.warning_user_access_denied',
         });
       } else if (result.expectedError && result.expectedError.userInactive) {
-        // TODO: define how this error should be shown
         console.log('userInactive error', result);
         setErrors({
           _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
