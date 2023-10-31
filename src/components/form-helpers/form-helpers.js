@@ -189,7 +189,7 @@ export const FormMessages = connect(
         <div className={`m-b-12 ${formMessages.className}`} role="alert" aria-label="cancel">
           <span className="dp-message-icon" />
           <div className="dp-content-message">
-            <Message message={formMessages.message} />
+            <Message message={formMessages.message} textStyle={{ fontSize: '18px' }} />
           </div>
         </div>
       )
