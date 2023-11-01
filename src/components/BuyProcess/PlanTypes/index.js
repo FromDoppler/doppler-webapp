@@ -9,6 +9,7 @@ import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../../shared/UnexpectedError';
 import { Element as ScrollElement } from 'react-scroll';
 import { getQueryParamsWithAccountType } from '../../../utils';
+import { FeaturesPlanTypes } from './FeaturesPlanTypes';
 
 const planByContactsUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`;
 const planByEmailsUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`;
@@ -150,6 +151,7 @@ export const PlanTypes = InjectAppServices(({ dependencies: { planService, appSe
                 </span>
               </span>
             </section>
+            <FeaturesPlanTypes />
             <HeaderText
               title={_('plan_types.functionality_header.title')}
               description={_('plan_types.functionality_header.description')}
@@ -160,11 +162,13 @@ export const PlanTypes = InjectAppServices(({ dependencies: { planService, appSe
             <section className="col-sm-12 m-t-24 m-b-36">
               {tables.map((table, index) => (
                 <div key={`table${index}`} className="dp-table-plans m-b-36">
-                  <header className="dp-header-plans dp-rowflex">
-                    <div className="col-lg-6 col-md-12">
-                      <h3>{table.headerTitle}</h3>
-                    </div>
-                  </header>
+                  <ScrollElement name={table.name}>
+                    <header className="dp-header-plans dp-rowflex">
+                      <div className="col-lg-6 col-md-12">
+                        <h3>{table.headerTitle}</h3>
+                      </div>
+                    </header>
+                  </ScrollElement>
                   <div className="dp-table-responsive">
                     <table className="dp-c-table dp-nested-table">
                       <tbody>
@@ -251,33 +255,41 @@ const tables = [
   {
     headerTitle: <FormattedMessage id={'plan_types.table.automation.title'} />,
     items: getMappedRows({ key: 'automation', quantityFeatures: 9 }),
+    name: 'automation',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.campaings.title'} />,
     items: getMappedRows({ key: 'campaings', quantityFeatures: 10 }),
+    name: 'campaing',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.integrations.title'} />,
     items: getMappedRows({ key: 'integrations', quantityFeatures: 38 }),
+    name: 'integrations',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.editor.title'} />,
     items: getMappedRows({ key: 'editor', quantityFeatures: 6 }),
+    name: 'editor',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.forms.title'} />,
     items: getMappedRows({ key: 'forms', quantityFeatures: 8 }),
+    name: 'forms',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.omni.title'} />,
     items: getMappedRows({ key: 'omni', quantityFeatures: 3 }),
+    name: 'omnicanalidad',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.report.title'} />,
     items: getMappedRows({ key: 'report', quantityFeatures: 7 }),
+    name: 'reports',
   },
   {
     headerTitle: <FormattedMessage id={'plan_types.table.segmentation.title'} />,
     items: getMappedRows({ key: 'segmentation', quantityFeatures: 5 }),
+    name: 'segmentation',
   },
 ];
