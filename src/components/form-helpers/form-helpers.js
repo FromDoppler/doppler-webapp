@@ -182,14 +182,14 @@ export const FormMessages = connect(
         <div className="dp-wrap-message dp-wrap-warning bounceIn m-b-12">
           <span className="dp-message-icon" />
           <div className="dp-content-message">
-            <Message message={formMessages.message} textStyle={{ fontSize: '18px' }} />
+            <Message message={formMessages.message} />
           </div>
         </div>
       ) : (
         <div className={`m-b-12 ${formMessages.className}`} role="alert" aria-label="cancel">
           <span className="dp-message-icon" />
           <div className="dp-content-message">
-            <Message message={formMessages.message} textStyle={{ fontSize: '18px' }} />
+            <Message message={formMessages.message} />
           </div>
         </div>
       )
@@ -197,14 +197,14 @@ export const FormMessages = connect(
   },
 );
 
-const Message = ({ message, values = null, textStyle }) => {
+const Message = ({ message, values = null }) => {
   const intl = useIntl();
   return React.isValidElement(message) ? (
     message
   ) : (
     // assuming string
     // TODO: also consider array of errors, and parameters for localization message placeholders
-    <p style={textStyle}>{intl.formatMessage({ id: message }, values)}</p>
+    <p>{intl.formatMessage({ id: message }, values)}</p>
   );
 };
 export const FieldItem = connect(
