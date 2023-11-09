@@ -5,6 +5,7 @@ import { CreditCard, getCreditCardBrand } from '../../Checkout/PaymentMethod/Cre
 import { StatusMessage } from '../../Checkout/PurchaseSummary/PlanPurchase/index';
 import { MercadoPagoArgentina } from '../../Checkout/PaymentMethod/MercadoPagoArgentina';
 import { Transfer } from '../../Checkout/PaymentMethod/Transfer/Transfer';
+import { AutomaticDebit } from '../../Checkout/PaymentMethod/AutomaticDebit/AutomaticDebit';
 import { actionPage } from '../../Checkout/Checkout';
 import { getFormInitialValues } from '../../../../utils';
 import { Loading } from '../../../Loading/Loading';
@@ -71,10 +72,15 @@ const paymentMethods = [
     value: PaymentMethodType.mercadoPago,
     description: 'checkoutProcessForm.payment_method.mercado_pago',
   },
+  {
+    value: PaymentMethodType.automaticDebit,
+    description: 'checkoutProcessForm.payment_method.automatic_debit',
+  },
 ];
 
 const countriesAvailableTransfer = ['ar'];
 const countriesAvailableMercadoPago = ['ar'];
+const countriesAvailableAutomaticDebit = ['ar'];
 
 const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
   return (
@@ -87,6 +93,8 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case PaymentMethodType.mercadoPago:
             return <MercadoPagoArgentina optionView={optionView} paymentMethod={paymentMethod} />;
+          case PaymentMethodType.automaticDebit:
+            return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
             return null;
         }
@@ -101,6 +109,7 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
 
   const allowTransfer = countriesAvailableTransfer.find((c) => c === billingCountry);
   const allowMercadoPago = countriesAvailableMercadoPago.find((c) => c === billingCountry);
+  const allowAutomaticDebit = countriesAvailableAutomaticDebit.find((c) => c === billingCountry);
 
   return (
     <Field name="paymentMethodName">
@@ -109,6 +118,7 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
           {paymentMethods.map((paymentMethod) =>
             (paymentMethod.value === PaymentMethodType.transfer && allowTransfer) ||
             (paymentMethod.value === PaymentMethodType.mercadoPago && allowMercadoPago) ||
+            (paymentMethod.value === PaymentMethodType.automaticDebit && allowAutomaticDebit) ||
             paymentMethod.value === PaymentMethodType.creditCard ? (
               <li key={paymentMethod.value}>
                 <div className="dp-volume-option">
@@ -188,6 +198,19 @@ const PaymentNotes = ({ paymentMethodType }) => {
               <br />
               <p style={considerationNoteStyle}>
                 <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_mercado_pago_note_3" />
+              </p>
+            </div>
+          </li>
+        </FieldGroup>
+      );
+    case PaymentMethodType.automaticDebit:
+      return (
+        <FieldGroup>
+          <li className="field-item">
+            <div className="dp-considerations">
+              <label>{_('checkoutProcessForm.payment_method.considerations')}</label>
+              <p style={considerationNoteStyle}>
+                <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.considerations_automatic_debit_note_1" />
               </p>
             </div>
           </li>
