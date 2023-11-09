@@ -168,3 +168,9 @@ export const CloverError = {
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
 
 export const nonAuthenticatedBlockedUser = 'non-authenticated-blocked-user';
+
+export const numberFormatOptions = {
+  style: 'decimal',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+};
