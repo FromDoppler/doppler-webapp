@@ -20,9 +20,8 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
         {planTypes.map((planType) => (
           <FieldItemAccessible
             data-testid="tab-item--plan-calculator"
-            className="col-md-4 m-b-12"
+            className="col-md-4 m-b-12 p-l-0"
             key={planType.type}
-            deleteFloat={true}
           >
             <Link
               to={`/buy-process/primer-pantalla/${
@@ -33,6 +32,7 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
                 value={planType.type}
                 label={getTypePlanDescriptionWithTooltip(planType.type)}
                 checked={planType.type === selectedPlanType}
+                disabled={planType.disabled}
                 footer={
                   <RadioFooter
                     text={

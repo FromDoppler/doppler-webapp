@@ -1,6 +1,6 @@
-import { useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../doppler-types';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -8,10 +8,11 @@ import { getPlanTypeFromUrlSegment } from '../../../utils';
 import { Loading } from '../../Loading/Loading';
 import { BreadcrumbNew, BreadcrumbNewItem } from '../../shared/BreadcrumbNew';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import NavigationTabs from '../NavigationTabs';
-import PaymentFrequency from '../PaymentFrequency';
+import { NavigationTabs } from '../NavigationTabs';
+import { ShoppingCart } from '../ShoppingCart';
 import { Slider } from '../Slider';
 import { UnexpectedError } from '../UnexpectedError';
+import { BannerUpgrade } from './BannerUpgrade';
 import {
   INITIAL_STATE_PLANS_BY_TYPE,
   plansByTypeReducer,
@@ -22,7 +23,13 @@ import {
   planTypesReducer,
   PLAN_TYPES_ACTIONS,
 } from './reducers/planTypesReducer';
-import { SubscriptionType } from './SubscriptionType';
+import { useDefaultPlanType } from '../../../hooks/useDefaultPlanType';
+
+const planTypesLabels = {
+  [PLAN_TYPE.byContact]: 'contactos',
+  [PLAN_TYPE.byEmail]: 'envíos',
+  [PLAN_TYPE.byCredit]: 'créditos',
+};
 
 export const PlanSelection = InjectAppServices(
   ({ dependencies: { planService, appSessionRef } }) => {
@@ -32,7 +39,8 @@ export const PlanSelection = InjectAppServices(
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
-
+    const [chatPlan, setChatPlan] = useState({ cant: 10000 });
+    const { search } = useLocation();
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
       planTypesReducer,
       INITIAL_STATE_PLAN_TYPES,
@@ -49,6 +57,7 @@ export const PlanSelection = InjectAppServices(
       },
       dispatchPlansByType,
     ] = useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
+    useDefaultPlanType({ appSessionRef, planTypeUrlSegment, window });
 
     useEffect(() => {
       const fetchData = async () => {
@@ -98,12 +107,12 @@ export const PlanSelection = InjectAppServices(
       });
     };
 
-    const handleDiscountChange = (discount) => {
+    const handleDiscountChange = useCallback((discount) => {
       dispatchPlansByType({
         type: PLANS_BY_TYPE_ACTIONS.SELECT_DISCOUNT,
-        payload: discount,
+        payload: discount.selectedPaymentFrequency,
       });
-    };
+    }, []);
 
     if (!hasError && !loading && planTypes.length === 0) {
       return <Navigate to="/upgrade-suggestion-form" />;
@@ -118,69 +127,94 @@ export const PlanSelection = InjectAppServices(
     }
 
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlan?.id;
-    const hideSlider = plansByType.length === 1 && isEqualPlan;
+    const hightestPlan = plansByType.length === 1 && isEqualPlan;
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const isPlanByContacts = selectedPlanType === PLAN_TYPE.byContact;
 
     return (
-      <div className="dp-container">
-        <div className="dp-rowflex">
-          <HeaderSection>
-            <div className="col-sm-12 col-md-12 col-lg-12">
-              <BreadcrumbNew>
-                <BreadcrumbNewItem
-                  href={_('buy_process.plan_selection.breadcumb_plan_url')}
-                  text={_('buy_process.plan_selection.breadcumb_plan_text')}
-                />
-              </BreadcrumbNew>
-              <h1 className="m-t-24">
-                <span className="dpicon iconapp-email-alert m-r-6" />
-                {_(`buy_process.plan_selection.plan_title`)}
-              </h1>
-              <h2>{_('checkoutProcessSuccess.plan_type')}</h2>
-              <FormattedMessageMarkdown
-                linkTarget={'_blank'}
-                id="buy_process.plan_selection.plan_subtitle_MD"
+      <>
+        <HeaderSection>
+          <div className="col-sm-12 col-md-12 col-lg-12">
+            <BreadcrumbNew>
+              <BreadcrumbNewItem
+                href={_('buy_process.plan_selection.breadcumb_plan_url')}
+                text={_('buy_process.plan_selection.breadcumb_plan_text')}
               />
-            </div>
-          </HeaderSection>
-
-          <div className="col-sm-12 col-md-8 col-lg-8">
-            <NavigationTabs planTypes={planTypes} selectedPlanType={selectedPlanType} />
+            </BreadcrumbNew>
+            <h2 className="dp-first-order-title">
+              {_(`buy_process.plan_selection.plan_title`)}
+              <span className="dpicon iconapp-email-alert" />
+            </h2>
           </div>
-
-          {!hideSlider && (
-            <div className="col-sm-12 col-md-8 col-lg-8">
-              <Slider
-                items={sliderValuesRange}
-                selectedItemIndex={selectedPlanIndex}
-                handleChange={handleSliderChange}
+        </HeaderSection>
+        <div className="dp-container p-b-48">
+          <div className="dp-rowflex">
+            <div className="col-lg-8 col-md-12">
+              <div className="dp-container p-b-48">
+                <div className="dp-rowflex">
+                  <div className="col-sm-12">
+                    <h3 className="dp-second-order-title">
+                      {_('checkoutProcessSuccess.plan_type')}
+                    </h3>
+                    <div className="m-b-24">
+                      <FormattedMessageMarkdown
+                        linkTarget={'_blank'}
+                        id="buy_process.plan_selection.plan_subtitle_MD"
+                      />
+                    </div>
+                    <NavigationTabs
+                      planTypes={planTypes}
+                      selectedPlanType={selectedPlanType}
+                      searchQueryParams={search}
+                    />
+                  </div>
+                  <div className="col-sm-12 m-t-36">
+                    <h3 className="dp-second-order-title">
+                      ¿Cuántos {planTypesLabels[selectedPlanType]} deseas agregar a tu plan?
+                    </h3>
+                    {!hightestPlan && (
+                      <Slider
+                        items={sliderValuesRange}
+                        selectedItemIndex={selectedPlanIndex}
+                        handleChange={handleSliderChange}
+                      />
+                    )}
+                    <BannerUpgrade
+                      currentPlan={selectedPlan}
+                      currentPlanList={plansByType}
+                      planTypes={planTypes}
+                      hightestPlan={hightestPlan}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-4 col-sm-12">
+              <ShoppingCart
+                discountConfig={{
+                  paymentFrequenciesList: discounts,
+                  selectedPaymentFrequency: selectedDiscount,
+                  onSelectPaymentFrequency: handleDiscountChange,
+                  disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
+                  currentSubscriptionUser: sessionPlan.plan.planSubscription,
+                }}
+                isMonthlySubscription={isMonthlySubscription}
+                selectedMarketingPlan={selectedPlan}
+                selectedChatPlan={
+                  chatPlan
+                    ? {
+                        ...chatPlan,
+                        handleRemove: () => setChatPlan(null),
+                      }
+                    : null
+                }
+                items={[selectedPlan]}
+                isEqualPlan={isEqualPlan}
               />
             </div>
-          )}
-
-          <div className="col-sm-12 col-md-8 col-lg-8">
-            {isMonthlySubscription ? (
-              discounts.length > 0 && (
-                <>
-                  <h2>{_('buy_process.payment_frequency')}</h2>
-                  <PaymentFrequency
-                    discounts={discounts}
-                    selectedDiscount={selectedDiscount}
-                    onSelectDiscount={handleDiscountChange}
-                    disabled={!isPlanByContacts || isEqualPlan || !isFreeAccount}
-                  />
-                </>
-              )
-            ) : (
-              <SubscriptionType
-                period={selectedDiscount?.numberMonths}
-                discountPercentage={selectedDiscount?.discountPercentage}
-              />
-            )}
           </div>
         </div>
-      </div>
+      </>
     );
   },
 );

@@ -1,4 +1,5 @@
 import { PLAN_TYPE, SUBSCRIPTION_TYPE } from '../../../../doppler-types';
+import { amountByPlanType } from '../../../../utils';
 
 export const INITIAL_STATE_PLANS_BY_TYPE = {
   currentSubscriptionIndexUser: 0,
@@ -34,7 +35,7 @@ export const plansByTypeReducer = (state, action) => {
       const { plansByType, currentSubscriptionUser, currentPlanType } = action.payload;
       const sliderValuesRange = plansByType.map(amountByPlanType);
       const discounts =
-        plansByType[0].billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
+        plansByType[0]?.billingCycleDetails?.map(mapDiscount).sort(orderDiscount) ?? [];
       const selectDiscountIndexByDefault = discounts.findIndex(
         (discount) => discount.numberMonths === currentSubscriptionUser,
       );
@@ -95,30 +96,16 @@ export const plansByTypeReducer = (state, action) => {
   }
 };
 
-export const amountByPlanType = (plan) => {
-  switch (plan.type) {
-    case PLAN_TYPE.byCredit:
-      return plan.credits;
-
-    case PLAN_TYPE.byContact:
-      return plan.subscriberLimit;
-
-    case PLAN_TYPE.byEmail:
-      return plan.emailsByMonth;
-    default:
-      return plan.credits;
-  }
-};
-
 export const mapDiscount = (discount) => ({
   id: discount.id,
   subscriptionType: discount.billingCycle,
   numberMonths: getMonthsByCycle(discount.billingCycle),
   discountPercentage: discount.discountPercentage,
+  applyPromo: discount.applyPromo,
 });
 
 export const orderDiscount = (currentDiscount, nextDiscount) =>
-  currentDiscount.numberMonths - nextDiscount.numberMonths;
+  nextDiscount.numberMonths - currentDiscount.numberMonths;
 
 export const getMonthsByCycle = (subscriptionType) => {
   switch (subscriptionType) {

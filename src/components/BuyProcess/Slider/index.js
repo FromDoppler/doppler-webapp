@@ -12,12 +12,12 @@ export const Tickmarks = ({ id, items = [], handleChange, hideMarksFrom = HIDE_M
     <ul id={id} className="datalist">
       {amountItems >= hideMarksFrom
         ? items.map((value, index) => (
-            <li key={index} onClick={getHandleChange(index)}>
+            <li key={index} onClick={getHandleChange(index)} style={{ width: '13px' }}>
               {[0, amountItems - 1].includes(index) && <strong>{compactNumber(value)}</strong>}
             </li>
           ))
         : items.map((value, index) => (
-            <li key={index} onClick={getHandleChange(index)}>
+            <li key={index} onClick={getHandleChange(index)} style={{ width: '13px' }}>
               {[0, amountItems - 1].includes(index) ? (
                 <strong>{compactNumber(value)}</strong>
               ) : (

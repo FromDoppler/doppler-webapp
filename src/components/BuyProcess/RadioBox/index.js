@@ -84,7 +84,11 @@ const RadioFooter = ({ price }) => {
 };
 
 const RadioInfo = ({ info }) => {
-  return <div className="dp-show-info">{info}</div>;
+  return (
+    <div className="dp-show-info">
+      <p>{info}</p>
+    </div>
+  );
 };
 
 RadioFooter.propTypes = {

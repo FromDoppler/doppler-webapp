@@ -8,6 +8,7 @@ export const CheckoutLink = ({
   planType,
   planId,
   discountId,
+  promocode,
   monthPlan,
   newCheckoutEnabled,
 }) => {
@@ -26,6 +27,7 @@ export const CheckoutLink = ({
           planType,
           planId,
           discountId,
+          promocode,
           monthPlan,
           newCheckoutEnabled,
           search,
@@ -41,12 +43,14 @@ const getLegacyCheckoutPurchaseUrl = ({
   controlPanelUrl,
   planId,
   discountId,
+  promocode,
   currentQueryParams,
 }) => {
   return (
     controlPanelUrl +
     `/AccountPreferences/UpgradeAccountStep2?IdUserTypePlan=${planId}&fromStep1=True` +
     `${discountId ? `&IdDiscountPlan=${discountId}` : ''}` +
+    `${promocode ? `&PromoCode=${promocode}` : ''}` +
     `${currentQueryParams}`
   );
 };
@@ -55,12 +59,14 @@ const getNewCheckoutPurchaseUrl = ({
   planType,
   planId,
   discountId,
+  promocode,
   monthPlan,
   currentQueryParams,
 }) => {
   return (
     `/checkout/premium/${planType}?selected-plan=${planId}` +
     `${discountId ? `&discountId=${discountId}` : ''}` +
+    `${promocode ? `&PromoCode=${promocode}` : ''}` +
     `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
     `${currentQueryParams}`
   );
@@ -71,6 +77,7 @@ export const getBuyPurchaseUrl = ({
   planType,
   planId,
   discountId,
+  promocode,
   monthPlan,
   newCheckoutEnabled,
   search,
@@ -80,11 +87,27 @@ export const getBuyPurchaseUrl = ({
   params.delete('selected-plan');
   params.delete('discountId');
   params.delete('monthPlan');
+  params.delete('promo-code');
+  params.delete('PromoCode');
 
   const currentQueryParams = params.toString()
     ? `&${params.toString().replace('promo-code', 'PromoCode')}`
     : '';
+
   return newCheckoutEnabled
-    ? getNewCheckoutPurchaseUrl({ planType, planId, discountId, monthPlan, currentQueryParams })
-    : getLegacyCheckoutPurchaseUrl({ controlPanelUrl, planId, discountId, currentQueryParams });
+    ? getNewCheckoutPurchaseUrl({
+        planType,
+        planId,
+        discountId,
+        promocode,
+        monthPlan,
+        currentQueryParams,
+      })
+    : getLegacyCheckoutPurchaseUrl({
+        controlPanelUrl,
+        planId,
+        discountId,
+        promocode,
+        currentQueryParams,
+      });
 };

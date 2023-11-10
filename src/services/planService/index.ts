@@ -1,5 +1,5 @@
 import { Plan, PLAN_TYPE, CreditPlan, EmailPlan, ContactPlan, PlanType } from '../../doppler-types';
-import { getPlanFee, orderPlanTypes } from '../../utils';
+import { getInfoPlanType, getPlanFee, orderPlanTypes } from '../../utils';
 import { DopplerLegacyClient } from '../doppler-legacy-client';
 
 export const exclusivePlan = { type: 'exclusive' };
@@ -13,6 +13,7 @@ export interface PlanInterface {
 export interface DistinctPlan {
   type: PlanType;
   minPrice: number;
+  info?: String | Object | Node | null;
 }
 
 export class PlanService implements PlanInterface {
@@ -88,18 +89,18 @@ export class PlanService implements PlanInterface {
     const typesAllowed: PlanType[] = potentialUpgradePlans.map((plan) => plan.type);
     const distinctTypesAllowed: PlanType[] = [...Array.from(new Set<PlanType>(typesAllowed))];
     const distinctPlanTypesOrdered = orderPlanTypes(distinctTypesAllowed);
-    const distinctPlansAllowed: { type: PlanType; minPrice: number }[] =
-      distinctPlanTypesOrdered.map((type) => {
-        const priceByPlanType: number = Math.min(
-          ...potentialUpgradePlans
-            .filter((plan) => plan.type === type)
-            .map((plan) => getPlanFee(plan)),
-        );
-        return {
-          type,
-          minPrice: priceByPlanType,
-        };
-      });
+    const distinctPlansAllowed: DistinctPlan[] = distinctPlanTypesOrdered.map((type) => {
+      const priceByPlanType: number = Math.min(
+        ...potentialUpgradePlans
+          .filter((plan) => plan.type === type)
+          .map((plan) => getPlanFee(plan)),
+      );
+      return {
+        type,
+        minPrice: priceByPlanType,
+        info: getInfoPlanType(type),
+      };
+    });
     return distinctPlansAllowed;
   }
 

@@ -68,6 +68,7 @@ const dependencies = (
 const mockedHandleSaveAndContinue = jest.fn();
 const mockedhandleChangeView = jest.fn();
 const mockedhandleChangeDiscount = jest.fn();
+const mockedhandleChangePaymentMethod = jest.fn();
 const initialProps = {
   showTitle: false,
   handleChangeView: mockedhandleChangeView,
@@ -81,6 +82,7 @@ const initialPropsWithUpdate = {
   optionView: actionPage.UPDATE,
   handleSaveAndContinue: mockedHandleSaveAndContinue,
   handleChangeDiscount: mockedhandleChangeDiscount,
+  handleChangePaymentMethod: mockedhandleChangePaymentMethod,
 };
 
 const PaymentMethodElement = ({

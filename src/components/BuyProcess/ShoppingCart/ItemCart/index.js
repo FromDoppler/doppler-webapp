@@ -10,7 +10,7 @@ export const ItemCart = ({
 }) => {
   return (
     <div className="dp-plan-box">
-      <h4>{name}</h4>
+      <h3 className="dp-second-order-title">{name}</h3>
       {isRemovible && (
         <button
           type="button"

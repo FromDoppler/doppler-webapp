@@ -321,8 +321,9 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <PlanTypes />
-                  </PrivateRoute>
-              } />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/buy-process/primer-pantalla/:planType"
               element={

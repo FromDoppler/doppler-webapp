@@ -7,15 +7,18 @@ import queryString from 'query-string';
 import { useLocation } from 'react-router';
 import { getFormInitialValues, extractParameter } from '../../../../utils';
 import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-helpers';
-import { Discounts } from '../Discounts/Discounts';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
 import { Transfer } from './Transfer/Transfer';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PLAN_TYPE, FirstDataError, CloverError } from '../../../../doppler-types';
+import {
+  PLAN_TYPE,
+  FirstDataError,
+  CloverError,
+  PaymentMethodType,
+} from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
-import { ACCOUNT_TYPE, PAID_ACCOUNT } from '../../../../hooks/useUserTypeAsQueryParam';
-import { useQueryParams } from '../../../../hooks/useQueryParams';
+// import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { AutomaticDebit } from './AutomaticDebit/AutomaticDebit';
 
 const none = 'NONE';
@@ -89,7 +92,13 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
-const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, handleChange }) => {
+const PaymentMethodField = ({
+  billingCountry,
+  currentPaymentMethod,
+  paymentMethodAlreadyRegistered,
+  optionView,
+  handleChange,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -123,7 +132,7 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
                         (optionView === actionPage.UPDATE &&
                           paymentMethod.value === paymentType.transfer &&
                           currentPaymentMethod !== paymentType.transfer &&
-                          currentPaymentMethod !== none)
+                          paymentMethodAlreadyRegistered)
                       }
                       onChange={handleChange}
                     />
@@ -270,10 +279,13 @@ export const PaymentMethod = InjectAppServices(
     const selectedPlan = extractParameter(location, queryString.parse, 'selected-plan') || 0;
     let selectedDiscountId = extractParameter(location, queryString.parse, 'discountId') || 0;
     const selectedMonthPlan = extractParameter(location, queryString.parse, 'monthPlan') || 0;
-    const query = useQueryParams();
-    const accountType = query.get(ACCOUNT_TYPE) ?? '';
+    // const query = useQueryParams();
+    // const accountType = query.get(ACCOUNT_TYPE) ?? '';
     const intl = useIntl();
-    const [state, setState] = useState({ loading: true, paymentMethod: {} });
+    const [state, setState] = useState({
+      loading: true,
+      paymentMethod: { paymentMethodName: PaymentMethodType.creditCard },
+    });
     const [discountsInformation, setDiscountsInformation] = useState({
       selectedPlanDiscount: undefined,
       discounts: [],
@@ -281,7 +293,7 @@ export const PaymentMethod = InjectAppServices(
       changed: false,
     });
     const [error, setError] = useState({ error: false, message: '' });
-    const [paymentMethodType, setPaymentMethodType] = useState('');
+    // const [paymentMethodType, setPaymentMethodType] = useState('');
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useParams();
@@ -297,26 +309,50 @@ export const PaymentMethod = InjectAppServices(
         );
 
         const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
-        let currentPaymentMethod = paymentMethodData.success
-          ? paymentMethodData.value.paymentMethodName === paymentType.transfer && !allowTransfer
-            ? none
-            : paymentMethodData.value.paymentMethodName
-          : none;
 
-        let paymentMethod = currentPaymentMethod;
-
-        if (paymentMethodType === '') {
-          if (paymentMethod === none) {
-            paymentMethod = paymentType.creditCard;
+        let paymentMethodToShow = { paymentMethodName: paymentType.creditCard };
+        if (
+          paymentMethodData.success &&
+          ![none, ''].includes(paymentMethodData.value.paymentMethodName)
+        ) {
+          if (
+            paymentMethodData.value.paymentMethodName === paymentType.transfer &&
+            !allowTransfer
+          ) {
             handleChangeView(actionPage.UPDATE);
+          } else if (paymentMethodData.value.paymentMethodName !== paymentType.creditCard) {
+            paymentMethodToShow = paymentMethodData.value;
+            handleChangePaymentMethod(paymentMethodToShow.paymentMethodName);
           }
-
-          setPaymentMethodType(paymentMethod);
-        }
-
-        if (!paymentMethodData.success) {
+        } else {
           handleChangeView(actionPage.UPDATE);
         }
+
+        // let currentPaymentMethod = paymentMethodData.success
+        //   ? paymentMethodData.value.paymentMethodName === paymentType.transfer && !allowTransfer
+        //     ? none
+        //     : paymentMethodData.value.paymentMethodName
+        //   : none;
+
+        // let paymentMethod = currentPaymentMethod;
+
+        // if (paymentMethodType === '') {
+        //   if (paymentMethod === none) {
+        //     paymentMethod = paymentType.creditCard;
+        //     handleChangeView(actionPage.UPDATE);
+        //   }
+
+        //   setPaymentMethodType(paymentMethod);
+        //   handleChangePaymentMethod(paymentMethod);
+        // } else {
+        //   handleChangePaymentMethod(paymentMethodData.success
+        //     ? paymentMethodData.value.paymentMethodName
+        //     : paymentType.creditCard );
+        // }
+
+        // if (!paymentMethodData.success) {
+        //   handleChangeView(actionPage.UPDATE);
+        // }
 
         let discounts = [];
         let selectedPlanDiscount = undefined;
@@ -324,7 +360,7 @@ export const PaymentMethod = InjectAppServices(
         if (planType === PLAN_TYPE.byContact) {
           const discountsData = await dopplerAccountPlansApiClient.getDiscountsData(
             selectedPlan,
-            paymentMethodType === '' ? paymentMethod : paymentMethodType,
+            paymentMethodToShow.paymentMethodName,
           );
 
           discounts = discountsData.success ? discountsData.value : [];
@@ -333,9 +369,9 @@ export const PaymentMethod = InjectAppServices(
             : undefined;
         }
 
-        if (!discountsInformation.changed) {
-          handleChangeDiscount(selectedPlanDiscount ?? discounts[0]);
-        }
+        // if (!discountsInformation.changed) {
+        //   handleChangeDiscount(selectedPlanDiscount ?? discounts[0]);
+        // }
 
         setDiscountsInformation({
           selectedPlanDiscount,
@@ -346,11 +382,12 @@ export const PaymentMethod = InjectAppServices(
 
         setState({
           billingCountry: billingInformationResult.value.country,
-          paymentMethod: paymentMethodData.success
-            ? paymentMethodData.value
-            : { paymentMethodName: paymentType.creditCard },
+          paymentMethod: paymentMethodToShow,
           loading: false,
-          currentPaymentMethod,
+          currentPaymentMethod: paymentMethodToShow.paymentMethodName,
+          paymentMethodAlreadyRegistered: paymentMethodData.success
+            ? paymentMethodData.value.paymentMethodName !== none
+            : true,
         });
       };
       fetchData();
@@ -361,9 +398,9 @@ export const PaymentMethod = InjectAppServices(
       selectedPlan,
       selectedDiscountId,
       handleChangeView,
-      paymentMethodType,
       planType,
       handleChangeDiscount,
+      handleChangePaymentMethod,
       discountsInformation.changed,
       selectedMonthPlan,
     ]);
@@ -379,7 +416,7 @@ export const PaymentMethod = InjectAppServices(
         ? discountsData.value.find((d) => d.id.toString() === selectedDiscountId)
         : undefined;
 
-      handleChangeDiscount(discount ?? discountsData.value[0]);
+      // handleChangeDiscount(discount ?? discountsData.value[0]);
 
       setDiscountsInformation({
         selectedPlanDiscount: discount ?? discountsData.value[0],
@@ -391,7 +428,7 @@ export const PaymentMethod = InjectAppServices(
     const handleChange = (e, setFieldValue) => {
       const { value } = e.target;
       setFieldValue(fieldNames.paymentMethodName, value);
-      setPaymentMethodType(value);
+      // setPaymentMethodType(value);
       getDiscountData(selectedPlan, value);
       setError(false);
       handleChangePaymentMethod(value);
@@ -433,14 +470,14 @@ export const PaymentMethod = InjectAppServices(
       return initialValues;
     };
 
-    const handleDiscountChange = (discount) => {
-      setDiscountsInformation({
-        ...discountsInformation,
-        selectedPlanDiscount: discount,
-        changed: true,
-      });
-      handleChangeDiscount(discount);
-    };
+    // const handleDiscountChange = (discount) => {
+    //   setDiscountsInformation({
+    //     ...discountsInformation,
+    //     selectedPlanDiscount: discount,
+    //     changed: true,
+    //   });
+    //   // handleChangeDiscount(discount);
+    // };
 
     const handleMessage = (error) => {
       switch (error.response.data) {
@@ -478,7 +515,7 @@ export const PaymentMethod = InjectAppServices(
           <Loading page />
         ) : (
           <Formik initialValues={_getFormInitialValues()} onSubmit={submitPaymentMethodForm}>
-            {({ setFieldValue }) => (
+            {({ values, setFieldValue }) => (
               <Form className="dp-form-payment-method">
                 <legend>{_('checkoutProcessForm.payment_method.title')}</legend>
                 <fieldset className="dp-form-fields">
@@ -487,16 +524,17 @@ export const PaymentMethod = InjectAppServices(
                       <PaymentMethodField
                         billingCountry={state.billingCountry}
                         currentPaymentMethod={state.currentPaymentMethod}
+                        paymentMethodAlreadyRegistered={state.paymentMethodAlreadyRegistered}
                         optionView={optionView}
                         handleChange={(e) => handleChange(e, setFieldValue)}
                       />
                     </FieldItem>
                     <PaymentType
-                      paymentMethodType={paymentMethodType}
+                      paymentMethodType={values[fieldNames.paymentMethodName]}
                       optionView={optionView}
                       paymentMethod={state.paymentMethod}
                     />
-                    <FieldItem className="field-item">
+                    {/* <FieldItem className="field-item">
                       <Discounts
                         disabled={
                           optionView === actionPage.READONLY || accountType === PAID_ACCOUNT
@@ -507,9 +545,9 @@ export const PaymentMethod = InjectAppServices(
                         selectedPlanDiscount={discountsInformation.selectedPlanDiscount}
                         handleChange={handleDiscountChange}
                       />
-                    </FieldItem>
+                    </FieldItem> */}
                     {appliedPromocode ? <PromoCodeInformation /> : null}
-                    <PaymentNotes paymentMethodType={paymentMethodType} />
+                    <PaymentNotes paymentMethodType={values[fieldNames.paymentMethodName]} />
                     {error.error ? (
                       <FieldItem className="field-item">
                         <div className="dp-wrap-message dp-wrap-cancel">
