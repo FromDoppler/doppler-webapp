@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import './App.scss';
@@ -15,7 +15,6 @@ import InvoicesList from './components/InvoicesList/InvoicesList';
 import NewFeatures from './components/NewFeatures/NewFeatures';
 import Checkout from './components/Plans/Checkout/Checkout';
 import { CheckoutSummary } from './components/Plans/Checkout/CheckoutSummary/CheckoutSummary';
-import { GoToUpgrade } from './components/Plans/PlanCalculator/GoToUpgrade';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRouteWithLegacyFallback from './components/PublicRouteWithLegacyFallback';
 import RedirectWithQuery from './components/RedirectWithQuery';
@@ -199,7 +198,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/plan-selection/premium/:planType"
               element={
                 <PrivateRoute>
-                  <GoToUpgrade />
+                  <PlanSelection />
                 </PrivateRoute>
               }
             />
@@ -321,14 +320,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <PlanTypes />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/buy-process/primer-pantalla/:planType"
-              element={
-                <PrivateRoute>
-                  <PlanSelection />
                 </PrivateRoute>
               }
             />

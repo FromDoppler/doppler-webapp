@@ -22,9 +22,7 @@ describe('NavigationTabs component', () => {
       <IntlProvider>
         <Router
           initialEntries={[
-            `/buy-process/primer-pantalla/${
-              URL_PLAN_TYPE[PLAN_TYPE.byContact]
-            }${searchQueryParams}`,
+            `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${searchQueryParams}`,
           ]}
         >
           <NavigationTabs
@@ -45,7 +43,7 @@ describe('NavigationTabs component', () => {
     links.forEach((link, index) => {
       expect(link).toHaveAttribute(
         'href',
-        `/buy-process/primer-pantalla/${URL_PLAN_TYPE[planTypes[index].type]}${searchQueryParams}`,
+        `/plan-selection/premium/${URL_PLAN_TYPE[planTypes[index].type]}${searchQueryParams}`,
       );
     });
 

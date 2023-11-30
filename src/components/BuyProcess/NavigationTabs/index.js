@@ -24,9 +24,7 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
             key={planType.type}
           >
             <Link
-              to={`/buy-process/primer-pantalla/${
-                URL_PLAN_TYPE[planType.type]
-              }${searchQueryParams}`}
+              to={`/plan-selection/premium/${URL_PLAN_TYPE[planType.type]}${searchQueryParams}`}
             >
               <RadioBox
                 value={planType.type}

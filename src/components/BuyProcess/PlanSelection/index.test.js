@@ -37,10 +37,10 @@ describe('PlanSelection component', () => {
       <AppServicesProvider forcedServices={forcedServices}>
         <IntlProvider>
           <Router
-            initialEntries={[`/buy-process/primer-pantalla/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
           >
             <Routes>
-              <Route path="/buy-process/primer-pantalla/:planType" element={<PlanSelection />} />
+              <Route path="/plan-selection/premium/:planType" element={<PlanSelection />} />
             </Routes>
           </Router>
         </IntlProvider>
