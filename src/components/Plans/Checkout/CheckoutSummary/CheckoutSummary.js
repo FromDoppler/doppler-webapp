@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import SafeRedirect from '../../../SafeRedirect';
 import { useLinkedinInsightTag } from '../../../../hooks/useLinkedingInsightTag';
 import HeaderSection from '../../../shared/HeaderSection/HeaderSection';
@@ -21,6 +21,7 @@ import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { Link } from 'react-router-dom';
 
 export const FormatMessageWithSpecialStyle = ({ id }) => {
   return (
@@ -34,78 +35,190 @@ export const FormatMessageWithSpecialStyle = ({ id }) => {
   );
 };
 
-const PlanInformation = ({
+const getTitle = (paymentMethod, upgradePending) => {
+  if (paymentMethod === paymentType.transfer && upgradePending) {
+    return {
+      smallTitle: 'checkoutProcessSuccess.transfer_purchase_finished_title',
+      largeTitle: 'checkoutProcessSuccess.transfer_title',
+      description: 'checkoutProcessSuccess.transfer_warning_message',
+    };
+  } else {
+    if (paymentMethod === paymentType.mercadoPago && upgradePending) {
+      return {
+        smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
+        largeTitle: 'checkoutProcessSuccess.transfer_title',
+        description: 'checkoutProcessSuccess.mercado_pago_warning_message',
+      };
+    }
+  }
+  return {
+    smallTitle: 'checkoutProcessSuccess.purchase_finished_title',
+    largeTitle: 'checkoutProcessSuccess.title',
+  };
+};
+
+const PlanBuyMessage = ({ title, paymentMethod, upgradePending }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <section class="dp-container">
+      <div className="dp-rowflex">
+        <div className="col-sm-8 m-b-24">
+          <div className={`dp-wrap-message dp-wrap-${upgradePending ? 'warning' : 'success'}`}>
+            <span className="dp-message-icon" />
+            <div className="dp-content-message dp-content-full">
+              <p>
+                <strong>{_(title.largeTitle)}</strong>
+                <br />
+                {[paymentType.mercadoPago, paymentType.transfer].includes(paymentMethod) &&
+                upgradePending
+                  ? _(title.description)
+                  : 'Ya puedes empezar a disfrutar de los beneficios de tus planes de Doppler.'}
+              </p>
+              <Link to="/dashboard" className="dp-message-link">
+                IR AL INICIO
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-4 m-b-24"></div>
+      </div>
+    </section>
+  );
+};
+
+const PlanMarketingInformation = ({
   planType,
   quantity,
   discount,
-  paymentMethod,
   extraCredits,
   remainingCredits,
-  upgradePending,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <nav className="dp-kpi-success">
-      <ul className="dp-rowflex">
-        <li>
-          <span className="dp-icon-kpis">
-            <img
-              src={_('common.ui_library_image', {
-                imageUrl: `${
-                  paymentMethod === paymentType.creditCard ||
-                  ([paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) &&
-                    !upgradePending)
-                    ? 'checkout-success.svg'
-                    : 'three-points.svg'
-                }`,
-              })}
-              alt=""
-            ></img>
-          </span>
-        </li>
-        <li>
-          <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
-          <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
-        </li>
-        <li>
-          <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
-          <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
-        </li>
-        {extraCredits > 0 ? (
+    <div className="dp-rowflex">
+      <div className="col-sm-8">
+        <h4 className="dp-tit-plan-purchased">Tu plan de email marketing</h4>
+        <ul className="dp-purchase-summary-list">
           <li>
-            <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
-            <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
+            <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+            <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
           </li>
-        ) : null}
-        <li>
-          <span>
-            {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
-          </span>
-          <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
-        </li>
-        <li>
-          {planType === PLAN_TYPE.byContact && discount ? (
-            <>
-              <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
-              <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
-            </>
-          ) : planType === PLAN_TYPE.byEmail ? (
-            <>
-              <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
-              <h3>{_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}</h3>
-            </>
-          ) : (
-            <h3 className="m-t-36">
-              {_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}
-            </h3>
-          )}
-        </li>
-      </ul>
-    </nav>
+          <li>
+            <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
+            <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
+          </li>
+          {extraCredits > 0 ? (
+            <li>
+              <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
+              <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
+            </li>
+          ) : null}
+          <li>
+            <span>
+              {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
+            </span>
+            <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
+          </li>
+          <li>
+            <span>Facturación</span>
+            {planType === PLAN_TYPE.byContact && discount ? (
+              <>
+                <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+                <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
+              </>
+            ) : planType === PLAN_TYPE.byEmail ? (
+              <>
+                <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+                <h3>
+                  {_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}
+                </h3>
+              </>
+            ) : (
+              <h3>{_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}</h3>
+            )}
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 };
+
+// const PlanInformation = ({
+//   planType,
+//   quantity,
+//   discount,
+//   paymentMethod,
+//   extraCredits,
+//   remainingCredits,
+//   upgradePending,
+// }) => {
+//   const intl = useIntl();
+//   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+//   return (
+//     <nav className="dp-kpi-success">
+//       <ul className="dp-rowflex">
+//         <li>
+//           <span className="dp-icon-kpis">
+//             <img
+//               src={_('common.ui_library_image', {
+//                 imageUrl: `${
+//                   paymentMethod === paymentType.creditCard ||
+//                   ([paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) &&
+//                     !upgradePending)
+//                     ? 'checkout-success.svg'
+//                     : 'three-points.svg'
+//                 }`,
+//               })}
+//               alt=""
+//             ></img>
+//           </span>
+//         </li>
+//         <li>
+//           <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+//           <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
+//         </li>
+//         <li>
+//           <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
+//           <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
+//         </li>
+//         {extraCredits > 0 ? (
+//           <li>
+//             <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
+//             <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
+//           </li>
+//         ) : null}
+//         <li>
+//           <span>
+//             {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
+//           </span>
+//           <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
+//         </li>
+//         <li>
+//           {planType === PLAN_TYPE.byContact && discount ? (
+//             <>
+//               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+//               <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
+//             </>
+//           ) : planType === PLAN_TYPE.byEmail ? (
+//             <>
+//               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+//               <h3>{_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}</h3>
+//             </>
+//           ) : (
+//             <h3 className="m-t-36">
+//               {_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}
+//             </h3>
+//           )}
+//         </li>
+//       </ul>
+//     </nav>
+//   );
+// };
 
 export const CheckoutSummary = InjectAppServices(
   ({
@@ -205,6 +318,8 @@ export const CheckoutSummary = InjectAppServices(
       return <UnexpectedError />;
     }
 
+    const title = getTitle(paymentMethod, upgradePending);
+
     return (
       <>
         <Helmet>
@@ -212,10 +327,15 @@ export const CheckoutSummary = InjectAppServices(
           <meta name="checkout-success" />
         </Helmet>
         <HeaderSection>
-          <CheckoutSummaryTitle paymentMethod={paymentMethod} upgradePending={upgradePending} />
+          <CheckoutSummaryTitle title={title} />
         </HeaderSection>
+        <PlanBuyMessage
+          title={title}
+          paymentMethod={paymentMethod}
+          upgradePending={upgradePending}
+        />
         <section className="dp-container m-b-24">
-          <PlanInformation
+          {/* <PlanInformation
             planType={planType}
             quantity={quantity}
             discount={discount}
@@ -223,6 +343,13 @@ export const CheckoutSummary = InjectAppServices(
             extraCredits={extraCredits}
             remainingCredits={remainingCredits}
             upgradePending={upgradePending}
+          /> */}
+          <PlanMarketingInformation
+            planType={planType}
+            quantity={quantity}
+            discount={discount}
+            extraCredits={extraCredits}
+            remainingCredits={remainingCredits}
           />
           {paymentMethod === paymentType.transfer ? (
             <TransferInformation billingCountry={billingCountry} upgradePending={upgradePending} />

@@ -3,11 +3,14 @@ import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-id
 import '@testing-library/jest-dom/extend-expect';
 import { paymentType } from '../../PaymentMethod/PaymentMethod';
 import { CheckoutSummaryButton } from '.';
+import { BrowserRouter } from 'react-router-dom';
 
 const CheckoutSummaryButtonElement = ({ paymentMethod, upgradePending }) => {
   return (
     <IntlProvider>
-      <CheckoutSummaryButton paymentMethod={paymentMethod} upgradePending={upgradePending} />
+      <BrowserRouter>
+        <CheckoutSummaryButton paymentMethod={paymentMethod} upgradePending={upgradePending} />
+      </BrowserRouter>
     </IntlProvider>
   );
 };

@@ -1,48 +1,29 @@
 import { useIntl } from 'react-intl';
-import { paymentType } from '../../PaymentMethod/PaymentMethod';
+import { BreadcrumbNew, BreadcrumbNewItem } from '../../../../shared/BreadcrumbNew';
+import { useLocation } from 'react-router-dom';
 
-const getTitle = (paymentMethod, upgradePending) => {
-  if (paymentMethod === paymentType.transfer && upgradePending) {
-    return {
-      smallTitle: 'checkoutProcessSuccess.transfer_purchase_finished_title',
-      largeTitle: 'checkoutProcessSuccess.transfer_title',
-    };
-  } else {
-    if (paymentMethod === paymentType.mercadoPago && upgradePending) {
-      return {
-        smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
-        largeTitle: 'checkoutProcessSuccess.transfer_title',
-      };
-    }
-  }
-  return {
-    smallTitle: 'checkoutProcessSuccess.purchase_finished_title',
-    largeTitle: 'checkoutProcessSuccess.title',
-  };
-};
-
-export const CheckoutSummaryTitle = ({ paymentMethod, upgradePending }) => {
+export const CheckoutSummaryTitle = ({ title }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  const title = getTitle(paymentMethod, upgradePending);
+  const location = useLocation();
 
   return (
     <>
-      <section className="dp-container">
-        <div className="dp-rowflex">
-          <div className="col-sm-12 col-md-12 col-lg-12">
-            <nav className="dp-breadcrumb">
-              <ul>
-                <li>
-                  <span className="dp-uppercase">{_(title.smallTitle)}</span>
-                </li>
-              </ul>
-            </nav>
-            <h1>{_(title.largeTitle)}</h1>
-          </div>
-        </div>
-      </section>
+      <div className="col-sm-12 col-md-12 col-lg-12">
+        <BreadcrumbNew>
+          <BreadcrumbNewItem
+            href={_('buy_process.plan_selection.breadcumb_plan_url')}
+            text={_('buy_process.plan_selection.breadcumb_plan_text')}
+          />
+          <BreadcrumbNewItem
+            href={`${location.pathname}${location.search}`}
+            text={_(title.smallTitle)}
+          />
+        </BreadcrumbNew>
+        <h2 className="dp-first-order-title">
+          Disfruta Doppler <span className="dpicon iconapp-launch" />
+        </h2>
+      </div>
     </>
   );
 };
