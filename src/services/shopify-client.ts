@@ -71,8 +71,8 @@ export class HttpShopifyClient implements ShopifyClient {
               !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
                 ? SubscriberListState.synchronizingContacts
                 : !!list.dopplerListId
-                ? SubscriberListState.ready
-                : SubscriberListState.notAvailable,
+                  ? SubscriberListState.ready
+                  : SubscriberListState.notAvailable,
             entity: list.type,
           }))
         : null,
@@ -85,8 +85,8 @@ export class HttpShopifyClient implements ShopifyClient {
               !!response.syncProcessInProgress && response.syncProcessInProgress !== 'false'
                 ? SubscriberListState.synchronizingContacts
                 : !!response.dopplerListId
-                ? SubscriberListState.ready
-                : SubscriberListState.notAvailable,
+                  ? SubscriberListState.ready
+                  : SubscriberListState.notAvailable,
             entity: null,
           }
         : null,
