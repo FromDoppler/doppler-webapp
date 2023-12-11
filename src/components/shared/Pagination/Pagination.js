@@ -17,8 +17,8 @@ export const Pagination = ({ currentPage, pagesCount, urlToGo }) => {
       Number(currentPage) >= 1 && Number(currentPage) + showedPages <= pagesCount
         ? Number(currentPage)
         : Number(currentPage) < 1 || pagesCount <= showedPages
-        ? 1
-        : pagesCount - showedPages + 1,
+          ? 1
+          : pagesCount - showedPages + 1,
     ),
   );
 

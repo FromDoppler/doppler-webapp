@@ -70,8 +70,8 @@ const getListCreatedStep = (hasListsCreated) => ({
   status: hasListsCreated
     ? COMPLETED_STATUS
     : hasListsCreated === false
-    ? PENDING_STATUS
-    : UNKNOWN_STATUS,
+      ? PENDING_STATUS
+      : UNKNOWN_STATUS,
   titleId: 'dashboard.first_steps.has_list_created_title',
   descriptionId: 'dashboard.first_steps.has_list_created_description_MD',
   textStep: 1,
@@ -83,8 +83,8 @@ const getDomainsReadyStep = (hasDomainsReady) => ({
   status: hasDomainsReady
     ? COMPLETED_STATUS
     : hasDomainsReady === false
-    ? PENDING_STATUS
-    : UNKNOWN_STATUS,
+      ? PENDING_STATUS
+      : UNKNOWN_STATUS,
   titleId: `dashboard.first_steps.has_domains_ready_title`,
   descriptionId: 'dashboard.first_steps.has_domains_ready_description_MD',
   textStep: 2,
@@ -96,8 +96,8 @@ const getCampaingsCreatedAndSentStep = (hasCampaingsCreatedAndSent) => ({
   status: hasCampaingsCreatedAndSent
     ? COMPLETED_STATUS
     : hasCampaingsCreatedAndSent === false
-    ? PENDING_STATUS
-    : UNKNOWN_STATUS,
+      ? PENDING_STATUS
+      : UNKNOWN_STATUS,
   titleId: `dashboard.first_steps.has_campaings_created_title`,
   descriptionId: 'dashboard.first_steps.has_campaings_created_description_MD',
   textStep: 3,
@@ -110,8 +110,8 @@ const getCampaingsSentStep = (hasCampaingsSent, reportsSectionLastVisit) => ({
     hasCampaingsSent && reportsSectionLastVisit
       ? COMPLETED_STATUS
       : hasCampaingsSent === false || !reportsSectionLastVisit
-      ? PENDING_STATUS
-      : UNKNOWN_STATUS,
+        ? PENDING_STATUS
+        : UNKNOWN_STATUS,
   titleId: `dashboard.first_steps.has_campaings_sent_title`,
   descriptionId: 'dashboard.first_steps.has_campaings_sent_description_MD',
   textStep: 4,

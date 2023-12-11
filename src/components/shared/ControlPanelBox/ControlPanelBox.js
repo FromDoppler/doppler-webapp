@@ -9,8 +9,8 @@ export const ControlPanelBox = ({ box }) => {
     box.status === 'connected'
       ? connected
       : box.status === 'alert'
-      ? connection_alert
-      : disconnected;
+        ? connection_alert
+        : disconnected;
 
   if (!!box.hidden) {
     return <></>;

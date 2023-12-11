@@ -173,10 +173,10 @@ export const FormMessages = connect(
       errors && errors['_error']
         ? { message: errors['_error'], className: 'dp-wrap-message dp-wrap-cancel' }
         : errors && errors['_warning']
-        ? { message: errors['_warning'], className: 'dp-warning-message' }
-        : errors && errors['_success']
-        ? { message: errors['_success'], className: 'dp-wrap-message dp-wrap-success' }
-        : null;
+          ? { message: errors['_warning'], className: 'dp-warning-message' }
+          : errors && errors['_success']
+            ? { message: errors['_success'], className: 'dp-wrap-message dp-wrap-success' }
+            : null;
     return formMessages ? (
       errors && errors['_warning'] ? (
         <div className="dp-wrap-message dp-wrap-warning bounceIn m-b-12">
@@ -324,10 +324,10 @@ const _PhoneFieldItem = ({
       return errorCode === 1
         ? 'validation_messages.error_phone_invalid_country'
         : errorCode === 2
-        ? 'validation_messages.error_phone_too_short'
-        : errorCode === 3
-        ? 'validation_messages.error_phone_too_long'
-        : 'validation_messages.error_phone_invalid';
+          ? 'validation_messages.error_phone_too_short'
+          : errorCode === 3
+            ? 'validation_messages.error_phone_too_long'
+            : 'validation_messages.error_phone_invalid';
     }
 
     return null;
@@ -430,10 +430,10 @@ const _PhoneFieldItemAccessible = ({
       return errorCode === 1
         ? 'validation_messages.error_phone_invalid_country'
         : errorCode === 2
-        ? 'validation_messages.error_phone_too_short'
-        : errorCode === 3
-        ? 'validation_messages.error_phone_too_long'
-        : 'validation_messages.error_phone_invalid';
+          ? 'validation_messages.error_phone_too_short'
+          : errorCode === 3
+            ? 'validation_messages.error_phone_too_long'
+            : 'validation_messages.error_phone_invalid';
     }
 
     return null;
@@ -905,20 +905,20 @@ export const ValidatedPasswordFieldItem = ({
     !touchedField && fieldError && fieldError.empty
       ? 'dp-message--default'
       : fieldError && (fieldError.charLength || fieldError.empty)
-      ? 'dp-message--denied'
-      : 'dp-message--success';
+        ? 'dp-message--denied'
+        : 'dp-message--success';
   const passwordMessageDigitClass =
     !touchedField && fieldError && fieldError.empty
       ? 'dp-message--default'
       : fieldError && (fieldError.digit || fieldError.empty)
-      ? 'dp-message--denied'
-      : 'dp-message--success';
+        ? 'dp-message--denied'
+        : 'dp-message--success';
   const passwordMessageLetterClass =
     !touchedField && fieldError && fieldError.empty
       ? 'dp-message--default'
       : fieldError && (fieldError.letter || fieldError.empty)
-      ? 'dp-message--denied'
-      : 'dp-message--success';
+        ? 'dp-message--denied'
+        : 'dp-message--success';
 
   return (
     <FieldItemAccessible className={className}>

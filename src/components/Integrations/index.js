@@ -21,20 +21,20 @@ const sortByStatus = (a, b) => {
     ? a.status === 'alert' && b.status !== 'alert'
       ? -1
       : a.status === 'alert' && b.status === 'alert'
-      ? 0
-      : a.status === 'connected' && b.status === 'alert'
-      ? 1
-      : a.status === 'connected' && b.status === 'connected'
-      ? 0
-      : a.status === 'connected' && b.status === 'disconnected'
-      ? -1
-      : a.status === 'disconnected' && b.status === 'alert'
-      ? 1
-      : a.status === 'disconnected' && b.status === 'connected'
-      ? 1
-      : a.status === 'disconnected' && b.status === 'disconnected'
-      ? 0
-      : -1
+        ? 0
+        : a.status === 'connected' && b.status === 'alert'
+          ? 1
+          : a.status === 'connected' && b.status === 'connected'
+            ? 0
+            : a.status === 'connected' && b.status === 'disconnected'
+              ? -1
+              : a.status === 'disconnected' && b.status === 'alert'
+                ? 1
+                : a.status === 'disconnected' && b.status === 'connected'
+                  ? 1
+                  : a.status === 'disconnected' && b.status === 'disconnected'
+                    ? 0
+                    : -1
     : 1;
 };
 

@@ -18,10 +18,10 @@ const RedirectWithQuery = ({ to }) => {
     parsedTo.search && parsedCurrent.search
       ? '?' + parsedTo.search + '&' + parsedCurrent.search
       : parsedTo.search
-      ? '?' + parsedTo.search
-      : parsedCurrent.search
-      ? '?' + parsedCurrent.search
-      : '';
+        ? '?' + parsedTo.search
+        : parsedCurrent.search
+          ? '?' + parsedCurrent.search
+          : '';
 
   return (
     <Navigate

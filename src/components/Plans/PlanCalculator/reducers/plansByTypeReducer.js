@@ -79,8 +79,8 @@ export const plansByTypeReducer = (state, action) => {
         state.currentPlanUser === state.plansByType[selectedPlanIndex].id
           ? state.currentSubscriptionIndexUser
           : _discounts[state.selectedDiscountIndex]
-          ? state.selectedDiscountIndex
-          : 0;
+            ? state.selectedDiscountIndex
+            : 0;
 
       return {
         ...state,
