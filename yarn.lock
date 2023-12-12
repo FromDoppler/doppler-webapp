@@ -4590,9 +4590,9 @@
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
 "@types/react-credit-cards@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@types/react-credit-cards/-/react-credit-cards-0.8.1.tgz#3d1948ab52aec9fb55d1d240153ca00a8f269b37"
-  integrity sha512-2FfD3isqRvKt5OVvACU81wQBqMkKXc4xJw7reo6AYwkpriP61b3bRwt8CnICaIabbs5g7527reh57vHhxu8Atg==
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/@types/react-credit-cards/-/react-credit-cards-0.8.4.tgz#1f6dd7e65fb7f006436dcb81c8f4ef7d72015ded"
+  integrity sha512-K2/duK/eHKwlcik+KbalhhlsljIuLmYQTPVNYKrTxFeA7tHySN54wL5ahJswthRQ4hWb+RzdxIoOxz7C1k+xsw==
   dependencies:
     "@types/react" "*"
 
