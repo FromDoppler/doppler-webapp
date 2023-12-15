@@ -50,8 +50,8 @@ export const ShoppingCart = InjectAppServices(
           paymentFrequencyId
             ? paymentFrequencyId
             : discountConfig.paymentFrequenciesList.at(-1)
-            ? discountConfig.paymentFrequenciesList.at(-1).id
-            : 0,
+              ? discountConfig.paymentFrequenciesList.at(-1).id
+              : 0,
           promocodeApplied.promocode || '',
         );
         console.log('_amountDetailsData', _amountDetailsData);
