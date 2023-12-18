@@ -188,7 +188,10 @@ export const PlanSelection = InjectAppServices(
                     />
                   </div>
                 </div>
-                <hr style={{ marginTop: 'auto' }} />
+              </div>
+              <hr class="dp-separator" />
+              <div className="m-t-18 m-b-18">
+                <GoBackButton />
               </div>
             </div>
             <div className="col-lg-4 col-sm-12">
@@ -213,13 +216,6 @@ export const PlanSelection = InjectAppServices(
                 items={[selectedPlan]}
                 isEqualPlan={isEqualPlan}
               />
-            </div>
-          </div>
-          <div className="dp-rowflex">
-            <div className="col-lg-12 col-md-12">
-              <div className="dp-container">
-                <GoBackButton />
-              </div>
             </div>
           </div>
         </div>

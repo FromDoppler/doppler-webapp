@@ -10,6 +10,7 @@ import { usePaymentMethodData } from '../../../hooks/usePaymentMethodData';
 import { PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
 import { getBuyButton, mapItemFromMarketingPlan } from './utils';
 import { Promocode } from './Promocode';
+import { Link } from 'react-router-dom';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -31,7 +32,7 @@ export const ShoppingCart = InjectAppServices(
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState('');
     const { planType: planTypeUrlSegment } = useParams();
-    const { pathname } = useLocation();
+    const { pathname, search } = useLocation();
     const paymentMethodName = usePaymentMethodData({
       dopplerBillingUserApiClient,
       selectedPaymentMethod,
@@ -158,6 +159,31 @@ export const ShoppingCart = InjectAppServices(
             </span>
           </h3>
           {buyButton}
+        </section>
+        <section className="dp-h-divider">
+          <div className="dp-next-bills">
+            <ul className="dp-accordion">
+              <li className="active">
+                <Link to={`${pathname}${search}`} className="dp-accordion-thumb">
+                  Proximas facturas
+                </Link>
+                <div className="dp-accordion-panel">
+                  <div className="dp-accordion-content">
+                    <div className="dp-plan-box">
+                      <h4>Plan marketing</h4>
+                      <hr />
+                      <ul className="dp-items-result">
+                        <li>
+                          <p>17/10/2023</p>
+                          <span>US$45*</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </section>
         <footer>
           <ul>
