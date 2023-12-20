@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@kunukn/react-collapse": "^2.2.9",
+    "@rajesh896/broprint.js": "^2.1.1",
     "@semantic-release/exec": "^6.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
