@@ -86,6 +86,7 @@ export const mapItemFromMarketingPlan = ({
         id={`buy_process.feature_item_${marketingPlan.type}`}
         values={{
           units: amountByPlanType(marketingPlan),
+          Strong: (chunk) => <strong>{chunk}</strong>,
         }}
       />,
     ],

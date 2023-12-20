@@ -36,6 +36,7 @@ export const Slider = ({
   hideMarksFrom = HIDE_MARKS_FROM,
   callbackMaxTop,
   moreOptions,
+  labelQuantity,
 }) => {
   const amountItems = items.length;
 
@@ -47,6 +48,7 @@ export const Slider = ({
   return (
     <>
       <div className="dp-purchase-process--slider progress-bar">
+        <h3>{labelQuantity}</h3>
         <Tickmarks
           id="item-list"
           items={items}

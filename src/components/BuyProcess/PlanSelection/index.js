@@ -4,7 +4,7 @@ import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../doppler-types';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
-import { getPlanTypeFromUrlSegment } from '../../../utils';
+import { getPlanTypeFromUrlSegment, thousandSeparatorNumber } from '../../../utils';
 import { Loading } from '../../Loading/Loading';
 import { BreadcrumbNew, BreadcrumbNewItem } from '../../shared/BreadcrumbNew';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
@@ -178,6 +178,10 @@ export const PlanSelection = InjectAppServices(
                         items={sliderValuesRange}
                         selectedItemIndex={selectedPlanIndex}
                         handleChange={handleSliderChange}
+                        labelQuantity={`${thousandSeparatorNumber(
+                          intl.defaultLocale,
+                          sliderValuesRange[selectedPlanIndex],
+                        )} ${planTypesLabels[selectedPlanType]}`}
                       />
                     )}
                     <BannerUpgrade
