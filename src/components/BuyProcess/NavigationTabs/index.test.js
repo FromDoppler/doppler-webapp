@@ -6,9 +6,21 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 const planTypes = [
-  { type: PLAN_TYPE.byContact, minPrice: 8 },
-  { type: PLAN_TYPE.byEmail, minPrice: 134 },
-  { type: PLAN_TYPE.byCredit, minPrice: 23 },
+  {
+    type: PLAN_TYPE.byContact,
+    minPrice: 8,
+    info: 'buy_process.plan_selection.plan_type_subscribers_info',
+  },
+  {
+    type: PLAN_TYPE.byEmail,
+    minPrice: 134,
+    info: 'buy_process.plan_selection.plan_type_monthly_deliveries_info',
+  },
+  {
+    type: PLAN_TYPE.byCredit,
+    minPrice: 23,
+    info: 'buy_process.plan_selection.plan_type_prepaid_info',
+  },
 ];
 const searchQueryParams = '?promo-code=FAKE_VALUE';
 

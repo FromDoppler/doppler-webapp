@@ -27,7 +27,7 @@ export const PaymentFrequency = ({
   const query = useQueryParams();
   const paymentFrequencyDefault = query.get('monthPlan');
   const isMonthlySubscription = currentSubscriptionUser === 1;
-
+  const lang = intl.locale;
   const [
     { paymentFrequencies, selectedPaymentFrequency, selectedPaymentFrequencyIndex },
     dispatch,
@@ -75,8 +75,8 @@ export const PaymentFrequency = ({
   if (paymentFrequencies.length > 0) {
     return (
       <section>
-        <h4>Frecuencia de pago</h4>
-        <nav className="dp-payment-frequency">
+        <h4>{_('buy_process.payment_frequency')}</h4>
+        <nav className={`dp-payment-frequency${lang === 'en' ? '-en' : ''}`}>
           {paymentFrequencies.map((discount, index) => (
             <button
               key={`discount-${index}`}

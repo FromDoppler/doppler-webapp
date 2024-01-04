@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { URL_PLAN_TYPE } from '../../../doppler-types';
+import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { FieldGroup, FieldItemAccessible } from '../../form-helpers/form-helpers';
 import { RadioBox, RadioInfo } from '../RadioBox';
 
@@ -12,7 +12,7 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const getTypePlanDescriptionWithTooltip = (planType) =>
-    _(`plan_calculator.plan_type_${planType.replace('-', '_')}`);
+    _(`buy_process.plan_selection.plan_type_${planType.replace('-', '_')}_label`);
 
   return (
     <nav>
@@ -35,7 +35,11 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
                   <RadioFooter
                     text={
                       <FormattedMessage
-                        id={`buy_process.min_monthly_plan_price`}
+                        id={
+                          planType.type === PLAN_TYPE.byCredit
+                            ? `buy_process.min_single_plan_price`
+                            : `buy_process.min_monthly_plan_price`
+                        }
                         values={{
                           P: (chunk) => <p>{chunk}</p>,
                           Strong: (chunk) => <strong>{chunk}</strong>,
@@ -45,7 +49,7 @@ export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams 
                     }
                   />
                 }
-                info={<RadioInfo info={planType.info} />}
+                info={<RadioInfo info={_(planType.info)} />}
                 handleClick={null}
               />
             </Link>

@@ -62,7 +62,7 @@ const PlanBuyMessage = ({ title, paymentMethod, upgradePending }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <section class="dp-container">
+    <section className="dp-container">
       <div className="dp-rowflex">
         <div className="col-sm-8 m-b-24">
           <div className={`dp-wrap-message dp-wrap-${upgradePending ? 'warning' : 'success'}`}>

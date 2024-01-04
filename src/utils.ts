@@ -394,13 +394,13 @@ export const getMonthsByCycle = (subscriptionType: string) => {
 export const getInfoPlanType = (planType: PlanType): string | null => {
   switch (planType) {
     case PLAN_TYPE.byContact:
-      return 'Planes basados en la cantidad de Contactos, sin límite de envíos. ¡Pagando por adelantado ahorras hasta 25%!';
+      return 'buy_process.plan_selection.plan_type_subscribers_info';
 
     case PLAN_TYPE.byEmail:
-      return 'Planes ideales para quienes envían gran cantidad de Campañas, ya que tienen menor costo unitario por Email.';
+      return 'buy_process.plan_selection.plan_type_monthly_deliveries_info';
 
     case PLAN_TYPE.byCredit:
-      return 'Planes ideales para quienes envían Campañas esporádicamente. ¡Los créditos son acumulables y no tienen vencimiento!';
+      return 'buy_process.plan_selection.plan_type_prepaid_info';
     default:
       return null;
   }

@@ -10,7 +10,7 @@ import { usePaymentMethodData } from '../../../hooks/usePaymentMethodData';
 import { PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
 import { getBuyButton, mapItemFromMarketingPlan } from './utils';
 import { Promocode } from './Promocode';
-import { Link } from 'react-router-dom';
+import { NextInvoices } from './NextInvoices';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -126,7 +126,7 @@ export const ShoppingCart = InjectAppServices(
     return (
       <div className="dp-shopping-card">
         <header>
-          <h3 className="dp-second-order-title">Resumen de compra</h3>
+          <h3 className="dp-second-order-title">{_('buy_process.shopping_cart.title')}</h3>
         </header>
 
         <PaymentFrequency {...paymentFrequencyProps} />
@@ -160,38 +160,13 @@ export const ShoppingCart = InjectAppServices(
           </h3>
           {buyButton}
         </section>
-        <section className="dp-h-divider">
-          <div className="dp-next-bills">
-            <ul className="dp-accordion">
-              <li className="active">
-                <Link to={`${pathname}${search}`} className="dp-accordion-thumb">
-                  Proximas facturas
-                </Link>
-                <div className="dp-accordion-panel">
-                  <div className="dp-accordion-content">
-                    <div className="dp-plan-box">
-                      <h4>Plan marketing</h4>
-                      <hr />
-                      <ul className="dp-items-result">
-                        <li>
-                          <p>17/10/2023</p>
-                          <span>US$45*</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </section>
+        {selectedPlanType !== PLAN_TYPE.byCredit && amountDetailsData?.value?.nextMonthDate && (
+          <NextInvoices pathname={pathname} search={search} amountDetailsData={amountDetailsData} />
+        )}
         <footer>
           <ul>
-            <li>Suscripción con renovación automática, puedes cancelarla cuando lo desees.</li>
-            <li>
-              *El precio no incluye impuestos.
-              <a href="/plan-selection">Cuáles son los impuestos por pais?</a>
-            </li>
+            <li>{_('buy_process.shopping_cart.renewal_description')}</li>
+            <li>{_('buy_process.shopping_cart.price_without_taxes')}</li>
           </ul>
         </footer>
       </div>

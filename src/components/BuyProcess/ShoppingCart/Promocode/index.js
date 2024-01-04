@@ -160,7 +160,9 @@ export const Promocode = InjectAppServices(
       <section className="dp-promocode">
         <button className="dp-show-promocode" onClick={toggleOpen}>
           <span className="dp-show-text">
-            {open ? 'Ingresa tu código promocional' : '¿Tienes un código promocional?'}
+            {open
+              ? _('buy_process.promocode.dropdown_title_open')
+              : _('buy_process.promocode.dropdown_title_close')}
           </span>
           <span className={`ms-icon icon-close ${!open ? 'rotation' : ''}`} title="Cerrar"></span>
         </button>
@@ -233,6 +235,8 @@ export const PromocodeFieldItem = ({
   selectedPaymentFrequency,
   ...rest
 }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const { values, setFieldValue } = useFormikContext();
 
   return (
@@ -264,7 +268,7 @@ export const PromocodeFieldItem = ({
       </FieldItem>
       <FieldItem className="field-item field-item--30">
         <button type="submit" className="dp-button button-medium ctaTertiary" disabled={disabled}>
-          Aplicar
+          {_('buy_process.promocode.apply_btn')}
         </button>
       </FieldItem>
     </>

@@ -1,4 +1,4 @@
-import { FormattedNumber, useIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../../doppler-types';
 import { getPlanFee, thousandSeparatorNumber } from '../../../../../utils';
 
@@ -61,6 +61,7 @@ const PromocodeNotAllowed = () => (
 
 const PromocodeMessageExtraCredits = ({ promotion }) => {
   const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
     <>
@@ -69,9 +70,10 @@ const PromocodeMessageExtraCredits = ({ promotion }) => {
         <FormattedNumber value={0} {...numberFormatOptions} />
       </span>
       <h3>
-        Créditos Extras: {thousandSeparatorNumber(intl.defaultLocale, promotion?.extraCredits)}
+        {_('buy_process.promocode.extra_credits_label')}{' '}
+        {thousandSeparatorNumber(intl.defaultLocale, promotion?.extraCredits)}
       </h3>
-      <span>Vigentes hasta agotarse la existencia</span>
+      <span>{_('buy_process.promocode.valid_until_label')}</span>
     </>
   );
 };
@@ -81,12 +83,15 @@ const PromocodeMessageWithBillingCicle = ({
   amountDetailsData,
   promotion,
 }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   return (
     <>
       <span className="dp-strike">
         US$X
         <FormattedNumber value={getPlanFee(selectedMarketingPlan)} {...numberFormatOptions} />
-        */mes
+        */{_('buy_process.promocode.label_month')}
       </span>
       <h3>
         US$X
@@ -94,9 +99,16 @@ const PromocodeMessageWithBillingCicle = ({
           value={amountDetailsData?.value?.nextMonthTotal}
           {...numberFormatOptions}
         />
-        */mes
+        /{_('buy_process.promocode.label_month')}
       </h3>
-      <span>Durante {promotion?.duration} meses</span>
+      <span>
+        <FormattedMessage
+          id={'buy_process.promocode.is_valid_to'}
+          values={{
+            months: promotion?.duration,
+          }}
+        />
+      </span>
     </>
   );
 };

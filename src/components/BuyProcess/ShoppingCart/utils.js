@@ -85,7 +85,7 @@ export const mapItemFromMarketingPlan = ({
       <FormattedMessage
         id={`buy_process.feature_item_${marketingPlan.type}`}
         values={{
-          units: amountByPlanType(marketingPlan),
+          units: thousandSeparatorNumber(intl.defaultLocale, amountByPlanType(marketingPlan)),
           Strong: (chunk) => <strong>{chunk}</strong>,
         }}
       />,
@@ -97,7 +97,12 @@ export const mapItemFromMarketingPlan = ({
   if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
     planInformation.featureList.push(
       <>
-        Descuento pago adelantado {numberMonths}/meses
+        <FormattedMessage
+          id={`buy_process.feature_item_discount_advanced_pay`}
+          values={{
+            months: numberMonths,
+          }}
+        />
         <span className="dp-discount">
           -{amountDetailsData?.value?.discountPrepayment?.discountPercentage}%
         </span>
@@ -105,7 +110,14 @@ export const mapItemFromMarketingPlan = ({
     );
 
     planInformation.billingList.push({
-      label: `Ahorra ${amountDetailsData?.value?.discountPrepayment?.discountPercentage}%`,
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPrepayment?.discountPercentage}%`,
+          }}
+        />
+      ),
       amount: (
         <>
           US${' '}
@@ -124,9 +136,13 @@ export const mapItemFromMarketingPlan = ({
     planInformation.featureList.push(
       <>
         <p>
-          Descuento Código Promocional{' '}
-          {promocodeApplied?.duration || amountDetailsData?.value?.discountPromocode?.duration}
-          /meses
+          <FormattedMessage
+            id={`buy_process.feature_item_discount_monthly`}
+            values={{
+              months:
+                promocodeApplied?.duration || amountDetailsData?.value?.discountPromocode?.duration,
+            }}
+          />
         </p>
         {promocodeApplied && (
           <button
@@ -140,7 +156,14 @@ export const mapItemFromMarketingPlan = ({
     );
 
     planInformation.billingList.push({
-      label: `Ahorra ${amountDetailsData?.value?.discountPromocode?.discountPercentage}%`,
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPromocode?.discountPercentage}%`,
+          }}
+        />
+      ),
       amount: (
         <>
           US${' '}
@@ -159,8 +182,12 @@ export const mapItemFromMarketingPlan = ({
     planInformation.featureList.push(
       <>
         <p>
-          Incluye {thousandSeparatorNumber(intl.defaultLocale, promocodeApplied?.extraCredits)}{' '}
-          Créditos extra
+          <FormattedMessage
+            id={`buy_process.feature_item_extra_credits`}
+            values={{
+              units: thousandSeparatorNumber(intl.defaultLocale, promocodeApplied?.extraCredits),
+            }}
+          />
         </p>
         <button
           type="button"

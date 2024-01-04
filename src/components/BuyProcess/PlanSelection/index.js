@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../doppler-types';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
@@ -155,12 +155,12 @@ export const PlanSelection = InjectAppServices(
                 <div className="dp-rowflex">
                   <div className="col-sm-12">
                     <h3 className="dp-second-order-title">
-                      {_('checkoutProcessSuccess.plan_type')}
+                      {_('buy_process.plan_selection.plan_type')}
                     </h3>
                     <div className="m-b-24">
                       <FormattedMessageMarkdown
                         linkTarget={'_blank'}
-                        id="buy_process.plan_selection.plan_subtitle_MD"
+                        id="buy_process.plan_selection.plan_subtitle_description_MD"
                       />
                     </div>
                     <NavigationTabs
@@ -171,7 +171,17 @@ export const PlanSelection = InjectAppServices(
                   </div>
                   <div className="col-sm-12 m-t-36">
                     <h3 className="dp-second-order-title">
-                      ¿Cuántos {planTypesLabels[selectedPlanType]} deseas agregar a tu plan?
+                      <FormattedMessage
+                        id={`buy_process.plan_selection.plan_type_units`}
+                        values={{
+                          units: _(
+                            `buy_process.plan_selection.plan_type_${selectedPlanType.replace(
+                              '-',
+                              '_',
+                            )}_label`,
+                          ).toLowerCase(),
+                        }}
+                      />
                     </h3>
                     {!hightestPlan && (
                       <Slider
@@ -193,7 +203,7 @@ export const PlanSelection = InjectAppServices(
                   </div>
                 </div>
               </div>
-              <hr class="dp-separator" />
+              <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
                 <GoBackButton />
               </div>

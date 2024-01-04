@@ -28,7 +28,11 @@ describe('PlanSelection component', () => {
       },
       planService: {
         getDistinctPlans: async () =>
-          planTypes.map((planType) => ({ type: planType, minPrice: 5 })),
+          planTypes.map((planType) => ({
+            type: planType,
+            minPrice: 5,
+            info: 'buy_process.plan_selection.plan_type_monthly_deliveries_info',
+          })),
         getPlansByType: async () => plansByContacts,
       },
     };
@@ -50,7 +54,5 @@ describe('PlanSelection component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
-
-    screen.getByText('buy_process.plan_selection.plan_title');
   });
 });
