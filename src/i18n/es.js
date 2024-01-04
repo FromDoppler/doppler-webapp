@@ -1526,7 +1526,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_unexpected_register_MD: `¡Ouch! Algo salió mal. Por favor, vuelve a intentarlo más tarde o [contacta a nuestro equipo de Soporte](${mailtoSupport}).`,
     error_upload_file: `¡Ouch! Algo salió mal al cargar el Archivo. Inténtelo nuevamente.`,
     warning_ip_validation_notification: `Estás intentando ingresar desde un dispositivo que Doppler no reconoce. ¡Revisa tu casilla! Encontrarás un Email con los pasos a seguir.`,
-    warning_user_access_denied: `¡Ouch! Tu inicio de sesión ha sido rechazado por el dueño de la cuenta.`,
+    warning_user_access_denied: `¡Ouch! Tu inicio de sesión ha sido rechazado.`,
   },
 };
 
