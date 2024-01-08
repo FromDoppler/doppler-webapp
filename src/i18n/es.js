@@ -518,7 +518,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       has_campaings_sent_title: `Revisa tus resultados`,
       has_campaings_sent_url: `${urlReports}/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
-<Paragraph><Bold><Link>Configura DKIM y SPF</Link></Bold> para que tus contactos puedan recibir tus envíos exitosamente.</Paragraph>
+<Paragraph><Bold><Link>Configura DKIM, SPF y DMARC</Link></Bold> para que tus contactos puedan recibir tus envíos exitosamente.</Paragraph>
       `,
       has_domains_ready_title: `Asegúrate de no terminar en spam`,
       has_domains_ready_url: `${urlDkim}`,
