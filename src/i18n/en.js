@@ -519,7 +519,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       has_campaings_sent_title: `Review the reports of your campaigns`,
       has_campaings_sent_url: `${urlReports}/SentCampaigns.aspx`,
       has_domains_ready_description_MD: `
-<Paragraph><Bold><Link>Configure DKIM, SPF and DMARC</Link></Bold> so that your contacts can receive your mailings successfully.</Paragraph>
+<Paragraph><Bold><Link>Configure DKIM, SPF and DMARC</Link></Bold> so that your contacts receive your mailings successfully.</Paragraph>
       `,
       has_domains_ready_title: `Avoid ending up in spam`,
       has_domains_ready_url: `${urlDkim}`,
