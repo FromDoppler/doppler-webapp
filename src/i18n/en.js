@@ -458,7 +458,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     advanced_preferences: {
       api_key: 'Doppler API',
       custom_domain: 'Landing Pages domains',
-      domain_key: 'DKIM & SPF',
+      domain_key: 'DKIM, SPF & DMARC',
       title: 'Advanced Preferences',
     },
     campaign_preferences: {
