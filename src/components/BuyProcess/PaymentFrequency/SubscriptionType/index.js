@@ -3,15 +3,23 @@ import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkd
 
 export const SubscriptionType = ({ period, discountPercentage }) => {
   return (
-    <div className="dp-align--center p-t-30">
-      <div className="p-b-6">
-        <FormattedMessageMarkdown id="plan_calculator.current_subscription" values={{ period }} />
+    <section className="dp-align--center p-t-30">
+      <div className="dp-wrap-message dp-wrap-info">
+        <span class="dp-message-icon" />
+        <div class="dp-content-message">
+          <div className="p-b-6">
+            <FormattedMessageMarkdown
+              id="plan_calculator.current_subscription"
+              values={{ period }}
+            />
+          </div>
+          <FormattedMessageMarkdown
+            id="plan_calculator.subscription_discount"
+            values={{ discountPercentage }}
+          />
+        </div>
       </div>
-      <FormattedMessageMarkdown
-        id="plan_calculator.subscription_discount"
-        values={{ discountPercentage }}
-      />
-    </div>
+    </section>
   );
 };
 

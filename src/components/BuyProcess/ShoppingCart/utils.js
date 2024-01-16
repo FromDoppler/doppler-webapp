@@ -79,6 +79,8 @@ export const mapItemFromMarketingPlan = ({
 }) => {
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
+  console.log('amountDetailsData', amountDetailsData);
+
   const planInformation = {
     name: <FormattedMessage id={`buy_process.marketing_plan_title`} />,
     featureList: [
@@ -94,6 +96,61 @@ export const mapItemFromMarketingPlan = ({
     billingList: [],
   };
 
+  // Months to hire
+  if (marketingPlan.type === PLAN_TYPE.byContact) {
+    const monthsCount = numberMonths ? numberMonths : 1;
+    const amount = numberMonths ? marketingPlan?.fee * monthsCount : marketingPlan?.fee;
+
+    planInformation.featureList.push(
+      <>
+        <FormattedMessage id={`buy_process.months_to_hire`} />{' '}
+        <strong>
+          <FormattedMessage
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>{' '}
+        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
+      </>,
+    );
+  }
+
+  // Months to pay
+  if (marketingPlan.type === PLAN_TYPE.byContact || marketingPlan.type === PLAN_TYPE.byEmail) {
+    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+    const amountMonthsToPay = numberMonths ? marketingPlan?.fee * monthsCount : marketingPlan?.fee;
+
+    planInformation.billingList.push({
+      label: (
+        <>
+          <FormattedMessage
+            id={
+              marketingPlan.type !== PLAN_TYPE.byContact
+                ? `buy_process.months_to_pay`
+                : `buy_process.difference_months_to_pay`
+            }
+            values={{
+              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+            }}
+          />{' '}
+          <strong>
+            <FormattedMessage
+              id="buy_process.month_with_plural"
+              values={{ months: monthsCount }}
+            ></FormattedMessage>
+          </strong>
+        </>
+      ),
+      amount: (
+        <>
+          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+        </>
+      ),
+    });
+  }
+
+  // Discount advanced pay
   if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
     planInformation.featureList.push(
       <>
@@ -120,15 +177,13 @@ export const mapItemFromMarketingPlan = ({
       ),
       amount: (
         <>
-          US${' '}
+          US$ -
           <FormattedNumber
             value={amountDetailsData.value.discountPrepayment.amount}
             {...numberFormatOptions}
           />
-          *
         </>
       ),
-      strike: true,
     });
   }
 
@@ -199,19 +254,21 @@ export const mapItemFromMarketingPlan = ({
     );
   }
 
-  planInformation.billingList.push({
-    label: <FormattedMessage id={`buy_process.billing_type_${numberMonths || 1}`} />,
-    amount: (
-      <>
-        US${' '}
-        <FormattedNumber
-          value={amountDetailsData?.value?.currentMonthTotal || 0}
-          {...numberFormatOptions}
-        />
-        {isTransfer ? '*' : ''}
-      </>
-    ),
-  });
+  // Positive balance
+  if (amountDetailsData?.value?.discountPaymentAlreadyPaid > 0) {
+    planInformation.billingList.push({
+      label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
 
   return planInformation;
 };

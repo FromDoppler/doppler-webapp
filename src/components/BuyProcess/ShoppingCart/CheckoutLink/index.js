@@ -33,7 +33,7 @@ export const CheckoutLink = ({
           search,
         })}
       >
-        <FormattedMessage id="buy_process.buy_now_title" />
+        <FormattedMessage id="buy_process.continue" />
       </CheckoutLinkStyled>
     </TooltipContainer>
   );
