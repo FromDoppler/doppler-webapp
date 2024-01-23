@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -6,10 +6,15 @@ import { ContactInformation } from './ContactInformation/ContactInformation';
 import { BillingInformation } from './BillingInformation/BillingInformation';
 import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
-import { PurchaseSummary } from './PurchaseSummary/PurchaseSummary';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
-import { getQueryParamsWithAccountType } from '../../../utils';
+import { PLAN_TYPE, PaymentMethodType, URL_PLAN_TYPE } from '../../../doppler-types';
+import {
+  getMonthsByCycle,
+  getQueryParamsWithAccountType,
+  orderPaymentFrequencies,
+} from '../../../utils';
+import { ShoppingCart } from '../../BuyProcess/ShoppingCart';
+import { useQueryParams } from '../../../hooks/useQueryParams';
 
 const checkoutSteps = {
   contactInformation: 'contact-information',
@@ -28,19 +33,30 @@ const getPlanTypeFromLegacyPlanType = (planType) =>
     : URL_PLAN_TYPE[PLAN_TYPE.byContact];
 
 const Checkout = InjectAppServices(
-  ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
+  ({
+    dependencies: { dopplerBillingUserApiClient, appSessionRef, dopplerAccountPlansApiClient },
+  }) => {
     const [activeStep, setActiveStep] = useState(checkoutSteps.contactInformation);
     const [completeContactInformationStep, setCompleteContactInformationStep] = useState(true);
     const [completeBillingInformationStep, setCompleteBillingInformationStep] = useState(false);
     const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
-    const [selectedDiscountId, setSelectedDiscountId] = useState(0);
-    const [selectedMonthPlan, setSelectedMonthPlan] = useState(0);
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
-    const [appliedPromocode, setAppliedPromocode] = useState(false);
+    const [, setSelectedDiscountId] = useState(0);
+    const [, setSelectedMonthPlan] = useState(0);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+      PaymentMethodType.creditCard,
+    );
+    const [selectedFullPlan, setSelectedFullPlan] = useState(null);
+    const [appliedPromocode] = useState(false);
+    const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
+    const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const intl = useIntl();
     const { pathType, planType } = useParams();
+    const query = useQueryParams();
+    const selectedPlanId = query.get('selected-plan') ?? 0;
+    const monthPlan = query.get('monthPlan') ?? 0;
     const { search } = useLocation();
-    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    const sessionPlan = appSessionRef.current.userData.user;
+    const { isFreeAccount } = sessionPlan.plan;
     const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -69,6 +85,60 @@ const Checkout = InjectAppServices(
     useEffect(() => {
       dopplerBillingUserApiClient.updatePurchaseIntention();
     });
+
+    useEffect(() => {
+      const fetchPlanData = async () => {
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId);
+        setSelectedFullPlan({ ...planData.value, type: planType, id: selectedPlanId });
+      };
+
+      fetchPlanData();
+    }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
+
+    useEffect(() => {
+      const fetchPaymentFrequency = async () => {
+        let paymentFrequencies = [];
+        let selectedPaymentFrequencyByDefault = null;
+
+        const paymentFrequenciesData = await dopplerAccountPlansApiClient.getDiscountsData(
+          selectedPlanId,
+          ['NONE', ''].includes(selectedPaymentMethod)
+            ? PaymentMethodType.creditCard
+            : selectedPaymentMethod,
+        );
+
+        paymentFrequencies = paymentFrequenciesData.success ? paymentFrequenciesData.value : [];
+        paymentFrequencies = paymentFrequencies
+          .map((pf) => ({
+            id: pf.id,
+            subscriptionType: pf.description,
+            numberMonths: getMonthsByCycle(pf.description),
+            discountPercentage: pf.discountPercentage,
+            applyPromo: pf.applyPromo,
+          }))
+          .sort(orderPaymentFrequencies);
+        selectedPaymentFrequencyByDefault = paymentFrequenciesData.success
+          ? paymentFrequencies.find((pf) => pf.numberMonths.toString() === monthPlan)
+          : null;
+
+        setPaymentFrequenciesList(paymentFrequencies);
+        setSelectedPaymentFrequency(selectedPaymentFrequencyByDefault ?? paymentFrequencies.at(-1));
+      };
+
+      if (planType === PLAN_TYPE.byContact) {
+        fetchPaymentFrequency();
+      }
+    }, [dopplerAccountPlansApiClient, selectedPaymentMethod, planType, selectedPlanId, monthPlan]);
+
+    const handleChangeDiscount = useCallback((discount) => {
+      setSelectedDiscountId(discount?.selectedPaymentFrequency?.id);
+      setSelectedMonthPlan(discount?.selectedPaymentFrequency?.monthsAmmount);
+      setSelectedPaymentFrequency(discount?.selectedPaymentFrequency);
+    }, []);
+
+    const isMonthlySubscription = appSessionRef.current.userData.user.plan.planSubscription === 1;
+    const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
+    const isPlanByContacts = planType === PLAN_TYPE.byContact;
 
     return (
       <>
@@ -138,10 +208,7 @@ const Checkout = InjectAppServices(
                           setNextCheckoutStep(activeStep);
                           setPaymentInformationAction(actionPage.READONLY);
                         }}
-                        handleChangeDiscount={(discount) => {
-                          setSelectedDiscountId(discount?.id);
-                          setSelectedMonthPlan(discount?.monthsAmmount);
-                        }}
+                        handleChangeDiscount={handleChangeDiscount}
                         handleChangePaymentMethod={(paymentMethod) => {
                           setSelectedPaymentMethod(paymentMethod);
                         }}
@@ -152,7 +219,7 @@ const Checkout = InjectAppServices(
               </div>
               <div className="dp-space-l24"></div>
               <div className="col-lg-4 col-sm-12">
-                <PurchaseSummary
+                {/* <PurchaseSummary
                   canBuy={
                     paymentInformationAction === actionPage.READONLY &&
                     completeContactInformationStep &&
@@ -164,7 +231,26 @@ const Checkout = InjectAppServices(
                   discountId={selectedDiscountId}
                   monthPlan={selectedMonthPlan?.toString()}
                   paymentMethod={selectedPaymentMethod}
-                ></PurchaseSummary>
+                ></PurchaseSummary> */}
+
+                <ShoppingCart
+                  canBuy={
+                    paymentInformationAction === actionPage.READONLY &&
+                    completeContactInformationStep &&
+                    completeBillingInformationStep
+                  }
+                  discountConfig={{
+                    paymentFrequenciesList: paymentFrequenciesList,
+                    selectedPaymentFrequency: selectedPaymentFrequency,
+                    onSelectPaymentFrequency: handleChangeDiscount,
+                    disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
+                    currentSubscriptionUser: sessionPlan.plan.planSubscription,
+                  }}
+                  isMonthlySubscription={isMonthlySubscription}
+                  selectedMarketingPlan={selectedFullPlan}
+                  items={[selectedFullPlan]}
+                  isEqualPlan={false}
+                />
               </div>
             </div>
           </section>

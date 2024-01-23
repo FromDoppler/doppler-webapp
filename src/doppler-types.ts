@@ -49,6 +49,7 @@ export interface AdvancePayOptions {
   paymentType: 'CC' | 'transfer';
   discountPercentage: number;
   billingCycle: BillingCycle;
+  applyPromo: boolean;
 }
 
 export type Features =
@@ -63,6 +64,7 @@ export interface ContactPlan {
   id: number;
   name: string;
   subscriberLimit: number;
+  subscribersQty?: number;
   fee: number;
   billingCycleDetails: AdvancePayOptions[];
   currentSubscription: number;
@@ -73,6 +75,7 @@ export interface EmailPlan {
   id: number;
   name: string;
   emailsByMonth: number;
+  emailQty?: number;
   extraEmailPrice: number;
   fee: number;
 }
@@ -82,6 +85,7 @@ export interface CreditPlan {
   id: number;
   name: string;
   credits: number;
+  emailQty?: number;
   price: number;
   subscribersCount: number;
 }

@@ -475,6 +475,7 @@ function mapAdvancePay(json: any): AdvancePayOptions {
     paymentType: paymentTypeByPaymentMethod[json.IdPaymentMethod],
     discountPercentage: json.DiscountPlanFee,
     billingCycle: monthPlanByBillingCycle[json.MonthPlan],
+    applyPromo: json.ApplyPromo,
   };
 }
 

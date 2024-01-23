@@ -75,7 +75,7 @@ const BlockedAccount = () => {
       <p>
         <FormattedMessage id="forgot_password.blocked_account_MD" />
       </p>
-      <a href={mailtoSupport} class="dp-message-link">
+      <a href={mailtoSupport} className="dp-message-link">
         <FormattedMessage id="forgot_password.blocked_account_MD_link" />
       </a>
     </>

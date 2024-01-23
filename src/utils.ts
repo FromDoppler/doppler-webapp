@@ -6,6 +6,7 @@ import {
   PlanType,
   URL_PLAN_TYPE,
   PLAN_TYPE,
+  SUBSCRIPTION_TYPE,
 } from './doppler-types';
 import countriesEs from './i18n/countries-es.json';
 import countriesEn from './i18n/countries-en.json';
@@ -234,6 +235,21 @@ export function getPlanFee(plan: Plan): number {
   return plan.type === 'prepaid' ? (plan as CreditPlan).price : (plan as FeaturedPlan).fee;
 }
 
+export const amountByPlanType = (plan: Plan): number => {
+  switch (plan.type) {
+    case PLAN_TYPE.byCredit:
+      return plan.credits || plan.emailQty || 0;
+
+    case PLAN_TYPE.byContact:
+      return plan.subscriberLimit || plan.subscribersQty || 0;
+
+    case PLAN_TYPE.byEmail:
+      return plan.emailsByMonth || plan.emailQty || 0;
+    default:
+      return 0;
+  }
+};
+
 export const firstPlansDefaultOrder: PlanType[] = ['subscribers', 'monthly-deliveries', 'prepaid'];
 
 export function orderPlanTypes(
@@ -355,4 +371,37 @@ export const getQueryParamsWithAccountType = ({
     params.set(ACCOUNT_TYPE, currentAccountType);
   }
   return params.toString();
+};
+
+export const orderPaymentFrequencies = (currentDiscount: any, nextDiscount: any) =>
+  nextDiscount.numberMonths - currentDiscount.numberMonths;
+
+export const getMonthsByCycle = (subscriptionType: string) => {
+  switch (subscriptionType) {
+    case SUBSCRIPTION_TYPE.monthly:
+      return 1;
+    case SUBSCRIPTION_TYPE.quarterly:
+      return 3;
+    case SUBSCRIPTION_TYPE.biyearly:
+      return 6;
+    case SUBSCRIPTION_TYPE.yearly:
+      return 12;
+    default:
+      return 1;
+  }
+};
+
+export const getInfoPlanType = (planType: PlanType): string | null => {
+  switch (planType) {
+    case PLAN_TYPE.byContact:
+      return 'buy_process.plan_selection.plan_type_subscribers_info';
+
+    case PLAN_TYPE.byEmail:
+      return 'buy_process.plan_selection.plan_type_monthly_deliveries_info';
+
+    case PLAN_TYPE.byCredit:
+      return 'buy_process.plan_selection.plan_type_prepaid_info';
+    default:
+      return null;
+  }
 };

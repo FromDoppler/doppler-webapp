@@ -12,12 +12,12 @@ export const Tickmarks = ({ id, items = [], handleChange, hideMarksFrom = HIDE_M
     <ul id={id} className="datalist">
       {amountItems >= hideMarksFrom
         ? items.map((value, index) => (
-            <li key={index} onClick={getHandleChange(index)}>
+            <li key={index} onClick={getHandleChange(index)} style={{ width: '13px' }}>
               {[0, amountItems - 1].includes(index) && <strong>{compactNumber(value)}</strong>}
             </li>
           ))
         : items.map((value, index) => (
-            <li key={index} onClick={getHandleChange(index)}>
+            <li key={index} onClick={getHandleChange(index)} style={{ width: '13px' }}>
               {[0, amountItems - 1].includes(index) ? (
                 <strong>{compactNumber(value)}</strong>
               ) : (
@@ -36,6 +36,7 @@ export const Slider = ({
   hideMarksFrom = HIDE_MARKS_FROM,
   callbackMaxTop,
   moreOptions,
+  labelQuantity,
 }) => {
   const amountItems = items.length;
 
@@ -47,6 +48,7 @@ export const Slider = ({
   return (
     <>
       <div className="dp-purchase-process--slider progress-bar">
+        <h3>{labelQuantity}</h3>
         <Tickmarks
           id="item-list"
           items={items}
@@ -83,7 +85,7 @@ export const Slider = ({
 };
 
 Slider.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])).isRequired,
   selectedItemIndex: PropTypes.number,
   handleChange: PropTypes.func.isRequired,
   callbackMaxTop: PropTypes.func,

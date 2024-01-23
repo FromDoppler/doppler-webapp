@@ -406,7 +406,6 @@ export const PurchaseSummary = InjectAppServices(
     }, [
       dopplerAccountPlansApiClient,
       dopplerBillingUserApiClient,
-      selectedDiscountId,
       selectedPlan,
       paymentMethod,
       planType,

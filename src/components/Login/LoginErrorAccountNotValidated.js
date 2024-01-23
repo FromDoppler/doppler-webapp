@@ -32,7 +32,7 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
         <Captcha />
         <p>{intl.formatMessage({ id: 'signup.email_not_received' })}</p>
         <p>
-          <button type="button" onClick={incrementAndResend} class="dp-message-link">
+          <button type="button" onClick={incrementAndResend} className="dp-message-link">
             <FormattedMessage
               id={'signup.resend_email'}
               values={{
@@ -45,7 +45,7 @@ export const LoginErrorAccountNotValidated = InjectAppServices(
     ) : (
       <>
         <p>{intl.formatMessage({ id: 'signup.no_more_resend_MD' })}</p>
-        <a href={mailtoSupport} class="dp-message-link">
+        <a href={mailtoSupport} className="dp-message-link">
           {intl.formatMessage({ id: 'signup.no_more_resend_MD_link' })}
         </a>
       </>

@@ -35,6 +35,13 @@ const DiscountItem = ({
   var selected =
     selectedDiscount === undefined ? month === 1 : discount && discount.id === selectedDiscount.id;
 
+  // month === 1 && console.log("--------------------");
+  // console.log('month', month)
+  // console.log('discountsList', discountsList)
+  // console.log('discount', discount)
+  // console.log('appliedPromocode', appliedPromocode)
+  // console.log('disabled', disabled)
+  // console.log("--------------------");
   return (
     <li key={month}>
       <button

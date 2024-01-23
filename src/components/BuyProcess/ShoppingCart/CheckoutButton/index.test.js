@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DELAY_BEFORE_REDIRECT_TO_SUMMARY, BuyButton } from '.';
+import { DELAY_BEFORE_REDIRECT_TO_SUMMARY, CheckoutButton } from '.';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -58,6 +58,7 @@ describe('BuyButton component', () => {
       planId: '1',
       total: 1_000,
       paymentMethod: paymentType.creditCard,
+      keyTextButton: 'buy_process.buy_now_title',
     };
     const successRequest = true;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
@@ -73,7 +74,7 @@ describe('BuyButton component', () => {
               `/checkout/premium/subscribers?selected-plan=${props.planId}&origin_inbound=${originInbound}&${ACCOUNT_TYPE}=FREE`,
             ]}
           >
-            <BuyButton {...props} />
+            <CheckoutButton {...props} />
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -114,6 +115,7 @@ describe('BuyButton component', () => {
       planId: '1',
       total: 1_000,
       paymentMethod: paymentType.transfer,
+      keyTextButton: 'buy_process.buy_now_title',
     };
     const successRequest = false;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
@@ -123,7 +125,7 @@ describe('BuyButton component', () => {
       <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
           <Router initialEntries={[`/checkout/premium/subscribers?selected-plan=${props.planId}`]}>
-            <BuyButton {...props} />
+            <CheckoutButton {...props} />
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -158,6 +160,7 @@ describe('BuyButton component', () => {
       planId: '1',
       total: 1_000,
       paymentMethod: paymentType.transfer,
+      keyTextButton: 'buy_process.buy_now_title',
       promotion: {
         extraCredits: '100',
         promocode: 'fake promocode',
@@ -181,7 +184,7 @@ describe('BuyButton component', () => {
               `/checkout/premium/subscribers?selected-plan=${props.planId}&${ACCOUNT_TYPE}=PAID`,
             ]}
           >
-            <BuyButton {...props} />
+            <CheckoutButton {...props} />
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -223,6 +226,7 @@ describe('BuyButton component', () => {
       planId: '1',
       total: 1_000,
       paymentMethod: paymentType.transfer,
+      keyTextButton: 'buy_process.buy_now_title',
     };
 
     const { purchaseMock, dependencies } = getFakePurchaseWithError(
@@ -234,7 +238,7 @@ describe('BuyButton component', () => {
       <AppServicesProvider forcedServices={dependencies}>
         <IntlProvider>
           <Router initialEntries={[`/checkout/premium/subscribers?selected-plan=${props.planId}`]}>
-            <BuyButton {...props} />
+            <CheckoutButton {...props} />
           </Router>
         </IntlProvider>
       </AppServicesProvider>,

@@ -6,14 +6,6 @@ export const MercadoPagoInformation = ({ upgradePending }) => {
 
   return (
     <>
-      {upgradePending && (
-        <div className="dp-wrap-message dp-wrap-warning m-t-24">
-          <span className="dp-message-icon"></span>
-          <div className="dp-content-message">
-            <p>{_(`checkoutProcessSuccess.mercado_pago_warning_message`)}</p>
-          </div>
-        </div>
-      )}
       <h4 className="m-t-24">{_(`checkoutProcessSuccess.mercado_pago_steps_title`)}</h4>
       <div className="dp-rowflex">
         <div className="col-sm-7 m-b-24">
