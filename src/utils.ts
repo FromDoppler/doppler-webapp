@@ -175,6 +175,7 @@ export function isWhitelisted(url: string) {
     'https://reports2.fromdoppler.com/',
     'https://reportsqa.fromdoppler.net:400/',
     'https://reportsint.fromdoppler.net:400/',
+    'https://conversationsqa.fromdoppler.net/',
   ];
   return !!url && loginWhitelist.some((element) => url.startsWith(element));
 }
