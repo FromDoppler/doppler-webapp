@@ -6,7 +6,8 @@ export const NextInvoices = ({ pathname, search, amountDetailsData }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const nextMonthDate = new Date(amountDetailsData.value?.nextMonthDate);
-  const formatter = new Intl.DateTimeFormat('en-US', {
+  const language = intl.locale;
+  const formatter = new Intl.DateTimeFormat(language === 'es' ? 'es-ES' : 'en-US', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
