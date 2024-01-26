@@ -138,6 +138,7 @@ const messages_es = {
     },
     promocode: {
       apply_btn: `Aplicar`,
+      discount_for_admin: 'Descuento general: <Strong>{percentage}</Strong>',
       dropdown_title_close: `¿Tienes un código promocional?`,
       dropdown_title_open: `Ingresa tu código promocional`,
       extra_credits_label: `Créditos Extras:`,

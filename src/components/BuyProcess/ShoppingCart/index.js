@@ -55,7 +55,6 @@ export const ShoppingCart = InjectAppServices(
               : 0,
           promocodeApplied.promocode || '',
         );
-        console.log('_amountDetailsData', _amountDetailsData);
         setAmountDetailsData(_amountDetailsData);
       };
 
