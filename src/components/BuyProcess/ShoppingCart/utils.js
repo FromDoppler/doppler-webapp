@@ -221,7 +221,7 @@ export const mapItemFromMarketingPlan = ({
       ),
       amount: (
         <>
-          US${' '}
+          US$ -
           <FormattedNumber
             value={amountDetailsData.value.discountPromocode.amount}
             {...numberFormatOptions}
@@ -229,7 +229,29 @@ export const mapItemFromMarketingPlan = ({
           *
         </>
       ),
-      strike: true,
+    });
+  }
+
+  if (amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage > 0) {
+    planInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.promocode.discount_for_admin`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
     });
   }
 
