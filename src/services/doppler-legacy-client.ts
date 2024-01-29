@@ -189,6 +189,7 @@ export type LoginResult = Result<
 export interface LoginModel extends PayloadWithCaptchaToken {
   username: string;
   password: string;
+  fingerPrint: number | string;
 }
 
 function removeErrorCodeFromExceptionMessage(errorCode: string, message: string) {
@@ -749,6 +750,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         Username: model.username,
         Password: model.password,
         RecaptchaUserCode: model.captchaResponseToken,
+        Fingerprint: model.fingerPrint,
       });
 
       if (!response.data.success) {

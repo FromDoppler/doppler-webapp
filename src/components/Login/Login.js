@@ -28,6 +28,7 @@ import {
 } from '../../utils';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
+import { useFingerPrinting } from '../../hooks/useFingerPrinting';
 
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 
@@ -241,6 +242,7 @@ const Login = ({
     type: 'login',
     page: extractPage(location),
   });
+  const fingerPrintingId = useFingerPrinting();
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
@@ -296,6 +298,7 @@ const Login = ({
         username: values[fieldNames.user].trim(),
         password: values[fieldNames.password],
         captchaResponseToken: values['captchaResponseToken'],
+        fingerPrint: fingerPrintingId,
       });
 
       if (result.success) {

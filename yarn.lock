@@ -3836,6 +3836,11 @@
     "@pnpm/network.ca-file" "^1.0.1"
     config-chain "^1.1.11"
 
+"@rajesh896/broprint.js@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@rajesh896/broprint.js/-/broprint.js-2.1.1.tgz#f38870f62539035f318ebb9b6ba01fcc7ed76605"
+  integrity sha512-34L0SFrOLHWAhF4ZU7QS32zItGOKdu3BY0DmMwoW6zekLuJWSuCIK07Xzgyy2AqCCUByd2VHMr2wbHousid+qg==
+
 "@remix-run/router@1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.8.0.tgz#e848d2f669f601544df15ce2a313955e4bf0bafc"
