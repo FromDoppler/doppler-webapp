@@ -94,21 +94,6 @@ export const CreditCard = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
-      const initializeDefaultValues = () => {
-        setValues({
-          [fieldNames.name]: '',
-          [fieldNames.number]: '',
-          [fieldNames.expiry]: '',
-          [fieldNames.cvc]: '',
-          [fieldNames.paymentMethodName]: paymentType.creditCard,
-        });
-
-        setNumber('');
-        setName('');
-        setExpiry('');
-        setCvc('');
-      };
-
       if (optionView === actionPage.READONLY) {
         setState({
           paymentMethod:
@@ -124,22 +109,30 @@ export const CreditCard = InjectAppServices(
           loading: false,
           readOnly: true,
         });
-      } else {
-        initializeDefaultValues();
+      }
+    }, [dopplerAccountPlansApiClient, appSessionRef, optionView, paymentMethod]);
+
+    useEffect(() => {
+      if (optionView === actionPage.UPDATE) {
+        setValues({
+          [fieldNames.name]: '',
+          [fieldNames.number]: '',
+          [fieldNames.expiry]: '',
+          [fieldNames.cvc]: '',
+          [fieldNames.paymentMethodName]: paymentType.creditCard,
+        });
+
+        setNumber('');
+        setName('');
+        setExpiry('');
+        setCvc('');
         setState({
           loading: false,
           readOnly: false,
           paymentMethod: {},
         });
       }
-    }, [
-      dopplerAccountPlansApiClient,
-      appSessionRef,
-      optionView,
-      paymentMethod,
-      setFieldValue,
-      setValues,
-    ]);
+    }, [dopplerAccountPlansApiClient, appSessionRef, optionView, setValues]);
 
     const onChangeNumber = (e) => {
       if (!pasted) {

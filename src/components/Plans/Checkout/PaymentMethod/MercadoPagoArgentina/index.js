@@ -76,17 +76,6 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   useEffect(() => {
-    const initializeDefaultValues = () => {
-      setValues({
-        [fieldNames.name]: '',
-        [fieldNames.number]: '',
-        [fieldNames.expiry]: '',
-        [fieldNames.cvc]: '',
-        [fieldNames.identificationNumber]: '',
-        [fieldNames.paymentMethodName]: paymentType.mercadoPago,
-      });
-    };
-
     if (optionView === actionPage.READONLY) {
       setState({
         paymentMethod: paymentMethod
@@ -101,15 +90,26 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
         loading: false,
         readOnly: true,
       });
-    } else {
-      initializeDefaultValues();
+    }
+  }, [optionView, setValues, paymentMethod]);
+
+  useEffect(() => {
+    if (optionView === actionPage.UPDATE) {
+      setValues({
+        [fieldNames.name]: '',
+        [fieldNames.number]: '',
+        [fieldNames.expiry]: '',
+        [fieldNames.cvc]: '',
+        [fieldNames.identificationNumber]: '',
+        [fieldNames.paymentMethodName]: paymentType.mercadoPago,
+      });
       setState({
         loading: false,
         readOnly: false,
         paymentMethod: {},
       });
     }
-  }, [optionView, setFieldValue, setValues, paymentMethod]);
+  }, [optionView, setValues]);
 
   const onChangeNumber = (e) => {
     if (!pasted) {
