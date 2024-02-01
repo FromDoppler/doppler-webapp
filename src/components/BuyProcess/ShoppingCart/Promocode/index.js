@@ -31,7 +31,6 @@ export const Promocode = InjectAppServices(
     callback,
     selectedPaymentFrequency,
     hasPromocodeAppliedItem,
-    selectedPlanType,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const [open, setOpen] = useState(false);
@@ -44,7 +43,9 @@ export const Promocode = InjectAppServices(
     const openRef = useRef(null);
     const promotionRef = useRef(null);
     const promocodeInputRef = useRef(null);
+    const alreadyInitializedRef = useRef(null);
     openRef.current = open;
+    alreadyInitializedRef.current = initialized;
     promotionRef.current = promotion;
 
     const query = useQueryParams();
@@ -86,7 +87,7 @@ export const Promocode = InjectAppServices(
               callback({ ...validateData.value, promocode, planType: selectedMarketingPlan.type });
             createTimeout(() => {
               markPromocodeAsApplied();
-            }, 13000);
+            }, 10000);
           } else {
             callback && callback('');
             dispatch({
@@ -106,32 +107,31 @@ export const Promocode = InjectAppServices(
     );
 
     useEffect(() => {
-      // In this case the user selects a payment frequency >= 3 months
-      if (!initialized && selectedPaymentFrequency?.numberMonths > 1) {
+      // In this case the user selects a payment frequency or an email marketing plan
+      if (!alreadyInitializedRef.current) {
         dispatch({
           type: PROMOCODE_ACTIONS.INITIALIZE_STATE,
         });
+      } else {
+        if (
+          selectedPaymentFrequency?.numberMonths === 1 &&
+          promocodeInputRef.current?.values[fieldNames.promocode]
+        ) {
+          validatePromocode(promocodeInputRef.current?.values[fieldNames.promocode]);
+        }
       }
-    }, [selectedPaymentFrequency, initialized]);
-
-    useEffect(() => {
-      // Clean the promocode field when the users selects a payment frequency >= 3 months
-      if (selectedPaymentFrequency?.numberMonths > 1 || selectedPlanType) {
-        const { setFieldValue } = promocodeInputRef.current;
-        setFieldValue(fieldNames.promocode, '');
-      }
-    }, [selectedPaymentFrequency, selectedPlanType]);
+    }, [selectedPaymentFrequency, selectedMarketingPlan, validatePromocode]);
 
     useEffect(() => {
       // In this case the user remove the promocode from shopping cart
-      if (!hasPromocodeAppliedItem && promocodeApplied && !initialized) {
+      if (!hasPromocodeAppliedItem && promocodeApplied && !alreadyInitializedRef.current) {
         dispatch({
           type: PROMOCODE_ACTIONS.INITIALIZE_STATE,
         });
         const { setFieldValue } = promocodeInputRef.current;
         setFieldValue(fieldNames.promocode, '');
       }
-    }, [hasPromocodeAppliedItem, promocodeApplied, initialized]);
+    }, [hasPromocodeAppliedItem, promocodeApplied]);
 
     useEffect(() => {
       // In this case there is a promocode by default (By URL)
