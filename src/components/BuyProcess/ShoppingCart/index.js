@@ -119,7 +119,7 @@ export const ShoppingCart = InjectAppServices(
 
     const paymentFrequencyProps = {
       ...discountConfig,
-      disabled: discountConfig.disabled || !!promocodeApplied,
+      disabled: discountConfig.disabled,
     };
 
     return (
