@@ -190,6 +190,7 @@ export interface LoginModel extends PayloadWithCaptchaToken {
   username: string;
   password: string;
   fingerPrint: number | string;
+  fingerPrintV2: number | string;
 }
 
 function removeErrorCodeFromExceptionMessage(errorCode: string, message: string) {
@@ -751,6 +752,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         Password: model.password,
         RecaptchaUserCode: model.captchaResponseToken,
         Fingerprint: model.fingerPrint,
+        FingerprintV2: model.fingerPrintV2,
       });
 
       if (!response.data.success) {
