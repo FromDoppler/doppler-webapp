@@ -19,6 +19,9 @@ export const PlanTypeCard = ({
   ribbonText,
   features,
   minPrice,
+  minPriceWithDiscount,
+  isArgentina,
+  discountPercentage,
   scrollTo,
   disabled = false,
   queryParams,
@@ -54,8 +57,25 @@ export const PlanTypeCard = ({
               }
               values={{
                 Span: (chunk) => <span> {chunk}</span>,
+                SpanStrike: (chunk) =>
+                  isArgentina && minPriceWithDiscount ? (
+                    <span className="dp-discount-price-arg">{chunk}</span>
+                  ) : (
+                    ''
+                  ),
                 H3: (chunk) => <h3>{chunk}</h3>,
-                price: <FormattedNumber value={minPrice} {...numberFormatOptions} />,
+                price: (
+                  <FormattedNumber
+                    value={isArgentina && minPriceWithDiscount ? minPriceWithDiscount : minPrice}
+                    {...numberFormatOptions}
+                  />
+                ),
+                priceStrike:
+                  isArgentina && minPriceWithDiscount ? (
+                    <FormattedNumber value={minPrice} {...numberFormatOptions} />
+                  ) : (
+                    ''
+                  ),
               }}
             />
             <Link
@@ -64,6 +84,12 @@ export const PlanTypeCard = ({
             >
               {_('plan_types.calculate_value_button_label')}
             </Link>
+            {isArgentina && minPriceWithDiscount && (
+              <span className="dp-off">
+                <strong>{discountPercentage}% OFF</strong>{' '}
+                {_('plan_types.discount_argentina_label')}
+              </span>
+            )}
           </>
         )}
       </div>
