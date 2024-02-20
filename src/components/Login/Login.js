@@ -242,7 +242,7 @@ const Login = ({
     type: 'login',
     page: extractPage(location),
   });
-  const fingerPrintingId = useFingerPrinting();
+  const { fingerPrintingId, fingerPrintingIdV2 } = useFingerPrinting();
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
@@ -299,6 +299,7 @@ const Login = ({
         password: values[fieldNames.password],
         captchaResponseToken: values['captchaResponseToken'],
         fingerPrint: fingerPrintingId,
+        fingerPrintV2: fingerPrintingIdV2,
       });
 
       if (result.success) {
