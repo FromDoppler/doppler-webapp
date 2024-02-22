@@ -99,7 +99,7 @@ export const getBuyPurchaseUrl = ({
         planType,
         planId,
         discountId,
-        promocode,
+        promocode: encodeURI(promocode),
         monthPlan,
         currentQueryParams,
       })
@@ -107,7 +107,7 @@ export const getBuyPurchaseUrl = ({
         controlPanelUrl,
         planId,
         discountId,
-        promocode,
+        promocode: encodeURI(promocode),
         currentQueryParams,
       });
 };
