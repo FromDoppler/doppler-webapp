@@ -111,6 +111,7 @@ const messages_es = {
     feature_item_chat_plan: `Incluye hasta <Strong>{units} conversaciones</Strong>`,
     feature_item_discount_advanced_pay: `Descuento pago adelantado {months}/meses`,
     feature_item_discount_monthly: `Descuento Código Promocional {months}/meses`,
+    feature_item_discount_monthly_argentina: `Descuento Exclusivo Argentina {months}/meses`,
     feature_item_extra_credits: `Incluye {units} créditos extra`,
     'feature_item_monthly-deliveries': `Incluye hasta <Strong>{units} envíos</Strong>`,
     feature_item_prepaid: `Incluye hasta <Strong>{units} créditos</Strong>`,

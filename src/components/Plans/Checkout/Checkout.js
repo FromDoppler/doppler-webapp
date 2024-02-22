@@ -56,6 +56,8 @@ const Checkout = InjectAppServices(
     const monthPlan = query.get('monthPlan') ?? 0;
     const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
+    const { locationCountry } = sessionPlan;
+    const isArgentina = locationCountry === 'ar';
     const { isFreeAccount } = sessionPlan.plan;
     const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
 
@@ -250,6 +252,7 @@ const Checkout = InjectAppServices(
                   selectedMarketingPlan={selectedFullPlan}
                   items={[selectedFullPlan]}
                   isEqualPlan={false}
+                  isArgentina={isArgentina}
                 />
               </div>
             </div>

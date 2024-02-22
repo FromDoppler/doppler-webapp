@@ -13,6 +13,10 @@ import {
 import useTimeout from '../../../../hooks/useTimeout';
 import PropTypes from 'prop-types';
 import { PromocodeMessages } from './PromocodeMessages';
+import {
+  PLAN_TYPE,
+  SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA,
+} from '../../../../doppler-types';
 
 const fieldNames = {
   promocode: 'promocode',
@@ -31,6 +35,7 @@ export const Promocode = InjectAppServices(
     callback,
     selectedPaymentFrequency,
     hasPromocodeAppliedItem,
+    isArgentina,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const [open, setOpen] = useState(false);
@@ -49,7 +54,7 @@ export const Promocode = InjectAppServices(
     promotionRef.current = promotion;
 
     const query = useQueryParams();
-    const defaultPromocode = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+    const defaultPromocode = getPromocode(query, isArgentina);
 
     const toggleOpen = useCallback(() => setOpen(!openRef.current), []);
 
@@ -64,7 +69,7 @@ export const Promocode = InjectAppServices(
     }, [toggleOpen, createTimeout]);
 
     const validatePromocode = useCallback(
-      async (promocode) => {
+      async (promocode, validatePercengePromocode) => {
         promocodeMessageAlreadyShowRef.current = false;
         if (!promocode) {
           dispatch({
@@ -72,28 +77,74 @@ export const Promocode = InjectAppServices(
             payload: validationsErrorKey.requiredField,
           });
         } else {
-          dispatch({ type: PROMOCODE_ACTIONS.FETCHING_STARTED });
-          const validateData = await dopplerAccountPlansApiClient.validatePromocode(
-            selectedMarketingPlan?.id,
-            promocode,
-          );
+          const dispatchPromocode = (validatePromocodeData, _promocode = promocode) => {
+            if (validatePromocodeData.success) {
+              dispatch({
+                type: PROMOCODE_ACTIONS.FINISH_FETCH,
+                payload: {
+                  ...validatePromocodeData.value,
+                  promocode: _promocode,
+                  planType: selectedMarketingPlan.type,
+                },
+              });
+              callback &&
+                callback({
+                  ...validatePromocodeData.value,
+                  promocode: _promocode,
+                  planType: selectedMarketingPlan.type,
+                });
+              createTimeout(() => {
+                markPromocodeAsApplied();
+              }, 10000);
+            } else {
+              callback && callback('');
+              dispatch({
+                type: PROMOCODE_ACTIONS.FETCH_FAILED,
+                payload: validationsErrorKey.invalidPromocode,
+              });
+            }
+          };
 
-          if (validateData.success) {
-            dispatch({
-              type: PROMOCODE_ACTIONS.FINISH_FETCH,
-              payload: { ...validateData.value, promocode, planType: selectedMarketingPlan.type },
-            });
-            callback &&
-              callback({ ...validateData.value, promocode, planType: selectedMarketingPlan.type });
-            createTimeout(() => {
-              markPromocodeAsApplied();
-            }, 10000);
+          dispatch({ type: PROMOCODE_ACTIONS.FETCHING_STARTED });
+
+          if (
+            validatePercengePromocode &&
+            isArgentina &&
+            selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
+            (selectedMarketingPlan?.subscriberLimit <=
+              SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA ||
+              selectedMarketingPlan?.subscribersQty <=
+                SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA) &&
+            promocode !== process.env.REACT_APP_PROMOCODE_ARGENTINA
+          ) {
+            const { setFieldValue } = promocodeInputRef.current;
+            const [validateData, validateDefaultData] = await Promise.all([
+              dopplerAccountPlansApiClient.validatePromocode(selectedMarketingPlan?.id, promocode),
+              dopplerAccountPlansApiClient.validatePromocode(
+                selectedMarketingPlan?.id,
+                process.env.REACT_APP_PROMOCODE_ARGENTINA,
+              ),
+            ]);
+            if (validateData.success && !validateDefaultData.success) {
+              dispatchPromocode(validateData);
+            } else if (validateDefaultData.success && !validateData.success) {
+              setFieldValue(fieldNames.promocode, process.env.REACT_APP_PROMOCODE_ARGENTINA);
+              dispatchPromocode(validateDefaultData, process.env.REACT_APP_PROMOCODE_ARGENTINA);
+            } else if (
+              validateData?.value?.discountPercentage <
+              validateDefaultData?.value?.discountPercentage
+            ) {
+              setFieldValue(fieldNames.promocode, process.env.REACT_APP_PROMOCODE_ARGENTINA);
+              dispatchPromocode(validateDefaultData, process.env.REACT_APP_PROMOCODE_ARGENTINA);
+            } else {
+              dispatchPromocode(validateData);
+            }
           } else {
-            callback && callback('');
-            dispatch({
-              type: PROMOCODE_ACTIONS.FETCH_FAILED,
-              payload: validationsErrorKey.invalidPromocode,
-            });
+            const validateData = await dopplerAccountPlansApiClient.validatePromocode(
+              selectedMarketingPlan?.id,
+              promocode,
+            );
+            dispatchPromocode(validateData);
           }
         }
       },
@@ -103,6 +154,7 @@ export const Promocode = InjectAppServices(
         callback,
         createTimeout,
         selectedMarketingPlan,
+        isArgentina,
       ],
     );
 
@@ -117,7 +169,7 @@ export const Promocode = InjectAppServices(
           selectedPaymentFrequency?.numberMonths === 1 &&
           promocodeInputRef.current?.values[fieldNames.promocode]
         ) {
-          validatePromocode(promocodeInputRef.current?.values[fieldNames.promocode]);
+          validatePromocode(promocodeInputRef.current?.values[fieldNames.promocode], true);
         }
       }
     }, [selectedPaymentFrequency, selectedMarketingPlan, validatePromocode]);
@@ -139,7 +191,8 @@ export const Promocode = InjectAppServices(
         setOpen(true);
         const { setFieldValue } = promocodeInputRef.current;
         setFieldValue(fieldNames.promocode, defaultPromocode);
-        validatePromocode(defaultPromocode);
+        const validatePercengePromocode = true;
+        validatePromocode(defaultPromocode, validatePercengePromocode);
       }
     }, [validatePromocode, allowPromocode, defaultPromocode, selectedMarketingPlan]);
 
@@ -273,4 +326,12 @@ export const PromocodeFieldItem = ({
       </FieldItem>
     </>
   );
+};
+
+export const getPromocode = (query, isArgentina) => {
+  const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+
+  return !promocodeFromUrl && isArgentina
+    ? process.env.REACT_APP_PROMOCODE_ARGENTINA
+    : promocodeFromUrl;
 };

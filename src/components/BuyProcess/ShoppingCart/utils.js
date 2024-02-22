@@ -74,12 +74,10 @@ export const mapItemFromMarketingPlan = ({
   amountDetailsData,
   promocodeApplied,
   removePromocodeApplied,
-  isTransfer,
   intl,
+  isExclusiveDiscountArgentina,
 }) => {
   const numberMonths = selectedPaymentFrequency?.numberMonths;
-
-  console.log('amountDetailsData', amountDetailsData);
 
   const planInformation = {
     name: <FormattedMessage id={`buy_process.marketing_plan_title`} />,
@@ -190,9 +188,13 @@ export const mapItemFromMarketingPlan = ({
   if (amountDetailsData?.value?.discountPromocode?.discountPercentage > 0) {
     planInformation.featureList.push(
       <>
-        <p>
+        <p className={isExclusiveDiscountArgentina ? 'dp-discount-arg' : ''}>
           <FormattedMessage
-            id={`buy_process.feature_item_discount_monthly`}
+            id={
+              isExclusiveDiscountArgentina
+                ? `buy_process.feature_item_discount_monthly_argentina`
+                : `buy_process.feature_item_discount_monthly`
+            }
             values={{
               months:
                 promocodeApplied?.duration || amountDetailsData?.value?.discountPromocode?.duration,

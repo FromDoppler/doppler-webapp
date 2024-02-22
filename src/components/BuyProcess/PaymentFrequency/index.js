@@ -8,6 +8,7 @@ import {
 } from './reducers/paymentFrequencyReducer';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import { SubscriptionType } from './SubscriptionType';
+import { EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA } from '../../../doppler-types';
 
 const subscriptionTypeMap = {
   monthly: 'dp-frequency-monthly',
@@ -21,6 +22,7 @@ export const PaymentFrequency = ({
   onSelectPaymentFrequency,
   currentSubscriptionUser,
   disabled = false,
+  isExclusiveDiscountArgentina,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -85,8 +87,14 @@ export const PaymentFrequency = ({
               disabled={disabled}
             >
               {getDiscountName(discount.subscriptionType)}
-              {discount.discountPercentage > 0 && (
-                <span className="dp-discount">-{discount.discountPercentage}%</span>
+              {isExclusiveDiscountArgentina && discount.numberMonths === 1 ? (
+                <span className={'dp-discount-arg'}>
+                  -{EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA}%
+                </span>
+              ) : (
+                discount.discountPercentage > 0 && (
+                  <span className={'dp-discount'}>-{discount.discountPercentage}%</span>
+                )
               )}
             </button>
           ))}
