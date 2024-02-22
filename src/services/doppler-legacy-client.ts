@@ -578,6 +578,7 @@ export function mapHeaderDataJson(json: any) {
       plan: mapPlanEntry(json.user.plan),
       sms: json.user.sms?.description ? mapSmsEntry(json.user.sms) : {},
       hasCampaingSent: json.user.hasCampaingSent,
+      locationCountry: json.user.locationCountry,
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
