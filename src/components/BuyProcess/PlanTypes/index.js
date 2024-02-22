@@ -82,12 +82,12 @@ const TableRow = ({ row }) => (
   </tr>
 );
 
-const isArgentina = true;
-
 export const PlanTypes = InjectAppServices(
   ({ dependencies: { planService, dopplerAccountPlansApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const { locationCountry } = appSessionRef.current.userData.user;
+    const isArgentina = locationCountry === 'ar';
     const { planTypes, loading, hasError } = useFetchPlanTypes(planService);
     const minPriceByContact = useGetMinPriceContactArgentina(
       planService,
