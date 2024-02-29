@@ -23,6 +23,7 @@ export const PaymentFrequency = ({
   currentSubscriptionUser,
   disabled = false,
   isExclusiveDiscountArgentina,
+  promocodeApplied,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -87,7 +88,12 @@ export const PaymentFrequency = ({
               disabled={disabled}
             >
               {getDiscountName(discount.subscriptionType)}
-              {isExclusiveDiscountArgentina && discount.numberMonths === 1 ? (
+              {isExclusiveDiscountArgentina &&
+              discount.numberMonths === 1 &&
+              (promocodeApplied?.promocode === process.env.REACT_APP_PROMOCODE_ARGENTINA ||
+                (promocodeApplied?.promocode !== process.env.REACT_APP_PROMOCODE_ARGENTINA &&
+                  promocodeApplied?.discountPercentage <=
+                    EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA)) ? (
                 <span className={'dp-discount-arg'}>
                   -{EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA}%
                 </span>
