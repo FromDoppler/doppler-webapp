@@ -135,6 +135,7 @@ export const ShoppingCart = InjectAppServices(
       ...discountConfig,
       disabled: discountConfig.disabled,
       isExclusiveDiscountArgentina,
+      promocodeApplied,
     };
 
     return (
