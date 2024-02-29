@@ -602,10 +602,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListBlog_2_link_description: 'Mira cómo implementarlos',
     postListBlog_2_title: '#FuncionalidadDestacada',
 
-    postListHelp_1_description: 'Descubre cuáles son las tendencias que aplican los mayores referentes internacionales y nútrete de ideas para implementar en tu negocio.',
-    postListHelp_1_link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=am-emmsdt-registros-ago23',
-    postListHelp_1_link_description: '¡Regístrate gratis!',
-    postListHelp_1_title: 'EMMS Digital Trends 2023 | Evento online',
+    postListHelp_1_description: 'Descubre las últimas tendencias y las mejores estrategias para atraer nuevos clientes y aumentar la facturación de tu Tienda Online.',
+    postListHelp_1_link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecommerce-invitacion-feb24',
+    postListHelp_1_link_description: '¡Reserva tu lugar!',
+    postListHelp_1_title: 'EMMS E-Commerce 2024 🚀 | Evento online y gratuito',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
