@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loading } from '../../../Loading/Loading';
 import { UnexpectedError } from '../../../shared/UnexpectedError/index';
 import { PaymentMethodType } from '../../../../doppler-types';
+import { getRedirectUrl } from '..';
 
 const FormatMessageWithBoldWords = ({ id }) => {
   return (
@@ -135,6 +136,7 @@ export const PaymentInformationSummary = InjectAppServices(
     const allInvoicesProcessed = query.get('allInvoicesProcessed') ?? 'false';
     const anyPendingInvoices = query.get('anyPendingInvoices') ?? 'false';
     const successful = query.get('success') ?? 'false';
+    const from = query.get('from') ?? '';
     const intl = useIntl();
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -171,7 +173,7 @@ export const PaymentInformationSummary = InjectAppServices(
 
     const redirect = (successful) => {
       if (successful === 'true') {
-        window.location.href = '/login';
+        window.location.href = getRedirectUrl(from);
       } else {
         navigate('/update-payment-method');
       }
@@ -220,7 +222,7 @@ export const PaymentInformationSummary = InjectAppServices(
                 className="dp-button button-medium primary-green m-t-24"
                 onClick={() => redirect(successful)}
               >
-                {successful === 'true'
+                {successful === 'true' && from !== 'control-panel'
                   ? _('updatePaymentInformationSuccess.go_to_login_button')
                   : _('updatePaymentInformationSuccess.back_button')}
               </button>
