@@ -36,6 +36,7 @@ const SuccessfulMessage = ({
   invoices,
   email,
   paymentMethod,
+  isLoggedIn,
 }) => {
   return (
     <>
@@ -63,9 +64,15 @@ const SuccessfulMessage = ({
           <p className="p-l-12">
             {allInvoicesProcessed === 'true' ? (
               <>
-                <p>
-                  <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_message" />
-                </p>
+                {isLoggedIn ? (
+                  <p>
+                    <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_with_active_account_message" />
+                  </p>
+                ) : (
+                  <p>
+                    <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_message" />
+                  </p>
+                )}
                 {paymentMethod === PaymentMethodType.transfer && (
                   <>
                     <p>&nbsp;</p>
@@ -212,6 +219,7 @@ export const PaymentInformationSummary = InjectAppServices(
                 invoices={declinedInvoices}
                 email={appSessionRef.current.email}
                 paymentMethod={paymentMethod}
+                isLoggedIn={from === 'control-panel'}
               />
             )}
             <div className="p-l-12">

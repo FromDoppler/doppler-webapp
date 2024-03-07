@@ -1436,6 +1436,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
   updatePaymentInformationSuccess: {
     all_invoices_processed_message: 'Your Doppler account has been reactivated.',
     all_invoices_processed_title: 'Done! Your payment has been accepted.',
+    all_invoices_processed_with_active_account_message: 'You can continue using your Doppler account.',
     back_button: 'Back',
     credit_card_error: {
       card_volume_exceeded: 'You exceeded the daily limit of attempts with your card.',
