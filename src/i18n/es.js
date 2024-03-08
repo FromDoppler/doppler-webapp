@@ -1438,6 +1438,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
   updatePaymentInformationSuccess: {
     all_invoices_processed_message: 'Ya reactivamos tu cuenta de Doppler.',
     all_invoices_processed_title: '¡Listo! Tu pago fue aceptado.',
+    all_invoices_processed_with_active_account_message: 'Puedes continuar utilizando tu cuenta de Doppler.',
     back_button: 'Volver',
     credit_card_error: {
       card_volume_exceeded: 'Tu tarjeta superó el límite diario de intentos.',

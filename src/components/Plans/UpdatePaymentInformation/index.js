@@ -20,6 +20,7 @@ import {
   UPDATE_PAYMENT_INFORMATION_ACTIONS,
 } from './Reducers/updatePaymentInformationReducer';
 import { UnexpectedError } from '../../shared/UnexpectedError/index';
+import { useQueryParams } from '../../../hooks/useQueryParams';
 
 const updatePaymentInformationteps = {
   paymentMethodInformation: 'payment-method-information',
@@ -65,6 +66,17 @@ export const handleMessage = (error) => {
   }
 };
 
+const urlDopplerLegacy = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+
+export const getRedirectUrl = (fromkey) => {
+  switch (fromkey) {
+    case 'control-panel':
+      return `${urlDopplerLegacy}/ControlPanel/AccountPreferences/BillingInformationSettings`;
+    default:
+      return '/login';
+  }
+};
+
 const UpdatePaymentInformation = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient } }) => {
     const [{ loading, paymentMethod, hasError }, dispatch] = useReducer(
@@ -76,6 +88,8 @@ const UpdatePaymentInformation = InjectAppServices(
     const [paymentInformationAction, setPaymentInformationAction] = useState(actionPage.READONLY);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const queryParams = useQueryParams();
+    const fromParam = queryParams.get('from');
 
     useEffect(() => {
       const fetchData = async () => {
@@ -179,6 +193,7 @@ const UpdatePaymentInformation = InjectAppServices(
                           handleChangeView={(view) => {
                             setPaymentInformationAction(view);
                           }}
+                          from={fromParam}
                         />
                       </Step>
                     </ul>
@@ -197,7 +212,10 @@ const UpdatePaymentInformation = InjectAppServices(
               <div className="col-lg-12 col-md-6 col-sm-12 m-b-24"></div>
               <div className="col-sm-12 m-b-24">
                 <hr className="dp-h-divider" />
-                <Link to={`/login`} className="dp-button button-medium primary-grey m-t-30 m-r-24">
+                <Link
+                  to={getRedirectUrl(fromParam)}
+                  className="dp-button button-medium primary-grey m-t-30 m-r-24"
+                >
                   {_('checkoutProcessForm.button_back')}
                 </Link>
               </div>

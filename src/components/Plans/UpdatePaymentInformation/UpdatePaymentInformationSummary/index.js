@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loading } from '../../../Loading/Loading';
 import { UnexpectedError } from '../../../shared/UnexpectedError/index';
 import { PaymentMethodType } from '../../../../doppler-types';
+import { getRedirectUrl } from '..';
 
 const FormatMessageWithBoldWords = ({ id }) => {
   return (
@@ -35,6 +36,7 @@ const SuccessfulMessage = ({
   invoices,
   email,
   paymentMethod,
+  isLoggedIn,
 }) => {
   return (
     <>
@@ -62,9 +64,15 @@ const SuccessfulMessage = ({
           <p className="p-l-12">
             {allInvoicesProcessed === 'true' ? (
               <>
-                <p>
-                  <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_message" />
-                </p>
+                {isLoggedIn ? (
+                  <p>
+                    <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_with_active_account_message" />
+                  </p>
+                ) : (
+                  <p>
+                    <FormatMessageWithBoldWords id="updatePaymentInformationSuccess.all_invoices_processed_message" />
+                  </p>
+                )}
                 {paymentMethod === PaymentMethodType.transfer && (
                   <>
                     <p>&nbsp;</p>
@@ -135,6 +143,7 @@ export const PaymentInformationSummary = InjectAppServices(
     const allInvoicesProcessed = query.get('allInvoicesProcessed') ?? 'false';
     const anyPendingInvoices = query.get('anyPendingInvoices') ?? 'false';
     const successful = query.get('success') ?? 'false';
+    const from = query.get('from') ?? '';
     const intl = useIntl();
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -171,7 +180,7 @@ export const PaymentInformationSummary = InjectAppServices(
 
     const redirect = (successful) => {
       if (successful === 'true') {
-        window.location.href = '/login';
+        window.location.href = getRedirectUrl(from);
       } else {
         navigate('/update-payment-method');
       }
@@ -210,6 +219,7 @@ export const PaymentInformationSummary = InjectAppServices(
                 invoices={declinedInvoices}
                 email={appSessionRef.current.email}
                 paymentMethod={paymentMethod}
+                isLoggedIn={from === 'control-panel'}
               />
             )}
             <div className="p-l-12">
@@ -220,7 +230,7 @@ export const PaymentInformationSummary = InjectAppServices(
                 className="dp-button button-medium primary-green m-t-24"
                 onClick={() => redirect(successful)}
               >
-                {successful === 'true'
+                {successful === 'true' && from !== 'control-panel'
                   ? _('updatePaymentInformationSuccess.go_to_login_button')
                   : _('updatePaymentInformationSuccess.back_button')}
               </button>

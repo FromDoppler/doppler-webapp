@@ -222,7 +222,7 @@ const PaymentNotes = ({ paymentMethodType }) => {
 };
 
 export const UpdatePaymentMethod = InjectAppServices(
-  ({ dependencies: { dopplerBillingUserApiClient }, optionView, handleSaveAndContinue }) => {
+  ({ dependencies: { dopplerBillingUserApiClient }, optionView, handleSaveAndContinue, from }) => {
     const [{ loading, paymentMethod, billingCountry, hasError }, dispatch] = useReducer(
       updatePaymentInformationReducer,
       INITIAL_STATE_UPDATE_PAYMENT_INFORMATION,
@@ -283,7 +283,7 @@ export const UpdatePaymentMethod = InjectAppServices(
 
           createTimeout(() => {
             navigate(
-              `/payment-information-summary?allInvoicesProcessed=${reprocessResult.value.allInvoicesProcessed}&success=${reprocessResult.success}&anyPendingInvoices=${reprocessResult.value.anyPendingInvoices}`,
+              `/payment-information-summary?allInvoicesProcessed=${reprocessResult.value.allInvoicesProcessed}&success=${reprocessResult.success}&anyPendingInvoices=${reprocessResult.value.anyPendingInvoices}&from=${from}`,
             );
           }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
         } else {
