@@ -222,8 +222,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: mercadolibre_icon,
               imgAlt: _('integrations.native_integrations.mercadolibre_title'),
               iconName: _('integrations.native_integrations.mercadolibre_title'),
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
             {
               name: 'MercadoShops',
@@ -231,8 +229,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: mercado_shops_icon,
               imgAlt: _('integrations.native_integrations.mercadoshops_title'),
               iconName: _('integrations.native_integrations.mercadoshops_title'),
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
             {
               name: 'MiTienda',
@@ -240,8 +236,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: mitienda_icon,
               imgAlt: _('integrations.native_integrations.mitienda_title'),
               iconName: _('integrations.native_integrations.mitienda_title'),
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
             {
               name: 'Jumpseller',
@@ -249,8 +243,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: jumpseller_icon,
               imgAlt: _('integrations.native_integrations.jumpseller_title'),
               iconName: _('integrations.native_integrations.jumpseller_title'),
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
           ],
         },
@@ -368,8 +360,6 @@ export class ControlPanelService implements ControlPanelService {
               imgAlt: _('integrations.external_integrations.dynamics_title'),
               iconName: _('integrations.external_integrations.dynamics_title'),
               targetBlank: true,
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
             {
               linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-tiendup`,
@@ -377,8 +367,6 @@ export class ControlPanelService implements ControlPanelService {
               imgAlt: _('integrations.external_integrations.tiendup_title'),
               iconName: _('integrations.external_integrations.tiendup_title'),
               targetBlank: true,
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
             },
             {
               linkUrl: _('integrations.external_integrations.wordpress_link_url'),
