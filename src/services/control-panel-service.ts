@@ -53,6 +53,7 @@ import mitienda_icon from '../components/Integrations/images/mitienda-icon.png';
 import tiendup_icon from '../components/Integrations/images/tiendup_icon.png';
 import jumpseller_icon from '../components/Integrations/images/jumpseller_icon.svg';
 import wordpress_icon from '../components/Integrations/images/wordpress_icon.png';
+import empretienda_icon from '../components/Integrations/images/empretienda_icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -385,6 +386,15 @@ export class ControlPanelService implements ControlPanelService {
               imgAlt: _('integrations.external_integrations.wordpress_title'),
               iconName: _('integrations.external_integrations.wordpress_title'),
               targetBlank: true,
+            },
+            {
+              linkUrl: _('integrations.external_integrations.empretienda_link_url'),
+              imgSrc: empretienda_icon,
+              imgAlt: _('integrations.external_integrations.empretienda_title'),
+              iconName: _('integrations.external_integrations.empretienda_title'),
+              targetBlank: true,
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
             },
           ],
         },
