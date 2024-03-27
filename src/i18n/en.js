@@ -744,6 +744,8 @@ You'll find an Email with steps to follow.`,
     external_integrations: {
       dynamics_link_url: `${urlHelp}/how-to-integrate-dynamics-with-doppler`,
       dynamics_title: 'Microsoft Dynamics 365',
+      empretienda_link_url: `${urlHelp}/doppler-functionalities-for-empretienda`,
+      empretienda_title: 'Empretienda',
       facebook_title: 'Facebook',
       infor_title: 'Infor',
       leanrpress_title: 'LearnPress',
