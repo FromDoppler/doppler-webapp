@@ -85,8 +85,9 @@ export class PlanService implements PlanInterface {
     const currentPlan: any = this.getCurrentPlan();
 
     const potentialUpgradePlans: Plan[] = getPotentialUpgrades(currentPlan, planList);
-
+    console.log('potentialUpgradePlans', potentialUpgradePlans);
     const typesAllowed: PlanType[] = potentialUpgradePlans.map((plan) => plan.type);
+    console.log('typesAllowed', typesAllowed);
     const distinctTypesAllowed: PlanType[] = [...Array.from(new Set<PlanType>(typesAllowed))];
     const distinctPlanTypesOrdered = orderPlanTypes(distinctTypesAllowed);
     const distinctPlansAllowed: DistinctPlan[] = distinctPlanTypesOrdered.map((type) => {

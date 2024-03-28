@@ -40,6 +40,8 @@ export const PlanSelection = InjectAppServices(
     const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    const { locationCountry } = sessionPlan;
+    const isArgentina = locationCountry === 'ar';
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
     const { search } = useLocation();
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
@@ -229,6 +231,7 @@ export const PlanSelection = InjectAppServices(
                 }
                 items={[selectedPlan]}
                 isEqualPlan={isEqualPlan}
+                isArgentina={isArgentina}
               />
             </div>
           </div>

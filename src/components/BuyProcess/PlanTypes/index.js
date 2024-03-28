@@ -10,6 +10,7 @@ import { UnexpectedError } from '../../shared/UnexpectedError';
 import { Element as ScrollElement } from 'react-scroll';
 import { getQueryParamsWithAccountType } from '../../../utils';
 import { FeaturesPlanTypes } from './FeaturesPlanTypes';
+import { useGetMinPriceContactArgentina } from './useGetMinPriceContactArgentina';
 
 const planByContactsUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`;
 const planByEmailsUrl = `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}`;
@@ -25,21 +26,36 @@ const HeaderText = ({ title, description, comment, Container = 'div', containerP
   </Container>
 );
 
-const mapPlanTypes = (planTypes) =>
-  allPlanTypes.map((fullPlanType) => {
+const mapPlanTypes = (planTypes, minPriceByContact, isArgentina = true) => {
+  const currentMonthTotal = minPriceByContact?.amountDetailsData?.currentMonthTotal;
+  const argentinaExclusiveDiscount = isArgentina && currentMonthTotal;
+
+  const mappedPlanTypes = allPlanTypes.map((fullPlanType) => {
     if (fullPlanType.planType !== PLAN_TYPE.free) {
       const _planType = planTypes.find((pt) => pt.type === fullPlanType.planType);
       if (_planType) {
-        return {
+        let _fullPlanType = {
           ...fullPlanType,
           minPrice: _planType.minPrice,
         };
+        if (argentinaExclusiveDiscount && fullPlanType.planType === PLAN_TYPE.byContact) {
+          _fullPlanType = {
+            ..._fullPlanType,
+            minPriceWithDiscount: currentMonthTotal,
+            discountPercentage: minPriceByContact.promotion.discountPercentage,
+            isArgentina,
+          };
+        }
+        return _fullPlanType;
       }
       return null;
     } else {
       return fullPlanType;
     }
   });
+
+  return mappedPlanTypes;
+};
 
 const getMappedRows = ({ key, quantityFeatures }) => {
   const mappedRows = [];
@@ -66,127 +82,145 @@ const TableRow = ({ row }) => (
   </tr>
 );
 
-export const PlanTypes = InjectAppServices(({ dependencies: { planService, appSessionRef } }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const { planTypes, loading, hasError } = useFetchPlanTypes(planService);
-  const { search } = useLocation();
-  const { isFreeAccount } = appSessionRef.current.userData.user.plan;
-  const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
-
-  if (!isFreeAccount) {
-    return (
-      <Navigate
-        to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?${queryParams}`}
-      />
+export const PlanTypes = InjectAppServices(
+  ({ dependencies: { planService, dopplerAccountPlansApiClient, appSessionRef } }) => {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const { locationCountry } = appSessionRef.current.userData.user;
+    const isArgentina = locationCountry === 'ar';
+    const { planTypes, loading, hasError } = useFetchPlanTypes(planService);
+    const minPriceByContact = useGetMinPriceContactArgentina(
+      planService,
+      dopplerAccountPlansApiClient,
+      planTypes,
+      isArgentina,
     );
-  }
+    const { search } = useLocation();
+    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
 
-  if (loading) {
-    return <Loading page />;
-  }
+    if (!isFreeAccount) {
+      return (
+        <Navigate
+          to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?${queryParams}`}
+        />
+      );
+    }
 
-  if (hasError) {
+    if (loading) {
+      return <Loading page />;
+    }
+
+    if (hasError) {
+      return (
+        <div className="m-t-36 m-b-36">
+          <UnexpectedError msgId="common.something_wrong" />
+        </div>
+      );
+    }
+
+    const mappedPlanTypes = mapPlanTypes(planTypes, minPriceByContact, isArgentina);
+
     return (
-      <div className="m-t-36 m-b-36">
-        <UnexpectedError msgId="common.something_wrong" />
+      <div className="dp-app-container">
+        <Helmet>
+          <title>{_('plan_types.meta_title')}</title>
+        </Helmet>
+
+        <section className="p-t-30 p-b-30">
+          <HeaderText
+            title={_('plan_types.page_title')}
+            description={_('plan_types.page_description')}
+            comment={_('plan_types.page_comment')}
+          />
+          <div className="dp-container">
+            <div className="dp-rowflex">
+              <section className="col-sm-12">
+                <article>
+                  <div className="dp-align-center">
+                    {mappedPlanTypes.map((item, index) => (
+                      <PlanTypeCard
+                        key={`plan-type${index}`}
+                        {...item}
+                        queryParams={`${
+                          isArgentina
+                            ? `${queryParams}&promo-code=${process.env.REACT_APP_PROMOCODE_ARGENTINA}`
+                            : queryParams
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </article>
+              </section>
+              <section className="col-sm-12">
+                <div className="dp-banner-big">
+                  <div className="col-sm-12 col-md-9 dp-banner-content">
+                    <div className="dp-content-banner">
+                      <h3>{_('plan_types.agency_banner.title')}</h3>
+                      <p>{_('plan_types.agency_banner.description')}</p>
+                    </div>
+                  </div>
+                  <div className="col-sm-12 col-md-3 text-align--right">
+                    <Link
+                      to="/email-marketing-for-agencies"
+                      className="dp-button button-medium ctaTertiary"
+                    >
+                      {_('plan_types.agency_banner.button_text')}
+                    </Link>
+                  </div>
+                </div>
+              </section>
+              <section className="dp-banner-payment-methods">
+                <h4 className="dp-tit-payment-methods">
+                  {_('plan_types.payment_methods_banner.title')}
+                </h4>
+                <span className="dp-mercado" />
+                <span className="dp-visa" />
+                <span className="dp-mastercard" />
+                <span className="dp-american" />
+                <span className="dp-bank">
+                  <span className="dpicon iconapp-bank">
+                    <span>{_('plan_types.payment_methods_banner.transfer_label')}</span>
+                  </span>
+                </span>
+              </section>
+              <FeaturesPlanTypes />
+              <HeaderText
+                title={_('plan_types.functionality_header.title')}
+                description={_('plan_types.functionality_header.description')}
+                comment={_('plan_types.functionality_header.comment')}
+                Container={ScrollElement}
+                containerProps={{ name: 'functionalities' }}
+              />
+              <section className="col-sm-12 m-t-24 m-b-36">
+                {tables.map((table, index) => (
+                  <div key={`table${index}`} className="dp-table-plans m-b-36">
+                    <ScrollElement name={table.name}>
+                      <header className="dp-header-plans dp-rowflex">
+                        <div className="col-lg-6 col-md-12">
+                          <h3>{table.headerTitle}</h3>
+                        </div>
+                      </header>
+                    </ScrollElement>
+                    <div className="dp-table-responsive">
+                      <table className="dp-c-table dp-nested-table">
+                        <tbody>
+                          {table.items.map((item, index) => (
+                            <TableRow key={`row-${index}`} row={item} />
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </div>
+          </div>
+        </section>
       </div>
     );
-  }
-
-  const mappedPlanTypes = mapPlanTypes(planTypes);
-
-  return (
-    <div className="dp-app-container">
-      <Helmet>
-        <title>{_('plan_types.meta_title')}</title>
-      </Helmet>
-
-      <section className="p-t-30 p-b-30">
-        <HeaderText
-          title={_('plan_types.page_title')}
-          description={_('plan_types.page_description')}
-          comment={_('plan_types.page_comment')}
-        />
-        <div className="dp-container">
-          <div className="dp-rowflex">
-            <section className="col-sm-12">
-              <article>
-                <div className="dp-align-center">
-                  {mappedPlanTypes.map((item, index) => (
-                    <PlanTypeCard key={`plan-type${index}`} {...item} queryParams={queryParams} />
-                  ))}
-                </div>
-              </article>
-            </section>
-            <section className="col-sm-12">
-              <div className="dp-banner-big">
-                <div className="col-sm-12 col-md-9 dp-banner-content">
-                  <div className="dp-content-banner">
-                    <h3>{_('plan_types.agency_banner.title')}</h3>
-                    <p>{_('plan_types.agency_banner.description')}</p>
-                  </div>
-                </div>
-                <div className="col-sm-12 col-md-3 text-align--right">
-                  <Link
-                    to="/email-marketing-for-agencies"
-                    className="dp-button button-medium ctaTertiary"
-                  >
-                    {_('plan_types.agency_banner.button_text')}
-                  </Link>
-                </div>
-              </div>
-            </section>
-            <section className="dp-banner-payment-methods">
-              <h4 className="dp-tit-payment-methods">
-                {_('plan_types.payment_methods_banner.title')}
-              </h4>
-              <span className="dp-mercado" />
-              <span className="dp-visa" />
-              <span className="dp-mastercard" />
-              <span className="dp-american" />
-              <span className="dp-bank">
-                <span className="dpicon iconapp-bank">
-                  <span>{_('plan_types.payment_methods_banner.transfer_label')}</span>
-                </span>
-              </span>
-            </section>
-            <FeaturesPlanTypes />
-            <HeaderText
-              title={_('plan_types.functionality_header.title')}
-              description={_('plan_types.functionality_header.description')}
-              comment={_('plan_types.functionality_header.comment')}
-              Container={ScrollElement}
-              containerProps={{ name: 'functionalities' }}
-            />
-            <section className="col-sm-12 m-t-24 m-b-36">
-              {tables.map((table, index) => (
-                <div key={`table${index}`} className="dp-table-plans m-b-36">
-                  <ScrollElement name={table.name}>
-                    <header className="dp-header-plans dp-rowflex">
-                      <div className="col-lg-6 col-md-12">
-                        <h3>{table.headerTitle}</h3>
-                      </div>
-                    </header>
-                  </ScrollElement>
-                  <div className="dp-table-responsive">
-                    <table className="dp-c-table dp-nested-table">
-                      <tbody>
-                        {table.items.map((item, index) => (
-                          <TableRow key={`row-${index}`} row={item} />
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              ))}
-            </section>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-});
+  },
+);
 
 const commonFeatures = [
   <FormattedMessage id={'plan_types.features_plans.feature_1'} />,

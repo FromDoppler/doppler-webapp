@@ -7,7 +7,11 @@ import { getPlanTypeFromUrlSegment } from '../../../utils';
 import { PaymentFrequency } from '../PaymentFrequency';
 import { ItemCart } from './ItemCart';
 import { usePaymentMethodData } from '../../../hooks/usePaymentMethodData';
-import { PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
+import {
+  PLAN_TYPE,
+  PaymentMethodType,
+  SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA,
+} from '../../../doppler-types';
 import { getBuyButton, mapItemFromMarketingPlan } from './utils';
 import { Promocode } from './Promocode';
 import { NextInvoices } from './NextInvoices';
@@ -25,6 +29,7 @@ export const ShoppingCart = InjectAppServices(
     isEqualPlan = true,
     canBuy = true,
     selectedPaymentMethod,
+    isArgentina,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -41,6 +46,15 @@ export const ShoppingCart = InjectAppServices(
       () => getPlanTypeFromUrlSegment(planTypeUrlSegment),
       [planTypeUrlSegment],
     );
+    const sessionPlan = appSessionRef.current.userData.user;
+    const { isFreeAccount } = sessionPlan.plan;
+    const sessionPlanType = sessionPlan.plan.planType;
+    const isExclusiveDiscountArgentina =
+      isArgentina &&
+      isFreeAccount &&
+      selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
+      (selectedMarketingPlan?.subscriberLimit <= SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA ||
+        selectedMarketingPlan?.subscribersQty <= SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -95,15 +109,15 @@ export const ShoppingCart = InjectAppServices(
           amountDetailsData,
           promocodeApplied,
           removePromocodeApplied,
-          isTransfer,
           intl,
+          isExclusiveDiscountArgentina:
+            isArgentina &&
+            isFreeAccount &&
+            selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
+            promocodeApplied?.promocode === process.env.REACT_APP_PROMOCODE_ARGENTINA,
         }),
       );
     const total = amountDetailsData?.value?.currentMonthTotal;
-
-    const sessionPlan = appSessionRef.current.userData.user;
-    const { isFreeAccount } = sessionPlan.plan;
-    const sessionPlanType = sessionPlan.plan.planType;
 
     const buyButton = getBuyButton({
       pathname,
@@ -120,6 +134,8 @@ export const ShoppingCart = InjectAppServices(
     const paymentFrequencyProps = {
       ...discountConfig,
       disabled: discountConfig.disabled,
+      isExclusiveDiscountArgentina,
+      promocodeApplied,
     };
 
     return (
@@ -142,6 +158,7 @@ export const ShoppingCart = InjectAppServices(
             callback={handlePromocodeApplied}
             hasPromocodeAppliedItem={!!promocodeApplied}
             selectedPlanType={selectedPlanType}
+            isArgentina={isArgentina}
           />
         )}
         <section>

@@ -15,6 +15,9 @@ export type EmptyResultWithoutExpectedErrors = { success: true } | UnexpectedErr
 
 export type PathType = 'free' | 'standard' | 'plus' | 'agencies';
 
+export const SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA = 10000;
+export const EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA = 20;
+
 export const PLAN_TYPE = {
   free: 'free',
   byCredit: 'prepaid',
