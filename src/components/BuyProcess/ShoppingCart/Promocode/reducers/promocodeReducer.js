@@ -44,10 +44,12 @@ export const promocodeReducer = (state, action) => {
         validated: true,
       };
     case PROMOCODE_ACTIONS.PROMOCODE_APPLIED:
-      return {
-        ...state,
-        promocodeApplied: true,
-      };
+      return state.initialized
+        ? state
+        : {
+            ...state,
+            promocodeApplied: true,
+          };
 
     case PROMOCODE_ACTIONS.INITIALIZE_STATE:
       return INITIAL_STATE_PROMOCODE;

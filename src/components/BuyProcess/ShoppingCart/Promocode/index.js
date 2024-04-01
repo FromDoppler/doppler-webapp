@@ -188,13 +188,21 @@ export const Promocode = InjectAppServices(
     useEffect(() => {
       // In this case there is a promocode by default (By URL)
       if (defaultPromocode && allowPromocode && selectedMarketingPlan?.id) {
-        setOpen(true);
         const { setFieldValue } = promocodeInputRef.current;
-        setFieldValue(fieldNames.promocode, defaultPromocode);
-        const validatePercengePromocode = true;
-        validatePromocode(defaultPromocode, validatePercengePromocode);
+        if (
+          isArgentina &&
+          defaultPromocode === process.env.REACT_APP_PROMOCODE_ARGENTINA &&
+          selectedMarketingPlan?.type !== PLAN_TYPE.byContact
+        ) {
+          setFieldValue(fieldNames.promocode, '');
+        } else {
+          setOpen(true);
+          setFieldValue(fieldNames.promocode, defaultPromocode);
+          const validatePercengePromocode = true;
+          validatePromocode(defaultPromocode, validatePercengePromocode);
+        }
       }
-    }, [validatePromocode, allowPromocode, defaultPromocode, selectedMarketingPlan]);
+    }, [validatePromocode, allowPromocode, defaultPromocode, selectedMarketingPlan, isArgentina]);
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
