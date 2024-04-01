@@ -65,14 +65,15 @@ describe('promocodeReducer', () => {
 
   it(`${PROMOCODE_ACTIONS.PROMOCODE_APPLIED} action`, () => {
     // Arrange
+    const initialState = { ...INITIAL_STATE_PROMOCODE, initialized: false };
     const action = { type: PROMOCODE_ACTIONS.PROMOCODE_APPLIED };
 
     // Act
-    const newState = promocodeReducer(INITIAL_STATE_PROMOCODE, action);
+    const newState = promocodeReducer(initialState, action);
 
     // Assert
     expect(newState).toEqual({
-      ...INITIAL_STATE_PROMOCODE,
+      ...initialState,
       promocodeApplied: true,
     });
   });
