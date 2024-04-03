@@ -39,6 +39,8 @@ export const SUBSCRIPTION_TYPE = {
   yearly: 'yearly',
 } as const;
 
+export const MAX_LANDING_PACKAGE = 10;
+
 export type PlanType = typeof PLAN_TYPE[keyof typeof PLAN_TYPE];
 
 export type PaymentType = 'CC' | 'transfer';

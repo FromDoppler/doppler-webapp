@@ -7,8 +7,8 @@ export const FeaturesPlanTypes = () => {
 
   return (
     <ul className="dp-anchor-features col-sm-12 m-t-24 m-b-36">
-      {ANCHOR_ITEMS.map((anchorItem) => (
-        <li>
+      {ANCHOR_ITEMS.map((anchorItem, index) => (
+        <li key={`feature-${index}`}>
           <div className="dp-achor-card">
             <ScrollLink
               smooth={true}

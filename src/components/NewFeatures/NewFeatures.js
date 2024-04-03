@@ -90,6 +90,12 @@ const NewFeatures = () => {
             <Link to={'/editors-demo/campaigns/123'}>Ir a Editors Demo MFE</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+          <div className="m-l-24">
+            <h3>Paquetes de landings</h3>
+            <Link to={'/landing-packages'}>Ir a Paquetes de landings</Link>
+          </div>
+        </div>
       </section>
     </>
   );

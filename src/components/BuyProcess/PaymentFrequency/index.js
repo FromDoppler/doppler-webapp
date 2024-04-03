@@ -24,6 +24,7 @@ export const PaymentFrequency = ({
   disabled = false,
   isExclusiveDiscountArgentina,
   promocodeApplied,
+  showBanner = true,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -66,7 +67,7 @@ export const PaymentFrequency = ({
     });
   };
 
-  if (!isMonthlySubscription) {
+  if (!isMonthlySubscription && showBanner) {
     return (
       <SubscriptionType
         period={selectedPaymentFrequency?.numberMonths}
@@ -79,7 +80,11 @@ export const PaymentFrequency = ({
     return (
       <section>
         <h4>{_('buy_process.payment_frequency')}</h4>
-        <nav className={`dp-payment-frequency${lang === 'en' ? '-en' : ''}`}>
+        <nav
+          className={`dp-payment-frequency${lang === 'en' ? '-en' : ''} ${
+            disabled ? 'dp-pf-disabled' : ''
+          }`}
+        >
           {paymentFrequencies.map((discount, index) => (
             <button
               key={`discount-${index}`}
