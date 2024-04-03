@@ -88,6 +88,9 @@ describe('Checkout component', () => {
       getPlanAmountDetailsData: async () => {
         return { success: true, value: fakePlanAmountDetails };
       },
+      getLandingPacks: async () => {
+        return { success: true, value: [{ plandId: 1 }] };
+      },
     },
   };
 

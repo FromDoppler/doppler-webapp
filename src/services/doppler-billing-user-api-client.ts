@@ -18,6 +18,7 @@ export interface DopplerBillingUserApiClient {
   getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>>;
   updatePaymentMethod(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   purchase(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  purchaseLandings(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>>;
   updateInvoiceRecipients(values: any, planId: number): Promise<EmptyResultWithoutExpectedErrors>;
   getCurrentUserPlanData(): Promise<ResultWithoutExpectedErrors<UserPlan>>;
@@ -201,6 +202,14 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       planId: data.planId,
       promocode: data.promocode,
       originInbound: data.originInbound,
+    };
+  }
+
+  private mapLandingAgreementToCreate(data: any): any {
+    console.log('data a mapear', data);
+    return {
+      total: data.total,
+      landingPlans: data.landingPacks,
     };
   }
 
@@ -410,6 +419,27 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         method: 'POST',
         url: `/accounts/${email}/agreements`,
         data: this.mapAgreementToCreate(values),
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async purchaseLandings(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/landings/buy`,
+        data: this.mapLandingAgreementToCreate(values),
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

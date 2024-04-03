@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedNumber, useIntl } from 'react-intl';
 import { useLocation, useParams } from 'react-router-dom';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -8,7 +8,7 @@ import { PaymentFrequency } from '../PaymentFrequency';
 import { ItemCart } from './ItemCart';
 import { usePaymentMethodData } from '../../../hooks/usePaymentMethodData';
 import { PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
-import { getBuyButton, mapItemFromMarketingPlan } from './utils';
+import { getBuyButton, mapItemFromLandingPackages, mapItemFromMarketingPlan } from './utils';
 import { Promocode } from './Promocode';
 import { NextInvoices } from './NextInvoices';
 
@@ -18,18 +18,26 @@ const numberFormatOptions = {
   maximumFractionDigits: 2,
 };
 
+export const BUY_MARKETING_PLAN = 1;
+export const BUY_LANDING_PACK = 2;
+
 export const ShoppingCart = InjectAppServices(
   ({
     discountConfig,
     selectedMarketingPlan,
+    landingPacks,
     isEqualPlan = true,
     canBuy = true,
     selectedPaymentMethod,
+    handleRemoveLandingPacks,
+    hidePromocode = false,
+    buyType = BUY_MARKETING_PLAN,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [amountDetailsData, setAmountDetailsData] = useState(null);
+    const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState('');
     const { planType: planTypeUrlSegment } = useParams();
     const { pathname, search } = useLocation();
@@ -41,6 +49,8 @@ export const ShoppingCart = InjectAppServices(
       () => getPlanTypeFromUrlSegment(planTypeUrlSegment),
       [planTypeUrlSegment],
     );
+    const amountDetailsLandingPacksDataRef = useRef(null);
+    amountDetailsLandingPacksDataRef.current = amountDetailsLandingPacksData;
 
     useEffect(() => {
       const fetchData = async () => {
@@ -68,6 +78,31 @@ export const ShoppingCart = InjectAppServices(
       discountConfig.paymentFrequenciesList,
       promocodeApplied,
       paymentMethodName,
+    ]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const _amountDetailsLandingPacksData =
+          await dopplerAccountPlansApiClient.getPlanBillingDetailsLandingPacksData(
+            landingPacks.map((item) => item.planId).toString(),
+            landingPacks.map((item) => item.packagesQty).toString(),
+          );
+
+        console.log('_amountDetailsLandingPacksData', _amountDetailsLandingPacksData);
+
+        setAmountDetailsLandingPacksData(_amountDetailsLandingPacksData);
+      };
+
+      if (landingPacks?.length > 0) {
+        fetchData();
+      } else if (amountDetailsLandingPacksDataRef.current) {
+        setAmountDetailsLandingPacksData(null);
+      }
+    }, [
+      dopplerAccountPlansApiClient,
+      discountConfig?.selectedPaymentFrequency,
+      discountConfig.paymentFrequenciesList,
+      landingPacks,
     ]);
 
     const handlePromocodeApplied = useCallback((value) => {
@@ -99,8 +134,20 @@ export const ShoppingCart = InjectAppServices(
           intl,
         }),
       );
-    const total = amountDetailsData?.value?.currentMonthTotal;
 
+    landingPacks?.length > 0 &&
+      items.push(
+        mapItemFromLandingPackages({
+          landingPacks,
+          selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
+          handleRemoveLandingPacks,
+          amountDetailsData: amountDetailsLandingPacksData,
+          sessionPlan: appSessionRef.current.userData.user.plan,
+        }),
+      );
+    const total =
+      amountDetailsData?.value?.currentMonthTotal ||
+      amountDetailsLandingPacksData?.value?.currentMonthTotal;
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
     const sessionPlanType = sessionPlan.plan.planType;
@@ -115,6 +162,8 @@ export const ShoppingCart = InjectAppServices(
       promotion: promocodeApplied,
       paymentMethodName,
       total,
+      landingPacks,
+      buyType,
     });
 
     const paymentFrequencyProps = {
@@ -130,20 +179,21 @@ export const ShoppingCart = InjectAppServices(
 
         <PaymentFrequency {...paymentFrequencyProps} />
 
-        {(isFreeAccount || selectedMarketingPlan?.type === PLAN_TYPE.byCredit) && (
-          <Promocode
-            allowPromocode={
-              !discountConfig?.selectedPaymentFrequency?.id ||
-              discountConfig?.selectedPaymentFrequency?.applyPromo
-            }
-            selectedMarketingPlan={selectedMarketingPlan}
-            amountDetailsData={amountDetailsData}
-            selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
-            callback={handlePromocodeApplied}
-            hasPromocodeAppliedItem={!!promocodeApplied}
-            selectedPlanType={selectedPlanType}
-          />
-        )}
+        {(isFreeAccount || selectedMarketingPlan?.type === PLAN_TYPE.byCredit) &&
+          !hidePromocode && (
+            <Promocode
+              allowPromocode={
+                !discountConfig?.selectedPaymentFrequency?.id ||
+                discountConfig?.selectedPaymentFrequency?.applyPromo
+              }
+              selectedMarketingPlan={selectedMarketingPlan}
+              amountDetailsData={amountDetailsData}
+              selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
+              callback={handlePromocodeApplied}
+              hasPromocodeAppliedItem={!!promocodeApplied}
+              selectedPlanType={selectedPlanType}
+            />
+          )}
         <section>
           <h4>{_('buy_process.subscriptions_title')}</h4>
           {items.map((item, index) => (

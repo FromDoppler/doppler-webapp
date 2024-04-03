@@ -21,6 +21,7 @@ export const PaymentFrequency = ({
   onSelectPaymentFrequency,
   currentSubscriptionUser,
   disabled = false,
+  showBanner = true,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -63,7 +64,7 @@ export const PaymentFrequency = ({
     });
   };
 
-  if (!isMonthlySubscription) {
+  if (!isMonthlySubscription && showBanner) {
     return (
       <SubscriptionType
         period={selectedPaymentFrequency?.numberMonths}

@@ -13,8 +13,10 @@ import {
   getQueryParamsWithAccountType,
   orderPaymentFrequencies,
 } from '../../../utils';
-import { ShoppingCart } from '../../BuyProcess/ShoppingCart';
+import { BUY_LANDING_PACK, ShoppingCart } from '../../BuyProcess/ShoppingCart';
 import { useQueryParams } from '../../../hooks/useQueryParams';
+import { useFetchLandingPacks } from '../../../hooks/useFetchtLandingPacks';
+import { paymentFrequenciesListForLandingPacks } from '../../BuyProcess/LandingPacksSelection';
 
 const checkoutSteps = {
   contactInformation: 'contact-information',
@@ -54,10 +56,13 @@ const Checkout = InjectAppServices(
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
     const monthPlan = query.get('monthPlan') ?? 0;
+    const landingIdsStr = query.get('landing-ids') ?? '';
+    const landingsQtyStr = query.get('landing-packs') ?? '';
     const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
     const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
+    const { landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -140,6 +145,17 @@ const Checkout = InjectAppServices(
     const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
     const isPlanByContacts = planType === PLAN_TYPE.byContact;
 
+    const landingIds = landingIdsStr?.split(',') ?? [];
+    const landingsQty = landingsQtyStr?.split(',') ?? [];
+    const selectedLandings = landingPacks
+      ?.filter((lp) => landingIds.includes(lp.planId?.toString()))
+      ?.map((lp, index) => ({
+        ...lp,
+        packagesQty: Number(landingsQty[index]),
+      }));
+
+    const isBuyLandingPacks = selectedLandings?.length > 0;
+
     return (
       <>
         <section className="dp-library dp-bg-softgrey">
@@ -219,38 +235,49 @@ const Checkout = InjectAppServices(
               </div>
               <div className="dp-space-l24"></div>
               <div className="col-lg-4 col-sm-12">
-                {/* <PurchaseSummary
-                  canBuy={
-                    paymentInformationAction === actionPage.READONLY &&
-                    completeContactInformationStep &&
-                    completeBillingInformationStep
-                  }
-                  onApplyPromocode={(promocode) => {
-                    setAppliedPromocode(promocode ? true : false);
-                  }}
-                  discountId={selectedDiscountId}
-                  monthPlan={selectedMonthPlan?.toString()}
-                  paymentMethod={selectedPaymentMethod}
-                ></PurchaseSummary> */}
-
-                <ShoppingCart
-                  canBuy={
-                    paymentInformationAction === actionPage.READONLY &&
-                    completeContactInformationStep &&
-                    completeBillingInformationStep
-                  }
-                  discountConfig={{
-                    paymentFrequenciesList: paymentFrequenciesList,
-                    selectedPaymentFrequency: selectedPaymentFrequency,
-                    onSelectPaymentFrequency: handleChangeDiscount,
-                    disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
-                    currentSubscriptionUser: sessionPlan.plan.planSubscription,
-                  }}
-                  isMonthlySubscription={isMonthlySubscription}
-                  selectedMarketingPlan={selectedFullPlan}
-                  items={[selectedFullPlan]}
-                  isEqualPlan={false}
-                />
+                {isBuyLandingPacks ? (
+                  <ShoppingCart
+                    canBuy={
+                      paymentInformationAction === actionPage.READONLY &&
+                      completeContactInformationStep &&
+                      completeBillingInformationStep
+                    }
+                    discountConfig={{
+                      paymentFrequenciesList: paymentFrequenciesListForLandingPacks,
+                      selectedPaymentFrequency: paymentFrequenciesListForLandingPacks.find(
+                        (pf) => pf.numberMonths === sessionPlan.plan.planSubscription,
+                      ),
+                      onSelectPaymentFrequency: () => null,
+                      disabled: true,
+                      showBanner: false,
+                      currentSubscriptionUser: sessionPlan.plan.planSubscription,
+                    }}
+                    isMonthlySubscription={isMonthlySubscription}
+                    landingPacks={selectedLandings}
+                    isEqualPlan={false}
+                    hidePromocode={true}
+                    buyType={BUY_LANDING_PACK}
+                  />
+                ) : (
+                  <ShoppingCart
+                    canBuy={
+                      paymentInformationAction === actionPage.READONLY &&
+                      completeContactInformationStep &&
+                      completeBillingInformationStep
+                    }
+                    discountConfig={{
+                      paymentFrequenciesList: paymentFrequenciesList,
+                      selectedPaymentFrequency: selectedPaymentFrequency,
+                      onSelectPaymentFrequency: handleChangeDiscount,
+                      disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
+                      currentSubscriptionUser: sessionPlan.plan.planSubscription,
+                    }}
+                    isMonthlySubscription={isMonthlySubscription}
+                    selectedMarketingPlan={selectedFullPlan}
+                    items={[selectedFullPlan]}
+                    isEqualPlan={false}
+                  />
+                )}
               </div>
             </div>
           </section>

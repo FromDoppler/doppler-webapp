@@ -9,6 +9,9 @@ import {
 } from '../../../doppler-types';
 import { CheckoutLink } from './CheckoutLink';
 import { CheckoutButton } from './CheckoutButton';
+import { BUY_LANDING_PACK, BUY_MARKETING_PLAN } from '.';
+import { LandingPackCheckoutLink } from './CheckoutLink/LandingPackCheckoutLink';
+import { LandingPackCheckoutButton } from './CheckoutButton/LandingPackCheckoutButton';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -78,8 +81,6 @@ export const mapItemFromMarketingPlan = ({
   intl,
 }) => {
   const numberMonths = selectedPaymentFrequency?.numberMonths;
-
-  console.log('amountDetailsData', amountDetailsData);
 
   const planInformation = {
     name: <FormattedMessage id={`buy_process.marketing_plan_title`} />,
@@ -320,6 +321,144 @@ export const mapItemFromChatPlan = (chatPlan) => ({
   handleRemove: chatPlan.handleRemove,
 });
 
+export const mapItemFromLandingPackages = ({
+  landingPacks,
+  selectedPaymentFrequency,
+  handleRemoveLandingPacks,
+  amountDetailsData,
+  sessionPlan,
+}) => {
+  const numberMonths = selectedPaymentFrequency?.numberMonths;
+
+  const LandingPackInformation = {
+    name: 'Packs landings',
+    featureList: [
+      ...landingPacks.map(
+        (landingPack) =>
+          `${landingPack.packagesQty} packs de ${landingPack.landingsQty} landings c/u`,
+      ),
+    ],
+    data: landingPacks,
+    billingList: [],
+    isRemovible: !!handleRemoveLandingPacks,
+    handleRemove: handleRemoveLandingPacks,
+  };
+
+  // Months to pay
+  if (sessionPlan.planType === PLAN_TYPE.byContact || sessionPlan.planType === PLAN_TYPE.byEmail) {
+    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+    const totalLandingPacks = landingPacks.reduce((a, b) => a + b.price * b.packagesQty, 0);
+    const amountMonthsToPay = numberMonths ? totalLandingPacks * monthsCount : totalLandingPacks;
+
+    LandingPackInformation.billingList.push({
+      label: (
+        <>
+          <FormattedMessage
+            id={
+              sessionPlan.planType !== PLAN_TYPE.byContact
+                ? `buy_process.months_to_pay`
+                : `buy_process.difference_months_to_pay`
+            }
+            values={{
+              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+            }}
+          />{' '}
+          <strong>
+            <FormattedMessage
+              id="buy_process.month_with_plural"
+              values={{ months: monthsCount }}
+            ></FormattedMessage>
+          </strong>
+        </>
+      ),
+      amount: (
+        <>
+          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+        </>
+      ),
+    });
+  }
+
+  // Discount advanced pay
+  if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
+    LandingPackInformation.featureList.push(
+      <>
+        <FormattedMessage
+          id={`buy_process.feature_item_discount_advanced_pay`}
+          values={{
+            months: numberMonths,
+          }}
+        />
+        <span className="dp-discount">
+          -{amountDetailsData?.value?.discountPrepayment?.discountPercentage}%
+        </span>
+      </>,
+    );
+
+    LandingPackInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPrepayment?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPrepayment.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  if (amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage > 0) {
+    LandingPackInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.promocode.discount_for_admin`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  // Positive balance
+  if (amountDetailsData?.value?.discountPaymentAlreadyPaid > 0) {
+    LandingPackInformation.billingList.push({
+      label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  return LandingPackInformation;
+};
+
 export const getCheckoutErrorMesage = (error) => {
   switch (error) {
     case FirstDataError.invalidExpirationDate:
@@ -366,6 +505,8 @@ export const getBuyButton = ({
   canBuy,
   paymentMethodName,
   total,
+  buyType = BUY_MARKETING_PLAN,
+  landingPacks,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -373,6 +514,36 @@ export const getBuyButton = ({
     PLAN_TYPE.byContact,
     PLAN_TYPE.byCredit,
   ].includes(sessionPlanType);
+
+  if (buyType === BUY_LANDING_PACK) {
+    const landingIdsMapped = landingPacks?.map((item) => item.planId).toString();
+    const landingPacksMapped = landingPacks?.map((item) => item.packagesQty).toString();
+
+    if (pathname.includes('/checkout/premium/')) {
+      return (
+        <LandingPackCheckoutButton
+          keyTextButton={'buy_process.buy_now_title'}
+          canBuy={canBuy}
+          landingPacks={landingPacks.map((lp) => ({
+            landingPlanId: lp.planId,
+            landingQty: lp.packagesQty,
+            fee: lp.price * lp.packagesQty,
+          }))}
+          total={total}
+        />
+      );
+    } else {
+      return (
+        <LandingPackCheckoutLink
+          showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
+          planType={sessionPlanType === PLAN_TYPE.free ? PLAN_TYPE.byContact : sessionPlanType}
+          landingIds={landingIdsMapped}
+          landingPacks={landingPacksMapped}
+          monthPlan={selectedDiscount?.numberMonths}
+        />
+      );
+    }
+  }
 
   if (pathname.includes('/checkout/premium/')) {
     return (

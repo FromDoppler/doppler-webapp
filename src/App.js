@@ -36,6 +36,7 @@ import IntegrationsSection from './components/Integrations/index';
 import smoothscroll from 'smoothscroll-polyfill';
 import { PlanTypes } from './components/BuyProcess/PlanTypes';
 import { PlanSelection } from './components/BuyProcess/PlanSelection';
+import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -320,6 +321,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <PlanTypes />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/landing-packages"
+              element={
+                <PrivateRoute>
+                  <LandingPacksSelection />
                 </PrivateRoute>
               }
             />

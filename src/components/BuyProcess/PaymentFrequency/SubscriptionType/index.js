@@ -5,8 +5,8 @@ export const SubscriptionType = ({ period, discountPercentage }) => {
   return (
     <section className="dp-align--center p-t-30">
       <div className="dp-wrap-message dp-wrap-info">
-        <span class="dp-message-icon" />
-        <div class="dp-content-message">
+        <span className="dp-message-icon" />
+        <div className="dp-content-message">
           <div className="p-b-6">
             <FormattedMessageMarkdown
               id="plan_calculator.current_subscription"

@@ -182,6 +182,12 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     return { success: true };
   }
 
+  public async purchaseLandings(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('purchase', values);
+    await timeout(1500);
+    return { success: true };
+  }
+
   public async getInvoiceRecipientsData(): Promise<ResultWithoutExpectedErrors<string[]>> {
     console.log('getInvoiceRecipientsData');
     await timeout(1500);

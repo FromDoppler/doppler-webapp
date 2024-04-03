@@ -36,6 +36,14 @@ export interface PlanDiscount {
   applyPromo: boolean;
 }
 
+export interface LandingPack {
+  planId: number;
+  description: string;
+  landingsQty: number;
+  price: number;
+  unitPrice: number;
+}
+
 export interface DiscountPrepayment {
   discountPercentage: number;
   amount: number;
@@ -131,6 +139,16 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }));
   }
 
+  private mapLandingPacks(data: any): LandingPack[] {
+    return data.map((landingPack: any) => ({
+      planId: landingPack.planId,
+      description: landingPack.description,
+      landingsQty: Number(landingPack.landingsQty),
+      price: Number(landingPack.fee),
+      unitPrice: Number(landingPack.fee) / Number(landingPack.landingsQty),
+    }));
+  }
+
   public async getDiscountsData(
     planId: number,
     paymentMethod: string,
@@ -203,6 +221,29 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
+  public async getPlanBillingDetailsLandingPacksData(
+    landingIds: string,
+    landingPacks: string,
+  ): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `accounts/${email}/newplan/landingplan/calculate?landingids=${landingIds}&landingpacks=${landingPacks}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
   public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
     try {
       const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
@@ -238,6 +279,26 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
       if (response.status === 200 && response.data) {
         return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getLandingPacks(): Promise<ResultWithoutExpectedErrors<LandingPack[]>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `landing-plans`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: this.mapLandingPacks(response.data) };
       } else {
         return { success: false, error: response.data.title };
       }
