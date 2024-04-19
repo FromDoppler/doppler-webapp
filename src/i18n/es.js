@@ -515,7 +515,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     },
     advanced_preferences: {
       api_key: 'Doppler API',
-      custom_domain: 'Dominios de Landing Pages',
+      custom_domain: 'Dominios de Formularios',
       domain_key: 'DKIM, SPF y DMARC',
       title: 'Preferencias Avanzadas',
     },
