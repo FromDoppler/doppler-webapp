@@ -2,7 +2,12 @@ import { FormattedNumber, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { numberFormatOptions } from '../../../../doppler-types';
 
-export const NextInvoices = ({ pathname, search, amountDetailsData }) => {
+export const NextInvoices = ({
+  pathname,
+  search,
+  amountDetailsData,
+  subtitleBuyId = 'buy_process.upcoming_bills.marketing_plan_subtitle',
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const nextMonthDate = new Date(amountDetailsData.value?.nextMonthDate);
@@ -17,14 +22,14 @@ export const NextInvoices = ({ pathname, search, amountDetailsData }) => {
     <section className="dp-h-divider">
       <div className="dp-next-bills">
         <ul className="dp-accordion">
-          <li className="active">
+          <li>
             <Link to={`${pathname}${search}`} className="dp-accordion-thumb">
               {_('buy_process.upcoming_bills.title')}
             </Link>
-            <div className="dp-accordion-panel">
+            <div className="dp-accordion-panel" style={{ display: 'block' }}>
               <div className="dp-accordion-content">
                 <div className="dp-plan-box">
-                  <h4>{_('buy_process.upcoming_bills.marketing_plan_subtitle')}</h4>
+                  <h4>{_(subtitleBuyId)}</h4>
                   <hr />
                   <ul className="dp-items-result">
                     <li>

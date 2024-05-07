@@ -7,23 +7,20 @@ import { InjectAppServices } from '../../../../services/pure-di';
 import { PaymentMethodType } from '../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
-import { BUY_MARKETING_PLAN } from '..';
+import { BUY_LANDING_PACK } from '..';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
 const SAVING = 'SAVING';
 const SAVED = 'SAVED';
 
-export const CheckoutButton = InjectAppServices(
+export const LandingPackCheckoutButton = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient },
     keyTextButton,
     canBuy = false,
-    planId,
-    discount,
     total,
-    promotion,
-    paymentMethod,
+    landingPacks,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -31,29 +28,19 @@ export const CheckoutButton = InjectAppServices(
     const [messageError, setMessageError] = useState('');
     const createTimeout = useTimeout();
     const query = useQueryParams();
-    const originInbound = query.get('origin_inbound') ?? '';
     const accountType = query.get(ACCOUNT_TYPE) ?? '';
 
     const proceedToBuy = async () => {
       setStatus(SAVING);
-      const response = await dopplerBillingUserApiClient.purchase({
-        planId,
-        discountId: discount?.id ?? 0,
+      const response = await dopplerBillingUserApiClient.purchaseLandings({
         total,
-        promocode: promotion?.promocode ?? '',
-        originInbound,
+        landingPacks,
       });
 
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?planId=${planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
-            discount?.description ? `&discount=${discount.description}` : ''
-          }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
-            promotion?.discountPercentage
-              ? `&discountPromocode=${promotion.discountPercentage}`
-              : ''
-          }`;
+          window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
@@ -105,21 +92,9 @@ export const StatusMessage = ({ type, message }) => (
   </div>
 );
 
-CheckoutButton.propTypes = {
+LandingPackCheckoutButton.propTypes = {
   canBuy: PropTypes.bool,
   planId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  discount: PropTypes.shape({
-    id: PropTypes.number,
-    description: PropTypes.string,
-  }),
-  promotion: PropTypes.oneOfType([
-    PropTypes.shape({
-      promocode: PropTypes.string,
-      extraCredits: PropTypes.string,
-      discountPercentage: PropTypes.number,
-    }),
-    PropTypes.string,
-  ]),
   total: PropTypes.number.isRequired,
   paymentMethod: PropTypes.oneOf([
     PaymentMethodType.creditCard,

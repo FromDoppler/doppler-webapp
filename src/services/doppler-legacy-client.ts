@@ -579,6 +579,7 @@ export function mapHeaderDataJson(json: any) {
       sms: json.user.sms?.description ? mapSmsEntry(json.user.sms) : {},
       hasCampaingSent: json.user.hasCampaingSent,
       locationCountry: json.user.locationCountry,
+      landings: json.user.landings,
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
@@ -589,6 +590,7 @@ export function mapHeaderDataJson(json: any) {
       siteTrackingActive: !!(json.features && json.features.siteTrackingActive),
       emailParameterEnabled: !!(json.features && json.features.emailParameterEnabled),
       emailParameterActive: !!(json.features && json.features.emailParameterActive),
+      landingsEditorEnabled: !!(json.features && json.features.landingsEditorEnabled),
     },
   };
 }

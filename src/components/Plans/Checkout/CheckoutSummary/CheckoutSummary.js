@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import SafeRedirect from '../../../SafeRedirect';
 import { useLinkedinInsightTag } from '../../../../hooks/useLinkedingInsightTag';
 import HeaderSection from '../../../shared/HeaderSection/HeaderSection';
@@ -15,13 +15,53 @@ import {
 } from '../Reducers/checkoutSummaryReducer';
 import { exception } from 'react-ga';
 import { UnexpectedError } from '../../PlanCalculator/UnexpectedError';
-import { thousandSeparatorNumber } from '../../../../utils';
+import { ACCOUNT_TYPE, thousandSeparatorNumber } from '../../../../utils';
 import { TransferInformation } from './TransferInformation/index';
 import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { Link } from 'react-router-dom';
+import { AddOn } from '../../../shared/AddOn';
+import { useFetchLandingPacks } from '../../../../hooks/useFetchtLandingPacks';
+import useTimeout from '../../../../hooks/useTimeout';
+import { Carousel } from '../../../Dashboard/LearnWithDoppler/Carousel/Carousel';
+import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
+import { BUY_LANDING_PACK } from '../../../BuyProcess/ShoppingCart';
+
+export const AddOnLandingPack = InjectAppServices(
+  ({ dependencies: { dopplerAccountPlansApiClient } }) => {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const { cheapestLandingPack } = useFetchLandingPacks(dopplerAccountPlansApiClient);
+    const query = useQueryParams();
+    const accountType = query.get(ACCOUNT_TYPE) ?? '';
+
+    return (
+      <AddOn
+        title={_('landing_selection.modal.title')}
+        titleIconName="dpicon iconapp-landing-page"
+        description={_('landing_selection.modal.description')}
+        link1={{
+          pathname: `/landing-packages${accountType ? `?${ACCOUNT_TYPE}=${accountType}` : ''}`,
+          label: 'Mas información',
+        }}
+        link2={{
+          pathname: `/landing-packages${accountType ? `?${ACCOUNT_TYPE}=${accountType}` : ''}`,
+          label: 'Comprar ahora',
+        }}
+        priceComponent={
+          <FormattedMessage
+            id="landing_selection.pack_from"
+            values={{
+              price: cheapestLandingPack?.price || 0,
+            }}
+          />
+        }
+      />
+    );
+  },
+);
 
 export const FormatMessageWithSpecialStyle = ({ id }) => {
   return (
@@ -62,29 +102,24 @@ const PlanBuyMessage = ({ title, paymentMethod, upgradePending }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <section className="dp-container">
-      <div className="dp-rowflex">
-        <div className="col-sm-8 m-b-24">
-          <div className={`dp-wrap-message dp-wrap-${upgradePending ? 'warning' : 'success'}`}>
-            <span className="dp-message-icon" />
-            <div className="dp-content-message dp-content-full">
-              <p>
-                <strong>{_(title.largeTitle)}</strong>
-                <br />
-                {[paymentType.mercadoPago, paymentType.transfer].includes(paymentMethod) &&
-                upgradePending
-                  ? _(title.description)
-                  : 'Ya puedes empezar a disfrutar de los beneficios de tus planes de Doppler.'}
-              </p>
-              <Link to="/dashboard" className="dp-message-link">
-                IR AL INICIO
-              </Link>
-            </div>
-          </div>
+    <>
+      <div className={`dp-wrap-message dp-wrap-${upgradePending ? 'warning' : 'success'}`}>
+        <span className="dp-message-icon" />
+        <div className="dp-content-message dp-content-full">
+          <p>
+            <strong>{_(title.largeTitle)}</strong>
+            <br />
+            {[paymentType.mercadoPago, paymentType.transfer].includes(paymentMethod) &&
+            upgradePending
+              ? _(title.description)
+              : 'Ya puedes empezar a disfrutar de los beneficios de tus planes de Doppler.'}
+          </p>
+          <Link to="/dashboard" className="dp-message-link">
+            IR AL INICIO
+          </Link>
         </div>
-        <div className="col-sm-4 m-b-24"></div>
       </div>
-    </section>
+    </>
   );
 };
 
@@ -99,51 +134,47 @@ const PlanMarketingInformation = ({
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <div className="dp-rowflex">
-      <div className="col-sm-8">
-        <h4 className="dp-tit-plan-purchased">Tu plan de email marketing</h4>
-        <ul className="dp-purchase-summary-list">
+    <>
+      <h4 className="dp-tit-plan-purchased">Tu plan de email marketing</h4>
+      <ul className="dp-purchase-summary-list">
+        <li>
+          <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+          <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
+        </li>
+        <li>
+          <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
+          <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
+        </li>
+        {extraCredits > 0 ? (
           <li>
-            <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
-            <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
+            <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
+            <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
           </li>
-          <li>
-            <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
-            <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
-          </li>
-          {extraCredits > 0 ? (
-            <li>
-              <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
-              <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
-            </li>
-          ) : null}
-          <li>
-            <span>
-              {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
-            </span>
-            <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
-          </li>
-          <li>
-            <span>Facturación</span>
-            {planType === PLAN_TYPE.byContact && discount ? (
-              <>
-                <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
-                <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
-              </>
-            ) : planType === PLAN_TYPE.byEmail ? (
-              <>
-                <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
-                <h3>
-                  {_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}
-                </h3>
-              </>
-            ) : (
-              <h3>{_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}</h3>
-            )}
-          </li>
-        </ul>
-      </div>
-    </div>
+        ) : null}
+        <li>
+          <span>
+            {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
+          </span>
+          <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
+        </li>
+        <li>
+          <span>Facturación</span>
+          {planType === PLAN_TYPE.byContact && discount ? (
+            <>
+              <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+              <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
+            </>
+          ) : planType === PLAN_TYPE.byEmail ? (
+            <>
+              <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+              <h3>{_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}</h3>
+            </>
+          ) : (
+            <h3>{_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}</h3>
+          )}
+        </li>
+      </ul>
+    </>
   );
 };
 
@@ -248,6 +279,7 @@ export const CheckoutSummary = InjectAppServices(
     const paymentMethodType = query.get('paymentMethod') ?? '';
     const discountDescription = query.get('discount') ?? '';
     const extraCreditsByPromocode = query.get('extraCredits') ?? 0;
+    const buyType = query.get('buyType') ?? '';
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -319,6 +351,8 @@ export const CheckoutSummary = InjectAppServices(
     }
 
     const title = getTitle(paymentMethod, upgradePending);
+    const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
+    const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
     return (
       <>
@@ -327,39 +361,129 @@ export const CheckoutSummary = InjectAppServices(
           <meta name="checkout-success" />
         </Helmet>
         <HeaderSection>
-          <CheckoutSummaryTitle title={title} />
+          <CheckoutSummaryTitle title={title} hideBreadcrumb={!isBuyMarketingPlan} />
         </HeaderSection>
-        <PlanBuyMessage
-          title={title}
-          paymentMethod={paymentMethod}
-          upgradePending={upgradePending}
-        />
-        <section className="dp-container m-b-24">
-          {/* <PlanInformation
-            planType={planType}
-            quantity={quantity}
-            discount={discount}
-            paymentMethod={paymentMethod}
-            extraCredits={extraCredits}
-            remainingCredits={remainingCredits}
-            upgradePending={upgradePending}
-          /> */}
-          <PlanMarketingInformation
-            planType={planType}
-            quantity={quantity}
-            discount={discount}
-            extraCredits={extraCredits}
-            remainingCredits={remainingCredits}
-          />
-          {paymentMethod === paymentType.transfer ? (
-            <TransferInformation billingCountry={billingCountry} upgradePending={upgradePending} />
-          ) : paymentMethod === paymentType.mercadoPago ? (
-            <MercadoPagoInformation upgradePending={upgradePending} />
-          ) : null}
+        <section className="dp-container">
+          <div className="dp-rowflex">
+            <div className="col-sm-8 m-b-24">
+              <PlanBuyMessage
+                title={title}
+                paymentMethod={paymentMethod}
+                upgradePending={upgradePending}
+              />
+              {isBuyMarketingPlan && (
+                <PlanMarketingInformation
+                  planType={planType}
+                  quantity={quantity}
+                  discount={discount}
+                  extraCredits={extraCredits}
+                  remainingCredits={remainingCredits}
+                />
+              )}
+              {paymentMethod === paymentType.transfer ? (
+                <TransferInformation
+                  billingCountry={billingCountry}
+                  upgradePending={upgradePending}
+                />
+              ) : paymentMethod === paymentType.mercadoPago ? (
+                <MercadoPagoInformation upgradePending={upgradePending} />
+              ) : null}
 
-          <CheckoutSummaryButton paymentMethod={paymentMethod} upgradePending={upgradePending} />
+              {isBuyMarketingPlan && (
+                <CheckoutSummaryButton
+                  paymentMethod={paymentMethod}
+                  upgradePending={upgradePending}
+                />
+              )}
+            </div>
+            {landingsEditorEnabled && (
+              <div className="col-sm-4 m-b-24">
+                <div className="dp-wrapper-addons">
+                  <h2>
+                    {_('landing_selection.pack_addons_title')}
+                    <span className="dpicon iconapp-add-product" />
+                  </h2>
+                  <AddOnLandingPack />
+                </div>
+              </div>
+            )}
+          </div>
+          {isBuyMarketingPlan && landingsEditorEnabled && <ModalPromoLandingPacks />}
         </section>
       </>
     );
   },
 );
+
+const landingPacksSlides = [
+  {
+    id: 1,
+    img: 'pic-carousel.svg',
+  },
+  {
+    id: 2,
+    img: 'pic-carousel.svg',
+  },
+  {
+    id: 3,
+    img: 'pic-carousel.svg',
+  },
+];
+
+const ModalPromoLandingPacks = () => {
+  const [open, setOpen] = useState(false);
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const query = useQueryParams();
+  const accountType = query.get(ACCOUNT_TYPE) ?? '';
+  const createTimeout = useTimeout();
+
+  useEffect(() => {
+    createTimeout(() => setOpen(true), 800);
+  }, [createTimeout]);
+
+  const closeModal = () => setOpen(false);
+
+  if (!open) {
+    return <></>;
+  }
+
+  return (
+    <div className="modal" id="modal-medium">
+      <div className="modal-content--medium">
+        <div className="dp-modal-pack-landing">
+          <Carousel
+            id="1"
+            color="orange"
+            ariaLabel="landing-packs"
+            numberOfItems={3}
+            showDots={false}
+          >
+            {({ activeSlide }) =>
+              landingPacksSlides.map((slide, index) => (
+                <Slide key={slide.id} active={activeSlide === index}>
+                  <img
+                    src={_('common.ui_library_image', { imageUrl: slide.img })}
+                    alt="Check list"
+                  />
+                </Slide>
+              ))
+            }
+          </Carousel>
+          <h3>{_('landing_selection.modal.title')}</h3>
+          <p>{_('landing_selection.modal.description')}</p>
+
+          <Link
+            to={`/landing-packages${accountType ? `?${ACCOUNT_TYPE}=${accountType}` : ''}`}
+            className="dp-button button-medium primary-green"
+          >
+            {_('landing_selection.modal.link_to_buy')}
+          </Link>
+          <button type="button" className="dp-button link-green" onClick={closeModal}>
+            {_('landing_selection.modal.close_button')}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

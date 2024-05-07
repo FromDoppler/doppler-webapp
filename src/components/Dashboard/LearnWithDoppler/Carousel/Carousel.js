@@ -9,6 +9,7 @@ export const Carousel = ({
   ariaLabel,
   numberOfItems,
   slideActiveDefault,
+  showDots = true,
   timeInterval = DEFAULT_TIME_INTERVAL,
 }) => {
   const [activeSlide, setActiveSlide] = useState(slideActiveDefault ?? 0);
@@ -54,22 +55,27 @@ export const Carousel = ({
 
   return (
     <div className="dp-carousel" id={`carousel${id}`} role="region" aria-label={ariaLabel}>
-      <div className={`dp-carousel-wrapper dp-carousel-${color}`} {...mouseEvents}>
+      <div
+        className={`dp-carousel-wrapper ${color ? `dp-carousel-${color}` : ''} `}
+        {...mouseEvents}
+      >
         <div className="dp-carousel-content">{slides}</div>
       </div>
-      <div className="dp-carousel-dots">
-        {slides.map((child, index) => (
-          <input
-            key={`${id}${index}`}
-            className="dp-carousel-dot"
-            checked={activeSlide === index}
-            type="radio"
-            value={index}
-            onChange={changeSlide}
-            {...mouseEvents}
-          />
-        ))}
-      </div>
+      {showDots && (
+        <div className="dp-carousel-dots">
+          {slides.map((child, index) => (
+            <input
+              key={`${id}${index}`}
+              className="dp-carousel-dot"
+              checked={activeSlide === index}
+              type="radio"
+              value={index}
+              onChange={changeSlide}
+              {...mouseEvents}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
