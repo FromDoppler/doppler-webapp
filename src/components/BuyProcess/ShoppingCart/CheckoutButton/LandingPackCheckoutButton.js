@@ -4,7 +4,6 @@ import { useIntl } from 'react-intl';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
 import useTimeout from '../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { PaymentMethodType } from '../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
 import { BUY_LANDING_PACK } from '..';
@@ -94,11 +93,6 @@ export const StatusMessage = ({ type, message }) => (
 
 LandingPackCheckoutButton.propTypes = {
   canBuy: PropTypes.bool,
-  planId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   total: PropTypes.number.isRequired,
-  paymentMethod: PropTypes.oneOf([
-    PaymentMethodType.creditCard,
-    PaymentMethodType.mercadoPago,
-    PaymentMethodType.transfer,
-  ]),
+  keyTextButton: PropTypes.string,
 };
