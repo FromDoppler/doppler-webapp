@@ -50,6 +50,8 @@ export const LandingPacksSelection = InjectAppServices(
     const sessionPlan = appSessionRef.current.userData.user;
 
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
+    const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
+    const { isFreeAccount } = sessionPlan.plan;
 
     const handleRemove = () => {
       const { resetForm } = formRef.current;
@@ -82,7 +84,7 @@ export const LandingPacksSelection = InjectAppServices(
       }
     }, [allLandingPacks, appSessionRef, selectedLandingPacks, handleSave]);
 
-    if (!appSessionRef?.current?.userData?.features?.landingsEditorEnabled) {
+    if (!landingsEditorEnabled || isFreeAccount) {
       return <Navigate to="/dashboard" />;
     }
 

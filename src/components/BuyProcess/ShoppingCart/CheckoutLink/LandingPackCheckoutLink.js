@@ -37,7 +37,7 @@ export const LandingPackCheckoutLink = ({
   );
 };
 
-const getNewCheckoutPurchaseUrl = ({
+export const getNewCheckoutPurchaseUrl = ({
   planType,
   landingIds,
   landingPacks,

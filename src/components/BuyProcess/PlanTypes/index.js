@@ -68,7 +68,7 @@ const getMappedRows = ({ key, quantityFeatures }) => {
   return mappedRows;
 };
 
-const TableRow = ({ row }) => (
+export const TableRow = ({ row }) => (
   <tr>
     <td>
       <div className="dp-icon-lock">
