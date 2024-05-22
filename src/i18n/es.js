@@ -839,6 +839,7 @@ Encontrarás un Email con los pasos a seguir.`,
     pack_of_landing_pages: `Pack de {packs} Landings Pages`,
     pack_price: `US$ {price}/mes`,
     pack_unit_price: `Precio: US$ {unitPrice} c/u`,
+    remove_landings_label: `Quitar landing pages`,
     shopping_cart: {
       pack_of_landing_pages: `{packagesQty} packs de {landingsQty} Landings c/u`,
       title: `Packs de Landing Pages`,
@@ -846,6 +847,10 @@ Encontrarás un Email con los pasos a seguir.`,
     subtitle1: `Aumenta tus Leads`,
     subtitle2: `Maximiza tu rentabilidad`,
     title: `Potencia tus ventas con Landing Pages`,
+    user_messages: {
+      warning_description: `No puedes reducir el número o quitar landings pages mientras se encuentren publicadas. Archiva las landing pages antes de reducir el número o quitar todas.`,
+      warning_link_title: `VER MIS LANDINGS PAGES`,
+    },
   },
   loading: `Cargando...`,
   login: {

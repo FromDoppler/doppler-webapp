@@ -36,7 +36,7 @@ import IntegrationsSection from './components/Integrations/index';
 import smoothscroll from 'smoothscroll-polyfill';
 import { PlanTypes } from './components/BuyProcess/PlanTypes';
 import { PlanSelection } from './components/BuyProcess/PlanSelection';
-// import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
+import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -49,7 +49,11 @@ smoothscroll.polyfill();
 
 const newDashboard = process.env.REACT_APP_NEW_DASHBOARD === 'true';
 
-const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }) => {
+const App = ({
+  locale,
+  window,
+  dependencies: { appSessionRef, sessionManager, experimentalFeatures },
+}) => {
   const [state, setState] = useState({
     dopplerSession: appSessionRef.current,
     i18nLocale: locale,
@@ -99,6 +103,8 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
       langFromUrl.current = expectedLang;
     }
   }, [location, window]);
+
+  const featureLandingEditorEnabled = experimentalFeatures.getFeature('landingEditorEnabled');
 
   return (
     <>
@@ -324,14 +330,16 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* <Route
-              path="/landing-packages"
-              element={
-                <PrivateRoute>
-                  <LandingPacksSelection />
-                </PrivateRoute>
-              }
-            /> */}
+            {featureLandingEditorEnabled && (
+              <Route
+                path="/landing-packages"
+                element={
+                  <PrivateRoute>
+                    <LandingPacksSelection />
+                  </PrivateRoute>
+                }
+              />
+            )}
             <Route
               path="/integrations/"
               element={

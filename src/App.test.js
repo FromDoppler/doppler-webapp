@@ -899,6 +899,9 @@ describe('App component', () => {
         },
         sessionManager: createDoubleSessionManager(),
         dopplerSitesClient: dopplerSitesClientDouble,
+        experimentalFeatures: {
+          getFeature: () => null,
+        },
       };
     });
 
