@@ -180,8 +180,9 @@ export const ShoppingCart = InjectAppServices(
         }),
       );
     const total =
-      amountDetailsData?.value?.currentMonthTotal ||
-      amountDetailsLandingPacksData?.value?.currentMonthTotal;
+      amountDetailsData?.value?.currentMonthTotal ??
+      amountDetailsLandingPacksData?.value?.currentMonthTotal ??
+      0;
 
     const buyButton = getBuyButton({
       pathname,
