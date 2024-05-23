@@ -352,7 +352,7 @@ export const CheckoutSummary = InjectAppServices(
 
     const title = getTitle(paymentMethod, upgradePending);
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
-    const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
+    // const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
     return (
       <>
@@ -396,7 +396,7 @@ export const CheckoutSummary = InjectAppServices(
                 />
               )}
             </div>
-            {landingsEditorEnabled && (
+            {/* {landingsEditorEnabled && (
               <div className="col-sm-4 m-b-24">
                 <div className="dp-wrapper-addons">
                   <h2>
@@ -406,9 +406,9 @@ export const CheckoutSummary = InjectAppServices(
                   <AddOnLandingPack />
                 </div>
               </div>
-            )}
+            )} */}
           </div>
-          {isBuyMarketingPlan && landingsEditorEnabled && <ModalPromoLandingPacks />}
+          {/* {isBuyMarketingPlan && landingsEditorEnabled && <ModalPromoLandingPacks />} */}
         </section>
       </>
     );
@@ -430,7 +430,7 @@ const landingPacksSlides = [
   },
 ];
 
-const ModalPromoLandingPacks = () => {
+export const ModalPromoLandingPacks = () => {
   const [open, setOpen] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
