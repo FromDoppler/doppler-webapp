@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import {
   ButtonLess,
   ButtonMore,
+  DeleteLandingPacksButton,
   LandingPacks,
   filterPackagesEqualOrGreatherToZero,
   isGreatherToMax,
@@ -46,7 +47,12 @@ describe('LandingPacks', () => {
     const handleSave = jest.fn();
     render(
       <IntlProvider>
-        <LandingPacks landingPacks={landingPacks} handleSave={handleSave} formRef={() => null} />
+        <LandingPacks
+          landingPacks={landingPacks}
+          handleSave={handleSave}
+          formRef={() => null}
+          showRemoveLandings={true}
+        />
       </IntlProvider>,
     );
     expect(handleSave).not.toHaveBeenCalled();
@@ -62,6 +68,7 @@ describe('LandingPacks', () => {
     expect(screen.getByRole('spinbutton', { name: /landingPackages.0.packagesQty/i })).toHaveValue(
       3,
     );
+    screen.getByRole('button', { name: /landing_selection.remove_landings_label/i });
     await waitFor(() => {
       expect(handleSave).toHaveBeenCalledWith([
         {
@@ -301,6 +308,83 @@ describe('LandingPacks', () => {
       await user.click(screen.getByRole('button', { name: /button more/i }));
 
       await waitFor(() => expect(handleInputValue).toHaveBeenCalled());
+    });
+  });
+
+  describe('DeleteLandingPacksButton', () => {
+    it('should to be disabled when loading is true', async () => {
+      // Assert
+      const loadingRemoveLandingPages = true;
+      const showArchiveLandings = false;
+      const handleRemoveLandings = jest.fn();
+
+      render(
+        <IntlProvider>
+          <DeleteLandingPacksButton
+            handleRemoveLandings={handleRemoveLandings}
+            loadingRemoveLandingPages={loadingRemoveLandingPages}
+            showArchiveLandings={showArchiveLandings}
+          />
+        </IntlProvider>,
+      );
+      const user = userEvent.setup();
+
+      const button = screen.getByRole('button', {
+        name: /landing_selection.remove_landings_label/i,
+      });
+      await user.click(button);
+      await waitFor(() => expect(handleRemoveLandings).not.toHaveBeenCalled());
+      expect(button).toHaveClass('button--loading');
+    });
+
+    it('should to be disabled when showArchiveLandings is true', async () => {
+      // Assert
+      const loadingRemoveLandingPages = false;
+      const showArchiveLandings = true;
+      const handleRemoveLandings = jest.fn();
+
+      render(
+        <IntlProvider>
+          <DeleteLandingPacksButton
+            handleRemoveLandings={handleRemoveLandings}
+            loadingRemoveLandingPages={loadingRemoveLandingPages}
+            showArchiveLandings={showArchiveLandings}
+          />
+        </IntlProvider>,
+      );
+      const user = userEvent.setup();
+
+      const button = screen.getByRole('button', {
+        name: /landing_selection.remove_landings_label/i,
+      });
+      await user.click(button);
+      await waitFor(() => expect(handleRemoveLandings).not.toHaveBeenCalled());
+      expect(button).not.toHaveClass('button--loading');
+    });
+
+    it('should to be enabled', async () => {
+      // Assert
+      const loadingRemoveLandingPages = false;
+      const showArchiveLandings = false;
+      const handleRemoveLandings = jest.fn();
+
+      render(
+        <IntlProvider>
+          <DeleteLandingPacksButton
+            handleRemoveLandings={handleRemoveLandings}
+            loadingRemoveLandingPages={loadingRemoveLandingPages}
+            showArchiveLandings={showArchiveLandings}
+          />
+        </IntlProvider>,
+      );
+      const user = userEvent.setup();
+
+      const button = screen.getByRole('button', {
+        name: /landing_selection.remove_landings_label/i,
+      });
+      await user.click(button);
+      await waitFor(() => expect(handleRemoveLandings).toHaveBeenCalled());
+      expect(button).not.toHaveClass('button--loading');
     });
   });
 });

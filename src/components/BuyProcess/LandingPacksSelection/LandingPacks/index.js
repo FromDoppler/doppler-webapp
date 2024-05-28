@@ -44,6 +44,30 @@ export const ButtonLess = ({ handleInputValue, index }) => {
   );
 };
 
+export const DeleteLandingPacksButton = ({
+  handleRemoveLandings,
+  loadingRemoveLandingPages,
+  showArchiveLandings,
+}) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <fieldset className="dp-buttons-packs">
+      <button
+        type="button"
+        className={`dp-button button-medium primary-grey ${
+          loadingRemoveLandingPages ? 'button--loading' : ''
+        }`}
+        disabled={showArchiveLandings || loadingRemoveLandingPages}
+        onClick={handleRemoveLandings}
+      >
+        {_('landing_selection.remove_landings_label')}
+      </button>
+    </fieldset>
+  );
+};
+
 export const ButtonMore = ({ handleInputValue, index }) => {
   const { values, setFieldValue } = useFormikContext();
 
@@ -65,7 +89,14 @@ export const ButtonMore = ({ handleInputValue, index }) => {
   );
 };
 
-export const LandingPacks = ({ landingPacks, handleSave, formRef }) => {
+export const LandingPacks = ({
+  landingPacks,
+  handleSave,
+  formRef,
+  handleRemoveLandings,
+  showArchiveLandings,
+  loadingRemoveLandingPages,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -171,6 +202,11 @@ export const LandingPacks = ({ landingPacks, handleSave, formRef }) => {
                   ))}
               </>
             </FieldArray>
+            <DeleteLandingPacksButton
+              handleRemoveLandings={handleRemoveLandings}
+              loadingRemoveLandingPages={loadingRemoveLandingPages}
+              showArchiveLandings={showArchiveLandings}
+            />
           </Form>
         )}
       </Formik>

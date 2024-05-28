@@ -157,6 +157,14 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     };
   }
 
+  public async cancellationLandings(): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log('cancellationLandings');
+    return {
+      success: true,
+    };
+  }
+
   public async getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>> {
     console.log('getPaymentMethodData');
     await timeout(1500);

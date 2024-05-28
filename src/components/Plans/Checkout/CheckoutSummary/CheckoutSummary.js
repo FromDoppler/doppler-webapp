@@ -253,7 +253,12 @@ const PlanMarketingInformation = ({
 
 export const CheckoutSummary = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
+    dependencies: {
+      dopplerBillingUserApiClient,
+      dopplerAccountPlansApiClient,
+      appSessionRef,
+      experimentalFeatures,
+    },
     location,
   }) => {
     useLinkedinInsightTag();
@@ -352,7 +357,10 @@ export const CheckoutSummary = InjectAppServices(
 
     const title = getTitle(paymentMethod, upgradePending);
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
-    // const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
+    const featureLandingEditorEnabled = experimentalFeatures.getFeature('landingEditorEnabled');
+    const landingsEditorEnabled =
+      appSessionRef?.current?.userData?.features?.landingsEditorEnabled &&
+      featureLandingEditorEnabled;
 
     return (
       <>
@@ -396,7 +404,7 @@ export const CheckoutSummary = InjectAppServices(
                 />
               )}
             </div>
-            {/* {landingsEditorEnabled && (
+            {landingsEditorEnabled && (
               <div className="col-sm-4 m-b-24">
                 <div className="dp-wrapper-addons">
                   <h2>
@@ -406,9 +414,9 @@ export const CheckoutSummary = InjectAppServices(
                   <AddOnLandingPack />
                 </div>
               </div>
-            )} */}
+            )}
           </div>
-          {/* {isBuyMarketingPlan && landingsEditorEnabled && <ModalPromoLandingPacks />} */}
+          {isBuyMarketingPlan && landingsEditorEnabled && <ModalPromoLandingPacks />}
         </section>
       </>
     );

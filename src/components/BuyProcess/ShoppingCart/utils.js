@@ -328,7 +328,6 @@ export const mapItemFromChatPlan = (chatPlan) => ({
 export const mapItemFromLandingPackages = ({
   landingPacks,
   selectedPaymentFrequency,
-  handleRemoveLandingPacks,
   amountDetailsData,
   sessionPlan,
 }) => {
@@ -514,6 +513,7 @@ export const getBuyButton = ({
   total,
   buyType = BUY_MARKETING_PLAN,
   landingPacks,
+  disabledLandingsBuy,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -540,7 +540,11 @@ export const getBuyButton = ({
         />
       );
     } else {
-      return (
+      return disabledLandingsBuy ? (
+        <button type="button" className="dp-button button-big primary-green" disabled>
+          <FormattedMessage id="buy_process.continue" />
+        </button>
+      ) : (
         <LandingPackCheckoutLink
           showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
           planType={sessionPlanType === PLAN_TYPE.free ? PLAN_TYPE.byContact : sessionPlanType}

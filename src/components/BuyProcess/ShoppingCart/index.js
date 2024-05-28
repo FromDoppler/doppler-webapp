@@ -34,10 +34,10 @@ export const ShoppingCart = InjectAppServices(
     canBuy = true,
     selectedPaymentMethod,
     isArgentina,
-    handleRemoveLandingPacks,
     hidePromocode = false,
     buyType = BUY_MARKETING_PLAN,
     handleLandingPagesDowngrade,
+    disabledLandingsBuy,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -174,7 +174,6 @@ export const ShoppingCart = InjectAppServices(
         mapItemFromLandingPackages({
           landingPacks,
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
-          handleRemoveLandingPacks,
           amountDetailsData: amountDetailsLandingPacksData,
           sessionPlan: appSessionRef.current.userData.user.plan,
         }),
@@ -196,6 +195,7 @@ export const ShoppingCart = InjectAppServices(
       total,
       landingPacks,
       buyType,
+      disabledLandingsBuy,
     });
 
     const paymentFrequencyProps = {

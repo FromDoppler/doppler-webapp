@@ -57,6 +57,11 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     return allPlans;
   }
 
+  public async getLandingPagesAmount(): Promise<any> {
+    await timeout(1500);
+    return 0;
+  }
+
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
     console.log(this.registerUser, model);
     await timeout(1500);

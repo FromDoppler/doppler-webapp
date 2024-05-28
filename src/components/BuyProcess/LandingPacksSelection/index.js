@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { useFetchLandingPacks } from '../../../hooks/useFetchtLandingPacks';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
@@ -9,6 +9,12 @@ import { UnexpectedError } from '../UnexpectedError';
 import { LandingPacks, filterPackagesEqualOrGreatherToZero } from './LandingPacks';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Navigate } from 'react-router-dom';
+import {
+  DELETE_LANDING_PAGES_ACTIONS,
+  INITIAL_STATE_DELETE_LANDING_PAGES,
+  deleteLandingPagesReducer,
+} from './reducers/deleteLandingPagesReducer';
+import { LandingPacksMessages } from './LandingPacksMessages';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -33,21 +39,63 @@ export const paymentFrequenciesListForLandingPacks = [
   },
 ];
 
+const verifyIsTheSameLandingPacks = (contractedLandingPages, selectedLandingPacks) => {
+  if (!contractedLandingPages && selectedLandingPacks?.length > 0) {
+    return false;
+  }
+
+  if (contractedLandingPages?.length !== selectedLandingPacks?.length) {
+    return false;
+  }
+
+  const finded = contractedLandingPages?.find(
+    (clp) =>
+      !selectedLandingPacks?.find(
+        (slp) => slp.planId === clp.idPlan && slp.packagesQty === clp.packageQty,
+      ),
+  );
+  return !finded;
+};
+
 export const LandingPacksSelection = InjectAppServices(
-  ({ dependencies: { appSessionRef, dopplerAccountPlansApiClient } }) => {
+  ({
+    dependencies: {
+      appSessionRef,
+      dopplerAccountPlansApiClient,
+      dopplerLegacyClient,
+      dopplerBillingUserApiClient,
+    },
+  }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [selectedLandingPacks, setSelectedLandingPacks] = useState(null);
     const [landingPacksFormValues, setLandingPacksFormValues] = useState([]);
-    const [isLandingPagesDowngrade, setIsLandingPagesDowngrade] = useState(false);
+    const [showArchiveLandings, setShowArchiveLandings] = useState(false);
+    const [isDowngrade, setIsDowngrade] = useState(false);
     const formRef = useRef();
     const {
       error,
       loading,
       landingPacks: allLandingPacks,
     } = useFetchLandingPacks(dopplerAccountPlansApiClient);
+    const [
+      {
+        loading: loadingRemoveLandingPages,
+        error: errorRemoveLandingPages,
+        success: successRemoveLandingPages,
+      },
+      dispatch,
+    ] = useReducer(deleteLandingPagesReducer, INITIAL_STATE_DELETE_LANDING_PAGES);
+    const selectedLandingPacksRef = useRef(null);
+    selectedLandingPacksRef.current = selectedLandingPacks;
+    const isDowngradeRef = useRef(null);
+    isDowngradeRef.current = isDowngrade;
+    const numberOfPublishedLandingsRef = useRef(null);
 
     const sessionPlan = appSessionRef.current.userData.user;
+    const contractedLandingPagesRef = useRef(
+      appSessionRef.current.userData.user.landings?.landingPacks,
+    );
 
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
@@ -59,30 +107,99 @@ export const LandingPacksSelection = InjectAppServices(
       resetForm && resetForm();
     };
 
+    useEffect(() => {
+      const fetchLandingPagesPublished = async () => {
+        const numberOfPublishedLandings = await dopplerLegacyClient.getLandingPagesAmount(
+          appSessionRef.current.userData.user.idUser,
+        );
+        numberOfPublishedLandingsRef.current = numberOfPublishedLandings;
+      };
+
+      fetchLandingPagesPublished();
+    }, [dopplerLegacyClient, appSessionRef]);
+
     const handleSave = useCallback((landingPacks) => setSelectedLandingPacks(landingPacks), []);
     const handleLandingPagesDowngrade = useCallback(
-      (isDowngrade) => setIsLandingPagesDowngrade(isDowngrade),
-      [],
+      async (isDowngradeWithSelectedLandings) => {
+        const _isDowngrade =
+          isDowngradeWithSelectedLandings ||
+          (contractedLandingPagesRef?.current?.length > 0 &&
+            selectedLandingPacksRef.current?.length === 0);
+        if (_isDowngrade) {
+          const numberOfSelectedLandings =
+            selectedLandingPacksRef.current.reduce(
+              (landingsAmount, lp) => landingsAmount + lp.landingsQty * lp.packagesQty,
+              0,
+            ) || 0;
+          const numberOfPublishedLandings = await dopplerLegacyClient.getLandingPagesAmount(
+            appSessionRef.current.userData.user.idUser,
+          );
+          setShowArchiveLandings(numberOfPublishedLandings > numberOfSelectedLandings);
+        } else {
+          setShowArchiveLandings(false);
+        }
+        setIsDowngrade(_isDowngrade);
+      },
+      [dopplerLegacyClient, appSessionRef],
     );
 
     useEffect(() => {
-      const contractedLandingPages = appSessionRef.current.userData.user.landings?.landingPacks;
-      if (
-        allLandingPacks?.length > 0 &&
-        contractedLandingPages?.length > 0 &&
-        !selectedLandingPacks?.length
-      ) {
-        const landingPacks = allLandingPacks?.map((lp) => {
-          const landingPackFinded = contractedLandingPages.find((ilp) => ilp.idPlan === lp.planId);
-          return { ...lp, packagesQty: landingPackFinded ? landingPackFinded.packageQty : 0 };
-        });
-        handleSave(filterPackagesEqualOrGreatherToZero(landingPacks));
-        setLandingPacksFormValues(landingPacks);
-      } else if (!selectedLandingPacks?.length) {
-        const landingPacks = allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 }));
-        setLandingPacksFormValues(landingPacks);
+      if (allLandingPacks?.length > 0) {
+        if (
+          contractedLandingPagesRef?.current?.length > 0 &&
+          !selectedLandingPacksRef?.current?.length
+        ) {
+          const landingPacks = allLandingPacks?.map((lp) => {
+            const landingPackFinded = contractedLandingPagesRef?.current.find(
+              (ilp) => ilp.idPlan === lp.planId,
+            );
+            return { ...lp, packagesQty: landingPackFinded ? landingPackFinded.packageQty : 0 };
+          });
+          handleSave(filterPackagesEqualOrGreatherToZero(landingPacks));
+          setLandingPacksFormValues(landingPacks);
+        } else {
+          const landingPacks = allLandingPacks?.map((lp) => {
+            return { ...lp, packagesQty: 0 };
+          });
+          setLandingPacksFormValues(landingPacks);
+        }
       }
-    }, [allLandingPacks, appSessionRef, selectedLandingPacks, handleSave]);
+    }, [allLandingPacks, handleSave, isDowngradeRef]);
+
+    const handleRemoveLandings = () => {
+      const cancelLandings = async () => {
+        dispatch({
+          type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
+        });
+        const response = await dopplerBillingUserApiClient.cancellationLandings();
+        if (response.success) {
+          dispatch({
+            type: DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH,
+          });
+          setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
+          setShowArchiveLandings(false);
+          contractedLandingPagesRef.current = [];
+          setTimeout(() => {
+            dispatch({
+              type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
+            });
+          }, 6000);
+        } else {
+          dispatch({
+            type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
+            payload: {
+              error: response.error,
+            },
+          });
+        }
+      };
+
+      if (numberOfPublishedLandingsRef.current > 0) {
+        setShowArchiveLandings(true);
+      } else {
+        cancelLandings();
+      }
+    };
 
     if (!landingsEditorEnabled || isFreeAccount) {
       return <Navigate to="/dashboard" />;
@@ -143,22 +260,17 @@ export const LandingPacksSelection = InjectAppServices(
                 landingPacks={landingPacksFormValues}
                 handleSave={handleSave}
                 formRef={formRef}
+                isDowngrade={isDowngrade}
+                handleRemoveLandings={handleRemoveLandings}
+                showArchiveLandings={showArchiveLandings}
+                loadingRemoveLandingPages={loadingRemoveLandingPages}
               />
-              {isLandingPagesDowngrade && (
-                <div className="dp-wrap-message dp-wrap-warning m-t-12">
-                  <span className="dp-message-icon" />
-                  <div className="dp-content-message dp-content-full">
-                    <p>
-                      <strong>EN CONSTRUCCION</strong> - No puedes reducir el número o quitar
-                      landings pages mientras se encuentren publicadas. Archiva las landing pages
-                      antes de reducir el número o quitar todas.
-                    </p>
-                    <a href="https://app.fromdoppler.com/login" className="dp-message-link">
-                      VER MIS LANDINGS PAGES
-                    </a>
-                  </div>
-                </div>
-              )}
+              <LandingPacksMessages
+                showArchiveLandings={showArchiveLandings}
+                loadingRemoveLandingPages={loadingRemoveLandingPages}
+                errorRemoveLandingPages={errorRemoveLandingPages}
+                successRemoveLandingPages={successRemoveLandingPages}
+              />
               <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
                 <GoBackButton />
@@ -183,6 +295,13 @@ export const LandingPacksSelection = InjectAppServices(
                 hidePromocode={true}
                 buyType={BUY_LANDING_PACK}
                 handleLandingPagesDowngrade={handleLandingPagesDowngrade}
+                disabledLandingsBuy={
+                  (isDowngrade && showArchiveLandings) ||
+                  verifyIsTheSameLandingPacks(
+                    contractedLandingPagesRef?.current,
+                    selectedLandingPacks,
+                  )
+                }
               />
             </div>
           </div>

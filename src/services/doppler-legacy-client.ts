@@ -23,6 +23,7 @@ export interface DopplerLegacyClient {
   activateSiteTrackingTrial(): Promise<ActivateSiteTrackingTrialResult>;
   sendResetPasswordEmail(forgotPasswordModel: ForgotPasswordModel): Promise<ForgotPasswordResult>;
   getAllPlans(): Promise<Plan[]>;
+  getLandingPagesAmount(idUser: number): Promise<any>;
   requestAgenciesDemo(
     requestAgenciesDemoModel: RequestAgenciesDemoModel,
   ): Promise<RequestAgenciesDemoResult>;
@@ -737,6 +738,22 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return mapHeaderDataJson(response.data);
+  }
+
+  public async getLandingPagesAmount(idUser: number) {
+    const response = await this.axios.get(`/WebApp/GetLandingPagesAmount?idUser=${idUser}`, {
+      timeout: 30000,
+    });
+    if (!response || !response.data) {
+      throw new Error('Empty Doppler response');
+    }
+    if (response.data.error) {
+      throw new Error(`Doppler Error: ${response.data.error}`);
+    }
+
+    console.log('response.data getLandingPagesAmount', response.data.data);
+
+    return response.data.data;
   }
 
   public async getAllPlans(): Promise<Plan[]> {

@@ -15,6 +15,7 @@ export const Declined = 2;
 export interface DopplerBillingUserApiClient {
   getBillingInformationData(): Promise<ResultWithoutExpectedErrors<BillingInformation>>;
   updateBillingInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  cancellationLandings(): Promise<EmptyResultWithoutExpectedErrors>;
   getPaymentMethodData(): Promise<ResultWithoutExpectedErrors<PaymentMethod>>;
   updatePaymentMethod(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   purchase(values: any): Promise<EmptyResultWithoutExpectedErrors>;
@@ -353,6 +354,27 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         url: `/accounts/${email}/billing-information`,
         data: values,
         headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async cancellationLandings(): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/landings/cancel`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        withCredentials: true,
       });
 
       if (response.status === 200) {
