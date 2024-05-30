@@ -46,6 +46,7 @@ export const BillingInformation = InjectAppServices(
   ({
     dependencies: { dopplerUserApiClient, dopplerBillingUserApiClient, staticDataClient },
     handleSaveAndContinue,
+    skipStepsEnabledRef,
     showTitle,
   }) => {
     const [state, setState] = useState({ loading: true });
@@ -88,10 +89,28 @@ export const BillingInformation = InjectAppServices(
           contactInformation: contactInformationResult.value,
         });
 
-        setSameAddressInformation(billingInformation && billingInformation.sameAddressAsContact);
+        const _sameAddressInformation =
+          billingInformation && billingInformation.sameAddressAsContact;
+        setSameAddressInformation(_sameAddressInformation);
+
+        if (
+          skipStepsEnabledRef?.current &&
+          billingInformationResult.success &&
+          billingInformationResult.value.address &&
+          billingInformationResult.value.province
+        ) {
+          handleSaveAndContinue();
+        }
       };
       fetchData();
-    }, [dopplerUserApiClient, dopplerBillingUserApiClient, staticDataClient, intl.locale]);
+    }, [
+      dopplerUserApiClient,
+      dopplerBillingUserApiClient,
+      staticDataClient,
+      intl.locale,
+      handleSaveAndContinue,
+      skipStepsEnabledRef,
+    ]);
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
