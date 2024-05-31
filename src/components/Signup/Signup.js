@@ -137,15 +137,18 @@ const Signup = function ({
       origin_inbound: lastUTMCookieEntry.Origin_Inbound,
     });
     if (result.success) {
-      const hasQueryParams = location.search.length > 0;
-      const registeredUser = values[fieldNames.email].trim();
-
-      navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
-        state: {
-          registeredUser,
-          contentActivation: bannerDataState.bannerData.contentActivation,
-        },
-      });
+      if (result.value && result.value.verificationCode) {
+        window.location.href = `${process.env.REACT_APP_DOPPLER_LEGACY_URL}/Registration/CompleteRegistry/CompleteUserInfo/${result.value.verificationCode}`;
+      } else {
+        const hasQueryParams = location.search.length > 0;
+        const registeredUser = values[fieldNames.email].trim();
+        navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
+          state: {
+            registeredUser,
+            contentActivation: bannerDataState.bannerData.contentActivation,
+          },
+        });
+      }
     } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
       addExistentEmailAddress(values[fieldNames.email]);
       validateForm();
