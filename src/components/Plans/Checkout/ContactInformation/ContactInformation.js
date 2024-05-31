@@ -32,6 +32,7 @@ export const ContactInformation = InjectAppServices(
   ({
     dependencies: { dopplerUserApiClient, staticDataClient },
     handleSaveAndContinue,
+    skipStepsEnabledRef,
     showTitle,
   }) => {
     const [state, setState] = useState({ loading: true });
@@ -77,9 +78,24 @@ export const ContactInformation = InjectAppServices(
           questions,
           loading: false,
         });
+
+        if (
+          skipStepsEnabledRef?.current &&
+          contactInformationResult.success &&
+          contactInformationResult.value.address &&
+          contactInformationResult.value.province
+        ) {
+          handleSaveAndContinue();
+        }
       };
       fetchData();
-    }, [dopplerUserApiClient, staticDataClient, intl.locale]);
+    }, [
+      dopplerUserApiClient,
+      staticDataClient,
+      intl.locale,
+      handleSaveAndContinue,
+      skipStepsEnabledRef,
+    ]);
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);

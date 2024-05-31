@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -65,6 +65,7 @@ const Checkout = InjectAppServices(
     const { isFreeAccount } = sessionPlan.plan;
     const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
     const { landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
+    const skipStepsEnabledRef = useRef(true);
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -86,8 +87,18 @@ const Checkout = InjectAppServices(
           break;
       }
 
-      setActiveStep(nextStep);
+      setActiveStep(() => nextStep);
     };
+
+    const handleContactInformation = useCallback(() => {
+      setActiveStep(() => checkoutSteps.billingInformation);
+      setCompleteContactInformationStep(true);
+    }, []);
+
+    const handleBillingInformation = useCallback(() => {
+      setActiveStep(() => checkoutSteps.paymentInformation);
+      setCompleteBillingInformationStep(true);
+    }, []);
 
     useEffect(() => {
       dopplerBillingUserApiClient.updatePurchaseIntention();
@@ -178,13 +189,16 @@ const Checkout = InjectAppServices(
                       title={_('checkoutProcessForm.contact_information_title')}
                       complete={completeContactInformationStep}
                       stepNumber={1}
-                      onActivate={() => setActiveStep(checkoutSteps.contactInformation)}
+                      onActivate={() => {
+                        if (skipStepsEnabledRef?.current) {
+                          skipStepsEnabledRef.current = false;
+                        }
+                        setActiveStep(checkoutSteps.contactInformation);
+                      }}
                     >
                       <ContactInformation
-                        handleSaveAndContinue={() => {
-                          setNextCheckoutStep(activeStep);
-                          setCompleteContactInformationStep(true);
-                        }}
+                        handleSaveAndContinue={handleContactInformation}
+                        skipStepsEnabledRef={skipStepsEnabledRef}
                       />
                     </Step>
                     <Step
@@ -192,13 +206,16 @@ const Checkout = InjectAppServices(
                       title={_('checkoutProcessForm.billing_information_title')}
                       complete={completeBillingInformationStep}
                       stepNumber={2}
-                      onActivate={() => setActiveStep(checkoutSteps.billingInformation)}
+                      onActivate={() => {
+                        if (skipStepsEnabledRef?.current) {
+                          skipStepsEnabledRef.current = false;
+                        }
+                        setActiveStep(checkoutSteps.billingInformation);
+                      }}
                     >
                       <BillingInformation
-                        handleSaveAndContinue={() => {
-                          setNextCheckoutStep(activeStep);
-                          setCompleteBillingInformationStep(true);
-                        }}
+                        handleSaveAndContinue={handleBillingInformation}
+                        skipStepsEnabledRef={skipStepsEnabledRef}
                       />
                     </Step>
                     <Step
