@@ -4,14 +4,13 @@ import { useLocation } from 'react-router-dom';
 export const Stepper = ({ steps }) => {
   const { pathname } = useLocation();
 
+  const activeStepIndex = steps.findIndex((st) => pathname.includes(st.pathname));
   return (
-    <div className="dp-container-steper">
+    <div className="dp-container-steper hero-banner">
       <ul className="dp-steper">
         {steps.map((step, index) => (
-          <li
-            key={`step-${index}`}
-            className={`${pathname.includes(step.pathname) ? 'active' : ''}`}
-          >
+          <li key={`step-${index}`} className={`${index <= activeStepIndex ? 'active' : ''}`}>
+            {pathname.includes(step.pathname) && <span className="step-active" />}
             <span>
               <span className={step.icon} />
               {step.label}
