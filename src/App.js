@@ -39,6 +39,8 @@ import { PlanSelection } from './components/BuyProcess/PlanSelection';
 import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
 import { CollaboratorsSections } from './components/ControlPanel/CollaboratorsSections';
 import { CollaboratorsInvite } from './components/CollaborationInvite';
+import { PlanChat } from './components/BuyProcess/PlanChat';
+import { BuyProcessLayout } from './components/BuyProcess/BuyProcessLayout';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -202,6 +204,16 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <PlanSelection />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/plan-chat"
+              element={
+                <PrivateRoute>
+                  <BuyProcessLayout>
+                    <PlanChat />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
