@@ -537,6 +537,8 @@ export const getBuyButton = ({
             landingQty: lp.packagesQty,
             fee: lp.price,
           }))}
+          landingIds={landingIdsMapped}
+          landingPacksMapped={landingPacksMapped}
           total={total}
         />
       );

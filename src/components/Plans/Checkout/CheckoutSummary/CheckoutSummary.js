@@ -178,6 +178,90 @@ const PlanMarketingInformation = ({
   );
 };
 
+const subscription_types = {
+  discount_1: 'discount_monthly',
+  discount_3: 'discount_quarterly',
+  discount_6: 'discount_half_yearly',
+  discount_12: 'discount_yearly',
+};
+
+const PlanLandingPagesInformation = InjectAppServices(
+  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
+    console.log('appSessionRef', appSessionRef);
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const landingIdsStr = query.get('landing-ids') ?? '';
+    const landingsQtyStr = query.get('landing-packs') ?? '';
+    const { error, loading, landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
+
+    if (loading) {
+      return <Loading page />;
+    }
+
+    if (error) {
+      return <UnexpectedError />;
+    }
+
+    const landingIds = landingIdsStr?.split(',') ?? [];
+    const landingsQty = landingsQtyStr?.split(',') ?? [];
+    const selectedLandings = landingPacks
+      ?.filter((lp) => landingIds.includes(lp.planId?.toString()))
+      ?.map((lp, index) => ({
+        ...lp,
+        packagesQty: Number(landingsQty[index]),
+      }));
+
+    if (!selectedLandings?.length) {
+      return <></>;
+    }
+
+    console.log('allLandingPacks desde PlanLandingPagesInformation', landingPacks);
+    console.log('selectedLandings desde PlanLandingPagesInformation', selectedLandings);
+
+    const { planSubscription } = appSessionRef.current.userData.user.plan;
+
+    return (
+      <>
+        <h4 className="dp-tit-plan-purchased">Tu plan de Landings Pages</h4>
+        {selectedLandings.map((landingPack, index) => (
+          <ul className="dp-purchase-summary-list" key={`landing-pack${index}`}>
+            <li>
+              <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+              <h4>
+                <FormattedMessage
+                  id={`landing_selection.pack_of_landing_pages`}
+                  values={{
+                    packs: landingPack.landingsQty,
+                  }}
+                />
+
+                {/* <FormattedMessage
+                  id={`landing_selection.shopping_cart.pack_of_landing_pages`}
+                  values={{
+                    packagesQty: landingPack.packagesQty,
+                    landingsQty: landingPack.landingsQty,
+                  }}
+                /> */}
+              </h4>
+            </li>
+            <li>
+              <span>Paquetes</span>
+              <h4>{landingPack.packagesQty}</h4>
+            </li>
+            <li>
+              <span>Facturación</span>
+              <>
+                <h4>{_('buy_process.' + subscription_types[`discount_${planSubscription}`])}</h4>
+              </>
+            </li>
+          </ul>
+        ))}
+      </>
+    );
+  },
+);
+
 // const PlanInformation = ({
 //   planType,
 //   quantity,
@@ -371,8 +455,16 @@ export const CheckoutSummary = InjectAppServices(
                 paymentMethod={paymentMethod}
                 upgradePending={upgradePending}
               />
-              {isBuyMarketingPlan && (
+              {isBuyMarketingPlan ? (
                 <PlanMarketingInformation
+                  planType={planType}
+                  quantity={quantity}
+                  discount={discount}
+                  extraCredits={extraCredits}
+                  remainingCredits={remainingCredits}
+                />
+              ) : (
+                <PlanLandingPagesInformation
                   planType={planType}
                   quantity={quantity}
                   discount={discount}

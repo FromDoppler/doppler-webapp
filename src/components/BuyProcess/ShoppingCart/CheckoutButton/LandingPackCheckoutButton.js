@@ -21,6 +21,8 @@ export const LandingPackCheckoutButton = InjectAppServices(
     canBuy = false,
     total,
     landingPacks,
+    landingIds,
+    landingPacksMapped,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -41,7 +43,9 @@ export const LandingPackCheckoutButton = InjectAppServices(
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}`;
+          window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}${
+            landingIds ? `&landing-ids=${landingIds}` : ''
+          }${landingPacksMapped ? `&landing-packs=${landingPacksMapped}` : ''}`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
