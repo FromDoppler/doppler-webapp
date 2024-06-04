@@ -18,6 +18,17 @@ const getFakePurchase = (success) => {
     dopplerBillingUserApiClient: {
       purchaseLandings: purchaseMock,
     },
+    appSessionRef: {
+      current: {
+        userData: {
+          user: {
+            plan: {
+              isFreeAccount: true,
+            },
+          },
+        },
+      },
+    },
   };
 
   return {

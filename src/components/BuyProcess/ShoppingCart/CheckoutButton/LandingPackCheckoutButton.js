@@ -7,6 +7,7 @@ import { InjectAppServices } from '../../../../services/pure-di';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
 import { BUY_LANDING_PACK } from '..';
+import { FREE_ACCOUNT, PAID_ACCOUNT } from '../../../../utils';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
@@ -15,7 +16,7 @@ const SAVED = 'SAVED';
 
 export const LandingPackCheckoutButton = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient },
+    dependencies: { dopplerBillingUserApiClient, appSessionRef },
     keyTextButton,
     canBuy = false,
     total,
@@ -27,7 +28,8 @@ export const LandingPackCheckoutButton = InjectAppServices(
     const [messageError, setMessageError] = useState('');
     const createTimeout = useTimeout();
     const query = useQueryParams();
-    const accountType = query.get(ACCOUNT_TYPE) ?? '';
+    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    const accountType = query.get(ACCOUNT_TYPE) ?? isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT;
 
     const proceedToBuy = async () => {
       setStatus(SAVING);

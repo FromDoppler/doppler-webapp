@@ -751,8 +751,6 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       throw new Error(`Doppler Error: ${response.data.error}`);
     }
 
-    console.log('response.data getLandingPagesAmount', response.data.data);
-
     return response.data.data;
   }
 

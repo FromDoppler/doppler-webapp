@@ -38,6 +38,7 @@ export const ShoppingCart = InjectAppServices(
     buyType = BUY_MARKETING_PLAN,
     handleLandingPagesDowngrade,
     disabledLandingsBuy,
+    landingPagesRemoved,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -183,6 +184,7 @@ export const ShoppingCart = InjectAppServices(
       amountDetailsLandingPacksData?.value?.currentMonthTotal ??
       0;
 
+    const checkoutLandingPackButtonEnabled = landingPagesRemoved && landingPacks?.length === 0;
     const buyButton = getBuyButton({
       pathname,
       isEqualPlan,
@@ -196,6 +198,7 @@ export const ShoppingCart = InjectAppServices(
       landingPacks,
       buyType,
       disabledLandingsBuy,
+      checkoutLandingPackButtonEnabled,
     });
 
     const paymentFrequencyProps = {
@@ -260,6 +263,11 @@ export const ShoppingCart = InjectAppServices(
             )}
           </h3>
           {buyButton}
+          {checkoutLandingPackButtonEnabled && (
+            <p className="dp-reminder">
+              {_('landing_selection.user_messages.legend_after_remove')}
+            </p>
+          )}
         </section>
         {selectedPlanType !== PLAN_TYPE.byCredit &&
           (amountDetailsData?.value?.nextMonthDate ||

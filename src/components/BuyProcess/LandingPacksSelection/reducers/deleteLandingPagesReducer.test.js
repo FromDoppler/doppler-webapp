@@ -36,6 +36,7 @@ describe('deleteLandingPagesReducer', () => {
       error: null,
       success: true,
       initialized: false,
+      removed: true,
     });
   });
 
@@ -78,6 +79,7 @@ describe('deleteLandingPagesReducer', () => {
       error: null,
       success: false,
       initialized: true,
+      removed: true,
     });
   });
 

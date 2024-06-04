@@ -847,6 +847,7 @@ You'll find an Email with steps to follow.`,
     subtitle2: `Maximize your profitability`,
     title: `Boost your sales with Landing Pages`,
     user_messages: {
+      legend_after_remove: `Cancellation of this Add-on will take effect immediately and the Landing Pages charge will no longer be included on your next bill.`,
       warning_description: `You cannot reduce the number or remove landing pages while they are published. Archive landing pages before reducing the number or removing them all.`,
       warning_link_title: `SEE MY LANDING PAGES`,
     },

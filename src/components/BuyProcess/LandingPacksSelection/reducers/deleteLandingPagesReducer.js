@@ -3,6 +3,7 @@ export const INITIAL_STATE_DELETE_LANDING_PAGES = {
   error: null,
   success: false,
   initialized: true,
+  removed: false,
 };
 
 export const DELETE_LANDING_PAGES_ACTIONS = {
@@ -20,6 +21,7 @@ export const deleteLandingPagesReducer = (state, action) => {
         error: null,
         success: false,
         initialized: false,
+        removed: false,
       };
     case DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH:
       return {
@@ -27,6 +29,7 @@ export const deleteLandingPagesReducer = (state, action) => {
         error: null,
         success: true,
         initialized: false,
+        removed: true,
       };
 
     case DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED:
@@ -36,10 +39,11 @@ export const deleteLandingPagesReducer = (state, action) => {
         error: errorKey,
         success: false,
         initialized: false,
+        removed: false,
       };
 
     case DELETE_LANDING_PAGES_ACTIONS.INITIALIZE:
-      return INITIAL_STATE_DELETE_LANDING_PAGES;
+      return { ...INITIAL_STATE_DELETE_LANDING_PAGES, removed: true };
     default:
       return state;
   }

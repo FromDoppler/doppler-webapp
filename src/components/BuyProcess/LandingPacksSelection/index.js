@@ -83,6 +83,7 @@ export const LandingPacksSelection = InjectAppServices(
         loading: loadingRemoveLandingPages,
         error: errorRemoveLandingPages,
         success: successRemoveLandingPages,
+        removed: landingPagesRemoved,
       },
       dispatch,
     ] = useReducer(deleteLandingPagesReducer, INITIAL_STATE_DELETE_LANDING_PAGES);
@@ -96,7 +97,6 @@ export const LandingPacksSelection = InjectAppServices(
     const contractedLandingPagesRef = useRef(
       appSessionRef.current.userData.user.landings?.landingPacks,
     );
-
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
     const { isFreeAccount } = sessionPlan.plan;
@@ -168,29 +168,33 @@ export const LandingPacksSelection = InjectAppServices(
 
     const handleRemoveLandings = () => {
       const cancelLandings = async () => {
-        dispatch({
-          type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
-        });
-        const response = await dopplerBillingUserApiClient.cancellationLandings();
-        if (response.success) {
+        if (contractedLandingPagesRef.current?.length > 0) {
           dispatch({
-            type: DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH,
+            type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
           });
-          setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
-          setShowArchiveLandings(false);
-          contractedLandingPagesRef.current = [];
-          setTimeout(() => {
+          const response = await dopplerBillingUserApiClient.cancellationLandings();
+          if (response.success) {
             dispatch({
-              type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
+              type: DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH,
             });
-          }, 6000);
+            setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
+            setShowArchiveLandings(false);
+            contractedLandingPagesRef.current = [];
+            setTimeout(() => {
+              dispatch({
+                type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
+              });
+            }, 6000);
+          } else {
+            dispatch({
+              type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
+              payload: {
+                error: response.error,
+              },
+            });
+          }
         } else {
-          dispatch({
-            type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
-            payload: {
-              error: response.error,
-            },
-          });
+          handleRemove();
         }
       };
 
@@ -297,11 +301,13 @@ export const LandingPacksSelection = InjectAppServices(
                 handleLandingPagesDowngrade={handleLandingPagesDowngrade}
                 disabledLandingsBuy={
                   (isDowngrade && showArchiveLandings) ||
-                  verifyIsTheSameLandingPacks(
-                    contractedLandingPagesRef?.current,
-                    selectedLandingPacks,
-                  )
+                  (!landingPagesRemoved &&
+                    verifyIsTheSameLandingPacks(
+                      contractedLandingPagesRef?.current,
+                      selectedLandingPacks,
+                    ))
                 }
+                landingPagesRemoved={landingPagesRemoved}
               />
             </div>
           </div>
