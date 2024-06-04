@@ -503,6 +503,9 @@ export const CheckoutSummary = InjectAppServices(
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
+    const alreadyExistsLandingPlan =
+      appSessionRef.current.userData.user.landings?.landingPacks?.length > 0;
+
     return (
       <>
         <Helmet>
@@ -559,7 +562,9 @@ export const CheckoutSummary = InjectAppServices(
               </div>
             )}
           </div>
-          {isBuyMarketingPlan && landingsEditorEnabled && <ModalPromoLandingPacks />}
+          {isBuyMarketingPlan && !alreadyExistsLandingPlan && landingsEditorEnabled && (
+            <ModalPromoLandingPacks />
+          )}
         </section>
       </>
     );
