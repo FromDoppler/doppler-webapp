@@ -514,6 +514,8 @@ export const getBuyButton = ({
   buyType = BUY_MARKETING_PLAN,
   landingPacks,
   disabledLandingsBuy,
+  checkoutLandingPackButtonEnabled,
+  handleRemoveLandingPacks,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -536,7 +538,19 @@ export const getBuyButton = ({
             landingQty: lp.packagesQty,
             fee: lp.price,
           }))}
+          landingIds={landingIdsMapped}
+          landingPacksMapped={landingPacksMapped}
           total={total}
+        />
+      );
+    } else if (checkoutLandingPackButtonEnabled) {
+      return (
+        <LandingPackCheckoutButton
+          keyTextButton={'buy_process.continue'}
+          canBuy={canBuy}
+          landingPacks={[]}
+          total={total}
+          handleClick={handleRemoveLandingPacks}
         />
       );
     } else {

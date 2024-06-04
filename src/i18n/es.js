@@ -848,6 +848,7 @@ Encontrarás un Email con los pasos a seguir.`,
     subtitle2: `Maximiza tu rentabilidad`,
     title: `Potencia tus ventas con Landing Pages`,
     user_messages: {
+      legend_after_remove: `La cancelación de este Add-on se aplicará de inmediato y el cargo por Landing Pages ya no se incluirá en tu próxima factura.`,
       warning_description: `No puedes reducir el número o quitar landings pages mientras se encuentren publicadas. Archiva las landing pages antes de reducir el número o quitar todas.`,
       warning_link_title: `VER MIS LANDINGS PAGES`,
     },

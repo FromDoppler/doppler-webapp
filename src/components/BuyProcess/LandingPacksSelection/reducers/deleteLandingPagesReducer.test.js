@@ -36,6 +36,7 @@ describe('deleteLandingPagesReducer', () => {
       error: null,
       success: true,
       initialized: false,
+      removed: true,
     });
   });
 
@@ -78,6 +79,26 @@ describe('deleteLandingPagesReducer', () => {
       error: null,
       success: false,
       initialized: true,
+      removed: true,
+    });
+  });
+
+  it(`${DELETE_LANDING_PAGES_ACTIONS.REMOVED} action`, () => {
+    // Arrange
+    const action = {
+      type: DELETE_LANDING_PAGES_ACTIONS.REMOVED,
+    };
+
+    // Act
+    const newState = deleteLandingPagesReducer(
+      { ...INITIAL_STATE_DELETE_LANDING_PAGES, removed: true },
+      action,
+    );
+
+    // Assert
+    expect(newState).toEqual({
+      ...INITIAL_STATE_DELETE_LANDING_PAGES,
+      removed: true,
     });
   });
 

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import SafeRedirect from '../../../SafeRedirect';
 import { useLinkedinInsightTag } from '../../../../hooks/useLinkedingInsightTag';
 import HeaderSection from '../../../shared/HeaderSection/HeaderSection';
@@ -178,6 +178,155 @@ const PlanMarketingInformation = ({
   );
 };
 
+const subscription_types = {
+  discount_1: 'discount_monthly',
+  discount_3: 'discount_quarterly',
+  discount_6: 'discount_half_yearly',
+  discount_12: 'discount_yearly',
+};
+
+const PlanLandingPagesInformation1 = InjectAppServices(
+  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const landingIdsStr = query.get('landing-ids') ?? '';
+    const landingsQtyStr = query.get('landing-packs') ?? '';
+    const { error, loading, landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
+
+    if (loading) {
+      return <Loading page />;
+    }
+
+    if (error) {
+      return <UnexpectedError />;
+    }
+
+    const landingIds = landingIdsStr?.split(',') ?? [];
+    const landingsQty = landingsQtyStr?.split(',') ?? [];
+    const selectedLandings = landingPacks
+      ?.filter((lp) => landingIds.includes(lp.planId?.toString()))
+      ?.map((lp, index) => ({
+        ...lp,
+        packagesQty: Number(landingsQty[index]),
+      }));
+
+    if (!selectedLandings?.length) {
+      return <></>;
+    }
+
+    console.log('allLandingPacks desde PlanLandingPagesInformation', landingPacks);
+    console.log('selectedLandings desde PlanLandingPagesInformation', selectedLandings);
+
+    const { planSubscription } = appSessionRef.current.userData.user.plan;
+
+    return (
+      <>
+        <h4 className="dp-tit-plan-purchased">Tu plan de Landings Pages</h4>
+        <ul className="dp-purchase-summary-list">
+          <li>
+            <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+            {selectedLandings.map((landingPack, index) => (
+              <React.Fragment key={`landing-pack${index}`}>
+                <h4>
+                  <FormattedMessage
+                    id={`landing_selection.pack_of_landing_pages`}
+                    values={{
+                      packs: landingPack.landingsQty,
+                    }}
+                  />
+                </h4>
+              </React.Fragment>
+            ))}
+          </li>
+          <li>
+            <span>Paquetes</span>
+            {selectedLandings.map((landingPack, index) => (
+              <React.Fragment key={`landing-pack${index}`}>
+                <h4>{landingPack.packagesQty}</h4>
+              </React.Fragment>
+            ))}
+          </li>
+          <li>
+            <span>Facturación</span>
+            {selectedLandings.map((landingPack, index) => (
+              <React.Fragment key={`landing-pack${index}`}>
+                <h4>{_('buy_process.' + subscription_types[`discount_${planSubscription}`])}</h4>
+              </React.Fragment>
+            ))}
+          </li>
+        </ul>
+      </>
+    );
+  },
+);
+
+export const PlanLandingPagesInformation2 = InjectAppServices(
+  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const landingIdsStr = query.get('landing-ids') ?? '';
+    const landingsQtyStr = query.get('landing-packs') ?? '';
+    const { error, loading, landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
+
+    if (loading) {
+      return <Loading page />;
+    }
+
+    if (error) {
+      return <UnexpectedError />;
+    }
+
+    const landingIds = landingIdsStr?.split(',') ?? [];
+    const landingsQty = landingsQtyStr?.split(',') ?? [];
+    const selectedLandings = landingPacks
+      ?.filter((lp) => landingIds.includes(lp.planId?.toString()))
+      ?.map((lp, index) => ({
+        ...lp,
+        packagesQty: Number(landingsQty[index]),
+      }));
+
+    if (!selectedLandings?.length) {
+      return <></>;
+    }
+
+    console.log('allLandingPacks desde PlanLandingPagesInformation', landingPacks);
+    console.log('selectedLandings desde PlanLandingPagesInformation', selectedLandings);
+
+    const { planSubscription } = appSessionRef.current.userData.user.plan;
+
+    return (
+      <>
+        <h4 className="dp-tit-plan-purchased">Tu plan de Landings Pages</h4>
+        {selectedLandings.map((landingPack, index) => (
+          <ul className="dp-purchase-summary-list">
+            <li>
+              <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
+              <h4>
+                <FormattedMessage
+                  id={`landing_selection.pack_of_landing_pages`}
+                  values={{
+                    packs: landingPack.landingsQty,
+                  }}
+                />
+              </h4>
+            </li>
+            <li>
+              <span>Paquetes</span>
+              <h4>{landingPack.packagesQty}</h4>
+            </li>
+            <li>
+              <span>Facturación</span>
+              <h4>{_('buy_process.' + subscription_types[`discount_${planSubscription}`])}</h4>
+            </li>
+          </ul>
+        ))}
+      </>
+    );
+  },
+);
+
 // const PlanInformation = ({
 //   planType,
 //   quantity,
@@ -253,12 +402,7 @@ const PlanMarketingInformation = ({
 
 export const CheckoutSummary = InjectAppServices(
   ({
-    dependencies: {
-      dopplerBillingUserApiClient,
-      dopplerAccountPlansApiClient,
-      appSessionRef,
-      experimentalFeatures,
-    },
+    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
     location,
   }) => {
     useLinkedinInsightTag();
@@ -357,10 +501,7 @@ export const CheckoutSummary = InjectAppServices(
 
     const title = getTitle(paymentMethod, upgradePending);
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
-    const featureLandingEditorEnabled = experimentalFeatures.getFeature('landingEditorEnabled');
-    const landingsEditorEnabled =
-      appSessionRef?.current?.userData?.features?.landingsEditorEnabled &&
-      featureLandingEditorEnabled;
+    const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
     return (
       <>
@@ -379,7 +520,7 @@ export const CheckoutSummary = InjectAppServices(
                 paymentMethod={paymentMethod}
                 upgradePending={upgradePending}
               />
-              {isBuyMarketingPlan && (
+              {isBuyMarketingPlan ? (
                 <PlanMarketingInformation
                   planType={planType}
                   quantity={quantity}
@@ -387,6 +528,8 @@ export const CheckoutSummary = InjectAppServices(
                   extraCredits={extraCredits}
                   remainingCredits={remainingCredits}
                 />
+              ) : (
+                <PlanLandingPagesInformation1 />
               )}
               {paymentMethod === paymentType.transfer ? (
                 <TransferInformation

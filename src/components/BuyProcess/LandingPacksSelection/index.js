@@ -15,6 +15,10 @@ import {
   deleteLandingPagesReducer,
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
+import { DELAY_BEFORE_REDIRECT_TO_SUMMARY } from '../ShoppingCart/CheckoutButton';
+import { ACCOUNT_TYPE, FREE_ACCOUNT, PAID_ACCOUNT } from '../../../utils';
+import { useQueryParams } from '../../../hooks/useQueryParams';
+import useTimeout from '../../../hooks/useTimeout';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -68,6 +72,8 @@ export const LandingPacksSelection = InjectAppServices(
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const createTimeout = useTimeout();
     const [selectedLandingPacks, setSelectedLandingPacks] = useState(null);
     const [landingPacksFormValues, setLandingPacksFormValues] = useState([]);
     const [showArchiveLandings, setShowArchiveLandings] = useState(false);
@@ -83,6 +89,7 @@ export const LandingPacksSelection = InjectAppServices(
         loading: loadingRemoveLandingPages,
         error: errorRemoveLandingPages,
         success: successRemoveLandingPages,
+        removed: landingPagesRemoved,
       },
       dispatch,
     ] = useReducer(deleteLandingPagesReducer, INITIAL_STATE_DELETE_LANDING_PAGES);
@@ -96,7 +103,6 @@ export const LandingPacksSelection = InjectAppServices(
     const contractedLandingPagesRef = useRef(
       appSessionRef.current.userData.user.landings?.landingPacks,
     );
-
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
     const { isFreeAccount } = sessionPlan.plan;
@@ -167,38 +173,59 @@ export const LandingPacksSelection = InjectAppServices(
     }, [allLandingPacks, handleSave, isDowngradeRef]);
 
     const handleRemoveLandings = () => {
-      const cancelLandings = async () => {
-        dispatch({
-          type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
-        });
-        const response = await dopplerBillingUserApiClient.cancellationLandings();
-        if (response.success) {
-          dispatch({
-            type: DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH,
-          });
+      const resetLandingForm = async () => {
+        if (contractedLandingPagesRef.current?.length > 0) {
           setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
-          setShowArchiveLandings(false);
-          contractedLandingPagesRef.current = [];
-          setTimeout(() => {
-            dispatch({
-              type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
-            });
-          }, 6000);
-        } else {
           dispatch({
-            type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
-            payload: {
-              error: response.error,
-            },
+            type: DELETE_LANDING_PAGES_ACTIONS.REMOVED,
           });
         }
+        handleRemove();
       };
 
       if (numberOfPublishedLandingsRef.current > 0) {
         setShowArchiveLandings(true);
       } else {
-        cancelLandings();
+        resetLandingForm();
       }
+    };
+
+    const handleRemoveLandingsConfirm = () => {
+      const removeLandings = async () => {
+        if (contractedLandingPagesRef.current?.length > 0) {
+          dispatch({
+            type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
+          });
+          const response = await dopplerBillingUserApiClient.cancellationLandings();
+          if (response.success) {
+            dispatch({
+              type: DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH,
+            });
+            setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
+            setShowArchiveLandings(false);
+            contractedLandingPagesRef.current = [];
+            createTimeout(() => {
+              dispatch({
+                type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
+              });
+            }, 2500);
+            const accountType =
+              query.get(ACCOUNT_TYPE) ?? isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT;
+            createTimeout(() => {
+              window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}`;
+            }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
+          } else {
+            dispatch({
+              type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
+              payload: {
+                error: response.error,
+              },
+            });
+          }
+        }
+      };
+
+      removeLandings();
     };
 
     if (!landingsEditorEnabled || isFreeAccount) {
@@ -290,18 +317,20 @@ export const LandingPacksSelection = InjectAppServices(
                 }}
                 isMonthlySubscription={isMonthlySubscription}
                 landingPacks={selectedLandingPacks}
-                handleRemoveLandingPacks={handleRemove}
+                handleRemoveLandingPacks={handleRemoveLandingsConfirm}
                 isEqualPlan={false}
                 hidePromocode={true}
                 buyType={BUY_LANDING_PACK}
                 handleLandingPagesDowngrade={handleLandingPagesDowngrade}
                 disabledLandingsBuy={
                   (isDowngrade && showArchiveLandings) ||
-                  verifyIsTheSameLandingPacks(
-                    contractedLandingPagesRef?.current,
-                    selectedLandingPacks,
-                  )
+                  (!landingPagesRemoved &&
+                    verifyIsTheSameLandingPacks(
+                      contractedLandingPagesRef?.current,
+                      selectedLandingPacks,
+                    ))
                 }
+                landingPagesRemoved={landingPagesRemoved}
               />
             </div>
           </div>
