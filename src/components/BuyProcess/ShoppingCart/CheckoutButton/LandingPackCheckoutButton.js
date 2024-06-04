@@ -23,6 +23,7 @@ export const LandingPackCheckoutButton = InjectAppServices(
     landingPacks,
     landingIds,
     landingPacksMapped,
+    handleClick,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -64,7 +65,7 @@ export const LandingPackCheckoutButton = InjectAppServices(
             'dp-button button-big primary-green' + (status === SAVING ? ' button--loading' : '')
           }
           disabled={disabledBuy}
-          onClick={proceedToBuy}
+          onClick={handleClick ? handleClick : proceedToBuy}
           aria-label="buy"
         >
           {_(keyTextButton)}

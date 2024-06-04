@@ -10,6 +10,7 @@ export const DELETE_LANDING_PAGES_ACTIONS = {
   FETCHING_STARTED: 'FETCHING_STARTED',
   FINISH_FETCH: 'FINISH_FETCH',
   FETCH_FAILED: 'FETCH_FAILED',
+  REMOVED: 'REMOVED',
   INITIALIZE: 'INITIALIZE',
 };
 
@@ -40,6 +41,12 @@ export const deleteLandingPagesReducer = (state, action) => {
         success: false,
         initialized: false,
         removed: false,
+      };
+
+    case DELETE_LANDING_PAGES_ACTIONS.REMOVED:
+      return {
+        ...state,
+        removed: true,
       };
 
     case DELETE_LANDING_PAGES_ACTIONS.INITIALIZE:

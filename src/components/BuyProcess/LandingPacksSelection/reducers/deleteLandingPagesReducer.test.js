@@ -83,6 +83,25 @@ describe('deleteLandingPagesReducer', () => {
     });
   });
 
+  it(`${DELETE_LANDING_PAGES_ACTIONS.REMOVED} action`, () => {
+    // Arrange
+    const action = {
+      type: DELETE_LANDING_PAGES_ACTIONS.REMOVED,
+    };
+
+    // Act
+    const newState = deleteLandingPagesReducer(
+      { ...INITIAL_STATE_DELETE_LANDING_PAGES, removed: true },
+      action,
+    );
+
+    // Assert
+    expect(newState).toEqual({
+      ...INITIAL_STATE_DELETE_LANDING_PAGES,
+      removed: true,
+    });
+  });
+
   it('should return initialState when the action is not defined', () => {
     // Arrange
     const action = {

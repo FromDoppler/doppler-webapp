@@ -515,6 +515,7 @@ export const getBuyButton = ({
   landingPacks,
   disabledLandingsBuy,
   checkoutLandingPackButtonEnabled,
+  handleRemoveLandingPacks,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -549,6 +550,7 @@ export const getBuyButton = ({
           canBuy={canBuy}
           landingPacks={[]}
           total={total}
+          handleClick={handleRemoveLandingPacks}
         />
       );
     } else {

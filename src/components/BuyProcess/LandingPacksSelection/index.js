@@ -15,6 +15,10 @@ import {
   deleteLandingPagesReducer,
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
+import { DELAY_BEFORE_REDIRECT_TO_SUMMARY } from '../ShoppingCart/CheckoutButton';
+import { ACCOUNT_TYPE, FREE_ACCOUNT, PAID_ACCOUNT } from '../../../utils';
+import { useQueryParams } from '../../../hooks/useQueryParams';
+import useTimeout from '../../../hooks/useTimeout';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -68,6 +72,8 @@ export const LandingPacksSelection = InjectAppServices(
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const createTimeout = useTimeout();
     const [selectedLandingPacks, setSelectedLandingPacks] = useState(null);
     const [landingPacksFormValues, setLandingPacksFormValues] = useState([]);
     const [showArchiveLandings, setShowArchiveLandings] = useState(false);
@@ -167,7 +173,25 @@ export const LandingPacksSelection = InjectAppServices(
     }, [allLandingPacks, handleSave, isDowngradeRef]);
 
     const handleRemoveLandings = () => {
-      const cancelLandings = async () => {
+      const resetLandingForm = async () => {
+        if (contractedLandingPagesRef.current?.length > 0) {
+          setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
+          dispatch({
+            type: DELETE_LANDING_PAGES_ACTIONS.REMOVED,
+          });
+        }
+        handleRemove();
+      };
+
+      if (numberOfPublishedLandingsRef.current > 0) {
+        setShowArchiveLandings(true);
+      } else {
+        resetLandingForm();
+      }
+    };
+
+    const handleRemoveLandingsConfirm = () => {
+      const removeLandings = async () => {
         if (contractedLandingPagesRef.current?.length > 0) {
           dispatch({
             type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
@@ -180,11 +204,16 @@ export const LandingPacksSelection = InjectAppServices(
             setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
             setShowArchiveLandings(false);
             contractedLandingPagesRef.current = [];
-            setTimeout(() => {
+            createTimeout(() => {
               dispatch({
                 type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
               });
-            }, 6000);
+            }, 2500);
+            const accountType =
+              query.get(ACCOUNT_TYPE) ?? isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT;
+            createTimeout(() => {
+              window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}`;
+            }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
           } else {
             dispatch({
               type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
@@ -193,16 +222,10 @@ export const LandingPacksSelection = InjectAppServices(
               },
             });
           }
-        } else {
-          handleRemove();
         }
       };
 
-      if (numberOfPublishedLandingsRef.current > 0) {
-        setShowArchiveLandings(true);
-      } else {
-        cancelLandings();
-      }
+      removeLandings();
     };
 
     if (!landingsEditorEnabled || isFreeAccount) {
@@ -294,7 +317,7 @@ export const LandingPacksSelection = InjectAppServices(
                 }}
                 isMonthlySubscription={isMonthlySubscription}
                 landingPacks={selectedLandingPacks}
-                handleRemoveLandingPacks={handleRemove}
+                handleRemoveLandingPacks={handleRemoveLandingsConfirm}
                 isEqualPlan={false}
                 hidePromocode={true}
                 buyType={BUY_LANDING_PACK}
