@@ -253,12 +253,7 @@ const PlanMarketingInformation = ({
 
 export const CheckoutSummary = InjectAppServices(
   ({
-    dependencies: {
-      dopplerBillingUserApiClient,
-      dopplerAccountPlansApiClient,
-      appSessionRef,
-      experimentalFeatures,
-    },
+    dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
     location,
   }) => {
     useLinkedinInsightTag();
@@ -357,10 +352,7 @@ export const CheckoutSummary = InjectAppServices(
 
     const title = getTitle(paymentMethod, upgradePending);
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
-    const featureLandingEditorEnabled = experimentalFeatures.getFeature('landingEditorEnabled');
-    const landingsEditorEnabled =
-      appSessionRef?.current?.userData?.features?.landingsEditorEnabled &&
-      featureLandingEditorEnabled;
+    const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
     return (
       <>

@@ -49,11 +49,7 @@ smoothscroll.polyfill();
 
 const newDashboard = process.env.REACT_APP_NEW_DASHBOARD === 'true';
 
-const App = ({
-  locale,
-  window,
-  dependencies: { appSessionRef, sessionManager, experimentalFeatures },
-}) => {
+const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }) => {
   const [state, setState] = useState({
     dopplerSession: appSessionRef.current,
     i18nLocale: locale,
@@ -103,8 +99,6 @@ const App = ({
       langFromUrl.current = expectedLang;
     }
   }, [location, window]);
-
-  const featureLandingEditorEnabled = experimentalFeatures.getFeature('landingEditorEnabled');
 
   return (
     <>
@@ -330,16 +324,14 @@ const App = ({
                 </PrivateRoute>
               }
             />
-            {featureLandingEditorEnabled && (
-              <Route
-                path="/landing-packages"
-                element={
-                  <PrivateRoute>
-                    <LandingPacksSelection />
-                  </PrivateRoute>
-                }
-              />
-            )}
+            <Route
+              path="/landing-packages"
+              element={
+                <PrivateRoute>
+                  <LandingPacksSelection />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/integrations/"
               element={
