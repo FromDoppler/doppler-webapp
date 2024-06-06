@@ -17,7 +17,7 @@ export const LandingPacksMessages = ({
           <div className="dp-content-message">
             <p>{_('landing_selection.user_messages.warning_description')}</p>
             <a
-              href="https://landingsqa.fromdoppler.net/choose-a-template"
+              href={`${process.env.REACT_APP_DOPPLER_MY_LANDINGS_URL}`}
               className="dp-message-link"
             >
               {_('landing_selection.user_messages.warning_link_title')}
