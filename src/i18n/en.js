@@ -380,6 +380,9 @@ const messages_en = {
     discount_monthly: '1 month',
     discount_quarterly: '3 months',
     discount_yearly: '12 months',
+    landing_billing_title: 'Billing',
+    landing_packages_title: 'Packages',
+    landing_your_landings_pages_plan_title: 'Your Landings Pages plan',
     mercado_pago_check_email_with_invoice_message: `
 Within the first 48 business hours, you will receive an email with the payment confirmation then you will be able to start enjoying your new plan.
 Payment details will be included in the invoice sent to the recipient you have indicated.`,
