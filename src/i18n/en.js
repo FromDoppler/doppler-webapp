@@ -851,7 +851,7 @@ You'll find an Email with steps to follow.`,
     title: `Boost your sales with Landing Pages`,
     user_messages: {
       legend_after_remove: `Cancellation of this Add-on will take effect immediately and the Landing Pages charge will no longer be included on your next bill.`,
-      warning_description: `If you want to reduce your pack, you must first archive your created Landing Pages.`,
+      warning_description: `If you want to reduce your pack, you must first archive your created Landing Pages. `,
       warning_link_title: `SEE MY LANDINGS`,
     },
   },

@@ -852,7 +852,7 @@ Encontrarás un Email con los pasos a seguir.`,
     title: `Potencia tus ventas con Landing Pages`,
     user_messages: {
       legend_after_remove: `La cancelación de este Add-on se aplicará de inmediato y el cargo por Landing Pages ya no se incluirá en tu próxima factura.`,
-      warning_description: `Si quieres reducir tu pack, primero debes archivar tus Landing Pages creadas.`,
+      warning_description: `Si quieres reducir tu pack, primero debes archivar tus Landing Pages creadas. `,
       warning_link_title: `VER MIS LANDINGS`,
     },
   },

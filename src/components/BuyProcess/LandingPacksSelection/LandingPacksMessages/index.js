@@ -15,13 +15,15 @@ export const LandingPacksMessages = ({
         <div className="dp-wrap-message dp-wrap-warning m-t-12 bounceIn">
           <span className="dp-message-icon" />
           <div className="dp-content-message">
-            <p>{_('landing_selection.user_messages.warning_description')}</p>
-            <a
-              href={`${process.env.REACT_APP_DOPPLER_MY_LANDINGS_URL}`}
-              className="dp-message-link"
-            >
-              {_('landing_selection.user_messages.warning_link_title')}
-            </a>
+            <div className="m-b-12">
+              <span>{_('landing_selection.user_messages.warning_description')}</span>
+              <a
+                href={`${process.env.REACT_APP_DOPPLER_MY_LANDINGS_URL}`}
+                className="dp-message-link"
+              >
+                {_('landing_selection.user_messages.warning_link_title')}
+              </a>
+            </div>
           </div>
         </div>
       )}
