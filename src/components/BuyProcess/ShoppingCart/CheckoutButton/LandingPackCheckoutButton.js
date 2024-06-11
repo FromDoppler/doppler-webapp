@@ -23,7 +23,7 @@ export const LandingPackCheckoutButton = InjectAppServices(
     landingPacks,
     landingIds,
     landingPacksMapped,
-    handleClick,
+    cancelLandings,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -54,6 +54,22 @@ export const LandingPackCheckoutButton = InjectAppServices(
       }
     };
 
+    const cancelLandingsPlans = async () => {
+      setStatus(SAVING);
+      const response = await dopplerBillingUserApiClient.cancellationLandings();
+      if (response.success) {
+        setStatus(SAVED);
+        createTimeout(() => {
+          window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}${
+            landingIds ? `&landing-ids=${landingIds}` : ''
+          }${landingPacksMapped ? `&landing-packs=${landingPacksMapped}` : ''}`;
+        }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
+      } else {
+        setMessageError(getCheckoutErrorMesage(response.error.response?.data));
+        setStatus(HAS_ERROR);
+      }
+    };
+
     const disabledBuy = !canBuy || [SAVING, SAVED].includes(status);
     const showMessage = [SAVED, HAS_ERROR].includes(status);
 
@@ -65,7 +81,7 @@ export const LandingPackCheckoutButton = InjectAppServices(
             'dp-button button-big primary-green' + (status === SAVING ? ' button--loading' : '')
           }
           disabled={disabledBuy}
-          onClick={handleClick ? handleClick : proceedToBuy}
+          onClick={cancelLandings ? cancelLandingsPlans : proceedToBuy}
           aria-label="buy"
         >
           {_(keyTextButton)}

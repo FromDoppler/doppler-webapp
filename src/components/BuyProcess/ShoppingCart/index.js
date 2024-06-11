@@ -39,7 +39,7 @@ export const ShoppingCart = InjectAppServices(
     handleLandingPagesDowngrade,
     disabledLandingsBuy,
     landingPagesRemoved,
-    handleRemoveLandingPacks,
+    cancelLandings,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -200,7 +200,7 @@ export const ShoppingCart = InjectAppServices(
       buyType,
       disabledLandingsBuy,
       checkoutLandingPackButtonEnabled,
-      handleRemoveLandingPacks,
+      cancelLandings,
     });
 
     const paymentFrequencyProps = {
