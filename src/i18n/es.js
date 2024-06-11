@@ -426,6 +426,19 @@ const messages_es = {
     tag_already_exist: `El tag {tagName} ya existe.`,
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
+  colaborators: {
+    add_colaborator: 'Nuevo Colaborador',
+    meta_title: 'Doppler | Configuración de perfiles',
+    subtitle: 'Desde esta sección podrás asignar colaboradores que te ayuden a gestionar tu cuenta y asignarle accesos acordes a su rol.',
+    table: {
+      email: 'Email',
+      firstname: 'Nombre',
+      invitation_date: 'Fecha de invitación',
+      lastname: 'Apellido',
+      status: 'Estado',
+    },
+    title: 'Configuración de perfiles',
+  },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,

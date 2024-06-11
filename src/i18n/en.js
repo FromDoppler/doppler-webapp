@@ -426,6 +426,19 @@ Payment details will be included in the invoice sent to the recipient you have i
     tag_already_exist: `The tag {tagName} already exist.`,
     tag_limit_exceeded: `Can only add {max} tags.`,
   },
+  colaborators: {
+    add_colaborator: 'New Colaborator',
+    meta_title: 'Doppler | Profile Configuration',
+    subtitle: 'From this section you can assign collaborators to help you manage your account and assign access according to their role.',
+    table: {
+      email: 'Email',
+      firstname: 'Name',
+      invitation_date: 'Invitation date',
+      lastname: 'Lastname',
+      status: 'Status',
+    },
+    title: 'Profile Configuration',
+  },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
