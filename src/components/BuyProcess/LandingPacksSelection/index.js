@@ -15,10 +15,6 @@ import {
   deleteLandingPagesReducer,
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
-import { DELAY_BEFORE_REDIRECT_TO_SUMMARY } from '../ShoppingCart/CheckoutButton';
-import { ACCOUNT_TYPE, FREE_ACCOUNT, PAID_ACCOUNT } from '../../../utils';
-import { useQueryParams } from '../../../hooks/useQueryParams';
-import useTimeout from '../../../hooks/useTimeout';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -62,22 +58,14 @@ const verifyIsTheSameLandingPacks = (contractedLandingPages, selectedLandingPack
 };
 
 export const LandingPacksSelection = InjectAppServices(
-  ({
-    dependencies: {
-      appSessionRef,
-      dopplerAccountPlansApiClient,
-      dopplerLegacyClient,
-      dopplerBillingUserApiClient,
-    },
-  }) => {
+  ({ dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerLegacyClient } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const query = useQueryParams();
-    const createTimeout = useTimeout();
     const [selectedLandingPacks, setSelectedLandingPacks] = useState(null);
     const [landingPacksFormValues, setLandingPacksFormValues] = useState([]);
     const [showArchiveLandings, setShowArchiveLandings] = useState(false);
     const [isDowngrade, setIsDowngrade] = useState(false);
+    const [cancelLandings, setCancelLandings] = useState(false);
     const formRef = useRef();
     const {
       error,
@@ -88,7 +76,6 @@ export const LandingPacksSelection = InjectAppServices(
       {
         loading: loadingRemoveLandingPages,
         error: errorRemoveLandingPages,
-        success: successRemoveLandingPages,
         removed: landingPagesRemoved,
       },
       dispatch,
@@ -187,45 +174,8 @@ export const LandingPacksSelection = InjectAppServices(
         setShowArchiveLandings(true);
       } else {
         resetLandingForm();
+        setCancelLandings(true);
       }
-    };
-
-    const handleRemoveLandingsConfirm = () => {
-      const removeLandings = async () => {
-        if (contractedLandingPagesRef.current?.length > 0) {
-          dispatch({
-            type: DELETE_LANDING_PAGES_ACTIONS.FETCHING_STARTED,
-          });
-          const response = await dopplerBillingUserApiClient.cancellationLandings();
-          if (response.success) {
-            dispatch({
-              type: DELETE_LANDING_PAGES_ACTIONS.FINISH_FETCH,
-            });
-            setLandingPacksFormValues(allLandingPacks?.map((lp) => ({ ...lp, packagesQty: 0 })));
-            setShowArchiveLandings(false);
-            contractedLandingPagesRef.current = [];
-            createTimeout(() => {
-              dispatch({
-                type: DELETE_LANDING_PAGES_ACTIONS.INITIALIZE,
-              });
-            }, 2500);
-            const accountType =
-              query.get(ACCOUNT_TYPE) ?? isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT;
-            createTimeout(() => {
-              window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}`;
-            }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
-          } else {
-            dispatch({
-              type: DELETE_LANDING_PAGES_ACTIONS.FETCH_FAILED,
-              payload: {
-                error: response.error,
-              },
-            });
-          }
-        }
-      };
-
-      removeLandings();
     };
 
     if (!landingsEditorEnabled || isFreeAccount) {
@@ -296,7 +246,6 @@ export const LandingPacksSelection = InjectAppServices(
                 showArchiveLandings={showArchiveLandings}
                 loadingRemoveLandingPages={loadingRemoveLandingPages}
                 errorRemoveLandingPages={errorRemoveLandingPages}
-                successRemoveLandingPages={successRemoveLandingPages}
               />
               <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
@@ -317,7 +266,7 @@ export const LandingPacksSelection = InjectAppServices(
                 }}
                 isMonthlySubscription={isMonthlySubscription}
                 landingPacks={selectedLandingPacks}
-                handleRemoveLandingPacks={handleRemoveLandingsConfirm}
+                cancelLandings={cancelLandings}
                 isEqualPlan={false}
                 hidePromocode={true}
                 buyType={BUY_LANDING_PACK}
