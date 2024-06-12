@@ -5,13 +5,38 @@ import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
+import { Modal } from './Modal';
 
 export const ColaboratorsSections = InjectAppServices(() => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [activeMenu, setActiveMenus] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const stepOneForm = [
+    {
+      name: _('colaborators.form_modal.email'),
+      type: 'email',
+      placeholder: _('colaborators.form_modal.email_placeholder'),
+      subItems: null,
+    },
+    {
+      subItems: [
+        {
+          name: _('colaborators.form_modal.firstname'),
+          type: 'text',
+          placeholder: _('colaborators.form_modal.firstname_placeholder'),
+        },
+        {
+          name: _('colaborators.form_modal.lastname'),
+          type: 'text',
+          placeholder: _('colaborators.form_modal.lastname_placeholder'),
+        },
+      ],
+    },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -162,6 +187,16 @@ export const ColaboratorsSections = InjectAppServices(() => {
                 </tbody>
               </table>
             </div>
+            {modalOpen ? (
+              <Modal
+                title={_('colaborators.add_colaborator')}
+                subtitle="parrafo de descripcion"
+                items={stepOneForm}
+                onClose={() => setModalOpen()}
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </section>
