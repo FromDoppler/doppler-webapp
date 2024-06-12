@@ -428,6 +428,19 @@ Payment details will be included in the invoice sent to the recipient you have i
   },
   colaborators: {
     add_colaborator: 'New Colaborator',
+    form_modal: {
+      email: 'Email',
+      email_placeholder: 'owner_user@example.com',
+      firstname: 'FirstName',
+      firstname_placeholder: 'John',
+      lastname: 'Lastname',
+      lastname_placeholder: 'Doe',
+    },
+    menu: {
+      disable: 'Inactivate Colaborador',
+      edit: 'Edit permissions',
+      invite: 'Resend invitation',
+    },
     meta_title: 'Doppler | Profile Configuration',
     subtitle: 'From this section you can assign collaborators to help you manage your account and assign access according to their role.',
     table: {
@@ -438,6 +451,7 @@ Payment details will be included in the invoice sent to the recipient you have i
       status: 'Status',
     },
     title: 'Profile Configuration',
+    title_second: 'Your account colaborators',
   },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
@@ -461,6 +475,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     message_last_plan: `Tell us more about your needs and we’ll create a perfect Plan for you`,
     message_success: `Done! Your request has been sent`,
     new: `New`,
+    next: `Next`,
     optional_message: `Message (Optional)`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,

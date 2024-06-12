@@ -428,6 +428,19 @@ const messages_es = {
   },
   colaborators: {
     add_colaborator: 'Nuevo Colaborador',
+    form_modal: {
+      email: 'Email',
+      email_placeholder: 'usuario_owner@ejemplo.com',
+      firstname: 'Nombre',
+      firstname_placeholder: 'Juan',
+      lastname: 'Apellido',
+      lastname_placeholder: 'Perez',
+    },
+    menu: {
+      disable: 'Inactivar Colaborador',
+      edit: 'Editar permisos',
+      invite: 'Reenviar Invitación',
+    },
     meta_title: 'Doppler | Configuración de perfiles',
     subtitle: 'Desde esta sección podrás asignar colaboradores que te ayuden a gestionar tu cuenta y asignarle accesos acordes a su rol.',
     table: {
@@ -438,6 +451,7 @@ const messages_es = {
       status: 'Estado',
     },
     title: 'Configuración de perfiles',
+    title_second: 'Colaboradores de tu cuenta',
   },
   common: {
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
@@ -461,6 +475,7 @@ const messages_es = {
     message_last_plan: `Cuéntanos tus necesidades y diseñaremos el Plan perfecto para ti`,
     message_success: `¡Hecho! Tu solicitud ha sido enviada`,
     new: `Nueva`,
+    next: `Siguiente`,
     optional_message: `Mensaje (Opcional)`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     save: `Guardar`,
