@@ -113,19 +113,19 @@ export const ColaboratorsSections = InjectAppServices(() => {
                 <thead>
                   <tr>
                     <th aria-label={_('colaborators.table.email')} scope="col">
-                      <a href="#">{_('colaborators.table.email')}</a>
+                      <span>{_('colaborators.table.email')}</span>
                     </th>
                     <th aria-label={_('colaborators.table.firstname')} scope="col">
-                      <a href="#">{_('colaborators.table.firstname')}</a>
+                      <span>{_('colaborators.table.firstname')}</span>
                     </th>
                     <th aria-label={_('colaborators.table.lastname')} scope="col">
-                      <a href="#">{_('colaborators.table.lastname')}</a>
+                      <span>{_('colaborators.table.lastname')}</span>
                     </th>
                     <th aria-label={_('colaborators.table.invitation_date')} scope="col">
-                      <a href="#">{_('colaborators.table.invitation_date')}</a>
+                      <span>{_('colaborators.table.invitation_date')}</span>
                     </th>
                     <th aria-label={_('colaborators.table.status')} scope="col">
-                      <a href="#">{_('colaborators.table.status')}</a>
+                      <span>{_('colaborators.table.status')}</span>
                     </th>
                   </tr>
                 </thead>
@@ -133,9 +133,7 @@ export const ColaboratorsSections = InjectAppServices(() => {
                   {data.map((item, index) => (
                     <tr key={index}>
                       <td aria-label="Email">
-                        <a href="#" rel="noopener" target="_blank">
-                          {item.email}
-                        </a>
+                        <span>{item.email}</span>
                       </td>
                       <td aria-label="Nombre">
                         <span>{item.firstname}</span>
