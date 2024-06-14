@@ -272,6 +272,7 @@ export interface UserRegistrationModel extends PayloadWithCaptchaToken {
   gclid: string;
   utm_content: string;
   origin_inbound: string;
+  fingerprint: number | string;
 }
 
 export interface ResendRegistrationModel extends PayloadWithCaptchaToken {
@@ -879,6 +880,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         gclid: model.gclid,
         UTMContent: model.utm_content,
         Origin_Inbound: model.origin_inbound,
+        Fingerprint: model.fingerprint,
       });
 
       if (!response.data.success) {

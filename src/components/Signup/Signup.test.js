@@ -316,6 +316,7 @@ describe('Signup', () => {
       gclid: null,
       utm_content: null,
       origin_inbound: null,
+      fingerprint: null,
     });
   });
 
@@ -407,6 +408,7 @@ describe('Signup', () => {
       gclid: undefined,
       utm_content: 'test-utm-content',
       origin_inbound: 'recursos-covid',
+      fingerprint: null,
     });
   });
 
@@ -516,6 +518,7 @@ describe('Signup', () => {
       gclid: undefined,
       utm_content: null,
       origin_inbound: undefined,
+      fingerprint: null,
     });
   });
 
@@ -607,6 +610,7 @@ describe('Signup', () => {
       gclid: null,
       utm_content: null,
       origin_inbound: null,
+      fingerprint: null,
     });
   });
 });
