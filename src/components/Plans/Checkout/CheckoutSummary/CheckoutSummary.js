@@ -103,7 +103,7 @@ const PlanBuyMessage = ({ title, paymentMethod, upgradePending }) => {
 
   return (
     <>
-      <div className={`dp-wrap-message dp-wrap-${upgradePending ? 'warning' : 'success'}`}>
+      <div className={`dp-wrap-message dp-wrap-success`}>
         <span className="dp-message-icon" />
         <div className="dp-content-message dp-content-full">
           <p>
