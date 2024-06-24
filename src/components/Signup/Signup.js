@@ -23,6 +23,7 @@ import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { ScrollToFieldError } from '../shared/ScrollToFieldError';
+import { useFingerPrinting } from '../../hooks/useFingerPrinting';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -67,6 +68,7 @@ const Signup = function ({
   const bannerDataState = useGetBannerData({ dopplerSitesClient, type: 'signup', page });
   const navigate = useNavigate();
   useLinkedinInsightTag();
+  const { fingerPrintingId } = useFingerPrinting();
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
@@ -135,6 +137,7 @@ const Signup = function ({
       gclid: lastUTMCookieEntry.gclid,
       utm_content: lastUTMCookieEntry.UTMContent,
       origin_inbound: lastUTMCookieEntry.Origin_Inbound,
+      fingerprint: fingerPrintingId,
     });
     if (result.success) {
       const hasQueryParams = location.search.length > 0;
