@@ -635,10 +635,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListBlog_2_link_description: 'Mira cómo implementarlos',
     postListBlog_2_title: '#FuncionalidadDestacada',
 
-    postListHelp_1_description: '¡Conferencias gratis y online! Descubre las últimas tendencias y las mejores estrategias para atraer nuevos clientes y aumentar la facturación de tu Tienda Online.',
-    postListHelp_1_link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-post-emmsecomm-may24',
-    postListHelp_1_link_description: 'Accede ahora',
-    postListHelp_1_title: 'Revive el EMMS E-commerce 2024 🚀',
+    postListHelp_1_description: 'Editor fácil de usar, diseño adaptable y seguridad avanzada. ¡Incrementa tus leads y clientes con solo unos clics.',
+    postListHelp_1_link: 'https://www.fromdoppler.com/es/landing-pages/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=am-lanzamiento-landings-nutricion-may24',
+    postListHelp_1_link_description: 'Mira cómo implementarlas',
+    postListHelp_1_title: 'Crea Landing Pages impactantes con Doppler 🚀',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
