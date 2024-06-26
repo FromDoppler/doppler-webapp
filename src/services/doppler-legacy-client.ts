@@ -341,6 +341,13 @@ interface UserEntry {
   plan: PlanEntry;
 }
 
+interface UserAccountEntry {
+  email: string;
+  firstName: string;
+  lastName: string;
+  isOwner: boolean;
+}
+
 interface AlertEntry {
   button: {
     text: string;
@@ -357,12 +364,14 @@ interface DopplerFeatures {
   siteTrackingActive: boolean;
   emailParameterEnabled: boolean;
   emailParameterActive: boolean;
+  inviteCollaboratorsEnabled: boolean;
 }
 
 export interface DopplerLegacyUserData {
   alert: AlertEntry | undefined;
   nav: MainNavEntry[];
   user: UserEntry;
+  userAccount: UserAccountEntry | undefined;
   jwtToken: string;
   notifications: string[];
   emptyNotificationText: string;
@@ -583,6 +592,12 @@ export function mapHeaderDataJson(json: any) {
       locationCountry: json.user.locationCountry,
       landings: json.user.landings,
     },
+    userAccount: json.userAccount && {
+      email: json.userAccount.email,
+      firstName: json.userAccount.firstName,
+      lastName: json.userAccount.lastName,
+      isOwner: json.userAccount.isAccountOwner,
+    },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
     emptyNotificationText: json.emptyNotificationText || '',
@@ -593,6 +608,7 @@ export function mapHeaderDataJson(json: any) {
       emailParameterEnabled: !!(json.features && json.features.emailParameterEnabled),
       emailParameterActive: !!(json.features && json.features.emailParameterActive),
       landingsEditorEnabled: !!(json.features && json.features.landingsEditorEnabled),
+      inviteCollaboratorsEnabled: !!(json.features && json.features.inviteCollaboratorsEnabled),
     },
   };
 }
