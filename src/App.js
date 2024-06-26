@@ -342,7 +342,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               }
             />
             <Route
-              path="/control-panel/colaborators/"
+              path="/control-panel/collaborators/"
               element={
                 <PrivateRoute>
                   <ColaboratorsSections />
