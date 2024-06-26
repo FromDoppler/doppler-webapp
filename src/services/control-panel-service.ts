@@ -13,6 +13,7 @@ import email_parameter_icon from '../components/ControlPanel/images/email_parame
 import site_tracking_icon from '../components/ControlPanel/images/site_tracking_icon.png';
 import social_network_icon from '../components/ControlPanel/images/social_network_icon.png';
 import rss_preferences_icon from '../components/ControlPanel/images/rss_preferences_icon.png';
+import collaborators_icon from '../components/ControlPanel/images/collaborators_icon.svg';
 import viralization_icon from '../components/ControlPanel/images/viralization_icon.png';
 import auto_publish_icon from '../components/ControlPanel/images/auto_publish_icon.png';
 import bigquery_icon from '../components/Integrations/images/bigquery_icon.png';
@@ -112,6 +113,9 @@ export class ControlPanelService implements ControlPanelService {
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
+    const hiddeCollaboratorsBox = !(account !== 'none'
+      ? (account.userAccount?.isOwner ?? false) && account.features.inviteCollaboratorsEnabled
+      : false);
 
     if (getIntegrationSection) {
       return [
@@ -435,6 +439,13 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: _('control_panel.account_preferences.plans_and_specs_title'),
             iconName: _('control_panel.account_preferences.plans_and_specs_title'),
             hidden: true,
+          },
+          {
+            linkUrl: '/control-panel/collaborators',
+            imgSrc: collaborators_icon,
+            imgAlt: _('control_panel.account_preferences.collaborators_title'),
+            iconName: _('control_panel.account_preferences.collaborators_title'),
+            hidden: hiddeCollaboratorsBox,
           },
         ],
       },
