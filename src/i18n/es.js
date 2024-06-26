@@ -636,7 +636,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListBlog_2_title: '#FuncionalidadDestacada',
 
     postListHelp_1_description: 'Editor fácil de usar, diseño adaptable y seguridad avanzada. ¡Incrementa tus leads y clientes con solo unos clics!',
-    postListHelp_1_link: 'https://www.fromdoppler.com/es/landing-pages/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=am-lanzamiento-landings-nutricion-may24',
+    postListHelp_1_link: 'https://help.fromdoppler.com/es/que-es-una-landing-page-y-como-crear-una/?utm_source=fromdoppler&utm_medium=appnotification&utm_campaign=cm-lanzamientolanding-nutricion-jun24',
     postListHelp_1_link_description: 'Mira cómo implementarlas',
     postListHelp_1_title: 'Crea Landing Pages impactantes con Doppler 🚀',
 

@@ -636,7 +636,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     postListBlog_2_title: '#FeaturedFunctionality',
 
     postListHelp_1_description: `Easy-to-use editor, adaptable design, and advanced security. Increase your leads and customers with just a few clicks!`,
-    postListHelp_1_link: 'https://www.fromdoppler.com/en/landing-pages/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=am-lanzamiento-landings-nutricion-may24',
+    postListHelp_1_link: 'https://help.fromdoppler.com/en/what-is-a-landing-page-and-how-to-create-one?utm_medium=appnotification&utm_source=fromdoppler&utm_campaign=cm-lanzamientolanding-nutricion-jun24',
     postListHelp_1_link_description: 'See how to implement them',
     postListHelp_1_title: 'Create impactful Landing Pages with Doppler 🚀',
 
