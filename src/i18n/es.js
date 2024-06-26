@@ -99,7 +99,7 @@ const messages_es = {
     billing_type_3: `Facturación trimestral`,
     billing_type_6: `Facturación semestral`,
     buy_now_title: `Comprar ahora`,
-    chat_plan_title: `Plan chat`,
+    chat_plan_title: `Plan conversaciones`,
     continue: 'Continuar',
     difference_months_to_pay: 'Diferencia a abonar:',
     discount_for_payment_paid: 'Saldo a favor:',

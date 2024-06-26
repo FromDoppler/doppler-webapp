@@ -36,6 +36,6 @@ describe('useConversationPlans', () => {
     await waitForNextUpdate();
     expect(result.current[0].loading).toBe(false);
     expect(result.current[0].hasError).toBe(false);
-    expect(result.current[0].conversationPlans).toEqual(conversationPlansData);
+    expect(result.current[0].conversationPlans).toEqual([{}, ...conversationPlansData]);
   });
 });

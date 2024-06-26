@@ -183,3 +183,26 @@ export const numberFormatOptions = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 };
+
+export const paymentFrequenciesListFake = [
+  {
+    numberMonths: 12,
+    subscriptionType: 'yearly',
+    discountPercentage: 25,
+  },
+  {
+    numberMonths: 6,
+    subscriptionType: 'half_yearly',
+    discountPercentage: 15,
+  },
+  {
+    numberMonths: 3,
+    subscriptionType: 'quarterly',
+    discountPercentage: 5,
+  },
+  {
+    numberMonths: 1,
+    subscriptionType: 'monthly',
+    discountPercentage: 0,
+  },
+];

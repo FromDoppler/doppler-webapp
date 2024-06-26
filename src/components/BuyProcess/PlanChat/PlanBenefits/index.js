@@ -48,7 +48,7 @@ export const PlanBenefits = () => {
                 </td>
               </tr>
               <tr className={`dp-expanded-table ${open ? 'show' : ''}`}>
-                <td className="dp-list-results" colspan="2">
+                <td className="dp-list-results" colSpan="2">
                   <table className="dp-table-results">
                     <tbody>
                       <tr>
@@ -86,7 +86,7 @@ export const PlanBenefits = () => {
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">
+                        <td colSpan="2">
                           <p>
                             *Podrá contratar adicionales desde Mi Plan una vez superados los valores
                             establecidos por su plan.
