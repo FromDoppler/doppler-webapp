@@ -15,6 +15,7 @@ import {
   deleteLandingPagesReducer,
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
+import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../utils';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -178,7 +179,11 @@ export const LandingPacksSelection = InjectAppServices(
       }
     };
 
-    if (!landingsEditorEnabled || isFreeAccount) {
+    if (isFreeAccount) {
+      return <Navigate to={`/plan-types?${ACCOUNT_TYPE}=${FREE_ACCOUNT}`} />;
+    }
+
+    if (!landingsEditorEnabled) {
       return <Navigate to="/dashboard" />;
     }
 
