@@ -208,7 +208,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               }
             />
             <Route
-              path="/plan-chat"
+              path="/plan-chat/premium/:planType"
               element={
                 <PrivateRoute>
                   <BuyProcessLayout>

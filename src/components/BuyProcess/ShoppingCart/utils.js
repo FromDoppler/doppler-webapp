@@ -470,7 +470,7 @@ export const mapItemFromPlanChat = ({
   selectedPaymentFrequency,
   intl,
   amountDetailsData,
-  sessionPlan,
+  planType,
   handleRemove,
 }) => {
   const numberMonths = selectedPaymentFrequency?.numberMonths;
@@ -481,7 +481,7 @@ export const mapItemFromPlanChat = ({
       <FormattedMessage
         id={`buy_process.feature_item_chat_plan`}
         values={{
-          units: thousandSeparatorNumber(intl.defaultLocale, planChat?.conversationsQty),
+          units: thousandSeparatorNumber(intl.defaultLocale, planChat?.conversationsQty ?? 0),
           Strong: (chunk) => <strong>{chunk}</strong>,
         }}
       />,
@@ -493,18 +493,39 @@ export const mapItemFromPlanChat = ({
     billingList: [],
   };
 
+  // Months to hire
+  if (planType === PLAN_TYPE.byContact) {
+    const monthsCount = numberMonths ? numberMonths : 1;
+    const chatPlanFee = planChat?.fee ?? 0;
+    const amount = numberMonths ? chatPlanFee * monthsCount : chatPlanFee;
+
+    planChatInformation.featureList.push(
+      <>
+        <FormattedMessage id={`buy_process.months_to_hire`} />{' '}
+        <strong>
+          <FormattedMessage
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>{' '}
+        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
+      </>,
+    );
+  }
+
   // Months to pay
-  if (sessionPlan.planType === PLAN_TYPE.byContact || sessionPlan.planType === PLAN_TYPE.byEmail) {
+  if (planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail) {
     const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
     const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
-    const amountMonthsToPay = numberMonths ? planChat?.fee * monthsCount : planChat?.fee;
+    const planFee = planChat?.fee ?? 0;
+    const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
 
     planChatInformation.billingList.push({
       label: (
         <>
           <FormattedMessage
             id={
-              sessionPlan.planType !== PLAN_TYPE.byContact
+              planType !== PLAN_TYPE.byContact
                 ? `buy_process.months_to_pay`
                 : `buy_process.difference_months_to_pay`
             }

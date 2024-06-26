@@ -46,9 +46,9 @@ describe('conversationPlansReducer', () => {
     expect(newState).toEqual({
       ...INITIAL_STATE_CONVERSATION_PLANS,
       loading: false,
-      conversationPlans,
-      conversationPlansValues: [500, 1000],
-      selectedPlan: conversationPlans[0],
+      conversationPlans: [{}, ...conversationPlans],
+      conversationPlansValues: [0, 500, 1000],
+      selectedPlan: {},
     });
   });
 

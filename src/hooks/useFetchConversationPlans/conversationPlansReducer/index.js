@@ -27,9 +27,9 @@ export const conversationPlansReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        conversationPlans,
-        conversationPlansValues: conversationPlans.map((cp) => cp.conversationsQty),
-        selectedPlan: conversationPlans[0],
+        conversationPlans: [{}, ...conversationPlans],
+        conversationPlansValues: [0, ...conversationPlans.map((cp) => cp.conversationsQty)],
+        selectedPlan: {},
       };
     case CONVERSATION_PLANS_ACTIONS.SELECT_PLAN:
       const { payload: selectedPlanIndex } = action;

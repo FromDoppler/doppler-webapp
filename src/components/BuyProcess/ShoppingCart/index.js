@@ -29,6 +29,7 @@ const numberFormatOptions = {
 
 export const BUY_MARKETING_PLAN = 1;
 export const BUY_LANDING_PACK = 2;
+export const BUY_CHAT_PLAN = 3;
 
 export const ShoppingCart = InjectAppServices(
   ({
@@ -215,15 +216,21 @@ export const ShoppingCart = InjectAppServices(
           intl,
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
           amountDetailsData: amountDetailsPlanChatData,
-          sessionPlan: appSessionRef.current.userData.user.plan,
-          handleRemove: handleRemovePlanChat,
+          planType: selectedMarketingPlan?.type,
+          handleRemove: () => {
+            handleRemovePlanChat();
+          },
         }),
       );
     const total =
-      amountDetailsData?.value?.currentMonthTotal ??
-      amountDetailsLandingPacksData?.value?.currentMonthTotal ??
-      amountDetailsPlanChatData?.value?.currentMonthTotal ??
-      0;
+      (amountDetailsData?.value?.currentMonthTotal ?? 0) +
+      (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
+      (amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0);
+
+    const nextMonthTotal =
+      (amountDetailsData?.value?.nextMonthTotal ?? 0) +
+      (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
+      (amountDetailsPlanChatData?.value?.nextMonthTotal ?? 0);
 
     const checkoutLandingPackButtonEnabled = landingPagesRemoved && landingPacks?.length === 0;
     const buyButton = getBuyButton({
@@ -317,11 +324,17 @@ export const ShoppingCart = InjectAppServices(
             <NextInvoices
               pathname={pathname}
               search={search}
-              amountDetailsData={amountDetailsData || amountDetailsLandingPacksData}
+              nextMonthDate={
+                amountDetailsData?.value?.nextMonthDate ??
+                amountDetailsLandingPacksData?.value?.nextMonthDate
+              }
+              nextMonthTotal={nextMonthTotal}
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'
-                  : 'buy_process.upcoming_bills.marketing_plan_subtitle'
+                  : buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
+                    ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
+                    : 'buy_process.upcoming_bills.marketing_plan_subtitle'
               }
             />
           )}

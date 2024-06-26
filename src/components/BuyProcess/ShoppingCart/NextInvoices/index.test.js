@@ -9,18 +9,19 @@ describe('NextInvoices', () => {
     // Arrange
     const pathname = '/landing-packages';
     const search = '?accountType=PAID';
-    const amountDetailsData = {
-      value: {
-        nextMonthDate: '2024-08-01T00:00:00',
-        nextMonthTotal: 285,
-      },
-    };
+    const nextMonthDate = '2024-08-01T00:00:00';
+    const nextMonthTotal = 285;
 
     // Act
     render(
       <BrowserRouter>
         <IntlProvider>
-          <NextInvoices pathname={pathname} search={search} amountDetailsData={amountDetailsData} />
+          <NextInvoices
+            pathname={pathname}
+            search={search}
+            nextMonthTotal={nextMonthTotal}
+            nextMonthDate={nextMonthDate}
+          />
         </IntlProvider>
       </BrowserRouter>,
     );

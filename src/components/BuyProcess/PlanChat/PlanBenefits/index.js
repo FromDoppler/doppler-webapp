@@ -1,13 +1,18 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 
-export const PlanBenefits = () => {
+export const PlanBenefits = ({ selectedPlan }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  const { additionalConversation, additionalAgent, additionalChannel } = selectedPlan;
   const [open, setOpen] = useState(true);
 
   const toogleOpen = () => setOpen(!open);
 
   return (
     <section className="m-t-42">
-      <h3 className="dp-second-order-title">Beneficios plan</h3>
+      <h3 className="dp-second-order-title">{_('chat_selection.plan_benefits.title')}</h3>
       <div className="dp-table-plans dp-table-description-plan">
         <div className="dp-table-responsive">
           <table className="dp-c-table m-b-24" aria-label="" summary="">
@@ -16,13 +21,13 @@ export const PlanBenefits = () => {
                 <tr key={`id-${index}`}>
                   <td>
                     <span>
-                      <strong>{item.name}</strong>
+                      <strong>{_(item.key)}</strong>
                     </span>
                   </td>
                   <td>
                     <div className="dp-icon-lock">
                       <span className="dp-ico--ok"></span>
-                      <span>{item.feature}</span>
+                      <span>{_(item.feature_key)}</span>
                     </div>
                   </td>
                 </tr>
@@ -37,18 +42,22 @@ export const PlanBenefits = () => {
                     >
                       <i className="ms-icon icon-arrow-next" />
                     </button>
-                    <strong>Costos Adicionales</strong>
+                    <strong>
+                      {_('chat_selection.plan_benefits.additional_costs.additional_costs_message')}
+                    </strong>
                   </span>
                 </td>
                 <td>
                   <div className="dp-icon-lock">
                     <span className="ico-extra-cost" />
-                    <span>Costos extras</span>
+                    <span>
+                      {_('chat_selection.plan_benefits.additional_costs.extra_costs_message')}
+                    </span>
                   </div>
                 </td>
               </tr>
               <tr className={`dp-expanded-table ${open ? 'show' : ''}`}>
-                <td className="dp-list-results" colspan="2">
+                <td className="dp-list-results" colSpan="2">
                   <table className="dp-table-results">
                     <tbody>
                       <tr>
@@ -56,17 +65,32 @@ export const PlanBenefits = () => {
                           <ul className="dp-additional-cost">
                             <li>
                               <div className="dp-icon-lock">
-                                <span className="dp-ico--ok" /> <span>Conversación adicional.</span>
+                                <span className="dp-ico--ok" />{' '}
+                                <span>
+                                  {_(
+                                    'chat_selection.plan_benefits.additional_costs.additional_conversation_message',
+                                  )}
+                                </span>
                               </div>
                             </li>
                             <li>
                               <div className="dp-icon-lock">
-                                <span className="dp-ico--ok"></span> <span>Agente adicional.</span>
+                                <span className="dp-ico--ok"></span>{' '}
+                                <span>
+                                  {_(
+                                    'chat_selection.plan_benefits.additional_costs.additional_agent_message',
+                                  )}
+                                </span>
                               </div>
                             </li>
                             <li>
                               <div className="dp-icon-lock">
-                                <span className="dp-ico--ok"></span> <span>Canal adicional.</span>
+                                <span className="dp-ico--ok"></span>{' '}
+                                <span>
+                                  {_(
+                                    'chat_selection.plan_benefits.additional_costs.additional_channel_message',
+                                  )}
+                                </span>
                               </div>
                             </li>
                           </ul>
@@ -74,26 +98,24 @@ export const PlanBenefits = () => {
                         <td>
                           <ul className="dp-additional-cost">
                             <li>
-                              <strong>US$00.00*</strong>
+                              <strong>US${(additionalConversation ?? 0).toFixed(2)}*</strong>
                             </li>
                             <li>
-                              <strong>US$04.00*</strong>
+                              <strong>US${(additionalAgent ?? 0).toFixed(2)}*</strong>
                             </li>
                             <li>
-                              <strong>US$00.00*</strong>
+                              <strong>US${(additionalChannel ?? 0).toFixed(2)}*</strong>
                             </li>
                           </ul>
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">
+                        <td colSpan="2">
                           <p>
-                            *Podrá contratar adicionales desde Mi Plan una vez superados los valores
-                            establecidos por su plan.
+                            *{_('chat_selection.plan_benefits.additional_costs.legend_1_message')}
                           </p>
                           <p>
-                            Etiam rhoncus leo ut ante faucibus laoreet. Cras eros nibh, semper
-                            sodales ex id, ullamcorper mattis.
+                            {_('chat_selection.plan_benefits.additional_costs.legend_2_message')}
                           </p>
                         </td>
                       </tr>
@@ -111,55 +133,55 @@ export const PlanBenefits = () => {
 
 const planBenefits = [
   {
-    name: 'Chat en Sitio Web',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.website_chat_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Chat en Facebook Messenger',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.facebook_messenger_chat_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Chat en Instagram',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.instagram_chat_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Chat en WhatsApp Business API',
-    feature: 'Incluido en todos los planes pagos',
+    key: 'chat_selection.plan_benefits.whatsapp_business_api_chat_message',
+    feature_key: 'chat_selection.plan_benefits.included_paid_plans_message',
   },
   {
-    name: 'Envio de mensajes en WhatsApp Business API',
-    feature: 'Incluido en todos los planes pagos',
+    key: 'chat_selection.plan_benefits.whatsapp_business_api_send_messages_message',
+    feature_key: 'chat_selection.plan_benefits.included_paid_plans_message',
   },
   {
-    name: 'Generador de Leads',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.lead_generator_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Mensajes por árbol de conversaciones',
-    feature: 'Incluido en todos los planes pagos',
+    key: 'chat_selection.plan_benefits.messages_by_conversation_tree_message',
+    feature_key: 'chat_selection.plan_benefits.included_paid_plans_message',
   },
   {
-    name: 'Integraciones personalizadas',
-    feature: 'Incluido en todos los planes pagos',
+    key: 'chat_selection.plan_benefits.custom_integrations_message',
+    feature_key: 'chat_selection.plan_benefits.included_paid_plans_message',
   },
   {
-    name: 'Etiquetas',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.tags_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Mensajes predeterminados ',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.default_messages_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Seguimiento de mensajes',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.messages_tracking_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Atención colaborativa',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.collaborative_care_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
   {
-    name: 'Soporte',
-    feature: 'Incluido en todos los planes',
+    key: 'chat_selection.plan_benefits.support_message',
+    feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
 ];
