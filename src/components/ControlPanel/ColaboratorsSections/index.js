@@ -20,21 +20,6 @@ export const ColaboratorsSections = InjectAppServices(() => {
       name: _('colaborators.form_modal.email'),
       type: 'email',
       placeholder: _('colaborators.form_modal.email_placeholder'),
-      subItems: null,
-    },
-    {
-      subItems: [
-        {
-          name: _('colaborators.form_modal.firstname'),
-          type: 'text',
-          placeholder: _('colaborators.form_modal.firstname_placeholder'),
-        },
-        {
-          name: _('colaborators.form_modal.lastname'),
-          type: 'text',
-          placeholder: _('colaborators.form_modal.lastname_placeholder'),
-        },
-      ],
     },
   ];
 

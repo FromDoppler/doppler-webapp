@@ -17,47 +17,22 @@ export const Modal = ({ title, subtitle, items, onClose }) => {
               <ul className="field-group">
                 {items.map((item, index) => (
                   <li className="field-item" key={`item-key-${index}`}>
-                    {item.subItems !== null ? (
-                      <ul className="field-group">
-                        {item.subItems.map((subItem, subIndex) => (
-                          <li className="field-item field-item--50" key={`subItem-key-${subIndex}`}>
-                            <label
-                              for={subItem.name}
-                              className="labelcontrol"
-                              aria-disabled="false"
-                              data-required="true"
-                            >
-                              {subItem.name}
-                              <input
-                                type={subItem.type}
-                                name={subItem.name}
-                                placeholder={subItem.placeholder}
-                                aria-required="true"
-                                aria-invalid="false"
-                                aria-placeholder={subItem.placeholder}
-                              />
-                            </label>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <label
-                        for={item.name}
-                        className="labelcontrol"
-                        aria-disabled="false"
-                        data-required="true"
-                      >
-                        {item.name}
-                        <input
-                          type={item.type}
-                          name={item.name}
-                          placeholder={item.placeholder}
-                          aria-required="true"
-                          aria-invalid="false"
-                          aria-placeholder={item.placeholder}
-                        />
-                      </label>
-                    )}
+                    <label
+                      for={item.name}
+                      className="labelcontrol"
+                      aria-disabled="false"
+                      data-required="true"
+                    >
+                      {item.name}
+                      <input
+                        type={item.type}
+                        name={item.name}
+                        placeholder={item.placeholder}
+                        aria-required="true"
+                        aria-invalid="false"
+                        aria-placeholder={item.placeholder}
+                      />
+                    </label>
                   </li>
                 ))}
               </ul>
