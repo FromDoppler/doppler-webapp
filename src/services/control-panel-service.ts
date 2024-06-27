@@ -114,7 +114,9 @@ export class ControlPanelService implements ControlPanelService {
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
     const hiddeCollaboratorsBox = !(account !== 'none'
-      ? (account.userAccount?.isOwner ?? false) && account.features.inviteCollaboratorsEnabled
+      ? (account.userAccount?.userProfileType !== undefined
+          ? account.userAccount.userProfileType === 'USER'
+          : false) && account.features.inviteCollaboratorsEnabled
       : false);
 
     if (getIntegrationSection) {

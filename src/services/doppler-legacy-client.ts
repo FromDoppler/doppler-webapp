@@ -345,7 +345,7 @@ interface UserAccountEntry {
   email: string;
   firstName: string;
   lastName: string;
-  isOwner: boolean;
+  userProfileType: string;
 }
 
 interface AlertEntry {
@@ -596,7 +596,7 @@ export function mapHeaderDataJson(json: any) {
       email: json.userAccount.email,
       firstName: json.userAccount.firstName,
       lastName: json.userAccount.lastName,
-      isOwner: json.userAccount.isAccountOwner,
+      userProfileType: json.userAccount.userProfileType,
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
