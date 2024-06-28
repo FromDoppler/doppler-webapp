@@ -426,8 +426,8 @@ Payment details will be included in the invoice sent to the recipient you have i
     tag_already_exist: `The tag {tagName} already exist.`,
     tag_limit_exceeded: `Can only add {max} tags.`,
   },
-  colaborators: {
-    add_colaborator: 'New Colaborator',
+  collaborators: {
+    add_collaborator: 'New Collaborator',
     form_modal: {
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
@@ -437,7 +437,7 @@ Payment details will be included in the invoice sent to the recipient you have i
       lastname_placeholder: 'Doe',
     },
     menu: {
-      disable: 'Inactivate Colaborador',
+      disable: 'Inactivate Collaborador',
       edit: 'Edit permissions',
       invite: 'Resend invitation',
     },
@@ -451,7 +451,7 @@ Payment details will be included in the invoice sent to the recipient you have i
       status: 'Status',
     },
     title: 'Profile Configuration',
-    title_second: 'Your account colaborators',
+    title_second: 'Your account collaborators',
   },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,

@@ -426,8 +426,8 @@ const messages_es = {
     tag_already_exist: `El tag {tagName} ya existe.`,
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
-  colaborators: {
-    add_colaborator: 'Nuevo Colaborador',
+  collaborators: {
+    add_collaborator: 'Nuevo Colaborador',
     form_modal: {
       email: 'Email',
       email_placeholder: 'usuario_owner@ejemplo.com',
