@@ -429,12 +429,13 @@ Payment details will be included in the invoice sent to the recipient you have i
   collaborators: {
     add_collaborator: 'New Collaborator',
     form_modal: {
+      description: 'parrafo de descripcion',
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
-      firstname: 'FirstName',
-      firstname_placeholder: 'John',
-      lastname: 'Lastname',
-      lastname_placeholder: 'Doe',
+      success_subtitle: `Your Collaborator will receive the invitation in their email box.
+    Once accepted the invitation and created the password, it will be able to
+    manage your account according to the permissions you have granted it`,
+      success_title: 'Collaborator successfully added',
     },
     menu: {
       disable: 'Inactivate Collaborador',
@@ -467,6 +468,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     emails: 'Emails',
     empty_data: `Your domain has no data to show in this section yet.`,
     feature_no_available: `The feature is not available yet`,
+    finish: 'Finish',
     hide: `Hide`,
     homeUrl: `${urlDraft}`,
     hours_abbreviation: 'hs',
