@@ -80,6 +80,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await timeout(1500);
     const {
       user,
+      userAccount,
       nav,
       alert,
       datahubCustomerId,
@@ -95,6 +96,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
         idUser: 10000,
         email: this.email,
       },
+      userAccount: userAccount,
       nav: nav,
       alert,
       datahubCustomerId,
