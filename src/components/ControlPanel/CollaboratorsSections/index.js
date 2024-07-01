@@ -79,7 +79,7 @@ export const CollaboratorsSections = InjectAppServices(
       if (result.success) {
         setModalStep(modalFinalStep);
       } else {
-        setmodalError(result.error);
+        setmodalError(_('common.unexpected_error'));
       }
     };
 

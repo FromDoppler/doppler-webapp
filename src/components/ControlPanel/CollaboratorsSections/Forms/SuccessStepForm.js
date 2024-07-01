@@ -8,7 +8,7 @@ export const SuccessStepForm = ({ onBack, onFinish }) => {
   return (
     <>
       <FieldGroup className="dp-group-buttons">
-        <li>
+        <li data-testid="success-form">
           <button
             type="button"
             className="dp-button button-medium ctaTertiary"
