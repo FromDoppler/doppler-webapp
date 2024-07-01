@@ -79,7 +79,8 @@ export const CollaboratorsSections = InjectAppServices(
       if (result.success) {
         setModalStep(modalFinalStep);
       } else {
-        setmodalError(result.error);
+        console.log(result);
+        //setmodalError(result.error);
       }
     };
 

@@ -202,7 +202,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       if (response.status === 200) {
         return { success: true };
       } else {
-        return { success: false, error: response.data.message };
+        return { success: false, error: response.data.title };
       }
     } catch (error) {
       return { success: false, error: error };
