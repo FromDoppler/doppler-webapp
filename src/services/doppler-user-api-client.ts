@@ -12,11 +12,13 @@ export interface DopplerUserApiClient {
   updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
+  sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerUserApiConnectionData {
   jwtToken: string;
   email: string;
+  idUser: number;
 }
 
 export interface ContactInformation {
@@ -78,6 +80,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     return {
       jwtToken: connectionData.jwtToken,
       email: connectionData.userData.user.email,
+      idUser: connectionData.userData.user.idUser,
     };
   }
 
@@ -176,6 +179,30 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         return { success: true, value: response.data };
       } else {
         return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken, idUser } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/user-invitations`,
+        data: {
+          email: value,
+          idUser: idUser,
+        },
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false, error: response.data.message };
       }
     } catch (error) {
       return { success: false, error: error };

@@ -426,15 +426,16 @@ const messages_es = {
     tag_already_exist: `El tag {tagName} ya existe.`,
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
-  colaborators: {
-    add_colaborator: 'Nuevo Colaborador',
+  collaborators: {
+    add_collaborator: 'Nuevo Colaborador',
     form_modal: {
+      description: 'parrafo de descripcion',
       email: 'Email',
       email_placeholder: 'usuario_owner@ejemplo.com',
-      firstname: 'Nombre',
-      firstname_placeholder: 'Juan',
-      lastname: 'Apellido',
-      lastname_placeholder: 'Perez',
+      success_subtitle: `Tu Colaborador recibirá la invitación en su casilla de correo electrónico.
+    Una vez aceptada la invitación y creada su contraseña, podrá comenzar a
+    gestionar tu cuenta de acuerdo con los permisos que le has otorgado`,
+      success_title: 'Has añadido a tu Colaborador con éxito',
     },
     menu: {
       disable: 'Inactivar Colaborador',
@@ -467,6 +468,7 @@ const messages_es = {
     emails: 'Emails',
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     feature_no_available: `La funcionalidad no está disponible aún`,
+    finish: 'Finalizar',
     hide: `Ocultar`,
     homeUrl: `${urlDraft}`,
     hours_abbreviation: 'hrs',

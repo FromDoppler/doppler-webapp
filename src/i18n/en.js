@@ -426,18 +426,19 @@ Payment details will be included in the invoice sent to the recipient you have i
     tag_already_exist: `The tag {tagName} already exist.`,
     tag_limit_exceeded: `Can only add {max} tags.`,
   },
-  colaborators: {
-    add_colaborator: 'New Colaborator',
+  collaborators: {
+    add_collaborator: 'New Collaborator',
     form_modal: {
+      description: 'parrafo de descripcion',
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
-      firstname: 'FirstName',
-      firstname_placeholder: 'John',
-      lastname: 'Lastname',
-      lastname_placeholder: 'Doe',
+      success_subtitle: `Your Collaborator will receive the invitation in their email box.
+    Once accepted the invitation and created the password, it will be able to
+    manage your account according to the permissions you have granted it`,
+      success_title: 'Collaborator successfully added',
     },
     menu: {
-      disable: 'Inactivate Colaborador',
+      disable: 'Inactivate Collaborador',
       edit: 'Edit permissions',
       invite: 'Resend invitation',
     },
@@ -451,7 +452,7 @@ Payment details will be included in the invoice sent to the recipient you have i
       status: 'Status',
     },
     title: 'Profile Configuration',
-    title_second: 'Your account colaborators',
+    title_second: 'Your account collaborators',
   },
   common: {
     advanced_preferences: `Integrations and Advanced Preferences`,
@@ -467,6 +468,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     emails: 'Emails',
     empty_data: `Your domain has no data to show in this section yet.`,
     feature_no_available: `The feature is not available yet`,
+    finish: 'Finish',
     hide: `Hide`,
     homeUrl: `${urlDraft}`,
     hours_abbreviation: 'hs',
