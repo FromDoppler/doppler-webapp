@@ -864,7 +864,7 @@ Encontrarás un Email con los pasos a seguir.`,
     description2: `Ahorra dinero y recursos con nuestras plantillas de <strong>Landing Pages optimizadas para generar conversiones efectivas.</strong>`,
     modal: {
       close_button: `NO QUIERO ESTE BENEFICIO.`,
-      description: `Capta más Leads y potencia tus ventas con páginas de destino optimizadas.`,
+      description: `Capta más Leads y potencia tus ventas con Páginas de Destino optimizadas.`,
       link_to_buy: `Empieza ahora`,
       title: `Crea Landing Pages`,
     },
