@@ -450,6 +450,12 @@ Payment details will be included in the invoice sent to the recipient you have i
       invitation_date: 'Invitation date',
       lastname: 'Lastname',
       status: 'Status',
+      statusType: {
+        APPROVED: 'Aprobado',
+        CANCELED: 'Cancelado',
+        PENDING: 'Pendiente',
+        REJECTED: 'Rechazado',
+      },
     },
     title: 'Profile Configuration',
     title_second: 'Your account collaborators',
