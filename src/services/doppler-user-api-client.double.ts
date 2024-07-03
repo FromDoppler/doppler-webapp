@@ -3,6 +3,7 @@ import {
   ContactInformation,
   Features,
   IntegrationsStatus,
+  CollaboratorInvite,
 } from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -51,6 +52,27 @@ const integrationsStatusResult: IntegrationsStatus = {
   JumpsellerStatus: 'disconnected',
 };
 
+const collaborationInvitesResult: Array<CollaboratorInvite> = [
+  {
+    idUser: 1,
+    email: 'test@fromdoppler.com',
+    firstname: 'Test',
+    lastname: 'Test',
+    invitationDate: '03-07-2024',
+    expirationDate: '03-07-2024',
+    invitationStatus: 'PENDING',
+  },
+  {
+    idUser: 1,
+    email: 'test2@fromdoppler.com',
+    firstname: 'Test 2',
+    lastname: 'Test 2',
+    invitationDate: '03-07-2024',
+    expirationDate: '03-07-2024',
+    invitationStatus: 'APPROVED',
+  },
+];
+
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
   public async getContactInformationData(): Promise<
     ResultWithoutExpectedErrors<ContactInformation>
@@ -97,6 +119,18 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     console.log(value);
     return {
       success: true,
+    };
+  }
+
+  public async getCollaborationInvites(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorInvite>>
+  > {
+    console.log('getCollaborationInvites');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: collaborationInvitesResult,
     };
   }
 }

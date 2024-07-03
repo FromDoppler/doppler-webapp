@@ -46,6 +46,16 @@ export interface IntegrationsStatus {
   [key: string]: IntegrationStatus;
 }
 
+export interface CollaboratorInvite {
+  idUser: number;
+  email: string;
+  firstname: string;
+  lastname: string;
+  invitationDate: string;
+  expirationDate: string;
+  invitationStatus: string;
+}
+
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
@@ -203,6 +213,28 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         return { success: true };
       } else {
         return { success: false, error: response.data.message };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getCollaborationInvites(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorInvite>>
+  > {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/user-invitations`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
       }
     } catch (error) {
       return { success: false, error: error };
