@@ -802,6 +802,7 @@ Encontrarás un Email con los pasos a seguir.`,
       wordpress_link_url: `${urlHelp}/como-integrar-formularios-de-wordpress-con-doppler`,
       wordpress_title: 'Wordpress',
       xintel_title: 'Xintel',
+      zeus_title: 'Zeus',
     },
     native_integrations: {
       big_query_title: 'BigQuery',
