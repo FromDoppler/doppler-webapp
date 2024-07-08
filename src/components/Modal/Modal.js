@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { concatClasses } from '../../utils';
 
-const Modal = ({ isOpen, type = 'medium', handleClose, className, children }) => {
+const Modal = ({ isOpen, type = 'medium', handleClose, className, children, modalId }) => {
   if (!isOpen) {
     return <></>;
   }
 
   return (
-    <div className="modal" data-testid="modal">
+    <div className="modal" data-testid="modal" id={modalId ? modalId : ''}>
       <div className={concatClasses(`modal-content--${type}`, className)}>
         <span onClick={handleClose} className="close" data-testid="modal-close" />
         {children}
