@@ -18,6 +18,7 @@ export const CollaboratorsSections = InjectAppServices(
     const [activeMenu, setActiveMenus] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalError, setmodalError] = useState(null);
+    const [refreshTable, setRefreshTable] = useState(false);
 
     const modalFirstStep = {
       step: 'INITIAL_STEP',
@@ -44,27 +45,16 @@ export const CollaboratorsSections = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
-        setData([
-          {
-            email: 'fgonzalez@makingsense.com',
-            firstname: 'Fernando',
-            lastname: 'Gonzalez',
-            invitationDate: '9/9/2019 5:00:24 PM',
-            status: 'Pendiente',
-          },
-          {
-            email: 'fgonzalez2@makingsense.com',
-            firstname: 'Fernando',
-            lastname: 'Gonzalez',
-            invitationDate: '9/9/2019 5:00:24 PM',
-            status: 'Activa',
-          },
-        ]);
+        const invitations = await dopplerUserApiClient.getCollaborationInvites();
+        if (invitations.success) {
+          setData(invitations.value);
+        }
+
         setLoading(false);
       };
 
       fetchData();
-    }, []);
+    }, [dopplerUserApiClient, refreshTable]);
 
     const toggleMenu = (index) => {
       if (activeMenu === index) {
@@ -78,6 +68,7 @@ export const CollaboratorsSections = InjectAppServices(
       const result = await dopplerUserApiClient.sendCollaboratorInvite(email);
       if (result.success) {
         setModalStep(modalFinalStep);
+        setRefreshTable(!refreshTable);
       } else {
         setmodalError(_('common.unexpected_error'));
       }
@@ -164,7 +155,9 @@ export const CollaboratorsSections = InjectAppServices(
                         </td>
                         <td aria-label="estado">
                           <div className="dp-flex-wrap">
-                            <span>{item.status}</span>
+                            <span>
+                              {_(`collaborators.table.statusType.${item.invitationStatus}`)}
+                            </span>
                             <div className="dp-button-dropdown-wrap dp-wrap-medium">
                               <div className="dp-button-box">
                                 <button

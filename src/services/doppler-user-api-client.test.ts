@@ -178,4 +178,73 @@ describe('HttpDopplerUserApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should send collaboration invite', async () => {
+    // Arrange
+    const value = 'test@makingsense.com';
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.sendCollaboratorInvite(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('send collaboration endpoint should set error when failed request', async () => {
+    // Arrange
+    const value = 'test@makingsense.com';
+
+    const response = {
+      status: 400,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.sendCollaboratorInvite(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
+  it('should get user collaboration invites', async () => {
+    // Arrange
+    const response = {
+      data: [
+        {
+          idUser: 1,
+          email: 'test1@fromdoppler.com',
+          firstname: 'name',
+          lastname: 'lastname',
+          invitationDate: '03-07-2024',
+          expirationDate: '03-07-2024',
+          invitationStatus: 'APPROVED',
+        },
+      ],
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.getCollaborationInvites();
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });

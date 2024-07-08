@@ -450,6 +450,12 @@ const messages_es = {
       invitation_date: 'Fecha de invitación',
       lastname: 'Apellido',
       status: 'Estado',
+      statusType: {
+        APPROVED: 'Approved',
+        CANCELED: 'Cancelled',
+        PENDING: 'Pending',
+        REJECTED: 'Rejected',
+      },
     },
     title: 'Configuración de perfiles',
     title_second: 'Colaboradores de tu cuenta',
