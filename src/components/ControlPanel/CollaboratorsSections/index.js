@@ -5,9 +5,9 @@ import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
-import { Modal } from './Modal';
 import { CollaboratorInviteForm } from './Forms/CollaboratorInviteForm';
 import { SuccessStepForm } from './Forms/SuccessStepForm';
+import Modal from '../../Modal/Modal';
 
 export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient } }) => {
@@ -198,33 +198,32 @@ export const CollaboratorsSections = InjectAppServices(
                   </tbody>
                 </table>
               </div>
-              {modalOpen ? (
-                <Modal
-                  title={modalStep.title}
-                  subtitle={modalStep.description}
-                  onClose={() => handleModalOpen()}
-                >
-                  {modalError ? (
-                    <div className="dp-msj-error dpsg-slow-animation bounceIn">
-                      <p>{modalError}</p>
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                  {modalStep.step === 'INITIAL_STEP' ? (
-                    <CollaboratorInviteForm title={modalStep.title} onSubmit={sendInvitation} />
-                  ) : modalStep.step === 'FINAL_STEP' ? (
-                    <SuccessStepForm
-                      onBack={() => setModalStep(modalFirstStep)}
-                      onFinish={handleModalOpen}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </Modal>
-              ) : (
-                <></>
-              )}
+              <Modal
+                isOpen={modalOpen}
+                type="medium"
+                handleClose={() => handleModalOpen()}
+                modalId="modal-new-collaborator"
+              >
+                <h2 className="modal-title">{modalStep.title}</h2>
+                <p>{modalStep.description}</p>
+                {modalError ? (
+                  <div className="dp-msj-error dpsg-slow-animation bounceIn">
+                    <p>{modalError}</p>
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {modalStep.step === 'INITIAL_STEP' ? (
+                  <CollaboratorInviteForm title={modalStep.title} onSubmit={sendInvitation} />
+                ) : modalStep.step === 'FINAL_STEP' ? (
+                  <SuccessStepForm
+                    onBack={() => setModalStep(modalFirstStep)}
+                    onFinish={handleModalOpen}
+                  />
+                ) : (
+                  <></>
+                )}
+              </Modal>
             </div>
           </div>
         </section>
