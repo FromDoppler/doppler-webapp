@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
@@ -39,6 +39,7 @@ export const Dashboard = InjectAppServices(
     const userName = appSessionRef?.current.userData.user.fullname.split(' ')[0]; // Get firstname
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const [popUpClosed, setPopUpClosed] = useState(false);
 
     useEffect(() => {
       // TODO: use getUserSystemUsage for the same purpose as getSystemUsageSummaryData
@@ -91,6 +92,12 @@ export const Dashboard = InjectAppServices(
       }
     }, [completed, firstStepsClosedSince, dopplerSystemUsageApiClient]);
 
+    useEffect(() => {
+      if (popUpClosed) {
+        document.body.style.removeProperty('overflow');
+      }
+    }, [popUpClosed]);
+
     const showFirstStep = !firstStepsClosedSince && !updated;
 
     const { user } = appSessionRef.current.userData;
@@ -100,7 +107,7 @@ export const Dashboard = InjectAppServices(
         <Helmet>
           <title>{_('dashboard.meta_title')}</title>
         </Helmet>
-        <TypeformSurvey />
+        <TypeformSurvey setIsClosed={setPopUpClosed} isClosed={popUpClosed} />
         <div className="dp-dashboard p-b-48">
           <header className="hero-banner">
             <div className="dp-container">
