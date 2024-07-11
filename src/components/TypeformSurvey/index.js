@@ -4,7 +4,7 @@ import { InjectAppServices } from '../../services/pure-di';
 import { INITIAL_STATE_SURVEY, surveyReducer, SURVEY_ACTIONS } from './reducers/surveyReducer';
 
 export const TypeformSurvey = InjectAppServices(
-  ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
+  ({ dependencies: { appSessionRef, dopplerLegacyClient }, setIsClosed, isClosed }) => {
     const [{ surveyFormCompleted, loading }, dispatch] = useReducer(
       surveyReducer,
       INITIAL_STATE_SURVEY,
@@ -26,7 +26,7 @@ export const TypeformSurvey = InjectAppServices(
 
     const { isFreeAccount: isTrial } = appSessionRef.current.userData.user.plan;
 
-    if (loading || surveyFormCompleted || !isTrial) {
+    if (loading || surveyFormCompleted || !isTrial || isClosed) {
       return <div data-testid="empty-fragment" />;
     }
 
@@ -46,6 +46,7 @@ export const TypeformSurvey = InjectAppServices(
         onSubmit={async () => {
           await dopplerLegacyClient.setSurveyToCompleted();
         }}
+        onClose={() => setIsClosed(true)}
       />
     );
   },
