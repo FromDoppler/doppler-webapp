@@ -48,6 +48,7 @@ export const ShoppingCart = InjectAppServices(
     disabledLandingsBuy,
     landingPagesRemoved,
     cancelLandings,
+    canChatPlanRemove = true,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -220,6 +221,7 @@ export const ShoppingCart = InjectAppServices(
           handleRemove: () => {
             handleRemovePlanChat();
           },
+          canChatPlanRemove: canChatPlanRemove,
         }),
       );
     const total =
@@ -248,6 +250,7 @@ export const ShoppingCart = InjectAppServices(
       disabledLandingsBuy,
       checkoutLandingPackButtonEnabled,
       cancelLandings,
+      selectedPlanChat,
     });
 
     const paymentFrequencyProps = {

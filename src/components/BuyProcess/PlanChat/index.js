@@ -29,6 +29,7 @@ export const PlanChat = InjectAppServices(
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const selectedPaymentMethod = PaymentMethodType.creditCard;
+    const [loading, setLoading] = useState(true);
 
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -61,8 +62,9 @@ export const PlanChat = InjectAppServices(
 
     useEffect(() => {
       const fetchPlanData = async () => {
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId);
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId, 1);
         setSelectedMarketingPlan({ ...planData.value, type: planType, id: selectedPlanId });
+        setLoading(false);
       };
 
       fetchPlanData();
@@ -109,7 +111,7 @@ export const PlanChat = InjectAppServices(
       handleSliderValue(_selectedPlanIndex);
     };
 
-    if (loadingConversationPlans) {
+    if (loadingConversationPlans || loading) {
       return <Loading page />;
     }
 

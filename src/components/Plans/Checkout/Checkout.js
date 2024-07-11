@@ -51,10 +51,13 @@ const Checkout = InjectAppServices(
     const [appliedPromocode] = useState(false);
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
+    const [selectedChatPlan, setSelectedChatPlan] = useState(null);
+
     const intl = useIntl();
     const { pathType, planType } = useParams();
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
+    const selectedChatPlanId = query.get('chatPlanId') ?? 0;
     const monthPlan = query.get('monthPlan') ?? 0;
     const landingIdsStr = query.get('landing-ids') ?? '';
     const landingsQtyStr = query.get('landing-packs') ?? '';
@@ -106,12 +109,27 @@ const Checkout = InjectAppServices(
 
     useEffect(() => {
       const fetchPlanData = async () => {
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId);
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId, 1);
         setSelectedFullPlan({ ...planData.value, type: planType, id: selectedPlanId });
       };
 
       fetchPlanData();
     }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
+
+    useEffect(() => {
+      const fetchPlanData = async () => {
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedChatPlanId, 2);
+        setSelectedChatPlan({
+          planId: selectedChatPlanId,
+          conversationsQty: planData.value.chatPlanConversationQty,
+          fee: planData.value.chatPlanFee,
+          type: planType,
+          id: selectedChatPlanId,
+        });
+      };
+
+      fetchPlanData();
+    }, [dopplerAccountPlansApiClient, selectedChatPlanId, planType]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -293,9 +311,11 @@ const Checkout = InjectAppServices(
                     }}
                     isMonthlySubscription={isMonthlySubscription}
                     selectedMarketingPlan={selectedFullPlan}
-                    items={[selectedFullPlan]}
+                    //items={[selectedFullPlan, {...selectedChatPlan, isRemovible: false}]}
                     isEqualPlan={false}
                     isArgentina={isArgentina}
+                    selectedPlanChat={selectedChatPlan}
+                    canChatPlanRemove={false}
                   />
                 )}
               </div>

@@ -472,6 +472,7 @@ export const mapItemFromPlanChat = ({
   amountDetailsData,
   planType,
   handleRemove,
+  canChatPlanRemove = true,
 }) => {
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
@@ -488,7 +489,7 @@ export const mapItemFromPlanChat = ({
     ],
     // isRemovible: true,
     data: planChat,
-    isRemovible: true,
+    isRemovible: canChatPlanRemove,
     handleRemove,
     billingList: [],
   };
@@ -679,6 +680,7 @@ export const getBuyButton = ({
   disabledLandingsBuy,
   checkoutLandingPackButtonEnabled,
   cancelLandings,
+  selectedPlanChat,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -743,6 +745,7 @@ export const getBuyButton = ({
         total={total}
         promotion={promotion}
         paymentMethod={paymentMethodName}
+        chatPlanId={selectedPlanChat?.planId}
       />
     );
   }
@@ -756,6 +759,7 @@ export const getBuyButton = ({
       promocode={promotion?.promocode ?? ''}
       monthPlan={selectedDiscount?.numberMonths}
       newCheckoutEnabled={redirectNewCheckout}
+      chatPlanId={selectedPlanChat?.planId}
     />
   );
 };

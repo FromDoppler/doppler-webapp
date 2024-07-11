@@ -24,6 +24,7 @@ export const CheckoutButton = InjectAppServices(
     total,
     promotion,
     paymentMethod,
+    chatPlanId,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -42,6 +43,12 @@ export const CheckoutButton = InjectAppServices(
         total,
         promocode: promotion?.promocode ?? '',
         originInbound,
+        additionalServices: [
+          {
+            planId: chatPlanId,
+            type: 7,
+          },
+        ],
       });
 
       if (response.success) {

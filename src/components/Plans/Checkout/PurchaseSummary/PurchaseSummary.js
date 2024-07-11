@@ -415,7 +415,7 @@ export const PurchaseSummary = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlan);
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlan, 1);
 
         setState((prevState) => ({
           ...prevState,

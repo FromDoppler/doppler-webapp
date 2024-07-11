@@ -84,7 +84,7 @@ describe('HttpDopplerAccountPlansApiClient', () => {
     const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
 
     // Act
-    const result = await dopplerAccountPlansApiClient.getPlanData(1);
+    const result = await dopplerAccountPlansApiClient.getPlanData(1, 1);
 
     // Assert
     expect(request).toBeCalledTimes(1);
@@ -102,7 +102,7 @@ describe('HttpDopplerAccountPlansApiClient', () => {
     const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
 
     // Act
-    const result = await dopplerAccountPlansApiClient.getPlanData(1);
+    const result = await dopplerAccountPlansApiClient.getPlanData(1, 1);
 
     // Assert
     expect(request).toBeCalledTimes(1);

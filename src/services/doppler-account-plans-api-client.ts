@@ -15,7 +15,7 @@ export interface DopplerAccountPlansApiClient {
     promocode: string,
   ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>>;
 
-  getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>>;
+  getPlanData(planId: number, planType: number): Promise<ResultWithoutExpectedErrors<Plan>>;
 
   getCoversationsPLans(): Promise<ResultWithoutExpectedErrors<any>>;
 
@@ -268,13 +268,16 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
-  public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
+  public async getPlanData(
+    planId: number,
+    planType: number,
+  ): Promise<ResultWithoutExpectedErrors<Plan>> {
     try {
       const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `plans/${planId}`,
+        url: `${planType}/plans/${planId}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

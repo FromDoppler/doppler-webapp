@@ -11,6 +11,7 @@ export const CheckoutLink = ({
   promocode,
   monthPlan,
   newCheckoutEnabled,
+  chatPlanId,
 }) => {
   const { search } = useLocation();
 
@@ -31,6 +32,7 @@ export const CheckoutLink = ({
           monthPlan,
           newCheckoutEnabled,
           search,
+          chatPlanId,
         })}
       >
         <FormattedMessage id="buy_process.continue" />
@@ -62,12 +64,14 @@ const getNewCheckoutPurchaseUrl = ({
   promocode,
   monthPlan,
   currentQueryParams,
+  chatPlanId,
 }) => {
   return (
     `/checkout/premium/${planType}?selected-plan=${planId}` +
     `${discountId ? `&discountId=${discountId}` : ''}` +
     `${promocode ? `&PromoCode=${promocode}` : ''}` +
     `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
+    `${chatPlanId ? `&chatPlanId=${chatPlanId}` : ''}` +
     `${currentQueryParams}`
   );
 };
@@ -81,6 +85,7 @@ export const getBuyPurchaseUrl = ({
   monthPlan,
   newCheckoutEnabled,
   search,
+  chatPlanId,
 }) => {
   const params = new URLSearchParams(search.slice(1));
   // these parameters are eliminated, so that they do not appear repeated in the url
@@ -102,6 +107,7 @@ export const getBuyPurchaseUrl = ({
         promocode: encodeURI(promocode),
         monthPlan,
         currentQueryParams,
+        chatPlanId,
       })
     : getLegacyCheckoutPurchaseUrl({
         controlPanelUrl,
