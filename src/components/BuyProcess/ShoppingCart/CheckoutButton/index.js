@@ -37,18 +37,25 @@ export const CheckoutButton = InjectAppServices(
 
     const proceedToBuy = async () => {
       setStatus(SAVING);
+
+      let additionalServices = [];
+
+      if (chatPlanId !== undefined) {
+        additionalServices = [
+          {
+            planId: chatPlanId,
+            type: 7,
+          },
+        ];
+      }
+
       const response = await dopplerBillingUserApiClient.purchase({
         planId,
         discountId: discount?.id ?? 0,
         total,
         promocode: promotion?.promocode ?? '',
         originInbound,
-        additionalServices: [
-          {
-            planId: chatPlanId,
-            type: 7,
-          },
-        ],
+        additionalServices,
       });
 
       if (response.success) {
