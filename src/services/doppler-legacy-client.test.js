@@ -557,4 +557,50 @@ describe('Doppler legacy client', () => {
     // Assert
     expect(result).toBeTruthy();
   });
+
+  it('should return success response with "Missing account" message when null data', async () => {
+    // Arrange
+    const token = 'test';
+    const data = null;
+
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    axios.post.mockResolvedValue({ data: { success: true, message: 'Missing account' } });
+
+    // Act
+    const result = await sut.confirmCollaborationinvite(token, data);
+
+    // Assert
+    expect(result.success).toBe(true);
+    expect(result.message).toBe('Missing account');
+  });
+
+  it('should return success response with "success" message when data is not null', async () => {
+    // Arrange
+    const token = 'test';
+    const data = {
+      firstname: 'test',
+      lastname: 'test',
+      phone: '+111111111111',
+      password: 'test',
+      accept_privacy_policies: true,
+      accept_promotions: 'yes',
+      language: 'es',
+    };
+
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    axios.post.mockResolvedValue({ data: { success: true, message: 'success' } });
+
+    // Act
+    const result = await sut.confirmCollaborationinvite(token, data);
+
+    // Assert
+    expect(result.success).toBe(true);
+    expect(result.message).toBe('success');
+  });
 });

@@ -84,7 +84,9 @@ export const CollaboratorsInvite = InjectAppServices(
           navigate('/login');
         }
         const token = extractParameter(location, queryString.parse, 'token', 'Token');
-        setEmail(jwtDecode(token).Email);
+        try {
+          setEmail(jwtDecode(token).Email);
+        } catch {}
 
         sendInvitationData(null);
 
@@ -92,7 +94,8 @@ export const CollaboratorsInvite = InjectAppServices(
       };
 
       fetchData();
-    }, [location, navigate, sendInvitationData]);
+      // eslint-disable-next-line
+    }, []);
 
     const validate = (values) => {
       const errors = {};
