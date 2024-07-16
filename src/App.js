@@ -38,6 +38,7 @@ import { PlanTypes } from './components/BuyProcess/PlanTypes';
 import { PlanSelection } from './components/BuyProcess/PlanSelection';
 import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
 import { CollaboratorsSections } from './components/ControlPanel/CollaboratorsSections';
+import { CollaboratorsInvite } from './components/CollaborationInvite';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -280,6 +281,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route path="/signup" element={<PublicRouteWithLegacyFallback />} />
             <Route path="/login/reset-password" element={<PublicRouteWithLegacyFallback />} />
             <Route path="/signup/confirmation" element={<SignupConfirmation />} />
+            <Route path="/collab/acceptance" element={<CollaboratorsInvite />} />
             <Route path="/ingresa" element={<RedirectWithQuery to="/login?lang=es" />} />
             <Route path="/registrate" element={<RedirectWithQuery to="/signup?lang=es" />} />
             <Route

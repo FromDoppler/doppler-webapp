@@ -37,6 +37,10 @@ export interface DopplerLegacyClient {
   getMaxSubscribersData(): Promise<MaxSubscribersData>;
   sendMaxSubscribersData(maxSubscribersData: MaxSubscribersData): Promise<boolean>;
   sendAcceptButtonAction(): Promise<boolean>;
+  confirmCollaborationinvite(
+    token: string,
+    model: RequestCollaborationInviteModel | undefined,
+  ): Promise<ReturnConfirmCollaborationInvite>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -78,6 +82,16 @@ export interface RequestUpgradeModel {
   message: string;
 }
 
+export interface RequestCollaborationInviteModel {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  password: string;
+  accept_privacy_policies: boolean;
+  accept_promotions: string;
+  language: string;
+}
+
 export type ForgotPasswordResult = EmptyResultWithoutExpectedErrors;
 
 export type RequestAgenciesDemoResult = EmptyResultWithoutExpectedErrors;
@@ -87,6 +101,11 @@ export type RequestExclusiveFeaturesDemoResult = EmptyResultWithoutExpectedError
 export type ActivateSiteTrackingTrialResult = EmptyResultWithoutExpectedErrors;
 
 export type ReturnUpgradeFormResult = EmptyResultWithoutExpectedErrors;
+
+export type ReturnConfirmCollaborationInvite = {
+  success: boolean;
+  message: string;
+};
 
 /* #endregion */
 
@@ -1174,5 +1193,28 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   public async sendAcceptButtonAction(): Promise<boolean> {
     const response = await this.axios.post('accountpreferences/acceptbuttonaction');
     return response.data;
+  }
+
+  public async confirmCollaborationinvite(
+    token: string,
+    model: RequestCollaborationInviteModel | undefined,
+  ): Promise<ReturnConfirmCollaborationInvite> {
+    let response;
+    const url = '/WebAppPublic/InviteConfirmation?t=' + token;
+    if (model) {
+      response = await this.axios.post(url, {
+        Firstname: model.firstname,
+        Lastname: model.lastname,
+        Phone: model.phone,
+        Password: model.password,
+        PrivacypolicyAccepted: model.accept_privacy_policies,
+        PromotionAccepted: model.accept_promotions,
+        Language: model.language,
+      });
+    } else {
+      response = await this.axios.post(url, {});
+    }
+
+    return { success: response.data.success, message: response.data.message };
   }
 }

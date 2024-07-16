@@ -17,6 +17,8 @@ import {
   ReturnUpgradeFormResult,
   MaxSubscribersData,
   AnswerType,
+  RequestCollaborationInviteModel,
+  ReturnConfirmCollaborationInvite,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -242,6 +244,18 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public async sendAcceptButtonAction(): Promise<boolean> {
     await 1500;
     return true;
+  }
+
+  public async confirmCollaborationinvite(
+    token: string,
+    model: RequestCollaborationInviteModel | undefined,
+  ): Promise<ReturnConfirmCollaborationInvite> {
+    await 1500;
+    if (model) {
+      return { success: true, message: 'success' };
+    } else {
+      return { success: true, message: 'Missing account' };
+    }
   }
 }
 
