@@ -801,6 +801,7 @@ You'll find an Email with steps to follow.`,
       wordpress_link_url: `${urlHelp}/how-to-integrate-wordpress-forms-with-doppler`,
       wordpress_title: 'Wordpress',
       xintel_title: 'Xintel',
+      zeus_title: 'Zeus',
     },
     native_integrations: {
       big_query_title: 'BigQuery',

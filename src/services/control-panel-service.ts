@@ -55,6 +55,7 @@ import tiendup_icon from '../components/Integrations/images/tiendup_icon.png';
 import jumpseller_icon from '../components/Integrations/images/jumpseller_icon.svg';
 import wordpress_icon from '../components/Integrations/images/wordpress_icon.png';
 import empretienda_icon from '../components/Integrations/images/empretienda_icon.png';
+import zeus_icon from '../components/Integrations/images/logo-zeus.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -386,6 +387,15 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: empretienda_icon,
               imgAlt: _('integrations.external_integrations.empretienda_title'),
               iconName: _('integrations.external_integrations.empretienda_title'),
+              targetBlank: true,
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-zeus`,
+              imgSrc: zeus_icon,
+              imgAlt: _('integrations.external_integrations.zeus_title'),
+              iconName: _('integrations.external_integrations.zeus_title'),
               targetBlank: true,
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
