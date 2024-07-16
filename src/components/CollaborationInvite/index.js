@@ -155,29 +155,33 @@ export const CollaboratorsInvite = InjectAppServices(
                     disabled={true}
                     type="text"
                   ></InputFieldItemAccessible>
-                  <InputFieldItemAccessible
-                    autoFocus
-                    className="field-item--50"
-                    fieldName={fieldNames.firstname}
-                    label={_('signup.label_firstname')}
-                    placeholder={_('signup.placeholder_first_name')}
-                    type="text"
-                    minLength={minLength}
-                    required
-                    withNameValidation
-                    withSubmitCount={false}
-                  />
-                  <InputFieldItemAccessible
-                    className="field-item--50"
-                    fieldName={fieldNames.lastname}
-                    label={_('signup.label_lastname')}
-                    placeholder={_('signup.placeholder_last_name')}
-                    type="text"
-                    minLength={minLength}
-                    required
-                    withNameValidation
-                    withSubmitCount={false}
-                  />
+                  <li>
+                    <FieldGroup>
+                      <InputFieldItemAccessible
+                        autoFocus
+                        className="field-item--50"
+                        fieldName={fieldNames.firstname}
+                        label={_('signup.label_firstname')}
+                        placeholder={_('signup.placeholder_first_name')}
+                        type="text"
+                        minLength={minLength}
+                        required
+                        withNameValidation
+                        withSubmitCount={false}
+                      />
+                      <InputFieldItemAccessible
+                        className="field-item--50"
+                        fieldName={fieldNames.lastname}
+                        label={_('signup.label_lastname')}
+                        placeholder={_('signup.placeholder_last_name')}
+                        type="text"
+                        minLength={minLength}
+                        required
+                        withNameValidation
+                        withSubmitCount={false}
+                      />
+                    </FieldGroup>
+                  </li>
                 </FieldGroup>
               </fieldset>
               <fieldset>
