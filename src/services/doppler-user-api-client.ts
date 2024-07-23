@@ -240,4 +240,28 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       return { success: false, error: error };
     }
   }
+
+  public async cancelCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken, idUser } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/cancel-user-invitation`,
+        data: {
+          email: value,
+          idUser: idUser,
+        },
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false, error: response.data.message };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
 }
