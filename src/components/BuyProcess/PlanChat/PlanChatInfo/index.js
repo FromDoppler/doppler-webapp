@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export const PlanChatInfo = () => {
   const intl = useIntl();
@@ -6,7 +6,14 @@ export const PlanChatInfo = () => {
 
   return (
     <>
-      <p>{_('chat_selection.plan_chat_info.legend')}</p>
+      <p>
+        <FormattedMessage
+          id={'chat_selection.plan_chat_info.legend'}
+          values={{
+            bold: (chunks) => <b>{chunks}</b>,
+          }}
+        />
+      </p>
       <section className="dp-rowflex m-t-24">
         <div className="col-lg-6">
           <h6>

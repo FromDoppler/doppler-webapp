@@ -154,7 +154,7 @@ export const PlanChat = InjectAppServices(
                   removeItem={removeItem}
                 />
                 <span className="dp-reminder">
-                  *{_('chat_selection.expiration_free_plan_message')}.
+                  {_('chat_selection.expiration_free_plan_message')}
                 </span>
               </section>
               <PlanBenefits selectedPlan={selectedPlan} />
