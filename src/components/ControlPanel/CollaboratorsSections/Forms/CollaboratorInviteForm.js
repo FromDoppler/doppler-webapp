@@ -26,7 +26,7 @@ export const CollaboratorInviteForm = ({ title, onSubmit }) => {
   return (
     <>
       <Formik {...formikConfig}>
-        <Form className="awa-form">
+        <Form className="awa-form" data-testid="collaboration-invite-form">
           <legend>{title}</legend>
           <fieldset>
             <FieldGroup>
