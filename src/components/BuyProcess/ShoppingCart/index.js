@@ -7,7 +7,12 @@ import { getPlanTypeFromUrlSegment } from '../../../utils';
 import { PaymentFrequency } from '../PaymentFrequency';
 import { ItemCart } from './ItemCart';
 import { usePaymentMethodData } from '../../../hooks/usePaymentMethodData';
-import { getBuyButton, mapItemFromLandingPackages, mapItemFromMarketingPlan } from './utils';
+import {
+  getBuyButton,
+  mapItemFromLandingPackages,
+  mapItemFromMarketingPlan,
+  mapItemFromPlanChat,
+} from './utils';
 import {
   PLAN_TYPE,
   PaymentMethodType,
@@ -24,12 +29,14 @@ const numberFormatOptions = {
 
 export const BUY_MARKETING_PLAN = 1;
 export const BUY_LANDING_PACK = 2;
+export const BUY_CHAT_PLAN = 3;
 
 export const ShoppingCart = InjectAppServices(
   ({
     discountConfig,
     selectedMarketingPlan,
     landingPacks,
+    selectedPlanChat,
     isEqualPlan = true,
     canBuy = true,
     selectedPaymentMethod,
@@ -37,15 +44,18 @@ export const ShoppingCart = InjectAppServices(
     hidePromocode = false,
     buyType = BUY_MARKETING_PLAN,
     handleLandingPagesDowngrade,
+    handleRemovePlanChat,
     disabledLandingsBuy,
     landingPagesRemoved,
     cancelLandings,
+    canChatPlanRemove = true,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
+    const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
     useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState('');
     const { planType: planTypeUrlSegment } = useParams();
@@ -137,6 +147,25 @@ export const ShoppingCart = InjectAppServices(
       }
     }, [amountDetailsLandingPacksData, buyType, handleLandingPagesDowngrade]);
 
+    useEffect(() => {
+      const fetchData = async () => {
+        const _amountDetailsPlanChatData =
+          await dopplerAccountPlansApiClient.getPlanChatBillingDetailsData(
+            selectedPlanChat?.planId,
+          );
+
+        console.log('_amountDetailsPlanChatData', _amountDetailsPlanChatData);
+
+        setAmountDetailsPlanChatData(_amountDetailsPlanChatData);
+      };
+
+      if (selectedPlanChat?.planId) {
+        fetchData();
+      } else {
+        setAmountDetailsPlanChatData(null);
+      }
+    }, [dopplerAccountPlansApiClient, selectedPlanChat]);
+
     const handlePromocodeApplied = useCallback((value) => {
       setPromocodeApplied(value);
     }, []);
@@ -180,10 +209,30 @@ export const ShoppingCart = InjectAppServices(
           sessionPlan: appSessionRef.current.userData.user.plan,
         }),
       );
+
+    selectedPlanChat &&
+      items.push(
+        mapItemFromPlanChat({
+          planChat: selectedPlanChat,
+          intl,
+          selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
+          amountDetailsData: amountDetailsPlanChatData,
+          planType: selectedMarketingPlan?.type,
+          handleRemove: () => {
+            handleRemovePlanChat();
+          },
+          canChatPlanRemove: canChatPlanRemove,
+        }),
+      );
     const total =
-      amountDetailsData?.value?.currentMonthTotal ??
-      amountDetailsLandingPacksData?.value?.currentMonthTotal ??
-      0;
+      (amountDetailsData?.value?.currentMonthTotal ?? 0) +
+      (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
+      (amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0);
+
+    const nextMonthTotal =
+      (amountDetailsData?.value?.nextMonthTotal ?? 0) +
+      (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
+      (amountDetailsPlanChatData?.value?.nextMonthTotal ?? 0);
 
     const checkoutLandingPackButtonEnabled = landingPagesRemoved && landingPacks?.length === 0;
     const buyButton = getBuyButton({
@@ -201,6 +250,7 @@ export const ShoppingCart = InjectAppServices(
       disabledLandingsBuy,
       checkoutLandingPackButtonEnabled,
       cancelLandings,
+      selectedPlanChat,
     });
 
     const paymentFrequencyProps = {
@@ -277,11 +327,17 @@ export const ShoppingCart = InjectAppServices(
             <NextInvoices
               pathname={pathname}
               search={search}
-              amountDetailsData={amountDetailsData || amountDetailsLandingPacksData}
+              nextMonthDate={
+                amountDetailsData?.value?.nextMonthDate ??
+                amountDetailsLandingPacksData?.value?.nextMonthDate
+              }
+              nextMonthTotal={nextMonthTotal}
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'
-                  : 'buy_process.upcoming_bills.marketing_plan_subtitle'
+                  : buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
+                    ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
+                    : 'buy_process.upcoming_bills.marketing_plan_subtitle'
               }
             />
           )}

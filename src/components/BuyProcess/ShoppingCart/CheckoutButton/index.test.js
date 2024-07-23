@@ -99,6 +99,7 @@ describe('BuyButton component', () => {
       total: props.total,
       promocode: '', // because hasn't promotion
       originInbound,
+      additionalServices: [],
     });
 
     // simulate redirect to checkout summary
@@ -150,6 +151,7 @@ describe('BuyButton component', () => {
       total: props.total,
       promocode: '', // because hasn't promotion
       originInbound: '', // because hasn't origin_inbound
+      additionalServices: [],
     });
     expect(getBuyButton()).toBeEnabled();
   });
@@ -208,6 +210,7 @@ describe('BuyButton component', () => {
       total: props.total,
       promocode: props.promotion.promocode,
       originInbound: '', // because hasn't origin_inbound
+      additionalServices: [],
     });
 
     expect(getBuyButton()).not.toBeEnabled();
@@ -261,7 +264,8 @@ describe('BuyButton component', () => {
       discountId: 0, // because hasn't discount
       total: props.total,
       promocode: '', // because hasn't promotion
-      originInbound: '', // because hasn't origin_inbound
+      originInbound: '', // because hasn't origin_inbound.
+      additionalServices: [],
     });
     expect(getBuyButton()).toBeEnabled();
   });

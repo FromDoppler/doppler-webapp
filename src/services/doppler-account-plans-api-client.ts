@@ -15,7 +15,9 @@ export interface DopplerAccountPlansApiClient {
     promocode: string,
   ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>>;
 
-  getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>>;
+  getPlanData(planId: number, planType: number): Promise<ResultWithoutExpectedErrors<Plan>>;
+
+  getCoversationsPLans(): Promise<ResultWithoutExpectedErrors<any>>;
 
   validatePromocode(
     planId: number,
@@ -244,13 +246,58 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
-  public async getPlanData(planId: number): Promise<ResultWithoutExpectedErrors<Plan>> {
+  public async getPlanChatBillingDetailsData(
+    planId: number,
+  ): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `accounts/${email}/newplan/Chat/${planId}/calculate-amount`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getPlanData(
+    planId: number,
+    planType: number,
+  ): Promise<ResultWithoutExpectedErrors<Plan>> {
     try {
       const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `plans/${planId}`,
+        url: `${planType}/plans/${planId}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getCoversationsPLans(): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `conversation-plans`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

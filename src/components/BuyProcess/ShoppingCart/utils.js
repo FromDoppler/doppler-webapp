@@ -465,6 +465,170 @@ export const mapItemFromLandingPackages = ({
   return LandingPackInformation;
 };
 
+export const mapItemFromPlanChat = ({
+  planChat,
+  selectedPaymentFrequency,
+  intl,
+  amountDetailsData,
+  planType,
+  handleRemove,
+  canChatPlanRemove = true,
+}) => {
+  const numberMonths = selectedPaymentFrequency?.numberMonths;
+
+  const planChatInformation = {
+    name: <FormattedMessage id={`buy_process.chat_plan_title`} />,
+    featureList: [
+      <FormattedMessage
+        id={`buy_process.feature_item_chat_plan`}
+        values={{
+          units: thousandSeparatorNumber(intl.defaultLocale, planChat?.conversationsQty ?? 0),
+          Strong: (chunk) => <strong>{chunk}</strong>,
+        }}
+      />,
+    ],
+    // isRemovible: true,
+    data: planChat,
+    isRemovible: canChatPlanRemove,
+    handleRemove,
+    billingList: [],
+  };
+
+  // Months to hire
+  if (planType === PLAN_TYPE.byContact) {
+    const monthsCount = numberMonths ? numberMonths : 1;
+    const chatPlanFee = planChat?.fee ?? 0;
+    const amount = numberMonths ? chatPlanFee * monthsCount : chatPlanFee;
+
+    planChatInformation.featureList.push(
+      <>
+        <FormattedMessage id={`buy_process.months_to_hire`} />{' '}
+        <strong>
+          <FormattedMessage
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>{' '}
+        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
+      </>,
+    );
+  }
+
+  // Months to pay
+  if (planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail) {
+    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+    const planFee = planChat?.fee ?? 0;
+    const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
+
+    planChatInformation.billingList.push({
+      label: (
+        <>
+          <FormattedMessage
+            id={
+              planType !== PLAN_TYPE.byContact
+                ? `buy_process.months_to_pay`
+                : `buy_process.difference_months_to_pay`
+            }
+            values={{
+              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+            }}
+          />{' '}
+          <strong>
+            <FormattedMessage
+              id="buy_process.month_with_plural"
+              values={{ months: monthsCount }}
+            ></FormattedMessage>
+          </strong>
+        </>
+      ),
+      amount: (
+        <>
+          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+        </>
+      ),
+    });
+  }
+
+  // // Discount advanced pay
+  if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
+    planChatInformation.featureList.push(
+      <>
+        <FormattedMessage
+          id={`buy_process.feature_item_discount_advanced_pay`}
+          values={{
+            months: numberMonths,
+          }}
+        />
+        <span className="dp-discount">
+          -{amountDetailsData?.value?.discountPrepayment?.discountPercentage}%
+        </span>
+      </>,
+    );
+
+    planChatInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPrepayment?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPrepayment.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  if (amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage > 0) {
+    planChatInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.promocode.discount_for_admin`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  // // Positive balance
+  if (amountDetailsData?.value?.discountPaymentAlreadyPaid > 0) {
+    planChatInformation.billingList.push({
+      label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  return planChatInformation;
+};
+
 export const getCheckoutErrorMesage = (error) => {
   switch (error) {
     case FirstDataError.invalidExpirationDate:
@@ -516,6 +680,7 @@ export const getBuyButton = ({
   disabledLandingsBuy,
   checkoutLandingPackButtonEnabled,
   cancelLandings,
+  selectedPlanChat,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -580,6 +745,7 @@ export const getBuyButton = ({
         total={total}
         promotion={promotion}
         paymentMethod={paymentMethodName}
+        chatPlanId={selectedPlanChat?.planId}
       />
     );
   }
@@ -593,6 +759,7 @@ export const getBuyButton = ({
       promocode={promotion?.promocode ?? ''}
       monthPlan={selectedDiscount?.numberMonths}
       newCheckoutEnabled={redirectNewCheckout}
+      chatPlanId={selectedPlanChat?.planId}
     />
   );
 };
