@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export const PlanBenefits = ({ selectedPlan }) => {
   const intl = useIntl();
@@ -112,10 +112,12 @@ export const PlanBenefits = ({ selectedPlan }) => {
                       <tr>
                         <td colSpan="2">
                           <p>
-                            *{_('chat_selection.plan_benefits.additional_costs.legend_1_message')}
-                          </p>
-                          <p>
-                            {_('chat_selection.plan_benefits.additional_costs.legend_2_message')}
+                            <FormattedMessage
+                              id={'chat_selection.plan_benefits.additional_costs.legend_1_message'}
+                              values={{
+                                bold: (chunks) => <b>{chunks}</b>,
+                              }}
+                            />
                           </p>
                         </td>
                       </tr>
@@ -158,10 +160,6 @@ const planBenefits = [
   },
   {
     key: 'chat_selection.plan_benefits.messages_by_conversation_tree_message',
-    feature_key: 'chat_selection.plan_benefits.included_paid_plans_message',
-  },
-  {
-    key: 'chat_selection.plan_benefits.custom_integrations_message',
     feature_key: 'chat_selection.plan_benefits.included_paid_plans_message',
   },
   {

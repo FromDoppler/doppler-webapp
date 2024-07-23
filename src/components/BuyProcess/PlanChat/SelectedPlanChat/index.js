@@ -19,7 +19,7 @@ export const SelectedPlanChat = ({ selectedPlan, item, addItem, removeItem }) =>
           Antes <span className="dp-line-through">US$ 41,00*</span>
         </span> */}
       </div>
-      <h3>{_('chat_selection.selected_plan_chat.conversations_plan_message')}*</h3>
+      <h3>{_('chat_selection.selected_plan_chat.conversations_plan_message')}</h3>
       {selectedPlan?.planId ? (
         <ul className="dp-items-plan">
           <li>
