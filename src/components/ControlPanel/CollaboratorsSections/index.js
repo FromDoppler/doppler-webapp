@@ -65,13 +65,26 @@ export const CollaboratorsSections = InjectAppServices(
     };
 
     const sendInvitation = async (email) => {
+      setActiveMenus(false);
       const result = await dopplerUserApiClient.sendCollaboratorInvite(email);
-      if (result.success) {
+      setRefreshTable(!refreshTable);
+
+      return result.success;
+    };
+
+    const formSendInvitation = async (email) => {
+      const success = sendInvitation(email);
+      if (success) {
         setModalStep(modalFinalStep);
-        setRefreshTable(!refreshTable);
       } else {
         setmodalError(_('common.unexpected_error'));
       }
+    };
+
+    const sendInvitationCancelation = async (email) => {
+      setActiveMenus(false);
+      await dopplerUserApiClient.cancelCollaboratorInvite(email);
+      setRefreshTable(!refreshTable);
     };
 
     if (loading) {
@@ -175,15 +188,18 @@ export const CollaboratorsSections = InjectAppServices(
                                 >
                                   <ul className="dp-list-dropdown" id="dropdown">
                                     <li role="menuitem">
-                                      <button type="button">{_('collaborators.menu.edit')}</button>
-                                    </li>
-                                    <li role="menuitem">
-                                      <button type="button">
+                                      <button
+                                        type="button"
+                                        onClick={() => sendInvitation(item.email)}
+                                      >
                                         {_('collaborators.menu.invite')}
                                       </button>
                                     </li>
                                     <li role="menuitem">
-                                      <button type="button">
+                                      <button
+                                        type="button"
+                                        onClick={() => sendInvitationCancelation(item.email)}
+                                      >
                                         {_('collaborators.menu.disable')}
                                       </button>
                                     </li>
@@ -214,7 +230,7 @@ export const CollaboratorsSections = InjectAppServices(
                   <></>
                 )}
                 {modalStep.step === 'INITIAL_STEP' ? (
-                  <CollaboratorInviteForm title={modalStep.title} onSubmit={sendInvitation} />
+                  <CollaboratorInviteForm title={modalStep.title} onSubmit={formSendInvitation} />
                 ) : modalStep.step === 'FINAL_STEP' ? (
                   <SuccessStepForm
                     onBack={() => setModalStep(modalFirstStep)}
