@@ -133,4 +133,12 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
       value: collaborationInvitesResult,
     };
   }
+
+  public async cancelCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(value);
+    return {
+      success: true,
+    };
+  }
 }

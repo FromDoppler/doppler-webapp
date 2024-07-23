@@ -247,4 +247,44 @@ describe('HttpDopplerUserApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should cancel collaboration invite', async () => {
+    // Arrange
+    const value = 'test@makingsense.com';
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.cancelCollaboratorInvite(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('cancel collaboration endpoint should set error when failed request', async () => {
+    // Arrange
+    const value = 'test@makingsense.com';
+
+    const response = {
+      status: 400,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.cancelCollaboratorInvite(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
 });
