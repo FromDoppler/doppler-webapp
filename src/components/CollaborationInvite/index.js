@@ -46,8 +46,10 @@ const mapInvitationErrors = (error) => {
       return 'validation_messages.error_wrong_invitation_link';
     case 'Expired link':
       return 'validation_messages.error_expired_invitation_link';
-    default:
+    case 'Unexpected Error':
       return 'common.something_wrong';
+    default:
+      break;
   }
 };
 
@@ -70,10 +72,18 @@ export const CollaboratorsInvite = InjectAppServices(
       async (model) => {
         const token = extractParameter(location, queryString.parse, 'token', 'Token');
         const result = await dopplerLegacyClient.confirmCollaborationinvite(token, model);
-        if (result.success && result.message === 'success') {
+        if (result.success && result.message === 'Success') {
           navigate('dashboard');
         }
-        setInviteStatus({ success: result.success, message: mapInvitationErrors(result.message) });
+
+        if (result.success) {
+          setInviteStatus({ success: result.success });
+        } else {
+          setInviteStatus({
+            success: result.success,
+            message: mapInvitationErrors(result.message),
+          });
+        }
       },
       [navigate, location, dopplerLegacyClient],
     );
