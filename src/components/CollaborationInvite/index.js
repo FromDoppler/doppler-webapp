@@ -85,7 +85,7 @@ export const CollaboratorsInvite = InjectAppServices(
         }
         const token = extractParameter(location, queryString.parse, 'token', 'Token');
         try {
-          setEmail(jwtDecode(token).Email);
+          setEmail(jwtDecode(token).email);
         } catch {}
 
         sendInvitationData(null);
