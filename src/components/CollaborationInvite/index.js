@@ -54,7 +54,7 @@ const mapInvitationErrors = (error) => {
 };
 
 export const CollaboratorsInvite = InjectAppServices(
-  ({ dependencies: { dopplerLegacyClient, dopplerSitesClient } }) => {
+  ({ dependencies: { dopplerLegacyClient, dopplerSitesClient, sessionManager } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const navigate = useNavigate();
@@ -73,7 +73,8 @@ export const CollaboratorsInvite = InjectAppServices(
         const token = extractParameter(location, queryString.parse, 'token', 'Token');
         const result = await dopplerLegacyClient.confirmCollaborationinvite(token, model);
         if (result.success && result.message === 'Success') {
-          navigate('dashboard');
+          sessionManager.restart();
+          navigate('/dashboard');
         }
 
         if (result.success) {
@@ -85,7 +86,7 @@ export const CollaboratorsInvite = InjectAppServices(
           });
         }
       },
-      [navigate, location, dopplerLegacyClient],
+      [navigate, location, dopplerLegacyClient, sessionManager],
     );
 
     useEffect(() => {
