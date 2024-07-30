@@ -430,6 +430,11 @@ const messages_es = {
     title: `Proceso de pago`,
   },
   checkoutProcessSuccess: {
+    chat_plan_acquired_conversations: 'Conversaciones adquiridas',
+    chat_plan_billing_title: 'Renovación',
+    chat_plan_default_billing: 'Mensual',
+    chat_plan_title: 'Tu plan de conversaciones',
+    chat_plan_type_label: 'Tipo de Plan',
     discount_half_yearly: '6 meses',
     discount_monthly: '1 mes',
     discount_quarterly: '3 meses',

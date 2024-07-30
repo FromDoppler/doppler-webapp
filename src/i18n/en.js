@@ -428,11 +428,16 @@ const messages_en = {
     title: `Payment process`,
   },
   checkoutProcessSuccess: {
+    chat_plan_acquired_conversations: 'Acquired conversations',
+    chat_plan_billing_title: 'Billing',
+    chat_plan_default_billing: 'Monthly',
+    chat_plan_title: 'Your conversation plan',
+    chat_plan_type_label: 'Plan Type',
     discount_half_yearly: '6 months',
     discount_monthly: '1 month',
     discount_quarterly: '3 months',
     discount_yearly: '12 months',
-    landing_billing_title: 'Billing',
+    landing_billing_title: 'Renovation',
     landing_packages_title: 'Packages',
     landing_your_landings_pages_plan_title: 'Your Landings Pages plan',
     mercado_pago_check_email_with_invoice_message: `

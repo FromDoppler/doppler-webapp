@@ -121,6 +121,8 @@ export const fakeUserPlan = {
   remainingCredits: 69542,
   emailQty: 1500,
   subscribersQty: null,
+  conversationQty: null,
+  description: null,
 };
 
 export const fakeReprocessInformation = {
@@ -262,6 +264,18 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     await timeout(1500);
 
     return {
+      success: true,
+    };
+  }
+
+  public async getCurrentUserPlanDataByType(
+    type: number,
+  ): Promise<ResultWithoutExpectedErrors<UserPlan>> {
+    console.log('getCurrentUserPlanDataByType');
+    await timeout(1500);
+
+    return {
+      value: fakeUserPlan,
       success: true,
     };
   }

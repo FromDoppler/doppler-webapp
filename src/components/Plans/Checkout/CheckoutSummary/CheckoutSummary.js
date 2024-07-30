@@ -28,6 +28,7 @@ import useTimeout from '../../../../hooks/useTimeout';
 import { Carousel } from '../../../Dashboard/LearnWithDoppler/Carousel/Carousel';
 import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
 import { BUY_LANDING_PACK } from '../../../BuyProcess/ShoppingCart';
+import { PlanChatInformation } from './PlanChatInformation';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -158,7 +159,6 @@ const PlanMarketingInformation = ({
           <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
         </li>
         <li>
-          <span>Facturación</span>
           {planType === PLAN_TYPE.byContact && discount ? (
             <>
               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
@@ -419,6 +419,7 @@ export const CheckoutSummary = InjectAppServices(
         extraCredits,
         remainingCredits,
         hasError,
+        chatUserPlan,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);
@@ -446,12 +447,21 @@ export const CheckoutSummary = InjectAppServices(
         }
       };
 
-      const fetchCurrentUserPlan = async () => {
-        const data = await dopplerBillingUserApiClient.getCurrentUserPlanData();
+      // const fetchCurrentUserPlan = async () => {
+      //   const data = await dopplerBillingUserApiClient.getCurrentUserPlanData();
+      //   if (data.success) {
+      //     return data;
+      //   } else {
+      //     throw new exception();
+      //   }
+      // };
+
+      const fetchCurrentUserPlanByType = async (type) => {
+        const data = await dopplerBillingUserApiClient.getCurrentUserPlanDataByType(type);
         if (data.success) {
-          return data;
+          return data.value;
         } else {
-          throw new exception();
+          return null;
         }
       };
 
@@ -459,16 +469,18 @@ export const CheckoutSummary = InjectAppServices(
         try {
           dispatch({ type: CHECKOUT_SUMMARY_ACTIONS.START_FETCH });
           const billingInformationData = await fetchBillingInformationData();
-          const currentUserPlanData = await fetchCurrentUserPlan();
+          const currentUserPlanData = await fetchCurrentUserPlanByType(1);
+          const currentChatPlanUserData = await fetchCurrentUserPlanByType(2);
 
           dispatch({
             type: CHECKOUT_SUMMARY_ACTIONS.FINISH_FETCH,
             payload: {
               billingInformation: billingInformationData.value,
-              currentUserPlan: currentUserPlanData.value,
+              currentUserPlan: currentUserPlanData,
               extraCredits: extraCreditsByPromocode,
               discount: discountDescription,
               paymentMethod: paymentMethodType,
+              chatUserPlan: currentChatPlanUserData,
             },
           });
         } catch (error) {
@@ -526,13 +538,23 @@ export const CheckoutSummary = InjectAppServices(
                 upgradePending={upgradePending}
               />
               {isBuyMarketingPlan ? (
-                <PlanMarketingInformation
-                  planType={planType}
-                  quantity={quantity}
-                  discount={discount}
-                  extraCredits={extraCredits}
-                  remainingCredits={remainingCredits}
-                />
+                <>
+                  <PlanMarketingInformation
+                    planType={planType}
+                    quantity={quantity}
+                    discount={discount}
+                    extraCredits={extraCredits}
+                    remainingCredits={remainingCredits}
+                  />
+                  {chatUserPlan !== null && (
+                    <PlanChatInformation
+                      planType={planType}
+                      description={chatUserPlan.description}
+                      quantity={chatUserPlan.conversationQty}
+                      discount={discount}
+                    />
+                  )}
+                </>
               ) : (
                 <PlanLandingPagesInformation1 />
               )}

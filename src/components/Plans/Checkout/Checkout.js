@@ -119,13 +119,16 @@ const Checkout = InjectAppServices(
     useEffect(() => {
       const fetchPlanData = async () => {
         const planData = await dopplerAccountPlansApiClient.getPlanData(selectedChatPlanId, 2);
-        setSelectedChatPlan({
-          planId: selectedChatPlanId,
-          conversationsQty: planData.value.chatPlanConversationQty,
-          fee: planData.value.chatPlanFee,
-          type: planType,
-          id: selectedChatPlanId,
-        });
+
+        if (planData.success) {
+          setSelectedChatPlan({
+            planId: selectedChatPlanId,
+            conversationsQty: planData.value.chatPlanConversationQty,
+            fee: planData.value.chatPlanFee,
+            type: planType,
+            id: selectedChatPlanId,
+          });
+        }
       };
 
       fetchPlanData();

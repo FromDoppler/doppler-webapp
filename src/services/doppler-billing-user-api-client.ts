@@ -27,6 +27,7 @@ export interface DopplerBillingUserApiClient {
   reprocess(values: any): Promise<ResultWithoutExpectedErrors<ReprocessInformation>>;
   getInvoices(invoicesTypes: string[]): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>>;
   sendContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  getCurrentUserPlanDataByType(type: number): Promise<ResultWithoutExpectedErrors<UserPlan>>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -79,6 +80,8 @@ export interface UserPlan {
   remainingCredits: number;
   emailQty: number;
   subscribersQty: null;
+  conversationQty: null;
+  description: null;
 }
 
 export interface ReprocessInformation {
@@ -299,6 +302,8 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       remainingCredits: data.remainingCredits,
       emailQty: data.emailQty,
       subscribersQty: data.subscribersQty,
+      conversationQty: data.conversationQty,
+      description: data.description,
     };
   }
 
@@ -526,7 +531,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `/accounts/${email}/plans/current`,
+        url: `/accounts/${email}/plans/1/current`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -623,6 +628,28 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
         return { success: true };
       } else {
         return { success: false, error: response.data };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getCurrentUserPlanDataByType(
+    type: number,
+  ): Promise<ResultWithoutExpectedErrors<UserPlan>> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/plans/${type}/current`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: this.mapUserPlan(response.data) };
+      } else {
+        return { success: false, error: response.data.title };
       }
     } catch (error) {
       return { success: false, error: error };
