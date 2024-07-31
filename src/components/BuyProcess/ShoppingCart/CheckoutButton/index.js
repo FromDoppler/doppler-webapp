@@ -62,7 +62,7 @@ export const CheckoutButton = InjectAppServices(
         setStatus(SAVED);
         createTimeout(() => {
           window.location.href = `/checkout-summary?planId=${planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
-            discount?.description ? `&discount=${discount.description}` : ''
+            discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
           }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
             promotion?.discountPercentage
               ? `&discountPromocode=${promotion.discountPercentage}`

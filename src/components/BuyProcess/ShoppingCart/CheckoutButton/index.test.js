@@ -170,7 +170,7 @@ describe('BuyButton component', () => {
       },
       discount: {
         id: 1,
-        description: 'fake description',
+        subscriptionType: 'fake description',
       },
     };
     const successRequest = true;
@@ -218,7 +218,7 @@ describe('BuyButton component', () => {
     // simulate redirect to checkout summary
     jest.advanceTimersByTime(DELAY_BEFORE_REDIRECT_TO_SUMMARY);
     expect(window.location.href).toBe(
-      `/checkout-summary?planId=${props.planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.description}&extraCredits=${props.promotion.extraCredits}`,
+      `/checkout-summary?planId=${props.planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.subscriptionType}&extraCredits=${props.promotion.extraCredits}`,
     );
     jest.useRealTimers();
   });
