@@ -187,14 +187,19 @@ export const CollaboratorsSections = InjectAppServices(
                                   }}
                                 >
                                   <ul className="dp-list-dropdown" id="dropdown">
-                                    <li role="menuitem">
-                                      <button
-                                        type="button"
-                                        onClick={() => sendInvitation(item.email)}
-                                      >
-                                        {_('collaborators.menu.invite')}
-                                      </button>
-                                    </li>
+                                    {item.invitationStatus !== 'APPROVED' ? (
+                                      <li role="menuitem">
+                                        <button
+                                          type="button"
+                                          onClick={() => sendInvitation(item.email)}
+                                          disabled={item.invitationStatus === 'APPROVED'}
+                                        >
+                                          {_('collaborators.menu.invite')}
+                                        </button>
+                                      </li>
+                                    ) : (
+                                      <></>
+                                    )}
                                     <li role="menuitem">
                                       <button
                                         type="button"
