@@ -486,12 +486,12 @@ Payment details will be included in the invoice sent to the recipient you have i
   collaborators: {
     add_collaborator: 'New Collaborator',
     form_modal: {
-      description: 'parrafo de descripcion',
+      description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
+      manage lists, edit automations and any other feature.`,
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
       success_subtitle: `Your Collaborator will receive the invitation in their email box.
-    Once accepted the invitation and created the password, it will be able to
-    manage your account according to the permissions you have granted it`,
+    Once accepted the invitation, it will be able to manage your account.`,
       success_title: 'Collaborator successfully added',
     },
     menu: {
@@ -500,7 +500,7 @@ Payment details will be included in the invoice sent to the recipient you have i
       invite: 'Resend invitation',
     },
     meta_title: 'Doppler | Profile Configuration',
-    subtitle: 'From this section you can assign collaborators to help you manage your account and assign access according to their role.',
+    subtitle: 'From this section you can assign collaborators to help you manage your account.',
     table: {
       email: 'Email',
       firstname: 'Name',
