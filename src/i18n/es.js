@@ -1691,6 +1691,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_has_accents: `¡Ouch! El Email no debe contener tildes ni acentos.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
     error_invalid_cbu: `Ouch! El formato del CBU es incorrecto`,
+    error_invalid_collaborator_email: `¡Ouch! No puedes invitarte a ti mismo.`,
     error_invalid_cuit: `¡Ouch! El formato del Cuit es incorrecto`,
     error_invalid_dni: `Ouch! El formato del DNI es incorrecto`,
     error_invalid_domain: `¡Ouch! Algo salió mal. Por favor revisa que tu Email sea correcto o intenta con otro.`,

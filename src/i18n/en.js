@@ -1689,6 +1689,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_has_accents: `Ouch! The Email must not have any accent.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
     error_invalid_cbu: `Ouch! Enter a valid CBU`,
+    error_invalid_collaborator_email: `¡Ouch! You cannot invite yourself.`,
     error_invalid_cuit: `Ouch! Enter a valid Cuit`,
     error_invalid_dni: `Ouch! Enter a valid DNI`,
     error_invalid_domain: `Ouch! Something went wrong. Please check that your Email is correct or try another.`,
