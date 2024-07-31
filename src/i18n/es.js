@@ -486,12 +486,12 @@ const messages_es = {
   collaborators: {
     add_collaborator: 'Nuevo Colaborador',
     form_modal: {
-      description: 'parrafo de descripcion',
+      description: `El colaborador tendrá acceso a gestionar tu cuenta de Doppler. Podrá realizar envio de campañas,
+      gestión de listas, edición de automations y demás funcionalidades`,
       email: 'Email',
       email_placeholder: 'usuario_owner@ejemplo.com',
       success_subtitle: `Tu Colaborador recibirá la invitación en su casilla de correo electrónico.
-    Una vez aceptada la invitación y creada su contraseña, podrá comenzar a
-    gestionar tu cuenta de acuerdo con los permisos que le has otorgado`,
+    Una vez aceptada la invitación, podrá comenzar a gestionar tu cuenta.`,
       success_title: 'Has añadido a tu Colaborador con éxito',
     },
     menu: {
@@ -500,7 +500,7 @@ const messages_es = {
       invite: 'Reenviar Invitación',
     },
     meta_title: 'Doppler | Configuración de perfiles',
-    subtitle: 'Desde esta sección podrás asignar colaboradores que te ayuden a gestionar tu cuenta y asignarle accesos acordes a su rol.',
+    subtitle: 'Desde esta sección podrás asignar colaboradores que te ayuden a gestionar tu cuenta.',
     table: {
       email: 'Email',
       firstname: 'Nombre',
