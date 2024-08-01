@@ -1,10 +1,30 @@
 import '@testing-library/jest-dom/extend-expect';
 import { renderHook } from '@testing-library/react-hooks';
 import { useConversationPlans } from '.';
+import { PLAN_TYPE } from '../../doppler-types';
 
 describe('useConversationPlans', () => {
   it('should complete conversation-plans with success', async () => {
     // Arrange
+    const appSessionRef = {
+      current: {
+        userData: {
+          user: {
+            plan: {
+              idPlan: 3,
+              planType: PLAN_TYPE.free,
+            },
+            chat: {
+              plan: {
+                idPlan: 3,
+                conversationQty: 500,
+              },
+            },
+          },
+        },
+      },
+    };
+
     const conversationPlansData = [
       {
         planId: 1,
@@ -27,7 +47,7 @@ describe('useConversationPlans', () => {
 
     // Act
     const { result, waitForNextUpdate } = renderHook(() =>
-      useConversationPlans(dopplerAccountPlansApiClientFake),
+      useConversationPlans(dopplerAccountPlansApiClientFake, appSessionRef),
     );
 
     // Assert
@@ -36,6 +56,9 @@ describe('useConversationPlans', () => {
     await waitForNextUpdate();
     expect(result.current[0].loading).toBe(false);
     expect(result.current[0].hasError).toBe(false);
-    expect(result.current[0].conversationPlans).toEqual([{}, ...conversationPlansData]);
+    expect(result.current[0].conversationPlans).toEqual([
+      { conversationsQty: 0 },
+      ...conversationPlansData,
+    ]);
   });
 });

@@ -308,7 +308,8 @@ export const ShoppingCart = InjectAppServices(
               <>
                 Total
                 <span>
-                  US$ <FormattedNumber value={total || 0} {...numberFormatOptions} />
+                  US${' '}
+                  <FormattedNumber value={(total < 0 ? 0 : total) || 0} {...numberFormatOptions} />
                   {isTransfer ? '*' : ''}
                 </span>
               </>

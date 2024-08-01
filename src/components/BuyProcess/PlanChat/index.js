@@ -19,7 +19,6 @@ import { useQueryParams } from '../../../hooks/useQueryParams';
 export const PlanChat = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
     const [item, setItem] = useState(null);
-
     const { planType } = useParams();
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
@@ -42,7 +41,8 @@ export const PlanChat = InjectAppServices(
         selectedPlanIndex,
       },
       handleSliderValue,
-    ] = useConversationPlans(dopplerAccountPlansApiClient);
+    ] = useConversationPlans(dopplerAccountPlansApiClient, appSessionRef);
+
     const sessionPlan = appSessionRef.current.userData.user;
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const itemRef = useRef(null);
@@ -55,10 +55,12 @@ export const PlanChat = InjectAppServices(
     };
 
     useEffect(() => {
+      itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
+
       if (itemRef.current) {
         addItem(selectedPlan);
       }
-    }, [selectedPlan, addItem]);
+    }, [selectedPlan, addItem, selectedPlanIndex]);
 
     useEffect(() => {
       const fetchPlanData = async () => {

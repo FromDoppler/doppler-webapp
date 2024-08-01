@@ -24,6 +24,12 @@ describe('PlanChat component', () => {
                 idPlan: 3,
                 planType: PLAN_TYPE.free,
               },
+              chat: {
+                plan: {
+                  idPlan: 3,
+                  conversationQty: 500,
+                },
+              },
             },
           },
         },
