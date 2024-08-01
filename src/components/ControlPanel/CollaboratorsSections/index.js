@@ -192,7 +192,6 @@ export const CollaboratorsSections = InjectAppServices(
                                         <button
                                           type="button"
                                           onClick={() => sendInvitation(item.email)}
-                                          disabled={item.invitationStatus === 'APPROVED'}
                                         >
                                           {_('collaborators.menu.invite')}
                                         </button>
@@ -200,14 +199,18 @@ export const CollaboratorsSections = InjectAppServices(
                                     ) : (
                                       <></>
                                     )}
-                                    <li role="menuitem">
-                                      <button
-                                        type="button"
-                                        onClick={() => sendInvitationCancelation(item.email)}
-                                      >
-                                        {_('collaborators.menu.disable')}
-                                      </button>
-                                    </li>
+                                    {item.invitationStatus !== 'CANCELED' ? (
+                                      <li role="menuitem">
+                                        <button
+                                          type="button"
+                                          onClick={() => sendInvitationCancelation(item.email)}
+                                        >
+                                          {_('collaborators.menu.disable')}
+                                        </button>
+                                      </li>
+                                    ) : (
+                                      <></>
+                                    )}
                                   </ul>
                                 </div>
                               </div>
