@@ -26,28 +26,40 @@ const collaborationInvitesResult = [
   },
 ];
 
-describe('test for Collaborators Section component ', () => {
-  const dopplerUserApiClientDouble = () => ({
-    getCollaborationInvites: async () => ({
-      success: true,
-      value: collaborationInvitesResult,
-    }),
-    sendCollaboratorInvite: async () => ({
-      success: true,
-    }),
-    cancelCollaboratorInvite: async () => ({
-      success: true,
-    }),
-  });
+const dopplerUserApiClientDouble = () => ({
+  getCollaborationInvites: async () => ({
+    success: true,
+    value: collaborationInvitesResult,
+  }),
+  sendCollaboratorInvite: async () => ({
+    success: true,
+  }),
+  cancelCollaboratorInvite: async () => ({
+    success: true,
+  }),
+});
 
+const forcedServices = {
+  dopplerUserApiClient: dopplerUserApiClientDouble(),
+  appSessionRef: {
+    current: {
+      userData: {
+        userAccount: {
+          email: 'dummy@fromdoppler.com',
+          firstname: 'test',
+          lastname: 'test',
+          userProfileType: 'OWNER',
+        },
+      },
+    },
+  },
+};
+
+describe('test for Collaborators Section component ', () => {
   it('Validate if loading box is hide from initial form', async () => {
     //Act
     render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerUserApiClient: dopplerUserApiClientDouble(),
-        }}
-      >
+      <AppServicesProvider forcedServices={forcedServices}>
         <BrowserRouter>
           <IntlProvider>
             <CollaboratorsSections />
@@ -65,11 +77,7 @@ describe('test for Collaborators Section component ', () => {
   it('should render table with users', async () => {
     //act
     render(
-      <AppServicesProvider
-        forcedServices={{
-          dopplerUserApiClient: dopplerUserApiClientDouble(),
-        }}
-      >
+      <AppServicesProvider forcedServices={forcedServices}>
         <BrowserRouter>
           <IntlProvider>
             <CollaboratorsSections />

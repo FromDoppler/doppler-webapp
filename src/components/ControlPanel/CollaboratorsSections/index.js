@@ -8,9 +8,10 @@ import { Loading } from '../../Loading/Loading';
 import { CollaboratorInviteForm } from './Forms/CollaboratorInviteForm';
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
+import { Navigate } from 'react-router-dom';
 
 export const CollaboratorsSections = InjectAppServices(
-  ({ dependencies: { dopplerUserApiClient } }) => {
+  ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
@@ -19,6 +20,9 @@ export const CollaboratorsSections = InjectAppServices(
     const [modalOpen, setModalOpen] = useState(false);
     const [modalError, setmodalError] = useState(null);
     const [refreshTable, setRefreshTable] = useState(false);
+    const redirectToDashboard =
+      appSessionRef.current.userData.userAccount?.userProfileType &&
+      appSessionRef.current.userData.userAccount.userProfileType === 'COLLABORATOR';
 
     const modalFirstStep = {
       step: 'INITIAL_STEP',
@@ -89,6 +93,10 @@ export const CollaboratorsSections = InjectAppServices(
 
     if (loading) {
       return <Loading page />;
+    }
+
+    if (redirectToDashboard) {
+      return <Navigate to="/dashboard" />;
     }
 
     return (
