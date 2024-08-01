@@ -119,6 +119,11 @@ export class ControlPanelService implements ControlPanelService {
           ? account.userAccount.userProfileType === 'USER'
           : false) && account.features.inviteCollaboratorsEnabled
       : false);
+    const hiddeCollaboratorEditionBox = !(account !== 'none'
+      ? account.userAccount?.userProfileType !== undefined
+        ? account.userAccount.userProfileType === 'COLLABORATOR'
+        : false
+      : false);
 
     if (getIntegrationSection) {
       return [
@@ -458,6 +463,13 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: _('control_panel.account_preferences.collaborators_title'),
             iconName: _('control_panel.account_preferences.collaborators_title'),
             hidden: hiddeCollaboratorsBox,
+          },
+          {
+            linkUrl: '/control-panel/collaborator-edition',
+            imgSrc: collaborators_icon,
+            imgAlt: _('control_panel.account_preferences.collaborator_edition_title'),
+            iconName: _('control_panel.account_preferences.collaborator_edition_title'),
+            hidden: hiddeCollaboratorEditionBox,
           },
         ],
       },

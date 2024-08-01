@@ -606,6 +606,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       account_information_title: 'Información de la cuenta',
       account_movements_title: 'Movimientos de la Cuenta',
       billing_information_title: 'Información de Facturación',
+      collaborator_edition_title: 'Edición de datos Colaborador',
       collaborators_title: 'Configuración de Perfiles',
       contact_information_title: 'Información de Contacto',
       plans_and_specs_title: 'Planes y Características',
