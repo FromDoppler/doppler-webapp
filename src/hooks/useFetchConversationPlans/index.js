@@ -5,8 +5,11 @@ import {
   conversationPlansReducer,
 } from './conversationPlansReducer';
 
-export const useConversationPlans = (dopplerAccountPlansApiClient) => {
+export const useConversationPlans = (dopplerAccountPlansApiClient, appSessionRef) => {
   const [state, dispatch] = useReducer(conversationPlansReducer, INITIAL_STATE_CONVERSATION_PLANS);
+  const sessionPlan = appSessionRef.current.userData.user;
+
+  const chatPlan = sessionPlan.chat.plan;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +18,10 @@ export const useConversationPlans = (dopplerAccountPlansApiClient) => {
         const response = await dopplerAccountPlansApiClient.getCoversationsPLans();
         dispatch({
           type: CONVERSATION_PLANS_ACTIONS.RECEIVE_CONVERSATION_PLANS,
-          payload: response.value,
+          payload: {
+            conversationPlans: response.value,
+            currentChatPlan: { conversationsQty: chatPlan.conversationQty },
+          },
         });
       } catch (error) {
         dispatch({ type: CONVERSATION_PLANS_ACTIONS.FETCH_FAILED });
@@ -23,7 +29,7 @@ export const useConversationPlans = (dopplerAccountPlansApiClient) => {
     };
 
     fetchData();
-  }, [dopplerAccountPlansApiClient]);
+  }, [dopplerAccountPlansApiClient, chatPlan.conversationQty]);
 
   const handleSliderValue = (data) => {
     dispatch({

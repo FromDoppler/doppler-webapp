@@ -28,6 +28,12 @@ const userData = {
         buttonText: 'COMPRAR',
         buttonUrl: 'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1',
       },
+      chat: {
+        planData: {
+          idPlan: 1,
+          conversationQty: 500,
+        },
+      },
       sms: {
         description: 'Créditos disponibles',
         remainingCredits: '555',
@@ -352,6 +358,12 @@ describe('Doppler legacy client', () => {
             buttonUrl:
               'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1',
           },
+          chat: {
+            planData: {
+              idPlan: 1,
+              conversationQty: 500,
+            },
+          },
           sms: {
             description: 'Créditos disponibles',
             remainingCredits: '555',
@@ -443,6 +455,12 @@ describe('Doppler legacy client', () => {
             buttonText: 'COMPRAR',
             buttonUrl:
               'https://appint.fromdoppler.net/ControlPanel/AccountPreferences/BuyCreditsStep1',
+          },
+          chat: {
+            planData: {
+              idPlan: 1,
+              conversationQty: 500,
+            },
           },
           sms: {
             description: 'Créditos disponibles',

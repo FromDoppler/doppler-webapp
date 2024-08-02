@@ -20,6 +20,10 @@ describe('conversationPlansReducer', () => {
 
   it(`${CONVERSATION_PLANS_ACTIONS.RECEIVE_CONVERSATION_PLANS} action`, () => {
     // Arrange
+    const currentChatPlan = {
+      conversationsQty: 0,
+    };
+
     const conversationPlans = [
       {
         planId: 1,
@@ -36,7 +40,10 @@ describe('conversationPlansReducer', () => {
     ];
     const action = {
       type: CONVERSATION_PLANS_ACTIONS.RECEIVE_CONVERSATION_PLANS,
-      payload: conversationPlans,
+      payload: {
+        conversationPlans,
+        currentChatPlan,
+      },
     };
 
     // Act
@@ -46,9 +53,9 @@ describe('conversationPlansReducer', () => {
     expect(newState).toEqual({
       ...INITIAL_STATE_CONVERSATION_PLANS,
       loading: false,
-      conversationPlans: [{}, ...conversationPlans],
+      conversationPlans: [{ conversationsQty: 0 }, ...conversationPlans],
       conversationPlansValues: [0, 500, 1000],
-      selectedPlan: {},
+      selectedPlan: { conversationsQty: 0 },
     });
   });
 

@@ -336,6 +336,13 @@ interface PlanEntry {
   upgradePending: boolean;
 }
 
+interface ChatPlanEntry {
+  idPlan: number;
+  description: string;
+  conversationQty: number;
+  fee: number;
+}
+
 interface SmsEntry {
   buttonText: string;
   buttonUrl: string;
@@ -511,6 +518,15 @@ function mapAdvancePay(json: any): AdvancePayOptions {
   };
 }
 
+function mapChatPlanEntry(json: any): ChatPlanEntry {
+  return {
+    idPlan: json ? json.idPlan : 0,
+    description: json ? json.description : '',
+    conversationQty: json ? json.conversationQty : 0,
+    fee: json ? json.fee : 0,
+  };
+}
+
 function parsePlan(json: any) {
   const id = json.IdUserTypePlan;
   const fee = json.Fee;
@@ -610,6 +626,9 @@ export function mapHeaderDataJson(json: any) {
       hasCampaingSent: json.user.hasCampaingSent,
       locationCountry: json.user.locationCountry,
       landings: json.user.landings,
+      chat: {
+        plan: mapChatPlanEntry(json.user.chat.planData),
+      },
     },
     userAccount: json.userAccount && {
       email: json.userAccount.email,
