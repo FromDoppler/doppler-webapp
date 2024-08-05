@@ -49,6 +49,8 @@ export const ShoppingCart = InjectAppServices(
     landingPagesRemoved,
     cancelLandings,
     canChatPlanRemove = true,
+    hasChatActive,
+    disabledPromocode = false,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -149,9 +151,15 @@ export const ShoppingCart = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
+        const paymentFrequencyId = discountConfig?.selectedPaymentFrequency?.id;
         const _amountDetailsPlanChatData =
           await dopplerAccountPlansApiClient.getPlanChatBillingDetailsData(
             selectedPlanChat?.planId,
+            paymentFrequencyId
+              ? paymentFrequencyId
+              : discountConfig.paymentFrequenciesList.at(-1)
+                ? discountConfig.paymentFrequenciesList.at(-1).id
+                : 0,
           );
 
         console.log('_amountDetailsPlanChatData', _amountDetailsPlanChatData);
@@ -164,7 +172,12 @@ export const ShoppingCart = InjectAppServices(
       } else {
         setAmountDetailsPlanChatData(null);
       }
-    }, [dopplerAccountPlansApiClient, selectedPlanChat]);
+    }, [
+      dopplerAccountPlansApiClient,
+      selectedPlanChat,
+      discountConfig?.selectedPaymentFrequency,
+      discountConfig.paymentFrequenciesList,
+    ]);
 
     const handlePromocodeApplied = useCallback((value) => {
       setPromocodeApplied(value);
@@ -191,6 +204,7 @@ export const ShoppingCart = InjectAppServices(
           amountDetailsData,
           promocodeApplied,
           removePromocodeApplied,
+          disabledPromocode,
           intl,
           isExclusiveDiscountArgentina:
             isArgentina &&
@@ -251,6 +265,7 @@ export const ShoppingCart = InjectAppServices(
       checkoutLandingPackButtonEnabled,
       cancelLandings,
       selectedPlanChat,
+      hasChatActive,
     });
 
     const paymentFrequencyProps = {
@@ -287,6 +302,7 @@ export const ShoppingCart = InjectAppServices(
               hasPromocodeAppliedItem={!!promocodeApplied}
               selectedPlanType={selectedPlanType}
               isArgentina={isArgentina}
+              disabledPromocode={disabledPromocode}
             />
           )}
         <section>

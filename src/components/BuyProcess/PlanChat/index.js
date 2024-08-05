@@ -179,8 +179,8 @@ export const PlanChat = InjectAppServices(
                 selectedMarketingPlan={selectedMarketingPlan}
                 handleRemovePlanChat={removeItem}
                 isEqualPlan={false}
-                hidePromocode={true}
                 buyType={BUY_CHAT_PLAN}
+                disabledPromocode={true}
               />
             </div>
           </div>

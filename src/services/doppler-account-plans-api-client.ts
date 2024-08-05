@@ -248,13 +248,14 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
   public async getPlanChatBillingDetailsData(
     planId: number,
+    discountId: number,
   ): Promise<ResultWithoutExpectedErrors<any>> {
     try {
       const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/Chat/${planId}/calculate-amount`,
+        url: `accounts/${email}/newplan/Chat/${planId}/calculate-amount?discountId=${discountId}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

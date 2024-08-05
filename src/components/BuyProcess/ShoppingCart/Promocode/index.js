@@ -36,6 +36,7 @@ export const Promocode = InjectAppServices(
     selectedPaymentFrequency,
     hasPromocodeAppliedItem,
     isArgentina,
+    disabledPromocode,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const [open, setOpen] = useState(false);
@@ -196,13 +197,22 @@ export const Promocode = InjectAppServices(
         ) {
           setFieldValue(fieldNames.promocode, '');
         } else {
-          setOpen(true);
+          if (!disabledPromocode) {
+            setOpen(true);
+          }
           setFieldValue(fieldNames.promocode, defaultPromocode);
           const validatePercengePromocode = true;
           validatePromocode(defaultPromocode, validatePercengePromocode);
         }
       }
-    }, [validatePromocode, allowPromocode, defaultPromocode, selectedMarketingPlan, isArgentina]);
+    }, [
+      validatePromocode,
+      allowPromocode,
+      defaultPromocode,
+      selectedMarketingPlan,
+      isArgentina,
+      disabledPromocode,
+    ]);
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
@@ -215,7 +225,8 @@ export const Promocode = InjectAppServices(
       validatePromocode(value.promocode);
     };
 
-    const promocodeIsDisabled = !allowPromocode || promocodeApplied || loading || validated;
+    const promocodeIsDisabled =
+      !allowPromocode || promocodeApplied || loading || validated || disabledPromocode;
 
     return (
       <section className="dp-promocode">

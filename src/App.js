@@ -204,7 +204,9 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/plan-selection/premium/:planType"
               element={
                 <PrivateRoute>
-                  <PlanSelection />
+                  <BuyProcessLayout>
+                    <PlanSelection />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
@@ -222,7 +224,9 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/checkout/:pathType/:planType"
               element={
                 <PrivateRoute>
-                  <Checkout />
+                  <BuyProcessLayout>
+                    <Checkout />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
@@ -278,7 +282,9 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/checkout-summary"
               element={
                 <PrivateRoute>
-                  <CheckoutSummary />
+                  <BuyProcessLayout>
+                    <CheckoutSummary />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
