@@ -483,8 +483,14 @@ Payment details will be included in the invoice sent to the recipient you have i
     tag_already_exist: `The tag {tagName} already exist.`,
     tag_limit_exceeded: `Can only add {max} tags.`,
   },
+  collaborator_edition: {
+    confirm_password: 'Confirm password',
+    current_password: 'Current password',
+    new_password: 'New password',
+  },
   collaborators: {
     add_collaborator: 'New Collaborator',
+    edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
     form_modal: {
       description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
       manage lists, edit automations and any other feature.`,
@@ -1709,6 +1715,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_password_character_length: `8 characters minimum`,
     error_password_digit: `One number`,
     error_password_letter: `One letter`,
+    error_password_match: `Ouch! The password don't match.`,
     error_password_safe: `Your Password is secure!`,
     error_phone_invalid: `Enter a valid phone`,
     error_phone_invalid_country: `Ouch! The country code is not valid.`,

@@ -483,8 +483,15 @@ const messages_es = {
     tag_already_exist: `El tag {tagName} ya existe.`,
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
+  collaborator_edition: {
+    confirm_password: 'Confirmar contraseña',
+    current_password: 'Contraseña actual',
+    new_password: 'Nueva contraseña',
+  },
   collaborators: {
     add_collaborator: 'Nuevo Colaborador',
+    edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
+    ¡No olvides guardar tu información!`,
     form_modal: {
       description: `El colaborador tendrá acceso a gestionar tu cuenta de Doppler. Podrá realizar envio de campañas,
       gestión de listas, edición de automations y demás funcionalidades`,
@@ -1711,6 +1718,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_password_character_length: `8 caracteres mínimo`,
     error_password_digit: `Un número`,
     error_password_letter: `Una letra`,
+    error_password_match: `¡Ouch! Las contraseñas no coinciden.`,
     error_password_safe: `¡Tu Contraseña es segura!`,
     error_phone_invalid: `Ingresa un teléfono válido`,
     error_phone_invalid_country: `¡Ouch! El código de país no es válido.`,
