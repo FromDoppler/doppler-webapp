@@ -16,6 +16,7 @@ import {
   ValidatedPasswordFieldItem,
 } from '../../form-helpers/form-helpers';
 import { getFormInitialValues } from '../../../utils';
+import { GoBackButton } from '../../BuyProcess/PlanSelection/GoBackButton';
 
 const minLength = {
   min: 2,
@@ -41,8 +42,6 @@ export const CollaboratorEditionSection = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
     const accountData = appSessionRef.current.userData.userAccount ?? dummyData;
-
-    //const [data, setData] = useState([]);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -176,7 +175,14 @@ export const CollaboratorEditionSection = InjectAppServices(
                     </FieldGroup>
                   </fieldset>
                   <FormMessages />
-                  <SubmitButton>{_('common.next')}</SubmitButton>
+                  <ul className="dp-group-buttons">
+                    <li>
+                      <GoBackButton />
+                    </li>
+                    <li>
+                      <SubmitButton>{_('common.next')}</SubmitButton>
+                    </li>
+                  </ul>
                 </Form>
               </Formik>
             </div>
