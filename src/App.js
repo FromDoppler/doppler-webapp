@@ -41,6 +41,7 @@ import { CollaboratorsSections } from './components/ControlPanel/CollaboratorsSe
 import { CollaboratorsInvite } from './components/CollaborationInvite';
 import { PlanChat } from './components/BuyProcess/PlanChat';
 import { BuyProcessLayout } from './components/BuyProcess/BuyProcessLayout';
+import { CollaboratorEditionSection } from './components/ControlPanel/CollaboratorEditionSection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -360,6 +361,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <CollaboratorsSections />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/control-panel/collaborator-edition/"
+              element={
+                <PrivateRoute>
+                  <CollaboratorEditionSection />
                 </PrivateRoute>
               }
             />

@@ -567,6 +567,7 @@ export const InputFieldItemAccessible = ({
             minLength && createMinLengthValidation(minLength),
             withNameValidation && validateName,
           )}
+          disabled={disabled}
           {...rest}
         />
         <MessageError fieldName={fieldName} showError={showError} errors={errors} />
