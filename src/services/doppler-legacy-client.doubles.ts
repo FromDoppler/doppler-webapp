@@ -67,7 +67,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
   public async registerUser(model: UserRegistrationModel): Promise<UserRegistrationResult> {
     console.log(this.registerUser, model);
     await timeout(1500);
-    return { success: true };
+    return { success: true, value: {} };
     // return { expectedError: { registerDenied: true } };
     // return {expectedError: {invalidDomain: true } };
   }
