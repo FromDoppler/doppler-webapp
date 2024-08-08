@@ -13,6 +13,7 @@ export interface DopplerUserApiClient {
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
   sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
+  updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerUserApiConnectionData {
@@ -259,6 +260,33 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         return { success: true };
       } else {
         return { success: false, error: response.data.message };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updateUserAccountInformation(
+    values: any,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/user-account/${email}/edit`,
+        data: values,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          message: response.data.message,
+          errorCode: response.data.errorCode,
+        };
       }
     } catch (error) {
       return { success: false, error: error };
