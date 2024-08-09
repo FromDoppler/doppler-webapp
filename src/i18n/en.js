@@ -152,6 +152,12 @@ const messages_en = {
       save_percentage: `Save {percentage}`,
       title: `Purchase summary`,
     },
+    stepper: {
+      conversation_plan_step: 'Plan Conversations',
+      email_marketing_plan_step: 'Plan Marketing',
+      enjoy_doppler_step: 'Enjoy Doppler',
+      finalize_purchase_step: 'Finalize your purchase',
+    },
     subscriptions_title: `Subscriptions`,
     upcoming_bills: {
       landing_pack_subtitle: `Landing Pages packs`,
