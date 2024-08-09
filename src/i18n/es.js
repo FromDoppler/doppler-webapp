@@ -1723,6 +1723,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_min_length_2: `¡Ouch! Escribe al menos dos caracteres.`,
     error_password_character_length: `8 caracteres mínimo`,
     error_password_digit: `Un número`,
+    error_password_invalid: `¡Ouch! La contraseña es incorrecta.`,
     error_password_letter: `Una letra`,
     error_password_match: `¡Ouch! Las contraseñas no coinciden.`,
     error_password_safe: `¡Tu Contraseña es segura!`,

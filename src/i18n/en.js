@@ -1720,6 +1720,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_min_length_2: `Ouch! Write at least two characters.`,
     error_password_character_length: `8 characters minimum`,
     error_password_digit: `One number`,
+    error_password_invalid: `¡Ouch! Wrong password.`,
     error_password_letter: `One letter`,
     error_password_match: `Ouch! The password don't match.`,
     error_password_safe: `Your Password is secure!`,
