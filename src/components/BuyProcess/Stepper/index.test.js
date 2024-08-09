@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { Stepper } from '.';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { IntlProvider } from 'react-intl';
 
 describe('Stepper', () => {
   it('should render Stepper component', async () => {
@@ -27,11 +28,14 @@ describe('Stepper', () => {
 
     // Act
     render(
-      <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}>
-        <Routes>
-          <Route path="/plan-selection/premium/:planType" element={<Stepper steps={steps} />} />
-        </Routes>
-      </Router>,
+      <IntlProvider>
+        <Router initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}>
+          <Routes>
+            <Route path="/plan-selection/premium/:planType" element={<Stepper steps={steps} />} />
+          </Routes>
+        </Router>
+        ,
+      </IntlProvider>,
     );
   });
 });
