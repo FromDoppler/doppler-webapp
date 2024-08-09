@@ -12,6 +12,7 @@ export const CheckoutLink = ({
   monthPlan,
   newCheckoutEnabled,
   chatPlanId,
+  hasChatActive,
 }) => {
   const { search } = useLocation();
 
@@ -33,6 +34,7 @@ export const CheckoutLink = ({
           newCheckoutEnabled,
           search,
           chatPlanId,
+          hasChatActive,
         })}
       >
         <FormattedMessage id="buy_process.continue" />
@@ -76,6 +78,23 @@ const getNewCheckoutPurchaseUrl = ({
   );
 };
 
+const getBuyChatPlanUrl = ({
+  planType,
+  planId,
+  discountId,
+  promocode,
+  monthPlan,
+  currentQueryParams,
+}) => {
+  return (
+    `/plan-chat/premium/${planType}?selected-plan=${planId}` +
+    `${discountId ? `&discountId=${discountId}` : ''}` +
+    `${promocode ? `&PromoCode=${promocode}` : ''}` +
+    `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
+    `${currentQueryParams}`
+  );
+};
+
 export const getBuyPurchaseUrl = ({
   controlPanelUrl,
   planType,
@@ -86,6 +105,7 @@ export const getBuyPurchaseUrl = ({
   newCheckoutEnabled,
   search,
   chatPlanId,
+  hasChatActive,
 }) => {
   const params = new URLSearchParams(search.slice(1));
   // these parameters are eliminated, so that they do not appear repeated in the url
@@ -99,21 +119,30 @@ export const getBuyPurchaseUrl = ({
     ? `&${params.toString().replace('promo-code', 'PromoCode')}`
     : '';
 
-  return newCheckoutEnabled
-    ? getNewCheckoutPurchaseUrl({
+  return !hasChatActive
+    ? newCheckoutEnabled
+      ? getNewCheckoutPurchaseUrl({
+          planType,
+          planId,
+          discountId,
+          promocode: encodeURI(promocode),
+          monthPlan,
+          currentQueryParams,
+          chatPlanId,
+        })
+      : getLegacyCheckoutPurchaseUrl({
+          controlPanelUrl,
+          planId,
+          discountId,
+          promocode: encodeURI(promocode),
+          currentQueryParams,
+        })
+    : getBuyChatPlanUrl({
         planType,
         planId,
         discountId,
         promocode: encodeURI(promocode),
         monthPlan,
-        currentQueryParams,
-        chatPlanId,
-      })
-    : getLegacyCheckoutPurchaseUrl({
-        controlPanelUrl,
-        planId,
-        discountId,
-        promocode: encodeURI(promocode),
         currentQueryParams,
       });
 };

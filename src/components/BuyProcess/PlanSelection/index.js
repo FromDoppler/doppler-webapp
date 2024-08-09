@@ -6,7 +6,6 @@ import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown
 import { InjectAppServices } from '../../../services/pure-di';
 import { getPlanTypeFromUrlSegment, thousandSeparatorNumber } from '../../../utils';
 import { Loading } from '../../Loading/Loading';
-import { BreadcrumbNew, BreadcrumbNewItem } from '../../shared/BreadcrumbNew';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { NavigationTabs } from '../NavigationTabs';
 import { ShoppingCart } from '../ShoppingCart';
@@ -41,6 +40,7 @@ export const PlanSelection = InjectAppServices(
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
     const { locationCountry } = sessionPlan;
+    const chat = appSessionRef.current.userData.user.chat;
     const isArgentina = locationCountry === 'ar';
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
     const { search } = useLocation();
@@ -138,12 +138,6 @@ export const PlanSelection = InjectAppServices(
       <>
         <HeaderSection>
           <div className="col-sm-12 col-md-12 col-lg-12">
-            <BreadcrumbNew>
-              <BreadcrumbNewItem
-                href={_('buy_process.plan_selection.breadcumb_plan_url')}
-                text={_('buy_process.plan_selection.breadcumb_plan_text')}
-              />
-            </BreadcrumbNew>
             <h2 className="dp-first-order-title">
               {_(`buy_process.plan_selection.plan_title`)}
               <span className="dpicon iconapp-email-alert" />
@@ -232,6 +226,7 @@ export const PlanSelection = InjectAppServices(
                 items={[selectedPlan]}
                 isEqualPlan={isEqualPlan}
                 isArgentina={isArgentina}
+                hasChatActive={chat && chat.active}
               />
             </div>
           </div>

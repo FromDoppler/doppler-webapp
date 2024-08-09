@@ -76,6 +76,7 @@ export const mapItemFromMarketingPlan = ({
   selectedPaymentFrequency,
   amountDetailsData,
   promocodeApplied,
+  disabledPromocode,
   removePromocodeApplied,
   intl,
   isExclusiveDiscountArgentina,
@@ -204,7 +205,7 @@ export const mapItemFromMarketingPlan = ({
             }}
           />
         </p>
-        {promocodeApplied && (
+        {promocodeApplied && !disabledPromocode && (
           <button
             type="button"
             className="dp-btn-delete dpicon iconapp-delete"
@@ -681,6 +682,7 @@ export const getBuyButton = ({
   checkoutLandingPackButtonEnabled,
   cancelLandings,
   selectedPlanChat,
+  hasChatActive,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -760,6 +762,7 @@ export const getBuyButton = ({
       monthPlan={selectedDiscount?.numberMonths}
       newCheckoutEnabled={redirectNewCheckout}
       chatPlanId={selectedPlanChat?.planId}
+      hasChatActive={hasChatActive}
     />
   );
 };
