@@ -16,6 +16,7 @@ import {
 import { getFormInitialValues } from '../../../utils';
 import { GoBackButton } from '../../BuyProcess/PlanSelection/GoBackButton';
 import { Navigate } from 'react-router-dom';
+import { validatePassword } from '../../../validations';
 
 const minLength = {
   min: 2,
@@ -50,15 +51,27 @@ export const CollaboratorEditionSection = InjectAppServices(
         errors[fieldNames.new_password] = 'validation_messages.error_password_missing';
       }
 
+      if (values[fieldNames.new_password]) {
+        const error = validatePassword(values[fieldNames.new_password]);
+
+        if (!error || error.empty) {
+          return errors;
+        }
+
+        if (error.charLength || error.digit || error.letter) {
+          errors[fieldNames.new_password] = 'validation_messages.error_password_format';
+        }
+      }
+
       return errors;
     };
     const formikConfig = {
       enableReinitialize: true,
       initialValues: {
-        email: accountData.email,
-        firstname: accountData.firstName,
-        lastname: accountData.lastName,
-        phone: accountData.phone,
+        email: accountData?.email,
+        firstname: accountData?.firstName,
+        lastname: accountData?.lastName,
+        phone: accountData?.phone,
         ...getFormInitialValues(fieldNames),
       },
       validateOnChange: true,
@@ -80,7 +93,7 @@ export const CollaboratorEditionSection = InjectAppServices(
           _success: 'contact_policy.success_msg',
         });
       } else {
-        response.error.response.data.errorCode === 1
+        response.error.response.data && response.error.response.data.errorCode === 1
           ? setErrors({
               [fieldNames.current_password]: 'validation_messages.error_password_invalid',
             })
@@ -173,6 +186,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                     </FieldGroup>
                   </fieldset>
                   <hr className="dp-h-divider m-t-30 m-b-30"></hr>
+                  <h1>¿Quieres cambiar tu contraseña?</h1>
                   <fieldset>
                     <FieldGroup>
                       <PasswordFieldItem
