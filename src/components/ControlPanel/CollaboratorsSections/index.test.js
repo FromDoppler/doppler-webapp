@@ -48,7 +48,7 @@ const forcedServices = {
           email: 'dummy@fromdoppler.com',
           firstname: 'test',
           lastname: 'test',
-          userProfileType: 'OWNER',
+          userProfileType: 'USER',
         },
       },
     },

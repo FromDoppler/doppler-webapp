@@ -16,7 +16,10 @@ function createHttpDopplerUserApiClient(axios: any) {
     current: {
       status: 'authenticated',
       jwtToken,
-      userData: { user: { email: accountEmail } } as DopplerLegacyUserData,
+      userData: {
+        user: { email: accountEmail },
+        userAccount: { email: accountEmail },
+      } as DopplerLegacyUserData,
     },
   } as RefObject<AppSession>;
 

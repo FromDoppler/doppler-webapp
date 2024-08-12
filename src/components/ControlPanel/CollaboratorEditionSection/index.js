@@ -43,13 +43,22 @@ export const CollaboratorEditionSection = InjectAppServices(
         errors[fieldNames.confirm_password] = 'validation_messages.error_password_match';
       }
 
+      if (
+        values[fieldNames.current_password] &&
+        (!values[fieldNames.new_password] || !values[fieldNames.confirm_password])
+      ) {
+        errors[fieldNames.new_password] = 'validation_messages.error_password_missing';
+      }
+
       return errors;
     };
-
     const formikConfig = {
       enableReinitialize: true,
       initialValues: {
-        ...accountData,
+        email: accountData.email,
+        firstname: accountData.firstName,
+        lastname: accountData.lastName,
+        phone: accountData.phone,
         ...getFormInitialValues(fieldNames),
       },
       validateOnChange: true,
@@ -57,14 +66,21 @@ export const CollaboratorEditionSection = InjectAppServices(
     };
 
     const handleSubmit = async (values, { setSubmitting, setErrors }) => {
-      const response = await dopplerUserApiClient.updateUserAccountInformation(values);
+      const body = {
+        Firstname: values.firstname,
+        Lastname: values.lastname,
+        Phone: values.phone,
+        CurrentPassword: values.current_password,
+        NewPassword: values.new_password,
+      };
+      const response = await dopplerUserApiClient.updateUserAccountInformation(body);
 
       if (response.success) {
         setErrors({
           _success: 'contact_policy.success_msg',
         });
       } else {
-        response.errorCode === 1
+        response.error.response.data.errorCode === 1
           ? setErrors({
               [fieldNames.current_password]: 'validation_messages.error_password_invalid',
             })

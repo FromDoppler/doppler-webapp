@@ -1723,6 +1723,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_password_invalid: `¡Ouch! Wrong password.`,
     error_password_letter: `One letter`,
     error_password_match: `Ouch! The password don't match.`,
+    error_password_missing: `¡Ouch! Add a new password.`,
     error_password_safe: `Your Password is secure!`,
     error_phone_invalid: `Enter a valid phone`,
     error_phone_invalid_country: `Ouch! The country code is not valid.`,

@@ -22,7 +22,7 @@ export const CollaboratorsSections = InjectAppServices(
     const [refreshTable, setRefreshTable] = useState(false);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
-      appSessionRef.current.userData.userAccount.userProfileType !== 'OWNER';
+      appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
 
     const modalFirstStep = {
       step: 'INITIAL_STEP',

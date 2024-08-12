@@ -20,6 +20,7 @@ interface DopplerUserApiConnectionData {
   jwtToken: string;
   email: string;
   idUser: number;
+  accountName: string | undefined;
 }
 
 export interface ContactInformation {
@@ -92,6 +93,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       jwtToken: connectionData.jwtToken,
       email: connectionData.userData.user.email,
       idUser: connectionData.userData.user.idUser,
+      accountName: connectionData.userData.userAccount?.email,
     };
   }
 
@@ -270,11 +272,18 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     values: any,
   ): Promise<EmptyResultWithoutExpectedErrors> {
     try {
-      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+      const { accountName, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      if (!accountName) {
+        return {
+          success: false,
+          error: 'invalid user account',
+        };
+      }
 
       const response = await this.axios.request({
         method: 'PUT',
-        url: `/accounts/user-account/${email}/edit`,
+        url: `/accounts/user-account/${accountName}/edit`,
         data: values,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
