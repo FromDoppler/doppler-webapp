@@ -141,4 +141,15 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
       success: true,
     };
   }
+
+  public async updateUserAccountInformation(
+    values: any,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log(values);
+    await timeout(1500);
+
+    return {
+      success: true,
+    };
+  }
 }

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 import { InjectAppServices } from '../../../services/pure-di';
-import { Loading } from '../../Loading/Loading';
 import { Formik, Form } from 'formik';
 import {
   FieldGroup,
@@ -13,23 +12,16 @@ import {
   PasswordFieldItem,
   PhoneFieldItemAccessible,
   SubmitButton,
-  ValidatedPasswordFieldItem,
 } from '../../form-helpers/form-helpers';
 import { getFormInitialValues } from '../../../utils';
 import { GoBackButton } from '../../BuyProcess/PlanSelection/GoBackButton';
+import { Navigate } from 'react-router-dom';
+import { validatePassword } from '../../../validations';
 
 const minLength = {
   min: 2,
   errorMessageKey: 'validation_messages.error_min_length_2',
 };
-
-const dummyData = {
-  email: 'dummy@fromdoppler.com',
-  firstname: 'Test',
-  lastname: 'Dummy',
-  phone: '+542235859674',
-};
-
 const fieldNames = {
   current_password: 'current_password',
   new_password: 'new_password',
@@ -37,48 +29,85 @@ const fieldNames = {
 };
 
 export const CollaboratorEditionSection = InjectAppServices(
-  ({ dependencies: { appSessionRef } }) => {
+  ({ dependencies: { appSessionRef, dopplerUserApiClient } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const [loading, setLoading] = useState(true);
-    const accountData = appSessionRef.current.userData.userAccount ?? dummyData;
-
-    useEffect(() => {
-      const fetchData = async () => {
-        setLoading(false);
-      };
-
-      fetchData();
-    }, []);
+    const accountData = appSessionRef.current.userData.userAccount;
+    const redirectToDashboard =
+      appSessionRef.current.userData.userAccount?.userProfileType &&
+      appSessionRef.current.userData.userAccount.userProfileType !== 'COLLABORATOR';
 
     const validate = (values) => {
       const errors = {};
-      if (!values[fieldNames.new_password]) {
-        errors[fieldNames.new_password] = { empty: true };
-      }
-      if (
-        values[fieldNames.confirm_password] &&
-        values[fieldNames.new_password] !== values[fieldNames.confirm_password]
-      ) {
+
+      if (values[fieldNames.new_password] !== values[fieldNames.confirm_password]) {
         errors[fieldNames.confirm_password] = 'validation_messages.error_password_match';
+      }
+
+      if (
+        values[fieldNames.current_password] &&
+        (!values[fieldNames.new_password] || !values[fieldNames.confirm_password])
+      ) {
+        errors[fieldNames.new_password] = 'validation_messages.error_password_missing';
+      }
+
+      if (values[fieldNames.new_password]) {
+        const error = validatePassword(values[fieldNames.new_password]);
+
+        if (!error || error.empty) {
+          return errors;
+        }
+
+        if (error.charLength || error.digit || error.letter) {
+          errors[fieldNames.new_password] = 'validation_messages.error_password_format';
+        }
       }
 
       return errors;
     };
-
-    if (loading) {
-      return <Loading page />;
-    }
-
     const formikConfig = {
       enableReinitialize: true,
       initialValues: {
-        ...accountData,
+        email: accountData?.email,
+        firstname: accountData?.firstName,
+        lastname: accountData?.lastName,
+        phone: accountData?.phone,
         ...getFormInitialValues(fieldNames),
       },
       validateOnChange: true,
       validateOnBlur: true,
     };
+
+    const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+      const body = {
+        Firstname: values.firstname,
+        Lastname: values.lastname,
+        Phone: values.phone,
+        CurrentPassword: values.current_password,
+        NewPassword: values.new_password,
+      };
+      const response = await dopplerUserApiClient.updateUserAccountInformation(body);
+
+      if (response.success) {
+        setErrors({
+          _success: 'contact_policy.success_msg',
+        });
+      } else {
+        response.error.response.data && response.error.response.data.errorCode === 1
+          ? setErrors({
+              [fieldNames.current_password]: 'validation_messages.error_password_invalid',
+            })
+          : setErrors({
+              _error: 'common.something_wrong',
+            });
+      }
+
+      setSubmitting(false);
+    };
+
+    if (redirectToDashboard || !accountData) {
+      return <Navigate to="/dashboard" />;
+    }
 
     return (
       <>
@@ -105,7 +134,7 @@ export const CollaboratorEditionSection = InjectAppServices(
         <section className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-8 m-t-24 m-b-36">
-              <Formik {...formikConfig} validate={validate}>
+              <Formik {...formikConfig} validate={validate} onSubmit={handleSubmit}>
                 <Form className="awa-form signup-form" data-testid="collaborator-edition-form">
                   <fieldset>
                     <FieldGroup>
@@ -157,20 +186,20 @@ export const CollaboratorEditionSection = InjectAppServices(
                     </FieldGroup>
                   </fieldset>
                   <hr className="dp-h-divider m-t-30 m-b-30"></hr>
+                  <h1>¿Quieres cambiar tu contraseña?</h1>
                   <fieldset>
                     <FieldGroup>
                       <PasswordFieldItem
                         fieldName="current_password"
                         label={_('collaborator_edition.current_password')}
                       />
-                      <ValidatedPasswordFieldItem
+                      <PasswordFieldItem
                         fieldName="new_password"
                         label={_('collaborator_edition.new_password')}
                       />
                       <PasswordFieldItem
                         fieldName="confirm_password"
                         label={_('collaborator_edition.confirm_password')}
-                        withSubmitCount={false}
                       />
                     </FieldGroup>
                   </fieldset>

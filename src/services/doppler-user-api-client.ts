@@ -13,12 +13,14 @@ export interface DopplerUserApiClient {
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
   sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
+  updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerUserApiConnectionData {
   jwtToken: string;
   email: string;
   idUser: number;
+  accountName: string | undefined;
 }
 
 export interface ContactInformation {
@@ -91,6 +93,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       jwtToken: connectionData.jwtToken,
       email: connectionData.userData.user.email,
       idUser: connectionData.userData.user.idUser,
+      accountName: connectionData.userData.userAccount?.email,
     };
   }
 
@@ -259,6 +262,40 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         return { success: true };
       } else {
         return { success: false, error: response.data.message };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updateUserAccountInformation(
+    values: any,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { accountName, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      if (!accountName) {
+        return {
+          success: false,
+          error: 'invalid user account',
+        };
+      }
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/user-account/${accountName}/edit`,
+        data: values,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          message: response.data.message,
+          errorCode: response.data.errorCode,
+        };
       }
     } catch (error) {
       return { success: false, error: error };

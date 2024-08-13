@@ -16,7 +16,10 @@ function createHttpDopplerUserApiClient(axios: any) {
     current: {
       status: 'authenticated',
       jwtToken,
-      userData: { user: { email: accountEmail } } as DopplerLegacyUserData,
+      userData: {
+        user: { email: accountEmail },
+        userAccount: { email: accountEmail },
+      } as DopplerLegacyUserData,
     },
   } as RefObject<AppSession>;
 
@@ -281,6 +284,60 @@ describe('HttpDopplerUserApiClient', () => {
 
     // Act
     const result = await dopplerUserApiClient.cancelCollaboratorInvite(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
+  it('should update colaborator info', async () => {
+    // Arrange
+    const values = {
+      firstname: 'Test',
+      lastname: 'Test',
+      phone: '+111111111',
+      currentPassword: '12345',
+      newPassword: '12345',
+    };
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.updateUserAccountInformation(values);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should not update colaborator info', async () => {
+    // Arrange
+    const values = {
+      firstname: 'Test',
+      lastname: 'Test',
+      phone: '+111111111',
+      currentPassword: '12345',
+      newPassword: '12345',
+    };
+
+    const response = {
+      status: 400,
+      message: 'wrong email and password',
+      errorCode: 1,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.updateUserAccountInformation(values);
 
     // Assert
     expect(request).toBeCalledTimes(1);
