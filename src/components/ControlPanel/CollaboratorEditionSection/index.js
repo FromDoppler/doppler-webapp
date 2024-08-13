@@ -209,7 +209,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                       <GoBackButton />
                     </li>
                     <li>
-                      <SubmitButton>{_('common.next')}</SubmitButton>
+                      <SubmitButton>{_('common.save')}</SubmitButton>
                     </li>
                   </ul>
                 </Form>
