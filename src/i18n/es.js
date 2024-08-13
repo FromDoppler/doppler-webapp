@@ -1685,6 +1685,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chatea con el equipo de Atención al Cliente</button> para solucionarlo.`,
+    error_account_has_not_users_associated: `¡Ouch! El email que has ingresado no tiene ninguna cuenta asociada, deberás comunicarte con el administrador de la cuenta.`,
     error_account_is_blocked_disabled_by_cm: `Esta cuenta fue bloqueada por el administrador. Contáctate para más información: `,
     error_account_is_blocked_invalid_password: `¡Ouch! Esta cuenta ha sido bloqueada debido a intentos de acceso fallidos.`,
     error_account_is_blocked_invalid_password_contact_support_MD: `Por favor [contacta al equipo de Atención al Cliente](${mailtoAdmin + subjectBlockedAccountInvalidPassword}) para solucionarlo.`,

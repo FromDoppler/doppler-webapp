@@ -1682,6 +1682,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
   },
   validation_messages: {
     error_account_contact_zoho_chat: `<button>Chat with the Customer Support team</button> for help.`,
+    error_account_has_not_users_associated: `Ouch! This email does not have any associated account, you should contact the administrator.`,
     error_account_is_blocked_disabled_by_cm: `This account was blocked by the administrator. Get in touch for more information: `,
     error_account_is_blocked_invalid_password: `Ouch! This account has been blocked due to failed access attempts.`,
     error_account_is_blocked_invalid_password_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectBlockedAccountInvalidPassword}) for help.`,
