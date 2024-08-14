@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup, render, screen, act } from '@testing-library/react';
+import { cleanup, render, screen, act, waitForElementToBeRemoved } from '@testing-library/react';
 import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -34,6 +34,9 @@ describe('CollaborationInvite', () => {
     );
 
     // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
     act(() => expect(screen.getByTestId('unexpected-error')).toBeInTheDocument());
     act(() =>
       expect(
@@ -68,10 +71,9 @@ describe('CollaborationInvite', () => {
     );
 
     // Assert
-    act(() =>
-      expect(screen.getByTestId('unexpected-error')).not.toContainHTML(
-        '<p>validation_messages.error_expired_invitation_link</p>',
-      ),
-    );
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    act(() => expect(screen.getByTestId('collaboration-invite-form')).toBeInTheDocument());
   });
 });

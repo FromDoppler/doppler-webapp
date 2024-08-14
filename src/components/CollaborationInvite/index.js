@@ -99,12 +99,12 @@ export const CollaboratorsInvite = InjectAppServices(
           setEmail(jwtDecode(token).email);
         } catch {}
 
-        sendInvitationData(null);
-
+        await sendInvitationData(null);
         setLoading(false);
       };
 
       fetchData();
+
       // eslint-disable-next-line
     }, []);
 
@@ -156,7 +156,7 @@ export const CollaboratorsInvite = InjectAppServices(
               validate={validate}
             >
               <ScrollToFieldError fieldsOrder={Object.values(fieldNames)} />
-              <fieldset>
+              <fieldset data-testid="collaboration-invite-form">
                 <FieldGroup>
                   <InputFieldItemAccessible
                     fieldName={fieldNames.email}
