@@ -4,10 +4,9 @@ import { useIntl } from 'react-intl';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
 import useTimeout from '../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { PaymentMethodType } from '../../../../doppler-types';
+import { BUY_MARKETING_PLAN, PaymentMethodType } from '../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
-import { BUY_MARKETING_PLAN } from '..';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';

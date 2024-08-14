@@ -20,14 +20,13 @@ import { TransferInformation } from './TransferInformation/index';
 import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
-import { PLAN_TYPE } from '../../../../doppler-types';
+import { BUY_LANDING_PACK, PLAN_TYPE } from '../../../../doppler-types';
 import { Link } from 'react-router-dom';
 import { AddOn } from '../../../shared/AddOn';
 import { useFetchLandingPacks } from '../../../../hooks/useFetchtLandingPacks';
 import useTimeout from '../../../../hooks/useTimeout';
 import { Carousel } from '../../../Dashboard/LearnWithDoppler/Carousel/Carousel';
 import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
-import { BUY_LANDING_PACK } from '../../../BuyProcess/ShoppingCart';
 import { PlanChatInformation } from './PlanChatInformation';
 
 export const AddOnLandingPack = InjectAppServices(
@@ -44,11 +43,19 @@ export const AddOnLandingPack = InjectAppServices(
         titleIconName="dpicon iconapp-landing-page"
         description={_('landing_selection.modal.description')}
         link1={{
-          pathname: `/landing-packages${accountType ? `?${ACCOUNT_TYPE}=${accountType}` : ''}`,
+          pathname: `/landing-packages${
+            accountType
+              ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
+              : `?buyType=${BUY_LANDING_PACK}`
+          }`,
           label: 'Mas información',
         }}
         link2={{
-          pathname: `/landing-packages${accountType ? `?${ACCOUNT_TYPE}=${accountType}` : ''}`,
+          pathname: `/landing-packages${
+            accountType
+              ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
+              : `?buyType=${BUY_LANDING_PACK}`
+          }`,
           label: 'Comprar ahora',
         }}
         priceComponent={
@@ -654,7 +661,11 @@ export const ModalPromoLandingPacks = () => {
           <p>{_('landing_selection.modal.description')}</p>
 
           <Link
-            to={`/landing-packages${accountType ? `?${ACCOUNT_TYPE}=${accountType}` : ''}`}
+            to={`/landing-packages${
+              accountType
+                ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
+                : `?buyType=${BUY_LANDING_PACK}`
+            }`}
             className="dp-button button-medium primary-green"
           >
             {_('landing_selection.modal.link_to_buy')}

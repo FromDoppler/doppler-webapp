@@ -7,7 +7,7 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { paymentType } from '../../../Plans/Checkout/PaymentMethod/PaymentMethod';
-import { BUY_MARKETING_PLAN } from '..';
+import { BUY_MARKETING_PLAN } from '../../../../doppler-types';
 
 const getFakePurchase = (success) => {
   const purchaseMock = jest.fn(async () => ({

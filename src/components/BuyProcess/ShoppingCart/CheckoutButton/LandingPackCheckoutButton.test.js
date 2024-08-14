@@ -3,11 +3,11 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { DELAY_BEFORE_REDIRECT_TO_SUMMARY } from '.';
-import { BUY_LANDING_PACK } from '..';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import { LandingPackCheckoutButton } from './LandingPackCheckoutButton';
+import { BUY_LANDING_PACK } from '../../../../doppler-types';
 
 const getFakePurchase = (success) => {
   const purchaseMock = jest.fn(async () => ({

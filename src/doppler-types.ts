@@ -206,3 +206,7 @@ export const paymentFrequenciesListFake = [
     discountPercentage: 0,
   },
 ];
+
+export const BUY_MARKETING_PLAN = 1;
+export const BUY_LANDING_PACK = 3;
+export const BUY_CHAT_PLAN = 2;

@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { BUY_LANDING_PACK } from '..';
-import { PLAN_TYPE } from '../../../../doppler-types';
+import { BUY_LANDING_PACK, PLAN_TYPE } from '../../../../doppler-types';
 import { getNewCheckoutPurchaseUrl } from './LandingPackCheckoutLink';
 
 describe('LandingPackCheckoutLink', () => {
@@ -11,7 +10,7 @@ describe('LandingPackCheckoutLink', () => {
       const landingIds = '1,2,3';
       const landingPacks = '5,2,1';
       const monthPlan = 1;
-      const currentQueryParams = '&accountType=FREE';
+      const currentQueryParams = `&accountType=FREE&buyType=${BUY_LANDING_PACK}`;
 
       // Act
       const checkoutUrl = getNewCheckoutPurchaseUrl({
@@ -24,7 +23,7 @@ describe('LandingPackCheckoutLink', () => {
 
       // Assert
       expect(checkoutUrl).toBe(
-        `/checkout/premium/${planType}?landing-ids=${landingIds}&landing-packs=${landingPacks}&buyType=${BUY_LANDING_PACK}&monthPlan=${monthPlan}${currentQueryParams}`,
+        `/checkout/premium/${planType}?landing-ids=${landingIds}&landing-packs=${landingPacks}&monthPlan=${monthPlan}${currentQueryParams}`,
       );
     });
   });

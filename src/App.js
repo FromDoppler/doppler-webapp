@@ -350,7 +350,9 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/landing-packages"
               element={
                 <PrivateRoute>
-                  <LandingPacksSelection />
+                  <BuyProcessLayout>
+                    <LandingPacksSelection />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
