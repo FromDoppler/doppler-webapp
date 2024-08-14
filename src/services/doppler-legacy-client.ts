@@ -887,7 +887,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
             return { expectedError: { maxLoginAttempts: true } };
           }
           case 'AccountWithoutUsersAssociated': {
-            return { expectedError: { maxLoginAttempts: true } };
+            return { expectedError: { accountWithoutUsersAssociated: true } };
           }
           case 'BlockedAccountCMDisabled': {
             return {

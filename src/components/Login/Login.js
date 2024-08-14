@@ -334,7 +334,7 @@ const Login = ({
         });
       } else if (result.expectedError && result.expectedError.accountWithoutUsersAssociated) {
         setErrors({
-          _warning: 'validation_messages.error_account_has_not_users_associated',
+          _error: 'validation_messages.error_account_has_not_users_associated',
         });
       } else if (result.expectedError && result.expectedError.userAccessDenied) {
         setErrors({
