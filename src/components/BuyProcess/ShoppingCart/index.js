@@ -14,6 +14,9 @@ import {
   mapItemFromPlanChat,
 } from './utils';
 import {
+  BUY_CHAT_PLAN,
+  BUY_LANDING_PACK,
+  BUY_MARKETING_PLAN,
   PLAN_TYPE,
   PaymentMethodType,
   SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA,
@@ -26,10 +29,6 @@ const numberFormatOptions = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 };
-
-export const BUY_MARKETING_PLAN = 1;
-export const BUY_LANDING_PACK = 2;
-export const BUY_CHAT_PLAN = 3;
 
 export const ShoppingCart = InjectAppServices(
   ({

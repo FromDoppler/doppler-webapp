@@ -4,7 +4,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
-import { BUY_LANDING_PACK, ShoppingCart } from '../ShoppingCart';
+import { ShoppingCart } from '../ShoppingCart';
 import { UnexpectedError } from '../UnexpectedError';
 import { LandingPacks, filterPackagesEqualOrGreatherToZero } from './LandingPacks';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -16,6 +16,7 @@ import {
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
 import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../utils';
+import { BUY_LANDING_PACK } from '../../../doppler-types';
 
 export const paymentFrequenciesListForLandingPacks = [
   {

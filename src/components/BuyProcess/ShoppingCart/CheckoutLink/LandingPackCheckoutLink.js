@@ -2,7 +2,6 @@ import { FormattedMessage } from 'react-intl';
 import { TooltipContainer } from '../../../TooltipContainer/TooltipContainer';
 import { useLocation } from 'react-router-dom';
 import { CheckoutLinkStyled } from './index.style';
-import { BUY_LANDING_PACK } from '..';
 
 export const LandingPackCheckoutLink = ({
   showTooltip,
@@ -45,7 +44,7 @@ export const getNewCheckoutPurchaseUrl = ({
   currentQueryParams,
 }) => {
   return (
-    `/checkout/premium/${planType}?landing-ids=${landingIds}&landing-packs=${landingPacks}&buyType=${BUY_LANDING_PACK}` +
+    `/checkout/premium/${planType}?landing-ids=${landingIds}&landing-packs=${landingPacks}` +
     `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
     `${currentQueryParams}`
   );

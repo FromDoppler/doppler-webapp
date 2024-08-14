@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link, Navigate, useLocation } from 'react-router-dom';
-import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
+import { BUY_MARKETING_PLAN, PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { PlanTypeCard } from './PlanTypeCard';
 import { InjectAppServices } from '../../../services/pure-di';
 import { useFetchPlanTypes } from '../../../hooks/useFetchPlanTypes';
@@ -102,7 +102,9 @@ export const PlanTypes = InjectAppServices(
     if (!isFreeAccount) {
       return (
         <Navigate
-          to={`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}?${queryParams}`}
+          to={`/plan-selection/premium/${
+            URL_PLAN_TYPE[PLAN_TYPE.byContact]
+          }?${queryParams}&buyType=${BUY_MARKETING_PLAN}`}
         />
       );
     }
@@ -144,8 +146,8 @@ export const PlanTypes = InjectAppServices(
                         {...item}
                         queryParams={`${
                           isArgentina
-                            ? `${queryParams}&promo-code=${process.env.REACT_APP_PROMOCODE_ARGENTINA}`
-                            : queryParams
+                            ? `${queryParams}&promo-code=${process.env.REACT_APP_PROMOCODE_ARGENTINA}&buyType=${BUY_MARKETING_PLAN}`
+                            : `${queryParams}&buyType=${BUY_MARKETING_PLAN}`
                         }`}
                       />
                     ))}

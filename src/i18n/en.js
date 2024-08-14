@@ -157,6 +157,7 @@ const messages_en = {
       email_marketing_plan_step: 'Plan Marketing',
       enjoy_doppler_step: 'Enjoy Doppler',
       finalize_purchase_step: 'Finalize your purchase',
+      landings_plan_step: 'Plan Landings',
     },
     subscriptions_title: `Subscriptions`,
     upcoming_bills: {

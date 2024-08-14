@@ -1,6 +1,8 @@
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { amountByPlanType, thousandSeparatorNumber } from '../../../utils';
 import {
+  BUY_LANDING_PACK,
+  BUY_MARKETING_PLAN,
   CloverError,
   FirstDataError,
   MercadoPagoError,
@@ -9,7 +11,6 @@ import {
 } from '../../../doppler-types';
 import { CheckoutLink } from './CheckoutLink';
 import { CheckoutButton } from './CheckoutButton';
-import { BUY_LANDING_PACK, BUY_MARKETING_PLAN } from '.';
 import { LandingPackCheckoutLink } from './CheckoutLink/LandingPackCheckoutLink';
 import { LandingPackCheckoutButton } from './CheckoutButton/LandingPackCheckoutButton';
 

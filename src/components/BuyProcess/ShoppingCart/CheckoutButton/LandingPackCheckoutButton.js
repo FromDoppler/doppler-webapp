@@ -6,8 +6,8 @@ import useTimeout from '../../../../hooks/useTimeout';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
-import { BUY_LANDING_PACK } from '..';
 import { FREE_ACCOUNT, PAID_ACCOUNT } from '../../../../utils';
+import { BUY_LANDING_PACK } from '../../../../doppler-types';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';

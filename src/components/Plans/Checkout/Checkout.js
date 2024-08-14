@@ -6,13 +6,18 @@ import { BillingInformation } from './BillingInformation/BillingInformation';
 import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { PLAN_TYPE, PaymentMethodType, URL_PLAN_TYPE } from '../../../doppler-types';
+import {
+  BUY_LANDING_PACK,
+  PLAN_TYPE,
+  PaymentMethodType,
+  URL_PLAN_TYPE,
+} from '../../../doppler-types';
 import {
   getMonthsByCycle,
   getQueryParamsWithAccountType,
   orderPaymentFrequencies,
 } from '../../../utils';
-import { BUY_LANDING_PACK, ShoppingCart } from '../../BuyProcess/ShoppingCart';
+import { ShoppingCart } from '../../BuyProcess/ShoppingCart';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import { useFetchLandingPacks } from '../../../hooks/useFetchtLandingPacks';
 import { paymentFrequenciesListForLandingPacks } from '../../BuyProcess/LandingPacksSelection';
@@ -327,7 +332,7 @@ const Checkout = InjectAppServices(
               <hr className="dp-h-divider" />
               {isBuyLandingPacks ? (
                 <Link
-                  to={`/landing-packages`}
+                  to={`/landing-packages?buyType=${BUY_LANDING_PACK}`}
                   className="dp-button button-medium primary-grey m-t-30 m-r-24"
                 >
                   {_('checkoutProcessForm.button_back')}
