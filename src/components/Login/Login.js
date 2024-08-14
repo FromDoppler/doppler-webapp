@@ -332,6 +332,10 @@ const Login = ({
         setErrors({
           _warning: 'validation_messages.warning_ip_validation_notification',
         });
+      } else if (result.expectedError && result.expectedError.accountWithoutUsersAssociated) {
+        setErrors({
+          _error: 'validation_messages.error_account_has_not_users_associated',
+        });
       } else if (result.expectedError && result.expectedError.userAccessDenied) {
         setErrors({
           _error: 'validation_messages.warning_user_access_denied',

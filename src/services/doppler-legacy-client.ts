@@ -121,6 +121,7 @@ export type LoginErrorResult =
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -132,6 +133,7 @@ export type LoginErrorResult =
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -143,6 +145,7 @@ export type LoginErrorResult =
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -154,6 +157,7 @@ export type LoginErrorResult =
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -165,6 +169,7 @@ export type LoginErrorResult =
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -176,6 +181,7 @@ export type LoginErrorResult =
       maxLoginAttempts: true;
       wrongCaptcha?: false;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -187,6 +193,7 @@ export type LoginErrorResult =
       maxLoginAttempts: true;
       wrongCaptcha?: true;
       blockedAccountCMDisabled?: false;
+      accountWithoutUsersAssociated?: false;
       errorMessage?: string;
     }
   | {
@@ -198,7 +205,20 @@ export type LoginErrorResult =
       maxLoginAttempts?: false;
       wrongCaptcha?: false;
       blockedAccountCMDisabled: true;
+      accountWithoutUsersAssociated?: false;
       errorMessage: string;
+    }
+  | {
+      blockedAccountInvalidPassword?: false;
+      blockedAccountNotPayed?: false;
+      accountNotValidated?: false;
+      cancelatedAccount?: false;
+      invalidLogin?: false;
+      maxLoginAttempts?: false;
+      wrongCaptcha?: false;
+      blockedAccountCMDisabled: false;
+      accountWithoutUsersAssociated: true;
+      errorMessage?: string;
     };
 
 export type LoginResult = Result<
@@ -865,6 +885,9 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           }
           case 'MaxLoginAttempts': {
             return { expectedError: { maxLoginAttempts: true } };
+          }
+          case 'AccountWithoutUsersAssociated': {
+            return { expectedError: { accountWithoutUsersAssociated: true } };
           }
           case 'BlockedAccountCMDisabled': {
             return {
