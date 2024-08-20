@@ -23,7 +23,7 @@ export const CheckoutButton = InjectAppServices(
     total,
     promotion,
     paymentMethod,
-    chatPlanId,
+    selectedPlanChat,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -39,11 +39,12 @@ export const CheckoutButton = InjectAppServices(
 
       let additionalServices = [];
 
-      if (chatPlanId !== undefined) {
+      if (selectedPlanChat?.planChat?.planId !== undefined) {
         additionalServices = [
           {
-            planId: chatPlanId,
+            planId: selectedPlanChat?.planChat?.planId,
             type: 7,
+            charge: selectedPlanChat?.total,
           },
         ];
       }

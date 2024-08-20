@@ -748,7 +748,7 @@ export const getBuyButton = ({
         total={total}
         promotion={promotion}
         paymentMethod={paymentMethodName}
-        chatPlanId={selectedPlanChat?.planId}
+        selectedPlanChat={selectedPlanChat}
       />
     );
   }
@@ -762,7 +762,7 @@ export const getBuyButton = ({
       promocode={promotion?.promocode ?? ''}
       monthPlan={selectedDiscount?.numberMonths}
       newCheckoutEnabled={redirectNewCheckout}
-      chatPlanId={selectedPlanChat?.planId}
+      chatPlanId={selectedPlanChat?.planChat?.planId}
       hasChatActive={hasChatActive}
     />
   );
