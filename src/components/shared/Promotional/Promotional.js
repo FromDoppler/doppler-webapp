@@ -9,6 +9,7 @@ export const Promotional = ({
   paragraph,
   actionText,
   actionUrl,
+  actionFunc,
   logoUrl,
   previewUrl,
   caption,
@@ -40,9 +41,15 @@ export const Promotional = ({
               {paragraph ? <span className="dp-cta-paragraph">{paragraph}</span> : null}
 
               <div className="dp-actions">
-                <a href={actionUrl} className="dp-button button-big primary-green">
-                  {actionText}
-                </a>
+                {actionFunc ? (
+                  <button className="dp-button button-big primary-green" onClick={actionFunc()}>
+                    {actionText}
+                  </button>
+                ) : (
+                  <a href={actionUrl} className="dp-button button-big primary-green">
+                    {actionText}
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -64,6 +71,7 @@ Promotional.propTypes = {
   paragraph: PropTypes.string,
   actionText: PropTypes.string.isRequired,
   actionUrl: PropTypes.string.isRequired,
+  actionFunc: PropTypes.func,
   logoUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   previewUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   caption: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
