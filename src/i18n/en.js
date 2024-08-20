@@ -8,6 +8,7 @@ const urlReports = process.env.REACT_APP_REPORTS_URL;
 const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
+const urlConversations = process.env.REACT_APP_DOPPLER_CONVERSATIONS_URL;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -541,6 +542,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     control_panel: `Control Panel`,
     control_panel_section_url: `${urlControlPanel}`,
     control_panel_url: `${urlControlPanelMain}`,
+    conversations_index_url: `${urlConversations}/external-login`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
     emails: 'Emails',
     empty_data: `Your domain has no data to show in this section yet.`,
