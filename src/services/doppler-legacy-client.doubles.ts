@@ -257,6 +257,11 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
       return { success: true, message: 'Missing account' };
     }
   }
+
+  public async activateConversationPlan(): Promise<boolean> {
+    await 1500;
+    return true;
+  }
 }
 
 // Dummy Data

@@ -41,6 +41,7 @@ export interface DopplerLegacyClient {
     token: string,
     model: RequestCollaborationInviteModel | undefined,
   ): Promise<ReturnConfirmCollaborationInvite>;
+  activateConversationPlan(): Promise<boolean>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -1261,5 +1262,10 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
 
     return { success: response.data.success, message: response.data.message };
+  }
+
+  public async activateConversationPlan(): Promise<boolean> {
+    const response = await this.axios.post('WebApp/createConversationAccount');
+    return response.data.success;
   }
 }
