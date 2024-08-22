@@ -656,6 +656,12 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     subtitle_MD: "Here you'll find all the **information about your account**, and you can configure your **Campaigns Preferences and domains**.",
     title: 'Control Panel',
   },
+  conversations: {
+    actionText: 'Start Free trial',
+    description: 'Communicate with your clients from one place, centralize and automate all your interactions.',
+    paragraph: 'You will be able to manage Web Chatbot, Social Media Chatbot, WhatsApp Chatbot y WhatsApp Marketing.',
+    title: 'Manage communication with your users through Doppler Conversations',
+  },
   dashboard: {
     campaigns: {
       link_title: 'SEE ALL',

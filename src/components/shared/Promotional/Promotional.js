@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyledPromotionalLogo, StyledPromotionalPreviewImg } from './Promotional.styles';
+import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 
 export const Promotional = ({
   title,
@@ -13,6 +14,7 @@ export const Promotional = ({
   logoUrl,
   previewUrl,
   caption,
+  errorMessage,
 }) => {
   return (
     <section className="p-t-54 p-b-54">
@@ -39,7 +41,14 @@ export const Promotional = ({
               ) : null}
 
               {paragraph ? <span className="dp-cta-paragraph">{paragraph}</span> : null}
-
+              {errorMessage ? (
+                <div className="dp-wrap-message dp-wrap-cancel">
+                  <span className="dp-message-icon"></span>
+                  <div className="dp-content-message">
+                    <FormattedMessageMarkdown id={errorMessage} linkTarget={'_blank'} />
+                  </div>
+                </div>
+              ) : null}
               <div className="dp-actions">
                 {actionFunc ? (
                   <button className="dp-button button-big primary-green" onClick={actionFunc()}>
@@ -75,4 +84,5 @@ Promotional.propTypes = {
   logoUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   previewUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   caption: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  errorMessage: PropTypes.string,
 };

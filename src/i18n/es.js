@@ -656,6 +656,12 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     subtitle_MD: 'Aquí encontrarás toda la **información relativa a tu cuenta** y podrás configurar tus **Preferencias de Campañas y dominios**.',
     title: 'Panel de Control',
   },
+  conversations: {
+    actionText: 'Iniciar Prueba Gratis',
+    description: 'Comunícate con tus clientes desde un solo lugar, centraliza y automatiza todas tus interacciones.',
+    paragraph: 'Podrás administrar Web Chatbot, Social Media Chatbot, WhatsApp Chatbot y WhatsApp Marketing.',
+    title: 'Gestiona la comunicación con tus usuarios a través de Doppler Conversaciones',
+  },
   dashboard: {
     campaigns: {
       link_title: 'VER TODAS',

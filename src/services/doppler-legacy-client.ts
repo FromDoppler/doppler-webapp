@@ -1266,6 +1266,6 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
   public async activateConversationPlan(): Promise<boolean> {
     const response = await this.axios.post('WebApp/createConversationAccount');
-    return response.data;
+    return response.data.success;
   }
 }
