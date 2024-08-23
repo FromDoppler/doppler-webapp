@@ -59,6 +59,8 @@ export const PlanChat = InjectAppServices(
 
       if (itemRef.current) {
         addItem(selectedPlan);
+      } else {
+        setItem(null);
       }
     }, [selectedPlan, addItem, selectedPlanIndex]);
 

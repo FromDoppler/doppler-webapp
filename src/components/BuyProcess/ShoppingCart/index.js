@@ -263,7 +263,10 @@ export const ShoppingCart = InjectAppServices(
       disabledLandingsBuy,
       checkoutLandingPackButtonEnabled,
       cancelLandings,
-      selectedPlanChat,
+      selectedPlanChat: {
+        planChat: selectedPlanChat,
+        total: amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0,
+      },
       hasChatActive,
     });
 
