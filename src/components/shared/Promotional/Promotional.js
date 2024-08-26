@@ -18,7 +18,7 @@ export const Promotional = ({
 }) => {
   const [buttonClicked, setbuttonClicked] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (actionFunc) => {
     setbuttonClicked(true);
     actionFunc();
   };
@@ -63,7 +63,7 @@ export const Promotional = ({
                       buttonClicked && !errorMessage ? 'button--loading' : ''
                     } `}
                     disabled={buttonClicked}
-                    onClick={() => handleButtonClick()}
+                    onClick={() => handleButtonClick(actionFunc())}
                   >
                     {actionText}
                   </button>
