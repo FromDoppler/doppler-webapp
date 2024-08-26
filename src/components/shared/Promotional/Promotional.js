@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyledPromotionalLogo, StyledPromotionalPreviewImg } from './Promotional.styles';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
@@ -16,6 +16,13 @@ export const Promotional = ({
   caption,
   errorMessage,
 }) => {
+  const [buttonClicked, setbuttonClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setbuttonClicked(true);
+    actionFunc();
+  };
+
   return (
     <section className="p-t-54 p-b-54">
       <div className="dp-container">
@@ -51,7 +58,13 @@ export const Promotional = ({
               ) : null}
               <div className="dp-actions">
                 {actionFunc ? (
-                  <button className="dp-button button-big primary-green" onClick={actionFunc()}>
+                  <button
+                    className={`dp-button button-big primary-green ${
+                      buttonClicked && !errorMessage ? 'button--loading' : ''
+                    } `}
+                    disabled={buttonClicked}
+                    onClick={() => handleButtonClick()}
+                  >
                     {actionText}
                   </button>
                 ) : (
