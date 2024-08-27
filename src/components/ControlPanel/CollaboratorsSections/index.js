@@ -171,7 +171,7 @@ export const CollaboratorsSections = InjectAppServices(
                         </td>
                         <td aria-label="Fecha de Invitacion">
                           <div className="dp-icon-wrapper">
-                            <span>{item.invitationDate}</span>
+                            <span>{new Date(item.invitationDate).toLocaleDateString(intl.locale)}</span>
                           </div>
                         </td>
                         <td aria-label="estado">
