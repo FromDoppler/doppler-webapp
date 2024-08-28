@@ -658,7 +658,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     title: 'Control Panel',
   },
   conversations: {
-    actionText: 'Start Free trial',
+    actionText: 'TRY IT FOR FREE',
     description: 'Communicate with your clients from one place, centralize and automate all your interactions.',
     paragraph: 'You will be able to manage Web Chatbot, Social Media Chatbot, WhatsApp Chatbot y WhatsApp Marketing.',
     title: 'Manage communication with your users through Doppler Conversations',
