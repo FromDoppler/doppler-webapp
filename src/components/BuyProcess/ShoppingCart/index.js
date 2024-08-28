@@ -50,6 +50,7 @@ export const ShoppingCart = InjectAppServices(
     canChatPlanRemove = true,
     hasChatActive,
     disabledPromocode = false,
+    addMarketingPlan = true,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -196,6 +197,7 @@ export const ShoppingCart = InjectAppServices(
     const items = [];
     const isTransfer = paymentMethodName === PaymentMethodType.transfer;
     selectedMarketingPlan &&
+      addMarketingPlan &&
       items.push(
         mapItemFromMarketingPlan({
           marketingPlan: selectedMarketingPlan,
@@ -238,12 +240,12 @@ export const ShoppingCart = InjectAppServices(
         }),
       );
     const total =
-      (amountDetailsData?.value?.currentMonthTotal ?? 0) +
+      (addMarketingPlan ? amountDetailsData?.value?.currentMonthTotal ?? 0 : 0) +
       (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
       (amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0);
 
     const nextMonthTotal =
-      (amountDetailsData?.value?.nextMonthTotal ?? 0) +
+      (addMarketingPlan ? amountDetailsData?.value?.nextMonthTotal ?? 0 : 0) +
       (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
       (amountDetailsPlanChatData?.value?.nextMonthTotal ?? 0);
 
@@ -354,9 +356,11 @@ export const ShoppingCart = InjectAppServices(
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'
-                  : buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
-                    ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
-                    : 'buy_process.upcoming_bills.marketing_plan_subtitle'
+                  : addMarketingPlan
+                    ? buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
+                      ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
+                      : 'buy_process.upcoming_bills.marketing_plan_subtitle'
+                    : 'buy_process.upcoming_bills.chat_plan_subtitle'
               }
             />
           )}

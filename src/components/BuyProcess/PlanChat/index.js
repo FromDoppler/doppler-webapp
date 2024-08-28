@@ -9,7 +9,12 @@ import { UnexpectedError } from '../UnexpectedError';
 import { SelectedPlanChat } from './SelectedPlanChat';
 import { PlanChatInfo } from './PlanChatInfo';
 import { ShoppingCart } from '../ShoppingCart';
-import { BUY_CHAT_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
+import {
+  BUY_CHAT_PLAN,
+  BUY_MARKETING_PLAN,
+  PLAN_TYPE,
+  PaymentMethodType,
+} from '../../../doppler-types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PlanBenefits } from './PlanBenefits';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
@@ -23,6 +28,8 @@ export const PlanChat = InjectAppServices(
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
     const monthPlan = query.get('monthPlan') ?? 0;
+    const buyType = query.get('buyType') ?? '1';
+
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
 
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
@@ -183,6 +190,7 @@ export const PlanChat = InjectAppServices(
                 isEqualPlan={false}
                 buyType={BUY_CHAT_PLAN}
                 disabledPromocode={true}
+                addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
               />
             </div>
           </div>
