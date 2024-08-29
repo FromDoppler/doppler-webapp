@@ -749,6 +749,7 @@ export const getBuyButton = ({
         promotion={promotion}
         paymentMethod={paymentMethodName}
         selectedPlanChat={selectedPlanChat}
+        buyType={buyType}
       />
     );
   }
