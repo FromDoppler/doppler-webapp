@@ -20,7 +20,12 @@ import { TransferInformation } from './TransferInformation/index';
 import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
-import { BUY_LANDING_PACK, PLAN_TYPE } from '../../../../doppler-types';
+import {
+  BUY_CHAT_PLAN,
+  BUY_LANDING_PACK,
+  BUY_MARKETING_PLAN,
+  PLAN_TYPE,
+} from '../../../../doppler-types';
 import { Link } from 'react-router-dom';
 import { AddOn } from '../../../shared/AddOn';
 import { useFetchLandingPacks } from '../../../../hooks/useFetchtLandingPacks';
@@ -544,7 +549,7 @@ export const CheckoutSummary = InjectAppServices(
                 paymentMethod={paymentMethod}
                 upgradePending={upgradePending}
               />
-              {isBuyMarketingPlan ? (
+              {buyType && Number(buyType) === BUY_MARKETING_PLAN ? (
                 <>
                   <PlanMarketingInformation
                     planType={planType}
@@ -562,6 +567,15 @@ export const CheckoutSummary = InjectAppServices(
                     />
                   )}
                 </>
+              ) : buyType && Number(buyType) === BUY_CHAT_PLAN ? (
+                chatUserPlan !== null && (
+                  <PlanChatInformation
+                    planType={planType}
+                    description={chatUserPlan.description}
+                    quantity={chatUserPlan.conversationQty}
+                    discount={discount}
+                  />
+                )
               ) : (
                 <PlanLandingPagesInformation1 />
               )}

@@ -162,6 +162,7 @@ const messages_en = {
     },
     subscriptions_title: `Subscriptions`,
     upcoming_bills: {
+      chat_plan_subtitle: `Chat Plans`,
       landing_pack_subtitle: `Landing Pages packs`,
       marketing_and_chat_plan_subtitle: `Marketing and Chat Plans`,
       marketing_plan_subtitle: `Marketing Plan`,

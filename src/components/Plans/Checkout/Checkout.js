@@ -8,6 +8,7 @@ import { Step } from './Step/Step';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import {
   BUY_LANDING_PACK,
+  BUY_MARKETING_PLAN,
   PLAN_TYPE,
   PaymentMethodType,
   URL_PLAN_TYPE,
@@ -66,6 +67,7 @@ const Checkout = InjectAppServices(
     const monthPlan = query.get('monthPlan') ?? 0;
     const landingIdsStr = query.get('landing-ids') ?? '';
     const landingsQtyStr = query.get('landing-packs') ?? '';
+    const buyType = query.get('buyType') ?? '1';
     const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
     const chat = appSessionRef.current.userData.user.chat;
@@ -322,6 +324,8 @@ const Checkout = InjectAppServices(
                   isArgentina={isArgentina}
                   selectedPlanChat={selectedChatPlan}
                   canChatPlanRemove={false}
+                  buyType={buyType}
+                  addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                 />
               )}
             </div>

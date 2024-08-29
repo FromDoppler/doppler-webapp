@@ -24,6 +24,7 @@ export const CheckoutButton = InjectAppServices(
     promotion,
     paymentMethod,
     selectedPlanChat,
+    buyType = BUY_MARKETING_PLAN,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -61,7 +62,7 @@ export const CheckoutButton = InjectAppServices(
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?planId=${planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
+          window.location.href = `/checkout-summary?planId=${planId}&buyType=${buyType}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
             discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
           }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
             promotion?.discountPercentage

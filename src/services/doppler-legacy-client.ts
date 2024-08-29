@@ -649,7 +649,8 @@ export function mapHeaderDataJson(json: any) {
       locationCountry: json.user.locationCountry,
       landings: json.user.landings,
       chat: {
-        active: process.env.REACT_APP_DOPPLER_CAN_BUY_CHAT_PLAN === 'true' && json.user.chat.active,
+        active:
+          process.env.REACT_APP_DOPPLER_CAN_BUY_CHAT_PLAN === 'true' && json.user.chat?.active,
         plan: mapChatPlanEntry(json.user.chat?.planData),
       },
     },
