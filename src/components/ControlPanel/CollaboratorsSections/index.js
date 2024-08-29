@@ -171,7 +171,17 @@ export const CollaboratorsSections = InjectAppServices(
                         </td>
                         <td aria-label="Fecha de Invitacion">
                           <div className="dp-icon-wrapper">
-                            <span>{new Date(item.invitationDate).toLocaleDateString(intl.locale)}</span>
+                            <span>
+                              {intl.formatDate(new Date(item.invitationDate + 'Z'), {
+                                day: 'numeric',
+                                month: 'numeric',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: true,
+                              })}
+                            </span>
                           </div>
                         </td>
                         <td aria-label="estado">
