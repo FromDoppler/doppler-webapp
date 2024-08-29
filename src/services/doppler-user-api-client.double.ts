@@ -58,8 +58,8 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
     email: 'test@fromdoppler.com',
     firstname: 'Test',
     lastname: 'Test',
-    invitationDate: '03-07-2024',
-    expirationDate: '03-07-2024',
+    invitationDate: '2024-08-15T02:12:09',
+    expirationDate: '2024-08-16T13:19:37',
     invitationStatus: 'PENDING',
   },
   {
@@ -67,8 +67,8 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
     email: 'test2@fromdoppler.com',
     firstname: 'Test 2',
     lastname: 'Test 2',
-    invitationDate: '03-07-2024',
-    expirationDate: '03-07-2024',
+    invitationDate: '2024-07-03T00:00:00',
+    expirationDate: '2024-07-04T00:00:00',
     invitationStatus: 'APPROVED',
   },
 ];

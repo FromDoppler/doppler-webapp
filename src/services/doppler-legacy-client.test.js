@@ -621,4 +621,18 @@ describe('Doppler legacy client', () => {
     expect(result.success).toBe(true);
     expect(result.message).toBe('success');
   });
+
+  it('should successfully activate conversations feature', async () => {
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    axios.post.mockResolvedValue({ data: { success: true } });
+
+    // Act
+    const result = await sut.activateConversationPlan();
+
+    // Assert
+    expect(result).toBe(true);
+  });
 });
