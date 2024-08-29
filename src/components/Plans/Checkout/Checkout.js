@@ -324,7 +324,7 @@ const Checkout = InjectAppServices(
                   isArgentina={isArgentina}
                   selectedPlanChat={selectedChatPlan}
                   canChatPlanRemove={false}
-                  buyType={buyType}
+                  buyType={parseInt(buyType)}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                 />
               )}
