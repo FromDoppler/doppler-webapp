@@ -5,6 +5,7 @@ import screenShot from './Conversaciones.png';
 import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import RedirectToExternalUrl from '../RedirectToExternalUrl';
+import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 
 export const Conversations = InjectAppServices(
   ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
@@ -30,7 +31,23 @@ export const Conversations = InjectAppServices(
       <Promotional
         title={_('conversations.title')}
         description={_('conversations.description')}
-        paragraph={_('conversations.paragraph')}
+        features={[
+          <FormattedMessageMarkdown id={'conversations.features.web_chatbot_MD'} />,
+          <FormattedMessageMarkdown id={'conversations.features.social_media_chatbot_MD'} />,
+          <FormattedMessageMarkdown id={'conversations.features.whatsApp_chatbot_MD'} />,
+          <FormattedMessageMarkdown id={'conversations.features.whatsApp_marketing_MD'} />,
+          <FormattedMessageMarkdown id={'conversations.features.decision_tree_MD'} />,
+        ]}
+        paragraph_MD={
+          <FormattedMessageMarkdown
+            id={
+              isFreeAccount
+                ? 'conversations.paragraph_free_MD'
+                : 'conversations.paragraph_not_free_MD'
+            }
+            className="m-t-24 m-b-24"
+          />
+        }
         actionText={_('conversations.actionText').toUpperCase()}
         actionUrl=""
         actionFunc={() => handleClick}

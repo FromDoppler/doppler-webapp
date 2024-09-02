@@ -8,6 +8,7 @@ export const Promotional = ({
   description,
   features,
   paragraph,
+  paragraph_MD,
   actionText,
   actionUrl,
   actionFunc,
@@ -48,6 +49,7 @@ export const Promotional = ({
               ) : null}
 
               {paragraph ? <span className="dp-cta-paragraph">{paragraph}</span> : null}
+              {React.isValidElement(paragraph_MD) ? paragraph_MD : <span>{paragraph_MD}</span>}
               {errorMessage ? (
                 <div className="dp-wrap-message dp-wrap-cancel">
                   <span className="dp-message-icon"></span>
@@ -91,6 +93,7 @@ Promotional.propTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   features: PropTypes.array,
   paragraph: PropTypes.string,
+  paragraph_MD: PropTypes.string,
   actionText: PropTypes.string.isRequired,
   actionUrl: PropTypes.string.isRequired,
   actionFunc: PropTypes.func,
