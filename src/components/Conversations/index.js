@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Promotional } from '../shared/Promotional/Promotional';
 import { useIntl } from 'react-intl';
-import screenShot from './screenShot.png';
+import screenShot from './Conversaciones.png';
 import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import RedirectToExternalUrl from '../RedirectToExternalUrl';
