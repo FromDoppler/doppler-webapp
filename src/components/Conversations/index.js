@@ -45,7 +45,7 @@ export const Conversations = InjectAppServices(
                 ? 'conversations.paragraph_free_MD'
                 : 'conversations.paragraph_not_free_MD'
             }
-            className="m-t-24 m-b-24"
+            className="m-b-12"
           />
         }
         actionText={_('conversations.actionText').toUpperCase()}
