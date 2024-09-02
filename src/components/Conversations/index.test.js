@@ -19,6 +19,17 @@ describe('Conversations component', () => {
       dopplerLegacyClient: {
         activateConversationPlan: () => ({ success: true }),
       },
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                isFreeAccount: true,
+              },
+            },
+          },
+        },
+      },
     };
 
     // Act
@@ -35,6 +46,6 @@ describe('Conversations component', () => {
     // Assert
     expect(screen.getByText('conversations.title')).toBeInTheDocument();
     expect(screen.getByText('conversations.description')).toBeInTheDocument();
-    expect(screen.getByText('conversations.paragraph')).toBeInTheDocument();
+    expect(screen.getByText('conversations.paragraph_free_MD')).toBeInTheDocument();
   });
 });

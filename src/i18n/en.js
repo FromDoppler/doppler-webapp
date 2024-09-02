@@ -659,10 +659,18 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     title: 'Control Panel',
   },
   conversations: {
-    actionText: 'TRY IT FOR FREE',
-    description: 'Communicate with your clients from one place, centralize and automate all your interactions.',
-    paragraph: 'You will be able to manage Web Chatbot, Social Media Chatbot, WhatsApp Chatbot y WhatsApp Marketing.',
-    title: 'Manage communication with your users through Doppler Conversations',
+    actionText: 'Try it for free',
+    description: 'Increase your sales by 40% with one solution, centralizing all your channels in one platform. Save time and secure every sale!',
+    features: {
+      decision_tree_MD: '**Decision Tree:** Design the conversational journey that users will have every time they communicate with your brand.',
+      social_media_chatbot_MD: '**Social Media Chatbot:** Manage queries coming from Facebook and Instagram on a single dashboard, providing personalized attention.',
+      web_chatbot_MD: "**Web Chatbot:** Manage your user's attention in real time and convert your visitors into customers.",
+      whatsApp_chatbot_MD: "**WhatsApp Chatbot:** Manage your user's attention in real time and convert your visitors into potential customers.",
+      whatsApp_marketing_MD: '**WhatsApp Marketing:** Automate and personalize instant messages and attract a larger audience.',
+    },
+    paragraph_free_MD: '**Implement Conversations in your Marketing Strategy!** You can try it during your free trial or until you use 500 Conversations.',
+    paragraph_not_free_MD: '**Implement Conversations in your Marketing Strategy!** You can try it free for 90 days or until you use 500 Conversations.',
+    title: 'Doppler Conversations',
   },
   dashboard: {
     campaigns: {
