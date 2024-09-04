@@ -14,6 +14,7 @@ export const Promotional = ({
   actionFunc,
   logoUrl,
   previewUrl,
+  previewFunc,
   caption,
   errorMessage,
 }) => {
@@ -78,8 +79,12 @@ export const Promotional = ({
             </div>
           </div>
           <div className="col-lg-6 col-md-12">
-            <figure className="dp-img-promotion">
-              <StyledPromotionalPreviewImg src={previewUrl} alt={title} />
+            <figure className={`dp-img-promotion ${previewFunc ? 'clickable' : ''} `}>
+              <StyledPromotionalPreviewImg
+                src={previewUrl}
+                alt={title}
+                onClick={previewFunc ? previewFunc() : null}
+              />
               {caption ? <figcaption>{caption}</figcaption> : null}
             </figure>
           </div>
@@ -93,12 +98,13 @@ Promotional.propTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   features: PropTypes.array,
   paragraph: PropTypes.string,
-  paragraph_MD: PropTypes.string,
+  paragraph_MD: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   actionText: PropTypes.string.isRequired,
   actionUrl: PropTypes.string.isRequired,
   actionFunc: PropTypes.func,
   logoUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   previewUrl: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  previewFunc: PropTypes.func,
   caption: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   errorMessage: PropTypes.string,
 };
