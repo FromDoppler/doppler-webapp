@@ -701,7 +701,7 @@ export const getBuyButton = ({
         <LandingPackCheckoutButton
           keyTextButton={'buy_process.buy_now_title'}
           canBuy={canBuy}
-          landingPacks={landingPacks.map((lp) => ({
+          landingPacks={landingPacks?.map((lp) => ({
             landingPlanId: lp.planId,
             landingQty: lp.packagesQty,
             fee: lp.price,

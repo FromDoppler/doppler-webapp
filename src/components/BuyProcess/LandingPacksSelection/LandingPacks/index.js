@@ -3,25 +3,26 @@ import { Formik, Field, Form, FieldArray, useFormikContext } from 'formik';
 import { MAX_LANDING_PACKAGE, numberFormatOptions } from '../../../../doppler-types';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
-const fieldNames = {
+const landingsFieldNames = {
   landingPackages: 'landingPackages',
   packagesQty: 'packagesQty',
 };
 
 export const isInvalidInputValue = (values, index) =>
-  values[`${fieldNames.landingPackages}`][index][`${fieldNames.packagesQty}`] < 0 ||
-  values[`${fieldNames.landingPackages}`][index][`${fieldNames.packagesQty}`] > MAX_LANDING_PACKAGE;
+  values[`${landingsFieldNames.landingPackages}`][index][`${landingsFieldNames.packagesQty}`] < 0 ||
+  values[`${landingsFieldNames.landingPackages}`][index][`${landingsFieldNames.packagesQty}`] >
+    MAX_LANDING_PACKAGE;
 
 export const isGreatherToMax = (landingPacksSet) =>
   landingPacksSet.findIndex(
-    (landingPack) => landingPack[fieldNames.packagesQty] > MAX_LANDING_PACKAGE,
+    (landingPack) => landingPack[landingsFieldNames.packagesQty] > MAX_LANDING_PACKAGE,
   ) > -1;
 
 export const isLessToMin = (landingPacksSet) =>
-  landingPacksSet.findIndex((landingPack) => landingPack[fieldNames.packagesQty] < 0) > -1;
+  landingPacksSet.findIndex((landingPack) => landingPack[landingsFieldNames.packagesQty] < 0) > -1;
 
 export const filterPackagesEqualOrGreatherToZero = (landingPacksSet) =>
-  landingPacksSet.filter((landingPack) => landingPack[fieldNames.packagesQty] > 0);
+  landingPacksSet.filter((landingPack) => landingPack[landingsFieldNames.packagesQty] > 0);
 
 export const ButtonLess = ({ handleInputValue, index }) => {
   const { values, setFieldValue } = useFormikContext();
@@ -32,8 +33,10 @@ export const ButtonLess = ({ handleInputValue, index }) => {
       onClick={() =>
         handleInputValue(
           setFieldValue,
-          values[`${fieldNames.landingPackages}`][index][`${fieldNames.packagesQty}`],
-          `${fieldNames.landingPackages}.${index}.${fieldNames.packagesQty}`,
+          values[`${landingsFieldNames.landingPackages}`][index][
+            `${landingsFieldNames.packagesQty}`
+          ],
+          `${landingsFieldNames.landingPackages}.${index}.${landingsFieldNames.packagesQty}`,
           '-',
         )
       }
@@ -77,8 +80,10 @@ export const ButtonMore = ({ handleInputValue, index }) => {
       onClick={() =>
         handleInputValue(
           setFieldValue,
-          values[`${fieldNames.landingPackages}`][index][`${fieldNames.packagesQty}`],
-          `${fieldNames.landingPackages}.${index}.${fieldNames.packagesQty}`,
+          values[`${landingsFieldNames.landingPackages}`][index][
+            `${landingsFieldNames.packagesQty}`
+          ],
+          `${landingsFieldNames.landingPackages}.${index}.${landingsFieldNames.packagesQty}`,
           '+',
         )
       }
@@ -100,8 +105,10 @@ export const LandingPacks = ({
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const handleSubmit = (landingPacksSet) =>
-    handleSave(filterPackagesEqualOrGreatherToZero(landingPacksSet));
+  const handleSubmit = (landingPacksSet) => {
+    const landings = filterPackagesEqualOrGreatherToZero(landingPacksSet);
+    handleSave(landings);
+  };
 
   const handleInputValue = (setFieldValue, currentValue, fieldName, operation) => {
     if (operation === '+') {
@@ -114,7 +121,7 @@ export const LandingPacks = ({
   };
 
   const validateBeforeSubmit = (values) => {
-    const landingPacksSet = values[fieldNames.landingPackages];
+    const landingPacksSet = values[landingsFieldNames.landingPackages];
     if (!isGreatherToMax(landingPacksSet) && !isLessToMin(landingPacksSet)) {
       handleSubmit(landingPacksSet);
     }
@@ -133,10 +140,10 @@ export const LandingPacks = ({
       >
         {({ values }) => (
           <Form className="awa-form dp-packs">
-            <FieldArray name={fieldNames.landingPackages}>
+            <FieldArray name={landingsFieldNames.landingPackages}>
               <>
-                {values[fieldNames.landingPackages].length > 0 &&
-                  values[fieldNames.landingPackages].map((landingPack, index) => (
+                {values[landingsFieldNames.landingPackages].length > 0 &&
+                  values[landingsFieldNames.landingPackages].map((landingPack, index) => (
                     <fieldset key={`pack${index}`}>
                       <div className="dp-pack-box">
                         <p className="dp-mark">
@@ -185,13 +192,13 @@ export const LandingPacks = ({
                         >
                           <ButtonLess handleInputValue={handleInputValue} index={index} />
                           <Field
-                            name={`${fieldNames.landingPackages}.${index}.${fieldNames.packagesQty}`}
+                            name={`${landingsFieldNames.landingPackages}.${index}.${landingsFieldNames.packagesQty}`}
                             type="number"
                             placeholder="0"
                             aria-required="true"
                             aria-placeholder="0"
                             aria-invalid={isInvalidInputValue(values, index)}
-                            aria-label={`${fieldNames.landingPackages}.${index}.${fieldNames.packagesQty}`}
+                            aria-label={`${landingsFieldNames.landingPackages}.${index}.${landingsFieldNames.packagesQty}`}
                             min={0}
                             max={MAX_LANDING_PACKAGE}
                           />
