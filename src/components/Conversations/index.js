@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Promotional } from '../shared/Promotional/Promotional';
 import { useIntl } from 'react-intl';
 import screenShot from './Conversaciones.png';
@@ -16,7 +16,6 @@ export const Conversations = InjectAppServices(
     const [redirectToConversations, setRedirectToConversations] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [playing, setPlaying] = useState(true);
     const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
@@ -29,12 +28,6 @@ export const Conversations = InjectAppServices(
 
     const handleImgClick = async () => {
       setModalIsOpen(true);
-    };
-
-    const handleProgress = (state) => {
-      if (state.playedSeconds >= state.loadedSeconds - 2) {
-        setPlaying(false);
-      }
     };
 
     if (redirectToConversations) {
@@ -52,10 +45,10 @@ export const Conversations = InjectAppServices(
           <ReactPlayer
             url="https://www.youtube.com/watch?v=xzpyU2Zml04"
             controls={true}
-            playing={playing}
+            playing={true}
+            loop={true}
             width={'800px'}
             height={'450px'}
-            onProgress={handleProgress}
             config={{
               youtube: {
                 playerVars: { rel: 0 },
