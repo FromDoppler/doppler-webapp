@@ -18,7 +18,7 @@ const Modal = ({ isOpen, type = 'medium', handleClose, className, children, moda
 };
 Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf(['small', 'medium', 'large']),
+  type: PropTypes.oneOf(['small', 'medium', 'large', 'extra-large']),
   handleClose: PropTypes.func.isRequired,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
