@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Promotional } from '../shared/Promotional/Promotional';
 import { useIntl } from 'react-intl';
 import screenShot from './Conversaciones.png';
@@ -17,7 +17,7 @@ export const Conversations = InjectAppServices(
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [playing, setPlaying] = useState(true);
-    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
       if (await dopplerLegacyClient.activateConversationPlan()) {
@@ -85,7 +85,7 @@ export const Conversations = InjectAppServices(
             />
           }
           actionText={_('conversations.actionText').toUpperCase()}
-          actionUrl=""
+          actionUrl={isFreeAccount && trialExpired ? 'url a comprar' : ''}
           actionFunc={() => handleButtonClick}
           logoUrl={logo}
           previewUrl={screenShot}

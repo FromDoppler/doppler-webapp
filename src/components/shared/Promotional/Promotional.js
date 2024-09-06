@@ -60,7 +60,7 @@ export const Promotional = ({
                 </div>
               ) : null}
               <div className="dp-actions">
-                {actionFunc ? (
+                {actionFunc && actionUrl === '' ? (
                   <button
                     className={`dp-button button-big primary-green ${
                       buttonClicked && !errorMessage ? 'button--loading' : ''
