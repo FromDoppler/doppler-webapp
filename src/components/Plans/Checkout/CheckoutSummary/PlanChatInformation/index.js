@@ -11,7 +11,7 @@ export const PlanChatInformation = ({ planType, description, quantity, discount 
       <ul className="dp-purchase-summary-list">
         <li>
           <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
-          <h3>{description}</h3>
+          <h3>{_(`checkoutProcessSuccess.chat_plan_label`)}</h3>
         </li>
         <li>
           <span>{_(`checkoutProcessSuccess.chat_plan_acquired_conversations`)}</span>

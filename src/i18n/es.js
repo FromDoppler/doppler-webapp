@@ -442,6 +442,7 @@ const messages_es = {
     chat_plan_acquired_conversations: 'Conversaciones adquiridas',
     chat_plan_billing_title: 'Renovación',
     chat_plan_default_billing: 'Mensual',
+    chat_plan_label: 'Conversaciones',
     chat_plan_title: 'Tu plan de conversaciones',
     chat_plan_type_label: 'Tipo de Plan',
     discount_half_yearly: '6 meses',
