@@ -36,6 +36,7 @@ const urlMasterSubscriber = `${urlDopplerLegacy}/Lists/MasterSubscriber/`;
 const urlCreateSubscriberList = `${urlDopplerLegacy}/Lists/List`;
 const urlDraft = `${urlDopplerLegacy}`;
 const urlUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/UpgradeAccount`;
+const urlPreUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/PreUpgrade`;
 const urlDkim = `${urlDopplerLegacy}/ControlPanel/AdvancedPreferences/Dkim`;
 
 const messages_es = {
@@ -661,6 +662,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
   },
   conversations: {
     actionText: 'Pruébalo Gratis',
+    actionText_expired: 'Elige tu plan',
+    actionUrl: `${urlPreUpgradePlan}?origin=conversations_promo_page`,
     description: 'Aumenta tus ventas un 40% con una solución, centralizando todos tus canales en una sola plataforma. ¡Ahorra tiempo y asegura cada venta!',
     features: {
       decision_tree_MD: '**Árbol de Decisiones:** Diseña el recorrido conversacional que tendrán los usuarios cada vez que se comuniquen con tu marca.',
@@ -670,6 +673,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       whatsApp_marketing_MD: '**WhatsApp Marketing:** Automatiza y personaliza mensajes instantáneos y capta mayor audiencia.',
     },
     paragraph_free_MD: '**¡Implementa Conversaciones en tu Estrategia de Marketing!** Puedes probarlo durante tu período gratuito o hasta que utilices 500 Conversaciones.',
+    paragraph_free_expired_MD: '**¡Implementa Conversaciones en tu Estrategia de Marketing!**  Adquiere un plan según tus necesidades.',
     paragraph_not_free_MD: '**¡Implementa Conversaciones en tu Estrategia de Marketing!** Puedes probarlo gratis durante 90 días o hasta que utilices 500 Conversaciones.',
     title: 'Doppler Conversaciones',
   },

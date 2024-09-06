@@ -16,8 +16,7 @@ export const Conversations = InjectAppServices(
     const [redirectToConversations, setRedirectToConversations] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [playing, setPlaying] = useState(true);
-    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
+    const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
       if (await dopplerLegacyClient.activateConversationPlan()) {
@@ -29,12 +28,6 @@ export const Conversations = InjectAppServices(
 
     const handleImgClick = async () => {
       setModalIsOpen(true);
-    };
-
-    const handleProgress = (state) => {
-      if (state.playedSeconds >= state.loadedSeconds - 2) {
-        setPlaying(false);
-      }
     };
 
     if (redirectToConversations) {
@@ -52,10 +45,10 @@ export const Conversations = InjectAppServices(
           <ReactPlayer
             url="https://www.youtube.com/watch?v=xzpyU2Zml04"
             controls={true}
-            playing={playing}
+            playing={true}
+            loop={true}
             width={'800px'}
             height={'450px'}
-            onProgress={handleProgress}
             config={{
               youtube: {
                 playerVars: { rel: 0 },
@@ -78,14 +71,20 @@ export const Conversations = InjectAppServices(
             <FormattedMessageMarkdown
               id={
                 isFreeAccount
-                  ? 'conversations.paragraph_free_MD'
+                  ? trialExpired
+                    ? 'conversations.paragraph_free_expired_MD'
+                    : 'conversations.paragraph_free_MD'
                   : 'conversations.paragraph_not_free_MD'
               }
               className="m-b-12"
             />
           }
-          actionText={_('conversations.actionText').toUpperCase()}
-          actionUrl=""
+          actionText={
+            isFreeAccount && trialExpired
+              ? _('conversations.actionText_expired').toUpperCase()
+              : _('conversations.actionText').toUpperCase()
+          }
+          actionUrl={isFreeAccount && trialExpired ? _('conversations.actionUrl') : ''}
           actionFunc={() => handleButtonClick}
           logoUrl={logo}
           previewUrl={screenShot}
