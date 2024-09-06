@@ -16,6 +16,7 @@ export const Conversations = InjectAppServices(
     const [redirectToConversations, setRedirectToConversations] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [playing, setPlaying] = useState(true);
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
@@ -28,6 +29,12 @@ export const Conversations = InjectAppServices(
 
     const handleImgClick = async () => {
       setModalIsOpen(true);
+    };
+
+    const handleProgress = (state) => {
+      if (state.playedSeconds >= state.loadedSeconds - 2) {
+        setPlaying(false);
+      }
     };
 
     if (redirectToConversations) {
@@ -43,11 +50,17 @@ export const Conversations = InjectAppServices(
           type={'extra-large'}
         >
           <ReactPlayer
-            url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+            url="https://www.youtube.com/watch?v=xzpyU2Zml04"
             controls={true}
-            playing={true}
+            playing={playing}
             width={'800px'}
             height={'450px'}
+            onProgress={handleProgress}
+            config={{
+              youtube: {
+                playerVars: { rel: 0 },
+              },
+            }}
           />
         </Modal>
 
