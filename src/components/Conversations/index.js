@@ -78,14 +78,20 @@ export const Conversations = InjectAppServices(
             <FormattedMessageMarkdown
               id={
                 isFreeAccount
-                  ? 'conversations.paragraph_free_MD'
+                  ? trialExpired
+                    ? 'conversations.paragraph_free_expired_MD'
+                    : 'conversations.paragraph_free_MD'
                   : 'conversations.paragraph_not_free_MD'
               }
               className="m-b-12"
             />
           }
-          actionText={_('conversations.actionText').toUpperCase()}
-          actionUrl={isFreeAccount && trialExpired ? 'url a comprar' : ''}
+          actionText={
+            isFreeAccount && trialExpired
+              ? _('conversations.actionText_expired').toUpperCase()
+              : _('conversations.actionText').toUpperCase()
+          }
+          actionUrl={isFreeAccount && trialExpired ? _('conversations.actionUrl') : ''}
           actionFunc={() => handleButtonClick}
           logoUrl={logo}
           previewUrl={screenShot}
