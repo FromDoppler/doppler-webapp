@@ -79,7 +79,7 @@ export const Promotional = ({
             </div>
           </div>
           <div className="col-lg-6 col-md-12">
-            <figure className={`dp-img-promotion ${previewFunc ? 'clickable' : ''} `}>
+            <figure className={`dp-img-promotion m-t-90 ${previewFunc ? 'clickable' : ''}`}>
               <StyledPromotionalPreviewImg
                 src={previewUrl}
                 alt={title}
