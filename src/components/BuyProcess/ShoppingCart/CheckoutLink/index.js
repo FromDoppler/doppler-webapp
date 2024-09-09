@@ -18,12 +18,12 @@ export const CheckoutLink = ({
 
   return (
     <TooltipContainer
-      visible={showTooltip}
+      visible={false}
       content={<FormattedMessage id="plan_calculator.button_purchase_tooltip" />}
       orientation="top"
     >
       <CheckoutLinkStyled
-        className={`dp-button button-big primary-green ${showTooltip ? 'disabled' : ''}`}
+        className={`dp-button button-big primary-green ${false ? 'disabled' : ''}`}
         href={getBuyPurchaseUrl({
           controlPanelUrl: <FormattedMessage id="common.control_panel_section_url" />,
           planType,
