@@ -650,7 +650,7 @@ export const ModalPromoLandingPacks = () => {
   }
 
   return (
-    <div className="modal" id="modal-medium">
+    <div className="modal bg-opacity--50" id="modal-medium">
       <div className="modal-content--medium">
         <div className="dp-modal-pack-landing">
           <Carousel
