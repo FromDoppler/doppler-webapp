@@ -68,6 +68,7 @@ const Signup = function ({
   const navigate = useNavigate();
   useLinkedinInsightTag();
   const { fingerPrintingId, fingerPrintingIdV2 } = useFingerPrinting();
+  const [formKey, setFormKey] = useState(0);
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
@@ -133,8 +134,9 @@ const Signup = function ({
     setBlockedDomains((x) => [...x, domain]);
   };
 
-  const validateCollaboratorEmail = async (email) => {
+  const validateCollaboratorEmail = async (value) => {
     const errors = {};
+    const email = value.trim();
     if (email !== currentEmail) {
       setCurrentEmail(email);
       const response = await dopplerLegacyClient.verifyUserAccountExistens(email);
@@ -167,7 +169,6 @@ const Signup = function ({
     });
 
     if (result.success) {
-      console.log(result);
       setFieldNames({
         firstname: result.value.firstName,
         lastname: result.value.lastName,
@@ -347,7 +348,7 @@ const Signup = function ({
           type="large"
           handleClose={() => {
             setCurrentEmail(null);
-            setFieldNames({ ...fieldNames, email: ' ' });
+            setFormKey(formKey + 1);
             setShowModal(false);
           }}
         >
@@ -427,7 +428,7 @@ const Signup = function ({
               initialValues={fieldNames}
               onSubmit={onSubmit}
               validate={validate}
-              enableReinitialize={true}
+              key={formKey}
             >
               <ScrollToFieldError fieldsOrder={Object.keys(fieldNames)} />
               <fieldset>
