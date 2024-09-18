@@ -26,6 +26,8 @@ import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { ScrollToFieldError } from '../shared/ScrollToFieldError';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
 import Modal from '../Modal/Modal';
+import { BlockedAccountNotPayed, LoginErrorBasedOnCustomerSupport } from '../Login/Login';
+import { LoginErrorAccountNotValidated } from '../Login/LoginErrorAccountNotValidated';
 
 const minLength = {
   min: 2,
@@ -65,11 +67,12 @@ const Signup = function ({
   const bannerDataState = useGetBannerData({ dopplerSitesClient, type: 'signup', page });
   const navigate = useNavigate();
   useLinkedinInsightTag();
-  const { fingerPrintingId } = useFingerPrinting();
+  const { fingerPrintingId, fingerPrintingIdV2 } = useFingerPrinting();
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [currentEmail, setCurrentEmail] = useState(null);
   const [disablePassword, setDisablePassword] = useState(false);
   const [fieldNames, setFieldNames] = useState({
     firstname: '',
@@ -80,6 +83,31 @@ const Signup = function ({
     accept_privacy_policies: '',
     accept_promotions: '',
   });
+
+  const errorMessages = {
+    blockedAccountNotPayed: {
+      msgReasonId: 'validation_messages.error_account_is_blocked_not_pay',
+      msgZohoChat: _('validation_messages.error_account_is_blocked_not_pay_zoho_chat_msg'),
+      msgEmailContact: 'validation_messages.error_account_is_blocked_not_pay_contact_support_MD',
+    },
+    cancelatedAccountNotPayed: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_not_pay',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_not_pay_zoho_chat_msg'),
+      msgEmailContact: 'validation_messages.error_account_is_canceled_not_pay_contact_support_MD',
+    },
+    cancelatedAccount: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_other_reason',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_other_reason_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_canceled_other_reason_contact_support_MD',
+    },
+    blockedAccountInvalidPassword: {
+      msgReasonId: 'validation_messages.error_account_is_blocked_invalid_password',
+      msgZohoChat: _('validation_messages.error_account_is_blocked_invalid_password_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_blocked_invalid_password_contact_support_MD',
+    },
+  };
 
   const utmParams = {
     UTMSource: query.get('utm_source') || getReferrerHostname() || 'direct',
@@ -121,6 +149,102 @@ const Signup = function ({
     }
     return (errors['email'] = '');
   };
+
+  const getCollaboratorFormInitialValues = () => {
+    const initialValues = getFormInitialValues(CollaboratorFormFieldNames);
+    initialValues[CollaboratorFormFieldNames.email] = currentEmail;
+
+    return initialValues;
+  };
+
+  const onSubmitCollaboratorForm = async (values, { setSubmitting, setErrors }) => {
+    const result = await dopplerLegacyClient.getUserAccountData({
+      username: values['email'].trim(),
+      password: values['password'],
+      captchaResponseToken: values['captchaResponseToken'],
+      fingerPrint: fingerPrintingId,
+      fingerPrintV2: fingerPrintingIdV2,
+    });
+
+    if (result.success) {
+      console.log(result);
+      setFieldNames({
+        firstname: result.value.firstName,
+        lastname: result.value.lastName,
+        phone: result.value.phone,
+        email: values['email'].trim(),
+        password: values['password'],
+        accept_privacy_policies: '',
+        accept_promotions: '',
+      });
+      setDisablePassword(true);
+      setSubmitting(false);
+      setShowModal(false);
+    } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
+      setErrors({
+        _error: <BlockedAccountNotPayed messages={errorMessages.blockedAccountNotPayed} />,
+      });
+    } else if (result.expectedError && result.expectedError.cancelatedAccountNotPayed) {
+      setErrors({
+        _error: (
+          <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccountNotPayed} />
+        ),
+      });
+    } else if (result.expectedError && result.expectedError.blockedUserUnknownDevice) {
+      setErrors({
+        _warning: 'validation_messages.warning_ip_validation_notification',
+      });
+    } else if (result.expectedError && result.expectedError.blockedUserPendingConfirmation) {
+      setErrors({
+        _warning: 'validation_messages.warning_ip_validation_notification',
+      });
+    } else if (result.expectedError && result.expectedError.userAccessDenied) {
+      setErrors({
+        _error: 'validation_messages.warning_user_access_denied',
+      });
+    } else if (result.expectedError && result.expectedError.userInactive) {
+      setErrors({
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+      });
+    } else if (result.expectedError && result.expectedError.accountNotValidated) {
+      setErrors({
+        _error: <LoginErrorAccountNotValidated email={values['email'].trim()} />,
+      });
+    } else if (result.expectedError && result.expectedError.cancelatedAccount) {
+      setErrors({
+        _error: <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccount} />,
+      });
+    } else if (result.expectedError && result.expectedError.blockedAccountCMDisabled) {
+      setErrors({
+        _error: (
+          <p>
+            <FormattedMessage id={'validation_messages.error_account_is_blocked_disabled_by_cm'} />
+            <strong>{result.expectedError.errorMessage}</strong>
+          </p>
+        ),
+      });
+    } else if (
+      result.expectedError &&
+      (result.expectedError.blockedAccountInvalidPassword || result.expectedError.maxLoginAttempts)
+    ) {
+      setErrors({
+        _error: (
+          <LoginErrorBasedOnCustomerSupport
+            messages={errorMessages.blockedAccountInvalidPassword}
+          />
+        ),
+      });
+    } else if (result.expectedError && result.expectedError.invalidLogin) {
+      setErrors({ _error: 'validation_messages.error_invalid_login' });
+    } else if (result.expectedError && result.expectedError.wrongCaptcha) {
+      setErrors({ _error: 'validation_messages.error_invalid_captcha' });
+    } else {
+      setErrors({
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+      });
+    }
+  };
+
   const validate = (values) => {
     const errors = {};
 

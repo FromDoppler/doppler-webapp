@@ -36,6 +36,12 @@ const defaultDependencies = {
   dopplerLegacyClient: {
     registerUser: () => ({ success: true }),
     resendRegistrationEmail: () => true,
+    verifyUserAccountExistens: () => ({
+      success: true,
+      email: 'dummy@fromdoppler.com',
+      associatedAsAccountOwner: false,
+      associatedAsAccountCollaborator: true,
+    }),
   },
   utmCookiesManager: new UtmCookiesManager({ cookie: '' }),
 };

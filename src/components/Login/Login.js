@@ -115,7 +115,7 @@ const MaxAttemptsSecurityQuestion = connect(
   },
 );
 
-const BlockedAccountNotPayed = ({ messages }) => {
+export const BlockedAccountNotPayed = ({ messages }) => {
   return (
     <>
       <p>
@@ -184,7 +184,7 @@ const isActivactionInProgress = (location) => {
   return parsedQuery && parsedQuery === 'true';
 };
 
-const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
+export const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
   return (
     <>
       <p>
