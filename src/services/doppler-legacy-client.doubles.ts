@@ -262,6 +262,16 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     await 1500;
     return true;
   }
+
+  public async verifyUserAccountExistens(email: string): Promise<any> {
+    await 1500;
+    return {
+      success: true,
+      email: email,
+      associatedAsAccountOwner: false,
+      associatedAsAccountCollaborator: true,
+    };
+  }
 }
 
 // Dummy Data
