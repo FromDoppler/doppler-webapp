@@ -105,6 +105,22 @@ const Signup = function ({
     setBlockedDomains((x) => [...x, domain]);
   };
 
+  const validateCollaboratorEmail = async (email) => {
+    const errors = {};
+    if (email !== currentEmail) {
+      setCurrentEmail(email);
+      const response = await dopplerLegacyClient.verifyUserAccountExistens(email);
+
+      if (response.success) {
+        if (response.associatedAsAccountOwner) {
+          return (errors['email'] = 'validation_messages.error_email_already_exists');
+        } else if (response.associatedAsAccountCollaborator) {
+          setShowModal(true);
+        }
+      }
+    }
+    return (errors['email'] = '');
+  };
   const validate = (values) => {
     const errors = {};
 

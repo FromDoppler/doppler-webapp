@@ -614,6 +614,7 @@ export const EmailFieldItemAccessible = ({
   withSubmitCount = true,
   required,
   disabled = false,
+  validateCollaboratorEmail,
   ...rest
 }) => {
   const { showError, errors } = useFormikErrors(fieldName, withSubmitCount);
@@ -633,7 +634,11 @@ export const EmailFieldItemAccessible = ({
           placeholder={placeholder}
           aria-invalid={showError}
           disabled={disabled}
-          validate={combineValidations(createRequiredValidation(required), validateEmail)}
+          validate={combineValidations(
+            createRequiredValidation(required),
+            validateEmail,
+            validateCollaboratorEmail,
+          )}
           {...rest}
         />
         <MessageError fieldName={fieldName} showError={showError} errors={errors} />
