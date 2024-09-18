@@ -481,7 +481,7 @@ const Login = ({
                 <PasswordFieldItem
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
-                  placeholder={_('signup.placeholder_password')}
+                  placeholder={_('login.placeholder_password')}
                   required
                 />
               </FieldGroup>
