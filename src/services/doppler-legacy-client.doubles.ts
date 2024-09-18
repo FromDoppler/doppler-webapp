@@ -19,6 +19,7 @@ import {
   AnswerType,
   RequestCollaborationInviteModel,
   ReturnConfirmCollaborationInvite,
+  UserAccountLoginResult,
 } from './doppler-legacy-client';
 import headerDataJson from '../headerData.json';
 import { timeout } from '../utils';
@@ -270,6 +271,20 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
       email: email,
       associatedAsAccountOwner: false,
       associatedAsAccountCollaborator: true,
+    };
+  }
+
+  public async getUserAccountData(model: LoginModel): Promise<UserAccountLoginResult> {
+    await 1500;
+    return {
+      success: true,
+      value: {
+        email: 'dummy@fromdoppler.com',
+        firstName: 'test',
+        lastName: 'local',
+        phone: '+54223564789',
+        userProfileType: '',
+      },
     };
   }
 }

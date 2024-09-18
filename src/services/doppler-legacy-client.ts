@@ -43,6 +43,7 @@ export interface DopplerLegacyClient {
   ): Promise<ReturnConfirmCollaborationInvite>;
   activateConversationPlan(): Promise<boolean>;
   verifyUserAccountExistens(email: string): Promise<any>;
+  getUserAccountData(model: LoginModel): Promise<UserAccountLoginResult>;
 }
 
 interface PayloadWithCaptchaToken {
