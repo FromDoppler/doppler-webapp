@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -24,16 +24,6 @@ import { useQueryParams } from '../../hooks/useQueryParams';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { ScrollToFieldError } from '../shared/ScrollToFieldError';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
-
-const fieldNames = {
-  firstname: 'firstname',
-  lastname: 'lastname',
-  phone: 'phone',
-  email: 'email',
-  password: 'password',
-  accept_privacy_policies: 'accept_privacy_policies',
-  accept_promotions: 'accept_promotions',
-};
 
 const minLength = {
   min: 2,
@@ -72,6 +62,15 @@ const Signup = function ({
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
+  const [fieldNames, setFieldNames] = useState({
+    firstname: '',
+    lastname: '',
+    phone: '',
+    email: '',
+    password: '',
+    accept_privacy_policies: '',
+    accept_promotions: '',
+  });
 
   const utmParams = {
     UTMSource: query.get('utm_source') || getReferrerHostname() || 'direct',
@@ -100,16 +99,16 @@ const Signup = function ({
   const validate = (values) => {
     const errors = {};
 
-    const email = values[fieldNames.email];
+    const email = values['email'];
     const domain = email && extractDomain(email);
-    const checkbox = values[fieldNames.accept_privacy_policies];
+    const checkbox = values['accept_privacy_policies'];
 
     if (email && alreadyExistentAddresses.includes(email)) {
-      errors[fieldNames.email] = 'validation_messages.error_email_already_exists';
+      errors['email'] = 'validation_messages.error_email_already_exists';
     } else if (domain && blockedDomains.includes(domain)) {
-      errors[fieldNames.email] = 'validation_messages.error_invalid_domain_to_register_account';
+      errors['email'] = 'validation_messages.error_invalid_domain_to_register_account';
     } else if (!checkbox) {
-      errors[fieldNames.accept_privacy_policies] = 'validation_messages.error_checkbox_policy';
+      errors['accept_privacy_policies'] = 'validation_messages.error_checkbox_policy';
     }
 
     return errors;
@@ -124,7 +123,7 @@ const Signup = function ({
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
-      email: values[fieldNames.email].trim(),
+      email: values['email'].trim(),
       language: intl.locale,
       origin,
       page,
@@ -153,11 +152,11 @@ const Signup = function ({
         });
       }
     } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
-      addExistentEmailAddress(values[fieldNames.email]);
+      addExistentEmailAddress(values['email']);
       validateForm();
       setSubmitting(false);
     } else if (result.expectedError && result.expectedError.blockedDomain) {
-      const domain = extractDomain(values[fieldNames.email]);
+      const domain = extractDomain(values['email']);
       addBlockedDomain(domain);
       validateForm();
       setSubmitting(false);
@@ -171,7 +170,7 @@ const Signup = function ({
       setErrors({ _error: 'validation_messages.error_invalid_domain' });
       setSubmitting(false);
       addLogEntry({
-        account: values[fieldNames.email],
+        account: values['email'],
         origin: window.location.origin,
         section: 'Signup',
         browser: window.navigator.userAgent,
