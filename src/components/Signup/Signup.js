@@ -13,6 +13,7 @@ import {
   InputFieldItemAccessible,
   EmailFieldItemAccessible,
   PhoneFieldItemAccessible,
+  PasswordFieldItem,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
@@ -24,10 +25,16 @@ import { useQueryParams } from '../../hooks/useQueryParams';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { ScrollToFieldError } from '../shared/ScrollToFieldError';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
+import Modal from '../Modal/Modal';
 
 const minLength = {
   min: 2,
   errorMessageKey: 'validation_messages.error_min_length_2',
+};
+
+const CollaboratorFormFieldNames = {
+  email: 'email',
+  password: 'password',
 };
 
 function getReferrerHostname() {
@@ -62,6 +69,8 @@ const Signup = function ({
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [disablePassword, setDisablePassword] = useState(false);
   const [fieldNames, setFieldNames] = useState({
     firstname: '',
     lastname: '',
@@ -191,141 +200,200 @@ const Signup = function ({
   };
 
   return (
-    <div className="dp-app-container">
-      <main className="panel-wrapper">
-        <Helmet>
-          <title>{_('signup.head_title')}</title>
-          <meta name="description" content={_('signup.head_description')} />
-        </Helmet>
-        <S.MainPanel className="main-panel">
-          <header>
-            <h1 className="logo-doppler-new">
-              <a target="_blank" href={_('signup.url_site') + location.search}>
-                Doppler
-              </a>
-            </h1>
-            <LanguageSelector urlParameters={location.search} />
-          </header>
-          <p id="content-subtitle" className="content-subtitle">
-            <FormattedMessage
-              id={`signup.sign_up_sub`}
-              values={{
-                Link: (chunk) => (
-                  <Link
-                    to={{ pathname: '/login', search: location.search }}
-                    className="link--title"
-                  >
-                    {chunk}
-                  </Link>
-                ),
-                Bold: (chunk) => <strong>{chunk}</strong>,
-              }}
-            />
-          </p>
+    <>
+      {showModal ? (
+        <Modal
+          isOpen={true}
+          type="large"
+          handleClose={() => {
+            setCurrentEmail(null);
+            setFieldNames({ ...fieldNames, email: ' ' });
+            setShowModal(false);
+          }}
+        >
+          <h2>{_('login.collaborator_login_title')}</h2>
+          <p>{_('login.collaborator_login_description')}</p>
           <FormWithCaptcha
-            className="signup-form"
-            initialValues={getFormInitialValues(fieldNames)}
-            onSubmit={onSubmit}
-            validate={validate}
+            className="login-form"
+            initialValues={getCollaboratorFormInitialValues()}
+            onSubmit={onSubmitCollaboratorForm}
+            enableReinitialize={true}
           >
-            <ScrollToFieldError fieldsOrder={Object.values(fieldNames)} />
-            <fieldset>
-              <FieldGroup>
-                <InputFieldItemAccessible
-                  autoFocus
-                  className="field-item--50"
-                  fieldName={fieldNames.firstname}
-                  label={_('signup.label_firstname')}
-                  placeholder={_('signup.placeholder_first_name')}
-                  type="text"
-                  minLength={minLength}
-                  required
-                  withNameValidation
-                  withSubmitCount={false}
-                />
-                <InputFieldItemAccessible
-                  className="field-item--50"
-                  fieldName={fieldNames.lastname}
-                  label={_('signup.label_lastname')}
-                  placeholder={_('signup.placeholder_last_name')}
-                  type="text"
-                  minLength={minLength}
-                  required
-                  withNameValidation
-                  withSubmitCount={false}
-                />
-                <EmailFieldItemAccessible
-                  fieldName={fieldNames.email}
-                  label={_('signup.label_email')}
-                  placeholder={_('signup.placeholder_email')}
-                  required="validation_messages.error_invalid_email_address"
-                  withSubmitCount={false}
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FieldGroup>
-                <PhoneFieldItemAccessible
-                  fieldName={fieldNames.phone}
-                  label={_('signup.label_phone')}
-                  placeholder={_('signup.placeholder_phone')}
-                  required="validation_messages.error_phone_required"
-                  withSubmitCount={false}
-                />
-                <ValidatedPasswordFieldItem
-                  fieldName={fieldNames.password}
-                  label={_('signup.label_password')}
-                  placeholder={_('signup.placeholder_password')}
-                  required
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FieldGroup className="dp-items-accept">
-                <CheckboxFieldItemAccessible
-                  fieldName={fieldNames.accept_privacy_policies}
-                  className={'label--policy'}
-                  label={
-                    <FormattedMessage
-                      values={{
-                        Link: (chunk) => (
-                          <a href={_('signup.privacy_policy_consent_url')} target="_blank">
-                            {chunk}
-                          </a>
-                        ),
-                      }}
-                      id="signup.privacy_policy_consent_MD"
-                    />
-                  }
-                  checkRequired
-                  withSubmitCount={false}
-                />
-                <CheckboxFieldItemAccessible
-                  fieldName={fieldNames.accept_promotions}
-                  label={_('signup.promotions_consent')}
-                />
-              </FieldGroup>
-            </fieldset>
-            <FormMessages />
-            <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
+            <div className="dp-rowflex">
+              <fieldset className="col-sm-9 col-md-9 col-lg-9">
+                <FieldGroup>
+                  <EmailFieldItemAccessible
+                    autoFocus
+                    fieldName={CollaboratorFormFieldNames.email}
+                    label={_('login.label_user')}
+                    disabled={true}
+                    placeholder={_('login.placeholder_email')}
+                  />
+                  <PasswordFieldItem
+                    fieldName={CollaboratorFormFieldNames.password}
+                    label={_('signup.label_password')}
+                    placeholder={_('login.placeholder_password')}
+                    required
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <hr className="m-b-12" />
+                <FormMessages />
+                <div className="dp-rowflex">
+                  <div className="col-sm-8 col-md-8 col-lg-10"></div>
+                  <SubmitButton className="col-sm-4 col-md-4 col-lg-2">
+                    {_('common.accept')}
+                  </SubmitButton>
+                </div>
+              </fieldset>
+            </div>
           </FormWithCaptcha>
-          <ul id="legal-accordion" className="dp-accordion content-legal">
-            <li>
-              <span className="dp-accordion-thumb">{_('signup.legal_tittle')}</span>
-              <div className="dp-accordion-panel">
-                <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
-              </div>
-            </li>
-          </ul>
-          <footer>
-            <small>
-              <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
-            </small>
-          </footer>
-        </S.MainPanel>
-        <Promotions {...bannerDataState} />
-      </main>
-    </div>
+        </Modal>
+      ) : null}
+      <div className="dp-app-container">
+        <main className="panel-wrapper">
+          <Helmet>
+            <title>{_('signup.head_title')}</title>
+            <meta name="description" content={_('signup.head_description')} />
+          </Helmet>
+          <S.MainPanel className="main-panel">
+            <header>
+              <h1 className="logo-doppler-new">
+                <a target="_blank" href={_('signup.url_site') + location.search}>
+                  Doppler
+                </a>
+              </h1>
+              <LanguageSelector urlParameters={location.search} />
+            </header>
+            <p id="content-subtitle" className="content-subtitle">
+              <FormattedMessage
+                id={`signup.sign_up_sub`}
+                values={{
+                  Link: (chunk) => (
+                    <Link
+                      to={{ pathname: '/login', search: location.search }}
+                      className="link--title"
+                    >
+                      {chunk}
+                    </Link>
+                  ),
+                  Bold: (chunk) => <strong>{chunk}</strong>,
+                }}
+              />
+            </p>
+            <FormWithCaptcha
+              className="signup-form"
+              initialValues={fieldNames}
+              onSubmit={onSubmit}
+              validate={validate}
+              enableReinitialize={true}
+            >
+              <ScrollToFieldError fieldsOrder={Object.keys(fieldNames)} />
+              <fieldset>
+                <FieldGroup>
+                  <EmailFieldItemAccessible
+                    fieldName="email"
+                    label={_('signup.label_email')}
+                    placeholder={_('signup.placeholder_email')}
+                    required="validation_messages.error_invalid_email_address"
+                    withSubmitCount={false}
+                    validateCollaboratorEmail={validateCollaboratorEmail}
+                  />
+                  <li>
+                    <FieldGroup>
+                      <InputFieldItemAccessible
+                        autoFocus
+                        className="field-item--50"
+                        fieldName="firstname"
+                        label={_('signup.label_firstname')}
+                        placeholder={_('signup.placeholder_first_name')}
+                        type="text"
+                        minLength={minLength}
+                        required
+                        withNameValidation
+                        withSubmitCount={false}
+                      />
+                      <InputFieldItemAccessible
+                        className="field-item--50"
+                        fieldName="lastname"
+                        label={_('signup.label_lastname')}
+                        placeholder={_('signup.placeholder_last_name')}
+                        type="text"
+                        minLength={minLength}
+                        required
+                        withNameValidation
+                        withSubmitCount={false}
+                      />
+                    </FieldGroup>
+                  </li>
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FieldGroup>
+                  <PhoneFieldItemAccessible
+                    fieldName="phone"
+                    label={_('signup.label_phone')}
+                    placeholder={_('signup.placeholder_phone')}
+                    required="validation_messages.error_phone_required"
+                    withSubmitCount={false}
+                  />
+                  <ValidatedPasswordFieldItem
+                    fieldName="password"
+                    label={_('signup.label_password')}
+                    placeholder={_('signup.placeholder_password')}
+                    required
+                    disabled={disablePassword}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FieldGroup className="dp-items-accept">
+                  <CheckboxFieldItemAccessible
+                    fieldName="accept_privacy_policies"
+                    className={'label--policy'}
+                    label={
+                      <FormattedMessage
+                        values={{
+                          Link: (chunk) => (
+                            <a href={_('signup.privacy_policy_consent_url')} target="_blank">
+                              {chunk}
+                            </a>
+                          ),
+                        }}
+                        id="signup.privacy_policy_consent_MD"
+                      />
+                    }
+                    checkRequired
+                    withSubmitCount={false}
+                  />
+                  <CheckboxFieldItemAccessible
+                    fieldName="accept_promotions"
+                    label={_('signup.promotions_consent')}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <FormMessages />
+              <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
+            </FormWithCaptcha>
+            <ul id="legal-accordion" className="dp-accordion content-legal">
+              <li>
+                <span className="dp-accordion-thumb">{_('signup.legal_tittle')}</span>
+                <div className="dp-accordion-panel">
+                  <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
+                </div>
+              </li>
+            </ul>
+            <footer>
+              <small>
+                <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
+              </small>
+            </footer>
+          </S.MainPanel>
+          <Promotions {...bannerDataState} />
+        </main>
+      </div>
+    </>
   );
 };
 

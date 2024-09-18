@@ -991,6 +991,8 @@ You'll find an Email with steps to follow.`,
   loading: `Loading...`,
   login: {
     button_login: `Log In`,
+    collaborator_login_description: 'Your email is already registered in Doppler as a collaborator. By creating your own account, you can keep the same access that you have with that role.',
+    collaborator_login_title: 'Access Confirmation',
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromLogin}).`,
     enter_doppler: `Log In`,
     enter_doppler_sub: `Today is a good day to boost your business with Email, Automation & Data Marketing!`,
