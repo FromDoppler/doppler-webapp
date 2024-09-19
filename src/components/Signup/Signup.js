@@ -143,6 +143,7 @@ const Signup = function ({
 
       if (response.success) {
         if (response.associatedAsAccountOwner) {
+          addExistentEmailAddress(email);
           return (errors['email'] = 'validation_messages.error_email_already_exists');
         } else if (response.associatedAsAccountCollaborator) {
           setShowModal(true);
@@ -249,7 +250,7 @@ const Signup = function ({
   const validate = (values) => {
     const errors = {};
 
-    const email = values['email'];
+    const email = values['email'].trim();
     const domain = email && extractDomain(email);
     const checkbox = values['accept_privacy_policies'];
 
@@ -429,6 +430,7 @@ const Signup = function ({
               onSubmit={onSubmit}
               validate={validate}
               key={formKey}
+              enableReinitialize={true}
             >
               <ScrollToFieldError fieldsOrder={Object.keys(fieldNames)} />
               <fieldset>
