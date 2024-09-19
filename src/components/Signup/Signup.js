@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -294,7 +294,7 @@ const Signup = function ({
         window.location.href = `${process.env.REACT_APP_DOPPLER_LEGACY_URL}/Registration/CompleteRegistry/CompleteUserInfo/${result.value.verificationCode}`;
       } else {
         const hasQueryParams = location.search.length > 0;
-        const registeredUser = values[fieldNames.email].trim();
+        const registeredUser = values['email'].trim();
         navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
           state: {
             registeredUser,

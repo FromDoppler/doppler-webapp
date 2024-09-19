@@ -40,7 +40,7 @@ const defaultDependencies = {
       success: true,
       email: 'dummy@fromdoppler.com',
       associatedAsAccountOwner: false,
-      associatedAsAccountCollaborator: true,
+      associatedAsAccountCollaborator: false,
     }),
   },
   utmCookiesManager: new UtmCookiesManager({ cookie: '' }),
