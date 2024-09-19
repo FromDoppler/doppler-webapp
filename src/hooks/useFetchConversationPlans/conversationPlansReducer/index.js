@@ -23,7 +23,7 @@ export const conversationPlansReducer = (state, action) => {
         hasError: false,
       };
     case CONVERSATION_PLANS_ACTIONS.RECEIVE_CONVERSATION_PLANS:
-      const { conversationPlans, currentChatPlan } = action.payload;
+      const { conversationPlans, customConversationsPlans, currentChatPlan } = action.payload;
 
       const chatPlans = [{ conversationsQty: 0 }, ...conversationPlans];
       const chatPlan = chatPlans.filter(
@@ -31,13 +31,18 @@ export const conversationPlansReducer = (state, action) => {
       )[0];
       const chatPlanIndex = chatPlans.indexOf(chatPlan);
 
+      var filterValues = conversationPlans
+        .filter((cp) => cp.active !== false)
+        .map((cp) => cp.conversationsQty);
+
       return {
         ...state,
         loading: false,
         conversationPlans: chatPlans,
-        conversationPlansValues: [0, ...conversationPlans.map((cp) => cp.conversationsQty)],
+        conversationPlansValues: [0, ...filterValues],
         selectedPlan: chatPlan,
         selectedPlanIndex: chatPlanIndex,
+        customConversationsPlans: customConversationsPlans,
       };
     case CONVERSATION_PLANS_ACTIONS.SELECT_PLAN:
       const { payload: selectedPlanIndex } = action;

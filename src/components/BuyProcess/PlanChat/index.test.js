@@ -26,7 +26,7 @@ describe('PlanChat component', () => {
               },
               chat: {
                 plan: {
-                  idPlan: 3,
+                  planId: 3,
                   conversationQty: 500,
                 },
               },

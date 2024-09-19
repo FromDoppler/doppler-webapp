@@ -246,8 +246,10 @@ const messages_es = {
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   chat_selection: {
+    banner_for_conversations: `¿Necesitas más Conversaciones? <Link>Escríbenos</Link>.`,
     expiration_free_plan_message: '*Recuerda que al contratar un plan de Conversaciones, finalizara de manera automática la versión de prueba de tres meses.',
     how_many_conversations_need_message: '¿Cuántas Conversaciones necesitas por mes?',
+    more_option_tickmark_message: 'Más',
     plan_benefits: {
       additional_costs: {
         additional_agent_message: 'Agente adicional.',
@@ -255,6 +257,7 @@ const messages_es = {
         additional_conversation_message: 'Conversación adicional.',
         additional_costs_message: 'Costos Adicionales',
         extra_costs_message: 'Costos extras',
+        from: 'Desde',
         legend_1_message: '*Podrás incluir Adicionales desde <bold>Mi Plan</bold> una vez superados los valores establecidos por tu servicio contratado.',
       },
       collaborative_care_message: 'Atención colaborativa',

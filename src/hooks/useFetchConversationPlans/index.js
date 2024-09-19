@@ -8,7 +8,6 @@ import {
 export const useConversationPlans = (dopplerAccountPlansApiClient, appSessionRef) => {
   const [state, dispatch] = useReducer(conversationPlansReducer, INITIAL_STATE_CONVERSATION_PLANS);
   const sessionPlan = appSessionRef.current.userData.user;
-
   const chatPlan = sessionPlan.chat.plan;
 
   useEffect(() => {
@@ -16,11 +15,29 @@ export const useConversationPlans = (dopplerAccountPlansApiClient, appSessionRef
       try {
         dispatch({ type: CONVERSATION_PLANS_ACTIONS.FETCHING_STARTED });
         const response = await dopplerAccountPlansApiClient.getCoversationsPLans();
+
+        var chatPlans = response.value.map((cp) => {
+          return { ...cp, active: true };
+        });
+
+        if (chatPlan && chatPlan.planId > 0) {
+          const existsChatPlan =
+            response.value.filter((cp) => cp.planId === chatPlan.planId)[0] !== undefined;
+          if (!existsChatPlan) {
+            chatPlans = [...chatPlans, chatPlan];
+          }
+        }
+
+        /* Custom conversations plans */
+        var customPlansResponse = await dopplerAccountPlansApiClient.getCustomCoversationsPlans();
+        var customConversationsPlans = customPlansResponse.value;
+
         dispatch({
           type: CONVERSATION_PLANS_ACTIONS.RECEIVE_CONVERSATION_PLANS,
           payload: {
-            conversationPlans: response.value,
-            currentChatPlan: { conversationsQty: chatPlan.conversationQty },
+            conversationPlans: chatPlans,
+            customConversationsPlans: customConversationsPlans,
+            currentChatPlan: { conversationsQty: chatPlan.conversationsQty },
           },
         });
       } catch (error) {
@@ -29,7 +46,7 @@ export const useConversationPlans = (dopplerAccountPlansApiClient, appSessionRef
     };
 
     fetchData();
-  }, [dopplerAccountPlansApiClient, chatPlan.conversationQty]);
+  }, [dopplerAccountPlansApiClient, chatPlan.conversationQty, chatPlan]);
 
   const handleSliderValue = (data) => {
     dispatch({

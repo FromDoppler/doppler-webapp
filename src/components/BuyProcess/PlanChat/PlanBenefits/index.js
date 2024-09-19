@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
-export const PlanBenefits = ({ selectedPlan }) => {
+export const numberFormatOptions = {
+  style: 'decimal',
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3,
+};
+
+export const PlanBenefits = ({ selectedPlan, customPlan }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const { additionalConversation, additionalAgent, additionalChannel } = selectedPlan;
   const [open, setOpen] = useState(true);
 
   const toogleOpen = () => setOpen(!open);
@@ -56,6 +61,7 @@ export const PlanBenefits = ({ selectedPlan }) => {
                   </div>
                 </td>
               </tr>
+
               <tr className={`dp-expanded-table ${open ? 'show' : ''}`}>
                 <td className="dp-list-results" colSpan="2">
                   <table className="dp-table-results">
@@ -95,19 +101,77 @@ export const PlanBenefits = ({ selectedPlan }) => {
                             </li>
                           </ul>
                         </td>
-                        <td>
-                          <ul className="dp-additional-cost">
-                            <li>
-                              <strong>US${(additionalConversation ?? 0).toFixed(3)}*</strong>
-                            </li>
-                            <li>
-                              <strong>US${(additionalAgent ?? 0).toFixed(3)}*</strong>
-                            </li>
-                            <li>
-                              <strong>US${(additionalChannel ?? 0).toFixed(3)}*</strong>
-                            </li>
-                          </ul>
-                        </td>
+                        {selectedPlan ? (
+                          <td>
+                            <ul className="dp-additional-cost">
+                              <li>
+                                <strong>
+                                  US${' '}
+                                  <FormattedNumber
+                                    value={(selectedPlan.additionalConversation ?? 0).toFixed(3)}
+                                    {...numberFormatOptions}
+                                  />
+                                  {'*'}
+                                </strong>
+                              </li>
+                              <li>
+                                <strong>
+                                  US${' '}
+                                  <FormattedNumber
+                                    value={(selectedPlan.additionalAgent ?? 0).toFixed(3)}
+                                    {...numberFormatOptions}
+                                  />
+                                  {'*'}
+                                </strong>
+                              </li>
+                              <li>
+                                <strong>
+                                  US${' '}
+                                  <FormattedNumber
+                                    value={(selectedPlan.additionalChannel ?? 0).toFixed(3)}
+                                    {...numberFormatOptions}
+                                  />
+                                  {'*'}
+                                </strong>
+                              </li>
+                            </ul>
+                          </td>
+                        ) : (
+                          <td>
+                            <ul className="dp-additional-cost">
+                              <li>
+                                <strong>
+                                  {_('chat_selection.plan_benefits.additional_costs.from')} US${' '}
+                                  <FormattedNumber
+                                    value={(customPlan.additionalConversation ?? 0).toFixed(3)}
+                                    {...numberFormatOptions}
+                                  />
+                                  {'*'}
+                                </strong>
+                              </li>
+                              <li>
+                                <strong>
+                                  US${' '}
+                                  <FormattedNumber
+                                    value={(customPlan.additionalAgent ?? 0).toFixed(3)}
+                                    {...numberFormatOptions}
+                                  />
+                                  {'*'}
+                                </strong>
+                              </li>
+                              <li>
+                                <strong>
+                                  US${' '}
+                                  <FormattedNumber
+                                    value={(customPlan.additionalChannel ?? 0).toFixed(3)}
+                                    {...numberFormatOptions}
+                                  />
+                                  {'*'}
+                                </strong>
+                              </li>
+                            </ul>
+                          </td>
+                        )}
                       </tr>
                       <tr>
                         <td colSpan="2">

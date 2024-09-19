@@ -19,6 +19,8 @@ export interface DopplerAccountPlansApiClient {
 
   getCoversationsPLans(): Promise<ResultWithoutExpectedErrors<any>>;
 
+  getCustomCoversationsPlans(): Promise<ResultWithoutExpectedErrors<any>>;
+
   validatePromocode(
     planId: number,
     promocode: string,
@@ -299,6 +301,26 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
       const response = await this.axios.request({
         method: 'GET',
         url: `conversation-plans`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getCustomCoversationsPlans(): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `custom-conversation-plans`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

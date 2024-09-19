@@ -365,10 +365,16 @@ interface PlanEntry {
 }
 
 interface ChatPlanEntry {
-  idPlan: number;
+  planId: number;
   description: string;
-  conversationQty: number;
+  conversationsQty: number;
   fee: number;
+  additionalConversation: number;
+  additionalAgent: number;
+  additionalChannel: number;
+  agents: number;
+  channels: number;
+  active: boolean;
 }
 
 interface SmsEntry {
@@ -549,10 +555,16 @@ function mapAdvancePay(json: any): AdvancePayOptions {
 
 function mapChatPlanEntry(json: any): ChatPlanEntry {
   return {
-    idPlan: json ? json.idPlan : 0,
+    planId: json ? json.idPlan : 0,
     description: json ? json.description : '',
-    conversationQty: json ? json.conversationQty : 0,
+    conversationsQty: json ? json.conversationQty : 0,
     fee: json ? json.fee : 0,
+    additionalConversation: json ? json.additionalConversation : 0,
+    additionalAgent: json ? json.additionalAgent : 0,
+    additionalChannel: json ? json.additionalChannel : 0,
+    agents: json ? json.agents : 0,
+    channels: json ? json.canales : 0,
+    active: json ? json.active : false,
   };
 }
 

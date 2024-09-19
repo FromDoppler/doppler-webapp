@@ -132,6 +132,16 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
     };
   }
 
+  public async getCustomCoversationsPlans(): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log('getCustomCoversationsPlans');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: [],
+    };
+  }
+
   public async validatePromocode(
     planId: number,
     promocode: string,
