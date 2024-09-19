@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
 import { Property } from 'csstype';
-import { Result, EmptyResult, EmptyResultWithoutExpectedErrors } from '../doppler-types';
+import { Result, EmptyResultWithoutExpectedErrors } from '../doppler-types';
 import axiosRetry from 'axios-retry';
 import { addLogEntry, logAxiosRetryError } from '../utils';
 import {
@@ -279,7 +279,10 @@ type UserRegistrationErrorResult =
       confirmationSendFail?: true;
     };
 
-export type UserRegistrationResult = EmptyResult<UserRegistrationErrorResult>;
+export type UserRegistrationResult = Result<
+  { verificationCode?: string },
+  UserRegistrationErrorResult
+>;
 
 interface UTMCookie {
   date: string;
@@ -990,7 +993,13 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         }
       }
 
-      return { success: true };
+      if (response.data.verificationCode) {
+        return {
+          success: true,
+          value: { verificationCode: response.data.verificationCode },
+        };
+      }
+      return { success: true, value: {} };
     } catch (error) {
       return {
         message: error.message || null,
