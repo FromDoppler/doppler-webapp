@@ -1769,6 +1769,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_upload_file: `¡Ouch! Algo salió mal al cargar el Archivo. Inténtelo nuevamente.`,
     error_wrong_invitation_link: `¡Aviso Importante! No tienes invitaciones pendientes.`,
     warning_ip_validation_notification: `Estás intentando ingresar desde un dispositivo que Doppler no reconoce. ¡Revisa tu casilla! Encontrarás un Email con los pasos a seguir.`,
+    warning_ip_validation_notification_SignUp: `Doppler no reconoce este dispositivo. Primero prueba iniciando sesión en la cuenta!`,
     warning_user_access_denied: `¡Ouch! Tu inicio de sesión ha sido rechazado.`,
   },
 };

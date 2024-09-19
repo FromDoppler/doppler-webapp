@@ -194,11 +194,11 @@ const Signup = function ({
       });
     } else if (result.expectedError && result.expectedError.blockedUserUnknownDevice) {
       setErrors({
-        _warning: 'validation_messages.warning_ip_validation_notification',
+        _warning: 'validation_messages.warning_ip_validation_notification_SignUp',
       });
     } else if (result.expectedError && result.expectedError.blockedUserPendingConfirmation) {
       setErrors({
-        _warning: 'validation_messages.warning_ip_validation_notification',
+        _warning: 'validation_messages.warning_ip_validation_notification_SignUp',
       });
     } else if (result.expectedError && result.expectedError.userAccessDenied) {
       setErrors({

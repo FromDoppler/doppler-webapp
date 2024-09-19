@@ -1766,6 +1766,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_upload_file: `Ouch! Something went wrong. Please try again.`,
     error_wrong_invitation_link: `Important announcement! You have no pending invitations.`,
     warning_ip_validation_notification: `You're trying to log in on a device Doppler doesn't recognize. Check your inbox! You'll find an Email with steps to follow.`,
+    warning_ip_validation_notification_SignUp: `Doppler doesn't recognize this device. Try to log into this account first!`,
     warning_user_access_denied: `Ouch! Your login has been declined.`,
   },
 };
