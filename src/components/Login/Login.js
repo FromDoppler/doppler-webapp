@@ -115,7 +115,7 @@ const MaxAttemptsSecurityQuestion = connect(
   },
 );
 
-const BlockedAccountNotPayed = ({ messages }) => {
+export const BlockedAccountNotPayed = ({ messages }) => {
   return (
     <>
       <p>
@@ -184,7 +184,7 @@ const isActivactionInProgress = (location) => {
   return parsedQuery && parsedQuery === 'true';
 };
 
-const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
+export const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
   return (
     <>
       <p>
@@ -481,7 +481,7 @@ const Login = ({
                 <PasswordFieldItem
                   fieldName={fieldNames.password}
                   label={_('signup.label_password')}
-                  placeholder={_('signup.placeholder_password')}
+                  placeholder={_('login.placeholder_password')}
                   required
                 />
               </FieldGroup>

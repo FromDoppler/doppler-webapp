@@ -42,6 +42,8 @@ export interface DopplerLegacyClient {
     model: RequestCollaborationInviteModel | undefined,
   ): Promise<ReturnConfirmCollaborationInvite>;
   activateConversationPlan(): Promise<boolean>;
+  verifyUserAccountExistens(email: string): Promise<any>;
+  getUserAccountData(model: LoginModel): Promise<UserAccountLoginResult>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -226,6 +228,8 @@ export type LoginResult = Result<
   { redirectUrl?: string; provisoryToken?: string },
   LoginErrorResult
 >;
+
+export type UserAccountLoginResult = Result<UserAccountEntry, LoginErrorResult>;
 
 export interface LoginModel extends PayloadWithCaptchaToken {
   username: string;
@@ -679,6 +683,72 @@ export function mapHeaderDataJson(json: any) {
   };
 }
 
+function handleExpectedErrorMessageOnLogin(errorResponse: any) {
+  switch (errorResponse.data.error) {
+    case 'BlockedAccountNotPayed': {
+      return {
+        expectedError: { blockedAccountNotPayed: true },
+        provisoryToken: errorResponse.data.provisoryToken,
+      };
+    }
+    case 'AccountNotValidated': {
+      return { expectedError: { accountNotValidated: true } };
+    }
+    case 'CancelatedAccount': {
+      return { expectedError: { cancelatedAccount: true } };
+    }
+    case 'CancelatedAccountNotPayed': {
+      return { expectedError: { cancelatedAccountNotPayed: true } };
+    }
+    case 'BlockedAccountInvalidPassword': {
+      return { expectedError: { blockedAccountInvalidPassword: true } };
+    }
+    case 'BlockedUserUnknownDevice': {
+      return { expectedError: { blockedUserUnknownDevice: true } };
+    }
+    case 'BlockedUserPendingConfirmation': {
+      return { expectedError: { blockedUserPendingConfirmation: true } };
+    }
+    case 'UserAccessDenied': {
+      return { expectedError: { userAccessDenied: true } };
+    }
+    case 'InvalidLogin': {
+      return { expectedError: { invalidLogin: true } };
+    }
+    case 'MaxLoginAttempts': {
+      return { expectedError: { maxLoginAttempts: true } };
+    }
+    case 'AccountWithoutUsersAssociated': {
+      return { expectedError: { accountWithoutUsersAssociated: true } };
+    }
+    case 'BlockedAccountCMDisabled': {
+      return {
+        expectedError: {
+          blockedAccountCMDisabled: true,
+          errorMessage: removeErrorCodeFromExceptionMessage(
+            'BlockedAccountCMDisabled - ',
+            errorResponse.data.message,
+          ),
+        },
+      };
+    }
+    case 'WrongCatpcha': {
+      return {
+        expectedError: { wrongCaptcha: true },
+        message: errorResponse.data.error || null,
+        trace: new Error(),
+        fullResponse: errorResponse,
+      };
+    }
+    default: {
+      return {
+        message: errorResponse.data.error || null,
+        trace: new Error(),
+        fullResponse: errorResponse,
+      };
+    }
+  }
+}
 /* #endregion */
 
 /* #region Maxsubscribers data */
@@ -857,70 +927,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       });
 
       if (!response.data.success) {
-        switch (response.data.error) {
-          case 'BlockedAccountNotPayed': {
-            return {
-              expectedError: { blockedAccountNotPayed: true },
-              provisoryToken: response.data.provisoryToken,
-            };
-          }
-          case 'AccountNotValidated': {
-            return { expectedError: { accountNotValidated: true } };
-          }
-          case 'CancelatedAccount': {
-            return { expectedError: { cancelatedAccount: true } };
-          }
-          case 'CancelatedAccountNotPayed': {
-            return { expectedError: { cancelatedAccountNotPayed: true } };
-          }
-          case 'BlockedAccountInvalidPassword': {
-            return { expectedError: { blockedAccountInvalidPassword: true } };
-          }
-          case 'BlockedUserUnknownDevice': {
-            return { expectedError: { blockedUserUnknownDevice: true } };
-          }
-          case 'BlockedUserPendingConfirmation': {
-            return { expectedError: { blockedUserPendingConfirmation: true } };
-          }
-          case 'UserAccessDenied': {
-            return { expectedError: { userAccessDenied: true } };
-          }
-          case 'InvalidLogin': {
-            return { expectedError: { invalidLogin: true } };
-          }
-          case 'MaxLoginAttempts': {
-            return { expectedError: { maxLoginAttempts: true } };
-          }
-          case 'AccountWithoutUsersAssociated': {
-            return { expectedError: { accountWithoutUsersAssociated: true } };
-          }
-          case 'BlockedAccountCMDisabled': {
-            return {
-              expectedError: {
-                blockedAccountCMDisabled: true,
-                errorMessage: removeErrorCodeFromExceptionMessage(
-                  'BlockedAccountCMDisabled - ',
-                  response.data.message,
-                ),
-              },
-            };
-          }
-          case 'WrongCatpcha': {
-            return {
-              expectedError: { wrongCaptcha: true },
-              message: response.data.error || null,
-              trace: new Error(),
-              fullResponse: response,
-            };
-          }
-          default: {
-            return {
-              message: response.data.error || null,
-              trace: new Error(),
-              fullResponse: response,
-            };
-          }
-        }
+        return handleExpectedErrorMessageOnLogin(response);
       }
 
       if (response.data.returnTo) {
@@ -1277,5 +1284,46 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
   public async activateConversationPlan(): Promise<boolean> {
     const response = await this.axios.post('WebApp/EnableConversationsFeature');
     return response.data.success;
+  }
+
+  public async verifyUserAccountExistens(email: string): Promise<any> {
+    const response = await this.axios.get(
+      `/WebAppPublic/IsEmailAssociatedToUserAccount?email=${encodeURIComponent(email)}`,
+    );
+    return response.data;
+  }
+
+  public async getUserAccountData(model: LoginModel): Promise<UserAccountLoginResult> {
+    try {
+      const response = await this.axios.post(`WebAppPublic/UserAccountLogin`, {
+        Username: model.username,
+        Password: model.password,
+        RecaptchaUserCode: model.captchaResponseToken,
+        Fingerprint: model.fingerPrint,
+        FingerprintV2: model.fingerPrintV2,
+      });
+
+      if (!response.data.success) {
+        return handleExpectedErrorMessageOnLogin(response);
+      }
+
+      return {
+        success: true,
+        value: {
+          email: response.data.userAccount.Email,
+          firstName: response.data.userAccount.FirstName ?? '',
+          lastName: response.data.userAccount.LastName ?? '',
+          phone: response.data.userAccount.Phone ?? '',
+          userProfileType: '',
+        },
+      };
+    } catch (error) {
+      return {
+        message: error.message || null,
+        error: error.toJSON(),
+        response: !error.response ? `No response available` : error.response,
+        stackCall: new Error(),
+      };
+    }
   }
 }

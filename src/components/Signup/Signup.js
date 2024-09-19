@@ -13,6 +13,7 @@ import {
   InputFieldItemAccessible,
   EmailFieldItemAccessible,
   PhoneFieldItemAccessible,
+  PasswordFieldItem,
 } from '../form-helpers/form-helpers';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
@@ -24,20 +25,18 @@ import { useQueryParams } from '../../hooks/useQueryParams';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { ScrollToFieldError } from '../shared/ScrollToFieldError';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
-
-const fieldNames = {
-  firstname: 'firstname',
-  lastname: 'lastname',
-  phone: 'phone',
-  email: 'email',
-  password: 'password',
-  accept_privacy_policies: 'accept_privacy_policies',
-  accept_promotions: 'accept_promotions',
-};
+import Modal from '../Modal/Modal';
+import { BlockedAccountNotPayed, LoginErrorBasedOnCustomerSupport } from '../Login/Login';
+import { LoginErrorAccountNotValidated } from '../Login/LoginErrorAccountNotValidated';
 
 const minLength = {
   min: 2,
   errorMessageKey: 'validation_messages.error_min_length_2',
+};
+
+const CollaboratorFormFieldNames = {
+  email: 'email',
+  password: 'password',
 };
 
 function getReferrerHostname() {
@@ -68,10 +67,48 @@ const Signup = function ({
   const bannerDataState = useGetBannerData({ dopplerSitesClient, type: 'signup', page });
   const navigate = useNavigate();
   useLinkedinInsightTag();
-  const { fingerPrintingId } = useFingerPrinting();
+  const { fingerPrintingId, fingerPrintingIdV2 } = useFingerPrinting();
+  const [formKey, setFormKey] = useState(0);
 
   const [alreadyExistentAddresses, setAlreadyExistentAddresses] = useState([]);
   const [blockedDomains, setBlockedDomains] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [currentEmail, setCurrentEmail] = useState(null);
+  const [disablePassword, setDisablePassword] = useState(false);
+  const [fieldNames, setFieldNames] = useState({
+    firstname: '',
+    lastname: '',
+    phone: '',
+    email: '',
+    password: '',
+    accept_privacy_policies: '',
+    accept_promotions: '',
+  });
+
+  const errorMessages = {
+    blockedAccountNotPayed: {
+      msgReasonId: 'validation_messages.error_account_is_blocked_not_pay',
+      msgZohoChat: _('validation_messages.error_account_is_blocked_not_pay_zoho_chat_msg'),
+      msgEmailContact: 'validation_messages.error_account_is_blocked_not_pay_contact_support_MD',
+    },
+    cancelatedAccountNotPayed: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_not_pay',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_not_pay_zoho_chat_msg'),
+      msgEmailContact: 'validation_messages.error_account_is_canceled_not_pay_contact_support_MD',
+    },
+    cancelatedAccount: {
+      msgReasonId: 'validation_messages.error_account_is_canceled_other_reason',
+      msgZohoChat: _('validation_messages.error_account_is_canceled_other_reason_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_canceled_other_reason_contact_support_MD',
+    },
+    blockedAccountInvalidPassword: {
+      msgReasonId: 'validation_messages.error_account_is_blocked_invalid_password',
+      msgZohoChat: _('validation_messages.error_account_is_blocked_invalid_password_zoho_chat_msg'),
+      msgEmailContact:
+        'validation_messages.error_account_is_blocked_invalid_password_contact_support_MD',
+    },
+  };
 
   const utmParams = {
     UTMSource: query.get('utm_source') || getReferrerHostname() || 'direct',
@@ -97,19 +134,132 @@ const Signup = function ({
     setBlockedDomains((x) => [...x, domain]);
   };
 
+  const validateCollaboratorEmail = async (value) => {
+    const errors = {};
+    const email = value.trim();
+    if (email !== currentEmail) {
+      setCurrentEmail(email);
+      const response = await dopplerLegacyClient.verifyUserAccountExistens(email);
+
+      if (response.success) {
+        if (response.associatedAsAccountOwner) {
+          addExistentEmailAddress(email);
+          return (errors['email'] = 'validation_messages.error_email_already_exists');
+        } else if (response.associatedAsAccountCollaborator) {
+          setShowModal(true);
+        }
+      }
+    }
+    return (errors['email'] = '');
+  };
+
+  const getCollaboratorFormInitialValues = () => {
+    const initialValues = getFormInitialValues(CollaboratorFormFieldNames);
+    initialValues[CollaboratorFormFieldNames.email] = currentEmail;
+
+    return initialValues;
+  };
+
+  const onSubmitCollaboratorForm = async (values, { setSubmitting, setErrors }) => {
+    const result = await dopplerLegacyClient.getUserAccountData({
+      username: values['email'].trim(),
+      password: values['password'],
+      captchaResponseToken: values['captchaResponseToken'],
+      fingerPrint: fingerPrintingId,
+      fingerPrintV2: fingerPrintingIdV2,
+    });
+
+    if (result.success) {
+      setFieldNames({
+        firstname: result.value.firstName,
+        lastname: result.value.lastName,
+        phone: result.value.phone,
+        email: values['email'].trim(),
+        password: values['password'],
+        accept_privacy_policies: '',
+        accept_promotions: '',
+      });
+      setDisablePassword(true);
+      setSubmitting(false);
+      setShowModal(false);
+    } else if (result.expectedError && result.expectedError.blockedAccountNotPayed) {
+      setErrors({
+        _error: <BlockedAccountNotPayed messages={errorMessages.blockedAccountNotPayed} />,
+      });
+    } else if (result.expectedError && result.expectedError.cancelatedAccountNotPayed) {
+      setErrors({
+        _error: (
+          <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccountNotPayed} />
+        ),
+      });
+    } else if (result.expectedError && result.expectedError.blockedUserUnknownDevice) {
+      setErrors({
+        _warning: 'validation_messages.warning_ip_validation_notification_SignUp',
+      });
+    } else if (result.expectedError && result.expectedError.blockedUserPendingConfirmation) {
+      setErrors({
+        _warning: 'validation_messages.warning_ip_validation_notification_SignUp',
+      });
+    } else if (result.expectedError && result.expectedError.userAccessDenied) {
+      setErrors({
+        _error: 'validation_messages.warning_user_access_denied',
+      });
+    } else if (result.expectedError && result.expectedError.userInactive) {
+      setErrors({
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+      });
+    } else if (result.expectedError && result.expectedError.accountNotValidated) {
+      setErrors({
+        _error: <LoginErrorAccountNotValidated email={values['email'].trim()} />,
+      });
+    } else if (result.expectedError && result.expectedError.cancelatedAccount) {
+      setErrors({
+        _error: <LoginErrorBasedOnCustomerSupport messages={errorMessages.cancelatedAccount} />,
+      });
+    } else if (result.expectedError && result.expectedError.blockedAccountCMDisabled) {
+      setErrors({
+        _error: (
+          <p>
+            <FormattedMessage id={'validation_messages.error_account_is_blocked_disabled_by_cm'} />
+            <strong>{result.expectedError.errorMessage}</strong>
+          </p>
+        ),
+      });
+    } else if (
+      result.expectedError &&
+      (result.expectedError.blockedAccountInvalidPassword || result.expectedError.maxLoginAttempts)
+    ) {
+      setErrors({
+        _error: (
+          <LoginErrorBasedOnCustomerSupport
+            messages={errorMessages.blockedAccountInvalidPassword}
+          />
+        ),
+      });
+    } else if (result.expectedError && result.expectedError.invalidLogin) {
+      setErrors({ _error: 'validation_messages.error_invalid_login' });
+    } else if (result.expectedError && result.expectedError.wrongCaptcha) {
+      setErrors({ _error: 'validation_messages.error_invalid_captcha' });
+    } else {
+      setErrors({
+        _error: <FormattedMessageMarkdown id="validation_messages.error_unexpected_MD" />,
+      });
+    }
+  };
+
   const validate = (values) => {
     const errors = {};
 
-    const email = values[fieldNames.email];
+    const email = values['email'].trim();
     const domain = email && extractDomain(email);
-    const checkbox = values[fieldNames.accept_privacy_policies];
+    const checkbox = values['accept_privacy_policies'];
 
     if (email && alreadyExistentAddresses.includes(email)) {
-      errors[fieldNames.email] = 'validation_messages.error_email_already_exists';
+      errors['email'] = 'validation_messages.error_email_already_exists';
     } else if (domain && blockedDomains.includes(domain)) {
-      errors[fieldNames.email] = 'validation_messages.error_invalid_domain_to_register_account';
+      errors['email'] = 'validation_messages.error_invalid_domain_to_register_account';
     } else if (!checkbox) {
-      errors[fieldNames.accept_privacy_policies] = 'validation_messages.error_checkbox_policy';
+      errors['accept_privacy_policies'] = 'validation_messages.error_checkbox_policy';
     }
 
     return errors;
@@ -124,7 +274,7 @@ const Signup = function ({
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
-      email: values[fieldNames.email].trim(),
+      email: values['email'].trim(),
       language: intl.locale,
       origin,
       page,
@@ -144,7 +294,7 @@ const Signup = function ({
         window.location.href = `${process.env.REACT_APP_DOPPLER_LEGACY_URL}/Registration/CompleteRegistry/CompleteUserInfo/${result.value.verificationCode}`;
       } else {
         const hasQueryParams = location.search.length > 0;
-        const registeredUser = values[fieldNames.email].trim();
+        const registeredUser = values['email'].trim();
         navigate(`/signup/confirmation${hasQueryParams ? location.search : ''}`, {
           state: {
             registeredUser,
@@ -153,11 +303,11 @@ const Signup = function ({
         });
       }
     } else if (result.expectedError && result.expectedError.emailAlreadyExists) {
-      addExistentEmailAddress(values[fieldNames.email]);
+      addExistentEmailAddress(values['email']);
       validateForm();
       setSubmitting(false);
     } else if (result.expectedError && result.expectedError.blockedDomain) {
-      const domain = extractDomain(values[fieldNames.email]);
+      const domain = extractDomain(values['email']);
       addBlockedDomain(domain);
       validateForm();
       setSubmitting(false);
@@ -171,7 +321,7 @@ const Signup = function ({
       setErrors({ _error: 'validation_messages.error_invalid_domain' });
       setSubmitting(false);
       addLogEntry({
-        account: values[fieldNames.email],
+        account: values['email'],
         origin: window.location.origin,
         section: 'Signup',
         browser: window.navigator.userAgent,
@@ -192,141 +342,201 @@ const Signup = function ({
   };
 
   return (
-    <div className="dp-app-container">
-      <main className="panel-wrapper">
-        <Helmet>
-          <title>{_('signup.head_title')}</title>
-          <meta name="description" content={_('signup.head_description')} />
-        </Helmet>
-        <S.MainPanel className="main-panel">
-          <header>
-            <h1 className="logo-doppler-new">
-              <a target="_blank" href={_('signup.url_site') + location.search}>
-                Doppler
-              </a>
-            </h1>
-            <LanguageSelector urlParameters={location.search} />
-          </header>
-          <p id="content-subtitle" className="content-subtitle">
-            <FormattedMessage
-              id={`signup.sign_up_sub`}
-              values={{
-                Link: (chunk) => (
-                  <Link
-                    to={{ pathname: '/login', search: location.search }}
-                    className="link--title"
-                  >
-                    {chunk}
-                  </Link>
-                ),
-                Bold: (chunk) => <strong>{chunk}</strong>,
-              }}
-            />
-          </p>
+    <>
+      {showModal ? (
+        <Modal
+          isOpen={true}
+          type="large"
+          handleClose={() => {
+            setCurrentEmail(null);
+            setFormKey(formKey + 1);
+            setShowModal(false);
+          }}
+        >
+          <h2>{_('login.collaborator_login_title')}</h2>
+          <p>{_('login.collaborator_login_description')}</p>
           <FormWithCaptcha
-            className="signup-form"
-            initialValues={getFormInitialValues(fieldNames)}
-            onSubmit={onSubmit}
-            validate={validate}
+            className="login-form"
+            initialValues={getCollaboratorFormInitialValues()}
+            onSubmit={onSubmitCollaboratorForm}
+            enableReinitialize={true}
           >
-            <ScrollToFieldError fieldsOrder={Object.values(fieldNames)} />
-            <fieldset>
-              <FieldGroup>
-                <InputFieldItemAccessible
-                  autoFocus
-                  className="field-item--50"
-                  fieldName={fieldNames.firstname}
-                  label={_('signup.label_firstname')}
-                  placeholder={_('signup.placeholder_first_name')}
-                  type="text"
-                  minLength={minLength}
-                  required
-                  withNameValidation
-                  withSubmitCount={false}
-                />
-                <InputFieldItemAccessible
-                  className="field-item--50"
-                  fieldName={fieldNames.lastname}
-                  label={_('signup.label_lastname')}
-                  placeholder={_('signup.placeholder_last_name')}
-                  type="text"
-                  minLength={minLength}
-                  required
-                  withNameValidation
-                  withSubmitCount={false}
-                />
-                <EmailFieldItemAccessible
-                  fieldName={fieldNames.email}
-                  label={_('signup.label_email')}
-                  placeholder={_('signup.placeholder_email')}
-                  required="validation_messages.error_invalid_email_address"
-                  withSubmitCount={false}
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FieldGroup>
-                <PhoneFieldItemAccessible
-                  fieldName={fieldNames.phone}
-                  label={_('signup.label_phone')}
-                  placeholder={_('signup.placeholder_phone')}
-                  required="validation_messages.error_phone_required"
-                  withSubmitCount={false}
-                />
-                <ValidatedPasswordFieldItem
-                  fieldName={fieldNames.password}
-                  label={_('signup.label_password')}
-                  placeholder={_('signup.placeholder_password')}
-                  required
-                />
-              </FieldGroup>
-            </fieldset>
-            <fieldset>
-              <FieldGroup className="dp-items-accept">
-                <CheckboxFieldItemAccessible
-                  fieldName={fieldNames.accept_privacy_policies}
-                  className={'label--policy'}
-                  label={
-                    <FormattedMessage
-                      values={{
-                        Link: (chunk) => (
-                          <a href={_('signup.privacy_policy_consent_url')} target="_blank">
-                            {chunk}
-                          </a>
-                        ),
-                      }}
-                      id="signup.privacy_policy_consent_MD"
-                    />
-                  }
-                  checkRequired
-                  withSubmitCount={false}
-                />
-                <CheckboxFieldItemAccessible
-                  fieldName={fieldNames.accept_promotions}
-                  label={_('signup.promotions_consent')}
-                />
-              </FieldGroup>
-            </fieldset>
-            <FormMessages />
-            <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
+            <div className="dp-rowflex">
+              <fieldset className="col-sm-9 col-md-9 col-lg-9">
+                <FieldGroup>
+                  <EmailFieldItemAccessible
+                    autoFocus
+                    fieldName={CollaboratorFormFieldNames.email}
+                    label={_('login.label_user')}
+                    disabled={true}
+                    placeholder={_('login.placeholder_email')}
+                  />
+                  <PasswordFieldItem
+                    fieldName={CollaboratorFormFieldNames.password}
+                    label={_('signup.label_password')}
+                    placeholder={_('login.placeholder_password')}
+                    required
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <hr className="m-b-12" />
+                <FormMessages />
+                <div className="dp-rowflex">
+                  <div className="col-sm-8 col-md-8 col-lg-10"></div>
+                  <SubmitButton className="col-sm-4 col-md-4 col-lg-2">
+                    {_('common.accept')}
+                  </SubmitButton>
+                </div>
+              </fieldset>
+            </div>
           </FormWithCaptcha>
-          <ul id="legal-accordion" className="dp-accordion content-legal">
-            <li>
-              <span className="dp-accordion-thumb">{_('signup.legal_tittle')}</span>
-              <div className="dp-accordion-panel">
-                <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
-              </div>
-            </li>
-          </ul>
-          <footer>
-            <small>
-              <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
-            </small>
-          </footer>
-        </S.MainPanel>
-        <Promotions {...bannerDataState} />
-      </main>
-    </div>
+        </Modal>
+      ) : null}
+      <div className="dp-app-container">
+        <main className="panel-wrapper">
+          <Helmet>
+            <title>{_('signup.head_title')}</title>
+            <meta name="description" content={_('signup.head_description')} />
+          </Helmet>
+          <S.MainPanel className="main-panel">
+            <header>
+              <h1 className="logo-doppler-new">
+                <a target="_blank" href={_('signup.url_site') + location.search}>
+                  Doppler
+                </a>
+              </h1>
+              <LanguageSelector urlParameters={location.search} />
+            </header>
+            <p id="content-subtitle" className="content-subtitle">
+              <FormattedMessage
+                id={`signup.sign_up_sub`}
+                values={{
+                  Link: (chunk) => (
+                    <Link
+                      to={{ pathname: '/login', search: location.search }}
+                      className="link--title"
+                    >
+                      {chunk}
+                    </Link>
+                  ),
+                  Bold: (chunk) => <strong>{chunk}</strong>,
+                }}
+              />
+            </p>
+            <FormWithCaptcha
+              className="signup-form"
+              initialValues={fieldNames}
+              onSubmit={onSubmit}
+              validate={validate}
+              key={formKey}
+              enableReinitialize={true}
+            >
+              <ScrollToFieldError fieldsOrder={Object.keys(fieldNames)} />
+              <fieldset>
+                <FieldGroup>
+                  <EmailFieldItemAccessible
+                    fieldName="email"
+                    label={_('signup.label_email')}
+                    placeholder={_('signup.placeholder_email')}
+                    required="validation_messages.error_invalid_email_address"
+                    withSubmitCount={false}
+                    validateCollaboratorEmail={validateCollaboratorEmail}
+                  />
+                  <li>
+                    <FieldGroup>
+                      <InputFieldItemAccessible
+                        autoFocus
+                        className="field-item--50"
+                        fieldName="firstname"
+                        label={_('signup.label_firstname')}
+                        placeholder={_('signup.placeholder_first_name')}
+                        type="text"
+                        minLength={minLength}
+                        required
+                        withNameValidation
+                        withSubmitCount={false}
+                      />
+                      <InputFieldItemAccessible
+                        className="field-item--50"
+                        fieldName="lastname"
+                        label={_('signup.label_lastname')}
+                        placeholder={_('signup.placeholder_last_name')}
+                        type="text"
+                        minLength={minLength}
+                        required
+                        withNameValidation
+                        withSubmitCount={false}
+                      />
+                    </FieldGroup>
+                  </li>
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FieldGroup>
+                  <PhoneFieldItemAccessible
+                    fieldName="phone"
+                    label={_('signup.label_phone')}
+                    placeholder={_('signup.placeholder_phone')}
+                    required="validation_messages.error_phone_required"
+                    withSubmitCount={false}
+                  />
+                  <ValidatedPasswordFieldItem
+                    fieldName="password"
+                    label={_('signup.label_password')}
+                    placeholder={_('signup.placeholder_password')}
+                    required
+                    disabled={disablePassword}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FieldGroup className="dp-items-accept">
+                  <CheckboxFieldItemAccessible
+                    fieldName="accept_privacy_policies"
+                    className={'label--policy'}
+                    label={
+                      <FormattedMessage
+                        values={{
+                          Link: (chunk) => (
+                            <a href={_('signup.privacy_policy_consent_url')} target="_blank">
+                              {chunk}
+                            </a>
+                          ),
+                        }}
+                        id="signup.privacy_policy_consent_MD"
+                      />
+                    }
+                    checkRequired
+                    withSubmitCount={false}
+                  />
+                  <CheckboxFieldItemAccessible
+                    fieldName="accept_promotions"
+                    label={_('signup.promotions_consent')}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <FormMessages />
+              <SubmitButton className="button--round">{_('signup.button_signup')}</SubmitButton>
+            </FormWithCaptcha>
+            <ul id="legal-accordion" className="dp-accordion content-legal">
+              <li>
+                <span className="dp-accordion-thumb">{_('signup.legal_tittle')}</span>
+                <div className="dp-accordion-panel">
+                  <FormattedMessageMarkdown linkTarget={'_blank'} id="signup.legal_MD" />
+                </div>
+              </li>
+            </ul>
+            <footer>
+              <small>
+                <FormattedMessageMarkdown id="signup.copyright_MD" linkTarget={'_blank'} />
+              </small>
+            </footer>
+          </S.MainPanel>
+          <Promotions {...bannerDataState} />
+        </main>
+      </div>
+    </>
   );
 };
 

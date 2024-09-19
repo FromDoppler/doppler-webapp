@@ -635,4 +635,28 @@ describe('Doppler legacy client', () => {
     // Assert
     expect(result).toBe(true);
   });
+
+  it('should successfully retrieve user account associations', async () => {
+    const sut = new HttpDopplerLegacyClient({
+      axiosStatic: axios,
+      baseUrl: 'http://localhost:52191',
+    });
+    const email = 'dummy@fromdoppler.com';
+    axios.get.mockResolvedValue({
+      data: {
+        success: true,
+        email: email,
+        associatedAsAccountOwner: false,
+        associatedAsAccountCollaborator: true,
+      },
+    });
+
+    // Act
+    const result = await sut.verifyUserAccountExistens(email);
+
+    // Assert
+    expect(result.success).toBe(true);
+    expect(result.associatedAsAccountOwner).toBe(false);
+    expect(result.associatedAsAccountCollaborator).toBe(true);
+  });
 });
