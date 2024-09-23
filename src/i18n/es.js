@@ -740,10 +740,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     postListBlog_2_link_description: 'Mira cómo implementarlos',
     postListBlog_2_title: '#FuncionalidadDestacada',
 
-    postListHelp_1_description: 'Únete al Webinar gratuito y aprende a gestionar las Conversaciones con tus Usuarios desde una sóla plataforma: Web Chatbot, Social Media Chatbot, WhatsApp Chatbot, WhatsApp Marketing.',
-    postListHelp_1_link: 'https://evento.fromdoppler.com/webinar-nutricion-conversaciones/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=am-LanzamientoConversacionesWebinar-nutricion-sep24',
-    postListHelp_1_link_description: 'Reserva tu lugar',
-    postListHelp_1_title: 'Nuevo Lanzamiento | Doppler Conversaciones 💣',
+    postListHelp_1_description: 'Gestiona Chatbots en WhatsApp, Instagram, Facebook y tu Sitio Web, ¡todo desde una sola plataforma!',
+    postListHelp_1_link: 'https://app.fromdoppler.com/conversations/?origin=destacadotablero',
+    postListHelp_1_link_description: 'Descubre más',
+    postListHelp_1_title: 'Nueva Solución | Doppler Conversaciones 💣',
 
     postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
     postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
