@@ -243,8 +243,10 @@ export const FieldItem = connect(
   ),
 );
 
-export const FieldItemAccessible = ({ className, children }) => (
-  <li className={`field-item awa-form ${className}`}>{children}</li>
+export const FieldItemAccessible = ({ className, hidde, children }) => (
+  <li className={`field-item awa-form ${className}`} style={hidde ? { display: 'none' } : null}>
+    {children}
+  </li>
 );
 
 const useFormikErrors = (fieldName, withSubmitCount, withErrors = true) => {
@@ -899,6 +901,7 @@ export const ValidatedPasswordFieldItem = ({
   fieldName,
   label,
   placeholder,
+  hidden,
   withSubmitCount = true,
   ...rest
 }) => {
@@ -927,7 +930,7 @@ export const ValidatedPasswordFieldItem = ({
         : 'dp-message--success';
 
   return (
-    <FieldItemAccessible className={className}>
+    <FieldItemAccessible className={className} hidde={hidden}>
       <BasePasswordFieldItemAccessible
         fieldName={fieldName}
         label={label}
