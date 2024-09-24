@@ -486,7 +486,7 @@ const Signup = function ({
                     label={_('signup.label_password')}
                     placeholder={_('signup.placeholder_password')}
                     required
-                    disabled={disablePassword}
+                    hidden={disablePassword}
                   />
                 </FieldGroup>
               </fieldset>
