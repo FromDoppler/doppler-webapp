@@ -261,6 +261,7 @@ const messages_es = {
       default_messages_message: 'Mensajes predeterminados',
       facebook_messenger_chat_message: 'Chat en Facebook Messenger',
       included_all_plans_message: 'Incluido en todos los planes',
+      included_paid_plans_greater_250_conversations_message: 'Incluido en los planes pagos mayores a 250 conversaciones',
       included_paid_plans_message: 'Incluido en todos los planes pagos',
       instagram_chat_message: 'Chat en Instagram',
       lead_generator_message: 'Generador de Leads',
