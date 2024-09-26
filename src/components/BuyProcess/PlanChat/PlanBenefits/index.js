@@ -98,13 +98,13 @@ export const PlanBenefits = ({ selectedPlan }) => {
                         <td>
                           <ul className="dp-additional-cost">
                             <li>
-                              <strong>US${(additionalConversation ?? 0).toFixed(2)}*</strong>
+                              <strong>US${(additionalConversation ?? 0).toFixed(3)}*</strong>
                             </li>
                             <li>
-                              <strong>US${(additionalAgent ?? 0).toFixed(2)}*</strong>
+                              <strong>US${(additionalAgent ?? 0).toFixed(3)}*</strong>
                             </li>
                             <li>
-                              <strong>US${(additionalChannel ?? 0).toFixed(2)}*</strong>
+                              <strong>US${(additionalChannel ?? 0).toFixed(3)}*</strong>
                             </li>
                           </ul>
                         </td>
