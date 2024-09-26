@@ -259,6 +259,7 @@ const messages_en = {
       default_messages_message: 'Default messages',
       facebook_messenger_chat_message: 'Chat on Facebook Messenger',
       included_all_plans_message: 'Included in all plans',
+      included_paid_plans_greater_250_conversations_message: 'Included in pay plans greater than 250 conversations',
       included_paid_plans_message: 'Included in all pay plans',
       instagram_chat_message: 'Chat on Instagram',
       lead_generator_message: 'Leads generation',
