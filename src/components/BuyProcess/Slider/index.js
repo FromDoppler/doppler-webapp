@@ -4,27 +4,45 @@ import { compactNumber } from '../../../utils';
 
 export const HIDE_MARKS_FROM = 9;
 
-export const Tickmarks = ({ id, items = [], handleChange, hideMarksFrom = HIDE_MARKS_FROM }) => {
+export const Tickmarks = ({
+  id,
+  items = [],
+  handleChange,
+  hideMarksFrom = HIDE_MARKS_FROM,
+  moreOptionTickmark,
+}) => {
   const getHandleChange = (itemIndex) => () => handleChange({ target: { value: itemIndex } });
   const { length: amountItems } = items;
+
+  var strongItems = [];
+  if (!moreOptionTickmark) {
+    strongItems = [0, amountItems - 1];
+  } else {
+    strongItems = [0];
+  }
 
   return (
     <ul id={id} className="datalist">
       {amountItems >= hideMarksFrom
         ? items.map((value, index) => (
             <li key={index} onClick={getHandleChange(index)} style={{ width: '13px' }}>
-              {[0, amountItems - 1].includes(index) && <strong>{compactNumber(value)}</strong>}
+              {strongItems.includes(index) && <strong>{compactNumber(value)}</strong>}
             </li>
           ))
         : items.map((value, index) => (
             <li key={index} onClick={getHandleChange(index)} style={{ width: '13px' }}>
-              {[0, amountItems - 1].includes(index) ? (
+              {strongItems.includes(index) ? (
                 <strong>{compactNumber(value)}</strong>
               ) : (
                 compactNumber(value)
               )}
             </li>
           ))}
+      {moreOptionTickmark && (
+        <li key={items.length} onClick={getHandleChange(amountItems)} style={{ width: '13px' }}>
+          <strong>{moreOptionTickmark.label}</strong>
+        </li>
+      )}
     </ul>
   );
 };
@@ -37,6 +55,7 @@ export const Slider = ({
   callbackMaxTop,
   moreOptions,
   labelQuantity,
+  moreOptionTickmark,
 }) => {
   const amountItems = items.length;
 
@@ -54,13 +73,14 @@ export const Slider = ({
           items={items}
           handleChange={onChange}
           hideMarksFrom={hideMarksFrom}
+          moreOptionTickmark={moreOptionTickmark}
         />
         <input
           className="range-slider"
           type="range"
           disabled={amountItems === 0}
           min={0}
-          max={amountItems > 1 ? amountItems - 1 : 1}
+          max={amountItems > 1 ? (moreOptionTickmark ? amountItems : amountItems - 1) : 1}
           step={1}
           value={selectedItemIndex}
           onChange={onChange}
@@ -70,7 +90,11 @@ export const Slider = ({
           className="progress-anchor"
           style={
             amountItems > 1
-              ? { width: `${(selectedItemIndex * 100) / (amountItems - 1)}%` }
+              ? {
+                  width: `${
+                    (selectedItemIndex * 100) / (moreOptionTickmark ? amountItems : amountItems - 1)
+                  }%`,
+                }
               : { width: '100%' }
           }
         />

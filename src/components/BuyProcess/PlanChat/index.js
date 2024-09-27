@@ -20,6 +20,7 @@ import { PlanBenefits } from './PlanBenefits';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
 import { useParams } from 'react-router-dom';
 import { useQueryParams } from '../../../hooks/useQueryParams';
+import { BannerUpgrade } from './BannerUpgrade';
 
 export const PlanChat = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -46,6 +47,7 @@ export const PlanChat = InjectAppServices(
         hasError: hasErrorConversationPlans,
         selectedPlan,
         selectedPlanIndex,
+        customConversationsPlans,
       },
       handleSliderValue,
     ] = useConversationPlans(dopplerAccountPlansApiClient, appSessionRef);
@@ -153,9 +155,11 @@ export const PlanChat = InjectAppServices(
                   handleChange={handleSliderChange}
                   labelQuantity={`${thousandSeparatorNumber(
                     intl.defaultLocale,
-                    selectedPlan.conversationsQty ?? 0,
+                    selectedPlan?.conversationsQty ?? 0,
                   )} conversaciones`}
+                  moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
                 />
+                <BannerUpgrade currentPlan={selectedPlan} />
               </section>
               <section>
                 <SelectedPlanChat
@@ -168,7 +172,7 @@ export const PlanChat = InjectAppServices(
                   {_('chat_selection.expiration_free_plan_message')}
                 </span>
               </section>
-              <PlanBenefits selectedPlan={selectedPlan} />
+              <PlanBenefits selectedPlan={selectedPlan} customPlan={customConversationsPlans[0]} />
               <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
                 <GoBackButton />
