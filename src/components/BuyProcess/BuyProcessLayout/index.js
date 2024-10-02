@@ -21,8 +21,7 @@ export const getSteps = (buyType, user) => {
       pathname: '/plan-chat',
       visible:
         (buyType === BUY_MARKETING_PLAN.toString() || buyType === BUY_CHAT_PLAN.toString()) &&
-        chat &&
-        chat.active,
+        chat !== null,
     },
     {
       id: 3,

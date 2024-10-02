@@ -326,6 +326,7 @@ const Checkout = InjectAppServices(
                   canChatPlanRemove={false}
                   buyType={parseInt(buyType)}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
+                  hasChatActive={chat && chat.active}
                 />
               )}
             </div>
