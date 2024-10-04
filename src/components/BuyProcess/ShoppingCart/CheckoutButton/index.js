@@ -15,7 +15,7 @@ const SAVED = 'SAVED';
 
 export const CheckoutButton = InjectAppServices(
   ({
-    dependencies: { dopplerBillingUserApiClient },
+    dependencies: { dopplerBillingUserApiClient, dopplerLegacyClient },
     keyTextButton,
     canBuy = false,
     planId,
@@ -25,6 +25,7 @@ export const CheckoutButton = InjectAppServices(
     paymentMethod,
     selectedPlanChat,
     buyType = BUY_MARKETING_PLAN,
+    hasChatActive,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -48,6 +49,10 @@ export const CheckoutButton = InjectAppServices(
             charge: selectedPlanChat?.total,
           },
         ];
+      }
+
+      if (!hasChatActive && selectedPlanChat?.planChat) {
+        dopplerLegacyClient.activateConversationPlan();
       }
 
       const response = await dopplerBillingUserApiClient.purchase({

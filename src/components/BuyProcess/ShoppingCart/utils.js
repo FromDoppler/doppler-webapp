@@ -750,6 +750,7 @@ export const getBuyButton = ({
         paymentMethod={paymentMethodName}
         selectedPlanChat={selectedPlanChat}
         buyType={buyType}
+        hasChatActive={hasChatActive}
       />
     );
   }
@@ -764,7 +765,6 @@ export const getBuyButton = ({
       monthPlan={selectedDiscount?.numberMonths}
       newCheckoutEnabled={redirectNewCheckout}
       chatPlanId={selectedPlanChat?.planChat?.planId}
-      hasChatActive={hasChatActive}
     />
   );
 };
