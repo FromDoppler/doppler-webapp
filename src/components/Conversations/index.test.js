@@ -26,6 +26,10 @@ describe('Conversations component', () => {
               plan: {
                 isFreeAccount: true,
               },
+              chat: {
+                active: false,
+              },
+              hasClientManager: false,
             },
           },
         },
@@ -47,5 +51,69 @@ describe('Conversations component', () => {
     expect(screen.getByText('conversations.title')).toBeInTheDocument();
     expect(screen.getByText('conversations.description')).toBeInTheDocument();
     expect(screen.getByText('conversations.paragraph_free_MD')).toBeInTheDocument();
+  });
+
+  it('should redirect to dashboard if the user already has beplic account', async () => {
+    // Assert
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              chat: {
+                active: true,
+              },
+              hasClientManager: false,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <BrowserRouter>
+          <DopplerIntlProvider>
+            <Conversations />
+          </DopplerIntlProvider>
+        </BrowserRouter>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(window.location.pathname).toContain('/dashboard');
+  });
+
+  it('should redirect to dashboard if the user is CM', async () => {
+    // Assert
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              chat: {
+                active: false,
+              },
+              hasClientManager: true,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <BrowserRouter>
+          <DopplerIntlProvider>
+            <Conversations />
+          </DopplerIntlProvider>
+        </BrowserRouter>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(window.location.pathname).toContain('/dashboard');
   });
 });
