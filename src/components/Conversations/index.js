@@ -8,9 +8,19 @@ import RedirectToExternalUrl from '../RedirectToExternalUrl';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import ReactPlayer from 'react-player/youtube';
 import Modal from '../Modal/Modal';
+import { Navigate } from 'react-router-dom';
 
 export const Conversations = InjectAppServices(
   ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
+    const {
+      chat: { active: conversationsActive },
+      hasClientManager,
+    } = appSessionRef.current.userData.user;
+
+    if (conversationsActive || hasClientManager) {
+      return <Navigate to="/dashboard" />;
+    }
+
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [redirectToConversations, setRedirectToConversations] = useState(false);
