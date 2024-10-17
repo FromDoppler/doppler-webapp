@@ -264,7 +264,6 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.native_integrations.empretienda_title'),
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
-              hidden: true,
             },
           ],
         },
@@ -405,6 +404,7 @@ export class ControlPanelService implements ControlPanelService {
               targetBlank: true,
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
+              hidden: true,
             },
             {
               linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-zeus`,
