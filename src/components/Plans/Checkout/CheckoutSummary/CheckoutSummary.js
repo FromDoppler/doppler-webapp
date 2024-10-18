@@ -244,11 +244,7 @@ const PlanLandingPagesInformation1 = InjectAppServices(
               <React.Fragment key={`landing-pack${index}`}>
                 <h4>
                   <FormattedMessage
-                    id={
-                      landingPack.landingsQty === 1
-                        ? `landing_selection.pack_of_landing_pages`
-                        : `landing_selection.pack_of_landing_pages_plural`
-                    }
+                    id="landing_selection.pack_of_landing_pages_with_plural"
                     values={{
                       packs: landingPack.landingsQty,
                     }}
@@ -323,11 +319,7 @@ export const PlanLandingPagesInformation2 = InjectAppServices(
               <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
               <h4>
                 <FormattedMessage
-                  id={
-                    landingPack.landingsQty === 1
-                      ? `landing_selection.pack_of_landing_pages`
-                      : `landing_selection.pack_of_landing_pages_plural`
-                  }
+                  id="landing_selection.pack_of_landing_pages_with_plural"
                   values={{
                     packs: landingPack.landingsQty,
                   }}
