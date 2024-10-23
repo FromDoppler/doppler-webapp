@@ -733,11 +733,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     meta_title: 'Doppler | Tablero de Inicio',
 
-    postListBlog_1_description: 'Aprende los fundamentos de este canal y cómo desarrollar estrategias que realmente conviertan.',
-    postListBlog_1_link:
-      'https://academy.fromdoppler.com/cursos/curso-email-marketing/lessons/que-es-la-certificacion-en-email-marketing/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-nuevocurso-nutricion-sep23',
-    postListBlog_1_link_description: 'Mira cómo implementarlas',
-    postListBlog_1_title: 'Certifícate gratis en Email Marketing',
+    postListBlog_1_description: 'Explora lo último en Marketing Digital y lleva tu negocio al siguiente nivel. ¡Es hora de crecer!',
+    postListBlog_1_link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-captacionleadsEMMSDT24-invitacion-oct24 ',
+    postListBlog_1_link_description: '¡Reserva tu lugar!',
+    postListBlog_1_title: 'EMMS Digital Trends 2024 🚀 Evento online y gratuito',
 
     postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
     postListBlog_2_link: 'https://help.fromdoppler.com/es/formulario-de-suscripcion/?origin=destacadotablero',
