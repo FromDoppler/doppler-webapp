@@ -85,7 +85,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
       });
       console.log('enviado a userpilot');
     }
-  }, [state]);
+  }, [state, window]);
 
   useEffect(() => {
     const updateSession = (dopplerSession) => {
