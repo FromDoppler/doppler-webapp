@@ -80,7 +80,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
       window.userpilot.reload();
       console.log('reload userpilot');
     }
-  }, [location]);
+  }, [location, state, window]);
 
   useEffect(() => {
     if (state.dopplerSession?.status === 'authenticated' && window.userpilot) {
