@@ -77,6 +77,13 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
 
   useEffect(() => {
     if (state.dopplerSession?.status === 'authenticated' && window.userpilot) {
+      window.userpilot.reload();
+      console.log('reload userpilot');
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (state.dopplerSession?.status === 'authenticated' && window.userpilot) {
       const userId = state.dopplerSession.userData.user.idUser;
       window.userpilot.identify(userId, {
         name: 'John Doe',
