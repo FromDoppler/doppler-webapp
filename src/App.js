@@ -76,6 +76,18 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
   };
 
   useEffect(() => {
+    if (state.dopplerSession?.status === 'authenticated' && window.userpilot) {
+      const userId = state.dopplerSession.userData.user.idUser;
+      window.userpilot.identify(userId, {
+        name: 'John Doe',
+        email: 'john@site-domain.com',
+        created_at: '2018-07-11',
+      });
+      console.log('enviado a userpilot');
+    }
+  }, [state]);
+
+  useEffect(() => {
     const updateSession = (dopplerSession) => {
       setState((prevState) => ({
         i18nLocale: getI18nLocale(dopplerSession, prevState.i18nLocale),
