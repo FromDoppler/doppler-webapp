@@ -30,9 +30,9 @@ import { Link } from 'react-router-dom';
 import { AddOn } from '../../../shared/AddOn';
 import { useFetchLandingPacks } from '../../../../hooks/useFetchtLandingPacks';
 import useTimeout from '../../../../hooks/useTimeout';
-import { Carousel } from '../../../Dashboard/LearnWithDoppler/Carousel/Carousel';
 import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
 import { PlanChatInformation } from './PlanChatInformation';
+import { CheckoutSummaryCarousel } from './CheckoutSummaryCarousel';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -608,7 +608,7 @@ export const CheckoutSummary = InjectAppServices(
             )}
           </div>
           {isBuyMarketingPlan && !alreadyExistsLandingPlan && landingsEditorEnabled && (
-            <ModalPromoLandingPacks />
+            <ModalPromoAddons />
           )}
         </section>
       </>
@@ -616,28 +616,41 @@ export const CheckoutSummary = InjectAppServices(
   },
 );
 
-const landingPacksSlides = [
-  {
-    id: 1,
-    img: 'pic-carousel.svg',
-  },
-  {
-    id: 2,
-    img: 'pic-carousel.svg',
-  },
-  {
-    id: 3,
-    img: 'pic-carousel.svg',
-  },
-];
-
-export const ModalPromoLandingPacks = () => {
+export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const [open, setOpen] = useState(false);
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const query = useQueryParams();
   const accountType = query.get(ACCOUNT_TYPE) ?? '';
   const createTimeout = useTimeout();
+  const conversationsBuyUrl = appSessionRef.current.userData.user.chat.plan.buttonUrl;
+
+  const addonSlides = [
+    {
+      id: 1,
+      img: 'addons-carousel-slide-1.svg',
+      title: 'addons.carousel.slice_1_title',
+      description: 'addons.carousel.slice_1_description',
+      link: `/landing-packages${
+        accountType
+          ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
+          : `?buyType=${BUY_LANDING_PACK}`
+      }`,
+    },
+    {
+      id: 2,
+      img: 'addons-carousel-slide-2.svg',
+      title: 'addons.carousel.slice_2_title',
+      description: 'addons.carousel.slice_2_description',
+      link: conversationsBuyUrl,
+    },
+    // {
+    //   id: 3,
+    //   img: 'addons-carousel-slide-3.svg',
+    //   title: 'addons.carousel.slice_3_title',
+    //   description: 'addons.carousel.slice_3_description',
+    // },
+  ];
 
   useEffect(() => {
     createTimeout(() => setOpen(true), 800);
@@ -650,45 +663,52 @@ export const ModalPromoLandingPacks = () => {
   }
 
   return (
-    <div className="modal bg-opacity--50" id="modal-medium">
+    <div className="modal bg-opacity--50" id="modal-addons">
       <div className="modal-content--medium">
-        <div className="dp-modal-pack-landing">
-          <Carousel
-            id="1"
-            color="orange"
-            ariaLabel="landing-packs"
-            numberOfItems={3}
-            showDots={false}
-          >
-            {({ activeSlide }) =>
-              landingPacksSlides.map((slide, index) => (
-                <Slide key={slide.id} active={activeSlide === index}>
+        <span class="close" onClick={closeModal}></span>
+        <CheckoutSummaryCarousel
+          id="1"
+          ariaLabel="addons-packs"
+          numberOfItems={addonSlides.length}
+          showDots={true}
+        >
+          {({ activeSlide }) =>
+            addonSlides.map((slide, index) => (
+              <Slide key={slide.id} active={activeSlide === index} order={index}>
+                <div className="pic-carousel">
                   <img
                     src={_('common.ui_library_image', { imageUrl: slide.img })}
                     alt="Check list"
                   />
-                </Slide>
-              ))
-            }
-          </Carousel>
-          <h3>{_('landing_selection.modal.title')}</h3>
-          <p>{_('landing_selection.modal.description')}</p>
-
-          <Link
-            to={`/landing-packages${
-              accountType
-                ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
-                : `?buyType=${BUY_LANDING_PACK}`
-            }`}
-            className="dp-button button-medium primary-green"
-          >
-            {_('landing_selection.modal.link_to_buy')}
-          </Link>
-          <button type="button" className="dp-button link-green" onClick={closeModal}>
-            {_('landing_selection.modal.close_button')}
-          </button>
-        </div>
+                </div>
+                <h3>
+                  <FormattedMessage
+                    id={slide.title}
+                    values={{
+                      br: <br />,
+                    }}
+                  />
+                </h3>
+                <p>
+                  <FormattedMessage
+                    id={slide.description}
+                    values={{
+                      Bold: (chunk) => <strong>{chunk}</strong>,
+                      br: <br />,
+                    }}
+                  />
+                </p>
+                <Link to={slide.link} className="dp-button button-medium primary-green m-t-12">
+                  {_('landing_selection.modal.link_to_buy')}
+                </Link>
+                <button className="dp-button button-small link-green m-b-12" onClick={closeModal}>
+                  {_('landing_selection.modal.close_button')}
+                </button>
+              </Slide>
+            ))
+          }
+        </CheckoutSummaryCarousel>
       </div>
     </div>
   );
-};
+});
