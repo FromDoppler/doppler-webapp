@@ -75,21 +75,29 @@ export const CollaboratorsSections = InjectAppServices(
       }
     };
 
-    const sendInvitation = async (email) => {
+    const sendInvitation = async (body) => {
       setActiveMenus(false);
-      const result = await dopplerUserApiClient.sendCollaboratorInvite(email);
+      const result = await dopplerUserApiClient.sendCollaboratorInvite(body);
       setRefreshTable(!refreshTable);
 
       return result.success;
     };
 
-    const formSendInvitation = async (email) => {
-      const success = sendInvitation(email);
-      if (success) {
-        setModalStep(modalFinalStep);
-      } else {
+    const formSendInvitation = async (values) => {
+      if (!modalStep.email) {
         setmodalError(_('common.unexpected_error'));
       }
+
+      const body = {
+        email: modalStep.email,
+        permissions: { ...values },
+      };
+      const success = sendInvitation(body);
+      if (!success) {
+        setmodalError(_('common.unexpected_error'));
+      }
+
+      setModalStep({ step: modalFinalStep, email: modalStep.email });
     };
 
     const sendInvitationCancelation = async (email) => {

@@ -12,7 +12,7 @@ export interface DopplerUserApiClient {
   updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
-  sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
+  sendCollaboratorInvite(body: any): Promise<EmptyResultWithoutExpectedErrors>;
   updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
@@ -198,7 +198,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     }
   }
 
-  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+  public async sendCollaboratorInvite(body: any): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken, idUser } = this.getDopplerUserApiConnectionData();
 
@@ -206,7 +206,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         method: 'POST',
         url: `/accounts/${email}/user-invitations`,
         data: {
-          email: value,
+          ...body,
           idUser: idUser,
         },
         headers: { Authorization: `bearer ${jwtToken}` },

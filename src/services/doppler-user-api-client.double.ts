@@ -114,9 +114,9 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     };
   }
 
-  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+  public async sendCollaboratorInvite(body: any): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
-    console.log(value);
+    console.log({ ...body, iduser: 123 }, 'sendCollaboratorInvite');
     return {
       success: true,
     };
