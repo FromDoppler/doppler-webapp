@@ -529,9 +529,6 @@ export const CheckoutSummary = InjectAppServices(
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
-    const alreadyExistsLandingPlan =
-      appSessionRef.current.userData.user.landings?.landingPacks?.length > 0;
-
     return (
       <>
         <Helmet>
@@ -607,9 +604,7 @@ export const CheckoutSummary = InjectAppServices(
               </div>
             )}
           </div>
-          {isBuyMarketingPlan && !alreadyExistsLandingPlan && landingsEditorEnabled && (
-            <ModalPromoAddons />
-          )}
+          {<ModalPromoAddons />}
         </section>
       </>
     );
@@ -623,34 +618,47 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
   const query = useQueryParams();
   const accountType = query.get(ACCOUNT_TYPE) ?? '';
   const createTimeout = useTimeout();
-  const conversationsBuyUrl = appSessionRef.current.userData.user.chat.plan.buttonUrl;
+  const { user, features } = appSessionRef.current.userData;
+  const landingsEditorEnabled = features?.landingsEditorEnabled;
+  const hasLandingPlan = (user.landings?.landingPacks?.length ?? 0) > 0;
+  const hasConversationPlan = user.chat?.active === true && user.chat?.plan?.fee > 0;
+  const conversationsBuyUrl = user.chat.plan.buttonUrl;
 
-  const addonSlides = [
-    {
-      id: 1,
-      img: 'addons-carousel-slide-1.svg',
-      title: 'addons.carousel.slice_1_title',
-      description: 'addons.carousel.slice_1_description',
-      link: `/landing-packages${
-        accountType
-          ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
-          : `?buyType=${BUY_LANDING_PACK}`
-      }`,
-    },
-    {
-      id: 2,
-      img: 'addons-carousel-slide-2.svg',
-      title: 'addons.carousel.slice_2_title',
-      description: 'addons.carousel.slice_2_description',
-      link: conversationsBuyUrl,
-    },
+  const getAddonSlides = () => {
+    const slides = [];
+    if (!hasConversationPlan) {
+      slides.push({
+        id: 1,
+        img: 'addons-carousel-slide-1.svg',
+        title: 'addons.carousel.slice_1_title',
+        description: 'addons.carousel.slice_1_description',
+        link: conversationsBuyUrl,
+      });
+    }
+
+    if (!hasLandingPlan && landingsEditorEnabled) {
+      slides.push({
+        id: 2,
+        img: 'addons-carousel-slide-2.svg',
+        title: 'addons.carousel.slice_2_title',
+        description: 'addons.carousel.slice_2_description',
+        link: `/landing-packages${
+          accountType
+            ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
+            : `?buyType=${BUY_LANDING_PACK}`
+        }`,
+      });
+    }
+
     // {
     //   id: 3,
     //   img: 'addons-carousel-slide-3.svg',
     //   title: 'addons.carousel.slice_3_title',
     //   description: 'addons.carousel.slice_3_description',
     // },
-  ];
+
+    return slides;
+  };
 
   useEffect(() => {
     createTimeout(() => setOpen(true), 800);
@@ -658,7 +666,9 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
 
   const closeModal = () => setOpen(false);
 
-  if (!open) {
+  const addonSlides = getAddonSlides();
+
+  if (!open || addonSlides.length === 0) {
     return <></>;
   }
 
@@ -670,7 +680,7 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
           id="1"
           ariaLabel="addons-packs"
           numberOfItems={addonSlides.length}
-          showDots={true}
+          showDots={addonSlides.length > 1}
         >
           {({ activeSlide }) =>
             addonSlides.map((slide, index) => (
