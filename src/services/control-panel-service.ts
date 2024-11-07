@@ -264,7 +264,6 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.native_integrations.empretienda_title'),
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
-              hidden: true,
             },
           ],
         },
