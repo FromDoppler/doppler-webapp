@@ -26,24 +26,30 @@ export const CollaboratorsSections = InjectAppServices(
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
 
     const modalFirstStep = {
-      step: 'INITIAL_STEP',
+      name: 'INITIAL_STEP',
       title: _('collaborators.add_collaborator'),
       description: _('collaborators.form_modal.description'),
     };
 
+    const modalSecondStep = {
+      name: 'PERMISSIONS_STEP',
+      title: _('collaborators.add_collaborator_permissions'),
+      description: _('collaborators.form_modal.permission_description'),
+    };
+
     const modalFinalStep = {
-      step: 'FINAL_STEP',
+      name: 'FINAL_STEP',
       title: _('collaborators.form_modal.success_title'),
       description: _('collaborators.form_modal.success_subtitle'),
     };
 
-    const [modalStep, setModalStep] = useState(modalFirstStep);
+    const [modalStep, setModalStep] = useState({ step: modalFirstStep, email: '' });
 
     const handleModalOpen = (open) => {
       if (open) {
         setModalOpen(open);
       } else {
-        setModalStep(modalFirstStep);
+        setModalStep({ step: modalFirstStep, email: '' });
         setModalOpen(open);
       }
     };
@@ -243,12 +249,12 @@ export const CollaboratorsSections = InjectAppServices(
               </div>
               <Modal
                 isOpen={modalOpen}
-                type="medium"
-                handleClose={() => handleModalOpen()}
+                type="large"
+                handleClose={() => handleModalOpen(false)}
                 modalId="modal-new-collaborator"
               >
-                <h2 className="modal-title">{modalStep.title}</h2>
-                <p>{modalStep.description}</p>
+                <h2 className="modal-title">{modalStep.step.title}</h2>
+                <p>{modalStep.step.description}</p>
                 {modalError ? (
                   <div className="dp-msj-error dpsg-slow-animation bounceIn">
                     <p>{modalError}</p>
@@ -256,11 +262,21 @@ export const CollaboratorsSections = InjectAppServices(
                 ) : (
                   <></>
                 )}
-                {modalStep.step === 'INITIAL_STEP' ? (
-                  <CollaboratorInviteForm title={modalStep.title} onSubmit={formSendInvitation} />
-                ) : modalStep.step === 'FINAL_STEP' ? (
+                {modalStep.step.name === 'INITIAL_STEP' ? (
+                  <CollaboratorInviteForm
+                    title={modalStep.step.title}
+                    currentEmail={modalStep.email}
+                    onSubmit={(value) => setModalStep({ step: modalSecondStep, email: value })}
+                  />
+                ) : modalStep.step.name === 'PERMISSIONS_STEP' ? (
+                  <CollaboratorPermissionsForm
+                    title={modalStep.title}
+                    onBack={() => setModalStep({ step: modalFirstStep, email: modalStep.email })}
+                    onSubmit={formSendInvitation}
+                  />
+                ) : modalStep.step.name === 'FINAL_STEP' ? (
                   <SuccessStepForm
-                    onBack={() => setModalStep(modalFirstStep)}
+                    onBack={() => setModalStep({ step: modalFirstStep, email: '' })}
                     onFinish={handleModalOpen}
                   />
                 ) : (
