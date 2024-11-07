@@ -9,7 +9,7 @@ import {
 import { InjectAppServices } from '../../../../services/pure-di';
 
 export const CollaboratorInviteForm = InjectAppServices(
-  ({ title, onSubmit, dependencies: { appSessionRef } }) => {
+  ({ title, onSubmit, currentEmail, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const userEmail = appSessionRef.current.userData.user.email;
@@ -28,7 +28,7 @@ export const CollaboratorInviteForm = InjectAppServices(
 
     const formikConfig = {
       enableReinitialize: true,
-      initialValues: {},
+      initialValues: currentEmail ? { Email: currentEmail } : { Email: '' },
       validateOnChange: false,
       validateOnBlur: false,
       validate: validate,
