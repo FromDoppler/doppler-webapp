@@ -9,6 +9,7 @@ import { CollaboratorInviteForm } from './Forms/CollaboratorInviteForm';
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
 import { Navigate } from 'react-router-dom';
+import { CollaboratorPermissionsForm } from './Forms/CollaboratorPermissionsForm';
 
 export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
