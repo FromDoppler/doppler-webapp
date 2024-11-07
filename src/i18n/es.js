@@ -505,6 +505,7 @@ const messages_es = {
   },
   collaborators: {
     add_collaborator: 'Nuevo Colaborador',
+    add_collaborator_permissions: 'Configurar permisos del colaborador',
     edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
     ¡No olvides guardar tu información!`,
     form_modal: {
@@ -512,6 +513,18 @@ const messages_es = {
       gestión de listas, edición de automations y demás funcionalidades`,
       email: 'Email',
       email_placeholder: 'usuario_owner@ejemplo.com',
+      permission_description: 'Elige los accesos de tu cuenta que le otorgarás.',
+      permissions: {
+        automation: 'Automation',
+        campaigns: 'Campañas',
+        control_panel: 'Panel de Control',
+        dashboard: 'Tablero de Inicio',
+        download_center: 'Centro de Descargas',
+        integrations: 'Integraciones',
+        lists: 'Listas',
+        reports: 'Reportes',
+        templates: 'Plantillas',
+      },
       success_subtitle: `Tu Colaborador recibirá la invitación en su casilla de correo electrónico.
     Una vez aceptada la invitación, podrá comenzar a gestionar tu cuenta.`,
       success_title: 'Has añadido a tu Colaborador con éxito',
