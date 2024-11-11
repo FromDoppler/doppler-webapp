@@ -505,12 +505,25 @@ Payment details will be included in the invoice sent to the recipient you have i
   },
   collaborators: {
     add_collaborator: 'New Collaborator',
+    add_collaborator_permissions: 'Configure collaborator permissions',
     edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
     form_modal: {
       description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
       manage lists, edit automations and any other feature.`,
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
+      permission_description: 'Choose the accesses to your account that you will grant.',
+      permissions: {
+        automation: 'Automation',
+        campaigns: 'Campaigns',
+        control_panel: 'Control Panel',
+        dashboard: 'Dashboard',
+        download_center: 'Download Center',
+        integrations: 'Integrations',
+        lists: 'Lists',
+        reports: 'Reports',
+        templates: 'Templates',
+      },
       success_subtitle: `Your Collaborator will receive the invitation in their email box.
     Once accepted the invitation, it will be able to manage your account.`,
       success_title: 'Collaborator successfully added',
