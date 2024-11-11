@@ -25,6 +25,10 @@ export interface DopplerAccountPlansApiClient {
     planId: number,
     promocode: string,
   ): Promise<ResultWithoutExpectedErrors<Promotion>>;
+
+  getOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>>;
+
+  getCustomOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>>;
 }
 
 interface DopplerAccountPlansApiConnectionData {
@@ -369,6 +373,69 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
       if (response.status === 200 && response.data) {
         return { success: true, value: this.mapLandingPacks(response.data) };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `onsite-plans`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getOnSitePlanBillingDetailsData(
+    planId: number,
+    discountId: number,
+  ): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `accounts/${email}/newplan/OnSite/${planId}/calculate-amount?discountId=${discountId}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getCustomOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `custom-onsite-plans`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
       } else {
         return { success: false, error: response.data.title };
       }

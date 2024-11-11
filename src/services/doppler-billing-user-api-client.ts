@@ -28,6 +28,8 @@ export interface DopplerBillingUserApiClient {
   getInvoices(invoicesTypes: string[]): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>>;
   sendContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getCurrentUserPlanDataByType(type: number): Promise<ResultWithoutExpectedErrors<UserPlan>>;
+  purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -82,6 +84,7 @@ export interface UserPlan {
   subscribersQty: null;
   conversationQty: null;
   description: null;
+  printQty: null;
 }
 
 export interface ReprocessInformation {
@@ -304,6 +307,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       subscribersQty: data.subscribersQty,
       conversationQty: data.conversationQty,
       description: data.description,
+      printQty: data.printQty,
     };
   }
 
@@ -654,5 +658,54 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     } catch (error) {
       return { success: false, error: error };
     }
+  }
+
+  public async purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/onsite/buy`,
+        data: this.mapOnSiteAgreementToCreate(values),
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/onsite/cancel`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  private mapOnSiteAgreementToCreate(data: any): any {
+    return {
+      total: data.total,
+      planId: data.onSitePlanId,
+    };
   }
 }

@@ -123,6 +123,7 @@ export const fakeUserPlan = {
   subscribersQty: null,
   conversationQty: null,
   description: null,
+  printQty: null,
 };
 
 export const fakeReprocessInformation = {
@@ -276,6 +277,20 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
 
     return {
       value: fakeUserPlan,
+      success: true,
+    };
+  }
+
+  public async purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('purchaseOnSitePlan', values);
+    await timeout(1500);
+    return { success: true };
+  }
+
+  public async cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log('cancellationOnSitePlan');
+    return {
       success: true,
     };
   }

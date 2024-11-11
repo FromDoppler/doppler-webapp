@@ -154,4 +154,24 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
       success: true,
     };
   }
+
+  public async getOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log('getOnSitePlans');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: [],
+    };
+  }
+
+  public async getCustomOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log('getCustomOnSitePlans');
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: [],
+    };
+  }
 }

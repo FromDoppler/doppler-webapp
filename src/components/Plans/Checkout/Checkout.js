@@ -9,6 +9,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import {
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
+  BUY_ONSITE_PLAN,
   PLAN_TYPE,
   PaymentMethodType,
   URL_PLAN_TYPE,
@@ -58,12 +59,14 @@ const Checkout = InjectAppServices(
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedChatPlan, setSelectedChatPlan] = useState(null);
+    const [selectedOnSitePlan, setSelectedOnSitePlan] = useState(null);
 
     const intl = useIntl();
     const { pathType, planType } = useParams();
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
     const selectedChatPlanId = query.get('chatPlanId') ?? 0;
+    const selectedOnSitePlanId = query.get('onSitePlanId') ?? 0;
     const monthPlan = query.get('monthPlan') ?? 0;
     const landingIdsStr = query.get('landing-ids') ?? '';
     const landingsQtyStr = query.get('landing-packs') ?? '';
@@ -139,8 +142,28 @@ const Checkout = InjectAppServices(
         }
       };
 
-      fetchPlanData();
+      if (selectedChatPlanId !== 0) {
+        fetchPlanData();
+      }
     }, [dopplerAccountPlansApiClient, selectedChatPlanId, planType]);
+
+    useEffect(() => {
+      const fetchPlanData = async () => {
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedOnSitePlanId, 4);
+
+        if (planData.success) {
+          setSelectedOnSitePlan({
+            planId: selectedOnSitePlanId,
+            printQty: planData.value.printQty,
+            fee: planData.value.chatPlanFee,
+            type: planType,
+            id: selectedOnSitePlanId,
+          });
+        }
+      };
+
+      fetchPlanData();
+    }, [dopplerAccountPlansApiClient, selectedOnSitePlanId, planType]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -197,6 +220,7 @@ const Checkout = InjectAppServices(
       }));
 
     const isBuyLandingPacks = selectedLandings?.length > 0;
+    const isBuyOnSitePlan = parseInt(buyType) === BUY_ONSITE_PLAN;
 
     return (
       <>
@@ -303,6 +327,29 @@ const Checkout = InjectAppServices(
                   hidePromocode={true}
                   buyType={BUY_LANDING_PACK}
                 />
+              ) : isBuyOnSitePlan ? (
+                <ShoppingCart
+                  canBuy={
+                    paymentInformationAction === actionPage.READONLY &&
+                    completeContactInformationStep &&
+                    completeBillingInformationStep
+                  }
+                  discountConfig={{
+                    paymentFrequenciesList: paymentFrequenciesList,
+                    selectedPaymentFrequency: selectedPaymentFrequency,
+                    onSelectPaymentFrequency: handleChangeDiscount,
+                    disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
+                    currentSubscriptionUser: sessionPlan.plan.planSubscription,
+                  }}
+                  isMonthlySubscription={isMonthlySubscription}
+                  selectedMarketingPlan={selectedFullPlan}
+                  isEqualPlan={false}
+                  hidePromocode={true}
+                  buyType={BUY_ONSITE_PLAN}
+                  selectedOnSitePlan={selectedOnSitePlan}
+                  canOnSitePlanRemove={false}
+                  addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
+                />
               ) : (
                 <ShoppingCart
                   canBuy={
@@ -338,6 +385,13 @@ const Checkout = InjectAppServices(
               {isBuyLandingPacks ? (
                 <Link
                   to={`/landing-packages?buyType=${BUY_LANDING_PACK}`}
+                  className="dp-button button-medium primary-grey m-t-30 m-r-24"
+                >
+                  {_('checkoutProcessForm.button_back')}
+                </Link>
+              ) : isBuyOnSitePlan ? (
+                <Link
+                  to={`/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`}
                   className="dp-button button-medium primary-grey m-t-30 m-r-24"
                 >
                   {_('checkoutProcessForm.button_back')}

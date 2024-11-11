@@ -11,6 +11,7 @@ export const INITIAL_STATE_CHECKOUT_SUMMARY = {
   loading: false,
   hasError: false,
   chatUserPlan: null,
+  onSiteUserPlan: null,
 };
 
 export const CHECKOUT_SUMMARY_ACTIONS = {
@@ -48,6 +49,7 @@ export const checkoutSummaryReducer = (state, action) => {
           discount,
           paymentMethod,
           chatUserPlan,
+          onSiteUserPlan,
         },
       } = action;
       const planType = currentUserPlan.planType;
@@ -63,6 +65,7 @@ export const checkoutSummaryReducer = (state, action) => {
         extraCredits,
         remainingCredits: currentUserPlan.remainingCredits,
         chatUserPlan,
+        onSiteUserPlan,
       };
 
     case CHECKOUT_SUMMARY_ACTIONS.FAIL_FETCH:
