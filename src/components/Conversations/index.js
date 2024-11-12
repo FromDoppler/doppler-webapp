@@ -17,12 +17,17 @@ export const Conversations = InjectAppServices(
       hasClientManager,
     } = appSessionRef.current.userData.user;
 
-    if (conversationsActive || hasClientManager) {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    if (conversationsActive) {
+      return <RedirectToExternalUrl to={_('common.conversations_index_url')} />;
+    }
+
+    if (hasClientManager) {
       return <Navigate to="/dashboard" />;
     }
 
-    const intl = useIntl();
-    const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [redirectToConversations, setRedirectToConversations] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
