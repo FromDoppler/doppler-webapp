@@ -53,7 +53,7 @@ describe('Conversations component', () => {
     expect(screen.getByText('conversations.paragraph_free_MD')).toBeInTheDocument();
   });
 
-  it('should redirect to dashboard if the user already has beplic account', async () => {
+  it('should redirect to conversations external login if the user already has beplic account', async () => {
     // Assert
     const dependencies = {
       appSessionRef: {
@@ -82,7 +82,7 @@ describe('Conversations component', () => {
     );
 
     // Assert
-    expect(window.location.pathname).toContain('/dashboard');
+    expect(window.location.pathname).toContain('/');
   });
 
   it('should redirect to dashboard if the user is CM', async () => {
