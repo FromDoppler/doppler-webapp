@@ -96,6 +96,12 @@ const NewFeatures = () => {
             <Link to={'/landing-packages'}>Ir a Paquetes de landings</Link>
           </div>
         </div>
+        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+          <div className="m-l-24">
+            <h3>Planes de on-site</h3>
+            <Link to={'/buy-onsite-plans?buyType=4'}>Ir a Compra de planes de on-site</Link>
+          </div>
+        </div>
       </section>
     </>
   );
