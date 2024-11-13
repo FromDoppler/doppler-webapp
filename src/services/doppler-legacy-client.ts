@@ -375,6 +375,7 @@ interface ChatPlanEntry {
   agents: number;
   channels: number;
   active: boolean;
+  buttonUrl: string;
 }
 
 interface SmsEntry {
@@ -555,16 +556,17 @@ function mapAdvancePay(json: any): AdvancePayOptions {
 
 function mapChatPlanEntry(json: any): ChatPlanEntry {
   return {
-    planId: json ? json.idPlan : 0,
-    description: json ? json.description : '',
-    conversationsQty: json ? json.conversationQty : 0,
-    fee: json ? json.fee : 0,
-    additionalConversation: json ? json.additionalConversation : 0,
-    additionalAgent: json ? json.additionalAgent : 0,
-    additionalChannel: json ? json.additionalChannel : 0,
-    agents: json ? json.agents : 0,
-    channels: json ? json.canales : 0,
-    active: json ? json.active : false,
+    planId: json?.planData ? json.planData.idPlan : 0,
+    description: json?.planData ? json.planData.description : '',
+    conversationsQty: json?.planData ? json.planData.conversationQty : 0,
+    fee: json?.planData ? json.planData.fee : 0,
+    additionalConversation: json?.planData ? json.planData.additionalConversation : 0,
+    additionalAgent: json?.planData ? json.planData.additionalAgent : 0,
+    additionalChannel: json?.planData ? json.planData.additionalChannel : 0,
+    agents: json?.planData ? json.planData.agents : 0,
+    channels: json?.planData ? json.planData.canales : 0,
+    active: json?.planData ? json.planData.active : false,
+    buttonUrl: json ? json.buttonUrl : '#',
   };
 }
 
@@ -670,7 +672,7 @@ export function mapHeaderDataJson(json: any) {
       chat: {
         active:
           process.env.REACT_APP_DOPPLER_CAN_BUY_CHAT_PLAN === 'true' && json.user.chat?.active,
-        plan: mapChatPlanEntry(json.user.chat?.planData),
+        plan: mapChatPlanEntry(json.user.chat),
       },
     },
     userAccount: json.userAccount && {

@@ -40,6 +40,18 @@ const urlPreUpgradePlan = `${urlDopplerLegacy}/ControlPanel/AccountPreferences/P
 const urlDkim = `${urlDopplerLegacy}/ControlPanel/AdvancedPreferences/Dkim`;
 
 const messages_es = {
+  addons: {
+    carousel: {
+      slice_1_description: `Mejora la experiencia con tus clientes y genera más Leads con <Bold>Web Chatbot, Social Media Chatbot y Whatsapp Marketing.</Bold>`,
+      slice_1_title: `Gestiona la comunicación con tus usuarios a través de una única plataforma`,
+
+      slice_2_description: `Elige la solución ideal <Bold>para captar más clientes y disminuir los costos</Bold> de contratar múltiples herramientas.`,
+      slice_2_title: `Potencia tus ventas con Landing Pages optimizadas`,
+
+      slice_3_description: `Otorga permisos a las personas de tu equipo o de otro, <Bold>para acceder a las diferentes herramientas de la plataforma.</Bold>`,
+      slice_3_title: `Optimiza tu equipo de trabajo asignando roles y colaboradores en tu cuenta`,
+    },
+  },
   agencies: {
     feature_access: 'Acceso al panel de Client Manager para gestionar las cuentas de tus clientes.',
     feature_admin: 'Administración de perfiles de usuario y permisos de acceso para tus clientes.',
