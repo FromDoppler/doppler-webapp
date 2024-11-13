@@ -19,4 +19,20 @@ describe('PlanBenefits compoment', () => {
     screen.getByText('onsite_selection.plan_benefits.title');
     screen.getByText('onsite_selection.plan_benefits.additional_costs.additional_print_message');
   });
+
+  it(`should render PlanBenefits with custom plan`, async () => {
+    // Arrange
+    const customPlan = { additionalPrint: 1 };
+
+    // Act
+    render(
+      <IntlProvider>
+        <PlanBenefits customPlan={customPlan} />
+      </IntlProvider>,
+    );
+
+    // Assert
+    screen.getByText('onsite_selection.plan_benefits.title');
+    screen.getByText('onsite_selection.plan_benefits.additional_costs.from');
+  });
 });

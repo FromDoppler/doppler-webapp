@@ -103,7 +103,11 @@ export const PlanBenefits = ({ selectedPlan, customPlan }) => {
                             <ul className="dp-additional-cost">
                               <li>
                                 <strong>
-                                  {_('onsite_selection.plan_benefits.additional_costs.from')} US${' '}
+                                  {_('onsite_selection.plan_benefits.additional_costs.from')}
+                                </strong>
+                                <strong>
+                                  {' '}
+                                  US${' '}
                                   <FormattedNumber
                                     value={(customPlan?.additionalPrint ?? 0).toFixed(4)}
                                     {...numberFormatOptions}
