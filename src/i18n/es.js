@@ -1084,7 +1084,9 @@ Encontrarás un Email con los pasos a seguir.`,
     },
     plan_benefits: {
       additional_costs: {
+        additional_costs_message: 'Costos Adicionales',
         additional_print_message: 'Impresión adicional.',
+        extra_costs_message: 'Costos extras',
         from: 'Desde',
         legend_1_message: '*Podrás incluir Adicionales desde <bold>Mi Plan</bold> una vez superados los valores establecidos por tu servicio contratado.',
       },

@@ -1083,7 +1083,9 @@ You'll find an Email with steps to follow.`,
     },
     plan_benefits: {
       additional_costs: {
+        additional_costs_message: 'Additional costs',
         additional_print_message: 'Additional print.',
+        extra_costs_message: 'Extra costs',
         from: 'Since',
         legend_1_message: '*You may purchase additional items from <bold>My Plan</bold> once the values ​​established by your plan have been exceeded.',
       },

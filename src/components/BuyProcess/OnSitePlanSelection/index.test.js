@@ -24,6 +24,12 @@ describe('OnSitePlansSelection component', () => {
                 idPlan: 3,
                 planType: PLAN_TYPE.free,
               },
+              onSite: {
+                plan: {
+                  idPlan: 3,
+                  printQty: 500,
+                },
+              },
             },
           },
         },

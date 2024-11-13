@@ -7,8 +7,8 @@ import {
 
 export const useOnSitePlans = (dopplerAccountPlansApiClient, appSessionRef) => {
   const [state, dispatch] = useReducer(onSitePlansReducer, INITIAL_STATE_ONSITE_PLANS);
-  //const sessionPlan = appSessionRef.current.userData.user;
-  const onSitePlan = undefined; //sessionPlan.chat.plan;
+  const sessionPlan = appSessionRef.current.userData.user;
+  const onSitePlan = sessionPlan.onSite.plan;
 
   useEffect(() => {
     const fetchData = async () => {
