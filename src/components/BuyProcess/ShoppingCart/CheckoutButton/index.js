@@ -26,6 +26,7 @@ export const CheckoutButton = InjectAppServices(
     selectedPlanChat,
     buyType = BUY_MARKETING_PLAN,
     hasChatActive,
+    selectedOnSitePlan,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);

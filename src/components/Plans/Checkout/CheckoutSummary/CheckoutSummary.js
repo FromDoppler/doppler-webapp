@@ -24,6 +24,7 @@ import {
   BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
+  BUY_ONSITE_PLAN,
   PLAN_TYPE,
 } from '../../../../doppler-types';
 import { Link } from 'react-router-dom';
@@ -33,6 +34,7 @@ import useTimeout from '../../../../hooks/useTimeout';
 import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
 import { PlanChatInformation } from './PlanChatInformation';
 import { CheckoutSummaryCarousel } from './CheckoutSummaryCarousel';
+import { OnSitePlanInformation } from './OnSitePlanInformation';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -432,6 +434,7 @@ export const CheckoutSummary = InjectAppServices(
         remainingCredits,
         hasError,
         chatUserPlan,
+        onSiteUserPlan,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);
@@ -483,6 +486,7 @@ export const CheckoutSummary = InjectAppServices(
           const billingInformationData = await fetchBillingInformationData();
           const currentUserPlanData = await fetchCurrentUserPlanByType(1);
           const currentChatPlanUserData = await fetchCurrentUserPlanByType(2);
+          const currentOnSitePlanUserData = await fetchCurrentUserPlanByType(4);
 
           dispatch({
             type: CHECKOUT_SUMMARY_ACTIONS.FINISH_FETCH,
@@ -493,6 +497,7 @@ export const CheckoutSummary = InjectAppServices(
               discount: discountDescription,
               paymentMethod: paymentMethodType,
               chatUserPlan: currentChatPlanUserData,
+              onSiteUserPlan: currentOnSitePlanUserData,
             },
           });
         } catch (error) {
@@ -573,6 +578,8 @@ export const CheckoutSummary = InjectAppServices(
                     discount={discount}
                   />
                 )
+              ) : buyType && Number(buyType) === BUY_ONSITE_PLAN && onSiteUserPlan !== null ? (
+                <OnSitePlanInformation quantity={onSiteUserPlan.printQty} discount={discount} />
               ) : (
                 <PlanLandingPagesInformation1 />
               )}

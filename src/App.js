@@ -44,6 +44,7 @@ import { BuyProcessLayout } from './components/BuyProcess/BuyProcessLayout';
 import { CollaboratorEditionSection } from './components/ControlPanel/CollaboratorEditionSection';
 import { Conversations } from './components/Conversations';
 import { BuyConversation } from './components/Plans/BuyConversation';
+import { OnSitePlansSelection } from './components/BuyProcess/OnSitePlanSelection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -227,6 +228,16 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <BuyConversation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/buy-onsite-plans"
+              element={
+                <PrivateRoute>
+                  <BuyProcessLayout>
+                    <OnSitePlansSelection />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />

@@ -3,6 +3,7 @@ import { amountByPlanType, thousandSeparatorNumber } from '../../../utils';
 import {
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
+  BUY_ONSITE_PLAN,
   CloverError,
   FirstDataError,
   MercadoPagoError,
@@ -13,6 +14,8 @@ import { CheckoutLink } from './CheckoutLink';
 import { CheckoutButton } from './CheckoutButton';
 import { LandingPackCheckoutLink } from './CheckoutLink/LandingPackCheckoutLink';
 import { LandingPackCheckoutButton } from './CheckoutButton/LandingPackCheckoutButton';
+import { OnSiteCheckoutLink } from './CheckoutLink/OnSite';
+import { OnSiteCheckoutButton } from './CheckoutButton/OnSite';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -631,6 +634,170 @@ export const mapItemFromPlanChat = ({
   return planChatInformation;
 };
 
+export const mapItemFromOnSitePlan = ({
+  onSitePlan,
+  selectedPaymentFrequency,
+  intl,
+  amountDetailsData,
+  planType,
+  handleRemove,
+  canOnSitePlanRemove,
+}) => {
+  const numberMonths = selectedPaymentFrequency?.numberMonths;
+
+  const onSitePlanInformation = {
+    name: <FormattedMessage id={`buy_process.onsite_plan_title`} />,
+    featureList: [
+      <FormattedMessage
+        id={`buy_process.feature_item_onsite_plan`}
+        values={{
+          units: thousandSeparatorNumber(intl.defaultLocale, onSitePlan?.printQty ?? 0),
+          Strong: (chunk) => <strong>{chunk}</strong>,
+        }}
+      />,
+    ],
+    // isRemovible: true,
+    data: onSitePlan,
+    isRemovible: canOnSitePlanRemove,
+    handleRemove,
+    billingList: [],
+  };
+
+  // Months to hire
+  if (planType === PLAN_TYPE.byContact) {
+    const monthsCount = numberMonths ? numberMonths : 1;
+    const onSitePlanFee = onSitePlan?.fee ?? 0;
+    const amount = numberMonths ? onSitePlanFee * monthsCount : onSitePlanFee;
+
+    onSitePlanInformation.featureList.push(
+      <>
+        <FormattedMessage id={`buy_process.months_to_hire`} />{' '}
+        <strong>
+          <FormattedMessage
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>{' '}
+        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
+      </>,
+    );
+  }
+
+  // Months to pay
+  if (planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail) {
+    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+    const planFee = onSitePlan?.fee ?? 0;
+    const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
+
+    onSitePlanInformation.billingList.push({
+      label: (
+        <>
+          <FormattedMessage
+            id={
+              planType !== PLAN_TYPE.byContact
+                ? `buy_process.months_to_pay`
+                : `buy_process.difference_months_to_pay`
+            }
+            values={{
+              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+            }}
+          />{' '}
+          <strong>
+            <FormattedMessage
+              id="buy_process.month_with_plural"
+              values={{ months: monthsCount }}
+            ></FormattedMessage>
+          </strong>
+        </>
+      ),
+      amount: (
+        <>
+          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+        </>
+      ),
+    });
+  }
+
+  // // Discount advanced pay
+  if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
+    onSitePlanInformation.featureList.push(
+      <>
+        <FormattedMessage
+          id={`buy_process.feature_item_discount_advanced_pay`}
+          values={{
+            months: numberMonths,
+          }}
+        />
+        <span className="dp-discount">
+          -{amountDetailsData?.value?.discountPrepayment?.discountPercentage}%
+        </span>
+      </>,
+    );
+
+    onSitePlanInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPrepayment?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPrepayment.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  if (amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage > 0) {
+    onSitePlanInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.promocode.discount_for_admin`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  // // Positive balance
+  if (amountDetailsData?.value?.discountPaymentAlreadyPaid > 0) {
+    onSitePlanInformation.billingList.push({
+      label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
+            {...numberFormatOptions}
+          />
+        </>
+      ),
+    });
+  }
+
+  return onSitePlanInformation;
+};
+
 export const getCheckoutErrorMesage = (error) => {
   switch (error) {
     case FirstDataError.invalidExpirationDate:
@@ -684,6 +851,7 @@ export const getBuyButton = ({
   cancelLandings,
   selectedPlanChat,
   hasChatActive,
+  selectedOnSitePlan,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -738,6 +906,30 @@ export const getBuyButton = ({
     }
   }
 
+  if (buyType === BUY_ONSITE_PLAN) {
+    if (pathname.includes('/checkout/premium/')) {
+      return (
+        <OnSiteCheckoutButton
+          total={total}
+          onSitePlanId={selectedOnSitePlan?.onSitePlan?.planId ?? '0'}
+          cancelOnSitePlan={false}
+          keyTextButton={'buy_process.buy_now_title'}
+          canBuy={canBuy}
+        />
+      );
+    } else {
+      return (
+        <OnSiteCheckoutLink
+          planId={selectedMarketingPlan?.id}
+          showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
+          planType={sessionPlanType === PLAN_TYPE.free ? PLAN_TYPE.byContact : sessionPlanType}
+          onSitePlanId={selectedOnSitePlan?.onSitePlan?.planId ?? '0'}
+          monthPlan={selectedDiscount?.numberMonths}
+        />
+      );
+    }
+  }
+
   if (pathname.includes('/checkout/premium/')) {
     return (
       <CheckoutButton
@@ -751,6 +943,7 @@ export const getBuyButton = ({
         selectedPlanChat={selectedPlanChat}
         buyType={buyType}
         hasChatActive={hasChatActive}
+        selectedOnSitePlan={selectedOnSitePlan}
       />
     );
   }

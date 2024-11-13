@@ -378,6 +378,15 @@ interface ChatPlanEntry {
   buttonUrl: string;
 }
 
+interface OnSitePlanEntry {
+  planId: number;
+  description: string;
+  printQty: number;
+  fee: number;
+  additionalPrint: number;
+  active: boolean;
+}
+
 interface SmsEntry {
   buttonText: string;
   buttonUrl: string;
@@ -570,6 +579,17 @@ function mapChatPlanEntry(json: any): ChatPlanEntry {
   };
 }
 
+function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
+  return {
+    planId: json ? json.idPlan : 0,
+    description: json ? json.description : '',
+    printQty: json ? json.printQty : 0,
+    fee: json ? json.fee : 0,
+    additionalPrint: json ? json.additionalPrint : 0,
+    active: json ? json.active : false,
+  };
+}
+
 function parsePlan(json: any) {
   const id = json.IdUserTypePlan;
   const fee = json.Fee;
@@ -673,6 +693,10 @@ export function mapHeaderDataJson(json: any) {
         active:
           process.env.REACT_APP_DOPPLER_CAN_BUY_CHAT_PLAN === 'true' && json.user.chat?.active,
         plan: mapChatPlanEntry(json.user.chat),
+      },
+      onSite: {
+        active: json.user.onSite?.active,
+        plan: mapOnSitePlanEntry(json.user.onSite?.planData),
       },
     },
     userAccount: json.userAccount && {

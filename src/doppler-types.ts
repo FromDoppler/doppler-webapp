@@ -210,3 +210,4 @@ export const paymentFrequenciesListFake = [
 export const BUY_MARKETING_PLAN = 1;
 export const BUY_LANDING_PACK = 3;
 export const BUY_CHAT_PLAN = 2;
+export const BUY_ONSITE_PLAN = 4;

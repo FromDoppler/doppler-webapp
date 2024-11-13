@@ -12,11 +12,13 @@ import {
   mapItemFromLandingPackages,
   mapItemFromMarketingPlan,
   mapItemFromPlanChat,
+  mapItemFromOnSitePlan,
 } from './utils';
 import {
   BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
+  BUY_ONSITE_PLAN,
   PLAN_TYPE,
   PaymentMethodType,
   SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA,
@@ -51,6 +53,9 @@ export const ShoppingCart = InjectAppServices(
     hasChatActive,
     disabledPromocode = false,
     addMarketingPlan = true,
+    selectedOnSitePlan,
+    handleRemoveOnSitePlan,
+    canOnSitePlanRemove,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -58,6 +63,7 @@ export const ShoppingCart = InjectAppServices(
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
     const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
+    const [amountDetailsOnSitePlanData, setAmountDetailsOnSitePlanData] = useState(null);
     useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState('');
     const { planType: planTypeUrlSegment } = useParams();
@@ -179,6 +185,34 @@ export const ShoppingCart = InjectAppServices(
       discountConfig.paymentFrequenciesList,
     ]);
 
+    useEffect(() => {
+      const fetchData = async () => {
+        const paymentFrequencyId = discountConfig?.selectedPaymentFrequency?.id;
+        const _amountDetailsOnSitePlanData =
+          await dopplerAccountPlansApiClient.getOnSitePlanBillingDetailsData(
+            selectedOnSitePlan?.planId,
+            paymentFrequencyId
+              ? paymentFrequencyId
+              : discountConfig.paymentFrequenciesList.at(-1)
+                ? discountConfig.paymentFrequenciesList.at(-1).id
+                : 0,
+          );
+
+        setAmountDetailsOnSitePlanData(_amountDetailsOnSitePlanData);
+      };
+
+      if (selectedOnSitePlan?.planId) {
+        fetchData();
+      } else {
+        setAmountDetailsOnSitePlanData(null);
+      }
+    }, [
+      dopplerAccountPlansApiClient,
+      selectedOnSitePlan,
+      discountConfig?.selectedPaymentFrequency,
+      discountConfig.paymentFrequenciesList,
+    ]);
+
     const handlePromocodeApplied = useCallback((value) => {
       setPromocodeApplied(value);
     }, []);
@@ -239,15 +273,32 @@ export const ShoppingCart = InjectAppServices(
           canChatPlanRemove: canChatPlanRemove,
         }),
       );
+
+    selectedOnSitePlan &&
+      items.push(
+        mapItemFromOnSitePlan({
+          onSitePlan: selectedOnSitePlan,
+          intl,
+          selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
+          amountDetailsData: amountDetailsOnSitePlanData,
+          planType: sessionPlanType,
+          handleRemove: () => {
+            handleRemoveOnSitePlan();
+          },
+          canOnSitePlanRemove: canOnSitePlanRemove,
+        }),
+      );
     const total =
       (addMarketingPlan ? amountDetailsData?.value?.currentMonthTotal ?? 0 : 0) +
       (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
-      (amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0);
+      (amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0) +
+      (amountDetailsOnSitePlanData?.value?.currentMonthTotal ?? 0);
 
     const nextMonthTotal =
       (addMarketingPlan ? amountDetailsData?.value?.nextMonthTotal ?? 0 : 0) +
       (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
-      (amountDetailsPlanChatData?.value?.nextMonthTotal ?? 0);
+      (amountDetailsPlanChatData?.value?.nextMonthTotal ?? 0) +
+      (amountDetailsOnSitePlanData?.value?.nextMonthTotal ?? 0);
 
     const checkoutLandingPackButtonEnabled = landingPagesRemoved && landingPacks?.length === 0;
     const buyButton = getBuyButton({
@@ -270,6 +321,10 @@ export const ShoppingCart = InjectAppServices(
         total: amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0,
       },
       hasChatActive,
+      selectedOnSitePlan: {
+        onSitePlan: selectedOnSitePlan,
+        total: amountDetailsOnSitePlanData?.value?.currentMonthTotal ?? 0,
+      },
     });
 
     const paymentFrequencyProps = {
@@ -356,11 +411,13 @@ export const ShoppingCart = InjectAppServices(
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'
-                  : addMarketingPlan
-                    ? buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
-                      ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
-                      : 'buy_process.upcoming_bills.marketing_plan_subtitle'
-                    : 'buy_process.upcoming_bills.chat_plan_subtitle'
+                  : buyType === BUY_ONSITE_PLAN
+                    ? 'buy_process.upcoming_bills.onsite_plan_subtitle'
+                    : addMarketingPlan
+                      ? buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
+                        ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
+                        : 'buy_process.upcoming_bills.marketing_plan_subtitle'
+                      : 'buy_process.upcoming_bills.chat_plan_subtitle'
               }
             />
           )}
