@@ -1007,7 +1007,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         UTMCampaign: model.utm_campaign,
         UTMTerm: model.utm_term,
         UTMCookies: model.utm_cookies,
-        gclid: model.gclid,
+        Gclid: model.gclid,
         UTMContent: model.utm_content,
         Origin_Inbound: model.origin_inbound,
         Fingerprint: model.fingerprint,
