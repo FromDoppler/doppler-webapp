@@ -27,6 +27,7 @@ const MenuDemo = ({
         }
       },
       beamerId: process.env.REACT_APP_BEAMER_ID,
+      userpilotToken: 'STG-NX-d04cfcac',
     };
     window.assetServices &&
       window.assetServices.load({
