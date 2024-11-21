@@ -1216,3 +1216,35 @@ export const CbuFieldItem = ({
     />
   </FieldItem>
 );
+
+export const CreditCardInputFieldItem = ({
+  className,
+  fieldName,
+  label,
+  type,
+  placeholder,
+  required,
+  withSubmitCount = true,
+  checkDigitValidation,
+  validate,
+  ...rest
+}) => (
+  <FieldItem
+    className={concatClasses('field-item', className)}
+    fieldName={fieldName}
+    withSubmitCount={withSubmitCount}
+  >
+    <label htmlFor={fieldName}>{label}</label>
+    <Field
+      type={type}
+      name={fieldName}
+      id={fieldName}
+      placeholder={placeholder}
+      validate={combineValidations(
+        createRequiredValidation(required),
+        validate && checkDigitValidation,
+      )}
+      {...rest}
+    />
+  </FieldItem>
+);
