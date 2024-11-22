@@ -755,9 +755,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     meta_title: 'Doppler | Tablero de Inicio',
 
-    postListBlog_1_description: 'Explora lo último en Marketing Digital y lleva tu negocio al siguiente nivel. ¡Es hora de crecer!',
-    postListBlog_1_link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-captacionleadsEMMSDT24-invitacion-oct24 ',
-    postListBlog_1_link_description: '¡Reserva tu lugar!',
+    postListBlog_1_description:
+      'Del 26 al 28 de Noviembre. Conferencias, Workshops, Networking, Sorteos ¡y mucho más! Escucha a Google, Meta, Canva, Arcos Dorados y más marcas disertar sobre tendencias y estrategias en Marketing Digital.',
+    postListBlog_1_link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-captacionleadsEMMSDT24-invitacion-nov24',
+    postListBlog_1_link_description: 'Únete gratis',
     postListBlog_1_title: 'EMMS Digital Trends 2024 🚀 Evento online y gratuito',
 
     postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
