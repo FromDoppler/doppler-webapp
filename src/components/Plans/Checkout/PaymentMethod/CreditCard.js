@@ -4,12 +4,18 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
 import { Loading } from '../../../Loading/Loading';
 import Cards from 'react-credit-cards';
-import { FieldGroup, FieldItem, InputFieldItem } from '../../../form-helpers/form-helpers';
+import {
+  CreditCardInputFieldItem,
+  FieldGroup,
+  FieldItem,
+  InputFieldItem,
+} from '../../../form-helpers/form-helpers';
 import InputMask from 'react-input-mask';
 import { actionPage } from '../Checkout';
 import { fieldNames, paymentType } from './PaymentMethod';
 import creditCards from '../../../../img/credit-cards.svg';
 import styled from 'styled-components';
+import { validateCreditCardNumber } from '../../../../validations';
 
 export const CreditCardIcons = styled.img`
   height: 30px;
@@ -166,6 +172,9 @@ export const CreditCard = InjectAppServices(
       setCvc('');
     };
 
+    const createCheckDigitValidation = () =>
+      validateCreditCardNumber(getCreditCardBrand(number), number);
+
     return (
       <>
         {state.loading ? (
@@ -216,13 +225,15 @@ export const CreditCard = InjectAppServices(
                             maskChar="-"
                           >
                             {(inputProps) => (
-                              <InputFieldItem
+                              <CreditCardInputFieldItem
                                 {...inputProps}
                                 type="text"
                                 label={`*${_('checkoutProcessForm.payment_method.credit_card')}`}
                                 fieldName={fieldNames.number}
                                 id="number"
                                 required
+                                checkDigitValidation={createCheckDigitValidation}
+                                validate={true}
                               />
                             )}
                           </InputMask>

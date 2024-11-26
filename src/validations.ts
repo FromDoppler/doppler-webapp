@@ -243,3 +243,44 @@ export const validateCbu = (
 
   return null;
 };
+
+export function validateCreditCardNumber(type: string, number: string): true | string | null {
+  number = number.replaceAll('-', '').replaceAll(' ', '');
+  var visa = /^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
+  var masterCard = /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
+  var amex = /^3[47][0-9-]{13}$/;
+  var commonErrorKey = 'validation_messages.error_invalid_card_number';
+
+  if (luhn(number)) {
+    if (type === 'visa' && !number.match(visa)) {
+      return commonErrorKey;
+    }
+    if (type === 'mastercard' && !number.match(masterCard)) {
+      return commonErrorKey;
+    }
+    if (type === 'amex' && !number.match(amex)) {
+      return commonErrorKey;
+    }
+  } else {
+    return commonErrorKey;
+  }
+
+  return null;
+}
+
+function luhn(value: string) {
+  // Accept only digits, dashes or spaces
+  if (/[^0-9-\s]+/.test(value)) return false;
+  // The Luhn Algorithm. It's so pretty.
+  let nCheck = 0,
+    bEven = false;
+  value = value.replace(/\D/g, '');
+  for (var n = value.length - 1; n >= 0; n--) {
+    var cDigit = value.charAt(n),
+      nDigit = parseInt(cDigit, 10);
+    if (bEven && (nDigit *= 2) > 9) nDigit -= 9;
+    nCheck += nDigit;
+    bEven = !bEven;
+  }
+  return nCheck % 10 === 0;
+}

@@ -1794,6 +1794,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_expired_invitation_link: `¡Aviso Importante! La invitación como colaborador ha expirado o ha sido inhabilitada, deberás contactarte con el administrador.`,
     error_has_accents: `¡Ouch! El Email no debe contener tildes ni acentos.`,
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
+    error_invalid_card_number: '¡Ouch! Tarjeta invalida. Inténtalo nuevamente o prueba con otra tarjeta.',
     error_invalid_cbu: `Ouch! El formato del CBU es incorrecto`,
     error_invalid_collaborator_email: `¡Ouch! No puedes invitarte a ti mismo.`,
     error_invalid_cuit: `¡Ouch! El formato del Cuit es incorrecto`,

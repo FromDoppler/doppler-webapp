@@ -9,6 +9,7 @@ import {
   validateRfc,
   validateCuit,
   validateCbu,
+  validateCreditCardNumber,
 } from './validations';
 
 describe('validations', () => {
@@ -910,5 +911,29 @@ describe('validateCbu', () => {
 
     // Assert
     expect(result).toEqual('validation_messages.error_invalid_cbu');
+  });
+
+  it('should return the error message for an invalid credit card number', () => {
+    // Arrange
+    const value = '4111111111111115';
+    const type = 'visa';
+
+    // Act
+    const result = validateCreditCardNumber(type, value);
+
+    // Assert
+    expect(result).toEqual('validation_messages.error_invalid_card_number');
+  });
+
+  it('should return null for a valid credit card number', () => {
+    // Arrange
+    const value = '4111111111111111';
+    const type = 'visa';
+
+    // Act
+    const result = validateCreditCardNumber(type, value);
+
+    // Assert
+    expect(result).toEqual(null);
   });
 });

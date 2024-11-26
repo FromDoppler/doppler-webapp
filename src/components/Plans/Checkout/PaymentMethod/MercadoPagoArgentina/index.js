@@ -4,6 +4,7 @@ import { useFormikContext } from 'formik';
 import { Loading } from '../../../../Loading/Loading';
 import Cards from 'react-credit-cards';
 import {
+  CreditCardInputFieldItem,
   CuitFieldItem,
   FieldGroup,
   FieldItem,
@@ -16,7 +17,7 @@ import creditCards from '../../../../../img/credit-cards.svg';
 import styled from 'styled-components';
 import { paymentType } from '../PaymentMethod';
 import { getCreditCardBrand } from '../CreditCard';
-import { validateDni } from '../../../../../validations';
+import { validateCreditCardNumber, validateDni } from '../../../../../validations';
 
 export const CreditCardIcons = styled.img`
   height: 30px;
@@ -144,6 +145,9 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
     setFocus(e.target.name);
   };
 
+  const createCheckDigitValidation = () =>
+    validateCreditCardNumber(getCreditCardBrand(number), number);
+
   if (state.loading) {
     return <Loading page />;
   }
@@ -201,13 +205,15 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                   maskChar="-"
                 >
                   {(inputProps) => (
-                    <InputFieldItem
+                    <CreditCardInputFieldItem
                       {...inputProps}
                       type="text"
                       label={`*${_('checkoutProcessForm.payment_method.credit_card')}`}
                       fieldName={fieldNames.number}
                       id={fieldNames.number}
                       required
+                      checkDigitValidation={createCheckDigitValidation}
+                      validate={true}
                     />
                   )}
                 </InputMask>

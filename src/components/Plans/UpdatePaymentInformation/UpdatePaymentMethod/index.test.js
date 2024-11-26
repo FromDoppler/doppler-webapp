@@ -142,13 +142,6 @@ describe('UpdatePaymentMethod component', () => {
       'DeclinedPaymentTransaction - Invalid Expiration Date [Bank]',
       'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date',
     ],
-    [
-      'should show the credit card number invalid message when the user enter an incorrect number',
-      'checkoutProcessForm.payment_method.credit_card',
-      '4999999999999999',
-      'DeclinedPaymentTransaction - Invalid Credit Card Number',
-      'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number',
-    ],
   ])(
     'update view - credit card - first data error',
     (testName, fieldName, fieldValue, firstDataError, firstDataErrorKey) => {

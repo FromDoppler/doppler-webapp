@@ -1791,6 +1791,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_expired_invitation_link: `Important announcement! Your collaborator invitation has expired or been disabled, you will need to contact the administrator.`,
     error_has_accents: `Ouch! The Email must not have any accent.`,
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
+    error_invalid_card_number: 'Ouch! Invalid credit card. Please try again or try with another credit card.',
     error_invalid_cbu: `Ouch! Enter a valid CBU`,
     error_invalid_collaborator_email: `¡Ouch! You cannot invite yourself.`,
     error_invalid_cuit: `Ouch! Enter a valid Cuit`,
