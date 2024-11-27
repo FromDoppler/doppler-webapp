@@ -24,10 +24,12 @@ describe('onSitePlansReducer', () => {
       {
         planId: 1,
         printQty: 500,
+        fee: 25,
       },
       {
         planId: 2,
         printQty: 1000,
+        fee: 50,
       },
     ];
     const action = {
@@ -48,6 +50,11 @@ describe('onSitePlansReducer', () => {
       onSitePlans: [{ printQty: 0 }, ...onSitePlans],
       onSitePlansValues: [0, 500, 1000],
       selectedPlan: { printQty: 0 },
+      cheapestOnSitePlan: {
+        planId: 1,
+        printQty: 500,
+        fee: 25,
+      },
     });
   });
 

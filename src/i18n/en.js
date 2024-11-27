@@ -1068,6 +1068,13 @@ You'll find an Email with steps to follow.`,
   },
   onsite_selection: {
     banner_for_prints: `Do you need more Prints? <Link>Write to us</Link>.`,
+    card: {
+      buy_now_button: 'Buy now',
+      description: `Capture more Leads and boost your sales with optimized Landing Pages.`,
+      more_information_label: 'More information',
+      plan_from: `Plan from US$ {price}/month`,
+      title: `On-site plan`,
+    },
     how_many_prints_need_message: 'How many Prints do you need per month?',
     more_option_tickmark_message: 'More',
     onsite_plan_info: {

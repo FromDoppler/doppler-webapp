@@ -1070,6 +1070,13 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   onsite_selection: {
     banner_for_prints: `¿Necesitas más Impresiones? <Link>Escríbenos</Link>.`,
+    card: {
+      buy_now_button: 'Comprar ahora',
+      description: `Capta más Leads y potencia tus ventas con Páginas de Destino optimizadas.`,
+      more_information_label: 'Más información',
+      plan_from: `Plan desde US$ {price}/mes`,
+      title: `Plan On-site`,
+    },
     how_many_prints_need_message: '¿Cuántas impresiones necesitas por mes?',
     more_option_tickmark_message: 'Más',
     onsite_plan_info: {
