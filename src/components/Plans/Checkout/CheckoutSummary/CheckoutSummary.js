@@ -35,6 +35,7 @@ import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide'
 import { PlanChatInformation } from './PlanChatInformation';
 import { CheckoutSummaryCarousel } from './CheckoutSummaryCarousel';
 import { OnSitePlanInformation } from './OnSitePlanInformation';
+import { useOnSitePlans } from '../../../../hooks/useFetchOnSitePlans';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -70,6 +71,38 @@ export const AddOnLandingPack = InjectAppServices(
             id="landing_selection.pack_from"
             values={{
               price: cheapestLandingPack?.price || 0,
+            }}
+          />
+        }
+      />
+    );
+  },
+);
+
+export const AddOnOnSitePlan = InjectAppServices(
+  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const [{ cheapestOnSitePlan }] = useOnSitePlans(dopplerAccountPlansApiClient, appSessionRef);
+
+    return (
+      <AddOn
+        title={_('onsite_selection.card.title')}
+        titleIconName="dpicon iconapp-landing-page"
+        description={_('onsite_selection.card.description')}
+        link1={{
+          pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
+          label: `${_('onsite_selection.card.more_information_label')}`,
+        }}
+        link2={{
+          pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
+          label: `${_('onsite_selection.card.buy_now_button')}`,
+        }}
+        priceComponent={
+          <FormattedMessage
+            id="onsite_selection.card.plan_from"
+            values={{
+              price: cheapestOnSitePlan?.fee || 0,
             }}
           />
         }
@@ -523,7 +556,7 @@ export const CheckoutSummary = InjectAppServices(
     }
 
     if (loading) {
-      return <Loading />;
+      return <Loading page />;
     }
 
     if (hasError) {
@@ -533,6 +566,8 @@ export const CheckoutSummary = InjectAppServices(
     const title = getTitle(paymentMethod, upgradePending);
     const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
+
+    const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
 
     return (
       <>
@@ -607,6 +642,7 @@ export const CheckoutSummary = InjectAppServices(
                     <span className="dpicon iconapp-add-product" />
                   </h2>
                   <AddOnLandingPack />
+                  {canBuyOnSitePlan && <AddOnOnSitePlan />}
                 </div>
               </div>
             )}
@@ -682,7 +718,7 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
   return (
     <div className="modal bg-opacity--50" id="modal-addons">
       <div className="modal-content--medium">
-        <span class="close" onClick={closeModal}></span>
+        <span className="close" onClick={closeModal}></span>
         <CheckoutSummaryCarousel
           id="1"
           ariaLabel="addons-packs"

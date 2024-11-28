@@ -5,6 +5,7 @@ export const INITIAL_STATE_ONSITE_PLANS = {
   selectedPlan: null,
   loading: true,
   hasError: false,
+  cheapestOnSitePlan: null,
 };
 
 export const ONSITE_PLANS_ACTIONS = {
@@ -30,6 +31,9 @@ export const onSitePlansReducer = (state, action) => {
       const index = plans.indexOf(plan);
 
       var filterValues = onSitePlans.filter((cp) => cp.active !== false).map((cp) => cp.printQty);
+      var cheapestOnSitePlan = onSitePlans?.reduce((previous, current) => {
+        return current.fee < previous.fee ? current : previous;
+      });
 
       return {
         ...state,
@@ -39,6 +43,7 @@ export const onSitePlansReducer = (state, action) => {
         selectedPlan: plan,
         selectedPlanIndex: index,
         customOnSitePlans: customOnSitePlans,
+        cheapestOnSitePlan: cheapestOnSitePlan,
       };
     case ONSITE_PLANS_ACTIONS.SELECT_PLAN:
       const { payload: selectedPlanIndex } = action;
