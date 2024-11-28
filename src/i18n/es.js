@@ -48,8 +48,11 @@ const messages_es = {
       slice_2_description: `Elige la solución ideal <Bold>para captar más clientes y disminuir los costos</Bold> de contratar múltiples herramientas.`,
       slice_2_title: `Potencia tus ventas con Landing Pages optimizadas`,
 
-      slice_3_description: `Otorga permisos a las personas de tu equipo o de otro, <Bold>para acceder a las diferentes herramientas de la plataforma.</Bold>`,
-      slice_3_title: `Optimiza tu equipo de trabajo asignando roles y colaboradores en tu cuenta`,
+      slice_3_description: `Plan on-site`,
+      slice_3_title: `Plan on-site`,
+
+      slice_4_description: `Otorga permisos a las personas de tu equipo o de otro, <Bold>para acceder a las diferentes herramientas de la plataforma.</Bold>`,
+      slice_4_title: `Optimiza tu equipo de trabajo asignando roles y colaboradores en tu cuenta`,
     },
   },
   agencies: {
