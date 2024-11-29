@@ -666,6 +666,8 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
   const hasLandingPlan = (user.landings?.landingPacks?.length ?? 0) > 0;
   const hasConversationPlan = user.chat?.active === true && user.chat?.plan?.fee > 0;
   const conversationsBuyUrl = user.chat.plan.buttonUrl;
+  const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
+  const hasOnSitePlan = user.onSite?.active === true && user.onSite?.plan?.fee > 0;
 
   const getAddonSlides = () => {
     const slides = [];
@@ -693,11 +695,21 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
       });
     }
 
+    if (canBuyOnSitePlan && !hasOnSitePlan) {
+      slides.push({
+        id: 3,
+        img: 'addons-carousel-slide-3.svg',
+        title: 'addons.carousel.slice_3_title',
+        description: 'addons.carousel.slice_3_description',
+        link: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
+      });
+    }
+
     // {
     //   id: 3,
-    //   img: 'addons-carousel-slide-3.svg',
-    //   title: 'addons.carousel.slice_3_title',
-    //   description: 'addons.carousel.slice_3_description',
+    //   img: 'addons-carousel-slide-4.svg',
+    //   title: 'addons.carousel.slice_4_title',
+    //   description: 'addons.carousel.slice_4_description',
     // },
 
     return slides;

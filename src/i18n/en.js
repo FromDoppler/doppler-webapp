@@ -47,8 +47,11 @@ const messages_en = {
       slice_2_description: `Choose the ideal solution <Bold>to attract more customers and reduce the costs</Bold> of hiring multiple tools.`,
       slice_2_title: `Boost your sales with{br} optimized Landing Pages`,
 
-      slice_3_description: `Grant permissions to people on your team or another, <Bold>to access the different tools of the platform.</Bold>`,
-      slice_3_title: `Optimize your team by assigning roles and collaborations in your account`,
+      slice_3_description: `On-site plan`,
+      slice_3_title: `On-site plan`,
+
+      slice_4_description: `Grant permissions to people on your team or another, <Bold>to access the different tools of the platform.</Bold>`,
+      slice_4_title: `Optimize your team by assigning roles and collaborations in your account`,
     },
   },
   agencies: {
