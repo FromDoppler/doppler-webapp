@@ -87,7 +87,7 @@ export const CreditCard = InjectAppServices(
     paymentMethod,
   }) => {
     const intl = useIntl();
-    const { setFieldValue, setValues } = useFormikContext();
+    const { setFieldValue, setValues, setFieldTouched } = useFormikContext();
     const [state, setState] = useState({ loading: true, paymentMethod: {}, readOnly: true });
     const [number, setNumber] = useState('');
     const [name, setName] = useState('');
@@ -148,7 +148,6 @@ export const CreditCard = InjectAppServices(
         }
         setFieldValue(fieldNames.number, value);
         setNumber(value);
-        clearCvc();
       }
       setPasted(false);
     };
@@ -171,9 +170,6 @@ export const CreditCard = InjectAppServices(
       setFieldValue(fieldNames.cvc, '');
       setCvc('');
     };
-
-    const createCheckDigitValidation = () =>
-      validateCreditCardNumber(getCreditCardBrand(number), number);
 
     return (
       <>
@@ -219,10 +215,13 @@ export const CreditCard = InjectAppServices(
                           <InputMask
                             mask={ccMask}
                             value={number}
-                            onChange={(e) => onChangeNumber(e, setFieldValue)}
+                            onChange={(e) => {
+                              onChangeNumber(e, setFieldValue);
+                            }}
                             onPaste={(e) => onPasteNumber(e, setFieldValue)}
                             onFocus={(e) => setFocus(e.target.name)}
                             maskChar="-"
+                            onBlur={(e) => setFieldTouched(e.target.name, true)}
                           >
                             {(inputProps) => (
                               <CreditCardInputFieldItem
@@ -230,10 +229,11 @@ export const CreditCard = InjectAppServices(
                                 type="text"
                                 label={`*${_('checkoutProcessForm.payment_method.credit_card')}`}
                                 fieldName={fieldNames.number}
-                                id="number"
+                                id={fieldNames.number}
                                 required
-                                checkDigitValidation={createCheckDigitValidation}
+                                checkDigitValidation={validateCreditCardNumber}
                                 validate={true}
+                                withSubmitCount={false}
                               />
                             )}
                           </InputMask>
@@ -250,6 +250,7 @@ export const CreditCard = InjectAppServices(
                               setExpiry(e.target.value);
                             }}
                             onFocus={(e) => setFocus(e.target.name)}
+                            onBlur={(e) => setFieldTouched(e.target.name, true)}
                             withExpiryDateValidation
                           >
                             {(inputProps) => (
@@ -262,6 +263,7 @@ export const CreditCard = InjectAppServices(
                                 fieldName={fieldNames.expiry}
                                 id="expiry"
                                 required
+                                withSubmitCount={false}
                               />
                             )}
                           </InputMask>
@@ -274,16 +276,17 @@ export const CreditCard = InjectAppServices(
                           <InputFieldItem
                             type="text"
                             fieldName={fieldNames.name}
-                            id="name"
+                            id={fieldNames.name}
                             label={`*${_('checkoutProcessForm.payment_method.holder_name')}`}
                             required
                             onChange={(e) => {
-                              setFieldValue('name', e.target.value);
+                              setFieldValue(fieldNames.name, e.target.value);
                               setName(e.target.value);
                             }}
                             onFocus={(e) => setFocus(e.target.name)}
                             value={name}
                             placeholder=""
+                            withSubmitCount={false}
                           />
                         </FieldGroup>
                       </div>
@@ -298,6 +301,7 @@ export const CreditCard = InjectAppServices(
                               setCvc(e.target.value);
                             }}
                             onFocus={(e) => setFocus(e.target.name)}
+                            onBlur={(e) => setFieldTouched(e.target.name, true)}
                           >
                             {(inputProps) => (
                               <InputFieldItem
@@ -305,8 +309,10 @@ export const CreditCard = InjectAppServices(
                                 type="text"
                                 label={`*${_('checkoutProcessForm.payment_method.security_code')}`}
                                 fieldName={fieldNames.cvc}
-                                id="cvc"
+                                id={fieldNames.cvc}
                                 required
+                                withSubmitCount={false}
+                                value={cvc}
                               />
                             )}
                           </InputMask>
