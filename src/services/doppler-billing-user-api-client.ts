@@ -30,6 +30,7 @@ export interface DopplerBillingUserApiClient {
   getCurrentUserPlanDataByType(type: number): Promise<ResultWithoutExpectedErrors<UserPlan>>;
   purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors>;
+  activateOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -688,6 +689,27 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       const response = await this.axios.request({
         method: 'PUT',
         url: `/accounts/${email}/onsite/cancel`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async activateOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/onsite/activate`,
         headers: { Authorization: `bearer ${jwtToken}` },
         withCredentials: true,
       });
