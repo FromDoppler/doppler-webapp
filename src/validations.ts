@@ -244,8 +244,25 @@ export const validateCbu = (
   return null;
 };
 
-export function validateCreditCardNumber(type: string, number: string): true | string | null {
+function getCreditCardBrand(creditCardNumber: string): string {
+  // first check for MasterCard
+  if (/^5[1-5]/.test(creditCardNumber)) {
+    return 'mastercard';
+  }
+  // then check for Visa
+  else if (/^4/.test(creditCardNumber)) {
+    return 'visa';
+  }
+  // then check for AmEx
+  else if (/^3[47]/.test(creditCardNumber)) {
+    return 'amex';
+  }
+  return 'unknown';
+}
+
+export function validateCreditCardNumber(number: string): true | string | null {
   number = number.replaceAll('-', '').replaceAll(' ', '');
+  var type = getCreditCardBrand(number);
   var visa = /^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
   var masterCard = /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
   var amex = /^3[47][0-9-]{13}$/;

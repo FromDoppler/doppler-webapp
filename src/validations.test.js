@@ -928,10 +928,9 @@ describe('validateCbu', () => {
   it('should return null for a valid credit card number', () => {
     // Arrange
     const value = '4111111111111111';
-    const type = 'visa';
 
     // Act
-    const result = validateCreditCardNumber(type, value);
+    const result = validateCreditCardNumber(value);
 
     // Assert
     expect(result).toEqual(null);

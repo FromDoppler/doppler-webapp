@@ -1224,9 +1224,10 @@ export const CreditCardInputFieldItem = ({
   type,
   placeholder,
   required,
-  withSubmitCount = true,
+  withSubmitCount = false,
   checkDigitValidation,
   validate,
+  withErrors = true,
   ...rest
 }) => (
   <FieldItem

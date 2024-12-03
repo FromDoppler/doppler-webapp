@@ -68,7 +68,7 @@ const FormatMessageWithBoldWords = ({ id }) => {
 
 export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
   const intl = useIntl();
-  const { setFieldValue, setValues, values } = useFormikContext();
+  const { setFieldValue, setValues, values, setFieldTouched } = useFormikContext();
   const [state, setState] = useState({ loading: true, paymentMethod: {}, readOnly: true });
   const [focus, setFocus] = useState('');
   const [ccMask, setCcMask] = useState(creditCardMasksByBrand.unknown);
@@ -119,7 +119,6 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
         setCreditCardMasks(value);
       }
       setFieldValue(fieldNames.number, value);
-      clearCvc();
     }
     setPasted(false);
   };
@@ -129,7 +128,6 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
     const value = e.clipboardData.getData('Text');
     setCreditCardMasks(value);
     setFieldValue(fieldNames.number, value);
-    clearCvc();
   };
 
   const setCreditCardMasks = (value) => {
@@ -137,16 +135,9 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
     setCvcMask(secCodeMasksByBrand[getCreditCardBrand(value)]);
   };
 
-  const clearCvc = () => {
-    setFieldValue(fieldNames.cvc, '');
-  };
-
   const onFocus = (e) => {
     setFocus(e.target.name);
   };
-
-  const createCheckDigitValidation = () =>
-    validateCreditCardNumber(getCreditCardBrand(number), number);
 
   if (state.loading) {
     return <Loading page />;
@@ -203,6 +194,7 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                   onPaste={onPasteNumber}
                   onFocus={onFocus}
                   maskChar="-"
+                  onBlur={(e) => setFieldTouched(e.target.name, true)}
                 >
                   {(inputProps) => (
                     <CreditCardInputFieldItem
@@ -212,8 +204,9 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                       fieldName={fieldNames.number}
                       id={fieldNames.number}
                       required
-                      checkDigitValidation={createCheckDigitValidation}
+                      checkDigitValidation={validateCreditCardNumber}
                       validate={true}
+                      withSubmitCount={false}
                     />
                   )}
                 </InputMask>
@@ -229,6 +222,7 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                     setFieldValue(fieldNames.expiry, e.target.value);
                   }}
                   onFocus={onFocus}
+                  onBlur={(e) => setFieldTouched(e.target.name, true)}
                 >
                   {(inputProps) => (
                     <InputFieldItem
@@ -238,6 +232,7 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                       fieldName={fieldNames.expiry}
                       id={fieldNames.expiry}
                       required
+                      withSubmitCount={false}
                     />
                   )}
                 </InputMask>
@@ -259,6 +254,8 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                   onFocus={onFocus}
                   value={name}
                   placeholder=""
+                  withSubmitCount={false}
+                  onBlur={(e) => setFieldTouched(e.target.name, true)}
                 />
               </FieldGroup>
             </div>
@@ -272,6 +269,7 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                     setFieldValue(fieldNames.cvc, e.target.value);
                   }}
                   onFocus={onFocus}
+                  onBlur={(e) => setFieldTouched(e.target.name, true)}
                 >
                   {(inputProps) => (
                     <InputFieldItem
@@ -281,6 +279,7 @@ export const MercadoPagoArgentina = ({ optionView, paymentMethod }) => {
                       fieldName={fieldNames.cvc}
                       id={fieldNames.cvc}
                       required
+                      withSubmitCount={false}
                     />
                   )}
                 </InputMask>
