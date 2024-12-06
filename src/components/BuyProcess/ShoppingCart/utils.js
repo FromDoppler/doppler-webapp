@@ -911,6 +911,7 @@ export const getBuyButton = ({
       return (
         <OnSiteCheckoutButton
           total={total}
+          discount={selectedDiscount}
           onSitePlanId={selectedOnSitePlan?.onSitePlan?.planId ?? '0'}
           cancelOnSitePlan={false}
           keyTextButton={'buy_process.buy_now_title'}
