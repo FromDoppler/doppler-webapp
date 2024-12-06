@@ -45,6 +45,7 @@ import { CollaboratorEditionSection } from './components/ControlPanel/Collaborat
 import { Conversations } from './components/Conversations';
 import { BuyConversation } from './components/Plans/BuyConversation';
 import { OnSitePlansSelection } from './components/BuyProcess/OnSitePlanSelection';
+import { OnSite } from './components/OnSite';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -406,6 +407,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <Conversations />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/onsite/"
+              element={
+                <PrivateRoute>
+                  <OnSite />
                 </PrivateRoute>
               }
             />

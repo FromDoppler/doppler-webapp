@@ -294,4 +294,12 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async activateOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log('activateOnSitePlan');
+    return {
+      success: true,
+    };
+  }
 }

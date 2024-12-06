@@ -1071,6 +1071,23 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_delivery: `Comportamiento`,
     grid_subject: `Asunto`,
   },
+  onsite_promotional: {
+    actionText: 'Pruébalo Gratis',
+    actionText_expired: 'Elige tu plan',
+    actionUrl: `${urlPreUpgradePlan}?origin=conversations_promo_page`,
+    description: 'Aumenta tus ventas un 40% con una solución, centralizando todos tus canales en una sola plataforma. ¡Ahorra tiempo y asegura cada venta!',
+    features: {
+      decision_tree_MD: '**Árbol de Decisiones:** Diseña el recorrido conversacional que tendrán los usuarios cada vez que se comuniquen con tu marca.',
+      social_media_chatbot_MD: '**Social Media Chatbot:** Administra en un solo tablero las consultas que llegan de Facebook e Instagram, brindando atención personalizada.',
+      web_chatbot_MD: '**Web Chatbot:** Gestiona la atención de tus usuarios en tiempo real y convierte a tus visitas en clientes.',
+      whatsApp_chatbot_MD: '**WhatsApp Chatbot:** Gestiona la atención de tus usuarios en tiempo real y convierte a tus visitas en potenciales clientes.',
+      whatsApp_marketing_MD: '**WhatsApp Marketing:** Automatiza y personaliza mensajes instantáneos y capta mayor audiencia.',
+    },
+    paragraph_free_MD: '**¡Implementa Conversaciones en tu Estrategia de Marketing!** Puedes probarlo durante tu período gratuito o hasta que utilices 200 Conversaciones.',
+    paragraph_free_expired_MD: '**¡Implementa Conversaciones en tu Estrategia de Marketing!**  Adquiere un plan según tus necesidades.',
+    paragraph_not_free_MD: '**¡Implementa Conversaciones en tu Estrategia de Marketing!** Puedes probarlo gratis durante 90 días o hasta que utilices 200 Conversaciones.',
+    title: 'Doppler On-site',
+  },
   onsite_selection: {
     banner_for_prints: `¿Necesitas más Impresiones? <Link>Escríbenos</Link>.`,
     card: {

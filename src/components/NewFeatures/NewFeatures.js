@@ -5,6 +5,8 @@ import HeaderSection from '../shared/HeaderSection/HeaderSection';
 import { PLAN_TYPE, URL_PLAN_TYPE } from '../../doppler-types';
 
 const NewFeatures = () => {
+  const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
+
   return (
     <>
       <Helmet>
@@ -96,12 +98,22 @@ const NewFeatures = () => {
             <Link to={'/landing-packages'}>Ir a Paquetes de landings</Link>
           </div>
         </div>
-        <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
-          <div className="m-l-24">
-            <h3>Planes de on-site</h3>
-            <Link to={'/buy-onsite-plans?buyType=4'}>Ir a Compra de planes de on-site</Link>
+        {canBuyOnSitePlan && (
+          <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+            <div className="m-l-24">
+              <h3>Planes de on-site</h3>
+              <Link to={'/buy-onsite-plans?buyType=4'}>Ir a Compra de planes de on-site</Link>
+            </div>
           </div>
-        </div>
+        )}
+        {canBuyOnSitePlan && (
+          <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+            <div className="m-l-24">
+              <h3>Página promocional de on-site</h3>
+              <Link to={'/onsite'}>Ir a Página promocional de on-site</Link>
+            </div>
+          </div>
+        )}
       </section>
     </>
   );
