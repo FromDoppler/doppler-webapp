@@ -19,6 +19,7 @@ export const OnSiteCheckoutButton = InjectAppServices(
     keyTextButton,
     canBuy = false,
     total,
+    discount,
     onSitePlanId,
   }) => {
     const intl = useIntl();
@@ -41,8 +42,8 @@ export const OnSiteCheckoutButton = InjectAppServices(
         setStatus(SAVED);
         createTimeout(() => {
           window.location.href = `/checkout-summary?buyType=${BUY_ONSITE_PLAN}&${ACCOUNT_TYPE}=${accountType}${
-            onSitePlanId ? `&onSitePlanId=${onSitePlanId}` : ''
-          }`;
+            discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
+          }${onSitePlanId ? `&onSitePlanId=${onSitePlanId}` : ''}`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
