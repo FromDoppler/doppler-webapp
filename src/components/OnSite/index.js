@@ -27,14 +27,13 @@ export const OnSite = InjectAppServices(
       return <Navigate to="/dashboard" />;
     }
 
-    const [redirectToOnSite, setRedirectToOnSite] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
       if (await dopplerBillingUserApiClient.activateOnSitePlan()) {
-        setRedirectToOnSite(true);
+        window.location.href = '/popup-hub/widgets';
       } else {
         setErrorMessage('validation_messages.error_unexpected_register_MD');
       }
@@ -43,10 +42,6 @@ export const OnSite = InjectAppServices(
     const handleImgClick = async () => {
       setModalIsOpen(true);
     };
-
-    if (redirectToOnSite) {
-      return <Navigate to="/popup-hub/widgets" />;
-    }
 
     return (
       <>

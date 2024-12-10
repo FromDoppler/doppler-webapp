@@ -53,7 +53,7 @@ describe('OnSite component', () => {
     expect(screen.getByText('onsite_promotional.paragraph_free_MD')).toBeInTheDocument();
   });
 
-  it('should redirect to dashboard if the user already has onsite plan', async () => {
+  it('should redirect to widgets if the user already has onsite plan', async () => {
     // Assert
     const dependencies = {
       appSessionRef: {
@@ -82,7 +82,7 @@ describe('OnSite component', () => {
     );
 
     // Assert
-    expect(window.location.pathname).toContain('/dashboard');
+    expect(window.location.href).toContain('/popup-hub/widgets');
   });
 
   it('should redirect to dashboard if the user is CM', async () => {
