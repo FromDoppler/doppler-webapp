@@ -20,7 +20,7 @@ export const OnSite = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     if (onSiteActive) {
-      return <Navigate to="/dashboard" />;
+      return <Navigate to="/popup-hub/widgets" />;
     }
 
     if (hasClientManager) {
@@ -45,7 +45,7 @@ export const OnSite = InjectAppServices(
     };
 
     if (redirectToOnSite) {
-      return <Navigate to="/dashboard" />;
+      return <Navigate to="/popup-hub/widgets" />;
     }
 
     return (
