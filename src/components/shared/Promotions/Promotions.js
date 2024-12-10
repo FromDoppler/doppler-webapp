@@ -1,6 +1,11 @@
 import React from 'react';
 import { Loading } from '../../Loading/Loading';
 
+const snows = [];
+for (let i = 0; i < 48; i++) {
+  snows.push(<div></div>);
+}
+
 /**
  * Promotions
  * @param { Object } props
@@ -8,6 +13,7 @@ import { Loading } from '../../Loading/Loading';
 const Promotions = function ({ loading, bannerData }) {
   return (
     <section className="feature-panel" style={{ position: 'relative' }}>
+      <div className="dp-snow">{snows}</div>
       {loading ? (
         <Loading />
       ) : (
