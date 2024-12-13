@@ -385,6 +385,7 @@ interface OnSitePlanEntry {
   fee: number;
   additionalPrint: number;
   active: boolean;
+  buttonUrl: string;
 }
 
 interface SmsEntry {
@@ -581,12 +582,13 @@ function mapChatPlanEntry(json: any): ChatPlanEntry {
 
 function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
   return {
-    planId: json ? json.idPlan : 0,
-    description: json ? json.description : '',
-    printQty: json ? json.printQty : 0,
-    fee: json ? json.fee : 0,
-    additionalPrint: json ? json.additionalPrint : 0,
-    active: json ? json.active : false,
+    planId: json?.planData ? json.planData.idPlan : 0,
+    description: json?.planData ? json.planData.description : '',
+    printQty: json?.planData ? json.planData.printQty : 0,
+    fee: json?.planData ? json.planData.fee : 0,
+    additionalPrint: json?.planData ? json.planData.additionalPrint : 0,
+    active: json?.planData ? json.planData.active : false,
+    buttonUrl: json ? json.buttonUrl : '#',
   };
 }
 
@@ -696,7 +698,7 @@ export function mapHeaderDataJson(json: any) {
       },
       onSite: {
         active: json.user.onSite?.active,
-        plan: mapOnSitePlanEntry(json.user.onSite?.planData),
+        plan: mapOnSitePlanEntry(json.user.onSite),
       },
     },
     userAccount: json.userAccount && {
