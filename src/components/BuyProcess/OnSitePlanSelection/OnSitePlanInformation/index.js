@@ -19,7 +19,14 @@ export const OnSitePlanInformation = () => {
           <h6>
             <strong>{_('onsite_selection.onsite_plan_info.section_1.title')}</strong>
           </h6>
-          <p>{_('onsite_selection.onsite_plan_info.section_1.legend')}</p>
+          <p>
+            <FormattedMessage
+              id={'onsite_selection.onsite_plan_info.section_1.legend'}
+              values={{
+                bold: (chunks) => <b>{chunks}</b>,
+              }}
+            />
+          </p>
         </div>
         <div className="col-lg-6">
           <h6>

@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 describe('SelectedOnSitePlan', () => {
   it('should render SelectedOnSitePlan when there is not a selected plan chat', async () => {
     // Arrange
-    const seletedPlanChat = {};
+    const seletedPlanChat = { printQty: 0 };
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
@@ -42,6 +42,7 @@ describe('SelectedOnSitePlan', () => {
       planId: 1,
       printQty: 500,
       fee: 30,
+      additionalPrint: 5,
     };
     const addItem = jest.fn();
     const removeItem = jest.fn();
@@ -79,6 +80,7 @@ describe('SelectedOnSitePlan', () => {
       planId: 1,
       printQty: 500,
       fee: 30,
+      additionalPrint: 5,
     };
     const addItem = jest.fn();
     const removeItem = jest.fn();
@@ -113,6 +115,7 @@ describe('SelectedOnSitePlan', () => {
       planId: 1,
       printQty: 500,
       fee: 30,
+      additionalPrint: 5,
     };
     const item = seletedOnSitePlan; // In this case, the slider value and the cart item are the same
     const addItem = jest.fn();
