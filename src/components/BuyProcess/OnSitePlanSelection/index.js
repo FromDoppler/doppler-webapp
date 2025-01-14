@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { BUY_ONSITE_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
-import { getMonthsByCycle, orderPaymentFrequencies, thousandSeparatorNumber } from '../../../utils';
+import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { useIntl } from 'react-intl';
 import { OnSitePlanInformation } from './OnSitePlanInformation';
@@ -13,7 +13,7 @@ import { BannerUpgrade } from './BannerUpgrade';
 import { SelectedOnSitePlan } from './SelectedOnSitePlan';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
 import { ShoppingCart } from '../ShoppingCart';
-import { PlanBenefits } from './PlanBenefits';
+import * as S from './styles';
 
 export const OnSitePlansSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -124,7 +124,7 @@ export const OnSitePlansSelection = InjectAppServices(
         <HeaderSection>
           <div className="col-sm-12 col-md-12 col-lg-12">
             <h2 className="dp-first-order-title">
-              {_('onsite_selection.title')} <span className="dpicon iconapp-chatting" />
+              {_('onsite_selection.title')} <span className="dpicon iconapp-online-clothing" />
             </h2>
           </div>
         </HeaderSection>
@@ -133,17 +133,24 @@ export const OnSitePlansSelection = InjectAppServices(
             <div className="col-md-12 col-lg-8 m-b-24">
               <OnSitePlanInformation />
               <section className="m-t-42">
-                <h3 className="dp-second-order-title">
-                  {_('onsite_selection.how_many_prints_need_message')}
-                </h3>
+                <div className="dp-rowflex">
+                  <h3 className="dp-second-order-title">
+                    {_('onsite_selection.how_many_prints_need_message')}
+                  </h3>
+                  <S.TooltipPanel>
+                    <div className="dp-tooltip-container onsite-tooltip-container">
+                      <span className="ms-icon icon-header-help"></span>
+                      <div className="dp-tooltip-top">
+                        <span>{_('onsite_selection.info_tooltip')}</span>
+                      </div>
+                    </div>
+                  </S.TooltipPanel>
+                </div>
+
                 <Slider
                   items={onSitePlansValues}
                   selectedItemIndex={selectedPlanIndex}
                   handleChange={handleSliderChange}
-                  labelQuantity={`${thousandSeparatorNumber(
-                    intl.defaultLocale,
-                    selectedPlan?.printQty ?? 0,
-                  )} impresiones`}
                   moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
                 />
                 <BannerUpgrade currentPlan={selectedPlan} />
@@ -154,9 +161,12 @@ export const OnSitePlansSelection = InjectAppServices(
                   item={item}
                   addItem={addItem}
                   removeItem={removeItem}
+                  customPlan={customOnSitePlans[0]}
                 />
+                <span className="dp-reminder">
+                  {_('onsite_selection.expiration_free_plan_message')}
+                </span>
               </section>
-              <PlanBenefits selectedPlan={selectedPlan} customPlan={customOnSitePlans[0]} />
               <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
                 <GoBackButton />

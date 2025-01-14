@@ -744,6 +744,7 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
                   <img
                     src={_('common.ui_library_image', { imageUrl: slide.img })}
                     alt="Check list"
+                    width={'100%'}
                   />
                 </div>
                 <h3>
