@@ -1074,7 +1074,7 @@ Encontrarás un Email con los pasos a seguir.`,
   onsite_promotional: {
     actionText: 'Pruébalo Gratis',
     actionText_expired: 'Elige tu plan',
-    actionUrl: `${urlPreUpgradePlan}?origin=conversations_promo_page`,
+    actionUrl: `${urlPreUpgradePlan}?origin=onsite_promo_page`,
     description: 'Agrega Widgets, Pop-ups, Formularios inteligentes y otras herramientas interactivas en tu E-commerce o Sitio Web. ¡Capta más clientes y aumenta tus ventas!',
     features: {
       capture_information: 'Captura información de forma personalizada para nutrir tus Listas.',
