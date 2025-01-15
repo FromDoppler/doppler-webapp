@@ -56,7 +56,7 @@ export const AddOnLandingPack = InjectAppServices(
               ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
               : `?buyType=${BUY_LANDING_PACK}`
           }`,
-          label: 'Mas información',
+          label: `${_('landing_selection.modal.more_information_label')}`,
         }}
         link2={{
           pathname: `/landing-packages${
@@ -64,7 +64,7 @@ export const AddOnLandingPack = InjectAppServices(
               ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
               : `?buyType=${BUY_LANDING_PACK}`
           }`,
-          label: 'Comprar ahora',
+          label: `${_('landing_selection.modal.buy_now_button')}`,
         }}
         priceComponent={
           <FormattedMessage
@@ -88,7 +88,7 @@ export const AddOnOnSitePlan = InjectAppServices(
     return (
       <AddOn
         title={_('onsite_selection.card.title')}
-        titleIconName="dpicon iconapp-landing-page"
+        titleIconName="dpicon iconapp-online-clothing"
         description={_('onsite_selection.card.description')}
         link1={{
           pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
@@ -160,10 +160,10 @@ const PlanBuyMessage = ({ title, paymentMethod, upgradePending }) => {
             {[paymentType.mercadoPago, paymentType.transfer].includes(paymentMethod) &&
             upgradePending
               ? _(title.description)
-              : 'Ya puedes empezar a disfrutar de los beneficios de tus planes de Doppler.'}
+              : _('checkoutProcessSuccess.enjoying_benefits_doppler_title')}
           </p>
           <Link to="/dashboard" className="dp-message-link">
-            IR AL INICIO
+            {_('checkoutProcessSuccess.go_to_home_link')}
           </Link>
         </div>
       </div>
@@ -576,7 +576,7 @@ export const CheckoutSummary = InjectAppServices(
           <meta name="checkout-success" />
         </Helmet>
         <HeaderSection>
-          <CheckoutSummaryTitle title={title} hideBreadcrumb={!isBuyMarketingPlan} />
+          <CheckoutSummaryTitle title={title} hideBreadcrumb={true} />
         </HeaderSection>
         <section className="dp-container">
           <div className="dp-rowflex">

@@ -23,7 +23,8 @@ export const CheckoutSummaryTitle = ({ title, hideBreadcrumb = false }) => {
           </BreadcrumbNew>
         )}
         <h2 className="dp-first-order-title">
-          Disfruta Doppler <span className="dpicon iconapp-launch" />
+          {_('checkoutProcessSuccess.enjoy_doppler_title')}{' '}
+          <span className="dpicon iconapp-launch" />
         </h2>
       </div>
     </>
