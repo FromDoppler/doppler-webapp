@@ -106,7 +106,18 @@ const _FormWithCaptcha = ({
     // See more details in https://stackoverflow.com/questions/43488605/detect-when-challenge-window-is-closed-for-google-recaptcha
     const captchaDelay = 100;
     createTimeout(() => formikProps.setSubmitting(false), captchaDelay);
-    const result = await verifyCaptcha();
+
+    const validateCaptcha = process.env.REACT_APP_DOPPLER_VALIDATE_CAPTCHA ?? 'true';
+    let result = {};
+
+    if (validateCaptcha === 'true') {
+      result = await verifyCaptcha();
+    } else {
+      result = { success: true, captchaResponseToken: 'hardcodedResponseToken' };
+    }
+
+    //await verifyCaptcha(); //{ success: true, captchaResponseToken: 'aaa'};  //
+
     createTimeout(() => formikProps.setSubmitting(true), captchaDelay);
     if (result.success) {
       await originalOnSubmit(
