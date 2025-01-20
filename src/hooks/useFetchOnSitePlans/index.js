@@ -37,7 +37,9 @@ export const useOnSitePlans = (dopplerAccountPlansApiClient, appSessionRef) => {
           payload: {
             onSitePlans: plans,
             customOnSitePlans: customOnSitePlans,
-            currentOnSitePlan: { printQty: onSitePlan?.printQty ?? 0 },
+            currentOnSitePlan: {
+              printQty: onSitePlan ? (onSitePlan.Fee > 0 ? onSitePlan.printQty ?? 0 : 0) : 0,
+            },
           },
         });
       } catch (error) {
