@@ -674,7 +674,7 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
     if (!hasConversationPlan) {
       slides.push({
         id: 1,
-        img: 'addons-carousel-slide-1.svg',
+        img: 'addons-carousel-slide-1.jpg',
         title: 'addons.carousel.slice_1_title',
         description: 'addons.carousel.slice_1_description',
         link: conversationsBuyUrl,
@@ -684,7 +684,7 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
     if (!hasLandingPlan && landingsEditorEnabled) {
       slides.push({
         id: 2,
-        img: 'addons-carousel-slide-2.svg',
+        img: 'addons-carousel-slide-2.jpg',
         title: 'addons.carousel.slice_2_title',
         description: 'addons.carousel.slice_2_description',
         link: `/landing-packages${
@@ -698,7 +698,7 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
     if (canBuyOnSitePlan && !hasOnSitePlan) {
       slides.push({
         id: 3,
-        img: 'addons-carousel-slide-3.svg',
+        img: 'addons-carousel-slide-3.jpg',
         title: 'addons.carousel.slice_3_title',
         description: 'addons.carousel.slice_3_description',
         link: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
