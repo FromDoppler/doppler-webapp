@@ -676,7 +676,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       contact_policy_title: 'Política de Contacto',
       email_parameter_title: 'Parámetros en Links',
       footer_and_header_preferences_title: 'Encabezado y Pie de Email',
-      site_tracking_title: 'Seguimiento en Sitio y Notificaciones Push',
+      site_tracking_title: 'Seguimiento en Sitio, Notificaciones Push y OnSite',
       subscribers_scoring_title: 'Calificación de Suscriptores',
       title: 'Preferencias de Campañas',
       unopened_mails_config_title: 'Administración de Emails No Abiertos',
