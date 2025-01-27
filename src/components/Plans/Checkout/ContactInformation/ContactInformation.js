@@ -212,7 +212,7 @@ export const ContactInformation = InjectAppServices(
                           type="text"
                           fieldName={fieldNames.zipCode}
                           id="zipCode"
-                          label={`${_('checkoutProcessForm.contact_information_zip_code')}`}
+                          label={`*${_('checkoutProcessForm.contact_information_zip_code')}`}
                           withNameValidation
                           className="field-item--50 dp-p-r"
                           required
