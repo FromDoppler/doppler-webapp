@@ -19,9 +19,11 @@ import {
 } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 import { AutomaticDebit } from './AutomaticDebit/AutomaticDebit';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 
 const none = 'NONE';
 const userCanceledError = 'UserCanceled';
+const isNotCreditCardError = 'IsNotCreditCard';
 
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -456,6 +458,8 @@ export const PaymentMethod = InjectAppServices(
           return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
         case FirstDataError.cardVolumeExceeded:
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
+        case isNotCreditCardError:
+          return 'checkoutProcessForm.payment_method.only_credit_card_error';
         default:
           return 'checkoutProcessForm.payment_method.error';
       }
@@ -496,7 +500,9 @@ export const PaymentMethod = InjectAppServices(
                         <div className="dp-wrap-message dp-wrap-cancel">
                           <span className="dp-message-icon"></span>
                           <div className="dp-content-message">
-                            <p>{_(error.message)}</p>
+                            <p>
+                              <FormattedMessageMarkdown id={error.message} />
+                            </p>
                           </div>
                         </div>
                       </FieldItem>
