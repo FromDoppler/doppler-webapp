@@ -81,7 +81,7 @@ const getFormFields = () => {
     name: '*checkoutProcessForm.contact_information_province',
   });
   const inputZipCode = screen.getByRole('textbox', {
-    name: 'checkoutProcessForm.contact_information_zip_code',
+    name: '*checkoutProcessForm.contact_information_zip_code',
   });
   const inputPhone = screen.getByRole('textbox', {
     name: '*checkoutProcessForm.contact_information_phone',
