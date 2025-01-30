@@ -399,6 +399,7 @@ const messages_es = {
       mercado_pago_error: {
         invalid_security_code: '¡Ouch! Tarjeta invalida. Inténtalo nuevamente o prueba con otra tarjeta.',
       },
+      only_credit_card_error: 'Tarjeta inválida. Para continuar, ingresa una **tarjeta de crédito**.',
       payment_way: 'Forma de pago',
       placeholder_holder_name: 'tu nombre aquí',
       responsable_iva: 'Responsable IVA',
