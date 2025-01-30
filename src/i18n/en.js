@@ -397,7 +397,7 @@ const messages_en = {
       mercado_pago_error: {
         invalid_security_code: 'Ouch! Invalid credit card. Please try again or try with another credit card.',
       },
-      only_credit_card_error: 'Invalid payment method. To continue, please enter a **credit card**. [SEE MORE](https://www.fromdoppler.com/en/precios/)',
+      only_credit_card_error: 'Invalid card. To continue, please enter a **credit card**.',
       payment_way: 'Payment way',
       placeholder_holder_name: 'your name here',
       responsable_iva: 'IVA Responsable',
