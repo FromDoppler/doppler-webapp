@@ -397,7 +397,8 @@ const messages_en = {
       mercado_pago_error: {
         invalid_security_code: 'Ouch! Invalid credit card. Please try again or try with another credit card.',
       },
-      only_credit_card_error: 'Invalid card. To continue, please enter a **Visa, Mastercard, or American Express credit card**.',
+      not_allow_credit_card_error: `¡Ouch! You've entered a credit card that we don't accept. We only work with **Visa, Mastercard, or American Express credit card**.`,
+      only_credit_card_error: `¡Ouch! You've entered a debit card. We only work with **Visa, Mastercard, or American Express credit card**.`,
       payment_way: 'Payment way',
       placeholder_holder_name: 'your name here',
       responsable_iva: 'IVA Responsable',

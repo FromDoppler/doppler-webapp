@@ -399,7 +399,8 @@ const messages_es = {
       mercado_pago_error: {
         invalid_security_code: '¡Ouch! Tarjeta invalida. Inténtalo nuevamente o prueba con otra tarjeta.',
       },
-      only_credit_card_error: 'Tarjeta inválida. Para continuar, ingresa una **tarjeta de crédito Visa, Mastercard o American Express**.',
+      not_allow_credit_card_error: '¡Ouch! Ingresaste una tarjeta de crédito que no aceptamos. Solo trabajamos con **tarjeta de crédito Visa, Mastercard o American Express**.',
+      only_credit_card_error: '¡Ouch! Ingresaste una tarjeta de débito. Solo trabajamos con **tarjetas de crédito Visa, Mastercard o American Express**.',
       payment_way: 'Forma de pago',
       placeholder_holder_name: 'tu nombre aquí',
       responsable_iva: 'Responsable IVA',
