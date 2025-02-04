@@ -24,6 +24,7 @@ import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkd
 const none = 'NONE';
 const userCanceledError = 'UserCanceled';
 const isNotCreditCardError = 'IsNotCreditCard';
+const isNotAllowCreditCard = 'IsNotAllowCreditCard';
 
 export const fieldNames = {
   paymentMethodName: 'paymentMethodName',
@@ -460,6 +461,8 @@ export const PaymentMethod = InjectAppServices(
           return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
         case isNotCreditCardError:
           return 'checkoutProcessForm.payment_method.only_credit_card_error';
+        case isNotAllowCreditCard:
+          return 'checkoutProcessForm.payment_method.not_allow_credit_card_error';
         default:
           return 'checkoutProcessForm.payment_method.error';
       }
