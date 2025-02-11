@@ -1093,7 +1093,7 @@ Encontrarás un Email con los pasos a seguir.`,
     paragraph_free_MD: '¡Implementa OnSite en tu Estrategia de Marketing! Puedes probarlo durante tu período gratuito o hasta que utilices 2.500 Impresiones.',
     paragraph_free_expired_MD: '¡Implementa OnSite en tu Estrategia de Marketing! Adquiere un plan según tus necesidades.',
     paragraph_not_free_MD: '¡Implementa OnSite en tu Estrategia de Marketing! Puedes probarlo gratis durante 90 días o hasta que utilices 2.500 Impresiones.',
-    title: 'Doppler OnSite',
+    title: 'OnSite Marketing',
   },
   onsite_selection: {
     banner_for_prints: `¿Necesitas más Impresiones? <Link>Escríbenos</Link>.`,
