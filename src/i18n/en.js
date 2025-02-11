@@ -1091,7 +1091,7 @@ You'll find an Email with steps to follow.`,
     paragraph_free_MD: 'Implement OnSite in your Marketing Strategy! You can try it during your free trial or until you use 2.500 Impressions.',
     paragraph_free_expired_MD: 'Implement OnSite in your Marketing Strategy! Get a plan according to your needs.',
     paragraph_not_free_MD: 'Implement OnSite in your Marketing Strategy!** You can try it free for 90 days or until you use 2.500 Impressions.',
-    title: 'Doppler OnSite',
+    title: 'OnSite Marketing',
   },
   onsite_selection: {
     banner_for_prints: `Do you need more Impressions? <Link>Write to us</Link>.`,
