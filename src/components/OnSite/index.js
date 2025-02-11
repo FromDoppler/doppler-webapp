@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Promotional } from '../shared/Promotional/Promotional';
 import { useIntl } from 'react-intl';
-import screenShot from './onsite.svg';
+import screenShot from './Onsites.png';
 import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Navigate } from 'react-router-dom';
+import ReactPlayer from 'react-player/youtube';
+import Modal from '../Modal/Modal';
 
 export const OnSite = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
@@ -26,6 +28,7 @@ export const OnSite = InjectAppServices(
     }
 
     const [errorMessage, setErrorMessage] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
@@ -36,8 +39,33 @@ export const OnSite = InjectAppServices(
       }
     };
 
+    const handleImgClick = async () => {
+      setModalIsOpen(true);
+    };
+
     return (
       <>
+        <Modal
+          modalId={'modal-video-container'}
+          isOpen={modalIsOpen}
+          handleClose={() => setModalIsOpen(false)}
+          type={'extra-large'}
+        >
+          <ReactPlayer
+            url="https://www.youtube.com/watch?v=Xy1JDZCRxfo"
+            controls={true}
+            playing={true}
+            loop={true}
+            width={'800px'}
+            height={'450px'}
+            config={{
+              youtube: {
+                playerVars: { rel: 0 },
+              },
+            }}
+          />
+        </Modal>
+
         <Promotional
           title={_('onsite_promotional.title')}
           description={_('onsite_promotional.description')}
@@ -73,6 +101,7 @@ export const OnSite = InjectAppServices(
           actionFunc={() => handleButtonClick}
           logoUrl={logo}
           previewUrl={screenShot}
+          previewFunc={() => handleImgClick}
           errorMessage={errorMessage}
         />
       </>
