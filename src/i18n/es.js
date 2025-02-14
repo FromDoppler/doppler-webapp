@@ -9,7 +9,7 @@ const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/es`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlConversations = process.env.REACT_APP_DOPPLER_CONVERSATIONS_URL;
-//const dopplerUiLibraryVersion = process.env.REACT_APP_DOPPLER_UI_LIBRARY_VERSION;
+const urlOnSite = process.env.REACT_APP_DOPPLER_ONSITE_URL;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
@@ -596,6 +596,7 @@ const messages_es = {
     message_success: `¡Hecho! Tu solicitud ha sido enviada`,
     new: `Nueva`,
     next: `Siguiente`,
+    onsite_widgets_url: `${urlOnSite}/widgets`,
     optional_message: `Mensaje (Opcional)`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     save: `Guardar`,

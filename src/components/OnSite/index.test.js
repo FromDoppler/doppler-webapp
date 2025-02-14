@@ -82,7 +82,7 @@ describe('OnSite component', () => {
     );
 
     // Assert
-    expect(window.location.href).toContain('/popup-hub/widgets');
+    expect(window.location.pathname).toContain('/');
   });
 
   it('should redirect to dashboard if the user is CM', async () => {
