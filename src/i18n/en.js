@@ -9,6 +9,7 @@ const urlSite = `https://www.fromdoppler.com`;
 const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlConversations = process.env.REACT_APP_DOPPLER_CONVERSATIONS_URL;
+const urlOnSite = process.env.REACT_APP_DOPPLER_ONSITE_URL;
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -595,6 +596,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     message_success: `Done! Your request has been sent`,
     new: `New`,
     next: `Next`,
+    onsite_widgets_url: `${urlOnSite}/widgets`,
     optional_message: `Message (Optional)`,
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
