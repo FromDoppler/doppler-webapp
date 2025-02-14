@@ -5,7 +5,7 @@ import { Carousel } from './Carousel';
 import { Slide } from './Slide/Slide';
 import { TextPreviewPost } from '../TextPreviewPost/TextPreviewPost';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { fakePostList } from '..';
+import { learnWithDopplerPosts } from '..';
 
 describe('Carousel component', () => {
   it('should show the slides', async () => {
@@ -18,7 +18,7 @@ describe('Carousel component', () => {
       <IntlProvider>
         <Carousel id={id} color={color}>
           {(activeSlide) =>
-            fakePostList.map((post) => (
+            learnWithDopplerPosts.map((post) => (
               <Slide key={post.id} active={activeSlide}>
                 <TextPreviewPost post={post} />
               </Slide>
@@ -30,7 +30,9 @@ describe('Carousel component', () => {
     );
 
     // Assert
-    fakePostList.forEach((post) => expect(screen.getByText(post.title)).toBeInTheDocument());
+    learnWithDopplerPosts.forEach((post) =>
+      expect(screen.getByText(post.title)).toBeInTheDocument(),
+    );
     const element = container.querySelector(`.dp-carousel-${color}`);
     expect(element).toBeInTheDocument();
     const element2 = container.querySelector(`#carousel${id}`);

@@ -761,28 +761,33 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     },
     lastMonth: 'LAST 30 DAYS',
     learn_with_doppler: 'Learn with Doppler',
+    learn_with_doppler_posts: {
+      post_1: {
+        description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
+        link: 'https://app.fromdoppler.com/onsite',
+        link_description: 'Activate it now',
+        title: '🖥️ Now you can personalize your Website with Onsite Marketing!',
+      },
+      post_2: {
+        description: 'Easy-to-use editor, adaptable design, and advanced security. Increase your leads and customers with just a few clicks!',
+        link: 'https://help.fromdoppler.com/en/what-is-a-landing-page-and-how-to-create-one?utm_medium=appnotification&utm_source=fromdoppler&utm_campaign=cm-lanzamientolanding-nutricion-jun24',
+        link_description: 'See how to implement them',
+        title: 'Create impactful Landing Pages with Doppler 🚀',
+      },
+      post_3: {
+        description: 'Convert more visitors into leads with Pop Up Forms, without overspending!',
+        link: 'https://help.fromdoppler.com/en/how-to-create-a-subscription-form?origin=destacadotablero',
+        link_description: 'Learn how to implement them',
+        title: '#FeaturedFunctionality',
+      },
+      post_4: {
+        description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
+        link: 'https://app.fromdoppler.com/email-marketing-exclusive',
+        link_description: 'Write to us',
+        title: 'Aditional Services',
+      },
+    },
     meta_title: 'Doppler | Dashboard',
-
-    postListBlog_1_description: 'Use Push Notifications to reach more customers. \nThey are included in your plan!',
-    postListBlog_1_link: 'https://help.fromdoppler.com/en/how-to-active-and-use-send-push-notification?origin=destacadotablero',
-    postListBlog_1_link_description: 'Learn how to implement them',
-    postListBlog_1_title: '#FeaturedFunctionality',
-
-    postListBlog_2_description: 'Convert more visitors into leads with Pop Up Forms, without overspending!',
-    postListBlog_2_link: 'https://help.fromdoppler.com/en/how-to-create-a-subscription-form?origin=destacadotablero',
-    postListBlog_2_link_description: 'Learn how to implement them',
-    postListBlog_2_title: '#FeaturedFunctionality',
-
-    postListHelp_1_description: `Easy-to-use editor, adaptable design, and advanced security. Increase your leads and customers with just a few clicks!`,
-    postListHelp_1_link: 'https://help.fromdoppler.com/en/what-is-a-landing-page-and-how-to-create-one?utm_medium=appnotification&utm_source=fromdoppler&utm_campaign=cm-lanzamientolanding-nutricion-jun24',
-    postListHelp_1_link_description: 'See how to implement them',
-    postListHelp_1_title: 'Create impactful Landing Pages with Doppler 🚀',
-
-    postListHelp_2_description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',
-    postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
-    postListHelp_2_link_description: 'Write to us',
-    postListHelp_2_title: 'Aditional Services',
-
     quick_actions: {
       create_form: `Create form`,
       create_form_url: `${urlDopplerLegacy}/Lists/Form/`,
