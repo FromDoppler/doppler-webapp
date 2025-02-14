@@ -8,6 +8,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Navigate } from 'react-router-dom';
 import ReactPlayer from 'react-player/youtube';
 import Modal from '../Modal/Modal';
+import RedirectToExternalUrl from '../RedirectToExternalUrl';
 
 export const OnSite = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
@@ -20,7 +21,7 @@ export const OnSite = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     if (onSiteActive) {
-      return <Navigate to="/popup-hub/widgets" />;
+      return <RedirectToExternalUrl to={_('common.onsite_widgets_url')} />;
     }
 
     if (hasClientManager) {
