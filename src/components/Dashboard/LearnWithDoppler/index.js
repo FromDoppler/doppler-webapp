@@ -19,10 +19,10 @@ export const LearnWithDoppler = () => {
             id="1"
             color="orange"
             ariaLabel="learn-with-doppler"
-            numberOfItems={fakePostList.length}
+            numberOfItems={learnWithDopplerPosts.length}
           >
             {({ activeSlide, handleStop }) =>
-              fakePostList.map((post, index) => (
+              learnWithDopplerPosts.map((post, index) => (
                 <Slide key={post.id} active={activeSlide === index}>
                   <TextPreviewPost post={post} handleStop={handleStop} />
                 </Slide>
@@ -35,37 +35,37 @@ export const LearnWithDoppler = () => {
   );
 };
 
-export const fakePostList = [
+export const learnWithDopplerPosts = [
   {
     id: `1`,
-    title: `dashboard.postListHelp_1_title`,
-    description: `dashboard.postListHelp_1_description`,
-    link: `dashboard.postListHelp_1_link`,
-    linkDescription: `dashboard.postListHelp_1_link_description`,
-    trackingId: `dashboard-learnWithDoppler-card3`,
-  },
-  {
-    id: `2`,
-    title: `dashboard.postListBlog_1_title`,
-    description: `dashboard.postListBlog_1_description`,
-    link: `dashboard.postListBlog_1_link`,
-    linkDescription: `dashboard.postListBlog_1_link_description`,
+    title: `dashboard.learn_with_doppler_posts.post_1.title`,
+    description: `dashboard.learn_with_doppler_posts.post_1.description`,
+    link: `dashboard.learn_with_doppler_posts.post_1.link`,
+    linkDescription: `dashboard.learn_with_doppler_posts.post_1.link_description`,
     trackingId: `dashboard-learnWithDoppler-card1`,
   },
   {
-    id: `3`,
-    title: `dashboard.postListBlog_2_title`,
-    description: `dashboard.postListBlog_2_description`,
-    link: `dashboard.postListBlog_2_link`,
-    linkDescription: `dashboard.postListBlog_2_link_description`,
+    id: `2`,
+    title: `dashboard.learn_with_doppler_posts.post_2.title`,
+    description: `dashboard.learn_with_doppler_posts.post_2.description`,
+    link: `dashboard.learn_with_doppler_posts.post_2.link`,
+    linkDescription: `dashboard.learn_with_doppler_posts.post_2.link_description`,
+    trackingId: `dashboard-learnWithDoppler-card3`,
+  },
+  {
+    id: `1`,
+    title: `dashboard.learn_with_doppler_posts.post_3.title`,
+    description: `dashboard.learn_with_doppler_posts.post_3.description`,
+    link: `dashboard.learn_with_doppler_posts.post_3.link`,
+    linkDescription: `dashboard.learn_with_doppler_posts.post_3.link_description`,
     trackingId: `dashboard-learnWithDoppler-card2`,
   },
   {
     id: `4`,
-    title: `dashboard.postListHelp_2_title`,
-    description: `dashboard.postListHelp_2_description`,
-    link: `dashboard.postListHelp_2_link`,
-    linkDescription: `dashboard.postListHelp_2_link_description`,
+    title: `dashboard.learn_with_doppler_posts.post_4.title`,
+    description: `dashboard.learn_with_doppler_posts.post_4.description`,
+    link: `dashboard.learn_with_doppler_posts.post_4.link`,
+    linkDescription: `dashboard.learn_with_doppler_posts.post_4.link_description`,
     trackingId: `dashboard-learnWithDoppler-card4`,
   },
 ];

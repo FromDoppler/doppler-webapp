@@ -761,29 +761,33 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     },
     lastMonth: 'ÚLTIMOS 30 DÍAS',
     learn_with_doppler: 'Aprende con Doppler',
+    learn_with_doppler_posts: {
+      post_1: {
+        description: 'Capta la atención de tus visitantes con mensajes emergentes de productos más relevantes, artículos relacionados y mucho más, ¡en el momento exacto!',
+        link: 'https://app.fromdoppler.com/onsite',
+        link_description: 'Pruébalo ahora',
+        title: '🖥️ ¡Ahora puedes personalizar tu Sitio Web con Onsite Marketing!',
+      },
+      post_2: {
+        description: 'Gestiona Chatbots en WhatsApp, Instagram, Facebook y tu Sitio Web, ¡todo desde una sola plataforma!',
+        link: 'https://app.fromdoppler.com/conversations/?origin=destacadotablero',
+        link_description: 'Descubre más',
+        title: 'Nueva Solución | Doppler Conversaciones 💣',
+      },
+      post_3: {
+        description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
+        link: 'https://help.fromdoppler.com/es/formulario-de-suscripcion/?origin=destacadotablero',
+        link_description: 'Mira cómo implementarlos',
+        title: '#FuncionalidadDestacada',
+      },
+      post_4: {
+        description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
+        link: 'https://app.fromdoppler.com/email-marketing-exclusive',
+        link_description: 'Escríbenos',
+        title: 'Servicios Adicionales',
+      },
+    },
     meta_title: 'Doppler | Tablero de Inicio',
-
-    postListBlog_1_description:
-      'Del 26 al 28 de Noviembre. Conferencias, Workshops, Networking, Sorteos ¡y mucho más! Escucha a Google, Meta, Canva, Arcos Dorados y más marcas disertar sobre tendencias y estrategias en Marketing Digital.',
-    postListBlog_1_link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-captacionleadsEMMSDT24-invitacion-nov24',
-    postListBlog_1_link_description: 'Únete gratis',
-    postListBlog_1_title: 'EMMS Digital Trends 2024 🚀 Evento online y gratuito',
-
-    postListBlog_2_description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
-    postListBlog_2_link: 'https://help.fromdoppler.com/es/formulario-de-suscripcion/?origin=destacadotablero',
-    postListBlog_2_link_description: 'Mira cómo implementarlos',
-    postListBlog_2_title: '#FuncionalidadDestacada',
-
-    postListHelp_1_description: 'Gestiona Chatbots en WhatsApp, Instagram, Facebook y tu Sitio Web, ¡todo desde una sola plataforma!',
-    postListHelp_1_link: 'https://app.fromdoppler.com/conversations/?origin=destacadotablero',
-    postListHelp_1_link_description: 'Descubre más',
-    postListHelp_1_title: 'Nueva Solución | Doppler Conversaciones 💣',
-
-    postListHelp_2_description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
-    postListHelp_2_link: 'https://app.fromdoppler.com/email-marketing-exclusive',
-    postListHelp_2_link_description: 'Escríbenos',
-    postListHelp_2_title: 'Servicios Adicionales',
-
     quick_actions: {
       create_form: `Crear formulario`,
       create_form_url: `${urlDopplerLegacy}/Lists/Form/`,
