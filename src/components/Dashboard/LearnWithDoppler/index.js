@@ -43,6 +43,7 @@ export const learnWithDopplerPosts = [
     link: `dashboard.learn_with_doppler_posts.post_1.link`,
     linkDescription: `dashboard.learn_with_doppler_posts.post_1.link_description`,
     trackingId: `dashboard-learnWithDoppler-card1`,
+    newTab: false,
   },
   {
     id: `2`,
@@ -51,6 +52,7 @@ export const learnWithDopplerPosts = [
     link: `dashboard.learn_with_doppler_posts.post_2.link`,
     linkDescription: `dashboard.learn_with_doppler_posts.post_2.link_description`,
     trackingId: `dashboard-learnWithDoppler-card3`,
+    newTab: false,
   },
   {
     id: `1`,
@@ -59,6 +61,7 @@ export const learnWithDopplerPosts = [
     link: `dashboard.learn_with_doppler_posts.post_3.link`,
     linkDescription: `dashboard.learn_with_doppler_posts.post_3.link_description`,
     trackingId: `dashboard-learnWithDoppler-card2`,
+    newTab: true,
   },
   {
     id: `4`,
@@ -67,5 +70,6 @@ export const learnWithDopplerPosts = [
     link: `dashboard.learn_with_doppler_posts.post_4.link`,
     linkDescription: `dashboard.learn_with_doppler_posts.post_4.link_description`,
     trackingId: `dashboard-learnWithDoppler-card4`,
+    newTab: false,
   },
 ];
