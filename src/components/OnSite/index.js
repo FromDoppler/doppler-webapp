@@ -70,6 +70,7 @@ export const OnSite = InjectAppServices(
         <Promotional
           title={_('onsite_promotional.title')}
           description={_('onsite_promotional.description')}
+          itemCss={'dp-promo-onsite-item'}
           features={[
             <FormattedMessageMarkdown id={'onsite_promotional.features.product_history'} />,
             <FormattedMessageMarkdown id={'onsite_promotional.features.promote_your_products'} />,

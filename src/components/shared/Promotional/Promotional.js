@@ -17,6 +17,7 @@ export const Promotional = ({
   previewFunc,
   caption,
   errorMessage,
+  itemCss,
 }) => {
   const [buttonClicked, setbuttonClicked] = useState(false);
 
@@ -42,7 +43,7 @@ export const Promotional = ({
               {features ? (
                 <ul className="dp-list-promo">
                   {features.map((feature, index) => (
-                    <li key={index}>
+                    <li key={index} className={`${itemCss ? itemCss : ''}`}>
                       {React.isValidElement(feature) ? feature : <p>{feature}</p>}
                     </li>
                   ))}
