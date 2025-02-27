@@ -43,10 +43,10 @@ const messages_en = {
   addons: {
     carousel: {
       slice_1_description: `Improve your customer experience and generate more leads with <Bold>Web Chatbot, Social Media Chatbot and WhatsApp Marketing.</Bold>`,
-      slice_1_title: `Manage communication with your users through a single platform`,
+      slice_1_title: `Manage communication with your users{br} through a single platform`,
 
       slice_2_description: `Choose the ideal solution <Bold>to attract more customers and reduce the costs</Bold> of hiring multiple tools.`,
-      slice_2_title: `Boost your sales with{br} optimized Landing Pages`,
+      slice_2_title: `Boost your sales with optimized Landing Pages`,
 
       slice_3_description: `Implement Widgets and Pop-ups to recommend products of interest to the customer, provide personalized offers, encourage repeat purchases and motivate the sale of related items.`,
       slice_3_title: `Improve the shopping experience with Doppler OnSite`,
