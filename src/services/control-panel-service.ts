@@ -117,7 +117,9 @@ export class ControlPanelService implements ControlPanelService {
     const hiddeCollaboratorsBox = !(account !== 'none'
       ? (account.userAccount?.userProfileType !== undefined
           ? account.userAccount.userProfileType === 'USER'
-          : false) && account.features.inviteCollaboratorsEnabled
+          : false) &&
+        account.features.inviteCollaboratorsEnabled &&
+        !isClientManager
       : false);
     const hiddeCollaboratorEditionBox = !(account !== 'none'
       ? account.userAccount?.userProfileType !== undefined
