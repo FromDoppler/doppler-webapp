@@ -747,23 +747,25 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
                     width={'100%'}
                   />
                 </div>
-                <h3>
-                  <FormattedMessage
-                    id={slide.title}
-                    values={{
-                      br: <br />,
-                    }}
-                  />
-                </h3>
-                <p>
-                  <FormattedMessage
-                    id={slide.description}
-                    values={{
-                      Bold: (chunk) => <strong>{chunk}</strong>,
-                      br: <br />,
-                    }}
-                  />
-                </p>
+                <div className="text-carousel">
+                  <h3>
+                    <FormattedMessage
+                      id={slide.title}
+                      values={{
+                        br: <br />,
+                      }}
+                    />
+                  </h3>
+                  <p>
+                    <FormattedMessage
+                      id={slide.description}
+                      values={{
+                        Bold: (chunk) => <strong>{chunk}</strong>,
+                        br: <br />,
+                      }}
+                    />
+                  </p>
+                </div>
                 <Link to={slide.link} className="dp-button button-medium primary-green m-t-12">
                   {_('landing_selection.modal.link_to_buy')}
                 </Link>
