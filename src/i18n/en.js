@@ -765,22 +765,22 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
+        description: `Join now and enjoy conferences, workshops, and giveaways at the largest online event in Latin America and Spain.`,
+        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-EMMSEcom25-invitacion-canalespropios-nutricion-feb25',
+        link_description: 'Join for free',
+        title: '⏳ Save your spot at EMMS Ecommerce 2025!',
+      },
+      post_2: {
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
         link: 'https://app.fromdoppler.com/onsite',
         link_description: 'Activate it now',
         title: '🖥️ Now you can personalize your Website with Onsite Marketing!',
       },
-      post_2: {
+      post_3: {
         description: 'Easy-to-use editor, adaptable design, and advanced security. Increase your leads and customers with just a few clicks!',
         link: 'https://help.fromdoppler.com/en/what-is-a-landing-page-and-how-to-create-one?utm_medium=appnotification&utm_source=fromdoppler&utm_campaign=cm-lanzamientolanding-nutricion-jun24',
         link_description: 'See how to implement them',
         title: 'Create impactful Landing Pages with Doppler 🚀',
-      },
-      post_3: {
-        description: 'Convert more visitors into leads with Pop Up Forms, without overspending!',
-        link: 'https://help.fromdoppler.com/en/how-to-create-a-subscription-form?origin=destacadotablero',
-        link_description: 'Learn how to implement them',
-        title: '#FeaturedFunctionality',
       },
       post_4: {
         description: 'Need advisory and exclusive accompaniment, dedicated IPs or extra features?',

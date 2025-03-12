@@ -43,7 +43,7 @@ export const learnWithDopplerPosts = [
     link: `dashboard.learn_with_doppler_posts.post_1.link`,
     linkDescription: `dashboard.learn_with_doppler_posts.post_1.link_description`,
     trackingId: `dashboard-learnWithDoppler-card1`,
-    newTab: false,
+    newTab: true,
   },
   {
     id: `2`,
@@ -55,7 +55,7 @@ export const learnWithDopplerPosts = [
     newTab: false,
   },
   {
-    id: `1`,
+    id: `3`,
     title: `dashboard.learn_with_doppler_posts.post_3.title`,
     description: `dashboard.learn_with_doppler_posts.post_3.description`,
     link: `dashboard.learn_with_doppler_posts.post_3.link`,

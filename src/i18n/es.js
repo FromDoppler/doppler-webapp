@@ -764,22 +764,22 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     learn_with_doppler_posts: {
       post_1: {
+        description: 'Súmate ahora y disfruta de Conferencias, Workshops y regalos, en el evento online más grande de Latinoamérica y España.',
+        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-EMMSEcom25-invitacion-canalespropios-nutricion-feb25',
+        link_description: 'Únete gratis',
+        title: '⏳ Reserva tu lugar en el EMMS Ecommerce 2025',
+      },
+      post_2: {
         description: 'Capta la atención de tus visitantes con mensajes emergentes de productos más relevantes, artículos relacionados y mucho más, ¡en el momento exacto!',
         link: 'https://app.fromdoppler.com/onsite',
         link_description: 'Pruébalo ahora',
         title: '🖥️ ¡Ahora puedes personalizar tu Sitio Web con Onsite Marketing!',
       },
-      post_2: {
+      post_3: {
         description: 'Gestiona Chatbots en WhatsApp, Instagram, Facebook y tu Sitio Web, ¡todo desde una sola plataforma!',
         link: 'https://app.fromdoppler.com/conversations/?origin=destacadotablero',
         link_description: 'Descubre más',
         title: 'Nueva Solución | Doppler Conversaciones 💣',
-      },
-      post_3: {
-        description: 'Convierte visitantes en prospectos con los Formularios Pop Up.\n¡Están 100% bonificados en tu plan!',
-        link: 'https://help.fromdoppler.com/es/formulario-de-suscripcion/?origin=destacadotablero',
-        link_description: 'Mira cómo implementarlos',
-        title: '#FuncionalidadDestacada',
       },
       post_4: {
         description: '¿Necesitas asesoría y acompañamiento exclusivo, IPs dedicadas o funcionalidades extras?',
