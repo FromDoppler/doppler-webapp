@@ -3,8 +3,18 @@ import { DashboardIconSubTitle } from '../Kpis/KpiGroup';
 import { Carousel } from './Carousel/Carousel';
 import { Slide } from './Carousel/Slide/Slide';
 import { TextPreviewPost } from './TextPreviewPost/TextPreviewPost';
+import { InjectAppServices } from '../../../services/pure-di';
 
-export const LearnWithDoppler = () => {
+export const LearnWithDoppler = InjectAppServices(({ dependencies: { appSessionRef } }) => {
+  const { email, phone, firstName, lastName } = appSessionRef?.current?.userData?.userAccount || {};
+  const fullName = firstName && lastName ? `${firstName} ${lastName}` : '';
+
+  let paramReplacements = {
+    '<email>': encodeURIComponent(email),
+    '<fullname>': encodeURIComponent(fullName),
+    '<phone>': encodeURIComponent(phone),
+  };
+
   return (
     <>
       <div className="dp-dashboard-title">
@@ -22,18 +32,27 @@ export const LearnWithDoppler = () => {
             numberOfItems={learnWithDopplerPosts.length}
           >
             {({ activeSlide, handleStop }) =>
-              learnWithDopplerPosts.map((post, index) => (
-                <Slide key={post.id} active={activeSlide === index}>
-                  <TextPreviewPost post={post} handleStop={handleStop} />
-                </Slide>
-              ))
+              learnWithDopplerPosts.map((post, index) => {
+                if (post.params) {
+                  post.params = post.params.replace(/(&\w+)=<(\w+)>/g, (_, param, key) => {
+                    let replacement = paramReplacements[`<${key}>`];
+                    return paramReplacements[`<${key}>`] ? `${param}=${replacement}` : '';
+                  });
+                }
+
+                return (
+                  <Slide key={post.id} active={activeSlide === index}>
+                    <TextPreviewPost post={post} handleStop={handleStop} />
+                  </Slide>
+                );
+              })
             }
           </Carousel>
         </div>
       </div>
     </>
   );
-};
+});
 
 export const learnWithDopplerPosts = [
   {
@@ -44,6 +63,7 @@ export const learnWithDopplerPosts = [
     linkDescription: `dashboard.learn_with_doppler_posts.post_1.link_description`,
     trackingId: `dashboard-learnWithDoppler-card1`,
     newTab: true,
+    params: '&email=<email>&name=<fullname>&phone=<phone>',
   },
   {
     id: `2`,
