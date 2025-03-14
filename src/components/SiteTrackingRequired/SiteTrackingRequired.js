@@ -38,14 +38,23 @@ export const SiteTrackingRequired = InjectAppServices(
     }
 
     const activateTrial = async () => {
-      setState({ isLoading: true });
+      setState((prev) => ({
+        ...prev,
+        isLoading: true,
+      }));
       try {
         const isActivatedTrial = await dopplerLegacyClient.activateSiteTrackingTrial();
         if (isActivatedTrial.success) {
-          setState({ isActivatedTrial: true });
+          setState((prev) => ({
+            ...prev,
+            isActivatedTrial: true,
+          }));
         }
       } finally {
-        setState({ isLoading: false });
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+        }));
       }
     };
 
