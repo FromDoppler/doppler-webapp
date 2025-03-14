@@ -1,26 +1,62 @@
+import { useState } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
+import { Header } from './Header';
+import { SubscriptionDetails } from './SubscriptionDetails';
+import { AddOns } from './AddOns';
+import { Tabs } from './Tabs';
+import { PaymentMethod } from './PaymentMethod';
+import { BillingHistory } from './BillingHistory';
 
 export const MyPlan = InjectAppServices(() => {
+  const [activeTab, setActiveTab] = useState('subscriptionDetails');
+
+  const sections = {
+    subscriptionDetails: {
+      Component: SubscriptionDetails,
+      title: 'Detalle de suscripción',
+      description: '',
+    },
+    addOns: {
+      Component: AddOns,
+      title: 'Add-ons',
+      description: '',
+    },
+    paymentMethod: {
+      Component: PaymentMethod,
+      title: 'Método de Pago',
+      description: '',
+    },
+    billingHistory: {
+      Component: BillingHistory,
+      title: 'Historial de Facturación',
+      description: '',
+    },
+  };
+
+  const tabsProperties = [];
+  for (const sectionKey in sections) {
+    const sectionValue = sections[sectionKey];
+    tabsProperties.push({
+      active: sectionKey === activeTab,
+      label: sectionValue.title,
+      key: sectionKey,
+      handleClick: () => {
+        setActiveTab(sectionKey);
+      },
+    });
+  }
+
+  const { Component } = sections[activeTab];
+
   return (
     <>
-      <header class="hero-banner">
-        <div class="dp-container">
-          <div class="dp-rowflex">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-              <h2 class="dp-first-order-title">
-                Mi Plan <span class="dpicon iconapp-checklist"></span>
-              </h2>
-            </div>
-            <div class="col-sm-7">
-              <p>
-                Lorem ipsum dolor sit amet consectetur. Ac eleifend diam lobortis montes eget proin
-                purus. Faucibus viverra suspendisse molestie viverra.
-              </p>
-            </div>
-          </div>
-          <span class="arrow"></span>
+      <Header></Header>
+      <div className="dp-container">
+        <div className="dp-rowflex">
+          <Tabs tabsProperties={tabsProperties} />
+          <Component />
         </div>
-      </header>
+      </div>
     </>
   );
 });
