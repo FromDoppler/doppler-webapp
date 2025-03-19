@@ -56,6 +56,7 @@ import jumpseller_icon from '../components/Integrations/images/jumpseller_icon.s
 import wordpress_icon from '../components/Integrations/images/wordpress_icon.png';
 import empretienda_icon from '../components/Integrations/images/empretienda_icon.png';
 import zeus_icon from '../components/Integrations/images/zeus_icon.png';
+import bigbox_icon from '../components/Integrations/images/bigbox_icon.png';
 
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -266,6 +267,16 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.native_integrations.empretienda_title'),
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              name: 'BigBox',
+              linkUrl: `${urlIntegrations}/BigBoxSection`,
+              imgSrc: bigbox_icon,
+              imgAlt: _('integrations.native_integrations.bigbox_title'),
+              iconName: _('integrations.native_integrations.bigbox_title'),
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+              hidden: true,
             },
           ],
         },
