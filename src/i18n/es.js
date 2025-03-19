@@ -941,6 +941,7 @@ Encontrarás un Email con los pasos a seguir.`,
     },
     native_integrations: {
       big_query_title: 'BigQuery',
+      bigbox_title: 'Bigbox',
       bmw_rsp_crm_title: 'RSP CRM',
       easycommerce_title: 'Easycommerce',
       empretienda_title: 'Empretienda',
