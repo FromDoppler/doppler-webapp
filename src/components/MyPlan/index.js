@@ -2,33 +2,18 @@ import { useState } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
 import { Header } from './Header';
 import { SubscriptionDetails } from './SubscriptionDetails';
-import { AddOns } from './AddOns';
 import { Tabs } from './Tabs';
-import { PaymentMethod } from './PaymentMethod';
-import { BillingHistory } from './BillingHistory';
+import { useIntl } from 'react-intl';
 
 export const MyPlan = InjectAppServices(() => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [activeTab, setActiveTab] = useState('subscriptionDetails');
 
   const sections = {
     subscriptionDetails: {
       Component: SubscriptionDetails,
-      title: 'Detalle de suscripción',
-      description: '',
-    },
-    addOns: {
-      Component: AddOns,
-      title: 'Add-ons',
-      description: '',
-    },
-    paymentMethod: {
-      Component: PaymentMethod,
-      title: 'Método de Pago',
-      description: '',
-    },
-    billingHistory: {
-      Component: BillingHistory,
-      title: 'Historial de Facturación',
+      title: `${_(`my_plan.tabs.subscription_details`)}`,
       description: '',
     },
   };
