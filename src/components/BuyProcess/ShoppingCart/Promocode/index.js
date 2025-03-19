@@ -39,7 +39,10 @@ export const Promocode = InjectAppServices(
     disabledPromocode,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
-    const [open, setOpen] = useState(false);
+    const query = useQueryParams();
+    const defaultPromocode = getPromocode(query, isArgentina);
+
+    const [open, setOpen] = useState(defaultPromocode !== '');
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const createTimeout = useTimeout();
@@ -53,9 +56,6 @@ export const Promocode = InjectAppServices(
     openRef.current = open;
     alreadyInitializedRef.current = initialized;
     promotionRef.current = promotion;
-
-    const query = useQueryParams();
-    const defaultPromocode = getPromocode(query, isArgentina);
 
     const toggleOpen = useCallback(() => setOpen(!openRef.current), []);
 
