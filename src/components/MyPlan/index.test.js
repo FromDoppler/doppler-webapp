@@ -7,9 +7,31 @@ import '@testing-library/jest-dom/extend-expect';
 
 describe('OnSite component', () => {
   it('should render component', () => {
+    // Assert
+    const dependencies = {
+      dopplerLegacyClient: {
+        dopplerBillingUserApiClient: () => ({ success: true }),
+      },
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: {
+                isFreeAccount: false,
+                planType: 'subscribers',
+                maxSubscribers: 500,
+                itemDescription: 'subscribers',
+                remainingCredits: 500,
+              },
+            },
+          },
+        },
+      },
+    };
+
     // Act
     render(
-      <AppServicesProvider>
+      <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
           <DopplerIntlProvider>
             <MyPlan />
@@ -19,6 +41,6 @@ describe('OnSite component', () => {
     );
 
     // Assert
-    expect(screen.getByText('Mi Plan')).toBeInTheDocument();
+    expect(screen.getByText('Mi plan')).toBeInTheDocument();
   });
 });
