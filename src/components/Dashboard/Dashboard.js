@@ -4,7 +4,6 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
 import { CampaignSummary } from './CampaignSummary';
 import { ContactSummary } from './ContactSummary';
-import { FirstSteps } from './FirstSteps';
 import { LearnWithDoppler } from './LearnWithDoppler';
 import { Helmet } from 'react-helmet';
 import { TypeformSurvey } from '../TypeformSurvey';
@@ -16,26 +15,24 @@ import {
   mapSystemUsageSummary,
   UNKNOWN_STATUS,
 } from './reducers/firstStepsReducer';
-import { CompleteSteps } from './CompleteSteps';
 import {
   completeStepsReducer,
   COMPLETE_STEPS_ACTIONS,
   INITIAL_STATE_COMPLETE_STEPS,
 } from './reducers/completeStepsReducer';
 import { QuickActions } from './QuickActions';
-import { UnexpectedError } from '../shared/UnexpectedError';
 
 export const Dashboard = InjectAppServices(
   ({ dependencies: { appSessionRef, systemUsageSummary, dopplerSystemUsageApiClient } }) => {
-    const [{ firstStepsData, hasError, loading }, dispatch] = useReducer(
+    const [{ firstStepsData }, dispatch] = useReducer(
       firstStepsReducer,
       INITIAL_STATE_FIRST_STEPS,
       initFirstStepsReducer,
     );
-    const [
-      { updated, hasError: hasErrorCompleteSteps, loading: loadingCompleteSteps },
-      dispatchCompleteSteps,
-    ] = useReducer(completeStepsReducer, INITIAL_STATE_COMPLETE_STEPS);
+    const [{ updated }, dispatchCompleteSteps] = useReducer(
+      completeStepsReducer,
+      INITIAL_STATE_COMPLETE_STEPS,
+    );
     const userName = appSessionRef?.current.userData.user.fullname.split(' ')[0]; // Get firstname
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -131,25 +128,7 @@ export const Dashboard = InjectAppServices(
                 <LearnWithDoppler />
               </div>
               <div className="col-lg-4 col-sm-12">
-                {showFirstStep ? (
-                  <>
-                    <FirstSteps
-                      hasError={hasError}
-                      loading={loading}
-                      firstSteps={firstStepsData.firstSteps}
-                    />
-                    {completed && (
-                      <>
-                        <CompleteSteps loading={loadingCompleteSteps} />
-                        {hasErrorCompleteSteps && (
-                          <div className="m-t-6">
-                            <UnexpectedError msgId="common.something_wrong" />
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </>
-                ) : (
+                {!showFirstStep && (
                   <QuickActions
                     quickActions={user.sms?.smsEnabled ? QUICK_ACTIONS : filteredQuickActions}
                   />
