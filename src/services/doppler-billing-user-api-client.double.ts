@@ -302,4 +302,12 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async activatePushNotificationPlan(): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log('activatePushNotificationPlan');
+    return {
+      success: true,
+    };
+  }
 }

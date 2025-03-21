@@ -47,6 +47,7 @@ import { BuyConversation } from './components/Plans/BuyConversation';
 import { OnSitePlansSelection } from './components/BuyProcess/OnSitePlanSelection';
 import { OnSite } from './components/OnSite';
 import { MyPlan } from './components/MyPlan';
+import { PushNotifications } from './components/PushNotifications';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -424,6 +425,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <MyPlan />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/push-notifications/"
+              element={
+                <PrivateRoute>
+                  <PushNotifications />
                 </PrivateRoute>
               }
             />

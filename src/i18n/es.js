@@ -1505,6 +1505,22 @@ El código es inválido.`,
     coming_soon: 'Próximamente',
     new: 'Nueva',
   },
+  push_promotional: {
+    actionText: 'Pruébalo Gratis',
+    actionText_expired: 'Elige tu plan',
+    actionUrl: `${urlPreUpgradePlan}?origin=onsite_promo_page`,
+    description: 'Posee una tasa de aceptación elevada en comparación a la de otros canales de envíos, ya que no requiere solicitud de datos. Además vas a disfrutar de las siguientes ventajas:',
+    features: {
+      communicate_your_messages: 'Comunicar tus mensajes en diferentes dispositivos, incluso si el usuario no está navegando en tu sitio.',
+      notify_you_about_news: 'Notificar sobre novedades, información, promociones o lanzamientos de tu marca.',
+      redirect_contacts_your_website: 'Redireccionar a los contactos a tu sitio web.',
+      send_simple_and_effective_alerts: 'Enviar alertas simples y efectivas a contactos suscriptos.',
+    },
+    paragraph_free_MD: '¡Implementa Notificaciones Push en tu Estrategia de Marketing! Pruebalo durante tu período gratuito o hasta utilizar los 2.500 Enviós.',
+    paragraph_free_expired_MD: '¡Implementa Notificaciones Push en tu Estrategia de Marketing! Adquiere un plan según tus necesidades.',
+    paragraph_not_free_MD: '¡Implementa Notificaciones Push en tu Estrategia de Marketing! Puedes probarlo gratis durante 90 días o hasta utilizar los 2.500 Enviós.',
+    title: 'Doppler Notificaciones Push',
+  },
   reports: {
     datahub_not_domains_title: `Agrega el dominio de tu Web y analiza el comportamiento de tus usuarios`,
     no_domains_MD: `
