@@ -7,6 +7,7 @@ import { InjectAppServices } from '../../../../services/pure-di';
 import { BUY_MARKETING_PLAN, PaymentMethodType } from '../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
@@ -53,32 +54,35 @@ export const CheckoutButton = InjectAppServices(
       }
 
       if (!hasChatActive && selectedPlanChat?.planChat) {
-        dopplerLegacyClient.activateConversationPlan();
-      }
-
-      const response = await dopplerBillingUserApiClient.purchase({
-        planId,
-        discountId: discount?.id ?? 0,
-        total,
-        promocode: promotion?.promocode ?? '',
-        originInbound,
-        additionalServices,
-      });
-
-      if (response.success) {
-        setStatus(SAVED);
-        createTimeout(() => {
-          window.location.href = `/checkout-summary?planId=${planId}&buyType=${buyType}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
-            discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
-          }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
-            promotion?.discountPercentage
-              ? `&discountPromocode=${promotion.discountPercentage}`
-              : ''
-          }`;
-        }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
+        if (!(await dopplerLegacyClient.activateConversationPlan())) {
+          setMessageError('validation_messages.error_unexpected_register_MD');
+          setStatus(HAS_ERROR);
+        }
       } else {
-        setMessageError(getCheckoutErrorMesage(response.error.response?.data));
-        setStatus(HAS_ERROR);
+        const response = await dopplerBillingUserApiClient.purchase({
+          planId,
+          discountId: discount?.id ?? 0,
+          total,
+          promocode: promotion?.promocode ?? '',
+          originInbound,
+          additionalServices,
+        });
+
+        if (response.success) {
+          setStatus(SAVED);
+          createTimeout(() => {
+            window.location.href = `/checkout-summary?planId=${planId}&buyType=${buyType}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
+              discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
+            }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
+              promotion?.discountPercentage
+                ? `&discountPromocode=${promotion.discountPercentage}`
+                : ''
+            }`;
+          }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
+        } else {
+          setMessageError(getCheckoutErrorMesage(response.error.response?.data));
+          setStatus(HAS_ERROR);
+        }
       }
     };
 
@@ -121,7 +125,7 @@ export const StatusMessage = ({ type, message }) => (
   <div className={`dp-wrap-message dp-wrap-${type}`} role="alert" aria-label={type}>
     <span className="dp-message-icon" />
     <div className="dp-content-message">
-      <p>{message}</p>
+      <FormattedMessageMarkdown id={message} linkTarget={'_blank'} />
     </div>
   </div>
 );
