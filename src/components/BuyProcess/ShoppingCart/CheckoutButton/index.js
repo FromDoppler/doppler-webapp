@@ -57,32 +57,33 @@ export const CheckoutButton = InjectAppServices(
         if (!(await dopplerLegacyClient.activateConversationPlan())) {
           setMessageError('validation_messages.error_unexpected_register_MD');
           setStatus(HAS_ERROR);
+          return;
         }
-      } else {
-        const response = await dopplerBillingUserApiClient.purchase({
-          planId,
-          discountId: discount?.id ?? 0,
-          total,
-          promocode: promotion?.promocode ?? '',
-          originInbound,
-          additionalServices,
-        });
+      }
 
-        if (response.success) {
-          setStatus(SAVED);
-          createTimeout(() => {
-            window.location.href = `/checkout-summary?planId=${planId}&buyType=${buyType}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
-              discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
-            }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
-              promotion?.discountPercentage
-                ? `&discountPromocode=${promotion.discountPercentage}`
-                : ''
-            }`;
-          }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
-        } else {
-          setMessageError(getCheckoutErrorMesage(response.error.response?.data));
-          setStatus(HAS_ERROR);
-        }
+      const response = await dopplerBillingUserApiClient.purchase({
+        planId,
+        discountId: discount?.id ?? 0,
+        total,
+        promocode: promotion?.promocode ?? '',
+        originInbound,
+        additionalServices,
+      });
+
+      if (response.success) {
+        setStatus(SAVED);
+        createTimeout(() => {
+          window.location.href = `/checkout-summary?planId=${planId}&buyType=${buyType}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
+            discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
+          }${promotion?.extraCredits ? `&extraCredits=${promotion.extraCredits}` : ''}${
+            promotion?.discountPercentage
+              ? `&discountPromocode=${promotion.discountPercentage}`
+              : ''
+          }`;
+        }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
+      } else {
+        setMessageError(getCheckoutErrorMesage(response.error.response?.data));
+        setStatus(HAS_ERROR);
       }
     };
 
