@@ -387,6 +387,15 @@ interface OnSitePlanEntry {
   active: boolean;
 }
 
+interface PushNotificationPlanEntry {
+  planId: number;
+  description: string;
+  quantity: number;
+  fee: number;
+  additional: number;
+  active: boolean;
+}
+
 interface SmsEntry {
   buttonText: string;
   buttonUrl: string;
@@ -590,6 +599,17 @@ function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
   };
 }
 
+function mapPushNotificationPlanEntry(json: any): PushNotificationPlanEntry {
+  return {
+    planId: json ? json.idPlan : 0,
+    description: json ? json.description : '',
+    quantity: json ? json.quantity : 0,
+    fee: json ? json.fee : 0,
+    additional: json ? json.additional : 0,
+    active: json ? json.active : false,
+  };
+}
+
 function parsePlan(json: any) {
   const id = json.IdUserTypePlan;
   const fee = json.Fee;
@@ -697,6 +717,10 @@ export function mapHeaderDataJson(json: any) {
       onSite: {
         active: json.user.onSite?.active,
         plan: mapOnSitePlanEntry(json.user.onSite?.planData),
+      },
+      pushNotification: {
+        active: json.user.pushNotificationPlan?.active,
+        plan: mapPushNotificationPlanEntry(json.user.pushNotificationPlan?.planData),
       },
     },
     userAccount: json.userAccount && {

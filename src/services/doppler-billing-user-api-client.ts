@@ -724,6 +724,13 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     }
   }
 
+  public async activatePushNotificationPlan(): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('activatePushNotificationPlan');
+    return {
+      success: true,
+    };
+  }
+
   private mapOnSiteAgreementToCreate(data: any): any {
     return {
       total: data.total,

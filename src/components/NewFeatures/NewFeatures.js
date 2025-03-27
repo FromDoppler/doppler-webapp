@@ -6,6 +6,8 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from '../../doppler-types';
 
 const NewFeatures = () => {
   const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
+  const canBuyPushNotificationPlan =
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
 
   return (
     <>
@@ -111,6 +113,14 @@ const NewFeatures = () => {
             <div className="m-l-24">
               <h3>Página promocional de on-site</h3>
               <Link to={'/onsite'}>Ir a Página promocional de on-site</Link>
+            </div>
+          </div>
+        )}
+        {canBuyPushNotificationPlan && (
+          <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+            <div className="m-l-24">
+              <h3>Página promocional de notificaciones push</h3>
+              <Link to={'/push-notifications'}>Ir a Página promocional de notificaciones push</Link>
             </div>
           </div>
         )}
