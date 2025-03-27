@@ -7,6 +7,7 @@ import { InjectAppServices } from '../../../../services/pure-di';
 import { BUY_MARKETING_PLAN, PaymentMethodType } from '../../../../doppler-types';
 import { ACCOUNT_TYPE } from '../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../utils';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
@@ -53,7 +54,11 @@ export const CheckoutButton = InjectAppServices(
       }
 
       if (!hasChatActive && selectedPlanChat?.planChat) {
-        dopplerLegacyClient.activateConversationPlan();
+        if (!(await dopplerLegacyClient.activateConversationPlan())) {
+          setMessageError('validation_messages.error_unexpected_register_MD');
+          setStatus(HAS_ERROR);
+          return;
+        }
       }
 
       const response = await dopplerBillingUserApiClient.purchase({
@@ -121,7 +126,7 @@ export const StatusMessage = ({ type, message }) => (
   <div className={`dp-wrap-message dp-wrap-${type}`} role="alert" aria-label={type}>
     <span className="dp-message-icon" />
     <div className="dp-content-message">
-      <p>{message}</p>
+      <FormattedMessageMarkdown id={message} linkTarget={'_blank'} />
     </div>
   </div>
 );
