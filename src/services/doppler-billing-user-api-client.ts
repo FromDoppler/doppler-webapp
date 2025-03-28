@@ -725,10 +725,24 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
   }
 
   public async activatePushNotificationPlan(): Promise<EmptyResultWithoutExpectedErrors> {
-    console.log('activatePushNotificationPlan');
-    return {
-      success: true,
-    };
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/PushNotification/activate`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
   }
 
   private mapOnSiteAgreementToCreate(data: any): any {
