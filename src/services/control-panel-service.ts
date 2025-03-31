@@ -278,6 +278,13 @@ export class ControlPanelService implements ControlPanelService {
               ribbonText: _('promotional_ribbons.new'),
               hidden: true,
             },
+            {
+              linkUrl: _('integrations.external_integrations.wordpress_link_url'),
+              imgSrc: wordpress_icon,
+              imgAlt: _('integrations.external_integrations.wordpress_title'),
+              iconName: _('integrations.external_integrations.wordpress_title'),
+              targetBlank: true,
+            },
           ],
         },
         {
@@ -400,13 +407,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: tiendup_icon,
               imgAlt: _('integrations.external_integrations.tiendup_title'),
               iconName: _('integrations.external_integrations.tiendup_title'),
-              targetBlank: true,
-            },
-            {
-              linkUrl: _('integrations.external_integrations.wordpress_link_url'),
-              imgSrc: wordpress_icon,
-              imgAlt: _('integrations.external_integrations.wordpress_title'),
-              iconName: _('integrations.external_integrations.wordpress_title'),
               targetBlank: true,
             },
             {
