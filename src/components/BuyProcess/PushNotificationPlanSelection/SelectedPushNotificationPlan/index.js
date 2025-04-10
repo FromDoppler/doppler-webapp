@@ -3,7 +3,13 @@ import { numberFormatOptions } from '../../../../doppler-types';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { thousandSeparatorNumber } from '../../../../utils';
 
-export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, removeItem }) => {
+export const SelectedPushNotificationPlan = ({
+  selectedPlan,
+  customPlan,
+  item,
+  addItem,
+  removeItem,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -11,18 +17,26 @@ export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, re
     <div className="dp-boxgrey">
       <div className="dp-price">
         <h2>
-          {selectedPlan ? '' : _('onsite_selection.selected_onsite_plan.from')}
+          {selectedPlan
+            ? ''
+            : _('push_notification_selection.selected_push_notification_plan.from')}
           US${' '}
           <FormattedNumber
             value={selectedPlan ? (selectedPlan?.planId ? selectedPlan?.fee : 0) : customPlan.fee}
             {...numberFormatOptions}
           />
-          */{_('onsite_selection.selected_onsite_plan.month_message')}
+          */{_('push_notification_selection.selected_push_notification_plan.month_message')}
         </h2>
       </div>
-      <h3>{_('onsite_selection.selected_onsite_plan.prints_plan_message')}</h3>
+      <h3>
+        {_('push_notification_selection.selected_push_notification_plan.emails_plan_message')}
+      </h3>
       {selectedPlan !== undefined && selectedPlan.quantity === 0 ? (
-        <p>{_('onsite_selection.selected_onsite_plan.no_onsite_plan_selected_message')}</p>
+        <p>
+          {_(
+            'push_notification_selection.selected_push_notification_plan.no_push_notification_plan_selected_message',
+          )}
+        </p>
       ) : (
         <ul className="dp-items-plan">
           <li>
@@ -32,11 +46,11 @@ export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, re
                 <FormattedMessage
                   id={`${
                     selectedPlan
-                      ? 'onsite_selection.selected_onsite_plan.includes_until_prints_message'
-                      : 'onsite_selection.selected_onsite_plan.custom_includes_until_prints_message'
+                      ? 'push_notification_selection.selected_push_notification_plan.includes_until_emails_message'
+                      : 'push_notification_selection.selected_push_notification_plan.custom_includes_until_emails_message'
                   }`}
                   values={{
-                    prints: `${thousandSeparatorNumber(
+                    emails: `${thousandSeparatorNumber(
                       intl.defaultLocale,
                       selectedPlan ? selectedPlan?.quantity : customPlan.quantity,
                     )}${' '}`,
@@ -52,12 +66,12 @@ export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, re
                 <FormattedMessage
                   id={`${
                     selectedPlan
-                      ? 'onsite_selection.selected_onsite_plan.cost_print_message'
-                      : 'onsite_selection.selected_onsite_plan.custom_cost_print_message'
+                      ? 'push_notification_selection.selected_push_notification_plan.cost_email_message'
+                      : 'push_notification_selection.selected_push_notification_plan.custom_cost_email_message'
                   }`}
                   values={{
                     bold: (chunks) => <b>{chunks}</b>,
-                    costPrint: `${(selectedPlan
+                    costEmail: `${(selectedPlan
                       ? (selectedPlan?.planId ? selectedPlan?.fee : 0) / selectedPlan?.quantity
                       : (customPlan?.planId ? customPlan?.fee : 0) / customPlan?.quantity
                     ).toFixed(4)}${' '}`,
@@ -73,12 +87,12 @@ export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, re
                 <FormattedMessage
                   id={`${
                     selectedPlan
-                      ? 'onsite_selection.selected_onsite_plan.additional_print_message'
-                      : 'onsite_selection.selected_onsite_plan.custom_additional_print_message'
+                      ? 'push_notification_selection.selected_push_notification_plan.additional_email_message'
+                      : 'push_notification_selection.selected_push_notification_plan.custom_additional_email_message'
                   }`}
                   values={{
                     bold: (chunks) => <b>{chunks}</b>,
-                    additionalPrint: `${(selectedPlan
+                    additionalEmail: `${(selectedPlan
                       ? selectedPlan?.additional
                       : customPlan?.additional
                     ).toFixed(4)}${' '}`,
@@ -99,22 +113,26 @@ export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, re
       >
         <span>
           {item
-            ? `${_('onsite_selection.selected_onsite_plan.remove_from_cart_button')}`
-            : `${_('onsite_selection.selected_onsite_plan.add_to_cart_button')}`}
+            ? `${_(
+                'push_notification_selection.selected_push_notification_plan.remove_from_cart_button',
+              )}`
+            : `${_(
+                'push_notification_selection.selected_push_notification_plan.add_to_cart_button',
+              )}`}
         </span>
       </button>
     </div>
   );
 };
 
-SelectedOnSitePlan.propTypes = {
+SelectedPushNotificationPlan.propTypes = {
   selectedPlan: PropTypes.shape({
     fee: PropTypes.number,
-    printQty: PropTypes.number,
+    quantity: PropTypes.number,
   }),
   item: PropTypes.shape({
     fee: PropTypes.number.isRequired,
-    printQty: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
   }),
   addItem: PropTypes.func.isRequired,
   removeItem: PropTypes.func.isRequired,

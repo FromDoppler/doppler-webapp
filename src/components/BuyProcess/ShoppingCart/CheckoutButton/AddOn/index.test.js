@@ -6,8 +6,8 @@ import { DELAY_BEFORE_REDIRECT_TO_SUMMARY } from '.';
 import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../../../services/pure-di';
-import { OnSiteCheckoutButton } from './index';
-import { BUY_ONSITE_PLAN } from '../../../../../doppler-types';
+import { AddOnCheckoutButton } from './index';
+import { AddOnType, BUY_ONSITE_PLAN } from '../../../../../doppler-types';
 
 const getFakePurchase = (success) => {
   const purchaseMock = jest.fn(async () => ({
@@ -16,7 +16,7 @@ const getFakePurchase = (success) => {
   }));
   const dependencies = {
     dopplerBillingUserApiClient: {
-      purchaseOnSitePlan: purchaseMock,
+      purchaseAddOnPlan: purchaseMock,
     },
     appSessionRef: {
       current: {
@@ -37,7 +37,7 @@ const getFakePurchase = (success) => {
   };
 };
 
-describe('OnSiteCheckoutButton component', () => {
+describe('AddOnCheckoutButton component', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'location', {
       writable: true,
@@ -52,7 +52,9 @@ describe('OnSiteCheckoutButton component', () => {
       canBuy: true,
       total: 1000,
       keyTextButton: 'buy_process.buy_now_title',
-      onSitePlanId: 1,
+      addOnPlanId: 1,
+      addOnType: 3,
+      buyType: BUY_ONSITE_PLAN,
     };
     const successRequest = true;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
@@ -68,7 +70,7 @@ describe('OnSiteCheckoutButton component', () => {
               `/checkout/premium/subscribers?origin_inbound=${originInbound}&${ACCOUNT_TYPE}=FREE`,
             ]}
           >
-            <OnSiteCheckoutButton {...props} />
+            <AddOnCheckoutButton {...props} />
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -88,13 +90,14 @@ describe('OnSiteCheckoutButton component', () => {
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       total: props.total,
-      onSitePlanId: props.onSitePlanId,
+      addOnPlanId: props.addOnPlanId,
+      addOnType: AddOnType.OnSite,
     });
 
     // simulate redirect to checkout summary
     jest.advanceTimersByTime(DELAY_BEFORE_REDIRECT_TO_SUMMARY);
     expect(window.location.href).toBe(
-      `/checkout-summary?buyType=${BUY_ONSITE_PLAN}&${ACCOUNT_TYPE}=FREE&onSitePlanId=1`,
+      `/checkout-summary?buyType=${BUY_ONSITE_PLAN}&${ACCOUNT_TYPE}=FREE&addOnPlanId=1`,
     );
     jest.useRealTimers();
   });
@@ -106,6 +109,7 @@ describe('OnSiteCheckoutButton component', () => {
       canBuy: true,
       total: 1_000,
       keyTextButton: 'buy_process.buy_now_title',
+      buyType: BUY_ONSITE_PLAN,
     };
     const successRequest = false;
     const { purchaseMock, dependencies } = getFakePurchase(successRequest);
@@ -119,7 +123,7 @@ describe('OnSiteCheckoutButton component', () => {
               `/checkout/premium/subscribers?origin_inbound=${originInbound}&${ACCOUNT_TYPE}=FREE`,
             ]}
           >
-            <OnSiteCheckoutButton {...props} />
+            <AddOnCheckoutButton {...props} />
           </Router>
         </IntlProvider>
       </AppServicesProvider>,
@@ -139,7 +143,8 @@ describe('OnSiteCheckoutButton component', () => {
     expect(purchaseMock).toHaveBeenCalledTimes(1);
     expect(purchaseMock).toHaveBeenCalledWith({
       total: props.total,
-      onSitePlanId: props.onSitePlanId,
+      addOnPlanId: props.addOnPlanId,
+      addOnType: AddOnType.OnSite,
     });
     expect(getBuyButton()).toBeEnabled();
   });

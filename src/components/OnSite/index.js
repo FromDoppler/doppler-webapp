@@ -9,6 +9,7 @@ import { Navigate } from 'react-router-dom';
 import ReactPlayer from 'react-player/youtube';
 import Modal from '../Modal/Modal';
 import RedirectToExternalUrl from '../RedirectToExternalUrl';
+import { AddOnType } from '../../doppler-types';
 
 export const OnSite = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
@@ -33,7 +34,7 @@ export const OnSite = InjectAppServices(
     const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
-      if (await dopplerBillingUserApiClient.activateOnSitePlan()) {
+      if (await dopplerBillingUserApiClient.activateAddOnPlan(AddOnType.OnSite)) {
         window.location.href = '/popup-hub/widgets';
       } else {
         setErrorMessage('validation_messages.error_unexpected_register_MD');

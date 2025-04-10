@@ -20,7 +20,7 @@ import { PlanBenefits } from './PlanBenefits';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
 import { useParams } from 'react-router-dom';
 import { useQueryParams } from '../../../hooks/useQueryParams';
-import { BannerUpgrade } from './BannerUpgrade';
+import { BannerUpgrade } from '../BannerUpgrade';
 
 export const PlanChat = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -159,7 +159,10 @@ export const PlanChat = InjectAppServices(
                   )} conversaciones`}
                   moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
                 />
-                <BannerUpgrade currentPlan={selectedPlan} />
+                <BannerUpgrade
+                  currentPlan={selectedPlan}
+                  messageId={'chat_selection.banner_for_conversations'}
+                />
               </section>
               <section>
                 <SelectedPlanChat

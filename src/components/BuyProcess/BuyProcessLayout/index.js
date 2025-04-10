@@ -3,6 +3,7 @@ import {
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
+  BUY_PUSH_NOTIFICATION_PLAN,
 } from '../../../doppler-types';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -41,6 +42,13 @@ export const getSteps = (buyType, user) => {
       icon: 'dpicon iconapp-chatting',
       pathname: '/buy-onsite-plans',
       visible: buyType === BUY_ONSITE_PLAN.toString(),
+    },
+    {
+      id: 5,
+      label: 'buy_process.stepper.push_notification_plan_step',
+      icon: 'dpicon iconapp-chatting',
+      pathname: '/buy-push-notification-plans',
+      visible: buyType === BUY_PUSH_NOTIFICATION_PLAN.toString(),
     },
     {
       id: 5,

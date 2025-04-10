@@ -124,6 +124,16 @@ const NewFeatures = () => {
             </div>
           </div>
         )}
+        {canBuyPushNotificationPlan && (
+          <div className="dp-block-wlp dp-box-shadow m-t-36 m-b-36">
+            <div className="m-l-24">
+              <h3>Planes de notificaciones push</h3>
+              <Link to={'/buy-push-notification-plans?buyType=5'}>
+                Ir a Compra de planes de notificaciones push
+              </Link>
+            </div>
+          </div>
+        )}
       </section>
     </>
   );

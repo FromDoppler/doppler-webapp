@@ -26,9 +26,20 @@ export interface DopplerAccountPlansApiClient {
     promocode: string,
   ): Promise<ResultWithoutExpectedErrors<Promotion>>;
 
-  getOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>>;
+  getAddOnPlans(addOnType: any): Promise<ResultWithoutExpectedErrors<any>>;
 
-  getCustomOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>>;
+  getCustomAddOnPlans(addOnType: any): Promise<ResultWithoutExpectedErrors<any>>;
+
+  getAddOnPlanData(
+    planId: number,
+    addOnType: number,
+  ): Promise<ResultWithoutExpectedErrors<AddOnPlan>>;
+
+  getAddOnPlanBillingDetailsData(
+    planId: number,
+    addOnType: number,
+    discountId: number,
+  ): Promise<ResultWithoutExpectedErrors<any>>;
 }
 
 interface DopplerAccountPlansApiConnectionData {
@@ -83,6 +94,13 @@ export interface Promotion {
   extraCredits: number;
   discountPercentage: number;
   duration: number;
+}
+
+export interface AddOnPlan {
+  planId: number;
+  quantity: number;
+  fee: number;
+  addOnType: number;
 }
 
 export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiClient {
@@ -381,13 +399,13 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
-  public async getOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
+  public async getAddOnPlans(addOnType: any): Promise<ResultWithoutExpectedErrors<any>> {
     try {
       const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `onsite-plans`,
+        url: `addon/${addOnType}/plans?custom=false`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -401,8 +419,9 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
-  public async getOnSitePlanBillingDetailsData(
+  public async getAddOnPlanBillingDetailsData(
     planId: number,
+    addOnType: number,
     discountId: number,
   ): Promise<ResultWithoutExpectedErrors<any>> {
     try {
@@ -410,7 +429,7 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/OnSite/${planId}/calculate-amount?discountId=${discountId}`,
+        url: `accounts/${email}/newplan/${addOnType}/${planId}/calculate-amount?discountId=${discountId}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -424,13 +443,36 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     }
   }
 
-  public async getCustomOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
+  public async getCustomAddOnPlans(addOnType: any): Promise<ResultWithoutExpectedErrors<any>> {
     try {
       const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `custom-onsite-plans`,
+        url: `addon/${addOnType}/plans?custom=true`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getAddOnPlanData(
+    planId: number,
+    addOnType: number,
+  ): Promise<ResultWithoutExpectedErrors<AddOnPlan>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `addon/${addOnType}/plans/${planId}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

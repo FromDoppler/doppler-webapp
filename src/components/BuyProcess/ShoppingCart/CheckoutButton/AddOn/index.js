@@ -5,22 +5,27 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import { ACCOUNT_TYPE } from '../../../../../hooks/useUserTypeAsQueryParam';
 import { getCheckoutErrorMesage } from '../../utils';
 import { FREE_ACCOUNT, PAID_ACCOUNT } from '../../../../../utils';
-import { BUY_ONSITE_PLAN } from '../../../../../doppler-types';
 import { useIntl } from 'react-intl';
+import {
+  AddOnType,
+  BUY_ONSITE_PLAN,
+  BUY_PUSH_NOTIFICATION_PLAN,
+} from '../../../../../doppler-types';
 
 export const DELAY_BEFORE_REDIRECT_TO_SUMMARY = 3000;
 const HAS_ERROR = 'HAS_ERROR';
 const SAVING = 'SAVING';
 const SAVED = 'SAVED';
 
-export const OnSiteCheckoutButton = InjectAppServices(
+export const AddOnCheckoutButton = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, appSessionRef },
     keyTextButton,
     canBuy = false,
     total,
     discount,
-    onSitePlanId,
+    addOnPlanId,
+    buyType,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -33,17 +38,23 @@ export const OnSiteCheckoutButton = InjectAppServices(
 
     const proceedToBuy = async () => {
       setStatus(SAVING);
-      const response = await dopplerBillingUserApiClient.purchaseOnSitePlan({
+      const response = await dopplerBillingUserApiClient.purchaseAddOnPlan({
         total,
-        onSitePlanId,
+        addOnType:
+          buyType === BUY_ONSITE_PLAN
+            ? AddOnType.OnSite
+            : buyType === BUY_PUSH_NOTIFICATION_PLAN
+              ? AddOnType.PushNotifications
+              : 0,
+        addOnPlanId,
       });
 
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${BUY_ONSITE_PLAN}&${ACCOUNT_TYPE}=${accountType}${
+          window.location.href = `/checkout-summary?buyType=${buyType}&${ACCOUNT_TYPE}=${accountType}${
             discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
-          }${onSitePlanId ? `&onSitePlanId=${onSitePlanId}` : ''}`;
+          }${addOnPlanId ? `&addOnPlanId=${addOnPlanId}` : ''}`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
@@ -51,14 +62,20 @@ export const OnSiteCheckoutButton = InjectAppServices(
       }
     };
 
-    const cancelOnSitePlan = async () => {
+    const cancelAddOnPlan = async () => {
       setStatus(SAVING);
-      const response = await dopplerBillingUserApiClient.cancellationOnSitePlan();
+      const addOnType =
+        buyType === BUY_ONSITE_PLAN
+          ? AddOnType.OnSite
+          : buyType === BUY_PUSH_NOTIFICATION_PLAN
+            ? AddOnType.PushNotifications
+            : 0;
+      const response = await dopplerBillingUserApiClient.cancellationAddOnPlan(addOnType);
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${BUY_ONSITE_PLAN}&${ACCOUNT_TYPE}=${accountType}${
-            onSitePlanId ? `&onSitePlanId=${onSitePlanId}` : ''
+          window.location.href = `/checkout-summary?buyType=${buyType}&${ACCOUNT_TYPE}=${accountType}${
+            addOnPlanId ? `&addOnPlanId=${addOnPlanId}` : ''
           }`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
@@ -78,7 +95,7 @@ export const OnSiteCheckoutButton = InjectAppServices(
             'dp-button button-big primary-green' + (status === SAVING ? ' button--loading' : '')
           }
           disabled={disabledBuy}
-          onClick={parseInt(onSitePlanId) === 0 ? cancelOnSitePlan : proceedToBuy}
+          onClick={parseInt(addOnPlanId) === 0 ? cancelAddOnPlan : proceedToBuy}
           aria-label="buy"
         >
           {_(keyTextButton)}

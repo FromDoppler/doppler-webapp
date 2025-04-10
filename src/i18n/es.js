@@ -133,6 +133,7 @@ const messages_es = {
     'feature_item_monthly-deliveries': `Incluye hasta <Strong>{units} envíos</Strong>`,
     feature_item_onsite_plan: `Incluye hasta <Strong>{units} impresiones</Strong>`,
     feature_item_prepaid: `Incluye hasta <Strong>{units} créditos</Strong>`,
+    feature_item_push_notification_plan: `Incluye hasta <Strong>{units} envíos</Strong>`,
     feature_item_subscribers: `Incluye hasta <Strong>{units} contactos</Strong>`,
     marketing_plan_title: `Plan marketing`,
     min_monthly_plan_price: `<P>Desde <Strong>US$ {price}*/mes</Strong></P>`,
@@ -166,6 +167,7 @@ const messages_es = {
       label_month: `mes`,
       valid_until_label: `Vigentes hasta agotarse la existencia`,
     },
+    push_notification_plan_title: `Plan Notificaciones Push`,
     shopping_cart: {
       price_without_taxes: `*El precio no incluye impuestos.`,
       promotional_code: `¿Tienes un código promocional?`,
@@ -180,6 +182,7 @@ const messages_es = {
       finalize_purchase_step: 'Finaliza tu compra',
       landings_plan_step: 'Plan Landings',
       onsite_plan_step: 'Plan OnSite',
+      push_notification_plan_step: 'Plan Notificación Push',
     },
     subscriptions_title: `Suscripciones`,
     upcoming_bills: {
@@ -188,6 +191,7 @@ const messages_es = {
       marketing_and_chat_plan_subtitle: `Planes de marketing y chat`,
       marketing_plan_subtitle: `Plan marketing`,
       onsite_plan_subtitle: `Plan de OnSite`,
+      push_notification_plan_subtitle: `Plan de Notificaciones Push`,
       title: `Próximas facturas`,
     },
   },
@@ -1504,6 +1508,36 @@ El código es inválido.`,
   promotional_ribbons: {
     coming_soon: 'Próximamente',
     new: 'Nueva',
+  },
+  push_notification_selection: {
+    banner_for_emails: `¿Necesitas más Envíos? <Link>Escríbenos</Link>.`,
+    how_many_emails_need_message: '¿Cuántos Envíos necesitas por mes?',
+    push_notification_plan_info: {
+      legend: 'Configura Notificaciones Push y redirecciona al usuario a donde desees. Envía mensajes cortos con contenido promocional o informativo, adaptado a Desktop y Mobile.',
+      section_1: {
+        legend: 'Las Notificaciones Push presentan una elevada Tasa de Aceptación, en comparación con otros canales.',
+        title: 'Programa alertas simples y efectivas',
+      },
+      section_2: {
+        legend: 'Podrás agregar condiciones para segmentar a los usuarios, que hayan visitado previamente tu tienda, a partir de su actividad de navegación.',
+        title: 'Segmenta según el Comportamiento en Sitio',
+      },
+    },
+    selected_push_notification_plan: {
+      add_to_cart_button: 'Agregar al carrito',
+      additional_email_message: '<bold>US$ {additionalEmail}</bold> por Envío adicional',
+      cost_email_message: '<bold>US$ {costEmail}</bold> por Envíos',
+      custom_additional_email_message: 'Desde <bold>US$ {additionalEmail}</bold> por Envío adicional',
+      custom_cost_email_message: 'Desde <bold>US$ {costEmail}</bold> por Envío',
+      custom_includes_until_emails_message: 'Incluye desde {emails} Envíos',
+      emails_plan_message: 'Plan Notificationes Push*',
+      from: 'Desde ',
+      includes_until_emails_message: 'Incluye hasta {emails} Envíos',
+      month_message: 'mes',
+      no_push_notification_plan_selected_message: 'No se ha seleccionado un plan de notificaciones push',
+      remove_from_cart_button: 'Remover del carrito',
+    },
+    title: 'Envía Notificaciones Push',
   },
   push_promotional: {
     actionText: 'Pruébalo Gratis',

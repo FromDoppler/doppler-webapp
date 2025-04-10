@@ -281,31 +281,23 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     };
   }
 
-  public async purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors> {
-    console.log('purchaseOnSitePlan', values);
+  public async purchaseAddOnPlan(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    console.log('purchaseAddOnPlan', values);
     await timeout(1500);
     return { success: true };
   }
 
-  public async cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+  public async activateAddOnPlan(addOnType: any): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
-    console.log('cancellationOnSitePlan');
+    console.log(`activateAddOnPlan: ${addOnType}`);
     return {
       success: true,
     };
   }
 
-  public async activateOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+  public async cancellationAddOnPlan(addOnType: any): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
-    console.log('activateOnSitePlan');
-    return {
-      success: true,
-    };
-  }
-
-  public async activatePushNotificationPlan(): Promise<EmptyResultWithoutExpectedErrors> {
-    await timeout(1500);
-    console.log('activatePushNotificationPlan');
+    console.log(`cancellationAddOnPlan: ${addOnType}`);
     return {
       success: true,
     };

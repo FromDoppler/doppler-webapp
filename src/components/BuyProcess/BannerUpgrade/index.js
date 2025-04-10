@@ -1,12 +1,12 @@
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-export const BannerUpgrade = ({ currentPlan }) => {
+export const BannerUpgrade = ({ currentPlan, messageId }) => {
   const hightestPlan = currentPlan === undefined || currentPlan.active === false;
 
   if (hightestPlan) {
     const upgradeInfo = {
-      messageId: `chat_selection.banner_for_conversations`,
+      messageId: messageId,
       link: `/upgrade-suggestion-form`,
     };
 

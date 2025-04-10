@@ -211,3 +211,9 @@ export const BUY_MARKETING_PLAN = 1;
 export const BUY_LANDING_PACK = 3;
 export const BUY_CHAT_PLAN = 2;
 export const BUY_ONSITE_PLAN = 4;
+export const BUY_PUSH_NOTIFICATION_PLAN = 5;
+
+export const AddOnType = {
+  OnSite: 3,
+  PushNotifications: 4
+};

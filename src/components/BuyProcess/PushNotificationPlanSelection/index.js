@@ -1,21 +1,25 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { InjectAppServices } from '../../../services/pure-di';
-import { AddOnType, BUY_ONSITE_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
-import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
-import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { useIntl } from 'react-intl';
-import { OnSitePlanInformation } from './OnSitePlanInformation';
+import { InjectAppServices } from '../../../services/pure-di';
+import HeaderSection from '../../shared/HeaderSection/HeaderSection';
+import { GoBackButton } from '../PlanSelection/GoBackButton';
+import { PlanInformation } from './PlanInformation';
+import { Slider } from '../Slider';
+import { BannerUpgrade } from '../BannerUpgrade';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
+import {
+  AddOnType,
+  BUY_PUSH_NOTIFICATION_PLAN,
+  PaymentMethodType,
+  PLAN_TYPE,
+} from '../../../doppler-types';
 import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../UnexpectedError';
-import { Slider } from '../Slider';
-import { SelectedOnSitePlan } from './SelectedOnSitePlan';
-import { GoBackButton } from '../PlanSelection/GoBackButton';
+import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
+import { SelectedPushNotificationPlan } from './SelectedPushNotificationPlan';
 import { ShoppingCart } from '../ShoppingCart';
-import * as S from './styles';
-import { BannerUpgrade } from '../BannerUpgrade';
-import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
 
-export const OnSitePlansSelection = InjectAppServices(
+export const PushNotificationPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
     const selectedPaymentMethod = PaymentMethodType.creditCard;
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
@@ -25,6 +29,7 @@ export const OnSitePlansSelection = InjectAppServices(
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
     const [
       {
         addOnPlansValues,
@@ -35,7 +40,7 @@ export const OnSitePlansSelection = InjectAppServices(
         customAddOnPlans,
       },
       handleSliderValue,
-    ] = useAddOnPlans(AddOnType.OnSite, dopplerAccountPlansApiClient, appSessionRef);
+    ] = useAddOnPlans(AddOnType.PushNotifications, dopplerAccountPlansApiClient, appSessionRef);
 
     const itemRef = useRef(null);
     itemRef.current = item;
@@ -124,29 +129,20 @@ export const OnSitePlansSelection = InjectAppServices(
         <HeaderSection>
           <div className="col-sm-12 col-md-12 col-lg-12">
             <h2 className="dp-first-order-title">
-              {_('onsite_selection.title')} <span className="dpicon iconapp-online-clothing" />
+              {_('push_notification_selection.title')} <span className="dpicon iconapp-bell1" />
             </h2>
           </div>
         </HeaderSection>
         <div className="dp-container p-b-48">
           <div className="dp-rowflex">
             <div className="col-md-12 col-lg-8 m-b-24">
-              <OnSitePlanInformation />
+              <PlanInformation />
               <section className="m-t-42">
                 <div className="dp-rowflex">
                   <h3 className="dp-second-order-title">
-                    {_('onsite_selection.how_many_prints_need_message')}
+                    {_('push_notification_selection.how_many_emails_need_message')}
                   </h3>
-                  <S.TooltipPanel>
-                    <div className="dp-tooltip-container onsite-tooltip-container">
-                      <span className="ms-icon icon-header-help"></span>
-                      <div className="dp-tooltip-top">
-                        <span>{_('onsite_selection.info_tooltip')}</span>
-                      </div>
-                    </div>
-                  </S.TooltipPanel>
                 </div>
-
                 <Slider
                   items={addOnPlansValues}
                   selectedItemIndex={selectedPlanIndex}
@@ -155,11 +151,11 @@ export const OnSitePlansSelection = InjectAppServices(
                 />
                 <BannerUpgrade
                   currentPlan={selectedPlan}
-                  messageId={'onsite_selection.banner_for_prints'}
+                  messageId={'push_notification_selection.banner_for_emails'}
                 />
               </section>
               <section>
-                <SelectedOnSitePlan
+                <SelectedPushNotificationPlan
                   selectedPlan={selectedPlan}
                   item={item}
                   addItem={addItem}
@@ -189,7 +185,7 @@ export const OnSitePlansSelection = InjectAppServices(
                 selectedAddOnPlan={item}
                 handleRemoveAddOnPlan={removeItem}
                 isEqualPlan={false}
-                buyType={BUY_ONSITE_PLAN}
+                buyType={BUY_PUSH_NOTIFICATION_PLAN}
                 disabledPromocode={true}
                 addMarketingPlan={false}
                 canAddOnPlanRemove={true}

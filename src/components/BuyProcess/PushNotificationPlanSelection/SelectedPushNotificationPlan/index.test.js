@@ -1,21 +1,21 @@
 import '@testing-library/jest-dom/extend-expect';
 import { getByText, render, screen } from '@testing-library/react';
-import { SelectedOnSitePlan } from '.';
+import { SelectedPushNotificationPlan } from '.';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import userEvent from '@testing-library/user-event';
 
-describe('SelectedOnSitePlan', () => {
-  it('should render SelectedOnSitePlan when there is not a selected plan chat', async () => {
+describe('SelectedPushNotificationPlan', () => {
+  it('should render SelectedPushNotificationPlan when there is not a selected plan push notification', async () => {
     // Arrange
-    const seletedPlanChat = { quantity: 0 };
+    const seletedPlanPushNotification = { quantity: 0 };
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
     // Act
     render(
       <IntlProvider>
-        <SelectedOnSitePlan
-          selectedPlan={seletedPlanChat}
+        <SelectedPushNotificationPlan
+          selectedPlan={seletedPlanPushNotification}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -24,21 +24,26 @@ describe('SelectedOnSitePlan', () => {
 
     // Assert
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
-    screen.getByText('onsite_selection.selected_onsite_plan.no_onsite_plan_selected_message');
+    screen.getByText(
+      'push_notification_selection.selected_push_notification_plan.no_push_notification_plan_selected_message',
+    );
 
     // click on button
     const button = screen.getByRole('button');
     expect(
-      getByText(button, 'onsite_selection.selected_onsite_plan.add_to_cart_button'),
+      getByText(
+        button,
+        'push_notification_selection.selected_push_notification_plan.add_to_cart_button',
+      ),
     ).toBeInTheDocument();
     expect(button).toBeDisabled();
     await userEvent.click(button);
     expect(addItem).not.toBeCalled();
   });
 
-  it('should render SelectedOnSitePlan when there is a selected onsite plan', async () => {
+  it('should render SelectedPushNotificationPlan when there is a selected push notification plan', async () => {
     // Arrange
-    const seletedOnSitePlan = {
+    const seletedPushNotificationPlan = {
       planId: 1,
       quantity: 500,
       fee: 30,
@@ -50,8 +55,8 @@ describe('SelectedOnSitePlan', () => {
     // Act
     render(
       <IntlProvider>
-        <SelectedOnSitePlan
-          selectedPlan={seletedOnSitePlan}
+        <SelectedPushNotificationPlan
+          selectedPlan={seletedPushNotificationPlan}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -60,23 +65,28 @@ describe('SelectedOnSitePlan', () => {
 
     // Assert
     expect(
-      screen.queryByText('onsite_selection.selected_onsite_plan.no_onsite_plan_selected_message'),
+      screen.queryByText(
+        'push_notification_selection.selected_push_notification_plan.no_push_notification_plan_selected_message',
+      ),
     ).not.toBeInTheDocument();
     screen.getByRole('list');
 
     // click on button
     const button = screen.getByRole('button');
     expect(
-      getByText(button, 'onsite_selection.selected_onsite_plan.add_to_cart_button'),
+      getByText(
+        button,
+        'push_notification_selection.selected_push_notification_plan.add_to_cart_button',
+      ),
     ).toBeInTheDocument(); // because there is not an added item to cart
     expect(button).toBeEnabled();
     await userEvent.click(button);
     expect(addItem).toBeCalled();
   });
 
-  it('should render SelectedOnSitePlan when click on add to cart button', async () => {
+  it('should render SelectedPushNotificationPlan when click on add to cart button', async () => {
     // Arrange
-    const seletedOnSitePlan = {
+    const seletedPushNotificationPlan = {
       planId: 1,
       quantity: 500,
       fee: 30,
@@ -88,8 +98,8 @@ describe('SelectedOnSitePlan', () => {
     // Act
     render(
       <IntlProvider>
-        <SelectedOnSitePlan
-          selectedPlan={seletedOnSitePlan}
+        <SelectedPushNotificationPlan
+          selectedPlan={seletedPushNotificationPlan}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -101,31 +111,34 @@ describe('SelectedOnSitePlan', () => {
     // click on button
     const button = screen.getByRole('button');
     expect(
-      getByText(button, 'onsite_selection.selected_onsite_plan.add_to_cart_button'),
+      getByText(
+        button,
+        'push_notification_selection.selected_push_notification_plan.add_to_cart_button',
+      ),
     ).toBeInTheDocument();
     expect(button).toBeEnabled();
     expect(addItem).not.toBeCalled();
     await userEvent.click(button);
-    expect(addItem).toBeCalledWith(seletedOnSitePlan);
+    expect(addItem).toBeCalledWith(seletedPushNotificationPlan);
   });
 
   it('should render SelectedOnSitePlan when click on remove item button', async () => {
     // Arrange
-    const seletedOnSitePlan = {
+    const seletedPushNotificationPlan = {
       planId: 1,
       quantity: 500,
       fee: 30,
       additional: 5,
     };
-    const item = seletedOnSitePlan; // In this case, the slider value and the cart item are the same
+    const item = seletedPushNotificationPlan; // In this case, the slider value and the cart item are the same
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
     // Act
     render(
       <IntlProvider>
-        <SelectedOnSitePlan
-          selectedPlan={seletedOnSitePlan}
+        <SelectedPushNotificationPlan
+          selectedPlan={seletedPushNotificationPlan}
           item={item}
           addItem={addItem}
           removeItem={removeItem}
@@ -139,7 +152,10 @@ describe('SelectedOnSitePlan', () => {
     expect(removeItem).not.toBeCalled();
     const button = screen.getByRole('button');
     expect(
-      getByText(button, 'onsite_selection.selected_onsite_plan.remove_from_cart_button'),
+      getByText(
+        button,
+        'push_notification_selection.selected_push_notification_plan.remove_from_cart_button',
+      ),
     ).toBeInTheDocument();
     expect(button).toBeEnabled();
     await userEvent.click(button);
