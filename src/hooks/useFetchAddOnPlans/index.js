@@ -12,6 +12,8 @@ export const useAddOnPlans = (addOnType, dopplerAccountPlansApiClient, appSessio
   const addOnPlan =
     AddOnType.OnSite === addOnType ? sessionPlan.onSite.plan : sessionPlan.pushNotification.plan;
 
+  console.log(AddOnType.OnSite);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +52,7 @@ export const useAddOnPlans = (addOnType, dopplerAccountPlansApiClient, appSessio
     };
 
     fetchData();
-  }, [dopplerAccountPlansApiClient, addOnPlan]);
+  }, [dopplerAccountPlansApiClient, addOnPlan, addOnType]);
 
   const handleSliderValue = (data) => {
     dispatch({
