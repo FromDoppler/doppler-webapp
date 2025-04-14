@@ -6,6 +6,7 @@ import {
   PlanAmountDetails,
   Plan,
   Promotion,
+  AddOnPlan,
 } from './doppler-account-plans-api-client';
 
 export const fakePlan = {
@@ -67,6 +68,13 @@ export const fakePromotion = {
   extraCredits: 1543,
   discountPercentage: 17,
   duration: 1,
+};
+
+export const fakeAddOnPlan = {
+  quantity: 500,
+  fee: 5,
+  planId: 1,
+  addOnType: 4,
 };
 
 export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlansApiClient {
@@ -155,8 +163,8 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
     };
   }
 
-  public async getOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
-    console.log('getOnSitePlans');
+  public async getAddOnPlans(addOnType: any): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log(`getAddOnPlans: ${addOnType}`);
     await timeout(1500);
 
     return {
@@ -165,13 +173,40 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
     };
   }
 
-  public async getCustomOnSitePlans(): Promise<ResultWithoutExpectedErrors<any>> {
-    console.log('getCustomOnSitePlans');
+  public async getCustomAddOnPlans(addOnType: any): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log(`getCustomAddOnPlans: ${addOnType}`);
     await timeout(1500);
 
     return {
       success: true,
       value: [],
+    };
+  }
+
+  public async getAddOnPlanData(
+    planId: number,
+    addOnType: number,
+  ): Promise<ResultWithoutExpectedErrors<AddOnPlan>> {
+    console.log(`getAddOnPlanData: ${addOnType}`);
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: fakeAddOnPlan,
+    };
+  }
+
+  public async getAddOnPlanBillingDetailsData(
+    planId: number,
+    addOnType: number,
+    discountId: number,
+  ): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log(`getAddOnPlanBillingDetailsData: ${addOnType}`);
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: fakeAddOnPlan,
     };
   }
 }

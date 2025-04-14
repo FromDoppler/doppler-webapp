@@ -6,19 +6,20 @@ import { CheckoutLinkStyled } from '../index.style';
 export const getNewCheckoutPurchaseUrl = ({
   planId,
   planType,
-  onSitePlanId,
+  addOnPlanId,
+  buyType,
   monthPlan,
   currentQueryParams,
 }) => {
   return (
     `/checkout/premium/${planType}?selected-plan=${planId}` +
-    `&onSitePlanId=${onSitePlanId}` +
+    `&addOnPlanId=${addOnPlanId}` +
     `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
     `${currentQueryParams}`
   );
 };
 
-export const getBuyPurchaseUrl = ({ planId, planType, onSitePlanId, monthPlan, search }) => {
+export const getBuyPurchaseUrl = ({ planId, planType, addOnPlanId, monthPlan, search }) => {
   const params = new URLSearchParams(search.slice(1));
   // these parameters are eliminated, so that they do not appear repeated in the url
   params.delete('monthPlan');
@@ -28,13 +29,13 @@ export const getBuyPurchaseUrl = ({ planId, planType, onSitePlanId, monthPlan, s
   return getNewCheckoutPurchaseUrl({
     planId,
     planType,
-    onSitePlanId,
+    addOnPlanId,
     monthPlan,
     currentQueryParams,
   });
 };
 
-export const OnSiteCheckoutLink = ({ planId, showTooltip, planType, onSitePlanId, monthPlan }) => {
+export const AddOnCheckoutLink = ({ planId, showTooltip, planType, addOnPlanId, monthPlan }) => {
   const { search } = useLocation();
 
   return (
@@ -48,7 +49,7 @@ export const OnSiteCheckoutLink = ({ planId, showTooltip, planType, onSitePlanId
         href={getBuyPurchaseUrl({
           planId,
           planType,
-          onSitePlanId,
+          addOnPlanId,
           monthPlan,
           search,
         })}

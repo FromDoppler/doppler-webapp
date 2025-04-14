@@ -7,9 +7,11 @@ import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import {
+  AddOnType,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
+  BUY_PUSH_NOTIFICATION_PLAN,
   PLAN_TYPE,
   PaymentMethodType,
   URL_PLAN_TYPE,
@@ -59,18 +61,18 @@ const Checkout = InjectAppServices(
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedChatPlan, setSelectedChatPlan] = useState(null);
-    const [selectedOnSitePlan, setSelectedOnSitePlan] = useState(null);
+    const [selectedAddOnPlan, setSelectedAddOnPlan] = useState(null);
 
     const intl = useIntl();
     const { pathType, planType } = useParams();
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
     const selectedChatPlanId = query.get('chatPlanId') ?? 0;
-    const selectedOnSitePlanId = query.get('onSitePlanId') ?? 0;
+    const selectedAddOnPlanId = query.get('addOnPlanId') ?? 0;
     const monthPlan = query.get('monthPlan') ?? 0;
     const landingIdsStr = query.get('landing-ids') ?? '';
     const landingsQtyStr = query.get('landing-packs') ?? '';
-    const buyType = query.get('buyType') ?? '1';
+    const buyType = parseInt(query.get('buyType') ?? '1');
     const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
     const chat = appSessionRef.current.userData.user.chat;
@@ -149,21 +151,28 @@ const Checkout = InjectAppServices(
 
     useEffect(() => {
       const fetchPlanData = async () => {
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedOnSitePlanId, 4);
+        const planData = await dopplerAccountPlansApiClient.getAddOnPlanData(
+          selectedAddOnPlanId,
+          buyType === BUY_ONSITE_PLAN
+            ? AddOnType.OnSite
+            : buyType === BUY_PUSH_NOTIFICATION_PLAN
+              ? AddOnType.PushNotifications
+              : 0,
+        );
 
         if (planData.success) {
-          setSelectedOnSitePlan({
-            planId: selectedOnSitePlanId,
-            printQty: planData.value.printQty,
-            fee: planData.value.chatPlanFee,
-            type: planType,
-            id: selectedOnSitePlanId,
+          setSelectedAddOnPlan({
+            planId: planData.value.planId,
+            quantity: planData.value.quantity,
+            fee: planData.value.fee,
+            addOnType: planData.value.addOnType,
+            id: selectedAddOnPlanId,
           });
         }
       };
 
       fetchPlanData();
-    }, [dopplerAccountPlansApiClient, selectedOnSitePlanId, planType]);
+    }, [dopplerAccountPlansApiClient, selectedAddOnPlanId, planType, buyType]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -220,7 +229,8 @@ const Checkout = InjectAppServices(
       }));
 
     const isBuyLandingPacks = selectedLandings?.length > 0;
-    const isBuyOnSitePlan = parseInt(buyType) === BUY_ONSITE_PLAN;
+    const isBuyAddOnPlan =
+      parseInt(buyType) === BUY_ONSITE_PLAN || parseInt(buyType) === BUY_PUSH_NOTIFICATION_PLAN;
 
     return (
       <>
@@ -327,7 +337,7 @@ const Checkout = InjectAppServices(
                   hidePromocode={true}
                   buyType={BUY_LANDING_PACK}
                 />
-              ) : isBuyOnSitePlan ? (
+              ) : isBuyAddOnPlan ? (
                 <ShoppingCart
                   canBuy={
                     paymentInformationAction === actionPage.READONLY &&
@@ -345,9 +355,9 @@ const Checkout = InjectAppServices(
                   selectedMarketingPlan={selectedFullPlan}
                   isEqualPlan={false}
                   hidePromocode={true}
-                  buyType={BUY_ONSITE_PLAN}
-                  selectedOnSitePlan={selectedOnSitePlan}
-                  canOnSitePlanRemove={false}
+                  buyType={buyType}
+                  selectedAddOnPlan={selectedAddOnPlan}
+                  canAddOnPlanRemove={false}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                 />
               ) : (
@@ -389,9 +399,13 @@ const Checkout = InjectAppServices(
                 >
                   {_('checkoutProcessForm.button_back')}
                 </Link>
-              ) : isBuyOnSitePlan ? (
+              ) : isBuyAddOnPlan ? (
                 <Link
-                  to={`/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`}
+                  to={`${
+                    buyType === BUY_ONSITE_PLAN
+                      ? '/buy-onsite-plans'
+                      : '/buy-push-notification-plans'
+                  }?buyType=${buyType}`}
                   className="dp-button button-medium primary-grey m-t-30 m-r-24"
                 >
                   {_('checkoutProcessForm.button_back')}

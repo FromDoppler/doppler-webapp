@@ -7,6 +7,7 @@ import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { Navigate } from 'react-router-dom';
+import { AddOnType } from '../../doppler-types';
 
 export const PushNotifications = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
@@ -31,7 +32,9 @@ export const PushNotifications = InjectAppServices(
     const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
 
     const handleButtonClick = async () => {
-      var response = await dopplerBillingUserApiClient.activatePushNotificationPlan();
+      var response = await dopplerBillingUserApiClient.activateAddOnPlan(
+        AddOnType.PushNotifications,
+      );
       if (response.success) {
         window.location.href = '/dashboard';
       } else {

@@ -381,9 +381,9 @@ interface ChatPlanEntry {
 interface OnSitePlanEntry {
   planId: number;
   description: string;
-  printQty: number;
+  quantity: number;
   fee: number;
-  additionalPrint: number;
+  additional: number;
   active: boolean;
 }
 
@@ -592,9 +592,9 @@ function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
   return {
     planId: json ? json.idPlan : 0,
     description: json ? json.description : '',
-    printQty: json ? json.printQty : 0,
+    quantity: json ? json.printQty : 0,
     fee: json ? json.fee : 0,
-    additionalPrint: json ? json.additionalPrint : 0,
+    additional: json ? json.additionalPrint : 0,
     active: json ? json.active : false,
   };
 }

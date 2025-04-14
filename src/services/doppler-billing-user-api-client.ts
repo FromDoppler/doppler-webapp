@@ -28,9 +28,9 @@ export interface DopplerBillingUserApiClient {
   getInvoices(invoicesTypes: string[]): Promise<ResultWithoutExpectedErrors<GetInvoicesResult>>;
   sendContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getCurrentUserPlanDataByType(type: number): Promise<ResultWithoutExpectedErrors<UserPlan>>;
-  purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors>;
-  cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors>;
-  activateOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors>;
+  purchaseAddOnPlan(values: any): Promise<EmptyResultWithoutExpectedErrors>;
+  activateAddOnPlan(addOnType: any): Promise<EmptyResultWithoutExpectedErrors>;
+  cancellationAddOnPlan(addOnType: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -661,14 +661,14 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     }
   }
 
-  public async purchaseOnSitePlan(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+  public async purchaseAddOnPlan(values: any): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
 
       const response = await this.axios.request({
         method: 'POST',
-        url: `/accounts/${email}/onsite/buy`,
-        data: this.mapOnSiteAgreementToCreate(values),
+        url: `/accounts/${email}/addon/${values.addOnType}/buy`,
+        data: this.mapAddOnAgreementToCreate(values),
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -682,13 +682,34 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     }
   }
 
-  public async cancellationOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
+  public async activateAddOnPlan(addOnType: any): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/addon/${addOnType}/activate`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async cancellationAddOnPlan(addOnType: any): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
 
       const response = await this.axios.request({
         method: 'PUT',
-        url: `/accounts/${email}/onsite/cancel`,
+        url: `/accounts/${email}/addon/${addOnType}/cancel`,
         headers: { Authorization: `bearer ${jwtToken}` },
         withCredentials: true,
       });
@@ -703,52 +724,10 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     }
   }
 
-  public async activateOnSitePlan(): Promise<EmptyResultWithoutExpectedErrors> {
-    try {
-      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
-
-      const response = await this.axios.request({
-        method: 'POST',
-        url: `/accounts/${email}/onsite/activate`,
-        headers: { Authorization: `bearer ${jwtToken}` },
-        withCredentials: true,
-      });
-
-      if (response.status === 200) {
-        return { success: true };
-      } else {
-        return { success: false };
-      }
-    } catch (error) {
-      return { success: false, error: error };
-    }
-  }
-
-  public async activatePushNotificationPlan(): Promise<EmptyResultWithoutExpectedErrors> {
-    try {
-      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
-
-      const response = await this.axios.request({
-        method: 'POST',
-        url: `/accounts/${email}/PushNotification/activate`,
-        headers: { Authorization: `bearer ${jwtToken}` },
-        withCredentials: true,
-      });
-
-      if (response.status === 200) {
-        return { success: true };
-      } else {
-        return { success: false };
-      }
-    } catch (error) {
-      return { success: false, error: error };
-    }
-  }
-
-  private mapOnSiteAgreementToCreate(data: any): any {
+  private mapAddOnAgreementToCreate(data: any): any {
     return {
       total: data.total,
-      planId: data.onSitePlanId,
+      planId: data.addOnPlanId,
     };
   }
 }
