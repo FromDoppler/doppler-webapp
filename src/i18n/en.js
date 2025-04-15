@@ -51,8 +51,8 @@ const messages_en = {
       slice_3_description: `Implement Widgets and Pop-ups to recommend products of interest to the customer, provide personalized offers, encourage repeat purchases and motivate the sale of related items.`,
       slice_3_title: `Improve the shopping experience with Doppler OnSite`,
 
-      slice_4_description: `Grant permissions to people on your team or another, <Bold>to access the different tools of the platform.</Bold>`,
-      slice_4_title: `Optimize your team by assigning roles and collaborations in your account`,
+      slice_4_description: `Envía mensajes cortos con contenido promocional o informativo, adaptado a Desktop y Mobile. - EN`,
+      slice_4_title: `Mantén la comunicación con tus clientes mediante Notificaciones Push - EN`,
     },
   },
   agencies: {
