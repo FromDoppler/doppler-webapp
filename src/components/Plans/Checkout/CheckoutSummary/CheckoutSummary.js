@@ -21,10 +21,12 @@ import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
 import {
+  AddOnType,
   BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
+  BUY_PUSH_NOTIFICATION_PLAN,
   PLAN_TYPE,
 } from '../../../../doppler-types';
 import { Link } from 'react-router-dom';
@@ -34,8 +36,8 @@ import useTimeout from '../../../../hooks/useTimeout';
 import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
 import { PlanChatInformation } from './PlanChatInformation';
 import { CheckoutSummaryCarousel } from './CheckoutSummaryCarousel';
-import { OnSitePlanInformation } from './OnSitePlanInformation';
-import { useOnSitePlans } from '../../../../hooks/useFetchOnSitePlans';
+import { AddOnPlanInformation } from './AddOnPlanInformation';
+import { useAddOnPlans } from '../../../../hooks/useFetchAddOnPlans';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -79,30 +81,68 @@ export const AddOnLandingPack = InjectAppServices(
   },
 );
 
-export const AddOnOnSitePlan = InjectAppServices(
-  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
+export const AddOnPlan = InjectAppServices(
+  ({ addOnType, dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const [{ cheapestOnSitePlan }] = useOnSitePlans(dopplerAccountPlansApiClient, appSessionRef);
+    const [{ cheapestAddOnPlan }] = useAddOnPlans(
+      addOnType,
+      dopplerAccountPlansApiClient,
+      appSessionRef,
+    );
+
+    const title =
+      addOnType === AddOnType.OnSite
+        ? _('onsite_selection.card.title')
+        : _('push_notification_selection.card.title');
+
+    const titleIconName =
+      addOnType === AddOnType.OnSite ? 'dpicon iconapp-online-clothing' : 'dpicon iconapp-bell1';
+
+    const description =
+      addOnType === AddOnType.OnSite
+        ? _('onsite_selection.card.description')
+        : _('push_notification_selection.card.description');
+
+    const link1 =
+      addOnType === AddOnType.OnSite
+        ? {
+            pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
+            label: `${_('onsite_selection.card.more_information_label')}`,
+          }
+        : {
+            pathname: `/buy-push-notification-plans?buyType=${BUY_PUSH_NOTIFICATION_PLAN}`,
+            label: `${_('push_notification_selection.card.more_information_label')}`,
+          };
+
+    const link2 =
+      addOnType === AddOnType.OnSite
+        ? {
+            pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
+            label: `${_('onsite_selection.card.buy_now_button')}`,
+          }
+        : {
+            pathname: `/buy-push-notification-plans?buyType=${BUY_PUSH_NOTIFICATION_PLAN}`,
+            label: `${_('push_notification_selection.card.buy_now_button')}`,
+          };
+
+    const planFromMessageId =
+      addOnType === AddOnType.OnSite
+        ? 'onsite_selection.card.plan_from'
+        : 'push_notification_selection.card.plan_from';
 
     return (
       <AddOn
-        title={_('onsite_selection.card.title')}
-        titleIconName="dpicon iconapp-online-clothing"
-        description={_('onsite_selection.card.description')}
-        link1={{
-          pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
-          label: `${_('onsite_selection.card.more_information_label')}`,
-        }}
-        link2={{
-          pathname: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
-          label: `${_('onsite_selection.card.buy_now_button')}`,
-        }}
+        title={title}
+        titleIconName={titleIconName}
+        description={description}
+        link1={link1}
+        link2={link2}
         priceComponent={
           <FormattedMessage
-            id="onsite_selection.card.plan_from"
+            id={planFromMessageId}
             values={{
-              price: cheapestOnSitePlan?.fee || 0,
+              price: cheapestAddOnPlan?.fee || 0,
             }}
           />
         }
@@ -467,7 +507,7 @@ export const CheckoutSummary = InjectAppServices(
         remainingCredits,
         hasError,
         chatUserPlan,
-        onSiteUserPlan,
+        addOnUserPlan,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);
@@ -519,7 +559,15 @@ export const CheckoutSummary = InjectAppServices(
           const billingInformationData = await fetchBillingInformationData();
           const currentUserPlanData = await fetchCurrentUserPlanByType(1);
           const currentChatPlanUserData = await fetchCurrentUserPlanByType(2);
-          const currentOnSitePlanUserData = await fetchCurrentUserPlanByType(4);
+
+          var currentAddOnPlanUserData = undefined;
+          if (buyType && Number(buyType) === BUY_ONSITE_PLAN) {
+            currentAddOnPlanUserData = await fetchCurrentUserPlanByType(4);
+          }
+
+          if (buyType && Number(buyType) === BUY_PUSH_NOTIFICATION_PLAN) {
+            currentAddOnPlanUserData = await fetchCurrentUserPlanByType(5);
+          }
 
           dispatch({
             type: CHECKOUT_SUMMARY_ACTIONS.FINISH_FETCH,
@@ -530,7 +578,7 @@ export const CheckoutSummary = InjectAppServices(
               discount: discountDescription,
               paymentMethod: paymentMethodType,
               chatUserPlan: currentChatPlanUserData,
-              onSiteUserPlan: currentOnSitePlanUserData,
+              addOnUserPlan: currentAddOnPlanUserData,
             },
           });
         } catch (error) {
@@ -546,6 +594,7 @@ export const CheckoutSummary = InjectAppServices(
       discountDescription,
       paymentMethodType,
       planId,
+      buyType,
     ]);
 
     if (legacy) {
@@ -568,6 +617,8 @@ export const CheckoutSummary = InjectAppServices(
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
     const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
+    const canBuyPushNotificationPlan =
+      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
 
     return (
       <>
@@ -613,8 +664,20 @@ export const CheckoutSummary = InjectAppServices(
                     discount={discount}
                   />
                 )
-              ) : buyType && Number(buyType) === BUY_ONSITE_PLAN && onSiteUserPlan !== null ? (
-                <OnSitePlanInformation quantity={onSiteUserPlan.printQty} discount={discount} />
+              ) : buyType && Number(buyType) === BUY_ONSITE_PLAN && addOnUserPlan !== null ? (
+                <AddOnPlanInformation
+                  quantity={addOnUserPlan.printQty}
+                  discount={discount}
+                  addOnType={AddOnType.OnSite}
+                />
+              ) : buyType &&
+                Number(buyType) === BUY_PUSH_NOTIFICATION_PLAN &&
+                addOnUserPlan !== null ? (
+                <AddOnPlanInformation
+                  quantity={addOnUserPlan.quantity}
+                  discount={discount}
+                  addOnType={AddOnType.PushNotifications}
+                />
               ) : (
                 <PlanLandingPagesInformation1 />
               )}
@@ -642,7 +705,10 @@ export const CheckoutSummary = InjectAppServices(
                     <span className="dpicon iconapp-add-product" />
                   </h2>
                   <AddOnLandingPack />
-                  {canBuyOnSitePlan && <AddOnOnSitePlan />}
+                  {canBuyOnSitePlan && <AddOnPlan addOnType={AddOnType.OnSite} />}
+                  {canBuyPushNotificationPlan && (
+                    <AddOnPlan addOnType={AddOnType.PushNotifications} />
+                  )}
                 </div>
               </div>
             )}
