@@ -86,6 +86,7 @@ export interface UserPlan {
   conversationQty: null;
   description: null;
   printQty: null;
+  quantity: null;
 }
 
 export interface ReprocessInformation {
@@ -309,6 +310,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       conversationQty: data.conversationQty,
       description: data.description,
       printQty: data.printQty,
+      quantity: data.quantity,
     };
   }
 

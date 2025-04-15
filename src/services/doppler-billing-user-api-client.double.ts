@@ -124,6 +124,7 @@ export const fakeUserPlan = {
   conversationQty: null,
   description: null,
   printQty: null,
+  quantity: null,
 };
 
 export const fakeReprocessInformation = {
