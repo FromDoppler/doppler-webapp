@@ -734,6 +734,10 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
   const conversationsBuyUrl = user.chat.plan.buttonUrl;
   const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
   const hasOnSitePlan = user.onSite?.active === true && user.onSite?.plan?.fee > 0;
+  const canBuyPushNotificationPlan =
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
+  const hasPushNotificationPlan =
+    user.pushNotification?.active === true && user.pushNotification?.plan?.fee > 0;
 
   const getAddonSlides = () => {
     const slides = [];
@@ -771,12 +775,15 @@ export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionR
       });
     }
 
-    // {
-    //   id: 3,
-    //   img: 'addons-carousel-slide-4.svg',
-    //   title: 'addons.carousel.slice_4_title',
-    //   description: 'addons.carousel.slice_4_description',
-    // },
+    if (canBuyPushNotificationPlan && !hasPushNotificationPlan) {
+      slides.push({
+        id: 4,
+        img: `addons-carousel-slide-4--${user.lang === 'es' ? 'es' : 'en'}.png`,
+        title: 'addons.carousel.slice_4_title',
+        description: 'addons.carousel.slice_4_description',
+        link: `/buy-push-notification-plans?buyType=${BUY_PUSH_NOTIFICATION_PLAN}`,
+      });
+    }
 
     return slides;
   };
