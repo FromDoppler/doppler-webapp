@@ -775,8 +775,8 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `In a few days, you'll discover online conferences,
-        VIP workshops, exclusive networking, and tactics to boost your online store. Take the opportunity to transform your E-commerce strategy.`,
+        description: `In a few days, you'll discover online conferences, VIP workshops, exclusive
+        networking, and tactics to boost your online store. Take the opportunity to transform your E-commerce strategy.`,
         link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-cuentaregresiva-canalespropios-nutricion-abr25',
         link_description: 'Join for free',
         title: '⏳ The EMMS E-commerce 2025 is about to begin!',
