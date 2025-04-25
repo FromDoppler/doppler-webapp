@@ -777,7 +777,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
         description: `En unos días vas a descubrir Conferencias online, Workshops VIP,
         Networking exclusivo y tácticas para potenciar tu tienda online. Aprovecha la oportunidad de transformar tu estrategia de E-commerce.`,
         link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-cuentaregresiva-canalespropios-nutricion-abr25',
-        link_description: 'SÚMATE GRATIS',
+        link_description: 'Súmate gratis',
         title: '⏳ ¡El EMMS E-commerce 2025 está por comenzar!',
       },
       post_2: {
