@@ -775,10 +775,11 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `Join now and enjoy conferences, workshops, and giveaways at the largest online event in Latin America and Spain.`,
-        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-EMMSEcom25-invitacion-canalespropios-nutricion-feb25',
+        description: `In a few days, you'll discover online conferences,
+        VIP workshops, exclusive networking, and tactics to boost your online store. Take the opportunity to transform your E-commerce strategy.`,
+        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-cuentaregresiva-canalespropios-nutricion-abr25',
         link_description: 'Join for free',
-        title: '⏳ Save your spot at EMMS Ecommerce 2025!',
+        title: '⏳ The EMMS E-commerce 2025 is about to begin!',
       },
       post_2: {
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
