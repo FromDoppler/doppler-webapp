@@ -774,11 +774,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `Todavía estás a tiempo de disfrutar las conferencias en vivo, descubrir las
-        estrategias de las tiendas online más exitosas, acceder a los Workshops exclusivos y aprovechar este contenido de alto impacto para tu negocio.`,
-        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-yaempezo-canalespropios-nutricion-abr25',
-        link_description: 'Súmate hoy',
-        title: '🎉 ¡Ya está en marcha el EMMS E-commerce 2025!',
+        description: `Todavía estás a tiempo de disfrutar las conferencias on-demand y descubrir las estrategias de las tiendas online más exitosas.`,
+        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-revive-canalespropios-nutricion-abr25',
+        link_description: 'Revívelo ahora',
+        title: '🎉 ¡Finalizó el EMMS E-commerce 2025!',
       },
       post_2: {
         description: 'Capta la atención de tus visitantes con mensajes emergentes de productos más relevantes, artículos relacionados y mucho más, ¡en el momento exacto!',
