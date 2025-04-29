@@ -147,7 +147,9 @@ export const PushNotificationPlanSelection = InjectAppServices(
                   items={addOnPlansValues}
                   selectedItemIndex={selectedPlanIndex}
                   handleChange={handleSliderChange}
-                  moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
+                  moreOptionTickmark={{
+                    label: _('push_notification_selection.more_option_tickmark_message'),
+                  }}
                 />
                 <BannerUpgrade
                   currentPlan={selectedPlan}
@@ -163,7 +165,7 @@ export const PushNotificationPlanSelection = InjectAppServices(
                   customPlan={customAddOnPlans[0]}
                 />
                 <span className="dp-reminder">
-                  {_('onsite_selection.expiration_free_plan_message')}
+                  {_('push_notification_selection.expiration_free_plan_message')}
                 </span>
               </section>
               <hr className="dp-separator" />
