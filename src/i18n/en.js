@@ -775,11 +775,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `There's still time to enjoy live conferences, discover the strategies of
-        the most successful online stores, access exclusive workshops, and take advantage of this high-impact content for your business.`,
-        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-yaempezo-canalespropios-nutricion-abr25',
-        link_description: 'Join today',
-        title: '🎉 EMMS E-commerce 2025 is now underway!',
+        description: `You still have time to enjoy the on-demand conferences and discover the strategies of the most successful online stores.`,
+        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-revive-canalespropios-nutricion-abr25',
+        link_description: 'Relive it now',
+        title: '🎉 EMMS E-commerce 2025 is over!',
       },
       post_2: {
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
