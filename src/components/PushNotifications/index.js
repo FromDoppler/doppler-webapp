@@ -20,8 +20,13 @@ export const PushNotifications = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+    const urlBase = process.env.REACT_APP_DOPPLER_LEGACY_URL;
+    const urlControlPanel = `${urlBase}/ControlPanel`;
+    const urlCampaignsPreferences = `${urlControlPanel}/CampaignsPreferences`;
+
     if (pushNotifiactionActive) {
-      return <Navigate to="/dashboard" />;
+      window.location.href = `${urlCampaignsPreferences}/SiteTrackingSettings`;
+      return;
     }
 
     if (hasClientManager) {
@@ -36,7 +41,7 @@ export const PushNotifications = InjectAppServices(
         AddOnType.PushNotifications,
       );
       if (response.success) {
-        window.location.href = '/dashboard';
+        window.location.href = `${urlCampaignsPreferences}/SiteTrackingSettings`;
       } else {
         setErrorMessage('validation_messages.error_unexpected_register_MD');
       }
