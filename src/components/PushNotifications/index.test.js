@@ -53,7 +53,7 @@ describe('PushNotifications component', () => {
     expect(screen.getByText('push_promotional.paragraph_free_MD')).toBeInTheDocument();
   });
 
-  it('should redirect to widgets if the user already has onsite plan', async () => {
+  it('should redirect to SiteTrackingSettings if the user already has push notification plan', async () => {
     // Assert
     const dependencies = {
       appSessionRef: {
