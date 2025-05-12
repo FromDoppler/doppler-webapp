@@ -16,6 +16,7 @@ import {
   FirstDataError,
   CloverError,
   PaymentMethodType,
+  AutomaticDebitError,
 } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 import { AutomaticDebit } from './AutomaticDebit/AutomaticDebit';
@@ -463,6 +464,8 @@ export const PaymentMethod = InjectAppServices(
           return 'checkoutProcessForm.payment_method.only_credit_card_error';
         case isNotAllowCreditCard:
           return 'checkoutProcessForm.payment_method.not_allow_credit_card_error';
+        case AutomaticDebitError.cbuInvalid:
+          return 'checkoutProcessForm.payment_method.automatic_debit_error.invalid_cbu';
         default:
           return 'checkoutProcessForm.payment_method.error';
       }
