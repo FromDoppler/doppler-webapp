@@ -364,6 +364,9 @@ const messages_en = {
     payment_method: {
       applied_promocode_tooltip: 'You already have a promo code applied.',
       automatic_debit: 'Automatic debit',
+      automatic_debit_error: {
+        invalid_cbu: 'Ouch! Invalid CBU',
+      },
       availabled_credit_cards_legend: 'Use an international card from <bold>Visa, Mastercard or American Express</bold>.',
       availabled_credit_cards_legend_alt_text: 'International credit card: Visa, Mastercard and American Express',
       bank_account: 'Last 4 digits of your account',
