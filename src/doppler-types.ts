@@ -174,6 +174,10 @@ export const CloverError = {
   invalidExpirationCard: 'DeclinedPaymentTransaction - expired_card',
 };
 
+export const AutomaticDebitError = {
+  cbuInvalid: 'CbuInvalid',
+};
+
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
 
 export const nonAuthenticatedBlockedUser = 'non-authenticated-blocked-user';

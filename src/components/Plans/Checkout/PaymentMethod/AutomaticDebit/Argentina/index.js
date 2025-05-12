@@ -51,7 +51,7 @@ export const AutomaticDebitArgentina = InjectAppServices(
 
     if (readOnly) {
       return (
-        <li aria-label="resume data" className="field-item field-item--70 dp-p-r">
+        <li aria-label="resume data" className="field-item field-item dp-p-r">
           <label>
             {identificationTypes.find((ct) => ct.key === values[fieldNames.consumerType])?.value}:{' '}
             {values[fieldNames.identificationNumber]},{' '}
@@ -60,7 +60,8 @@ export const AutomaticDebitArgentina = InjectAppServices(
                 ? 'checkoutProcessForm.payment_method.first_last_name'
                 : 'checkoutProcessForm.payment_method.business_name',
             )}
-            : {values[fieldNames.businessName]}
+            : {values[fieldNames.businessName]}, {_('checkoutProcessForm.payment_method.bank_name')}
+            : {paymentMethod.bankName}
           </label>
         </li>
       );
