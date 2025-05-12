@@ -463,6 +463,8 @@ export const PaymentMethod = InjectAppServices(
           return 'checkoutProcessForm.payment_method.only_credit_card_error';
         case isNotAllowCreditCard:
           return 'checkoutProcessForm.payment_method.not_allow_credit_card_error';
+        case 'CbuInvalid':
+          return 'validation_messages.error_invalid_cbu';
         default:
           return 'checkoutProcessForm.payment_method.error';
       }
