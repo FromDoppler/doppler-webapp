@@ -886,7 +886,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     forms_remarks: `Classics and pop-ups with Single or Double Opt-In subscription. You decide how you want them to look, what data to request and where to place them!`,
   },
   footer: {
-    iso: `ISO Quality Certification 9001:2008`,
+    iso: `ISO Quality Certification 9001:2015`,
   },
   forgot_password: {
     back_login: `Did you remember your Password? Go back to Log in.`,
