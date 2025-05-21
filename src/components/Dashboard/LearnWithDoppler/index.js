@@ -7,11 +7,11 @@ import { InjectAppServices } from '../../../services/pure-di';
 
 export const LearnWithDoppler = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const { email, phone, firstName, lastName } = appSessionRef?.current?.userData?.userAccount || {};
+  const fullName = firstName && lastName ? `${firstName} ${lastName}` : '';
 
   let paramReplacements = {
     '<email>': encodeURIComponent(email),
-    '<firstname>': encodeURIComponent(firstName),
-    '<lastname>': encodeURIComponent(lastName),
+    '<fullname>': encodeURIComponent(fullName),
     '<phone>': encodeURIComponent(phone),
   };
 
@@ -63,7 +63,7 @@ export const learnWithDopplerPosts = [
     linkDescription: `dashboard.learn_with_doppler_posts.post_1.link_description`,
     trackingId: `dashboard-learnWithDoppler-card1`,
     newTab: true,
-    params: '&email=<email>&nombre=<firstname>&apellido=<lastname>&phone=<phone>',
+    params: '&email=<email>&nombre=<fullname>&phone=<phone>',
   },
   {
     id: `2`,
