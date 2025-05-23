@@ -365,7 +365,7 @@ const messages_en = {
       applied_promocode_tooltip: 'You already have a promo code applied.',
       automatic_debit: 'Automatic debit',
       automatic_debit_error: {
-        invalid_cbu: 'Ouch! Invalid CBU',
+        invalid_cbu: `Ouch! The CBU is invalid because it does not correspond to a banking entity.`,
       },
       availabled_credit_cards_legend: 'Use an international card from <bold>Visa, Mastercard or American Express</bold>.',
       availabled_credit_cards_legend_alt_text: 'International credit card: Visa, Mastercard and American Express',
