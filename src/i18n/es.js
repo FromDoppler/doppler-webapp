@@ -365,6 +365,9 @@ const messages_es = {
     payment_method: {
       applied_promocode_tooltip: 'Ya tienes un código de descuento aplicado.',
       automatic_debit: 'Débito automático',
+      automatic_debit_error: {
+        invalid_cbu: '¡Ouch! El CBU es inválido porque no corresponde a una entidad bancaria.',
+      },
       availabled_credit_cards_legend: 'Usa una tarjeta internacional de <bold>Visa, Mastercard o American Express</bold>.',
       availabled_credit_cards_legend_alt_text: 'Tarjetas internacionales Visa, Mastercard, American Express',
       bank_account: 'Últimos 4 dígitos de tu cuenta',
