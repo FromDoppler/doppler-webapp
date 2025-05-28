@@ -886,7 +886,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     forms_remarks: `Clásicos y pop-ups con suscripción Simple o Doble Opt-In. ¡Tú eliges cómo quieres que luzcan, qué datos solicitar y dónde ubicarlos!`,
   },
   footer: {
-    iso: `Certificación de Calidad ISO 9001:2008`,
+    iso: `Certificación de Calidad ISO 9001:2015`,
   },
   forgot_password: {
     back_login: `¿Recordaste tu Contraseña? ¡Haz clic aquí y vuelve atrás!`,
