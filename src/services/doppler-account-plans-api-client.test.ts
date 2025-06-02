@@ -181,4 +181,40 @@ describe('HttpDopplerAccountPlansApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should get AddOnPlanBillingDetailsData', async () => {
+    // Arrange
+    const plan = {
+      data: fakePlan,
+      status: 200,
+    };
+    const request = jest.fn(async () => plan);
+    const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
+
+    // Act
+    const result = await dopplerAccountPlansApiClient.getAddOnPlanBillingDetailsData(1, 1, 1);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should get AddOnPlanData', async () => {
+    // Arrange
+    const plan = {
+      data: fakePlan,
+      status: 200,
+    };
+    const request = jest.fn(async () => plan);
+    const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
+
+    // Act
+    const result = await dopplerAccountPlansApiClient.getAddOnPlanData(1, 1);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });

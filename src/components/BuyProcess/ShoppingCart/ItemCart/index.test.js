@@ -58,4 +58,60 @@ describe('ItemCart', () => {
     await act(() => userEvent.click(removeButton));
     expect(removeFake).toHaveBeenCalledWith(props.data);
   });
+
+  it('should render ItemCart component with footer', async () => {
+    // Arrange
+    const props = {
+      name: 'Marketing Plan',
+      featureList: ['Include 500 contacts'],
+      billingList: [
+        { label: 'Save 25%', amount: 'US $56,00*', strike: true },
+        { label: 'Yearly billing', amount: 'US$ 432,00*' },
+      ],
+      subscriptionItems: ['test-subscription'],
+    };
+
+    // Act
+    const { container } = render(<ItemCart {...props} />);
+
+    // Assert
+    screen.getByText(props.name);
+
+    props.featureList.forEach((featureItem) => {
+      screen.getByText(featureItem);
+    });
+    props.billingList.forEach((billingItem) => {
+      screen.getByText(billingItem.label);
+    });
+    expect(screen.queryByRole('button', { name: 'remove' })).not.toBeInTheDocument();
+    expect(container.querySelector(`.dp-subscription-items`)).toBeInTheDocument();
+  });
+
+  it('should render ItemCart component without footer', async () => {
+    // Arrange
+    const props = {
+      name: 'Marketing Plan',
+      featureList: ['Include 500 contacts'],
+      billingList: [
+        { label: 'Save 25%', amount: 'US $56,00*', strike: true },
+        { label: 'Yearly billing', amount: 'US$ 432,00*' },
+      ],
+      subscriptionItems: [],
+    };
+
+    // Act
+    const { container } = render(<ItemCart {...props} />);
+
+    // Assert
+    screen.getByText(props.name);
+
+    props.featureList.forEach((featureItem) => {
+      screen.getByText(featureItem);
+    });
+    props.billingList.forEach((billingItem) => {
+      screen.getByText(billingItem.label);
+    });
+    expect(screen.queryByRole('button', { name: 'remove' })).not.toBeInTheDocument();
+    expect(container.querySelector(`.dp-subscription-items`)).not.toBeInTheDocument();
+  });
 });

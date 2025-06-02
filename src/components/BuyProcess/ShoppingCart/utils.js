@@ -87,6 +87,8 @@ export const mapItemFromMarketingPlan = ({
   intl,
   isExclusiveDiscountArgentina,
 }) => {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
   const planInformation = {
@@ -102,6 +104,7 @@ export const mapItemFromMarketingPlan = ({
     ],
     data: marketingPlan,
     billingList: [],
+    subscriptionItems: [],
   };
 
   // Months to hire
@@ -304,6 +307,16 @@ export const mapItemFromMarketingPlan = ({
     });
   }
 
+  if (marketingPlan.type === PLAN_TYPE.byCredit) {
+    planInformation.subscriptionItems.push(
+      _('buy_process.shopping_cart.credits_renewal_description'),
+    );
+  } else {
+    planInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
+  }
+
+  planInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
+
   return planInformation;
 };
 
@@ -337,7 +350,9 @@ export const mapItemFromLandingPackages = ({
   selectedPaymentFrequency,
   amountDetailsData,
   sessionPlan,
+  intl,
 }) => {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
   const LandingPackInformation = {
@@ -355,6 +370,7 @@ export const mapItemFromLandingPackages = ({
     ],
     data: landingPacks,
     billingList: [],
+    subscriptionItems: [],
   };
 
   // Months to pay
@@ -469,6 +485,9 @@ export const mapItemFromLandingPackages = ({
     });
   }
 
+  LandingPackInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
+  LandingPackInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
+
   return LandingPackInformation;
 };
 
@@ -481,6 +500,7 @@ export const mapItemFromPlanChat = ({
   handleRemove,
   canChatPlanRemove = true,
 }) => {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
   const planChatInformation = {
@@ -499,6 +519,7 @@ export const mapItemFromPlanChat = ({
     isRemovible: canChatPlanRemove,
     handleRemove,
     billingList: [],
+    subscriptionItems: [],
   };
 
   // Months to hire
@@ -633,6 +654,9 @@ export const mapItemFromPlanChat = ({
     });
   }
 
+  planChatInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
+  planChatInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
+
   return planChatInformation;
 };
 
@@ -645,6 +669,7 @@ export const mapItemFromOnSitePlan = ({
   handleRemove,
   canOnSitePlanRemove,
 }) => {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
   const onSitePlanInformation = {
@@ -663,6 +688,7 @@ export const mapItemFromOnSitePlan = ({
     isRemovible: canOnSitePlanRemove,
     handleRemove,
     billingList: [],
+    subscriptionItems: [],
   };
 
   // Months to hire
@@ -797,6 +823,9 @@ export const mapItemFromOnSitePlan = ({
     });
   }
 
+  onSitePlanInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
+  onSitePlanInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
+
   return onSitePlanInformation;
 };
 
@@ -810,6 +839,7 @@ export const mapItemFromAddOnPlan = ({
   handleRemove,
   canAddOnPlanRemove,
 }) => {
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const numberMonths = selectedPaymentFrequency?.numberMonths;
 
   const addOnPlanInformation = {
@@ -840,6 +870,7 @@ export const mapItemFromAddOnPlan = ({
     isRemovible: canAddOnPlanRemove,
     handleRemove,
     billingList: [],
+    subscriptionItems: [],
   };
 
   // Months to hire
@@ -973,6 +1004,9 @@ export const mapItemFromAddOnPlan = ({
       ),
     });
   }
+
+  addOnPlanInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
+  addOnPlanInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
 
   return addOnPlanInformation;
 };

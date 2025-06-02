@@ -24,6 +24,7 @@ import {
   PLAN_TYPE,
   PaymentMethodType,
   SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA,
+  URL_PLAN_TYPE,
 } from '../../../doppler-types';
 import { Promocode } from './Promocode';
 import { NextInvoices } from './NextInvoices';
@@ -89,6 +90,10 @@ export const ShoppingCart = InjectAppServices(
     const amountDetailsLandingPacksDataRef = useRef(null);
     const initialAmountDetailsLandingPacksDataRef = useRef(null);
     amountDetailsLandingPacksDataRef.current = amountDetailsLandingPacksData;
+
+    const isByCredits =
+      planTypeUrlSegment === PLAN_TYPE.byCredit ||
+      planTypeUrlSegment === URL_PLAN_TYPE[PLAN_TYPE.byCredit];
 
     useEffect(() => {
       const fetchData = async () => {
@@ -259,6 +264,7 @@ export const ShoppingCart = InjectAppServices(
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
           amountDetailsData: amountDetailsLandingPacksData,
           sessionPlan: appSessionRef.current.userData.user.plan,
+          intl,
         }),
       );
 
@@ -407,7 +413,13 @@ export const ShoppingCart = InjectAppServices(
             </p>
           )}
         </section>
-        {selectedPlanType !== PLAN_TYPE.byCredit &&
+        {(!isByCredits ||
+          (isByCredits && buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null) ||
+          (isByCredits && buyType === BUY_LANDING_PACK && amountDetailsLandingPacksData !== null) ||
+          (isByCredits && buyType === BUY_ONSITE_PLAN && amountDetailsAddOnPlanData !== null) ||
+          (isByCredits &&
+            buyType === BUY_PUSH_NOTIFICATION_PLAN &&
+            amountDetailsAddOnPlanData !== null)) &&
           (amountDetailsData?.value?.nextMonthDate ||
             amountDetailsLandingPacksData?.value?.nextMonthDate) && (
             <NextInvoices
@@ -427,18 +439,14 @@ export const ShoppingCart = InjectAppServices(
                       ? 'buy_process.upcoming_bills.push_notification_plan_subtitle'
                       : addMarketingPlan
                         ? buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
-                          ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
+                          ? !isByCredits
+                            ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
+                            : 'buy_process.upcoming_bills.chat_plan_subtitle'
                           : 'buy_process.upcoming_bills.marketing_plan_subtitle'
                         : 'buy_process.upcoming_bills.chat_plan_subtitle'
               }
             />
           )}
-        <footer>
-          <ul>
-            <li>{_('buy_process.shopping_cart.renewal_description')}</li>
-            <li>{_('buy_process.shopping_cart.price_without_taxes')}</li>
-          </ul>
-        </footer>
       </div>
     );
   },
