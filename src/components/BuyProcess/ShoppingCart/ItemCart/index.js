@@ -4,6 +4,7 @@ export const ItemCart = ({
   name,
   featureList,
   billingList,
+  subscriptionItems,
   handleRemove,
   data,
   isRemovible = false,
@@ -26,16 +27,32 @@ export const ItemCart = ({
           </li>
         ))}
       </ul>
-      <hr />
       {billingList?.length > 0 && (
-        <ul className="dp-items-result">
-          {billingList.map((billingItem, index) => (
-            <li key={`billing-${index}`}>
-              <p className="dp-discount">{billingItem.label}</p>{' '}
-              <span className={billingItem.strike ? 'dp-strike' : ''}>{billingItem.amount}</span>
-            </li>
-          ))}
-        </ul>
+        <>
+          <hr />
+          <ul className="dp-items-result">
+            {billingList.map((billingItem, index) => (
+              <li key={`billing-${index}`}>
+                <p className="dp-discount">{billingItem.label}</p>{' '}
+                <span className={billingItem.strike ? 'dp-strike' : ''}>{billingItem.amount}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {subscriptionItems?.length > 0 && (
+        <>
+          <hr />
+          <div className="dp-subscription-items">
+            <ul>
+              {subscriptionItems.map((subscriptionItem, index) => (
+                <li key={`subscription-item-${index}`}>
+                  <p>{subscriptionItem}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
       )}
     </div>
   );

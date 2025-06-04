@@ -115,7 +115,7 @@ const messages_en = {
     billing_type_3: `Quarterly billing`,
     billing_type_6: `Biannual billing`,
     buy_now_title: `Buy now`,
-    chat_plan_title: `Chat plan`,
+    chat_plan_title: `Conversation plan`,
     continue: 'Continue',
     difference_months_to_pay: 'Difference to pay:',
     discount_for_payment_paid: 'Positive balance:',
@@ -168,6 +168,7 @@ const messages_en = {
     },
     push_notification_plan_title: `Push Notifications Plan`,
     shopping_cart: {
+      credits_renewal_description: `One-time payment.`,
       price_without_taxes: `*The price does not include taxes.`,
       promotional_code: `¿Tienes un código promocional?`,
       renewal_description: `Subscription with automatic renewal, you can cancel it whenever you want.`,
@@ -185,9 +186,9 @@ const messages_en = {
     },
     subscriptions_title: `Subscriptions`,
     upcoming_bills: {
-      chat_plan_subtitle: `Chat Plans`,
+      chat_plan_subtitle: `Conversation Plans`,
       landing_pack_subtitle: `Landing Pages packs`,
-      marketing_and_chat_plan_subtitle: `Marketing and Chat Plans`,
+      marketing_and_chat_plan_subtitle: `Marketing and Conversation Plans`,
       marketing_plan_subtitle: `Marketing Plan`,
       onsite_plan_subtitle: `OnSite Plan`,
       push_notification_plan_subtitle: `Push Notifications Plan`,
@@ -320,7 +321,7 @@ const messages_en = {
       no_chat_plan_selected_message: 'No conversation plan selected',
       remove_from_cart_button: 'Remove from cart',
     },
-    title: 'Do you want to add a Chat plan?',
+    title: 'Do you want to add a Conversation plan?',
   },
   checkoutProcessForm: {
     billing_information_address: 'Fiscal address',
