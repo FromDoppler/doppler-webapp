@@ -363,7 +363,9 @@ export const ShoppingCart = InjectAppServices(
 
         <PaymentFrequency {...paymentFrequencyProps} />
 
-        {(isFreeAccount || selectedMarketingPlan?.type === PLAN_TYPE.byCredit) &&
+        {(isFreeAccount ||
+          selectedMarketingPlan?.type === PLAN_TYPE.byCredit ||
+          sessionPlanType === PLAN_TYPE.byCredit) &&
           !hidePromocode && (
             <Promocode
               allowPromocode={

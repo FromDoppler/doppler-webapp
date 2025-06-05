@@ -30,21 +30,21 @@ export const getDefaultPlanType = ({ currentPlan, planTypeUrlSegment, window }) 
     switch (planType) {
       case PLAN_TYPE.byEmail:
         if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byEmail]) {
-          return `/buy-process/primer-pantalla/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
+          return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byEmail]}${
             queryParams ? `?${queryParams}` : ''
           }`;
         }
         break;
       case PLAN_TYPE.byContact:
         if (planTypeUrlSegment !== URL_PLAN_TYPE[PLAN_TYPE.byContact]) {
-          return `/buy-process/primer-pantalla/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
+          return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}${
             queryParams ? `?${queryParams}` : ''
           }`;
         }
         break;
       case PLAN_TYPE.byCredit:
         if (!Object.values(URL_PLAN_TYPE).includes(planTypeUrlSegment)) {
-          return `/buy-process/primer-pantalla/${URL_PLAN_TYPE[PLAN_TYPE.byCredit]}${
+          return `/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byCredit]}${
             queryParams ? `?${queryParams}` : ''
           }`;
         }
