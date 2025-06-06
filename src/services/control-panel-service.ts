@@ -276,7 +276,6 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.native_integrations.bigbox_title'),
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
-              hidden: true,
             },
             {
               linkUrl: _('integrations.external_integrations.wordpress_link_url'),
