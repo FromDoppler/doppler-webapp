@@ -42,6 +42,8 @@ export const PlanSelection = InjectAppServices(
     const { locationCountry } = sessionPlan;
     const chat = appSessionRef.current.userData.user.chat;
     const isArgentina = locationCountry === 'ar';
+    const currentUserPlanType = appSessionRef.current.userData.user.plan.planType;
+
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
     const { search } = useLocation();
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
@@ -163,6 +165,7 @@ export const PlanSelection = InjectAppServices(
                       planTypes={planTypes}
                       selectedPlanType={selectedPlanType}
                       searchQueryParams={search}
+                      currentPlanType={currentUserPlanType}
                     />
                   </div>
                   <div className="col-sm-12 m-t-36">
