@@ -374,40 +374,38 @@ export const mapItemFromLandingPackages = ({
   };
 
   // Months to pay
-  if (sessionPlan.planType === PLAN_TYPE.byContact || sessionPlan.planType === PLAN_TYPE.byEmail) {
-    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
-    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
-    const totalLandingPacks = landingPacks.reduce((a, b) => a + b.price * b.packagesQty, 0);
-    const amountMonthsToPay = numberMonths ? totalLandingPacks * monthsCount : totalLandingPacks;
+  const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+  const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+  const totalLandingPacks = landingPacks.reduce((a, b) => a + b.price * b.packagesQty, 0);
+  const amountMonthsToPay = numberMonths ? totalLandingPacks * monthsCount : totalLandingPacks;
 
-    LandingPackInformation.billingList.push({
-      label: (
-        <>
+  LandingPackInformation.billingList.push({
+    label: (
+      <>
+        <FormattedMessage
+          id={
+            sessionPlan.planType !== PLAN_TYPE.byContact
+              ? `buy_process.months_to_pay`
+              : `buy_process.difference_months_to_pay`
+          }
+          values={{
+            months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+          }}
+        />{' '}
+        <strong>
           <FormattedMessage
-            id={
-              sessionPlan.planType !== PLAN_TYPE.byContact
-                ? `buy_process.months_to_pay`
-                : `buy_process.difference_months_to_pay`
-            }
-            values={{
-              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
-            }}
-          />{' '}
-          <strong>
-            <FormattedMessage
-              id="buy_process.month_with_plural"
-              values={{ months: monthsCount }}
-            ></FormattedMessage>
-          </strong>
-        </>
-      ),
-      amount: (
-        <>
-          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
-        </>
-      ),
-    });
-  }
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>
+      </>
+    ),
+    amount: (
+      <>
+        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+      </>
+    ),
+  });
 
   // Discount advanced pay
   if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
@@ -543,40 +541,38 @@ export const mapItemFromPlanChat = ({
   }
 
   // Months to pay
-  if (planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail) {
-    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
-    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
-    const planFee = planChat?.fee ?? 0;
-    const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
+  const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+  const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+  const planFee = planChat?.fee ?? 0;
+  const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
 
-    planChatInformation.billingList.push({
-      label: (
-        <>
+  planChatInformation.billingList.push({
+    label: (
+      <>
+        <FormattedMessage
+          id={
+            planType !== PLAN_TYPE.byContact
+              ? `buy_process.months_to_pay`
+              : `buy_process.difference_months_to_pay`
+          }
+          values={{
+            months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+          }}
+        />{' '}
+        <strong>
           <FormattedMessage
-            id={
-              planType !== PLAN_TYPE.byContact
-                ? `buy_process.months_to_pay`
-                : `buy_process.difference_months_to_pay`
-            }
-            values={{
-              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
-            }}
-          />{' '}
-          <strong>
-            <FormattedMessage
-              id="buy_process.month_with_plural"
-              values={{ months: monthsCount }}
-            ></FormattedMessage>
-          </strong>
-        </>
-      ),
-      amount: (
-        <>
-          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
-        </>
-      ),
-    });
-  }
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>
+      </>
+    ),
+    amount: (
+      <>
+        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+      </>
+    ),
+  });
 
   // // Discount advanced pay
   if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
@@ -712,40 +708,38 @@ export const mapItemFromOnSitePlan = ({
   }
 
   // Months to pay
-  if (planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail) {
-    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
-    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
-    const planFee = onSitePlan?.fee ?? 0;
-    const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
+  const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+  const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+  const planFee = onSitePlan?.fee ?? 0;
+  const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
 
-    onSitePlanInformation.billingList.push({
-      label: (
-        <>
+  onSitePlanInformation.billingList.push({
+    label: (
+      <>
+        <FormattedMessage
+          id={
+            planType !== PLAN_TYPE.byContact
+              ? `buy_process.months_to_pay`
+              : `buy_process.difference_months_to_pay`
+          }
+          values={{
+            months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+          }}
+        />{' '}
+        <strong>
           <FormattedMessage
-            id={
-              planType !== PLAN_TYPE.byContact
-                ? `buy_process.months_to_pay`
-                : `buy_process.difference_months_to_pay`
-            }
-            values={{
-              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
-            }}
-          />{' '}
-          <strong>
-            <FormattedMessage
-              id="buy_process.month_with_plural"
-              values={{ months: monthsCount }}
-            ></FormattedMessage>
-          </strong>
-        </>
-      ),
-      amount: (
-        <>
-          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
-        </>
-      ),
-    });
-  }
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>
+      </>
+    ),
+    amount: (
+      <>
+        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+      </>
+    ),
+  });
 
   // // Discount advanced pay
   if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
@@ -894,40 +888,38 @@ export const mapItemFromAddOnPlan = ({
   }
 
   // Months to pay
-  if (planType === PLAN_TYPE.byContact || planType === PLAN_TYPE.byEmail) {
-    const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
-    const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
-    const planFee = addOnPlan?.fee ?? 0;
-    const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
+  const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
+  const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
+  const planFee = addOnPlan?.fee ?? 0;
+  const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
 
-    addOnPlanInformation.billingList.push({
-      label: (
-        <>
+  addOnPlanInformation.billingList.push({
+    label: (
+      <>
+        <FormattedMessage
+          id={
+            planType !== PLAN_TYPE.byContact
+              ? `buy_process.months_to_pay`
+              : `buy_process.difference_months_to_pay`
+          }
+          values={{
+            months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
+          }}
+        />{' '}
+        <strong>
           <FormattedMessage
-            id={
-              planType !== PLAN_TYPE.byContact
-                ? `buy_process.months_to_pay`
-                : `buy_process.difference_months_to_pay`
-            }
-            values={{
-              months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
-            }}
-          />{' '}
-          <strong>
-            <FormattedMessage
-              id="buy_process.month_with_plural"
-              values={{ months: monthsCount }}
-            ></FormattedMessage>
-          </strong>
-        </>
-      ),
-      amount: (
-        <>
-          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
-        </>
-      ),
-    });
-  }
+            id="buy_process.month_with_plural"
+            values={{ months: monthsCount }}
+          ></FormattedMessage>
+        </strong>
+      </>
+    ),
+    amount: (
+      <>
+        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+      </>
+    ),
+  });
 
   // // Discount advanced pay
   if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
