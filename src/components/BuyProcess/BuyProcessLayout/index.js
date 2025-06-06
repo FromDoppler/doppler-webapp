@@ -72,7 +72,7 @@ export const getSteps = (buyType, user) => {
 export const BuyProcessLayout = InjectAppServices(
   ({ children, dependencies: { appSessionRef } }) => {
     const query = useQueryParams();
-    const buyType = query.get('buyType') ?? '';
+    const buyType = query.get('buyType') ?? '1';
     let steps = getSteps(buyType, appSessionRef.current.userData.user).filter(
       (s) => s.visible === true,
     );
