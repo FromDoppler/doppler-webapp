@@ -7,9 +7,23 @@ import { RadioBox, RadioInfo } from '../RadioBox';
 
 const RadioFooter = ({ text }) => <div className="dp-footer--radio">{text}</div>;
 
-export const NavigationTabs = ({ planTypes, selectedPlanType, searchQueryParams }) => {
+export const NavigationTabs = ({
+  planTypes,
+  selectedPlanType,
+  searchQueryParams,
+  currentPlanType,
+}) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const hasSelectedPlanType = planTypes.filter((pt) => pt.type === selectedPlanType).length > 0;
+
+  if (
+    currentPlanType !== selectedPlanType &&
+    !hasSelectedPlanType &&
+    currentPlanType !== PLAN_TYPE.free
+  ) {
+    window.location.href = `/plan-selection/premium/${URL_PLAN_TYPE[currentPlanType]}${searchQueryParams}`;
+  }
 
   const getTypePlanDescriptionWithTooltip = (planType) =>
     _(`buy_process.plan_selection.plan_type_${planType.replace('-', '_')}_label`);

@@ -36,7 +36,7 @@ describe('getDefaultPlanType', () => {
           search: window.location.search,
           isFreeAccount: currentPlan.isFreeAccount,
         });
-        const expectedUrl = `/buy-process/primer-pantalla/${
+        const expectedUrl = `/plan-selection/premium/${
           URL_PLAN_TYPE[PLAN_TYPE.byEmail]
         }?${queryParams}`;
 
@@ -134,7 +134,7 @@ describe('getDefaultPlanType', () => {
         });
 
         const { planTypeUrlSegment } = useCase;
-        const expectedUrl = `/buy-process/primer-pantalla/${
+        const expectedUrl = `/plan-selection/premium/${
           URL_PLAN_TYPE[PLAN_TYPE.byContact]
         }?${queryParams}`;
 
@@ -165,7 +165,7 @@ describe('getDefaultPlanType', () => {
         isFreeAccount: currentPlan.isFreeAccount,
       });
       const planTypeUrlSegment = URL_PLAN_TYPE[PLAN_TYPE.byCredit];
-      const expectedUrl = `/buy-process/primer-pantalla/${
+      const expectedUrl = `/plan-selection/premium/${
         URL_PLAN_TYPE[PLAN_TYPE.byContact]
       }?${queryParams}`;
 
@@ -217,7 +217,7 @@ describe('getDefaultPlanType', () => {
         isFreeAccount: currentPlan.isFreeAccount,
       });
       const planTypeUrlSegment = URL_PLAN_TYPE[PLAN_TYPE.byEmail];
-      const expectedUrl = `/buy-process/primer-pantalla/${
+      const expectedUrl = `/plan-selection/premium/${
         URL_PLAN_TYPE[PLAN_TYPE.byContact]
       }?${queryParams}`;
 

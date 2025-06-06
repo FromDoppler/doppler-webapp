@@ -42,7 +42,7 @@ export const plansByTypeReducer = (state, action) => {
       return {
         ...state,
         currentSubscriptionIndexUser: selectDiscountIndexByDefault,
-        currentPlanUser: currentPlanType === PLAN_TYPE.free ? 0 : plansByType[0].id,
+        currentPlanUser: currentPlanType === PLAN_TYPE.free ? 0 : plansByType[0]?.id,
         selectedPlanIndex: 0,
         selectedPlan: plansByType[0], // Assuming that there is at leas one plan
         loading: false,

@@ -169,6 +169,7 @@ const messages_es = {
     },
     push_notification_plan_title: `Plan Notificaciones Push`,
     shopping_cart: {
+      credits_renewal_description: `Pago único.`,
       price_without_taxes: `*El precio no incluye impuestos.`,
       promotional_code: `¿Tienes un código promocional?`,
       renewal_description: `Suscripción con renovación automática, puedes cancelarla cuando lo desees.`,
@@ -186,9 +187,9 @@ const messages_es = {
     },
     subscriptions_title: `Suscripciones`,
     upcoming_bills: {
-      chat_plan_subtitle: `Planes de chat`,
+      chat_plan_subtitle: `Planes de conversaciones`,
       landing_pack_subtitle: `Packs de Landing Pages`,
-      marketing_and_chat_plan_subtitle: `Planes de marketing y chat`,
+      marketing_and_chat_plan_subtitle: `Planes de marketing y conversaciones`,
       marketing_plan_subtitle: `Plan marketing`,
       onsite_plan_subtitle: `Plan de OnSite`,
       push_notification_plan_subtitle: `Plan de Notificaciones Push`,
@@ -321,7 +322,7 @@ const messages_es = {
       no_chat_plan_selected_message: 'No se ha seleccionado un plan de conversación',
       remove_from_cart_button: 'Remover del carrito',
     },
-    title: '¿Quieres agregas un plan de chat?',
+    title: '¿Quieres agregas un plan de conversaciones?',
   },
   checkoutProcessForm: {
     billing_information_address: 'Dirección fiscal',
