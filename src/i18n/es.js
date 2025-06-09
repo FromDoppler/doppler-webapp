@@ -140,7 +140,7 @@ const messages_es = {
     min_single_plan_price: `<P>Desde <Strong>US$ {price}*/único</Strong></P>`,
     month_with_plural: `{months, plural, one {# mes}other {# meses} }`,
     months_to_hire: 'Meses a contratar:',
-    months_to_pay: `Meses a abonar: {months} meses`,
+    months_to_pay: `Meses a abonar:`,
     onsite_plan_title: `Plan OnSite`,
     payment_frequency: `Frecuencia de pago`,
     plan_selection: {
