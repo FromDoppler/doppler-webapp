@@ -28,6 +28,9 @@ import { HardcodedDopplerAccountPlansApiClient } from './services/doppler-accoun
 import { HardcodedReportClient } from './services/reports/index.double';
 import { HardcodedDopplerSystemUsageApiClient } from './services/doppler-system-usage-api-client.double';
 import { HardcodedSystemUsageSummaryClient } from './services/dashboardService/SystemUsageSummary.double';
+import { HardcodedDopplerBeplicApiClient } from './services/doppler-beplic-api-client.double';
+import { HardcodedDopplerPopupHubApiClient } from './services/doppler-popup-hub-api-client.double';
+
 polyfill();
 
 if (document.querySelector('body').setActive) {
@@ -56,6 +59,8 @@ const forcedServices =
         dopplerSystemUsageApiClient: new HardcodedDopplerSystemUsageApiClient(),
         systemUsageSummary: new HardcodedSystemUsageSummaryClient(),
         dopplerAccountPlansApiClient: new HardcodedDopplerAccountPlansApiClient(),
+        dopplerBeplicApiClient: new HardcodedDopplerBeplicApiClient(),
+        dopplerPopupHubApiClient: new HardcodedDopplerPopupHubApiClient(),
       }
     : {};
 

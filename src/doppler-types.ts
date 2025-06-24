@@ -218,6 +218,8 @@ export const BUY_ONSITE_PLAN = 4;
 export const BUY_PUSH_NOTIFICATION_PLAN = 5;
 
 export const AddOnType = {
+  Conversations: 1,
+  Landings: 2,
   OnSite: 3,
   PushNotifications: 4
 };

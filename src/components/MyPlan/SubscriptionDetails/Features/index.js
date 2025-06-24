@@ -1,4 +1,5 @@
 import { useIntl } from 'react-intl';
+import { FeaturesPlanTypes } from '../../../BuyProcess/PlanTypes/FeaturesPlanTypes';
 
 export const Features = () => {
   const intl = useIntl();
@@ -20,6 +21,7 @@ export const Features = () => {
           <li>{_(`my_plan.subscription_details.features.feature_5`)}</li>
         </ul>
       </div>
+      <FeaturesPlanTypes />
     </div>
   );
 };
