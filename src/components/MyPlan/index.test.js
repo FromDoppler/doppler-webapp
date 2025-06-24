@@ -22,6 +22,34 @@ describe('OnSite component', () => {
                 maxSubscribers: 500,
                 itemDescription: 'subscribers',
                 remainingCredits: 500,
+                planSubscription: 1,
+              },
+              chat: {
+                active: false,
+                plan: {
+                  conversationsQty: 200,
+                  fee: 0,
+                },
+              },
+              landings: {
+                landingPacks: [],
+              },
+              onSite: {
+                active: false,
+                plan: {
+                  quantity: 200,
+                  fee: 0,
+                },
+              },
+              pushNotification: {
+                active: false,
+                plan: {
+                  quantity: 200,
+                  fee: 0,
+                },
+              },
+              sms: {
+                smsEnabled: false,
               },
             },
           },

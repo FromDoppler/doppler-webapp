@@ -12,6 +12,11 @@ import { IpinfoClient, HttpIpinfoClient } from './ipinfo-client';
 import { ExperimentalFeatures } from './experimental-features';
 import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-billing-api-client';
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
+import { DopplerBeplicApiClient, HttpDopplerBeplicApiClient } from './doppler-beplic-api-client';
+import {
+  DopplerPopupHubApiClient,
+  HttpDopplerPopupHubApiClient,
+} from './doppler-popup-hub-api-client';
 import { CaptchaUtilsService } from '../components/form-helpers/captcha-utils';
 import { UtmCookiesManager } from './utm-cookies-manager';
 import {
@@ -76,6 +81,8 @@ export interface AppServices {
   ipinfoClient: IpinfoClient;
   dopplerBillingApiClient: DopplerBillingApiClient;
   dopplerUserApiClient: DopplerUserApiClient;
+  dopplerBeplicApiClient: DopplerBeplicApiClient;
+  dopplerPopupHubApiClient: DopplerPopupHubApiClient;
   captchaUtilsService: CaptchaUtilsService;
   utmCookiesManager: UtmCookiesManager;
   dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
@@ -145,6 +152,8 @@ export class AppCompositionRoot implements AppServices {
       staticDataBaseUrl: 'https://cdn.fromdoppler.com/static-data',
       dopplerBillingUsersApiUrl: process.env.REACT_APP_DOPPLER_BILLING_USER_API_URL as string,
       dopplerAccountPlansApiUrl: process.env.REACT_APP_DOPPLER_ACCOUNT_PLANS_API_URL as string,
+      dopplerBeplicApiUrl: process.env.REACT_APP_DOPPLER_BEPLIC_API_URL as string,
+      dopplerPopupHubApiUrl: process.env.REACT_APP_DOPPLER_POPUP_HUB_API_URL as string,
     }));
   }
 
@@ -287,6 +296,30 @@ export class AppCompositionRoot implements AppServices {
         new HttpDopplerUserApiClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerUsersApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerBeplicApiClient() {
+    return this.singleton(
+      'dopplerBeplicApiClient',
+      () =>
+        new HttpDopplerBeplicApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerBeplicApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerPopupHubApiClient() {
+    return this.singleton(
+      'dopplerPopupHubApiClient',
+      () =>
+        new HttpDopplerPopupHubApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerPopupHubApiUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );

@@ -1,89 +1,90 @@
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
-import { Features } from './Features';
 import { GrayCard } from '../GrayCard';
-import { PLAN_TYPE } from '../../../doppler-types';
+import { EmailMarketingPlan } from './EmailMarketingPlan';
+import { AddOnPlan } from './AddOnPlan';
+import { AddOnType } from '../../../doppler-types';
+import { SmsPlan } from './SmsPlan';
+
+export const getAddons = (user) => {
+  const { chat, landings, onSite, pushNotification } = user;
+
+  var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
+  const addOns = [
+    {
+      addOnType: AddOnType.Conversations,
+      addOnPlan: {
+        quantity: chat.plan.conversationsQty,
+        active: chat.plan.active,
+        fee: chat.plan.fee,
+      },
+      active: chat.plan.active,
+      buyUrl: '/buy-conversation?buyType=2',
+    },
+    {
+      addOnType: AddOnType.Landings,
+      addOnPlan: { landingPacks: landings?.landingPacks, active: hasLandings },
+      active: hasLandings,
+      buyUrl: '/landing-packages?buyType=3',
+    },
+    {
+      addOnType: AddOnType.OnSite,
+      addOnPlan: {
+        quantity: onSite.plan.quantity,
+        active: onSite.plan.active,
+        fee: onSite.plan.fee,
+      },
+      active: onSite.plan.active,
+      buyUrl: '/buy-onsite-plans?buyType=4',
+    },
+    {
+      addOnType: AddOnType.PushNotifications,
+      addOnPlan: {
+        quantity: pushNotification.plan.quantity,
+        active: pushNotification.plan.active,
+        fee: pushNotification.plan.fee,
+      },
+      active: pushNotification.plan.active,
+      buyUrl: '/buy-push-notification-plans?buyType=5',
+    },
+  ];
+
+  return addOns;
+};
 
 export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const { plan } = appSessionRef.current.userData.user;
-
-  const buyPlan = () => {
-    window.location.href = plan.buttonUrl;
-  };
-
   const requestConsulting = () => {
-    window.location.href = '/upgrade-suggestion-form';
+    window.location.href = '/additional-services';
   };
+
+  const { plan, sms } = appSessionRef.current.userData.user;
+  const addOns = getAddons(appSessionRef.current.userData.user).filter((a) => a.active);
 
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
-        <div className="col-lg-8 col-md-12 m-b-24">
+        <div className="col-lg-9 col-md-12 m-b-24">
           <div className="dp-box-shadow m-b-24">
-            <article className="dp-wrapper-plan">
-              <header>
-                <div className="dp-title-plan">
-                  <h3 className="dp-second-order-title">
-                    <span className="p-r-8 m-r-6">{_(`my_plan.subscription_details.title`)}</span>
-                    <span className="dpicon iconapp-email-alert"></span>
-                  </h3>
-                  <p>
-                    {_(
-                      `my_plan.subscription_details.plan_type_${plan.planType.replace(
-                        '-',
-                        '_',
-                      )}_label`,
-                    )}
-                  </p>
-                </div>
-                <div className="dp-buttons--plan">
-                  <button
-                    type="button"
-                    className="dp-button button-medium primary-green dp-w-100 m-b-12"
-                    onClick={() => buyPlan()}
-                  >
-                    {_(`my_plan.subscription_details.change_plan_button`)}
-                  </button>
-                </div>
-              </header>
-              <ul className="dp-item--plan">
-                <li>
-                  {(plan.planType === PLAN_TYPE.byContact ||
-                    plan.planType === PLAN_TYPE.byEmail) && (
-                    <p>
-                      <strong>{`${plan.maxSubscribers} ${plan.itemDescription}`}</strong>
-                    </p>
-                  )}
-                  {plan.planType === PLAN_TYPE.byCredit ? (
-                    <p>{`${plan.remainingCredits} ${plan.description}`}</p>
-                  ) : (
-                    <p>{`${plan.remainingCredits}/${plan.maxSubscribers} ${plan.description}`}</p>
-                  )}
-                </li>
-                {plan.planType === PLAN_TYPE.byContact && (
-                  <li>
-                    <p>
-                      <strong>{_(`my_plan.subscription_details.unlimited_emails`)}</strong>
-                    </p>
-                  </li>
-                )}
-                {(plan.planType === PLAN_TYPE.byContact || plan.planType === PLAN_TYPE.byEmail) && (
-                  <li>
-                    <p>
-                      <strong>{_(`my_plan.subscription_details.billing.title`)}</strong>
-                    </p>
-                    <p>{_(`my_plan.subscription_details.billing.type_${plan.planSubscription}`)}</p>
-                  </li>
-                )}
-              </ul>
-              <Features></Features>
-            </article>
+            <EmailMarketingPlan plan={plan}></EmailMarketingPlan>
           </div>
+          {sms.smsEnabled && (
+            <div className="dp-box-shadow m-b-24">
+              <SmsPlan sms={sms}></SmsPlan>
+            </div>
+          )}
+          {addOns.map((addon, index) => (
+            <AddOnPlan
+              key={`addon-${index}`}
+              addOnType={addon.addOnType}
+              addOnPlan={addon.addOnPlan}
+              addOnBuyUrl={addon.buyUrl}
+            ></AddOnPlan>
+          ))}
         </div>
-        <div className="col-lg-4 col-sm-12">
+        <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">
             <GrayCard
               title={_(`my_plan.subscription_details.cards.card_1.title`)}
