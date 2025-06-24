@@ -1,2 +1,4 @@
 coverage/
 src/doppler-types.ts
+*.js
+*.md
