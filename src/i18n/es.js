@@ -1099,6 +1099,16 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_subject: `Asunto`,
   },
   my_plan: {
+    addons: {
+      list_conditioning: {
+        description: 'Depuramos tus bases de datos para que puedas enviar campañas con listas de contactos reales y actuales, generen beneficios a tu negocio.',
+        from_contact_legend: 'A partir de {contacts} contactos',
+        price_legend: '*Precio por contacto',
+        title: 'Acondicionamiento de Listas',
+      },
+      more_information_link: 'Más información',
+      request_quote_button: 'Solicitar cotización',
+    },
     addtional_services: {
       description: 'Completa los datos y nos contactaremos para brindarte la cotización en un plazo de 24 Hs.',
       title: 'Servicios Adicionales',
