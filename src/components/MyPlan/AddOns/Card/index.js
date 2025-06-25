@@ -14,7 +14,7 @@ export const Card = ({
         <header>
           <h3 className="dp-second-order-title">
             {title}
-            <span className={`dpicon ${icon}`}></span>
+            <span className={`p-l-6 dpicon ${icon}`}></span>
           </h3>
         </header>
         <article className="dp-container">
@@ -22,15 +22,12 @@ export const Card = ({
             <div className="col-sm-6">
               <p className="dp-description-legend">{description}</p>
             </div>
-            <div className="col-sm-3">
-              <div className="m-l-18">{priceSection}</div>
-            </div>
-            <div className="col-sm-3"></div>
+            {priceSection}
           </div>
         </article>
         <hr></hr>
         <footer className="dp-footer-addons">
-          <a href={moreInformationLink} className="dp-more-information">
+          <a href={moreInformationLink} className="dp-more-information" target="_blanck">
             {moreInformationText}
           </a>
           <a href={buyButtonUrl}>

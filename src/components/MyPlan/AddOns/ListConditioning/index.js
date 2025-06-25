@@ -15,18 +15,25 @@ const PriceSection = () => {
 
   return (
     <>
-      <span className="dp-legend-price">
-        <FormattedMessage
-          id={`my_plan.addons.list_conditioning.from_contact_legend`}
-          values={{
-            contacts: 2499,
-          }}
-        />
-      </span>
-      <h2>
-        US$ <FormattedNumber value={price} {...numberFormatOptions} />*
-      </h2>
-      <span className="dp-disclaimer">{_(`my_plan.addons.list_conditioning.price_legend`)}</span>
+      <div className="col-sm-3">
+        <div className="m-l-18">
+          <span className="dp-legend-price">
+            <FormattedMessage
+              id={`my_plan.addons.list_conditioning.from_contact_legend`}
+              values={{
+                contacts: 2499,
+              }}
+            />
+          </span>
+          <h2>
+            US$ <FormattedNumber value={price} {...numberFormatOptions} />*
+          </h2>
+          <span className="dp-disclaimer">
+            {_(`my_plan.addons.list_conditioning.price_legend`)}
+          </span>
+        </div>
+      </div>
+      <div className="col-sm-3"></div>
     </>
   );
 };
