@@ -1100,6 +1100,13 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   my_plan: {
     addons: {
+      custom_reports: {
+        description: 'Obtén un informe customizado con las métricas que precisas para medir tus Campañas. Profundiza en los insights y optimiza tu estrategia.',
+        monthly_legend: '*Por mes',
+        monthly_report_legend: 'Reporte mensual',
+        one_time_report_legend: 'Reporte por única vez',
+        title: 'Reportes Personalizados',
+      },
       list_conditioning: {
         description: 'Depuramos tus bases de datos para que puedas enviar campañas con listas de contactos reales y actuales, generen beneficios a tu negocio.',
         from_contact_legend: 'A partir de {contacts} contactos',

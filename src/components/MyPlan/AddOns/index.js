@@ -1,3 +1,4 @@
+import { CustomReports } from './CustomReports';
 import { ListConditioning } from './ListConditioning';
 
 export const AddOns = () => {
@@ -6,6 +7,7 @@ export const AddOns = () => {
       <div className="dp-rowflex">
         <div className="col-lg-9 col-md-12 m-b-24">
           <ListConditioning></ListConditioning>
+          <CustomReports></CustomReports>
         </div>
         <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">
