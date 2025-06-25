@@ -20,7 +20,7 @@ export const Card = ({
         <article className="dp-container">
           <div className="dp-rowflex dp-content-addons">
             <div className="col-sm-6">
-              <p className="dp-description-legend">{description}</p>
+              <p className="dp-description-legend m-r-6">{description}</p>
             </div>
             {priceSection}
           </div>
