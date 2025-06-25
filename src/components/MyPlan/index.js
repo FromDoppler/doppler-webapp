@@ -4,6 +4,7 @@ import { Header } from './Header';
 import { SubscriptionDetails } from './SubscriptionDetails';
 import { Tabs } from './Tabs';
 import { useIntl } from 'react-intl';
+import { AddOns } from './AddOns';
 
 export const MyPlan = InjectAppServices(() => {
   const intl = useIntl();
@@ -14,6 +15,11 @@ export const MyPlan = InjectAppServices(() => {
     subscriptionDetails: {
       Component: SubscriptionDetails,
       title: `${_(`my_plan.tabs.subscription_details`)}`,
+      description: '',
+    },
+    addOns: {
+      Component: AddOns,
+      title: 'Add-ons',
       description: '',
     },
   };
