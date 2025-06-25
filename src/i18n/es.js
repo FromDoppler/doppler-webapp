@@ -1100,6 +1100,7 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   my_plan: {
     addons: {
+      buy_button: 'Comprar Ahora',
       custom_reports: {
         description: 'Obtén un informe customizado con las métricas que precisas para medir tus Campañas. Profundiza en los insights y optimiza tu estrategia.',
         monthly_legend: '*Por mes',
@@ -1115,6 +1116,12 @@ Encontrarás un Email con los pasos a seguir.`,
       },
       more_information_link: 'Más información',
       request_quote_button: 'Solicitar cotización',
+      sms: {
+        description: 'Implementa SMS Marketing para llegar a tus Contactos de forma inmediata y refuerza tu estrategia de Marketing Automation.',
+        load_from_legend: 'Carga desde',
+        minimum_load_legend: '*Compra mínima',
+        title: 'Envío y automatización de SMS',
+      },
     },
     addtional_services: {
       description: 'Completa los datos y nos contactaremos para brindarte la cotización en un plazo de 24 Hs.',

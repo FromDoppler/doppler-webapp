@@ -1,5 +1,6 @@
 import { CustomReports } from './CustomReports';
 import { ListConditioning } from './ListConditioning';
+import { Sms } from './Sms';
 
 export const AddOns = () => {
   return (
@@ -8,6 +9,7 @@ export const AddOns = () => {
         <div className="col-lg-9 col-md-12 m-b-24">
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>
+          <Sms></Sms>
         </div>
         <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">
