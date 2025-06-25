@@ -5,11 +5,17 @@ import { SubscriptionDetails } from './SubscriptionDetails';
 import { Tabs } from './Tabs';
 import { useIntl } from 'react-intl';
 import { AddOns } from './AddOns';
+import { useQueryParams } from '../../hooks/useQueryParams';
+import { useSearchParams } from 'react-router-dom';
 
 export const MyPlan = InjectAppServices(() => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const [activeTab, setActiveTab] = useState('subscriptionDetails');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = useQueryParams();
+  const selectedTab = query.get('selected-tab') ?? 'subscriptionDetails';
+
+  const [activeTab, setActiveTab] = useState(selectedTab);
 
   const sections = {
     subscriptionDetails: {
@@ -32,6 +38,10 @@ export const MyPlan = InjectAppServices(() => {
       label: sectionValue.title,
       key: sectionKey,
       handleClick: () => {
+        if (searchParams.has('selected-tab')) {
+          searchParams.delete('selected-tab');
+          setSearchParams(searchParams);
+        }
         setActiveTab(sectionKey);
       },
     });
