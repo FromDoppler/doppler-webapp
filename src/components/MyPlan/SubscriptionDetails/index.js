@@ -56,8 +56,12 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const requestConsulting = () => {
+  const goToRequestConsulting = () => {
     window.location.href = '/additional-services';
+  };
+
+  const goToAddtionalService = () => {
+    window.location.href = '/my-plan?selected-tab=addOns';
   };
 
   const { plan, sms } = appSessionRef.current.userData.user;
@@ -91,7 +95,16 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
               subtitle={_(`my_plan.subscription_details.cards.card_1.subtitle`)}
               description={_(`my_plan.subscription_details.cards.card_1.description`)}
               button={_(`my_plan.subscription_details.cards.card_1.button`)}
-              handleClick={() => requestConsulting()}
+              handleClick={() => goToRequestConsulting()}
+            ></GrayCard>
+          </div>
+          <div className="dp-box-shadow m-t-18 m-b-18">
+            <GrayCard
+              title={_(`my_plan.subscription_details.cards.card_2.title`)}
+              subtitle={_(`my_plan.subscription_details.cards.card_2.subtitle`)}
+              description={_(`my_plan.subscription_details.cards.card_2.description`)}
+              button={_(`my_plan.subscription_details.cards.card_2.button`)}
+              handleClick={() => goToAddtionalService()}
             ></GrayCard>
           </div>
         </div>
