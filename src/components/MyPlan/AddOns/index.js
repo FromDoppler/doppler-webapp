@@ -1,4 +1,5 @@
 import { CustomReports } from './CustomReports';
+import { DedicatedEnvironment } from './DedicatedEnvironment';
 import { LayoutService } from './LayoutService';
 import { ListConditioning } from './ListConditioning';
 import { Sms } from './Sms';
@@ -12,6 +13,7 @@ export const AddOns = () => {
           <CustomReports></CustomReports>
           <Sms></Sms>
           <LayoutService></LayoutService>
+          <DedicatedEnvironment></DedicatedEnvironment>
         </div>
         <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">

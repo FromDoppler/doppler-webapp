@@ -1108,6 +1108,12 @@ You'll find an Email with steps to follow.`,
         one_time_report_legend: 'Reporte por única vez - EN',
         title: 'Reportes Personalizados - EN',
       },
+      dedicated_environment: {
+        access_by_legend: 'Accede por - EN',
+        description: 'Accede a un entorno dedicado y una IP exclusiva, configurados para tu dominio. Te garantizará una buena reputación y capacidad de entrega. - EN',
+        month_legend: '*Por mes - EN',
+        title: 'Entorno Dedicado - EN',
+      },
       layout_service: {
         description: 'Si el catálogo de templates no concuerda con tus necesidades, te ayudamos a crear plantillas especificas para tu negocio. - EN',
         editor_piece_from_legend: 'Desde - EN',

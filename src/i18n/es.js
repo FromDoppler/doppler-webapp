@@ -1108,6 +1108,12 @@ Encontrarás un Email con los pasos a seguir.`,
         one_time_report_legend: 'Reporte por única vez',
         title: 'Reportes Personalizados',
       },
+      dedicated_environment: {
+        access_by_legend: 'Accede por',
+        description: 'Accede a un entorno dedicado y una IP exclusiva, configurados para tu dominio. Te garantizará una buena reputación y capacidad de entrega.',
+        month_legend: '*Por mes',
+        title: 'Entorno Dedicado',
+      },
       layout_service: {
         description: 'Si el catálogo de templates no concuerda con tus necesidades, te ayudamos a crear plantillas especificas para tu negocio.',
         editor_piece_from_legend: 'Desde',
