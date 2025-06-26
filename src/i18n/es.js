@@ -1142,6 +1142,12 @@ Encontrarás un Email con los pasos a seguir.`,
         minimum_load_legend: '*Compra mínima',
         title: 'Envío y automatización de SMS',
       },
+      transactional_emails: {
+        description: 'Dispara Emails o SMS ante interacciones de los usuarios con tu Sitio Web, aplicación o sistema y para comunicar información sensible a clientes.',
+        email_plan_legend: 'Plan {emails} Emails',
+        month_legend: '*Por mes',
+        title: 'Envíos Transaccionales',
+      },
     },
     addtional_services: {
       description: 'Completa los datos y nos contactaremos para brindarte la cotización en un plazo de 24 Hs.',

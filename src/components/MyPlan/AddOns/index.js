@@ -4,6 +4,7 @@ import { DedicatedIP } from './DedicatedIP';
 import { LayoutService } from './LayoutService';
 import { ListConditioning } from './ListConditioning';
 import { Sms } from './Sms';
+import { TransactionalEmails } from './TransactionalEmails';
 
 export const AddOns = () => {
   return (
@@ -16,6 +17,7 @@ export const AddOns = () => {
           <LayoutService></LayoutService>
           <DedicatedEnvironment></DedicatedEnvironment>
           <DedicatedIP></DedicatedIP>
+          <TransactionalEmails></TransactionalEmails>
         </div>
         <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">

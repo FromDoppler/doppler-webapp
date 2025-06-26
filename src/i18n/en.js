@@ -1142,6 +1142,12 @@ You'll find an Email with steps to follow.`,
         minimum_load_legend: '*Compra mínima - EN',
         title: 'Envío y automatización de SMS - EN',
       },
+      transactional_emails: {
+        description: 'Dispara Emails o SMS ante interacciones de los usuarios con tu Sitio Web, aplicación o sistema y para comunicar información sensible a clientes. - EN',
+        email_plan_legend: 'Plan {emails} Emails - EN',
+        month_legend: '*Por mes - EN',
+        title: 'Envíos Transaccionales - EN',
+      },
     },
     addtional_services: {
       description: 'Completa los datos y nos contactaremos para brindarte la cotización en un plazo de 24 Hs. - EN',
