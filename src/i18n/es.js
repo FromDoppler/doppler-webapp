@@ -1114,6 +1114,12 @@ Encontrarás un Email con los pasos a seguir.`,
         month_legend: '*Por mes',
         title: 'Entorno Dedicado',
       },
+      dedicated_ip: {
+        access_by_legend: 'Accede por',
+        description: 'Obtén una IP dedicada, exclusivamente para tus envíos. Seteada bajo minuciosos estándares de seguridad, para una óptima entregabilidad.',
+        month_legend: '*Por mes',
+        title: 'IP Dedicada',
+      },
       layout_service: {
         description: 'Si el catálogo de templates no concuerda con tus necesidades, te ayudamos a crear plantillas especificas para tu negocio.',
         editor_piece_from_legend: 'Desde',
