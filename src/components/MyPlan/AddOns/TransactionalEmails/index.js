@@ -11,7 +11,7 @@ const PriceSection = () => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const price = 26.50;
+  const price = 26.5;
 
   return (
     <>
@@ -49,7 +49,9 @@ export const TransactionalEmails = () => {
       description={_(`my_plan.addons.transactional_emails.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'https://help.fromdoppler.com/es/doppler-relay-conoce-servicio-email-transaccional/'}
+      moreInformationLink={
+        'https://help.fromdoppler.com/es/doppler-relay-conoce-servicio-email-transaccional/'
+      }
       buyButtonText={_(`my_plan.addons.buy_button`)}
       buyButtonUrl={'https://www.dopplerrelay.com/'}
     ></Card>

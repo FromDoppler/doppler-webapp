@@ -1100,6 +1100,7 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   my_plan: {
     addons: {
+      activate_now_button: 'Activar ahora',
       buy_button: 'Comprar Ahora',
       custom_reports: {
         description: 'Obtén un informe customizado con las métricas que precisas para medir tus Campañas. Profundiza en los insights y optimiza tu estrategia.',
@@ -1119,6 +1120,12 @@ Encontrarás un Email con los pasos a seguir.`,
         description: 'Obtén una IP dedicada, exclusivamente para tus envíos. Seteada bajo minuciosos estándares de seguridad, para una óptima entregabilidad.',
         month_legend: '*Por mes',
         title: 'IP Dedicada',
+      },
+      landing_pages: {
+        description: 'Utiliza páginas de destino para captar a tus clientes en múltiples dispositivos y guíalos a la conversión.',
+        month_legend: '*Por mes',
+        packs_from_legend: 'Packs desde',
+        title: 'Pack de Landing Pages',
       },
       layout_service: {
         description: 'Si el catálogo de templates no concuerda con tus necesidades, te ayudamos a crear plantillas especificas para tu negocio.',
