@@ -26,7 +26,7 @@ describe('Sms component', () => {
               },
               sms: {
                 smsEnabled: false,
-                buttonUrl: ''
+                buttonUrl: '',
               },
             },
           },

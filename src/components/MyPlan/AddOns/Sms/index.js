@@ -18,15 +18,11 @@ const PriceSection = () => {
     <>
       <div className="col-sm-3">
         <div className="m-l-18">
-          <span className="dp-legend-price">
-            {_(`my_plan.addons.sms.load_from_legend`)}
-          </span>
+          <span className="dp-legend-price">{_(`my_plan.addons.sms.load_from_legend`)}</span>
           <h2>
             US$ <FormattedNumber value={loadFrom} {...numberFormatOptions} />*
           </h2>
-          <span className="dp-disclaimer">
-            {_(`my_plan.addons.sms.minimum_load_legend`)}
-          </span>
+          <span className="dp-disclaimer">{_(`my_plan.addons.sms.minimum_load_legend`)}</span>
         </div>
       </div>
       <div className="col-sm-3"></div>
@@ -35,7 +31,7 @@ const PriceSection = () => {
 };
 
 export const Sms = InjectAppServices(({ dependencies: { appSessionRef } }) => {
-   const { sms } = appSessionRef.current.userData.user;
+  const { sms } = appSessionRef.current.userData.user;
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 

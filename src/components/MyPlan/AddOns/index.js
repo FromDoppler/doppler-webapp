@@ -1,4 +1,5 @@
 import { CustomReports } from './CustomReports';
+import { LayoutService } from './LayoutService';
 import { ListConditioning } from './ListConditioning';
 import { Sms } from './Sms';
 
@@ -10,6 +11,7 @@ export const AddOns = () => {
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>
           <Sms></Sms>
+          <LayoutService></LayoutService>
         </div>
         <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">
