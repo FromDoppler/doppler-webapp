@@ -1,4 +1,5 @@
 import { InjectAppServices } from '../../../services/pure-di';
+import { Conversations } from './Conversations';
 import { CustomReports } from './CustomReports';
 import { DedicatedEnvironment } from './DedicatedEnvironment';
 import { DedicatedIP } from './DedicatedIP';
@@ -9,10 +10,11 @@ import { Sms } from './Sms';
 import { TransactionalEmails } from './TransactionalEmails';
 
 export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) => {
-  const { sms, landings } = appSessionRef.current.userData.user;
+  const { sms, landings, chat } = appSessionRef.current.userData.user;
 
   var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
   var hasSms = sms.remainingCredits > 0;
+  var hasConversations = chat.plan.active;
 
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
@@ -26,6 +28,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
           <DedicatedIP></DedicatedIP>
           <TransactionalEmails></TransactionalEmails>
           {!hasLandings && <LandingPages></LandingPages>}
+          {!hasConversations && <Conversations conversation={chat}></Conversations>}
         </div>
         <div className="col-lg-3 col-sm-12">
           <div className="dp-box-shadow">
