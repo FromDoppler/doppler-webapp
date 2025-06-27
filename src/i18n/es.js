@@ -1148,6 +1148,12 @@ Encontrarás un Email con los pasos a seguir.`,
         title: 'Acondicionamiento de Listas',
       },
       more_information_link: 'Más información',
+      onsite: {
+        description: 'Agrega ventanas emergentes como Pop-ups, Formularios y otras herramientas interactivas. Fomenta la interacción en tu Sitio Web y mejora la Conversión en tu E-commerce.',
+        month_legend: '*Por mes',
+        plans_from_legend: 'Planes desde',
+        title: 'Onsite Marketing',
+      },
       request_quote_button: 'Solicitar cotización',
       sms: {
         description: 'Implementa SMS Marketing para llegar a tus Contactos de forma inmediata y refuerza tu estrategia de Marketing Automation.',
