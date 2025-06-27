@@ -376,6 +376,7 @@ interface ChatPlanEntry {
   channels: number;
   active: boolean;
   buttonUrl: string;
+  buttonText: string;
 }
 
 interface OnSitePlanEntry {
@@ -585,6 +586,7 @@ function mapChatPlanEntry(json: any): ChatPlanEntry {
     channels: json?.planData ? json.planData.canales : 0,
     active: json?.planData ? json.planData.active : false,
     buttonUrl: json ? json.buttonUrl : '#',
+    buttonText: json ? json.buttonText : '#',
   };
 }
 

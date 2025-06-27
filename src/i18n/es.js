@@ -1102,6 +1102,12 @@ Encontrarás un Email con los pasos a seguir.`,
     addons: {
       activate_now_button: 'Activar ahora',
       buy_button: 'Comprar Ahora',
+      conversations: {
+        description: 'Lorem ipsum dolor sit amet consectetur. Ac eleifend diam lobortis montes eget proin purus. Faucibus viverra suspendisse molestie viverra.',
+        month_legend: '*Por mes',
+        plans_from_legend: 'Planes desde',
+        title: 'Conversaciones',
+      },
       custom_reports: {
         description: 'Obtén un informe customizado con las métricas que precisas para medir tus Campañas. Profundiza en los insights y optimiza tu estrategia.',
         monthly_legend: '*Por mes',
