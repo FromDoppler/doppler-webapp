@@ -125,7 +125,7 @@ const messages_es = {
     discount_percentage: `Ahorro {discountPercentage}%`,
     discount_quarterly: 'Trimestral',
     discount_yearly: 'Anual',
-    feature_item_chat_plan: `Incluye hasta <Strong>{units} conversaciones</Strong>`,
+    feature_item_chat_plan: `Incluye hasta <Strong>{units} mensajes</Strong>`,
     feature_item_discount_advanced_pay: `Descuento pago adelantado {months}/meses`,
     feature_item_discount_monthly: `Descuento Código Promocional {months}/meses`,
     feature_item_discount_monthly_argentina: `Descuento Exclusivo Argentina {months}/meses`,
@@ -270,15 +270,15 @@ const messages_es = {
     until_x_subscribers: `Hasta {subscribers} Contactos.`,
   },
   chat_selection: {
-    banner_for_conversations: `¿Necesitas más Conversaciones? <Link>Escríbenos</Link>.`,
+    banner_for_conversations: `¿Necesitas más mensajes ? <Link>Escríbenos</Link>.`,
     expiration_free_plan_message: '*Recuerda que al contratar un plan de Conversaciones, finalizara de manera automática la versión de prueba de tres meses.',
-    how_many_conversations_need_message: '¿Cuántas Conversaciones necesitas por mes?',
+    how_many_conversations_need_message: '¿Cuántos mensajes necesitas por mes?',
     more_option_tickmark_message: 'Más',
     plan_benefits: {
       additional_costs: {
         additional_agent_message: 'Agente adicional.',
         additional_channel_message: 'Canal adicional.',
-        additional_conversation_message: 'Conversación adicional.',
+        additional_conversation_message: 'Mensaje adicional.',
         additional_costs_message: 'Costos Adicionales',
         extra_costs_message: 'Costos extras',
         from: 'Desde',
@@ -288,7 +288,7 @@ const messages_es = {
       default_messages_message: 'Mensajes predeterminados',
       facebook_messenger_chat_message: 'Chat en Facebook Messenger',
       included_all_plans_message: 'Incluido en todos los planes',
-      included_paid_plans_greater_250_conversations_message: 'Incluido en los planes pagos mayores a 250 conversaciones',
+      included_paid_plans_greater_250_conversations_message: 'Incluido en los planes pagos mayores a 250 mensajes',
       included_paid_plans_message: 'Incluido en todos los planes pagos',
       instagram_chat_message: 'Chat en Instagram',
       lead_generator_message: 'Generador de Leads',
@@ -302,7 +302,7 @@ const messages_es = {
       whatsapp_business_api_send_messages_message: 'Campaña de WhatsApp',
     },
     plan_chat_info: {
-      legend: 'Selecciona la cantidad de <bold>Conversaciones</bold> que tu negocio necesita para complementar e impulsar tu Estrategia de Marketing.',
+      legend: 'Selecciona la cantidad de <bold>mensajes</bold> que tu negocio necesita para complementar e impulsar tu Estrategia de Marketing.',
       section_1: {
         legend: 'Gestiona la comunicación de diferentes canales a través de una única plataforma.',
         title: 'Experiencia optimizada',
@@ -317,7 +317,7 @@ const messages_es = {
       agent_with_plural: `{agents, plural, one {# Agente}other {# Agentes} }`,
       channel_with_plural: `{channels, plural, one {# Canal}other {# Canales} }`,
       conversations_plan_message: 'Plan Conversaciones*',
-      includes_until_conversations_message: 'Incluye hasta {conversations} Conversaciones',
+      includes_until_conversations_message: 'Incluye hasta {conversations} mensajes',
       month_message: 'mes',
       no_chat_plan_selected_message: 'No se ha seleccionado un plan de conversación',
       remove_from_cart_button: 'Remover del carrito',
@@ -473,7 +473,7 @@ const messages_es = {
     title: `Proceso de pago`,
   },
   checkoutProcessSuccess: {
-    chat_plan_acquired_conversations: 'Conversaciones adquiridas',
+    chat_plan_acquired_conversations: 'Mensajes adquiridas',
     chat_plan_billing_title: 'Renovación',
     chat_plan_default_billing: 'Mensual',
     chat_plan_label: 'Conversaciones',

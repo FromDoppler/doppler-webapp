@@ -156,7 +156,7 @@ export const PlanChat = InjectAppServices(
                   labelQuantity={`${thousandSeparatorNumber(
                     intl.defaultLocale,
                     selectedPlan?.conversationsQty ?? 0,
-                  )} conversaciones`}
+                  )} mensajes`}
                   moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
                 />
                 <BannerUpgrade
