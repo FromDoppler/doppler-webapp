@@ -397,6 +397,8 @@ interface PushNotificationPlanEntry {
   fee: number;
   additional: number;
   active: boolean;
+  buttonText: string;
+  buttonUrl: string;
 }
 
 interface SmsEntry {
@@ -607,12 +609,14 @@ function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
 
 function mapPushNotificationPlanEntry(json: any): PushNotificationPlanEntry {
   return {
-    planId: json ? json.idPlan : 0,
-    description: json ? json.description : '',
-    quantity: json ? json.quantity : 0,
-    fee: json ? json.fee : 0,
-    additional: json ? json.additional : 0,
-    active: json ? json.active : false,
+    planId: json?.planData ? json?.planData.idPlan : 0,
+    description: json?.planData ? json?.planData.description : '',
+    quantity: json?.planData ? json?.planData.quantity : 0,
+    fee: json?.planData ? json?.planData.fee : 0,
+    additional: json?.planData ? json?.planData.additional : 0,
+    active: json?.planData ? json?.planData.active : false,
+    buttonUrl: json ? json.buttonUrl : '#',
+    buttonText: json ? json.buttonText : '',
   };
 }
 
@@ -726,7 +730,7 @@ export function mapHeaderDataJson(json: any) {
       },
       pushNotification: {
         active: json.user.pushNotificationPlan?.active,
-        plan: mapPushNotificationPlanEntry(json.user.pushNotificationPlan?.planData),
+        plan: mapPushNotificationPlanEntry(json.user.pushNotificationPlan),
       },
     },
     userAccount: json.userAccount && {

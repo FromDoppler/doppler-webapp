@@ -17,33 +17,41 @@ const PriceSection = () => {
     <>
       <div className="col-sm-6">
         <div className="m-l-18">
-          <span className="dp-legend-price">{_(`my_plan.addons.onsite.plans_from_legend`)}</span>
+          <span className="dp-legend-price">
+            {_(`my_plan.addons.push_notification.plans_from_legend`)}
+          </span>
           <h2>
             US$ <FormattedNumber value={price} {...numberFormatOptions} />*
           </h2>
-          <span className="dp-disclaimer">{_(`my_plan.addons.onsite.month_legend`)}</span>
+          <span className="dp-disclaimer">
+            {_(`my_plan.addons.push_notification.month_legend`)}
+          </span>
         </div>
       </div>
     </>
   );
 };
 
-export const OnSite = ({ onSite }) => {
+export const PushNotification = ({ pushNotification }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
     <Card
-      title={_(`my_plan.addons.onsite.title`)}
-      icon={'iconapp-online-clothing'}
-      description={_(`my_plan.addons.onsite.description`)}
+      title={_(`my_plan.addons.push_notification.title`)}
+      icon={'dpicon iconapp-bell1'}
+      description={_(`my_plan.addons.push_notification.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
       moreInformationLink={'#'}
       buyButtonText={_(
-        `${onSite.active ? 'my_plan.addons.buy_button' : 'my_plan.addons.activate_now_button'}`,
+        `${
+          pushNotification.active
+            ? 'my_plan.addons.buy_button'
+            : 'my_plan.addons.activate_now_button'
+        }`,
       )}
-      buyButtonUrl={onSite.plan.buttonUrl}
+      buyButtonUrl={pushNotification.plan.buttonUrl}
     ></Card>
   );
 };

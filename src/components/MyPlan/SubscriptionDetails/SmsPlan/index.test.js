@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { SmsPlan } from '.';
 import { AppServicesProvider } from '../../../../services/pure-di';
-import DopplerIntlProvider from '../../../../i18n/DopplerIntlProvider';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -17,9 +17,9 @@ describe('SmsPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SmsPlan sms={sms} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );

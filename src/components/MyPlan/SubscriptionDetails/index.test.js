@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { SubscriptionDetails } from '.';
 import { AppServicesProvider } from '../../../services/pure-di';
-import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider';
+import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -58,19 +58,25 @@ describe('SubscriptionDetails component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SubscriptionDetails />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.queryByText('Plan de conversaciones')).not.toBeInTheDocument();
-    expect(screen.queryByText('Pack de Landing pages')).not.toBeInTheDocument();
-    expect(screen.queryByText('Plan de onsite')).not.toBeInTheDocument();
-    expect(screen.queryByText('Plan de notificaciones push')).not.toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(screen.queryByText('my_plan.subscription_details.sms.title')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('my_plan.subscription_details.addon.landings_plan.title'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('my_plan.subscription_details.addon.onsite_plan.title'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('my_plan.subscription_details.addon.push_notification_plan.title'),
+    ).not.toBeInTheDocument();
   });
 
   it('should render component - Email Marketing Plan with Chat Plan', async () => {
@@ -125,9 +131,9 @@ describe('SubscriptionDetails component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SubscriptionDetails />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
@@ -135,8 +141,10 @@ describe('SubscriptionDetails component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan de conversaciones')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.conversation_plan.title'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - Email Marketing Plan with Landing Plan', () => {
@@ -191,16 +199,18 @@ describe('SubscriptionDetails component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SubscriptionDetails />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Pack de Landing pages')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.landings_plan.title'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - Email Marketing Plan with OnSite Plan', async () => {
@@ -255,9 +265,9 @@ describe('SubscriptionDetails component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SubscriptionDetails />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
@@ -265,8 +275,10 @@ describe('SubscriptionDetails component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan de onsite')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.onsite_plan.title'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - Email Marketing Plan with Push Notification Plan', async () => {
@@ -321,16 +333,18 @@ describe('SubscriptionDetails component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SubscriptionDetails />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan de notificaciones push')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.push_notification_plan.title'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - Email Marketing Plan with SMS', async () => {
@@ -374,6 +388,7 @@ describe('SubscriptionDetails component', () => {
               },
               sms: {
                 smsEnabled: true,
+                remainingCredits: 10,
               },
             },
           },
@@ -385,15 +400,15 @@ describe('SubscriptionDetails component', () => {
     render(
       <AppServicesProvider forcedServices={dependencies}>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <SubscriptionDetails />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Envío y automatización de SMS')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.sms.title')).toBeInTheDocument();
   });
 });

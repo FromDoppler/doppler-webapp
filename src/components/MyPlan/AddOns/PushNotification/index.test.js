@@ -1,14 +1,14 @@
 import { BrowserRouter } from 'react-router-dom';
-import { OnSite } from '.';
+import { PushNotification } from '.';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-describe('OnSite component', () => {
+describe('PushNotification component', () => {
   it('should render component', () => {
     // Assert
-    const onsite = {
+    const pushNotification = {
       active: true,
       plan: {
         buttonText: 'COMENZAR',
@@ -21,14 +21,14 @@ describe('OnSite component', () => {
       <AppServicesProvider>
         <BrowserRouter>
           <IntlProvider>
-            <OnSite onSite={onsite} />
+            <PushNotification pushNotification={pushNotification} />
           </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('my_plan.addons.onsite.title')).toBeInTheDocument();
-    expect(screen.getByText('my_plan.addons.onsite.description')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.addons.push_notification.title')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.addons.push_notification.description')).toBeInTheDocument();
   });
 });

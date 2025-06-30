@@ -11,7 +11,7 @@ const PriceSection = () => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const price = 30;
+  const price = 20;
 
   return (
     <>
@@ -42,7 +42,11 @@ export const Conversations = ({ conversation }) => {
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
       moreInformationLink={'#'}
-      buyButtonText={conversation.plan.buttonText}
+      buyButtonText={_(
+        `${
+          conversation.active ? 'my_plan.addons.buy_button' : 'my_plan.addons.activate_now_button'
+        }`,
+      )}
       buyButtonUrl={conversation.plan.buttonUrl}
     ></Card>
   );

@@ -9,6 +9,7 @@ describe('Conversations component', () => {
   it('should render component', () => {
     // Assert
     const conversation = {
+      active: true,
       plan: {
         buttonText: 'COMENZAR',
         buttonUrl: '',
