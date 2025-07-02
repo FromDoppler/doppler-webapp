@@ -1102,6 +1102,20 @@ Encontrarás un Email con los pasos a seguir.`,
     addons: {
       activate_now_button: 'Activar ahora',
       buy_button: 'Comprar Ahora',
+      cards: {
+        card_1: {
+          button: 'Solicitar consultoría',
+          description: 'Configurará tu cuenta y te acompañará en la migración de datos, para que saques el máximo provecho desde el comienzo.',
+          subtitle: 'Un asesor te ayudará con tus primeros pasos en Doppler',
+          title: 'SERVICIO DE ONBOARDING',
+        },
+        card_2: {
+          button: 'Conocer más',
+          description: 'Revisaremos juntos cada aspecto de tu estrategia actual y te ayudaremos a diseñar el plan de acción ideal para alcanzar tus objetivos.',
+          subtitle: 'Te ayudaremos a alcanzar los objetivos en tus campañas',
+          title: 'ASESORIA Y ACOMPAÑAMIENTO ESTRATEICO',
+        },
+      },
       conversations: {
         description: 'Lorem ipsum dolor sit amet consectetur. Ac eleifend diam lobortis montes eget proin purus. Faucibus viverra suspendisse molestie viverra.',
         month_legend: '*Por mes',
