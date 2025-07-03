@@ -189,6 +189,7 @@ export const AddOnPlan = InjectAppServices(
                         id={`${addOnInformation.landingsPacksMessage}`}
                         values={{
                           landingPack: lp.landingsQty,
+                          landingQty: lp.packageQty,
                         }}
                       />
                     </strong>

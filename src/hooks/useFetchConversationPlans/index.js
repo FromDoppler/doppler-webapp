@@ -37,7 +37,7 @@ export const useConversationPlans = (dopplerAccountPlansApiClient, appSessionRef
           payload: {
             conversationPlans: chatPlans,
             customConversationsPlans: customConversationsPlans,
-            currentChatPlan: { conversationsQty: chatPlan.conversationsQty },
+            currentChatPlan: { conversationsQty: chatPlan.conversationsQty, fee: chatPlan.fee },
           },
         });
       } catch (error) {

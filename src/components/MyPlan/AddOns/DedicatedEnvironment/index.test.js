@@ -1,30 +1,27 @@
 import { BrowserRouter } from 'react-router-dom';
-import { SmsPlan } from '.';
+import { DedicatedEnvironment } from '.';
 import { AppServicesProvider } from '../../../../services/pure-di';
-import IntlProvider from '../../../../i18n/DopplerIntlProvider';
+import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-describe('SmsPlan component', () => {
+describe('DedicatedEnvironment component', () => {
   it('should render component', () => {
-    // Assert
-    const sms = {
-      smsEnabled: true,
-      remainingCredits: 500,
-    };
-
     // Act
     render(
       <AppServicesProvider>
         <BrowserRouter>
           <IntlProvider>
-            <SmsPlan sms={sms} />
+            <DedicatedEnvironment />
           </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Envío y automatización de SMS')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.addons.dedicated_environment.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.addons.dedicated_environment.description'),
+    ).toBeInTheDocument();
   });
 });

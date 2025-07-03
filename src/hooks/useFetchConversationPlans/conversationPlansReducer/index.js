@@ -26,9 +26,8 @@ export const conversationPlansReducer = (state, action) => {
       const { conversationPlans, customConversationsPlans, currentChatPlan } = action.payload;
 
       const chatPlans = [{ conversationsQty: 0 }, ...conversationPlans];
-      const chatPlan = chatPlans.filter(
-        (plan) => plan.conversationsQty === currentChatPlan.conversationsQty,
-      )[0];
+      const conversationsQty = currentChatPlan.fee > 0 ? currentChatPlan.conversationsQty : 0;
+      const chatPlan = chatPlans.filter((plan) => plan.conversationsQty === conversationsQty)[0];
       const chatPlanIndex = chatPlans.indexOf(chatPlan);
 
       var filterValues = conversationPlans

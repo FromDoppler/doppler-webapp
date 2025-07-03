@@ -74,7 +74,7 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
           <div className="dp-box-shadow m-b-24">
             <EmailMarketingPlan plan={plan}></EmailMarketingPlan>
           </div>
-          {sms.smsEnabled && (
+          {sms.smsEnabled && sms.remainingCredits > 0 && (
             <div className="dp-box-shadow m-b-24">
               <SmsPlan sms={sms}></SmsPlan>
             </div>
