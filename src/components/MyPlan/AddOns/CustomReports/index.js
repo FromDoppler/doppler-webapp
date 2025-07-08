@@ -53,7 +53,7 @@ export const CustomReports = () => {
         'https://www.fromdoppler.com/es/metricas-email-marketing/?utm_source=direct'
       }
       buyButtonText={_(`my_plan.addons.request_quote_button`)}
-      buyButtonUrl={'/additional-services'}
+      buyButtonUrl={'/additional-services?selected-feature=features10'}
     ></Card>
   );
 };
