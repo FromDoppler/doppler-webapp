@@ -45,7 +45,7 @@ export const DedicatedEnvironment = () => {
       moreInformationText={_(`my_plan.addons.more_information_link`)}
       moreInformationLink={'#'}
       buyButtonText={_(`my_plan.addons.request_quote_button`)}
-      buyButtonUrl={'/additional-services'}
+      buyButtonUrl={'/additional-services?selected-feature=features8'}
     ></Card>
   );
 };
