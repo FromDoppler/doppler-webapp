@@ -221,6 +221,11 @@ const planBenefits = [
       'chat_selection.plan_benefits.included_paid_plans_greater_250_conversations_message',
   },
   {
+    key: 'chat_selection.plan_benefits.whatsapp_lite_message',
+    feature_key:
+      'chat_selection.plan_benefits.included_all_plans_message',
+  },
+  {
     key: 'chat_selection.plan_benefits.lead_generator_message',
     feature_key: 'chat_selection.plan_benefits.included_all_plans_message',
   },
