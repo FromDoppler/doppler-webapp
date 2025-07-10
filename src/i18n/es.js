@@ -313,6 +313,7 @@ const messages_es = {
         title: 'Estrategia Omnicanal',
       },
     },
+    quantity_label: 'mensajes',
     selected_plan_chat: {
       add_to_cart_button: 'Agregar al carrito',
       agent_with_plural: `{agents, plural, one {# Agente}other {# Agentes} }`,
