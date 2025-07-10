@@ -312,6 +312,7 @@ const messages_en = {
         title: 'Omnichannel Strategy',
       },
     },
+    quantity_label: 'messages',
     selected_plan_chat: {
       add_to_cart_button: 'Add to cart',
       agent_with_plural: `{agents, plural, one {# Agent}other {# Agents} }`,
