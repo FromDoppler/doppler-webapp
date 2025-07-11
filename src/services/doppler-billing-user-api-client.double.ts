@@ -303,4 +303,12 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async requestAdditionalServices(values: any): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(`requestAdditionalServices: ${values}`);
+    return {
+      success: true,
+    };
+  }
 }
