@@ -53,7 +53,7 @@ export const TransactionalEmails = () => {
         'https://help.fromdoppler.com/es/doppler-relay-conoce-servicio-email-transaccional/'
       }
       buyButtonText={_(`my_plan.addons.buy_button`)}
-      buyButtonUrl={'https://www.dopplerrelay.com/'}
+      buyButtonUrl={'https://www.dopplerrelay.com/precios'}
     ></Card>
   );
 };
