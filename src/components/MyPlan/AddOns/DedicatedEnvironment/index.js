@@ -39,7 +39,7 @@ export const DedicatedEnvironment = () => {
   return (
     <Card
       title={_(`my_plan.addons.dedicated_environment.title`)}
-      icon={'iconapp-checklist'}
+      icon={'iconapp-computer-setting'}
       description={_(`my_plan.addons.dedicated_environment.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}

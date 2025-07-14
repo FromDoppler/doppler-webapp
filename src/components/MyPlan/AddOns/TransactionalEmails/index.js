@@ -45,7 +45,7 @@ export const TransactionalEmails = () => {
   return (
     <Card
       title={_(`my_plan.addons.transactional_emails.title`)}
-      icon={'iconapp-mail-info'}
+      icon={'iconapp-send-mail'}
       description={_(`my_plan.addons.transactional_emails.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}

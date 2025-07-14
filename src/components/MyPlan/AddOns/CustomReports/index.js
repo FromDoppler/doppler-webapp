@@ -11,7 +11,7 @@ const PriceSection = () => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const priceMonthly = 5;
+  const priceMonthly = 50;
   const price = 150;
 
   return (

@@ -51,7 +51,7 @@ export const MyPlan = InjectAppServices(() => {
 
   return (
     <>
-      <Header></Header>
+      <Header activeTab={activeTab}></Header>
       <div className="dp-container">
         <div className="dp-rowflex">
           <Tabs tabsProperties={tabsProperties} />
