@@ -29,6 +29,10 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     window.location.href = '/additional-services';
   };
 
+  const goToAddtionalService = () => {
+    window.location.href = '/my-plan?selected-tab=addOns';
+  };
+
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
@@ -63,7 +67,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
               subtitle={_(`my_plan.addons.cards.card_2.subtitle`)}
               description={_(`my_plan.addons.cards.card_2.description`)}
               button={_(`my_plan.addons.cards.card_2.button`)}
-              handleClick={() => goToRequestConsulting()}
+              handleClick={() => goToAddtionalService()}
             ></GrayCard>
           </div>
         </div>

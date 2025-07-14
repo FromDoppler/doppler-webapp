@@ -1,6 +1,6 @@
 import { useIntl } from 'react-intl';
 
-export const Header = () => {
+export const Header = ({ activeTab }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -15,8 +15,11 @@ export const Header = () => {
           </div>
           <div className="col-sm-7">
             <p>
-              Lorem ipsum dolor sit amet consectetur. Ac eleifend diam lobortis montes eget proin
-              purus. Faucibus viverra suspendisse molestie viverra.
+              {_(
+                `my_plan.${
+                  activeTab === 'subscriptionDetails' ? 'subscription_details' : 'addons'
+                }.subtitle`,
+              )}
             </p>
           </div>
         </div>
