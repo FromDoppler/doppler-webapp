@@ -16,7 +16,7 @@ const PriceSection = () => {
   return (
     <>
       <div className="col-sm-6">
-        <div className="m-l-18">
+        <div>
           <span className="dp-legend-price">
             {_(`my_plan.addons.dedicated_environment.access_by_legend`)}
           </span>

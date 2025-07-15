@@ -16,8 +16,8 @@ const PriceSection = () => {
 
   return (
     <>
-      <div className="col-sm-3">
-        <div className="m-l-18">
+      <div className="col-sm-6">
+        <div>
           <span className="dp-legend-price">{_(`my_plan.addons.sms.load_from_legend`)}</span>
           <h2>
             US$ <FormattedNumber value={loadFrom} {...numberFormatOptions} />*
@@ -25,7 +25,6 @@ const PriceSection = () => {
           <span className="dp-disclaimer">{_(`my_plan.addons.sms.minimum_load_legend`)}</span>
         </div>
       </div>
-      <div className="col-sm-3"></div>
     </>
   );
 };
