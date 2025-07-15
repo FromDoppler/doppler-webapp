@@ -24,6 +24,8 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
   var hasConversations = chat.plan?.active;
   var hasOnsite = onSite.plan?.active;
   var hasPushNotification = pushNotification.plan?.active;
+  const canBuyPushNotificationPlan =
+      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
 
   const goToRequestConsulting = () => {
     window.location.href = '/additional-services';
@@ -47,7 +49,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
           {!hasLandings && <LandingPages></LandingPages>}
           {!hasConversations && <Conversations conversation={chat}></Conversations>}
           {!hasOnsite && <OnSite onSite={onSite}></OnSite>}
-          {!hasPushNotification && (
+          {!hasPushNotification && canBuyPushNotificationPlan && (
             <PushNotification pushNotification={pushNotification}></PushNotification>
           )}
         </div>
