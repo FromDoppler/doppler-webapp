@@ -15,8 +15,8 @@ const PriceSection = () => {
 
   return (
     <>
-      <div className="col-sm-3">
-        <div className="m-l-18">
+      <div className="col-sm-6">
+        <div>
           <span className="dp-legend-price">
             <FormattedMessage
               id={`my_plan.addons.list_conditioning.from_contact_legend`}
@@ -33,7 +33,6 @@ const PriceSection = () => {
           </span>
         </div>
       </div>
-      <div className="col-sm-3"></div>
     </>
   );
 };

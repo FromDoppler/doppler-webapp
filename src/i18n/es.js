@@ -1183,7 +1183,7 @@ Encontrarás un Email con los pasos a seguir.`,
         minimum_load_legend: '*Compra mínima',
         title: 'Envío y automatización de SMS',
       },
-      subtitle: 'Aquí tienes el detalle de los Add-ons que puedes seleccionar. Verás las diferentes posibilidades, en qué consiste y el costo.',
+      subtitle: 'Aquí tienes el detalle de lo que incluye tu Plan contratado. Verás las Funcionalidades  que comprende y la información relacionada con tus pagos.',
       transactional_emails: {
         description: 'Dispara Emails o SMS ante interacciones de los usuarios con tu Sitio Web para comunicar información que esperan recibir.',
         email_plan_legend: 'Plan {emails} Emails',
