@@ -1271,6 +1271,7 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
         },
       },
       available_contacts: 'Contactos disponible',
+      available_emails: 'Envíos disponible',
       billing: {
         single_payment: 'Pago Único',
         title: 'Facturación',
