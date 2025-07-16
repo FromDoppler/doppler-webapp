@@ -48,11 +48,9 @@ export const TransactionalEmails = () => {
       description={_(`my_plan.addons.transactional_emails.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={
-        'https://help.fromdoppler.com/es/doppler-relay-conoce-servicio-email-transaccional/'
-      }
-      buyButtonText={_(`my_plan.addons.buy_button`)}
-      buyButtonUrl={'https://www.dopplerrelay.com/precios'}
+      moreInformationLink={_(`my_plan.addons.transactional_emails.more_information_link`)}
+      buyButtonText={_(`my_plan.addons.activate_now_button`)}
+      buyButtonUrl={_(`my_plan.addons.transactional_emails.buy_url`)}
     ></Card>
   );
 };

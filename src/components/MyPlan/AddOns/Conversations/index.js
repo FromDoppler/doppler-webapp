@@ -41,7 +41,7 @@ export const Conversations = ({ conversation }) => {
       description={_(`my_plan.addons.conversations.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'#'}
+      moreInformationLink={_(`my_plan.addons.conversations.more_information_link`)}
       buyButtonText={_(
         `${
           conversation.active ? 'my_plan.addons.buy_button' : 'my_plan.addons.activate_now_button'

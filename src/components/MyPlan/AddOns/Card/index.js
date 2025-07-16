@@ -27,9 +27,13 @@ export const Card = ({
         </article>
         <hr></hr>
         <footer className="dp-footer-addons">
-          <a href={moreInformationLink} className="dp-more-information" target="_blanck">
-            {moreInformationText}
-          </a>
+          {moreInformationLink !== '' ? (
+            <a href={moreInformationLink} className="dp-more-information" target="_blanck">
+              {moreInformationText}
+            </a>
+          ) : (
+            <div></div>
+          )}
           <a href={buyButtonUrl}>
             <button type="button" className="dp-button button-medium primary-green">
               {buyButtonText}

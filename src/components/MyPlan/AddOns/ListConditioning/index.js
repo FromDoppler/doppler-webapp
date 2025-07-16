@@ -48,8 +48,8 @@ export const ListConditioning = () => {
       description={_(`my_plan.addons.list_conditioning.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'#'}
-      buyButtonText={_(`my_plan.addons.request_quote_button`)}
+      moreInformationLink={''}
+      buyButtonText={_(`my_plan.addons.contact_advisor_button`)}
       buyButtonUrl={'/additional-services?selected-feature=features7'}
     ></Card>
   );

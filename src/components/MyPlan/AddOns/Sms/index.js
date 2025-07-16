@@ -40,7 +40,7 @@ export const Sms = InjectAppServices(({ sms }) => {
       description={_(`my_plan.addons.sms.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'https://www.fromdoppler.com/es/campanas-sms/?utm_source=direct'}
+      moreInformationLink={_(`my_plan.addons.sms.more_information_link`)}
       buyButtonText={_(`my_plan.addons.buy_button`)}
       buyButtonUrl={sms.buttonUrl}
     ></Card>
