@@ -39,7 +39,7 @@ export const OnSite = ({ onSite }) => {
       description={_(`my_plan.addons.onsite.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'#'}
+      moreInformationLink={_(`my_plan.addons.onsite.more_information_link`)}
       buyButtonText={_(
         `${onSite.active ? 'my_plan.addons.buy_button' : 'my_plan.addons.activate_now_button'}`,
       )}

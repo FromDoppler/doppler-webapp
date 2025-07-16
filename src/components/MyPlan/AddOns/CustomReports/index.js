@@ -49,9 +49,7 @@ export const CustomReports = () => {
       description={_(`my_plan.addons.custom_reports.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={
-        'https://www.fromdoppler.com/es/metricas-email-marketing/?utm_source=direct'
-      }
+      moreInformationLink={_(`my_plan.addons.custom_reports.more_information_link`)}
       buyButtonText={_(`my_plan.addons.request_quote_button`)}
       buyButtonUrl={'/additional-services?selected-feature=features10'}
     ></Card>

@@ -43,7 +43,7 @@ export const PushNotification = ({ pushNotification }) => {
       description={_(`my_plan.addons.push_notification.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'#'}
+      moreInformationLink={_(`my_plan.addons.push_notification.more_information_link`)}
       buyButtonText={_(
         `${
           pushNotification.active

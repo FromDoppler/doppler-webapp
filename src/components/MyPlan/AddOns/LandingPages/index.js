@@ -41,7 +41,7 @@ export const LandingPages = () => {
       description={_(`my_plan.addons.landing_pages.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={'#'}
+      moreInformationLink={_(`my_plan.addons.landing_pages.more_information_link`)}
       buyButtonText={_(`my_plan.addons.buy_button`)}
       buyButtonUrl={'/landing-packages?buyType=3'}
     ></Card>
