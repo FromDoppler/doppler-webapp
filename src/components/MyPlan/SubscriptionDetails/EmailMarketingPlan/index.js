@@ -35,7 +35,9 @@ export const EmailMarketingPlan = ({ plan }) => {
             </p>
           ) : (
             plan.planType === PLAN_TYPE.byEmail && (
-              <p>{`${plan.remainingCredits} ${plan.description}`}</p>
+              <p>{`${plan.remainingCredits} ${_(
+                `my_plan.subscription_details.available_emails`,
+              )}`}</p>
             )
           )}
           {plan.planType === PLAN_TYPE.byCredit ? (
