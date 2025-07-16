@@ -39,19 +39,19 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
-          <ListConditioning></ListConditioning>
-          <CustomReports></CustomReports>
-          {!hasSms && <Sms sms={sms}></Sms>}
-          <LayoutService></LayoutService>
-          <DedicatedEnvironment></DedicatedEnvironment>
-          <DedicatedIP></DedicatedIP>
-          <TransactionalEmails></TransactionalEmails>
-          {!hasLandings && <LandingPages></LandingPages>}
-          {!hasConversations && <Conversations conversation={chat}></Conversations>}
           {!hasOnsite && <OnSite onSite={onSite}></OnSite>}
           {!hasPushNotification && canBuyPushNotificationPlan && (
             <PushNotification pushNotification={pushNotification}></PushNotification>
           )}
+          {!hasLandings && <LandingPages></LandingPages>}
+          {!hasSms && <Sms sms={sms}></Sms>}
+          {!hasConversations && <Conversations conversation={chat}></Conversations>}
+          <ListConditioning></ListConditioning>
+          <CustomReports></CustomReports>
+          <LayoutService></LayoutService>
+          <DedicatedEnvironment></DedicatedEnvironment>
+          <DedicatedIP></DedicatedIP>
+          <TransactionalEmails></TransactionalEmails>
         </div>
         <div className="col-lg-4 col-sm-12">
           <div className="dp-box-shadow">
