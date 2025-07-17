@@ -50,7 +50,7 @@ export const EmailMarketingPlan = ({ plan }) => {
             )
           )}
         </li>
-        {plan.planType === PLAN_TYPE.byContact && (
+        {(plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount) && (
           <li>
             <p>
               <strong>{_(`my_plan.subscription_details.unlimited_emails`)}</strong>
