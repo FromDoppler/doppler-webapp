@@ -44,7 +44,7 @@ export const EmailMarketingPlan = ({ plan }) => {
             <p>{`${plan.remainingCredits} ${plan.description}`}</p>
           ) : (
             (plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount) && (
-              <p>{`${plan.remainingCredits}/${plan.maxSubscribers} ${_(
+              <p className="plan-item">{`${plan.remainingCredits}/${plan.maxSubscribers} ${_(
                 `my_plan.subscription_details.available_contacts`,
               )}`}</p>
             )
@@ -62,7 +62,9 @@ export const EmailMarketingPlan = ({ plan }) => {
             <p>
               <strong>{_(`my_plan.subscription_details.billing.title`)}</strong>
             </p>
-            <p>{_(`my_plan.subscription_details.billing.type_${plan.planSubscription}`)}</p>
+            <p className="plan-item">
+              {_(`my_plan.subscription_details.billing.type_${plan.planSubscription}`)}
+            </p>
           </li>
         ) : (
           plan.planType === PLAN_TYPE.byCredit && (
@@ -70,7 +72,9 @@ export const EmailMarketingPlan = ({ plan }) => {
               <p>
                 <strong>{_(`my_plan.subscription_details.billing.title`)}</strong>
               </p>
-              <p>{_(`my_plan.subscription_details.billing.single_payment`)}</p>
+              <p className="plan-item">
+                {_(`my_plan.subscription_details.billing.single_payment`)}
+              </p>
             </li>
           )
         )}
