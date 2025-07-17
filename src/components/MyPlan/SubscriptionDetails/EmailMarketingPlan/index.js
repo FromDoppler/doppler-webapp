@@ -29,7 +29,7 @@ export const EmailMarketingPlan = ({ plan }) => {
       </header>
       <ul className="dp-item--plan">
         <li>
-          {plan.planType === PLAN_TYPE.byContact ? (
+          {plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount ? (
             <p>
               <strong>{`${plan.maxSubscribers} ${plan.itemDescription}`}</strong>
             </p>
@@ -43,12 +43,10 @@ export const EmailMarketingPlan = ({ plan }) => {
           {plan.planType === PLAN_TYPE.byCredit ? (
             <p>{`${plan.remainingCredits} ${plan.description}`}</p>
           ) : (
-            plan.planType === PLAN_TYPE.byContact && (
-              <p>{`${plan.remainingCredits}/${plan.maxSubscribers} ${
-                plan.planType === PLAN_TYPE.byContact || plan.planType === PLAN_TYPE.free
-                  ? _(`my_plan.subscription_details.available_contacts`)
-                  : ''
-              }`}</p>
+            (plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount) && (
+              <p>{`${plan.remainingCredits}/${plan.maxSubscribers} ${_(
+                `my_plan.subscription_details.available_contacts`,
+              )}`}</p>
             )
           )}
         </li>
