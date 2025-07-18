@@ -17,6 +17,11 @@ export const getAddons = (user) => {
         quantity: chat.plan.conversationsQty,
         active: chat.plan.active,
         fee: chat.plan.fee,
+        additionalAgent: chat.plan.additionalAgent,
+        additionalChannel: chat.plan.additionalChannel,
+        additionalConversation: chat.plan.additionalConversation,
+        agents: chat.plan.agents,
+        channels: chat.plan.channels,
       },
       active: chat.plan.active,
       buyUrl: '/buy-conversation?buyType=2',
@@ -30,6 +35,7 @@ export const getAddons = (user) => {
     {
       addOnType: AddOnType.OnSite,
       addOnPlan: {
+        additional: onSite.plan.additional,
         quantity: onSite.plan.quantity,
         active: onSite.plan.active,
         fee: onSite.plan.fee,
@@ -40,6 +46,7 @@ export const getAddons = (user) => {
     {
       addOnType: AddOnType.PushNotifications,
       addOnPlan: {
+        additional: pushNotification.plan.additional,
         quantity: pushNotification.plan.quantity,
         active: pushNotification.plan.active,
         fee: pushNotification.plan.fee,
