@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -28,6 +28,7 @@ import { useFingerPrinting } from '../../hooks/useFingerPrinting';
 import Modal from '../Modal/Modal';
 import { BlockedAccountNotPayed, LoginErrorBasedOnCustomerSupport } from '../Login/Login';
 import { LoginErrorAccountNotValidated } from '../Login/LoginErrorAccountNotValidated';
+import { Userpilot } from 'userpilot';
 
 const minLength = {
   min: 2,
@@ -84,6 +85,12 @@ const Signup = function ({
     accept_privacy_policies: '',
     accept_promotions: '',
   });
+
+  useEffect(() => {
+    Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN);
+    Userpilot.anonymous();
+    Userpilot.track("SignUp Page Loaded");
+  }, []);
 
   const errorMessages = {
     blockedAccountNotPayed: {

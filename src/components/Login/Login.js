@@ -29,6 +29,7 @@ import {
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
+import { Userpilot } from 'userpilot';
 
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 
@@ -243,6 +244,12 @@ const Login = ({
     page: extractPage(location),
   });
   const { fingerPrintingId, fingerPrintingIdV2 } = useFingerPrinting();
+
+  useEffect(() => {
+    Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN);
+    Userpilot.anonymous();
+    Userpilot.track("Login Page Loaded");
+  }, []);
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
