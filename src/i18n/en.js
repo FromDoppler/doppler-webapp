@@ -1247,9 +1247,17 @@ including information on access, conservation, rectification, deletion, security
     subscription_details: {
       addon: {
         conversation_plan: {
+          additional_agent_message: 'Additional agent: US$ {price}',
+          additional_conversation_message: 'Additional message: US$ {price}',
+          additional_room_message: 'Additional room: US$ {price}',
+          agents_title: '{agents, plural, one {# Agent}other {# Agents} }',
           available_message: '{available}/{total} available Messages',
+          free_additional_agent_message: 'Additional agent: --}',
+          free_additional_conversation_message: 'Additional message: --',
+          free_additional_room_message: 'Additional room: --',
           free_label: 'Free trial',
           plan_message: '{total} Messages',
+          rooms_title: '{rooms, plural, one {# Room}other {# Rooms} }',
           title: 'Conversations Plan',
         },
         landings_plan: {
@@ -1258,13 +1266,17 @@ including information on access, conservation, rectification, deletion, security
           title: 'Landing Page Pack',
         },
         onsite_plan: {
+          additional_impression_message: 'Additional impression: US$ {price}',
           available_message: '{available}/{total} available Impressions',
+          free_additional_impression_message: 'Additional impression: --',
           free_label: 'Free trial',
           plan_message: '{total} Impressions',
           title: 'OnSite Marketing Plan',
         },
         push_notification_plan: {
+          additional_email_message: 'Additional shipment: US$ {price}',
           available_message: '{available}/{total} available Notifications',
+          free_additional_email_message: 'Additional shipment: --',
           free_label: 'Free trial',
           plan_message: '{total} Notifications',
           title: 'Push Notifications Plan',
