@@ -242,6 +242,7 @@ export const AdditionalServicesForm = InjectAppServices(
                       label={_('my_plan.addtional_services.forms.label_contact_schedule')}
                       id="range_time"
                       className="field-item--50"
+                      required
                     />
                   </FieldGroup>
                   <S.RadiosContainer
