@@ -1252,7 +1252,7 @@ including information on access, conservation, rectification, deletion, security
           additional_room_message: 'Additional room: US$ {price}',
           agents_title: '{agents, plural, one {# Agent}other {# Agents} }',
           available_message: '{available}/{total} available Messages',
-          free_additional_agent_message: 'Additional agent: --}',
+          free_additional_agent_message: 'Additional agent: --',
           free_additional_conversation_message: 'Additional message: --',
           free_additional_room_message: 'Additional room: --',
           free_label: 'Free trial',
