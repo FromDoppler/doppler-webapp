@@ -681,6 +681,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       collaborators_title: 'Configuración de Perfiles',
       contact_information_title: 'Información de Contacto',
       plans_and_specs_title: 'Planes y Características',
+      push_notification_title: 'Configuración de Notificaciones Push',
       sms_settings_title: 'Configuración de SMS',
       title: 'Preferencias de Cuenta',
     },
