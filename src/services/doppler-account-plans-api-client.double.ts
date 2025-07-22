@@ -209,4 +209,14 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
       value: fakeAddOnPlan,
     };
   }
+
+  public async getFreeAddOnPlan(addOnType: number): Promise<ResultWithoutExpectedErrors<any>> {
+    console.log(`getFreeAddOnPlan: ${addOnType}`);
+    await timeout(1500);
+
+    return {
+      success: true,
+      value: fakeAddOnPlan,
+    };
+  }
 }

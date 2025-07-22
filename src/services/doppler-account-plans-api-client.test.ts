@@ -217,4 +217,22 @@ describe('HttpDopplerAccountPlansApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should get FreeAddOnPlan', async () => {
+    // Arrange
+    const plan = {
+      data: fakePlan,
+      status: 200,
+    };
+    const request = jest.fn(async () => plan);
+    const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
+
+    // Act
+    const result = await dopplerAccountPlansApiClient.getFreeAddOnPlan(1);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });

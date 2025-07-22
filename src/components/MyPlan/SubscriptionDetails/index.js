@@ -7,7 +7,7 @@ import { AddOnType } from '../../../doppler-types';
 import { SmsPlan } from './SmsPlan';
 
 export const getAddons = (user) => {
-  const { chat, landings, onSite, pushNotification } = user;
+  const { chat, landings, onSite, pushNotification, plan } = user;
 
   var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
   const addOns = [
@@ -23,7 +23,7 @@ export const getAddons = (user) => {
         agents: chat.plan.agents,
         channels: chat.plan.channels,
       },
-      active: chat.plan.active,
+      active: chat.plan.active || plan.isFreeAccount,
       buyUrl: '/buy-conversation?buyType=2',
     },
     {
@@ -40,7 +40,7 @@ export const getAddons = (user) => {
         active: onSite.plan.active,
         fee: onSite.plan.fee,
       },
-      active: onSite.plan.active,
+      active: onSite.plan.active || plan.isFreeAccount,
       buyUrl: '/buy-onsite-plans?buyType=4',
     },
     {
@@ -51,7 +51,7 @@ export const getAddons = (user) => {
         active: pushNotification.plan.active,
         fee: pushNotification.plan.fee,
       },
-      active: pushNotification.plan.active,
+      active: pushNotification.plan.active || plan.isFreeAccount,
       buyUrl: '/buy-push-notification-plans?buyType=5',
     },
   ];
@@ -92,6 +92,7 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
               addOnType={addon.addOnType}
               addOnPlan={addon.addOnPlan}
               addOnBuyUrl={addon.buyUrl}
+              isFreeAccount={plan.isFreeAccount}
             ></AddOnPlan>
           ))}
         </div>

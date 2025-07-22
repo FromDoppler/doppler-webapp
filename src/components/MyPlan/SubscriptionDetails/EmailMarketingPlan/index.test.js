@@ -1,9 +1,9 @@
 import { BrowserRouter } from 'react-router-dom';
 import { EmailMarketingPlan } from '.';
 import { AppServicesProvider } from '../../../../services/pure-di';
-import DopplerIntlProvider from '../../../../i18n/DopplerIntlProvider';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { IntlProvider } from 'react-intl';
 
 describe('EmailMarketingPlan component', () => {
   it('should render component - free email marketing', () => {
@@ -21,16 +21,18 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Prueba Gratuita')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_free_label'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - contacts email marketing', () => {
@@ -48,16 +50,18 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Contactos')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_subscribers_label'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - emails email marketing', () => {
@@ -75,16 +79,18 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Envíos')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_monthly_deliveries_label'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - credits email marketing', () => {
@@ -102,16 +108,18 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Créditos')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_prepaid_label'),
+    ).toBeInTheDocument();
   });
 
   it('should render component - contacts email marketing by montly frequency', () => {
@@ -129,17 +137,19 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Contactos')).toBeInTheDocument();
-    expect(screen.getByText('Mensual')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_subscribers_label'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.billing.type_1')).toBeInTheDocument();
   });
 
   it('should render component - contacts email marketing by quarterly frequency', () => {
@@ -157,17 +167,19 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Contactos')).toBeInTheDocument();
-    expect(screen.getByText('Trimestral')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_subscribers_label'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.billing.type_3')).toBeInTheDocument();
   });
 
   it('should render component - contacts email marketing by semiannual frequency', () => {
@@ -185,17 +197,19 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Contactos')).toBeInTheDocument();
-    expect(screen.getByText('Semestral')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_subscribers_label'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.billing.type_6')).toBeInTheDocument();
   });
 
   it('should render component - contacts email marketing by annual frequency', () => {
@@ -213,16 +227,18 @@ describe('EmailMarketingPlan component', () => {
     render(
       <AppServicesProvider>
         <BrowserRouter>
-          <DopplerIntlProvider>
+          <IntlProvider>
             <EmailMarketingPlan plan={plan} />
-          </DopplerIntlProvider>
+          </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(screen.getByText('Plan de email marketing')).toBeInTheDocument();
-    expect(screen.getByText('Plan por Contactos')).toBeInTheDocument();
-    expect(screen.getByText('Anual')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.plan_type_subscribers_label'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.subscription_details.billing.type_12')).toBeInTheDocument();
   });
 });

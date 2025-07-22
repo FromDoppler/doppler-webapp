@@ -248,7 +248,7 @@ const Login = ({
   useEffect(() => {
     Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN);
     Userpilot.anonymous();
-    Userpilot.track("Login Page Loaded");
+    Userpilot.track('Login Page Loaded');
   }, []);
 
   /** Prepare empty values for all fields

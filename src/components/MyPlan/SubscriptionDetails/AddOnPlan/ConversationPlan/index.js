@@ -5,15 +5,21 @@ import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
 
 export const ConversationPlan = InjectAppServices(
-  ({ buyUrl, conversationPlan, dependencies: { dopplerBeplicApiClient } }) => {
+  ({
+    buyUrl,
+    conversationPlan,
+    isFreeAccount,
+    dependencies: { dopplerBeplicApiClient, dopplerAccountPlansApiClient },
+  }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
     const [availableQuantity, setAvailableQuantity] = useState(0);
+    const [plan, setPlan] = useState(conversationPlan);
 
     useEffect(() => {
       const fetchAddOnData = async () => {
-        if (conversationPlan.active) {
+        if (plan.active) {
           const currentDate = new Date();
           const currentYear = currentDate.getFullYear();
           const currentMonth = currentDate.getMonth() + 1;
@@ -33,16 +39,30 @@ export const ConversationPlan = InjectAppServices(
           );
 
           if (getConversationsResponse.success) {
-            setAvailableQuantity(conversationPlan.quantity - getConversationsResponse.value);
+            setAvailableQuantity(plan.quantity - getConversationsResponse.value);
           } else {
-            setAvailableQuantity(conversationPlan.quantity);
+            setAvailableQuantity(plan.quantity);
+          }
+        } else {
+          if (isFreeAccount) {
+            const getFreeAddOnPlanResponse = await dopplerAccountPlansApiClient.getFreeAddOnPlan(2);
+            if (getFreeAddOnPlanResponse.success) {
+              setPlan(getFreeAddOnPlanResponse.value);
+              setAvailableQuantity(getFreeAddOnPlanResponse.value.quantity);
+            }
           }
         }
         setLoading(false);
       };
 
       fetchAddOnData();
-    }, [dopplerBeplicApiClient, conversationPlan.active, conversationPlan.quantity]);
+    }, [
+      dopplerBeplicApiClient,
+      dopplerAccountPlansApiClient,
+      plan.active,
+      plan.quantity,
+      isFreeAccount,
+    ]);
 
     if (loading) {
       return <Loading page />;
@@ -59,8 +79,14 @@ export const ConversationPlan = InjectAppServices(
                 </span>
                 <span className={`dpicon iconapp-chatting`}></span>
               </h3>
-              {conversationPlan.fee === 0 && (
-                <p>{_('my_plan.subscription_details.addon.conversation_plan.free_label')}</p>
+              {plan.fee === 0 && (
+                <p>
+                  {_(
+                    `my_plan.subscription_details.addon.conversation_plan.${
+                      isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
+                    }`,
+                  )}
+                </p>
               )}
             </div>
             <div className="dp-buttons--plan">
@@ -69,7 +95,11 @@ export const ConversationPlan = InjectAppServices(
                 href={buyUrl}
                 className="dp-button button-medium primary-green dp-w-100 m-b-12"
               >
-                {_(`my_plan.subscription_details.change_plan_button`)}
+                {_(
+                  `my_plan.subscription_details.${
+                    isFreeAccount && !plan.active ? 'start_test_button' : 'change_plan_button'
+                  }`,
+                )}
               </a>
             </div>
           </header>
@@ -80,7 +110,7 @@ export const ConversationPlan = InjectAppServices(
                   <FormattedMessage
                     id={'my_plan.subscription_details.addon.conversation_plan.plan_message'}
                     values={{
-                      total: conversationPlan.quantity,
+                      total: plan.quantity,
                     }}
                   />
                 </strong>
@@ -92,14 +122,14 @@ export const ConversationPlan = InjectAppServices(
                       id={`my_plan.subscription_details.addon.conversation_plan.available_message`}
                       values={{
                         available: availableQuantity,
-                        total: conversationPlan.quantity,
+                        total: plan.quantity,
                       }}
                     />
                   </p>
                 </div>
                 <div className="col-lg-4 col-md-12">
                   <p className="plan-item m-l-12">
-                    {conversationPlan.fee > 0 ? (
+                    {!isFreeAccount && plan.fee > 0 ? (
                       <FormattedMessage
                         id={`my_plan.subscription_details.addon.conversation_plan.additional_conversation_message`}
                         values={{
@@ -121,17 +151,17 @@ export const ConversationPlan = InjectAppServices(
                   <FormattedMessage
                     id={'my_plan.subscription_details.addon.conversation_plan.agents_title'}
                     values={{
-                      agents: conversationPlan.agents,
+                      agents: plan.agents,
                     }}
                   />
                 </strong>
               </p>
               <p className="plan-item">
-                {conversationPlan.fee > 0 ? (
+                {!isFreeAccount && plan.fee > 0 ? (
                   <FormattedMessage
                     id={`my_plan.subscription_details.addon.conversation_plan.additional_agent_message`}
                     values={{
-                      price: formattedNumber(conversationPlan.additionalAgent, 2),
+                      price: formattedNumber(plan.additionalAgent, 2),
                     }}
                   />
                 ) : (
@@ -147,17 +177,17 @@ export const ConversationPlan = InjectAppServices(
                   <FormattedMessage
                     id={'my_plan.subscription_details.addon.conversation_plan.rooms_title'}
                     values={{
-                      rooms: conversationPlan.channels,
+                      rooms: plan.channels,
                     }}
                   />
                 </strong>
               </p>
               <p className="plan-item">
-                {conversationPlan.fee > 0 ? (
+                {!isFreeAccount && plan.fee > 0 ? (
                   <FormattedMessage
                     id={`my_plan.subscription_details.addon.conversation_plan.additional_room_message`}
                     values={{
-                      price: formattedNumber(conversationPlan.additionalChannel, 2),
+                      price: formattedNumber(plan.additionalChannel, 2),
                     }}
                   />
                 ) : (
