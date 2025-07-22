@@ -3,22 +3,39 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import { Loading } from '../../../../Loading/Loading';
 import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
+import { AddOnType } from '../../../../../doppler-types';
 
 export const OnSitePlan = InjectAppServices(
-  ({ buyUrl, onSitePlan, dependencies: { dopplerPopupHubApiClient } }) => {
+  ({
+    buyUrl,
+    onSitePlan,
+    isFreeAccount,
+    dependencies: { dopplerPopupHubApiClient, dopplerAccountPlansApiClient },
+  }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
     const [availableQuantity, setAvailableQuantity] = useState(0);
+    const [plan, setPlan] = useState(onSitePlan);
 
     useEffect(() => {
       const fetchAddOnData = async () => {
-        if (onSitePlan.active) {
+        if (plan.active) {
           var getImpressionsResponse = await dopplerPopupHubApiClient.getImpressions();
           if (getImpressionsResponse.success) {
-            setAvailableQuantity(onSitePlan.quantity - getImpressionsResponse.value);
+            setAvailableQuantity(plan.quantity - getImpressionsResponse.value);
           } else {
-            setAvailableQuantity(onSitePlan.quantity);
+            setAvailableQuantity(plan.quantity);
+          }
+        } else {
+          if (isFreeAccount) {
+            const getFreeAddOnPlanResponse = await dopplerAccountPlansApiClient.getFreeAddOnPlan(
+              AddOnType.OnSite,
+            );
+            if (getFreeAddOnPlanResponse.success) {
+              setPlan(getFreeAddOnPlanResponse.value);
+              setAvailableQuantity(getFreeAddOnPlanResponse.value.quantity);
+            }
           }
         }
 
@@ -26,7 +43,13 @@ export const OnSitePlan = InjectAppServices(
       };
 
       fetchAddOnData();
-    }, [dopplerPopupHubApiClient, onSitePlan.active, onSitePlan.quantity]);
+    }, [
+      dopplerPopupHubApiClient,
+      dopplerAccountPlansApiClient,
+      plan.active,
+      plan.quantity,
+      isFreeAccount,
+    ]);
 
     if (loading) {
       return <Loading page />;
@@ -43,8 +66,14 @@ export const OnSitePlan = InjectAppServices(
                 </span>
                 <span className={`dpicon iconapp-online-clothing`}></span>
               </h3>
-              {onSitePlan.fee === 0 && (
-                <p>{_('my_plan.subscription_details.addon.onsite_plan.free_label')}</p>
+              {plan.fee === 0 && (
+                <p>
+                  {_(
+                    `my_plan.subscription_details.addon.onsite_plan.${
+                      isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
+                    }`,
+                  )}
+                </p>
               )}
             </div>
             <div className="dp-buttons--plan">
@@ -53,7 +82,11 @@ export const OnSitePlan = InjectAppServices(
                 href={buyUrl}
                 className="dp-button button-medium primary-green dp-w-100 m-b-12"
               >
-                {_(`my_plan.subscription_details.change_plan_button`)}
+                {_(
+                  `my_plan.subscription_details.${
+                    isFreeAccount && !plan.active ? 'start_test_button' : 'change_plan_button'
+                  }`,
+                )}
               </a>
             </div>
           </header>
@@ -64,7 +97,7 @@ export const OnSitePlan = InjectAppServices(
                   <FormattedMessage
                     id={'my_plan.subscription_details.addon.onsite_plan.plan_message'}
                     values={{
-                      total: onSitePlan.quantity,
+                      total: plan.quantity,
                     }}
                   />
                 </strong>
@@ -76,18 +109,18 @@ export const OnSitePlan = InjectAppServices(
                       id={`my_plan.subscription_details.addon.onsite_plan.available_message`}
                       values={{
                         available: availableQuantity,
-                        total: onSitePlan.quantity,
+                        total: plan.quantity,
                       }}
                     />
                   </p>
                 </div>
                 <div className="col-lg-4 col-md-12">
                   <p className="plan-item m-l-12">
-                    {onSitePlan.fee > 0 ? (
+                    {!isFreeAccount && plan.fee > 0 ? (
                       <FormattedMessage
                         id={`my_plan.subscription_details.addon.onsite_plan.additional_impression_message`}
                         values={{
-                          price: formattedNumber(onSitePlan.additional, 4),
+                          price: formattedNumber(plan.additional, 4),
                         }}
                       />
                     ) : (

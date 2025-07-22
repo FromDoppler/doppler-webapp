@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
 
 export const EmailMarketingPlan = ({ plan }) => {
@@ -23,7 +23,11 @@ export const EmailMarketingPlan = ({ plan }) => {
             className="dp-button button-medium primary-green dp-w-100 m-b-12"
             href={plan.buttonUrl}
           >
-            {_(`my_plan.subscription_details.change_plan_button`)}
+            {_(
+              `my_plan.subscription_details.${
+                plan.isFreeAccount ? 'choose_plan_button' : 'change_plan_button'
+              }`,
+            )}
           </a>
         </div>
       </header>
@@ -31,32 +35,61 @@ export const EmailMarketingPlan = ({ plan }) => {
         <li>
           {plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount ? (
             <p>
-              <strong>{`${plan.maxSubscribers} ${plan.itemDescription}`}</strong>
+              <strong>
+                <FormattedMessage
+                  id={`my_plan.subscription_details.plan_type_subscribers_message`}
+                  values={{
+                    quantity: plan.maxSubscribers,
+                  }}
+                />
+              </strong>
             </p>
           ) : (
             plan.planType === PLAN_TYPE.byEmail && (
-              <p>{`${plan.remainingCredits} ${_(
+              <strong>
+                <FormattedMessage
+                  id={`my_plan.subscription_details.plan_type_monthly_deliveries_message`}
+                  values={{
+                    quantity: plan.remainingCredits,
+                  }}
+                />
+              </strong>
+            )
+          )}
+          {plan.planType === PLAN_TYPE.byCredit ? (
+            <p>
+              <FormattedMessage
+                id={`my_plan.subscription_details.plan_type_prepaid_message`}
+                values={{
+                  quantity: plan.remainingCredits,
+                }}
+              />
+            </p>
+          ) : plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount ? (
+            <p className="plan-item">{`${plan.remainingCredits}/${plan.maxSubscribers} ${_(
+              `my_plan.subscription_details.available_contacts`,
+            )}`}</p>
+          ) : (
+            plan.planType === PLAN_TYPE.byEmail && (
+              <p className="plan-item">{`${plan.remainingCredits}/${plan.maxSubscribers} ${_(
                 `my_plan.subscription_details.available_emails`,
               )}`}</p>
             )
           )}
-          {plan.planType === PLAN_TYPE.byCredit ? (
-            <p>{`${plan.remainingCredits} ${plan.description}`}</p>
-          ) : (
-            (plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount) && (
-              <p className="plan-item">{`${plan.remainingCredits}/${plan.maxSubscribers} ${_(
-                `my_plan.subscription_details.available_contacts`,
-              )}`}</p>
-            )
-          )}
         </li>
-        {(plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount) && (
-          <li>
-            <p>
-              <strong>{_(`my_plan.subscription_details.unlimited_emails`)}</strong>
-            </p>
-          </li>
-        )}
+        <li>
+          <p>
+            <strong>
+              {_(
+                `my_plan.subscription_details.${
+                  plan.planType === PLAN_TYPE.byContact || plan.isFreeAccount
+                    ? 'unlimited_emails'
+                    : 'unlimited_contacts'
+                }`,
+              )}
+            </strong>
+          </p>
+        </li>
         {plan.planType === PLAN_TYPE.byContact || plan.planType === PLAN_TYPE.byEmail ? (
           <li>
             <p>

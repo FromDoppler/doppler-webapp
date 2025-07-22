@@ -16,24 +16,35 @@ export const formattedNumber = (value, decimals) => {
   return <FormattedNumber value={value} {...numberFormatOptions} />;
 };
 
-export const AddOnPlan = InjectAppServices(({ addOnType, addOnPlan, addOnBuyUrl }) => {
-  return (
-    <>
-      {addOnType === AddOnType.Conversations && (
-        <ConversationPlan buyUrl={addOnBuyUrl} conversationPlan={addOnPlan}></ConversationPlan>
-      )}
-      {addOnType === AddOnType.OnSite && (
-        <OnSitePlan buyUrl={addOnBuyUrl} onSitePlan={addOnPlan}></OnSitePlan>
-      )}
-      {addOnType === AddOnType.PushNotifications && (
-        <PushNotificationPlan
-          buyUrl={addOnBuyUrl}
-          pushNotificationPlan={addOnPlan}
-        ></PushNotificationPlan>
-      )}
-      {addOnType === AddOnType.Landings && (
-        <LandingPagesPlan buyUrl={addOnBuyUrl} landingPagesPlan={addOnPlan}></LandingPagesPlan>
-      )}
-    </>
-  );
-});
+export const AddOnPlan = InjectAppServices(
+  ({ addOnType, addOnPlan, addOnBuyUrl, isFreeAccount }) => {
+    return (
+      <>
+        {addOnType === AddOnType.Conversations && (
+          <ConversationPlan
+            buyUrl={addOnBuyUrl}
+            conversationPlan={addOnPlan}
+            isFreeAccount={isFreeAccount}
+          ></ConversationPlan>
+        )}
+        {addOnType === AddOnType.OnSite && (
+          <OnSitePlan
+            buyUrl={addOnBuyUrl}
+            onSitePlan={addOnPlan}
+            isFreeAccount={isFreeAccount}
+          ></OnSitePlan>
+        )}
+        {addOnType === AddOnType.PushNotifications && (
+          <PushNotificationPlan
+            buyUrl={addOnBuyUrl}
+            pushNotificationPlan={addOnPlan}
+            isFreeAccount={isFreeAccount}
+          ></PushNotificationPlan>
+        )}
+        {addOnType === AddOnType.Landings && (
+          <LandingPagesPlan buyUrl={addOnBuyUrl} landingPagesPlan={addOnPlan}></LandingPagesPlan>
+        )}
+      </>
+    );
+  },
+);

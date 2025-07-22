@@ -40,6 +40,8 @@ export interface DopplerAccountPlansApiClient {
     addOnType: number,
     discountId: number,
   ): Promise<ResultWithoutExpectedErrors<any>>;
+
+  getFreeAddOnPlan(addOnType: any): Promise<ResultWithoutExpectedErrors<any>>;
 }
 
 interface DopplerAccountPlansApiConnectionData {
@@ -473,6 +475,28 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
       const response = await this.axios.request({
         method: 'GET',
         url: `addon/${addOnType}/plans/${planId}`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async getFreeAddOnPlan(
+    addOnType: number,
+  ): Promise<ResultWithoutExpectedErrors<AddOnPlan>> {
+    try {
+      const { jwtToken } = this.getDopplerAccountPlansApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `addon/${addOnType}/free-plan`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

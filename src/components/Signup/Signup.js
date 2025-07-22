@@ -89,7 +89,7 @@ const Signup = function ({
   useEffect(() => {
     Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN);
     Userpilot.anonymous();
-    Userpilot.track("SignUp Page Loaded");
+    Userpilot.track('SignUp Page Loaded');
   }, []);
 
   const errorMessages = {
