@@ -3,6 +3,7 @@ import account_movements_icon from '../components/ControlPanel/images/account_mo
 import contact_information_icon from '../components/ControlPanel/images/contact_information_icon.png';
 import billing_information_icon from '../components/ControlPanel/images/billing_information_icon.png';
 import sms_settings_icon from '../components/ControlPanel/images/sms_settings_icon.png';
+import notification_icon from '../components/ControlPanel/images/notification.png';
 import plans_and_specs_icon from '../components/ControlPanel/images/plans_and_specs_icon.png';
 import footer_and_header_icon from '../components/ControlPanel/images/footer_and_header_icon.png';
 import unsubscription_link_icon from '../components/ControlPanel/images/unsubscription_link_icon.png';
@@ -492,6 +493,13 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: _('control_panel.account_preferences.collaborator_edition_title'),
             iconName: _('control_panel.account_preferences.collaborator_edition_title'),
             hidden: hiddeCollaboratorEditionBox,
+          },
+          {
+            linkUrl: '/control-panel/push-notification',
+            imgSrc: notification_icon,
+            imgAlt: _('control_panel.account_preferences.push_notification_title'),
+            iconName: _('control_panel.account_preferences.push_notification_title'),
+            hidden: true,
           },
         ],
       },
