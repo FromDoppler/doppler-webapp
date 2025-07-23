@@ -138,7 +138,7 @@ export class ControlPanelService implements ControlPanelService {
           boxes: [
             {
               name: 'GoogleAnaliytic',
-              linkUrl: `${urlAdvancedPreferences}/GetGoogleAnaliyticPreferences`,
+              linkUrl: `${urlIntegrations}/GetGoogleAnaliyticPreferences`,
               imgSrc: google_analitics_icon,
               imgAlt: _('integrations.native_integrations.google_Analityc_title'),
               iconName: _('integrations.native_integrations.google_Analityc_title'),
