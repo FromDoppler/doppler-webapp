@@ -48,7 +48,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
             <PushNotification pushNotification={pushNotification}></PushNotification>
           )}
           {!hasOnsite && !plan.isFreeAccount && <OnSite onSite={onSite}></OnSite>}
-          {!hasSms && <Sms sms={sms}></Sms>}
+          {!hasSms && <Sms sms={sms} isFreeAccount={plan.isFreeAccount}></Sms>}
           <TransactionalEmails></TransactionalEmails>
           {!hasLandings && <LandingPages></LandingPages>}
           <Collaborators></Collaborators>
