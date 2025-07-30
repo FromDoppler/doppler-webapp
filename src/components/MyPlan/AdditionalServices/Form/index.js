@@ -132,6 +132,11 @@ export const AdditionalServicesForm = InjectAppServices(
         value: _('my_plan.addtional_services.forms.features.dedicated_ip'),
         name: 'features',
       },
+      {
+        id: 'features12',
+        value: _('my_plan.addtional_services.forms.features.collaborators'),
+        name: 'features',
+      },
     ];
 
     const _getFormInitialValues = () => {

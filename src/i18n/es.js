@@ -1119,6 +1119,12 @@ Encontrarás un Email con los pasos a seguir.`,
           title: 'SERVICIOS ADICIONALES ESPECIFICOS',
         },
       },
+      collaborators: {
+        access_by_legend: 'Accede por',
+        collaborator_legend: '*por colaborador',
+        description: `Comparte accesos con colaboradores que te ayuden en la gestión de tu cuenta.`,
+        title: 'Colaboradores',
+      },
       contact_advisor_button: 'Contactar Asesor',
       conversations: {
         description: `Automatiza tus Conversaciones en Redes Sociales, WhatsApp y tu Sitio Web desde una única plataforma. Ahorra tiempo, recursos y genera más ventas.`,
@@ -1205,6 +1211,7 @@ Encontrarás un Email con los pasos a seguir.`,
       description: 'Completa los datos y nos contactaremos para brindarte la cotización en un plazo de 24 Hs.',
       forms: {
         features: {
+          collaborators: 'Colaboradores',
           conversations: 'Conversaciones',
           custom_onboarding: 'Onboarding personalizado',
           custom_reports: 'Reportes personalizados',

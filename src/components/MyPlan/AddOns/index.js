@@ -12,6 +12,7 @@ import { OnSite } from './OnSite';
 import { PushNotification } from './PushNotification';
 import { Sms } from './Sms';
 import { TransactionalEmails } from './TransactionalEmails';
+import { Collaborators } from './Collaborators';
 
 export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const intl = useIntl();
@@ -50,6 +51,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
           {!hasSms && <Sms sms={sms}></Sms>}
           <TransactionalEmails></TransactionalEmails>
           {!hasLandings && <LandingPages></LandingPages>}
+          <Collaborators></Collaborators>
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>
           <LayoutService></LayoutService>
