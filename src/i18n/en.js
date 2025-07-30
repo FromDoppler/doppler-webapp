@@ -1119,6 +1119,12 @@ You'll find an Email with steps to follow.`,
           title: 'SPECIFIC ADDITIONAL SERVICES',
         },
       },
+      collaborators: {
+        access_by_legend: 'Access for',
+        collaborator_legend: '*per collaborator',
+        description: `Share access with collaborators who can help you manage your account.`,
+        title: 'Collaborators',
+      },
       contact_advisor_button: 'Contact Advisor',
       conversations: {
         description: 'Automate your Conversations on social media, WhatsApp, and your Website from a single platform. Save time and resources and generate more sales.',
@@ -1205,6 +1211,7 @@ You'll find an Email with steps to follow.`,
       description: `Fill in your details and you'll receive your quote within 24 hours.`,
       forms: {
         features: {
+          collaborators: 'Collaborators',
           conversations: 'Conversations',
           custom_onboarding: 'Personalized onboarding',
           custom_reports: 'Custom reports',
