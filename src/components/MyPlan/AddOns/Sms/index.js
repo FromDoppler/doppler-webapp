@@ -1,6 +1,7 @@
 import { FormattedNumber, useIntl } from 'react-intl';
-import { Card } from '../Card';
 import { InjectAppServices } from '../../../../services/pure-di';
+import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../../utils';
+import { Card } from '../Card';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -29,10 +30,11 @@ const PriceSection = () => {
   );
 };
 
-export const Sms = InjectAppServices(({ sms }) => {
+export const Sms = InjectAppServices(({ sms, isFreeAccount }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  var buyUrl = isFreeAccount ? `/plan-types?${ACCOUNT_TYPE}=${FREE_ACCOUNT}` : sms.buttonUrl;
   return (
     <Card
       title={_(`my_plan.addons.sms.title`)}
@@ -42,7 +44,7 @@ export const Sms = InjectAppServices(({ sms }) => {
       moreInformationText={_(`my_plan.addons.more_information_link`)}
       moreInformationLink={_(`my_plan.addons.sms.more_information_link`)}
       buyButtonText={_(`my_plan.addons.buy_button`)}
-      buyButtonUrl={sms.buttonUrl}
+      buyButtonUrl={buyUrl}
     ></Card>
   );
 });
