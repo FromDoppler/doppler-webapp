@@ -24,7 +24,7 @@ export const getAddons = (user) => {
         channels: chat.plan.channels,
       },
       active: chat.plan.active || plan.isFreeAccount,
-      buyUrl: '/buy-conversation?buyType=2',
+      buyUrl: `${plan.isFreeAccount ? '/conversations' : '/buy-conversation?buyType=2'}`,
     },
     {
       addOnType: AddOnType.Landings,
@@ -41,7 +41,7 @@ export const getAddons = (user) => {
         fee: onSite.plan.fee,
       },
       active: onSite.plan.active || plan.isFreeAccount,
-      buyUrl: '/buy-onsite-plans?buyType=4',
+      buyUrl: `${plan.isFreeAccount ? '/onsite' : '/buy-onsite-plans?buyType=4'}`,
     },
     {
       addOnType: AddOnType.PushNotifications,
@@ -52,7 +52,7 @@ export const getAddons = (user) => {
         fee: pushNotification.plan.fee,
       },
       active: pushNotification.plan.active || plan.isFreeAccount,
-      buyUrl: '/buy-push-notification-plans?buyType=5',
+      buyUrl: `${plan.isFreeAccount ? '/push-notifications' : '/buy-push-notification-plans?buyType=5'}`,
     },
   ];
 
