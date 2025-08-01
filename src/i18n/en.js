@@ -1252,6 +1252,33 @@ including information on access, conservation, rectification, deletion, security
       },
       title: 'Additional services',
     },
+    cancellation: {
+      description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
+      form: {
+        cancellation_reason_label: 'Reason for cancellation:',
+        cancellation_reason_options: {
+          doppler_expensive_for_my_budget: 'Doppler is beyond my budget',
+          doppler_missing_one_or_more_features: 'Doppler is missing one or more Features',
+          doppler_not_working_properly: 'Doppler not working properly',
+          my_project_is_over: 'My project is finished',
+          not_achieve_my_expected_goals: 'I did not achieve the expected objectives',
+          others: 'Others',
+        },
+        contact_information_label: 'Contact information:',
+        contact_schedule_label: `*What time can we call you?:`,
+        firstname_label: `*Name:`,
+        following_button: 'Siguiente',
+        lastname_label: `*Last name:`,
+        phone_label: `*Phone:`,
+        phone_placeholder: `9 11 2345-6789`,
+      },
+      title: 'Unsuscribe',
+      without_retention_modal: {
+        accept_button: 'Aceptar',
+        description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+        title: 'Tu solicitud se realizó correctamente',
+      },
+    },
     subscription_details: {
       addon: {
         conversation_plan: {

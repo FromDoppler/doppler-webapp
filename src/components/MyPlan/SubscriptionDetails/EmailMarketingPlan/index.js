@@ -1,9 +1,17 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { CancellationAccount } from '../../CancellationAccount';
+import { useState } from 'react';
 
 export const EmailMarketingPlan = ({ plan }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const [startCancellationFlow, setStartCancellationFlow] = useState(false);
+  const showCancellationAccountButton =
+    process.env.REACT_APP_DOPPLER_SHOW_CANCELLATION_ACCOUNT_BUTTON === 'true';
+
+  const startCancellationFlowModal = () => setStartCancellationFlow(true);
+  const cancelAccount = () => setStartCancellationFlow(false);
 
   return (
     <article className="dp-wrapper-plan">
@@ -29,6 +37,14 @@ export const EmailMarketingPlan = ({ plan }) => {
               }`,
             )}
           </a>
+          {showCancellationAccountButton && (
+            <button
+              className="dp-button button-medium dp-w-100 btn-cancel"
+              onClick={startCancellationFlowModal}
+            >
+              {_(`my_plan.subscription_details.cancel_subscription_button`)}
+            </button>
+          )}
         </div>
       </header>
       <ul className="dp-item--plan">
@@ -112,6 +128,9 @@ export const EmailMarketingPlan = ({ plan }) => {
           )
         )}
       </ul>
+      {startCancellationFlow && (
+        <CancellationAccount handleCancelAccount={cancelAccount}></CancellationAccount>
+      )}
     </article>
   );
 };

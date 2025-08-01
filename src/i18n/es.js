@@ -1252,6 +1252,33 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       },
       title: 'Servicios Adicionales',
     },
+    cancellation: {
+      description: `Para iniciar este proceso, programa una reunión con uno de nuestros asesores y te ayudaremos durante el proceso de desuscripción.`,
+      form: {
+        cancellation_reason_label: 'Motivo de cancelación:',
+        cancellation_reason_options: {
+          doppler_expensive_for_my_budget: 'Doppler es caro a mi presupuesto',
+          doppler_missing_one_or_more_features: 'A Doppler le falta una o varias Funcionalidades',
+          doppler_not_working_properly: 'Doppler no funciona correctamente',
+          my_project_is_over: 'Mi proyecto terminó',
+          not_achieve_my_expected_goals: 'No alcancé los objetivos esperados',
+          others: 'Otros',
+        },
+        contact_information_label: 'Datos de contacto:',
+        contact_schedule_label: `*¿En qué horario podemos llamarte?`,
+        firstname_label: `*Nombre`,
+        following_button: 'Siguiente',
+        lastname_label: `*Apellido`,
+        phone_label: `*Teléfono`,
+        phone_placeholder: `9 11 2345-6789`,
+      },
+      title: 'Cancelar suscripción',
+      without_retention_modal: {
+        accept_button: 'Aceptar',
+        description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+        title: 'Tu solicitud se realizó correctamente',
+      },
+    },
     subscription_details: {
       addon: {
         conversation_plan: {

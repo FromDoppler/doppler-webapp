@@ -52,7 +52,9 @@ export const getAddons = (user) => {
         fee: pushNotification.plan.fee,
       },
       active: pushNotification.plan.active || plan.isFreeAccount,
-      buyUrl: `${plan.isFreeAccount ? '/push-notifications' : '/buy-push-notification-plans?buyType=5'}`,
+      buyUrl: `${
+        plan.isFreeAccount ? '/push-notifications' : '/buy-push-notification-plans?buyType=5'
+      }`,
     },
   ];
 
