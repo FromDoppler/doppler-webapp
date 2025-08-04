@@ -128,6 +128,13 @@ export class ControlPanelService implements ControlPanelService {
         ? account.userAccount.userProfileType === 'COLLABORATOR'
         : false
       : false);
+    const hiddeBigBoxIntegrationBox = !(account !== 'none'
+      ? (account.userAccount?.userProfileType !== undefined
+          ? account.userAccount.userProfileType === 'USER'
+          : false) &&
+        account.features.bigBoxIntegrationEnabled &&
+        !isClientManager
+      : false);
 
     if (getIntegrationSection) {
       return [
@@ -277,6 +284,7 @@ export class ControlPanelService implements ControlPanelService {
               iconName: _('integrations.native_integrations.bigbox_title'),
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
+              hidden: hiddeBigBoxIntegrationBox,
             },
             {
               linkUrl: _('integrations.external_integrations.wordpress_link_url'),
