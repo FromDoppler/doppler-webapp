@@ -129,11 +129,7 @@ export class ControlPanelService implements ControlPanelService {
         : false
       : false);
     const hiddeBigBoxIntegrationBox = !(account !== 'none'
-      ? (account.userAccount?.userProfileType !== undefined
-          ? account.userAccount.userProfileType === 'USER'
-          : false) &&
-        account.features.bigBoxIntegrationEnabled &&
-        !isClientManager
+      ? account.features.bigBoxIntegrationEnabled
       : false);
 
     if (getIntegrationSection) {
