@@ -311,4 +311,12 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async cancellationAccount(data: any): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(`cancellationAccount: ${data}`);
+    return {
+      success: true,
+    };
+  }
 }
