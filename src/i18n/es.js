@@ -1275,8 +1275,9 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       title: 'Cancelar suscripción',
       without_retention_modal: {
         accept_button: 'Aceptar',
-        description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
-        title: 'Tu solicitud se realizó correctamente',
+        cancel_button: 'Cancelar',
+        description: `Tu Plan se cancelará de forma automática y recibirás la confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+        title: '¿Estas seguro que deseas cancelar tu cuenta?',
       },
     },
     subscription_details: {

@@ -15,18 +15,18 @@ export const CancellationAccount = InjectAppServices(
 
     const closeCancellationWithoutRetentionModalModal = () => {
       setWithoutRetentionModalOpen(false);
-      const signOutNav = nav.filter((n) => n.idHTML === 'signOut')[0];
-
-      if (signOutNav !== undefined) {
-        window.location.href = signOutNav.url;
-      }
     };
 
-    const { nav } = appSessionRef.current.userData.user;
+    const { plan } = appSessionRef.current.userData.user;
 
     const followingButton = () => {
       setOpen(false);
-      handleCancelAccount();
+
+      if (plan.isFreeAccount) {
+        setWithoutRetentionModalOpen(true); 
+      } else {
+        handleCancelAccount();
+      }
     };
 
     return (

@@ -1274,9 +1274,10 @@ including information on access, conservation, rectification, deletion, security
       },
       title: 'Unsuscribe',
       without_retention_modal: {
-        accept_button: 'Aceptar',
-        description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
-        title: 'Tu solicitud se realizó correctamente',
+        accept_button: 'Accept',
+        cancel_button: 'Cancel',
+        description: `Your plan will be automatically canceled, and you will receive confirmation by email. Remember that any active add-ons associated with your account will also be canceled.`,
+        title: 'Are you sure you want to cancel your account?',
       },
     },
     subscription_details: {
