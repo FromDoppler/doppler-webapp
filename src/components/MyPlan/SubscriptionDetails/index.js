@@ -5,6 +5,7 @@ import { EmailMarketingPlan } from './EmailMarketingPlan';
 import { AddOnPlan } from './AddOnPlan';
 import { AddOnType } from '../../../doppler-types';
 import { SmsPlan } from './SmsPlan';
+import { useEffect } from 'react';
 
 export const getAddons = (user) => {
   const { chat, landings, onSite, pushNotification, plan } = user;
