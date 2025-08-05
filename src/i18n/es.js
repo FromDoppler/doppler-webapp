@@ -371,8 +371,8 @@ const messages_es = {
       automatic_debit_error: {
         invalid_cbu: '¡Ouch! El CBU es inválido porque no corresponde a una entidad bancaria.',
       },
-      availabled_credit_cards_legend: 'Usa una tarjeta internacional de <bold>Visa, Mastercard o American Express</bold>.',
-      availabled_credit_cards_legend_alt_text: 'Tarjetas internacionales Visa, Mastercard, American Express',
+      availabled_credit_cards_legend: 'Usa una tarjeta internacional de <bold>Visa o American Express</bold>.',
+      availabled_credit_cards_legend_alt_text: 'Tarjetas internacionales Visa, American Express',
       bank_account: 'Últimos 4 dígitos de tu cuenta',
       bank_name: 'Nombre del banco',
       business_name: 'Razón social',

@@ -13,13 +13,19 @@ import {
 import InputMask from 'react-input-mask';
 import { actionPage } from '../Checkout';
 import { fieldNames, paymentType } from './PaymentMethod';
-import creditCards from '../../../../img/credit-cards.svg';
+//import creditCards from '../../../../img/credit-cards.svg';
+import WithoutMC from '../../../../img/credit-cards.png';
 import styled from 'styled-components';
 import { validateCreditCardNumber } from '../../../../validations';
 
 export const CreditCardIcons = styled.img`
   height: 30px;
   width: 145px;
+`;
+
+export const CreditCardIconsWithoutMC = styled.img`
+  height: 30px;
+  width: 100px;
 `;
 
 const creditCardType = {
@@ -199,8 +205,8 @@ export const CreditCard = InjectAppServices(
                     <p>
                       <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.availabled_credit_cards_legend" />
                     </p>
-                    <CreditCardIcons
-                      src={creditCards}
+                    <CreditCardIconsWithoutMC
+                      src={WithoutMC}
                       alt={_(
                         'checkoutProcessForm.payment_method.availabled_credit_cards_legend_alt_text',
                       )}
