@@ -450,6 +450,7 @@ interface DopplerFeatures {
   emailParameterEnabled: boolean;
   emailParameterActive: boolean;
   inviteCollaboratorsEnabled: boolean;
+  bigBoxIntegrationEnabled: boolean;
 }
 
 export interface DopplerLegacyUserData {
@@ -751,6 +752,7 @@ export function mapHeaderDataJson(json: any) {
       emailParameterActive: !!(json.features && json.features.emailParameterActive),
       landingsEditorEnabled: !!(json.features && json.features.landingsEditorEnabled),
       inviteCollaboratorsEnabled: !!(json.features && json.features.inviteCollaboratorsEnabled),
+      bigBoxIntegrationEnabled: !!(json.features && json.features.bigBoxIntegrationEnabled),
     },
   };
 }
