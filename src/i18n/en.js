@@ -1103,7 +1103,7 @@ You'll find an Email with steps to follow.`,
   },
   my_plan: {
     addons: {
-      activate_now_button: 'Activate now',
+      activate_now_button: 'Activate Now',
       buy_button: 'Buy Now',
       cards: {
         card_1: {
@@ -1169,7 +1169,7 @@ You'll find an Email with steps to follow.`,
         title: 'Layout Service',
       },
       list_conditioning: {
-        description: 'We clean up your databases so you can send campaigns with real, current contact lists that generate benefits for your business.',
+        description: 'Clean up your Databases so you can send Campaigns with real, current Contact Lists that generate benefits for your business.',
         from_contact_legend: 'From {contacts} Contacts',
         price_legend: '*Price per Contact',
         title: 'List Conditioning',
@@ -1180,7 +1180,7 @@ You'll find an Email with steps to follow.`,
         month_legend: '*Per month',
         more_information_link: 'https://www.fromdoppler.com/en/on-site/?utm_source=direct',
         plans_from_legend: 'Plans from',
-        title: 'Onsite Marketing',
+        title: 'OnSite Marketing',
       },
       push_notification: {
         description: 'Send promotional or informational messages and impact your visitors even when they are not on your Site.',
@@ -1281,6 +1281,11 @@ including information on access, conservation, rectification, deletion, security
     },
     subscription_details: {
       addon: {
+        collaborators: {
+          available_message: '{available}/{total} Available collaborators ',
+          plan_message: '{total} Collaborators',
+          title: 'Collaborators ',
+        },
         conversation_plan: {
           additional_agent_message: 'Additional agent: US$ {price}',
           additional_conversation_message: 'Additional message: US$ {price}',
@@ -1308,7 +1313,7 @@ including information on access, conservation, rectification, deletion, security
           free_label: 'Free trial',
           plan_message: '{total} Impressions',
           start_free_label: 'Try it during the free period of your Marketing Plan.',
-          title: 'Onsite Marketing',
+          title: 'OnSite Marketing',
         },
         push_notification_plan: {
           additional_email_message: 'Additional shipment: US$ {price}',
@@ -1347,6 +1352,7 @@ including information on access, conservation, rectification, deletion, security
       },
       change_plan_button: 'Change Plan',
       choose_plan_button: 'Choose Plan',
+      contact_advisor_button: 'Contact Advisor',
       plan_type_free_label: 'Plan Free for 90 days.',
       plan_type_monthly_deliveries_label: 'Plan by Emails',
       plan_type_monthly_deliveries_message: '{quantity} Emails',

@@ -33,7 +33,7 @@ export const EmailMarketingPlan = ({ plan }) => {
           >
             {_(`my_plan.subscription_details.change_plan_button`)}
           </a>
-          {showCancellationAccountButton && (
+          {showCancellationAccountButton && plan.isFreeAccount && (
             <button
               className="dp-button button-medium dp-w-100 btn-cancel"
               onClick={startCancellationFlowModal}

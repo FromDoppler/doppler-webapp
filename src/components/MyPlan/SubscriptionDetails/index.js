@@ -1,11 +1,11 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { GrayCard } from '../GrayCard';
 import { EmailMarketingPlan } from './EmailMarketingPlan';
 import { AddOnPlan } from './AddOnPlan';
 import { AddOnType } from '../../../doppler-types';
 import { SmsPlan } from './SmsPlan';
-import { useEffect } from 'react';
+import { Collaborators } from './AddOnPlan/Collaborators';
 
 export const getAddons = (user) => {
   const { chat, landings, onSite, pushNotification, plan } = user;
@@ -84,11 +84,6 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
           <div className="dp-box-shadow m-b-24">
             <EmailMarketingPlan plan={plan}></EmailMarketingPlan>
           </div>
-          {sms.smsEnabled && sms.remainingCredits > 0 && (
-            <div className="dp-box-shadow m-b-24">
-              <SmsPlan sms={sms}></SmsPlan>
-            </div>
-          )}
           {addOns.map((addon, index) => (
             <AddOnPlan
               key={`addon-${index}`}
@@ -98,13 +93,29 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
               isFreeAccount={plan.isFreeAccount}
             ></AddOnPlan>
           ))}
+          {sms.smsEnabled && sms.remainingCredits > 0 && (
+            <div className="dp-box-shadow m-b-24">
+              <SmsPlan sms={sms}></SmsPlan>
+            </div>
+          )}
+          <Collaborators
+            isFreeAccount={plan.isFreeAccount}
+            buyUrl={'/additional-services?selected-feature=features12'}
+          ></Collaborators>
         </div>
         <div className="col-lg-4 col-sm-12">
           <div className="dp-box-shadow">
             <GrayCard
               title={_(`my_plan.subscription_details.cards.card_1.title`)}
               subtitle={_(`my_plan.subscription_details.cards.card_1.subtitle`)}
-              description={_(`my_plan.subscription_details.cards.card_1.description`)}
+              description={
+                <FormattedMessage
+                  id={'my_plan.subscription_details.cards.card_1.description'}
+                  values={{
+                    br: <br />,
+                  }}
+                />
+              }
               button={_(`my_plan.subscription_details.cards.card_1.button`)}
               handleClick={() => goToRequestConsulting()}
             ></GrayCard>
