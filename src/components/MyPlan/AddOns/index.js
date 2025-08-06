@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { GrayCard } from '../GrayCard';
 import { Conversations } from './Conversations';
@@ -51,7 +51,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
           {!hasSms && <Sms sms={sms} isFreeAccount={plan.isFreeAccount}></Sms>}
           <TransactionalEmails></TransactionalEmails>
           {!hasLandings && <LandingPages></LandingPages>}
-          <Collaborators></Collaborators>
+          <Collaborators isFreeAccount={plan.isFreeAccount}></Collaborators>
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>
           <LayoutService></LayoutService>
@@ -63,7 +63,14 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
             <GrayCard
               title={_(`my_plan.addons.cards.card_1.title`)}
               subtitle={_(`my_plan.addons.cards.card_1.subtitle`)}
-              description={_(`my_plan.addons.cards.card_1.description`)}
+              description={
+                <FormattedMessage
+                  id={'my_plan.addons.cards.card_1.description'}
+                  values={{
+                    br: <br />,
+                  }}
+                />
+              }
               button={_(`my_plan.addons.cards.card_1.button`)}
               handleClick={() => goToRequestConsulting()}
             ></GrayCard>

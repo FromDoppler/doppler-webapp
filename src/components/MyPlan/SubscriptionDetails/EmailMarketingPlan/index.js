@@ -31,13 +31,9 @@ export const EmailMarketingPlan = ({ plan }) => {
             className="dp-button button-medium primary-green dp-w-100 m-b-12"
             href={plan.buttonUrl}
           >
-            {_(
-              `my_plan.subscription_details.${
-                plan.isFreeAccount ? 'choose_plan_button' : 'change_plan_button'
-              }`,
-            )}
+            {_(`my_plan.subscription_details.change_plan_button`)}
           </a>
-          {showCancellationAccountButton && (
+          {showCancellationAccountButton && plan.isFreeAccount && (
             <button
               className="dp-button button-medium dp-w-100 btn-cancel"
               onClick={startCancellationFlowModal}

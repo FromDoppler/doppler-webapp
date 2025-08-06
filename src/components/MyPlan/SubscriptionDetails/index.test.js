@@ -81,7 +81,14 @@ describe('SubscriptionDetails component', () => {
 
   it('should render component - Email Marketing Plan with Chat Plan', async () => {
     // Assert
+    const dopplerUserApiClientDouble = {
+      getCollaborationInvites: async () => {
+        return { success: true, value: [] };
+      },
+    };
+
     const dependencies = {
+      dopplerUserApiClient: dopplerUserApiClientDouble,
       appSessionRef: {
         current: {
           userData: {
@@ -139,8 +146,9 @@ describe('SubscriptionDetails component', () => {
     );
 
     // Assert
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getAllByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
+
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.subscription_details.addon.conversation_plan.title'),
@@ -215,7 +223,14 @@ describe('SubscriptionDetails component', () => {
 
   it('should render component - Email Marketing Plan with OnSite Plan', async () => {
     // Assert
+    const dopplerUserApiClientDouble = {
+      getCollaborationInvites: async () => {
+        return { success: true, value: [] };
+      },
+    };
+
     const dependencies = {
+      dopplerUserApiClient: dopplerUserApiClientDouble,
       appSessionRef: {
         current: {
           userData: {
@@ -273,8 +288,9 @@ describe('SubscriptionDetails component', () => {
     );
 
     // Assert
-    const loader = screen.getByTestId('wrapper-loading');
+    const loader = screen.getAllByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
+
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.subscription_details.addon.onsite_plan.title'),
