@@ -1103,8 +1103,8 @@ You'll find an Email with steps to follow.`,
   },
   my_plan: {
     addons: {
-      activate_now_button: 'Activate Now',
-      buy_button: 'Buy Now',
+      activate_now_button: 'Activate',
+      buy_button: 'Buy',
       cards: {
         card_1: {
           button: 'Request a consultation',
@@ -1125,7 +1125,7 @@ You'll find an Email with steps to follow.`,
         description: `Share access with collaborators who can help you manage your account.`,
         title: 'Collaborators',
       },
-      contact_advisor_button: 'Contact Advisor',
+      contact_advisor_button: 'Contact advisor',
       conversations: {
         description: 'Automate your Conversations on social media, WhatsApp, and your Website from a single platform. Save time and resources and generate more sales.',
         month_legend: '*Per month',

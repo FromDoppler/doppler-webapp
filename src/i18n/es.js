@@ -1103,8 +1103,8 @@ Encontrarás un Email con los pasos a seguir.`,
   },
   my_plan: {
     addons: {
-      activate_now_button: 'Activar Ahora',
-      buy_button: 'Comprar Ahora',
+      activate_now_button: 'Activar',
+      buy_button: 'Comprar',
       cards: {
         card_1: {
           button: 'Solicita una consultoría',
@@ -1125,7 +1125,7 @@ Encontrarás un Email con los pasos a seguir.`,
         description: `Comparte accesos con colaboradores que te ayuden en la gestión de tu cuenta.`,
         title: 'Colaboradores',
       },
-      contact_advisor_button: 'Contactar Asesor',
+      contact_advisor_button: 'Contactar asesor',
       conversations: {
         description: `Automatiza tus Conversaciones en Redes Sociales, WhatsApp y tu Sitio Web desde una única plataforma. Ahorra tiempo, recursos y genera más ventas.`,
         month_legend: '*Por mes',
