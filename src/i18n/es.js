@@ -1274,6 +1274,14 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
         phone_placeholder: `9 11 2345-6789`,
       },
       free_description: 'Por favor indicanos el motivo de cancelación para que podamos procesar tu pedido.',
+      success_account_cancellation: {
+        close_button: 'Cerrar',
+        description: `Entendemos tu decisión de dar de baja el servicio y respetamos tu elección.
+Si en algún momento deseas volver, puedes contactarnos para retomar el servicio, estaremos aquí para asesorarte. Valoramos tu confianza y esperamos volver a
+colaborar contigo en el futuro.
+¡Mucho éxito en tus próximos pasos!`,
+        title: 'Gracias por darnos la oportunidad de acompañarte en tu estrategia digital.',
+      },
       title: 'Cancelar suscripción',
       without_retention_modal: {
         accept_button: 'Aceptar',

@@ -2,12 +2,15 @@ import { AccountCancellationRequest } from './Modals/AccountCancellationRequest'
 import { useState } from 'react';
 import { CancellationWithoutRetentionModal } from './Modals/CancellationWithoutRetention';
 import { InjectAppServices } from '../../../services/pure-di';
+import { SuccessAccountCancellation } from './Modals/SuccessAccountCancellation';
 
 export const CancellationAccount = InjectAppServices(
   ({ handleCancelAccount, dependencies: { appSessionRef } }) => {
     const [showAccountCancellationRequestModal, setShowAccountCancellationRequestModal] =
       useState(true);
     const [showWithoutRetentionModal, setShowWithoutRetentionModal] = useState(false);
+    const [showSuccessAccountCancellationModal, setShowSuccessAccountCancellationModal] =
+      useState(false);
     const [accountCancellationRequestData, setAccountCancellationRequestData] = useState({});
 
     const { plan } = appSessionRef.current.userData.user;
@@ -32,8 +35,8 @@ export const CancellationAccount = InjectAppServices(
     };
 
     const handleSuccessCancelAccount = () => {
-      window.location.href = '/login';
-    }
+      setShowSuccessAccountCancellationModal(true);
+    };
 
     return (
       <>
@@ -50,6 +53,9 @@ export const CancellationAccount = InjectAppServices(
             handleCloseModal={handleCancellationWithoutRetentionModal}
             handleSuccessCancelAccount={handleSuccessCancelAccount}
           ></CancellationWithoutRetentionModal>
+        )}
+        {showSuccessAccountCancellationModal && (
+          <SuccessAccountCancellation></SuccessAccountCancellation>
         )}
       </>
     );
