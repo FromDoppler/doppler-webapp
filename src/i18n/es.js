@@ -1287,6 +1287,7 @@ colaborar contigo en el futuro.
         accept_button: 'Aceptar',
         cancel_button: 'Cancelar',
         description: `Tu Plan se cancelará de forma automática y recibirás la confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+        error_message: '¡Ouch! Ha ocurrido un error al procesar tu pedido de cancelación, espera un momento y vuelve a intentarlo.',
         title: '¿Estas seguro que deseas cancelar tu cuenta?',
       },
     },
