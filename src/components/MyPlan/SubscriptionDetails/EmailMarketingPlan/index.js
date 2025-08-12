@@ -10,7 +10,10 @@ export const EmailMarketingPlan = ({ plan }) => {
   const showCancellationAccountButton =
     process.env.REACT_APP_DOPPLER_SHOW_CANCELLATION_ACCOUNT_BUTTON === 'true';
 
-  const startCancellationFlowModal = () => setStartCancellationFlow(true);
+  const startCancellationFlowModal = () => {
+    setStartCancellationFlow(true);
+  };
+
   const cancelAccount = () => setStartCancellationFlow(false);
 
   return (
@@ -36,7 +39,7 @@ export const EmailMarketingPlan = ({ plan }) => {
           {showCancellationAccountButton && plan.isFreeAccount && (
             <button
               className="dp-button button-medium dp-w-100 btn-cancel"
-              onClick={startCancellationFlowModal}
+              onClick={() => startCancellationFlowModal()}
             >
               {_(`my_plan.subscription_details.cancel_subscription_button`)}
             </button>

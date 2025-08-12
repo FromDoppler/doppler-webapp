@@ -69,7 +69,7 @@ export const PushNotificationPlan = InjectAppServices(
               >
                 {_(
                   `my_plan.subscription_details.${
-                    isFreeAccount && !plan.active ? 'start_test_button' : 'change_plan_button'
+                    isFreeAccount && !plan.active ? 'activate_now_button' : 'change_plan_button'
                   }`,
                 )}
               </a>

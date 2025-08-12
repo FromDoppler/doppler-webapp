@@ -1263,6 +1263,7 @@ including information on access, conservation, rectification, deletion, security
           my_project_is_over: 'My project is finished',
           not_achieve_my_expected_goals: 'I did not achieve the expected objectives',
           others: 'Others',
+          registered_by_mistake: `I registered by mistake or it wasn't the service I was looking for.`,
         },
         contact_information_label: 'Contact information:',
         contact_schedule_label: `*What time can we call you?:`,
@@ -1272,14 +1273,17 @@ including information on access, conservation, rectification, deletion, security
         phone_label: `*Phone:`,
         phone_placeholder: `9 11 2345-6789`,
       },
+      free_description: 'Please provide the reason for cancellation so we can process your order.',
       title: 'Unsuscribe',
       without_retention_modal: {
-        accept_button: 'Aceptar',
-        description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
-        title: 'Tu solicitud se realizó correctamente',
+        accept_button: 'Accept',
+        cancel_button: 'Cancel',
+        description: `Your plan will be automatically canceled, and you will receive confirmation by email. Remember that any active add-ons associated with your account will also be canceled.`,
+        title: 'Are you sure you want to cancel your account?',
       },
     },
     subscription_details: {
+      activate_now_button: 'Activate',
       addon: {
         collaborators: {
           available_message: '{available}/{total} Available collaborators ',
@@ -1352,7 +1356,7 @@ including information on access, conservation, rectification, deletion, security
       },
       change_plan_button: 'Change Plan',
       choose_plan_button: 'Choose Plan',
-      contact_advisor_button: 'Contact Advisor',
+      contact_advisor_button: 'Contact advisor',
       plan_type_free_label: 'Plan Free for 90 days.',
       plan_type_monthly_deliveries_label: 'Plan by Emails',
       plan_type_monthly_deliveries_message: '{quantity} Emails',
