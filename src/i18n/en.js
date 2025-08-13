@@ -1268,12 +1268,19 @@ including information on access, conservation, rectification, deletion, security
         contact_information_label: 'Contact information:',
         contact_schedule_label: `*What time can we call you?:`,
         firstname_label: `*Name:`,
-        following_button: 'Siguiente',
+        following_button: 'Next',
         lastname_label: `*Last name:`,
         phone_label: `*Phone:`,
         phone_placeholder: `9 11 2345-6789`,
       },
-      free_description: 'Please provide the reason for cancellation so we can process your order.',
+      free_description: 'Please provide the reason for cancellation so we can process your service cancellation request.',
+      success_account_cancellation: {
+        close_button: 'Close',
+        description: `We understand your decision to cancel the service and respect your choice.
+If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. We value your trust and look forward to working with you again in the future.
+Good luck in your next steps!`,
+        title: 'Thank you for giving us the opportunity to support you in your digital strategy.',
+      },
       title: 'Unsuscribe',
       without_retention_modal: {
         accept_button: 'Accept',
