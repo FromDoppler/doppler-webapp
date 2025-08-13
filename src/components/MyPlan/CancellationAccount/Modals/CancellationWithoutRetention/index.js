@@ -1,5 +1,6 @@
 import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../../services/pure-di';
+import { useState } from 'react';
 
 export const DELAY_BEFORE_REDIRECT = 3000;
 
@@ -12,6 +13,7 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const mapCancellationAccountRequestModel = () => {
       const data = {
@@ -29,8 +31,10 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
       const result = await dopplerBillingUserApiClient.cancellationAccount(
         mapCancellationAccountRequestModel(),
       );
-      if (result) {
+      if (result.success) {
         handleSuccessCancelAccount();
+      } else {
+        setErrorMessage(true);
       }
     };
 
@@ -42,6 +46,14 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
           <div className="m-t-18 m-b-18">
             <p>{_(`my_plan.cancellation.without_retention_modal.description`)}</p>
           </div>
+          {errorMessage ? (
+            <div className="dp-wrap-message dp-wrap-cancel m-b-12">
+              <span className="dp-message-icon"></span>
+              <div className="dp-content-message">
+                {_(`my_plan.cancellation.without_retention_modal.error_message`)}
+              </div>
+            </div>
+          ) : null}
           <hr />
           <ul className="dp-group-buttons">
             <li>
