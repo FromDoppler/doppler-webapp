@@ -3,7 +3,7 @@ import { PLAN_TYPE } from '../../../../doppler-types';
 import { CancellationAccount } from '../../CancellationAccount';
 import { useState } from 'react';
 
-export const EmailMarketingPlan = ({ plan }) => {
+export const EmailMarketingPlan = ({ user, plan }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [startCancellationFlow, setStartCancellationFlow] = useState(false);
@@ -40,14 +40,18 @@ export const EmailMarketingPlan = ({ plan }) => {
               }`,
             )}
           </a>
-          {showCancellationAccountButton && plan.isFreeAccount && (
-            <button
-              className="dp-button button-medium dp-w-100 btn-cancel"
-              onClick={() => startCancellationFlowModal()}
-            >
-              {_(`my_plan.subscription_details.cancel_subscription_button`)}
-            </button>
-          )}
+          {showCancellationAccountButton &&
+            (plan.isFreeAccount ||
+              (plan.planType === PLAN_TYPE.byContact && plan.maxSubscribers >= 10000) ||
+              plan.planType === PLAN_TYPE.byEmail) && (
+              <button
+                disabled={user.isCancellationRequested}
+                className="dp-button button-medium dp-w-100 btn-cancel"
+                onClick={() => startCancellationFlowModal()}
+              >
+                {_(`my_plan.subscription_details.cancel_subscription_button`)}
+              </button>
+            )}
         </div>
       </header>
       <ul className="dp-item--plan">

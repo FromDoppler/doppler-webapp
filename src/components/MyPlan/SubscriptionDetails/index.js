@@ -74,7 +74,8 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
     window.location.href = '/my-plan?selected-tab=addOns';
   };
 
-  const { plan, sms } = appSessionRef.current.userData.user;
+  const user = appSessionRef.current.userData.user;
+  const { plan, sms } = user;
   const addOns = getAddons(appSessionRef.current.userData.user).filter((a) => a.active);
 
   return (
@@ -82,7 +83,7 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
           <div className="dp-box-shadow m-b-24">
-            <EmailMarketingPlan plan={plan}></EmailMarketingPlan>
+            <EmailMarketingPlan user={user} plan={plan}></EmailMarketingPlan>
           </div>
           {addOns.map((addon, index) => (
             <AddOnPlan
