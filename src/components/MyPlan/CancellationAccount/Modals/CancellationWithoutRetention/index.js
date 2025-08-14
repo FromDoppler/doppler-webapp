@@ -14,6 +14,7 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const mapCancellationAccountRequestModel = () => {
       const data = {
@@ -28,6 +29,7 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
     };
 
     const cancelWithoutRetention = async () => {
+      setIsSubmitting(true);
       const result = await dopplerBillingUserApiClient.cancellationAccount(
         mapCancellationAccountRequestModel(),
       );
@@ -35,6 +37,7 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
         handleSuccessCancelAccount();
       } else {
         setErrorMessage(true);
+        setIsSubmitting(false);
       }
     };
 
@@ -56,7 +59,7 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
           ) : null}
           <hr />
           <ul className="dp-group-buttons">
-            <li>
+            <li className='buttons-container'>
               <button
                 type="button"
                 className="dp-button button-medium ctaTertiary m-r-18"
@@ -66,7 +69,9 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
               </button>
               <button
                 type="button"
-                className="dp-button button-medium primary-green"
+                className={`dp-button button-medium primary-green ${
+                  (isSubmitting && ' button--loading') || ''
+                }`}
                 onClick={cancelWithoutRetention}
               >
                 {_('my_plan.cancellation.without_retention_modal.accept_button')}
