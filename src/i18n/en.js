@@ -1347,6 +1347,7 @@ Good luck in your next steps!`,
         type_3: `Quarterly`,
         type_6: `Biannual`,
       },
+      buy_credits_button: 'Buy Credits',
       cancel_subscription_button: 'Unsubscribe',
       cards: {
         card_1: {

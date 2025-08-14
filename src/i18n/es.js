@@ -1348,6 +1348,7 @@ colaborar contigo en el futuro.
         type_3: `Trimestral`,
         type_6: `Semestral`,
       },
+      buy_credits_button: 'Comprar Créditos',
       cancel_subscription_button: 'Cancelar suscripción',
       cards: {
         card_1: {
