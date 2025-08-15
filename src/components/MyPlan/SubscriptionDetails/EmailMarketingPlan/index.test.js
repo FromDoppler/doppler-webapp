@@ -104,12 +104,16 @@ describe('EmailMarketingPlan component', () => {
       planSubscription: 1,
     };
 
+    const user = {
+      isCancellationRequested: false
+    }
+
     // Act
     render(
       <AppServicesProvider>
         <BrowserRouter>
           <IntlProvider>
-            <EmailMarketingPlan plan={plan} />
+            <EmailMarketingPlan plan={plan} user={user} />
           </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
