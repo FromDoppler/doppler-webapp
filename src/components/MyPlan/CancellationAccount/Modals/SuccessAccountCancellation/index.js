@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export const SuccessAccountCancellation = () => {
   const intl = useIntl();
@@ -13,7 +13,12 @@ export const SuccessAccountCancellation = () => {
       <div className="modal-content--medium">
         <span className="close" onClick={closePopup}></span>
         <h2 className="modal-title">
-          {_(`my_plan.cancellation.success_account_cancellation.title`)}
+          <FormattedMessage
+            id={'my_plan.cancellation.success_account_cancellation.title'}
+            values={{
+              br: <br />,
+            }}
+          />
         </h2>
         <div className="m-t-18 m-b-18">
           <p>{_(`my_plan.cancellation.success_account_cancellation.description`)}</p>

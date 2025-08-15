@@ -1279,7 +1279,7 @@ including information on access, conservation, rectification, deletion, security
         description: `We understand your decision to cancel the service and respect your choice.
 If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. We value your trust and look forward to working with you again in the future.
 Good luck in your next steps!`,
-        title: 'Thank you for giving us the opportunity to support you in your digital strategy.',
+        title: 'Thank you for giving us the opportunity{br}to support you in your digital strategy.',
       },
       title: 'Unsuscribe',
       without_retention_modal: {
@@ -1287,7 +1287,7 @@ Good luck in your next steps!`,
         cancel_button: 'Cancel',
         description: `Your plan will be automatically canceled, and you will receive confirmation by email. Remember that any active add-ons associated with your account will also be canceled.`,
         error_message: 'Ouch! An error occurred while processing your cancellation request. Please wait a moment and try again.',
-        title: 'Are you sure you want to cancel your account?',
+        title: 'Are you sure you want to cancel{br}your account?',
       },
     },
     subscription_details: {
