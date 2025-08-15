@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import { useState } from 'react';
 
@@ -45,7 +45,14 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
       <div className="modal" id="modal-cancel-subscription-without-retention">
         <div className="modal-content--medium">
           <span className="close" onClick={handleCloseModal}></span>
-          <h2 className="modal-title">{_(`my_plan.cancellation.without_retention_modal.title`)}</h2>
+          <h2 className="modal-title">
+            <FormattedMessage
+              id={'my_plan.cancellation.without_retention_modal.title'}
+              values={{
+                br: <br />,
+              }}
+            />
+          </h2>
           <div className="m-t-18 m-b-18">
             <p>{_(`my_plan.cancellation.without_retention_modal.description`)}</p>
           </div>

@@ -1280,7 +1280,7 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
 Si en algún momento deseas volver, puedes contactarnos para retomar el servicio, estaremos aquí para asesorarte. Valoramos tu confianza y esperamos volver a
 colaborar contigo en el futuro.
 ¡Mucho éxito en tus próximos pasos!`,
-        title: 'Gracias por darnos la oportunidad de acompañarte en tu estrategia digital.',
+        title: 'Gracias por darnos la oportunidad{br}de acompañarte en tu estrategia digital.',
       },
       title: 'Cancelar suscripción',
       without_retention_modal: {
@@ -1288,7 +1288,7 @@ colaborar contigo en el futuro.
         cancel_button: 'Cancelar',
         description: `Tu Plan se cancelará de forma automática y recibirás la confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
         error_message: '¡Ouch! Ha ocurrido un error al procesar tu pedido de cancelación, espera un momento y vuelve a intentarlo.',
-        title: '¿Estas seguro que deseas cancelar tu cuenta?',
+        title: '¿Estas seguro que deseas cancelar{br}tu cuenta?',
       },
     },
     subscription_details: {
