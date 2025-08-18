@@ -105,8 +105,8 @@ describe('EmailMarketingPlan component', () => {
     };
 
     const user = {
-      isCancellationRequested: false
-    }
+      isCancellationRequested: false,
+    };
 
     // Act
     render(

@@ -120,7 +120,12 @@ export const AccountCancellationRequest = InjectAppServices(
     };
 
     return (
-      <div className="modal" id="modal-cancel-subscription">
+      <div
+        className="modal"
+        id={`modal-cancel-subscription${
+          accountCancellationFlow === AccountCancellationFlow.free ? '-free-user' : ''
+        }`}
+      >
         <div className="modal-content--medium">
           <span className="close" onClick={handleCloseModal}></span>
           <h2 className="modal-title">{_(`my_plan.cancellation.title`)}</h2>
