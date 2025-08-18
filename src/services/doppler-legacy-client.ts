@@ -733,6 +733,7 @@ export function mapHeaderDataJson(json: any) {
         active: json.user.pushNotificationPlan?.active,
         plan: mapPushNotificationPlanEntry(json.user.pushNotificationPlan),
       },
+      isCancellationRequested: json.user.isCancellationRequested ?? false,
     },
     userAccount: json.userAccount && {
       email: json.userAccount.email,

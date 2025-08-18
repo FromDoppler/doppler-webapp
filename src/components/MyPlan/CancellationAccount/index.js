@@ -3,6 +3,22 @@ import { useState } from 'react';
 import { CancellationWithoutRetentionModal } from './Modals/CancellationWithoutRetention';
 import { InjectAppServices } from '../../../services/pure-di';
 import { SuccessAccountCancellation } from './Modals/SuccessAccountCancellation';
+import { AccountCancellationFlow, PLAN_TYPE } from '../../../doppler-types';
+
+const getCurrentFlow = (plan) => {
+  if (plan.isFreeAccount) {
+    return AccountCancellationFlow.free;
+  } else {
+    if (
+      (plan.planType === PLAN_TYPE.byContact && plan.maxSubscribers >= 10000) ||
+      plan.planType === PLAN_TYPE.byEmail
+    ) {
+      return AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly;
+    } else {
+      return AccountCancellationFlow.lessOrEqual500ContactsOrCredits;
+    }
+  }
+};
 
 export const CancellationAccount = InjectAppServices(
   ({ handleCancelAccount, dependencies: { appSessionRef } }) => {
@@ -14,15 +30,22 @@ export const CancellationAccount = InjectAppServices(
     const [accountCancellationRequestData, setAccountCancellationRequestData] = useState({});
 
     const { plan } = appSessionRef.current.userData.user;
+    const accountCancellationFlow = getCurrentFlow(plan);
 
     const handleSubmit = (values) => {
-      setAccountCancellationRequestData(values);
       setShowAccountCancellationRequestModal(false);
 
-      if (plan.isFreeAccount) {
+      if (accountCancellationFlow === AccountCancellationFlow.free) {
+        setAccountCancellationRequestData(values);
         setShowWithoutRetentionModal(true);
       } else {
-        handleCancelAccount();
+        if (
+          accountCancellationFlow === AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly
+        ) {
+          window.location.href = '/my-plan';
+        } else {
+          handleCancelAccount();
+        }
       }
     };
 
@@ -42,7 +65,7 @@ export const CancellationAccount = InjectAppServices(
       <>
         {showAccountCancellationRequestModal && (
           <AccountCancellationRequest
-            plan={plan}
+            accountCancellationFlow={accountCancellationFlow}
             handleSubmit={handleSubmit}
             handleCloseModal={handleAccountCancellationRequestModal}
           ></AccountCancellationRequest>

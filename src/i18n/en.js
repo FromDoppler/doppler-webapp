@@ -1253,6 +1253,8 @@ including information on access, conservation, rectification, deletion, security
       title: 'Additional services',
     },
     cancellation: {
+      contact_emails_description: `To begin this process, please complete the following information and a representative will process your request.
+If you wish, you can schedule a brief meeting with one of our advisors to discuss your case. We may be able to help resolve any issues or show you options that better suit your needs.`,
       description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
       form: {
         cancellation_reason_label: 'Reason for cancellation:',

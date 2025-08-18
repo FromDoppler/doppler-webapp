@@ -9,6 +9,7 @@ import { getFormInitialValues } from '../../../../../utils';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import * as S from './styles';
 import { Field, Form, Formik } from 'formik';
+import { AccountCancellationFlow } from '../../../../../doppler-types';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -19,9 +20,15 @@ const fieldNames = {
 };
 
 export const AccountCancellationRequest = InjectAppServices(
-  ({ plan, handleCloseModal, handleSubmit }) => {
+  ({
+    accountCancellationFlow,
+    handleCloseModal,
+    handleSubmit,
+    dependencies: { dopplerBillingUserApiClient },
+  }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const customerSuccessCalendarUrl = process.env.REACT_APP_DOPPLER_CUSTOMER_SUCCESS_CALENDAR_URL;
 
     const cancellationReasonOptions = [
       {
@@ -68,7 +75,7 @@ export const AccountCancellationRequest = InjectAppServices(
         description: _(
           'my_plan.cancellation.form.cancellation_reason_options.registered_by_mistake',
         ),
-        active: plan.isFreeAccount,
+        active: accountCancellationFlow === AccountCancellationFlow.free,
       },
       {
         id: 'others',
@@ -99,7 +106,17 @@ export const AccountCancellationRequest = InjectAppServices(
     };
 
     const onSubmit = async (values) => {
-      handleSubmit(mapCancellationAccountRequestModel(values));
+      if (accountCancellationFlow === AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly) {
+        const result = await dopplerBillingUserApiClient.saveAccountCancellationRequest(
+          mapCancellationAccountRequestModel(values),
+        );
+        if (result.success) {
+          window.open(customerSuccessCalendarUrl, '_blank');
+          handleSubmit(mapCancellationAccountRequestModel(values));
+        }
+      } else {
+        handleSubmit(mapCancellationAccountRequestModel(values));
+      }
     };
 
     return (
@@ -109,14 +126,22 @@ export const AccountCancellationRequest = InjectAppServices(
           <h2 className="modal-title">{_(`my_plan.cancellation.title`)}</h2>
           <p>
             <FormattedMessage
-              id={`my_plan.cancellation.${plan.isFreeAccount ? 'free' : ''}_description`}
+              id={`${
+                accountCancellationFlow === AccountCancellationFlow.free
+                  ? 'my_plan.cancellation.free_description'
+                  : accountCancellationFlow ===
+                      AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly
+                    ? 'my_plan.cancellation.contact_emails_description'
+                    : ''
+              }`}
               values={{
                 Strong: (chunks) => <strong>{chunks}</strong>,
+                br: <br />,
               }}
             />
           </p>
           <section>
-            {!plan.isFreeAccount && (
+            {accountCancellationFlow !== AccountCancellationFlow.free && (
               <h4>{_(`my_plan.cancellation.form.contact_information_label`)}</h4>
             )}
             <div className="awa-form">
@@ -124,7 +149,7 @@ export const AccountCancellationRequest = InjectAppServices(
                 {({ isSubmitting }) => (
                   <Form className="dp-form-billing-information">
                     <fieldset>
-                      {!plan.isFreeAccount && (
+                      {accountCancellationFlow !== AccountCancellationFlow.free && (
                         <>
                           <FieldGroup>
                             <InputFieldItem
@@ -147,19 +172,27 @@ export const AccountCancellationRequest = InjectAppServices(
                             />
                           </FieldGroup>
                           <FieldGroup>
-                            <InputFieldItem
-                              fieldName={fieldNames.range_time}
-                              type="text"
-                              label={_('my_plan.cancellation.form.contact_schedule_label')}
-                              id="range_time"
-                              className="field-item--50"
-                              required
-                            />
+                            {accountCancellationFlow ===
+                              AccountCancellationFlow.lessOrEqual500ContactsOrCredits && (
+                              <InputFieldItem
+                                fieldName={fieldNames.range_time}
+                                type="text"
+                                label={_('my_plan.cancellation.form.contact_schedule_label')}
+                                id="range_time"
+                                className="field-item--50"
+                                required
+                              />
+                            )}
                             <PhoneFieldItem
                               fieldName={fieldNames.phone}
                               label={_('my_plan.cancellation.form.phone_label')}
                               placeholder={_('my_plan.cancellation.form.phone_placeholder')}
-                              className="field-item--50"
+                              className={`field-item--${
+                                accountCancellationFlow ===
+                                AccountCancellationFlow.lessOrEqual500ContactsOrCredits
+                                  ? '50'
+                                  : '100'
+                              }`}
                               required
                             />
                           </FieldGroup>

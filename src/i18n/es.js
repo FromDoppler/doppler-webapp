@@ -1253,6 +1253,9 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       title: 'Servicios Adicionales',
     },
     cancellation: {
+      contact_emails_description: `Para iniciar este proceso, completa los siguientes datos y un representante gestionará tu pedido.{br}Si lo deseas,
+puedes agendar una breve reunión con uno de nuestros asesores para conversar sobre tu caso.
+Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones que se ajusten mejor a tus necesidades.`,
       description: `Para iniciar este proceso, programa una reunión con uno de nuestros asesores y te ayudaremos durante el proceso de desuscripción.`,
       form: {
         cancellation_reason_label: 'Motivo de cancelación:',

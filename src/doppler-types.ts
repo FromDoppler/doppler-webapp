@@ -223,3 +223,10 @@ export const AddOnType = {
   OnSite: 3,
   PushNotifications: 4
 };
+
+export const AccountCancellationFlow = {
+  free: 1,
+  greaterOrEqual1000ContactsOrMonthly: 2,
+  lessOrEqual500ContactsOrCredits: 3,
+
+}

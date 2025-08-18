@@ -66,7 +66,7 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
           ) : null}
           <hr />
           <ul className="dp-group-buttons">
-            <li className='buttons-container'>
+            <li className="buttons-container">
               <button
                 type="button"
                 className="dp-button button-medium ctaTertiary m-r-18"

@@ -3,12 +3,16 @@ import { PLAN_TYPE } from '../../../../doppler-types';
 import { CancellationAccount } from '../../CancellationAccount';
 import { useState } from 'react';
 
-export const EmailMarketingPlan = ({ plan }) => {
+export const EmailMarketingPlan = ({ user, plan }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [startCancellationFlow, setStartCancellationFlow] = useState(false);
-  const showCancellationAccountButton =
-    process.env.REACT_APP_DOPPLER_SHOW_CANCELLATION_ACCOUNT_BUTTON === 'true';
+  const supportCancellationFreeUser =
+    process.env.REACT_APP_DOPPLER_SUPPORT_CANCELLATION_FREE_USER === 'true';
+  const supportCancellationContactsMonthlyUser =
+    process.env.REACT_APP_DOPPLER_SUPPORT_CANCELLATION_CONTACTS_MONTHLY_USER === 'true';
+  const supportCancellationContactsCreditsUser =
+    process.env.REACT_APP_DOPPLER_SUPPORT_CANCELLATION_CONTACTS_CREDITS_USER === 'true';
 
   const startCancellationFlowModal = () => {
     setStartCancellationFlow(true);
@@ -40,8 +44,16 @@ export const EmailMarketingPlan = ({ plan }) => {
               }`,
             )}
           </a>
-          {showCancellationAccountButton && plan.isFreeAccount && (
+          {((supportCancellationFreeUser && plan.isFreeAccount) ||
+            (supportCancellationContactsMonthlyUser &&
+              ((plan.planType === PLAN_TYPE.byContact && plan.maxSubscribers >= 10000) ||
+                plan.planType === PLAN_TYPE.byEmail)) ||
+            (supportCancellationContactsCreditsUser &&
+              plan.planType === PLAN_TYPE.byContact &&
+              plan.maxSubscribers <= 5000) ||
+            plan.planType === PLAN_TYPE.byCredit) && (
             <button
+              disabled={user.isCancellationRequested}
               className="dp-button button-medium dp-w-100 btn-cancel"
               onClick={() => startCancellationFlowModal()}
             >
