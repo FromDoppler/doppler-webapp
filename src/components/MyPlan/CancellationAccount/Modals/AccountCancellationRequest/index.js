@@ -24,6 +24,7 @@ export const AccountCancellationRequest = InjectAppServices(
     accountCancellationFlow,
     handleCloseModal,
     handleSubmit,
+    data,
     dependencies: { dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -88,13 +89,17 @@ export const AccountCancellationRequest = InjectAppServices(
     const _getFormInitialValues = () => {
       const initialValues = getFormInitialValues(fieldNames);
 
-      initialValues[fieldNames.cancellation_reason] = 'notAchieveMyExpectedGoals';
+      initialValues[fieldNames.cancellation_reason] = data?.cancellationReason ?? 'notAchieveMyExpectedGoals';
+      initialValues[fieldNames.firstname] = data?.firstName ?? '';
+      initialValues[fieldNames.lastname] = data?.lastName ?? '';
+      initialValues[fieldNames.phone] = data?.phone ?? '';
+      initialValues[fieldNames.range_time] = data?.contactSchedule ?? '';
 
       return initialValues;
     };
 
     const mapCancellationAccountRequestModel = (values) => {
-      const data = {
+      const mappedData = {
         firstName: values.firstname,
         lastName: values.lastname,
         phone: values.phone,
@@ -102,7 +107,7 @@ export const AccountCancellationRequest = InjectAppServices(
         cancellationReason: values.cancellation_reason,
       };
 
-      return data;
+      return mappedData;
     };
 
     const onSubmit = async (values) => {
@@ -137,7 +142,7 @@ export const AccountCancellationRequest = InjectAppServices(
                   : accountCancellationFlow ===
                       AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly
                     ? 'my_plan.cancellation.contact_emails_description'
-                    : ''
+                    : 'my_plan.cancellation.contact_credits_description'
               }`}
               values={{
                 Strong: (chunks) => <strong>{chunks}</strong>,
