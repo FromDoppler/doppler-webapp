@@ -782,10 +782,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `You still have time to enjoy the on-demand conferences and discover the strategies of the most successful online stores.`,
-        link: 'https://goemms.com/ecommerce?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsecom25-revive-canalespropios-nutricion-abr25',
-        link_description: 'Relive it now',
-        title: '🎉 EMMS E-commerce 2025 is over!',
+        description: `The biggest Digital Marketing event in LATAM and Spain is happening on October 28, 29, and 30. Get your free VIP pass with exclusive benefits.`,
+        link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsdt25-invitacion-ago25&utm_term=Cta',
+        link_description: 'Reserve your VIP pass',
+        title: '🚀 Countdown to EMMS Digital Trends 2025!',
       },
       post_2: {
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
