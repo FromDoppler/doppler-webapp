@@ -53,7 +53,7 @@ export const EmailMarketingPlan = ({ user, plan }) => {
               plan.maxSubscribers <= 5000) ||
             plan.planType === PLAN_TYPE.byCredit) && (
             <button
-              disabled={user.isCancellationRequested}
+              disabled={user.isCancellationRequested || user.hasScheduledCancellation}
               className="dp-button button-medium dp-w-100 btn-cancel"
               onClick={() => startCancellationFlowModal()}
             >

@@ -329,4 +329,12 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async setHasScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(`setHasScheduledCancellation: ${data}`);
+    return {
+      success: true,
+    };
+  }
 }

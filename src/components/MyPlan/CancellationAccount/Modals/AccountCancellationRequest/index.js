@@ -89,7 +89,8 @@ export const AccountCancellationRequest = InjectAppServices(
     const _getFormInitialValues = () => {
       const initialValues = getFormInitialValues(fieldNames);
 
-      initialValues[fieldNames.cancellation_reason] = data?.cancellationReason ?? 'notAchieveMyExpectedGoals';
+      initialValues[fieldNames.cancellation_reason] =
+        data?.cancellationReason ?? 'notAchieveMyExpectedGoals';
       initialValues[fieldNames.firstname] = data?.firstName ?? '';
       initialValues[fieldNames.lastname] = data?.lastName ?? '';
       initialValues[fieldNames.phone] = data?.phone ?? '';

@@ -1253,16 +1253,16 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       title: 'Servicios Adicionales',
     },
     cancellation: {
-      contact_credits_description: 'Para iniciar este proceso, completa tus datos y el motivo de cancelación. Comenzaremos a gestionar tu solicitud de baja.',
-      contact_emails_description: `Para iniciar este proceso, completa los siguientes datos y un representante gestionará tu pedido.{br}Si lo deseas,
-puedes agendar una breve reunión con uno de nuestros asesores para conversar sobre tu caso.
-Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones que se ajusten mejor a tus necesidades.`,
       consulting_offer: {
         continue_with_cancellation_button: 'CONTINUAR CON LA CANCELACIÓN',
         description: 'Agenda una reunión con nuestros asesores para alcanzar tus objetivos de negocio.',
         request_advice_button: 'Solicitar asesoría',
         title: '¡Te brindamos una Asesoría Estratégica gratis!',
       },
+      contact_credits_description: 'Para iniciar este proceso, completa tus datos y el motivo de cancelación. Comenzaremos a gestionar tu solicitud de baja.',
+      contact_emails_description: `Para iniciar este proceso, completa los siguientes datos y un representante gestionará tu pedido.{br}Si lo deseas,
+puedes agendar una breve reunión con uno de nuestros asesores para conversar sobre tu caso.
+Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones que se ajusten mejor a tus necesidades.`,
       description: `Para iniciar este proceso, programa una reunión con uno de nuestros asesores y te ayudaremos durante el proceso de desuscripción.`,
       form: {
         cancellation_reason_label: 'Motivo de cancelación:',
@@ -1291,6 +1291,12 @@ Si en algún momento deseas volver, puedes contactarnos para retomar el servicio
 colaborar contigo en el futuro.
 ¡Mucho éxito en tus próximos pasos!`,
         title: 'Gracias por darnos la oportunidad{br}de acompañarte en tu estrategia digital.',
+      },
+      success_scheduled_cancellation: {
+        accept_button: 'Aceptar',
+        description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una
+confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+        title: 'Tu solicitud se realizó correctamente',
       },
       title: 'Cancelar suscripción',
       without_retention_modal: {
