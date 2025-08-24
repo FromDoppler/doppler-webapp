@@ -42,6 +42,7 @@ import { CollaboratorsInvite } from './components/CollaborationInvite';
 import { PlanChat } from './components/BuyProcess/PlanChat';
 import { BuyProcessLayout } from './components/BuyProcess/BuyProcessLayout';
 import { CollaboratorEditionSection } from './components/ControlPanel/CollaboratorEditionSection';
+import { PushNotificationSection } from './components/ControlPanel/PushNotificationSection';
 import { Conversations } from './components/Conversations';
 import { BuyConversation } from './components/Plans/BuyConversation';
 import { OnSitePlansSelection } from './components/BuyProcess/OnSitePlanSelection';
@@ -403,6 +404,14 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               element={
                 <PrivateRoute>
                   <CollaboratorEditionSection />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/control-panel/push-notification/"
+              element={
+                <PrivateRoute>
+                  <PushNotificationSection />
                 </PrivateRoute>
               }
             />
