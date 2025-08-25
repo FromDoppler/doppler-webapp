@@ -1253,6 +1253,13 @@ including information on access, conservation, rectification, deletion, security
       title: 'Additional services',
     },
     cancellation: {
+      consulting_offer: {
+        continue_with_cancellation_button: 'CONTINUE WITH THE CANCELLATION',
+        description: 'Schedule a meeting with our advisors to achieve your business goals.',
+        request_advice_button: 'Request your advice',
+        title: 'We offer you a free Strategic Consultation!',
+      },
+      contact_credits_description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
       contact_emails_description: `To begin this process, please complete the following information and a representative will process your request.
 If you wish, you can schedule a brief meeting with one of our advisors to discuss your case. We may be able to help resolve any issues or show you options that better suit your needs.`,
       description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
@@ -1282,6 +1289,12 @@ If you wish, you can schedule a brief meeting with one of our advisors to discus
 If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. We value your trust and look forward to working with you again in the future.
 Good luck in your next steps!`,
         title: 'Thank you for giving us the opportunity{br}to support you in your digital strategy.',
+      },
+      success_scheduled_cancellation: {
+        accept_button: 'Accept',
+        description: `Your plan will be canceled on your next billing date, and you will receive a
+confirmation email.Please note that any active add-ons associated with your account will also be canceled.`,
+        title: 'Your request was successful.',
       },
       title: 'Unsuscribe',
       without_retention_modal: {
