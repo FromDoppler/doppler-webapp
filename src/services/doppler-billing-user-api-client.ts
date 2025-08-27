@@ -34,7 +34,7 @@ export interface DopplerBillingUserApiClient {
   requestAdditionalServices(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   cancellationAccount(data: any): Promise<EmptyResultWithoutExpectedErrors>;
   saveAccountCancellationRequest(data: any): Promise<EmptyResultWithoutExpectedErrors>;
-  setHasScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors>;
+  setScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -798,7 +798,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
     }
   }
 
-  public async setHasScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors> {
+  public async setScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
 

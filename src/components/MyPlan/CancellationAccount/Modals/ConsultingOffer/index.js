@@ -24,13 +24,14 @@ export const ConsultingOffer = InjectAppServices(
       handleReturnAccountCancellationRequest();
     };
 
-    const mapCancellationAccountRequestModel = () => {
+    const mapScheduledCancellationRequestModel = () => {
       const data = {
         firstName: accountCancellationRequest.firstName,
         lastName: accountCancellationRequest.lastName,
         phone: accountCancellationRequest.phone,
         contactSchedule: accountCancellationRequest.contactSchedule,
         cancellationReason: accountCancellationRequest.cancellationReason,
+        hasScheduledCancellation: true,
       };
 
       return data;
@@ -38,19 +39,13 @@ export const ConsultingOffer = InjectAppServices(
 
     const continueWithCancellation = async () => {
       if (planType === PLAN_TYPE.byContact) {
-        const result = await dopplerBillingUserApiClient.saveAccountCancellationRequest(
-          mapCancellationAccountRequestModel(),
-        );
+        const setScheduledCancellationResult =
+          await dopplerBillingUserApiClient.setScheduledCancellation(
+            mapScheduledCancellationRequestModel(),
+          );
 
-        if (result.success) {
-          const setHasScheduledCancellationResult =
-            await dopplerBillingUserApiClient.setHasScheduledCancellation({
-              hasScheduledCancellation: true,
-            });
-
-          if (setHasScheduledCancellationResult.success) {
-            handleSuccessSetScheduledCancellation();
-          }
+        if (setScheduledCancellationResult.success) {
+          handleSuccessSetScheduledCancellation();
         }
       } else {
         handleSuccessSetScheduledCancellation();
@@ -90,7 +85,11 @@ export const ConsultingOffer = InjectAppServices(
             >
               {_('my_plan.cancellation.consulting_offer.request_advice_button')}
             </button>
-            <button type="button" className="dp-link-cancellation m-b-24" onClick={continueWithCancellation}>
+            <button
+              type="button"
+              className="dp-link-cancellation m-b-24"
+              onClick={continueWithCancellation}
+            >
               {_('my_plan.cancellation.consulting_offer.continue_with_cancellation_button')}
             </button>
           </div>
