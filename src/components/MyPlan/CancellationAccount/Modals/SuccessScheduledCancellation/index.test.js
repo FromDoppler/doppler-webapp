@@ -1,8 +1,8 @@
-import { BrowserRouter } from "react-router-dom";
-import { SuccessScheduledCancellation } from ".";
-import { AppServicesProvider } from "../../../../../services/pure-di";
-import { IntlProvider } from "react-intl";
-import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from 'react-router-dom';
+import { SuccessScheduledCancellation } from '.';
+import { AppServicesProvider } from '../../../../../services/pure-di';
+import { IntlProvider } from 'react-intl';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 describe('SuccessScheduledCancellation component', () => {
@@ -19,9 +19,11 @@ describe('SuccessScheduledCancellation component', () => {
     );
 
     // Assert
-    expect(screen.getByText('my_plan.cancellation.success_scheduled_cancellation.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.cancellation.success_scheduled_cancellation.title'),
+    ).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.cancellation.success_scheduled_cancellation.description'),
     ).toBeInTheDocument();
   });
-})
+});

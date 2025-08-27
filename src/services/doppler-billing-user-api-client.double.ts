@@ -330,9 +330,9 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
     };
   }
 
-  public async setHasScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors> {
+  public async setScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
-    console.log(`setHasScheduledCancellation: ${data}`);
+    console.log(`setScheduledCancellation: ${data}`);
     return {
       success: true,
     };
