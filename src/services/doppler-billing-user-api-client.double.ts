@@ -337,4 +337,14 @@ export class HardcodedDopplerBillingUserApiClient implements DopplerBillingUserA
       success: true,
     };
   }
+
+  public async sendConsultingOfferNotification(
+    data: any,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(`sendConsultingOfferNotification: ${data}`);
+    return {
+      success: true,
+    };
+  }
 }

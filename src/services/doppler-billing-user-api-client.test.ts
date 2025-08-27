@@ -396,4 +396,44 @@ describe('HttpDopplerBillingUserApiClient', () => {
       }),
     );
   });
+
+  it('should set scheduled cancellation', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.setScheduledCancellation({
+      cancellationReason: 'test',
+    });
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should send consulting offer notification', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.sendConsultingOfferNotification({
+      cancellationReason: 'test',
+    });
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });
