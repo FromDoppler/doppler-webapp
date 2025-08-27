@@ -35,6 +35,7 @@ export interface DopplerBillingUserApiClient {
   cancellationAccount(data: any): Promise<EmptyResultWithoutExpectedErrors>;
   saveAccountCancellationRequest(data: any): Promise<EmptyResultWithoutExpectedErrors>;
   setScheduledCancellation(data: any): Promise<EmptyResultWithoutExpectedErrors>;
+  sendConsultingOfferNotification(data: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
 interface DopplerBillingUserApiConnectionData {
@@ -805,6 +806,30 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       const response = await this.axios.request({
         method: 'POST',
         url: `/accounts/${email}/set-scheduled-cancellation`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+        data: data,
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async sendConsultingOfferNotification(
+    data: any,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerBillingUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'POST',
+        url: `/accounts/${email}/send-consulting-offer-notification`,
         headers: { Authorization: `bearer ${jwtToken}` },
         data: data,
         withCredentials: true,

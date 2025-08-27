@@ -15,9 +15,26 @@ export const ConsultingOffer = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const customerSuccessCalendarUrl = process.env.REACT_APP_DOPPLER_CUSTOMER_SUCCESS_CALENDAR_URL;
 
-    const requestAdvice = () => {
-      window.open(customerSuccessCalendarUrl, '_blank');
-      handleClose();
+    const mapRequestAdviceModel = () => {
+      const data = {
+        firstName: accountCancellationRequest.firstName,
+        lastName: accountCancellationRequest.lastName,
+        phone: accountCancellationRequest.phone,
+        contactSchedule: accountCancellationRequest.contactSchedule,
+        cancellationReason: accountCancellationRequest.cancellationReason,
+      };
+
+      return data;
+    };
+
+    const requestAdvice = async () => {
+      const setScheduledCancellationResult =
+        await dopplerBillingUserApiClient.sendConsultingOfferNotification(mapRequestAdviceModel());
+
+      if (setScheduledCancellationResult.success) {
+        window.open(customerSuccessCalendarUrl, '_blank');
+        handleClose();
+      }
     };
 
     const closePopup = () => {
