@@ -1286,8 +1286,7 @@ If you wish, you can schedule a brief meeting with one of our advisors to discus
       success_account_cancellation: {
         close_button: 'Close',
         description: `We understand your decision to cancel the service and respect your choice.
-If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. We value your trust and look forward to working with you again in the future.
-Good luck in your next steps!`,
+If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. Good luck in your next steps!`,
         title: 'Thank you for giving us the opportunity{br}to support you in your digital strategy.',
       },
       success_scheduled_cancellation: {

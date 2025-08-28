@@ -1286,11 +1286,10 @@ Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones
       free_description: 'Por favor indicanos el motivo de cancelación para que podamos procesar tu pedido.',
       success_account_cancellation: {
         close_button: 'Cerrar',
-        description: `Entendemos tu decisión de dar de baja el servicio y respetamos tu elección.
-Si en algún momento deseas volver, puedes contactarnos para retomar el servicio, estaremos aquí para asesorarte. Valoramos tu confianza y esperamos volver a
-colaborar contigo en el futuro.
-¡Mucho éxito en tus próximos pasos!`,
-        title: 'Gracias por darnos la oportunidad{br}de acompañarte en tu estrategia digital.',
+        description: `Respetamos tu decisión de dar de baja el servicio y queremos agradecerte por la confianza que nos brindaste.
+Si en algún momento decides volver, estaremos aquí para apoyarte y asesorarte en todo lo que necesites.
+¡Te deseamos mucho éxito en tus próximos pasos!`,
+        title: 'Gracias por permitirnos acompañarte{br}en tu estrategia digital.',
       },
       success_scheduled_cancellation: {
         accept_button: 'Aceptar',
