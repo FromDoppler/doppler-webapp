@@ -1287,19 +1287,21 @@ If you wish, you can schedule a brief meeting with one of our advisors to discus
         close_button: 'Close',
         description: `We understand your decision to cancel the service and respect your choice.
 If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. Good luck in your next steps!`,
+        paid_users_description: `We understand your decision to cancel the service and respect your choice.
+If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. Good luck in your next steps!`,
         title: 'Thank you for giving us the opportunity{br}to support you in your digital strategy.',
       },
       success_scheduled_cancellation: {
         accept_button: 'Accept',
         description: `Your plan will be canceled on your next billing date, and you will receive a
-confirmation email.Please note that any active add-ons associated with your account will also be canceled.`,
+confirmation <bold>email</bold>.{br}Please note that any active <bold>add-ons</bold> associated with your account will also be canceled.`,
         title: 'Your request was successful.',
       },
       title: 'Unsuscribe',
       without_retention_modal: {
         accept_button: 'Accept',
         cancel_button: 'Cancel',
-        description: `Your plan will be automatically canceled, and you will receive confirmation by email. Remember that any active add-ons associated with your account will also be canceled.`,
+        description: `Your plan will be automatically canceled, and you will receive confirmation by <bold>email</bold>. Remember that any active add-ons associated with your account will also be canceled.`,
         error_message: 'Ouch! An error occurred while processing your cancellation request. Please wait a moment and try again.',
         title: 'Are you sure you want to cancel{br}your account?',
       },

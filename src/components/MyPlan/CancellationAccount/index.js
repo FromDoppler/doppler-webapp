@@ -113,7 +113,9 @@ export const CancellationAccount = InjectAppServices(
           ></CancellationWithoutRetentionModal>
         )}
         {showSuccessAccountCancellationModal && (
-          <SuccessAccountCancellation></SuccessAccountCancellation>
+          <SuccessAccountCancellation
+            isFreeAccount={plan.isFreeAccount}
+          ></SuccessAccountCancellation>
         )}
         {showConsultingOfferModal && (
           <ConsultingOffer

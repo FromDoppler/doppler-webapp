@@ -17,7 +17,15 @@ export const SuccessScheduledCancellation = ({ handleClose }) => {
           />
         </h2>
         <div className="m-t-18 m-b-18">
-          <p>{_(`my_plan.cancellation.success_scheduled_cancellation.description`)}</p>
+          <p>
+            <FormattedMessage
+              id={'my_plan.cancellation.success_scheduled_cancellation.description'}
+              values={{
+                bold: (chunks) => <b>{chunks}</b>,
+                br: <br />,
+              }}
+            />
+          </p>
         </div>
         <hr />
         <ul className="dp-group-buttons">

@@ -1255,9 +1255,9 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
     cancellation: {
       consulting_offer: {
         continue_with_cancellation_button: 'CONTINUAR CON LA CANCELACIÓN',
-        description: 'Agenda una reunión con nuestros asesores para alcanzar tus objetivos de negocio.',
-        request_advice_button: 'Solicitar asesoría',
-        title: '¡Te brindamos una Asesoría Estratégica gratis!',
+        description: 'Agenda una reunión con nuestros expertos y descubre cómo alcanzar tus objetivos de negocio de manera más efectiva.',
+        request_advice_button: 'Solicita tu Asesoría',
+        title: '¡Asesoría Estratégica gratuita para potenciar tus resultados!',
       },
       contact_credits_description: 'Para iniciar este proceso, completa tus datos y el motivo de cancelación. Comenzaremos a gestionar tu solicitud de baja.',
       contact_emails_description: `Para iniciar este proceso, completa los siguientes datos y un representante gestionará tu pedido.{br}Si lo deseas,
@@ -1289,19 +1289,23 @@ Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones
         description: `Respetamos tu decisión de dar de baja el servicio y queremos agradecerte por la confianza que nos brindaste.
 Si en algún momento decides volver, estaremos aquí para apoyarte y asesorarte en todo lo que necesites.
 ¡Te deseamos mucho éxito en tus próximos pasos!`,
+        paid_users_description: `Respetamos tu decisión de dar de baja el servicio y queremos agradecerte por la confianza que nos brindaste.
+Si en algún momento decides volver, estaremos aquí para apoyarte y asesorarte en todo lo que necesites.
+Valoramos tu confianza y esperamos poder colaborar contigo nuevamente en el futuro.
+¡Te deseamos mucho éxito en tus próximos pasos!`,
         title: 'Gracias por permitirnos acompañarte{br}en tu estrategia digital.',
       },
       success_scheduled_cancellation: {
         accept_button: 'Aceptar',
         description: `Tu Plan se cancelará en la próxima fecha de facturación y recibirás una
-confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+confirmación por <bold>Email</bold>.{br}Recuerda que también se cancelarán los <bold>Add-ons</bold> activos asociados a tu cuenta.`,
         title: 'Tu solicitud se realizó correctamente',
       },
       title: 'Cancelar suscripción',
       without_retention_modal: {
         accept_button: 'Aceptar',
         cancel_button: 'Cancelar',
-        description: `Tu Plan se cancelará de forma automática y recibirás la confirmación por Email. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
+        description: `Tu Plan se cancelará de forma automática y recibirás la confirmación por <bold>Email</bold>. Recuerda que también se cancelarán los Add-ons activos asociados a tu cuenta.`,
         error_message: '¡Ouch! Ha ocurrido un error al procesar tu pedido de cancelación, espera un momento y vuelve a intentarlo.',
         title: '¿Estas seguro que deseas cancelar{br}tu cuenta?',
       },

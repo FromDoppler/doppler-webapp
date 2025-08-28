@@ -54,7 +54,14 @@ export const CancellationWithoutRetentionModal = InjectAppServices(
             />
           </h2>
           <div className="m-t-18 m-b-18">
-            <p>{_(`my_plan.cancellation.without_retention_modal.description`)}</p>
+            <p>
+              <FormattedMessage
+                id={'my_plan.cancellation.without_retention_modal.description'}
+                values={{
+                  bold: (chunks) => <b>{chunks}</b>,
+                }}
+              />
+            </p>
           </div>
           {errorMessage ? (
             <div className="dp-wrap-message dp-wrap-cancel m-b-12">
