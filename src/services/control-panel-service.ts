@@ -116,6 +116,8 @@ export class ControlPanelService implements ControlPanelService {
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
+    const isPushNotificationEnabled =
+      account !== 'none' ? account.user.pushNotification?.active : false;
     const hiddeCollaboratorsBox = !(account !== 'none'
       ? (account.userAccount?.userProfileType !== undefined
           ? account.userAccount.userProfileType === 'USER'
@@ -505,7 +507,7 @@ export class ControlPanelService implements ControlPanelService {
             imgSrc: notification_icon,
             imgAlt: _('control_panel.account_preferences.push_notification_title'),
             iconName: _('control_panel.account_preferences.push_notification_title'),
-            hidden: true,
+            hidden: !isPushNotificationEnabled, // TODO: this flag should be used with disabled prop
           },
         ],
       },
