@@ -14,7 +14,7 @@ export const PlanAlert = ({ days, availableSends, isUserFree, linkUrl }) => {
   };
 
   const { type, message, message2, actionLabel } = (() => {
-    if (!isUserFree && availableSends && availableSends < 0) {
+    if (!isUserFree && availableSends < 0) {
       return {
         type: 'excess-shipments',
         message: 'push_notification_section.panel.exceeded',
