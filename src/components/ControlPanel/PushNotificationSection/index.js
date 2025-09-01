@@ -13,11 +13,6 @@ import { PlanAlert }  from './PlanAlert/planAlert'
 
 export const PushNotificationSection = InjectAppServices(
   ({ dependencies: { appSessionRef } }) => {
-    /* Mock session info init */
-    // appSessionRef.current.userData.user.pushNotification.plan.description = 'Plan Free';
-    //  appSessionRef.current.userData.user.pushNotification.plan.quantity = 2500;
-    //  appSessionRef.current.userData.user.plan.isFreeAccount = false;
-    /* Mock session info end */
     const [pushNotificationData, setPushNotificationData] = useState({});
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -37,7 +32,7 @@ export const PushNotificationSection = InjectAppServices(
       const fetchData = async () => {
         setLoading(false);
         //add request to /ControlPanel/PushNotification/GetSettings
-        const res =     {
+        const res = {
           success: true,
           data: {
             consumedSends: 5,

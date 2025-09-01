@@ -1808,7 +1808,7 @@ El código es inválido.`,
       sends_option_pause_description: 'Al pausar, se omitirá el envío de las Notificaciones Push en todas las campañas que tengan el Add-on corriendo, al activar nuevamente se reaunudará el envío de manera automática.',
       title: 'Panel de Notificaciones Push',
     },
-    title: 'Comportamiento de Notificaciones Push',
+    title: 'Configuración de Notificaciones Push',
   },
   push_notification_selection: {
     banner_for_emails: `¿Necesitas más Envíos? <Link>Escríbenos</Link>.`,
