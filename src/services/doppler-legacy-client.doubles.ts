@@ -287,6 +287,15 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
       },
     };
   }
+
+  public async getPushNotificationSettings(): Promise<any> {
+    await timeout(1500);
+    return {
+      consumedSends: 120,
+      trialPeriodRemainingDays: 45,
+      isPushServiceEnabled: true,
+    };
+  }
 }
 
 // Dummy Data

@@ -10,6 +10,7 @@ import {
   BillingCycle,
   PathType,
   Plan,
+  PushNotificationSettings,
 } from '../doppler-types';
 import jwt_decode from 'jwt-decode';
 
@@ -44,6 +45,7 @@ export interface DopplerLegacyClient {
   activateConversationPlan(): Promise<boolean>;
   verifyUserAccountExistens(email: string): Promise<any>;
   getUserAccountData(model: LoginModel): Promise<UserAccountLoginResult>;
+  getPushNotificationSettings(): Promise<PushNotificationSettings>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -1411,5 +1413,18 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
         stackCall: new Error(),
       };
     }
+  }
+
+  public async getPushNotificationSettings(): Promise<PushNotificationSettings> {
+    const response = await this.axios.get('/ControlPanel/PushNotification/GetSettings');
+    if (!response?.data) {
+      throw new Error('Empty Doppler response');
+    }
+
+    return {
+      consumedSends: response.data.consumedSends,
+      trialPeriodRemainingDays: response.data.trialPeriodRemainingDays,
+      isPushServiceEnabled: response.data.isPushServiceEnabled,
+    };
   }
 }
