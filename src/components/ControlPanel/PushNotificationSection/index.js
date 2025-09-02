@@ -12,7 +12,7 @@ import { PushSwitch } from './helper/PushSwitch'
 import { PlanAlert }  from './PlanAlert/planAlert'
 
 export const PushNotificationSection = InjectAppServices(
-  ({ dependencies: { appSessionRef } }) => {
+  ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
     const [pushNotificationData, setPushNotificationData] = useState({});
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -30,17 +30,9 @@ export const PushNotificationSection = InjectAppServices(
 
      useEffect(() => {
       const fetchData = async () => {
+        const res = await dopplerLegacyClient.getPushNotificationSettings()
+        setPushNotificationData(res);
         setLoading(false);
-        //add request to /ControlPanel/PushNotification/GetSettings
-        const res = {
-          success: true,
-          data: {
-            consumedSends: 5,
-            trialPeriodRemainingDays: 30,
-            isPushServiceEnabled: true,
-          }
-        }
-        setPushNotificationData(res.data)
       };
       fetchData();
     }, []);
