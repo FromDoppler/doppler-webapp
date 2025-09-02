@@ -1260,8 +1260,7 @@ including information on access, conservation, rectification, deletion, security
         title: 'We offer you a free Strategic Consultation!',
       },
       contact_credits_description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
-      contact_emails_description: `To begin this process, please complete the following information and a representative will process your request.
-If you wish, you can schedule a brief meeting with one of our advisors to discuss your case. We may be able to help resolve any issues or show you options that better suit your needs.`,
+      contact_emails_description: `Fill out the form, and a representative will process your order. If you wish, you can schedule a brief meeting with an advisor to discuss your case and find the best option for you.`,
       description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
       form: {
         cancellation_reason_label: 'Reason for cancellation:',
@@ -1281,6 +1280,8 @@ If you wish, you can schedule a brief meeting with one of our advisors to discus
         lastname_label: `*Last name:`,
         phone_label: `*Phone:`,
         phone_placeholder: `9 11 2345-6789`,
+        schedule_meeting_button: 'Schedule a meeting',
+        unsubscribe_button: 'Unsubscribe',
       },
       free_description: 'Please provide the reason for cancellation so we can process your service cancellation request.',
       success_account_cancellation: {

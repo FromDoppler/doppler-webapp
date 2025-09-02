@@ -3,13 +3,13 @@ import {
   FieldGroup,
   InputFieldItem,
   PhoneFieldItem,
-  SubmitButton,
 } from '../../../../form-helpers/form-helpers';
 import { getFormInitialValues } from '../../../../../utils';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import * as S from './styles';
 import { Field, Form, Formik } from 'formik';
 import { AccountCancellationFlow } from '../../../../../doppler-types';
+import { useState } from 'react';
 
 const fieldNames = {
   firstname: 'firstname',
@@ -19,6 +19,12 @@ const fieldNames = {
   cancellation_reason: 'cancellation_reason',
 };
 
+const submitActionType = {
+  unsubscribe: 'unsubscribe',
+  scheduleMeeting: 'schedule_meeting',
+  following: 'following',
+}
+
 export const AccountCancellationRequest = InjectAppServices(
   ({
     accountCancellationFlow,
@@ -27,6 +33,7 @@ export const AccountCancellationRequest = InjectAppServices(
     data,
     dependencies: { dopplerBillingUserApiClient },
   }) => {
+    const [submitAction, setSubmitAction] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const customerSuccessCalendarUrl = process.env.REACT_APP_DOPPLER_CUSTOMER_SUCCESS_CALENDAR_URL;
@@ -111,19 +118,31 @@ export const AccountCancellationRequest = InjectAppServices(
       return mappedData;
     };
 
-    const onSubmit = async (values) => {
+    const registerCancellation = async (values, showCalendar) => {
       if (accountCancellationFlow === AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly) {
         const result = await dopplerBillingUserApiClient.saveAccountCancellationRequest(
           mapCancellationAccountRequestModel(values),
         );
         if (result.success) {
-          window.open(customerSuccessCalendarUrl, '_blank');
+          if (showCalendar) {
+            window.open(customerSuccessCalendarUrl, '_blank');
+          }
           handleSubmit(mapCancellationAccountRequestModel(values));
         }
       } else {
         handleSubmit(mapCancellationAccountRequestModel(values));
       }
     };
+
+    const onSumbit = (values) => {
+      if (submitAction === submitActionType.unsubscribe) {
+        registerCancellation(values, false);
+      } else if (submitAction === submitActionType.scheduleMeeting) {
+        registerCancellation(values, true);
+      } else if (submitAction === submitActionType.following) {
+        registerCancellation(values, false);
+      }
+    }
 
     return (
       <div
@@ -135,7 +154,7 @@ export const AccountCancellationRequest = InjectAppServices(
         <div className="modal-content--medium">
           <span className="close" onClick={handleCloseModal}></span>
           <h2 className="modal-title">{_(`my_plan.cancellation.title`)}</h2>
-          <p>
+          <p className="p-b-12">
             <FormattedMessage
               id={`${
                 accountCancellationFlow === AccountCancellationFlow.free
@@ -156,7 +175,10 @@ export const AccountCancellationRequest = InjectAppServices(
               <h4>{_(`my_plan.cancellation.form.contact_information_label`)}</h4>
             )}
             <div className="awa-form">
-              <Formik onSubmit={onSubmit} initialValues={_getFormInitialValues()}>
+              <Formik
+                onSubmit={(values) => onSumbit(values)}
+                initialValues={_getFormInitialValues()}
+              >
                 {({ isSubmitting }) => (
                   <Form className="dp-form-billing-information">
                     <fieldset>
@@ -184,7 +206,7 @@ export const AccountCancellationRequest = InjectAppServices(
                           </FieldGroup>
                           <FieldGroup>
                             {accountCancellationFlow ===
-                              AccountCancellationFlow.lessOrEqual500ContactsOrCredits && (
+                              AccountCancellationFlow.lessOrEqual5000ContactsOrCredits && (
                               <InputFieldItem
                                 fieldName={fieldNames.range_time}
                                 type="text"
@@ -200,7 +222,7 @@ export const AccountCancellationRequest = InjectAppServices(
                               placeholder={_('my_plan.cancellation.form.phone_placeholder')}
                               className={`field-item--${
                                 accountCancellationFlow ===
-                                AccountCancellationFlow.lessOrEqual500ContactsOrCredits
+                                AccountCancellationFlow.lessOrEqual5000ContactsOrCredits
                                   ? '50'
                                   : '100'
                               }`}
@@ -249,13 +271,55 @@ export const AccountCancellationRequest = InjectAppServices(
                         </Field>
                       </S.RadiosContainer>
                       <hr />
-                      <FieldGroup className="dp-group-buttons">
-                        <li>
-                          <SubmitButton isSubmitting={isSubmitting}>
-                            {_('my_plan.cancellation.form.following_button')}
-                          </SubmitButton>
+                      <ul className="dp-group-buttons">
+                        <li className="buttons-container">
+                          {accountCancellationFlow === AccountCancellationFlow.free ||
+                          accountCancellationFlow ===
+                            AccountCancellationFlow.lessOrEqual5000ContactsOrCredits ? (
+                            <button
+                              type="submit"
+                              onClick={() => setSubmitAction(submitActionType.following)}
+                              className={`dp-button button-medium primary-green ${
+                                (isSubmitting &&
+                                  submitAction === submitActionType.following &&
+                                  ' button--loading') ||
+                                ''
+                              }`}
+                            >
+                              {_('my_plan.cancellation.form.following_button')}
+                            </button>
+                          ) : (
+                            <>
+                              <button
+                                type="submit"
+                                onClick={() => setSubmitAction('unsubscribe')}
+                                className={`dp-button button-medium secondary-green m-r-18 ${
+                                  (isSubmitting &&
+                                    submitAction === submitActionType.unsubscribe &&
+                                    ' button--loading') ||
+                                  ''
+                                }`}
+                                disabled={isSubmitting && submitAction === submitActionType.scheduleMeeting}
+                              >
+                                {_('my_plan.cancellation.form.unsubscribe_button')}
+                              </button>
+                              <button
+                                type="submit"
+                                onClick={() => setSubmitAction('schedule_meeting')}
+                                className={`dp-button button-medium primary-green ${
+                                  (isSubmitting &&
+                                    submitAction === submitActionType.scheduleMeeting &&
+                                    ' button--loading') ||
+                                  ''
+                                }`}
+                                disabled={isSubmitting && submitAction === submitActionType.unsubscribe}
+                              >
+                                {_('my_plan.cancellation.form.schedule_meeting_button')}
+                              </button>
+                            </>
+                          )}
                         </li>
-                      </FieldGroup>
+                      </ul>
                     </fieldset>
                   </Form>
                 )}

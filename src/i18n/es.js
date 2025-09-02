@@ -1260,14 +1260,12 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
         title: '¡Te brindamos una Asesoría Estratégica gratis!',
       },
       contact_credits_description: 'Para iniciar este proceso, completa tus datos y el motivo de cancelación. Comenzaremos a gestionar tu solicitud de baja.',
-      contact_emails_description: `Para iniciar este proceso, completa los siguientes datos y un representante gestionará tu pedido.{br}Si lo deseas,
-puedes agendar una breve reunión con uno de nuestros asesores para conversar sobre tu caso.
-Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones que se ajusten mejor a tus necesidades.`,
+      contact_emails_description: `Completa los datos y un representante gestionará tu pedido. Si lo prefieres, puedes agendar una breve reunión con un asesor para resolver dudas y encontrar la mejor opción para tí.`,
       description: `Para iniciar este proceso, programa una reunión con uno de nuestros asesores y te ayudaremos durante el proceso de desuscripción.`,
       form: {
         cancellation_reason_label: 'Motivo de cancelación:',
         cancellation_reason_options: {
-          doppler_expensive_for_my_budget: 'Doppler es caro a mi presupuesto',
+          doppler_expensive_for_my_budget: 'Doppler está fuera de mi presupuesto.',
           doppler_missing_one_or_more_features: 'A Doppler le falta una o varias Funcionalidades',
           doppler_not_working_properly: 'Doppler no funciona correctamente',
           my_project_is_over: 'Mi proyecto terminó',
@@ -1282,6 +1280,8 @@ Tal vez podamos ayudarte a resolver cualquier inconveniente o mostrarte opciones
         lastname_label: `*Apellido`,
         phone_label: `*Teléfono`,
         phone_placeholder: `9 11 2345-6789`,
+        schedule_meeting_button: 'Agendar reunión',
+        unsubscribe_button: 'Darme de baja',
       },
       free_description: 'Por favor indicanos el motivo de cancelación para que podamos procesar tu pedido.',
       success_account_cancellation: {

@@ -17,7 +17,7 @@ const getCurrentFlow = (plan) => {
     ) {
       return AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly;
     } else {
-      return AccountCancellationFlow.lessOrEqual500ContactsOrCredits;
+      return AccountCancellationFlow.lessOrEqual5000ContactsOrCredits;
     }
   }
 };
