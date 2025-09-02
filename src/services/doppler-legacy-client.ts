@@ -401,6 +401,11 @@ interface PushNotificationPlanEntry {
   buttonUrl: string;
 }
 
+interface PushNotificationEntry {
+  active: boolean;
+  plan: PushNotificationPlanEntry;
+}
+
 interface SmsEntry {
   buttonText: string;
   buttonUrl: string;
@@ -423,6 +428,7 @@ interface UserEntry {
   lang: string;
   nav: NavEntry[];
   plan: PlanEntry;
+  pushNotification: PushNotificationEntry;
 }
 
 interface UserAccountEntry {
@@ -608,6 +614,13 @@ function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
   };
 }
 
+function mapPushNotificationEntry(json: any): PushNotificationEntry {
+  return {
+    active: json?.active || false,
+    plan: mapPushNotificationPlanEntry(json),
+  };
+}
+
 function mapPushNotificationPlanEntry(json: any): PushNotificationPlanEntry {
   return {
     planId: json?.planData ? json?.planData.idPlan : 0,
@@ -729,10 +742,7 @@ export function mapHeaderDataJson(json: any) {
         active: json.user.onSite?.active,
         plan: mapOnSitePlanEntry(json.user.onSite),
       },
-      pushNotification: {
-        active: json.user.pushNotificationPlan?.active,
-        plan: mapPushNotificationPlanEntry(json.user.pushNotificationPlan),
-      },
+      pushNotification: mapPushNotificationEntry(json.user.pushNotificationPlan),
       isCancellationRequested: json.user.isCancellationRequested ?? false,
       hasScheduledCancellation: json.user.hasScheduledCancellation ?? false,
     },
