@@ -37,7 +37,7 @@ export const PushNotificationSection = InjectAppServices(
         setLoading(false);
       };
       fetchData();
-    }, []);
+    }, [dopplerLegacyClient]);
   
   const pushServiceSwitchHandler = (checked) => {
     setIsPushServiceEnabled(checked);
