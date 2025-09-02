@@ -331,7 +331,7 @@ describe('SubscriptionDetails component', () => {
               },
               pushNotification: {
                 plan: {
-                  active: true,
+                  active: false,
                   quantity: 200,
                   fee: 0,
                 },
@@ -358,9 +358,6 @@ describe('SubscriptionDetails component', () => {
 
     // Assert
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.subscription_details.addon.push_notification_plan.title'),
-    ).toBeInTheDocument();
   });
 
   it('should render component - Email Marketing Plan with SMS', async () => {

@@ -397,6 +397,64 @@ describe('HttpDopplerBillingUserApiClient', () => {
     );
   });
 
+  it('should request additional services', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.requestAdditionalServices({});
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should cancellation account', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.cancellationAccount({
+      cancellationReason: 'test',
+    });
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('should save account cancellation request', async () => {
+    // Arrange
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerBillingUserApiClient = createHttpDopplerBillingUserApiClient({ request });
+
+    // Act
+    const result = await dopplerBillingUserApiClient.saveAccountCancellationRequest({
+      cancellationReason: 'test',
+    });
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
   it('should set scheduled cancellation', async () => {
     // Arrange
     const response = {

@@ -9,6 +9,8 @@ import { Collaborators } from './AddOnPlan/Collaborators';
 
 export const getAddons = (user) => {
   const { chat, landings, onSite, pushNotification, plan } = user;
+  const canBuyPushNotificationPlan =
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
 
   var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
   const addOns = [
@@ -52,7 +54,7 @@ export const getAddons = (user) => {
         active: pushNotification.plan.active,
         fee: pushNotification.plan.fee,
       },
-      active: pushNotification.plan.active || plan.isFreeAccount,
+      active: (pushNotification.plan.active || plan.isFreeAccount) && canBuyPushNotificationPlan,
       buyUrl: `${
         plan.isFreeAccount ? '/push-notifications' : '/buy-push-notification-plans?buyType=5'
       }`,
