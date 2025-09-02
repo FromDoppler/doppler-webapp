@@ -312,7 +312,6 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                                   href="/integration/shopify/rfm"
                                   className="dp-button button-big primary-green"
                                   rel="noopener noreferrer"
-                                  target="_blank"
                                 >
                                   {_('rfm.button_enable')}
                                 </a>
