@@ -9,7 +9,14 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 
 const forcedServices = {
-  
+  dopplerLegacyClient: {
+    getPushNotificationSettings: async () => ({
+      consumedSends: 100,
+      trialPeriodRemainingDays: 30,
+      isPushServiceEnabled: true,
+    }),
+  },
+
   appSessionRef: {
     current: {
       userData: {
@@ -51,10 +58,11 @@ describe('test for Push Notification Section component ', () => {
       </AppServicesProvider>,
     );
 
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
     // Assert Breadcrumb is rendered
     expect(screen.getByText('common.control_panel')).toBeInTheDocument();
     expect(screen.getByText('push_notification_section.title')).toBeInTheDocument();
   });
-
-  
 });
