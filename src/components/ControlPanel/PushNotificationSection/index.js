@@ -14,6 +14,7 @@ import { PlanAlert }  from './PlanAlert/planAlert'
 export const PushNotificationSection = InjectAppServices(
   ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
     const [pushNotificationData, setPushNotificationData] = useState({});
+    const [isPushServiceEnabled, setIsPushServiceEnabled] = useState(false);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
@@ -32,15 +33,15 @@ export const PushNotificationSection = InjectAppServices(
       const fetchData = async () => {
         const res = await dopplerLegacyClient.getPushNotificationSettings()
         setPushNotificationData(res);
+        setIsPushServiceEnabled(res.isPushServiceEnabled); 
         setLoading(false);
       };
       fetchData();
     }, []);
   
-  const pushServiceHandle = (field) => {
-    // Add request to set isPushServiceEnabled
-    // set isPushServiceEnabled flag
-  }
+  const pushServiceSwitchHandler = (checked) => {
+    setIsPushServiceEnabled(checked);
+  };
 
   const barPercent = planQuantity === 0 ? 0 : pushNotificationData.consumedSends * 100 / planQuantity;
   const availableSends = pushNotificationData.trialPeriodRemainingDays === 0 || planQuantity === 0 ? 0: planQuantity - pushNotificationData.consumedSends;
@@ -122,13 +123,14 @@ export const PushNotificationSection = InjectAppServices(
                     
                     <div className="m-t-36">
                       <h2>{_('push_notification_section.panel.sends_option')}</h2>
-                      <Formik initialValues={{ isPushServiceEnabled: true }}>
+                      <Formik initialValues={{ isPushServiceEnabled }}>
                         <Form>
                           <PushSwitch
                             name="isPushServiceEnabled"
                             title={_('push_notification_section.panel.sends_option_pause')}
                             text = {_('push_notification_section.panel.sends_option_pause_description')}
-                            onToggle={(checked) => pushServiceHandle(checked)}
+                            checked={isPushServiceEnabled}
+                            onToggle={pushServiceSwitchHandler}
                           />
                         </Form>
                        </Formik>
