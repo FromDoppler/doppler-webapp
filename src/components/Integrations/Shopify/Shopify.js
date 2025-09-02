@@ -296,6 +296,32 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                         </div>
                       </div>
                     </div>
+                    <div className="dp-box-shadow m-t-24 m-b-24">
+                      <div className="dp-integration__block dp-integration--info">
+                        <header className="dp-block dp-integration__status">
+                          <div className="dp-rowflex">
+                            <div className="col-sm-12 col-md-6 col-lg-9">
+                              <div className="dp-align-left">
+                                <h2>{_('rfm.title')}</h2>
+                                <p>{_('rfm.subtitle')}</p>
+                              </div>
+                            </div>
+                            <div className="col-sm-12 col-md-1 col-lg-3 m-t-12">
+                              <div className="status__link">
+                                <a
+                                  href="/integration/shopify/rfm"
+                                  className="dp-button button-big primary-green"
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                >
+                                  {_('rfm.button_enable')}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </header>
+                      </div>
+                    </div>
                   </React.Fragment>
                 ))
               ) : (
