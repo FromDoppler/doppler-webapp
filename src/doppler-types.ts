@@ -228,5 +228,10 @@ export const AccountCancellationFlow = {
   free: 1,
   greaterOrEqual1000ContactsOrMonthly: 2,
   lessOrEqual5000ContactsOrCredits: 3,
+};
 
-}
+export interface PushNotificationSettings {
+  consumedSends: number;
+  trialPeriodRemainingDays: number;
+  isPushServiceEnabled: boolean;
+};
