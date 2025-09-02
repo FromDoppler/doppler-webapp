@@ -227,6 +227,6 @@ export const AddOnType = {
 export const AccountCancellationFlow = {
   free: 1,
   greaterOrEqual1000ContactsOrMonthly: 2,
-  lessOrEqual500ContactsOrCredits: 3,
+  lessOrEqual5000ContactsOrCredits: 3,
 
 }
