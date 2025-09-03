@@ -1966,12 +1966,6 @@ by Doppler and how many don't. By tracking the user's journey you'll be able to 
     unique_opens: `Unique Opens:`,
   },
   reports_title: `Doppler | Reports`,
-  rfm: {
-    button_enable: `Enable RFM`,
-    subtitle: `By using RFM, you will be able to strategically segment your contacts based on their Recency, Frequency, and Monetary Value.
-    This will allow you to identify your most valuable customers, better understand their behaviors, and design more effective and personalized campaigns, thereby optimizing the impact of your marketing actions.`,
-    title: `Strategic segmentation based on RFM`,
-  },
   shopify: {
     admin_apps: `Shopify control panel`,
     admin_apps_url: `https://{shopName}/admin/apps`,

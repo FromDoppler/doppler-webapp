@@ -1967,12 +1967,6 @@ los usuarios, detecta puntos de fuga y oportunidades de mejora! Si necesitas ayu
     unique_opens: `Aperturas Únicas:`,
   },
   reports_title: `Doppler | Reportes`,
-  rfm: {
-    button_enable: `Habilitar RFM`,
-    subtitle: `Al utilizar RFM vas a poder segmentar tus contactos de manera estratégica según su Recencia, Frecuencia y Valor Monetario.
-    Esto te permitirá identificar los clientes más valiosos, comprender mejor sus comportamientos y diseñar campañas más efectivas y personalizadas, optimizando así el impacto de tus acciones de marketing.`,
-    title: `Segmentación estratégica basada en RFM`,
-  },
   shopify: {
     admin_apps: `Panel de control de Shopify`,
     admin_apps_url: `https://{shopName}/admin/apps`,
