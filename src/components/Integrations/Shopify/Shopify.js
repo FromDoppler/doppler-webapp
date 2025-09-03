@@ -331,6 +331,13 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
           </div>
         </div>
       </section>
+      <iframe
+        src="https://webappint.fromdoppler.net/integration/shopify/rfm"
+        width="600"
+        height="400"
+        style={{ border: "none" }}
+        title="Wikipedia"
+      />
     </>
   );
 };
