@@ -157,22 +157,20 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
   });
   const shopifyRef = useRef(shopifyState);
   const getShopifyDataRef = useRef(null);
+  const iframeRef = useRef(null);
   shopifyRef.current = shopifyState;
 
   useEffect(() => {
     const handleMessage = (e) => {
-      if (e.data.type === 'setHeight') {
-        const iframe = document.querySelector('iframe[src*="rfm"]');
-        if (iframe) {
-          iframe.style.height = `${e.data.height}px`;
-        }
+      if (e.data.type === "setHeight" && iframeRef.current) {
+        iframeRef.current.style.height = `${e.data.height}px`;
       }
     };
 
-    window.addEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener("message", handleMessage);
     };
   }, []);
 
@@ -349,6 +347,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
         </div>
         <div className="dp-box-shadow m-b-24">
           <iframe
+            ref={iframeRef}
             src="https://webappint.fromdoppler.net/integration/shopify/rfm"
             style={{ border: "none" }}
             className="col-sm-12"
