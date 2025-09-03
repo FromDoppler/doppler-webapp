@@ -32,7 +32,7 @@ export const PushNotificationSection = InjectAppServices(
      useEffect(() => {
       const fetchData = async () => {
         const res = await dopplerLegacyClient.getPushNotificationSettings()
-        console.log("Respuesta normalizada from dopplerLegacyClient:", res);
+        console.log('Respuesta normalizada from dopplerLegacyClient:', res);
         setPushNotificationData(res);
         setIsPushServiceEnabled(res.isPushServiceEnabled); 
         setLoading(false);
