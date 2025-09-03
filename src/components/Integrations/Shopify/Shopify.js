@@ -350,7 +350,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
         <div className="dp-box-shadow m-b-24">
           <iframe
             src="https://webappint.fromdoppler.net/integration/shopify/rfm"
-            style={{ border: "none", height: "800px" }}
+            style={{ border: "none" }}
             className="col-sm-12"
             title="rfm"
           />
