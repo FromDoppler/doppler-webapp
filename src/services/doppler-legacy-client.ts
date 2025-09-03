@@ -1417,6 +1417,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
   public async getPushNotificationSettings(): Promise<PushNotificationSettings> {
     const response = await this.axios.get('/ControlPanel/PushNotification/GetSettings');
+
     if (!response?.data?.data) {
       throw new Error('Empty Doppler response');
     }

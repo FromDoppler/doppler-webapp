@@ -235,3 +235,5 @@ export interface PushNotificationSettings {
   trialPeriodRemainingDays: number;
   isPushServiceEnabled: boolean;
 };
+
+export const PUSH_NOTIFICATION_PLAN_TRIAL_ID = 1;

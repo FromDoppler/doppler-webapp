@@ -10,6 +10,7 @@ import { Navigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { PushSwitch } from './helper/PushSwitch'
 import { PlanAlert }  from './PlanAlert/planAlert'
+import { PUSH_NOTIFICATION_PLAN_TRIAL_ID } from '../../../doppler-types';
 
 export const PushNotificationSection = InjectAppServices(
   ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
@@ -22,12 +23,15 @@ export const PushNotificationSection = InjectAppServices(
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
-    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
     const { 
       buttonUrl: updatePlanUrl,
       quantity: planQuantity,
       description: planDescription,
+      planId: pushNotificationPlanId,
+      fee: pushNotificationPlanFee,
     } = appSessionRef.current.userData.user.pushNotification.plan;
+
+    const isPlanTrial = pushNotificationPlanId === PUSH_NOTIFICATION_PLAN_TRIAL_ID && pushNotificationPlanFee === 0;
 
      useEffect(() => {
       const fetchData = async () => {
@@ -97,7 +101,7 @@ export const PushNotificationSection = InjectAppServices(
                       linkUrl = {updatePlanUrl}
                       days = {pushNotificationData.trialPeriodRemainingDays}
                       availableSends = {availableSends}
-                      isUserFree = {isFreeAccount}/>
+                      isPlanTrial = {isPlanTrial}/>
 
                     <div className="dp-widget-plan-progress">
                       <p>{planDescription || 'Plan'}:&nbsp;<strong> {_('push_notification_section.panel.sends_month', {quantity: planQuantity})}</strong></p>

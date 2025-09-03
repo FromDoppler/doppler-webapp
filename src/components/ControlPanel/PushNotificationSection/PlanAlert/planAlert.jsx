@@ -4,7 +4,7 @@ import { BoxMessage } from '../../../styles/messages';
 import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 import { Link } from 'react-router-dom';
 
-export const PlanAlert = ({ days, availableSends, isUserFree, linkUrl }) => {
+export const PlanAlert = ({ days, availableSends, isPlanTrial, linkUrl }) => {
   const intl = useIntl();
 
   const styles = {
@@ -14,7 +14,7 @@ export const PlanAlert = ({ days, availableSends, isUserFree, linkUrl }) => {
   };
 
   const { type, message, message2, actionLabel } = (() => {
-    if (!isUserFree && availableSends < 0) {
+    if (!isPlanTrial && availableSends < 0) {
       return {
         type: 'excess-shipments',
         message: 'push_notification_section.panel.exceeded',
@@ -25,7 +25,7 @@ export const PlanAlert = ({ days, availableSends, isUserFree, linkUrl }) => {
       };
     }
 
-    if (isUserFree && (days < 1 || availableSends < 0)) {
+    if (isPlanTrial && (days < 1 || availableSends <= 0)) {
       return {
         type: 'trial-ended',
         message: 'push_notification_section.panel.date_expiration_error',
@@ -47,7 +47,7 @@ export const PlanAlert = ({ days, availableSends, isUserFree, linkUrl }) => {
     };
   })();
 
-  return !isUserFree && availableSends > 0 ? null : (
+  return !isPlanTrial && availableSends > 0 ? null : (
     <BoxMessage className={`dp-wrap-message ${styles[type]} bounceIn`} spaceTopBottom>
       <span className="dp-message-icon"></span>
       <span className="dp-content-message dp-content-full">
