@@ -1265,7 +1265,7 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       form: {
         cancellation_reason_label: 'Motivo de cancelación:',
         cancellation_reason_options: {
-          doppler_expensive_for_my_budget: 'Doppler está fuera de mi presupuesto.',
+          doppler_expensive_for_my_budget: 'Doppler está fuera de mi presupuesto',
           doppler_missing_one_or_more_features: 'A Doppler le falta una o varias Funcionalidades',
           doppler_not_working_properly: 'Doppler no funciona correctamente',
           my_project_is_over: 'Mi proyecto terminó',
