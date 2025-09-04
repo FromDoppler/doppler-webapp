@@ -157,7 +157,6 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
   });
   const shopifyRef = useRef(shopifyState);
   const getShopifyDataRef = useRef(null);
-  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
   const iframeRef = useRef(null);
   shopifyRef.current = shopifyState;
 
@@ -347,18 +346,12 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
           </div>
         </div>
         <div className="dp-box-shadow m-b-24">
-          {!isIframeLoaded && (
-            <div style={{ minHeight: 200 }}> 
-              <Loading page />
-            </div>
-          )}
           <iframe
             ref={iframeRef}
             src="/integration/shopify/rfm"
-            style={{ border: "none", display: isIframeLoaded ? "block" : "none" }}
+            style={{ border: "none" }}
             className="col-sm-12"
             title="rfm"
-            onLoad={() => setIsIframeLoaded(true)}
           />
         </div>
       </section>
