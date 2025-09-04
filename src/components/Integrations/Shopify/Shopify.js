@@ -157,7 +157,22 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
   });
   const shopifyRef = useRef(shopifyState);
   const getShopifyDataRef = useRef(null);
+  const iframeRef = useRef(null);
   shopifyRef.current = shopifyState;
+
+  useEffect(() => {
+    const handleMessage = (e) => {
+      if (e.data.type === "setHeight" && iframeRef.current) {
+        iframeRef.current.style.height = `${e.data.height}px`;
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   useEffect(() => {
     const getShopifyData = async () => {
@@ -329,6 +344,15 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
               )}
             </div>
           </div>
+        </div>
+        <div className="dp-box-shadow m-b-24">
+          <iframe
+            ref={iframeRef}
+            src="/integration/shopify/rfm"
+            style={{ border: "none" }}
+            className="col-sm-12"
+            title="rfm"
+          />
         </div>
       </section>
     </>
