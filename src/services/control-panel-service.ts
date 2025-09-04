@@ -134,6 +134,11 @@ export class ControlPanelService implements ControlPanelService {
         : false
       : false);
 
+    const canBuyPushNotificationPlan =
+      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
+    const hasPushNotificationPlan =
+      account !== 'none' ? account.user.pushNotification?.active : false;
+
     if (getIntegrationSection) {
       return [
         {
@@ -501,11 +506,13 @@ export class ControlPanelService implements ControlPanelService {
             hidden: hiddeCollaboratorEditionBox,
           },
           {
-            linkUrl: '/control-panel/push-notification',
+            linkUrl: hasPushNotificationPlan
+              ? '/control-panel/push-notification'
+              : '/push-notifications',
             imgSrc: notification_icon,
             imgAlt: _('control_panel.account_preferences.push_notification_title'),
             iconName: _('control_panel.account_preferences.push_notification_title'),
-            hidden: true,
+            hidden: !canBuyPushNotificationPlan,
           },
         ],
       },

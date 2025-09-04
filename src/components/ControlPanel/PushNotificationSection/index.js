@@ -10,10 +10,12 @@ import { Navigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { PushSwitch } from './helper/PushSwitch'
 import { PlanAlert }  from './PlanAlert/planAlert'
+import { PUSH_NOTIFICATION_PLAN_TRIAL_ID } from '../../../doppler-types';
 
 export const PushNotificationSection = InjectAppServices(
-  ({ dependencies: { appSessionRef } }) => {
+  ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
     const [pushNotificationData, setPushNotificationData] = useState({});
+    const [isPushServiceEnabled, setIsPushServiceEnabled] = useState(false);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
@@ -21,34 +23,29 @@ export const PushNotificationSection = InjectAppServices(
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
-    const { isFreeAccount } = appSessionRef.current.userData.user.plan;
     const { 
       buttonUrl: updatePlanUrl,
       quantity: planQuantity,
       description: planDescription,
+      planId: pushNotificationPlanId,
+      fee: pushNotificationPlanFee,
     } = appSessionRef.current.userData.user.pushNotification.plan;
+
+    const isPlanTrial = pushNotificationPlanId === PUSH_NOTIFICATION_PLAN_TRIAL_ID && pushNotificationPlanFee === 0;
 
      useEffect(() => {
       const fetchData = async () => {
+        const res = await dopplerLegacyClient.getPushNotificationSettings()
+        setPushNotificationData(res);
+        setIsPushServiceEnabled(res.isPushServiceEnabled); 
         setLoading(false);
-        //add request to /ControlPanel/PushNotification/GetSettings
-        const res = {
-          success: true,
-          data: {
-            consumedSends: 5,
-            trialPeriodRemainingDays: 30,
-            isPushServiceEnabled: true,
-          }
-        }
-        setPushNotificationData(res.data)
       };
       fetchData();
-    }, []);
+    }, [dopplerLegacyClient]);
   
-  const pushServiceHandle = (field) => {
-    // Add request to set isPushServiceEnabled
-    // set isPushServiceEnabled flag
-  }
+  const pushServiceSwitchHandler = (checked) => {
+    setIsPushServiceEnabled(checked);
+  };
 
   const barPercent = planQuantity === 0 ? 0 : pushNotificationData.consumedSends * 100 / planQuantity;
   const availableSends = pushNotificationData.trialPeriodRemainingDays === 0 || planQuantity === 0 ? 0: planQuantity - pushNotificationData.consumedSends;
@@ -104,7 +101,7 @@ export const PushNotificationSection = InjectAppServices(
                       linkUrl = {updatePlanUrl}
                       days = {pushNotificationData.trialPeriodRemainingDays}
                       availableSends = {availableSends}
-                      isUserFree = {isFreeAccount}/>
+                      isPlanTrial = {isPlanTrial}/>
 
                     <div className="dp-widget-plan-progress">
                       <p>{planDescription || 'Plan'}:&nbsp;<strong> {_('push_notification_section.panel.sends_month', {quantity: planQuantity})}</strong></p>
@@ -130,13 +127,14 @@ export const PushNotificationSection = InjectAppServices(
                     
                     <div className="m-t-36">
                       <h2>{_('push_notification_section.panel.sends_option')}</h2>
-                      <Formik initialValues={{ isPushServiceEnabled: true }}>
+                      <Formik initialValues={{ isPushServiceEnabled }}>
                         <Form>
                           <PushSwitch
                             name="isPushServiceEnabled"
                             title={_('push_notification_section.panel.sends_option_pause')}
                             text = {_('push_notification_section.panel.sends_option_pause_description')}
-                            onToggle={(checked) => pushServiceHandle(checked)}
+                            checked={isPushServiceEnabled}
+                            onToggle={pushServiceSwitchHandler}
                           />
                         </Form>
                        </Formik>
