@@ -342,17 +342,16 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                   </div>
                 </>
               )}
+            <div className="dp-box-shadow m-b-24">
+              <iframe
+                ref={iframeRef}
+                src="/integration/shopify/rfm"
+                style={{ border: "none", width: "100%" }}
+                title="rfm"
+              />
+            </div>
             </div>
           </div>
-        </div>
-        <div className="dp-box-shadow m-b-24">
-          <iframe
-            ref={iframeRef}
-            src="/integration/shopify/rfm"
-            style={{ border: "none" }}
-            className="col-sm-12"
-            title="rfm"
-          />
         </div>
       </section>
     </>
