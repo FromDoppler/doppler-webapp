@@ -75,7 +75,6 @@ const paymentMethods = [
 ];
 
 const countriesAvailableTransfer = ['ar', 'co', 'mx'];
-const countriesAvailableMercadoPago = ['ar'];
 const countriesAvailableAutomaticDebit = ['ar'];
 
 //TODO: Remove the stykes when the UI Library is updated
@@ -106,7 +105,8 @@ const PaymentMethodField = ({
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const allowTransfer = countriesAvailableTransfer.find((c) => c === billingCountry);
-  const allowMercadoPago = countriesAvailableMercadoPago.find((c) => c === billingCountry);
+  const allowMercadoPago =
+    currentPaymentMethod === paymentType.mercadoPago && optionView === actionPage.READONLY; //countriesAvailableMercadoPago.find((c) => c === billingCountry);
   const allowAutomaticDebit = countriesAvailableAutomaticDebit.find((c) => c === billingCountry);
 
   return (
@@ -128,7 +128,13 @@ const PaymentMethodField = ({
                       name={fieldNames.paymentMethodName}
                       {...field}
                       value={paymentMethod.value}
-                      checked={field.value === paymentMethod.value}
+                      checked={
+                        optionView === actionPage.READONLY
+                          ? field.value === paymentMethod.value
+                          : field.value !== paymentType.mercadoPago
+                            ? field.value === paymentMethod.value
+                            : paymentMethod.value === paymentType.creditCard
+                      }
                       disabled={
                         (optionView === actionPage.READONLY &&
                           field.value !== paymentMethod.value) ||
@@ -163,10 +169,15 @@ const PaymentMethodField = ({
 };
 
 const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
+  var currentPaymentMethodType =
+    optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
+      ? PaymentMethodType.creditCard
+      : paymentMethodType;
+
   return (
     <>
       {(() => {
-        switch (paymentMethodType) {
+        switch (currentPaymentMethodType) {
           case paymentType.creditCard:
             return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
           case paymentType.transfer:
