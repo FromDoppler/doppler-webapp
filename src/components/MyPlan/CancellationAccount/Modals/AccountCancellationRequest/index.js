@@ -1,9 +1,5 @@
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  FieldGroup,
-  InputFieldItem,
-  PhoneFieldItem,
-} from '../../../../form-helpers/form-helpers';
+import { FieldGroup, InputFieldItem, PhoneFieldItem } from '../../../../form-helpers/form-helpers';
 import { getFormInitialValues } from '../../../../../utils';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import * as S from './styles';
@@ -23,7 +19,7 @@ const submitActionType = {
   unsubscribe: 'unsubscribe',
   scheduleMeeting: 'schedule_meeting',
   following: 'following',
-}
+};
 
 export const AccountCancellationRequest = InjectAppServices(
   ({
@@ -142,7 +138,7 @@ export const AccountCancellationRequest = InjectAppServices(
       } else if (submitAction === submitActionType.following) {
         registerCancellation(values, false);
       }
-    }
+    };
 
     return (
       <div
@@ -299,7 +295,9 @@ export const AccountCancellationRequest = InjectAppServices(
                                     ' button--loading') ||
                                   ''
                                 }`}
-                                disabled={isSubmitting && submitAction === submitActionType.scheduleMeeting}
+                                disabled={
+                                  isSubmitting && submitAction === submitActionType.scheduleMeeting
+                                }
                               >
                                 {_('my_plan.cancellation.form.unsubscribe_button')}
                               </button>
@@ -312,7 +310,9 @@ export const AccountCancellationRequest = InjectAppServices(
                                     ' button--loading') ||
                                   ''
                                 }`}
-                                disabled={isSubmitting && submitAction === submitActionType.unsubscribe}
+                                disabled={
+                                  isSubmitting && submitAction === submitActionType.unsubscribe
+                                }
                               >
                                 {_('my_plan.cancellation.form.schedule_meeting_button')}
                               </button>
