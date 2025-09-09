@@ -6,7 +6,7 @@ import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { PushSwitch } from './helper/PushSwitch';
 import { PlanAlert } from './PlanAlert/planAlert';
@@ -19,6 +19,7 @@ export const PushNotificationSection = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
@@ -43,10 +44,6 @@ export const PushNotificationSection = InjectAppServices(
       };
       fetchData();
     }, [dopplerLegacyClient]);
-
-    const pushServiceSwitchHandler = (checked) => {
-      setIsPushServiceEnabled(checked);
-    };
 
     const barPercent =
       planQuantity === 0 ? 0 : (pushNotificationData.consumedSends * 100) / planQuantity;
@@ -163,22 +160,62 @@ export const PushNotificationSection = InjectAppServices(
                       </div>
                     </div>
 
-                    <div className="m-t-36">
-                      <h2>{_('push_notification_section.panel.sends_option')}</h2>
-                      <Formik initialValues={{ isPushServiceEnabled }}>
+                    <Formik
+                      initialValues={{ isPushServiceEnabled }}
+                      enableReinitialize={true}
+                      onSubmit={async (values) => {
+                        try {
+                          // TODO: ask about display error messages
+                          const updateOk =
+                            await dopplerLegacyClient.updatePushNotificationSettings(values);
+                          if (!updateOk) {
+                            console.error('Settings cannot be saved');
+                          }
+                        } catch (error) {
+                          console.error('Unexpected error saving settings: ', error);
+                        }
+                      }}
+                    >
+                      {({ values, setFieldValue }) => (
                         <Form>
-                          <PushSwitch
-                            name="isPushServiceEnabled"
-                            title={_('push_notification_section.panel.sends_option_pause')}
-                            text={_(
-                              'push_notification_section.panel.sends_option_pause_description',
-                            )}
-                            checked={isPushServiceEnabled}
-                            onToggle={pushServiceSwitchHandler}
-                          />
+                          <div className="m-t-36">
+                            <h2>{_('push_notification_section.panel.sends_option')}</h2>
+                            <PushSwitch
+                              name="isPushServiceEnabled"
+                              title={_('push_notification_section.panel.sends_option_pause')}
+                              text={_(
+                                'push_notification_section.panel.sends_option_pause_description',
+                              )}
+                              checked={values.isPushServiceEnabled}
+                              onToggle={(checked) => setFieldValue('isPushServiceEnabled', checked)}
+                            />
+                            <div
+                              className="m-b-24 m-t-24"
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center',
+                                gap: '12px',
+                              }}
+                            >
+                              <button
+                                type="button"
+                                className="dp-button button-medium primary-grey"
+                                onClick={() => navigate(-1)}
+                              >
+                                {_('common.back')}
+                              </button>
+                              <button
+                                type="submit"
+                                className="dp-button button-medium primary-green"
+                              >
+                                {_('common.save')}
+                              </button>
+                            </div>
+                          </div>
                         </Form>
-                      </Formik>
-                    </div>
+                      )}
+                    </Formik>
                   </div>
                 </div>
               </div>

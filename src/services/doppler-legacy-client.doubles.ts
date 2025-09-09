@@ -296,6 +296,12 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
       isPushServiceEnabled: true,
     };
   }
+
+  public async updatePushNotificationSettings(settings: any): Promise<boolean> {
+    await timeout(1500);
+    console.log('updatePushNotificationSettings', settings);
+    return true;
+  }
 }
 
 // Dummy Data
