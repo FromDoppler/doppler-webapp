@@ -11,6 +11,7 @@ import {
   PathType,
   Plan,
   PushNotificationSettings,
+  PushNotificationSettingsToUpdate,
 } from '../doppler-types';
 import jwt_decode from 'jwt-decode';
 
@@ -46,6 +47,7 @@ export interface DopplerLegacyClient {
   verifyUserAccountExistens(email: string): Promise<any>;
   getUserAccountData(model: LoginModel): Promise<UserAccountLoginResult>;
   getPushNotificationSettings(): Promise<PushNotificationSettings>;
+  updatePushNotificationSettings(settings: PushNotificationSettingsToUpdate): Promise<boolean>;
 }
 
 interface PayloadWithCaptchaToken {
@@ -1429,5 +1431,19 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       trialPeriodRemainingDays,
       isPushServiceEnabled,
     };
+  }
+
+  public async updatePushNotificationSettings(
+    settings: PushNotificationSettingsToUpdate,
+  ): Promise<boolean> {
+    try {
+      const response = await this.axios.put(
+        '/ControlPanel/PushNotification/UpdateSettings',
+        settings,
+      );
+      return !!response.data?.success;
+    } catch (error) {
+      throw new Error('Error updating push notification settings');
+    }
   }
 }

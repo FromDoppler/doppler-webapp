@@ -165,10 +165,14 @@ export const PushNotificationSection = InjectAppServices(
                       enableReinitialize={true}
                       onSubmit={async (values) => {
                         try {
-                          // await dopplerLegacyClient.updatePushNotificationSettings(values);
-                          console.log('Configuración guardada correctamente: ', values);
+                          // TODO: ask about display error messages
+                          const updateOk =
+                            await dopplerLegacyClient.updatePushNotificationSettings(values);
+                          if (!updateOk) {
+                            console.error('Settings cannot be saved');
+                          }
                         } catch (error) {
-                          console.error('Error al guardar configuración', error);
+                          console.error('Unexpected error saving settings: ', error);
                         }
                       }}
                     >

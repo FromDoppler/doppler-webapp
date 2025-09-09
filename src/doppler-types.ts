@@ -237,3 +237,7 @@ export interface PushNotificationSettings {
 };
 
 export const PUSH_NOTIFICATION_PLAN_TRIAL_ID = 1;
+
+export interface PushNotificationSettingsToUpdate {
+  isPushServiceEnabled: boolean;
+};

@@ -14,6 +14,9 @@ const forcedServices = {
       trialPeriodRemainingDays: 30,
       isPushServiceEnabled: true,
     }),
+    updatePushNotificationSettings: async (settings) => {
+      return true;
+    },
   },
 
   appSessionRef: {
