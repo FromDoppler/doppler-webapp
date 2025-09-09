@@ -20,18 +20,12 @@ describe('AccountCancellationRequest component', () => {
     );
 
     // Assert
-    expect(
-      screen.getByText('my_plan.cancellation.title'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.cancellation.free_description'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.title')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.free_description')).toBeInTheDocument();
     expect(
       screen.queryByText('my_plan.cancellation.form.contact_information_label'),
     ).not.toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.cancellation.form.following_button'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.form.following_button')).toBeInTheDocument();
     expect(
       screen.queryByText('my_plan.cancellation.form.unsubscribe_button'),
     ).not.toBeInTheDocument();
@@ -46,28 +40,24 @@ describe('AccountCancellationRequest component', () => {
       <AppServicesProvider>
         <BrowserRouter>
           <IntlProvider>
-            <AccountCancellationRequest accountCancellationFlow={AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly} />
+            <AccountCancellationRequest
+              accountCancellationFlow={AccountCancellationFlow.greaterOrEqual1000ContactsOrMonthly}
+            />
           </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(
-      screen.getByText('my_plan.cancellation.title'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.cancellation.contact_emails_description'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.title')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.contact_emails_description')).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.cancellation.form.contact_information_label'),
     ).toBeInTheDocument();
     expect(
       screen.queryByText('my_plan.cancellation.form.following_button'),
     ).not.toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.cancellation.form.unsubscribe_button'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.form.unsubscribe_button')).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.cancellation.form.schedule_meeting_button'),
     ).toBeInTheDocument();
@@ -79,25 +69,23 @@ describe('AccountCancellationRequest component', () => {
       <AppServicesProvider>
         <BrowserRouter>
           <IntlProvider>
-            <AccountCancellationRequest accountCancellationFlow={AccountCancellationFlow.lessOrEqual5000ContactsOrCredits} />
+            <AccountCancellationRequest
+              accountCancellationFlow={AccountCancellationFlow.lessOrEqual5000ContactsOrCredits}
+            />
           </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
     );
 
     // Assert
-    expect(
-      screen.getByText('my_plan.cancellation.title'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.title')).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.cancellation.contact_credits_description'),
     ).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.cancellation.form.contact_information_label'),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.cancellation.form.following_button'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.cancellation.form.following_button')).toBeInTheDocument();
     expect(
       screen.queryByText('my_plan.cancellation.form.unsubscribe_button'),
     ).not.toBeInTheDocument();

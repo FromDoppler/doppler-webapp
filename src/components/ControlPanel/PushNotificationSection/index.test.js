@@ -7,7 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
-
 const forcedServices = {
   dopplerLegacyClient: {
     getPushNotificationSettings: async () => ({
@@ -36,7 +35,6 @@ const forcedServices = {
               quantity: 2500,
               buttonUrl: '#',
               updatePlanUrl: '#',
-
             },
           },
         },
