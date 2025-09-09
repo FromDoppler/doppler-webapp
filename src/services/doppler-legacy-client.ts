@@ -1437,7 +1437,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     settings: PushNotificationSettingsToUpdate,
   ): Promise<boolean> {
     try {
-      const response = await this.axios.put(
+      const response = await this.axios.post(
         '/ControlPanel/PushNotification/UpdateSettings',
         settings,
       );
