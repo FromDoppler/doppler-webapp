@@ -371,7 +371,7 @@ const messages_es = {
       automatic_debit_error: {
         invalid_cbu: '¡Ouch! El CBU es inválido porque no corresponde a una entidad bancaria.',
       },
-      availabled_credit_cards_legend: 'Usa una tarjeta internacional de <bold>Visa, Mastercard o American Express</bold>.',
+      availabled_credit_cards_legend: 'Usa una tarjeta internacional de débito o crédito <bold>Visa, Mastercard o American Express</bold>.',
       availabled_credit_cards_legend_alt_text: 'Tarjetas internacionales Visa, Mastercard, American Express',
       bank_account: 'Últimos 4 dígitos de tu cuenta',
       bank_name: 'Nombre del banco',
@@ -389,7 +389,7 @@ const messages_es = {
       considerations_mercado_pago_note_3: 'El cargo aparecerá en el resumen de tu Tarjeta de Crédito como <bold>MERPAGO*DOPPLER.</bold>',
       consumer_type: 'Consumidor',
       credit_card: 'Número de tarjeta',
-      credit_card_option: 'Tarjeta de crédito',
+      credit_card_option: 'Tarjeta',
       dni: 'DNI',
       error: '¡Ouch! Esta Tarjeta de Crédito no permite cobros por parte de Doppler LLC. Comunícate con la empresa emisora para autorizarlos.',
       expiration_date: 'Fecha de vencimiento',
