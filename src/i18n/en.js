@@ -370,7 +370,7 @@ const messages_en = {
       automatic_debit_error: {
         invalid_cbu: `Ouch! The CBU is invalid because it does not correspond to a banking entity.`,
       },
-      availabled_credit_cards_legend: 'Use an international card from <bold>Visa, Mastercard or American Express</bold>.',
+      availabled_credit_cards_legend: 'Use an international debit or credit card: <bold>Visa, Mastercard or American Express</bold>.',
       availabled_credit_cards_legend_alt_text: 'International credit card: Visa, Mastercard and American Express',
       bank_account: 'Last 4 digits of your account',
       bank_name: 'Bank name',
@@ -388,7 +388,7 @@ const messages_en = {
       considerations_mercado_pago_note_3: 'Charges will appear on your credit card statement as <bold>MERPAGO*DOPPLER.</bold>',
       consumer_type: 'Consumer',
       credit_card: 'Card number',
-      credit_card_option: 'Credit card',
+      credit_card_option: 'Card',
       dni: 'DNI',
       error: 'Ouch! This Credit Card doesn’t allow charges by Doppler LLC. Please contact the issuing company to authorize them.',
       expiration_date: 'Expiration date',
