@@ -163,7 +163,7 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
 
   useEffect(() => {
     const handleMessage = (e) => {
-      if (e.data?.type === "rfmReady") {
+      if (e.data?.type === 'rfmReady') {
         setRfmLoading(false);
       }
       if (e.data?.type === 'setHeight' && iframeRef.current) {
@@ -346,10 +346,8 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                   </div>
                 </>
               )}
-              <div className="dp-box-shadow m-b-24" >
-                {rfmLoading && (
-                  <Loading />
-                )}
+              <div className="dp-box-shadow m-b-24">
+                {rfmLoading && <Loading />}
                 <iframe
                   ref={iframeRef}
                   src="/integration/shopify/rfm"
