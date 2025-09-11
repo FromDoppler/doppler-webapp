@@ -315,6 +315,15 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                         </div>
                       </div>
                     </div>
+                    <div className="dp-box-shadow m-b-24">
+                      {rfmLoading && <Loading />}
+                      <iframe
+                        ref={iframeRef}
+                        src="/integration/shopify/rfm"
+                        style={{ border: 'none', width: '100%', display: rfmLoading ? 'none' : 'block' }}
+                        title="rfm"
+                      />
+                    </div>
                   </React.Fragment>
                 ))
               ) : (
@@ -346,15 +355,6 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                   </div>
                 </>
               )}
-              <div className="dp-box-shadow m-b-24">
-                {rfmLoading && <Loading />}
-                <iframe
-                  ref={iframeRef}
-                  src="/integration/shopify/rfm"
-                  style={{ border: 'none', width: '100%', display: rfmLoading ? 'none' : 'block' }}
-                  title="rfm"
-                />
-              </div>
             </div>
           </div>
         </div>
