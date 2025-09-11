@@ -19,6 +19,7 @@ export const PushNotificationSection = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
     const navigate = useNavigate();
 
     const redirectToDashboard =
@@ -164,10 +165,12 @@ export const PushNotificationSection = InjectAppServices(
                       initialValues={{ isPushServiceEnabled }}
                       enableReinitialize={true}
                       onSubmit={async (values) => {
+                        setIsSaving(true);
                         try {
                           // TODO: ask about display error messages
                           const updateOk =
                             await dopplerLegacyClient.updatePushNotificationSettings(values);
+                          setIsSaving(false);
                           if (!updateOk) {
                             console.error('Settings cannot be saved');
                           }
@@ -190,11 +193,8 @@ export const PushNotificationSection = InjectAppServices(
                               onToggle={(checked) => setFieldValue('isPushServiceEnabled', checked)}
                             />
                             <div
-                              className="m-b-24 m-t-24"
+                              className="m-b-24 m-t-24 dp-action"
                               style={{
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                alignItems: 'center',
                                 gap: '12px',
                               }}
                             >
@@ -207,9 +207,11 @@ export const PushNotificationSection = InjectAppServices(
                               </button>
                               <button
                                 type="submit"
-                                className="dp-button button-medium primary-green"
+                                className={`dp-button button-medium primary-green ${
+                                  isSaving ? 'button--loading' : ''
+                                }`}
                               >
-                                {_('common.save')}
+                                {_(isSaving ? 'common.saving' : 'common.save')}
                               </button>
                             </div>
                           </div>

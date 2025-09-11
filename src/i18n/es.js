@@ -616,6 +616,7 @@ const messages_es = {
     optional_message: `Mensaje (Opcional)`,
     recaptcha_legal_MD: `Sitio protegido por reCAPTCHA. [Política de Privacidad](https://policies.google.com/privacy?hl=es) y [Condiciones del Servicio](https://policies.google.com/terms?hl=es) de Google.`,
     save: `Guardar`,
+    saving: `Guardando`,
     send: `Enviar`,
     show: `Mostrar`,
     something_wrong: `¡Ouch! Ocurrio un error inesperado`,

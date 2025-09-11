@@ -617,6 +617,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     recaptcha_legal_MD: `
 Site protected by reCAPTCHA and the Google [Privacy Policy](https://policies.google.com/privacy?hl=en) and [Terms of Service](https://policies.google.com/terms?hl=en).`,
     save: `Save`,
+    saving: `Saving`,
     send: `Send`,
     show: `Show`,
     something_wrong: `Ouch! An unexpected error occurred`,
