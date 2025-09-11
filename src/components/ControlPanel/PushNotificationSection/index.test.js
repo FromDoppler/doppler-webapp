@@ -1,4 +1,10 @@
-import { render, waitForElementToBeRemoved, screen } from '@testing-library/react';
+import {
+  render,
+  waitForElementToBeRemoved,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { PushNotificationSection } from '.';
 import { AppServicesProvider } from '../../../services/pure-di';
@@ -15,6 +21,7 @@ const forcedServices = {
       isPushServiceEnabled: true,
     }),
     updatePushNotificationSettings: async (settings) => {
+      await new Promise((r) => setTimeout(r, 50));
       return true;
     },
   },
@@ -65,5 +72,36 @@ describe('test for Push Notification Section component ', () => {
     // Assert Breadcrumb is rendered
     expect(screen.getByText('common.control_panel')).toBeInTheDocument();
     expect(screen.getByText('push_notification_section.title')).toBeInTheDocument();
+  });
+
+  it('should change button label and add loading class when submitting', async () => {
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <BrowserRouter>
+          <IntlProvider>
+            <PushNotificationSection />
+          </IntlProvider>
+        </BrowserRouter>
+      </AppServicesProvider>,
+    );
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    const saveButton = screen.getByRole('button', { name: 'common.save' });
+    expect(saveButton).toBeInTheDocument();
+    expect(saveButton).not.toHaveClass('button--loading');
+
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'common.saving' })).toHaveClass('button--loading');
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'common.save' })).not.toHaveClass(
+        'button--loading',
+      );
+    });
   });
 });
