@@ -1263,6 +1263,12 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       contact_credits_description: 'Para iniciar este proceso, completa tus datos y el motivo de cancelación. Comenzaremos a gestionar tu solicitud de baja.',
       contact_emails_description: `Completa los datos y un representante gestionará tu pedido. Si lo prefieres, puedes agendar una breve reunión con un asesor para resolver dudas y encontrar la mejor opción para tí.`,
       description: `Para iniciar este proceso, programa una reunión con uno de nuestros asesores y te ayudaremos durante el proceso de desuscripción.`,
+      discount_offer: {
+        continue_with_cancellation_button: 'CONTINUAR CON LA CANCELACIÓN',
+        description: 'Disfruta de un descuento exclusivo para continuar aprovechando los beneficios de Doppler y alcanzar tus objetivos.',
+        request_discount_button: 'Solicita tu descuento',
+        title: '¡Te otorgamos un código de descuento!',
+      },
       form: {
         cancellation_reason_label: 'Motivo de cancelación:',
         cancellation_reason_options: {

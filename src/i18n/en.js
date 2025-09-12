@@ -1263,6 +1263,12 @@ including information on access, conservation, rectification, deletion, security
       contact_credits_description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
       contact_emails_description: `Fill out the form, and a representative will process your order. If you wish, you can schedule a brief meeting with an advisor to discuss your case and find the best option for you.`,
       description: `To begin this process, schedule a meeting with one of our advisors, and we'll help you through the unsubscription process.`,
+      discount_offer: {
+        continue_with_cancellation_button: 'CONTINUE WITH THE CANCELLATION',
+        description: 'Enjoy an exclusive discount to continue taking advantage of the benefits of Doppler and achieve your goals.',
+        request_discount_button: 'Take my discount',
+        title: 'You have a discount code available!',
+      },
       form: {
         cancellation_reason_label: 'Reason for cancellation:',
         cancellation_reason_options: {
