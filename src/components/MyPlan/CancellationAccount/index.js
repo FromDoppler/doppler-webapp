@@ -6,6 +6,7 @@ import { SuccessAccountCancellation } from './Modals/SuccessAccountCancellation'
 import { AccountCancellationFlow, PLAN_TYPE } from '../../../doppler-types';
 import { ConsultingOffer } from './Modals/ConsultingOffer';
 import { SuccessScheduledCancellation } from './Modals/SuccessScheduledCancellation';
+import { DiscountOffer } from './Modals/DiscountOffer';
 
 const getCurrentFlow = (plan) => {
   if (plan.isFreeAccount) {
@@ -33,6 +34,7 @@ export const CancellationAccount = InjectAppServices(
     const [showConsultingOfferModal, setShowConsultingOfferModal] = useState(false);
     const [showSuccessScheduledCancellationModal, setShowSuccessScheduledCancellationModal] =
       useState(false);
+    const [showDiscountOfferModal, setShowDiscountOfferModal] = useState(false);
 
     const { plan } = appSessionRef.current.userData.user;
     const accountCancellationFlow = getCurrentFlow(plan);
@@ -53,6 +55,10 @@ export const CancellationAccount = InjectAppServices(
 
           if (values.cancellationReason === 'notAchieveMyExpectedGoals') {
             setShowConsultingOfferModal(true);
+          } else {
+            if (values.cancellationReason === 'expensiveForMyBudget') {
+              setShowDiscountOfferModal(true);
+            }
           }
         }
       }
@@ -72,11 +78,13 @@ export const CancellationAccount = InjectAppServices(
 
     const handleReturnAccountCancellationRequest = () => {
       setShowConsultingOfferModal(false);
+      setShowDiscountOfferModal(false);
       setShowAccountCancellationRequestModal(true);
     };
 
     const handleSuccessSetScheduledCancellation = () => {
       setShowConsultingOfferModal(false);
+      setShowDiscountOfferModal(false);
 
       if (plan.planType === PLAN_TYPE.byContact) {
         setShowSuccessScheduledCancellationModal(true);
@@ -93,6 +101,10 @@ export const CancellationAccount = InjectAppServices(
     const handleCloseConsultingOffer = () => {
       setShowConsultingOfferModal(false);
       window.location.href = '/my-plan';
+    };
+
+    const handleSuccessDiscountAssignment = () => {
+      setShowDiscountOfferModal(false);
     };
 
     return (
@@ -128,6 +140,16 @@ export const CancellationAccount = InjectAppServices(
           <SuccessScheduledCancellation
             handleClose={handleCloseSuccessScheduledCancellationModal}
           ></SuccessScheduledCancellation>
+        )}
+        {showDiscountOfferModal && (
+          <DiscountOffer
+            handleReturnAccountCancellationRequest={handleReturnAccountCancellationRequest}
+            handleSuccessSetScheduledCancellation={handleSuccessSetScheduledCancellation}
+            handleSuccessDiscountAssignment={handleSuccessDiscountAssignment}
+            accountCancellationRequest={accountCancellationRequestData}
+            planType={plan.planType}
+            handleClose={handleCloseConsultingOffer}
+          ></DiscountOffer>
         )}
       </>
     );
