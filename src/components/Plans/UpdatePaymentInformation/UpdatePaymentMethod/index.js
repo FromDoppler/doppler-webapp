@@ -79,14 +79,18 @@ const paymentMethods = [
 ];
 
 const countriesAvailableTransfer = ['ar'];
-const countriesAvailableMercadoPago = ['ar'];
 const countriesAvailableAutomaticDebit = ['ar'];
 
 const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
+  var currentPaymentMethodType =
+    optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
+      ? PaymentMethodType.creditCard
+      : paymentMethodType;
+
   return (
     <>
       {(() => {
-        switch (paymentMethodType) {
+        switch (currentPaymentMethodType) {
           case PaymentMethodType.creditCard:
             return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
           case PaymentMethodType.transfer:
@@ -108,7 +112,8 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   const allowTransfer = countriesAvailableTransfer.find((c) => c === billingCountry);
-  const allowMercadoPago = countriesAvailableMercadoPago.find((c) => c === billingCountry);
+  const allowMercadoPago =
+    currentPaymentMethod === PaymentMethodType.mercadoPago && optionView === actionPage.READONLY;
   const allowAutomaticDebit = countriesAvailableAutomaticDebit.find((c) => c === billingCountry);
 
   return (
@@ -130,7 +135,13 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
                       name={fieldNames.paymentMethodName}
                       {...field}
                       value={paymentMethod.value}
-                      checked={field.value === paymentMethod.value}
+                      checked={
+                        optionView === actionPage.READONLY
+                          ? field.value === paymentMethod.value
+                          : field.value !== PaymentMethodType.mercadoPago
+                            ? field.value === paymentMethod.value
+                            : paymentMethod.value === PaymentMethodType.creditCard
+                      }
                       disabled={
                         optionView === actionPage.READONLY && field.value !== paymentMethod.value
                       }
@@ -159,11 +170,16 @@ const PaymentMethodField = ({ billingCountry, currentPaymentMethod, optionView, 
   );
 };
 
-const PaymentNotes = ({ paymentMethodType }) => {
+const PaymentNotes = ({ paymentMethodType, optionView }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  switch (paymentMethodType) {
+  var currentPaymentMethodType =
+    optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
+      ? PaymentMethodType.creditCard
+      : paymentMethodType;
+
+  switch (currentPaymentMethodType) {
     case PaymentMethodType.creditCard:
       return (
         <FieldGroup>
@@ -335,7 +351,7 @@ export const UpdatePaymentMethod = InjectAppServices(
                     optionView={optionView}
                     paymentMethod={paymentMethod}
                   />
-                  <PaymentNotes paymentMethodType={paymentMethodType} />
+                  <PaymentNotes paymentMethodType={paymentMethodType} optionView={optionView} />
                   {showMessage && (
                     <StatusMessage
                       type={status === SAVED ? 'success' : 'cancel'}

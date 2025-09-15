@@ -12,6 +12,7 @@ import { fakeAccountPlanDiscounts } from '../../../../services/doppler-account-p
 import { actionPage } from '../Checkout';
 import { fakeConsumerTypes } from '../../../../services/static-data-client.double';
 import '@testing-library/jest-dom/extend-expect';
+import { PaymentMethodType } from '../../../../doppler-types';
 
 const dependencies = (
   withError,
@@ -158,14 +159,10 @@ describe('PaymentMethod component', () => {
     const transferOption = screen.getByRole('radio', {
       name: 'checkoutProcessForm.payment_method.transfer',
     });
-    const mercadoPagoOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method.mercado_pago',
-    });
 
     // Data should load correctly
     expect(creditCardOption.checked).toEqual(true);
     expect(transferOption.checked).toEqual(false);
-    expect(mercadoPagoOption.checked).toEqual(false);
   });
 
   it("readonly view - should be check 'CC' as default when the the response is not success", async () => {
@@ -191,14 +188,10 @@ describe('PaymentMethod component', () => {
     const transferOption = screen.getByRole('radio', {
       name: 'checkoutProcessForm.payment_method.transfer',
     });
-    const mercadoPagoOption = screen.getByRole('radio', {
-      name: 'checkoutProcessForm.payment_method.mercado_pago',
-    });
 
     // Data should load correctly
     expect(creditCardOption.checked).toEqual(true);
     expect(transferOption.checked).toEqual(false);
-    expect(mercadoPagoOption.checked).toEqual(false);
   });
 
   it('update view - transfer - should show error message when the cuit is not valid', async () => {
@@ -334,7 +327,7 @@ describe('PaymentMethod component', () => {
       'MX-DI',
     ],
     [
-      'should show only credit card, transfer disabled and mercadopago when billing country is equal Argentina',
+      'should show only credit card, transfer disabled when billing country is equal Argentina',
       'ar',
       'AR-B',
     ],
@@ -375,9 +368,6 @@ describe('PaymentMethod component', () => {
       const transferOption = screen.queryByRole('radio', {
         name: 'checkoutProcessForm.payment_method.transfer',
       });
-      const mercadoPagoOption = screen.queryByRole('radio', {
-        name: 'checkoutProcessForm.payment_method.mercado_pago',
-      });
 
       expect(creditCardOption).toBeChecked(true);
 
@@ -385,12 +375,6 @@ describe('PaymentMethod component', () => {
         expect(transferOption).toBeNull();
       } else {
         expect(transferOption).toBeDisabled(true);
-      }
-
-      if (country !== 'ar') {
-        expect(mercadoPagoOption).toBeNull();
-      } else {
-        expect(mercadoPagoOption).not.toBeChecked(true);
       }
     });
   });
