@@ -335,6 +335,13 @@ export const PaymentMethod = InjectAppServices(
             handleChangeView(actionPage.UPDATE);
           } else if (paymentMethodData.value.paymentMethodName !== paymentType.creditCard) {
             handleChangePaymentMethod(paymentMethodToShow.paymentMethodName);
+          } else {
+            if (
+              paymentMethodData.value.paymentMethodName === paymentType.creditCard &&
+              paymentMethodData.value.ccNumber === ''
+            ) {
+              handleChangeView(actionPage.UPDATE);
+            }
           }
         } else {
           handleChangeView(actionPage.UPDATE);
