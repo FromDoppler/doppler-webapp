@@ -86,7 +86,6 @@ export const PushNotificationSection = InjectAppServices(
                 <div className="dp-rowflex">
                   <div className="col-sm-8 col-md-10 col-lg-10">
                     <FormattedMessageMarkdown id="push_notification_section.panel.description" />
-                    <FormattedMessageMarkdown id="push_notification_section.panel.description2" />
                   </div>
                   <div className="col-sm-4 col-md-2 col-lg-2">
                     <a
