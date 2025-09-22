@@ -57,13 +57,12 @@ export const PushNotificationPlanSelection = InjectAppServices(
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
-
-      if (itemRef.current) {
-        addItem(selectedPlan);
-      } else {
-        setItem(null);
+      if (item === null) {
+        if (itemRef.current) {
+          addItem(selectedPlan);
+        }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex]);
+    }, [selectedPlan, addItem, selectedPlanIndex, item]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -116,6 +115,14 @@ export const PushNotificationPlanSelection = InjectAppServices(
       handleSliderValue(_selectedPlanIndex);
     };
 
+    const handleSliderClick = () => {
+      if (itemRef.current) {
+        addItem(selectedPlan);
+      } else {
+        setItem(null);
+      }
+    };
+
     if (loadingAddOnPlans || loading) {
       return <Loading page />;
     }
@@ -150,6 +157,7 @@ export const PushNotificationPlanSelection = InjectAppServices(
                   moreOptionTickmark={{
                     label: _('push_notification_selection.more_option_tickmark_message'),
                   }}
+                  handleOnClick={handleSliderClick}
                 />
                 <BannerUpgrade
                   currentPlan={selectedPlan}

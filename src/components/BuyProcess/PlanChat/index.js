@@ -65,13 +65,12 @@ export const PlanChat = InjectAppServices(
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
-
-      if (itemRef.current) {
-        addItem(selectedPlan);
-      } else {
-        setItem(null);
+      if (item === null) {
+        if (itemRef.current) {
+          addItem(selectedPlan);
+        }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex]);
+    }, [selectedPlan, addItem, selectedPlanIndex, item]);
 
     useEffect(() => {
       const fetchPlanData = async () => {
@@ -124,6 +123,14 @@ export const PlanChat = InjectAppServices(
       handleSliderValue(_selectedPlanIndex);
     };
 
+    const handleSliderClick = () => {
+      if (itemRef.current) {
+        addItem(selectedPlan);
+      } else {
+        setItem(null);
+      }
+    };
+
     if (loadingConversationPlans || loading) {
       return <Loading page />;
     }
@@ -158,6 +165,7 @@ export const PlanChat = InjectAppServices(
                     selectedPlan?.conversationsQty ?? 0,
                   )} ${_('chat_selection.quantity_label')}`}
                   moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
+                  handleOnClick={handleSliderClick}
                 />
                 <BannerUpgrade
                   currentPlan={selectedPlan}

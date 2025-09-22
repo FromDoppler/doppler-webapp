@@ -56,12 +56,18 @@ export const Slider = ({
   moreOptions,
   labelQuantity,
   moreOptionTickmark,
+  handleOnClick,
 }) => {
   const amountItems = items.length;
 
   const onChange = (e) => {
     handleChange(e);
     callbackMaxTop && parseInt(e.target.value) === items.length - 1 && callbackMaxTop(e);
+  };
+
+  const onClick = (e) => {
+    console.log(parseInt(e.target.value));
+    handleOnClick(e);
   };
 
   return (
@@ -85,6 +91,7 @@ export const Slider = ({
           value={selectedItemIndex}
           onChange={onChange}
           list="item-list"
+          onClick={onClick}
         />
         <div
           className="progress-anchor"

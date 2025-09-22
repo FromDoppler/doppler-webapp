@@ -45,6 +45,11 @@ export const PlanSelection = InjectAppServices(
     const currentUserPlanType = appSessionRef.current.userData.user.plan.planType;
 
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
+    const [item, setItem] = useState({
+      selectedMarketingPlan: null,
+      discounts: [],
+      selectedDiscount: null,
+    });
     const { search } = useLocation();
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
       planTypesReducer,
@@ -63,6 +68,8 @@ export const PlanSelection = InjectAppServices(
       dispatchPlansByType,
     ] = useReducer(plansByTypeReducer, INITIAL_STATE_PLANS_BY_TYPE);
     useDefaultPlanType({ appSessionRef, planTypeUrlSegment, window });
+
+    const addItem = useCallback((item) => setItem(item), []);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -103,6 +110,16 @@ export const PlanSelection = InjectAppServices(
       }
     }, [planService, appSessionRef, planTypeUrlSegment, planTypes]);
 
+    useEffect(() => {
+      if (item.selectedMarketingPlan === null) {
+        setItem({
+          selectedMarketingPlan: selectedPlan,
+          discounts: discounts,
+          selectedDiscount: selectedDiscount,
+        });
+      }
+    }, [selectedPlan, discounts, selectedDiscount, item.selectedMarketingPlan]);
+
     const handleSliderChange = (e) => {
       const { value } = e.target;
       const _selectedPlanIndex = parseInt(value);
@@ -118,6 +135,16 @@ export const PlanSelection = InjectAppServices(
         payload: discount.selectedPaymentFrequency,
       });
     }, []);
+
+    const handleSliderClick = () => {
+      if (item?.id !== selectedPlan?.id) {
+        addItem({
+          selectedMarketingPlan: selectedPlan,
+          discounts: discounts,
+          selectedDiscount: selectedDiscount,
+        });
+      }
+    };
 
     if (!hasError && !loading && planTypes.length === 0) {
       return <Navigate to="/upgrade-suggestion-form" />;
@@ -191,10 +218,11 @@ export const PlanSelection = InjectAppServices(
                           intl.defaultLocale,
                           sliderValuesRange[selectedPlanIndex],
                         )} ${planTypesLabels[selectedPlanType]}`}
+                        handleOnClick={handleSliderClick}
                       />
                     )}
                     <BannerUpgrade
-                      currentPlan={selectedPlan}
+                      currentPlan={item?.selectedMarketingPlan}
                       currentPlanList={plansByType}
                       planTypes={planTypes}
                       hightestPlan={hightestPlan}
@@ -210,14 +238,14 @@ export const PlanSelection = InjectAppServices(
             <div className="col-lg-4 col-sm-12">
               <ShoppingCart
                 discountConfig={{
-                  paymentFrequenciesList: discounts,
-                  selectedPaymentFrequency: selectedDiscount,
+                  paymentFrequenciesList: item?.discounts,
+                  selectedPaymentFrequency: item?.selectedDiscount,
                   onSelectPaymentFrequency: handleDiscountChange,
                   disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
                   currentSubscriptionUser: sessionPlan.plan.planSubscription,
                 }}
                 isMonthlySubscription={isMonthlySubscription}
-                selectedMarketingPlan={selectedPlan}
+                selectedMarketingPlan={item?.selectedMarketingPlan}
                 selectedChatPlan={
                   chatPlan
                     ? {
@@ -226,7 +254,7 @@ export const PlanSelection = InjectAppServices(
                       }
                     : null
                 }
-                items={[selectedPlan]}
+                items={[item?.selectedMarketingPlan]}
                 isEqualPlan={isEqualPlan}
                 isArgentina={isArgentina}
                 hasChatActive={chat && chat.active}
