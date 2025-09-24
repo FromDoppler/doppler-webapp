@@ -18,14 +18,8 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const { sms, landings, chat, onSite, pushNotification, plan } =
-    appSessionRef.current.userData.user;
+  const { sms, chat, onSite, pushNotification, plan } = appSessionRef.current.userData.user;
 
-  var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
-  var hasSms = sms.remainingCredits > 0;
-  var hasConversations = chat.plan?.active;
-  var hasOnsite = onSite.plan?.active;
-  var hasPushNotification = pushNotification.plan?.active;
   const canBuyPushNotificationPlan =
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
 
@@ -37,16 +31,14 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
-          {!hasConversations && !plan.isFreeAccount && (
-            <Conversations conversation={chat}></Conversations>
-          )}
-          {!hasPushNotification && !plan.isFreeAccount && canBuyPushNotificationPlan && (
+          <Conversations conversation={chat}></Conversations>
+          {canBuyPushNotificationPlan && (
             <PushNotification pushNotification={pushNotification}></PushNotification>
           )}
-          {!hasOnsite && !plan.isFreeAccount && <OnSite onSite={onSite}></OnSite>}
-          {!hasSms && <Sms sms={sms} isFreeAccount={plan.isFreeAccount}></Sms>}
+          <OnSite onSite={onSite}></OnSite>
+          {<Sms sms={sms} isFreeAccount={plan.isFreeAccount}></Sms>}
           <TransactionalEmails></TransactionalEmails>
-          {!hasLandings && <LandingPages></LandingPages>}
+          {<LandingPages></LandingPages>}
           <Collaborators isFreeAccount={plan.isFreeAccount}></Collaborators>
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>

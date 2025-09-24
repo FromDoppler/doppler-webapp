@@ -34,6 +34,8 @@ export const Conversations = ({ conversation }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
+  var hasConversations = conversation.plan?.active;
+
   return (
     <Card
       title={_(`my_plan.addons.conversations.title`)}
@@ -44,7 +46,11 @@ export const Conversations = ({ conversation }) => {
       moreInformationLink={_(`my_plan.addons.conversations.more_information_link`)}
       buyButtonText={_(
         `${
-          conversation.active ? 'my_plan.addons.buy_button' : 'my_plan.addons.activate_now_button'
+          hasConversations
+            ? 'my_plan.addons.change_plan_button'
+            : conversation.active
+              ? 'my_plan.addons.buy_button'
+              : 'my_plan.addons.activate_now_button'
         }`,
       )}
       buyButtonUrl={conversation.plan.buttonUrl}

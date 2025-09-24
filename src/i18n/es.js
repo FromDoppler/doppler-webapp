@@ -1120,6 +1120,7 @@ Encontrarás un Email con los pasos a seguir.`,
           title: 'SERVICIOS ADICIONALES ESPECIFICOS',
         },
       },
+      change_plan_button: 'Cambiar de Plan',
       collaborators: {
         access_by_legend: 'Accede por',
         collaborator_legend: '*por colaborador',
