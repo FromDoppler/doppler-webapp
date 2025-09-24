@@ -52,13 +52,12 @@ export const OnSitePlansSelection = InjectAppServices(
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
-
-      if (itemRef.current) {
-        addItem(selectedPlan);
-      } else {
-        setItem(null);
+      if (item === null) {
+        if (itemRef.current) {
+          addItem(selectedPlan);
+        }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex]);
+    }, [selectedPlan, selectedPlanIndex, item, addItem]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -111,6 +110,14 @@ export const OnSitePlansSelection = InjectAppServices(
       handleSliderValue(_selectedPlanIndex);
     };
 
+    const handleSliderClick = () => {
+      if (itemRef.current) {
+        addItem(selectedPlan);
+      } else {
+        setItem(null);
+      }
+    };
+
     if (loadingAddOnPlans || loading) {
       return <Loading page />;
     }
@@ -152,6 +159,7 @@ export const OnSitePlansSelection = InjectAppServices(
                   selectedItemIndex={selectedPlanIndex}
                   handleChange={handleSliderChange}
                   moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
+                  handleOnClick={handleSliderClick}
                 />
                 <BannerUpgrade
                   currentPlan={selectedPlan}
