@@ -50,6 +50,16 @@ function getReferrerHostname() {
   }
 }
 
+// function getReferrerSearchParam(paramName) {
+//   const referrer = document.referrer;
+//   try {
+//     const url = referrer && new URL(referrer);
+//     return url ? url.searchParams.get(paramName) : null;
+//   } catch (e) {
+//     return null;
+//   }
+// }
+
 /**
  * Signup Page
  * @param { Object } props
@@ -118,7 +128,19 @@ const Signup = function ({
     gclid: query.get('gclid'),
     UTMContent: query.get('utm_content'),
     Origin_Inbound: query.get('origin_inbound'),
+    // UTMSource:
+    //   query.get('utm_source') || getReferrerSearchParam('utm_source') || getReferrerHostname() || 'direct',
+    // UTMCampaign: query.get('utm_campaign') || getReferrerSearchParam('utm_campaign'),
+    // UTMMedium: query.get('utm_medium') || getReferrerSearchParam('utm_medium'),
+    // UTMTerm: query.get('utm_term') || getReferrerSearchParam('utm_term'),
+    // gclid: query.get('gclid') || getReferrerSearchParam('gclid'),
+    // UTMContent: query.get('utm_content') || getReferrerSearchParam('utm_content'),
+    // Origin_Inbound: query.get('origin_inbound') || getReferrerSearchParam('origin_inbound'),
   };
+
+  console.log("gclid");
+  console.log({googleid: utmParams.gclid});
+
   utmCookiesManager.setCookieEntry(utmParams);
 
   const addExistentEmailAddress = (email) => {

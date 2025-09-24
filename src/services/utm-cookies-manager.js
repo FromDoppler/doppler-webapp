@@ -7,6 +7,19 @@ export class UtmCookiesManager {
 
   setCookieEntry(utmParams) {
     if (!this.hasRegistered && !this.document?.referrer?.includes('fromdoppler.com')) {
+    // const hasAnyParam = !!(
+    //   (utmParams &&
+    //     (utmParams.UTMSource ||
+    //       utmParams.UTMCampaign ||
+    //       utmParams.UTMMedium ||
+    //       utmParams.UTMTerm ||
+    //       utmParams.UTMContent ||
+    //       utmParams.Origin_Inbound ||
+    //       utmParams.gclid))
+    // );
+
+    // if (!this.hasRegistered && (hasAnyParam ||
+    // !this.document?.referrer?.includes('fromdoppler.com'))) {
       const newItem = {
         date: new Date().toISOString(),
         ...utmParams,
