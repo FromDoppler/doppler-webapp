@@ -31,6 +31,7 @@ const PriceSection = () => {
 export const OnSite = ({ onSite }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  var hasOnsite = onSite.plan?.active;
 
   return (
     <Card
@@ -41,7 +42,13 @@ export const OnSite = ({ onSite }) => {
       moreInformationText={_(`my_plan.addons.more_information_link`)}
       moreInformationLink={_(`my_plan.addons.onsite.more_information_link`)}
       buyButtonText={_(
-        `${onSite.active ? 'my_plan.addons.buy_button' : 'my_plan.addons.activate_now_button'}`,
+        `${
+          hasOnsite
+            ? 'my_plan.addons.change_plan_button'
+            : onSite.active
+              ? 'my_plan.addons.buy_button'
+              : 'my_plan.addons.activate_now_button'
+        }`,
       )}
       buyButtonUrl={onSite.plan.buttonUrl}
     ></Card>

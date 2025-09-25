@@ -35,6 +35,7 @@ const PriceSection = () => {
 export const PushNotification = ({ pushNotification }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  var hasPushNotification = pushNotification.plan?.active;
 
   return (
     <Card
@@ -46,9 +47,11 @@ export const PushNotification = ({ pushNotification }) => {
       moreInformationLink={_(`my_plan.addons.push_notification.more_information_link`)}
       buyButtonText={_(
         `${
-          pushNotification.active
-            ? 'my_plan.addons.buy_button'
-            : 'my_plan.addons.activate_now_button'
+          hasPushNotification
+            ? 'my_plan.addons.change_plan_button'
+            : pushNotification.active
+              ? 'my_plan.addons.buy_button'
+              : 'my_plan.addons.activate_now_button'
         }`,
       )}
       buyButtonUrl={pushNotification.plan.buttonUrl}

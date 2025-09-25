@@ -1120,6 +1120,7 @@ You'll find an Email with steps to follow.`,
           title: 'SPECIFIC ADDITIONAL SERVICES',
         },
       },
+      change_plan_button: 'Change Plan',
       collaborators: {
         access_by_legend: 'Access for',
         collaborator_legend: '*per collaborator',
