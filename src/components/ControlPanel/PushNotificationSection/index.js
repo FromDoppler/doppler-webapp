@@ -28,7 +28,6 @@ export const PushNotificationSection = InjectAppServices(
     const {
       buttonUrl: updatePlanUrl,
       quantity: planQuantity,
-      description: planDescription,
       planId: pushNotificationPlanId,
       fee: pushNotificationPlanFee,
     } = appSessionRef.current.userData.user.pushNotification.plan;
@@ -111,7 +110,7 @@ export const PushNotificationSection = InjectAppServices(
 
                     <div className="dp-widget-plan-progress">
                       <p>
-                        {planDescription || 'Plan'}:&nbsp;
+                        {'Plan'}:&nbsp;
                         <strong>
                           {' '}
                           {_('push_notification_section.panel.sends_month', {
