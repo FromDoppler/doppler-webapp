@@ -309,7 +309,7 @@ const messages_en = {
       },
       section_2: {
         legend: "Communicate with your customers instantly and don't miss sales opportunities.",
-        title: 'Omnichannel Strategy',
+        title: 'Multichannel  Strategy',
       },
     },
     quantity_label: 'messages',
