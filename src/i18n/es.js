@@ -310,7 +310,7 @@ const messages_es = {
       },
       section_2: {
         legend: 'Comunícate con tus clientes al instante y no pierdas oportunidades de ventas.',
-        title: 'Estrategia Omnicanal',
+        title: 'Estrategia Multicanal',
       },
     },
     quantity_label: 'mensajes',
@@ -324,7 +324,7 @@ const messages_es = {
       no_chat_plan_selected_message: 'No se ha seleccionado un plan de conversación',
       remove_from_cart_button: 'Remover del carrito',
     },
-    title: '¿Quieres agregas un plan de conversaciones?',
+    title: '¿Quieres agregar un plan de Conversaciones?',
   },
   checkoutProcessForm: {
     billing_information_address: 'Dirección fiscal',
