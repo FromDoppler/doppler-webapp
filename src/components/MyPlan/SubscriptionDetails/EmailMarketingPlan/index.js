@@ -2,6 +2,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { CancellationAccount } from '../../CancellationAccount';
 import { useState } from 'react';
+import { HeaderStyled } from './index.style';
 
 export const EmailMarketingPlan = ({ user, plan }) => {
   const intl = useIntl();
@@ -23,44 +24,75 @@ export const EmailMarketingPlan = ({ user, plan }) => {
   return (
     <article className="dp-wrapper-plan">
       <header>
-        <div className="dp-title-plan">
-          <h3 className="dp-second-order-title">
-            <span className="p-r-8 m-r-6">{_(`my_plan.subscription_details.title`)}</span>
-            <span className="dpicon iconapp-email-alert"></span>
-          </h3>
-          <p>
-            {_(`my_plan.subscription_details.plan_type_${plan.planType.replace('-', '_')}_label`)}
-          </p>
-        </div>
-        <div className="dp-buttons--plan">
-          <a
-            type="button"
-            className="dp-button button-medium primary-green dp-w-100 m-b-12"
-            href={plan.buttonUrl}
-          >
-            {_(
-              `my_plan.subscription_details.${
-                plan.planType === PLAN_TYPE.byCredit ? 'buy_credits_button' : 'change_plan_button'
-              }`,
-            )}
-          </a>
-          {((supportCancellationFreeUser && plan.isFreeAccount) ||
-            (supportCancellationContactsMonthlyUser &&
-              ((plan.planType === PLAN_TYPE.byContact && plan.maxSubscribers >= 10000) ||
-                plan.planType === PLAN_TYPE.byEmail)) ||
-            (supportCancellationContactsCreditsUser &&
-              plan.planType === PLAN_TYPE.byContact &&
-              plan.maxSubscribers <= 5000) ||
-            plan.planType === PLAN_TYPE.byCredit) && (
-            <button
-              disabled={user.isCancellationRequested || user.hasScheduledCancellation}
-              className="dp-button button-medium dp-w-100 btn-cancel"
-              onClick={() => startCancellationFlowModal()}
-            >
-              {_(`my_plan.subscription_details.cancel_subscription_button`)}
-            </button>
-          )}
-        </div>
+        <HeaderStyled className="dp-rowflex">
+          <div className="col-lg-9 col-md-12">
+            <div className="dp-title-plan">
+              <h3 className="dp-second-order-title">
+                <span className="p-r-8 m-r-6">{_(`my_plan.subscription_details.title`)}</span>
+                <span className="dpicon iconapp-email-alert"></span>
+              </h3>
+              {plan.trialExpired && (
+                <div className="dp-wrap-message dp-wrap-info">
+                  <span className="dp-message-icon"></span>
+                  <div className="dp-content-message">
+                    <p>
+                      <FormattedMessage
+                        id={'my_plan.subscription_details.marketing_plan_expired_message'}
+                        values={{
+                          bold: (chunks) => <b>{chunks}</b>,
+                          br: <br />,
+                        }}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
+              {!plan.trialExpired && (
+                <p>
+                  {_(
+                    `my_plan.subscription_details.plan_type_${plan.planType.replace(
+                      '-',
+                      '_',
+                    )}_label`,
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-12">
+            <div className="dp-buttons--plan">
+              <a
+                type="button"
+                className="dp-button button-medium primary-green dp-w-100 m-b-12"
+                href={plan.buttonUrl}
+              >
+                {_(
+                  `my_plan.subscription_details.${
+                    plan.planType === PLAN_TYPE.byCredit
+                      ? 'buy_credits_button'
+                      : 'change_plan_button'
+                  }`,
+                )}
+              </a>
+              {((supportCancellationFreeUser && plan.isFreeAccount) ||
+                (supportCancellationContactsMonthlyUser &&
+                  ((plan.planType === PLAN_TYPE.byContact && plan.maxSubscribers >= 10000) ||
+                    plan.planType === PLAN_TYPE.byEmail)) ||
+                (supportCancellationContactsCreditsUser &&
+                  plan.planType === PLAN_TYPE.byContact &&
+                  plan.maxSubscribers <= 5000) ||
+                plan.planType === PLAN_TYPE.byCredit) && (
+                <button
+                  disabled={user.isCancellationRequested || user.hasScheduledCancellation}
+                  className="dp-button button-medium dp-w-100 btn-cancel"
+                  onClick={() => startCancellationFlowModal()}
+                >
+                  {_(`my_plan.subscription_details.cancel_subscription_button`)}
+                </button>
+              )}
+            </div>
+          </div>
+        </HeaderStyled>
       </header>
       <ul className="dp-item--plan">
         <li>

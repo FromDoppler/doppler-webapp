@@ -25,14 +25,15 @@ export const getAddons = (user) => {
         additionalConversation: chat.plan.additionalConversation,
         agents: chat.plan.agents,
         channels: chat.plan.channels,
+        trialExpired: chat.plan.trialExpired,
       },
-      active: chat.plan.active || plan.isFreeAccount,
+      active: (chat.plan.active || plan.isFreeAccount) && !user.plan.trialExpired,
       buyUrl: `${plan.isFreeAccount ? '/conversations' : '/buy-conversation?buyType=2'}`,
     },
     {
       addOnType: AddOnType.Landings,
       addOnPlan: { landingPacks: landings?.landingPacks, active: hasLandings },
-      active: hasLandings,
+      active: hasLandings && !user.plan.trialExpired,
       buyUrl: '/landing-packages?buyType=3',
     },
     {
@@ -42,8 +43,9 @@ export const getAddons = (user) => {
         quantity: onSite.plan.quantity,
         active: onSite.plan.active,
         fee: onSite.plan.fee,
+        trialExpired: onSite.plan.trialExpired,
       },
-      active: onSite.plan.active || plan.isFreeAccount,
+      active: (onSite.plan.active || plan.isFreeAccount) && !user.plan.trialExpired,
       buyUrl: `${plan.isFreeAccount ? '/onsite' : '/buy-onsite-plans?buyType=4'}`,
     },
     {
@@ -53,8 +55,12 @@ export const getAddons = (user) => {
         quantity: pushNotification.plan.quantity,
         active: pushNotification.plan.active,
         fee: pushNotification.plan.fee,
+        trialExpired: pushNotification.plan.trialExpired,
       },
-      active: (pushNotification.plan.active || plan.isFreeAccount) && canBuyPushNotificationPlan,
+      active:
+        (pushNotification.plan.active || plan.isFreeAccount) &&
+        canBuyPushNotificationPlan &&
+        !user.plan.trialExpired,
       buyUrl: `${
         plan.isFreeAccount ? '/push-notifications' : '/buy-push-notification-plans?buyType=5'
       }`,

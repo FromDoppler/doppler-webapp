@@ -1362,6 +1362,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           title: 'Notificaciones Push',
         },
       },
+      addon_plan_expired_message: `<bold>Tu prueba gratuita de este Add-On ha finalizado.</bold> Para continuar utilizándolo puedes contratar el Plan que se ajuste a tus necesidades.`,
       available_contacts: 'Contactos disponibles',
       available_emails: 'Envíos disponibles',
       billing: {
@@ -1391,6 +1392,8 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
       change_plan_button: 'Cambiar de Plan',
       choose_plan_button: 'Elegir Plan',
       contact_advisor_button: 'Contactar asesor',
+      marketing_plan_expired_message: `<bold>Tu prueba gratuita ha finalizado.</bold> Contrata un <bold>Plan de Email Marketing</bold> y
+continúa usando todas las herramientas de Doppler para que tu negocio crezca.`,
       plan_type_free_label: 'Plan Gratuito por 90 días.',
       plan_type_monthly_deliveries_label: 'Plan por Envíos',
       plan_type_monthly_deliveries_message: '{quantity} Envíos',
@@ -1410,6 +1413,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
       unlimited_contacts: 'Contactos ilimitados',
       unlimited_emails: 'Envíos ilimitados',
       view_other_packs: 'Ver otros packs',
+      view_plans_button: 'Ver Planes',
     },
     tabs: {
       addons: 'Add-ons',
