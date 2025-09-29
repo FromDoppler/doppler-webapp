@@ -1361,6 +1361,7 @@ confirmation email.Please note that any active add-ons associated with your acco
           title: 'Push Notifications',
         },
       },
+      addon_plan_expired_message: `<bold>Your free trial of this Add-On has ended.</bold> To continue using it, you can upgrade to the plan that best suits your needs.`,
       available_contacts: 'Available Contacts',
       available_emails: 'Available Emails',
       billing: {
@@ -1390,6 +1391,8 @@ confirmation email.Please note that any active add-ons associated with your acco
       change_plan_button: 'Change Plan',
       choose_plan_button: 'Choose Plan',
       contact_advisor_button: 'Contact advisor',
+      marketing_plan_expired_message: `<bold>Your free trial has ended.</bold> Subscribe to an <bold>Email Marketing Plan</bold> to
+continue using all the tools Doppler offers to help your business grow.`,
       plan_type_free_label: 'Plan Free for 90 days.',
       plan_type_monthly_deliveries_label: 'Plan by Emails',
       plan_type_monthly_deliveries_message: '{quantity} Emails',
@@ -1409,6 +1412,7 @@ confirmation email.Please note that any active add-ons associated with your acco
       unlimited_contacts: 'Unlimited contacts',
       unlimited_emails: 'Unlimited shipments',
       view_other_packs: 'See another packs',
+      view_plans_button: 'See Plans',
     },
     tabs: {
       addons: 'Add- ons',

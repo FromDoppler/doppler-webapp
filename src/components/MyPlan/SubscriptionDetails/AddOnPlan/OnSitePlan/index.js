@@ -4,6 +4,8 @@ import { Loading } from '../../../../Loading/Loading';
 import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
 import { AddOnType } from '../../../../../doppler-types';
+import { HeaderStyled } from '../index.style';
+import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 
 export const OnSitePlan = InjectAppServices(
   ({
@@ -59,36 +61,47 @@ export const OnSitePlan = InjectAppServices(
       <div className="dp-box-shadow m-b-24">
         <article className="dp-wrapper-plan">
           <header>
-            <div className="dp-title-plan">
-              <h3 className="dp-second-order-title">
-                <span className="p-r-8 m-r-6">
-                  {_(`my_plan.subscription_details.addon.onsite_plan.title`)}
-                </span>
-                <span className={`dpicon iconapp-online-clothing`}></span>
-              </h3>
-              {plan.fee === 0 && (
-                <p>
-                  {_(
-                    `my_plan.subscription_details.addon.onsite_plan.${
-                      isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
-                    }`,
+            <HeaderStyled className="dp-rowflex">
+              <div className="col-lg-9 col-md-12">
+                <div className="dp-title-plan">
+                  <h3 className="dp-second-order-title">
+                    <span className="p-r-8 m-r-6">
+                      {_(`my_plan.subscription_details.addon.onsite_plan.title`)}
+                    </span>
+                    <span className={`dpicon iconapp-online-clothing`}></span>
+                  </h3>
+                  {plan.trialExpired && <AddOnExpiredMessage></AddOnExpiredMessage>}
+                  {!plan.trialExpired && plan.fee === 0 && (
+                    <p>
+                      {_(
+                        `my_plan.subscription_details.addon.onsite_plan.${
+                          isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
+                        }`,
+                      )}
+                    </p>
                   )}
-                </p>
-              )}
-            </div>
-            <div className="dp-buttons--plan">
-              <a
-                type="button"
-                href={buyUrl}
-                className="dp-button button-medium primary-green dp-w-100 m-b-12"
-              >
-                {_(
-                  `my_plan.subscription_details.${
-                    isFreeAccount && !plan.active ? 'activate_now_button' : 'change_plan_button'
-                  }`,
-                )}
-              </a>
-            </div>
+                </div>
+              </div>
+              <div className="col-lg-3 col-md-12">
+                <div className="dp-buttons--plan">
+                  <a
+                    type="button"
+                    href={buyUrl}
+                    className="dp-button button-medium primary-green dp-w-100 m-b-12"
+                  >
+                    {_(
+                      `my_plan.subscription_details.${
+                        plan.trialExpired
+                          ? 'view_plans_button'
+                          : isFreeAccount && !plan.active
+                            ? 'activate_now_button'
+                            : 'change_plan_button'
+                      }`,
+                    )}
+                  </a>
+                </div>
+              </div>
+            </HeaderStyled>
           </header>
           <ul className="dp-item--plan">
             <li>
