@@ -6,7 +6,7 @@ import screenShot_en from './push-configuration--en.png';
 import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate  } from 'react-router-dom';
 import { AddOnType } from '../../doppler-types';
 
 export const PushNotifications = InjectAppServices(
@@ -18,15 +18,11 @@ export const PushNotifications = InjectAppServices(
     } = appSessionRef.current.userData.user;
 
     const intl = useIntl();
+    const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-    const urlBase = process.env.REACT_APP_DOPPLER_LEGACY_URL;
-    const urlControlPanel = `${urlBase}/ControlPanel`;
-    const urlCampaignsPreferences = `${urlControlPanel}/CampaignsPreferences`;
-
     if (pushNotifiactionActive) {
-      window.location.href = `${urlCampaignsPreferences}/SiteTrackingSettings`;
-      return;
+      return <Navigate to="/control-panel/push-notification" replace />;
     }
 
     if (hasClientManager) {
@@ -41,7 +37,7 @@ export const PushNotifications = InjectAppServices(
         AddOnType.PushNotifications,
       );
       if (response.success) {
-        window.location.href = `${urlCampaignsPreferences}/SiteTrackingSettings`;
+        navigate('/control-panel/push-notification');
       } else {
         setErrorMessage('validation_messages.error_unexpected_register_MD');
       }
