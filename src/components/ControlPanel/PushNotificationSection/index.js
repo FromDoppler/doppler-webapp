@@ -177,11 +177,10 @@ export const PushNotificationSection = InjectAppServices(
                           <div className="m-t-36">
                             <h2>{_('push_notification_section.panel.sends_option')}</h2>
                             <PushSwitch
+                              disabled={!pushNotificationData.hasDomainsWithPushActive}
                               name="isPushServiceEnabled"
                               title={_('push_notification_section.panel.sends_option_pause')}
-                              text={_(
-                                'push_notification_section.panel.sends_option_pause_description',
-                              )}
+                              textId="push_notification_section.panel.sends_option_pause_description"
                               checked={values.isPushServiceEnabled}
                               onToggle={(checked) => setFieldValue('isPushServiceEnabled', checked)}
                             />
