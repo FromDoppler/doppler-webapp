@@ -27,8 +27,6 @@ export const PushNotificationSection = InjectAppServices(
     const {
       buttonUrl: updatePlanUrl,
       quantity: planQuantity,
-      planId: pushNotificationPlanId,
-      fee: pushNotificationPlanFee,
     } = appSessionRef.current.userData.user.pushNotification.plan;
 
     useEffect(() => {

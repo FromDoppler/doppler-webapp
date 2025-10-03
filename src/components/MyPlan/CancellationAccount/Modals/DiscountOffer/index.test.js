@@ -21,7 +21,11 @@ describe('DiscountOffer component', () => {
     // Assert
     expect(screen.getByText('my_plan.cancellation.discount_offer.title')).toBeInTheDocument();
     expect(screen.getByText('my_plan.cancellation.discount_offer.description')).toBeInTheDocument();
-    expect(screen.getByText('my_plan.cancellation.discount_offer.request_discount_button')).toBeInTheDocument();
-    expect(screen.getByText('my_plan.cancellation.discount_offer.continue_with_cancellation_button')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.cancellation.discount_offer.request_discount_button'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.cancellation.discount_offer.continue_with_cancellation_button'),
+    ).toBeInTheDocument();
   });
 });
