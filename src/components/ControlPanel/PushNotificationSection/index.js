@@ -44,7 +44,9 @@ export const PushNotificationSection = InjectAppServices(
     const barPercent =
       planQuantity === 0 ? 0 : (pushNotificationData.consumedSends * 100) / planQuantity;
     const availableSends =
-      pushNotificationData.trialPeriodRemainingDays === 0 || planQuantity === 0
+      pushNotificationData.trialPeriodRemainingDays === 0 ||
+      planQuantity === 0 ||
+      !pushNotificationData.hasDomainsWithPushActive
         ? 0
         : planQuantity - pushNotificationData.consumedSends;
     if (loading) {
@@ -79,7 +81,14 @@ export const PushNotificationSection = InjectAppServices(
                 <h1>{_('push_notification_section.panel.title')}</h1>
                 <div className="dp-rowflex">
                   <div className="col-sm-8 col-md-10 col-lg-10">
-                    <FormattedMessageMarkdown id="push_notification_section.panel.description" />
+                    {pushNotificationData.hasDomainsWithPushActive ? (
+                      <FormattedMessageMarkdown id="push_notification_section.panel.description" />
+                    ) : (
+                      <>
+                        <FormattedMessageMarkdown id="push_notification_section.panel.description1" />
+                        <FormattedMessageMarkdown id="push_notification_section.panel.description2" />
+                      </>
+                    )}
                   </div>
                   <div className="col-sm-4 col-md-2 col-lg-2">
                     <a
@@ -96,12 +105,14 @@ export const PushNotificationSection = InjectAppServices(
                     <h2 className="m-b-12">
                       {_('push_notification_section.panel.consume_state_title')}
                     </h2>
+                    {pushNotificationData.hasDomainsWithPushActive && (
                       <PlanAlert
                         linkUrl={updatePlanUrl}
                         days={pushNotificationData.trialPeriodRemainingDays}
                         availableSends={availableSends}
                         isPlanTrial={pushNotificationData.hasPushTrialPlan}
                       />
+                    )}
 
                     <div className="dp-widget-plan-progress">
                       <p>
@@ -131,7 +142,11 @@ export const PushNotificationSection = InjectAppServices(
                           <span>
                             {' '}
                             {_('push_notification_section.panel.available_sends')}
-                            <strong className="text-green">
+                            <strong
+                              className={
+                                pushNotificationData.hasDomainsWithPushActive ? 'text-green' : ''
+                              }
+                            >
                               {' '}
                               {_('push_notification_section.panel.sends', {
                                 quantity: availableSends,
