@@ -10,7 +10,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { PushSwitch } from './helper/PushSwitch';
 import { PlanAlert } from './PlanAlert/planAlert';
-import { PUSH_NOTIFICATION_PLAN_TRIAL_ID } from '../../../doppler-types';
 
 export const PushNotificationSection = InjectAppServices(
   ({ dependencies: { appSessionRef, dopplerLegacyClient } }) => {
@@ -32,9 +31,6 @@ export const PushNotificationSection = InjectAppServices(
       fee: pushNotificationPlanFee,
     } = appSessionRef.current.userData.user.pushNotification.plan;
 
-    const isPlanTrial =
-      pushNotificationPlanId === PUSH_NOTIFICATION_PLAN_TRIAL_ID && pushNotificationPlanFee === 0;
-
     useEffect(() => {
       const fetchData = async () => {
         const res = await dopplerLegacyClient.getPushNotificationSettings();
@@ -51,7 +47,6 @@ export const PushNotificationSection = InjectAppServices(
       pushNotificationData.trialPeriodRemainingDays === 0 || planQuantity === 0
         ? 0
         : planQuantity - pushNotificationData.consumedSends;
-
     if (loading) {
       return <Loading page />;
     }
@@ -101,12 +96,12 @@ export const PushNotificationSection = InjectAppServices(
                     <h2 className="m-b-12">
                       {_('push_notification_section.panel.consume_state_title')}
                     </h2>
-                    <PlanAlert
-                      linkUrl={updatePlanUrl}
-                      days={pushNotificationData.trialPeriodRemainingDays}
-                      availableSends={availableSends}
-                      isPlanTrial={isPlanTrial}
-                    />
+                      <PlanAlert
+                        linkUrl={updatePlanUrl}
+                        days={pushNotificationData.trialPeriodRemainingDays}
+                        availableSends={availableSends}
+                        isPlanTrial={pushNotificationData.hasPushTrialPlan}
+                      />
 
                     <div className="dp-widget-plan-progress">
                       <p>
