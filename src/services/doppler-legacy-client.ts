@@ -1424,10 +1424,17 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
       throw new Error('Empty Doppler response');
     }
 
-    const { consumedSends, trialPeriodRemainingDays, isPushServiceEnabled } = response.data.data;
-
+    const {
+      consumedSends,
+      trialPeriodRemainingDays,
+      isPushServiceEnabled,
+      hasDomainsWithPushActive,
+      hasPushTrialPlan,
+    } = response.data.data;
     return {
       consumedSends,
+      hasDomainsWithPushActive,
+      hasPushTrialPlan,
       trialPeriodRemainingDays,
       isPushServiceEnabled,
     };

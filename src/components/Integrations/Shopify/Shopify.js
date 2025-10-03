@@ -320,7 +320,11 @@ const Shopify = ({ dependencies: { shopifyClient, dopplerApiClient } }) => {
                       <iframe
                         ref={iframeRef}
                         src="/integration/shopify/rfm"
-                        style={{ border: 'none', width: '100%', display: rfmLoading ? 'none' : 'block' }}
+                        style={{
+                          border: 'none',
+                          width: '100%',
+                          display: rfmLoading ? 'none' : 'block',
+                        }}
                         title="rfm"
                       />
                     </div>

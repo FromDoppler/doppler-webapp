@@ -1,6 +1,7 @@
 import { useField } from 'formik';
+import { FormattedMessageMarkdown } from '../../../../i18n/FormattedMessageMarkdown';
 
-export const PushSwitch = ({ name, title, text, onToggle }) => {
+export const PushSwitch = ({ name, title, textId, disabled, onToggle }) => {
   const [field, , helpers] = useField({ name, type: 'checkbox' });
 
   return (
@@ -9,6 +10,7 @@ export const PushSwitch = ({ name, title, text, onToggle }) => {
       <div className="dp-text-switch col-lg-9 col-md-9">
         <div className="dp-switch">
           <input
+            disabled={disabled}
             type="checkbox"
             id={name}
             {...field}
@@ -19,11 +21,11 @@ export const PushSwitch = ({ name, title, text, onToggle }) => {
               onToggle?.(checked);
             }}
           />
-          <label htmlFor={name}>
+          <label aria-disabled={disabled} htmlFor={name}>
             <span></span>
           </label>
         </div>
-        <p>{text}</p>
+        <FormattedMessageMarkdown id={textId} />
       </div>
     </>
   );

@@ -6,7 +6,7 @@ import screenShot_en from './push-configuration--en.png';
 import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
-import { Navigate, useNavigate  } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AddOnType } from '../../doppler-types';
 
 export const PushNotifications = InjectAppServices(

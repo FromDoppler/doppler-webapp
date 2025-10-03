@@ -234,9 +234,9 @@ export interface PushNotificationSettings {
   consumedSends: number;
   trialPeriodRemainingDays: number;
   isPushServiceEnabled: boolean;
+  hasPushTrialPlan: boolean;
+  hasDomainsWithPushActive: boolean;
 };
-
-export const PUSH_NOTIFICATION_PLAN_TRIAL_ID = 1;
 
 export interface PushNotificationSettingsToUpdate {
   isPushServiceEnabled: boolean;
