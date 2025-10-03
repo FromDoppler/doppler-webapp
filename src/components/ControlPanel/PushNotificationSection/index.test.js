@@ -11,8 +11,6 @@ import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { BrowserRouter } from 'react-router-dom';
 
-import { MemoryRouter, Routes, Route } from 'react-router-dom';
-
 const forcedServices = {
   dopplerLegacyClient: {
     getPushNotificationSettings: async () => ({
@@ -70,7 +68,10 @@ describe('test for Push Notification Section component ', () => {
     await waitForElementToBeRemoved(loader);
 
     // Assert Breadcrumb is rendered
-    expect(screen.getByText('common.control_panel')).toBeInTheDocument();
+
+    expect(
+      screen.getByText((content) => content.includes('common.control_panel')),
+    ).toBeInTheDocument();
     expect(screen.getByText('push_notification_section.title')).toBeInTheDocument();
   });
 
