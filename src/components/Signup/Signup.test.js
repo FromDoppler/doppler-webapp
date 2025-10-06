@@ -415,6 +415,7 @@ describe('Signup', () => {
       utm_content: 'test-utm-content',
       origin_inbound: 'recursos-covid',
       fingerprint: null,
+      firstOrigin: undefined,
     });
   });
 
@@ -444,7 +445,7 @@ describe('Signup', () => {
         UTMContent: null,
       },
       {
-        Date: '9/12/2022 8:33:53 PM +00:00',
+        Date: new Date().toISOString(),
         UTMSource: 'fromdoppler',
         UTMMedium: 'email',
         UTMCampaign: 'inbound-demodayseptiembre2022',
@@ -510,7 +511,6 @@ describe('Signup', () => {
       ...values,
       email: values['email'].trim(),
       accept_promotions: '',
-      firstOrigin: undefined,
       captchaResponseToken: 'hardcodedResponseToken',
       language: 'en',
       origin: null,
