@@ -381,6 +381,7 @@ interface ChatPlanEntry {
   active: boolean;
   buttonUrl: string;
   buttonText: string;
+  trialExpired: boolean;
 }
 
 interface OnSitePlanEntry {
@@ -392,6 +393,7 @@ interface OnSitePlanEntry {
   active: boolean;
   buttonText: string;
   buttonUrl: string;
+  trialExpired: boolean;
 }
 
 interface PushNotificationPlanEntry {
@@ -403,6 +405,7 @@ interface PushNotificationPlanEntry {
   active: boolean;
   buttonText: string;
   buttonUrl: string;
+  trialExpired: boolean;
 }
 
 interface PushNotificationEntry {
@@ -602,6 +605,9 @@ function mapChatPlanEntry(json: any): ChatPlanEntry {
     active: json?.planData ? json.planData.active : false,
     buttonUrl: json ? json.buttonUrl : '#',
     buttonText: json ? json.buttonText : '#',
+    trialExpired: json?.planData
+      ? expiredAddOnPlan(new Date(json?.planData.expirationDate))
+      : false,
   };
 }
 
@@ -615,6 +621,9 @@ function mapOnSitePlanEntry(json: any): OnSitePlanEntry {
     active: json?.planData ? json?.planData.active : false,
     buttonUrl: json ? json.buttonUrl : '#',
     buttonText: json ? json.buttonText : '',
+    trialExpired: json?.planData
+      ? expiredAddOnPlan(new Date(json?.planData.expirationDate))
+      : false,
   };
 }
 
@@ -635,7 +644,23 @@ function mapPushNotificationPlanEntry(json: any): PushNotificationPlanEntry {
     active: json?.planData ? json?.planData.active : false,
     buttonUrl: json ? json.buttonUrl : '#',
     buttonText: json ? json.buttonText : '',
+    trialExpired: json?.planData
+      ? expiredAddOnPlan(new Date(json?.planData.expirationDate))
+      : false,
   };
+}
+
+function expiredAddOnPlan(expirationDate: Date) {
+  var now = new Date();
+  var utcDate = new Date(
+    now.getFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    now.getUTCHours(),
+    now.getUTCMinutes(),
+  );
+
+  return expirationDate < utcDate;
 }
 
 function parsePlan(json: any) {
