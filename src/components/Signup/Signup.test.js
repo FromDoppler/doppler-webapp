@@ -444,7 +444,7 @@ describe('Signup', () => {
         UTMContent: null,
       },
       {
-        Date: '9/12/2022 8:33:53 PM +00:00',
+        Date: new Date().toISOString(),
         UTMSource: 'fromdoppler',
         UTMMedium: 'email',
         UTMCampaign: 'inbound-demodayseptiembre2022',
