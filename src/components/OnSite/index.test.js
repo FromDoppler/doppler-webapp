@@ -84,4 +84,36 @@ describe('OnSite component', () => {
     // Assert
     expect(window.location.pathname).toContain('/');
   });
+
+  it('should redirect to dashboard if the user is CM', async () => {
+    // Assert
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              onSite: {
+                active: false,
+              },
+              hasClientManager: true,
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <BrowserRouter>
+          <DopplerIntlProvider>
+            <OnSite />
+          </DopplerIntlProvider>
+        </BrowserRouter>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(window.location.pathname).toContain('/dashboard');
+  });
 });
