@@ -18,7 +18,7 @@ import {
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import Promotions from '../shared/Promotions/Promotions';
-import { isWhitelisted, addLogEntry, getFormInitialValues } from './../../utils';
+import { isWhitelisted, addLogEntry, getFormInitialValues, getStartOfDate } from './../../utils';
 import * as S from './Signup.styles';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useQueryParams } from '../../hooks/useQueryParams';
@@ -270,7 +270,9 @@ const Signup = function ({
     const origin = query.get('origin') ?? query.get('Origin');
     const utmCookies = utmCookiesManager.getUtmCookie() ?? [];
 
-    const lastUTMCookieEntry = utmCookies[utmCookies.length - 1] ?? utmParams;
+    const lastUTMCookieEntry = utmCookies[utmCookies.length - 1];
+    const utmCookie =
+      lastUTMCookieEntry && (!lastUTMCookieEntry.date || new Date(lastUTMCookieEntry.date) > getStartOfDate(new Date())) ? lastUTMCookieEntry : utmParams;
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,
@@ -279,14 +281,14 @@ const Signup = function ({
       origin,
       page,
       redirect: !!redirectUrl && isWhitelisted(redirectUrl) ? redirectUrl : '',
-      utm_source: lastUTMCookieEntry.UTMSource,
-      utm_campaign: lastUTMCookieEntry.UTMCampaign,
-      utm_medium: lastUTMCookieEntry.UTMMedium,
-      utm_term: lastUTMCookieEntry.UTMTerm,
+      utm_source: utmCookie.UTMSource,
+      utm_campaign: utmCookie.UTMCampaign,
+      utm_medium: utmCookie.UTMMedium,
+      utm_term: utmCookie.UTMTerm,
       utm_cookies: utmCookies.length ? utmCookies : null,
-      gclid: lastUTMCookieEntry.gclid,
-      utm_content: lastUTMCookieEntry.UTMContent,
-      origin_inbound: lastUTMCookieEntry.Origin_Inbound,
+      gclid: utmCookie.gclid,
+      utm_content: utmCookie.UTMContent,
+      origin_inbound: utmCookie.Origin_Inbound,
       fingerprint: fingerPrintingId,
     });
     if (result.success) {
