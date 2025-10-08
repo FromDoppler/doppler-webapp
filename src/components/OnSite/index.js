@@ -5,6 +5,7 @@ import screenShot from './Onsites.png';
 import logo from './logo.svg';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
+import { Navigate } from 'react-router-dom';
 import ReactPlayer from 'react-player/youtube';
 import Modal from '../Modal/Modal';
 import RedirectToExternalUrl from '../RedirectToExternalUrl';
@@ -14,6 +15,7 @@ export const OnSite = InjectAppServices(
   ({ dependencies: { dopplerBillingUserApiClient, appSessionRef } }) => {
     const {
       onSite: { active: onSiteActive },
+      hasClientManager,
     } = appSessionRef.current.userData.user;
 
     const intl = useIntl();
@@ -21,6 +23,10 @@ export const OnSite = InjectAppServices(
 
     if (onSiteActive) {
       return <RedirectToExternalUrl to={_('common.onsite_widgets_url')} />;
+    }
+
+    if (hasClientManager) {
+      return <Navigate to="/dashboard" />;
     }
 
     const [errorMessage, setErrorMessage] = useState(null);
