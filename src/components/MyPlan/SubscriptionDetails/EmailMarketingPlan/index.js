@@ -66,11 +66,20 @@ export const EmailMarketingPlan = ({ user, plan }) => {
                 className="dp-button button-medium primary-green dp-w-100 m-b-12"
                 href={plan.buttonUrl}
               >
-                {_(
+                {/* {_(
                   `my_plan.subscription_details.${
                     plan.planType === PLAN_TYPE.byCredit
                       ? 'buy_credits_button'
                       : 'change_plan_button'
+                  }`,
+                )} */}
+                {_(
+                  `my_plan.subscription_details.${
+                    plan.trialExpired
+                      ? 'view_plans_button'
+                      : plan.planType === PLAN_TYPE.byCredit
+                        ? 'buy_credits_button'
+                        : 'change_plan_button'
                   }`,
                 )}
               </a>
