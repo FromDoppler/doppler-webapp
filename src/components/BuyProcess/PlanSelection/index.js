@@ -198,15 +198,10 @@ export const PlanSelection = InjectAppServices(
                   <div className="col-sm-12 m-t-36">
                     <h3 className="dp-second-order-title">
                       <FormattedMessage
-                        id={`buy_process.plan_selection.plan_type_units`}
-                        values={{
-                          units: _(
-                            `buy_process.plan_selection.plan_type_${selectedPlanType.replace(
-                              '-',
-                              '_',
-                            )}_label`,
-                          ).toLowerCase(),
-                        }}
+                        id={`buy_process.plan_selection.plan_type_${selectedPlanType.replace(
+                          '-',
+                          '_',
+                        )}_label`}
                       />
                     </h3>
                     {!hightestPlan && (
