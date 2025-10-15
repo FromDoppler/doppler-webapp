@@ -201,7 +201,7 @@ export const PlanSelection = InjectAppServices(
                         id={`buy_process.plan_selection.plan_type_${selectedPlanType.replace(
                           '-',
                           '_',
-                        )}_label`}
+                        )}_selector`}
                       />
                     </h3>
                     {!hightestPlan && (
