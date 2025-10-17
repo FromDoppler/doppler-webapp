@@ -662,6 +662,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     success_msg: 'Los cambios han sido guardados.',
     time_restriction: {
       error_invalid_range_of_hours_msg: 'Puedes configurar la hora en el rango **de 0 a 23**.',
+      error_equal_hours_msg: 'La hora de inicio y fin no pueden ser iguales.',
       hour_from_aria_label: 'Hora Desde',
       hour_to_aria_label: 'Hora Hasta',
       legend: 'Configura y establece un rango de envíos para tus Campañas. Selecciona cuándo deseas que se ejecute el envío: ',

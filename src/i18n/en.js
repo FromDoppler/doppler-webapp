@@ -663,6 +663,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     success_msg: 'Changes have been saved.',
     time_restriction: {
       error_invalid_range_of_hours_msg: 'You can set up the hour **from 0 to 23**.',
+      error_equal_hours_msg: 'The hour "From" must be different from the hour "To".',
       hour_from_aria_label: 'Hour from',
       hour_to_aria_label: 'Hour to',
       legend: 'Configure and set a range of shipments for your Campaigns. Choose when you want the shipment to be executed:',
