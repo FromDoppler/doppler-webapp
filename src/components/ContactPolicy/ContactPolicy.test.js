@@ -1432,6 +1432,66 @@ describe('ContactPolicy component', () => {
     ).toBeInTheDocument();
   });
 
+  it('should show error message and highlight the fields if the hour "from" and "to" are equal', async () => {
+    // Act
+    render(<ContactPolicyComponent />);
+
+    // Assert
+    // Loader should disappear once request resolves
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    // Save button should be disabled
+    const submitButton = screen.getByRole('button', { name: 'common.save' });
+    expect(submitButton).toBeDisabled();
+
+    // Enable switch button
+    let switchButtonTimeSlot = screen.getByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    await act(() => user.click(switchButtonTimeSlot));
+    switchButtonTimeSlot = await screen.findByRole('checkbox', {
+      name: 'contact_policy.time_restriction.time_slot_toggle_text',
+    });
+    expect(switchButtonTimeSlot).toBeChecked();
+
+    // Save button should be enabled
+    expect(submitButton).not.toBeDisabled();
+
+    // Set "from" equal to "to"
+    const hourToSet = 2;
+
+    let inputHourFrom = screen.getByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_from_aria_label',
+    });
+    await act(() => user.clear(inputHourFrom));
+    await act(() => user.type(inputHourFrom, hourToSet.toString()));
+    inputHourFrom = await screen.findByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_from_aria_label',
+    });
+    expect(inputHourFrom).toHaveValue(hourToSet);
+
+    let inputHourTo = screen.getByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_to_aria_label',
+    });
+    await act(() => user.clear(inputHourTo));
+    await act(() => user.type(inputHourTo, hourToSet.toString()));
+    inputHourTo = await screen.findByRole('spinbutton', {
+      name: 'contact_policy.time_restriction.hour_to_aria_label',
+    });
+    expect(inputHourTo).toHaveValue(hourToSet);
+
+    // Save button should be disabled
+    expect(submitButton).toBeDisabled();
+
+    // Interval field should be highlighted and error message should be displayed
+    expect(inputHourFrom).toHaveAttribute('aria-invalid', 'true');
+    expect(inputHourTo).toHaveAttribute('aria-invalid', 'true');
+    expect(
+      screen.getByText('contact_policy.time_restriction.error_equal_hours_msg'),
+    ).toBeInTheDocument();
+  });
+
   it('should disable add list button if the maximum number of lists has been added', async () => {
     // Act
     render(
