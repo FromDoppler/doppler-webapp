@@ -28,6 +28,7 @@ import {
 } from '../../../doppler-types';
 import { Promocode } from './Promocode';
 import { NextInvoices } from './NextInvoices';
+import { useQueryParams } from '../../../hooks/useQueryParams';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -63,6 +64,9 @@ export const ShoppingCart = InjectAppServices(
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
     const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
@@ -106,7 +110,7 @@ export const ShoppingCart = InjectAppServices(
             : discountConfig.paymentFrequenciesList.at(-1)
               ? discountConfig.paymentFrequenciesList.at(-1).id
               : 0,
-          promocodeApplied.promocode || '',
+          promocodeApplied.promocode || promocodeFromUrl,
         );
         setAmountDetailsData(_amountDetailsData);
       };
@@ -120,6 +124,7 @@ export const ShoppingCart = InjectAppServices(
       discountConfig?.selectedPaymentFrequency,
       discountConfig.paymentFrequenciesList,
       promocodeApplied,
+      promocodeFromUrl,
       paymentMethodName,
     ]);
 
@@ -172,6 +177,7 @@ export const ShoppingCart = InjectAppServices(
               : discountConfig.paymentFrequenciesList.at(-1)
                 ? discountConfig.paymentFrequenciesList.at(-1).id
                 : 0,
+            promocodeFromUrl,
           );
 
         console.log('_amountDetailsPlanChatData', _amountDetailsPlanChatData);
@@ -189,6 +195,7 @@ export const ShoppingCart = InjectAppServices(
       selectedPlanChat,
       discountConfig?.selectedPaymentFrequency,
       discountConfig.paymentFrequenciesList,
+      promocodeFromUrl,
     ]);
 
     useEffect(() => {
@@ -324,7 +331,7 @@ export const ShoppingCart = InjectAppServices(
       selectedMarketingPlan,
       canBuy,
       selectedDiscount: discountConfig?.selectedPaymentFrequency,
-      promotion: promocodeApplied,
+      promotion: promocodeApplied || { promocode: promocodeFromUrl },
       paymentMethodName,
       total,
       landingPacks,
@@ -363,25 +370,22 @@ export const ShoppingCart = InjectAppServices(
 
         <PaymentFrequency {...paymentFrequencyProps} />
 
-        {(isFreeAccount ||
-          selectedMarketingPlan?.type === PLAN_TYPE.byCredit ||
-          sessionPlanType === PLAN_TYPE.byCredit) &&
-          !hidePromocode && (
-            <Promocode
-              allowPromocode={
-                !discountConfig?.selectedPaymentFrequency?.id ||
-                discountConfig?.selectedPaymentFrequency?.applyPromo
-              }
-              selectedMarketingPlan={selectedMarketingPlan}
-              amountDetailsData={amountDetailsData}
-              selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
-              callback={handlePromocodeApplied}
-              hasPromocodeAppliedItem={!!promocodeApplied}
-              selectedPlanType={selectedPlanType}
-              isArgentina={isArgentina}
-              disabledPromocode={disabledPromocode}
-            />
-          )}
+        {buyType === BUY_MARKETING_PLAN && !hidePromocode && (
+          <Promocode
+            allowPromocode={
+              !discountConfig?.selectedPaymentFrequency?.id ||
+              discountConfig?.selectedPaymentFrequency?.applyPromo
+            }
+            selectedMarketingPlan={selectedMarketingPlan}
+            amountDetailsData={amountDetailsData}
+            selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
+            callback={handlePromocodeApplied}
+            hasPromocodeAppliedItem={!!promocodeApplied}
+            selectedPlanType={selectedPlanType}
+            isArgentina={isArgentina}
+            disabledPromocode={disabledPromocode}
+          />
+        )}
         <section>
           <h4>{_('buy_process.subscriptions_title')}</h4>
           {items.map((item, index) => (
