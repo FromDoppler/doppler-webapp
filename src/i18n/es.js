@@ -669,6 +669,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       time_slot_hour_from_label: 'Desde',
       time_slot_hour_to_label: 'Hasta',
       time_slot_toggle_text: 'Sólo en determinada franja horaria teniendo en cuenta el huso horario de tu cuenta.',
+      time_slot_hint_title: 'Importante:',
+      time_slot_hint_text: 'deja esta opción deshabilitada si no deseas limitar el envío a una franja horaria específica.',
       title: 'Restricción horaria',
       weekdays_toggle_text: 'Sólo de lunes a viernes',
     },

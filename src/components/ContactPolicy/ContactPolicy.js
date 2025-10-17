@@ -405,6 +405,15 @@ export const ContactPolicy = InjectAppServices(
                                 text={_('contact_policy.time_restriction.time_slot_toggle_text')}
                                 onToggle={() => hideMessage()}
                               />
+
+                              <p
+                                className="dp-color-gray dp-text--italic m-t-6"
+                              >
+                                <strong className="dp-color-red">
+                                  {_('contact_policy.time_restriction.time_slot_hint_title')}
+                                </strong>{' '}
+                                {_('contact_policy.time_restriction.time_slot_hint_text')}
+                              </p>
                             </li>
                             <li className="field-item">
                               <div className="dp-item-block awa-form">
