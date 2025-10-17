@@ -159,13 +159,13 @@ export const ContactPolicy = InjectAppServices(
       const hourFromEmpty = values.timeRestriction.hourFrom === '';
       const hourToEmpty = values.timeRestriction.hourTo === '';
 
-      if (hourFromEmpty || hourToEmpty) {
+      if (hourFromEmpty || hourToEmpty) { // hours are empty
         errors.timeRestrictionHourFrom = hourFromEmpty;
         errors.timeRestrictionHourTo = hourToEmpty;
         errors.messageForTimeSlot = (
           <FormattedMessageMarkdown id="validation_messages.error_required_field" />
         );
-      } else {
+      } else { // hours are not empty
         const hourFromOutOfRange =
           values.timeRestriction.hourFrom < 0 || values.timeRestriction.hourFrom > 23;
         const hourToOutOfRange =
@@ -176,6 +176,12 @@ export const ContactPolicy = InjectAppServices(
           errors.timeRestrictionHourTo = hourToOutOfRange;
           errors.messageForTimeSlot = (
             <FormattedMessageMarkdown id="contact_policy.time_restriction.error_invalid_range_of_hours_msg" />
+          );
+        } else if (values.timeRestriction.hourFrom === values.timeRestriction.hourTo) { // hours are equal
+          errors.timeRestrictionHourFrom = true;
+          errors.timeRestrictionHourTo = true;
+          errors.messageForTimeSlot = (
+            <FormattedMessageMarkdown id="contact_policy.time_restriction.error_equal_hours_msg" />
           );
         }
       }
@@ -399,6 +405,15 @@ export const ContactPolicy = InjectAppServices(
                                 text={_('contact_policy.time_restriction.time_slot_toggle_text')}
                                 onToggle={() => hideMessage()}
                               />
+
+                              <p
+                                className="dp-color-gray dp-text--italic m-t-6"
+                              >
+                                <strong className="dp-color-red">
+                                  {_('contact_policy.time_restriction.time_slot_hint_title')}
+                                </strong>{' '}
+                                {_('contact_policy.time_restriction.time_slot_hint_text')}
+                              </p>
                             </li>
                             <li className="field-item">
                               <div className="dp-item-block awa-form">
