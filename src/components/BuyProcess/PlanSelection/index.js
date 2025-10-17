@@ -111,7 +111,10 @@ export const PlanSelection = InjectAppServices(
     }, [planService, appSessionRef, planTypeUrlSegment, planTypes]);
 
     useEffect(() => {
-      if (item.selectedMarketingPlan === null) {
+      if (
+        item.selectedMarketingPlan === null ||
+        (item?.selectedMarketingPlan.type !== selectedPlan?.type)
+      ) {
         setItem({
           selectedMarketingPlan: selectedPlan,
           discounts: discounts,
