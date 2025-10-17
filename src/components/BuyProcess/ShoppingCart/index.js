@@ -363,25 +363,22 @@ export const ShoppingCart = InjectAppServices(
 
         <PaymentFrequency {...paymentFrequencyProps} />
 
-        {(isFreeAccount ||
-          selectedMarketingPlan?.type === PLAN_TYPE.byCredit ||
-          sessionPlanType === PLAN_TYPE.byCredit) &&
-          !hidePromocode && (
-            <Promocode
-              allowPromocode={
-                !discountConfig?.selectedPaymentFrequency?.id ||
-                discountConfig?.selectedPaymentFrequency?.applyPromo
-              }
-              selectedMarketingPlan={selectedMarketingPlan}
-              amountDetailsData={amountDetailsData}
-              selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
-              callback={handlePromocodeApplied}
-              hasPromocodeAppliedItem={!!promocodeApplied}
-              selectedPlanType={selectedPlanType}
-              isArgentina={isArgentina}
-              disabledPromocode={disabledPromocode}
-            />
-          )}
+        {buyType === BUY_MARKETING_PLAN && !hidePromocode && (
+          <Promocode
+            allowPromocode={
+              !discountConfig?.selectedPaymentFrequency?.id ||
+              discountConfig?.selectedPaymentFrequency?.applyPromo
+            }
+            selectedMarketingPlan={selectedMarketingPlan}
+            amountDetailsData={amountDetailsData}
+            selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
+            callback={handlePromocodeApplied}
+            hasPromocodeAppliedItem={!!promocodeApplied}
+            selectedPlanType={selectedPlanType}
+            isArgentina={isArgentina}
+            disabledPromocode={disabledPromocode}
+          />
+        )}
         <section>
           <h4>{_('buy_process.subscriptions_title')}</h4>
           {items.map((item, index) => (

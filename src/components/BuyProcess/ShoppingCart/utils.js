@@ -444,6 +444,40 @@ export const mapItemFromLandingPackages = ({
     });
   }
 
+  if (amountDetailsData?.value?.discountPromocode?.discountPercentage > 0) {
+    LandingPackInformation.featureList.push(
+      <>
+        <FormattedMessage
+          id={`buy_process.feature_item_discount_monthly`}
+          values={{
+            months: amountDetailsData?.value?.discountPromocode?.duration,
+          }}
+        />
+      </>,
+    );
+
+    LandingPackInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPromocode?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPromocode.amount}
+            {...numberFormatOptions}
+          />
+          *
+        </>
+      ),
+    });
+  }
+
   if (amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage > 0) {
     LandingPackInformation.billingList.push({
       label: (
@@ -953,6 +987,40 @@ export const mapItemFromAddOnPlan = ({
             value={amountDetailsData.value.discountPrepayment.amount}
             {...numberFormatOptions}
           />
+        </>
+      ),
+    });
+  }
+
+  if (amountDetailsData?.value?.discountPromocode?.discountPercentage > 0) {
+    addOnPlanInformation.featureList.push(
+      <>
+        <FormattedMessage
+          id={`buy_process.feature_item_discount_monthly`}
+          values={{
+            months: amountDetailsData?.value?.discountPromocode?.duration,
+          }}
+        />
+      </>,
+    );
+
+    addOnPlanInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.shopping_cart.save_percentage`}
+          values={{
+            percentage: `${amountDetailsData?.value?.discountPromocode?.discountPercentage}%`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          US$ -
+          <FormattedNumber
+            value={amountDetailsData.value.discountPromocode.amount}
+            {...numberFormatOptions}
+          />
+          *
         </>
       ),
     });
