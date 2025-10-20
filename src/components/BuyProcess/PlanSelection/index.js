@@ -63,6 +63,8 @@ export const PlanSelection = InjectAppServices(
         sliderValuesRange,
         discounts,
         selectedDiscount,
+        currentDiscountIndex,
+        selectedDiscountIndex,
         hasError: hasErrorPlansByType,
       },
       dispatchPlansByType,
@@ -113,7 +115,8 @@ export const PlanSelection = InjectAppServices(
     useEffect(() => {
       if (
         item.selectedMarketingPlan === null ||
-        (item?.selectedMarketingPlan.type !== selectedPlan?.type)
+        item?.selectedMarketingPlan.type !== selectedPlan?.type ||
+        selectedDiscountIndex !== currentDiscountIndex
       ) {
         setItem({
           selectedMarketingPlan: selectedPlan,
@@ -121,7 +124,14 @@ export const PlanSelection = InjectAppServices(
           selectedDiscount: selectedDiscount,
         });
       }
-    }, [selectedPlan, discounts, selectedDiscount, item.selectedMarketingPlan]);
+    }, [
+      selectedPlan,
+      discounts,
+      selectedDiscount,
+      item.selectedMarketingPlan,
+      selectedDiscountIndex,
+      currentDiscountIndex,
+    ]);
 
     const handleSliderChange = (e) => {
       const { value } = e.target;
