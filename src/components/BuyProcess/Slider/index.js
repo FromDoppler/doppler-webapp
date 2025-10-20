@@ -66,7 +66,6 @@ export const Slider = ({
   };
 
   const onClick = (e) => {
-    console.log(parseInt(e.target.value));
     handleOnClick(e);
   };
 
