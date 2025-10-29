@@ -119,6 +119,9 @@ const Signup = function ({
     UTMContent: query.get('utm_content'),
     Origin_Inbound: query.get('origin_inbound'),
   };
+
+  console.log("query", query);
+  console.log("utmParams", utmParams);
   utmCookiesManager.setCookieEntry(utmParams);
 
   const addExistentEmailAddress = (email) => {

@@ -10,6 +10,7 @@ export class UtmCookiesManager {
     const isFromFromdoppler = this.document?.referrer?.includes('fromdoppler.com');
 
     if (!this.hasRegistered && (!isFromFromdoppler || hasGclid)) {
+      console.log("cookie manager - setting utm cookie", utmParams);
       const newItem = {
         date: new Date().toISOString(),
         ...utmParams,
