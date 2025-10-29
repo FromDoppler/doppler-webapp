@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
@@ -207,7 +207,7 @@ export const CreditCard = InjectAppServices(
       // setIsProcessing(false);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = useCallback(async () => {
       if (!number || !name || !expiry || !cvc) {
         alert("Por favor complete todos los campos requeridos");
         return Promise.reject(new Error("Missing required fields"));
@@ -257,7 +257,7 @@ export const CreditCard = InjectAppServices(
           reject(errorResponse);
         }
       });
-    };
+    }, [number, name, expiry, cvc]);
 
     const executeEprotectCall = (onSuccess, onError, onTimeout) => {
       const eProtectRequest = {
@@ -322,7 +322,7 @@ export const CreditCard = InjectAppServices(
 
     useEffect(() => {
       setHandleSubmit(() => handleSubmit);
-    }, [number, name, expiry, cvc, setHandleSubmit, handleSubmit]);
+    }, [handleSubmit, setHandleSubmit]);
 
     return (
       <>
