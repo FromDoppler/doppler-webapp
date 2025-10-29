@@ -391,6 +391,25 @@ describe('PaymentMethod component', () => {
     'update view - credit card - first data error',
     (testName, fieldName, fieldValue, firstDataError, firstDataErrorKey) => {
       it(testName, async () => {
+        // Mock eProtect
+        window.eProtect = jest.fn().mockImplementation(() => ({
+          sendToEprotect: jest.fn((_request, _fields, onSuccess) => {
+            onSuccess({
+              paypageRegistrationId: 'test-registration-id',
+              checkoutId: 'test-checkout-id',
+              bin: '411111',
+              response: '870',
+              message: 'Success',
+              responseTime: '1000',
+              type: 'VI',
+              vantivTxnId: 'test-txn-id',
+              firstSix: '411111',
+              lastFour: '1111',
+              accountRangeId: 'test-range-id',
+            });
+          }),
+        }));
+
         // Act
         await act(() =>
           render(

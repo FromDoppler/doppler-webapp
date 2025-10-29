@@ -81,7 +81,7 @@ const paymentMethods = [
 const countriesAvailableTransfer = ['ar'];
 const countriesAvailableAutomaticDebit = ['ar'];
 
-const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
+const PaymentType = ({ paymentMethodType, optionView, paymentMethod, setHandleSubmit }) => {
   var currentPaymentMethodType =
     optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
       ? PaymentMethodType.creditCard
@@ -92,7 +92,7 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
       {(() => {
         switch (currentPaymentMethodType) {
           case PaymentMethodType.creditCard:
-            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+            return <CreditCard optionView={optionView} paymentMethod={paymentMethod} setHandleSubmit={setHandleSubmit}></CreditCard>;
           case PaymentMethodType.transfer:
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case PaymentMethodType.mercadoPago:
@@ -250,6 +250,7 @@ export const UpdatePaymentMethod = InjectAppServices(
     const [paymentMethodType, setPaymentMethodType] = useState('');
     const [status, setStatus] = useState('');
     const [errorMessageId, setErrorMessageId] = useState('');
+    // const [executeSubmitLogin, setExecuteSubmitLogin] = useState(null);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
@@ -350,6 +351,7 @@ export const UpdatePaymentMethod = InjectAppServices(
                     paymentMethodType={paymentMethodType}
                     optionView={optionView}
                     paymentMethod={paymentMethod}
+                    setHandleSubmit={() => {}}
                   />
                   <PaymentNotes paymentMethodType={paymentMethodType} optionView={optionView} />
                   {showMessage && (

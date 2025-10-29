@@ -32,14 +32,17 @@ const dependencies = (withError) => ({
 });
 
 const mockedSetFieldValue = jest.fn();
+const mockedSetHandleSubmit = jest.fn();
 const initialPropsReonlyView = {
   handleChangeView: mockedSetFieldValue,
   optionView: actionPage.READONLY,
+  setHandleSubmit: mockedSetHandleSubmit,
 };
 
 const initialPropsUpdateView = {
   setFieldValue: mockedSetFieldValue,
   optionView: actionPage.UPDATE,
+  setHandleSubmit: mockedSetHandleSubmit,
 };
 
 const getFormFields = (container, updateView) => {
@@ -86,7 +89,10 @@ const CreditCardElement = ({ withError, updateView }) => {
     <AppServicesProvider forcedServices={services}>
       <IntlProvider>
         <BrowserRouter>
-          <Formik>
+          <Formik
+            initialValues={{}}
+            onSubmit={() => {}}
+          >
             {updateView === actionPage.UPDATE ? (
               <CreditCard
                 {...initialPropsUpdateView}
