@@ -168,7 +168,7 @@ const PaymentMethodField = ({
   );
 };
 
-const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
+const PaymentType = ({ paymentMethodType, optionView, paymentMethod, setHandleSubmit }) => {
   var currentPaymentMethodType =
     optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
       ? PaymentMethodType.creditCard
@@ -179,7 +179,7 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
       {(() => {
         switch (currentPaymentMethodType) {
           case paymentType.creditCard:
-            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+            return <CreditCard optionView={optionView} paymentMethod={paymentMethod} setHandleSubmit={setHandleSubmit}></CreditCard>;
           case paymentType.transfer:
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case paymentType.mercadoPago:
@@ -187,7 +187,7 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
           case paymentType.automaticDebit:
             return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
-            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+            return <CreditCard optionView={optionView} paymentMethod={paymentMethod} setHandleSubmit={setHandleSubmit}></CreditCard>;
         }
       })()}
     </>
@@ -308,6 +308,7 @@ export const PaymentMethod = InjectAppServices(
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useParams();
+    const [executeSubmitLogin, setExecuteSubmitLogin] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -416,11 +417,30 @@ export const PaymentMethod = InjectAppServices(
       const { value } = e.target;
       setFieldValue(fieldNames.paymentMethodName, value);
       getDiscountData(selectedPlan, value);
-      setError(false);
+      setError({ error: false, message: '' });
       handleChangePaymentMethod(value);
     };
 
+    const handleOnSubmit = async () => {
+      if (executeSubmitLogin && typeof executeSubmitLogin === 'function') {
+        return await executeSubmitLogin();
+      }
+      return null;
+    }
+
     const submitPaymentMethodForm = async (values) => {
+      // eprotect logic
+      if (values?.paymentMethodName === paymentType.creditCard) {
+        try {
+          const eProtectResponse = await handleOnSubmit();
+          if (eProtectResponse && eProtectResponse.checkoutId) {
+            values = { ...values, worldPayLowValueToken: eProtectResponse.checkoutId };
+          }
+        } catch (error) {
+          console.error('Error from eProtect:', error);
+        }
+      }
+
       setError({ error: false, message: '' });
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
         ...values,
@@ -516,6 +536,7 @@ export const PaymentMethod = InjectAppServices(
                       paymentMethodType={values[fieldNames.paymentMethodName]}
                       optionView={optionView}
                       paymentMethod={state.paymentMethod}
+                      setHandleSubmit={setExecuteSubmitLogin}
                     />
                     {appliedPromocode ? <PromoCodeInformation /> : null}
                     <PaymentNotes paymentMethodType={values[fieldNames.paymentMethodName]} />

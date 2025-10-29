@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
@@ -80,14 +80,31 @@ const FormatMessageWithBoldWords = ({ id }) => {
   );
 };
 
+const loadEprotectScript = () => {
+  return new Promise((resolve, reject) => {
+    if (window.eProtect) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://request.eprotect.vantivprelive.com/eProtect/eProtect-api3.js';
+    script.type = 'text/javascript';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Failed to load eProtect script'));
+    document.head.appendChild(script);
+  });
+};
+
 export const CreditCard = InjectAppServices(
   ({
     dependencies: { dopplerAccountPlansApiClient, appSessionRef },
     optionView,
     paymentMethod,
+    setHandleSubmit,
   }) => {
     const intl = useIntl();
-    const { setFieldValue, setValues, setFieldTouched } = useFormikContext();
+    const { setFieldValue, setValues, setFieldTouched, values } = useFormikContext();
     const [state, setState] = useState({ loading: true, paymentMethod: {}, readOnly: true });
     const [number, setNumber] = useState('');
     const [name, setName] = useState('');
@@ -97,7 +114,21 @@ export const CreditCard = InjectAppServices(
     const [ccMask, setCcMask] = useState(creditCardMasksByBrand.unknown);
     const [cvcMask, setCvcMask] = useState(secCodeMasksByBrand.unknown);
     const [pasted, setPasted] = useState(false);
+    // const [isProcessing, setIsProcessing] = useState(false);
+    const scriptLoaded = useRef(false);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    useEffect(() => {
+      if (!scriptLoaded.current) {
+        loadEprotectScript()
+          .then(() => {
+            scriptLoaded.current = true;
+          })
+          .catch((error) => {
+            console.error('Error loading eProtect script:', error);
+          });
+      }
+    }, []);
 
     useEffect(() => {
       if (optionView === actionPage.READONLY) {
@@ -140,6 +171,124 @@ export const CreditCard = InjectAppServices(
       }
     }, [dopplerAccountPlansApiClient, appSessionRef, optionView, setValues]);
 
+    const setEprotectResponseFields = (response) => {
+      const fieldsToUpdate = {
+        'response$paypageRegistrationId': response.paypageRegistrationId || '',
+        'response$checkoutId': response.checkoutId || '',
+        'response$bin': response.bin || '',
+        'response$code': response.response || '',
+        'response$message': response.message || '',
+        'response$responseTime': response.responseTime || '',
+        'response$type': response.type || '',
+        'response$vantivTxnId': response.vantivTxnId || '',
+        'response$firstSix': response.firstSix || '',
+        'response$lastFour': response.lastFour || '',
+        'response$accountRangeId': response.accountRangeId || '',
+      };
+
+      Object.entries(fieldsToUpdate).forEach(([fieldName, value]) => {
+        setFieldValue(fieldName, value);
+      });
+    };
+
+    const timeoutOnEprotect = () => {
+      console.error("Timeout al intentar procesar con eProtect.");
+      // setIsProcessing(false);
+    };
+
+    const onErrorAfterEprotect = (response) => {
+      setEprotectResponseFields(response);
+      // setIsProcessing(false);
+      console.error("Error: " + (response.message || 'Unknown error'));
+    };
+
+    const submitAfterEprotect = (response) => {
+      setEprotectResponseFields(response);
+      // setIsProcessing(false);
+    };
+
+    const handleSubmit = async () => {
+      if (!number || !name || !expiry || !cvc) {
+        alert("Por favor complete todos los campos requeridos");
+        return Promise.reject(new Error("Missing required fields"));
+      }
+
+      // setIsProcessing(true);
+
+      return new Promise((resolve, reject) => {
+        const wrappedSubmitAfterEprotect = (response) => {
+          submitAfterEprotect(response);
+          resolve(response);
+        };
+
+        const wrappedOnErrorAfterEprotect = (response) => {
+          onErrorAfterEprotect(response);
+          reject(response);
+        };
+
+        const wrappedTimeoutOnEprotect = () => {
+          timeoutOnEprotect();
+          reject(new Error("Timeout eProtect"));
+        };
+
+        try {
+          if (!window.eProtect) {
+            loadEprotectScript().then(() => {
+              executeEprotectCall(wrappedSubmitAfterEprotect, wrappedOnErrorAfterEprotect, wrappedTimeoutOnEprotect);
+            }).catch((error) => {
+              console.error('Error loading eProtect script:', error);
+              const errorResponse = {
+                response: "999",
+                message: "Error loading eProtect script: " + error.message
+              };
+              onErrorAfterEprotect(errorResponse);
+              reject(errorResponse);
+            });
+          } else {
+            executeEprotectCall(wrappedSubmitAfterEprotect, wrappedOnErrorAfterEprotect, wrappedTimeoutOnEprotect);
+          }
+        } catch (error) {
+          console.error('Error with eProtect:', error);
+          const errorResponse = {
+            response: "999",
+            message: "Error initializing eProtect: " + error.message
+          };
+          onErrorAfterEprotect(errorResponse);
+          reject(errorResponse);
+        }
+      });
+    };
+
+    const executeEprotectCall = (onSuccess, onError, onTimeout) => {
+      const eProtectRequest = {
+        "paypageId": "a2y4o6m8k0",
+        "reportGroup": "*merchant1500",
+        "orderId": `order_${Date.now()}`,
+        "id": `merchantTxn_${Date.now()}`,
+        "url": "https://request.eprotect.vantivprelive.com",
+        "minPanLength": 16,
+        "checkoutIdMode": true
+      };
+
+      const formFields = {
+        "accountNum": document.getElementById(fieldNames.number),
+        "cvv": document.getElementById(fieldNames.cvc),
+        "cvv2": document.getElementById(fieldNames.cvc),
+        "paypageRegistrationId":document.getElementById('response$paypageRegistrationId'),
+        "checkoutId":document.getElementById('response$checkoutId'),
+        "bin"  :document.getElementById('response$bin')
+      };
+
+      new window.eProtect().sendToEprotect(
+        eProtectRequest,
+        formFields,
+        onSuccess,
+        onError,
+        onTimeout,
+        15000
+      );
+    };
+
     const onChangeNumber = (e) => {
       if (!pasted) {
         const { value } = e.target;
@@ -170,6 +319,10 @@ export const CreditCard = InjectAppServices(
       setFieldValue(fieldNames.cvc, '');
       setCvc('');
     };
+
+    useEffect(() => {
+      setHandleSubmit(() => handleSubmit);
+    }, [number, name, expiry, cvc, setHandleSubmit, handleSubmit]);
 
     return (
       <>
@@ -341,6 +494,19 @@ export const CreditCard = InjectAppServices(
             )}
           </FieldGroup>
         )}
+        {/* Hidden Inputs for eProtect */}
+        <input type="hidden" id="response$paypageRegistrationId" name="response$paypageRegistrationId" value={values.response$paypageRegistrationId || ''} />
+        <input type="hidden" id="response$checkoutId" name="response$checkoutId" value={values.response$checkoutId || ''} />
+        <input type="hidden" id="response$bin" name="response$bin" value={values.response$bin || ''} />
+        <input type="hidden" id="response$code" name="response$code" value={values.response$code || ''} />
+        <input type="hidden" id="response$message" name="response$message" value={values.response$message || ''} />
+        <input type="hidden" id="response$responseTime" name="response$responseTime" value={values.response$responseTime || ''} />
+        <input type="hidden" id="response$type" name="response$type" value={values.response$type || ''} />
+        <input type="hidden" id="response$vantivTxnId" name="response$vantivTxnId" value={values.response$vantivTxnId || ''} />
+        <input type="hidden" id="response$firstSix" name="response$firstSix" value={values.response$firstSix || ''} />
+        <input type="hidden" id="response$lastFour" name="response$lastFour" value={values.response$lastFour || ''} />
+        <input type="hidden" id="response$accountRangeId" name="response$accountRangeId" value={values.response$accountRangeId || ''} />
+        <input type="hidden" id="request$reportGroup" name="request$reportGroup" value="*merchant1500"/>
       </>
     );
   },
