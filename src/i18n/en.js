@@ -2115,7 +2115,7 @@ deletion, security, cross-border data transfers and other issues.
     table_result: {
       aria_label_table: `Campaign History result`,
     },
-    title: 'Subscriber historical behavior',
+    title: 'Contacts historical behavior',
     unsubscribed_date: 'Unsubscribed Date:',
   },
   subscriber_list_selector: {
