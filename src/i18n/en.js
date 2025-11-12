@@ -788,10 +788,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `Join experts, attend exclusive workshops, and boost your Marketing. Register for your free VIP pass today.`,
-        link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=emmsdt25-invitacion-sep25&utm_term=Cta',
-        link_description: 'RESERVE YOUR PLACE',
-        title: '🚀 EMMS Digital Trends 2025 is almost here!',
+        description: `Enjoy again the talks that inspired thousands of professionals. Access them for free now!`,
+        link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsdt25-post-revive-conferencias-invitacion-Nov25&utm_term=cta',
+        link_description: 'WATCH THE CONFERENCES',
+        title: '🚀 Relive the EMMS Digital Trends 2025 experience and learn from the leaders who shaped this year’s agenda.',
       },
       post_2: {
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
