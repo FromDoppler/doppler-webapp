@@ -5,7 +5,6 @@ import { useFormikContext } from 'formik';
 import Cards from 'react-credit-cards';
 import { FieldGroup, FieldItem } from '../form-helpers/form-helpers';
 import { actionPage } from '../Plans/Checkout/Checkout';
-import { fieldNames } from '../Plans/Checkout/PaymentMethod/PaymentMethod';
 import creditCards from '../../img/credit-cards.svg';
 import { CreditCardIcons } from '../Plans/Checkout/PaymentMethod/CreditCard';
 import { getEprotectConfig } from './eprotectConfig';
@@ -162,7 +161,7 @@ export const CreditCardEProtect = InjectAppServices(
           isReady: () => !!payframeClientRef.current,
         });
       }
-    }, [payframeClientRef.current, onClientReady]);
+    }, [onClientReady]);
 
     return (
       <FieldGroup>
