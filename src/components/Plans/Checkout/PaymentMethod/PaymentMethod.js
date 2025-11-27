@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Field, Form, Formik } from 'formik';
@@ -9,6 +9,7 @@ import { getFormInitialValues, extractParameter } from '../../../../utils';
 import { FieldGroup, FieldItem, SubmitButton } from '../../../form-helpers/form-helpers';
 import { actionPage } from '../Checkout';
 import { CreditCard, getCreditCardBrand } from './CreditCard';
+import { CreditCardEProtect } from '../../../EProtect/CreditCardEProtect';
 import { Transfer } from './Transfer/Transfer';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -17,6 +18,7 @@ import {
   CloverError,
   PaymentMethodType,
   AutomaticDebitError,
+  EProtectError,
 } from '../../../../doppler-types';
 import { MercadoPagoArgentina } from './MercadoPagoArgentina';
 import { AutomaticDebit } from './AutomaticDebit/AutomaticDebit';
@@ -168,18 +170,24 @@ const PaymentMethodField = ({
   );
 };
 
-const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
+const PaymentType = ({ paymentMethodType, optionView, paymentMethod, onEprotectClientReady }) => {
   var currentPaymentMethodType =
     optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
       ? PaymentMethodType.creditCard
       : paymentMethodType;
+
+  const useEprotect = process.env.REACT_APP_USE_EPROTECT === 'true';
 
   return (
     <>
       {(() => {
         switch (currentPaymentMethodType) {
           case paymentType.creditCard:
-            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+            return useEprotect ? (
+              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+            ) : (
+              <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
+            );
           case paymentType.transfer:
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case paymentType.mercadoPago:
@@ -187,7 +195,11 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
           case paymentType.automaticDebit:
             return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
-            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+            return useEprotect ? (
+              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+            ) : (
+              <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
+            );
         }
       })()}
     </>
@@ -308,6 +320,12 @@ export const PaymentMethod = InjectAppServices(
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useParams();
+    const eprotectClientRef = useRef(null);
+    const useEprotect = process.env.REACT_APP_USE_EPROTECT === 'true';
+
+    const handleEprotectClientReady = useCallback((client) => {
+      eprotectClientRef.current = client;
+    }, []);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -338,7 +356,7 @@ export const PaymentMethod = InjectAppServices(
           } else {
             if (
               paymentMethodData.value.paymentMethodName === paymentType.creditCard &&
-              paymentMethodData.value.ccNumber === ''
+              paymentMethodData.value.ccNumber === '' && !paymentMethodData.value.lastFourDigitsCCNumber
             ) {
               handleChangeView(actionPage.UPDATE);
             }
@@ -422,10 +440,33 @@ export const PaymentMethod = InjectAppServices(
 
     const submitPaymentMethodForm = async (values) => {
       setError({ error: false, message: '' });
+
+      if (useEprotect && values.paymentMethodName === paymentType.creditCard && eprotectClientRef.current) {
+        try {
+          const eprotectResponse = await eprotectClientRef.current.requestPaypageRegistrationId();
+          if (eprotectResponse.response === "870") {
+            values.worldPayLowValueToken = eprotectResponse.paypageRegistrationId;
+            values.lastFourDigitsCCNumber = eprotectResponse.lastFour;
+            values.firstSixDigitsCCNumber = eprotectResponse.firstSix;
+            values.expiry = `${eprotectResponse.expMonth}/${eprotectResponse.expYear}`;
+            values.ccType = getCreditCardBrand(eprotectResponse.firstSix);
+          } else {
+            setError({ error: true, message: handleMessage(eprotectResponse) });
+            return;
+          }
+        } catch (error) {
+          setError({ error: true, message: handleMessage(error) });
+          return;
+        }
+      } else {
+        values.ccType = getCreditCardBrand(values.number);
+        values.lastFourDigitsCCNumber = values.number.slice(-4);
+        values.firstSixDigitsCCNumber = values.number.slice(0, 6);
+      }
+
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
         ...values,
         discountId: discountsInformation.selectedPlanDiscount,
-        ccType: getCreditCardBrand(values.number),
         idSelectedPlan: selectedPlan,
       });
 
@@ -456,20 +497,31 @@ export const PaymentMethod = InjectAppServices(
       return initialValues;
     };
 
-    const handleMessage = (error) => {
-      switch (error.response.data) {
+    const handleMessage = (errorOrResponse) => {
+      const errorCode = errorOrResponse.response?.data || errorOrResponse.response || errorOrResponse;
+
+      switch (errorCode) {
         case FirstDataError.invalidExpirationDate:
         case CloverError.invalidExpirationMonth:
         case CloverError.invalidExpirationYear:
         case CloverError.invalidExpirationCard:
+        case EProtectError.expirationMonthInvalid:
+        case EProtectError.expirationYearInvalid:
+        case EProtectError.expirationDateInvalid:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
         case FirstDataError.invalidCreditCardNumber:
         case FirstDataError.invalidCCNumber:
         case CloverError.invalidCreditCardNumber:
+        case EProtectError.invalidAccountNumber:
+        case EProtectError.accountNumberTooShort:
+        case EProtectError.accountNumberTooLong:
+        case EProtectError.accountNumberNotNumeric:
+        case EProtectError.invalidAccountNumberGeneric:
           return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
         case FirstDataError.declined:
         case FirstDataError.doNotHonorDeclined:
         case CloverError.declined:
+        case EProtectError.failure:
           return 'checkoutProcessForm.payment_method.first_data_error.declined';
         case FirstDataError.suspectedFraud:
           return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
@@ -484,6 +536,23 @@ export const PaymentMethod = InjectAppServices(
           return 'checkoutProcessForm.payment_method.not_allow_credit_card_error';
         case AutomaticDebitError.cbuInvalid:
           return 'checkoutProcessForm.payment_method.automatic_debit_error.invalid_cbu';
+        case EProtectError.unableToEncryptField:
+        case EProtectError.invalidPaypageRegistrationId:
+        case EProtectError.reportGroupInvalid:
+        case EProtectError.secondaryPaypageRequestError:
+        case EProtectError.paypageSignatureVerificationFailed:
+          return 'checkoutProcessForm.payment_method.eprotect_error.unable_to_encrypt_field';
+        case EProtectError.expiredPaypageRegistrationId:
+          return 'checkoutProcessForm.payment_method.eprotect_error.expired_paypage_registration_id';
+        case EProtectError.merchantNotAuthorized:
+          return 'checkoutProcessForm.payment_method.eprotect_error.merchant_not_authorized';
+        case EProtectError.cvvNotNumeric:
+        case EProtectError.cvvTooShort:
+        case EProtectError.cvvTooLong:
+          return 'checkoutProcessForm.payment_method.eprotect_error.cvv_invalid';
+        case EProtectError.payframeHtmlFailedToLoad:
+        case EProtectError.payframeCssFailedToLoad:
+          return 'checkoutProcessForm.payment_method.eprotect_error.payframe_failed_to_load';
         default:
           return 'checkoutProcessForm.payment_method.error';
       }
@@ -516,6 +585,7 @@ export const PaymentMethod = InjectAppServices(
                       paymentMethodType={values[fieldNames.paymentMethodName]}
                       optionView={optionView}
                       paymentMethod={state.paymentMethod}
+                      onEprotectClientReady={handleEprotectClientReady}
                     />
                     {appliedPromocode ? <PromoCodeInformation /> : null}
                     <PaymentNotes paymentMethodType={values[fieldNames.paymentMethodName]} />
