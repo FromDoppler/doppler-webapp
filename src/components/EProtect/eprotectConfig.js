@@ -36,7 +36,7 @@ export const getEprotectConfig = (payframeClientCallback, intl) => {
     },
     placeholderText: {
       cvv: _('checkoutProcessForm.payment_method.eprotect_placeholder_cvv'),
-      accountNumber: _('payment_method.credit_card'),
+      accountNumber: _('checkoutProcessForm.payment_method.credit_card'),
     },
     htmlTimeout: "5000",
     clearCvvMaskOnReturn: true,
