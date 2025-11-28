@@ -62,7 +62,7 @@ export const fakePaymentMethodInformation = {
   },
   cbu: '',
   lastFourDigitsCCNumber: '',
-  firstSixDigitsCCNumber: ''
+  firstSixDigitsCCNumber: '',
 };
 
 export const fakePaymentMethod = {

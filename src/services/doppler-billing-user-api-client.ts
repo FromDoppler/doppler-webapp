@@ -209,7 +209,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       taxCertificate: data.taxCertificate,
       cbu: data.cbu,
       lastFourDigitsCCNumber: data.lastFourDigitsCCNumber,
-      firstSixDigitsCCNumber: data.firstSixDigitsCCNumber
+      firstSixDigitsCCNumber: data.firstSixDigitsCCNumber,
     };
   }
 
@@ -299,7 +299,7 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           ccType: data.ccType,
           worldPayLowValueToken: data.worldPayLowValueToken,
           lastFourDigitsCCNumber: data.lastFourDigitsCCNumber,
-          firstSixDigitsCCNumber: data.firstSixDigitsCCNumber
+          firstSixDigitsCCNumber: data.firstSixDigitsCCNumber,
         };
     }
   }
