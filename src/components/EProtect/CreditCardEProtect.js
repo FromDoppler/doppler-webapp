@@ -44,6 +44,7 @@ export const CreditCardEProtect = InjectAppServices(
     const intl = useIntl();
     const { setFieldValue } = useFormikContext();
     const [state, setState] = useState({ scriptLoaded: false, paymentMethod: {} });
+    const [isClientReady, setIsClientReady] = useState(false);
     const payframeClientRef = useRef(null);
     const pendingRequestRef = useRef(null);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -102,8 +103,10 @@ export const CreditCardEProtect = InjectAppServices(
         if (window.EprotectIframeClient && payframeElement) {
           try {
             payframeClientRef.current = new window.EprotectIframeClient(configure);
+            setIsClientReady(true);
           } catch (error) {
             console.error('Error initializing EprotectIframeClient:', error);
+            setIsClientReady(false);
           }
         } else {
           console.warn('Waiting for EprotectIframeClient or DOM element to be available');
@@ -155,13 +158,13 @@ export const CreditCardEProtect = InjectAppServices(
     };
 
     useEffect(() => {
-      if (payframeClientRef.current && onClientReady) {
+      if (isClientReady && onClientReady) {
         onClientReady({
           requestPaypageRegistrationId,
           isReady: () => !!payframeClientRef.current,
         });
       }
-    }, [onClientReady]);
+    }, [isClientReady, onClientReady]);
 
     return (
       <FieldGroup>
