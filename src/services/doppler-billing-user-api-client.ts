@@ -79,6 +79,8 @@ export interface PaymentMethod {
   taxRegime: number;
   taxCertificate: object;
   cbu: string;
+  lastFourDigitsCCNumber: string;
+  firstSixDigitsCCNumber: string;
 }
 
 export interface UserPlan {
@@ -206,6 +208,8 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       taxRegime: data.taxRegime,
       taxCertificate: data.taxCertificate,
       cbu: data.cbu,
+      lastFourDigitsCCNumber: data.lastFourDigitsCCNumber,
+      firstSixDigitsCCNumber: data.firstSixDigitsCCNumber,
     };
   }
 
@@ -293,6 +297,9 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
           ccExpYear: data.expiry?.split('/')[1],
           ccExpMonth: data.expiry?.split('/')[0],
           ccType: data.ccType,
+          worldPayLowValueToken: data.worldPayLowValueToken,
+          lastFourDigitsCCNumber: data.lastFourDigitsCCNumber,
+          firstSixDigitsCCNumber: data.firstSixDigitsCCNumber,
         };
     }
   }

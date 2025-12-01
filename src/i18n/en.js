@@ -392,6 +392,15 @@ const messages_en = {
       credit_card: 'Card number',
       credit_card_option: 'Card',
       dni: 'DNI',
+      eprotect_error: {
+        cvv_invalid: 'Ouch! Invalid security code. Please check and try again.',
+        expired_paypage_registration_id: 'Ouch! Session expired. Please refresh the page and try again.',
+        invalid_validation_number: 'Invalid security code',
+        merchant_not_authorized: 'Ouch! We are unable to process payments at this time. Please contact support.',
+        payframe_failed_to_load: 'Ouch! Unable to load payment form. Please refresh the page and try again.',
+        unable_to_encrypt_field: 'Ouch! Unable to process your card information. Please try again.',
+      },
+      eprotect_placeholder_cvv: 'CVV',
       error: 'Ouch! This Credit Card doesn’t allow charges by Doppler LLC. Please contact the issuing company to authorize them.',
       expiration_date: 'Expiration date',
       first_data_error: {

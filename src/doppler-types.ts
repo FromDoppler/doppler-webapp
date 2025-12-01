@@ -178,6 +178,33 @@ export const AutomaticDebitError = {
   cbuInvalid: 'CbuInvalid',
 };
 
+export const EProtectError = {
+  invalidAccountNumber: '871',
+  accountNumberTooShort: '872',
+  accountNumberTooLong: '873',
+  accountNumberNotNumeric: '874',
+  unableToEncryptField: '875',
+  invalidAccountNumberGeneric: '876',
+  invalidPaypageRegistrationId: '877',
+  expiredPaypageRegistrationId: '878',
+  merchantNotAuthorized: '879',
+  reportGroupInvalid: '880',
+  cvvNotNumeric: '881',
+  cvvTooShort: '882',
+  cvvTooLong: '883',
+  payframeHtmlFailedToLoad: '884',
+  payframeCssFailedToLoad: '885',
+  expirationMonthInvalid: '886-month',
+  expirationYearInvalid: '886-year',
+  expirationDateInvalid: '886',
+  secondaryPaypageRequestError: '887',
+  paypageSignatureVerificationFailed: '888',
+  failure: '889',
+  pinNumMissingOrTooShort: '893',
+  pinTooLong: '894',
+  genericTokenRegistrationError: '898',
+};
+
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
 
 export const nonAuthenticatedBlockedUser = 'non-authenticated-blocked-user';

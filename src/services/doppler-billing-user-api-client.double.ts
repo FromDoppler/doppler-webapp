@@ -61,6 +61,8 @@ export const fakePaymentMethodInformation = {
     downloadURL: 'https://example.com',
   },
   cbu: '',
+  lastFourDigitsCCNumber: '',
+  firstSixDigitsCCNumber: '',
 };
 
 export const fakePaymentMethod = {
