@@ -460,8 +460,8 @@ export const PaymentMethod = InjectAppServices(
         }
       } else {
         values.ccType = getCreditCardBrand(values.number);
-        values.lastFourDigitsCCNumber = values.number.slice(-4);
-        values.firstSixDigitsCCNumber = values.number.slice(0, 6);
+        values.lastFourDigitsCCNumber = values.number.replace(/\s/g, '').slice(-4);
+        values.firstSixDigitsCCNumber = values.number.replace(/\s/g, '').slice(0, 6);
       }
 
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
