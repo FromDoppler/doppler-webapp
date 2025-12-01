@@ -2116,7 +2116,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     table_result: {
       aria_label_table: `Resultado de Historial de Campañas`,
     },
-    title: 'Comportamiento histórico del Suscriptor',
+    title: 'Comportamiento histórico de los Contactos',
     unsubscribed_date: 'Fecha de Remoción:',
   },
   subscriber_list_selector: {
