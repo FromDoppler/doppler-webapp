@@ -438,7 +438,9 @@ export class HttpDopplerBillingUserApiClient implements DopplerBillingUserApiCli
       const mappedValues = this.mapPaymentMethodToUpdate(values);
       const formData = new FormData();
       Object.entries(mappedValues).forEach(([key, value]: [string, any]) => {
-        formData.append(key, value);
+        if (value !== null && value !== undefined) {
+          formData.append(key, value);
+        }
       });
 
       const response = await this.axios.request({
