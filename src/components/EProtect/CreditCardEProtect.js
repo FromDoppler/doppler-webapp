@@ -8,6 +8,7 @@ import { actionPage } from '../Plans/Checkout/Checkout';
 import creditCards from '../../img/credit-cards.svg';
 import { CreditCardIcons } from '../Plans/Checkout/PaymentMethod/CreditCard';
 import { getEprotectConfig } from './eprotectConfig';
+import { fieldNames, paymentType } from '../Plans/Checkout/PaymentMethod/PaymentMethod';
 
 const EPROTECT_SCRIPT_URL = 'https://request.eprotect.vantivprelive.com/eProtect/js/eProtect-iframe-client4.min.js';
 
@@ -42,12 +43,24 @@ const FormatMessageWithBoldWords = ({ id }) => {
 export const CreditCardEProtect = InjectAppServices(
   ({ dependencies: { appSessionRef }, optionView, paymentMethod, onClientReady }) => {
     const intl = useIntl();
-    const { setFieldValue } = useFormikContext();
+    const { setFieldValue, setValues } = useFormikContext();
     const [state, setState] = useState({ scriptLoaded: false, paymentMethod: {} });
     const [isClientReady, setIsClientReady] = useState(false);
     const payframeClientRef = useRef(null);
     const pendingRequestRef = useRef(null);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+      useEffect(() => {
+        if (optionView === actionPage.UPDATE) {
+          setValues({
+            [fieldNames.name]: '',
+            [fieldNames.number]: '',
+            [fieldNames.expiry]: '',
+            [fieldNames.cvc]: '',
+            [fieldNames.paymentMethodName]: paymentType.creditCard,
+          });
+        }
+      }, [appSessionRef, optionView, setValues]);
 
     useEffect(() => {
       const loadEprotectScript = () => {
@@ -96,25 +109,71 @@ export const CreditCardEProtect = InjectAppServices(
       };
 
       const configure = getEprotectConfig(payframeClientCallback, intl);
+      let rafId = null;
+      let pollingIntervalId = null;
 
       const initializeEprotectClient = () => {
         const payframeElement = document.getElementById('eprotect-payframe');
 
         if (window.EprotectIframeClient && payframeElement) {
           try {
-            payframeClientRef.current = new window.EprotectIframeClient(configure);
-            setIsClientReady(true);
+            if (!payframeClientRef.current) {
+              payframeClientRef.current = new window.EprotectIframeClient(configure);
+              setIsClientReady(true);
+
+              if (pollingIntervalId) {
+                clearInterval(pollingIntervalId);
+                pollingIntervalId = null;
+              }
+
+              return true;
+            } else {
+              return true;
+            }
           } catch (error) {
             console.error('Error initializing EprotectIframeClient:', error);
             setIsClientReady(false);
+            return false;
           }
         } else {
           console.warn('Waiting for EprotectIframeClient or DOM element to be available');
+          return false;
         }
       };
 
-      const rafId = requestAnimationFrame(() => {
-        initializeEprotectClient();
+      let retryCount = 0;
+      const maxRetries = 50;
+      const retryInterval = 100;
+
+      const attemptInitialization = () => {
+        const initialized = initializeEprotectClient();
+
+        if (initialized) {
+          return true;
+        }
+
+        retryCount++;
+
+        if (retryCount >= maxRetries) {
+          console.error('Failed to initialize EprotectIframeClient after', maxRetries, 'attempts');
+          if (pollingIntervalId) {
+            clearInterval(pollingIntervalId);
+            pollingIntervalId = null;
+          }
+          return true;
+        }
+
+        return false;
+      };
+
+      rafId = requestAnimationFrame(() => {
+        const initialized = attemptInitialization();
+
+        if (!initialized && !pollingIntervalId) {
+          pollingIntervalId = setInterval(() => {
+            attemptInitialization();
+          }, retryInterval);
+        }
       });
 
       const handleEnterKey = (event) => {
@@ -133,7 +192,12 @@ export const CreditCardEProtect = InjectAppServices(
       window.addEventListener('message', handleEnterKey);
 
       return () => {
-        cancelAnimationFrame(rafId);
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId);
+        }
+        if (pollingIntervalId) {
+          clearInterval(pollingIntervalId);
+        }
         window.removeEventListener('message', handleEnterKey);
       };
     }, [state.scriptLoaded, optionView, setFieldValue, appSessionRef, intl]);
