@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { InjectAppServices } from '../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFormikContext } from 'formik';
@@ -96,7 +96,7 @@ export const CreditCardEProtect = InjectAppServices(
               }, }) );
     }, [optionView, appSessionRef, paymentMethod]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (!state.scriptLoaded || optionView === actionPage.READONLY) {
         return;
       }
@@ -109,7 +109,6 @@ export const CreditCardEProtect = InjectAppServices(
       };
 
       const configure = getEprotectConfig(payframeClientCallback, intl);
-      let rafId = null;
       let pollingIntervalId = null;
 
       const initializeEprotectClient = () => {
@@ -166,15 +165,13 @@ export const CreditCardEProtect = InjectAppServices(
         return false;
       };
 
-      rafId = requestAnimationFrame(() => {
-        const initialized = attemptInitialization();
+      const initialized = attemptInitialization();
 
-        if (!initialized && !pollingIntervalId) {
-          pollingIntervalId = setInterval(() => {
-            attemptInitialization();
-          }, retryInterval);
-        }
-      });
+      if (!initialized) {
+        pollingIntervalId = setInterval(() => {
+          attemptInitialization();
+        }, retryInterval);
+      }
 
       const handleEnterKey = (event) => {
         if (event.data === 'checkoutWithEnter') {
@@ -192,9 +189,6 @@ export const CreditCardEProtect = InjectAppServices(
       window.addEventListener('message', handleEnterKey);
 
       return () => {
-        if (rafId !== null) {
-          cancelAnimationFrame(rafId);
-        }
         if (pollingIntervalId) {
           clearInterval(pollingIntervalId);
         }
