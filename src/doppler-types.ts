@@ -205,6 +205,20 @@ export const EProtectError = {
   genericTokenRegistrationError: '898',
 };
 
+export const RaftApiError = {
+  declined: 'DeclinedPaymentTransaction - 016',
+  declinedFraud: 'DeclinedPaymentTransaction - 017',
+  doNotHonor: 'DeclinedPaymentTransaction - 005',
+  doNotHonorFraud: 'DeclinedPaymentTransaction - 025',
+  invalidCreditCardNumber: 'DeclinedPaymentTransaction - 018',
+  invalidExpirationMonth: 'DeclinedPaymentTransaction - 045',
+  invalidExpirationYear: 'DeclinedPaymentTransaction - 045',
+  invalidSecurityCode: 'DeclinedPaymentTransaction - 013',
+  insufficientFunds: 'DeclinedPaymentTransaction - 039',
+  invalidExpirationCard: 'DeclinedPaymentTransaction - 004',
+  invalidToken: 'DeclinedPaymentTransaction - 078',
+};
+
 export const OnlySupportUpSelling = 'Invalid selected plan. Only supports upselling.';
 
 export const nonAuthenticatedBlockedUser = 'non-authenticated-blocked-user';

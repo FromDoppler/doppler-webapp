@@ -11,6 +11,7 @@ import {
   MercadoPagoError,
   OnlySupportUpSelling,
   PLAN_TYPE,
+  RaftApiError,
 } from '../../../doppler-types';
 import { CheckoutLink } from './CheckoutLink';
 import { CheckoutButton } from './CheckoutButton';
@@ -1112,27 +1113,37 @@ export const getCheckoutErrorMesage = (error) => {
     case CloverError.invalidExpirationMonth:
     case CloverError.invalidExpirationYear:
     case CloverError.invalidExpirationCard:
+    case RaftApiError.invalidExpirationYear:
+    case RaftApiError.invalidExpirationCard:
       return 'checkoutProcessForm.payment_method.first_data_error.invalid_expiration_date';
     case FirstDataError.invalidCreditCardNumber:
     case FirstDataError.invalidCCNumber:
     case CloverError.invalidCreditCardNumber:
+    case RaftApiError.invalidCreditCardNumber:
+    case RaftApiError.invalidToken:
       return 'checkoutProcessForm.payment_method.first_data_error.invalid_credit_card_number';
     case FirstDataError.declined:
     case FirstDataError.doNotHonorDeclined:
     case MercadoPagoError.declinedOtherReason:
     case CloverError.declined:
+    case RaftApiError.doNotHonor:
+    case RaftApiError.declined:
       return 'checkoutProcessForm.payment_method.first_data_error.declined';
     case FirstDataError.suspectedFraud:
     case MercadoPagoError.suspectedFraud:
+    case RaftApiError.declinedFraud:
+    case RaftApiError.doNotHonorFraud:
       return 'checkoutProcessForm.payment_method.first_data_error.suspected_fraud';
     case FirstDataError.insufficientFunds:
     case MercadoPagoError.insufficientFunds:
     case CloverError.insufficientFunds:
+    case RaftApiError.insufficientFunds:
       return 'checkoutProcessForm.payment_method.first_data_error.insufficient_funds';
     case FirstDataError.cardVolumeExceeded:
       return 'checkoutProcessForm.payment_method.first_data_error.card_volume_exceeded';
     case MercadoPagoError.invalidSecurityCode:
     case CloverError.invalidSecurityCode:
+    case RaftApiError.invalidSecurityCode:
       return 'checkoutProcessForm.payment_method.mercado_pago_error.invalid_security_code';
     case OnlySupportUpSelling:
       return 'checkoutProcessForm.purchase_summary.error_only_supports_upselling_message';
