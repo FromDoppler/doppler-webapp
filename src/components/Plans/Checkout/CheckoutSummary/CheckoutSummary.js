@@ -650,7 +650,7 @@ export const CheckoutSummary = InjectAppServices(
                     <PlanChatInformation
                       planType={planType}
                       description={chatUserPlan.description}
-                      quantity={chatUserPlan.conversationQty}
+                      quantity={chatUserPlan.quantity}
                       discount={discount}
                     />
                   )}
@@ -660,13 +660,13 @@ export const CheckoutSummary = InjectAppServices(
                   <PlanChatInformation
                     planType={planType}
                     description={chatUserPlan.description}
-                    quantity={chatUserPlan.conversationQty}
+                    quantity={chatUserPlan.quantity}
                     discount={discount}
                   />
                 )
               ) : buyType && Number(buyType) === BUY_ONSITE_PLAN && addOnUserPlan !== null ? (
                 <AddOnPlanInformation
-                  quantity={addOnUserPlan.printQty}
+                  quantity={addOnUserPlan.quantity}
                   discount={discount}
                   addOnType={AddOnType.OnSite}
                 />
