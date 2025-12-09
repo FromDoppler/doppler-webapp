@@ -224,6 +224,24 @@ export const CreditCardEProtect = InjectAppServices(
       }
     }, [isClientReady, onClientReady]);
 
+    const getFormattedCardNumber = () => {
+      let lastFour = '';
+
+      if (state.paymentMethod.lastFourDigitsCCNumber) {
+        lastFour = state.paymentMethod.lastFourDigitsCCNumber;
+      } else if (state.paymentMethod.ccNumber) {
+        lastFour = state.paymentMethod.ccNumber.replace(/\s/g, '').slice(-4);
+      } else {
+        lastFour = '••••';
+      }
+
+      const isAmex = state.paymentMethod.ccType === creditCardType.amex;
+      const asteriskCount = isAmex ? 11 : 12;
+      const maskedNumber = '•'.repeat(asteriskCount);
+
+      return `${maskedNumber}${lastFour}`;
+    };
+
     return (
       <FieldGroup>
         {optionView === actionPage.READONLY ? (
@@ -231,7 +249,7 @@ export const CreditCardEProtect = InjectAppServices(
             <Cards
               cvc={state.paymentMethod.ccSecurityCode}
               expiry={state.paymentMethod.ccExpiryDate}
-              number={`•••• •••• •••• ${state.paymentMethod.lastFourDigitsCCNumber}`}
+              number={getFormattedCardNumber()}
               name={state.paymentMethod.ccHolderName}
               issuer={getCreditCardIssuer(state.paymentMethod.ccType)}
               preview={true}

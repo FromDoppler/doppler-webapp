@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer, useRef, useCallback } from 'react';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { CreditCard, getCreditCardBrand } from '../../Checkout/PaymentMethod/CreditCard';
+import { CreditCardEProtect } from '../../../EProtect/CreditCardEProtect';
 import { StatusMessage } from '../../Checkout/PurchaseSummary/PlanPurchase/index';
 import { MercadoPagoArgentina } from '../../Checkout/PaymentMethod/MercadoPagoArgentina';
 import { Transfer } from '../../Checkout/PaymentMethod/Transfer/Transfer';
@@ -81,18 +82,24 @@ const paymentMethods = [
 const countriesAvailableTransfer = ['ar'];
 const countriesAvailableAutomaticDebit = ['ar'];
 
-const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
+const PaymentType = ({ paymentMethodType, optionView, paymentMethod, onEprotectClientReady }) => {
   var currentPaymentMethodType =
     optionView === actionPage.UPDATE && paymentMethodType === PaymentMethodType.mercadoPago
       ? PaymentMethodType.creditCard
       : paymentMethodType;
+
+  const useEprotect = process.env.REACT_APP_USE_EPROTECT === 'true';
 
   return (
     <>
       {(() => {
         switch (currentPaymentMethodType) {
           case PaymentMethodType.creditCard:
-            return <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>;
+            return useEprotect ? (
+              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+            ) : (
+              <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
+            );
           case PaymentMethodType.transfer:
             return <Transfer optionView={optionView} paymentMethod={paymentMethod}></Transfer>;
           case PaymentMethodType.mercadoPago:
@@ -100,7 +107,11 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod }) => {
           case PaymentMethodType.automaticDebit:
             return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
-            return null;
+            return useEprotect ? (
+              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+            ) : (
+              <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
+            );
         }
       })()}
     </>
@@ -250,7 +261,13 @@ export const UpdatePaymentMethod = InjectAppServices(
     const [paymentMethodType, setPaymentMethodType] = useState('');
     const [status, setStatus] = useState('');
     const [errorMessageId, setErrorMessageId] = useState('');
+    const eprotectClientRef = useRef(null);
+    const useEprotect = process.env.REACT_APP_USE_EPROTECT === 'true';
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    const handleEprotectClientReady = useCallback((client) => {
+      eprotectClientRef.current = client;
+    }, []);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -285,10 +302,34 @@ export const UpdatePaymentMethod = InjectAppServices(
     const submitPaymentMethodForm = async (values) => {
       setStatus('');
 
+      if (useEprotect && values.paymentMethodName === PaymentMethodType.creditCard && eprotectClientRef.current) {
+        try {
+          const eprotectResponse = await eprotectClientRef.current.requestPaypageRegistrationId();
+          if (eprotectResponse.response === "870") {
+            values.worldPayLowValueToken = eprotectResponse.paypageRegistrationId;
+            values.lastFourDigitsCCNumber = eprotectResponse.lastFour;
+            values.firstSixDigitsCCNumber = eprotectResponse.firstSix;
+            values.expiry = `${eprotectResponse.expMonth}/${eprotectResponse.expYear}`;
+            values.ccType = getCreditCardBrand(eprotectResponse.firstSix);
+          } else {
+            setErrorMessageId(handleMessage(eprotectResponse));
+            setStatus(HAS_ERROR);
+            return;
+          }
+        } catch (error) {
+          setErrorMessageId(handleMessage(error));
+          setStatus(HAS_ERROR);
+          return;
+        }
+      } else {
+        values.ccType = getCreditCardBrand(values.number);
+        values.lastFourDigitsCCNumber = values.number.replace(/\s/g, '').slice(-4);
+        values.firstSixDigitsCCNumber = values.number.replace(/\s/g, '').slice(0, 6);
+      }
+
       const result = await dopplerBillingUserApiClient.updatePaymentMethod({
         ...values,
         idSelectedPlan: 0,
-        ccType: getCreditCardBrand(values.number),
       });
 
       if (result.success) {
@@ -350,6 +391,7 @@ export const UpdatePaymentMethod = InjectAppServices(
                     paymentMethodType={paymentMethodType}
                     optionView={optionView}
                     paymentMethod={paymentMethod}
+                    onEprotectClientReady={handleEprotectClientReady}
                   />
                   <PaymentNotes paymentMethodType={paymentMethodType} optionView={optionView} />
                   {showMessage && (
