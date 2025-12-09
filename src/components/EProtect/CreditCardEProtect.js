@@ -224,6 +224,16 @@ export const CreditCardEProtect = InjectAppServices(
       }
     }, [isClientReady, onClientReady]);
 
+    const getLastFourDigits = () => {
+      if (state.paymentMethod.lastFourDigitsCCNumber) {
+        return state.paymentMethod.lastFourDigitsCCNumber;
+      }
+      if (state.paymentMethod.ccNumber) {
+        return state.paymentMethod.ccNumber.replace(/\s/g, '').slice(-4);
+      }
+      return '••••';
+    };
+
     return (
       <FieldGroup>
         {optionView === actionPage.READONLY ? (
@@ -231,7 +241,7 @@ export const CreditCardEProtect = InjectAppServices(
             <Cards
               cvc={state.paymentMethod.ccSecurityCode}
               expiry={state.paymentMethod.ccExpiryDate}
-              number={`•••• •••• •••• ${state.paymentMethod.lastFourDigitsCCNumber}`}
+              number={`•••• •••• •••• ${getLastFourDigits()}`}
               name={state.paymentMethod.ccHolderName}
               issuer={getCreditCardIssuer(state.paymentMethod.ccType)}
               preview={true}
