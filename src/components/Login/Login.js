@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
@@ -30,6 +30,7 @@ import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
 import { Userpilot } from 'userpilot';
+import { useQueryParams } from '../../hooks/useQueryParams';
 
 const mailtoSupport = `mailto:soporte@fromdoppler.com`;
 
@@ -245,11 +246,28 @@ const Login = ({
   });
   const { fingerPrintingId, fingerPrintingIdV2 } = useFingerPrinting();
 
+  const queryParams = useQueryParams();
+  const userpilotInitialized = useRef(false);
+
   useEffect(() => {
-    Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN);
+    if (!userpilotInitialized.current) {
+      Userpilot.initialize(process.env.REACT_APP_USERPILOT_TOKEN);
+      userpilotInitialized.current = true;
+    }
+
+    const langParam = queryParams.get('lang');
+    const finalLang = langParam || intl.locale;
+
     Userpilot.anonymous();
+
+    if (finalLang === 'es') {
+      Userpilot.track("login_page_loaded_es");
+    } else {
+      Userpilot.track("login_page_loaded_en");
+    }
+
     Userpilot.track('Login Page Loaded');
-  }, []);
+  }, [queryParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /** Prepare empty values for all fields
    * It is required because in another way, the fields are not marked as touched.
