@@ -458,7 +458,7 @@ export const PaymentMethod = InjectAppServices(
           setError({ error: true, message: handleMessage(error) });
           return;
         }
-      } else {
+      } else if (values.paymentMethodName === paymentType.creditCard) {
         values.ccType = getCreditCardBrand(values.number);
         values.lastFourDigitsCCNumber = values.number.replace(/\s/g, '').slice(-4);
         values.firstSixDigitsCCNumber = values.number.replace(/\s/g, '').slice(0, 6);
