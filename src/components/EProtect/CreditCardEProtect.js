@@ -98,8 +98,15 @@ export const CreditCardEProtect = InjectAppServices(
 
     useLayoutEffect(() => {
       if (!state.scriptLoaded || optionView === actionPage.READONLY) {
+        if (optionView === actionPage.READONLY) {
+          payframeClientRef.current = null;
+          setIsClientReady(false);
+        }
         return;
       }
+
+      payframeClientRef.current = null;
+      setIsClientReady(false);
 
       const payframeClientCallback = (response) => {
         if (pendingRequestRef.current) {
