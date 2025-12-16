@@ -42,8 +42,6 @@ export default InjectAppServices(
             <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.freeAccount} />
           ) : requireSiteTracking && !dopplerSession.userData.datahubCustomerId ? (
             <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.noDatahubId} />
-          ) : requireSiteTracking && !dopplerSession.userData.features.siteTrackingActive ? (
-            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.featureDisabled} />
           ) : (
             children
           )}
