@@ -403,7 +403,7 @@ const Signup = function ({
           </Helmet>
           <S.MainPanel className="main-panel">
             <header>
-              <h1 className="logo-doppler-christmas">
+              <h1 className="logo-doppler-new">
                 <a target="_blank" href={_('signup.url_site') + location.search}>
                   Doppler
                 </a>
