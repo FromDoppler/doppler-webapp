@@ -113,7 +113,7 @@ const ForgotPassword = ({
         </Helmet>
         <article className="main-panel">
           <header>
-            <h1 className="logo-doppler-christmas">
+            <h1 className="logo-doppler-new">
               <a target="_blank" href={_('forgot_password.url_site') + location.search}>
                 Doppler
               </a>
