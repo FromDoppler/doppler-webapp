@@ -423,6 +423,7 @@ const Signup = function ({
                     </Link>
                   ),
                   Bold: (chunk) => <strong>{chunk}</strong>,
+                  br: <br />,
                 }}
               />
             </p>
