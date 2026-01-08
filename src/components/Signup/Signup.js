@@ -437,14 +437,6 @@ const Signup = function ({
               <ScrollToFieldError fieldsOrder={Object.keys(fieldNames)} />
               <fieldset>
                 <FieldGroup>
-                  <EmailFieldItemAccessible
-                    fieldName="email"
-                    label={_('signup.label_email')}
-                    placeholder={_('signup.placeholder_email')}
-                    required="validation_messages.error_invalid_email_address"
-                    withSubmitCount={false}
-                    validateCollaboratorEmail={validateCollaboratorEmail}
-                  />
                   <li>
                     <FieldGroup>
                       <InputFieldItemAccessible
@@ -472,16 +464,24 @@ const Signup = function ({
                       />
                     </FieldGroup>
                   </li>
-                </FieldGroup>
-              </fieldset>
-              <fieldset>
-                <FieldGroup>
                   <PhoneFieldItemAccessible
                     fieldName="phone"
                     label={_('signup.label_phone')}
                     placeholder={_('signup.placeholder_phone')}
                     required="validation_messages.error_phone_required"
                     withSubmitCount={false}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FieldGroup>
+                  <EmailFieldItemAccessible
+                    fieldName="email"
+                    label={_('signup.label_email')}
+                    placeholder={_('signup.placeholder_email')}
+                    required="validation_messages.error_invalid_email_address"
+                    withSubmitCount={false}
+                    validateCollaboratorEmail={validateCollaboratorEmail}
                   />
                   <ValidatedPasswordFieldItem
                     fieldName="password"
