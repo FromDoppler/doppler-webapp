@@ -25,8 +25,14 @@ export const MainPanel = styled.article`
     }
   }
 
+  #content-title {
+    margin-top: ${spacings.spacesLvl6};
+    text-transform: uppercase;
+    font-size: 1.2em;
+    font-style: normal;
+  }
+
   #content-subtitle {
-    margin-top: ${spacings.spacesLvl4};
     font-style: normal;
   }
 `;

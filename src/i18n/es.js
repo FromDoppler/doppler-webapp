@@ -2020,6 +2020,7 @@ Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitad
   signup: {
     access_new_account: `Con este email accederás a tu nueva cuenta en <strong>Doppler.</strong>`,
     button_signup: `Crear cuenta gratis`,
+    create_account_title: `Crea tu cuenta`,
     check_email: `Ingresa a `,
     check_email_2: ` para validarlo.`,
     check_your_email: `Revisa tu email`,
