@@ -2020,12 +2020,12 @@ Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitad
   signup: {
     access_new_account: `Con este email accederás a tu nueva cuenta en <strong>Doppler.</strong>`,
     button_signup: `Crear cuenta gratis`,
-    create_account_title: `Crea tu cuenta`,
     check_email: `Ingresa a `,
     check_email_2: ` para validarlo.`,
     check_your_email: `Revisa tu email`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromSignup}).`,
     copyright_MD_test: `© ${year} Doppler LLC. Todos los derechos reservados.`,
+    create_account_title: `Crea tu cuenta`,
     do_you_already_have_an_account: `¿Ya tienes una cuenta?`,
     email_not_received: `Para ingresar, primero activa tu cuenta desde el email que recibiste de Doppler.`,
     have_doubts: `¿Tienes dudas? <a>Contáctanos</a> y te ayudaremos`,

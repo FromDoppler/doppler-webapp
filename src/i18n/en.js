@@ -2019,12 +2019,12 @@ and create Abandoned Cart and Retargeting Product Automations. Any questions? Pr
   signup: {
     access_new_account: `With this email you will access your new <strong>Doppler</strong> account.`,
     button_signup: `Create free account`,
-    create_account_title: `Create your account`,
     check_email: `Enter `,
     check_email_2: ` to validate it.`,
     check_your_email: `Check your email`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacyFromSignup}).`,
     copyright_MD_test: `© ${year} Doppler LLC. All rights reserved.`,
+    create_account_title: `Create your account`,
     do_you_already_have_an_account: `Already have an account?`,
     email_not_received: `To log in, first activate your account from the email you received from Doppler.`,
     have_doubts: `Do you have doubts? <a>Contact us</a> and we will help you`,
