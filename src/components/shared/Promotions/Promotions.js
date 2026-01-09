@@ -16,6 +16,7 @@ const Promotions = function ({ loading, bannerData }) {
           style={{
             backgroundImage: `url(${bannerData.backgroundUrl})`,
             color: bannerData.fontColor,
+            position: 'fixed',
           }}
         >
           <article className="feature-content">
