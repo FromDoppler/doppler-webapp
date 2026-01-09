@@ -35,4 +35,12 @@ export const MainPanel = styled.article`
   #content-subtitle {
     font-style: normal;
   }
+
+  li.field-item:has([name="accept_privacy_policies"]) {
+    margin-bottom: 0;
+  }
+
+  li.field-item:has([name="password"]) {
+    margin-bottom: ${spacings.spacesLvl4};
+  }
 `;
