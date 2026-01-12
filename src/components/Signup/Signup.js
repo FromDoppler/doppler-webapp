@@ -410,6 +410,9 @@ const Signup = function ({
               </h1>
               <LanguageSelector urlParameters={location.search} />
             </header>
+            <h2 id="content-title" className="content-title">
+              <FormattedMessage id="signup.create_account_title" />
+            </h2>
             <p id="content-subtitle" className="content-subtitle">
               <FormattedMessage
                 id={`signup.sign_up_sub`}
@@ -423,6 +426,7 @@ const Signup = function ({
                     </Link>
                   ),
                   Bold: (chunk) => <strong>{chunk}</strong>,
+                  br: <br />,
                 }}
               />
             </p>
@@ -437,14 +441,6 @@ const Signup = function ({
               <ScrollToFieldError fieldsOrder={Object.keys(fieldNames)} />
               <fieldset>
                 <FieldGroup>
-                  <EmailFieldItemAccessible
-                    fieldName="email"
-                    label={_('signup.label_email')}
-                    placeholder={_('signup.placeholder_email')}
-                    required="validation_messages.error_invalid_email_address"
-                    withSubmitCount={false}
-                    validateCollaboratorEmail={validateCollaboratorEmail}
-                  />
                   <li>
                     <FieldGroup>
                       <InputFieldItemAccessible
@@ -472,16 +468,24 @@ const Signup = function ({
                       />
                     </FieldGroup>
                   </li>
-                </FieldGroup>
-              </fieldset>
-              <fieldset>
-                <FieldGroup>
                   <PhoneFieldItemAccessible
                     fieldName="phone"
                     label={_('signup.label_phone')}
                     placeholder={_('signup.placeholder_phone')}
                     required="validation_messages.error_phone_required"
                     withSubmitCount={false}
+                  />
+                </FieldGroup>
+              </fieldset>
+              <fieldset>
+                <FieldGroup>
+                  <EmailFieldItemAccessible
+                    fieldName="email"
+                    label={_('signup.label_email')}
+                    placeholder={_('signup.placeholder_email')}
+                    required="validation_messages.error_invalid_email_address"
+                    withSubmitCount={false}
+                    validateCollaboratorEmail={validateCollaboratorEmail}
                   />
                   <ValidatedPasswordFieldItem
                     fieldName="password"

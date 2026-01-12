@@ -25,8 +25,22 @@ export const MainPanel = styled.article`
     }
   }
 
-  #content-subtitle {
-    margin-top: ${spacings.spacesLvl4};
+  #content-title {
+    margin-top: ${spacings.spacesLvl6};
+    text-transform: uppercase;
+    font-size: 1.2em;
     font-style: normal;
+  }
+
+  #content-subtitle {
+    font-style: normal;
+  }
+
+  li.field-item:has([name="accept_privacy_policies"]) {
+    margin-bottom: 0;
+  }
+
+  li.field-item:has([name="password"]) {
+    margin-bottom: ${spacings.spacesLvl4};
   }
 `;
