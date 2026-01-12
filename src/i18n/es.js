@@ -1072,8 +1072,8 @@ Encontrarás un Email con los pasos a seguir.`,
     collaborator_login_title: 'Confirmación de Accesos',
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacyFromLogin}).`,
     enter_doppler: `Ingresa a tu cuenta`,
-    enter_doppler_sub: `Potencia tu Estrategia de Marketing Multicanal con Doppler. 
-Crea tu cuenta y accede a 90 días sin costo en la plataforma, 
+    enter_doppler_sub: `Potencia tu Estrategia de Marketing Multicanal con Doppler.
+Crea tu cuenta y accede a 90 días sin costo en la plataforma,
 junto con acceso permanente a Doppler Academy.`,
     forgot_password: `¿No recuerdas tu Contraseña?`,
     head_description: `Atrae, convierte y fideliza clientes con el poder del Email Marketing Automation. ¡Ingresa a Doppler!`,
