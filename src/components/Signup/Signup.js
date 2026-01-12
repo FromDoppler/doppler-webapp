@@ -410,9 +410,7 @@ const Signup = function ({
               </h1>
               <LanguageSelector urlParameters={location.search} />
             </header>
-            <h2 id="content-title" className="content-title">
-              <FormattedMessage id="signup.create_account_title" />
-            </h2>
+            <h5>{_('signup.create_account_title')}</h5>
             <p id="content-subtitle" className="content-subtitle">
               <FormattedMessage
                 id={`signup.sign_up_sub`}
