@@ -796,10 +796,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: 'Vuelve a disfrutar las charlas que inspiraron a miles de profesionales. ¡Accede gratis ahora!',
-        link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsdt25-post-revive-conferencias-invitacion-Nov25&utm_term=cta',
-        link_description: 'MIRA LAS CONFERENCIAS',
-        title: '🚀 Revive la experiencia EMMS Digital Trends 2025 y aprende de los referentes que marcaron la agenda del año.',
+        description: 'Si tu cuenta es nueva, tienes una ventaja para empezar mejor: 50% OFF o 3x1 en créditos. Usa el código DOPPLER2026 y activa tu Marketing desde hoy.',
+        link: 'https://app.fromdoppler.com/plan-selection/premium/by-contacts?PromoCode=DOPPLER2026&page=promocode2',
+        link_description: 'ACCEDE AL DESCUENTO',
+        title: 'El año ya comenzó…¿y tus Campañas? 👀',
       },
       post_2: {
         description: 'Capta la atención de tus visitantes con mensajes emergentes de productos más relevantes, artículos relacionados y mucho más, ¡en el momento exacto!',
