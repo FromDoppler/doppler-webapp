@@ -797,7 +797,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `If your account is new, you have an advantage to start strong: 50% OFF or 3x1 on credits.  Use the code DOPPLER2026 and activate your Marketing today.`,
+        description: `If your account is new, you have an advantage to start strong:\n 50% OFF or 3x1 on credits.  Use the code DOPPLER2026 and activate your Marketing today.`,
         link: 'https://app.fromdoppler.com/plan-selection/premium/by-contacts?PromoCode=DOPPLER2026&page=promocode2',
         link_description: 'GET THE DISCOUNT',
         title: 'The year has already started… what about your Campaigns? 👀',
