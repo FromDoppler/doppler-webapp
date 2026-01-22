@@ -797,10 +797,10 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     learn_with_doppler: 'Learn with Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: `Enjoy again the talks that inspired thousands of professionals. Access them for free now!`,
-        link: 'https://goemms.com/digital-trends?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emmsdt25-post-revive-conferencias-invitacion-Nov25&utm_term=cta',
-        link_description: 'WATCH THE CONFERENCES',
-        title: '🚀 Relive the EMMS Digital Trends 2025 experience and learn from the leaders who shaped this year’s agenda.',
+        description: `If your account is new, you have an advantage to start strong:\n 50% OFF or 3x1 on credits.  Use the code DOPPLER2026 and activate your Marketing today.`,
+        link: 'https://app.fromdoppler.com/plan-selection/premium/by-contacts?PromoCode=DOPPLER2026&page=promocode2',
+        link_description: 'GET THE DISCOUNT',
+        title: 'The year has already started… what about your Campaigns? 👀',
       },
       post_2: {
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
