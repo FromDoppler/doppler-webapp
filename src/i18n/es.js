@@ -2018,7 +2018,7 @@ Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitad
     title: `Doppler | Shopify`,
   },
   signup: {
-    access_new_account: `Una vez activo, podrás empezar a crear Campañas, Automatizaciones y explorar todas las funcionalidades de <strong>Doppler.</strong>`,
+    access_new_account: `Una vez activo, podrás empezar a crear Campañas, Automatizaciones y explorar{br}todas las funcionalidades de <strong>Doppler.</strong>`,
     button_signup: `Crear cuenta gratis`,
     check_email: `Enviamos un email a {registeredUser} para validar tu cuenta.{br}Solo tienes que abrirlo y hacer clic en el botón de confirmación para activarla.`,
     check_your_email: `Estás a un paso de escalar tu Estrategia{br}{br}Revisa tu Email para continuar`,
