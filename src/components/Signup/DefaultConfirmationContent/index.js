@@ -20,9 +20,13 @@ export const DefaultConfirmationContent = ({
         />
       </h1>
       <h2>
-        {_('signup.check_email')}
-        <strong>{registeredUser}</strong>
-        {_('signup.check_email_2')}
+        <FormattedMessage
+          id={'signup.check_email'}
+          values={{
+            br: <br />,
+            registeredUser: <strong>{registeredUser}</strong>,
+          }}
+        />
       </h2>
       <h2>
         <FormattedMessage
@@ -39,10 +43,12 @@ export const DefaultConfirmationContent = ({
         <>
           <p className="dp-paragraph-grey">
             {_('signup.if_didnt_receive_email')}
+            <br />
             <button type="button" className="dp-button link-green" onClick={incrementAndResend}>
               <FormattedMessage
                 id={'signup.resend_email'}
                 values={{
+                  br: <br />,
                   underline: (chunks) => <u>{chunks}</u>,
                 }}
               />
