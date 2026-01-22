@@ -11,7 +11,14 @@ export const DefaultConfirmationContent = ({
 
   return (
     <>
-      <h1>{_('signup.check_your_email')}</h1>
+      <h1>
+        <FormattedMessage
+          id={'signup.check_your_email'}
+          values={{
+            br: <br />,
+          }}
+        />
+      </h1>
       <h2>
         {_('signup.check_email')}
         <strong>{registeredUser}</strong>
