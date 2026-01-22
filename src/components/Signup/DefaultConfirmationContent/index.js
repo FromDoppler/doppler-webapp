@@ -32,6 +32,7 @@ export const DefaultConfirmationContent = ({
         <FormattedMessage
           id={'signup.access_new_account'}
           values={{
+            br: <br />,
             strong: (chunks) => <strong>{chunks}</strong>,
           }}
         />
