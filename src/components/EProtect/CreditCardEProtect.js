@@ -10,7 +10,7 @@ import { CreditCardIcons } from '../Plans/Checkout/PaymentMethod/CreditCard';
 import { getEprotectConfig } from './eprotectConfig';
 import { fieldNames, paymentType } from '../Plans/Checkout/PaymentMethod/PaymentMethod';
 
-const EPROTECT_SCRIPT_URL = 'https://request.eprotect.vantivprelive.com/eProtect/js/eProtect-iframe-client4.min.js';
+const EPROTECT_SCRIPT_URL = process.env.REACT_APP_EPROTECT_SCRIPT_URL;
 
 const creditCardType = {
   mastercard: 'Mastercard',
