@@ -8,13 +8,13 @@ import { CreditCardEProtect } from './CreditCardEProtect';
 import { Formik } from 'formik';
 import '@testing-library/jest-dom/extend-expect';
 
-// Mock the eProtect script
+const mockEprotectScriptUrl =
+  'https://request.eprotect.vantivprelive.com/eProtect/js/eProtect-iframe-client4.min.js';
+process.env.REACT_APP_EPROTECT_SCRIPT_URL = mockEprotectScriptUrl;
+
 const mockEprotectClient = {
   getPaypageRegistrationId: jest.fn(),
 };
-
-const mockEprotectScriptUrl =
-  'https://request.eprotect.vantivprelive.com/eProtect/js/eProtect-iframe-client4.min.js';
 
 const dependencies = () => ({
   appSessionRef: {
@@ -306,8 +306,14 @@ describe('CreditCardEProtect component', () => {
 
     render(<CreditCardEProtectElement withError={false} updateView={actionPage.UPDATE} />);
 
-    const scripts = document.querySelectorAll('script');
-    const eprotectScript = Array.from(scripts).find((s) => s.src === mockEprotectScriptUrl);
+    let eprotectScript;
+    await waitFor(() => {
+      const scripts = document.querySelectorAll('script');
+      eprotectScript = Array.from(scripts).find((s) =>
+        s.src && s.src.includes('eProtect')
+      );
+      expect(eprotectScript).toBeDefined();
+    });
 
     if (eprotectScript && eprotectScript.onerror) {
       eprotectScript.onerror();
