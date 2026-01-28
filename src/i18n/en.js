@@ -2032,7 +2032,7 @@ and create Abandoned Cart and Retargeting Product Automations. Any questions? Pr
     if_didnt_receive_email: `If you didn’t receive the email, `,
     image_path: `${signupBannerImagePath}`,
     invitation_signup_title: `Invitation acceptance`,
-    label_email: `Email: `,
+    label_email: `Business email: `,
     label_firstname: `First name: `,
     label_lastname: `Last name: `,
     label_password: `Password: `,

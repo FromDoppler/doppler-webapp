@@ -2033,7 +2033,7 @@ Plantillas de Email y crear Automations de Carrito Abandonado y Producto Visitad
     if_didnt_receive_email: `¿No ha llegado el correo?`,
     image_path: `${signupBannerImagePath}`,
     invitation_signup_title: `Aceptación de invitación`,
-    label_email: `Email: `,
+    label_email: `Email empresarial: `,
     label_firstname: `Nombre: `,
     label_lastname: `Apellido: `,
     label_password: `Contraseña: `,
