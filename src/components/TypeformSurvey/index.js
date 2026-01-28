@@ -30,8 +30,8 @@ export const TypeformSurvey = InjectAppServices(
       if (userpilotFiredRef.current) return;
 
       userpilotFiredRef.current = true;
-      // Fire Userpilot event from dopplerLegacyClient
-      // dopplerLegacyClient.setSurveyToCompleted();
+      // Fire Userpilot event
+      dopplerLegacyClient.FireSurveyFormCompletedEvent();
     };
 
     const closeAndFireUserpilotEvent = () => {

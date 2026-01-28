@@ -1189,6 +1189,19 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
     }
   }
 
+  public async FireSurveyFormCompletedEvent() {
+    try {
+      await this.axios.post(`/Integration/Integration/FireSurveyFormCompletedEvent`);
+
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return { success: false, error };
+    }
+  }
+
   public async sendEmailUpgradePlan(planModel: DopplerLegacyUpgradePlanContactModel) {
     // TODO: research why axios cancels this request. In the meantime, we are using fetch.
     await fetch(this.baseUrl + '/SendUpgradePlanContactEmail/SendEmailUpgradePlan', {
