@@ -2065,7 +2065,7 @@ deletion, security, cross-border data transfers and other issues.
     privacy_policy_consent_url: `${urlPrivacyFromSignup_HTMLEncoded}`,
     promotions_consent: `I want to receive news and promotions.`,
     resend_email: `<underline>request resend.</underline>`,
-    sign_up_sub: `Boost your Multichannel Marketing Strategy with Doppler!{br}Sign up and try Doppler free for 90 days, with permanent{br}access to Doppler Academy.`,
+    sign_up_sub: `Boost your Multichannel marketing strategy with Doppler.{br}Sign up and try it free for 90 days: Unlimited Emails to up to 500 Contacts and permanent access to Doppler Academy.`,
     thanks_for_registering: `Thank you for registering`,
     url_site: `${urlSiteFromSignup}`,
   },

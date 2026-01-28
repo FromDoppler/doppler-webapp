@@ -2066,7 +2066,7 @@ eliminación, seguridad, transferencias transfronterizas y otros temas.
     privacy_policy_consent_url: `${urlPrivacyFromSignup_HTMLEncoded}`,
     promotions_consent: `Quiero recibir novedades y promociones.`,
     resend_email: `Solicita un nuevo envío aquí.`,
-    sign_up_sub: `Potencia tu Estrategia de Marketing Multicanal con Doppler. Regístrate y prueba Doppler gratis por 90 días, con acceso permanente a Doppler Academy.`,
+    sign_up_sub: `Potencia tu estrategia de Marketing Multicanal con Doppler. Regístrate y pruébalo gratis por 90 días: Envíos ilimitados hasta 500 Contactos y acceso permanente a Doppler Academy.`,
     thanks_for_registering: `Gracias por registrarte`,
     url_site: `${urlSiteFromSignup}`,
   },
