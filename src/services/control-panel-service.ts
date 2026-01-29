@@ -49,7 +49,6 @@ import wix_icon from '../components/Integrations/images/wix_icon.png';
 import wizell_icon from '../components/Integrations/images/wizell_icon.png';
 import xintel_icon from '../components/Integrations/images/xintel_icon.png';
 import mercadolibre_icon from '../components/Integrations/images/mercadolibre_icon.png';
-import mercado_shops_icon from '../components/Integrations/images/mercadoshops_icon.png';
 import dynamics_icon from '../components/Integrations/images/dynamics_icon.png';
 import mitienda_icon from '../components/Integrations/images/mitienda-icon.png';
 import tiendup_icon from '../components/Integrations/images/tiendup_icon.png';
@@ -248,13 +247,6 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: mercadolibre_icon,
               imgAlt: _('integrations.native_integrations.mercadolibre_title'),
               iconName: _('integrations.native_integrations.mercadolibre_title'),
-            },
-            {
-              name: 'MercadoShops',
-              linkUrl: `${urlIntegrations}/MercadoShopsSection`,
-              imgSrc: mercado_shops_icon,
-              imgAlt: _('integrations.native_integrations.mercadoshops_title'),
-              iconName: _('integrations.native_integrations.mercadoshops_title'),
             },
             {
               name: 'MiTienda',

@@ -47,7 +47,6 @@ const integrationsStatusResult: IntegrationsStatus = {
   googleAnaliyticStatus: 'connected',
   bigQueryStatus: 'disconnected',
   MercadoLibreStatus: 'connected',
-  MercadoShopsStatus: 'disconnected',
   MiTiendaStatus: 'connected',
   JumpsellerStatus: 'disconnected',
 };
