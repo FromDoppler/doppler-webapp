@@ -122,7 +122,16 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
 
   public async setSurveyToCompleted() {
     console.log('setSurveyToCompleted');
-    await timeout(1500);
+    await timeout(1000);
+
+    return {
+      success: true,
+    };
+  }
+
+  public async FireSurveyFormCompletedEvent() {
+    console.log('FireSurveyFormCompletedEvent');
+    await timeout(1000);
 
     return {
       success: true,
