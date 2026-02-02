@@ -95,6 +95,7 @@ export const PaymentFrequency = ({
               {getDiscountName(discount.subscriptionType)}
               {isExclusiveDiscountArgentina &&
               discount.numberMonths === 1 &&
+              process.env.REACT_APP_PROMOCODE_ARGENTINA !== undefined &&
               (promocodeApplied?.promocode === process.env.REACT_APP_PROMOCODE_ARGENTINA ||
                 (promocodeApplied?.promocode !== process.env.REACT_APP_PROMOCODE_ARGENTINA &&
                   promocodeApplied?.discountPercentage <=

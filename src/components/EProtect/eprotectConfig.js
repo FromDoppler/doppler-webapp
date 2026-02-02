@@ -9,36 +9,36 @@ export const getEprotectConfig = (payframeClientCallback, intl) => {
     reportGroup: process.env.REACT_APP_EPROTECT_REPORT_GROUP,
     timeout: '5000',
     div: 'eprotect-payframe',
-    height: "230",
+    height: '230',
     callback: payframeClientCallback,
     showCvv: true,
     months: {
-      "1": "01",
-      "2": "02",
-      "3": "03",
-      "4": "04",
-      "5": "05",
-      "6": "06",
-      "7": "07",
-      "8": "08",
-      "9": "09",
-      "10": "10",
-      "11": "11",
-      "12": "12"
+      1: '01',
+      2: '02',
+      3: '03',
+      4: '04',
+      5: '05',
+      6: '06',
+      7: '07',
+      8: '08',
+      9: '09',
+      10: '10',
+      11: '11',
+      12: '12',
     },
     numYears: 15,
-    expYearFormat: "YY",
+    expYearFormat: 'YY',
     tabIndex: {
       accountNumber: 1,
       expMonth: 2,
       expYear: 3,
-      cvv: 4
+      cvv: 4,
     },
     placeholderText: {
       cvv: _('checkoutProcessForm.payment_method.eprotect_placeholder_cvv'),
       accountNumber: _('checkoutProcessForm.payment_method.credit_card'),
     },
-    htmlTimeout: "5000",
+    htmlTimeout: '5000',
     clearCvvMaskOnReturn: true,
     enhancedUxFeatures: {
       inlineFieldValidations: true,
@@ -51,7 +51,7 @@ export const getEprotectConfig = (payframeClientCallback, intl) => {
     label: {
       accountNumber: _('checkoutProcessForm.payment_method.credit_card'),
       expDate: _('checkoutProcessForm.payment_method.expiration_date'),
-      cvv: _('checkoutProcessForm.payment_method.security_code')
+      cvv: _('checkoutProcessForm.payment_method.security_code'),
     },
     customErrorMessages: {
       // Invalid account number group (871-876)
@@ -84,7 +84,7 @@ export const getEprotectConfig = (payframeClientCallback, intl) => {
       // Expiration date invalid group (886*)
       '886-month': _('validation_messages.error_invalid_expiry_date'),
       '886-year': _('validation_messages.error_invalid_expiry_date'),
-      886: _('validation_messages.error_invalid_expiry_date')
+      886: _('validation_messages.error_invalid_expiry_date'),
     },
   };
 };

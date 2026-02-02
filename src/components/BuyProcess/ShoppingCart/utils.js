@@ -211,11 +211,12 @@ export const mapItemFromMarketingPlan = ({
             }
             values={{
               months:
-                promocodeApplied?.duration || amountDetailsData?.value?.discountPromocode?.duration,
+                promocodeApplied?.promotionApplied?.duration ||
+                amountDetailsData?.value?.discountPromocode?.duration,
             }}
           />
         </p>
-        {promocodeApplied && !disabledPromocode && (
+        {promocodeApplied && promocodeApplied.canApply && !disabledPromocode && (
           <button
             type="button"
             className="dp-btn-delete dpicon iconapp-delete"
@@ -271,14 +272,20 @@ export const mapItemFromMarketingPlan = ({
     });
   }
 
-  if (promocodeApplied?.planType === PLAN_TYPE.byCredit && promocodeApplied?.extraCredits > 0) {
+  if (
+    promocodeApplied?.planType === PLAN_TYPE.byCredit &&
+    promocodeApplied?.promotionApplied?.extraCredits > 0
+  ) {
     planInformation.featureList.push(
       <>
         <p>
           <FormattedMessage
             id={`buy_process.feature_item_extra_credits`}
             values={{
-              units: thousandSeparatorNumber(intl.defaultLocale, promocodeApplied?.extraCredits),
+              units: thousandSeparatorNumber(
+                intl.defaultLocale,
+                promocodeApplied?.promotionApplied?.extraCredits,
+              ),
             }}
           />
         </p>
@@ -1275,7 +1282,7 @@ export const getBuyButton = ({
       planType={selectedMarketingPlan?.type}
       planId={selectedMarketingPlan?.id}
       discountId={selectedDiscount?.id}
-      promocode={promotion?.promocode ?? ''}
+      promocode={promotion?.canApply ? promotion?.promocode ?? '' : ''}
       monthPlan={selectedDiscount?.numberMonths}
       newCheckoutEnabled={redirectNewCheckout}
       chatPlanId={selectedPlanChat?.planChat?.planId}

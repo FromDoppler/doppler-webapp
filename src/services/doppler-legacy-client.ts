@@ -366,6 +366,14 @@ interface PlanEntry {
   planFee: number;
   trialExpired: boolean;
   upgradePending: boolean;
+  promotion: PromotionEntry;
+}
+
+interface PromotionEntry {
+  discount: number;
+  duration: number;
+  idUserTypePlan: number;
+  idPromotion: number;
 }
 
 interface ChatPlanEntry {
@@ -549,6 +557,7 @@ function mapPlanEntry(json: any): PlanEntry {
     planFee: json.planFee,
     trialExpired: json.trialExpired,
     upgradePending: json.upgradePending,
+    promotion: mapPromotion(json.promotion),
   };
 }
 function mapSmsEntry(json: any): SmsEntry {
@@ -734,6 +743,24 @@ function mapIdUserToken(jwtToken: string) {
   return 0;
 }
 
+function mapAddOnPromotion(json: any) {
+  return {
+    idAddOnType: json.IdAddOnType,
+    discount: json.Discount,
+    idAddOnPlan: json.IdAddOnPlan,
+    quantity: json.Quantity,
+  };
+}
+
+function mapPromotion(json: any): PromotionEntry {
+  return {
+    discount: json?.discount,
+    duration: json?.duration,
+    idUserTypePlan: json?.idUserTypePlan,
+    idPromotion: json?.idPromotion,
+  };
+}
+
 export function mapHeaderDataJson(json: any) {
   return {
     alert: json.alert && {
@@ -748,6 +775,8 @@ export function mapHeaderDataJson(json: any) {
     },
     nav: (json.nav && json.nav.map(mapNavMainEntry)) || [],
     user: {
+      addOnPromotions:
+        (json.user.addOnPromotions && json.user.addOnPromotions.map(mapAddOnPromotion)) || [],
       idUser: mapIdUserToken(json.jwtToken), // TODO: read from content
       avatar: json.user.avatar,
       email: json.user.email,

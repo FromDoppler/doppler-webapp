@@ -508,6 +508,7 @@ export const CheckoutSummary = InjectAppServices(
         hasError,
         chatUserPlan,
         addOnUserPlan,
+        addOnPromotions,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);
@@ -519,6 +520,7 @@ export const CheckoutSummary = InjectAppServices(
     const paymentMethodType = query.get('paymentMethod') ?? '';
     const discountDescription = query.get('discount') ?? '';
     const extraCreditsByPromocode = query.get('extraCredits') ?? 0;
+    const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
     const buyType = query.get('buyType') ?? '';
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -535,17 +537,20 @@ export const CheckoutSummary = InjectAppServices(
         }
       };
 
-      // const fetchCurrentUserPlan = async () => {
-      //   const data = await dopplerBillingUserApiClient.getCurrentUserPlanData();
-      //   if (data.success) {
-      //     return data;
-      //   } else {
-      //     throw new exception();
-      //   }
-      // };
-
       const fetchCurrentUserPlanByType = async (type) => {
         const data = await dopplerBillingUserApiClient.getCurrentUserPlanDataByType(type);
+        if (data.success) {
+          return data.value;
+        } else {
+          return null;
+        }
+      };
+
+      const fetchAddOnPromotionsByPromocode = async (planId, promocode) => {
+        const data = await dopplerAccountPlansApiClient.getAddOnPromotionsByPromocode(
+          planId,
+          promocode,
+        );
         if (data.success) {
           return data.value;
         } else {
@@ -559,6 +564,13 @@ export const CheckoutSummary = InjectAppServices(
           const billingInformationData = await fetchBillingInformationData();
           const currentUserPlanData = await fetchCurrentUserPlanByType(1);
           const currentChatPlanUserData = await fetchCurrentUserPlanByType(2);
+
+          var addOnPromotions = undefined;
+          if (buyType && Number(buyType) === BUY_MARKETING_PLAN) {
+            if (promocodeFromUrl !== '') {
+              addOnPromotions = await fetchAddOnPromotionsByPromocode(planId, promocodeFromUrl);
+            }
+          }
 
           var currentAddOnPlanUserData = undefined;
           if (buyType && Number(buyType) === BUY_ONSITE_PLAN) {
@@ -579,6 +591,7 @@ export const CheckoutSummary = InjectAppServices(
               paymentMethod: paymentMethodType,
               chatUserPlan: currentChatPlanUserData,
               addOnUserPlan: currentAddOnPlanUserData,
+              addOnPromotions: addOnPromotions,
             },
           });
         } catch (error) {
@@ -595,6 +608,7 @@ export const CheckoutSummary = InjectAppServices(
       paymentMethodType,
       planId,
       buyType,
+      promocodeFromUrl,
     ]);
 
     if (legacy) {
@@ -713,143 +727,245 @@ export const CheckoutSummary = InjectAppServices(
               </div>
             )}
           </div>
-          {<ModalPromoAddons />}
+          {<ModalPromoAddons addOnPromotions={addOnPromotions} />}
         </section>
       </>
     );
   },
 );
 
-export const ModalPromoAddons = InjectAppServices(({ dependencies: { appSessionRef } }) => {
-  const [open, setOpen] = useState(false);
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const query = useQueryParams();
-  const accountType = query.get(ACCOUNT_TYPE) ?? '';
-  const createTimeout = useTimeout();
-  const { user, features } = appSessionRef.current.userData;
-  const landingsEditorEnabled = features?.landingsEditorEnabled;
-  const hasLandingPlan = (user.landings?.landingPacks?.length ?? 0) > 0;
-  const hasConversationPlan = user.chat?.active === true && user.chat?.plan?.fee > 0;
-  const conversationsBuyUrl = user.chat.plan.buttonUrl;
-  const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
-  const hasOnSitePlan = user.onSite?.active === true && user.onSite?.plan?.fee > 0;
-  const canBuyPushNotificationPlan =
-    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
-  const hasPushNotificationPlan =
-    user.pushNotification?.active === true && user.pushNotification?.plan?.fee > 0;
+export const ModalPromoAddons = InjectAppServices(
+  ({ addOnPromotions, dependencies: { appSessionRef } }) => {
+    const [open, setOpen] = useState(false);
+    const intl = useIntl();
+    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const query = useQueryParams();
+    const accountType = query.get(ACCOUNT_TYPE) ?? '';
+    const createTimeout = useTimeout();
+    const { user, features } = appSessionRef.current.userData;
+    const landingsEditorEnabled = features?.landingsEditorEnabled;
+    const hasLandingPlan = (user.landings?.landingPacks?.length ?? 0) > 0;
+    const hasConversationPlan = user.chat?.active === true && user.chat?.plan?.fee > 0;
+    const conversationsBuyUrl = user.chat.plan.buttonUrl;
+    const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
+    const hasOnSitePlan = user.onSite?.active === true && user.onSite?.plan?.fee > 0;
+    const canBuyPushNotificationPlan =
+      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
+    const hasPushNotificationPlan =
+      user.pushNotification?.active === true && user.pushNotification?.plan?.fee > 0;
 
-  const getAddonSlides = () => {
-    const slides = [];
-    if (!hasConversationPlan) {
-      slides.push({
-        id: 1,
-        img: 'addons-carousel-slide-1.jpg',
-        title: 'addons.carousel.slice_1_title',
-        description: 'addons.carousel.slice_1_description',
-        link: conversationsBuyUrl,
-      });
+    const getAddonSlides = () => {
+      const slides = [];
+      const promotions = addOnPromotions === undefined ? [] : addOnPromotions;
+
+      if (promotions.length > 0) {
+        var conversations = promotions.filter((a) => a.idAddOnType === AddOnType.Conversations)[0];
+        var landingPages = promotions.filter((a) => a.idAddOnType === AddOnType.Landings)[0];
+        var onSite = promotions.filter((a) => a.idAddOnType === AddOnType.OnSite)[0];
+        var pushNotifications = promotions.filter(
+          (a) => a.idAddOnType === AddOnType.PushNotifications,
+        )[0];
+
+        var addOnPromotionSlice = {
+          id: 5,
+          img: 'addons-carousel-slide-5.png',
+          title: 'addons.carousel.slice_5_title',
+          description: (
+            <FormattedMessage
+              id={'addons.carousel.slice_5_description'}
+              values={{
+                Bold: (chunk) => <strong>{chunk}</strong>,
+                br: <br />,
+                hasConversations: conversations !== undefined,
+                conversationsDiscount:
+                  conversations !== undefined ? conversations.discountPercentage : 0,
+                conversationsIncludedAllPlans:
+                  conversations !== undefined && conversations.idAddOnPlan === null,
+                conversationsQuantity: conversations !== undefined ? conversations.quantity : '',
+                hasLandingPages: landingPages !== undefined,
+                landingPagesDiscount:
+                  landingPages !== undefined ? landingPages.discountPercentage : 0,
+                landingPagesIncludedAllPlans:
+                  landingPages !== undefined && landingPages.idAddOnPlan === null,
+                landingPagesQuantity: landingPages !== undefined ? landingPages.quantity : '',
+                hasOnSite: onSite !== undefined,
+                onSiteDiscount: onSite !== undefined ? onSite.discountPercentage : 0,
+                onSiteIncludedAllPlans: onSite !== undefined && onSite.idAddOnPlan === null,
+                onSiteQuantity: onSite !== undefined ? onSite.quantity : '',
+                hasPushNotifications: pushNotifications !== undefined,
+                pushNotificationsDiscount:
+                  pushNotifications !== undefined ? pushNotifications.discountPercentage : 0,
+                pushNotificationsIncludedAllPlans:
+                  pushNotifications !== undefined && pushNotifications.idAddOnPlan === null,
+                pushNotificationsQuantity:
+                  pushNotifications !== undefined ? pushNotifications.quantity : '',
+              }}
+            />
+          ),
+          link: '/my-plan',
+          button_text: 'addons.carousel.slice_5_button_text',
+          link_text: 'addons.carousel.slice_5_link_text',
+        };
+
+        // var items = '';
+        // addOnPromotions.forEach((addOnPromotion, index) => {
+        //   addOnPromotionSlice.description = _(addOnPromotionSlice.description) + `{br} ${addOnPromotion.discountPercentage}`
+        // });
+
+        slides.push(addOnPromotionSlice);
+      }
+
+      if (!hasConversationPlan) {
+        slides.push({
+          id: 1,
+          img: 'addons-carousel-slide-1.jpg',
+          title: 'addons.carousel.slice_1_title',
+          description: (
+            <FormattedMessage
+              id={'addons.carousel.slice_1_description'}
+              values={{
+                Bold: (chunk) => <strong>{chunk}</strong>,
+                br: <br />,
+              }}
+            />
+          ),
+          link: conversationsBuyUrl,
+          button_text: 'addons.carousel.slice_1_button_text',
+          link_text: 'addons.carousel.slice_1_link_text',
+        });
+      }
+
+      if (!hasLandingPlan && landingsEditorEnabled) {
+        slides.push({
+          id: 2,
+          img: 'addons-carousel-slide-2.jpg',
+          title: 'addons.carousel.slice_2_title',
+          description: (
+            <FormattedMessage
+              id={'addons.carousel.slice_2_description'}
+              values={{
+                Bold: (chunk) => <strong>{chunk}</strong>,
+                br: <br />,
+              }}
+            />
+          ),
+          link: `/landing-packages${
+            accountType
+              ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
+              : `?buyType=${BUY_LANDING_PACK}`
+          }`,
+          button_text: 'addons.carousel.slice_2_button_text',
+          link_text: 'addons.carousel.slice_2_link_text',
+        });
+      }
+
+      if (canBuyOnSitePlan && !hasOnSitePlan) {
+        slides.push({
+          id: 3,
+          img: 'addons-carousel-slide-3.jpg',
+          title: 'addons.carousel.slice_3_title',
+          description: (
+            <FormattedMessage
+              id={'addons.carousel.slice_3_description'}
+              values={{
+                Bold: (chunk) => <strong>{chunk}</strong>,
+                br: <br />,
+              }}
+            />
+          ),
+          link: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
+          button_text: 'addons.carousel.slice_3_button_text',
+          link_text: 'addons.carousel.slice_3_link_text',
+        });
+      }
+
+      if (canBuyPushNotificationPlan && !hasPushNotificationPlan) {
+        slides.push({
+          id: 4,
+          img: `addons-carousel-slide-4--${user.lang === 'es' ? 'es' : 'en'}.png`,
+          title: 'addons.carousel.slice_4_title',
+          description: (
+            <FormattedMessage
+              id={'addons.carousel.slice_4_description'}
+              values={{
+                Bold: (chunk) => <strong>{chunk}</strong>,
+                br: <br />,
+              }}
+            />
+          ),
+          link: `/buy-push-notification-plans?buyType=${BUY_PUSH_NOTIFICATION_PLAN}`,
+          button_text: 'addons.carousel.slice_4_button_text',
+          link_text: 'addons.carousel.slice_4_link_text',
+        });
+      }
+
+      return slides;
+    };
+
+    useEffect(() => {
+      createTimeout(() => setOpen(true), 800);
+    }, [createTimeout]);
+
+    const closeModal = () => setOpen(false);
+
+    const addonSlides = getAddonSlides();
+
+    if (!open || addonSlides.length === 0) {
+      return <></>;
     }
 
-    if (!hasLandingPlan && landingsEditorEnabled) {
-      slides.push({
-        id: 2,
-        img: 'addons-carousel-slide-2.jpg',
-        title: 'addons.carousel.slice_2_title',
-        description: 'addons.carousel.slice_2_description',
-        link: `/landing-packages${
-          accountType
-            ? `?${ACCOUNT_TYPE}=${accountType}&buyType=${BUY_LANDING_PACK}`
-            : `?buyType=${BUY_LANDING_PACK}`
-        }`,
-      });
-    }
-
-    if (canBuyOnSitePlan && !hasOnSitePlan) {
-      slides.push({
-        id: 3,
-        img: 'addons-carousel-slide-3.jpg',
-        title: 'addons.carousel.slice_3_title',
-        description: 'addons.carousel.slice_3_description',
-        link: `/buy-onsite-plans?buyType=${BUY_ONSITE_PLAN}`,
-      });
-    }
-
-    if (canBuyPushNotificationPlan && !hasPushNotificationPlan) {
-      slides.push({
-        id: 4,
-        img: `addons-carousel-slide-4--${user.lang === 'es' ? 'es' : 'en'}.png`,
-        title: 'addons.carousel.slice_4_title',
-        description: 'addons.carousel.slice_4_description',
-        link: `/buy-push-notification-plans?buyType=${BUY_PUSH_NOTIFICATION_PLAN}`,
-      });
-    }
-
-    return slides;
-  };
-
-  useEffect(() => {
-    createTimeout(() => setOpen(true), 800);
-  }, [createTimeout]);
-
-  const closeModal = () => setOpen(false);
-
-  const addonSlides = getAddonSlides();
-
-  if (!open || addonSlides.length === 0) {
-    return <></>;
-  }
-
-  return (
-    <div className="modal bg-opacity--50" id="modal-addons">
-      <div className="modal-content--medium">
-        <span className="close" onClick={closeModal}></span>
-        <CheckoutSummaryCarousel
-          id="1"
-          ariaLabel="addons-packs"
-          numberOfItems={addonSlides.length}
-          showDots={addonSlides.length > 1}
-        >
-          {({ activeSlide }) =>
-            addonSlides.map((slide, index) => (
-              <Slide key={slide.id} active={activeSlide === index} order={index}>
-                <div className="pic-carousel">
-                  <img
-                    src={_('common.ui_library_image', { imageUrl: slide.img })}
-                    alt="Check list"
-                    width={'100%'}
-                  />
-                </div>
-                <div className="text-carousel">
-                  <h3>
-                    <FormattedMessage
-                      id={slide.title}
-                      values={{
-                        br: <br />,
-                      }}
+    return (
+      <div className="modal bg-opacity--50" id="modal-addons">
+        <div className="modal-content--medium">
+          <span className="close" onClick={closeModal}></span>
+          <CheckoutSummaryCarousel
+            id="1"
+            ariaLabel="addons-packs"
+            numberOfItems={addonSlides.length}
+            showDots={addonSlides.length > 1}
+          >
+            {({ activeSlide }) =>
+              addonSlides.map((slide, index) => (
+                <Slide key={slide.id} active={activeSlide === index} order={index}>
+                  <div className="pic-carousel">
+                    <img
+                      src={_('common.ui_library_image', { imageUrl: slide.img })}
+                      alt="Check list"
+                      width={'100%'}
                     />
-                  </h3>
-                  <p>
-                    <FormattedMessage
+                  </div>
+                  <div className="text-carousel">
+                    <h3>
+                      <FormattedMessage
+                        id={slide.title}
+                        values={{
+                          br: <br />,
+                        }}
+                      />
+                    </h3>
+                    <p>
+                      {slide.description}
+                      {/* <FormattedMessage
                       id={slide.description}
                       values={{
                         Bold: (chunk) => <strong>{chunk}</strong>,
                         br: <br />,
                       }}
-                    />
-                  </p>
-                </div>
-                <Link to={slide.link} className="dp-button button-medium primary-green m-t-12">
-                  {_('landing_selection.modal.link_to_buy')}
-                </Link>
-                <button className="dp-button button-small link-green m-b-12" onClick={closeModal}>
-                  {_('landing_selection.modal.close_button')}
-                </button>
-              </Slide>
-            ))
-          }
-        </CheckoutSummaryCarousel>
+                    /> */}
+                    </p>
+                  </div>
+                  <Link to={slide.link} className="dp-button button-medium primary-green m-t-12">
+                    {_(slide.button_text)}
+                  </Link>
+                  <button className="dp-button button-small link-green m-b-12" onClick={closeModal}>
+                    {_(slide.link_text)}
+                  </button>
+                </Slide>
+              ))
+            }
+          </CheckoutSummaryCarousel>
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);

@@ -96,7 +96,11 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod, onEprotectC
         switch (currentPaymentMethodType) {
           case PaymentMethodType.creditCard:
             return useEprotect ? (
-              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+              <CreditCardEProtect
+                onClientReady={onEprotectClientReady}
+                optionView={optionView}
+                paymentMethod={paymentMethod}
+              />
             ) : (
               <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
             );
@@ -108,7 +112,11 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod, onEprotectC
             return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
             return useEprotect ? (
-              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+              <CreditCardEProtect
+                onClientReady={onEprotectClientReady}
+                optionView={optionView}
+                paymentMethod={paymentMethod}
+              />
             ) : (
               <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
             );
@@ -302,10 +310,14 @@ export const UpdatePaymentMethod = InjectAppServices(
     const submitPaymentMethodForm = async (values) => {
       setStatus('');
 
-      if (useEprotect && values.paymentMethodName === PaymentMethodType.creditCard && eprotectClientRef.current) {
+      if (
+        useEprotect &&
+        values.paymentMethodName === PaymentMethodType.creditCard &&
+        eprotectClientRef.current
+      ) {
         try {
           const eprotectResponse = await eprotectClientRef.current.requestPaypageRegistrationId();
-          if (eprotectResponse.response === "870") {
+          if (eprotectResponse.response === '870') {
             values.worldPayLowValueToken = eprotectResponse.paypageRegistrationId;
             values.lastFourDigitsCCNumber = eprotectResponse.lastFour;
             values.firstSixDigitsCCNumber = eprotectResponse.firstSix;

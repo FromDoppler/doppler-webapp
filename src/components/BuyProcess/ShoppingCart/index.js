@@ -60,6 +60,7 @@ export const ShoppingCart = InjectAppServices(
     selectedAddOnPlan,
     handleRemoveAddOnPlan,
     canAddOnPlanRemove,
+    callbackHandlePromocodeApplied,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -128,11 +129,11 @@ export const ShoppingCart = InjectAppServices(
       if (selectedMarketingPlan?.id && paymentMethodName) {
         fetchData();
       }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       dopplerAccountPlansApiClient,
       selectedMarketingPlan,
-      discountConfig?.selectedPaymentFrequency,
-      discountConfig.paymentFrequenciesList,
       promocodeApplied,
       promocodeFromUrl,
       paymentMethodName,
@@ -239,12 +240,17 @@ export const ShoppingCart = InjectAppServices(
       discountConfig.paymentFrequenciesList,
     ]);
 
-    const handlePromocodeApplied = useCallback((value) => {
-      setPromocodeApplied(value);
-    }, []);
+    const handlePromocodeApplied = useCallback(
+      (value) => {
+        setPromocodeApplied(value);
+        callbackHandlePromocodeApplied(value);
+      },
+      [callbackHandlePromocodeApplied],
+    );
 
     const removePromocodeApplied = () => {
       setPromocodeApplied('');
+      callbackHandlePromocodeApplied('');
       setAmountDetailsData({
         ...amountDetailsData,
         value: {
@@ -263,7 +269,7 @@ export const ShoppingCart = InjectAppServices(
           marketingPlan: selectedMarketingPlan,
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
           amountDetailsData,
-          promocodeApplied,
+          promocodeApplied: promocodeApplied,
           removePromocodeApplied,
           disabledPromocode,
           intl,
@@ -343,6 +349,9 @@ export const ShoppingCart = InjectAppServices(
       canBuy,
       selectedDiscount: discountConfig?.selectedPaymentFrequency,
       promotion: promotionForCheckout,
+        promocode: promocodeFromUrl,
+        canApply: promocodeFromUrl !== '',
+      },
       paymentMethodName,
       total,
       landingPacks,

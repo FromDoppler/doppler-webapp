@@ -20,6 +20,7 @@ describe('PushNotificationPlanSelection component', () => {
         current: {
           userData: {
             user: {
+              addOnPromotions: [{ idAddOnType: 4, idAddOnPlan: 1, discount: 10, quantity: 10000 }],
               plan: {
                 idPlan: 3,
                 planType: PLAN_TYPE.free,
