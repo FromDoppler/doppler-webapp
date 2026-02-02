@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
@@ -26,6 +26,7 @@ export const PushNotificationPlanSelection = InjectAppServices(
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showPromotionInformation, setShowPromotionInformation] = useState(false);
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -55,14 +56,26 @@ export const PushNotificationPlanSelection = InjectAppServices(
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
 
+    const pushNotificationsPromotion =
+      appSessionRef.current.userData.user.addOnPromotions !== undefined
+        ? appSessionRef.current.userData.user.addOnPromotions.filter(
+            (aop) => aop.idAddOnType === AddOnType.PushNotifications,
+          )[0]
+        : undefined;
+
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
       if (item === null) {
         if (itemRef.current) {
+          setShowPromotionInformation(
+            pushNotificationsPromotion?.idAddOnPlan !== undefined &&
+              pushNotificationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
+              !selectedPlan.active,
+          );
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex, item]);
+    }, [selectedPlan, addItem, selectedPlanIndex, item, pushNotificationsPromotion?.idAddOnPlan]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -117,6 +130,11 @@ export const PushNotificationPlanSelection = InjectAppServices(
 
     const handleSliderClick = () => {
       if (itemRef.current) {
+        setShowPromotionInformation(
+          pushNotificationsPromotion?.idAddOnPlan !== undefined &&
+            pushNotificationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
+            !selectedPlan.active,
+        );
         addItem(selectedPlan);
       } else {
         setItem(null);
@@ -164,6 +182,35 @@ export const PushNotificationPlanSelection = InjectAppServices(
                   messageId={'push_notification_selection.banner_for_emails'}
                 />
               </section>
+              {showPromotionInformation && (
+                <section>
+                  <div className="dp-wrap-message dp-wrap-info">
+                    <span className="dp-message-icon"></span>
+                    <div className="dp-content-message dp-content-full">
+                      <p>
+                        <FormattedMessage
+                          id={`${
+                            pushNotificationsPromotion !== undefined
+                              ? 'push_notification_selection.addon_promotion_one_plan_message'
+                              : 'push_notification_selection.addon_promotion_all_plans_message'
+                          }`}
+                          values={{
+                            discount: pushNotificationsPromotion?.discount,
+                            quantity: pushNotificationsPromotion?.quantity,
+                            bold: (chunks) => <b>{chunks}</b>,
+                          }}
+                        />
+                      </p>
+                      <button
+                        className="dp-message-link"
+                        onClick={() => setShowPromotionInformation(false)}
+                      >
+                        {_('my_plan.subscription_details.got_it_button')}
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              )}
               <section>
                 <SelectedPushNotificationPlan
                   selectedPlan={selectedPlan}

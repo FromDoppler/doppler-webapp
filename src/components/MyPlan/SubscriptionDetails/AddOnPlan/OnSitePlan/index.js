@@ -12,6 +12,7 @@ export const OnSitePlan = InjectAppServices(
     buyUrl,
     onSitePlan,
     isFreeAccount,
+    addOnPromotion,
     dependencies: { dopplerPopupHubApiClient, dopplerAccountPlansApiClient },
   }) => {
     const intl = useIntl();
@@ -19,6 +20,9 @@ export const OnSitePlan = InjectAppServices(
     const [loading, setLoading] = useState(true);
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [plan, setPlan] = useState(onSitePlan);
+    const [showPromotionInformation, setShowPromotionInformation] = useState(
+      addOnPromotion !== undefined && !onSitePlan.active,
+    );
 
     useEffect(() => {
       const fetchAddOnData = async () => {
@@ -30,7 +34,7 @@ export const OnSitePlan = InjectAppServices(
             setAvailableQuantity(plan.quantity);
           }
         } else {
-          if (isFreeAccount) {
+          if (isFreeAccount || addOnPromotion) {
             const getFreeAddOnPlanResponse = await dopplerAccountPlansApiClient.getFreeAddOnPlan(
               AddOnType.OnSite,
             );
@@ -50,6 +54,7 @@ export const OnSitePlan = InjectAppServices(
       dopplerAccountPlansApiClient,
       plan.active,
       plan.quantity,
+      addOnPromotion,
       isFreeAccount,
     ]);
 
@@ -93,7 +98,7 @@ export const OnSitePlan = InjectAppServices(
                       `my_plan.subscription_details.${
                         plan.trialExpired
                           ? 'view_plans_button'
-                          : isFreeAccount && !plan.active
+                          : (isFreeAccount || addOnPromotion) && !plan.active
                             ? 'activate_now_button'
                             : 'change_plan_button'
                       }`,
@@ -103,6 +108,33 @@ export const OnSitePlan = InjectAppServices(
               </div>
             </HeaderStyled>
           </header>
+          {showPromotionInformation && (
+            <div className="dp-wrap-message dp-wrap-info m-t-12">
+              <span className="dp-message-icon"></span>
+              <div className="dp-content-message dp-content-full">
+                <p>
+                  <FormattedMessage
+                    id={`${
+                      addOnPromotion.idAddOnPlan !== undefined
+                        ? 'my_plan.subscription_details.addon.onsite_plan.addon_promotion_one_plan_message'
+                        : 'my_plan.subscription_details.addon.onsite_plan.addon_promotion_all_plans_message'
+                    }`}
+                    values={{
+                      discount: addOnPromotion.discount,
+                      quantity: addOnPromotion.quantity,
+                      bold: (chunks) => <b>{chunks}</b>,
+                    }}
+                  />
+                </p>
+                <button
+                  className="dp-message-link"
+                  onClick={() => setShowPromotionInformation(false)}
+                >
+                  {_(`my_plan.subscription_details.got_it_button`)}
+                </button>
+              </div>
+            </div>
+          )}
           <ul className="dp-item--plan">
             <li>
               <p>

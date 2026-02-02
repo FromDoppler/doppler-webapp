@@ -20,6 +20,7 @@ describe('OnSitePlansSelection component', () => {
         current: {
           userData: {
             user: {
+              addOnPromotions: [{ idAddOnType: 3, idAddOnPlan: 1, discount: 10, quantity: 10000 }],
               plan: {
                 idPlan: 3,
                 planType: PLAN_TYPE.free,
@@ -28,6 +29,7 @@ describe('OnSitePlansSelection component', () => {
                 plan: {
                   idPlan: 3,
                   printQty: 500,
+                  active: false,
                 },
               },
             },

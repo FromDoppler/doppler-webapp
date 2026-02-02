@@ -3,7 +3,7 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { AddOnType, BUY_ONSITE_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
 import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { OnSitePlanInformation } from './OnSitePlanInformation';
 import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../UnexpectedError';
@@ -22,6 +22,7 @@ export const OnSitePlansSelection = InjectAppServices(
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showPromotionInformation, setShowPromotionInformation] = useState(false);
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -49,15 +50,26 @@ export const OnSitePlansSelection = InjectAppServices(
     const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
+    const onSitePromotion =
+      appSessionRef.current.userData.user.addOnPromotions !== undefined
+        ? appSessionRef.current.userData.user.addOnPromotions.filter(
+            (aop) => aop.idAddOnType === AddOnType.OnSite,
+          )[0]
+        : undefined;
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
       if (item === null) {
         if (itemRef.current) {
+          setShowPromotionInformation(
+            onSitePromotion?.idAddOnPlan !== undefined &&
+              onSitePromotion?.idAddOnPlan !== selectedPlan.planId &&
+              !selectedPlan.active,
+          );
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, selectedPlanIndex, item, addItem]);
+    }, [selectedPlan, selectedPlanIndex, item, addItem, onSitePromotion?.idAddOnPlan]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -112,6 +124,11 @@ export const OnSitePlansSelection = InjectAppServices(
 
     const handleSliderClick = () => {
       if (itemRef.current) {
+        setShowPromotionInformation(
+          onSitePromotion?.idAddOnPlan !== undefined &&
+            onSitePromotion?.idAddOnPlan !== selectedPlan.planId &&
+            !selectedPlan.active,
+        );
         addItem(selectedPlan);
       } else {
         setItem(null);
@@ -166,6 +183,35 @@ export const OnSitePlansSelection = InjectAppServices(
                   messageId={'onsite_selection.banner_for_prints'}
                 />
               </section>
+              {showPromotionInformation && (
+                <section>
+                  <div className="dp-wrap-message dp-wrap-info">
+                    <span className="dp-message-icon"></span>
+                    <div className="dp-content-message dp-content-full">
+                      <p>
+                        <FormattedMessage
+                          id={`${
+                            onSitePromotion !== undefined
+                              ? 'onsite_selection.addon_promotion_one_plan_message'
+                              : 'onsite_selection.addon_promotion_all_plans_message'
+                          }`}
+                          values={{
+                            discount: onSitePromotion?.discount,
+                            quantity: onSitePromotion?.quantity,
+                            bold: (chunks) => <b>{chunks}</b>,
+                          }}
+                        />
+                      </p>
+                      <button
+                        className="dp-message-link"
+                        onClick={() => setShowPromotionInformation(false)}
+                      >
+                        {_('my_plan.subscription_details.got_it_button')}
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              )}
               <section>
                 <SelectedOnSitePlan
                   selectedPlan={selectedPlan}

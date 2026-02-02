@@ -1,4 +1,4 @@
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { getMonthsByCycle, orderPaymentFrequencies, thousandSeparatorNumber } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
@@ -10,6 +10,7 @@ import { SelectedPlanChat } from './SelectedPlanChat';
 import { PlanChatInfo } from './PlanChatInfo';
 import { ShoppingCart } from '../ShoppingCart';
 import {
+  AddOnType,
   BUY_CHAT_PLAN,
   BUY_MARKETING_PLAN,
   PLAN_TYPE,
@@ -37,6 +38,7 @@ export const PlanChat = InjectAppServices(
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const selectedPaymentMethod = PaymentMethodType.creditCard;
     const [loading, setLoading] = useState(true);
+    const [showPromotionInformation, setShowPromotionInformation] = useState(false);
 
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -54,6 +56,13 @@ export const PlanChat = InjectAppServices(
 
     const sessionPlan = appSessionRef.current.userData.user;
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
+    const conversationsPromotion =
+      appSessionRef.current.userData.user.addOnPromotions !== undefined
+        ? appSessionRef.current.userData.user.addOnPromotions.filter(
+            (aop) => aop.idAddOnType === AddOnType.Conversations,
+          )[0]
+        : undefined;
+
     const itemRef = useRef(null);
     itemRef.current = item;
 
@@ -67,10 +76,15 @@ export const PlanChat = InjectAppServices(
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
       if (item === null) {
         if (itemRef.current) {
+          setShowPromotionInformation(
+            conversationsPromotion?.idAddOnPlan !== undefined &&
+              conversationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
+              !selectedPlan.active,
+          );
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex, item]);
+    }, [selectedPlan, addItem, selectedPlanIndex, item, conversationsPromotion?.idAddOnPlan]);
 
     useEffect(() => {
       const fetchPlanData = async () => {
@@ -125,6 +139,11 @@ export const PlanChat = InjectAppServices(
 
     const handleSliderClick = () => {
       if (itemRef.current) {
+        setShowPromotionInformation(
+          conversationsPromotion?.idAddOnPlan !== undefined &&
+            conversationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
+            !selectedPlan.active,
+        );
         addItem(selectedPlan);
       } else {
         setItem(null);
@@ -172,6 +191,35 @@ export const PlanChat = InjectAppServices(
                   messageId={'chat_selection.banner_for_conversations'}
                 />
               </section>
+              {showPromotionInformation && (
+                <section>
+                  <div className="dp-wrap-message dp-wrap-info">
+                    <span className="dp-message-icon"></span>
+                    <div className="dp-content-message dp-content-full">
+                      <p>
+                        <FormattedMessage
+                          id={`${
+                            conversationsPromotion !== undefined
+                              ? 'chat_selection.addon_promotion_one_plan_message'
+                              : 'chat_selection.addon_promotion_all_plans_message'
+                          }`}
+                          values={{
+                            discount: conversationsPromotion?.discount,
+                            quantity: conversationsPromotion?.quantity,
+                            bold: (chunks) => <b>{chunks}</b>,
+                          }}
+                        />
+                      </p>
+                      <button
+                        className="dp-message-link"
+                        onClick={() => setShowPromotionInformation(false)}
+                      >
+                        {_('my_plan.subscription_details.got_it_button')}
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              )}
               <section>
                 <SelectedPlanChat
                   selectedPlan={selectedPlan}

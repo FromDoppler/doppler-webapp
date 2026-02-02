@@ -218,7 +218,7 @@ describe('BuyButton component', () => {
     // simulate redirect to checkout summary
     jest.advanceTimersByTime(DELAY_BEFORE_REDIRECT_TO_SUMMARY);
     expect(window.location.href).toBe(
-      `/checkout-summary?planId=${props.planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.subscriptionType}&extraCredits=${props.promotion.extraCredits}`,
+      `/checkout-summary?planId=${props.planId}&buyType=${BUY_MARKETING_PLAN}&paymentMethod=${props.paymentMethod}&${ACCOUNT_TYPE}=PAID&discount=${props.discount.subscriptionType}&extraCredits=${props.promotion.extraCredits}&PromoCode=${props.promotion.promocode}`,
     );
     jest.useRealTimers();
   });

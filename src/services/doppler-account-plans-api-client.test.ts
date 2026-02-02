@@ -289,4 +289,31 @@ describe('HttpDopplerAccountPlansApiClient', () => {
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
+
+  it('should get AddOnPromotionsByPromocode', async () => {
+    // Arrange
+    const fakePromotion = {
+      extraCredits: 1543,
+      discountPercentage: 17,
+      duration: 1,
+    };
+
+    const promotion = {
+      data: fakePromotion,
+      status: 200,
+    };
+    const request = jest.fn(async () => promotion);
+    const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
+
+    // Act
+    const result = await dopplerAccountPlansApiClient.getAddOnPromotionsByPromocode(
+      1,
+      'testpromocode',
+    );
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
 });

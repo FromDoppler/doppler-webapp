@@ -10,7 +10,9 @@ import { CreditCardIcons } from '../Plans/Checkout/PaymentMethod/CreditCard';
 import { getEprotectConfig } from './eprotectConfig';
 import { fieldNames, paymentType } from '../Plans/Checkout/PaymentMethod/PaymentMethod';
 
-const EPROTECT_SCRIPT_URL = process.env.REACT_APP_EPROTECT_SCRIPT_URL || 'https://request.eprotect.vantivprelive.com/eProtect/js/eProtect-iframe-client4.min.js';
+const EPROTECT_SCRIPT_URL =
+  process.env.REACT_APP_EPROTECT_SCRIPT_URL ||
+  'https://request.eprotect.vantivprelive.com/eProtect/js/eProtect-iframe-client4.min.js';
 
 const creditCardType = {
   mastercard: 'Mastercard',
@@ -50,17 +52,17 @@ export const CreditCardEProtect = InjectAppServices(
     const pendingRequestRef = useRef(null);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-      useEffect(() => {
-        if (optionView === actionPage.UPDATE) {
-          setValues({
-            [fieldNames.name]: '',
-            [fieldNames.number]: '',
-            [fieldNames.expiry]: '',
-            [fieldNames.cvc]: '',
-            [fieldNames.paymentMethodName]: paymentType.creditCard,
-          });
-        }
-      }, [appSessionRef, optionView, setValues]);
+    useEffect(() => {
+      if (optionView === actionPage.UPDATE) {
+        setValues({
+          [fieldNames.name]: '',
+          [fieldNames.number]: '',
+          [fieldNames.expiry]: '',
+          [fieldNames.cvc]: '',
+          [fieldNames.paymentMethodName]: paymentType.creditCard,
+        });
+      }
+    }, [appSessionRef, optionView, setValues]);
 
     useEffect(() => {
       const loadEprotectScript = () => {
@@ -84,7 +86,9 @@ export const CreditCardEProtect = InjectAppServices(
 
       loadEprotectScript();
 
-      setState((prevState) => ({ ...prevState, paymentMethod:
+      setState((prevState) => ({
+        ...prevState,
+        paymentMethod:
           paymentMethod && Object.keys(paymentMethod).length > 1
             ? paymentMethod
             : {
@@ -93,7 +97,8 @@ export const CreditCardEProtect = InjectAppServices(
                 ccHolderName: '',
                 ccNumber: '',
                 ccType: '',
-              }, }) );
+              },
+      }));
     }, [optionView, appSessionRef, paymentMethod]);
 
     useLayoutEffect(() => {
@@ -261,7 +266,7 @@ export const CreditCardEProtect = InjectAppServices(
               issuer={getCreditCardIssuer(state.paymentMethod.ccType)}
               preview={true}
               placeholders={{
-                name: "",
+                name: '',
               }}
               locale={{ valid: _('checkoutProcessForm.payment_method.valid_thru') }}
             />
@@ -269,7 +274,7 @@ export const CreditCardEProtect = InjectAppServices(
         ) : (
           <>
             <FieldItem className="field-item">
-              <div className="dp-considerations" style={{marginBottom: 0}}>
+              <div className="dp-considerations" style={{ marginBottom: 0 }}>
                 <p>
                   <FormatMessageWithBoldWords id="checkoutProcessForm.payment_method.availabled_credit_cards_legend" />
                 </p>
@@ -282,7 +287,7 @@ export const CreditCardEProtect = InjectAppServices(
               </div>
             </FieldItem>
             <FieldItem className="field-item">
-              <div id="eprotect-payframe" style={{ width: "400px" }} ></div>
+              <div id="eprotect-payframe" style={{ width: '400px' }}></div>
             </FieldItem>
           </>
         )}

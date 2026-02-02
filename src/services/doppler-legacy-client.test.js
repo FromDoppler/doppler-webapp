@@ -20,6 +20,9 @@ const userData = {
       email: 'fcoronel@makingsense.com',
       fullname: 'Federico Coronel',
       plan: {
+        promotion: {
+          idPromotion: 1,
+        },
         planType: '3',
         description: 'Créditos disponibles',
         isSubscribers: 'true',
