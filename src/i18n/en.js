@@ -1185,7 +1185,7 @@ You'll find an Email with steps to follow.`,
       },
       list_conditioning: {
         description: 'Clean up your Databases so you can send Campaigns with real, current Contact Lists that generate benefits for your business.',
-        from_contact_legend: 'From {contacts} Contacts',
+        from_contact_legend: 'From',
         price_legend: '*Price per Contact',
         title: 'List Conditioning',
       },
