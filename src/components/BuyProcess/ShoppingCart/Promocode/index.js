@@ -40,6 +40,7 @@ export const Promocode = InjectAppServices(
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const query = useQueryParams();
+    const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
     const defaultPromocode = getPromocode(query, isArgentina);
 
     const [open, setOpen] = useState(defaultPromocode !== '');
@@ -53,6 +54,8 @@ export const Promocode = InjectAppServices(
     const promotionRef = useRef(null);
     const promocodeInputRef = useRef(null);
     const alreadyInitializedRef = useRef(null);
+    const promocodeOriginRef = useRef('manual');
+    const invalidUrlPromocodeRef = useRef({ planId: null, promocode: '' });
     openRef.current = open;
     alreadyInitializedRef.current = initialized;
     promotionRef.current = promotion;
@@ -98,6 +101,22 @@ export const Promocode = InjectAppServices(
                 markPromocodeAsApplied();
               }, 10000);
             } else {
+              if (promocodeOriginRef.current === 'url') {
+                invalidUrlPromocodeRef.current = {
+                  planId: selectedMarketingPlan?.id ?? null,
+                  promocode,
+                };
+                callback && callback('');
+                dispatch({
+                  type: PROMOCODE_ACTIONS.INITIALIZE_STATE,
+                });
+                const { setFieldValue } = promocodeInputRef.current || {};
+                if (setFieldValue) {
+                  setFieldValue(fieldNames.promocode, '');
+                }
+                return;
+              }
+
               callback && callback('');
               dispatch({
                 type: PROMOCODE_ACTIONS.FETCH_FAILED,
@@ -189,6 +208,19 @@ export const Promocode = InjectAppServices(
     useEffect(() => {
       // In this case there is a promocode by default (By URL)
       if (defaultPromocode && allowPromocode && selectedMarketingPlan?.id) {
+        if (promocodeFromUrl) {
+          const { planId, promocode } = invalidUrlPromocodeRef.current;
+          const currentPlanId = selectedMarketingPlan?.id ?? null;
+          if (
+            promocode &&
+            promocode.toLowerCase() === promocodeFromUrl.toLowerCase() &&
+            planId === currentPlanId
+          ) {
+            return;
+          }
+        }
+
+        promocodeOriginRef.current = promocodeFromUrl ? 'url' : 'manual';
         const { setFieldValue } = promocodeInputRef.current;
         if (
           isArgentina &&
@@ -209,6 +241,7 @@ export const Promocode = InjectAppServices(
       validatePromocode,
       allowPromocode,
       defaultPromocode,
+      promocodeFromUrl,
       selectedMarketingPlan,
       isArgentina,
       disabledPromocode,
@@ -222,6 +255,7 @@ export const Promocode = InjectAppServices(
     };
 
     const onSubmit = async (value) => {
+      promocodeOriginRef.current = 'manual';
       validatePromocode(value.promocode);
     };
 
