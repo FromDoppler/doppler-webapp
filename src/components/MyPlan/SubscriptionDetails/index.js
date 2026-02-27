@@ -28,7 +28,7 @@ export const getAddons = (user) => {
         trialExpired: chat.plan.trialExpired,
       },
       active: (chat.plan.active || plan.isFreeAccount) && !user.plan.trialExpired,
-      buyUrl: `${plan.isFreeAccount ? '/conversations' : '/buy-conversation?buyType=2'}`,
+      buyUrl: `${plan.isFreeAccount ? chat.plan.buttonUrl : '/buy-conversation?buyType=2'}`,
     },
     {
       addOnType: AddOnType.Landings,
@@ -46,7 +46,7 @@ export const getAddons = (user) => {
         trialExpired: onSite.plan.trialExpired,
       },
       active: (onSite.plan.active || plan.isFreeAccount) && !user.plan.trialExpired,
-      buyUrl: `${plan.isFreeAccount ? '/onsite' : '/buy-onsite-plans?buyType=4'}`,
+      buyUrl: `${plan.isFreeAccount ? onSite.plan.buttonUrl : '/buy-onsite-plans?buyType=4'}`,
     },
     {
       addOnType: AddOnType.PushNotifications,
@@ -62,7 +62,7 @@ export const getAddons = (user) => {
         canBuyPushNotificationPlan &&
         !user.plan.trialExpired,
       buyUrl: `${
-        plan.isFreeAccount ? '/push-notifications' : '/buy-push-notification-plans?buyType=5'
+        plan.isFreeAccount ? pushNotification.plan.buttonUrl : '/buy-push-notification-plans?buyType=5'
       }`,
     },
   ];
