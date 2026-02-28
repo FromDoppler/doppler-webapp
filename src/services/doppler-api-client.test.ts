@@ -353,6 +353,7 @@ describe('HttpDopplerApiClient', () => {
           items: [
             {
               campaignId: 1,
+              campaignType: 'Automation',
               campaignName: 'Campaña estacional de primavera',
               campaignSubject: '¿Como sacarle provecho a la primavera?',
               deliveryStatus: 'opened',
@@ -362,6 +363,7 @@ describe('HttpDopplerApiClient', () => {
             },
             {
               campaignId: 2,
+              campaignType: 'Manual',
               campaignName: 'Campaña calendario estacional 2019',
               campaignSubject: 'El calendario estacional 2019 ya está aquí',
               deliveryStatus: 'opened',
@@ -394,6 +396,7 @@ describe('HttpDopplerApiClient', () => {
       expect(result.success).toBe(true);
       expect(result.success && result.value.pagesCount).toEqual(1);
       expect(result.success && result.value.items[0].campaignId).toEqual(1);
+      expect(result.success && result.value.items[0].campaignType).toEqual('Automation');
       expect(result.success && result.value.currentPage).toEqual(2);
     });
   });

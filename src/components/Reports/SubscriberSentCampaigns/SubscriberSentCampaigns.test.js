@@ -13,6 +13,7 @@ describe('SubscriberSentCampaigns component', () => {
     items: [
       {
         campaignId: 1,
+        campaignType: 'Automation',
         campaignName: 'Campaña estacional de primavera',
         campaignSubject: '¿Como sacarle provecho a la primavera?',
         deliveryStatus: 'opened',
@@ -68,9 +69,10 @@ describe('SubscriberSentCampaigns component', () => {
       </AppServicesProvider>,
     );
     // Assert
-    await waitFor(() =>
-      expect(getByText('¿Como sacarle provecho a la primavera?')).toBeInTheDocument(),
-    );
+    await waitFor(() => {
+      expect(getByText('¿Como sacarle provecho a la primavera?')).toBeInTheDocument();
+      expect(getByText('Automation')).toBeInTheDocument();
+    });
   });
 
   it('should show empty message', async () => {
