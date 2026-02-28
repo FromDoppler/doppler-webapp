@@ -73,6 +73,7 @@ export interface FieldHistoryPage {
 interface CampaignDelivery {
   campaignId: number;
   campaignName: string;
+  campaignType: string;
   campaignSubject: string;
   clicksCount: number;
   deliveryStatus: string;
@@ -209,6 +210,7 @@ export class HttpDopplerApiClient implements DopplerApiClient {
     return data.map((x: any) => ({
       campaignId: x.campaignId,
       campaignName: x.campaignName,
+      campaignType: x.campaignType || '',
       campaignSubject: x.campaignSubject,
       clicksCount: x.clicksCount,
       deliveryStatus: x.deliveryStatus,

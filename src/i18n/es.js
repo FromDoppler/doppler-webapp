@@ -1111,6 +1111,7 @@ Encontrarás un Email con los pasos a seguir.`,
     grid_status: `Estado`,
   },
   master_subscriber_sent_campaigns: {
+    grid_campaign_type: `Tipo de Campaña`,
     grid_campaign: `Campaña`,
     grid_clicks: `Clicks Únicos`,
     grid_delivery: `Comportamiento`,
