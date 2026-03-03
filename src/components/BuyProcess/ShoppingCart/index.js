@@ -111,7 +111,7 @@ export const ShoppingCart = InjectAppServices(
             : discountConfig.paymentFrequenciesList.at(-1)
               ? discountConfig.paymentFrequenciesList.at(-1).id
               : 0,
-          promocodeApplied?.promotionApplied?.promocode || promocodeFromUrl,
+          (promocodeApplied.canApply && promocodeApplied.promocode) || promocodeFromUrl,
         );
         setAmountDetailsData(_amountDetailsData);
       };
