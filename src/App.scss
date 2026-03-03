@@ -54,3 +54,32 @@
   opacity: 0;
   visibility: hidden;
 }
+
+.dp-plan-selection-tabs .dp-footer--radio {
+  min-height: 57px;
+}
+
+.dp-library
+  .dp-plan-selection-tabs
+  .dp-input--radio
+  .dp-footer--radio.dp-footer--radio--contacts-hardcoded {
+  padding-left: 25px;
+}
+
+.dp-library
+  .dp-plan-selection-tabs
+  .dp-footer--radio--contacts-hardcoded
+  .dp-discount-price-contact {
+  color: #2e71ea;
+  font-weight: 600;
+  text-decoration: line-through;
+}
+
+.dp-library
+  .dp-plan-selection-tabs
+  .dp-footer--radio--contacts-hardcoded
+  p.dp-off.dp-off-promocode {
+  color: #2e71ea;
+  font-weight: 600;
+  line-height: 1.2;
+}
