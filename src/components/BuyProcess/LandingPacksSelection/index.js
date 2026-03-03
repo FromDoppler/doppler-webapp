@@ -128,8 +128,7 @@ export const LandingPacksSelection = InjectAppServices(
         )[0];
         setShowPromotionInformation(
           landingPagesPromotion?.idAddOnPlan !== undefined &&
-            landingPagesPromotion?.idAddOnPlan !== hasLandingPageWithPromotion?.planId &&
-            !hasLandingPageWithPromotion?.active,
+            landingPagesPromotion?.idAddOnPlan !== hasLandingPageWithPromotion?.planId,
         );
       },
       [landingPagesPromotion?.idAddOnPlan],
@@ -293,12 +292,6 @@ export const LandingPacksSelection = InjectAppServices(
                           }}
                         />
                       </p>
-                      <button
-                        className="dp-message-link"
-                        onClick={() => setShowPromotionInformation(false)}
-                      >
-                        {_('my_plan.subscription_details.got_it_button')}
-                      </button>
                     </div>
                   </div>
                 </section>

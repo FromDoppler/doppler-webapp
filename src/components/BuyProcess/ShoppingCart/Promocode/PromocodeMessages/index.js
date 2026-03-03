@@ -128,7 +128,23 @@ const PromocodeMessageWithBillingCicle = ({
 };
 
 const PromocodeCanNotApplyMessage = ({ promotion, user }) => {
+  const intl = useIntl();
   const planPromotions = promotion.planPromotions ?? [];
+
+  const showQuantityInformation = (quantity) => {
+    /*.replace(
+                  /,(?=[^,]*$)/,
+                  `${user.lang === 'es' ? ' y' : ' and '}`*/
+                  
+    var quantites = quantity.split(",");
+    var result = '';
+
+    quantites.map((item) => {
+      result =  + ", " + thousandSeparatorNumber(intl.defaultLocale, item);
+    })
+
+    return result;
+  }
 
   return (
     <div className="dp-wrap-message dp-wrap-info">
@@ -155,10 +171,7 @@ const PromocodeCanNotApplyMessage = ({ promotion, user }) => {
                 bold: (chunk) => <b>{chunk}</b>,
                 br: <br />,
                 planType: item.planType,
-                quantity: item.quantity.replace(
-                  /,(?=[^,]*$)/,
-                  `${user.lang === 'es' ? ' y' : ' and '}`,
-                ),
+                quantity: showQuantityInformation(item.quantity, user.lang),
               }}
             />
           </p>

@@ -59,14 +59,14 @@ const messages_en = {
       slice_4_link_text: `I DON'T WANT THIS BENEFIT`,
       slice_4_title: `Activate Push Notifications and connect instantly`,
       slice_5_button_text: `Activate Now`,
-      slice_5_description: `Tu código promocional también incluye:
-<Bold>{hasConversations, select, true {{br}{conversationsDiscount}% Off en Conversaciones | {conversationsIncludedAllPlans, select, true {Todos los Planes} other {{conversationsQuantity}}}} other {}}
-{hasLandingPages, select, true {{br}{landingPagesDiscount}% Off en Landing Pages | {landingPagesIncludedAllPlans, select, true {Todos los Planes} other {{landingPagesQuantity}}}} other {}}
-{hasOnSite, select, true {{br}{onSiteDiscount}% Off en Onsite | {onSiteIncludedAllPlans, select, true {Todos los Planes} other {{onSiteQuantity}}}} other {}}
-{hasPushNotifications, select, true {{br}{pushNotificationsDiscount}% Off en Notificaciones Push | {pushNotificationsIncludedAllPlans, select, true {Todos los Planes} other {{pushNotificationsQuantity}}}}
+      slice_5_description: `Your promotional code also includes:
+<Bold>{hasConversations, select, true {{br}{conversationsDiscount}% Off Conversations | {conversationsIncludedAllPlans, select, true {All Plans} other {{conversationsQuantity} messages}}} other {}}
+{hasLandingPages, select, true {{br}{landingPagesDiscount}% Off Landing Pages | {landingPagesIncludedAllPlans, select, true {All Plans} other {{landingPagesQuantity}}}} other {}}
+{hasOnSite, select, true {{br}{onSiteDiscount}% Off en Marketing Onsite | {onSiteIncludedAllPlans, select, true {All Plans} other {{onSiteQuantity} impressions}}} other {}}
+{hasPushNotifications, select, true {{br}{pushNotificationsDiscount}% Off Push Notifications | {pushNotificationsIncludedAllPlans, select, true {All Plans} other {{pushNotificationsQuantity} shipments}}}
 other {}}</Bold>`,
       slice_5_link_text: `I DON'T WANT THIS BENEFIT`,
-      slice_5_title: `¡No te vayas sin activar los Add-Ons que tienes dentro de tu Pack Promocional!`,
+      slice_5_title: `Don't leave without activating the Add-Ons included in your Promotional Pack!`,
     },
   },
   agencies: {
@@ -140,8 +140,8 @@ other {}}</Bold>`,
     discount_yearly: 'Annual',
     feature_item_chat_plan: `Includes up to <Strong>{units} Messages</Strong>`,
     feature_item_discount_advanced_pay: `Advance payment discount {months}/months`,
-    feature_item_discount_monthly: `Discount Promotional Code {months, select, 0 {} other{{months}/months}}`,
-    feature_item_discount_monthly_argentina: `Exclusive Discount Argentina {months}/months`,
+    feature_item_discount_monthly: `Discount Promotional Code {months, select, 0 {} other{{months} months}}`,
+    feature_item_discount_monthly_argentina: `Exclusive Discount Argentina {months} months`,
     feature_item_extra_credits: `Includes {units} extra Credits`,
     'feature_item_monthly-deliveries': `Includes up to <Strong>{units} Emails</Strong>`,
     feature_item_onsite_plan: `Includes up to <Strong>{units} Impressions</Strong>`,
@@ -482,9 +482,9 @@ other {}}</Bold>`,
       plan_type_subscribers: 'by Contacts',
       plan_type_subscribers_label: 'Contacts:',
       positive_balance_message: 'You have a credit balance of US$ {positiveBalance} for the unused credits from your last purchase. We will deduct it from your next bills.',
-      promocode_can_not_apply_error_all_plan_item_message: `● the <bold>Email Marketing Plan</bold> by <bold>{planType, select, 4 {Contacts} other {{planType, select, 3 {Credits} other {Emails}}}}</bold>.`,
-      promocode_can_not_apply_error_message: `The use of the discount code is valid only for:`,
-      promocode_can_not_apply_error_plan_item_message: `● the <bold>{quantity} {planType, select, 4 {Contacts} other {{planType, select, 3 {Credits} other {Emails}}}} Email Marketing Plan</bold>.`,
+      promocode_can_not_apply_error_all_plan_item_message: `● Marketing Plans by <bold>{planType, select, 4 {Contacts} other {{planType, select, 3 {Credits} other {Emails}}}}</bold>.`,
+      promocode_can_not_apply_error_message: `<bold>This discount code applies to the following:</bold>`,
+      promocode_can_not_apply_error_plan_item_message: `● Marketing Plan with <bold>{quantity} {planType, select, 4 {Contacts} other {{planType, select, 3 {Credits} other {Emails}}}}</bold>.`,
       promocode_error_message: 'Invalid code',
       promocode_expired_error_message: 'Expired code',
       promocode_header: 'Promocode',
@@ -1366,8 +1366,8 @@ confirmation email.Please note that any active add-ons associated with your acco
           additional_agent_message: 'Additional agent: US$ {price}',
           additional_conversation_message: 'Additional message: US$ {price}',
           additional_room_message: 'Additional room: US$ {price}',
-          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Conversations Plans</bold>.',
-          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Conversations Plan for {quantity} messages</bold>.',
+          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Conversations Plans</bold>. Valid until <bold>{expirationDate}</bold>.',
+          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Conversations Plan for {quantity} messages</bold>. Valid until <bold>{expirationDate}</bold>.',
           agents_title: '{agents, plural, one {# Agent}other {# Agents} }',
           available_message: '{available}/{total} Available messages',
           free_additional_agent_message: 'Additional agent: --',
@@ -1380,16 +1380,16 @@ confirmation email.Please note that any active add-ons associated with your acco
           title: 'Conversations Plan',
         },
         landings_plan: {
-          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for all <bold>Landing Page Packs</bold>.',
-          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> in <bold>Landing Pages for Pack of {quantity}</bold>.',
+          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for all <bold>Landing Page Packs</bold>. Valid until <bold>{expirationDate}</bold>.',
+          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> in <bold>Landing Pages for Pack of {quantity}</bold>. Valid until <bold>{expirationDate}</bold>.',
           landings_packs_message: '{landingQty} Pack of {landingPack} Landing pages',
           subtitle: 'Boost your Marketing Plan with a Landing Pages pack.',
           title: 'Landing Page Pack',
         },
         onsite_plan: {
           additional_impression_message: 'Additional impression: US$ {price}',
-          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Onsite Marketing Plans</bold>.',
-          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Onsite Marketing Plan for {quantity} impressions</bold>.',
+          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Onsite Marketing Plans</bold>. Valid until <bold>{expirationDate}</bold>.',
+          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Onsite Marketing Plan for {quantity} impressions</bold>. Valid until <bold>{expirationDate}</bold>.',
           available_message: '{available}/{total} Available impressions',
           free_additional_impression_message: 'Additional impression: --',
           free_label: 'Free trial',
@@ -1399,8 +1399,8 @@ confirmation email.Please note that any active add-ons associated with your acco
         },
         push_notification_plan: {
           additional_email_message: 'Additional shipment: US$ {price}',
-          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Push Notifications Plans</bold>.',
-          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Push Notifications Plan for {quantity} emails</bold>.',
+          addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Push Notifications Plans</bold>. Valid until <bold>{expirationDate}</bold>.',
+          addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Push Notifications Plan for {quantity} emails</bold>. Valid until <bold>{expirationDate}</bold>.',
           available_message: '{available}/{total} Available shipments',
           free_additional_email_message: 'Additional shipment: --',
           free_label: 'Free trial',
@@ -1489,8 +1489,8 @@ continue using all the tools Doppler offers to help your business grow.`,
     title: 'OnSite Marketing',
   },
   onsite_selection: {
-    addon_promotion_all_plans_message: 'Recuerda que tienes un descuento de <bold>{discount}% OFF</bold> para todos los <bold>Planes de OnSite Marketing</bold>.',
-    addon_promotion_one_plan_message: 'Recuerda que tienes un descuento de <bold>{discount}% OFF</bold> para el <bold>Plan de OnSite Marketing de {quantity} impresiones</bold>.',
+    addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Onsite Marketing Plans</bold>.',
+    addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Onsite Marketing Plan for {quantity} impressions</bold>.',
     banner_for_prints: `Do you need more Impressions? <Link>Write to us</Link>.`,
     card: {
       buy_now_button: 'Buy now',
@@ -1878,8 +1878,8 @@ Promo code isn’t valid.`,
     title: 'Push Notifications Configuration',
   },
   push_notification_selection: {
-    addon_promotion_all_plans_message: 'Recuerda que tienes un descuento de <bold>{discount}% OFF</bold> para todos los <bold>Planes de Notificaciones Push</bold>.',
-    addon_promotion_one_plan_message: 'Recuerda que tienes un descuento de <bold>{discount}% OFF</bold> para el <bold>Plan de Notificaciones Push de {quantity} envíos</bold>.',
+    addon_promotion_all_plans_message: 'Remember that you have a <bold>{discount}% discount</bold> for the all <bold>Push Notifications Plans</bold>.',
+    addon_promotion_one_plan_message: 'Remember that you have a <bold>{discount}% discount</bold> on the <bold>Push Notifications Plan for {quantity} emails</bold>.',
     banner_for_emails: `Do you need more Shipments? <Link>Write to us</Link>.`,
     card: {
       buy_now_button: 'Buy now',

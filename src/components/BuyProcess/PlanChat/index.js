@@ -141,8 +141,7 @@ export const PlanChat = InjectAppServices(
       if (itemRef.current) {
         setShowPromotionInformation(
           conversationsPromotion?.idAddOnPlan !== undefined &&
-            conversationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
-            !selectedPlan.active,
+            conversationsPromotion?.idAddOnPlan !== selectedPlan.planId,
         );
         addItem(selectedPlan);
       } else {
@@ -210,12 +209,6 @@ export const PlanChat = InjectAppServices(
                           }}
                         />
                       </p>
-                      <button
-                        className="dp-message-link"
-                        onClick={() => setShowPromotionInformation(false)}
-                      >
-                        {_('my_plan.subscription_details.got_it_button')}
-                      </button>
                     </div>
                   </div>
                 </section>

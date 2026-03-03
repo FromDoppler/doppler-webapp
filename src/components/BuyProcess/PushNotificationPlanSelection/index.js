@@ -132,8 +132,7 @@ export const PushNotificationPlanSelection = InjectAppServices(
       if (itemRef.current) {
         setShowPromotionInformation(
           pushNotificationsPromotion?.idAddOnPlan !== undefined &&
-            pushNotificationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
-            !selectedPlan.active,
+            pushNotificationsPromotion?.idAddOnPlan !== selectedPlan.planId,
         );
         addItem(selectedPlan);
       } else {
@@ -201,12 +200,6 @@ export const PushNotificationPlanSelection = InjectAppServices(
                           }}
                         />
                       </p>
-                      <button
-                        className="dp-message-link"
-                        onClick={() => setShowPromotionInformation(false)}
-                      >
-                        {_('my_plan.subscription_details.got_it_button')}
-                      </button>
                     </div>
                   </div>
                 </section>

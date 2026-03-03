@@ -192,11 +192,13 @@ export const PlanSelection = InjectAppServices(
         });
 
         const promotion = appSessionRef.current.userData.user.plan.promotion;
-        setShowLosePromotionInformation(
+
+        var showMessage =
           promotion &&
-            promotion.idUserTypePlan !== undefined &&
-            promotion.idUserTypePlan !== selectedPlan.id,
-        );
+          promotion.idUserTypePlan !== undefined &&
+          promotion.idUserTypePlan !== selectedPlan.id;
+
+        setShowLosePromotionInformation(showMessage);
       }
     };
 
@@ -290,12 +292,6 @@ export const PlanSelection = InjectAppServices(
                                 }}
                               />
                             </p>
-                            <button
-                              className="dp-message-link"
-                              onClick={() => setShowLosePromotionInformation(false)}
-                            >
-                              {_('my_plan.subscription_details.got_it_button')}
-                            </button>
                           </div>
                         </div>
                       </section>
