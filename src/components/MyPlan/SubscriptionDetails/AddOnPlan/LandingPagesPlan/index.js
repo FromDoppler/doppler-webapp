@@ -1,15 +1,19 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../../services/pure-di';
-import { useState } from 'react';
 
 export const LandingPagesPlan = InjectAppServices(
-  ({ buyUrl, landingPagesPlan, addOnPromotion }) => {
+  ({ buyUrl, landingPagesPlan, addOnPromotion, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const showPromotionInformation = addOnPromotion !== undefined && !landingPagesPlan.active;
 
-    const [showPromotionInformation, setShowPromotionInformation] = useState(
-      addOnPromotion !== undefined && !landingPagesPlan.active,
-    );
+    const user = appSessionRef.current.userData.user;
+    const expirationDate = new Date(addOnPromotion?.expirationDate);
+    const formatter = new Intl.DateTimeFormat(user.lang === 'es' ? 'es-ES' : 'en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
 
     return (
       <div className="dp-box-shadow m-b-24">
@@ -48,16 +52,11 @@ export const LandingPagesPlan = InjectAppServices(
                     values={{
                       discount: addOnPromotion.discount,
                       quantity: addOnPromotion.quantity.replace('PACK ', ''),
+                      expirationDate: formatter.format(new Date(expirationDate)),
                       bold: (chunks) => <b>{chunks}</b>,
                     }}
                   />
                 </p>
-                <button
-                  className="dp-message-link"
-                  onClick={() => setShowPromotionInformation(false)}
-                >
-                  {_(`my_plan.subscription_details.got_it_button`)}
-                </button>
               </div>
             </div>
           )}

@@ -13,16 +13,22 @@ export const OnSitePlan = InjectAppServices(
     onSitePlan,
     isFreeAccount,
     addOnPromotion,
-    dependencies: { dopplerPopupHubApiClient, dopplerAccountPlansApiClient },
+    dependencies: { dopplerPopupHubApiClient, dopplerAccountPlansApiClient, appSessionRef },
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [plan, setPlan] = useState(onSitePlan);
-    const [showPromotionInformation, setShowPromotionInformation] = useState(
-      addOnPromotion !== undefined && !onSitePlan.active,
-    );
+    const showPromotionInformation = addOnPromotion !== undefined && !onSitePlan.active;
+
+    const user = appSessionRef.current.userData.user;
+    const expirationDate = new Date(addOnPromotion?.expirationDate);
+    const formatter = new Intl.DateTimeFormat(user.lang === 'es' ? 'es-ES' : 'en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
 
     useEffect(() => {
       const fetchAddOnData = async () => {
@@ -122,16 +128,11 @@ export const OnSitePlan = InjectAppServices(
                     values={{
                       discount: addOnPromotion.discount,
                       quantity: addOnPromotion.quantity,
+                      expirationDate: formatter.format(new Date(expirationDate)),
                       bold: (chunks) => <b>{chunks}</b>,
                     }}
                   />
                 </p>
-                <button
-                  className="dp-message-link"
-                  onClick={() => setShowPromotionInformation(false)}
-                >
-                  {_(`my_plan.subscription_details.got_it_button`)}
-                </button>
               </div>
             </div>
           )}

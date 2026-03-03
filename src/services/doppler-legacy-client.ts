@@ -749,6 +749,7 @@ function mapAddOnPromotion(json: any) {
     discount: json.Discount,
     idAddOnPlan: json.IdAddOnPlan,
     quantity: json.Quantity,
+    expirationDate: json.ExpirationDate,
   };
 }
 

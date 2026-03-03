@@ -126,8 +126,7 @@ export const OnSitePlansSelection = InjectAppServices(
       if (itemRef.current) {
         setShowPromotionInformation(
           onSitePromotion?.idAddOnPlan !== undefined &&
-            onSitePromotion?.idAddOnPlan !== selectedPlan.planId &&
-            !selectedPlan.active,
+            onSitePromotion?.idAddOnPlan !== selectedPlan.planId,
         );
         addItem(selectedPlan);
       } else {
@@ -202,12 +201,6 @@ export const OnSitePlansSelection = InjectAppServices(
                           }}
                         />
                       </p>
-                      <button
-                        className="dp-message-link"
-                        onClick={() => setShowPromotionInformation(false)}
-                      >
-                        {_('my_plan.subscription_details.got_it_button')}
-                      </button>
                     </div>
                   </div>
                 </section>
