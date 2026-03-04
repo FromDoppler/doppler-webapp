@@ -41,7 +41,7 @@ export const Promocode = InjectAppServices(
   }) => {
     const query = useQueryParams();
     const defaultPromocode = getPromocode(query, isArgentina);
-    const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+    const promocodeFromUrl = query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
     const contactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
 
     const [open, setOpen] = useState(defaultPromocode !== '');
@@ -382,7 +382,7 @@ export const PromocodeFieldItem = ({
 };
 
 export const getPromocode = (query, isArgentina) => {
-  const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+  const promocodeFromUrl = query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
 
   return !promocodeFromUrl && isArgentina
     ? process.env.REACT_APP_PROMOCODE_ARGENTINA

@@ -98,10 +98,13 @@ export const PlanSelection = InjectAppServices(
       }
 
       const params = new URLSearchParams(search);
-      if (params.has('promo-code') || params.has('PromoCode')) {
+      const promocodeFromUrl = params.get('promo-code')?.trim();
+      const promocodeFromUrlLegacy = params.get('PromoCode')?.trim();
+      if (promocodeFromUrl || promocodeFromUrlLegacy) {
         return;
       }
 
+      params.delete('PromoCode');
       params.set('promo-code', contactsPromocode);
       navigate({ pathname, search: `?${params.toString()}` }, { replace: true });
     }, [navigate, pathname, search, selectedPlanType]);
