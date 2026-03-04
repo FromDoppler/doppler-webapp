@@ -5,8 +5,6 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from '../../../doppler-types';
 import { FieldGroup, FieldItemAccessible } from '../../form-helpers/form-helpers';
 import { RadioBox, RadioInfo } from '../RadioBox';
 
-const RadioFooter = ({ text }) => <div className="dp-footer--radio">{text}</div>;
-
 export const NavigationTabs = ({
   planTypes,
   selectedPlanType,
@@ -29,46 +27,58 @@ export const NavigationTabs = ({
     _(`buy_process.plan_selection.plan_type_${planType.replace('-', '_')}_label`);
 
   return (
-    <nav>
+    <nav className="dp-plan-selection-tabs">
       <FieldGroup aria-label="navigator tabs">
-        {planTypes.map((planType) => (
-          <FieldItemAccessible
-            data-testid="tab-item--plan-calculator"
-            className="col-md-4 m-b-12 p-l-0"
-            key={planType.type}
-          >
-            <Link
-              to={`/plan-selection/premium/${URL_PLAN_TYPE[planType.type]}${searchQueryParams}`}
+        {planTypes.map((planType) => {
+          const isContacts = planType.type === PLAN_TYPE.byContact;
+
+          const footerMessageId = isContacts
+            ? 'buy_process.min_monthly_plan_price_contacts_hardcoded'
+            : planType.type === PLAN_TYPE.byCredit
+              ? 'buy_process.min_single_plan_price'
+              : 'buy_process.min_monthly_plan_price';
+
+          const footerValues = isContacts
+            ? {
+                P: (chunk) => <p>{chunk}</p>,
+                Strong: (chunk) => <strong>{chunk}</strong>,
+                Strike: (chunk) => <del className="dp-discount-price-contact">{chunk}</del>,
+                Discount: (chunk) => <p className="dp-off dp-off-promocode">{chunk}</p>,
+              }
+            : {
+                P: (chunk) => <p>{chunk}</p>,
+                Strong: (chunk) => <strong>{chunk}</strong>,
+                price: planType.minPrice,
+              };
+
+          return (
+            <FieldItemAccessible
+              data-testid="tab-item--plan-calculator"
+              className="col-md-4 m-b-12 p-l-0"
+              key={planType.type}
             >
-              <RadioBox
-                value={planType.type}
-                label={getTypePlanDescriptionWithTooltip(planType.type)}
-                checked={planType.type === selectedPlanType}
-                disabled={planType.disabled}
-                footer={
-                  <RadioFooter
-                    text={
-                      <FormattedMessage
-                        id={
-                          planType.type === PLAN_TYPE.byCredit
-                            ? `buy_process.min_single_plan_price`
-                            : `buy_process.min_monthly_plan_price`
-                        }
-                        values={{
-                          P: (chunk) => <p>{chunk}</p>,
-                          Strong: (chunk) => <strong>{chunk}</strong>,
-                          price: planType.minPrice,
-                        }}
-                      />
-                    }
-                  />
-                }
-                info={<RadioInfo info={_(planType.info)} />}
-                handleClick={null}
-              />
-            </Link>
-          </FieldItemAccessible>
-        ))}
+              <Link
+                to={`/plan-selection/premium/${URL_PLAN_TYPE[planType.type]}${searchQueryParams}`}
+              >
+                <RadioBox
+                  value={planType.type}
+                  label={getTypePlanDescriptionWithTooltip(planType.type)}
+                  checked={planType.type === selectedPlanType}
+                  disabled={planType.disabled}
+                  footer={
+                    <div
+                      className={`dp-footer--radio ${isContacts ? 'dp-footer--radio--contacts-hardcoded' : ''}`}
+                    >
+                      <FormattedMessage id={footerMessageId} values={footerValues} />
+                    </div>
+                  }
+                  info={<RadioInfo info={_(planType.info)} />}
+                  handleClick={null}
+                />
+              </Link>
+            </FieldItemAccessible>
+          );
+        })}
       </FieldGroup>
     </nav>
   );

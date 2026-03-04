@@ -42,6 +42,8 @@ export const Promocode = InjectAppServices(
   }) => {
     const query = useQueryParams();
     const defaultPromocode = getPromocode(query, isArgentina);
+    const promocodeFromUrl = query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
+    const contactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
 
     const [open, setOpen] = useState(defaultPromocode !== '');
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
@@ -123,6 +125,36 @@ export const Promocode = InjectAppServices(
 
           if (
             validatePercengePromocode &&
+            promocodeFromUrl &&
+            contactsPromocode &&
+            selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
+            promocodeFromUrl !== contactsPromocode &&
+            promocode === promocodeFromUrl
+          ) {
+            const { setFieldValue } = promocodeInputRef.current;
+            const [validateData, validateContactsData] = await Promise.all([
+              dopplerAccountPlansApiClient.validatePromocode(selectedMarketingPlan?.id, promocode),
+              dopplerAccountPlansApiClient.validatePromocode(
+                selectedMarketingPlan?.id,
+                contactsPromocode,
+              ),
+            ]);
+            if (validateData.success && !validateContactsData.success) {
+              dispatchPromocode(validateData);
+            } else if (validateContactsData.success && !validateData.success) {
+              setFieldValue(fieldNames.promocode, contactsPromocode);
+              dispatchPromocode(validateContactsData, contactsPromocode);
+            } else if (
+              (validateData?.value?.discountPercentage ?? -1) <
+              (validateContactsData?.value?.discountPercentage ?? -1)
+            ) {
+              setFieldValue(fieldNames.promocode, contactsPromocode);
+              dispatchPromocode(validateContactsData, contactsPromocode);
+            } else {
+              dispatchPromocode(validateData);
+            }
+          } else if (
+            validatePercengePromocode &&
             isArgentina &&
             selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
             (selectedMarketingPlan?.subscriberLimit <=
@@ -170,6 +202,8 @@ export const Promocode = InjectAppServices(
         createTimeout,
         selectedMarketingPlan,
         isArgentina,
+        promocodeFromUrl,
+        contactsPromocode,
       ],
     );
 
@@ -373,7 +407,7 @@ export const PromocodeFieldItem = ({
 };
 
 export const getPromocode = (query, isArgentina) => {
-  const promocodeFromUrl = query.get('promo-code') ?? query.get('PromoCode') ?? '';
+  const promocodeFromUrl = query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
 
   return !promocodeFromUrl && isArgentina
     ? process.env.REACT_APP_PROMOCODE_ARGENTINA
