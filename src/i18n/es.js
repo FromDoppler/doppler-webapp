@@ -137,6 +137,7 @@ const messages_es = {
     feature_item_subscribers: `Incluye hasta <Strong>{units} contactos</Strong>`,
     marketing_plan_title: `Plan marketing`,
     min_monthly_plan_price: `<P>Desde <Strong>US$ {price}*/mes</Strong></P>`,
+    min_monthly_plan_price_contacts_hardcoded: `<P>Desde <Strong>US$ 5*/mes</Strong> <Strike>US$ 10</Strike></P><Discount>50% OFF Planes 500 y 1.500</Discount>`,
     min_single_plan_price: `<P>Desde <Strong>US$ {price}*/único</Strong></P>`,
     month_with_plural: `{months, plural, one {# mes}other {# meses} }`,
     months_to_hire: 'Meses a contratar:',
@@ -1599,6 +1600,10 @@ El código es inválido.`,
       title: 'Métodos de pago',
       transfer_label: 'Transferencia Bancaria',
     },
+    plan_contact_discount_label_hardcoded: '¡Ahora 50% de descuento por 6 meses!',
+    plan_contact_main_price_hardcoded: 'US$ 5,00/mes',
+    plan_contact_since_hardcoded: 'Desde',
+    plan_contact_strike_price_hardcoded: 'US$ 10,00*',
     see_all_features_label: 'Ver todas las funcionalidades',
     table: {
       automation: {
