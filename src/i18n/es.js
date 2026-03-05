@@ -1599,6 +1599,10 @@ El código es inválido.`,
       title: 'Métodos de pago',
       transfer_label: 'Transferencia Bancaria',
     },
+    plan_contact_discount_label_hardcoded: '¡Ahora 50% de descuento por 6 meses!',
+    plan_contact_main_price_hardcoded: 'US$ 5,00/mes',
+    plan_contact_since_hardcoded: 'Desde',
+    plan_contact_strike_price_hardcoded: 'US$ 10,00*',
     see_all_features_label: 'Ver todas las funcionalidades',
     table: {
       automation: {
