@@ -17,7 +17,6 @@ export const PromocodeMessages = ({
   amountDetailsData,
   validationError,
   promocodeMessageAlreadyShowRef,
-  user,
 }) => {
   if (!allowPromocode) {
     return <PromocodeNotAllowed />;
@@ -28,9 +27,7 @@ export const PromocodeMessages = ({
   }
 
   if (promotion?.canApply === false) {
-    return (
-      <PromocodeCanNotApplyMessage promotion={promotion} user={user}></PromocodeCanNotApplyMessage>
-    );
+    return <PromocodeCanNotApplyMessage promotion={promotion}></PromocodeCanNotApplyMessage>;
   }
 
   const marketingPlanHasBillingCicle = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail].includes(
@@ -127,24 +124,25 @@ const PromocodeMessageWithBillingCicle = ({
   );
 };
 
-const PromocodeCanNotApplyMessage = ({ promotion, user }) => {
+const PromocodeCanNotApplyMessage = ({ promotion }) => {
   const intl = useIntl();
   const planPromotions = promotion.planPromotions ?? [];
+  const lang = intl.locale;
 
   const showQuantityInformation = (quantity) => {
-    /*.replace(
-                  /,(?=[^,]*$)/,
-                  `${user.lang === 'es' ? ' y' : ' and '}`*/
-                  
-    var quantites = quantity.split(",");
+    var quantites = quantity !== null ? quantity.split(',') : [];
     var result = '';
 
-    quantites.map((item) => {
-      result =  + ", " + thousandSeparatorNumber(intl.defaultLocale, item);
-    })
+    const length = quantites.length;
+    quantites.forEach((item, index) => {
+      var value = thousandSeparatorNumber(intl.defaultLocale, item);
+      var separator =
+        index === 0 ? '' : index + 1 < length ? ', ' : lang === 'es' ? ' y ' : ' and ';
+      result = result + separator + value;
+    });
 
     return result;
-  }
+  };
 
   return (
     <div className="dp-wrap-message dp-wrap-info">
@@ -160,10 +158,10 @@ const PromocodeCanNotApplyMessage = ({ promotion, user }) => {
           />
         </p>
         {planPromotions.map((item, index) => (
-          <p>
+          <p key={index}>
             <FormattedMessage
               id={`${
-                parseInt(item.quantity) === 0
+                item.quantity === null || parseInt(item.quantity) === 0
                   ? 'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_all_plan_item_message'
                   : 'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_plan_item_message'
               }`}
@@ -171,7 +169,7 @@ const PromocodeCanNotApplyMessage = ({ promotion, user }) => {
                 bold: (chunk) => <b>{chunk}</b>,
                 br: <br />,
                 planType: item.planType,
-                quantity: showQuantityInformation(item.quantity, user.lang),
+                quantity: showQuantityInformation(item.quantity),
               }}
             />
           </p>
