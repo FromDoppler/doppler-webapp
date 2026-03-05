@@ -55,6 +55,62 @@
   visibility: hidden;
 }
 
+.dp-plan-type-card .dp-price {
+  text-align: left;
+}
+
+.dp-plan-type-card .dp-price-copy {
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.dp-plan-type-card .dp-price-copy--with-discount {
+  display: block;
+}
+
+.dp-plan-type-card .dp-price-copy__from {
+  display: block;
+}
+
+.dp-plan-type-card .dp-price-copy__line {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  column-gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.dp-plan-type-card .dp-price-copy__line h3.dp-price-copy__main {
+  display: inline-block;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.dp-plan-type-card .dp-price-copy__line .dp-price-copy__strike {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.dp-plan-type-card .dp-discount-price-contact {
+  color: #2e71ea;
+  text-decoration: line-through;
+}
+
+.dp-plan-type-card .dp-discount-slot {
+  min-height: 1.6rem;
+  margin-top: 0;
+  margin-bottom: 1.1rem;
+  text-align: left;
+}
+
+.dp-plan-type-card .dp-discount-slot .dp-off.dp-off-promocode {
+  color: #2e71ea;
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .dp-plan-selection-tabs .dp-footer--radio {
   min-height: 57px;
 }

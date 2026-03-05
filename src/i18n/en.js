@@ -1599,6 +1599,10 @@ Promo code isn’t valid.`,
       title: 'Payment methods',
       transfer_label: 'Bank Transfer',
     },
+    plan_contact_discount_label_hardcoded: 'Now 50% off for 6 months!',
+    plan_contact_main_price_hardcoded: 'US$ 5.00/month',
+    plan_contact_since_hardcoded: 'Since',
+    plan_contact_strike_price_hardcoded: 'US$ 10.00*',
     see_all_features_label: 'See all features',
     table: {
       automation: {

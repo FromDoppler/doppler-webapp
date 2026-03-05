@@ -28,8 +28,51 @@ export const PlanTypeCard = ({
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const isContactsCard = planType === PLAN_TYPE.byContact;
+  const regularPrice = (
+    <FormattedMessage
+      id={
+        planType === PLAN_TYPE.byCredit
+          ? 'plan_types.min_single_plan_price'
+          : 'plan_types.min_monthly_plan_price'
+      }
+      values={{
+        Span: (chunk) => <span> {chunk}</span>,
+        SpanStrike: (chunk) =>
+          isArgentina && minPriceWithDiscount ? (
+            <span className="dp-discount-price-arg">{chunk}</span>
+          ) : (
+            ''
+          ),
+        H3: (chunk) => <h3>{chunk}</h3>,
+        price: (
+          <FormattedNumber
+            value={isArgentina && minPriceWithDiscount ? minPriceWithDiscount : minPrice}
+            {...numberFormatOptions}
+          />
+        ),
+        priceStrike:
+          isArgentina && minPriceWithDiscount ? (
+            <FormattedNumber value={minPrice} {...numberFormatOptions} />
+          ) : (
+            ''
+          ),
+      }}
+    />
+  );
+  const contactsHardcodeBlock = (
+    <div className="dp-price-copy dp-price-copy--with-discount">
+      <span className="dp-price-copy__from">{_('plan_types.plan_contact_since_hardcoded')}</span>
+      <div className="dp-price-copy__line">
+        <h3 className="dp-price-copy__main">{_('plan_types.plan_contact_main_price_hardcoded')}</h3>
+        <span className="dp-discount-price-contact dp-price-copy__strike">
+          {_('plan_types.plan_contact_strike_price_hardcoded')}
+        </span>
+      </div>
+    </div>
+  );
   return (
-    <div className={`dp-card-with-border ${disabled ? 'dp-card-disabled' : ''}`}>
+    <div className={`dp-card-with-border dp-plan-type-card ${disabled ? 'dp-card-disabled' : ''}`}>
       {ribbonText && (
         <div role="alert" className="dp-ribbon dp-ribbon-top-right dp-ribbon-orange">
           <span>{ribbonText}</span>
@@ -49,35 +92,14 @@ export const PlanTypeCard = ({
           </button>
         ) : (
           <>
-            <FormattedMessage
-              id={
-                planType === PLAN_TYPE.byCredit
-                  ? 'plan_types.min_single_plan_price'
-                  : 'plan_types.min_monthly_plan_price'
-              }
-              values={{
-                Span: (chunk) => <span> {chunk}</span>,
-                SpanStrike: (chunk) =>
-                  isArgentina && minPriceWithDiscount ? (
-                    <span className="dp-discount-price-arg">{chunk}</span>
-                  ) : (
-                    ''
-                  ),
-                H3: (chunk) => <h3>{chunk}</h3>,
-                price: (
-                  <FormattedNumber
-                    value={isArgentina && minPriceWithDiscount ? minPriceWithDiscount : minPrice}
-                    {...numberFormatOptions}
-                  />
-                ),
-                priceStrike:
-                  isArgentina && minPriceWithDiscount ? (
-                    <FormattedNumber value={minPrice} {...numberFormatOptions} />
-                  ) : (
-                    ''
-                  ),
-              }}
-            />
+            {isContactsCard ? contactsHardcodeBlock : regularPrice}
+            <div className="dp-discount-slot">
+              {isContactsCard ? (
+                <span className="dp-off dp-off-promocode">
+                  {_('plan_types.plan_contact_discount_label_hardcoded')}
+                </span>
+              ) : null}
+            </div>
             <Link
               to={`${pathname}?${queryParams}`}
               className="dp-button button-medium primary-green dp-uppercase"
