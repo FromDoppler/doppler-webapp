@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Navigate, useLocation, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../doppler-types';
 import { FormattedMessageMarkdown } from '../../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../../services/pure-di';
@@ -43,6 +43,7 @@ export const PlanSelection = InjectAppServices(
     const chat = appSessionRef.current.userData.user.chat;
     const isArgentina = locationCountry === 'ar';
     const currentUserPlanType = appSessionRef.current.userData.user.plan.planType;
+    const navigate = useNavigate();
 
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
     const [item, setItem] = useState({
@@ -50,7 +51,7 @@ export const PlanSelection = InjectAppServices(
       discounts: [],
       selectedDiscount: null,
     });
-    const { search } = useLocation();
+    const { pathname, search } = useLocation();
     const [{ planTypes, loading, hasError }, dispatch] = useReducer(
       planTypesReducer,
       INITIAL_STATE_PLAN_TYPES,
@@ -85,6 +86,28 @@ export const PlanSelection = InjectAppServices(
       };
       fetchData();
     }, [planService]);
+
+    useEffect(() => {
+      const contactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
+      if (!contactsPromocode) {
+        return;
+      }
+
+      if (selectedPlanType !== PLAN_TYPE.byContact) {
+        return;
+      }
+
+      const params = new URLSearchParams(search);
+      const promocodeFromUrl = params.get('promo-code')?.trim();
+      const promocodeFromUrlLegacy = params.get('PromoCode')?.trim();
+      if (promocodeFromUrl || promocodeFromUrlLegacy) {
+        return;
+      }
+
+      params.delete('PromoCode');
+      params.set('promo-code', contactsPromocode);
+      navigate({ pathname, search: `?${params.toString()}` }, { replace: true });
+    }, [navigate, pathname, search, selectedPlanType]);
 
     useEffect(() => {
       const fetchPlansByType = async () => {
