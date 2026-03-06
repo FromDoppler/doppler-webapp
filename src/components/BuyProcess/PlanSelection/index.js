@@ -93,21 +93,27 @@ export const PlanSelection = InjectAppServices(
         return;
       }
 
-      if (selectedPlanType !== PLAN_TYPE.byContact) {
+      if (!isFreeAccount) {
         return;
       }
 
       const params = new URLSearchParams(search);
-      const promocodeFromUrl = params.get('promo-code')?.trim();
-      const promocodeFromUrlLegacy = params.get('PromoCode')?.trim();
-      if (promocodeFromUrl || promocodeFromUrlLegacy) {
+      const promocodeFromUrl = params.get('promo-code')?.trim() || '';
+      const promocodeFromUrlLegacy = params.get('PromoCode')?.trim() || '';
+      const currentPromocode = promocodeFromUrl || promocodeFromUrlLegacy;
+
+      if (selectedPlanType !== PLAN_TYPE.byContact) {
+        return;
+      }
+
+      if (currentPromocode) {
         return;
       }
 
       params.delete('PromoCode');
       params.set('promo-code', contactsPromocode);
       navigate({ pathname, search: `?${params.toString()}` }, { replace: true });
-    }, [navigate, pathname, search, selectedPlanType]);
+    }, [isFreeAccount, navigate, pathname, search, selectedPlanType]);
 
     useEffect(() => {
       const fetchPlansByType = async () => {
@@ -229,6 +235,7 @@ export const PlanSelection = InjectAppServices(
                       selectedPlanType={selectedPlanType}
                       searchQueryParams={search}
                       currentPlanType={currentUserPlanType}
+                      isFreeAccount={isFreeAccount}
                     />
                   </div>
                   <div className="col-sm-12 m-t-36">
