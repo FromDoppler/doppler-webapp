@@ -84,6 +84,10 @@ export const ShoppingCart = InjectAppServices(
     );
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
+    const isContactsPlan =
+      selectedPlanType === PLAN_TYPE.byContact ||
+      selectedMarketingPlan?.type === PLAN_TYPE.byContact;
+    const isFreeContactsPlan = isFreeAccount && isContactsPlan;
     const sessionPlanType = sessionPlan.plan.planType;
     const isExclusiveDiscountArgentina =
       isArgentina &&
@@ -98,6 +102,12 @@ export const ShoppingCart = InjectAppServices(
     const isByCredits =
       planTypeUrlSegment === PLAN_TYPE.byCredit ||
       planTypeUrlSegment === URL_PLAN_TYPE[PLAN_TYPE.byCredit];
+    const billingPromocode = isFreeContactsPlan
+      ? promocodeApplied?.promocode || ''
+      : promocodeApplied?.promocode || promocodeFromUrl;
+    const promotionForCheckout =
+      promocodeApplied ||
+      (!isFreeContactsPlan && promocodeFromUrl ? { promocode: promocodeFromUrl } : null);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -110,7 +120,7 @@ export const ShoppingCart = InjectAppServices(
             : discountConfig.paymentFrequenciesList.at(-1)
               ? discountConfig.paymentFrequenciesList.at(-1).id
               : 0,
-          promocodeApplied.promocode || promocodeFromUrl,
+          billingPromocode,
         );
         setAmountDetailsData(_amountDetailsData);
       };
@@ -126,6 +136,7 @@ export const ShoppingCart = InjectAppServices(
       promocodeApplied,
       promocodeFromUrl,
       paymentMethodName,
+      billingPromocode,
     ]);
 
     useEffect(() => {
@@ -331,7 +342,7 @@ export const ShoppingCart = InjectAppServices(
       selectedMarketingPlan,
       canBuy,
       selectedDiscount: discountConfig?.selectedPaymentFrequency,
-      promotion: promocodeApplied || { promocode: promocodeFromUrl },
+      promotion: promotionForCheckout,
       paymentMethodName,
       total,
       landingPacks,
@@ -383,6 +394,7 @@ export const ShoppingCart = InjectAppServices(
             hasPromocodeAppliedItem={!!promocodeApplied}
             selectedPlanType={selectedPlanType}
             isArgentina={isArgentina}
+            isFreeAccount={isFreeAccount}
             disabledPromocode={disabledPromocode}
           />
         )}
