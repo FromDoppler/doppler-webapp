@@ -36,6 +36,7 @@ export const Promocode = InjectAppServices(
     selectedPaymentFrequency,
     hasPromocodeAppliedItem,
     isArgentina,
+    isFreeAccount,
     disabledPromocode,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
@@ -114,6 +115,7 @@ export const Promocode = InjectAppServices(
             validatePercengePromocode &&
             promocodeFromUrl &&
             contactsPromocode &&
+            isFreeAccount &&
             selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
             promocodeFromUrl !== contactsPromocode &&
             promocode === promocodeFromUrl
@@ -188,6 +190,7 @@ export const Promocode = InjectAppServices(
         createTimeout,
         selectedMarketingPlan,
         isArgentina,
+        isFreeAccount,
         promocodeFromUrl,
         contactsPromocode,
       ],
@@ -259,8 +262,13 @@ export const Promocode = InjectAppServices(
       validatePromocode(value.promocode);
     };
 
+    const allowEditionAfterApply =
+      isFreeAccount && selectedMarketingPlan?.type === PLAN_TYPE.byContact;
     const promocodeIsDisabled =
-      !allowPromocode || promocodeApplied || loading || validated || disabledPromocode;
+      !allowPromocode ||
+      loading ||
+      disabledPromocode ||
+      (!allowEditionAfterApply && (promocodeApplied || validated));
 
     return (
       <section className="dp-promocode">
@@ -326,6 +334,7 @@ Promocode.propTypes = {
   callback: PropTypes.func,
   selectedPaymentFrequency: PropTypes.object,
   hasPromocodeAppliedItem: PropTypes.bool, // it allows to know if a promocode was applied or not in Shopping Cart
+  isFreeAccount: PropTypes.bool,
 };
 
 export const PromocodeFieldItem = ({
