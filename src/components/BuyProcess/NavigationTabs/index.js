@@ -10,6 +10,7 @@ export const NavigationTabs = ({
   selectedPlanType,
   searchQueryParams,
   currentPlanType,
+  isFreeAccount = false,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -31,14 +32,15 @@ export const NavigationTabs = ({
       <FieldGroup aria-label="navigator tabs">
         {planTypes.map((planType) => {
           const isContacts = planType.type === PLAN_TYPE.byContact;
+          const showContactsHardcodedPrice = isContacts && isFreeAccount;
 
-          const footerMessageId = isContacts
+          const footerMessageId = showContactsHardcodedPrice
             ? 'buy_process.min_monthly_plan_price_contacts_hardcoded'
             : planType.type === PLAN_TYPE.byCredit
               ? 'buy_process.min_single_plan_price'
               : 'buy_process.min_monthly_plan_price';
 
-          const footerValues = isContacts
+          const footerValues = showContactsHardcodedPrice
             ? {
                 P: (chunk) => <p>{chunk}</p>,
                 Strong: (chunk) => <strong>{chunk}</strong>,
@@ -67,7 +69,7 @@ export const NavigationTabs = ({
                   disabled={planType.disabled}
                   footer={
                     <div
-                      className={`dp-footer--radio ${isContacts ? 'dp-footer--radio--contacts-hardcoded' : ''}`}
+                      className={`dp-footer--radio ${showContactsHardcodedPrice ? 'dp-footer--radio--contacts-hardcoded' : ''}`}
                     >
                       <FormattedMessage id={footerMessageId} values={footerValues} />
                     </div>
@@ -94,4 +96,5 @@ NavigationTabs.propTypes = {
   ).isRequired,
   selectedPlanType: PropTypes.string.isRequired,
   searchQueryParams: PropTypes.string,
+  isFreeAccount: PropTypes.bool,
 };
