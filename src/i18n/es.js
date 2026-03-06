@@ -137,7 +137,7 @@ const messages_es = {
     feature_item_subscribers: `Incluye hasta <Strong>{units} contactos</Strong>`,
     marketing_plan_title: `Plan marketing`,
     min_monthly_plan_price: `<P>Desde <Strong>US$ {price}*/mes</Strong></P>`,
-    min_monthly_plan_price_contacts_hardcoded: `<P>Desde <Strong>US$ 5*/mes</Strong> <Strike>US$ 10</Strike></P><Discount>50% OFF Planes 500 y 1.500</Discount>`,
+    min_monthly_plan_price_contacts_hardcoded: `<P>Desde <Strong>US$ 5*/mes</Strong> <Strike>US$ 10</Strike></P><Discount>50% OFF Hasta 1.500 Contactos.</Discount>`,
     min_single_plan_price: `<P>Desde <Strong>US$ {price}*/único</Strong></P>`,
     month_with_plural: `{months, plural, one {# mes}other {# meses} }`,
     months_to_hire: 'Meses a contratar:',
