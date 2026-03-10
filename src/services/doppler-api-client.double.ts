@@ -136,6 +136,7 @@ const getDeliveryStatus = (statusNumber: number) => {
 const campaignDeliveryItems = [...Array(100)].map((_, index) => {
   return {
     campaignId: index,
+    campaignType: index % 2 === 0 ? 'Automation' : 'Manual',
     campaignName: 'Campaña estacional de primavera',
     campaignSubject: '¿Como sacarle provecho a la primavera?',
     deliveryStatus: getDeliveryStatus(Math.round(Math.random() * (5 - 1) + 1)),

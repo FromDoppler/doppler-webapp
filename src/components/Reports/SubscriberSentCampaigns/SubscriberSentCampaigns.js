@@ -92,6 +92,9 @@ const SubscriberSentCampaigns = ({
                   <FormattedMessage id="master_subscriber_sent_campaigns.grid_campaign" />
                 </th>
                 <th scope="col">
+                  <FormattedMessage id="master_subscriber_sent_campaigns.grid_campaign_type" />
+                </th>
+                <th scope="col">
                   <FormattedMessage id="master_subscriber_sent_campaigns.grid_subject" />
                 </th>
                 <th scope="col">
@@ -104,7 +107,7 @@ const SubscriberSentCampaigns = ({
             </thead>
             <tfoot>
               <tr>
-                <td colSpan="4" style={{ textAlign: 'right' }}>
+                <td colSpan="5" style={{ textAlign: 'right' }}>
                   <Pagination
                     currentPage={stateSentCampaigns.currentPage}
                     pagesCount={stateSentCampaigns.pagesCount}
@@ -147,6 +150,7 @@ const SubscriberSentCampaigns = ({
                             <CampaignReportLink>{campaign.campaignName}</CampaignReportLink>
                           )}
                         </td>
+                        <td>{campaign.campaignType}</td>
                         <td>{campaign.campaignSubject}</td>
                         <td>
                           <span className={getDeliveryStatusCssClassName(campaign.deliveryStatus)}>
@@ -167,6 +171,7 @@ const SubscriberSentCampaigns = ({
                       <FormattedMessage id="subscriber_history.empty_data" />
                     </span>
                   </td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>

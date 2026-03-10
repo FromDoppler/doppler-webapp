@@ -1112,6 +1112,7 @@ You'll find an Email with steps to follow.`,
   },
   master_subscriber_sent_campaigns: {
     grid_campaign: `Campaign`,
+    grid_campaign_type: `Campaign Type`,
     grid_clicks: `Unique Clicks`,
     grid_delivery: `Delivery Status`,
     grid_subject: `Subject`,
