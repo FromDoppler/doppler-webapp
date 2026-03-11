@@ -332,12 +332,15 @@ export const concatClasses = (...args: any[]) => {
 export const getPlanTypeFromUrlSegment = (planTypeUrlSegment: string) => {
   switch (planTypeUrlSegment) {
     case URL_PLAN_TYPE[PLAN_TYPE.byContact]:
+    case PLAN_TYPE.byContact:
       return PLAN_TYPE.byContact;
 
     case URL_PLAN_TYPE[PLAN_TYPE.byEmail]:
+    case PLAN_TYPE.byEmail:
       return PLAN_TYPE.byEmail;
 
     case URL_PLAN_TYPE[PLAN_TYPE.byCredit]:
+    case PLAN_TYPE.byCredit:
       return PLAN_TYPE.byCredit;
 
     default:
