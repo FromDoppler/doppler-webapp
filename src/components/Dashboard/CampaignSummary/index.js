@@ -6,6 +6,7 @@ import { UnexpectedError } from '../../shared/UnexpectedError';
 import { Kpi } from '../Kpis/Kpi';
 import { DashboardIconLink, DashboardIconSubTitle, KpiGroup } from '../Kpis/KpiGroup';
 import { OverlaySection } from '../OverlaySection';
+import { shouldHideCreateCampaignButton } from './utils';
 import {
   ACTIONS_CAMPAIGNS_SUMMARY,
   campaignSummaryReducer,
@@ -45,10 +46,7 @@ export const CampaignSummary = InjectAppServices(
     //   TODO: move logic to the service of campaigns
     const showOverlay = kpis[0]?.kpiValue === 0;
     const session = appSessionRef?.current;
-    const hideCreateCampaignButton =
-      session?.status === 'authenticated' &&
-      session.userData?.user?.hasClientManager &&
-      !session.userData?.nav?.some((item) => item.idHTML === 'campaignMenu');
+    const hideCreateCampaignButton = shouldHideCreateCampaignButton(session);
 
     return (
       <>
