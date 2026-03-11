@@ -232,7 +232,9 @@ export const ShoppingCart = InjectAppServices(
     const handlePromocodeApplied = useCallback(
       (value) => {
         setPromocodeApplied(value);
-        callbackHandlePromocodeApplied(value);
+        if (callbackHandlePromocodeApplied) {
+          callbackHandlePromocodeApplied(value);
+        }
       },
       [callbackHandlePromocodeApplied],
     );
@@ -243,7 +245,7 @@ export const ShoppingCart = InjectAppServices(
       if (callbackHandlePromocodeApplied) {
         callbackHandlePromocodeApplied(null);
       }
-      
+
       setAmountDetailsData({
         ...amountDetailsData,
         value: {
