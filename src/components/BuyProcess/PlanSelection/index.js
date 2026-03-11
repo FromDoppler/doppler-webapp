@@ -45,6 +45,7 @@ export const PlanSelection = InjectAppServices(
     const currentUserPlanType = appSessionRef.current.userData.user.plan.planType;
     const navigate = useNavigate();
 
+    const [showLosePromotionInformation, setShowLosePromotionInformation] = useState(false);
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
     const [item, setItem] = useState({
       selectedMarketingPlan: null,
@@ -178,6 +179,10 @@ export const PlanSelection = InjectAppServices(
       });
     }, []);
 
+    const handlePromocodeApplied = () => {
+      setShowLosePromotionInformation(false);
+    };
+
     const handleSliderClick = () => {
       if (item?.id !== selectedPlan?.id) {
         addItem({
@@ -185,6 +190,15 @@ export const PlanSelection = InjectAppServices(
           discounts: discounts,
           selectedDiscount: selectedDiscount,
         });
+
+        const promotion = appSessionRef.current.userData.user.plan.promotion;
+
+        var showMessage =
+          promotion &&
+          promotion.idUserTypePlan !== undefined &&
+          promotion.idUserTypePlan !== selectedPlan.id;
+
+        setShowLosePromotionInformation(showMessage);
       }
     };
 
@@ -265,6 +279,23 @@ export const PlanSelection = InjectAppServices(
                       planTypes={planTypes}
                       hightestPlan={hightestPlan}
                     />
+                    {showLosePromotionInformation && (
+                      <section>
+                        <div class="dp-wrap-message dp-wrap-warning">
+                          <span class="dp-message-icon"></span>
+                          <div class="dp-content-message  dp-content-full">
+                            <p>
+                              <FormattedMessage
+                                id={'buy_process.plan_selection.lose_promotion_message'}
+                                values={{
+                                  br: <br />,
+                                }}
+                              />
+                            </p>
+                          </div>
+                        </div>
+                      </section>
+                    )}
                   </div>
                 </div>
               </div>
@@ -296,6 +327,7 @@ export const PlanSelection = InjectAppServices(
                 isEqualPlan={isEqualPlan}
                 isArgentina={isArgentina}
                 hasChatActive={chat && chat.active}
+                callbackHandlePromocodeApplied={handlePromocodeApplied}
               />
             </div>
           </div>

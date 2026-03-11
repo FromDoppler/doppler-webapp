@@ -12,17 +12,27 @@ export const PushNotificationPlan = InjectAppServices(
     buyUrl,
     pushNotificationPlan,
     isFreeAccount,
-    dependencies: { dopplerAccountPlansApiClient },
+    addOnPromotion,
+    dependencies: { dopplerAccountPlansApiClient, appSessionRef },
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [availableQuantity, setAvailableQuantity] = useState(pushNotificationPlan.quantity);
     const [plan, setPlan] = useState(pushNotificationPlan);
     const [loading, setLoading] = useState(true);
+    const showPromotionInformation = addOnPromotion !== undefined && !pushNotificationPlan.active;
+
+    const user = appSessionRef.current.userData.user;
+    const expirationDate = new Date(addOnPromotion?.expirationDate);
+    const formatter = new Intl.DateTimeFormat(user.lang === 'es' ? 'es-ES' : 'en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
 
     useEffect(() => {
       const fetchAddOnData = async () => {
-        if (!plan.active && isFreeAccount) {
+        if (!plan.active && (isFreeAccount || addOnPromotion)) {
           const getFreeAddOnPlanResponse = await dopplerAccountPlansApiClient.getFreeAddOnPlan(
             AddOnType.PushNotifications,
           );
@@ -36,7 +46,7 @@ export const PushNotificationPlan = InjectAppServices(
       };
 
       fetchAddOnData();
-    }, [dopplerAccountPlansApiClient, plan.active, isFreeAccount]);
+    }, [dopplerAccountPlansApiClient, plan.active, isFreeAccount, addOnPromotion]);
 
     if (loading) {
       return <Loading page />;
@@ -78,7 +88,7 @@ export const PushNotificationPlan = InjectAppServices(
                       `my_plan.subscription_details.${
                         plan.trialExpired
                           ? 'view_plans_button'
-                          : isFreeAccount && !plan.active
+                          : (isFreeAccount || addOnPromotion) && !plan.active
                             ? 'activate_now_button'
                             : 'change_plan_button'
                       }`,
@@ -88,6 +98,28 @@ export const PushNotificationPlan = InjectAppServices(
               </div>
             </HeaderStyled>
           </header>
+          {showPromotionInformation && (
+            <div className="dp-wrap-message dp-wrap-info m-t-12">
+              <span className="dp-message-icon"></span>
+              <div className="dp-content-message dp-content-full">
+                <p>
+                  <FormattedMessage
+                    id={`${
+                      addOnPromotion.idAddOnPlan !== undefined
+                        ? 'my_plan.subscription_details.addon.push_notification_plan.addon_promotion_one_plan_message'
+                        : 'my_plan.subscription_details.addon.push_notification_plan.addon_promotion_all_plans_message'
+                    }`}
+                    values={{
+                      discount: addOnPromotion.discount,
+                      quantity: addOnPromotion.quantity,
+                      expirationDate: formatter.format(new Date(expirationDate)),
+                      bold: (chunks) => <b>{chunks}</b>,
+                    }}
+                  />
+                </p>
+              </div>
+            </div>
+          )}
           <ul className="dp-item--plan">
             <li>
               <p>

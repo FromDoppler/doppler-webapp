@@ -13,6 +13,22 @@ export const getAddons = (user) => {
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
 
   var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
+
+  const addOnPromotions = user.addOnPromotions === undefined ? [] : user.addOnPromotions;
+  const conversationPromotion = addOnPromotions.filter(
+    (aop) => aop.idAddOnType === AddOnType.Conversations,
+  )[0];
+
+  const landingPagePromotion = addOnPromotions.filter(
+    (aop) => aop.idAddOnType === AddOnType.Landings,
+  )[0];
+
+  const onSitePromotion = addOnPromotions.filter((aop) => aop.idAddOnType === AddOnType.OnSite)[0];
+
+  const pushNotificationPromotion = addOnPromotions.filter(
+    (aop) => aop.idAddOnType === AddOnType.PushNotifications,
+  )[0];
+
   const addOns = [
     {
       addOnType: AddOnType.Conversations,
@@ -27,13 +43,17 @@ export const getAddons = (user) => {
         channels: chat.plan.channels,
         trialExpired: chat.plan.trialExpired,
       },
-      active: (chat.plan.active || plan.isFreeAccount) && !user.plan.trialExpired,
+      active:
+        (chat.plan.active || plan.isFreeAccount || conversationPromotion) &&
+        !user.plan.trialExpired,
+      addOnPromotion: conversationPromotion,
       buyUrl: `${plan.isFreeAccount ? chat.plan.buttonUrl : '/buy-conversation?buyType=2'}`,
     },
     {
       addOnType: AddOnType.Landings,
       addOnPlan: { landingPacks: landings?.landingPacks, active: hasLandings },
-      active: hasLandings && !user.plan.trialExpired,
+      active: (hasLandings || landingPagePromotion) && !user.plan.trialExpired,
+      addOnPromotion: landingPagePromotion,
       buyUrl: '/landing-packages?buyType=3',
     },
     {
@@ -45,7 +65,9 @@ export const getAddons = (user) => {
         fee: onSite.plan.fee,
         trialExpired: onSite.plan.trialExpired,
       },
-      active: (onSite.plan.active || plan.isFreeAccount) && !user.plan.trialExpired,
+      active:
+        (onSite.plan.active || plan.isFreeAccount || onSitePromotion) && !user.plan.trialExpired,
+      addOnPromotion: onSitePromotion,
       buyUrl: `${plan.isFreeAccount ? onSite.plan.buttonUrl : '/buy-onsite-plans?buyType=4'}`,
     },
     {
@@ -58,11 +80,14 @@ export const getAddons = (user) => {
         trialExpired: pushNotification.plan.trialExpired,
       },
       active:
-        (pushNotification.plan.active || plan.isFreeAccount) &&
+        (pushNotification.plan.active || plan.isFreeAccount || pushNotificationPromotion) &&
         canBuyPushNotificationPlan &&
         !user.plan.trialExpired,
+      addOnPromotion: pushNotificationPromotion,
       buyUrl: `${
-        plan.isFreeAccount ? pushNotification.plan.buttonUrl : '/buy-push-notification-plans?buyType=5'
+        plan.isFreeAccount
+          ? pushNotification.plan.buttonUrl
+          : '/buy-push-notification-plans?buyType=5'
       }`,
     },
   ];
@@ -100,6 +125,7 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
               addOnPlan={addon.addOnPlan}
               addOnBuyUrl={addon.buyUrl}
               isFreeAccount={plan.isFreeAccount}
+              addOnPromotion={addon.addOnPromotion}
             ></AddOnPlan>
           ))}
           {sms.smsEnabled && sms.remainingCredits > 0 && (

@@ -42,6 +42,7 @@ export const promocodeReducer = (state, action) => {
           isValid: payload.discountPercentage > 0 || payload.extraCredits > 0,
         },
         validated: true,
+        canApply: payload.canApply,
       };
     case PROMOCODE_ACTIONS.PROMOCODE_APPLIED:
       return state.initialized

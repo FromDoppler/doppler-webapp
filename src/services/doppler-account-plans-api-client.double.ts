@@ -219,4 +219,17 @@ export class HardcodedDopplerAccountPlansApiClient implements DopplerAccountPlan
       value: fakeAddOnPlan,
     };
   }
+
+  public async getAddOnPromotionsByPromocode(
+    planId: number,
+    promocode: string,
+  ): Promise<ResultWithoutExpectedErrors<Promotion[]>> {
+    console.log(`getAddOnPromotionsByPromocode`);
+    await timeout(1500);
+
+    return {
+      value: [fakePromotion],
+      success: true,
+    };
+  }
 }

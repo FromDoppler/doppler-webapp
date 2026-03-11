@@ -16,7 +16,7 @@ import {
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
 import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../utils';
-import { BUY_LANDING_PACK } from '../../../doppler-types';
+import { AddOnType, BUY_LANDING_PACK } from '../../../doppler-types';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -68,6 +68,7 @@ export const LandingPacksSelection = InjectAppServices(
     const [showArchiveLandings, setShowArchiveLandings] = useState(false);
     const [isDowngrade, setIsDowngrade] = useState(false);
     const [cancelLandings, setCancelLandings] = useState(false);
+    const [showPromotionInformation, setShowPromotionInformation] = useState(false);
     const formRef = useRef();
     const {
       error,
@@ -95,6 +96,12 @@ export const LandingPacksSelection = InjectAppServices(
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
     const { isFreeAccount } = sessionPlan.plan;
+    const landingPagesPromotion =
+      appSessionRef.current.userData.user.addOnPromotions !== undefined
+        ? appSessionRef.current.userData.user.addOnPromotions.filter(
+            (aop) => aop.idAddOnType === AddOnType.Landings,
+          )[0]
+        : undefined;
 
     const handleRemove = () => {
       const { resetForm } = formRef.current;
@@ -113,7 +120,20 @@ export const LandingPacksSelection = InjectAppServices(
       fetchLandingPagesPublished();
     }, [dopplerLegacyClient, appSessionRef]);
 
-    const handleSave = useCallback((landingPacks) => setSelectedLandingPacks(landingPacks), []);
+    const handleSave = useCallback(
+      (landingPacks) => {
+        setSelectedLandingPacks(landingPacks);
+        var hasLandingPageWithPromotion = landingPacks.filter(
+          (lp) => lp.planId === landingPagesPromotion.idAddOnPlan,
+        )[0];
+        setShowPromotionInformation(
+          landingPagesPromotion?.idAddOnPlan !== undefined &&
+            landingPagesPromotion?.idAddOnPlan !== hasLandingPageWithPromotion?.planId,
+        );
+      },
+      [landingPagesPromotion?.idAddOnPlan],
+    );
+
     const handleLandingPagesDowngrade = useCallback(
       async (isDowngradeWithSelectedLandings) => {
         const _isDowngrade =
@@ -253,6 +273,29 @@ export const LandingPacksSelection = InjectAppServices(
                 loadingRemoveLandingPages={loadingRemoveLandingPages}
                 errorRemoveLandingPages={errorRemoveLandingPages}
               />
+              {showPromotionInformation && (
+                <section className="m-t-12">
+                  <div className="dp-wrap-message dp-wrap-info">
+                    <span className="dp-message-icon"></span>
+                    <div className="dp-content-message dp-content-full">
+                      <p>
+                        <FormattedMessage
+                          id={`${
+                            landingPagesPromotion !== undefined
+                              ? 'landing_selection.addon_promotion_one_plan_message'
+                              : 'landing_selection.addon_promotion_all_plans_message'
+                          }`}
+                          values={{
+                            discount: landingPagesPromotion?.discount,
+                            quantity: landingPagesPromotion?.quantity.replace('PACK ', ''),
+                            bold: (chunks) => <b>{chunks}</b>,
+                          }}
+                        />
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              )}
               <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
                 <GoBackButton />

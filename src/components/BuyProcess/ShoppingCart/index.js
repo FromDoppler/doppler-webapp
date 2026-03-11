@@ -60,6 +60,7 @@ export const ShoppingCart = InjectAppServices(
     selectedAddOnPlan,
     handleRemoveAddOnPlan,
     canAddOnPlanRemove,
+    callbackHandlePromocodeApplied,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -71,7 +72,7 @@ export const ShoppingCart = InjectAppServices(
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
     const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
     const [amountDetailsAddOnPlanData, setAmountDetailsAddOnPlanData] = useState(null);
-    const [promocodeApplied, setPromocodeApplied] = useState('');
+    const [promocodeApplied, setPromocodeApplied] = useState({ canApply: true, promocode: promocodeFromUrl });
     const { planType: planTypeUrlSegment } = useParams();
     const { pathname, search } = useLocation();
     const paymentMethodName = usePaymentMethodData({
@@ -84,10 +85,6 @@ export const ShoppingCart = InjectAppServices(
     );
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
-    const isContactsPlan =
-      selectedPlanType === PLAN_TYPE.byContact ||
-      selectedMarketingPlan?.type === PLAN_TYPE.byContact;
-    const isFreeContactsPlan = isFreeAccount && isContactsPlan;
     const sessionPlanType = sessionPlan.plan.planType;
     const isExclusiveDiscountArgentina =
       isArgentina &&
@@ -102,12 +99,6 @@ export const ShoppingCart = InjectAppServices(
     const isByCredits =
       planTypeUrlSegment === PLAN_TYPE.byCredit ||
       planTypeUrlSegment === URL_PLAN_TYPE[PLAN_TYPE.byCredit];
-    const billingPromocode = isFreeContactsPlan
-      ? promocodeApplied?.promocode || ''
-      : promocodeApplied?.promocode || promocodeFromUrl;
-    const promotionForCheckout =
-      promocodeApplied ||
-      (!isFreeContactsPlan && promocodeFromUrl ? { promocode: promocodeFromUrl } : null);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -120,7 +111,7 @@ export const ShoppingCart = InjectAppServices(
             : discountConfig.paymentFrequenciesList.at(-1)
               ? discountConfig.paymentFrequenciesList.at(-1).id
               : 0,
-          billingPromocode,
+          promocodeApplied?.canApply ? promocodeApplied.promocode : promocodeFromUrl,
         );
         setAmountDetailsData(_amountDetailsData);
       };
@@ -128,15 +119,14 @@ export const ShoppingCart = InjectAppServices(
       if (selectedMarketingPlan?.id && paymentMethodName) {
         fetchData();
       }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       dopplerAccountPlansApiClient,
       selectedMarketingPlan,
-      discountConfig?.selectedPaymentFrequency,
-      discountConfig.paymentFrequenciesList,
       promocodeApplied,
       promocodeFromUrl,
       paymentMethodName,
-      billingPromocode,
     ]);
 
     useEffect(() => {
@@ -239,12 +229,17 @@ export const ShoppingCart = InjectAppServices(
       discountConfig.paymentFrequenciesList,
     ]);
 
-    const handlePromocodeApplied = useCallback((value) => {
-      setPromocodeApplied(value);
-    }, []);
+    const handlePromocodeApplied = useCallback(
+      (value) => {
+        setPromocodeApplied(value);
+        callbackHandlePromocodeApplied(value);
+      },
+      [callbackHandlePromocodeApplied],
+    );
 
     const removePromocodeApplied = () => {
-      setPromocodeApplied('');
+      setPromocodeApplied({ canApply: true, promocode: '' });
+      callbackHandlePromocodeApplied(null);
       setAmountDetailsData({
         ...amountDetailsData,
         value: {
@@ -263,7 +258,7 @@ export const ShoppingCart = InjectAppServices(
           marketingPlan: selectedMarketingPlan,
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
           amountDetailsData,
-          promocodeApplied,
+          promocodeApplied: promocodeApplied,
           removePromocodeApplied,
           disabledPromocode,
           intl,
@@ -342,7 +337,7 @@ export const ShoppingCart = InjectAppServices(
       selectedMarketingPlan,
       canBuy,
       selectedDiscount: discountConfig?.selectedPaymentFrequency,
-      promotion: promotionForCheckout,
+      promotion: promocodeApplied || { promocode: promocodeFromUrl, canApply: true },
       paymentMethodName,
       total,
       landingPacks,
@@ -391,11 +386,13 @@ export const ShoppingCart = InjectAppServices(
             amountDetailsData={amountDetailsData}
             selectedPaymentFrequency={discountConfig?.selectedPaymentFrequency}
             callback={handlePromocodeApplied}
-            hasPromocodeAppliedItem={!!promocodeApplied}
+            hasPromocodeAppliedItem={promocodeApplied?.promocode !== ''}
             selectedPlanType={selectedPlanType}
             isArgentina={isArgentina}
             isFreeAccount={isFreeAccount}
             disabledPromocode={disabledPromocode}
+            handleRemovePromocodeApplied={removePromocodeApplied}
+            currentPromocodeApplied={promocodeApplied}
           />
         )}
         <section>

@@ -13,6 +13,7 @@ describe('SubscriptionDetails component', () => {
         current: {
           userData: {
             user: {
+              addOnPromotions: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -304,6 +305,7 @@ describe('SubscriptionDetails component', () => {
         current: {
           userData: {
             user: {
+              addOnPromotions: [{ idAddOnType: 4, idAddOnPlan: 1, discount: 10, quantity: 10000 }],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -331,9 +333,10 @@ describe('SubscriptionDetails component', () => {
               },
               pushNotification: {
                 plan: {
-                  active: false,
+                  active: true,
                   quantity: 200,
                   fee: 0,
+                  planId: 1,
                 },
               },
               sms: {
@@ -344,6 +347,8 @@ describe('SubscriptionDetails component', () => {
         },
       },
     };
+
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN = 'true';
 
     // Act
     render(

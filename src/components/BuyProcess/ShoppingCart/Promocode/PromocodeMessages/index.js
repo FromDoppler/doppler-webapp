@@ -22,6 +22,14 @@ export const PromocodeMessages = ({
     return <PromocodeNotAllowed />;
   }
 
+  if (!promotion) {
+    return null;
+  }
+
+  if (promotion?.canApply === false) {
+    return <PromocodeCanNotApplyMessage promotion={promotion}></PromocodeCanNotApplyMessage>;
+  }
+
   const marketingPlanHasBillingCicle = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail].includes(
     promotion?.planType,
   );
@@ -30,7 +38,8 @@ export const PromocodeMessages = ({
     !validationError &&
     validated &&
     !promocodeMessageAlreadyShowRef.current &&
-    amountDetailsData?.value?.nextMonthTotal
+    (promotion?.planType === PLAN_TYPE.byCredit ||
+      (promotion?.planType !== PLAN_TYPE.byCredit && amountDetailsData?.value?.nextMonthTotal))
   ) {
     return (
       <div className={`dp-simulated-price ${!promocodeApplied ? 'bounceIn' : 'bounceOut'}`}>
@@ -38,10 +47,10 @@ export const PromocodeMessages = ({
           <PromocodeMessageWithBillingCicle
             selectedMarketingPlan={selectedMarketingPlan}
             amountDetailsData={amountDetailsData}
-            promotion={promotion}
+            promotion={promotion.promotionApplied}
           />
         ) : (
-          <PromocodeMessageExtraCredits promotion={promotion} />
+          <PromocodeMessageExtraCredits promotion={promotion?.promotionApplied} />
         )}
       </div>
     );
@@ -101,14 +110,71 @@ const PromocodeMessageWithBillingCicle = ({
         />
         /{_('buy_process.promocode.label_month')}
       </h3>
-      <span>
-        <FormattedMessage
-          id={'buy_process.promocode.is_valid_to'}
-          values={{
-            months: promotion?.duration,
-          }}
-        />
-      </span>
+      {promotion?.duration && (
+        <span>
+          <FormattedMessage
+            id={'buy_process.promocode.is_valid_to'}
+            values={{
+              months: promotion?.duration,
+            }}
+          />
+        </span>
+      )}
     </>
+  );
+};
+
+const PromocodeCanNotApplyMessage = ({ promotion }) => {
+  const intl = useIntl();
+  const planPromotions = promotion.planPromotions ?? [];
+  const lang = intl.locale;
+
+  const showQuantityInformation = (quantity) => {
+    var quantites = quantity !== null ? quantity.split(',') : [];
+    var result = '';
+
+    const length = quantites.length;
+    quantites.forEach((item, index) => {
+      var value = thousandSeparatorNumber(intl.defaultLocale, item);
+      var separator =
+        index === 0 ? '' : index + 1 < length ? ', ' : lang === 'es' ? ' y ' : ' and ';
+      result = result + separator + value;
+    });
+
+    return result;
+  };
+
+  return (
+    <div className="dp-wrap-message dp-wrap-info">
+      <span className="dp-message-icon" />
+      <div className="dp-content-message">
+        <p>
+          <FormattedMessage
+            id={`${'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message'}`}
+            values={{
+              bold: (chunk) => <b>{chunk}</b>,
+              br: <br />,
+            }}
+          />
+        </p>
+        {planPromotions.map((item, index) => (
+          <p key={index}>
+            <FormattedMessage
+              id={`${
+                item.quantity === null || parseInt(item.quantity) === 0
+                  ? 'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_all_plan_item_message'
+                  : 'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_plan_item_message'
+              }`}
+              values={{
+                bold: (chunk) => <b>{chunk}</b>,
+                br: <br />,
+                planType: item.planType,
+                quantity: showQuantityInformation(item.quantity),
+              }}
+            />
+          </p>
+        ))}
+      </div>
+    </div>
   );
 };

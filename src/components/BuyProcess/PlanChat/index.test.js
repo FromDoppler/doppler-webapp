@@ -20,6 +20,7 @@ describe('PlanChat component', () => {
         current: {
           userData: {
             user: {
+              addOnPromotions: [{ idAddOnType: 2, idAddOnPlan: 1, discount: 10, quantity: 10000 }],
               plan: {
                 idPlan: 3,
                 planType: PLAN_TYPE.free,

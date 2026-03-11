@@ -17,7 +17,7 @@ export const formattedNumber = (value, decimals) => {
 };
 
 export const AddOnPlan = InjectAppServices(
-  ({ addOnType, addOnPlan, addOnBuyUrl, isFreeAccount }) => {
+  ({ addOnType, addOnPlan, addOnBuyUrl, isFreeAccount, addOnPromotion }) => {
     return (
       <>
         {addOnType === AddOnType.Conversations && (
@@ -25,6 +25,7 @@ export const AddOnPlan = InjectAppServices(
             buyUrl={addOnBuyUrl}
             conversationPlan={addOnPlan}
             isFreeAccount={isFreeAccount}
+            addOnPromotion={addOnPromotion}
           ></ConversationPlan>
         )}
         {addOnType === AddOnType.OnSite && (
@@ -32,6 +33,7 @@ export const AddOnPlan = InjectAppServices(
             buyUrl={addOnBuyUrl}
             onSitePlan={addOnPlan}
             isFreeAccount={isFreeAccount}
+            addOnPromotion={addOnPromotion}
           ></OnSitePlan>
         )}
         {addOnType === AddOnType.PushNotifications && (
@@ -39,10 +41,15 @@ export const AddOnPlan = InjectAppServices(
             buyUrl={addOnBuyUrl}
             pushNotificationPlan={addOnPlan}
             isFreeAccount={isFreeAccount}
+            addOnPromotion={addOnPromotion}
           ></PushNotificationPlan>
         )}
         {addOnType === AddOnType.Landings && (
-          <LandingPagesPlan buyUrl={addOnBuyUrl} landingPagesPlan={addOnPlan}></LandingPagesPlan>
+          <LandingPagesPlan
+            buyUrl={addOnBuyUrl}
+            landingPagesPlan={addOnPlan}
+            addOnPromotion={addOnPromotion}
+          ></LandingPagesPlan>
         )}
       </>
     );

@@ -184,7 +184,11 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod, onEprotectC
         switch (currentPaymentMethodType) {
           case paymentType.creditCard:
             return useEprotect ? (
-              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+              <CreditCardEProtect
+                onClientReady={onEprotectClientReady}
+                optionView={optionView}
+                paymentMethod={paymentMethod}
+              />
             ) : (
               <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
             );
@@ -196,7 +200,11 @@ const PaymentType = ({ paymentMethodType, optionView, paymentMethod, onEprotectC
             return <AutomaticDebit optionView={optionView} paymentMethod={paymentMethod} />;
           default:
             return useEprotect ? (
-              <CreditCardEProtect onClientReady={onEprotectClientReady} optionView={optionView} paymentMethod={paymentMethod} />
+              <CreditCardEProtect
+                onClientReady={onEprotectClientReady}
+                optionView={optionView}
+                paymentMethod={paymentMethod}
+              />
             ) : (
               <CreditCard optionView={optionView} paymentMethod={paymentMethod}></CreditCard>
             );
@@ -356,7 +364,8 @@ export const PaymentMethod = InjectAppServices(
           } else {
             if (
               paymentMethodData.value.paymentMethodName === paymentType.creditCard &&
-              paymentMethodData.value.ccNumber === '' && !paymentMethodData.value.lastFourDigitsCCNumber
+              paymentMethodData.value.ccNumber === '' &&
+              !paymentMethodData.value.lastFourDigitsCCNumber
             ) {
               handleChangeView(actionPage.UPDATE);
             }
@@ -441,10 +450,14 @@ export const PaymentMethod = InjectAppServices(
     const submitPaymentMethodForm = async (values) => {
       setError({ error: false, message: '' });
 
-      if (useEprotect && values.paymentMethodName === paymentType.creditCard && eprotectClientRef.current) {
+      if (
+        useEprotect &&
+        values.paymentMethodName === paymentType.creditCard &&
+        eprotectClientRef.current
+      ) {
         try {
           const eprotectResponse = await eprotectClientRef.current.requestPaypageRegistrationId();
-          if (eprotectResponse.response === "870") {
+          if (eprotectResponse.response === '870') {
             values.worldPayLowValueToken = eprotectResponse.paypageRegistrationId;
             values.lastFourDigitsCCNumber = eprotectResponse.lastFour;
             values.firstSixDigitsCCNumber = eprotectResponse.firstSix;
@@ -498,7 +511,8 @@ export const PaymentMethod = InjectAppServices(
     };
 
     const handleMessage = (errorOrResponse) => {
-      const errorCode = errorOrResponse.response?.data || errorOrResponse.response || errorOrResponse;
+      const errorCode =
+        errorOrResponse.response?.data || errorOrResponse.response || errorOrResponse;
 
       switch (errorCode) {
         case FirstDataError.invalidExpirationDate:

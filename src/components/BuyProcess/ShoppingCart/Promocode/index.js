@@ -3,7 +3,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../../services/pure-di';
-import { getFormInitialValues } from '../../../../utils';
+import { getFormInitialValues, getPlanTypeFromUrlSegment } from '../../../../utils';
 import { FieldGroup, FieldItem } from '../../../form-helpers/form-helpers';
 import {
   INITIAL_STATE_PROMOCODE,
@@ -17,6 +17,7 @@ import {
   PLAN_TYPE,
   SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA,
 } from '../../../../doppler-types';
+import { useParams } from 'react-router-dom';
 
 const fieldNames = {
   promocode: 'promocode',
@@ -25,6 +26,7 @@ const fieldNames = {
 const validationsErrorKey = {
   requiredField: 'validation_messages.error_required_field',
   invalidPromocode: 'checkoutProcessForm.purchase_summary.promocode_error_message',
+  expiredPromocode: 'checkoutProcessForm.purchase_summary.promocode_expired_error_message',
 };
 
 export const Promocode = InjectAppServices(
@@ -38,14 +40,20 @@ export const Promocode = InjectAppServices(
     isArgentina,
     isFreeAccount,
     disabledPromocode,
+    handleRemovePromocodeApplied,
+    currentPromocodeApplied,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const query = useQueryParams();
     const defaultPromocode = getPromocode(query, isArgentina);
-    const promocodeFromUrl = query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
+    const promocodeFromUrl =
+      query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
     const contactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
-
+    const { planType: planTypeUrlSegment } = useParams();
+    const selectedPlanType = getPlanTypeFromUrlSegment(planTypeUrlSegment);
     const [open, setOpen] = useState(defaultPromocode !== '');
+    const [currentPromotion, setCurrentPromotion] = useState(undefined);
+
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const createTimeout = useTimeout();
@@ -91,6 +99,12 @@ export const Promocode = InjectAppServices(
                   planType: selectedMarketingPlan.type,
                 },
               });
+
+              setCurrentPromotion({
+                ...validatePromocodeData.value,
+                planType: selectedMarketingPlan.type,
+              });
+
               callback &&
                 callback({
                   ...validatePromocodeData.value,
@@ -99,12 +113,16 @@ export const Promocode = InjectAppServices(
                 });
               createTimeout(() => {
                 markPromocodeAsApplied();
-              }, 10000);
+              }, 2000);
             } else {
               callback && callback('');
               dispatch({
                 type: PROMOCODE_ACTIONS.FETCH_FAILED,
-                payload: validationsErrorKey.invalidPromocode,
+                payload:
+                  validatePromocodeData.error.response.status === 400 &&
+                  validatePromocodeData.error.response.data.expiredPromocode
+                    ? validationsErrorKey.expiredPromocode
+                    : validationsErrorKey.invalidPromocode,
               });
             }
           };
@@ -134,8 +152,8 @@ export const Promocode = InjectAppServices(
               setFieldValue(fieldNames.promocode, contactsPromocode);
               dispatchPromocode(validateContactsData, contactsPromocode);
             } else if (
-              (validateData?.value?.discountPercentage ?? -1) <
-              (validateContactsData?.value?.discountPercentage ?? -1)
+              (validateData?.value?.promotionApplied?.discountPercentage ?? -1) <
+              (validateContactsData?.value?.promotionApplied?.discountPercentage ?? -1)
             ) {
               setFieldValue(fieldNames.promocode, contactsPromocode);
               dispatchPromocode(validateContactsData, contactsPromocode);
@@ -150,7 +168,8 @@ export const Promocode = InjectAppServices(
               SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA ||
               selectedMarketingPlan?.subscribersQty <=
                 SUBSCRIBERS_LIMIT_EXCLUSIVE_DISCOUNT_ARGENTINA) &&
-            promocode !== process.env.REACT_APP_PROMOCODE_ARGENTINA
+            promocode !== process.env.REACT_APP_PROMOCODE_ARGENTINA &&
+            process.env.REACT_APP_PROMOCODE_ARGENTINA !== ''
           ) {
             const { setFieldValue } = promocodeInputRef.current;
             const [validateData, validateDefaultData] = await Promise.all([
@@ -175,11 +194,14 @@ export const Promocode = InjectAppServices(
               dispatchPromocode(validateData);
             }
           } else {
-            const validateData = await dopplerAccountPlansApiClient.validatePromocode(
-              selectedMarketingPlan?.id,
-              promocode,
-            );
-            dispatchPromocode(validateData);
+
+            if (selectedPlanType === selectedMarketingPlan?.type) {
+              const validateData = await dopplerAccountPlansApiClient.validatePromocode(
+                selectedMarketingPlan?.id,
+                promocode,
+              );
+              dispatchPromocode(validateData);
+            }
           }
         }
       },
@@ -193,8 +215,13 @@ export const Promocode = InjectAppServices(
         isFreeAccount,
         promocodeFromUrl,
         contactsPromocode,
+        selectedPlanType,
       ],
     );
+
+    useEffect(() => {
+      setCurrentPromotion(currentPromocodeApplied);
+    }, [currentPromocodeApplied]);
 
     useEffect(() => {
       // In this case the user selects a payment frequency or an email marketing plan
@@ -204,7 +231,8 @@ export const Promocode = InjectAppServices(
         });
       } else {
         if (
-          selectedPaymentFrequency?.numberMonths === 1 &&
+          (selectedPaymentFrequency === undefined ||
+            selectedPaymentFrequency?.numberMonths === 1) &&
           promocodeInputRef.current?.values[fieldNames.promocode]
         ) {
           validatePromocode(promocodeInputRef.current?.values[fieldNames.promocode], true);
@@ -230,6 +258,7 @@ export const Promocode = InjectAppServices(
         if (
           isArgentina &&
           defaultPromocode === process.env.REACT_APP_PROMOCODE_ARGENTINA &&
+          process.env.REACT_APP_PROMOCODE_ARGENTINA !== '' &&
           selectedMarketingPlan?.type !== PLAN_TYPE.byContact
         ) {
           setFieldValue(fieldNames.promocode, '');
@@ -237,9 +266,14 @@ export const Promocode = InjectAppServices(
           if (!disabledPromocode) {
             setOpen(true);
           }
-          setFieldValue(fieldNames.promocode, defaultPromocode);
+
+          var promocodeToSet = currentPromocodeApplied?.promocode !== ''
+              ? currentPromocodeApplied?.promocode
+              : defaultPromocode;
+              
+          setFieldValue(fieldNames.promocode, promocodeToSet);
           const validatePercengePromocode = true;
-          validatePromocode(defaultPromocode, validatePercengePromocode);
+          validatePromocode(promocodeToSet, validatePercengePromocode);
         }
       }
     }, [
@@ -249,6 +283,8 @@ export const Promocode = InjectAppServices(
       selectedMarketingPlan,
       isArgentina,
       disabledPromocode,
+      hasPromocodeAppliedItem,
+      currentPromocodeApplied?.promocode,
     ]);
 
     const _getFormInitialValues = () => {
@@ -262,13 +298,8 @@ export const Promocode = InjectAppServices(
       validatePromocode(value.promocode);
     };
 
-    const allowEditionAfterApply =
-      isFreeAccount && selectedMarketingPlan?.type === PLAN_TYPE.byContact;
     const promocodeIsDisabled =
-      !allowPromocode ||
-      loading ||
-      disabledPromocode ||
-      (!allowEditionAfterApply && (promocodeApplied || validated));
+      !allowPromocode || currentPromotion?.promotionApplied || loading || disabledPromocode;
 
     return (
       <section className="dp-promocode">
@@ -300,28 +331,32 @@ export const Promocode = InjectAppServices(
                     placeholder={_('checkoutProcessForm.purchase_summary.promocode_placeholder')}
                     label={`${_('checkoutProcessForm.purchase_summary.promocode_label')}`}
                     validationError={error}
-                    validated={validated}
+                    validated={validated && promotion?.canApply}
                     promocodeApplied={promocodeApplied}
                     initialized={initialized}
                     selectedPaymentFrequency={selectedPaymentFrequency}
+                    handleRemovePromocode={() => {
+                      handleRemovePromocodeApplied();
+                      setCurrentPromotion({ canApply: true, promocode: '' });
+                    }}
                   />
                 </FieldGroup>
               </fieldset>
             </Form>
           )}
         </Formik>
-        {open && (
-          <PromocodeMessages
-            allowPromocode={allowPromocode}
-            validated={validated}
-            promocodeApplied={promocodeApplied}
-            promotion={promotion}
-            selectedMarketingPlan={selectedMarketingPlan}
-            amountDetailsData={amountDetailsData}
-            validationError={error}
-            promocodeMessageAlreadyShowRef={promocodeMessageAlreadyShowRef}
-          />
-        )}
+        {/* {open && ( */}
+        <PromocodeMessages
+          allowPromocode={allowPromocode}
+          validated={validated}
+          promocodeApplied={promocodeApplied}
+          promotion={currentPromotion}
+          selectedMarketingPlan={selectedMarketingPlan}
+          amountDetailsData={amountDetailsData}
+          validationError={error}
+          promocodeMessageAlreadyShowRef={promocodeMessageAlreadyShowRef}
+        />
+        {/* )} */}
       </section>
     );
   },
@@ -348,6 +383,7 @@ export const PromocodeFieldItem = ({
   promocodeInputRef,
   initialized,
   selectedPaymentFrequency,
+  handleRemovePromocode,
   ...rest
 }) => {
   const intl = useIntl();
@@ -377,7 +413,10 @@ export const PromocodeFieldItem = ({
             className="dp-btn-delete dpicon iconapp-delete"
             title="borrar"
             disabled={!values[fieldName] || disabled}
-            onClick={() => setFieldValue(fieldName, '')}
+            onClick={() => {
+              setFieldValue(fieldName, '');
+              handleRemovePromocode();
+            }}
           />
         </label>
       </FieldItem>

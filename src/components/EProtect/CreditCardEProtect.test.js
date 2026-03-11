@@ -309,9 +309,7 @@ describe('CreditCardEProtect component', () => {
     let eprotectScript;
     await waitFor(() => {
       const scripts = document.querySelectorAll('script');
-      eprotectScript = Array.from(scripts).find((s) =>
-        s.src && s.src.includes('eProtect')
-      );
+      eprotectScript = Array.from(scripts).find((s) => s.src && s.src.includes('eProtect'));
       expect(eprotectScript).toBeDefined();
     });
 

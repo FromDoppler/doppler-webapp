@@ -79,7 +79,7 @@ export const CheckoutButton = InjectAppServices(
             promotion?.discountPercentage
               ? `&discountPromocode=${promotion.discountPercentage}`
               : ''
-          }`;
+          }${promotion?.promocode ? `&PromoCode=${promotion.promocode}` : ''}`;
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
