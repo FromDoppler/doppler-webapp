@@ -239,7 +239,11 @@ export const ShoppingCart = InjectAppServices(
 
     const removePromocodeApplied = () => {
       setPromocodeApplied({ canApply: true, promocode: '' });
-      callbackHandlePromocodeApplied(null);
+
+      if (callbackHandlePromocodeApplied) {
+        callbackHandlePromocodeApplied(null);
+      }
+      
       setAmountDetailsData({
         ...amountDetailsData,
         value: {
