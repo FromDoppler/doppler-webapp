@@ -72,7 +72,7 @@ export const ShoppingCart = InjectAppServices(
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
     const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
     const [amountDetailsAddOnPlanData, setAmountDetailsAddOnPlanData] = useState(null);
-    const [promocodeApplied, setPromocodeApplied] = useState({ canApply: true, promocode: promocodeFromUrl });
+    const [promocodeApplied, setPromocodeApplied] = useState({ canApply: promocodeFromUrl, promocode: promocodeFromUrl });
     const { planType: planTypeUrlSegment } = useParams();
     const { pathname, search } = useLocation();
     const paymentMethodName = usePaymentMethodData({
@@ -240,7 +240,7 @@ export const ShoppingCart = InjectAppServices(
     );
 
     const removePromocodeApplied = () => {
-      setPromocodeApplied({ canApply: true, promocode: '' });
+      setPromocodeApplied({ canApply: false, promocode: '' });
 
       if (callbackHandlePromocodeApplied) {
         callbackHandlePromocodeApplied(null);
