@@ -273,6 +273,7 @@ export const ShoppingCart = InjectAppServices(
             isFreeAccount &&
             selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
             promocodeApplied?.promocode === process.env.REACT_APP_PROMOCODE_ARGENTINA,
+          hidePromocode,
         }),
       );
 
