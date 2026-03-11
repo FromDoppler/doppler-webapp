@@ -26,7 +26,7 @@ export const PromocodeMessages = ({
     return null;
   }
 
-  if (promotion?.canApply === false) {
+  if (promotion?.canApply === false && promotion?.promocode !== '') {
     return <PromocodeCanNotApplyMessage promotion={promotion}></PromocodeCanNotApplyMessage>;
   }
 
