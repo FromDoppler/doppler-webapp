@@ -87,6 +87,7 @@ export const mapItemFromMarketingPlan = ({
   removePromocodeApplied,
   intl,
   isExclusiveDiscountArgentina,
+  hidePromocode,
 }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -216,7 +217,7 @@ export const mapItemFromMarketingPlan = ({
             }}
           />
         </p>
-        {promocodeApplied && promocodeApplied.canApply && !disabledPromocode && (
+        {promocodeApplied && promocodeApplied.canApply && !disabledPromocode && !hidePromocode && (
           <button
             type="button"
             className="dp-btn-delete dpicon iconapp-delete"

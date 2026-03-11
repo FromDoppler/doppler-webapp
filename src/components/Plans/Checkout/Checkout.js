@@ -381,6 +381,7 @@ const Checkout = InjectAppServices(
                   isArgentina={isArgentina}
                   selectedPlanChat={selectedChatPlan}
                   canChatPlanRemove={false}
+                  hidePromocode={true}
                   buyType={parseInt(buyType)}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                   hasChatActive={chat && chat.active}
