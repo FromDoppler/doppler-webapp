@@ -2,6 +2,7 @@ import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { amountByPlanType, thousandSeparatorNumber } from '../../../utils';
 import {
   AddOnType,
+  BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
@@ -733,173 +734,6 @@ export const mapItemFromPlanChat = ({
   return planChatInformation;
 };
 
-export const mapItemFromOnSitePlan = ({
-  onSitePlan,
-  selectedPaymentFrequency,
-  intl,
-  amountDetailsData,
-  planType,
-  handleRemove,
-  canOnSitePlanRemove,
-}) => {
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const numberMonths = selectedPaymentFrequency?.numberMonths;
-
-  const onSitePlanInformation = {
-    name: <FormattedMessage id={`buy_process.onsite_plan_title`} />,
-    featureList: [
-      <FormattedMessage
-        id={`buy_process.feature_item_onsite_plan`}
-        values={{
-          units: thousandSeparatorNumber(intl.defaultLocale, onSitePlan?.printQty ?? 0),
-          Strong: (chunk) => <strong>{chunk}</strong>,
-        }}
-      />,
-    ],
-    // isRemovible: true,
-    data: onSitePlan,
-    isRemovible: canOnSitePlanRemove,
-    handleRemove,
-    billingList: [],
-    subscriptionItems: [],
-  };
-
-  // Months to hire
-  if (planType === PLAN_TYPE.byContact) {
-    const monthsCount = numberMonths ? numberMonths : 1;
-    const onSitePlanFee = onSitePlan?.fee ?? 0;
-    const amount = numberMonths ? onSitePlanFee * monthsCount : onSitePlanFee;
-
-    onSitePlanInformation.featureList.push(
-      <>
-        <FormattedMessage id={`buy_process.months_to_hire`} />{' '}
-        <strong>
-          <FormattedMessage
-            id="buy_process.month_with_plural"
-            values={{ months: monthsCount }}
-          ></FormattedMessage>
-        </strong>{' '}
-        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
-      </>,
-    );
-  }
-
-  // Months to pay
-  const monthsToPay = amountDetailsData?.value?.discountPrepayment?.monthsToPay;
-  const monthsCount = monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1;
-  const planFee = onSitePlan?.fee ?? 0;
-  const amountMonthsToPay = numberMonths ? planFee * monthsCount : planFee;
-
-  onSitePlanInformation.billingList.push({
-    label: (
-      <>
-        <FormattedMessage
-          id={
-            planType !== PLAN_TYPE.byContact
-              ? `buy_process.months_to_pay`
-              : `buy_process.difference_months_to_pay`
-          }
-          values={{
-            months: monthsToPay ? monthsToPay : numberMonths ? numberMonths : 1,
-          }}
-        />{' '}
-        <strong>
-          <FormattedMessage
-            id="buy_process.month_with_plural"
-            values={{ months: monthsCount }}
-          ></FormattedMessage>
-        </strong>
-      </>
-    ),
-    amount: (
-      <>
-        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
-      </>
-    ),
-  });
-
-  // // Discount advanced pay
-  if (amountDetailsData?.value?.discountPrepayment?.discountPercentage > 0) {
-    onSitePlanInformation.featureList.push(
-      <>
-        <FormattedMessage
-          id={`buy_process.feature_item_discount_advanced_pay`}
-          values={{
-            months: numberMonths,
-          }}
-        />
-        <span className="dp-discount">
-          -{amountDetailsData?.value?.discountPrepayment?.discountPercentage}%
-        </span>
-      </>,
-    );
-
-    onSitePlanInformation.billingList.push({
-      label: (
-        <FormattedMessage
-          id={`buy_process.shopping_cart.save_percentage`}
-          values={{
-            percentage: `${amountDetailsData?.value?.discountPrepayment?.discountPercentage}%`,
-          }}
-        />
-      ),
-      amount: (
-        <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPrepayment.amount}
-            {...numberFormatOptions}
-          />
-        </>
-      ),
-    });
-  }
-
-  if (amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage > 0) {
-    onSitePlanInformation.billingList.push({
-      label: (
-        <FormattedMessage
-          id={`buy_process.promocode.discount_for_admin`}
-          values={{
-            Strong: (chunk) => <strong>{chunk}</strong>,
-            percentage: `${amountDetailsData?.value?.discountPlanFeeAdmin?.discountPercentage}%`,
-          }}
-        />
-      ),
-      amount: (
-        <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
-            {...numberFormatOptions}
-          />
-        </>
-      ),
-    });
-  }
-
-  // // Positive balance
-  if (amountDetailsData?.value?.discountPaymentAlreadyPaid > 0) {
-    onSitePlanInformation.billingList.push({
-      label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
-      amount: (
-        <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
-            {...numberFormatOptions}
-          />
-        </>
-      ),
-    });
-  }
-
-  onSitePlanInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
-  onSitePlanInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
-
-  return onSitePlanInformation;
-};
-
 export const mapItemFromAddOnPlan = ({
   addOnPlan,
   addOnType,
@@ -917,18 +751,22 @@ export const mapItemFromAddOnPlan = ({
     name: (
       <FormattedMessage
         id={`${
-          addOnType === AddOnType.OnSite
-            ? 'buy_process.onsite_plan_title'
-            : 'buy_process.push_notification_plan_title'
+          addOnType === AddOnType.OnSite ? 
+          'buy_process.onsite_plan_title' : 
+          addOnType === AddOnType.PushNotifications ? 
+          'buy_process.push_notification_plan_title' :
+          'buy_process.chat_plan_title' 
         }`}
       />
     ),
     featureList: [
       <FormattedMessage
         id={`${
-          addOnType === AddOnType.OnSite
-            ? 'buy_process.feature_item_onsite_plan'
-            : 'buy_process.feature_item_push_notification_plan'
+          addOnType === AddOnType.OnSite ? 
+          'buy_process.feature_item_onsite_plan' : 
+          addOnType === AddOnType.PushNotifications ? 
+          'buy_process.feature_item_push_notification_plan' :
+          'buy_process.feature_item_chat_plan' 
         }`}
         values={{
           units: thousandSeparatorNumber(intl.defaultLocale, addOnPlan?.quantity ?? 0),
@@ -1232,7 +1070,9 @@ export const getBuyButton = ({
     }
   }
 
-  if (buyType === BUY_ONSITE_PLAN || buyType === BUY_PUSH_NOTIFICATION_PLAN) {
+  if (buyType === BUY_ONSITE_PLAN || 
+      buyType === BUY_PUSH_NOTIFICATION_PLAN || 
+      buyType === BUY_CHAT_PLAN) {
     if (pathname.includes('/checkout/premium/')) {
       return (
         <AddOnCheckoutButton

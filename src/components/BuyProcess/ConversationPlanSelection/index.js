@@ -1,67 +1,42 @@
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
-import { getMonthsByCycle, orderPaymentFrequencies, thousandSeparatorNumber } from '../../../utils';
+import { AddOnType, BUY_CHAT_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
+import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import { Slider } from '../Slider';
-import { useConversationPlans } from '../../../hooks/useFetchConversationPlans';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { ConversationPlanInformation } from './ConversationPlanInformation';
 import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../UnexpectedError';
-import { SelectedPlanChat } from './SelectedPlanChat';
-import { PlanChatInfo } from './PlanChatInfo';
-import { ShoppingCart } from '../ShoppingCart';
-import {
-  AddOnType,
-  BUY_CHAT_PLAN,
-  BUY_MARKETING_PLAN,
-  PLAN_TYPE,
-  PaymentMethodType,
-} from '../../../doppler-types';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { PlanBenefits } from './PlanBenefits';
+import { Slider } from '../Slider';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
-import { useParams } from 'react-router-dom';
-import { useQueryParams } from '../../../hooks/useQueryParams';
+import { ShoppingCart } from '../ShoppingCart';
 import { BannerUpgrade } from '../BannerUpgrade';
+import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
+import { SelectedConversationPlan } from './SelectedConversationPlan';
+import { PlanBenefits } from './PlanBenefits';
 
-export const PlanChat = InjectAppServices(
+export const ConversationPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
-    const [item, setItem] = useState(null);
-    const { planType } = useParams();
-    const query = useQueryParams();
-    const selectedPlanId = query.get('selected-plan') ?? 0;
-    const monthPlan = query.get('monthPlan') ?? 0;
-    const buyType = query.get('buyType') ?? '1';
-
-    const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
-
+    const selectedPaymentMethod = PaymentMethodType.creditCard;
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
-    const selectedPaymentMethod = PaymentMethodType.creditCard;
+    const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showPromotionInformation, setShowPromotionInformation] = useState(false);
-
+    const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [
       {
-        conversationPlansValues,
-        loading: loadingConversationPlans,
-        hasError: hasErrorConversationPlans,
+        addOnPlansValues,
+        loading: loadingAddOnPlans,
+        hasError: hasErrorAddOnPlans,
         selectedPlan,
         selectedPlanIndex,
-        customConversationsPlans,
+        customAddOnPlans,
       },
       handleSliderValue,
-    ] = useConversationPlans(dopplerAccountPlansApiClient, appSessionRef);
-
-    const sessionPlan = appSessionRef.current.userData.user;
-    const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
-    const conversationsPromotion =
-      appSessionRef.current.userData.user.addOnPromotions !== undefined
-        ? appSessionRef.current.userData.user.addOnPromotions.filter(
-            (aop) => aop.idAddOnType === AddOnType.Conversations,
-          )[0]
-        : undefined;
+    ] = useAddOnPlans(AddOnType.Conversations, dopplerAccountPlansApiClient, appSessionRef);
 
     const itemRef = useRef(null);
     itemRef.current = item;
@@ -71,6 +46,16 @@ export const PlanChat = InjectAppServices(
       setItem(null);
       handleSliderChange({ target: { value: 0 } });
     };
+
+    const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
+    const planType = appSessionRef.current.userData.user.plan.planType;
+    const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
+    const conversationsPromotion =
+      appSessionRef.current.userData.user.addOnPromotions !== undefined
+        ? appSessionRef.current.userData.user.addOnPromotions.filter(
+            (aop) => aop.idAddOnType === AddOnType.Conversations,
+          )[0]
+        : undefined;
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
@@ -84,17 +69,7 @@ export const PlanChat = InjectAppServices(
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex, item, conversationsPromotion?.idAddOnPlan]);
-
-    useEffect(() => {
-      const fetchPlanData = async () => {
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId, 1);
-        setSelectedMarketingPlan({ ...planData.value, type: planType, id: selectedPlanId });
-        setLoading(false);
-      };
-
-      fetchPlanData();
-    }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
+    }, [selectedPlan, selectedPlanIndex, item, addItem, conversationsPromotion?.idAddOnPlan]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -119,7 +94,7 @@ export const PlanChat = InjectAppServices(
           }))
           .sort(orderPaymentFrequencies);
         selectedPaymentFrequencyByDefault = paymentFrequenciesData.success
-          ? paymentFrequencies.find((pf) => pf.numberMonths.toString() === monthPlan)
+          ? paymentFrequencies.find((pf) => pf.numberMonths.toString() === monthPlan.toString())
           : null;
 
         setPaymentFrequenciesList(paymentFrequencies);
@@ -130,6 +105,16 @@ export const PlanChat = InjectAppServices(
         fetchPaymentFrequency();
       }
     }, [dopplerAccountPlansApiClient, selectedPaymentMethod, planType, selectedPlanId, monthPlan]);
+
+    useEffect(() => {
+      const fetchPlanData = async () => {
+        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId, 1);
+        setSelectedMarketingPlan({ ...planData.value, type: planType, id: selectedPlanId });
+        setLoading(false);
+      };
+
+      fetchPlanData();
+    }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
 
     const handleSliderChange = (e) => {
       const { value } = e.target;
@@ -149,11 +134,11 @@ export const PlanChat = InjectAppServices(
       }
     };
 
-    if (loadingConversationPlans || loading) {
+    if (loadingAddOnPlans || loading) {
       return <Loading page />;
     }
 
-    if (hasErrorConversationPlans) {
+    if (hasErrorAddOnPlans) {
       return <UnexpectedError />;
     }
 
@@ -169,19 +154,17 @@ export const PlanChat = InjectAppServices(
         <div className="dp-container p-b-48">
           <div className="dp-rowflex">
             <div className="col-md-12 col-lg-8 m-b-24">
-              <PlanChatInfo />
+              <ConversationPlanInformation />
               <section className="m-t-42">
-                <h3 className="dp-second-order-title">
-                  {_('chat_selection.how_many_conversations_need_message')}
-                </h3>
+                <div className="dp-rowflex">
+                  <h3 className="dp-second-order-title">
+                    {_('chat_selection.how_many_conversations_need_message')}
+                  </h3>
+                </div>
                 <Slider
-                  items={conversationPlansValues}
+                  items={addOnPlansValues}
                   selectedItemIndex={selectedPlanIndex}
                   handleChange={handleSliderChange}
-                  labelQuantity={`${thousandSeparatorNumber(
-                    intl.defaultLocale,
-                    selectedPlan?.conversationsQty ?? 0,
-                  )} ${_('chat_selection.quantity_label')}`}
                   moreOptionTickmark={{ label: _('chat_selection.more_option_tickmark_message') }}
                   handleOnClick={handleSliderClick}
                 />
@@ -214,17 +197,18 @@ export const PlanChat = InjectAppServices(
                 </section>
               )}
               <section>
-                <SelectedPlanChat
+                <SelectedConversationPlan
                   selectedPlan={selectedPlan}
                   item={item}
                   addItem={addItem}
                   removeItem={removeItem}
+                  customPlan={customAddOnPlans[0]}
                 />
                 <span className="dp-reminder">
                   {_('chat_selection.expiration_free_plan_message')}
                 </span>
               </section>
-              <PlanBenefits selectedPlan={selectedPlan} customPlan={customConversationsPlans[0]} />
+              <PlanBenefits selectedPlan={selectedPlan} customPlan={customAddOnPlans[0]} />
               <hr className="dp-separator" />
               <div className="m-t-18 m-b-18">
                 <GoBackButton />
@@ -237,16 +221,17 @@ export const PlanChat = InjectAppServices(
                   paymentFrequenciesList: paymentFrequenciesList,
                   selectedPaymentFrequency: selectedPaymentFrequency,
                   disabled: true,
-                  currentSubscriptionUser: sessionPlan.plan.planSubscription,
+                  currentSubscriptionUser: monthPlan,
                 }}
-                isMonthlySubscription={isMonthlySubscription}
-                selectedPlanChat={item}
+                isMonthlySubscription={monthPlan === 1}
                 selectedMarketingPlan={selectedMarketingPlan}
-                handleRemovePlanChat={removeItem}
+                selectedAddOnPlan={item}
+                handleRemoveAddOnPlan={removeItem}
                 isEqualPlan={false}
                 buyType={BUY_CHAT_PLAN}
                 disabledPromocode={true}
-                addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
+                addMarketingPlan={false}
+                canAddOnPlanRemove={true}
               />
             </div>
           </div>
