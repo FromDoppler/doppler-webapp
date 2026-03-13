@@ -11,7 +11,6 @@ import {
   getBuyButton,
   mapItemFromLandingPackages,
   mapItemFromMarketingPlan,
-  mapItemFromPlanChat,
   mapItemFromAddOnPlan,
 } from './utils';
 import {
@@ -88,7 +87,6 @@ export const ShoppingCart = InjectAppServices(
 
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
-    const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
     const [amountDetailsAddOnPlanData, setAmountDetailsAddOnPlanData] = useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState(() =>
       normalizePromocodeState(
@@ -198,42 +196,10 @@ export const ShoppingCart = InjectAppServices(
     useEffect(() => {
       const fetchData = async () => {
         const paymentFrequencyId = discountConfig?.selectedPaymentFrequency?.id;
-        const _amountDetailsPlanChatData =
-          await dopplerAccountPlansApiClient.getPlanChatBillingDetailsData(
-            selectedPlanChat?.planId,
-            paymentFrequencyId
-              ? paymentFrequencyId
-              : discountConfig.paymentFrequenciesList.at(-1)
-                ? discountConfig.paymentFrequenciesList.at(-1).id
-                : 0,
-            promocodeFromUrl,
-          );
-
-        console.log('_amountDetailsPlanChatData', _amountDetailsPlanChatData);
-
-        setAmountDetailsPlanChatData(_amountDetailsPlanChatData);
-      };
-
-      if (selectedPlanChat?.planId) {
-        fetchData();
-      } else {
-        setAmountDetailsPlanChatData(null);
-      }
-    }, [
-      dopplerAccountPlansApiClient,
-      selectedPlanChat,
-      discountConfig?.selectedPaymentFrequency,
-      discountConfig.paymentFrequenciesList,
-      promocodeFromUrl,
-    ]);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        const paymentFrequencyId = discountConfig?.selectedPaymentFrequency?.id;
         const _amountDetailsAddOnPlanData =
           await dopplerAccountPlansApiClient.getAddOnPlanBillingDetailsData(
             selectedAddOnPlan?.planId,
-            buyType === BUY_ONSITE_PLAN ? 4 : buyType === BUY_PUSH_NOTIFICATION_PLAN ? 5 : 0,
+            buyType === BUY_ONSITE_PLAN ? 4 : buyType === BUY_PUSH_NOTIFICATION_PLAN ? 5 : 2,
             paymentFrequencyId
               ? paymentFrequencyId
               : discountConfig.paymentFrequenciesList.at(-1)
@@ -334,21 +300,6 @@ export const ShoppingCart = InjectAppServices(
         }),
       );
 
-    selectedPlanChat &&
-      items.push(
-        mapItemFromPlanChat({
-          planChat: selectedPlanChat,
-          intl,
-          selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
-          amountDetailsData: amountDetailsPlanChatData,
-          planType: selectedMarketingPlan?.type,
-          handleRemove: () => {
-            handleRemovePlanChat();
-          },
-          canChatPlanRemove: canChatPlanRemove,
-        }),
-      );
-
     selectedAddOnPlan &&
       items.push(
         mapItemFromAddOnPlan({
@@ -358,7 +309,7 @@ export const ShoppingCart = InjectAppServices(
               ? AddOnType.OnSite
               : buyType === BUY_PUSH_NOTIFICATION_PLAN
                 ? AddOnType.PushNotifications
-                : 0,
+                : AddOnType.Conversations,
           intl,
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
           amountDetailsData: amountDetailsAddOnPlanData,
@@ -373,13 +324,11 @@ export const ShoppingCart = InjectAppServices(
     const total =
       (addMarketingPlan ? amountDetailsData?.value?.currentMonthTotal ?? 0 : 0) +
       (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
-      (amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0) +
       (amountDetailsAddOnPlanData?.value?.currentMonthTotal ?? 0);
 
     const nextMonthTotal =
       (addMarketingPlan ? amountDetailsData?.value?.nextMonthTotal ?? 0 : 0) +
       (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
-      (amountDetailsPlanChatData?.value?.nextMonthTotal ?? 0) +
       (amountDetailsAddOnPlanData?.value?.nextMonthTotal ?? 0);
 
     const checkoutLandingPackButtonEnabled = landingPagesRemoved && landingPacks?.length === 0;
@@ -398,10 +347,6 @@ export const ShoppingCart = InjectAppServices(
       disabledLandingsBuy,
       checkoutLandingPackButtonEnabled,
       cancelLandings,
-      selectedPlanChat: {
-        planChat: selectedPlanChat,
-        total: amountDetailsPlanChatData?.value?.currentMonthTotal ?? 0,
-      },
       hasChatActive,
       selectedAddOnPlan: {
         addOnPlan: selectedAddOnPlan,
@@ -485,8 +430,8 @@ export const ShoppingCart = InjectAppServices(
           )}
         </section>
         {(!isByCredits ||
-          (isByCredits && buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null) ||
           (isByCredits && buyType === BUY_LANDING_PACK && amountDetailsLandingPacksData !== null) ||
+          (isByCredits && buyType === BUY_CHAT_PLAN && amountDetailsAddOnPlanData !== null) ||
           (isByCredits && buyType === BUY_ONSITE_PLAN && amountDetailsAddOnPlanData !== null) ||
           (isByCredits &&
             buyType === BUY_PUSH_NOTIFICATION_PLAN &&
@@ -508,13 +453,9 @@ export const ShoppingCart = InjectAppServices(
                     ? 'buy_process.upcoming_bills.onsite_plan_subtitle'
                     : buyType === BUY_PUSH_NOTIFICATION_PLAN
                       ? 'buy_process.upcoming_bills.push_notification_plan_subtitle'
-                      : addMarketingPlan
-                        ? buyType === BUY_CHAT_PLAN && amountDetailsPlanChatData !== null
-                          ? !isByCredits
-                            ? 'buy_process.upcoming_bills.marketing_and_chat_plan_subtitle'
-                            : 'buy_process.upcoming_bills.chat_plan_subtitle'
-                          : 'buy_process.upcoming_bills.marketing_plan_subtitle'
-                        : 'buy_process.upcoming_bills.chat_plan_subtitle'
+                      : buyType === BUY_CHAT_PLAN ?
+                      'buy_process.upcoming_bills.chat_plan_subtitle' :
+                      'buy_process.upcoming_bills.marketing_plan_subtitle'
               }
             />
           )}

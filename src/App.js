@@ -40,18 +40,17 @@ import { PlanSelection } from './components/BuyProcess/PlanSelection';
 import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
 import { CollaboratorsSections } from './components/ControlPanel/CollaboratorsSections';
 import { CollaboratorsInvite } from './components/CollaborationInvite';
-import { PlanChat } from './components/BuyProcess/PlanChat';
 import { BuyProcessLayout } from './components/BuyProcess/BuyProcessLayout';
 import { CollaboratorEditionSection } from './components/ControlPanel/CollaboratorEditionSection';
 import { PushNotificationSection } from './components/ControlPanel/PushNotificationSection';
 import { Conversations } from './components/Conversations';
-import { BuyConversation } from './components/Plans/BuyConversation';
 import { OnSitePlansSelection } from './components/BuyProcess/OnSitePlanSelection';
 import { OnSite } from './components/OnSite';
 import { MyPlan } from './components/MyPlan';
 import { PushNotifications } from './components/PushNotifications';
 import { PushNotificationPlanSelection } from './components/BuyProcess/PushNotificationPlanSelection';
 import { AdditionalServices } from './components/MyPlan/AdditionalServices';
+import { ConversationPlanSelection } from './components/BuyProcess/ConversationPlanSelection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -224,20 +223,12 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               }
             />
             <Route
-              path="/plan-chat/premium/:planType"
-              element={
-                <PrivateRoute>
-                  <BuyProcessLayout>
-                    <PlanChat />
-                  </BuyProcessLayout>
-                </PrivateRoute>
-              }
-            />
-            <Route
               path="/buy-conversation"
               element={
                 <PrivateRoute>
-                  <BuyConversation />
+                  <BuyProcessLayout>
+                    <ConversationPlanSelection />
+                  </BuyProcessLayout>
                 </PrivateRoute>
               }
             />

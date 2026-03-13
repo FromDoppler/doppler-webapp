@@ -79,23 +79,6 @@ const getNewCheckoutPurchaseUrl = ({
   );
 };
 
-const getBuyChatPlanUrl = ({
-  planType,
-  planId,
-  discountId,
-  promocode,
-  monthPlan,
-  currentQueryParams,
-}) => {
-  return (
-    `/plan-chat/premium/${planType}?selected-plan=${planId}` +
-    `${discountId ? `&discountId=${discountId}` : ''}` +
-    `${promocode ? `&PromoCode=${promocode}` : ''}` +
-    `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
-    `${currentQueryParams}`
-  );
-};
-
 export const getBuyPurchaseUrl = ({
   controlPanelUrl,
   planType,
@@ -106,7 +89,6 @@ export const getBuyPurchaseUrl = ({
   newCheckoutEnabled,
   search,
   chatPlanId,
-  isPlanSelectionStep,
 }) => {
   const params = new URLSearchParams(search.slice(1));
   // these parameters are eliminated, so that they do not appear repeated in the url
@@ -119,17 +101,6 @@ export const getBuyPurchaseUrl = ({
   const currentQueryParams = params.toString()
     ? `&${params.toString().replace('promo-code', 'PromoCode')}`
     : '';
-
-  if (isPlanSelectionStep) {
-    return getBuyChatPlanUrl({
-      planType,
-      planId,
-      discountId,
-      promocode: encodeURI(promocode),
-      monthPlan,
-      currentQueryParams,
-    });
-  }
 
   if (newCheckoutEnabled) {
     return getNewCheckoutPurchaseUrl({
