@@ -379,7 +379,7 @@ interface PromotionEntry {
 interface ChatPlanEntry {
   planId: number;
   description: string;
-  conversationsQty: number;
+  quantity: number;
   fee: number;
   additionalConversation: number;
   additionalAgent: number;
@@ -604,7 +604,7 @@ function mapChatPlanEntry(json: any): ChatPlanEntry {
   return {
     planId: json?.planData ? json.planData.idPlan : 0,
     description: json?.planData ? json.planData.description : '',
-    conversationsQty: json?.planData ? json.planData.conversationQty : 0,
+    quantity: json?.planData ? json.planData.conversationQty : 0,
     fee: json?.planData ? json.planData.fee : 0,
     additionalConversation: json?.planData ? json.planData.additionalConversation : 0,
     additionalAgent: json?.planData ? json.planData.additionalAgent : 0,

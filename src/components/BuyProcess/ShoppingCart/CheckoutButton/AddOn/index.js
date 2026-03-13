@@ -45,7 +45,7 @@ export const AddOnCheckoutButton = InjectAppServices(
             ? AddOnType.OnSite
             : buyType === BUY_PUSH_NOTIFICATION_PLAN
               ? AddOnType.PushNotifications
-              : 0,
+              : AddOnType.Conversations,
         addOnPlanId,
       });
 

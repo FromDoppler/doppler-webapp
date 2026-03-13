@@ -69,7 +69,9 @@ export const NavigationTabs = ({
                   disabled={planType.disabled}
                   footer={
                     <div
-                      className={`dp-footer--radio ${showContactsHardcodedPrice ? 'dp-footer--radio--contacts-hardcoded' : ''}`}
+                      className={`dp-footer--radio ${
+                        showContactsHardcodedPrice ? 'dp-footer--radio--contacts-hardcoded' : ''
+                      }`}
                     >
                       <FormattedMessage id={footerMessageId} values={footerValues} />
                     </div>

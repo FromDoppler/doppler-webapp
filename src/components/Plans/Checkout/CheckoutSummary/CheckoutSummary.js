@@ -34,7 +34,6 @@ import { AddOn } from '../../../shared/AddOn';
 import { useFetchLandingPacks } from '../../../../hooks/useFetchtLandingPacks';
 import useTimeout from '../../../../hooks/useTimeout';
 import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide';
-import { PlanChatInformation } from './PlanChatInformation';
 import { CheckoutSummaryCarousel } from './CheckoutSummaryCarousel';
 import { AddOnPlanInformation } from './AddOnPlanInformation';
 import { useAddOnPlans } from '../../../../hooks/useFetchAddOnPlans';
@@ -563,7 +562,6 @@ export const CheckoutSummary = InjectAppServices(
           dispatch({ type: CHECKOUT_SUMMARY_ACTIONS.START_FETCH });
           const billingInformationData = await fetchBillingInformationData();
           const currentUserPlanData = await fetchCurrentUserPlanByType(1);
-          const currentChatPlanUserData = await fetchCurrentUserPlanByType(2);
 
           var addOnPromotions = undefined;
           if (buyType && Number(buyType) === BUY_MARKETING_PLAN) {
@@ -581,6 +579,10 @@ export const CheckoutSummary = InjectAppServices(
             currentAddOnPlanUserData = await fetchCurrentUserPlanByType(5);
           }
 
+          if (buyType && Number(buyType) === BUY_CHAT_PLAN) {
+            currentAddOnPlanUserData = await fetchCurrentUserPlanByType(2);
+          }
+
           dispatch({
             type: CHECKOUT_SUMMARY_ACTIONS.FINISH_FETCH,
             payload: {
@@ -589,7 +591,6 @@ export const CheckoutSummary = InjectAppServices(
               extraCredits: extraCreditsByPromocode,
               discount: discountDescription,
               paymentMethod: paymentMethodType,
-              chatUserPlan: currentChatPlanUserData,
               addOnUserPlan: currentAddOnPlanUserData,
               addOnPromotions: addOnPromotions,
             },
@@ -660,22 +661,13 @@ export const CheckoutSummary = InjectAppServices(
                     extraCredits={extraCredits}
                     remainingCredits={remainingCredits}
                   />
-                  {chatUserPlan !== null && (
-                    <PlanChatInformation
-                      planType={planType}
-                      description={chatUserPlan.description}
-                      quantity={chatUserPlan.quantity}
-                      discount={discount}
-                    />
-                  )}
                 </>
               ) : buyType && Number(buyType) === BUY_CHAT_PLAN ? (
                 chatUserPlan !== null && (
-                  <PlanChatInformation
-                    planType={planType}
-                    description={chatUserPlan.description}
-                    quantity={chatUserPlan.quantity}
+                  <AddOnPlanInformation
+                    quantity={addOnUserPlan.quantity}
                     discount={discount}
+                    addOnType={AddOnType.Conversations}
                   />
                 )
               ) : buyType && Number(buyType) === BUY_ONSITE_PLAN && addOnUserPlan !== null ? (

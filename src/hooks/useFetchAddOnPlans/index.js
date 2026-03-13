@@ -10,7 +10,11 @@ export const useAddOnPlans = (addOnType, dopplerAccountPlansApiClient, appSessio
   const [state, dispatch] = useReducer(addOnPlansReducer, INITIAL_STATE_ADDON_PLANS);
   const sessionPlan = appSessionRef.current.userData.user;
   const addOnPlan =
-    AddOnType.OnSite === addOnType ? sessionPlan.onSite.plan : sessionPlan.pushNotification.plan;
+    addOnType === AddOnType.OnSite
+      ? sessionPlan.onSite.plan
+      : addOnType === AddOnType.PushNotifications
+        ? sessionPlan.pushNotification.plan
+        : sessionPlan.chat.plan;
 
   useEffect(() => {
     const fetchData = async () => {

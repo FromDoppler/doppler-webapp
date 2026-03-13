@@ -194,7 +194,6 @@ export const Promocode = InjectAppServices(
               dispatchPromocode(validateData);
             }
           } else {
-
             if (selectedPlanType === selectedMarketingPlan?.type) {
               const validateData = await dopplerAccountPlansApiClient.validatePromocode(
                 selectedMarketingPlan?.id,
@@ -267,10 +266,11 @@ export const Promocode = InjectAppServices(
             setOpen(true);
           }
 
-          var promocodeToSet = currentPromocodeApplied?.promocode !== ''
+          var promocodeToSet =
+            currentPromocodeApplied?.promocode !== ''
               ? currentPromocodeApplied?.promocode
               : defaultPromocode;
-              
+
           setFieldValue(fieldNames.promocode, promocodeToSet);
           const validatePercengePromocode = true;
           validatePromocode(promocodeToSet, validatePercengePromocode);

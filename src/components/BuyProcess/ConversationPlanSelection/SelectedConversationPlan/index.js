@@ -3,7 +3,13 @@ import { numberFormatOptions } from '../../../../doppler-types';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { thousandSeparatorNumber } from '../../../../utils';
 
-export const SelectedConversationPlan = ({ selectedPlan, customPlan, item, addItem, removeItem }) => {
+export const SelectedConversationPlan = ({
+  selectedPlan,
+  customPlan,
+  item,
+  addItem,
+  removeItem,
+}) => {
   const intl = useIntl();
   if (selectedPlan) {
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -85,17 +91,17 @@ export const SelectedConversationPlan = ({ selectedPlan, customPlan, item, addIt
 
 SelectedConversationPlan.propTypes = {
   selectedPlan: PropTypes.shape({
-      fee: PropTypes.number,
-      conversationsQty: PropTypes.number,
-      agents: PropTypes.number,
-      channels: PropTypes.number,
-    }),
-    item: PropTypes.shape({
-      fee: PropTypes.number.isRequired,
-      conversationsQty: PropTypes.number.isRequired,
-      agents: PropTypes.number.isRequired,
-      channels: PropTypes.number.isRequired,
-    }),
-    addItem: PropTypes.func.isRequired,
-    removeItem: PropTypes.func.isRequired,
+    fee: PropTypes.number,
+    conversationsQty: PropTypes.number,
+    agents: PropTypes.number,
+    channels: PropTypes.number,
+  }),
+  item: PropTypes.shape({
+    fee: PropTypes.number.isRequired,
+    conversationsQty: PropTypes.number.isRequired,
+    agents: PropTypes.number.isRequired,
+    channels: PropTypes.number.isRequired,
+  }),
+  addItem: PropTypes.func.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
