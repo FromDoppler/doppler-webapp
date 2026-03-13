@@ -45,7 +45,7 @@ export const AddOnCheckoutButton = InjectAppServices(
             ? AddOnType.OnSite
             : buyType === BUY_PUSH_NOTIFICATION_PLAN
               ? AddOnType.PushNotifications
-              : 0,
+              : AddOnType.Conversations,
         addOnPlanId,
       });
 
@@ -69,7 +69,7 @@ export const AddOnCheckoutButton = InjectAppServices(
           ? AddOnType.OnSite
           : buyType === BUY_PUSH_NOTIFICATION_PLAN
             ? AddOnType.PushNotifications
-            : 0;
+            : AddOnType.Conversations;
       const response = await dopplerBillingUserApiClient.cancellationAddOnPlan(addOnType);
       if (response.success) {
         setStatus(SAVED);

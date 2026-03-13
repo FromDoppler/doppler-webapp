@@ -98,14 +98,11 @@ export const PaymentFrequency = ({
               process.env.REACT_APP_PROMOCODE_ARGENTINA !== undefined &&
               (promocodeApplied?.promocode === process.env.REACT_APP_PROMOCODE_ARGENTINA ||
                 (promocodeApplied?.promocode !== process.env.REACT_APP_PROMOCODE_ARGENTINA &&
-                  promocodeApplied?.discountPercentage <=
-                    EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA)) ? (
-                null
-              ) : (
-                discount.discountPercentage > 0 && (
-                  <span className={'dp-discount'}>-{discount.discountPercentage}%</span>
-                )
-              )}
+                  promocodeApplied?.discountPercentage <= EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA))
+                ? null
+                : discount.discountPercentage > 0 && (
+                    <span className={'dp-discount'}>-{discount.discountPercentage}%</span>
+                  )}
             </button>
           ))}
           <div

@@ -124,7 +124,7 @@ const Checkout = InjectAppServices(
         const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId, 1);
         setSelectedFullPlan({ ...planData.value, type: planType, id: selectedPlanId });
       };
-      
+
       fetchPlanData();
     }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
 
@@ -209,8 +209,8 @@ const Checkout = InjectAppServices(
 
     const isBuyLandingPacks = selectedLandings?.length > 0;
     const isBuyAddOnPlan =
-      parseInt(buyType) === BUY_ONSITE_PLAN || 
-      parseInt(buyType) === BUY_PUSH_NOTIFICATION_PLAN || 
+      parseInt(buyType) === BUY_ONSITE_PLAN ||
+      parseInt(buyType) === BUY_PUSH_NOTIFICATION_PLAN ||
       parseInt(buyType) === BUY_CHAT_PLAN;
 
     return (

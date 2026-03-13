@@ -751,22 +751,22 @@ export const mapItemFromAddOnPlan = ({
     name: (
       <FormattedMessage
         id={`${
-          addOnType === AddOnType.OnSite ? 
-          'buy_process.onsite_plan_title' : 
-          addOnType === AddOnType.PushNotifications ? 
-          'buy_process.push_notification_plan_title' :
-          'buy_process.chat_plan_title' 
+          addOnType === AddOnType.OnSite
+            ? 'buy_process.onsite_plan_title'
+            : addOnType === AddOnType.PushNotifications
+              ? 'buy_process.push_notification_plan_title'
+              : 'buy_process.chat_plan_title'
         }`}
       />
     ),
     featureList: [
       <FormattedMessage
         id={`${
-          addOnType === AddOnType.OnSite ? 
-          'buy_process.feature_item_onsite_plan' : 
-          addOnType === AddOnType.PushNotifications ? 
-          'buy_process.feature_item_push_notification_plan' :
-          'buy_process.feature_item_chat_plan' 
+          addOnType === AddOnType.OnSite
+            ? 'buy_process.feature_item_onsite_plan'
+            : addOnType === AddOnType.PushNotifications
+              ? 'buy_process.feature_item_push_notification_plan'
+              : 'buy_process.feature_item_chat_plan'
         }`}
         values={{
           units: thousandSeparatorNumber(intl.defaultLocale, addOnPlan?.quantity ?? 0),
@@ -1070,9 +1070,11 @@ export const getBuyButton = ({
     }
   }
 
-  if (buyType === BUY_ONSITE_PLAN || 
-      buyType === BUY_PUSH_NOTIFICATION_PLAN || 
-      buyType === BUY_CHAT_PLAN) {
+  if (
+    buyType === BUY_ONSITE_PLAN ||
+    buyType === BUY_PUSH_NOTIFICATION_PLAN ||
+    buyType === BUY_CHAT_PLAN
+  ) {
     if (pathname.includes('/checkout/premium/')) {
       return (
         <AddOnCheckoutButton

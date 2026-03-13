@@ -453,9 +453,9 @@ export const ShoppingCart = InjectAppServices(
                     ? 'buy_process.upcoming_bills.onsite_plan_subtitle'
                     : buyType === BUY_PUSH_NOTIFICATION_PLAN
                       ? 'buy_process.upcoming_bills.push_notification_plan_subtitle'
-                      : buyType === BUY_CHAT_PLAN ?
-                      'buy_process.upcoming_bills.chat_plan_subtitle' :
-                      'buy_process.upcoming_bills.marketing_plan_subtitle'
+                      : buyType === BUY_CHAT_PLAN
+                        ? 'buy_process.upcoming_bills.chat_plan_subtitle'
+                        : 'buy_process.upcoming_bills.marketing_plan_subtitle'
               }
             />
           )}

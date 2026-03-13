@@ -1,9 +1,8 @@
-import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { AddOnType, BUY_CHAT_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
 import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { ConversationPlanInformation } from './ConversationPlanInformation';
 import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../UnexpectedError';
@@ -15,6 +14,7 @@ import { BannerUpgrade } from '../BannerUpgrade';
 import { getPromotionInformationMessage } from '../utils';
 import { SelectedConversationPlan } from './SelectedConversationPlan';
 import { PlanBenefits } from './PlanBenefits';
+import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
 
 export const ConversationPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -61,12 +61,6 @@ export const ConversationPlanSelection = InjectAppServices(
     const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
-    const conversationsPromotion =
-      appSessionRef.current.userData.user.addOnPromotions !== undefined
-        ? appSessionRef.current.userData.user.addOnPromotions.filter(
-            (aop) => aop.idAddOnType === AddOnType.Conversations,
-          )[0]
-        : undefined;
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
