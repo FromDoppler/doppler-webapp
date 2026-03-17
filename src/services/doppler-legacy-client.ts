@@ -750,6 +750,7 @@ function mapAddOnPromotion(json: any) {
     idAddOnPlan: json.IdAddOnPlan,
     quantity: json.Quantity,
     expirationDate: json.ExpirationDate,
+    duration: json.Duration ?? 0,
   };
 }
 

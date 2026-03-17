@@ -6,13 +6,14 @@ import { formattedNumber } from '..';
 import { AddOnType } from '../../../../../doppler-types';
 import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
+import { getPromotionInformationMessage } from '../utils';
 
 export const OnSitePlan = InjectAppServices(
   ({
     buyUrl,
     onSitePlan,
     isFreeAccount,
-    addOnPromotion,
+    addOnPromotions,
     dependencies: { dopplerPopupHubApiClient, dopplerAccountPlansApiClient, appSessionRef },
   }) => {
     const intl = useIntl();
@@ -20,15 +21,7 @@ export const OnSitePlan = InjectAppServices(
     const [loading, setLoading] = useState(true);
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [plan, setPlan] = useState(onSitePlan);
-    const showPromotionInformation = addOnPromotion !== undefined && !onSitePlan.active;
-
-    const user = appSessionRef.current.userData.user;
-    const expirationDate = new Date(addOnPromotion?.expirationDate);
-    const formatter = new Intl.DateTimeFormat(user.lang === 'es' ? 'es-ES' : 'en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
+    const showPromotionInformation = addOnPromotions.length > 0 && !onSitePlan.active;
 
     useEffect(() => {
       const fetchAddOnData = async () => {
@@ -40,7 +33,7 @@ export const OnSitePlan = InjectAppServices(
             setAvailableQuantity(plan.quantity);
           }
         } else {
-          if (isFreeAccount || addOnPromotion) {
+          if (isFreeAccount || addOnPromotions.length > 0) {
             const getFreeAddOnPlanResponse = await dopplerAccountPlansApiClient.getFreeAddOnPlan(
               AddOnType.OnSite,
             );
@@ -60,7 +53,7 @@ export const OnSitePlan = InjectAppServices(
       dopplerAccountPlansApiClient,
       plan.active,
       plan.quantity,
-      addOnPromotion,
+      addOnPromotions,
       isFreeAccount,
     ]);
 
@@ -104,7 +97,7 @@ export const OnSitePlan = InjectAppServices(
                       `my_plan.subscription_details.${
                         plan.trialExpired
                           ? 'view_plans_button'
-                          : (isFreeAccount || addOnPromotion) && !plan.active
+                          : (isFreeAccount || addOnPromotions.length > 0) && !plan.active
                             ? 'activate_now_button'
                             : 'change_plan_button'
                       }`,
@@ -119,19 +112,11 @@ export const OnSitePlan = InjectAppServices(
               <span className="dp-message-icon"></span>
               <div className="dp-content-message dp-content-full">
                 <p>
-                  <FormattedMessage
-                    id={`${
-                      addOnPromotion.idAddOnPlan !== undefined
-                        ? 'my_plan.subscription_details.addon.onsite_plan.addon_promotion_one_plan_message'
-                        : 'my_plan.subscription_details.addon.onsite_plan.addon_promotion_all_plans_message'
-                    }`}
-                    values={{
-                      discount: addOnPromotion.discount,
-                      quantity: addOnPromotion.quantity,
-                      expirationDate: formatter.format(new Date(expirationDate)),
-                      bold: (chunks) => <b>{chunks}</b>,
-                    }}
-                  />
+                  {getPromotionInformationMessage(
+                    'onsite',
+                    appSessionRef.current.userData.user,
+                    addOnPromotions,
+                  )}
                 </p>
               </div>
             </div>

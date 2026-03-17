@@ -754,63 +754,61 @@ export const ModalPromoAddons = InjectAppServices(
     const hasPushNotificationPlan =
       user.pushNotification?.active === true && user.pushNotification?.plan?.fee > 0;
 
+    const getAddOnPromotionSliceTitle = (addOnPromotions) => {
+      var title = (
+        <FormattedMessage
+          id={'addons.carousel.slice_5_description_title'}
+          values={{
+            Bold: (chunk) => <strong>{chunk}</strong>,
+            br: <br />,
+          }}
+        />
+      );
+
+      var partOne = title;
+
+      addOnPromotions.forEach((addOnPromotion, index) => {
+        partOne = (
+          <FormattedMessage
+            id="parent_message"
+            defaultMessage="{partOne} {partTwo}"
+            values={{
+              partOne: partOne,
+              partTwo: (
+                <FormattedMessage
+                  id={'addons.carousel.slice_5_description_item'}
+                  values={{
+                    Bold: (chunk) => <strong>{chunk}</strong>,
+                    br: <br />,
+                    addOnType: addOnPromotion.idAddOnType,
+                    discount: addOnPromotion.discountPercentage,
+                    includedAllPlans: addOnPromotion.idAddOnPlan === null,
+                    quantity: addOnPromotion.quantity,
+                  }}
+                />
+              ),
+            }}
+          />
+        );
+      });
+
+      return partOne;
+    };
+
     const getAddonSlides = () => {
       const slides = [];
       const promotions = addOnPromotions === undefined ? [] : addOnPromotions;
 
       if (promotions.length > 0) {
-        var conversations = promotions.filter((a) => a.idAddOnType === AddOnType.Conversations)[0];
-        var landingPages = promotions.filter((a) => a.idAddOnType === AddOnType.Landings)[0];
-        var onSite = promotions.filter((a) => a.idAddOnType === AddOnType.OnSite)[0];
-        var pushNotifications = promotions.filter(
-          (a) => a.idAddOnType === AddOnType.PushNotifications,
-        )[0];
-
         var addOnPromotionSlice = {
           id: 5,
           img: 'addons-carousel-slide-5.png',
           title: 'addons.carousel.slice_5_title',
-          description: (
-            <FormattedMessage
-              id={'addons.carousel.slice_5_description'}
-              values={{
-                Bold: (chunk) => <strong>{chunk}</strong>,
-                br: <br />,
-                hasConversations: conversations !== undefined,
-                conversationsDiscount:
-                  conversations !== undefined ? conversations.discountPercentage : 0,
-                conversationsIncludedAllPlans:
-                  conversations !== undefined && conversations.idAddOnPlan === null,
-                conversationsQuantity: conversations !== undefined ? conversations.quantity : '',
-                hasLandingPages: landingPages !== undefined,
-                landingPagesDiscount:
-                  landingPages !== undefined ? landingPages.discountPercentage : 0,
-                landingPagesIncludedAllPlans:
-                  landingPages !== undefined && landingPages.idAddOnPlan === null,
-                landingPagesQuantity: landingPages !== undefined ? landingPages.quantity : '',
-                hasOnSite: onSite !== undefined,
-                onSiteDiscount: onSite !== undefined ? onSite.discountPercentage : 0,
-                onSiteIncludedAllPlans: onSite !== undefined && onSite.idAddOnPlan === null,
-                onSiteQuantity: onSite !== undefined ? onSite.quantity : '',
-                hasPushNotifications: pushNotifications !== undefined,
-                pushNotificationsDiscount:
-                  pushNotifications !== undefined ? pushNotifications.discountPercentage : 0,
-                pushNotificationsIncludedAllPlans:
-                  pushNotifications !== undefined && pushNotifications.idAddOnPlan === null,
-                pushNotificationsQuantity:
-                  pushNotifications !== undefined ? pushNotifications.quantity : '',
-              }}
-            />
-          ),
+          description: getAddOnPromotionSliceTitle(promotions),
           link: '/my-plan',
           button_text: 'addons.carousel.slice_5_button_text',
           link_text: 'addons.carousel.slice_5_link_text',
         };
-
-        // var items = '';
-        // addOnPromotions.forEach((addOnPromotion, index) => {
-        //   addOnPromotionSlice.description = _(addOnPromotionSlice.description) + `{br} ${addOnPromotion.discountPercentage}`
-        // });
 
         slides.push(addOnPromotionSlice);
       }

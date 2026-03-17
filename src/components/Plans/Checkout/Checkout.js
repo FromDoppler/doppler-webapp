@@ -216,8 +216,6 @@ const Checkout = InjectAppServices(
     }, []);
 
     const isMonthlySubscription = appSessionRef.current.userData.user.plan.planSubscription === 1;
-    const isEqualPlan = sessionPlan.plan.idPlan === selectedPlanId;
-    const isPlanByContacts = planType === PLAN_TYPE.byContact;
 
     const landingIds = landingIdsStr?.split(',') ?? [];
     const landingsQty = landingsQtyStr?.split(',') ?? [];
@@ -348,7 +346,7 @@ const Checkout = InjectAppServices(
                     paymentFrequenciesList: paymentFrequenciesList,
                     selectedPaymentFrequency: selectedPaymentFrequency,
                     onSelectPaymentFrequency: handleChangeDiscount,
-                    disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
+                    disabled: true,
                     currentSubscriptionUser: sessionPlan.plan.planSubscription,
                   }}
                   isMonthlySubscription={isMonthlySubscription}
@@ -371,7 +369,7 @@ const Checkout = InjectAppServices(
                     paymentFrequenciesList: paymentFrequenciesList,
                     selectedPaymentFrequency: selectedPaymentFrequency,
                     onSelectPaymentFrequency: handleChangeDiscount,
-                    disabled: !isPlanByContacts || isEqualPlan || !isFreeAccount,
+                    disabled: true,
                     currentSubscriptionUser: sessionPlan.plan.planSubscription,
                   }}
                   isMonthlySubscription={isMonthlySubscription}

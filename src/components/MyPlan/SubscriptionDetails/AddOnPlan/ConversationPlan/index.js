@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
 import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
+import { getPromotionInformationMessage } from '../utils';
 
 export const ConversationPlan = InjectAppServices(
   ({
     buyUrl,
     conversationPlan,
     isFreeAccount,
-    addOnPromotion,
+    addOnPromotions,
     dependencies: { dopplerBeplicApiClient, dopplerAccountPlansApiClient, appSessionRef },
   }) => {
     const intl = useIntl();
@@ -19,15 +20,7 @@ export const ConversationPlan = InjectAppServices(
     const [loading, setLoading] = useState(true);
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [plan, setPlan] = useState(conversationPlan);
-    const showPromotionInformation = addOnPromotion !== undefined && !conversationPlan.active;
-
-    const user = appSessionRef.current.userData.user;
-    const expirationDate = new Date(addOnPromotion?.expirationDate);
-    const formatter = new Intl.DateTimeFormat(user.lang === 'es' ? 'es-ES' : 'en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
+    const showPromotionInformation = addOnPromotions.length > 0 && !conversationPlan.active;
 
     useEffect(() => {
       const fetchAddOnData = async () => {
@@ -56,7 +49,7 @@ export const ConversationPlan = InjectAppServices(
             setAvailableQuantity(plan.quantity);
           }
         } else {
-          if (isFreeAccount || addOnPromotion) {
+          if (isFreeAccount || addOnPromotions) {
             const getFreeAddOnPlanResponse = await dopplerAccountPlansApiClient.getFreeAddOnPlan(2);
             if (getFreeAddOnPlanResponse.success) {
               setPlan(getFreeAddOnPlanResponse.value);
@@ -74,7 +67,7 @@ export const ConversationPlan = InjectAppServices(
       plan.active,
       plan.quantity,
       isFreeAccount,
-      addOnPromotion,
+      addOnPromotions,
     ]);
 
     if (loading) {
@@ -117,7 +110,7 @@ export const ConversationPlan = InjectAppServices(
                       `my_plan.subscription_details.${
                         plan.trialExpired
                           ? 'view_plans_button'
-                          : (isFreeAccount || addOnPromotion) && !plan.active
+                          : (isFreeAccount || addOnPromotions) && !plan.active
                             ? 'activate_now_button'
                             : 'change_plan_button'
                       }`,
@@ -132,19 +125,11 @@ export const ConversationPlan = InjectAppServices(
               <span className="dp-message-icon"></span>
               <div className="dp-content-message dp-content-full">
                 <p>
-                  <FormattedMessage
-                    id={`${
-                      addOnPromotion.idAddOnPlan !== undefined
-                        ? 'my_plan.subscription_details.addon.conversation_plan.addon_promotion_one_plan_message'
-                        : 'my_plan.subscription_details.addon.conversation_plan.addon_promotion_all_plans_message'
-                    }`}
-                    values={{
-                      discount: addOnPromotion.discount,
-                      quantity: addOnPromotion.quantity,
-                      expirationDate: formatter.format(new Date(expirationDate)),
-                      bold: (chunks) => <b>{chunks}</b>,
-                    }}
-                  />
+                  {getPromotionInformationMessage(
+                    'conversation',
+                    appSessionRef.current.userData.user,
+                    addOnPromotions,
+                  )}
                 </p>
               </div>
             </div>

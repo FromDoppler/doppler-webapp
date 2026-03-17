@@ -1,4 +1,4 @@
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import { getMonthsByCycle, orderPaymentFrequencies, thousandSeparatorNumber } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
@@ -16,12 +16,13 @@ import {
   PLAN_TYPE,
   PaymentMethodType,
 } from '../../../doppler-types';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PlanBenefits } from './PlanBenefits';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
 import { useParams } from 'react-router-dom';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import { BannerUpgrade } from '../BannerUpgrade';
+import { getPromotionInformationMessage } from '../utils';
 
 export const PlanChat = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -56,12 +57,16 @@ export const PlanChat = InjectAppServices(
 
     const sessionPlan = appSessionRef.current.userData.user;
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
-    const conversationsPromotion =
-      appSessionRef.current.userData.user.addOnPromotions !== undefined
-        ? appSessionRef.current.userData.user.addOnPromotions.filter(
-            (aop) => aop.idAddOnType === AddOnType.Conversations,
-          )[0]
-        : undefined;
+
+    const conversationsPromotions = useMemo(
+      () =>
+        appSessionRef.current.userData.user.addOnPromotions !== undefined
+          ? appSessionRef.current.userData.user.addOnPromotions.filter(
+              (aop) => aop.idAddOnType === AddOnType.Conversations,
+            )
+          : [],
+      [appSessionRef],
+    );
 
     const itemRef = useRef(null);
     itemRef.current = item;
@@ -76,15 +81,15 @@ export const PlanChat = InjectAppServices(
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
       if (item === null) {
         if (itemRef.current) {
-          setShowPromotionInformation(
-            conversationsPromotion?.idAddOnPlan !== undefined &&
-              conversationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
-              !selectedPlan.active,
-          );
+          const conversationsPromotion = conversationsPromotions.filter(
+            (c) => c?.idAddOnPlan !== undefined && c?.idAddOnPlan !== selectedPlan.planId,
+          )[0];
+
+          setShowPromotionInformation(conversationsPromotion && !selectedPlan.active);
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex, item, conversationsPromotion?.idAddOnPlan]);
+    }, [selectedPlan, addItem, selectedPlanIndex, item, conversationsPromotions]);
 
     useEffect(() => {
       const fetchPlanData = async () => {
@@ -139,10 +144,11 @@ export const PlanChat = InjectAppServices(
 
     const handleSliderClick = () => {
       if (itemRef.current) {
-        setShowPromotionInformation(
-          conversationsPromotion?.idAddOnPlan !== undefined &&
-            conversationsPromotion?.idAddOnPlan !== selectedPlan.planId,
-        );
+        const conversationsPromotion = conversationsPromotions.filter(
+          (c) => c?.idAddOnPlan === undefined || c?.idAddOnPlan === selectedPlan.planId,
+        )[0];
+        setShowPromotionInformation(!conversationsPromotion && conversationsPromotions.length > 0);
+
         addItem(selectedPlan);
       } else {
         setItem(null);
@@ -196,18 +202,11 @@ export const PlanChat = InjectAppServices(
                     <span className="dp-message-icon"></span>
                     <div className="dp-content-message dp-content-full">
                       <p>
-                        <FormattedMessage
-                          id={`${
-                            conversationsPromotion !== undefined
-                              ? 'chat_selection.addon_promotion_one_plan_message'
-                              : 'chat_selection.addon_promotion_all_plans_message'
-                          }`}
-                          values={{
-                            discount: conversationsPromotion?.discount,
-                            quantity: conversationsPromotion?.quantity,
-                            bold: (chunks) => <b>{chunks}</b>,
-                          }}
-                        />
+                        {getPromotionInformationMessage(
+                          'chat_selection',
+                          appSessionRef.current.userData.user,
+                          conversationsPromotions,
+                        )}
                       </p>
                     </div>
                   </div>

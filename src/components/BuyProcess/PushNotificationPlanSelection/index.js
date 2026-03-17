@@ -1,11 +1,11 @@
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../services/pure-di';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
 import { PlanInformation } from './PlanInformation';
 import { Slider } from '../Slider';
 import { BannerUpgrade } from '../BannerUpgrade';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
 import {
   AddOnType,
@@ -18,6 +18,7 @@ import { UnexpectedError } from '../UnexpectedError';
 import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import { SelectedPushNotificationPlan } from './SelectedPushNotificationPlan';
 import { ShoppingCart } from '../ShoppingCart';
+import { getPromotionInformationMessage } from '../utils';
 
 export const PushNotificationPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -56,26 +57,28 @@ export const PushNotificationPlanSelection = InjectAppServices(
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
 
-    const pushNotificationsPromotion =
-      appSessionRef.current.userData.user.addOnPromotions !== undefined
-        ? appSessionRef.current.userData.user.addOnPromotions.filter(
-            (aop) => aop.idAddOnType === AddOnType.PushNotifications,
-          )[0]
-        : undefined;
+    const pushNotificationsPromotions = useMemo(
+      () =>
+        appSessionRef.current.userData.user.addOnPromotions !== undefined
+          ? appSessionRef.current.userData.user.addOnPromotions.filter(
+              (aop) => aop.idAddOnType === AddOnType.PushNotifications,
+            )
+          : [],
+      [appSessionRef],
+    );
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
       if (item === null) {
         if (itemRef.current) {
-          setShowPromotionInformation(
-            pushNotificationsPromotion?.idAddOnPlan !== undefined &&
-              pushNotificationsPromotion?.idAddOnPlan !== selectedPlan.planId &&
-              !selectedPlan.active,
-          );
+          const pushNotificationsPromotion = pushNotificationsPromotions.filter(
+            (pn) => pn?.idAddOnPlan !== undefined && pn?.idAddOnPlan !== selectedPlan.planId,
+          )[0];
+          setShowPromotionInformation(pushNotificationsPromotion && !selectedPlan.active);
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, addItem, selectedPlanIndex, item, pushNotificationsPromotion?.idAddOnPlan]);
+    }, [selectedPlan, addItem, selectedPlanIndex, item, pushNotificationsPromotions]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -130,10 +133,13 @@ export const PushNotificationPlanSelection = InjectAppServices(
 
     const handleSliderClick = () => {
       if (itemRef.current) {
+        const pushNotificationsPromotion = pushNotificationsPromotions.filter(
+          (ps) => ps?.idAddOnPlan === undefined || ps?.idAddOnPlan === selectedPlan.planId,
+        )[0];
         setShowPromotionInformation(
-          pushNotificationsPromotion?.idAddOnPlan !== undefined &&
-            pushNotificationsPromotion?.idAddOnPlan !== selectedPlan.planId,
+          !pushNotificationsPromotion && pushNotificationsPromotions.length > 0,
         );
+
         addItem(selectedPlan);
       } else {
         setItem(null);
@@ -187,18 +193,11 @@ export const PushNotificationPlanSelection = InjectAppServices(
                     <span className="dp-message-icon"></span>
                     <div className="dp-content-message dp-content-full">
                       <p>
-                        <FormattedMessage
-                          id={`${
-                            pushNotificationsPromotion !== undefined
-                              ? 'push_notification_selection.addon_promotion_one_plan_message'
-                              : 'push_notification_selection.addon_promotion_all_plans_message'
-                          }`}
-                          values={{
-                            discount: pushNotificationsPromotion?.discount,
-                            quantity: pushNotificationsPromotion?.quantity,
-                            bold: (chunks) => <b>{chunks}</b>,
-                          }}
-                        />
+                        {getPromotionInformationMessage(
+                          'push_notification_selection',
+                          appSessionRef.current.userData.user,
+                          pushNotificationsPromotions,
+                        )}
                       </p>
                     </div>
                   </div>
