@@ -36,6 +36,24 @@ const numberFormatOptions = {
   maximumFractionDigits: 2,
 };
 
+const getEmptyPromocodeState = () => ({
+  canApply: false,
+  promocode: '',
+});
+
+const normalizePromocodeState = (promotion) => {
+  if (!promotion || typeof promotion !== 'object') {
+    return getEmptyPromocodeState();
+  }
+
+  return {
+    ...getEmptyPromocodeState(),
+    ...promotion,
+    canApply: Boolean(promotion.canApply),
+    promocode: promotion.promocode ?? '',
+  };
+};
+
 export const ShoppingCart = InjectAppServices(
   ({
     discountConfig,
@@ -72,7 +90,13 @@ export const ShoppingCart = InjectAppServices(
     const [amountDetailsLandingPacksData, setAmountDetailsLandingPacksData] = useState(null);
     const [amountDetailsPlanChatData, setAmountDetailsPlanChatData] = useState(null);
     const [amountDetailsAddOnPlanData, setAmountDetailsAddOnPlanData] = useState(null);
-    const [promocodeApplied, setPromocodeApplied] = useState({ canApply: promocodeFromUrl, promocode: promocodeFromUrl });
+    const [promocodeApplied, setPromocodeApplied] = useState(() =>
+      normalizePromocodeState(
+        promocodeFromUrl ? { canApply: true, promocode: promocodeFromUrl } : null,
+      ),
+    );
+    const [defaultPromocodeDismissed, setDefaultPromocodeDismissed] = useState(false);
+    const clearPromocodeInputRef = useRef(null);
     const { planType: planTypeUrlSegment } = useParams();
     const { pathname, search } = useLocation();
     const paymentMethodName = usePaymentMethodData({
@@ -99,6 +123,11 @@ export const ShoppingCart = InjectAppServices(
     const isByCredits =
       planTypeUrlSegment === PLAN_TYPE.byCredit ||
       planTypeUrlSegment === URL_PLAN_TYPE[PLAN_TYPE.byCredit];
+    const effectivePromocode = promocodeApplied?.canApply
+      ? promocodeApplied.promocode
+      : !defaultPromocodeDismissed
+        ? promocodeFromUrl
+        : '';
 
     useEffect(() => {
       const fetchData = async () => {
@@ -111,7 +140,7 @@ export const ShoppingCart = InjectAppServices(
             : discountConfig.paymentFrequenciesList.at(-1)
               ? discountConfig.paymentFrequenciesList.at(-1).id
               : 0,
-          promocodeApplied?.canApply ? promocodeApplied.promocode : promocodeFromUrl,
+          effectivePromocode,
         );
         setAmountDetailsData(_amountDetailsData);
       };
@@ -124,8 +153,7 @@ export const ShoppingCart = InjectAppServices(
     }, [
       dopplerAccountPlansApiClient,
       selectedMarketingPlan,
-      promocodeApplied,
-      promocodeFromUrl,
+      effectivePromocode,
       paymentMethodName,
     ]);
 
@@ -231,29 +259,47 @@ export const ShoppingCart = InjectAppServices(
 
     const handlePromocodeApplied = useCallback(
       (value) => {
-        setPromocodeApplied(value);
+        const normalizedPromocode = normalizePromocodeState(value);
+        setPromocodeApplied(normalizedPromocode);
+
         if (callbackHandlePromocodeApplied) {
-          callbackHandlePromocodeApplied(value);
+          callbackHandlePromocodeApplied(
+            normalizedPromocode.promocode ? normalizedPromocode : null,
+          );
         }
       },
       [callbackHandlePromocodeApplied],
     );
 
     const removePromocodeApplied = () => {
-      setPromocodeApplied({ canApply: false, promocode: '' });
+      clearPromocodeInputRef.current?.();
+      setDefaultPromocodeDismissed(true);
+      setPromocodeApplied(getEmptyPromocodeState());
 
       if (callbackHandlePromocodeApplied) {
         callbackHandlePromocodeApplied(null);
       }
 
-      setAmountDetailsData({
-        ...amountDetailsData,
-        value: {
-          ...amountDetailsData?.value,
-          discountPromocode: null,
-        },
-      });
+      setAmountDetailsData((currentAmountDetailsData) =>
+        currentAmountDetailsData
+          ? {
+              ...currentAmountDetailsData,
+              value: {
+                ...currentAmountDetailsData?.value,
+                discountPromocode: null,
+              },
+            }
+          : currentAmountDetailsData,
+      );
     };
+
+    const handleManualPromocodeIntervention = useCallback(() => {
+      setDefaultPromocodeDismissed(true);
+    }, []);
+
+    const registerClearPromocodeInput = useCallback((clearPromocodeInput) => {
+      clearPromocodeInputRef.current = clearPromocodeInput;
+    }, []);
 
     const items = [];
     const isTransfer = paymentMethodName === PaymentMethodType.transfer;
@@ -400,6 +446,9 @@ export const ShoppingCart = InjectAppServices(
             disabledPromocode={disabledPromocode}
             handleRemovePromocodeApplied={removePromocodeApplied}
             currentPromocodeApplied={promocodeApplied}
+            defaultPromocodeDismissed={defaultPromocodeDismissed}
+            handleManualPromocodeIntervention={handleManualPromocodeIntervention}
+            registerClearPromocodeInput={registerClearPromocodeInput}
           />
         )}
         <section>
