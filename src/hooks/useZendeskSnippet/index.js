@@ -13,8 +13,10 @@ const removeZendeskWidget = () => {
   document.querySelectorAll('iframe[title*="zendesk" i]').forEach((el) => el.remove());
   document.querySelectorAll('iframe[title*="messaging" i]').forEach((el) => el.remove());
 
-  delete window.zE;
-  delete window.zESettings;
+  window.zE = undefined;
+  window.zESettings = undefined;
+  window.zEmbed = undefined;
+  window.zEACLoaded = undefined;
 };
 
 const loadZendeskScript = (key) => {
