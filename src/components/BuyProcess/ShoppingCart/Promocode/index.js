@@ -392,6 +392,7 @@ export const Promocode = InjectAppServices(
         {/* {open && ( */}
         <PromocodeMessages
           allowPromocode={allowPromocode}
+          hasPromocodeAppliedItem={hasPromocodeAppliedItem}
           validated={validated}
           promocodeApplied={promocodeApplied}
           promotion={currentPromotion}
