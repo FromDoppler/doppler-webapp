@@ -70,7 +70,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
     i18nLocale: locale,
   });
   const location = useLocation();
-  useZendeskSnippet(state.dopplerSession.status === 'authenticated');
+  useZendeskSnippet(state.dopplerSession.status);
 
   const langFromUrl = useRef(null);
 
