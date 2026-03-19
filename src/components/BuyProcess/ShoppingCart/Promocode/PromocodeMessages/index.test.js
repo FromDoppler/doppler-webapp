@@ -15,7 +15,11 @@ describe('PromocodeMessages component', () => {
     // Act
     render(
       <IntlProvider>
-        <PromocodeMessages promotion={promotion} allowPromocode={allowPromocode} />,
+        <PromocodeMessages
+          promotion={promotion}
+          allowPromocode={allowPromocode}
+          hasPromocodeAppliedItem={true}
+        />,
       </IntlProvider>,
     );
 
