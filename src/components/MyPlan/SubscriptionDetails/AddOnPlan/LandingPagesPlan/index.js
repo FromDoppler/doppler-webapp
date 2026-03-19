@@ -1,19 +1,12 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../../services/pure-di';
+import { getPromotionInformationMessage } from '../utils';
 
 export const LandingPagesPlan = InjectAppServices(
-  ({ buyUrl, landingPagesPlan, addOnPromotion, dependencies: { appSessionRef } }) => {
+  ({ buyUrl, landingPagesPlan, addOnPromotions, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-    const showPromotionInformation = addOnPromotion !== undefined && !landingPagesPlan.active;
-
-    const user = appSessionRef.current.userData.user;
-    const expirationDate = new Date(addOnPromotion?.expirationDate);
-    const formatter = new Intl.DateTimeFormat(user.lang === 'es' ? 'es-ES' : 'en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
+    const showPromotionInformation = addOnPromotions.length > 0 && !landingPagesPlan.active;
 
     return (
       <div className="dp-box-shadow m-b-24">
@@ -43,19 +36,11 @@ export const LandingPagesPlan = InjectAppServices(
               <span className="dp-message-icon"></span>
               <div className="dp-content-message dp-content-full">
                 <p>
-                  <FormattedMessage
-                    id={`${
-                      addOnPromotion.idAddOnPlan !== undefined
-                        ? 'my_plan.subscription_details.addon.landings_plan.addon_promotion_one_plan_message'
-                        : 'my_plan.subscription_details.addon.landings_plan.addon_promotion_all_plans_message'
-                    }`}
-                    values={{
-                      discount: addOnPromotion.discount,
-                      quantity: addOnPromotion.quantity.replace('PACK ', ''),
-                      expirationDate: formatter.format(new Date(expirationDate)),
-                      bold: (chunks) => <b>{chunks}</b>,
-                    }}
-                  />
+                  {getPromotionInformationMessage(
+                    'landings',
+                    appSessionRef.current.userData.user,
+                    addOnPromotions,
+                  )}
                 </p>
               </div>
             </div>

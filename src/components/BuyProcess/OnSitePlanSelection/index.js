@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { InjectAppServices } from '../../../services/pure-di';
 import { AddOnType, BUY_ONSITE_PLAN, PLAN_TYPE, PaymentMethodType } from '../../../doppler-types';
 import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import { FormattedMessage, useIntl } from 'react-intl';
 import { OnSitePlanInformation } from './OnSitePlanInformation';
 import { Loading } from '../../Loading/Loading';
 import { UnexpectedError } from '../UnexpectedError';
@@ -14,6 +13,8 @@ import { ShoppingCart } from '../ShoppingCart';
 import * as S from './styles';
 import { BannerUpgrade } from '../BannerUpgrade';
 import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
+import { getPromotionInformationMessage } from '../utils';
+import { useIntl } from 'react-intl';
 
 export const OnSitePlansSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -50,26 +51,29 @@ export const OnSitePlansSelection = InjectAppServices(
     const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
-    const onSitePromotion =
-      appSessionRef.current.userData.user.addOnPromotions !== undefined
-        ? appSessionRef.current.userData.user.addOnPromotions.filter(
-            (aop) => aop.idAddOnType === AddOnType.OnSite,
-          )[0]
-        : undefined;
+
+    const onSitePromotions = useMemo(
+      () =>
+        appSessionRef.current.userData.user.addOnPromotions !== undefined
+          ? appSessionRef.current.userData.user.addOnPromotions.filter(
+              (aop) => aop.idAddOnType === AddOnType.OnSite,
+            )
+          : [],
+      [appSessionRef],
+    );
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
       if (item === null) {
         if (itemRef.current) {
-          setShowPromotionInformation(
-            onSitePromotion?.idAddOnPlan !== undefined &&
-              onSitePromotion?.idAddOnPlan !== selectedPlan.planId &&
-              !selectedPlan.active,
-          );
+          const onSitePromotion = onSitePromotions.filter(
+            (pn) => pn?.idAddOnPlan !== undefined && pn?.idAddOnPlan !== selectedPlan.planId,
+          )[0];
+          setShowPromotionInformation(onSitePromotion && !selectedPlan.active);
           addItem(selectedPlan);
         }
       }
-    }, [selectedPlan, selectedPlanIndex, item, addItem, onSitePromotion?.idAddOnPlan]);
+    }, [selectedPlan, selectedPlanIndex, item, addItem, onSitePromotions]);
 
     useEffect(() => {
       const fetchPaymentFrequency = async () => {
@@ -124,10 +128,11 @@ export const OnSitePlansSelection = InjectAppServices(
 
     const handleSliderClick = () => {
       if (itemRef.current) {
-        setShowPromotionInformation(
-          onSitePromotion?.idAddOnPlan !== undefined &&
-            onSitePromotion?.idAddOnPlan !== selectedPlan.planId,
-        );
+        const onSitePromotion = onSitePromotions.filter(
+          (os) => os?.idAddOnPlan === undefined || os?.idAddOnPlan === selectedPlan.planId,
+        )[0];
+        setShowPromotionInformation(!onSitePromotion && onSitePromotions.length > 0);
+
         addItem(selectedPlan);
       } else {
         setItem(null);
@@ -188,18 +193,11 @@ export const OnSitePlansSelection = InjectAppServices(
                     <span className="dp-message-icon"></span>
                     <div className="dp-content-message dp-content-full">
                       <p>
-                        <FormattedMessage
-                          id={`${
-                            onSitePromotion !== undefined
-                              ? 'onsite_selection.addon_promotion_one_plan_message'
-                              : 'onsite_selection.addon_promotion_all_plans_message'
-                          }`}
-                          values={{
-                            discount: onSitePromotion?.discount,
-                            quantity: onSitePromotion?.quantity,
-                            bold: (chunks) => <b>{chunks}</b>,
-                          }}
-                        />
+                        {getPromotionInformationMessage(
+                          'onsite_selection',
+                          appSessionRef.current.userData.user,
+                          onSitePromotions,
+                        )}
                       </p>
                     </div>
                   </div>

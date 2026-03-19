@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useFetchLandingPacks } from '../../../hooks/useFetchtLandingPacks';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
@@ -17,6 +17,7 @@ import {
 import { LandingPacksMessages } from './LandingPacksMessages';
 import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../utils';
 import { AddOnType, BUY_LANDING_PACK } from '../../../doppler-types';
+import { getPromotionInformationMessage } from '../utils';
 
 export const paymentFrequenciesListForLandingPacks = [
   {
@@ -96,12 +97,16 @@ export const LandingPacksSelection = InjectAppServices(
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
     const { isFreeAccount } = sessionPlan.plan;
-    const landingPagesPromotion =
-      appSessionRef.current.userData.user.addOnPromotions !== undefined
-        ? appSessionRef.current.userData.user.addOnPromotions.filter(
-            (aop) => aop.idAddOnType === AddOnType.Landings,
-          )[0]
-        : undefined;
+
+    const landingPagesPromotions = useMemo(
+      () =>
+        appSessionRef.current.userData.user.addOnPromotions !== undefined
+          ? appSessionRef.current.userData.user.addOnPromotions.filter(
+              (aop) => aop.idAddOnType === AddOnType.Landings,
+            )
+          : [],
+      [appSessionRef],
+    );
 
     const handleRemove = () => {
       const { resetForm } = formRef.current;
@@ -123,15 +128,25 @@ export const LandingPacksSelection = InjectAppServices(
     const handleSave = useCallback(
       (landingPacks) => {
         setSelectedLandingPacks(landingPacks);
-        var hasLandingPageWithPromotion = landingPacks.filter(
-          (lp) => lp.planId === landingPagesPromotion.idAddOnPlan,
+
+        var hasLandingPageWithPromotion;
+        landingPacks.forEach((element) => {
+          if (!hasLandingPageWithPromotion) {
+            hasLandingPageWithPromotion = landingPagesPromotions.filter(
+              (lp) => lp?.idAddOnPlan === element.planId,
+            )[0];
+          }
+        });
+
+        const landingPackPromotion = landingPagesPromotions.filter(
+          (pn) =>
+            pn?.idAddOnPlan !== undefined &&
+            pn?.idAddOnPlan !== hasLandingPageWithPromotion?.idAddOnPlan,
         )[0];
-        setShowPromotionInformation(
-          landingPagesPromotion?.idAddOnPlan !== undefined &&
-            landingPagesPromotion?.idAddOnPlan !== hasLandingPageWithPromotion?.planId,
-        );
+
+        setShowPromotionInformation(landingPackPromotion && landingPacks.length > 0);
       },
-      [landingPagesPromotion?.idAddOnPlan],
+      [landingPagesPromotions],
     );
 
     const handleLandingPagesDowngrade = useCallback(
@@ -279,7 +294,12 @@ export const LandingPacksSelection = InjectAppServices(
                     <span className="dp-message-icon"></span>
                     <div className="dp-content-message dp-content-full">
                       <p>
-                        <FormattedMessage
+                        {getPromotionInformationMessage(
+                          'landing_selection',
+                          appSessionRef.current.userData.user,
+                          landingPagesPromotions,
+                        )}
+                        {/* <FormattedMessage
                           id={`${
                             landingPagesPromotion !== undefined
                               ? 'landing_selection.addon_promotion_one_plan_message'
@@ -290,7 +310,7 @@ export const LandingPacksSelection = InjectAppServices(
                             quantity: landingPagesPromotion?.quantity.replace('PACK ', ''),
                             bold: (chunks) => <b>{chunks}</b>,
                           }}
-                        />
+                        /> */}
                       </p>
                     </div>
                   </div>
