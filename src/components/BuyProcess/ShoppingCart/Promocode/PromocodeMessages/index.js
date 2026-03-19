@@ -10,6 +10,7 @@ const numberFormatOptions = {
 
 export const PromocodeMessages = ({
   allowPromocode,
+  hasPromocodeAppliedItem,
   validated,
   promocodeApplied,
   promotion,
@@ -19,7 +20,7 @@ export const PromocodeMessages = ({
   promocodeMessageAlreadyShowRef,
 }) => {
   if (!allowPromocode) {
-    return <PromocodeNotAllowed />;
+    return hasPromocodeAppliedItem ? <PromocodeNotAllowed /> : null;
   }
 
   if (!promotion) {
