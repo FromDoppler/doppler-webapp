@@ -263,27 +263,25 @@ export const Promocode = InjectAppServices(
 
     useEffect(() => {
       // In this case the user selects a payment frequency or an email marketing plan
+      const currentPromocode = promocodeInputRef.current?.values[fieldNames.promocode];
+      const shouldValidatePromocode =
+        (selectedPaymentFrequency === undefined ||
+          selectedPaymentFrequency?.numberMonths === 1) &&
+        currentPromocode;
+
       if (!alreadyInitializedRef.current) {
-        dispatch({
-          type: PROMOCODE_ACTIONS.INITIALIZE_STATE,
-        });
-      } else {
-        if (
-          (selectedPaymentFrequency === undefined ||
-            selectedPaymentFrequency?.numberMonths === 1) &&
-          promocodeInputRef.current?.values[fieldNames.promocode]
-        ) {
-          validatePromocode(
-            promocodeInputRef.current?.values[fieldNames.promocode],
-            !manualPromocodeApplied,
-          );
-        }
+        resetPromocodeState();
+      }
+
+      if (shouldValidatePromocode) {
+        validatePromocode(currentPromocode, !manualPromocodeApplied);
       }
     }, [
       selectedPaymentFrequency,
       selectedMarketingPlan,
       validatePromocode,
       manualPromocodeApplied,
+      resetPromocodeState,
     ]);
 
     useEffect(() => {
