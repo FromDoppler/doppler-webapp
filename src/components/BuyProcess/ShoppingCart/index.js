@@ -123,6 +123,10 @@ export const ShoppingCart = InjectAppServices(
     const isByCredits =
       planTypeUrlSegment === PLAN_TYPE.byCredit ||
       planTypeUrlSegment === URL_PLAN_TYPE[PLAN_TYPE.byCredit];
+    const paymentFrequencyId =
+      discountConfig?.selectedPaymentFrequency?.id ??
+      discountConfig?.paymentFrequenciesList?.at(-1)?.id ??
+      0;
     const effectivePromocode = promocodeApplied?.canApply
       ? promocodeApplied.promocode
       : !defaultPromocodeDismissed
@@ -131,15 +135,10 @@ export const ShoppingCart = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
-        const paymentFrequencyId = discountConfig?.selectedPaymentFrequency?.id;
         const _amountDetailsData = await dopplerAccountPlansApiClient.getPlanBillingDetailsData(
           selectedMarketingPlan?.id,
           'Marketing',
-          paymentFrequencyId
-            ? paymentFrequencyId
-            : discountConfig.paymentFrequenciesList.at(-1)
-              ? discountConfig.paymentFrequenciesList.at(-1).id
-              : 0,
+          paymentFrequencyId,
           effectivePromocode,
         );
         setAmountDetailsData(_amountDetailsData);
@@ -153,6 +152,7 @@ export const ShoppingCart = InjectAppServices(
     }, [
       dopplerAccountPlansApiClient,
       selectedMarketingPlan,
+      paymentFrequencyId,
       effectivePromocode,
       paymentMethodName,
     ]);
