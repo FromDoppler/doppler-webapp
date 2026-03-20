@@ -61,6 +61,7 @@ const forcedServices =
         dopplerAccountPlansApiClient: new HardcodedDopplerAccountPlansApiClient(),
         dopplerBeplicApiClient: new HardcodedDopplerBeplicApiClient(),
         dopplerPopupHubApiClient: new HardcodedDopplerPopupHubApiClient(),
+        dopplerConversationsApiClient: new HardcodedDopplerBeplicApiClient(),
       }
     : {};
 
