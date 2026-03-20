@@ -1,14 +1,14 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { PlanChatInfo } from '.';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { ConversationPlanInformation } from '.';
 
-describe('PlanChatInfo', () => {
-  it('should render PlanChatInfo', async () => {
+describe('ConversationPlanInformation', () => {
+  it('should render ConversationPlanInformation', async () => {
     // Act
     render(
       <IntlProvider>
-        <PlanChatInfo />
+        <ConversationPlanInformation />
       </IntlProvider>,
     );
 

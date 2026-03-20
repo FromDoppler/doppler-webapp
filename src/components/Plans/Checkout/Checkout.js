@@ -8,6 +8,7 @@ import { Step } from './Step/Step';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import {
   AddOnType,
+  BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
@@ -60,14 +61,12 @@ const Checkout = InjectAppServices(
     const [appliedPromocode] = useState(false);
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
-    const [selectedChatPlan, setSelectedChatPlan] = useState(null);
     const [selectedAddOnPlan, setSelectedAddOnPlan] = useState(null);
 
     const intl = useIntl();
     const { pathType, planType } = useParams();
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
-    const selectedChatPlanId = query.get('chatPlanId') ?? 0;
     const selectedAddOnPlanId = query.get('addOnPlanId') ?? 0;
     const monthPlan = query.get('monthPlan') ?? 0;
     const landingIdsStr = query.get('landing-ids') ?? '';
@@ -131,33 +130,13 @@ const Checkout = InjectAppServices(
 
     useEffect(() => {
       const fetchPlanData = async () => {
-        const planData = await dopplerAccountPlansApiClient.getPlanData(selectedChatPlanId, 2);
-
-        if (planData.success) {
-          setSelectedChatPlan({
-            planId: selectedChatPlanId,
-            conversationsQty: planData.value.chatPlanConversationQty,
-            fee: planData.value.chatPlanFee,
-            type: planType,
-            id: selectedChatPlanId,
-          });
-        }
-      };
-
-      if (selectedChatPlanId !== 0) {
-        fetchPlanData();
-      }
-    }, [dopplerAccountPlansApiClient, selectedChatPlanId, planType]);
-
-    useEffect(() => {
-      const fetchPlanData = async () => {
         const planData = await dopplerAccountPlansApiClient.getAddOnPlanData(
           selectedAddOnPlanId,
           buyType === BUY_ONSITE_PLAN
             ? AddOnType.OnSite
             : buyType === BUY_PUSH_NOTIFICATION_PLAN
               ? AddOnType.PushNotifications
-              : 0,
+              : AddOnType.Conversations,
         );
 
         if (planData.success) {
@@ -171,7 +150,9 @@ const Checkout = InjectAppServices(
         }
       };
 
-      fetchPlanData();
+      if (selectedAddOnPlanId !== 0) {
+        fetchPlanData();
+      }
     }, [dopplerAccountPlansApiClient, selectedAddOnPlanId, planType, buyType]);
 
     useEffect(() => {
@@ -228,7 +209,9 @@ const Checkout = InjectAppServices(
 
     const isBuyLandingPacks = selectedLandings?.length > 0;
     const isBuyAddOnPlan =
-      parseInt(buyType) === BUY_ONSITE_PLAN || parseInt(buyType) === BUY_PUSH_NOTIFICATION_PLAN;
+      parseInt(buyType) === BUY_ONSITE_PLAN ||
+      parseInt(buyType) === BUY_PUSH_NOTIFICATION_PLAN ||
+      parseInt(buyType) === BUY_CHAT_PLAN;
 
     return (
       <>
@@ -374,10 +357,8 @@ const Checkout = InjectAppServices(
                   }}
                   isMonthlySubscription={isMonthlySubscription}
                   selectedMarketingPlan={selectedFullPlan}
-                  //items={[selectedFullPlan, {...selectedChatPlan, isRemovible: false}]}
                   isEqualPlan={false}
                   isArgentina={isArgentina}
-                  selectedPlanChat={selectedChatPlan}
                   canChatPlanRemove={false}
                   hidePromocode={true}
                   buyType={parseInt(buyType)}

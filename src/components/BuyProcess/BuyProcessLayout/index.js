@@ -10,8 +10,6 @@ import { InjectAppServices } from '../../../services/pure-di';
 import { Stepper } from '../Stepper';
 
 export const getSteps = (buyType, user) => {
-  const chat = user.chat;
-
   const steps = [
     {
       id: 1,
@@ -24,10 +22,8 @@ export const getSteps = (buyType, user) => {
       id: 2,
       label: 'buy_process.stepper.conversation_plan_step',
       icon: 'dpicon iconapp-chatting',
-      pathname: '/plan-chat',
-      visible:
-        (buyType === BUY_MARKETING_PLAN.toString() || buyType === BUY_CHAT_PLAN.toString()) &&
-        chat !== null,
+      pathname: '/buy-conversation',
+      visible: buyType === BUY_CHAT_PLAN.toString(),
     },
     {
       id: 3,

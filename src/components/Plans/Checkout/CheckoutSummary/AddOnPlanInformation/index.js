@@ -11,7 +11,11 @@ export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {
       <h4 className="dp-tit-plan-purchased">
         {_(
           `checkoutProcessSuccess.${
-            addOnType === AddOnType.OnSite ? 'onsite' : 'push_notification'
+            addOnType === AddOnType.OnSite
+              ? 'onsite'
+              : addOnType === AddOnType.PushNotifications
+                ? 'push_notification'
+                : 'chat'
           }_plan_title`,
         )}
       </h4>
@@ -21,7 +25,11 @@ export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {
           <h3>
             {_(
               `checkoutProcessSuccess.${
-                addOnType === AddOnType.OnSite ? 'onsite' : 'push_notification'
+                addOnType === AddOnType.OnSite
+                  ? 'onsite'
+                  : addOnType === AddOnType.PushNotifications
+                    ? 'push_notification'
+                    : 'chat'
               }_plan_label`,
             )}
           </h3>
@@ -32,7 +40,9 @@ export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {
               `checkoutProcessSuccess.${
                 addOnType === AddOnType.OnSite
                   ? 'onsite_plan_acquired_prints'
-                  : 'push_notification_plan_acquired_emails'
+                  : addOnType === AddOnType.PushNotifications
+                    ? 'push_notification_plan_acquired_emails'
+                    : 'chat_plan_acquired_conversations'
               }`,
             )}
           </span>
@@ -44,7 +54,11 @@ export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {
               <span>
                 {_(
                   `checkoutProcessSuccess.${
-                    addOnType === AddOnType.OnSite ? 'onsite' : 'push_notification'
+                    addOnType === AddOnType.OnSite
+                      ? 'onsite'
+                      : addOnType === AddOnType.PushNotifications
+                        ? 'push_notification'
+                        : 'chat'
                   }_plan_billing_title`,
                 )}
               </span>
@@ -55,14 +69,22 @@ export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {
               <span>
                 {_(
                   `checkoutProcessSuccess.${
-                    addOnType === AddOnType.OnSite ? 'onsite' : 'push_notification'
+                    addOnType === AddOnType.OnSite
+                      ? 'onsite'
+                      : addOnType === AddOnType.PushNotifications
+                        ? 'push_notification'
+                        : 'chat'
                   }_plan_billing_title`,
                 )}
               </span>
               <h3>
                 {_(
                   `checkoutProcessSuccess.${
-                    addOnType === AddOnType.OnSite ? 'onsite' : 'push_notification'
+                    addOnType === AddOnType.OnSite
+                      ? 'onsite'
+                      : addOnType === AddOnType.PushNotifications
+                        ? 'push_notification'
+                        : 'chat'
                   }_plan_default_billing`,
                 )}
               </h3>

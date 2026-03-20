@@ -1,20 +1,20 @@
 import '@testing-library/jest-dom/extend-expect';
 import { getByText, render, screen } from '@testing-library/react';
-import { SelectedPlanChat } from '.';
+import { SelectedConversationPlan } from '.';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import userEvent from '@testing-library/user-event';
 
-describe('SelectedPlanChat', () => {
-  it('should render SelectedPlanChat when there is not a selected plan chat', async () => {
+describe('SelectedConversationPlan', () => {
+  it('should render SelectedConversationPlan when there is not a selected plan chat', async () => {
     // Arrange
-    const seletedPlanChat = {};
+    const seletedPlanChat = { quantity: 0 };
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
     // Act
     render(
       <IntlProvider>
-        <SelectedPlanChat
+        <SelectedConversationPlan
           selectedPlan={seletedPlanChat}
           addItem={addItem}
           removeItem={removeItem}
@@ -36,14 +36,13 @@ describe('SelectedPlanChat', () => {
     expect(addItem).not.toBeCalled();
   });
 
-  it('should render SelectedPlanChat when there is a selected plan chat', async () => {
+  it('should render SelectedConversationPlan when there is a selected onsite plan', async () => {
     // Arrange
-    const seletedPlanChat = {
+    const seletedOnSitePlan = {
       planId: 1,
-      conversationsQty: 500,
-      agents: 1,
-      channels: 4,
+      quantity: 500,
       fee: 30,
+      additional: 5,
     };
     const addItem = jest.fn();
     const removeItem = jest.fn();
@@ -51,8 +50,8 @@ describe('SelectedPlanChat', () => {
     // Act
     render(
       <IntlProvider>
-        <SelectedPlanChat
-          selectedPlan={seletedPlanChat}
+        <SelectedConversationPlan
+          selectedPlan={seletedOnSitePlan}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -75,14 +74,13 @@ describe('SelectedPlanChat', () => {
     expect(addItem).toBeCalled();
   });
 
-  it('should render SelectedPlanChat when click on add to cart button', async () => {
+  it('should render SelectedConversationPlan when click on add to cart button', async () => {
     // Arrange
-    const seletedPlanChat = {
+    const seletedOnSitePlan = {
       planId: 1,
-      conversationsQty: 500,
-      agents: 1,
-      channels: 4,
+      quantity: 500,
       fee: 30,
+      additional: 5,
     };
     const addItem = jest.fn();
     const removeItem = jest.fn();
@@ -90,8 +88,8 @@ describe('SelectedPlanChat', () => {
     // Act
     render(
       <IntlProvider>
-        <SelectedPlanChat
-          selectedPlan={seletedPlanChat}
+        <SelectedConversationPlan
+          selectedPlan={seletedOnSitePlan}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -108,27 +106,26 @@ describe('SelectedPlanChat', () => {
     expect(button).toBeEnabled();
     expect(addItem).not.toBeCalled();
     await userEvent.click(button);
-    expect(addItem).toBeCalledWith(seletedPlanChat);
+    expect(addItem).toBeCalledWith(seletedOnSitePlan);
   });
 
-  it('should render SelectedPlanChat when click on remove item button', async () => {
+  it('should render SelectedConversationPlan when click on remove item button', async () => {
     // Arrange
-    const seletedPlanChat = {
+    const seletedOnSitePlan = {
       planId: 1,
-      conversationsQty: 500,
-      agents: 1,
-      channels: 4,
+      quantity: 500,
       fee: 30,
+      additional: 5,
     };
-    const item = seletedPlanChat; // In this case, the slider value and the cart item are the same
+    const item = seletedOnSitePlan; // In this case, the slider value and the cart item are the same
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
     // Act
     render(
       <IntlProvider>
-        <SelectedPlanChat
-          selectedPlan={seletedPlanChat}
+        <SelectedConversationPlan
+          selectedPlan={seletedOnSitePlan}
           item={item}
           addItem={addItem}
           removeItem={removeItem}
