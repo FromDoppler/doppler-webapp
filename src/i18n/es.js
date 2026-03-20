@@ -1374,7 +1374,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes de Conversaciones</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de Conversaciones de {quantity} mensajes</bold>.
-          {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}'`,
+          {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
           agents_title: '{agents, plural, one {# Agente}other {# Agentes} }',
           available_message: '{available}/{total} Mensajes disponibles',
@@ -1402,7 +1402,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes de OnSite Marketing</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de OnSite Marketing de {quantity} impresiones</bold>.
-          {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}.`,
+          {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
           available_message: '{available}/{total} Impresiones disponibles',
           free_additional_impression_message: 'Impresión adicional: --',
