@@ -14,6 +14,10 @@ import { DopplerBillingApiClient, HttpDopplerBillingApiClient } from './doppler-
 import { DopplerUserApiClient, HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { DopplerBeplicApiClient, HttpDopplerBeplicApiClient } from './doppler-beplic-api-client';
 import {
+  DopplerConversationsApiClient,
+  HttpDopplerConversationsApiClient,
+} from './doppler-conversations-api-client';
+import {
   DopplerPopupHubApiClient,
   HttpDopplerPopupHubApiClient,
 } from './doppler-popup-hub-api-client';
@@ -83,6 +87,7 @@ export interface AppServices {
   dopplerUserApiClient: DopplerUserApiClient;
   dopplerBeplicApiClient: DopplerBeplicApiClient;
   dopplerPopupHubApiClient: DopplerPopupHubApiClient;
+  dopplerConversationsApiClient: DopplerConversationsApiClient;
   captchaUtilsService: CaptchaUtilsService;
   utmCookiesManager: UtmCookiesManager;
   dopplerContactPolicyApiClient: DopplerContactPolicyApiClient;
@@ -154,6 +159,7 @@ export class AppCompositionRoot implements AppServices {
       dopplerAccountPlansApiUrl: process.env.REACT_APP_DOPPLER_ACCOUNT_PLANS_API_URL as string,
       dopplerBeplicApiUrl: process.env.REACT_APP_DOPPLER_BEPLIC_API_URL as string,
       dopplerPopupHubApiUrl: process.env.REACT_APP_DOPPLER_POPUP_HUB_API_URL as string,
+      dopplerConversationsApiUrl: process.env.REACT_APP_DOPPLER_CONVERSATIONS_API_URL as string,
     }));
   }
 
@@ -308,6 +314,18 @@ export class AppCompositionRoot implements AppServices {
         new HttpDopplerBeplicApiClient({
           axiosStatic: this.axiosStatic,
           baseUrl: this.appConfiguration.dopplerBeplicApiUrl,
+          connectionDataRef: this.appSessionRef,
+        }),
+    );
+  }
+
+  get dopplerConversationsApiClient() {
+    return this.singleton(
+      'dopplerConversationsApiClient',
+      () =>
+        new HttpDopplerConversationsApiClient({
+          axiosStatic: this.axiosStatic,
+          baseUrl: this.appConfiguration.dopplerConversationsApiUrl,
           connectionDataRef: this.appSessionRef,
         }),
     );

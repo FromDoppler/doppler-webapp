@@ -19,7 +19,8 @@ describe('PromocodeMessages component', () => {
           promotion={promotion}
           allowPromocode={allowPromocode}
           hasPromocodeAppliedItem={true}
-        />,
+        />
+        ,
       </IntlProvider>,
     );
 

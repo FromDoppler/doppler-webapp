@@ -220,7 +220,6 @@ export const Promocode = InjectAppServices(
               dispatchPromocode(validateData);
             }
           } else {
-
             if (selectedPlanType === selectedMarketingPlan?.type) {
               const validateData = await dopplerAccountPlansApiClient.validatePromocode(
                 selectedMarketingPlan?.id,
@@ -265,8 +264,7 @@ export const Promocode = InjectAppServices(
       // In this case the user selects a payment frequency or an email marketing plan
       const currentPromocode = promocodeInputRef.current?.values[fieldNames.promocode];
       const shouldValidatePromocode =
-        (selectedPaymentFrequency === undefined ||
-          selectedPaymentFrequency?.numberMonths === 1) &&
+        (selectedPaymentFrequency === undefined || selectedPaymentFrequency?.numberMonths === 1) &&
         currentPromocode;
 
       if (!alreadyInitializedRef.current) {

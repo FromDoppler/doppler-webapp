@@ -282,3 +282,8 @@ export interface PushNotificationSettings {
 export interface PushNotificationSettingsToUpdate {
   isPushServiceEnabled: boolean;
 };
+
+export const ConversationsEnvSource = {
+  Doppler: 'DOPPLER',
+  Beplic: 'BEPLIC',
+} as const;

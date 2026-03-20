@@ -39,7 +39,6 @@ export const ConversationPlanSelection = InjectAppServices(
       handleSliderValue,
     ] = useAddOnPlans(AddOnType.Conversations, dopplerAccountPlansApiClient, appSessionRef);
 
-
     const conversationsPromotions = useMemo(
       () =>
         appSessionRef.current.userData.user.addOnPromotions !== undefined

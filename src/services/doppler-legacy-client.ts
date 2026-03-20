@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosStatic, AxiosError } from 'axios';
 import { Property } from 'csstype';
-import { Result, EmptyResultWithoutExpectedErrors } from '../doppler-types';
+import { Result, EmptyResultWithoutExpectedErrors, ConversationsEnvSource } from '../doppler-types';
 import axiosRetry from 'axios-retry';
 import { addLogEntry, logAxiosRetryError } from '../utils';
 import {
@@ -805,6 +805,7 @@ export function mapHeaderDataJson(json: any) {
       pushNotification: mapPushNotificationEntry(json.user.pushNotificationPlan),
       isCancellationRequested: json.user.isCancellationRequested ?? false,
       hasScheduledCancellation: json.user.hasScheduledCancellation ?? false,
+      conversationsEnvSource: json.user.conversationsEnvSource ?? ConversationsEnvSource.Beplic,
     },
     userAccount: json.userAccount && {
       email: json.userAccount.email,

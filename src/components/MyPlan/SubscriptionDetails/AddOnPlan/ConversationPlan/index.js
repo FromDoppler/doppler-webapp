@@ -6,6 +6,7 @@ import { formattedNumber } from '..';
 import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
+import { ConversationsEnvSource } from '../../../../../doppler-types';
 
 export const ConversationPlan = InjectAppServices(
   ({
@@ -13,7 +14,12 @@ export const ConversationPlan = InjectAppServices(
     conversationPlan,
     isFreeAccount,
     addOnPromotions,
-    dependencies: { dopplerBeplicApiClient, dopplerAccountPlansApiClient, appSessionRef },
+    dependencies: {
+      dopplerBeplicApiClient,
+      dopplerConversationsApiClient,
+      dopplerAccountPlansApiClient,
+      appSessionRef,
+    },
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -25,6 +31,8 @@ export const ConversationPlan = InjectAppServices(
     useEffect(() => {
       const fetchAddOnData = async () => {
         if (plan.active) {
+          const user = appSessionRef.current.userData.user;
+
           const currentDate = new Date();
           const currentYear = currentDate.getFullYear();
           const currentMonth = currentDate.getMonth() + 1;
@@ -38,10 +46,22 @@ export const ConversationPlan = InjectAppServices(
             '-' +
             currentDay.toString().padStart(2, '0');
 
-          var getConversationsResponse = await dopplerBeplicApiClient.getConversations(
-            dateFrom,
-            dateTo,
-          );
+          var getConversationsResponse = null;
+
+          if (
+            user.conversationsEnvSource === '' ||
+            user.conversationsEnvSource === ConversationsEnvSource.Beplic
+          ) {
+            getConversationsResponse = await dopplerBeplicApiClient.getConversations(
+              dateFrom,
+              dateTo,
+            );
+          } else {
+            getConversationsResponse = await dopplerConversationsApiClient.getConversations(
+              dateFrom,
+              dateTo,
+            );
+          }
 
           if (getConversationsResponse.success) {
             setAvailableQuantity(plan.quantity - getConversationsResponse.value);
@@ -63,11 +83,13 @@ export const ConversationPlan = InjectAppServices(
       fetchAddOnData();
     }, [
       dopplerBeplicApiClient,
+      dopplerConversationsApiClient,
       dopplerAccountPlansApiClient,
       plan.active,
       plan.quantity,
       isFreeAccount,
       addOnPromotions,
+      appSessionRef,
     ]);
 
     if (loading) {
