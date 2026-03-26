@@ -833,7 +833,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
         description: `Capture your visitors' attention with pop-up messages featuring the most relevant products, related articles, and much more—at the perfect moment!`,
         link: 'https://app.fromdoppler.com/onsite',
         link_description: 'Activate it now',
-        title: '🖥️ Now you can personalize your Website with Onsite Marketing!',
+        title: '🖥️ Now you can personalize your Website with OnSite Marketing!',
       },
       post_3: {
         description: 'Easy-to-use editor, adaptable design, and advanced security. Increase your leads and customers with just a few clicks!',
