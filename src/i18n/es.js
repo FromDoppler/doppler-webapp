@@ -832,7 +832,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
         description: 'Capta la atención de tus visitantes con mensajes emergentes de productos más relevantes, artículos relacionados y mucho más, ¡en el momento exacto!',
         link: 'https://app.fromdoppler.com/onsite',
         link_description: 'Pruébalo ahora',
-        title: '🖥️ ¡Ahora puedes personalizar tu Sitio Web con Onsite Marketing!',
+        title: '🖥️ ¡Ahora puedes personalizar tu Sitio Web con OnSite Marketing!',
       },
       post_3: {
         description: 'Gestiona Chatbots en WhatsApp, Instagram, Facebook y tu Sitio Web, ¡todo desde una sola plataforma!',
