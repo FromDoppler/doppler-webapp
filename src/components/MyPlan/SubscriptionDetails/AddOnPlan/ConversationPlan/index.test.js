@@ -99,7 +99,7 @@ describe('ConversationPlan component', () => {
                 plan: {
                   conversationsQty: 200,
                   fee: 0,
-                  trialExpired: false
+                  trialExpired: false,
                 },
               },
             },
@@ -126,7 +126,12 @@ describe('ConversationPlan component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByText('my_plan.subscription_details.addon.conversation_plan.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.conversation_plan.title'),
+    ).toBeInTheDocument();
     expect(screen.getByText('my_plan.subscription_details.change_plan_button')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.conversation_plan.plan_message'),
+    ).toBeInTheDocument();
   });
 });

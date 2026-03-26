@@ -33,7 +33,7 @@ export const getAddons = (user) => {
     {
       addOnType: AddOnType.Conversations,
       addOnPlan: {
-        quantity: chat.plan.conversationsQty,
+        quantity: chat.plan.quantity,
         active: chat.plan.active,
         fee: chat.plan.fee,
         additionalAgent: chat.plan.additionalAgent,
