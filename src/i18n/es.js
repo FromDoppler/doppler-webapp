@@ -1149,6 +1149,13 @@ Encontrarás un Email con los pasos a seguir.`,
   my_plan: {
     addons: {
       activate_now_button: 'Activar',
+      artificial_intelligence_agent: {
+        access_by_legend: 'IA Agent - Actualizar Contenido',
+        description: 'IA Agent - Actualizar Contenido',
+        month_legend: '*IA Agent - Actualizar Contenido',
+        more_information_link: 'https://www.fromdoppler.com/es/inteligencia-artificial/?utm_medium=none&utm_source=direct',
+        title: 'IA Agent - Actualizar Contenido',
+      },
       buy_button: 'Comprar',
       cards: {
         card_1: {

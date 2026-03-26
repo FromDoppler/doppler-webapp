@@ -13,6 +13,7 @@ import { PushNotification } from './PushNotification';
 import { Sms } from './Sms';
 import { TransactionalEmails } from './TransactionalEmails';
 import { Collaborators } from './Collaborators';
+import { ArtificialIntelligenceAgent } from './ArtificialIntelligenceAgent';
 
 export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const intl = useIntl();
@@ -27,6 +28,10 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     window.location.href = '/additional-services';
   };
 
+  const canBuyAIAgentPlan =
+    process.env.REACT_APP_DOPPLER_CAN_BUY_IA_AGENT_PLAN === 'true';
+
+
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
@@ -40,6 +45,9 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
           <TransactionalEmails></TransactionalEmails>
           {<LandingPages></LandingPages>}
           <Collaborators isFreeAccount={plan.isFreeAccount}></Collaborators>
+          {canBuyAIAgentPlan && (
+            <ArtificialIntelligenceAgent></ArtificialIntelligenceAgent>
+          )}
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>
           <LayoutService></LayoutService>
