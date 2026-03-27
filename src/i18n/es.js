@@ -823,7 +823,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: '👀 Activa tu Plan con 50% OFF durante los primeros 6 meses."',
+        description: '👀 Activa tu Plan con 50% OFF durante los primeros 6 meses.',
         link: 'https://app.fromdoppler.com/plan-selection/premium/by-contacts',
         link_description: 'ACCEDE AL DESCUENTO',
         title: '¿Tienes una cuenta Free? Esto podría interesarte',
