@@ -86,7 +86,7 @@ export const TypeformSurvey = InjectAppServices(
           submittedRef.current = true;
 
           // Give the user time to read the end screen
-          const READING_TIME_MS = 9000;
+          const READING_TIME_MS = 1000;
 
           // Ensure no previous timer is running
           clearCloseTimeout();
