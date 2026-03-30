@@ -37,9 +37,6 @@ export const EcoAI = InjectAppServices(() => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  var hasAiAgent = false;
-  var aiAgent = { active: false };
-
   return (
     <Card
       title={_(`my_plan.addons.artificial_intelligence_agent.title`)}
@@ -48,16 +45,8 @@ export const EcoAI = InjectAppServices(() => {
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
       moreInformationLink={_(`my_plan.addons.artificial_intelligence_agent.more_information_link`)}
-      buyButtonText={_(
-        `${
-          hasAiAgent
-            ? 'my_plan.addons.change_plan_button'
-            : aiAgent.active
-              ? 'my_plan.addons.buy_button'
-              : 'my_plan.addons.activate_now_button'
-        }`,
-      )}
-      buyButtonUrl={null}
+      buyButtonText={_(`my_plan.addons.buy_button`)}
+      buyButtonUrl={'/buy-ecoia-plan?buyType=6'}
     ></Card>
   );
 });

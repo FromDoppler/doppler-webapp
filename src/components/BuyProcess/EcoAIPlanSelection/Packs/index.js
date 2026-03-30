@@ -8,9 +8,10 @@ const ecoAIFieldNames = {
   quantity: 'packagesQty',
 };
 
-export const isInvalidInputValue = (values, index) =>
-  values[`${ecoAIFieldNames.quantity}`] < 0 ||
-  values[`${ecoAIFieldNames.quantity}`] > MAX_ECOAI_PACKAGE;
+export const isInvalidInputValue = (values, index) => {
+  return values[`${ecoAIFieldNames.packages}`][index][`${ecoAIFieldNames.quantity}`] < 0 || 
+    values[`${ecoAIFieldNames.packages}`][index][`${ecoAIFieldNames.quantity}`] > MAX_ECOAI_PACKAGE;
+}
 
 export const isGreatherToMax = (packsSet) =>
   packsSet.findIndex((pack) => pack[ecoAIFieldNames.quantity] > MAX_ECOAI_PACKAGE) > -1;
