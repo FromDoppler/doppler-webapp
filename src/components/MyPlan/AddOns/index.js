@@ -28,7 +28,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     window.location.href = '/additional-services';
   };
 
-  const canBuyAIAgentPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_IA_AGENT_PLAN === 'true';
+  const canBuyAIAgentPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
 
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
