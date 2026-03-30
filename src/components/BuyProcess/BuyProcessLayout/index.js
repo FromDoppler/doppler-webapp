@@ -1,4 +1,5 @@
 import {
+  BUY_ECO_IA_PLAN,
   BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
@@ -45,6 +46,13 @@ export const getSteps = (buyType, user) => {
       icon: 'dpicon iconapp-chatting',
       pathname: '/buy-push-notification-plans',
       visible: buyType === BUY_PUSH_NOTIFICATION_PLAN.toString(),
+    },
+    {
+      id: 6,
+      label: 'buy_process.stepper.ai_agent_plan_step',
+      icon: 'dpicon iconapp-chatting',
+      pathname: '/buy-ecoia-plan',
+      visible: buyType === BUY_ECO_IA_PLAN.toString(),
     },
     {
       id: 5,

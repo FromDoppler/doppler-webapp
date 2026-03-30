@@ -51,6 +51,7 @@ import { PushNotifications } from './components/PushNotifications';
 import { PushNotificationPlanSelection } from './components/BuyProcess/PushNotificationPlanSelection';
 import { AdditionalServices } from './components/MyPlan/AdditionalServices';
 import { ConversationPlanSelection } from './components/BuyProcess/ConversationPlanSelection';
+import { EcoAIPlanSelection } from './components/BuyProcess/EcoAIPlanSelection';
 
 // https://www.npmjs.com/package/smoothscroll-polyfill
 smoothscroll.polyfill();
@@ -238,6 +239,16 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 <PrivateRoute>
                   <BuyProcessLayout>
                     <OnSitePlansSelection />
+                  </BuyProcessLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/buy-ecoia-plan"
+              element={
+                <PrivateRoute>
+                  <BuyProcessLayout>
+                    <EcoAIPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }

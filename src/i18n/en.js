@@ -91,6 +91,22 @@ other {}}}}}}}}
     volume_500: 'Between 500k and 1m',
     volume_do_not_know: `I don't know`,
   },
+  ai_agent_selection: {
+    ai_agent_plan_info: {
+      legend: 'EcoIA legend',
+      section_1: {
+        legend: 'EcoIA -> Section 1 -> Legend',
+        title: 'EcoIA -> Section 1 -> Title',
+      },
+      section_2: {
+        legend: 'EcoIA -> Section 2 -> Legend',
+        title: 'EcoIA -> Section 2 -> Title',
+      },
+    },
+    plan_of_eco_ai_with_plural: `EcoIA Plan`,
+    remove_from_cart_button: 'Remove from cart',
+    title: 'EcoIA',
+  },
   big_query: {
     add_google_account: `Add Google account.`,
     add_permission_google_account: `Add permission for Google accounts.`,
@@ -140,10 +156,12 @@ other {}}}}}}}}
     discount_percentage: `Save {discountPercentage}%`,
     discount_quarterly: 'Quarterly',
     discount_yearly: 'Annual',
+    ecoia_plan_title: `EcoIA plan`,
     feature_item_chat_plan: `Includes up to <Strong>{units} Messages</Strong>`,
     feature_item_discount_advanced_pay: `Advance payment discount {months}/months`,
     feature_item_discount_monthly: `Discount Promotional Code {months, select, 0 {} other{{months} months}}`,
     feature_item_discount_monthly_argentina: `Exclusive Discount Argentina {months} months`,
+    feature_item_ecoia_plan: `Includes up to <Strong>{units}</Strong>`,
     feature_item_extra_credits: `Includes {units} extra Credits`,
     'feature_item_monthly-deliveries': `Includes up to <Strong>{units} Emails</Strong>`,
     feature_item_onsite_plan: `Includes up to <Strong>{units} Impressions</Strong>`,
@@ -198,6 +216,7 @@ other {}}}}}}}}
       title: `Purchase summary`,
     },
     stepper: {
+      ai_agent_plan_step: 'Plan EcoIA',
       conversation_plan_step: 'Plan Conversations',
       email_marketing_plan_step: 'Plan Marketing',
       enjoy_doppler_step: 'Enjoy Doppler',
@@ -209,6 +228,7 @@ other {}}}}}}}}
     subscriptions_title: `Subscriptions`,
     upcoming_bills: {
       chat_plan_subtitle: `Conversation Plans`,
+      ecoia_plan_subtitle: `EcoIA Plans`,
       landing_pack_subtitle: `Landing Pages packs`,
       marketing_and_chat_plan_subtitle: `Marketing and Conversation Plans`,
       marketing_plan_subtitle: `Marketing Plan`,
