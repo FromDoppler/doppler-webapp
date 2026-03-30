@@ -34,6 +34,9 @@ describe('EcoAIPlansSelection component', () => {
         getDiscountsData: async () => ({ success: true, value: fakeAccountPlanDiscounts }),
       },
     };
+
+    process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN = 'true';
+
     // Act
     render(
       <AppServicesProvider forcedServices={forcedServices}>

@@ -10,6 +10,7 @@ import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import { getPromotionInformationMessage } from '../utils';
 import { Packs } from './Packs';
 import { Loading } from '../../Loading/Loading';
+import { Navigate } from 'react-router-dom';
 
 export const EcoAIPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -29,6 +30,8 @@ export const EcoAIPlanSelection = InjectAppServices(
       dopplerAccountPlansApiClient,
       appSessionRef,
     );
+
+    const canBuyEcoIAPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
 
     const itemRef = useRef(null);
     itemRef.current = item;
@@ -133,6 +136,10 @@ export const EcoAIPlanSelection = InjectAppServices(
     const handleSave = useCallback((packs) => {
       setItem(packs[0]);
     }, []);
+
+    if (!canBuyEcoIAPlan) {
+      return <Navigate to="/dashboard" />;
+    }
 
     if (loading) {
       return <Loading page />;
