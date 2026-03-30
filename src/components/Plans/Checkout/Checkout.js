@@ -9,6 +9,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import {
   AddOnType,
   BUY_CHAT_PLAN,
+  BUY_ECO_IA_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
@@ -136,7 +137,9 @@ const Checkout = InjectAppServices(
             ? AddOnType.OnSite
             : buyType === BUY_PUSH_NOTIFICATION_PLAN
               ? AddOnType.PushNotifications
-              : AddOnType.Conversations,
+              : buyType === BUY_CHAT_PLAN
+                ? AddOnType.Conversations
+                : AddOnType.EcoAI,
         );
 
         if (planData.success) {
@@ -211,7 +214,8 @@ const Checkout = InjectAppServices(
     const isBuyAddOnPlan =
       parseInt(buyType) === BUY_ONSITE_PLAN ||
       parseInt(buyType) === BUY_PUSH_NOTIFICATION_PLAN ||
-      parseInt(buyType) === BUY_CHAT_PLAN;
+      parseInt(buyType) === BUY_CHAT_PLAN ||
+      parseInt(buyType) === BUY_ECO_IA_PLAN;
 
     return (
       <>
@@ -384,7 +388,11 @@ const Checkout = InjectAppServices(
                   to={`${
                     buyType === BUY_ONSITE_PLAN
                       ? '/buy-onsite-plans'
-                      : '/buy-push-notification-plans'
+                      : buyType === BUY_PUSH_NOTIFICATION_PLAN
+                        ? '/buy-push-notification'
+                        : buyType === BUY_CHAT_PLAN
+                          ? '/buy-conversation'
+                          : '/buy-ecoia-plan'
                   }?buyType=${buyType}`}
                   className="dp-button button-medium primary-grey m-t-30 m-r-24"
                 >

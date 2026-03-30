@@ -3,6 +3,7 @@ import { amountByPlanType, thousandSeparatorNumber } from '../../../utils';
 import {
   AddOnType,
   BUY_CHAT_PLAN,
+  BUY_ECO_IA_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
   BUY_ONSITE_PLAN,
@@ -755,7 +756,9 @@ export const mapItemFromAddOnPlan = ({
             ? 'buy_process.onsite_plan_title'
             : addOnType === AddOnType.PushNotifications
               ? 'buy_process.push_notification_plan_title'
-              : 'buy_process.chat_plan_title'
+              : addOnType === AddOnType.Conversations
+                ? 'buy_process.chat_plan_title'
+                : 'buy_process.ecoia_plan_title'
         }`}
       />
     ),
@@ -766,7 +769,9 @@ export const mapItemFromAddOnPlan = ({
             ? 'buy_process.feature_item_onsite_plan'
             : addOnType === AddOnType.PushNotifications
               ? 'buy_process.feature_item_push_notification_plan'
-              : 'buy_process.feature_item_chat_plan'
+              : addOnType === AddOnType.Conversations
+                ? 'buy_process.feature_item_chat_plan'
+                : 'buy_process.feature_item_ecoia_plan'
         }`}
         values={{
           units: thousandSeparatorNumber(intl.defaultLocale, addOnPlan?.quantity ?? 0),
@@ -1073,7 +1078,8 @@ export const getBuyButton = ({
   if (
     buyType === BUY_ONSITE_PLAN ||
     buyType === BUY_PUSH_NOTIFICATION_PLAN ||
-    buyType === BUY_CHAT_PLAN
+    buyType === BUY_CHAT_PLAN ||
+    buyType === BUY_ECO_IA_PLAN
   ) {
     if (pathname.includes('/checkout/premium/')) {
       return (

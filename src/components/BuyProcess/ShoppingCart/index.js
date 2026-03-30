@@ -15,6 +15,7 @@ import {
 } from './utils';
 import {
   AddOnType,
+  BUY_ECO_IA_PLAN,
   BUY_CHAT_PLAN,
   BUY_LANDING_PACK,
   BUY_MARKETING_PLAN,
@@ -199,7 +200,13 @@ export const ShoppingCart = InjectAppServices(
         const _amountDetailsAddOnPlanData =
           await dopplerAccountPlansApiClient.getAddOnPlanBillingDetailsData(
             selectedAddOnPlan?.planId,
-            buyType === BUY_ONSITE_PLAN ? 4 : buyType === BUY_PUSH_NOTIFICATION_PLAN ? 5 : 2,
+            buyType === BUY_ONSITE_PLAN
+              ? 4
+              : buyType === BUY_PUSH_NOTIFICATION_PLAN
+                ? 5
+                : buyType === BUY_PUSH_NOTIFICATION_PLAN
+                  ? 2
+                  : 6,
             paymentFrequencyId
               ? paymentFrequencyId
               : discountConfig.paymentFrequenciesList.at(-1)
@@ -309,7 +316,9 @@ export const ShoppingCart = InjectAppServices(
               ? AddOnType.OnSite
               : buyType === BUY_PUSH_NOTIFICATION_PLAN
                 ? AddOnType.PushNotifications
-                : AddOnType.Conversations,
+                : buyType === BUY_CHAT_PLAN
+                  ? AddOnType.Conversations
+                  : AddOnType.EcoAI,
           intl,
           selectedPaymentFrequency: discountConfig?.selectedPaymentFrequency,
           amountDetailsData: amountDetailsAddOnPlanData,
@@ -455,7 +464,9 @@ export const ShoppingCart = InjectAppServices(
                       ? 'buy_process.upcoming_bills.push_notification_plan_subtitle'
                       : buyType === BUY_CHAT_PLAN
                         ? 'buy_process.upcoming_bills.chat_plan_subtitle'
-                        : 'buy_process.upcoming_bills.marketing_plan_subtitle'
+                        : buyType === BUY_ECO_IA_PLAN
+                          ? 'buy_process.upcoming_bills.ecoia_plan_subtitle'
+                          : 'buy_process.upcoming_bills.marketing_plan_subtitle'
               }
             />
           )}

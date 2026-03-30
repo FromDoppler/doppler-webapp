@@ -14,7 +14,9 @@ export const useAddOnPlans = (addOnType, dopplerAccountPlansApiClient, appSessio
       ? sessionPlan.onSite.plan
       : addOnType === AddOnType.PushNotifications
         ? sessionPlan.pushNotification.plan
-        : sessionPlan.chat.plan;
+        : addOnType === AddOnType.Conversations
+          ? sessionPlan.chat.plan
+          : undefined;
 
   useEffect(() => {
     const fetchData = async () => {

@@ -40,6 +40,7 @@ export const SUBSCRIPTION_TYPE = {
 } as const;
 
 export const MAX_LANDING_PACKAGE = 10;
+export const MAX_ECOAI_PACKAGE = 1;
 
 export type PlanType = typeof PLAN_TYPE[keyof typeof PLAN_TYPE];
 
@@ -257,12 +258,14 @@ export const BUY_LANDING_PACK = 3;
 export const BUY_CHAT_PLAN = 2;
 export const BUY_ONSITE_PLAN = 4;
 export const BUY_PUSH_NOTIFICATION_PLAN = 5;
+export const BUY_ECO_IA_PLAN = 6;
 
 export const AddOnType = {
   Conversations: 2,
   Landings: 1,
   OnSite: 3,
-  PushNotifications: 4
+  PushNotifications: 4,
+  EcoAI: 5,
 };
 
 export const AccountCancellationFlow = {
