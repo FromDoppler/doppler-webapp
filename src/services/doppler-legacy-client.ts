@@ -421,6 +421,24 @@ interface PushNotificationEntry {
   plan: PushNotificationPlanEntry;
 }
 
+interface AddOnPlanEntry {
+  addOnTypeId: number;
+  planId: number;
+  description: string;
+  quantity: number;
+  fee: number;
+  additional: number;
+  active: boolean;
+  buttonText: string;
+  buttonUrl: string;
+  trialExpired: boolean;
+}
+
+interface AddOnEntry {
+  active: boolean;
+  plan: AddOnPlanEntry;
+}
+
 interface SmsEntry {
   buttonText: string;
   buttonUrl: string;
@@ -659,6 +677,30 @@ function mapPushNotificationPlanEntry(json: any): PushNotificationPlanEntry {
   };
 }
 
+function mapAddOnEntry(json: any): AddOnEntry {
+  return {
+    active: json?.active || false,
+    plan: mapAddOnPlanEntry(json),
+  };
+}
+
+function mapAddOnPlanEntry(json: any): AddOnPlanEntry {
+  return {
+    addOnTypeId: json?.planData ? json?.planData.idAddOnType : 0,
+    planId: json?.planData ? json?.planData.idAddOnPlan : 0,
+    description: json?.planData ? json?.planData.description : '',
+    quantity: json?.planData ? json?.planData.quantity : 0,
+    fee: json?.planData ? json?.planData.fee : 0,
+    additional: json?.planData ? json?.planData.additional : 0,
+    active: json?.planData ? json?.planData.active : false,
+    buttonUrl: json ? json.buttonUrl : '#',
+    buttonText: json ? json.buttonText : '',
+    trialExpired: json?.planData
+      ? expiredAddOnPlan(new Date(json?.planData.expirationDate))
+      : false,
+  };
+}
+
 function expiredAddOnPlan(expirationDate: Date) {
   var now = new Date();
   var utcDate = new Date(
@@ -803,6 +845,7 @@ export function mapHeaderDataJson(json: any) {
         plan: mapOnSitePlanEntry(json.user.onSite),
       },
       pushNotification: mapPushNotificationEntry(json.user.pushNotificationPlan),
+      addOnPlans: (json.user.addOnPlans && json.user.addOnPlans.map(mapAddOnEntry)) || [],
       isCancellationRequested: json.user.isCancellationRequested ?? false,
       hasScheduledCancellation: json.user.hasScheduledCancellation ?? false,
       conversationsEnvSource: json.user.conversationsEnvSource ?? ConversationsEnvSource.Beplic,

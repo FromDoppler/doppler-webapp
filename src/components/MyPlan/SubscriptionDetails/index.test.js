@@ -14,6 +14,7 @@ describe('SubscriptionDetails component', () => {
           userData: {
             user: {
               addOnPromotions: [],
+              addOnPlans: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -94,6 +95,7 @@ describe('SubscriptionDetails component', () => {
         current: {
           userData: {
             user: {
+              addOnPlans: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -163,6 +165,7 @@ describe('SubscriptionDetails component', () => {
         current: {
           userData: {
             user: {
+              addOnPlans: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -236,6 +239,7 @@ describe('SubscriptionDetails component', () => {
         current: {
           userData: {
             user: {
+              addOnPlans: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -306,6 +310,7 @@ describe('SubscriptionDetails component', () => {
           userData: {
             user: {
               addOnPromotions: [{ idAddOnType: 4, idAddOnPlan: 1, discount: 10, quantity: 10000 }],
+              addOnPlans: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',
@@ -372,6 +377,7 @@ describe('SubscriptionDetails component', () => {
         current: {
           userData: {
             user: {
+              addOnPlans: [],
               plan: {
                 isFreeAccount: false,
                 planType: 'subscribers',

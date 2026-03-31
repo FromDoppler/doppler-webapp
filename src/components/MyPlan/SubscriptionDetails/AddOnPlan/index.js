@@ -5,6 +5,7 @@ import { OnSitePlan } from './OnSitePlan';
 import { PushNotificationPlan } from './PushNotificationPlan';
 import { LandingPagesPlan } from './LandingPagesPlan';
 import { FormattedNumber } from 'react-intl';
+import { EcoAIPlan } from './EcoAIPlan';
 
 export const formattedNumber = (value, decimals) => {
   const numberFormatOptions = {
@@ -50,6 +51,13 @@ export const AddOnPlan = InjectAppServices(
             landingPagesPlan={addOnPlan}
             addOnPromotions={addOnPromotions}
           ></LandingPagesPlan>
+        )}
+        {addOnType === AddOnType.EcoAI && (
+          <EcoAIPlan
+            buyUrl={addOnBuyUrl}
+            ecoAiPlan={addOnPlan}
+            addOnPromotions={addOnPromotions}
+          ></EcoAIPlan>
         )}
       </>
     );

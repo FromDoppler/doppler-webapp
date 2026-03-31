@@ -1414,6 +1414,20 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           start_free_label: 'Pruébalo durante el período gratuito de tu Plan de Marketing.',
           title: 'Plan de Conversaciones',
         },
+        eco_ai_plan: {
+          additional_impression_message: 'Impresión adicional: US$ {price}',
+          addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes</bold>.
+          {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
+          addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de {quantity} impresiones</bold>.
+          {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
+          addon_promotion_title: 'Recuerda que tienes un descuento de:',
+          available_message: '{available}/{total} Impresiones disponibles',
+          free_additional_impression_message: 'Impresión adicional: --',
+          free_label: 'Prueba Gratuita',
+          plan_message: '{total} Impresiones',
+          start_free_label: 'Pruébalo durante el período gratuito de tu Plan de Marketing.',
+          title: 'Eco IA',
+        },
         landings_plan: {
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Packs</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
