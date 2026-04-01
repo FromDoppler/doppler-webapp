@@ -204,7 +204,7 @@ export const ShoppingCart = InjectAppServices(
               ? 4
               : buyType === BUY_PUSH_NOTIFICATION_PLAN
                 ? 5
-                : buyType === BUY_PUSH_NOTIFICATION_PLAN
+                : buyType === BUY_CHAT_PLAN
                   ? 2
                   : 6,
             paymentFrequencyId
