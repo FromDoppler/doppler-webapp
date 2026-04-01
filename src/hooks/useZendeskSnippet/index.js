@@ -35,6 +35,11 @@ export const useZendeskSnippet = (sessionStatus) => {
     }
 
     if (key !== loadedKeyRef.current) {
+      console.warn('[useZendeskSnippet] reload triggered', {
+        sessionStatus,
+        key,
+        loadedKey: loadedKeyRef.current,
+      });
       window.location.reload();
     }
   }, [sessionStatus]);
