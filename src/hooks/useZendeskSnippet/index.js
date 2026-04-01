@@ -11,27 +11,30 @@ const loadZendeskScript = (key) => {
   document.body.appendChild(script);
 };
 
+const getZendeskKey = (sessionStatus) =>
+  sessionStatus === 'authenticated'
+    ? process.env.REACT_APP_ZENDESK_AUTHENTICATED_KEY
+    : process.env.REACT_APP_ZENDESK_PUBLIC_KEY;
+
 export const useZendeskSnippet = (sessionStatus) => {
-  const resolvedStatusRef = useRef(null);
+  const loadedKeyRef = useRef(null);
 
   useEffect(() => {
     if (sessionStatus === 'unknown') {
       return;
     }
 
-    if (resolvedStatusRef.current === null) {
-      resolvedStatusRef.current = sessionStatus;
-      const key =
-        sessionStatus === 'authenticated'
-          ? process.env.REACT_APP_ZENDESK_AUTHENTICATED_KEY
-          : process.env.REACT_APP_ZENDESK_PUBLIC_KEY;
+    const key = getZendeskKey(sessionStatus);
+
+    if (loadedKeyRef.current === null) {
+      loadedKeyRef.current = key;
       if (key) {
         loadZendeskScript(key);
       }
       return;
     }
 
-    if (sessionStatus !== resolvedStatusRef.current) {
+    if (key !== loadedKeyRef.current) {
       window.location.reload();
     }
   }, [sessionStatus]);
