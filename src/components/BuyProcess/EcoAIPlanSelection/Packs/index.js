@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Formik, Field, Form, FieldArray, useFormikContext } from 'formik';
+import { Formik, Form, FieldArray, useFormikContext } from 'formik';
 import { MAX_ECOAI_PACKAGE, numberFormatOptions } from '../../../../doppler-types';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 
@@ -45,22 +45,24 @@ export const ButtonLess = ({ handleInputValue, index, value }) => {
   );
 };
 
-export const DeletePacksButton = ({ handleRemove, loadingRemovePages }) => {
+export const DeletePacksButton = ({ handleRemove, loadingRemovePages, hasPlan }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
     <fieldset className="dp-buttons-packs">
-      <button
-        type="button"
-        className={`dp-button button-medium primary-grey ${
-          loadingRemovePages ? 'button--loading' : ''
-        }`}
-        disabled={loadingRemovePages}
-        onClick={handleRemove}
-      >
-        {_('ai_agent_selection.remove_from_cart_button')}
-      </button>
+      {hasPlan && (
+        <button
+          type="button"
+          className={`dp-button button-medium primary-grey ${
+            loadingRemovePages ? 'button--loading' : ''
+          }`}
+          disabled={loadingRemovePages}
+          onClick={handleRemove}
+        >
+          {_('ai_agent_selection.remove_from_cart_button')}
+        </button>
+      )}
     </fieldset>
   );
 };
@@ -88,7 +90,7 @@ export const ButtonMore = ({ handleInputValue, index, value }) => {
   );
 };
 
-export const Packs = ({ packs, handleSave, formRef, handleRemove, loadingRemove }) => {
+export const Packs = ({ packs, handleSave, formRef, handleRemove, loadingRemove, hasPlan }) => {
   const handleSubmit = (packsSet) => {
     const ecoAI = filterPackagesEqualOrGreatherToZero(packsSet);
     handleSave(ecoAI);
@@ -129,62 +131,33 @@ export const Packs = ({ packs, handleSave, formRef, handleRemove, loadingRemove 
                 {values[ecoAIFieldNames.packages].length > 0 &&
                   values[ecoAIFieldNames.packages].map((pack, index) => (
                     <fieldset key={`pack${index}`}>
-                      <div className="dp-pack-box">
-                        <p className="dp-mark">
-                          <FormattedMessage
-                            id="ai_agent_selection.plan_of_eco_ai_with_plural"
-                            values={{
-                              packs: pack.quantity,
-                            }}
-                          />
-                        </p>
-                      </div>
-                      <div className="dp-pack-box">
-                        <h3>
-                          <FormattedMessage
-                            id={`landing_selection.pack_price`}
-                            values={{
-                              price: <FormattedNumber value={pack.fee} {...numberFormatOptions} />,
-                            }}
-                          />
-                        </h3>
-                      </div>
-                      <div className="dp-pack-box">
-                        <label
-                          htmlFor="email"
-                          className="labelcontrol"
-                          aria-disabled="false"
-                          data-required={isInvalidInputValue(values, index)}
-                        >
-                          <ButtonLess
-                            handleInputValue={handleInputValue}
-                            index={index}
-                            value={pack.quantity}
-                          />
-                          <Field
-                            disabled={pack.quantity === 1}
-                            name={`${ecoAIFieldNames.packages}.${index}.${ecoAIFieldNames.quantity}`}
-                            type="number"
-                            placeholder="0"
-                            aria-required="true"
-                            aria-placeholder="0"
-                            aria-invalid={isInvalidInputValue(values, index)}
-                            aria-label={`${ecoAIFieldNames.packages}.${index}.${ecoAIFieldNames.quantity}`}
-                            min={0}
-                            max={MAX_ECOAI_PACKAGE}
-                          />
-                          <ButtonMore
-                            handleInputValue={handleInputValue}
-                            index={index}
-                            value={pack.quantity}
-                          />
-                        </label>
+                      <div className='dp-rowflex dp-container'>
+                        <div className="col-lg-9">
+                          <p className="dp-mark">
+                            <FormattedMessage
+                              id="ai_agent_selection.plan_of_eco_ai_with_plural"
+                              values={{
+                                packs: pack.quantity,
+                              }}
+                            />
+                          </p>
+                        </div>
+                        <div className="col-lg-3 text-align--right">
+                          <h3>
+                            <FormattedMessage
+                              id={`landing_selection.pack_price`}
+                              values={{
+                                price: <FormattedNumber value={pack.fee} {...numberFormatOptions} />,
+                              }}
+                            />
+                          </h3>
+                        </div>
                       </div>
                     </fieldset>
                   ))}
               </>
             </FieldArray>
-            <DeletePacksButton handleRemove={handleRemove} loadingRemove={loadingRemove} />
+            <DeletePacksButton handleRemove={handleRemove} loadingRemove={loadingRemove} hasPlan={hasPlan} />
           </Form>
         )}
       </Formik>

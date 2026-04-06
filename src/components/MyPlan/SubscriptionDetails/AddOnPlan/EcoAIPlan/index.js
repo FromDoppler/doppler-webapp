@@ -54,7 +54,7 @@ export const EcoAIPlan = InjectAppServices(
                         ecoAiPlan.trialExpired
                           ? 'view_plans_button'
                           : (isFreeAccount || addOnPromotions.length > 0) && !ecoAiPlan.active
-                            ? 'activate_now_button'
+                            ? 'view_plans_button'
                             : 'change_plan_button'
                       }`,
                     )}
@@ -69,7 +69,7 @@ export const EcoAIPlan = InjectAppServices(
               <div className="dp-content-message dp-content-full">
                 <p>
                   {getPromotionInformationMessage(
-                    'onsite',
+                    'eco_ai',
                     appSessionRef.current.userData.user,
                     addOnPromotions,
                   )}

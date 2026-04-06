@@ -62,9 +62,10 @@ const messages_en = {
       slice_5_description_item: `<Bold>{addOnType, select, 2 {{br}{discount}% Off Conversations | {includedAllPlans, select, true {All Plans}
 other {{quantity} messages}}} other
 {{addOnType, select, 3 {{br}{discount}% Off Onsite | {includedAllPlans, select, true {All Plans} other {{quantity} impressions}}} other
-{{addOnType, select, 4 {{br}{discount}% Off Push Notifications | {includedAllPlans, select, true {All Plans} other {{quantity} shipments}}}
-other {{addOnType, select, 1 {{br}{discount}% Off Landing Pages | {includedAllPlans, select, true {All Plans} other {{quantity}}}}
-other {}}}}}}}}
+{{addOnType, select, 4 {{br}{discount}% Off Push Notifications | {includedAllPlans, select, true {All Plans} other {{quantity} shipments}}} other
+{{addOnType, select, 5 {{br}{discount}% Off EcoAI | {includedAllPlans, select, true {All Plans} other {{quantity} agent}}} other 
+{{addOnType, select, 1 {{br}{discount}% Off Landing Pages | {includedAllPlans, select, true {All Plans} other {{quantity}}}} 
+other {}}}}}}}}}}
       </Bold>`,
       slice_5_description_title: `Your promotional code also includes:`,
       slice_5_link_text: `I DON'T WANT THIS BENEFIT`,
@@ -103,8 +104,8 @@ other {}}}}}}}}
         title: 'EcoIA -> Section 2 -> Title',
       },
     },
-    plan_of_eco_ai_with_plural: `EcoIA Plan`,
-    remove_from_cart_button: 'Remove from cart',
+    plan_of_eco_ai_with_plural: `Doppler Eco IA`,
+    remove_from_cart_button: 'Remove',
     title: 'EcoIA',
   },
   big_query: {

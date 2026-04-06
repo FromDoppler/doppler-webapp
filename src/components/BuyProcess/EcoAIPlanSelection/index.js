@@ -31,6 +31,7 @@ export const EcoAIPlanSelection = InjectAppServices(
       appSessionRef,
     );
 
+    const ecoIA = appSessionRef.current.userData.user.addOnPlans?.filter(aop => aop.plan?.addOnTypeId === AddOnType.EcoAI)[0];
     const canBuyEcoIAPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
 
     const itemRef = useRef(null);
@@ -165,6 +166,7 @@ export const EcoAIPlanSelection = InjectAppServices(
                 handleSave={handleSave}
                 formRef={formRef}
                 handleRemove={handleRemove}
+                hasPlan={ecoIA.active === true}
               />
               {showPromotionInformation && (
                 <section>
