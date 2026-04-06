@@ -48,6 +48,8 @@ describe('EcoAIPlan component', () => {
     );
 
     // Assert
-    expect(screen.getByText('my_plan.subscription_details.addon.eco_ai_plan.title')).toBeInTheDocument();
+    expect(
+      screen.getByText('my_plan.subscription_details.addon.eco_ai_plan.title'),
+    ).toBeInTheDocument();
   });
 });

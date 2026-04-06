@@ -21,7 +21,6 @@ export const EcoAIPlanSelection = InjectAppServices(
     const [packsFormValues, setPacksFormValues] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showPromotionInformation, setShowPromotionInformation] = useState(false);
-    const formRef = useRef();
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -31,7 +30,9 @@ export const EcoAIPlanSelection = InjectAppServices(
       appSessionRef,
     );
 
-    const ecoIA = appSessionRef.current.userData.user.addOnPlans?.filter(aop => aop.plan?.addOnTypeId === AddOnType.EcoAI)[0];
+    const ecoIA = appSessionRef.current.userData.user.addOnPlans?.filter(
+      (aop) => aop.plan?.addOnTypeId === AddOnType.EcoAI,
+    )[0];
     const canBuyEcoIAPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
 
     const itemRef = useRef(null);
@@ -126,17 +127,11 @@ export const EcoAIPlanSelection = InjectAppServices(
       const resetForm = async () => {
         var packs = packsFormValues?.map((p) => ({ ...p, packagesQty: 0 }));
         setPacksFormValues(packs);
-        const { resetForm } = formRef.current;
         setItem(null);
-        resetForm && resetForm();
       };
 
       resetForm();
     };
-
-    const handleSave = useCallback((packs) => {
-      setItem(packs[0]);
-    }, []);
 
     if (!canBuyEcoIAPlan) {
       return <Navigate to="/dashboard" />;
@@ -163,10 +158,8 @@ export const EcoAIPlanSelection = InjectAppServices(
               </div>
               <Packs
                 packs={packsFormValues}
-                handleSave={handleSave}
-                formRef={formRef}
                 handleRemove={handleRemove}
-                hasPlan={ecoIA.active === true}
+                hasPlan={ecoIA?.active === true}
               />
               {showPromotionInformation && (
                 <section>

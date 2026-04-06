@@ -6,13 +6,7 @@ import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 
 export const EcoAIPlan = InjectAppServices(
-  ({
-    buyUrl,
-    ecoAiPlan,
-    isFreeAccount,
-    addOnPromotions,
-    dependencies: { appSessionRef },
-  }) => {
+  ({ buyUrl, ecoAiPlan, isFreeAccount, addOnPromotions, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const showPromotionInformation = addOnPromotions.length > 0 && !ecoAiPlan.active;

@@ -63,8 +63,8 @@ const messages_en = {
 other {{quantity} messages}}} other
 {{addOnType, select, 3 {{br}{discount}% Off Onsite | {includedAllPlans, select, true {All Plans} other {{quantity} impressions}}} other
 {{addOnType, select, 4 {{br}{discount}% Off Push Notifications | {includedAllPlans, select, true {All Plans} other {{quantity} shipments}}} other
-{{addOnType, select, 5 {{br}{discount}% Off EcoAI | {includedAllPlans, select, true {All Plans} other {{quantity} agent}}} other 
-{{addOnType, select, 1 {{br}{discount}% Off Landing Pages | {includedAllPlans, select, true {All Plans} other {{quantity}}}} 
+{{addOnType, select, 5 {{br}{discount}% Off EcoAI | {includedAllPlans, select, true {All Plans} other {{quantity} agent}}} other
+{{addOnType, select, 1 {{br}{discount}% Off Landing Pages | {includedAllPlans, select, true {All Plans} other {{quantity}}}}
 other {}}}}}}}}}}
       </Bold>`,
       slice_5_description_title: `Your promotional code also includes:`,
