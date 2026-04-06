@@ -24,9 +24,11 @@ export const filterPackagesEqualOrGreatherToZero = (packsSet) =>
 
 export const ButtonLess = ({ handleInputValue, index, value }) => {
   const { values, setFieldValue } = useFormikContext();
+  const disabled = values[`${ecoAIFieldNames.packages}`][index][`${ecoAIFieldNames.quantity}`] === 0;
 
   return (
     <button
+      disabled={disabled}
       type="button"
       onClick={() =>
         handleInputValue(
@@ -65,9 +67,11 @@ export const DeletePacksButton = ({ handleRemove, loadingRemovePages }) => {
 
 export const ButtonMore = ({ handleInputValue, index, value }) => {
   const { values, setFieldValue } = useFormikContext();
+  const disabled = values[`${ecoAIFieldNames.packages}`][index][`${ecoAIFieldNames.quantity}`] === MAX_ECOAI_PACKAGE;
 
   return (
     <button
+      disabled={disabled}
       type="button"
       onClick={() =>
         handleInputValue(

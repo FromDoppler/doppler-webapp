@@ -8,6 +8,7 @@ import { FREE_ACCOUNT, PAID_ACCOUNT } from '../../../../../utils';
 import { useIntl } from 'react-intl';
 import {
   AddOnType,
+  BUY_CHAT_PLAN,
   BUY_ONSITE_PLAN,
   BUY_PUSH_NOTIFICATION_PLAN,
 } from '../../../../../doppler-types';
@@ -45,7 +46,9 @@ export const AddOnCheckoutButton = InjectAppServices(
             ? AddOnType.OnSite
             : buyType === BUY_PUSH_NOTIFICATION_PLAN
               ? AddOnType.PushNotifications
-              : AddOnType.Conversations,
+              : buyType === BUY_CHAT_PLAN
+                ? AddOnType.Conversations
+                : AddOnType.EcoAI,
         addOnPlanId,
       });
 
@@ -69,7 +72,10 @@ export const AddOnCheckoutButton = InjectAppServices(
           ? AddOnType.OnSite
           : buyType === BUY_PUSH_NOTIFICATION_PLAN
             ? AddOnType.PushNotifications
-            : AddOnType.Conversations;
+            : buyType === BUY_CHAT_PLAN
+              ? AddOnType.Conversations
+              : AddOnType.EcoAI;
+
       const response = await dopplerBillingUserApiClient.cancellationAddOnPlan(addOnType);
       if (response.success) {
         setStatus(SAVED);
