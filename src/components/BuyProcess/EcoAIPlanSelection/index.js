@@ -33,7 +33,8 @@ export const EcoAIPlanSelection = InjectAppServices(
     const ecoIA = appSessionRef.current.userData.user.addOnPlans?.filter(
       (aop) => aop.plan?.addOnTypeId === AddOnType.EcoAI,
     )[0];
-    const canBuyEcoIAPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
+
+    const canBuyEcoIAPlan = appSessionRef?.current?.userData?.features?.ecoIAEnabled;
 
     const itemRef = useRef(null);
     itemRef.current = item;

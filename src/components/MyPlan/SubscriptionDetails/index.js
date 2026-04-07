@@ -7,13 +7,12 @@ import { AddOnType } from '../../../doppler-types';
 import { SmsPlan } from './SmsPlan';
 import { Collaborators } from './AddOnPlan/Collaborators';
 
-export const getAddons = (user) => {
+export const getAddons = (user, features) => {
   const { chat, landings, onSite, pushNotification, plan, addOnPlans } = user;
   const ecoIA = addOnPlans?.filter((aop) => aop.plan?.addOnTypeId === AddOnType.EcoAI)[0];
   const canBuyPushNotificationPlan =
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
-  const canBuyEcoAIPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
-
+  const canBuyEcoAIPlan = features?.ecoIAEnabled;
   var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
 
   const addOnPromotions = user.addOnPromotions === undefined ? [] : user.addOnPromotions;
@@ -132,7 +131,7 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
 
   const user = appSessionRef.current.userData.user;
   const { plan, sms } = user;
-  const addOns = getAddons(appSessionRef.current.userData.user).filter((a) => a.active);
+  const addOns = getAddons(appSessionRef.current.userData.user, appSessionRef?.current?.userData?.features).filter((a) => a.active);
 
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
