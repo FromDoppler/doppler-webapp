@@ -21,6 +21,7 @@ import {
   INITIAL_STATE_COMPLETE_STEPS,
 } from './reducers/completeStepsReducer';
 import { QuickActions } from './QuickActions';
+import { EcoIA } from './EcoIA';
 
 export const Dashboard = InjectAppServices(
   ({ dependencies: { appSessionRef, systemUsageSummary, dopplerSystemUsageApiClient } }) => {
@@ -123,6 +124,7 @@ export const Dashboard = InjectAppServices(
           <div className="dp-container">
             <div className="dp-rowflex">
               <div className="col-lg-8 col-md-12 m-b-24">
+                <EcoIA></EcoIA>
                 <CampaignSummary />
                 <ContactSummary />
                 <LearnWithDoppler />

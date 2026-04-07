@@ -42,19 +42,14 @@ export const Packs = ({ packs, handleRemove, hasPlan }) => {
                 <FormattedMessage
                   id={`landing_selection.pack_price`}
                   values={{
-                    price: (
-                      <FormattedNumber value={pack.fee} {...numberFormatOptions} />
-                    ),
+                    price: <FormattedNumber value={pack.fee} {...numberFormatOptions} />,
                   }}
                 />
               </h3>
             </div>
           </div>
         ))}
-        <DeletePacksButton
-          handleRemove={handleRemove}
-          hasPlan={hasPlan}
-        />
+        <DeletePacksButton handleRemove={handleRemove} hasPlan={hasPlan} />
       </div>
     </>
   );

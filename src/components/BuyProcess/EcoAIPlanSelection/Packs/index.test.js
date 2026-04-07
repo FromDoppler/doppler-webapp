@@ -23,7 +23,7 @@ describe('Packs', () => {
       {
         packages: 1,
         packagesQty: 1,
-        quantity: 1
+        quantity: 1,
       },
     ];
     const useFormikContextMock = jest.spyOn(Formik, 'useFormikContext');
@@ -36,10 +36,7 @@ describe('Packs', () => {
 
     render(
       <IntlProvider>
-        <Packs
-          packs={packs}
-          formRef={() => null}
-        />
+        <Packs packs={packs} formRef={() => null} />
       </IntlProvider>,
     );
 
