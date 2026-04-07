@@ -27,7 +27,7 @@ describe('LandingPacksSelection component', () => {
               },
             },
             features: {
-                landingsEditorEnabled: true
+              landingsEditorEnabled: true,
             },
           },
         },
@@ -35,7 +35,7 @@ describe('LandingPacksSelection component', () => {
       dopplerAccountPlansApiClient: {
         getPlanData: async (selectedPlan) => ({ success: true, value: fakePlan }),
         getDiscountsData: async () => ({ success: true, value: fakeAccountPlanDiscounts }),
-        getLandingPacks: async => ({ success: false, value: [] })
+        getLandingPacks: (async) => ({ success: false, value: [] }),
       },
     };
     // Act

@@ -9,11 +9,10 @@ import { Collaborators } from './AddOnPlan/Collaborators';
 
 export const getAddons = (user) => {
   const { chat, landings, onSite, pushNotification, plan, addOnPlans } = user;
-  const ecoIA = addOnPlans?.filter(aop => aop.plan?.addOnTypeId === AddOnType.EcoAI)[0];
+  const ecoIA = addOnPlans?.filter((aop) => aop.plan?.addOnTypeId === AddOnType.EcoAI)[0];
   const canBuyPushNotificationPlan =
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
-  const canBuyEcoAIPlan =
-    process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
+  const canBuyEcoAIPlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ECO_IA_PLAN === 'true';
 
   var hasLandings = landings?.landingPacks.filter((lp) => lp.packageQty > 0).length > 0;
 
@@ -32,9 +31,7 @@ export const getAddons = (user) => {
     (aop) => aop.idAddOnType === AddOnType.PushNotifications,
   );
 
-  const ecoAIPromotions = addOnPromotions.filter(
-    (aop) => aop.idAddOnType === AddOnType.EcoAI,
-  );
+  const ecoAIPromotions = addOnPromotions.filter((aop) => aop.idAddOnType === AddOnType.EcoAI);
 
   const addOns = [
     {
@@ -110,17 +107,11 @@ export const getAddons = (user) => {
         trialExpired: ecoIA?.plan.trialExpired,
       },
       active:
-        (ecoIA?.plan.active ||
-          plan.isFreeAccount ||
-          ecoAIPromotions.length > 0) &&
+        (ecoIA?.plan.active || plan.isFreeAccount || ecoAIPromotions.length > 0) &&
         canBuyEcoAIPlan &&
         !user.plan.trialExpired,
       addOnPromotions: ecoAIPromotions,
-      buyUrl: `${
-        plan.isFreeAccount
-          ? ecoIA?.plan.buttonUrl
-          : '/buy-ecoia-plan?buyType=6'
-      }`,
+      buyUrl: `${plan.isFreeAccount ? ecoIA?.plan.buttonUrl : '/buy-ecoia-plan?buyType=6'}`,
     },
   ];
 

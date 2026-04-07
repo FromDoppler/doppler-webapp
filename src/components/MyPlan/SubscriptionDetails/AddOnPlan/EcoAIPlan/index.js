@@ -6,13 +6,7 @@ import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 
 export const EcoAIPlan = InjectAppServices(
-  ({
-    buyUrl,
-    ecoAiPlan,
-    isFreeAccount,
-    addOnPromotions,
-    dependencies: { appSessionRef },
-  }) => {
+  ({ buyUrl, ecoAiPlan, isFreeAccount, addOnPromotions, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const showPromotionInformation = addOnPromotions.length > 0 && !ecoAiPlan.active;
@@ -54,7 +48,7 @@ export const EcoAIPlan = InjectAppServices(
                         ecoAiPlan.trialExpired
                           ? 'view_plans_button'
                           : (isFreeAccount || addOnPromotions.length > 0) && !ecoAiPlan.active
-                            ? 'activate_now_button'
+                            ? 'view_plans_button'
                             : 'change_plan_button'
                       }`,
                     )}
@@ -69,7 +63,7 @@ export const EcoAIPlan = InjectAppServices(
               <div className="dp-content-message dp-content-full">
                 <p>
                   {getPromotionInformationMessage(
-                    'onsite',
+                    'eco_ai',
                     appSessionRef.current.userData.user,
                     addOnPromotions,
                   )}

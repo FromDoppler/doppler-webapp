@@ -63,8 +63,9 @@ const messages_es = {
 other {{quantity} mensajes}}} other
 {{addOnType, select, 3 {{br}{discount}% Off en Onsite | {includedAllPlans, select, true {Todos los Planes} other {{quantity} impresiones}}} other
 {{addOnType, select, 4 {{br}{discount}% Off en Notificaciones Push | {includedAllPlans, select, true {Todos los Planes} other {{quantity} envíos}}} other
+{{addOnType, select, 5 {{br}{discount}% Off en Eco IA | {includedAllPlans, select, true {Todos los Planes} other {{quantity} agente}}} other
 {{addOnType, select, 1 {{br}{discount}% Off en Landing Pages | {includedAllPlans, select, true {Todos los Planes} other {{quantity}}}}
-other {}}}}}}}}
+other {}}}}}}}}}}
       </Bold>`,
       slice_5_description_title: `Tu código promocional también incluye:`,
       slice_5_link_text: `NO QUIERO ESTE BENEFICIO`,
@@ -103,8 +104,8 @@ other {}}}}}}}}
         title: 'EcoIA -> Section 2 -> Titulo',
       },
     },
-    plan_of_eco_ai_with_plural: `Plan de EcoIA`,
-    remove_from_cart_button: 'Remover del carrito',
+    plan_of_eco_ai_with_plural: `Doppler Eco AI`,
+    remove_from_cart_button: 'Remover',
     title: 'EcoIA',
   },
   big_query: {
@@ -1418,13 +1419,13 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           additional_impression_message: 'Impresión adicional: US$ {price}',
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
-          addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de {quantity} impresiones</bold>.
+          addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de {quantity} agente</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
-          available_message: '{available}/{total} Impresiones disponibles',
-          free_additional_impression_message: 'Impresión adicional: --',
+          available_message: '{available}/{total} Agente disponible',
+          free_additional_impression_message: 'Agente adicional: --',
           free_label: 'Prueba Gratuita',
-          plan_message: '{total} Impresiones',
+          plan_message: '{total} Agente',
           start_free_label: 'Pruébalo durante el período gratuito de tu Plan de Marketing.',
           title: 'Eco IA',
         },
