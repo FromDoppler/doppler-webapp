@@ -1018,6 +1018,7 @@ You'll find an Email with steps to follow.`,
       wordpress_title: 'WordPress',
       xintel_title: 'Xintel',
       zeus_title: 'Zeus',
+      ela_title: "Ela Gestión",
     },
     native_integrations: {
       big_query_title: 'BigQuery',
