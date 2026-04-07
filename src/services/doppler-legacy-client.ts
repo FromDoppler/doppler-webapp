@@ -869,6 +869,7 @@ export function mapHeaderDataJson(json: any) {
       landingsEditorEnabled: !!(json.features && json.features.landingsEditorEnabled),
       inviteCollaboratorsEnabled: !!(json.features && json.features.inviteCollaboratorsEnabled),
       bigBoxIntegrationEnabled: !!(json.features && json.features.bigBoxIntegrationEnabled),
+      ecoIAEnabled: !!(json.features && json.features.ecoIAEnabled),
     },
   };
 }
