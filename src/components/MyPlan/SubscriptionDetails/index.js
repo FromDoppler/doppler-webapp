@@ -131,7 +131,10 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
 
   const user = appSessionRef.current.userData.user;
   const { plan, sms } = user;
-  const addOns = getAddons(appSessionRef.current.userData.user, appSessionRef?.current?.userData?.features).filter((a) => a.active);
+  const addOns = getAddons(
+    appSessionRef.current.userData.user,
+    appSessionRef?.current?.userData?.features,
+  ).filter((a) => a.active);
 
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">

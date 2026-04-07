@@ -24,11 +24,13 @@ describe('EcoAIPlansSelection component', () => {
             },
             user: {
               addOnPromotions: [],
-              addOnPlans: [{
-                plan: {
-                  addOnTypeId: 5
-                }
-              }],
+              addOnPlans: [
+                {
+                  plan: {
+                    addOnTypeId: 5,
+                  },
+                },
+              ],
               plan: {
                 idPlan: 3,
                 planType: PLAN_TYPE.free,
