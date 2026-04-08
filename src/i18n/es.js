@@ -1019,6 +1019,7 @@ Encontrarás un Email con los pasos a seguir.`,
       xintel_title: 'Xintel',
       zeus_title: 'Zeus',
       ela_title: "Ela Gestión",
+      ela_link_url: `${urlHelp}/como-integrar-doppler-con-ela-gestion`,
     },
     native_integrations: {
       big_query_title: 'BigQuery',

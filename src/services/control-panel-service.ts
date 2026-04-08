@@ -351,7 +351,7 @@ export class ControlPanelService implements ControlPanelService {
           anchorLink: 'external-integrations',
           boxes: [
             {
-              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-ela-gestion`,
+              linkUrl: _('integrations.external_integrations.ela_link_url'),
               imgSrc: ela_icon,
               imgAlt: _('integrations.external_integrations.ela_title'),
               iconName: _('integrations.external_integrations.ela_title'),
