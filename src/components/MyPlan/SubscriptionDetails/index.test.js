@@ -52,11 +52,11 @@ describe('SubscriptionDetails component', () => {
               },
             },
           },
-        }
+        },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] })
-      }
+        getCollaborationInvites: async () => ({ success: true, value: [] }),
+      },
     };
 
     // Act
@@ -212,8 +212,8 @@ describe('SubscriptionDetails component', () => {
         },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] })
-      }
+        getCollaborationInvites: async () => ({ success: true, value: [] }),
+      },
     };
 
     // Act
@@ -364,8 +364,8 @@ describe('SubscriptionDetails component', () => {
         },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] })
-      }
+        getCollaborationInvites: async () => ({ success: true, value: [] }),
+      },
     };
 
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN = 'true';
@@ -434,11 +434,11 @@ describe('SubscriptionDetails component', () => {
               },
             },
           },
-        }
+        },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] })
-      }
+        getCollaborationInvites: async () => ({ success: true, value: [] }),
+      },
     };
 
     // Act

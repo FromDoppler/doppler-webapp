@@ -38,8 +38,8 @@ describe('LandingPacksSelection component', () => {
         getLandingPacks: (async) => ({ success: false, value: [] }),
       },
       dopplerLegacyClient: {
-        getLandingPagesAmount: async () => ({ success: true, value: 5 })
-      }
+        getLandingPagesAmount: async () => ({ success: true, value: 5 }),
+      },
     };
     // Act
     render(

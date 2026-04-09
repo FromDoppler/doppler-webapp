@@ -24,10 +24,8 @@ export const PushNotificationSection = InjectAppServices(
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
-    const {
-      buttonUrl: updatePlanUrl,
-      quantity: planQuantity,
-    } = appSessionRef.current.userData.user.pushNotification.plan;
+    const { buttonUrl: updatePlanUrl, quantity: planQuantity } =
+      appSessionRef.current.userData.user.pushNotification.plan;
 
     useEffect(() => {
       const fetchData = async () => {

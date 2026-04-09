@@ -46,7 +46,7 @@ export const useAddOnPlans = (addOnType, dopplerAccountPlansApiClient, appSessio
             addOnPlans: plans,
             customAddOnPlans: customAddOnPlans,
             currentAddOnPlan: {
-              quantity: addOnPlan ? (addOnPlan.fee > 0 ? addOnPlan.quantity ?? 0 : 0) : 0,
+              quantity: addOnPlan ? (addOnPlan.fee > 0 ? (addOnPlan.quantity ?? 0) : 0) : 0,
             },
           },
         });

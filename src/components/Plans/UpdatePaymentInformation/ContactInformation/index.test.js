@@ -48,7 +48,7 @@ describe('ContactInformation component', () => {
   afterEach(() => {
     delete window.intlTelInputGlobals;
   });
-  
+
   it('should show messages for empty required fields', async () => {
     // Act
     render(<ContactInformationElement />);
