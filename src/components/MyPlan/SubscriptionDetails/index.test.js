@@ -6,7 +6,7 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import '@testing-library/jest-dom/extend-expect';
 
 describe('SubscriptionDetails component', () => {
-  it('should render component - Email Marketing Plan without AddOns Plan', () => {
+  it('should render component - Email Marketing Plan without AddOns Plan', async () => {
     // Assert
     const dependencies = {
       appSessionRef: {
@@ -52,8 +52,11 @@ describe('SubscriptionDetails component', () => {
               },
             },
           },
-        },
+        }
       },
+      dopplerUserApiClient: {
+        getCollaborationInvites: async () => ({ success: true, value: [] })
+      }
     };
 
     // Act
@@ -68,6 +71,9 @@ describe('SubscriptionDetails component', () => {
     );
 
     // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
     expect(screen.queryByText('my_plan.subscription_details.sms.title')).not.toBeInTheDocument();
     expect(
@@ -158,7 +164,7 @@ describe('SubscriptionDetails component', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render component - Email Marketing Plan with Landing Plan', () => {
+  it('should render component - Email Marketing Plan with Landing Plan', async () => {
     // Assert
     const dependencies = {
       appSessionRef: {
@@ -205,6 +211,9 @@ describe('SubscriptionDetails component', () => {
           },
         },
       },
+      dopplerUserApiClient: {
+        getCollaborationInvites: async () => ({ success: true, value: [] })
+      }
     };
 
     // Act
@@ -219,6 +228,9 @@ describe('SubscriptionDetails component', () => {
     );
 
     // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
     expect(
       screen.getByText('my_plan.subscription_details.addon.landings_plan.title'),
@@ -351,6 +363,9 @@ describe('SubscriptionDetails component', () => {
           },
         },
       },
+      dopplerUserApiClient: {
+        getCollaborationInvites: async () => ({ success: true, value: [] })
+      }
     };
 
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN = 'true';
@@ -367,6 +382,9 @@ describe('SubscriptionDetails component', () => {
     );
 
     // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
   });
 
@@ -416,8 +434,11 @@ describe('SubscriptionDetails component', () => {
               },
             },
           },
-        },
+        }
       },
+      dopplerUserApiClient: {
+        getCollaborationInvites: async () => ({ success: true, value: [] })
+      }
     };
 
     // Act
@@ -432,6 +453,9 @@ describe('SubscriptionDetails component', () => {
     );
 
     // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
     expect(screen.getByText('my_plan.subscription_details.title')).toBeInTheDocument();
     expect(screen.getByText('my_plan.subscription_details.sms.title')).toBeInTheDocument();
   });

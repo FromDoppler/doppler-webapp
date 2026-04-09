@@ -2,8 +2,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppServicesProvider } from '../../../../../services/pure-di';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { IntlProvider } from 'react-intl';
-import { EcoAI, EcoAIPlan } from '.';
+import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import { EcoAIPlan } from '.';
 
 describe('EcoAIPlan component', () => {
   it('should render component', async () => {

@@ -8,6 +8,13 @@ import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 import { AppServicesProvider } from './services/pure-di';
 import { UtmCookiesManager } from './services/utm-cookies-manager';
 
+jest.mock('./services/ipinfo-client', () => ({
+  __esModule: true,
+  HttpIpinfoClient: class {
+    getCountryCode = async () => 'AR';
+  },
+}));
+
 function createDoubleSessionManager(appSessionRef) {
   const double = {
     initialize: (handler) => {

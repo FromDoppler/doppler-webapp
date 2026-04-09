@@ -11,6 +11,16 @@ import {
 } from '../../../../services/static-data-client.double';
 import { ContactInformation } from './ContactInformation';
 
+jest.mock('intl-tel-input', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    isValidNumber: () => true,
+    getValidationError: () => 0,
+    getNumber: () => '+5491123456789',
+    destroy: () => {},
+  })),
+}));
+
 const contactInformation = {
   email: 'test@makingsense.com',
   firstname: 'Juan',
@@ -20,7 +30,7 @@ const contactInformation = {
   province: 'AR-B',
   country: 'ar',
   zipCode: '7000',
-  phone: '+54 249 422-2222',
+  phone: '249 422-2222',
   company: 'Test',
   industry: 'dplr1',
   idSecurityQuestion: '1',
@@ -58,6 +68,9 @@ const dependencies = (withEmptyData = false) => ({
     getIndustriesData: async (language) => ({ success: true, value: fakeIndustries }),
     getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
     getSecurityQuestionsData: async (language) => ({ success: true, value: fakeQuestions }),
+  },
+  ipinfoClient: {
+    getCountryCode: async () => 'ar',
   },
 });
 
@@ -132,6 +145,17 @@ const ContactInformationElement = ({ withEmptyData }) => (
 );
 
 describe('Checkout component', () => {
+  beforeEach(() => {
+    // Arrange
+    window.intlTelInputGlobals = {
+      getCountryData: () => [],
+    };
+  });
+
+  afterEach(() => {
+    delete window.intlTelInputGlobals;
+  });
+
   it('should show loading box while getting data', async () => {
     // Act
     render(<ContactInformationElement />);
@@ -168,7 +192,7 @@ describe('Checkout component', () => {
 
     // Data should load correctly
     await waitFor(() => {
-      expect(inputFirstName).toHaveValue(contactInformation.firstname);
+       expect(inputFirstName).toHaveValue(contactInformation.firstname);
       expect(inputLastName).toHaveValue(contactInformation.lastname);
       expect(inputAddress).toHaveValue(contactInformation.address);
       expect(inputCity).toHaveValue(contactInformation.city);
@@ -183,7 +207,7 @@ describe('Checkout component', () => {
     });
   });
 
-  it('should show messages for empty required fields', async () => {
+    it('should show messages for empty required fields', async () => {
     // Act
     render(<ContactInformationElement withEmptyData={true} />);
 

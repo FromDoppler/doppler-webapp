@@ -8,10 +8,10 @@ describe('TextPreviewPost component', () => {
   it('should show the slide content', async () => {
     // Arrange
     const post = {
-      title: 'dashboard.postListBlog_1_title',
-      description: 'dashboard.postListBlog_1_description',
-      link: 'dashboard.postListBlog_1_link',
-      linkDescription: 'dashboard.postListBlog_1_link_description',
+      title: 'dashboard.learn_with_doppler_posts.post_1.title',
+      description: 'dashboard.learn_with_doppler_posts.post_1.description',
+      link: 'dashboard.learn_with_doppler_posts.post_1.link',
+      linkDescription: 'dashboard.learn_with_doppler_posts.post_1.link_description',
     };
 
     // Act

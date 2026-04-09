@@ -277,6 +277,10 @@ const MessageError = ({ id, showError, errors, fieldName, className, values = nu
 // This function is here, in global scope, to allow reusing without breaking dependencies of useEffect.
 // See https://reactjs.org/docs/hooks-faq.html#is-it-safe-to-omit-functions-from-the-list-of-dependencies
 const _formatFieldValueAsInternationalNumber = (iti, fieldName, setFieldValue) => {
+  if (!iti || typeof iti.isValidNumber !== 'function') {
+    return;
+  }
+
   if (iti.isValidNumber()) {
     // It updates the value with international number
     // If we do not do it, we need to ensure to read intlTelInputRef value before submitting
@@ -352,7 +356,9 @@ const _PhoneFieldItem = ({
     _formatFieldValueAsInternationalNumber(iti, fieldName, setFieldValue);
     return () => {
       setEventListenerSet(false);
-      iti.destroy();
+      if (iti && typeof iti.destroy === 'function') {
+        iti.destroy();
+      }
     };
   }, [intl.locale, fieldName, setFieldValue, ipinfoClient]);
 
@@ -458,7 +464,9 @@ const _PhoneFieldItemAccessible = ({
     _formatFieldValueAsInternationalNumber(iti, fieldName, setFieldValue);
     return () => {
       setEventListenerSet(false);
-      iti.destroy();
+      if (iti && typeof iti.destroy === 'function') {
+        iti.destroy();
+      }
     };
   }, [intl.locale, fieldName, setFieldValue, ipinfoClient]);
 

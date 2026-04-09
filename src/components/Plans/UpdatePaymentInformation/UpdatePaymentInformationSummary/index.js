@@ -61,7 +61,7 @@ const SuccessfulMessage = ({
         </>
       ) : (
         <>
-          <p className="p-l-12">
+          <div className="p-l-12">
             {allInvoicesProcessed === 'true' ? (
               <>
                 {isLoggedIn ? (
@@ -88,7 +88,7 @@ const SuccessfulMessage = ({
                 values={{ userEmail: <b>{email}</b> }}
               />
             )}
-          </p>
+          </div>
           {allInvoicesProcessed !== 'true' && (
             <>
               <div className="col-md-12 col-lg-9 m-b-24 m-t-24">

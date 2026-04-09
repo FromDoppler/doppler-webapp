@@ -608,9 +608,7 @@ export const PaymentMethod = InjectAppServices(
                         <div className="dp-wrap-message dp-wrap-cancel">
                           <span className="dp-message-icon"></span>
                           <div className="dp-content-message">
-                            <p>
-                              <FormattedMessageMarkdown id={error.message} />
-                            </p>
+                            <FormattedMessageMarkdown id={error.message} />
                           </div>
                         </div>
                       </FieldItem>

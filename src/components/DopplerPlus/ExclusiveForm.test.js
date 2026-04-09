@@ -5,6 +5,13 @@ import { AppServicesProvider } from '../../services/pure-di';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('../../services/ipinfo-client', () => ({
+  __esModule: true,
+  HttpIpinfoClient: class {
+    getCountryCode = async () => 'AR';
+  },
+}));
+
 describe('ExclusiveForm component', () => {
   const captchaResponseToken = 'hardcodedResponseToken';
   const dependencies = (mock) => ({

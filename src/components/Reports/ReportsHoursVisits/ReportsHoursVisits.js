@@ -115,7 +115,7 @@ const ReportsHoursVisitsOld = ({
           </div>
           <div>
             <div>
-              <S.Circle medium />
+              <S.Circle $medium />
             </div>
             <p>
               <FormattedMessage
@@ -126,7 +126,7 @@ const ReportsHoursVisitsOld = ({
           </div>
           <div>
             <div>
-              <S.Circle big />
+              <S.Circle $big />
             </div>
             <p>
               <FormattedMessage
@@ -156,9 +156,9 @@ const ReportsHoursVisitsOld = ({
                         <S.Circle />
                       </>
                     ) : item.qVisitors <= state.mediumRange ? (
-                      <S.Circle medium />
+                      <S.Circle $medium />
                     ) : (
-                      <S.Circle big />
+                      <S.Circle $big />
                     )}
                     <S.Tooltip className="dp-tooltip-chart">
                       <p>

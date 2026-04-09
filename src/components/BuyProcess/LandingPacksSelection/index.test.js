@@ -37,6 +37,9 @@ describe('LandingPacksSelection component', () => {
         getDiscountsData: async () => ({ success: true, value: fakeAccountPlanDiscounts }),
         getLandingPacks: (async) => ({ success: false, value: [] }),
       },
+      dopplerLegacyClient: {
+        getLandingPagesAmount: async () => ({ success: true, value: 5 })
+      }
     };
     // Act
     render(

@@ -67,6 +67,9 @@ const dependencies = (withEmptyData, useContactInformationAsBilling = true) => (
   staticDataClient: {
     getStatesData: async (country, language) => ({ success: true, value: fakeStates }),
   },
+  ipinfoClient: {
+    getCountryCode: async () => 'ar',
+  },
 });
 
 const getFormFields = () => {

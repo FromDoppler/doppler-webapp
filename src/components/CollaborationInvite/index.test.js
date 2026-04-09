@@ -5,6 +5,13 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { CollaboratorsInvite } from '.';
 
+jest.mock('../../services/ipinfo-client', () => ({
+  __esModule: true,
+  HttpIpinfoClient: class {
+    getCountryCode = async () => 'AR';
+  },
+}));
+
 describe('CollaborationInvite', () => {
   afterEach(cleanup);
 

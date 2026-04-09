@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 describe('SelectedConversationPlan', () => {
   it('should render SelectedConversationPlan when there is not a selected plan chat', async () => {
     // Arrange
-    const seletedPlanChat = { quantity: 0 };
+    const seletedPlanChat = { conversationsQty: 0 };
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
@@ -38,9 +38,9 @@ describe('SelectedConversationPlan', () => {
 
   it('should render SelectedConversationPlan when there is a selected onsite plan', async () => {
     // Arrange
-    const seletedOnSitePlan = {
+    const seletedPlanChat = {
       planId: 1,
-      quantity: 500,
+      conversationsQty: 500,
       fee: 30,
       additional: 5,
     };
@@ -51,7 +51,7 @@ describe('SelectedConversationPlan', () => {
     render(
       <IntlProvider>
         <SelectedConversationPlan
-          selectedPlan={seletedOnSitePlan}
+          selectedPlan={seletedPlanChat}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -76,9 +76,9 @@ describe('SelectedConversationPlan', () => {
 
   it('should render SelectedConversationPlan when click on add to cart button', async () => {
     // Arrange
-    const seletedOnSitePlan = {
+    const seletedPlanChat = {
       planId: 1,
-      quantity: 500,
+      conversationsQty: 500,
       fee: 30,
       additional: 5,
     };
@@ -89,7 +89,7 @@ describe('SelectedConversationPlan', () => {
     render(
       <IntlProvider>
         <SelectedConversationPlan
-          selectedPlan={seletedOnSitePlan}
+          selectedPlan={seletedPlanChat}
           addItem={addItem}
           removeItem={removeItem}
         />
@@ -106,18 +106,20 @@ describe('SelectedConversationPlan', () => {
     expect(button).toBeEnabled();
     expect(addItem).not.toBeCalled();
     await userEvent.click(button);
-    expect(addItem).toBeCalledWith(seletedOnSitePlan);
+    expect(addItem).toBeCalledWith(seletedPlanChat);
   });
 
   it('should render SelectedConversationPlan when click on remove item button', async () => {
     // Arrange
-    const seletedOnSitePlan = {
+    const seletedPlanChat = {
       planId: 1,
-      quantity: 500,
+      conversationsQty: 500,
       fee: 30,
       additional: 5,
+      agents: 1,
+      channels: 1,
     };
-    const item = seletedOnSitePlan; // In this case, the slider value and the cart item are the same
+    const item = seletedPlanChat; // In this case, the slider value and the cart item are the same
     const addItem = jest.fn();
     const removeItem = jest.fn();
 
@@ -125,7 +127,7 @@ describe('SelectedConversationPlan', () => {
     render(
       <IntlProvider>
         <SelectedConversationPlan
-          selectedPlan={seletedOnSitePlan}
+          selectedPlan={seletedPlanChat}
           item={item}
           addItem={addItem}
           removeItem={removeItem}

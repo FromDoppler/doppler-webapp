@@ -14,7 +14,7 @@ const WarningMessage = styled.div`
   position: relative;
   top: -42px;
   ${(props) =>
-    props.hasDiscount &&
+    props.$hasDiscount &&
     css`
       top: -6px;
     `}
@@ -39,7 +39,7 @@ export const PlanPrice = ({
       {hasPromocode && !loadingPromocode && !promotion.isValid && (
         <WarningMessage
           className="dp-wrap-message dp-wrap-cancel"
-          hasDiscount={selectedDiscount?.discountPercentage > 0}
+          $hasDiscount={selectedDiscount?.discountPercentage > 0}
         >
           <span className="dp-message-icon" />
           <div className="dp-content-message">
