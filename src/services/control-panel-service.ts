@@ -44,6 +44,7 @@ import zapier_icon from '../components/Integrations/images/zapier_icon.png';
 import infor_icon from '../components/Integrations/images/infor_icon.png';
 import learnpress_icon from '../components/Integrations/images/learnpress_icon.png';
 import payu_icon from '../components/Integrations/images/payu_icon.png';
+import ela_icon from '../components/Integrations/images/ela_icon.png';
 import viewed_icon from '../components/Integrations/images/viewed_icon.png';
 import wix_icon from '../components/Integrations/images/wix_icon.png';
 import wizell_icon from '../components/Integrations/images/wizell_icon.png';
@@ -349,6 +350,13 @@ export class ControlPanelService implements ControlPanelService {
           title: _('integrations.external_integrations.title'),
           anchorLink: 'external-integrations',
           boxes: [
+            {
+              linkUrl: _('integrations.external_integrations.ela_link_url'),
+              imgSrc: ela_icon,
+              imgAlt: _('integrations.external_integrations.ela_title'),
+              iconName: _('integrations.external_integrations.ela_title'),
+              targetBlank: true,
+            },
             {
               linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,
               imgSrc: payu_icon,
