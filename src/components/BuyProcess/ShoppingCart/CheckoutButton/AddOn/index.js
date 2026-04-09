@@ -35,7 +35,7 @@ export const AddOnCheckoutButton = InjectAppServices(
     const createTimeout = useTimeout();
     const query = useQueryParams();
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
-    const accountType = query.get(ACCOUNT_TYPE) ?? isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT;
+    const accountType = (query.get(ACCOUNT_TYPE) ?? isFreeAccount) ? FREE_ACCOUNT : PAID_ACCOUNT;
 
     const proceedToBuy = async () => {
       setStatus(SAVING);

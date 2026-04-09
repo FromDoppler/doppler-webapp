@@ -358,7 +358,7 @@ export const PurchaseSummary = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useParams();
     const query = useQueryParams();
-    const selectedDiscountId = discountId === 0 ? query.get('discountId') ?? 0 : discountId;
+    const selectedDiscountId = discountId === 0 ? (query.get('discountId') ?? 0) : discountId;
     const selectedPlan = query.get('selected-plan') ?? 0;
     const selectedPromocode = query.get('PromoCode') ?? '';
     const selectedMonthPlan = monthPlan === '0' ? query.get('monthPlan') : monthPlan;

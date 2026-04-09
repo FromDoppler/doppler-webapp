@@ -331,12 +331,12 @@ export const ShoppingCart = InjectAppServices(
       );
 
     const total =
-      (addMarketingPlan ? amountDetailsData?.value?.currentMonthTotal ?? 0 : 0) +
+      (addMarketingPlan ? (amountDetailsData?.value?.currentMonthTotal ?? 0) : 0) +
       (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
       (amountDetailsAddOnPlanData?.value?.currentMonthTotal ?? 0);
 
     const nextMonthTotal =
-      (addMarketingPlan ? amountDetailsData?.value?.nextMonthTotal ?? 0 : 0) +
+      (addMarketingPlan ? (amountDetailsData?.value?.nextMonthTotal ?? 0) : 0) +
       (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
       (amountDetailsAddOnPlanData?.value?.nextMonthTotal ?? 0);
 
