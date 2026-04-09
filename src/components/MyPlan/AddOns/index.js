@@ -34,6 +34,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
+          {canBuyAIAgentPlan && <EcoAI></EcoAI>}
           <Conversations conversation={chat}></Conversations>
           {canBuyPushNotificationPlan && (
             <PushNotification pushNotification={pushNotification}></PushNotification>
@@ -43,7 +44,6 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
           <TransactionalEmails></TransactionalEmails>
           {<LandingPages></LandingPages>}
           <Collaborators isFreeAccount={plan.isFreeAccount}></Collaborators>
-          {canBuyAIAgentPlan && <EcoAI></EcoAI>}
           <ListConditioning></ListConditioning>
           <CustomReports></CustomReports>
           <LayoutService></LayoutService>
