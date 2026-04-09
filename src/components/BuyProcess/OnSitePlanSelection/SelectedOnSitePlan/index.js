@@ -110,11 +110,11 @@ export const SelectedOnSitePlan = ({ selectedPlan, customPlan, item, addItem, re
 SelectedOnSitePlan.propTypes = {
   selectedPlan: PropTypes.shape({
     fee: PropTypes.number,
-    printQty: PropTypes.number,
+    quantity: PropTypes.number,
   }),
   item: PropTypes.shape({
     fee: PropTypes.number.isRequired,
-    printQty: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
   }),
   addItem: PropTypes.func.isRequired,
   removeItem: PropTypes.func.isRequired,

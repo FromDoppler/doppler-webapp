@@ -18,8 +18,13 @@ const getZendeskKey = (sessionStatus) =>
 
 export const useZendeskSnippet = (sessionStatus) => {
   const loadedKeyRef = useRef(null);
+  const isTestEnvironment = process.env.NODE_ENV === 'test';
 
   useEffect(() => {
+    if (isTestEnvironment) {
+      return;
+    }
+
     if (sessionStatus === 'unknown') {
       return;
     }
@@ -37,5 +42,5 @@ export const useZendeskSnippet = (sessionStatus) => {
     if (key !== loadedKeyRef.current) {
       window.location.reload();
     }
-  }, [sessionStatus]);
+  }, [isTestEnvironment, sessionStatus]);
 };

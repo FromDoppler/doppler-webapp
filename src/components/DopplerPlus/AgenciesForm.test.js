@@ -6,6 +6,13 @@ import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+jest.mock('../../services/ipinfo-client', () => ({
+  __esModule: true,
+  HttpIpinfoClient: class {
+    getCountryCode = async () => 'AR';
+  },
+}));
+
 describe('AgenciesForm component', () => {
   const dependencies = {
     appSessionRef: {

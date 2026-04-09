@@ -3,7 +3,7 @@ import { ConversationPlan } from '.';
 import { AppServicesProvider } from '../../../../../services/pure-di';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { IntlProvider } from 'react-intl';
+import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
 describe('ConversationPlan component', () => {
   it('should render component', async () => {

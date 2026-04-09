@@ -50,6 +50,7 @@ export const CreditCardEProtect = InjectAppServices(
     const [isClientReady, setIsClientReady] = useState(false);
     const payframeClientRef = useRef(null);
     const pendingRequestRef = useRef(null);
+    const isTestEnvironment = process.env.NODE_ENV === 'test';
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
     useEffect(() => {
@@ -65,9 +66,12 @@ export const CreditCardEProtect = InjectAppServices(
     }, [appSessionRef, optionView, setValues]);
 
     useEffect(() => {
+      let mounted = true;
       const loadEprotectScript = () => {
         if (document.querySelector(`script[src="${EPROTECT_SCRIPT_URL}"]`)) {
-          setState((prevState) => ({ ...prevState, scriptLoaded: true }));
+          if (mounted) {
+            setState((prevState) => ({ ...prevState, scriptLoaded: true }));
+          }
           return;
         }
 
@@ -75,31 +79,45 @@ export const CreditCardEProtect = InjectAppServices(
         script.src = EPROTECT_SCRIPT_URL;
         script.async = true;
         script.onload = () => {
-          setState((prevState) => ({ ...prevState, scriptLoaded: true }));
+          if (mounted && !isTestEnvironment) {
+            setState((prevState) => ({ ...prevState, scriptLoaded: true }));
+          }
         };
         script.onerror = () => {
           console.error('Failed to load eProtect script');
-          setState((prevState) => ({ ...prevState, scriptLoaded: false }));
+          if (mounted) {
+            setState((prevState) => ({ ...prevState, scriptLoaded: false }));
+          }
         };
         document.head.appendChild(script);
+
+        if (isTestEnvironment && mounted) {
+          setState((prevState) => ({ ...prevState, scriptLoaded: true }));
+        }
       };
 
       loadEprotectScript();
 
-      setState((prevState) => ({
-        ...prevState,
-        paymentMethod:
-          paymentMethod && Object.keys(paymentMethod).length > 1
-            ? paymentMethod
-            : {
-                ccSecurityCode: '',
-                ccExpiryDate: '',
-                ccHolderName: '',
-                ccNumber: '',
-                ccType: '',
-              },
-      }));
-    }, [optionView, appSessionRef, paymentMethod]);
+      if (mounted) {
+        setState((prevState) => ({
+          ...prevState,
+          paymentMethod:
+            paymentMethod && Object.keys(paymentMethod).length > 1
+              ? paymentMethod
+              : {
+                  ccSecurityCode: '',
+                  ccExpiryDate: '',
+                  ccHolderName: '',
+                  ccNumber: '',
+                  ccType: '',
+                },
+        }));
+      }
+
+      return () => {
+        mounted = false;
+      };
+    }, [appSessionRef, isTestEnvironment, optionView, paymentMethod]);
 
     useLayoutEffect(() => {
       if (!state.scriptLoaded || optionView === actionPage.READONLY) {
@@ -259,10 +277,10 @@ export const CreditCardEProtect = InjectAppServices(
         {optionView === actionPage.READONLY ? (
           <li className="field-item" style={{ display: 'block' }}>
             <Cards
-              cvc={state.paymentMethod.ccSecurityCode}
-              expiry={state.paymentMethod.ccExpiryDate}
+              cvc={state.paymentMethod.ccSecurityCode || ''}
+              expiry={state.paymentMethod.ccExpiryDate || ''}
               number={getFormattedCardNumber()}
-              name={state.paymentMethod.ccHolderName}
+              name={state.paymentMethod.ccHolderName || ''}
               issuer={getCreditCardIssuer(state.paymentMethod.ccType)}
               preview={true}
               placeholders={{

@@ -6,6 +6,10 @@ import { AppServicesProvider } from '../../services/pure-di';
 import { BrowserRouter } from 'react-router-dom';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 
+jest.mock('../RedirectToExternalUrl', () => (props) => (
+  <div data-testid="redirect-to-external-url" data-to={props.to} />
+));
+
 describe('OnSite component', () => {
   it('should render component', () => {
     // Assert

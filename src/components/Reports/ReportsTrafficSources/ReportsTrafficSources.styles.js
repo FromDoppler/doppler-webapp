@@ -122,7 +122,7 @@ export const Bar = styled.div`
   width: ${({ width }) => (width ? width : '0')};
   background: ${colors.darkYellow};
   ${(props) =>
-    props.primary &&
+    props.$primary &&
     css`
       background: ${colors.purple3};
     `}

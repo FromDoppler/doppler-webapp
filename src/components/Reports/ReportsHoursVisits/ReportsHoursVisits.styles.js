@@ -91,14 +91,14 @@ export const Circle = styled.span`
   transition: box-shadow 0.4s;
 
   ${(props) =>
-    props.medium &&
+    props.$medium &&
     css`
       background-color: ${colors.purple2};
       width: 21px;
       height: 21px;
     `}
   ${(props) =>
-    props.big &&
+    props.$big &&
     css`
       background-color: ${colors.purple3};
       width: 31px;

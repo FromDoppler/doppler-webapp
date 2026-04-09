@@ -97,7 +97,7 @@ const ReportsTrafficSources = function ({
                           <FormattedMessage id="trafficSources.users_with_email" />
                         </p>
                         <S.Bar
-                          primary
+                          $primary
                           style={{
                             width:
                               SafeDivide(

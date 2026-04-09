@@ -6,11 +6,24 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 import { ContactInformation } from './index';
 import { BrowserRouter } from 'react-router-dom';
 
+jest.mock('intl-tel-input', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    isValidNumber: () => true,
+    getValidationError: () => 0,
+    getNumber: () => '+5491123456789',
+    destroy: () => {},
+  })),
+}));
+
 const dependencies = () => ({
   dopplerBillingUserApiClient: {
     sendContactInformation: async () => {
       return { success: true };
     },
+  },
+  ipinfoClient: {
+    getCountryCode: async () => 'ar',
   },
 });
 
@@ -25,6 +38,17 @@ const ContactInformationElement = ({ otherDependencies }) => (
 );
 
 describe('ContactInformation component', () => {
+  beforeEach(() => {
+    // Arrange
+    window.intlTelInputGlobals = {
+      getCountryData: () => [],
+    };
+  });
+
+  afterEach(() => {
+    delete window.intlTelInputGlobals;
+  });
+  
   it('should show messages for empty required fields', async () => {
     // Act
     render(<ContactInformationElement />);
