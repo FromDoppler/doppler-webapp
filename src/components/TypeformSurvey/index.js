@@ -37,7 +37,9 @@ export const TypeformSurvey = InjectAppServices(
     const closeAndFireUserpilotEvent = () => {
       setIsClosed(true);
       // Defer so React can unmount the Typeform popup before opening a new modal
-      setTimeout(() => { fireUserpilotOnce(); }, 0);
+      setTimeout(() => {
+        fireUserpilotOnce();
+      }, 0);
     };
 
     useEffect(() => {

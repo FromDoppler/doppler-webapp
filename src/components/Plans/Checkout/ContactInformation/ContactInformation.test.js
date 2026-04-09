@@ -192,7 +192,7 @@ describe('Checkout component', () => {
 
     // Data should load correctly
     await waitFor(() => {
-       expect(inputFirstName).toHaveValue(contactInformation.firstname);
+      expect(inputFirstName).toHaveValue(contactInformation.firstname);
       expect(inputLastName).toHaveValue(contactInformation.lastname);
       expect(inputAddress).toHaveValue(contactInformation.address);
       expect(inputCity).toHaveValue(contactInformation.city);
@@ -207,7 +207,7 @@ describe('Checkout component', () => {
     });
   });
 
-    it('should show messages for empty required fields', async () => {
+  it('should show messages for empty required fields', async () => {
     // Act
     render(<ContactInformationElement withEmptyData={true} />);
 

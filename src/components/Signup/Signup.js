@@ -272,7 +272,10 @@ const Signup = function ({
 
     const lastUTMCookieEntry = utmCookies[utmCookies.length - 1];
     const utmCookie =
-      lastUTMCookieEntry && (!lastUTMCookieEntry.date || new Date(lastUTMCookieEntry.date) > getStartOfDate(new Date())) ? lastUTMCookieEntry : utmParams;
+      lastUTMCookieEntry &&
+      (!lastUTMCookieEntry.date || new Date(lastUTMCookieEntry.date) > getStartOfDate(new Date()))
+        ? lastUTMCookieEntry
+        : utmParams;
 
     const result = await dopplerLegacyClient.registerUser({
       ...values,

@@ -261,9 +261,9 @@ const Login = ({
     Userpilot.anonymous();
 
     if (finalLang === 'es') {
-      Userpilot.track("login_page_loaded_es");
+      Userpilot.track('login_page_loaded_es');
     } else {
-      Userpilot.track("login_page_loaded_en");
+      Userpilot.track('login_page_loaded_en');
     }
 
     Userpilot.track('Login Page Loaded');

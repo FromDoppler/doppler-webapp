@@ -147,8 +147,8 @@ export const CollaboratorsInvite = InjectAppServices(
             </header>
             <h5>{_('signup.invitation_signup_title')}</h5>
             <p id="content-subtitle" className="content-subtitle m-t-24">
-              <FormattedMessage 
-                id={`signup.sign_up_sub`} 
+              <FormattedMessage
+                id={`signup.sign_up_sub`}
                 values={{
                   br: <br />,
                 }}

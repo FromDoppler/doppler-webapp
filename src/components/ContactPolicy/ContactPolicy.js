@@ -159,13 +159,15 @@ export const ContactPolicy = InjectAppServices(
       const hourFromEmpty = values.timeRestriction.hourFrom === '';
       const hourToEmpty = values.timeRestriction.hourTo === '';
 
-      if (hourFromEmpty || hourToEmpty) { // hours are empty
+      if (hourFromEmpty || hourToEmpty) {
+        // hours are empty
         errors.timeRestrictionHourFrom = hourFromEmpty;
         errors.timeRestrictionHourTo = hourToEmpty;
         errors.messageForTimeSlot = (
           <FormattedMessageMarkdown id="validation_messages.error_required_field" />
         );
-      } else { // hours are not empty
+      } else {
+        // hours are not empty
         const hourFromOutOfRange =
           values.timeRestriction.hourFrom < 0 || values.timeRestriction.hourFrom > 23;
         const hourToOutOfRange =
@@ -177,7 +179,8 @@ export const ContactPolicy = InjectAppServices(
           errors.messageForTimeSlot = (
             <FormattedMessageMarkdown id="contact_policy.time_restriction.error_invalid_range_of_hours_msg" />
           );
-        } else if (values.timeRestriction.hourFrom === values.timeRestriction.hourTo) { // hours are equal
+        } else if (values.timeRestriction.hourFrom === values.timeRestriction.hourTo) {
+          // hours are equal
           errors.timeRestrictionHourFrom = true;
           errors.timeRestrictionHourTo = true;
           errors.messageForTimeSlot = (
@@ -406,9 +409,7 @@ export const ContactPolicy = InjectAppServices(
                                 onToggle={() => hideMessage()}
                               />
 
-                              <p
-                                className="dp-color-gray dp-text--italic m-t-6"
-                              >
+                              <p className="dp-color-gray dp-text--italic m-t-6">
                                 <strong className="dp-color-red">
                                   {_('contact_policy.time_restriction.time_slot_hint_title')}
                                 </strong>{' '}

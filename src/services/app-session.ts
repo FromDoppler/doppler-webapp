@@ -27,7 +27,8 @@ export interface ShopifyConnectionData {
 }
 
 interface AuthenticatedAppSessionWithDatahub
-  extends DatahubConnectionData, AuthenticatedAppSession {}
+  extends DatahubConnectionData,
+    AuthenticatedAppSession {}
 
 export type AppSession =
   | { status: 'unknown' }
