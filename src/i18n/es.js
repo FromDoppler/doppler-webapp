@@ -92,22 +92,6 @@ other {}}}}}}}}}}
     volume_500: 'Entre 500k y 1m',
     volume_do_not_know: 'No lo sé',
   },
-  ai_agent_selection: {
-    ai_agent_plan_info: {
-      legend: 'EcoIA Leyenda',
-      section_1: {
-        legend: 'EcoIA -> Section 1 -> Leyenda',
-        title: 'EcoIA -> Section 1 -> Titulo',
-      },
-      section_2: {
-        legend: 'EcoIA -> Section 2 -> Leyenda',
-        title: 'EcoIA -> Section 2 -> Titulo',
-      },
-    },
-    plan_of_eco_ai_with_plural: `Doppler Eco AI`,
-    remove_from_cart_button: 'Remover',
-    title: 'EcoIA',
-  },
   big_query: {
     add_google_account: `Agregar cuenta de Google.`,
     add_permission_google_account: `Agregar permiso para cuentas de Google.`,
@@ -158,7 +142,7 @@ other {}}}}}}}}}}
     discount_percentage: `Ahorro {discountPercentage}%`,
     discount_quarterly: 'Trimestral',
     discount_yearly: 'Anual',
-    ecoia_plan_title: `Plan EcoIA`,
+    ecoia_plan_title: `Plan Eco IA`,
     feature_item_chat_plan: `Incluye hasta <Strong>{units} Mensajes</Strong>`,
     feature_item_discount_advanced_pay: `Descuento pago adelantado {months}/meses`,
     feature_item_discount_monthly: `Descuento Código Promocional {months, select, 0 {} other{{months} meses}}`,
@@ -218,8 +202,8 @@ other {}}}}}}}}}}
       title: `Resumen de compra`,
     },
     stepper: {
-      ai_agent_plan_step: 'Plan EcoIA',
       conversation_plan_step: 'Plan Conversaciones',
+      eco_ai_plan_step: 'Plan Eco IA',
       email_marketing_plan_step: 'Plan Marketing',
       enjoy_doppler_step: 'Disfruta Doppler',
       finalize_purchase_step: 'Finaliza tu compra',
@@ -230,7 +214,7 @@ other {}}}}}}}}}}
     subscriptions_title: `Suscripciones`,
     upcoming_bills: {
       chat_plan_subtitle: `Planes de conversaciones`,
-      ecoia_plan_subtitle: `Planes de EcoIA`,
+      ecoia_plan_subtitle: `Planes de Eco IA`,
       landing_pack_subtitle: `Packs de Landing Pages`,
       marketing_and_chat_plan_subtitle: `Planes de marketing y conversaciones`,
       marketing_plan_subtitle: `Plan Marketing`,
@@ -896,6 +880,23 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     image_url: `${process.env.PUBLIC_URL}/images/login-es.png`,
     title: 'Suma contactos a tus Listas con Formularios personalizados',
   },
+  eco_ai_selection: {
+    eco_ai_plan_info: {
+      legend: 'Chatea con Eco IA, tu asistente de Marketing con Inteligencia Artificial. Analizará tu cuenta, detectará oportunidades y te guíará paso a paso para sacarle el máximo provecho a tu estrategia en Doppler.',
+      section_1: {
+        legend: 'Eco IA revisará tu cuenta y te propondrá mejoras rápidas y concretas para potenciar tus resultados hoy mismo.',
+        title: 'OPTIMIZA TU ESTRATEGIA',
+      },
+      section_2: {
+        legend: 'Un solo plan, sin límites. Accedé a todas las funciones de Eco por US$ 49,00/mes.',
+        title: 'ACCESO COMPLETO A ECO IA',
+      },
+    },
+    plan_of_eco_ai_with_plural: `Plan Eco IA — Acceso completo`,
+    plan_price: `US$ {price}/mes`,
+    remove_from_cart_button: 'Remover',
+    title: 'Activa Eco IA y mejora la performance de tu negocio',
+  },
   empty_notification_text: `No tienes notificaciones pendientes.`,
   exclusive_form: {
     advisory: 'Asesoría y Consultoría.',
@@ -1172,13 +1173,6 @@ Encontrarás un Email con los pasos a seguir.`,
   my_plan: {
     addons: {
       activate_now_button: 'Activar',
-      artificial_intelligence_agent: {
-        access_by_legend: 'IA Agent - Actualizar Contenido',
-        description: 'IA Agent - Actualizar Contenido',
-        month_legend: '*IA Agent - Actualizar Contenido',
-        more_information_link: 'https://www.fromdoppler.com/es/inteligencia-artificial/?utm_medium=none&utm_source=direct',
-        title: 'IA Agent - Actualizar Contenido',
-      },
       buy_button: 'Comprar',
       cards: {
         card_1: {
@@ -1228,6 +1222,13 @@ Encontrarás un Email con los pasos a seguir.`,
         description: 'Obtén una IP dedicada, exclusivamente para tus Envíos. Seteada bajo minuciosos estándares de seguridad, para una óptima Entregabilidad.',
         month_legend: '*Por mes',
         title: 'IP Dedicada',
+      },
+      eco_ai: {
+        access_by_legend: 'Plan',
+        description: 'Potencia tu estrategia con tu propio asistente de Marketing. Eco analiza tu cuenta, detecta oportunidades y te propone acciones concretas para mejorar tus resultados en Doppler.',
+        month_legend: '*Por mes',
+        more_information_link: 'https://www.fromdoppler.com/es/inteligencia-artificial/?utm_medium=none&utm_source=direct',
+        title: 'Eco IA',
       },
       landing_pages: {
         description: 'Utiliza Páginas de Destino para captar a tus clientes en múltiples dispositivos y guíalos a la Conversión.',
@@ -1418,17 +1419,13 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           title: 'Plan de Conversaciones',
         },
         eco_ai_plan: {
-          additional_impression_message: 'Impresión adicional: US$ {price}',
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de {quantity} agente</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
-          available_message: '{available}/{total} Agente disponible',
-          free_additional_impression_message: 'Agente adicional: --',
-          free_label: 'Prueba Gratuita',
-          plan_message: '{total} Agente',
-          start_free_label: 'Pruébalo durante el período gratuito de tu Plan de Marketing.',
+          description: 'Acceso completo a Eco IA Todas las funciones disponibles.',
+          subtitle: 'Plan Mensual',
           title: 'Eco IA',
         },
         landings_plan: {

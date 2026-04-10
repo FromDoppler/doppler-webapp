@@ -1,15 +1,50 @@
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../../services/pure-di';
-import { formattedNumber } from '..';
 import { HeaderStyled } from '../index.style';
-import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
+import { AddOnType } from '../../../../../doppler-types';
+import { useState } from 'react';
+import useTimeout from '../../../../../hooks/useTimeout';
+import { getCheckoutErrorMesage } from '../../../../BuyProcess/ShoppingCart/utils';
+import { StatusMessage } from '../../../../BuyProcess/ShoppingCart/CheckoutButton';
+
+export const DELAY_BEFORE_REDIRECT_TO_MY_PLAN = 3000;
+const HAS_ERROR = 'HAS_ERROR';
+const SAVING = 'SAVING';
+const SAVED = 'SAVED';
 
 export const EcoAIPlan = InjectAppServices(
-  ({ buyUrl, ecoAiPlan, isFreeAccount, addOnPromotions, dependencies: { appSessionRef } }) => {
+  ({
+    buyUrl,
+    ecoAiPlan,
+    addOnPromotions,
+    dependencies: { appSessionRef, dopplerBillingUserApiClient },
+  }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const createTimeout = useTimeout();
+    const [messageError, setMessageError] = useState('');
+    const [status, setStatus] = useState('');
     const showPromotionInformation = addOnPromotions.length > 0 && !ecoAiPlan.active;
+    const user = appSessionRef.current.userData.user;
+    const { plan } = user;
+
+    const cancelAddOnPlan = async () => {
+      setStatus(SAVING);
+      const addOnType = AddOnType.EcoAI;
+      const response = await dopplerBillingUserApiClient.cancellationAddOnPlan(addOnType);
+      if (response.success) {
+        setStatus(SAVED);
+        createTimeout(() => {
+          window.location.href = `/my-plan`;
+        }, DELAY_BEFORE_REDIRECT_TO_MY_PLAN);
+      } else {
+        setMessageError(getCheckoutErrorMesage(response.error.response?.data));
+        setStatus(HAS_ERROR);
+      }
+    };
+
+    const showMessage = [SAVED, HAS_ERROR].includes(status);
 
     return (
       <div className="dp-box-shadow m-b-24">
@@ -22,18 +57,9 @@ export const EcoAIPlan = InjectAppServices(
                     <span className="p-r-8 m-r-6">
                       {_(`my_plan.subscription_details.addon.eco_ai_plan.title`)}
                     </span>
-                    <span className={`dpicon iconapp-online-clothing`}></span>
+                    <span className="dpicon icon-sparkle-ia"></span>
                   </h3>
-                  {ecoAiPlan.trialExpired && <AddOnExpiredMessage></AddOnExpiredMessage>}
-                  {!ecoAiPlan.trialExpired && ecoAiPlan.fee === 0 && (
-                    <p>
-                      {_(
-                        `my_plan.subscription_details.addon.eco_ai_plan.${
-                          isFreeAccount && !ecoAiPlan.active ? 'start_free_label' : 'free_label'
-                        }`,
-                      )}
-                    </p>
-                  )}
+                  <p>{_(`my_plan.subscription_details.addon.eco_ai_plan.subtitle`)}</p>
                 </div>
               </div>
               <div className="col-lg-3 col-md-12">
@@ -43,16 +69,16 @@ export const EcoAIPlan = InjectAppServices(
                     href={buyUrl}
                     className="dp-button button-medium primary-green dp-w-100 m-b-12"
                   >
-                    {_(
-                      `my_plan.subscription_details.${
-                        ecoAiPlan.trialExpired
-                          ? 'view_plans_button'
-                          : (isFreeAccount || addOnPromotions.length > 0) && !ecoAiPlan.active
-                            ? 'view_plans_button'
-                            : 'change_plan_button'
-                      }`,
-                    )}
+                    {_(`my_plan.subscription_details.change_plan_button`)}
                   </a>
+                  {ecoAiPlan.active && (
+                    <button
+                      className="dp-button button-medium dp-w-100 btn-cancel"
+                      onClick={() => cancelAddOnPlan()}
+                    >
+                      {_(`my_plan.subscription_details.cancel_subscription_button`)}
+                    </button>
+                  )}
                 </div>
               </div>
             </HeaderStyled>
@@ -73,46 +99,36 @@ export const EcoAIPlan = InjectAppServices(
           )}
           <ul className="dp-item--plan">
             <li>
-              <p>
-                <strong>
-                  <FormattedMessage
-                    id={'my_plan.subscription_details.addon.eco_ai_plan.plan_message'}
-                    values={{
-                      total: ecoAiPlan.quantity,
-                    }}
-                  />
-                </strong>
-              </p>
               <div className="dp-rowflex">
-                <div className="col-lg-5 col-md-12">
-                  <p className="plan-item">
-                    <FormattedMessage
-                      id={`my_plan.subscription_details.addon.eco_ai_plan.available_message`}
-                      values={{
-                        available: ecoAiPlan.quantity,
-                        total: ecoAiPlan.quantity,
-                      }}
-                    />
-                  </p>
-                </div>
-                <div className="col-lg-4 col-md-12">
-                  <p className="plan-item m-l-12">
-                    {!isFreeAccount && ecoAiPlan.fee > 0 ? (
-                      <FormattedMessage
-                        id={`my_plan.subscription_details.addon.eco_ai_plan.additional_impression_message`}
-                        values={{
-                          price: formattedNumber(ecoAiPlan.additional, 4),
-                        }}
-                      />
-                    ) : (
-                      <FormattedMessage
-                        id={`my_plan.subscription_details.addon.eco_ai_plan.free_additional_impression_message`}
-                      />
-                    )}
+                <div className="col-lg-12 col-md-12">
+                  <p>
+                    <strong>
+                      {_(`my_plan.subscription_details.addon.eco_ai_plan.description`)}
+                    </strong>
                   </p>
                 </div>
               </div>
             </li>
+            <li>
+              <p>
+                <strong>{_(`my_plan.subscription_details.billing.title`)}</strong>
+              </p>
+              <p className="plan-item">
+                {_(`my_plan.subscription_details.billing.type_${plan.planSubscription}`)}
+              </p>
+            </li>
+            {showMessage && (
+              <li>
+                <StatusMessage
+                  type={status === SAVED ? 'success' : 'cancel'}
+                  message={
+                    status === SAVED
+                      ? 'checkoutProcessForm.purchase_summary.success_message'
+                      : messageError
+                  }
+                />
+              </li>
+            )}
           </ul>
         </article>
       </div>

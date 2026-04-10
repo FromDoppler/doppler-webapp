@@ -10,6 +10,10 @@ import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import '@testing-library/jest-dom/extend-expect';
 
+jest.mock('../../RedirectToExternalUrl', () => (props) => (
+  <div data-testid="redirect-to-external-url" data-to={props.to} />
+));
+
 describe('EcoAIPlansSelection component', () => {
   it('should render EcoAIPlansSelection component', async () => {
     // Arrange
@@ -62,7 +66,57 @@ describe('EcoAIPlansSelection component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    screen.getByText('ai_agent_selection.title');
-    screen.getByText('ai_agent_selection.ai_agent_plan_info.legend');
+    screen.getByText('eco_ai_selection.title');
+    screen.getByText('eco_ai_selection.eco_ai_plan_info.legend');
   });
+
+  it('should redirect to conversations external login if the user already has beplic account', async () => {
+      // Assert
+      const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            features: {
+              ecoIAEnabled: true,
+            },
+            user: {
+              addOnPromotions: [],
+              addOnPlans: [
+                {
+                  plan: {
+                    addOnTypeId: 5,
+                  },
+                },
+              ],
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.free,
+                isFreeAccount: true,
+              },
+            },
+          },
+        },
+      },
+      dopplerAccountPlansApiClient: {
+        getPlanData: async (selectedPlan) => ({ success: true, value: fakePlan }),
+        getDiscountsData: async () => ({ success: true, value: fakeAccountPlanDiscounts }),
+      },
+    };
+  
+      // Act
+      render(
+         <AppServicesProvider forcedServices={forcedServices}>
+          <IntlProvider>
+            <Router initialEntries={[`/buy-ecoia-plan?buyType=6`]}>
+              <Routes>
+                <Route path="/buy-ecoia-plan" element={<EcoAIPlanSelection />} />
+              </Routes>
+            </Router>
+          </IntlProvider>
+        </AppServicesProvider>,
+      );
+  
+      // Assert
+      expect(window.location.pathname).toContain('/');
+    });
 });

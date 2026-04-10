@@ -41,6 +41,6 @@ describe('Packs', () => {
     );
 
     // Assert
-    screen.getByText('ai_agent_selection.plan_of_eco_ai_with_plural');
+    screen.getByText('eco_ai_selection.plan_of_eco_ai_with_plural');
   });
 });

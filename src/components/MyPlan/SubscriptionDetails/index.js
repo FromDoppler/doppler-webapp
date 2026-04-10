@@ -110,7 +110,7 @@ export const getAddons = (user, features) => {
         canBuyEcoAIPlan &&
         !user.plan.trialExpired,
       addOnPromotions: ecoAIPromotions,
-      buyUrl: `${plan.isFreeAccount ? ecoIA?.plan.buttonUrl : '/buy-ecoia-plan?buyType=6'}`,
+      buyUrl: '/buy-ecoia-plan?buyType=6',
     },
   ];
 

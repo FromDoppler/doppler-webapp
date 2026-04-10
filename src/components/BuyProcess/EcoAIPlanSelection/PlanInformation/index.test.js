@@ -13,10 +13,10 @@ describe('PlanInformation', () => {
     );
 
     // Assert
-    screen.getByText('ai_agent_selection.ai_agent_plan_info.legend');
-    screen.getByText('ai_agent_selection.ai_agent_plan_info.section_1.title');
-    screen.getByText('ai_agent_selection.ai_agent_plan_info.section_1.legend');
-    screen.getByText('ai_agent_selection.ai_agent_plan_info.section_2.title');
-    screen.getByText('ai_agent_selection.ai_agent_plan_info.section_2.legend');
+    screen.getByText('eco_ai_selection.eco_ai_plan_info.legend');
+    screen.getByText('eco_ai_selection.eco_ai_plan_info.section_1.title');
+    screen.getByText('eco_ai_selection.eco_ai_plan_info.section_1.legend');
+    screen.getByText('eco_ai_selection.eco_ai_plan_info.section_2.title');
+    screen.getByText('eco_ai_selection.eco_ai_plan_info.section_2.legend');
   });
 });

@@ -11,6 +11,7 @@ import { getPromotionInformationMessage } from '../utils';
 import { Packs } from './Packs';
 import { Loading } from '../../Loading/Loading';
 import { Navigate } from 'react-router-dom';
+import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const EcoAIPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -44,6 +45,7 @@ export const EcoAIPlanSelection = InjectAppServices(
       handleRemove();
     };
 
+    const plan = appSessionRef.current.userData.user.plan;
     const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
@@ -52,7 +54,7 @@ export const EcoAIPlanSelection = InjectAppServices(
       () =>
         appSessionRef.current.userData.user.addOnPromotions !== undefined
           ? appSessionRef.current.userData.user.addOnPromotions.filter(
-              (aop) => aop.idAddOnType === AddOnType.ArtificialIntelligenceAgent,
+              (aop) => aop.idAddOnType === AddOnType.EcoAI,
             )
           : [],
       [appSessionRef],
@@ -138,6 +140,10 @@ export const EcoAIPlanSelection = InjectAppServices(
       return <Navigate to="/dashboard" />;
     }
 
+    if (plan.isFreeAccount) {
+      return <RedirectToExternalUrl to={plan.buttonUrl} />;
+    }
+
     if (loading) {
       return <Loading page />;
     }
@@ -147,7 +153,7 @@ export const EcoAIPlanSelection = InjectAppServices(
         <HeaderSection>
           <div className="col-sm-12 col-md-12 col-lg-12">
             <h2 className="dp-first-order-title">
-              {_('ai_agent_selection.title')} <span className="dpicon iconapp-online-clothing" />
+              {_('eco_ai_selection.title')} <span className="dpicon icon-sparkle-ia" />
             </h2>
           </div>
         </HeaderSection>
@@ -169,7 +175,7 @@ export const EcoAIPlanSelection = InjectAppServices(
                     <div className="dp-content-message dp-content-full">
                       <p>
                         {getPromotionInformationMessage(
-                          'ai_agent_selection',
+                          'eco_ai_selection',
                           appSessionRef.current.userData.user,
                           iaAgentPromotions,
                         )}

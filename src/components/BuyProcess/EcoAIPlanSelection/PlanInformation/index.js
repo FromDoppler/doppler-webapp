@@ -8,7 +8,7 @@ export const PlanInformation = () => {
     <>
       <p>
         <FormattedMessage
-          id={'ai_agent_selection.ai_agent_plan_info.legend'}
+          id={'eco_ai_selection.eco_ai_plan_info.legend'}
           values={{
             bold: (chunks) => <b>{chunks}</b>,
           }}
@@ -17,11 +17,11 @@ export const PlanInformation = () => {
       <section className="dp-rowflex m-t-24">
         <div className="col-lg-6">
           <h6>
-            <strong>{_('ai_agent_selection.ai_agent_plan_info.section_1.title')}</strong>
+            <strong>{_('eco_ai_selection.eco_ai_plan_info.section_1.title')}</strong>
           </h6>
           <p>
             <FormattedMessage
-              id={'ai_agent_selection.ai_agent_plan_info.section_1.legend'}
+              id={'eco_ai_selection.eco_ai_plan_info.section_1.legend'}
               values={{
                 bold: (chunks) => <b>{chunks}</b>,
               }}
@@ -30,9 +30,9 @@ export const PlanInformation = () => {
         </div>
         <div className="col-lg-6">
           <h6>
-            <strong>{_('ai_agent_selection.ai_agent_plan_info.section_2.title')}</strong>
+            <strong>{_('eco_ai_selection.eco_ai_plan_info.section_2.title')}</strong>
           </h6>
-          <p>{_('ai_agent_selection.ai_agent_plan_info.section_2.legend')}</p>
+          <p>{_('eco_ai_selection.eco_ai_plan_info.section_2.legend')}</p>
         </div>
       </section>
     </>

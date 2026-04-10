@@ -14,7 +14,7 @@ export const DeletePacksButton = ({ handleRemove, hasPlan }) => {
           className={`dp-button button-medium primary-grey`}
           onClick={handleRemove}
         >
-          {_('ai_agent_selection.remove_from_cart_button')}
+          {_('eco_ai_selection.remove_from_cart_button')}
         </button>
       )}
     </fieldset>
@@ -30,7 +30,7 @@ export const Packs = ({ packs, handleRemove, hasPlan }) => {
             <div className="col-lg-9">
               <p className="dp-mark">
                 <FormattedMessage
-                  id="ai_agent_selection.plan_of_eco_ai_with_plural"
+                  id="eco_ai_selection.plan_of_eco_ai_with_plural"
                   values={{
                     packs: pack.quantity,
                   }}
@@ -40,7 +40,7 @@ export const Packs = ({ packs, handleRemove, hasPlan }) => {
             <div className="col-lg-3 text-align--right">
               <h3>
                 <FormattedMessage
-                  id={`landing_selection.pack_price`}
+                  id={`eco_ai_selection.plan_price`}
                   values={{
                     price: <FormattedNumber value={pack.fee} {...numberFormatOptions} />,
                   }}
