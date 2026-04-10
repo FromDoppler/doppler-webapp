@@ -71,8 +71,8 @@ describe('EcoAIPlansSelection component', () => {
   });
 
   it('should redirect to conversations external login if the user already has beplic account', async () => {
-      // Assert
-      const forcedServices = {
+    // Assert
+    const forcedServices = {
       appSessionRef: {
         current: {
           userData: {
@@ -102,21 +102,21 @@ describe('EcoAIPlansSelection component', () => {
         getDiscountsData: async () => ({ success: true, value: fakeAccountPlanDiscounts }),
       },
     };
-  
-      // Act
-      render(
-         <AppServicesProvider forcedServices={forcedServices}>
-          <IntlProvider>
-            <Router initialEntries={[`/buy-ecoia-plan?buyType=6`]}>
-              <Routes>
-                <Route path="/buy-ecoia-plan" element={<EcoAIPlanSelection />} />
-              </Routes>
-            </Router>
-          </IntlProvider>
-        </AppServicesProvider>,
-      );
-  
-      // Assert
-      expect(window.location.pathname).toContain('/');
-    });
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router initialEntries={[`/buy-ecoia-plan?buyType=6`]}>
+            <Routes>
+              <Route path="/buy-ecoia-plan" element={<EcoAIPlanSelection />} />
+            </Routes>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    expect(window.location.pathname).toContain('/');
+  });
 });

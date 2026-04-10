@@ -17,6 +17,7 @@ export const EcoAIPlan = InjectAppServices(
   ({
     buyUrl,
     ecoAiPlan,
+    isFreeAccount,
     addOnPromotions,
     dependencies: { appSessionRef, dopplerBillingUserApiClient },
   }) => {
@@ -69,7 +70,15 @@ export const EcoAIPlan = InjectAppServices(
                     href={buyUrl}
                     className="dp-button button-medium primary-green dp-w-100 m-b-12"
                   >
-                    {_(`my_plan.subscription_details.change_plan_button`)}
+                    {_(
+                      `my_plan.subscription_details.${
+                        ecoAiPlan.trialExpired
+                          ? 'view_plans_button'
+                          : (isFreeAccount || addOnPromotions.length > 0) && !ecoAiPlan.active
+                            ? 'activate_now_button'
+                            : 'change_plan_button'
+                      }`,
+                    )}
                   </a>
                   {ecoAiPlan.active && (
                     <button

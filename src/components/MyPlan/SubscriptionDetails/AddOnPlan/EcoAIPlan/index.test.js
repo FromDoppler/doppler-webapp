@@ -36,14 +36,11 @@ describe('EcoAIPlan component', () => {
     // Act
     render(
       <AppServicesProvider forcedServices={dependencies}>
-        <AppServicesProvider forcedServices={dependencies}>
-          <BrowserRouter>
-            <IntlProvider>
-              <EcoAIPlan addOnPromotions={[]} ecoAiPlan={ecoAiPlan} />
-            </IntlProvider>
-          </BrowserRouter>
-        </AppServicesProvider>
-        ,
+        <BrowserRouter>
+          <IntlProvider>
+            <EcoAIPlan addOnPromotions={[]} ecoAiPlan={ecoAiPlan} isFreeAccount={false} />
+          </IntlProvider>
+        </BrowserRouter>
       </AppServicesProvider>,
     );
 
