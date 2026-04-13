@@ -1436,6 +1436,7 @@ confirmation email.Please note that any active add-ons associated with your acco
           {expirationDate, select, null {} other { Valid until <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Remember that you have a:',
           description: 'Full Eco AI Access All features included.',
+          free_label: 'Free trial',
           subtitle: 'Monthly Plan',
           title: 'Eco AI',
         },

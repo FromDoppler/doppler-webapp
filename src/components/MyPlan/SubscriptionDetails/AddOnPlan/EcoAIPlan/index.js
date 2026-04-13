@@ -6,6 +6,7 @@ import { AddOnType } from '../../../../../doppler-types';
 import { useState } from 'react';
 import { AddOnCancellationModal } from '../../../CancellationAccount/Modals/AddOnCancellation';
 import { SuccessAddOnCancellation } from '../../../CancellationAccount/Modals/SuccessAddOnCancellation';
+import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 
 export const EcoAIPlan = InjectAppServices(
   ({ buyUrl, ecoAiPlan, isFreeAccount, addOnPromotions, dependencies: { appSessionRef } }) => {
@@ -43,9 +44,14 @@ export const EcoAIPlan = InjectAppServices(
                       </span>
                       <span className="dpicon icon-sparkle-ia"></span>
                     </h3>
-                    <p className="p-t-12">
-                      {_(`my_plan.subscription_details.addon.eco_ai_plan.description`)}
-                    </p>
+                    {ecoAiPlan.trialExpired && <AddOnExpiredMessage></AddOnExpiredMessage>}
+                    {!ecoAiPlan.trialExpired && ecoAiPlan.fee === 0 ? (
+                      <p>{_(`my_plan.subscription_details.addon.eco_ai_plan.free_label`)}</p>
+                    ) : (
+                      <p className="p-t-12">
+                        {_(`my_plan.subscription_details.addon.eco_ai_plan.description`)}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-12">

@@ -11,6 +11,7 @@ describe('EcoAIPlan component', () => {
     var ecoAiPlan = {
       active: true,
       additional: 0,
+      trialExpired: false,
     };
 
     const dependencies = {
