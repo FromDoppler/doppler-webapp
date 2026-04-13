@@ -106,7 +106,7 @@ export const getAddons = (user, features) => {
         trialExpired: ecoIA?.plan.trialExpired,
       },
       active:
-        (ecoIA?.plan.active || plan.isFreeAccount || ecoAIPromotions.length > 0) &&
+        (ecoIA?.plan.active || ecoAIPromotions.length > 0) &&
         canBuyEcoAIPlan &&
         !user.plan.trialExpired,
       addOnPromotions: ecoAIPromotions,

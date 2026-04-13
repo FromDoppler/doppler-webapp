@@ -40,7 +40,7 @@ export const EcoAI = InjectAppServices(() => {
       description={_(`my_plan.addons.eco_ai.description`)}
       priceSection={<PriceSection></PriceSection>}
       moreInformationText={_(`my_plan.addons.more_information_link`)}
-      moreInformationLink={_(`my_plan.addons.eco_ai.more_information_link`)}
+      moreInformationLink={''}
       buyButtonText={_(`my_plan.addons.activate_now_button`)}
       buyButtonUrl={'/buy-ecoia-plan?buyType=6'}
     ></Card>

@@ -896,7 +896,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     plan_of_eco_ai_with_plural: `Eco AI Plan — Full access`,
     plan_price: `US$ {price}/month`,
     remove_from_cart_button: 'Remove',
-    title: 'Activate Eco AI and boost Doppler’s performance',
+    title: 'Boost your business with Eco AI',
   },
   empty_notification_text: `You don't have pending notifications.`,
   exclusive_form: {
@@ -1330,6 +1330,13 @@ including information on access, conservation, rectification, deletion, security
       title: 'Additional services',
     },
     cancellation: {
+      addon_modal: {
+        accept_button: 'Accept',
+        cancel_button: 'Cancel',
+        description: `Are you sure you want to remove the Add-On?`,
+        error_message: 'Ouch! An error occurred while processing your cancellation request. Please wait a moment and try again.',
+        title: 'Deactivate Add-On',
+      },
       consulting_offer: {
         continue_with_cancellation_button: 'CONTINUE WITH THE CANCELLATION',
         description: 'Schedule a meeting with our advisors to achieve your business goals.',
@@ -1373,6 +1380,11 @@ including information on access, conservation, rectification, deletion, security
 If you wish to return at any time, you can contact us to resume the service; we will be here to advise you. We value your trust and look forward to working with you again in the future.
 Good luck in your next steps!`,
         title: 'Thank you for giving us the opportunity{br}to support you in your digital strategy.',
+      },
+      success_addon_cancellation: {
+        close_button: 'Accept',
+        description: `Cancellation of this add-on takes effect immediately and the charge will no longer be included in your next bill.`,
+        title: 'The add-on was successfully cancelled',
       },
       success_scheduled_cancellation: {
         accept_button: 'Accept',

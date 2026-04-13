@@ -895,7 +895,7 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     plan_of_eco_ai_with_plural: `Plan Eco IA — Acceso completo`,
     plan_price: `US$ {price}/mes`,
     remove_from_cart_button: 'Remover',
-    title: 'Activa Eco IA y mejora la performance de tu negocio',
+    title: 'Potencia tu negocio con Eco IA',
   },
   empty_notification_text: `No tienes notificaciones pendientes.`,
   exclusive_form: {
@@ -1330,6 +1330,13 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       title: 'Servicios Adicionales',
     },
     cancellation: {
+      addon_modal: {
+        accept_button: 'Aceptar',
+        cancel_button: 'Cancelar',
+        description: `¿Estas seguro que deseas eliminar el Add-On?`,
+        error_message: '¡Ouch! Ha ocurrido un error al procesar la cancelación, espera un momento y vuelve a intentarlo.',
+        title: 'Desactivar Add-On',
+      },
       consulting_offer: {
         continue_with_cancellation_button: 'CONTINUAR CON LA CANCELACIÓN',
         description: 'Agenda una reunión con nuestros asesores para alcanzar tus objetivos de negocio.',
@@ -1374,6 +1381,11 @@ Si en algún momento deseas volver, puedes contactarnos para retomar el servicio
 colaborar contigo en el futuro.
 ¡Mucho éxito en tus próximos pasos!`,
         title: 'Gracias por darnos la oportunidad{br}de acompañarte en tu estrategia digital.',
+      },
+      success_addon_cancellation: {
+        close_button: 'Aceptar',
+        description: `La cancelación de este add-on se aplica de inmediato y el cargo ya no se incluirá en tu próxima factura.`,
+        title: 'El Add-On se canceló con éxito',
       },
       success_scheduled_cancellation: {
         accept_button: 'Aceptar',

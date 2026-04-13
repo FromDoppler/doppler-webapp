@@ -117,6 +117,10 @@ export const EcoAIPlanSelection = InjectAppServices(
     }, [dopplerAccountPlansApiClient, selectedPaymentMethod, planType, selectedPlanId, monthPlan]);
 
     useEffect(() => {
+      if (!canBuyEcoIAPlan || plan.isFreeAccount) {
+        return;
+      }
+
       const fetchPlanData = async () => {
         const planData = await dopplerAccountPlansApiClient.getPlanData(selectedPlanId, 1);
         setSelectedMarketingPlan({ ...planData.value, type: planType, id: selectedPlanId });
@@ -124,7 +128,13 @@ export const EcoAIPlanSelection = InjectAppServices(
       };
 
       fetchPlanData();
-    }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
+    }, [
+      canBuyEcoIAPlan,
+      dopplerAccountPlansApiClient,
+      plan.isFreeAccount,
+      selectedPlanId,
+      planType,
+    ]);
 
     const handleRemove = () => {
       const resetForm = async () => {
@@ -147,6 +157,8 @@ export const EcoAIPlanSelection = InjectAppServices(
     if (loading) {
       return <Loading page />;
     }
+
+    const canAddOnPlanContinueBuy = ecoIA.plan.planId === 0;
 
     return (
       <>
@@ -202,7 +214,8 @@ export const EcoAIPlanSelection = InjectAppServices(
                 buyType={BUY_ECO_IA_PLAN}
                 disabledPromocode={true}
                 addMarketingPlan={false}
-                canAddOnPlanRemove={true}
+                canAddOnPlanRemove={false}
+                canAddOnPlanContinueBuy={canAddOnPlanContinueBuy}
               ></ShoppingCart>
             </div>
           </div>
