@@ -141,6 +141,14 @@
           var ecoIAEnabled = window.dopplerSessionState.rawDopplerUserData.features.ecoIAEnabled;
           if (!ecoIAEnabled) return;
 
+          var height = 335;
+          var ecoAIAddOn = dopplerSessionState.rawDopplerUserData.user.addOnPlans?.filter(
+            (aop) => aop.planData?.idAddOnType === 5,
+          )[0];
+          if (ecoAIAddOn !== undefined && ecoAIAddOn.active) {
+            height = 550;
+          }
+
           if (document.getElementById('eco-ia-widget-container')) return;
           var target = document.getElementById('dashboard-eco-ia');
           if (!target) return;
@@ -151,7 +159,7 @@
           container.id = 'eco-ia-widget-container';
           container.style.cssText = [
             'width:100%',
-            'height:335px',
+            'height:' + height + 'px',
             'margin-bottom:24px',
             'border-radius:8px',
             'overflow:hidden',
