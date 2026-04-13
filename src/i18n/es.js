@@ -1437,6 +1437,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
           description: 'Acceso completo a Eco IA Todas las funciones disponibles.',
+          free_label: 'Prueba Gratuita',
           subtitle: 'Plan Mensual',
           title: 'Eco IA',
         },
