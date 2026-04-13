@@ -59,7 +59,6 @@ export const ShoppingCart = InjectAppServices(
     discountConfig,
     selectedMarketingPlan,
     landingPacks,
-    selectedPlanChat,
     isEqualPlan = true,
     canBuy = true,
     selectedPaymentMethod,
@@ -67,17 +66,16 @@ export const ShoppingCart = InjectAppServices(
     hidePromocode = false,
     buyType = BUY_MARKETING_PLAN,
     handleLandingPagesDowngrade,
-    handleRemovePlanChat,
     disabledLandingsBuy,
     landingPagesRemoved,
     cancelLandings,
-    canChatPlanRemove = true,
     hasChatActive,
     disabledPromocode = false,
     addMarketingPlan = true,
     selectedAddOnPlan,
     handleRemoveAddOnPlan,
     canAddOnPlanRemove,
+    canAddOnPlanContinueBuy = true,
     callbackHandlePromocodeApplied,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
@@ -361,6 +359,7 @@ export const ShoppingCart = InjectAppServices(
         addOnPlan: selectedAddOnPlan,
         total: amountDetailsAddOnPlanData?.value?.currentMonthTotal ?? 0,
       },
+      canAddOnPlanContinueBuy,
     });
 
     const paymentFrequencyProps = {

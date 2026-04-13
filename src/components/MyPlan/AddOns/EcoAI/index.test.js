@@ -19,11 +19,7 @@ describe('Collaborators component', () => {
     );
 
     // Assert
-    expect(
-      screen.getByText('my_plan.addons.artificial_intelligence_agent.title'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('my_plan.addons.artificial_intelligence_agent.description'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('my_plan.addons.eco_ai.title')).toBeInTheDocument();
+    expect(screen.getByText('my_plan.addons.eco_ai.description')).toBeInTheDocument();
   });
 });

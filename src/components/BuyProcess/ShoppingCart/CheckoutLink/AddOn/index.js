@@ -35,7 +35,14 @@ export const getBuyPurchaseUrl = ({ planId, planType, addOnPlanId, monthPlan, se
   });
 };
 
-export const AddOnCheckoutLink = ({ planId, showTooltip, planType, addOnPlanId, monthPlan }) => {
+export const AddOnCheckoutLink = ({
+  planId,
+  showTooltip,
+  planType,
+  addOnPlanId,
+  monthPlan,
+  canAddOnPlanContinueBuy,
+}) => {
   const { search } = useLocation();
 
   return (
@@ -45,7 +52,7 @@ export const AddOnCheckoutLink = ({ planId, showTooltip, planType, addOnPlanId, 
       orientation="top"
     >
       <CheckoutLinkStyled
-        className={`dp-button button-big primary-green ${showTooltip ? 'disabled' : ''}`}
+        className={`dp-button button-big primary-green ${showTooltip || !canAddOnPlanContinueBuy ? 'disabled' : ''}`}
         href={getBuyPurchaseUrl({
           planId,
           planType,

@@ -763,6 +763,33 @@ export const mapItemFromAddOnPlan = ({
       />
     ),
     featureList: [
+      // <FormattedMessage
+      //   id={`${
+      //     addOnType === AddOnType.OnSite
+      //       ? 'buy_process.feature_item_onsite_plan'
+      //       : addOnType === AddOnType.PushNotifications
+      //         ? 'buy_process.feature_item_push_notification_plan'
+      //         : addOnType === AddOnType.Conversations
+      //           ? 'buy_process.feature_item_chat_plan'
+      //           : 'buy_process.feature_item_ecoia_plan'
+      //   }`}
+      //   values={{
+      //     units: thousandSeparatorNumber(intl.defaultLocale, addOnPlan?.quantity ?? 0),
+      //     Strong: (chunk) => <strong>{chunk}</strong>,
+      //   }}
+      // />,
+    ],
+    // isRemovible: true,
+    data: addOnPlan,
+    isRemovible: canAddOnPlanRemove,
+    handleRemove,
+    billingList: [],
+    subscriptionItems: [],
+  };
+
+  //Includes up to
+  if (addOnType !== AddOnType.EcoAI) {
+    addOnPlanInformation.featureList.push(
       <FormattedMessage
         id={`${
           addOnType === AddOnType.OnSite
@@ -778,14 +805,8 @@ export const mapItemFromAddOnPlan = ({
           Strong: (chunk) => <strong>{chunk}</strong>,
         }}
       />,
-    ],
-    // isRemovible: true,
-    data: addOnPlan,
-    isRemovible: canAddOnPlanRemove,
-    handleRemove,
-    billingList: [],
-    subscriptionItems: [],
-  };
+    );
+  }
 
   // Months to hire
   if (planType === PLAN_TYPE.byContact) {
@@ -1021,6 +1042,7 @@ export const getBuyButton = ({
   selectedPlanChat,
   hasChatActive,
   selectedAddOnPlan,
+  canAddOnPlanContinueBuy,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -1102,6 +1124,7 @@ export const getBuyButton = ({
           addOnPlanId={selectedAddOnPlan?.addOnPlan?.planId ?? '0'}
           monthPlan={selectedDiscount?.numberMonths}
           buyType={buyType}
+          canAddOnPlanContinueBuy={canAddOnPlanContinueBuy}
         />
       );
     }

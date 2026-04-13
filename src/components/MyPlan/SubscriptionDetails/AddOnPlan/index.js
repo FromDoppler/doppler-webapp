@@ -56,6 +56,7 @@ export const AddOnPlan = InjectAppServices(
           <EcoAIPlan
             buyUrl={addOnBuyUrl}
             ecoAiPlan={addOnPlan}
+            isFreeAccount={isFreeAccount}
             addOnPromotions={addOnPromotions}
           ></EcoAIPlan>
         )}
