@@ -34,7 +34,7 @@ import UpdatePaymentInformation from './components/Plans/UpdatePaymentInformatio
 import UpdatePaymentInformationSummary from './components/Plans/UpdatePaymentInformation/UpdatePaymentInformationSummary/index';
 import IntegrationsSection from './components/Integrations/index';
 import smoothscroll from 'smoothscroll-polyfill';
-import { useZendeskSnippet } from './hooks/useZendeskSnippet';
+// import { useZendeskSnippet } from './hooks/useZendeskSnippet';
 import { PlanTypes } from './components/BuyProcess/PlanTypes';
 import { PlanSelection } from './components/BuyProcess/PlanSelection';
 import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
