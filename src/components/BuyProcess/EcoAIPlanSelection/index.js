@@ -158,7 +158,7 @@ export const EcoAIPlanSelection = InjectAppServices(
       return <Loading page />;
     }
 
-    const canAddOnPlanContinueBuy = ecoIA.plan.planId === 0;
+    const canAddOnPlanContinueBuy = ecoIA.plan.planId === 0 || ecoIA.plan.fee === 0;
 
     return (
       <>

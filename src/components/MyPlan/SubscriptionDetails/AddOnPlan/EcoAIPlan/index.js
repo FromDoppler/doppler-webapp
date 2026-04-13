@@ -65,7 +65,7 @@ export const EcoAIPlan = InjectAppServices(
                         }`,
                       )}
                     </a>
-                    {ecoAiPlan.active && (
+                    {ecoAiPlan.active && ecoAiPlan.fee > 0 && (
                       <button
                         className="dp-button button-medium dp-w-100 btn-cancel"
                         onClick={() => cancelAddOnPlan()}

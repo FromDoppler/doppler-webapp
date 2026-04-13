@@ -745,6 +745,7 @@ export const ModalPromoAddons = InjectAppServices(
       process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
     const hasPushNotificationPlan =
       user.pushNotification?.active === true && user.pushNotification?.plan?.fee > 0;
+    const canBuyEcoAIPlan = features?.ecoIAEnabled;
 
     const getAddOnPromotionSliceTitle = (addOnPromotions) => {
       var title = (
@@ -787,9 +788,24 @@ export const ModalPromoAddons = InjectAppServices(
       return partOne;
     };
 
+    const getAddOnsWithPromotion = (addOnPromotions) => {
+      const promotions = addOnPromotions.filter(
+        (p) =>
+          p.idAddOnType === AddOnType.Conversations ||
+          p.idAddOnType === AddOnType.Landings ||
+          (p.idAddOnType === AddOnType.OnSite && canBuyOnSitePlan) ||
+          (p.idAddOnType === AddOnType.PushNotifications && canBuyPushNotificationPlan) ||
+          (p.idAddOnType === AddOnType.EcoAI && canBuyEcoAIPlan),
+      );
+
+      return promotions;
+    };
+
     const getAddonSlides = () => {
       const slides = [];
-      const promotions = addOnPromotions === undefined ? [] : addOnPromotions;
+      const promotions = getAddOnsWithPromotion(
+        addOnPromotions === undefined ? [] : addOnPromotions,
+      );
 
       if (promotions.length > 0) {
         var addOnPromotionSlice = {
