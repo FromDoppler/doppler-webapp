@@ -1333,9 +1333,10 @@ including information on access, conservation, rectification, deletion, security
       addon_modal: {
         accept_button: 'Accept',
         cancel_button: 'Cancel',
-        description: `Are you sure you want to remove the Add-On?`,
+        description: `The cancellation of this add-on takes effect immediately and the charge will no longer be included in your next invoice.
+Are you sure you want to cancel?`,
         error_message: 'Ouch! An error occurred while processing your cancellation request. Please wait a moment and try again.',
-        title: 'Deactivate Add-On',
+        title: 'Cancel Add-On',
       },
       consulting_offer: {
         continue_with_cancellation_button: 'CONTINUE WITH THE CANCELLATION',
@@ -1383,8 +1384,8 @@ Good luck in your next steps!`,
       },
       success_addon_cancellation: {
         close_button: 'Accept',
-        description: `Cancellation of this add-on takes effect immediately and the charge will no longer be included in your next bill.`,
-        title: 'The add-on was successfully cancelled',
+        description: `The cancellation was completed successfully.`,
+        title: 'Cancel Add-On',
       },
       success_scheduled_cancellation: {
         accept_button: 'Accept',
@@ -1491,6 +1492,7 @@ confirmation email.Please note that any active add-ons associated with your acco
         type_6: `Biannual`,
       },
       buy_credits_button: 'Buy Credits',
+      cancel_addon_button: 'Cancel Add-On',
       cancel_subscription_button: 'Unsubscribe',
       cards: {
         card_1: {
