@@ -45,7 +45,7 @@ export const EcoAIPlan = InjectAppServices(
                       <span className="dpicon icon-sparkle-ia"></span>
                     </h3>
                     {ecoAiPlan.trialExpired && <AddOnExpiredMessage></AddOnExpiredMessage>}
-                    {!ecoAiPlan.trialExpired && ecoAiPlan.fee === 0 ? (
+                    {!ecoAiPlan.trialExpired && ecoAiPlan.active && ecoAiPlan.fee === 0 ? (
                       <p>{_(`my_plan.subscription_details.addon.eco_ai_plan.free_label`)}</p>
                     ) : (
                       <p className="p-t-12">
