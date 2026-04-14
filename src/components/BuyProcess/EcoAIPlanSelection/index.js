@@ -12,6 +12,7 @@ import { Packs } from './Packs';
 import { Loading } from '../../Loading/Loading';
 import { Navigate } from 'react-router-dom';
 import RedirectToExternalUrl from '../../RedirectToExternalUrl';
+import { GoBackButton } from '../PlanSelection/GoBackButton';
 
 export const EcoAIPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -196,6 +197,10 @@ export const EcoAIPlanSelection = InjectAppServices(
                   </div>
                 </section>
               )}
+              <hr className="dp-separator" />
+              <div className="m-t-18 m-b-18">
+                <GoBackButton />
+              </div>
             </div>
             <div className="col-lg-4 col-sm-12">
               <ShoppingCart
