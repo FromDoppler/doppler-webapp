@@ -1333,9 +1333,10 @@ incluida información sobre acceso, conservación, rectificación, eliminación,
       addon_modal: {
         accept_button: 'Aceptar',
         cancel_button: 'Cancelar',
-        description: `¿Estas seguro que deseas eliminar el Add-On?`,
+        description: `La cancelación de este add-on se aplica de inmediato y el cargo ya no se incluirá en tu próxima factura.
+¿Estas seguro que deseas cancelar?`,
         error_message: '¡Ouch! Ha ocurrido un error al procesar la cancelación, espera un momento y vuelve a intentarlo.',
-        title: 'Desactivar Add-On',
+        title: 'Cancelar Add-On',
       },
       consulting_offer: {
         continue_with_cancellation_button: 'CONTINUAR CON LA CANCELACIÓN',
@@ -1384,8 +1385,8 @@ colaborar contigo en el futuro.
       },
       success_addon_cancellation: {
         close_button: 'Aceptar',
-        description: `La cancelación de este add-on se aplica de inmediato y el cargo ya no se incluirá en tu próxima factura.`,
-        title: 'El Add-On se canceló con éxito',
+        description: `La cancelación se realizó de manera exitosa.`,
+        title: 'Cancelar Add-On',
       },
       success_scheduled_cancellation: {
         accept_button: 'Aceptar',
@@ -1492,6 +1493,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
         type_6: `Semestral`,
       },
       buy_credits_button: 'Comprar Créditos',
+      cancel_addon_button: 'Cancelar Add-On',
       cancel_subscription_button: 'Cancelar suscripción',
       cards: {
         card_1: {

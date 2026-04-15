@@ -76,7 +76,7 @@ export const EcoAIPlan = InjectAppServices(
                         className="dp-button button-medium dp-w-100 btn-cancel"
                         onClick={() => cancelAddOnPlan()}
                       >
-                        {_(`my_plan.subscription_details.cancel_subscription_button`)}
+                        {_(`my_plan.subscription_details.cancel_addon_button`)}
                       </button>
                     )}
                   </div>
@@ -84,7 +84,7 @@ export const EcoAIPlan = InjectAppServices(
               </HeaderStyled>
             </header>
             {showPromotionInformation && (
-              <div className="dp-wrap-message dp-wrap-info m-t-12">
+              <div className="dp-wrap-message dp-wrap-info m-t-12 m-b-12">
                 <span className="dp-message-icon"></span>
                 <div className="dp-content-message dp-content-full">
                   <p>
