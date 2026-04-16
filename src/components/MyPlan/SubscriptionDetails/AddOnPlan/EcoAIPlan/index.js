@@ -30,6 +30,10 @@ export const EcoAIPlan = InjectAppServices(
       setShowAddOnCancellationModal(true);
     };
 
+    const changeAddOnPlan = async () => {
+      window.location.href = buyUrl;
+    };
+
     return (
       <>
         <div className="dp-box-shadow m-b-24">
@@ -56,10 +60,11 @@ export const EcoAIPlan = InjectAppServices(
                 </div>
                 <div className="col-lg-3 col-md-12">
                   <div className="dp-buttons--plan">
-                    <a
+                    <button
                       disabled={ecoAiPlan.active && ecoAiPlan.fee > 0}
                       type="button"
-                      href={buyUrl}
+                      aria-label="change-plan"
+                      onClick={() => changeAddOnPlan()}
                       className="dp-button button-medium primary-green dp-w-100 m-b-12"
                     >
                       {_(
@@ -71,9 +76,10 @@ export const EcoAIPlan = InjectAppServices(
                               : 'change_plan_button'
                         }`,
                       )}
-                    </a>
+                    </button>
                     {ecoAiPlan.active && ecoAiPlan.fee > 0 && (
                       <button
+                        aria-label="cancel-plan"
                         className="dp-button button-medium dp-w-100 btn-cancel"
                         onClick={() => cancelAddOnPlan()}
                       >
