@@ -57,6 +57,7 @@ export const EcoAIPlan = InjectAppServices(
                 <div className="col-lg-3 col-md-12">
                   <div className="dp-buttons--plan">
                     <a
+                      disabled={ecoAiPlan.active && ecoAiPlan.fee > 0}
                       type="button"
                       href={buyUrl}
                       className="dp-button button-medium primary-green dp-w-100 m-b-12"
