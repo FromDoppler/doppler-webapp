@@ -72,7 +72,7 @@ const getNewCheckoutPurchaseUrl = ({
   return (
     `/checkout/premium/${planType}?selected-plan=${planId}` +
     `${discountId ? `&discountId=${discountId}` : ''}` +
-    `${promocode ? `&PromoCode=${promocode}` : ''}` +
+    `${monthPlan === 1 ? (promocode ? `&PromoCode=${promocode}` : '') : ''}` +
     `${monthPlan ? `&monthPlan=${monthPlan}` : ''}` +
     `${chatPlanId ? `&chatPlanId=${chatPlanId}` : ''}` +
     `${currentQueryParams}`
