@@ -358,7 +358,6 @@ export class ControlPanelService implements ControlPanelService {
               targetBlank: true,
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
-              hidden: true,
             },
             {
               linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,
