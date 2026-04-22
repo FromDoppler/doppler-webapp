@@ -1003,7 +1003,7 @@ You'll find an Email with steps to follow.`,
     external_integrations: {
       dynamics_link_url: `${urlHelp}/how-to-integrate-dynamics-with-doppler`,
       dynamics_title: 'Microsoft Dynamics 365',
-      ela_link_url: `${urlHelp}/how-to-integrate-doppler-with-ela-gestion`,
+      ela_link_url: `${urlHelp}/como-integrar-doppler-con-ela-gestion`,
       ela_title: 'Ela Gestión',
       empretienda_link_url: `${urlHelp}/doppler-functionalities-for-empretienda`,
       empretienda_title: 'Empretienda',
