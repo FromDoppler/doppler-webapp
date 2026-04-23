@@ -356,6 +356,8 @@ export class ControlPanelService implements ControlPanelService {
               imgAlt: _('integrations.external_integrations.ela_title'),
               iconName: _('integrations.external_integrations.ela_title'),
               targetBlank: true,
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
             },
             {
               linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,
