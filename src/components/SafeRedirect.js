@@ -21,7 +21,7 @@ function SafeRedirect({ to, dependencies }) {
   } else if (isWhitelisted(to)) {
     return <RedirectToExternalUrl to={to} />;
   } else if (newDashboard) {
-    return <Navigate to="/" />;
+    <Navigate to="/" />;
   } else {
     return (
       <RedirectToExternalUrl
