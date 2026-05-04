@@ -351,15 +351,6 @@ export class ControlPanelService implements ControlPanelService {
           anchorLink: 'external-integrations',
           boxes: [
             {
-              linkUrl: _('integrations.external_integrations.ela_link_url'),
-              imgSrc: ela_icon,
-              imgAlt: _('integrations.external_integrations.ela_title'),
-              iconName: _('integrations.external_integrations.ela_title'),
-              targetBlank: true,
-              ribbonColor: 'violet',
-              ribbonText: _('promotional_ribbons.new'),
-            },
-            {
               linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-payu`,
               imgSrc: payu_icon,
               imgAlt: _('integrations.external_integrations.payU_title'),
@@ -437,6 +428,15 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: zeus_icon,
               imgAlt: _('integrations.external_integrations.zeus_title'),
               iconName: _('integrations.external_integrations.zeus_title'),
+              targetBlank: true,
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
+            },
+            {
+              linkUrl: `${urlSitesHelp}/es/como-integrar-doppler-con-ela-gestion`,
+              imgSrc: ela_icon,
+              imgAlt: _('integrations.external_integrations.ela_title'),
+              iconName: _('integrations.external_integrations.ela_title'),
               targetBlank: true,
               ribbonColor: 'violet',
               ribbonText: _('promotional_ribbons.new'),
