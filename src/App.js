@@ -36,6 +36,7 @@ import IntegrationsSection from './components/Integrations/index';
 import smoothscroll from 'smoothscroll-polyfill';
 import { PlanTypes } from './components/BuyProcess/PlanTypes';
 import { PlanSelection } from './components/BuyProcess/PlanSelection';
+import { NewPlanSelection } from './components/BuyProcess/NewPlanSelection';
 import { LandingPacksSelection } from './components/BuyProcess/LandingPacksSelection';
 import { CollaboratorsSections } from './components/ControlPanel/CollaboratorsSections';
 import { CollaboratorsInvite } from './components/CollaborationInvite';
@@ -217,6 +218,16 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 <PrivateRoute>
                   <BuyProcessLayout>
                     <PlanSelection />
+                  </BuyProcessLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/new-plan-selection"
+              element={
+                <PrivateRoute>
+                  <BuyProcessLayout>
+                    <NewPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
