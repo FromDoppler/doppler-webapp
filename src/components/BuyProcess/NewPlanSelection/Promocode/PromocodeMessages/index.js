@@ -1,6 +1,6 @@
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../../doppler-types';
-import { getPlanFee, thousandSeparatorNumber } from '../../../../../utils';
+import { thousandSeparatorNumber } from '../../../../../utils';
 
 const numberFormatOptions = {
   style: 'decimal',
@@ -78,43 +78,6 @@ const PromocodeMessageExtraCredits = ({ promotion }) => {
         {thousandSeparatorNumber(intl.defaultLocale, promotion?.extraCredits)}
       </h3>
       <span>{_('buy_process.promocode.valid_until_label')}</span>
-    </>
-  );
-};
-
-const PromocodeMessageWithBillingCicle = ({
-  selectedMarketingPlan,
-  amountDetailsData,
-  promotion,
-}) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  return (
-    <>
-      <span className="dp-strike">
-        US$X
-        <FormattedNumber value={getPlanFee(selectedMarketingPlan)} {...numberFormatOptions} />
-        */{_('buy_process.promocode.label_month')}
-      </span>
-      <h3>
-        US$X
-        <FormattedNumber
-          value={amountDetailsData?.value?.nextMonthTotal}
-          {...numberFormatOptions}
-        />
-        /{_('buy_process.promocode.label_month')}
-      </h3>
-      {promotion?.duration && (
-        <span>
-          <FormattedMessage
-            id={'buy_process.promocode.is_valid_to'}
-            values={{
-              months: promotion?.duration,
-            }}
-          />
-        </span>
-      )}
     </>
   );
 };

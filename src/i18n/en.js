@@ -180,6 +180,7 @@ other {}}}}}}}}}}
       popular_label: 'POPULAR',
       price_label: 'Price',
       promocode_savings_text: 'You save {percentage}% for {months, plural, one {# month} other {# months}}',
+      // eslint-disable-next-line no-template-curly-in-string
       savings_text: 'You save {percentage}% with 1 {period} payment of US${total}',
       subscription_label: 'Subscription',
       subtitle: "Select the Plan that best fits your Email Marketing strategy. Not sure which Plan works best for you? Contact us and we'll help you find it.",
