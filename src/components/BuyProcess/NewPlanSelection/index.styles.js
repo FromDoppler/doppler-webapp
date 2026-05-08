@@ -237,13 +237,6 @@ export const NewPlanSelectionStyled = styled.div`
     display: block;
   }
 
-  // .dp-new-plan-selection-promocode .field-group {
-  //   align-items: center;
-  //   display: flex;
-  //   flex-wrap: nowrap;
-  //   gap: 6px;
-  // }
-
   .dp-new-plan-selection-promocode .dp-form-promocode .field-item--70 {
     padding-right: 6px;
   }
@@ -252,14 +245,10 @@ export const NewPlanSelectionStyled = styled.div`
     margin: 0;
   }
 
-  // .dp-new-plan-selection-promocode .field-item--70 .labelcontrol {
-  //   position: relative;
-  // }
-
   .dp-new-plan-selection-promocode .field-item--70 input {
     margin: 0;
     padding-left: 30px;
-    background-image: url(/images/discount-coupon.svg);
+    background-image: url('/images/discount-coupon.svg');
     background-repeat: no-repeat;
     background-position: 6px center;
 
@@ -273,7 +262,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-promocode .field-item--70 input.dp-approved {
-    background-image: url(/images/status-ckeck-icon.svg);
+    background-image: url('/images/status-ckeck-icon.svg');
     background-repeat: no-repeat;
     background-position: 6px center;
   }
@@ -286,7 +275,7 @@ export const NewPlanSelectionStyled = styled.div`
     top: 7px;
     padding: 11px;
     border-radius: 100%;
-    box-shadow: hsla(0, 0%, 100%, 0) 0px 0px 0px 30px;
+    box-shadow: hsla(0deg, 0%, 100%, 0) 0px 0px 0px 30px;
     transition: box-shadow 0.4s ease 0s;
     font-weight: normal;
     font-size: 1rem;
