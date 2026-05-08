@@ -283,6 +283,7 @@ export const ContactsPlan = InjectAppServices(
                       id="buy_process.new_plan_selection.savings_text"
                       values={{
                         percentage: selectedDiscountPercentage,
+                        currency: 'US$',
                         period: _(
                           `buy_process.new_plan_selection.payment_period_${selectedPaymentFrequency.subscriptionType.replace(
                             '-',
