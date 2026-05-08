@@ -1038,5 +1038,56 @@ describe('App component', () => {
       expect(currentRouteState.location.pathname).toEqual(redirectUrl);
       expect(currentRouteState.location.search).toEqual(`?promo-code=${promoCode}`);
     });
+
+    it('should not redirect when new plan selection has not query params', async () => {
+      // Act
+      const appSessionRef = { current: { status: 'unknown' } };
+      const dependencies = {
+        appSessionRef: appSessionRef,
+        sessionManager: createDoubleSessionManager(appSessionRef),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+      const currentRouteState = {};
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={[`/new-plan-selection`]}>
+            <RouterInspector target={currentRouteState} />
+            <App window={window} locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(currentRouteState.location.pathname).toEqual('/new-plan-selection');
+      expect(currentRouteState.location.search).toEqual('');
+    });
+
+    it('should not redirect when new plan selection has query params', async () => {
+      // Act
+      const promoCode = 'fake-promo-code';
+      const appSessionRef = { current: { status: 'unknown' } };
+      const dependencies = {
+        appSessionRef: appSessionRef,
+        sessionManager: createDoubleSessionManager(appSessionRef),
+        dopplerSitesClient: dopplerSitesClientDouble,
+      };
+      const currentRouteState = {};
+
+      // Act
+      render(
+        <AppServicesProvider forcedServices={dependencies}>
+          <Router initialEntries={[`/new-plan-selection?promo-code=${promoCode}`]}>
+            <RouterInspector target={currentRouteState} />
+            <App window={window} locale="en" />
+          </Router>
+        </AppServicesProvider>,
+      );
+
+      // Assert
+      expect(currentRouteState.location.pathname).toEqual('/new-plan-selection');
+      expect(currentRouteState.location.search).toEqual(`?promo-code=${promoCode}`);
+    });
   });
 });

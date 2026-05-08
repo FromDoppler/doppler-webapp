@@ -7,7 +7,26 @@ import { EcoAIPlan } from '.';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 
+const JSDOM_NAVIGATION_WARNING = /Not implemented: navigation \(except hash changes\)/i;
+
 describe('EcoAIPlan component', () => {
+  let consoleErrorSpy;
+
+  beforeEach(() => {
+    const originalConsoleError = console.error;
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation((...args) => {
+      if (typeof args[0] === 'string' && JSDOM_NAVIGATION_WARNING.test(args[0])) {
+        return;
+      }
+
+      originalConsoleError(...args);
+    });
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it('should render component', async () => {
     // Assert
     var ecoAiPlan = {

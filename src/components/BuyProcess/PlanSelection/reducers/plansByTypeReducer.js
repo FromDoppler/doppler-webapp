@@ -112,6 +112,9 @@ export const mapDiscount = (discount) => ({
 export const orderDiscount = (currentDiscount, nextDiscount) =>
   nextDiscount.numberMonths - currentDiscount.numberMonths;
 
+export const orderAscendingDiscount = (currentDiscount, nextDiscount) =>
+  currentDiscount.numberMonths - nextDiscount.numberMonths;
+
 export const getMonthsByCycle = (subscriptionType) => {
   switch (subscriptionType) {
     case SUBSCRIPTION_TYPE.monthly:
