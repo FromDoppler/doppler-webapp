@@ -103,6 +103,8 @@ Antes de implementar, definir:
 - Priorizar codigo claro por encima de codigo ingenioso.
 - No mezclar responsabilidades no relacionadas.
 - No generalizar prematuramente.
+- No hacer refactors de codigo existente salvo pedido explicito en la SPEC o en
+  el prompt de la tarea.
 - No agregar dependencias salvo que la SPEC lo requiera explicitamente.
 
 ### Paso 5 - Testear
