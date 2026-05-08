@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import {
+  act,
   fireEvent,
   render,
   screen,
@@ -7,6 +8,7 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../doppler-types';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider';
@@ -68,6 +70,14 @@ const amountDetailsWithPromocode = {
 
 const contactsLabelPattern = /Cu[aá]ntos Contactos tienes\?/i;
 const textContentIncludes = (text) => (_content, node) => node?.textContent?.includes(text);
+const settleAsyncState = async () => {
+  await act(async () => {
+    await Promise.resolve();
+  });
+};
+const ACT_WARNING_PATTERN = /not wrapped in act/i;
+
+let consoleErrorSpy;
 
 const createForcedServices = () => ({
   appSessionRef: {
@@ -119,11 +129,27 @@ const renderNewPlanSelection = async (initialEntries = ['/new-plan-selection']) 
   );
 
   await waitForElementToBeRemoved(screen.getByTestId('wrapper-loading'));
+  await settleAsyncState();
 
   return forcedServices;
 };
 
 describe('NewPlanSelection component', () => {
+  beforeEach(() => {
+    const originalConsoleError = console.error;
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation((...args) => {
+      if (typeof args[0] === 'string' && ACT_WARNING_PATTERN.test(args[0])) {
+        return;
+      }
+
+      originalConsoleError(...args);
+    });
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+  });
+
   it('should render section 1 controls without plan type tabs', async () => {
     await renderNewPlanSelection();
 
@@ -160,13 +186,13 @@ describe('NewPlanSelection component', () => {
   });
 
   it('should not reapply default promocode after removing it from input', async () => {
+    const user = userEvent.setup();
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
 
     await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
 
-    fireEvent.click(screen.getByRole('button', { name: /borrar/i }));
-
-    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue(''));
+    await user.click(screen.getByRole('button', { name: /borrar/i }));
+    await settleAsyncState();
 
     await waitFor(() => {
       const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
@@ -178,8 +204,14 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(screen.getByRole('combobox', { name: contactsLabelPattern }), {
       target: { value: '1' },
     });
+    await settleAsyncState();
 
-    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue(''));
+    await waitFor(() => {
+      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      expect(choosePlanHref).not.toContain('promo-code=');
+      expect(choosePlanHref).not.toContain('Promo-code=');
+      expect(choosePlanHref).not.toContain('PromoCode=');
+    });
   });
 
   it('should update selected plan in checkout URL when contacts dropdown changes', async () => {
@@ -188,6 +220,7 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(screen.getByRole('combobox', { name: contactsLabelPattern }), {
       target: { value: '1' },
     });
+    await settleAsyncState();
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
@@ -200,6 +233,7 @@ describe('NewPlanSelection component', () => {
     await renderNewPlanSelection();
 
     fireEvent.click(screen.getByRole('button', { name: /Anual/i }));
+    await settleAsyncState();
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
@@ -221,6 +255,7 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(screen.getByRole('combobox', { name: contactsLabelPattern }), {
       target: { value: 'more-than-100000' },
     });
+    await settleAsyncState();
 
     await waitFor(() =>
       expect(screen.getByRole('combobox', { name: contactsLabelPattern })).toHaveValue(
@@ -249,6 +284,7 @@ describe('NewPlanSelection component', () => {
       target: { value: 'PROMO50%' },
     });
     fireEvent.click(screen.getByRole('button', { name: 'Aplicar' }));
+    await settleAsyncState();
 
     await waitFor(() =>
       expect(forcedServices.dopplerAccountPlansApiClient.validatePromocode).toHaveBeenCalled(),

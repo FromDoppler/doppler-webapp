@@ -77,6 +77,8 @@ export const Promocode = InjectAppServices(
     const promocodeMessageAlreadyShowRef = useRef(false);
     const promocodeInputRef = useRef(null);
     const alreadyInitializedRef = useRef(null);
+    const validationRequestIdRef = useRef(0);
+    const cancelledValidationRequestIdRef = useRef(0);
     alreadyInitializedRef.current = initialized;
 
     const resetPromocodeState = useCallback(() => {
@@ -99,6 +101,8 @@ export const Promocode = InjectAppServices(
 
       resetPromocodeState();
       setManualPromocodeApplied(false);
+      // Ignore async validate responses started before manual remove.
+      cancelledValidationRequestIdRef.current = validationRequestIdRef.current;
     }, [resetPromocodeState]);
 
     const markPromocodeAsApplied = useCallback(() => {
@@ -112,6 +116,9 @@ export const Promocode = InjectAppServices(
 
     const validatePromocode = useCallback(
       async (promocode, validatePercengePromocode) => {
+        const requestId = validationRequestIdRef.current + 1;
+        validationRequestIdRef.current = requestId;
+
         promocodeMessageAlreadyShowRef.current = false;
         if (!promocode) {
           dispatch({
@@ -120,6 +127,10 @@ export const Promocode = InjectAppServices(
           });
         } else {
           const dispatchPromocode = (validatePromocodeData, _promocode = promocode) => {
+            if (requestId <= cancelledValidationRequestIdRef.current) {
+              return;
+            }
+
             if (validatePromocodeData.success) {
               dispatch({
                 type: PROMOCODE_ACTIONS.FINISH_FETCH,
@@ -439,14 +450,15 @@ export const PromocodeFieldItem = ({
           <div className="assistance-wrap">
             <span>{validationError && <FormattedMessage id={validationError} />}</span>
           </div>
-          <button
-            type="button"
-            className="dp-btn-delete dpicon iconapp-delete"
-            title="borrar"
-            disabled={!values[fieldName]}
-            onClick={handleRemovePromocode}
-          />
         </label>
+        <button
+          type="button"
+          className="dp-btn-delete dpicon iconapp-delete"
+          title="borrar"
+          aria-label="borrar"
+          disabled={!values[fieldName]}
+          onClick={handleRemovePromocode}
+        />
       </FieldItem>
       <FieldItem className="field-item field-item--30">
         <button
