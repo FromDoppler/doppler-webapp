@@ -181,8 +181,7 @@ other {}}}}}}}}}}
       popular_label: 'POPULAR',
       price_label: 'Precio',
       promocode_savings_text: 'Ahorras {percentage}% durante {months, plural, one {# mes} other {# meses}}',
-      // eslint-disable-next-line no-template-curly-in-string
-      savings_text: 'Ahorras {percentage}% realizando 1 pago {period} de US${total}',
+      savings_text: 'Ahorras {percentage}% realizando 1 pago {period} de {currency}{total}',
       subscription_label: 'Suscripción',
       subtitle: 'Selecciona el Plan que mejor se adapte a tu estrategia de Email Marketing. ¿Tienes dudas sobre qué Plan te conviene más? Contáctanos y te ayudamos a encontrarlo.',
       title: 'Elige el Plan ideal para hacer crecer tu negocio',
