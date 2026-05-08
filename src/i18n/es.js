@@ -230,7 +230,7 @@ other {}}}}}}}}}}
     stepper: {
       conversation_plan_step: 'Plan Conversaciones',
       eco_ai_plan_step: 'Plan Eco IA',
-      email_marketing_plan_step: 'Plan Marketing',
+      email_marketing_plan_step: 'Selección de Plan',
       enjoy_doppler_step: 'Disfruta Doppler',
       finalize_purchase_step: 'Finaliza tu compra',
       landings_plan_step: 'Plan Landings',
