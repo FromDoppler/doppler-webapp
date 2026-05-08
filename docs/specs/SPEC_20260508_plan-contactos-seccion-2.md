@@ -31,7 +31,8 @@ modal de detalle al hacer click en "Ver mas funcionalidades".
 
 Incluido:
 
-- Nuevo componente dentro de `NewPlanSelection` para la seccion 2.
+- Nuevo componente `IncludedFeatures` dentro de `NewPlanSelection` para la
+  seccion 2.
 - Render de titulo, subtitulo y grilla de funcionalidades con iconos.
 - Link/boton "Ver mas funcionalidades".
 - Modal nuevo (dentro del area `NewPlanSelection`) inspirado en `picture_6.png`.
@@ -51,7 +52,7 @@ Fuera de alcance:
 
 Crear:
 
-- `src/components/BuyProcess/NewPlanSelection/FunctionalitiesSection/index.js`
+- `src/components/BuyProcess/NewPlanSelection/IncludedFeatures/index.js`
 
 Responsabilidad:
 
@@ -61,7 +62,7 @@ Responsabilidad:
 
 Integracion:
 
-- `NewPlanSelection/index.js` debe renderizar este componente debajo de
+- `NewPlanSelection/index.js` debe renderizar `IncludedFeatures` debajo de
   `ContactsPlan`.
 
 ---
