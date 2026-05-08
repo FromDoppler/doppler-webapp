@@ -54,6 +54,18 @@ const amountDetails = {
   },
 };
 
+const amountDetailsWithPromocode = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 10, amount: 1, duration: 3, extraCredits: 0 },
+    total: 9,
+    currentMonthTotal: 9,
+    nextMonthTotal: 9,
+  },
+};
+
 const contactsLabelPattern = /Cu[aá]ntos Contactos tienes\?/i;
 const textContentIncludes = (text) => (_content, node) => node?.textContent?.includes(text);
 
@@ -75,12 +87,14 @@ const createForcedServices = () => ({
     },
   },
   dopplerAccountPlansApiClient: {
-    getPlanBillingDetailsData: jest.fn(async () => amountDetails),
+    getPlanBillingDetailsData: jest.fn(async (_planId, _planGroup, _discountId, promocode) =>
+      promocode ? amountDetailsWithPromocode : amountDetails,
+    ),
     validatePromocode: jest.fn(async () => ({
       success: true,
       value: {
         canApply: true,
-        promotionApplied: { discountPercentage: 10, duration: 1 },
+        promotionApplied: { discountPercentage: 10, duration: 3 },
       },
     })),
   },
@@ -127,6 +141,47 @@ describe('NewPlanSelection component', () => {
     expect(screen.queryByText('Tipo de plan')).not.toBeInTheDocument();
   });
 
+  it('should prepopulate promocode input when Promo-code query param is present', async () => {
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
+
+    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
+  });
+
+  it('should load REACT_APP_PROMOCODE_CONTACTS automatically for free accounts when URL has no promocode', async () => {
+    const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
+    process.env.REACT_APP_PROMOCODE_CONTACTS = 'DOPPLER50X6';
+    try {
+      await renderNewPlanSelection(['/new-plan-selection']);
+
+      await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
+    } finally {
+      process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
+    }
+  });
+
+  it('should not reapply default promocode after removing it from input', async () => {
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
+
+    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
+
+    fireEvent.click(screen.getByRole('button', { name: /borrar/i }));
+
+    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue(''));
+
+    await waitFor(() => {
+      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      expect(choosePlanHref).not.toContain('promo-code=');
+      expect(choosePlanHref).not.toContain('Promo-code=');
+      expect(choosePlanHref).not.toContain('PromoCode=');
+    });
+
+    fireEvent.change(screen.getByRole('combobox', { name: contactsLabelPattern }), {
+      target: { value: '1' },
+    });
+
+    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue(''));
+  });
+
   it('should update selected plan in checkout URL when contacts dropdown changes', async () => {
     await renderNewPlanSelection();
 
@@ -148,7 +203,7 @@ describe('NewPlanSelection component', () => {
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
-        '/checkout/premium/subscribers?selected-plan=10222&discountId=798',
+        '/checkout/premium/subscribers?selected-plan=10222&discountId=798&monthPlan=12',
       ),
     );
 
@@ -185,5 +240,27 @@ describe('NewPlanSelection component', () => {
       '/upgrade-suggestion-form',
     );
     expect(screen.queryByRole('link', { name: 'Elegir Plan' })).not.toBeInTheDocument();
+  });
+
+  it('should apply valid promocode discount in price section with duration', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'PROMO50%' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Aplicar' }));
+
+    await waitFor(() =>
+      expect(forcedServices.dopplerAccountPlansApiClient.validatePromocode).toHaveBeenCalled(),
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.getAllByText(textContentIncludes('Ahorras 10% durante 3 meses')).length,
+      ).toBeGreaterThan(0),
+    );
+
+    expect(screen.getAllByText(textContentIncludes('US$9/mes*')).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
   });
 });

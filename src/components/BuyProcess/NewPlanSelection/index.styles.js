@@ -9,6 +9,33 @@ export const NewPlanSelectionStyled = styled.div`
     margin-bottom: 8px;
   }
 
+  .dp-new-plan-selection-back .dp-button.ctaTertiary {
+    background: transparent;
+    border: 0;
+    color: #33ad73;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    font-size: 13px;
+    min-height: auto;
+    padding: 0;
+    text-decoration: none;
+  }
+
+  .dp-new-plan-selection-back .dp-button.ctaTertiary::before {
+    content: '<';
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  .dp-new-plan-selection-back .dp-button.ctaTertiary .dp-new-plan-selection-back-text {
+    text-decoration: underline;
+  }
+
+  .dp-new-plan-selection-back .dp-button.ctaTertiary:hover {
+    color: #008046;
+  }
+
   .dp-new-plan-selection-title {
     align-items: center;
     display: flex;
@@ -18,8 +45,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-title .dpicon {
-    color: #333;
-    font-size: 18px;
+    padding-bottom: 10px;
   }
 
   .dp-new-plan-selection-subtitle {
@@ -42,11 +68,18 @@ export const NewPlanSelectionStyled = styled.div`
     align-items: flex-start;
     display: flex;
     gap: 16px;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 20px;
   }
 
   .dp-new-plan-selection-card-header h3 {
+    margin-bottom: 0;
+  }
+
+  .dp-new-plan-selection-plan-title {
+    align-items: center;
+    display: flex;
+    gap: 8px;
     margin-bottom: 6px;
   }
 
@@ -73,7 +106,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-select-wrap {
-    max-width: 330px;
+    max-width: 350px;
     position: relative;
   }
 
@@ -113,7 +146,7 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-payment-frequency,
   .dp-new-plan-selection-promocode {
-    max-width: 330px;
+    max-width: 350px;
   }
 
   .dp-new-plan-selection-main {
@@ -142,6 +175,7 @@ export const NewPlanSelectionStyled = styled.div`
     margin-left: 0;
     padding-left: 22px;
     padding-top: 6px;
+    padding-right: 28px;
   }
 
   .dp-new-plan-selection-price-label {
@@ -196,61 +230,80 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-disclaimer {
-    color: #666;
-    font-size: 12px;
-    font-style: italic;
     margin: 16px 0 0;
-  }
-
-  .dp-new-plan-selection-disclaimer span {
-    display: block;
   }
 
   .dp-new-plan-selection-promocode .dp-form-promocode {
     display: block;
   }
 
-  .dp-new-plan-selection-promocode .field-group {
-    align-items: center;
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 6px;
+  // .dp-new-plan-selection-promocode .field-group {
+  //   align-items: center;
+  //   display: flex;
+  //   flex-wrap: nowrap;
+  //   gap: 6px;
+  // }
+
+  .dp-new-plan-selection-promocode .dp-form-promocode .field-item--70 {
+    padding-right: 6px;
   }
 
-  .dp-new-plan-selection-promocode .field-item--70 {
-    flex: 1 1 auto;
-    min-width: 0;
+  .dp-new-plan-selection-promocode .dp-form-promocode .field-item--30 {
+    margin: 0;
   }
 
-  .dp-new-plan-selection-promocode .field-item--30 {
-    flex: 0 0 72px;
-  }
-
-  .dp-new-plan-selection-promocode .field-item--70 .labelcontrol {
-    position: relative;
-  }
+  // .dp-new-plan-selection-promocode .field-item--70 .labelcontrol {
+  //   position: relative;
+  // }
 
   .dp-new-plan-selection-promocode .field-item--70 input {
-    height: 30px;
     margin: 0;
-    padding: 6px 30px 6px 10px;
+    padding-left: 30px;
+    background-image: url(/images/discount-coupon.svg);
+    background-repeat: no-repeat;
+    background-position: 6px center;
+
+    &::placeholder {
+      color: #ccc;
+    }
+
+    &:disabled {
+      background-image: none;
+    }
+  }
+
+  .dp-new-plan-selection-promocode .field-item--70 input.dp-approved {
+    background-image: url(/images/status-ckeck-icon.svg);
+    background-repeat: no-repeat;
+    background-position: 6px center;
   }
 
   .dp-new-plan-selection-promocode .field-item--70 .dp-btn-delete {
-    height: 20px;
     position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-  }
+    width: 25px;
+    height: 25px;
+    right: 7px;
+    top: 7px;
+    padding: 11px;
+    border-radius: 100%;
+    box-shadow: hsla(0, 0%, 100%, 0) 0px 0px 0px 30px;
+    transition: box-shadow 0.4s ease 0s;
+    font-weight: normal;
+    font-size: 1rem;
 
-  .dp-new-plan-selection-promocode .field-item--30 .dp-button {
-    border-radius: 3px;
-    height: 30px;
-    min-height: 30px;
-    padding: 0 8px;
-    width: 100%;
+    &:hover {
+      box-shadow: rgba(149, 157, 165, 0.5) 0 0 0 0;
+    }
+
+    &::before {
+      position: absolute;
+      top: 3px;
+      right: 5px;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency,
@@ -266,7 +319,6 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency::before,
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en::before {
     border: 1px solid #ccc;
-    border-radius: 30px;
     content: '';
     height: 100%;
     position: absolute;
@@ -279,7 +331,6 @@ export const NewPlanSelectionStyled = styled.div`
     color: #333;
     cursor: pointer;
     display: flex;
-    font-size: 12px;
     font-weight: 400;
     height: 100%;
     justify-content: center;
@@ -309,7 +360,6 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency .animation,
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en .animation {
     border: 2px solid #333;
-    border-radius: 30px;
     height: 100%;
     position: absolute;
     top: 0;
@@ -319,25 +369,25 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency .dp-frequency-annual {
     background: #dff5ea;
-    left: 0;
+    left: 75%;
     width: 25%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency .dp-frequency-biannual {
     background: #dff5ea;
-    left: 25%;
+    left: 50%;
     width: 25%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency .dp-frequency-quarterly {
     background: #dff5ea;
-    left: 50%;
+    left: 25%;
     width: 25%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency .dp-frequency-monthly {
     background: #dff5ea;
-    left: 75%;
+    left: 0;
     width: 25%;
   }
 
@@ -373,17 +423,8 @@ export const NewPlanSelectionStyled = styled.div`
     align-items: center;
     display: flex;
     gap: 12px;
-    margin-top: -8px;
+    margin-top: 16px;
     padding: 10px 12px;
-  }
-
-  .dp-new-plan-selection-more-than-message .dp-content-message {
-    flex: 1 1 auto;
-  }
-
-  .dp-new-plan-selection-more-than-message .dp-content-message p {
-    font-size: 11px;
-    margin: 0;
   }
 
   .dp-new-plan-selection-more-than-link {
@@ -445,6 +486,11 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-price .dp-button {
       min-width: 0;
+      width: 100%;
+    }
+
+    .dp-new-plan-selection-price .dp-new-plan-selection-contact-advisor-cta {
+      margin-left: 0;
       width: 100%;
     }
 

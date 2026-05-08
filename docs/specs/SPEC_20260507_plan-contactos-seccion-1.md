@@ -200,6 +200,14 @@ lo cambie.
   `src/components/BuyProcess/NewPlanSelection/Promocode`, para evitar cambios en
   el control compartido existente.
 - No crear una segunda logica de promocodes.
+- Si `REACT_APP_PROMOCODE_CONTACTS` tiene valor y el usuario es Free Account,
+  al ingresar a `/new-plan-selection` sin promocode en query params se debe
+  cargar automaticamente ese valor en URL (`promo-code`) y prepopular el control.
+- Si ya existe promocode en URL (`promo-code`, `Promo-code` o `PromoCode`), no
+  se debe sobreescribir por `REACT_APP_PROMOCODE_CONTACTS`.
+- El prepopulado por URL/env debe ejecutarse solo al cargar la pagina. Si el
+  usuario elimina manualmente el promocode, no debe volver a preaplicarse en la
+  misma sesion de la pantalla.
 - El boton de quitar promocode debe mantenerse dentro del control de ingreso del
   codigo, respetando el patron existente del style-guide.
 - Debe preservar `promo-code` y `PromoCode`.
@@ -217,6 +225,14 @@ lo cambie.
 - Para frecuencias trimestral, semestral o anual, debajo del precio principal se
   debe mostrar el precio mensual original tachado y un texto de ahorro indicando
   porcentaje, periodo elegido y total del pago del periodo.
+- Si existe un promocode valido y aplicable al plan/frecuencia seleccionados, la
+  seccion de precio debe reflejar ese descuento promocional en el valor mensual
+  mostrado.
+- Con promocode valido, debajo del precio principal se debe mostrar:
+  - el precio mensual previo al descuento promocional (tachado)
+  - un texto de ahorro con porcentaje y duracion del beneficio (cantidad de
+    meses), usando la data real de `promotionApplied.duration` y/o
+    `discountPromocode.duration`.
 - No hardcodear el precio mostrado en Figma.
 - El importe debe venir de los datos actuales del plan y/o del detalle de billing
   existente:
@@ -233,10 +249,13 @@ lo cambie.
   navegando a `/checkout/premium/subscribers`.
 - Debe enviar `selected-plan` con el ID del plan seleccionado en el dropdown.
 - Debe enviar `discountId` con el ID de la frecuencia seleccionada.
+- Debe enviar `monthPlan` con la cantidad de meses de la frecuencia
+  seleccionada (por ejemplo `monthPlan=6` para semestral).
 - Debe preservar query params relevantes:
-  - `promo-code`
-  - `PromoCode`
   - `monthPlan`
+- `promo-code`, `Promo-code` o `PromoCode` solo deben enviarse al checkout
+  cuando existe un promocode efectivamente aplicado en el control. Si no hay
+  promocode aplicado, no se debe enviar ningun parametro de promocode.
 - Si el plan seleccionado coincide con el plan actual y no se puede comprar,
   preservar comportamiento disabled/tooltip existente.
 
@@ -368,7 +387,13 @@ Agregar o actualizar tests para validar:
 - Estado con descuento muestra precio anterior tachado.
 - Estado sin descuento no muestra precio anterior.
 - CTA continua con plan y frecuencia seleccionados.
-- Se preservan `promo-code`, `PromoCode` y `monthPlan`.
+- Se preserva `monthPlan` en la navegacion al checkout.
+- Se admite prepopulado de promocode desde URL con cualquiera de estas keys:
+  `promo-code`, `Promo-code` o `PromoCode`.
+- Al eliminar un promocode prepopulado, no se vuelve a aplicar automaticamente
+  durante esa sesion de pantalla.
+- Si no hay promocode aplicado al hacer click en `Elegir Plan`, el checkout no
+  recibe parametros de promocode.
 - Copy en espanol e ingles existe.
 
 Usar Testing Library y los doubles/patrones existentes del area BuyProcess.
@@ -385,8 +410,12 @@ Usar Testing Library y los doubles/patrones existentes del area BuyProcess.
 - El campo de codigo/descuento se muestra siempre visible.
 - El precio muestra el valor mensual con el descuento de la frecuencia elegida y
   el precio mensual original tachado cuando corresponde.
-- El CTA navega al checkout con `selected-plan` y `discountId`.
+- El CTA navega al checkout con `selected-plan`, `discountId` y `monthPlan`.
+- `PromoCode` solo se envia al checkout cuando hay promocode aplicado.
 - El boton "Volver" reutiliza `GoBackButton`.
 - Se ocultan los tabs de tipo de plan.
 - La opcion adicional del dropdown se muestra como `Más de 100.000` (ES) /
   `More than 100,000` (EN).
+- `NewPlanSelection` queda como contenedor de pagina (routing/bootstrap), y la
+  logica de la seccion 1 (frecuencia, promocode, billing del plan y checkout
+  URL) queda encapsulada en `ContactsPlan`.

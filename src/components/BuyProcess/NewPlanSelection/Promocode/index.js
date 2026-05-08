@@ -28,6 +28,21 @@ const validationsErrorKey = {
   expiredPromocode: 'checkoutProcessForm.purchase_summary.promocode_expired_error_message',
 };
 
+const getPromocodeFromQuery = (query) =>
+  query.get('promo-code')?.trim() ||
+  query.get('Promo-code')?.trim() ||
+  query.get('PromoCode')?.trim() ||
+  '';
+
+const getContactsPromocode = () => {
+  const rawValue = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
+  if (!rawValue || rawValue === 'undefined' || rawValue === 'null') {
+    return '';
+  }
+
+  return rawValue;
+};
+
 export const Promocode = InjectAppServices(
   ({
     allowPromocode,
@@ -48,9 +63,8 @@ export const Promocode = InjectAppServices(
   }) => {
     const query = useQueryParams();
     const defaultPromocode = getPromocode(query, isArgentina);
-    const promocodeFromUrl =
-      query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
-    const contactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
+    const promocodeFromUrl = getPromocodeFromQuery(query);
+    const contactsPromocode = getContactsPromocode();
     const selectedPlanType = PLAN_TYPE.byContact;
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
     const [manualPromocodeApplied, setManualPromocodeApplied] = useState(false);
@@ -429,13 +443,17 @@ export const PromocodeFieldItem = ({
             type="button"
             className="dp-btn-delete dpicon iconapp-delete"
             title="borrar"
-            disabled={!values[fieldName] || disabled}
+            disabled={!values[fieldName]}
             onClick={handleRemovePromocode}
           />
         </label>
       </FieldItem>
       <FieldItem className="field-item field-item--30">
-        <button type="submit" className="dp-button button-medium ctaTertiary" disabled={disabled}>
+        <button
+          type="submit"
+          className="dp-button button-big secondary-green button-medium"
+          disabled={disabled}
+        >
           {_('buy_process.promocode.apply_btn')}
         </button>
       </FieldItem>
@@ -444,7 +462,7 @@ export const PromocodeFieldItem = ({
 };
 
 export const getPromocode = (query, isArgentina) => {
-  const promocodeFromUrl = query.get('promo-code')?.trim() || query.get('PromoCode')?.trim() || '';
+  const promocodeFromUrl = getPromocodeFromQuery(query);
 
   return !promocodeFromUrl && isArgentina
     ? process.env.REACT_APP_PROMOCODE_ARGENTINA

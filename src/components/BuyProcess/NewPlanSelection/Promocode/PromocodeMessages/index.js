@@ -44,13 +44,7 @@ export const PromocodeMessages = ({
   ) {
     return (
       <div className={`dp-simulated-price ${!promocodeApplied ? 'bounceIn' : 'bounceOut'}`}>
-        {marketingPlanHasBillingCicle ? (
-          <PromocodeMessageWithBillingCicle
-            selectedMarketingPlan={selectedMarketingPlan}
-            amountDetailsData={amountDetailsData}
-            promotion={promotion.promotionApplied}
-          />
-        ) : (
+        {!marketingPlanHasBillingCicle && (
           <PromocodeMessageExtraCredits promotion={promotion?.promotionApplied} />
         )}
       </div>
