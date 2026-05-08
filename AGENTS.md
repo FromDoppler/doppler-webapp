@@ -120,6 +120,8 @@ Antes de implementar, definir:
 - Si el cambio toca archivos cubiertos por checks de formato (`*.html`, `*.css`,
   `*.scss`, `*.less`, `*.js`, `*.jsx`, `*.ts`, `*.tsx`, `*.md`, `*.yml`,
   `*.yaml`, `*.json`), ejecutar `yarn prettier-check` antes de completar.
+- Regla obligatoria previa a commit: ejecutar `yarn prettier-check` y la suite
+  completa de tests con `yarn test:ci`. No se debe commitear si alguno falla.
 
 ### Paso 6 - Documentar
 
@@ -296,6 +298,12 @@ Todo PR deberia indicar:
 
 Los commits deben seguir las reglas de conventional commits del repositorio
 descritas en `README.md`.
+
+Regla obligatoria previa a cada commit:
+
+- Ejecutar `yarn prettier-check`.
+- Ejecutar todos los tests (`yarn test:ci`).
+- Si algun check falla, corregir antes de commitear.
 
 ---
 
