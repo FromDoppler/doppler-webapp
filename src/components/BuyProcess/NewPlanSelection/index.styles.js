@@ -455,18 +455,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-included-features-item h4 {
-    color: #333;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 6px;
-  }
-
-  .dp-new-plan-selection-included-features-item p {
-    color: #666;
-    font-size: 12px;
-    line-height: 1.4;
-    margin: 0;
+    text-transform: none;
   }
 
   .dp-new-plan-selection-feature-icon-wrap {
