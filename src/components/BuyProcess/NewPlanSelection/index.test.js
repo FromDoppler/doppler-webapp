@@ -158,13 +158,16 @@ describe('NewPlanSelection component', () => {
         name: /Elige el Plan ideal para hacer crecer tu negocio/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Plan Contactos')).toBeInTheDocument();
+    expect(screen.getAllByText('Plan Contactos').length).toBeGreaterThan(0);
     expect(screen.getByRole('combobox', { name: contactsLabelPattern })).toHaveValue('0');
     expect(screen.getByRole('option', { name: 'Más de 100.000' })).toBeInTheDocument();
     expect(screen.getByText('Suscripción')).toBeInTheDocument();
     expect(screen.getAllByText('Código de descuento').length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Elegir Plan' })).toBeInTheDocument();
     expect(screen.queryByText('Tipo de plan')).not.toBeInTheDocument();
+    expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument();
+    expect(screen.getAllByText(/Plan Contactos/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
     expect(
       screen.getByText(/Accede a todas las funcionalidades desde el Plan b.sico/i),
     ).toBeInTheDocument();
@@ -247,6 +250,7 @@ describe('NewPlanSelection component', () => {
         'selected-plan=10223',
       ),
     );
+    expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
   });
 
   it('should show monthly discounted price and selected discount in checkout URL', async () => {
@@ -260,6 +264,7 @@ describe('NewPlanSelection component', () => {
         '/checkout/premium/subscribers?selected-plan=10222&discountId=798&monthPlan=12',
       ),
     );
+    expect(screen.getByText(/US\$7,50\/mes/i)).toBeInTheDocument();
 
     expect(screen.getAllByText(textContentIncludes('US$7,50/mes*')).length).toBeGreaterThan(0);
     expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
@@ -294,7 +299,27 @@ describe('NewPlanSelection component', () => {
     expect(screen.getByRole('link', { name: 'Contactar a Asesor' }).getAttribute('href')).toContain(
       '/upgrade-suggestion-form',
     );
+    expect(screen.getByText(/Plan Envios Personalizado/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Consultar con Doppler Team' })).toHaveAttribute(
+      'href',
+      '/upgrade-suggestion-form',
+    );
     expect(screen.queryByRole('link', { name: 'Elegir Plan' })).not.toBeInTheDocument();
+  });
+
+  it('should keep sticky CTA URL synchronized with contacts plan CTA URL', async () => {
+    await renderNewPlanSelection();
+
+    fireEvent.click(screen.getByRole('button', { name: /Anual/i }));
+    await settleAsyncState();
+
+    await waitFor(() => {
+      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      const stickyCtaHref = screen
+        .getByRole('link', { name: 'Comprar Ahora' })
+        .getAttribute('href');
+      expect(stickyCtaHref).toBe(choosePlanHref);
+    });
   });
 
   it('should apply valid promocode discount in price section with duration', async () => {
@@ -315,6 +340,7 @@ describe('NewPlanSelection component', () => {
         screen.getAllByText(textContentIncludes('Ahorras 10% durante 3 meses')).length,
       ).toBeGreaterThan(0),
     );
+    expect(screen.getAllByText(textContentIncludes('US$9/mes')).length).toBeGreaterThan(0);
 
     expect(screen.getAllByText(textContentIncludes('US$9/mes*')).length).toBeGreaterThan(0);
     expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
