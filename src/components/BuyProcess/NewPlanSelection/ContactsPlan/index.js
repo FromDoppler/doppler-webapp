@@ -55,6 +55,7 @@ export const ContactsPlan = InjectAppServices(
     selectedPlanIndex,
     isMoreThan100kSelected,
     onPlanChange,
+    onStickySummaryChange,
     sessionPlan,
     selectedPlan,
     search,
@@ -138,6 +139,24 @@ export const ContactsPlan = InjectAppServices(
     const checkoutUrl = selectedPlan
       ? getCheckoutUrl({ search, selectedPlan, selectedPaymentFrequency, promocodeApplied })
       : '#';
+    const stickyContactsLabel = selectedPlan
+      ? thousandSeparatorNumber(intl.defaultLocale, amountByPlanType(selectedPlan))
+      : '';
+
+    const stickySummaryData = useMemo(
+      () => ({
+        contactsLabel: stickyContactsLabel,
+        ctaHref: isTailoredPlan ? '/upgrade-suggestion-form' : checkoutUrl,
+        displayPrice: displayedMonthlyPrice,
+        isCustomPlan: isTailoredPlan,
+        isDisabled: !isTailoredPlan && !canChoosePlan,
+      }),
+      [canChoosePlan, checkoutUrl, displayedMonthlyPrice, isTailoredPlan, stickyContactsLabel],
+    );
+
+    useEffect(() => {
+      onStickySummaryChange?.(stickySummaryData);
+    }, [onStickySummaryChange, stickySummaryData]);
 
     return (
       <section className="dp-new-plan-selection-card">
