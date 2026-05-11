@@ -11,6 +11,9 @@ const getFormattedPriceOptions = (value) => ({
   minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
 });
 
+const capitalize = (value = '') =>
+  value ? `${value.charAt(0).toUpperCase()}${value.slice(1)}` : '';
+
 export const StickyPlanSummary = ({ summary }) => {
   const intl = useIntl();
 
@@ -54,6 +57,42 @@ export const StickyPlanSummary = ({ summary }) => {
             )}
           </p>
         </div>
+
+        {!summary.isCustomPlan && summary.discountSummary && (
+          <p className="dp-new-plan-selection-sticky-summary-discount">
+            {summary.discountSummary.type === 'promocode' ? (
+              <FormattedMessage
+                id={
+                  Number(summary.discountSummary.months) > 0
+                    ? 'buy_process.new_plan_selection.sticky_promocode_discount_text'
+                    : 'buy_process.new_plan_selection.sticky_promocode_discount_text_without_months'
+                }
+                values={{
+                  months: summary.discountSummary.months,
+                  percentage: summary.discountSummary.percentage,
+                  bold: (chunks) => <b>{chunks}</b>,
+                }}
+              />
+            ) : (
+              <FormattedMessage
+                id="buy_process.new_plan_selection.sticky_frequency_discount_text"
+                values={{
+                  currency: 'US$',
+                  percentage: summary.discountSummary.percentage,
+                  period: summary.discountSummary.period,
+                  periodCapitalized: capitalize(summary.discountSummary.period),
+                  total: (
+                    <FormattedNumber
+                      value={summary.discountSummary.total}
+                      {...getFormattedPriceOptions(summary.discountSummary.total)}
+                    />
+                  ),
+                  bold: (chunks) => <b>{chunks}</b>,
+                }}
+              />
+            )}
+          </p>
+        )}
 
         {summary.isCustomPlan ? (
           <Link className="dp-button button-medium primary-green" to={summary.ctaHref}>

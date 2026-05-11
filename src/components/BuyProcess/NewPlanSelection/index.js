@@ -151,7 +151,7 @@ export const NewPlanSelection = InjectAppServices(
 
     return (
       <NewPlanSelectionStyled>
-        <div className="dp-container p-b-48">
+        <div className="dp-container p-b-48 dp-new-plan-selection-layout">
           <header className="dp-new-plan-selection-header">
             <div className="dp-new-plan-selection-back">
               <GoBackButton />

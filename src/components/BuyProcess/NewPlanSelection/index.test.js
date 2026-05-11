@@ -68,6 +68,18 @@ const amountDetailsWithPromocode = {
   },
 };
 
+const amountDetailsWithPromocodeNoDuration = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 10, amount: 1, duration: 0, extraCredits: 0 },
+    total: 9,
+    currentMonthTotal: 9,
+    nextMonthTotal: 9,
+  },
+};
+
 const contactsLabelPattern = /Cu[aá]ntos Contactos tienes\?/i;
 const textContentIncludes = (text) => (_content, node) => node?.textContent?.includes(text);
 const settleAsyncState = async () => {
@@ -272,6 +284,11 @@ describe('NewPlanSelection component', () => {
       screen.getAllByText(textContentIncludes('Ahorras 25% realizando 1 pago anual de US$90'))
         .length,
     ).toBeGreaterThan(0);
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
+        textContentIncludes('Facturación Anual 25%OFF | 1 Pago anual de US$90'),
+      ).length,
+    ).toBeGreaterThan(0);
   });
 
   it('should show tailored price and advisor CTA for more than 100k option', async () => {
@@ -344,5 +361,43 @@ describe('NewPlanSelection component', () => {
 
     expect(screen.getAllByText(textContentIncludes('US$9/mes*')).length).toBeGreaterThan(0);
     expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
+        textContentIncludes('Descuento 10% OFF por 3 meses'),
+      ).length,
+    ).toBeGreaterThan(0);
+  });
+
+  it('should hide promocode months in sticky when duration is 0', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    forcedServices.dopplerAccountPlansApiClient.validatePromocode.mockResolvedValueOnce({
+      success: true,
+      value: {
+        canApply: true,
+        promotionApplied: { discountPercentage: 10, duration: 0 },
+      },
+    });
+
+    forcedServices.dopplerAccountPlansApiClient.getPlanBillingDetailsData.mockImplementation(
+      async (_planId, _planGroup, _discountId, promocode) =>
+        promocode ? amountDetailsWithPromocodeNoDuration : amountDetails,
+    );
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'PROMO50%' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Aplicar' }));
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(screen.getByTestId('dp-sticky-plan-summary')).getByText(/Descuento 10% OFF/i),
+      ).toBeInTheDocument(),
+    );
+
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).queryByText(/por.*mes/i),
+    ).not.toBeInTheDocument();
   });
 });
