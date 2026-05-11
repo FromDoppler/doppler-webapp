@@ -54,6 +54,53 @@ export const NewPlanSelectionStyled = styled.div`
     max-width: 720px;
   }
 
+  .dp-new-plan-selection-sticky-summary {
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 4;
+  }
+
+  .dp-new-plan-selection-sticky-summary-content {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 14px 18px;
+  }
+
+  .dp-new-plan-selection-sticky-summary-copy {
+    min-width: 0;
+  }
+
+  .dp-new-plan-selection-sticky-summary-title {
+    color: #333;
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .dp-new-plan-selection-sticky-summary-price {
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .dp-new-plan-selection-sticky-summary-subtitle {
+    color: #333;
+    font-size: 27px;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .dp-new-plan-selection-sticky-summary .dp-button {
+    flex: 0 0 auto;
+    min-width: 230px;
+  }
+
   .dp-new-plan-selection-card {
     background: #fff;
     border: 1px solid #eaeaea;
@@ -636,6 +683,29 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   @media (max-width: 991px) {
+    .dp-new-plan-selection-sticky-summary-content {
+      align-items: flex-start;
+      display: block;
+    }
+
+    .dp-new-plan-selection-sticky-summary-title {
+      font-size: 30px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-price {
+      font-size: 24px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-subtitle {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .dp-new-plan-selection-sticky-summary .dp-button {
+      min-width: 0;
+      width: 100%;
+    }
+
     .dp-new-plan-selection-card {
       padding: 18px;
     }
@@ -672,6 +742,27 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   @media (max-width: 767px) {
+    .dp-new-plan-selection-sticky-summary {
+      top: 0;
+    }
+
+    .dp-new-plan-selection-sticky-summary-title {
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .dp-new-plan-selection-sticky-summary-price {
+      display: block;
+      font-size: 20px;
+      margin-top: 4px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-subtitle {
+      font-size: 16px;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
     .dp-new-plan-selection-card-header {
       display: block;
     }
