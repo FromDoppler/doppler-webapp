@@ -447,7 +447,7 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-included-features-grid {
     display: grid;
     gap: 22px 26px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, calc((100% - 52px) / 3)));
   }
 
   .dp-new-plan-selection-included-features-item {
@@ -663,7 +663,7 @@ export const NewPlanSelectionStyled = styled.div`
     }
 
     .dp-new-plan-selection-included-features-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, calc((100% - 26px) / 2)));
     }
 
     .dp-new-plan-selection-included-features-item {
@@ -723,7 +723,7 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-included-features-grid {
       gap: 16px;
-      grid-template-columns: 1fr;
+      grid-template-columns: 100%;
     }
 
     .dp-new-plan-selection-features-modal.modal-content--large {
