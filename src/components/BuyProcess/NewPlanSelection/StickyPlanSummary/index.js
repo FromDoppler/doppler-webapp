@@ -25,7 +25,7 @@ export const StickyPlanSummary = ({ summary }) => {
     <section className="dp-new-plan-selection-sticky-summary" data-testid="dp-sticky-plan-summary">
       <div className="dp-new-plan-selection-sticky-summary-content">
         <div className="dp-new-plan-selection-sticky-summary-copy">
-          <h3 className="dp-new-plan-selection-sticky-summary-title">
+          <h1 className="dp-new-plan-selection-sticky-summary-title">
             {summary.isCustomPlan ? (
               <FormattedMessage id="buy_process.new_plan_selection.sticky_custom_title" />
             ) : (
@@ -44,7 +44,7 @@ export const StickyPlanSummary = ({ summary }) => {
                 </span>
               </>
             )}
-          </h3>
+          </h1>
 
           <p className="dp-new-plan-selection-sticky-summary-subtitle">
             {summary.isCustomPlan ? (

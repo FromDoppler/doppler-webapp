@@ -93,16 +93,9 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-sticky-summary-title {
-    color: #333;
-    font-size: 22px;
-    line-height: 1.2;
-    margin: 0 0 6px;
-    text-transform: none;
   }
 
   .dp-new-plan-selection-sticky-summary-price {
-    font-size: 22px;
-    font-weight: 700;
   }
 
   .dp-new-plan-selection-sticky-summary-discount {
