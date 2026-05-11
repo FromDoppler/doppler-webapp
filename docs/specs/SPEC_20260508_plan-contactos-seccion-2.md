@@ -87,6 +87,13 @@ Integracion:
   - `doppler-style-guide/src/assets/scss/templates/_doppler-plus.scss`
 - Para esta primera version, el bloque usa iconos de clase `dpicon iconapp-*`
   (sin SVG custom nuevo), envueltos en contenedores con color.
+- Mapeo definido para los 6 items:
+  - item 1: `dpicon iconapp-sitemap` (fondo `#E34F45`)
+  - item 2: `dpicon icon-sparkle-ia` (fondo `#69c993`)
+  - item 3: `dpicon iconapp-persons` (fondo `#E79433`)
+  - item 4: `dpicon iconapp-personal-network` (fondo `#FCC338`)
+  - item 5: `dpicon iconapp-growth-chart` (fondo `#2A75DB`)
+  - item 6: `dpicon iconapp-network-configuration` (fondo `#8024AD`)
 
 ### 4.3 Modal "Ver mas funcionalidades"
 
@@ -99,9 +106,12 @@ Integracion:
 - Cuerpo del modal:
   - acordeon con secciones funcionales
   - primera seccion expandida por defecto
+  - solo una seccion abierta a la vez (abrir una cierra la anterior)
   - tabla de detalle con items (nombre + descripcion) siguiendo estilo
     `dp-table-plans` / `dp-c-table dp-nested-table`.
 - Debe poder cerrarse desde el icono `X`.
+- El indicador visual de expandir/colapsar se muestra junto al titulo de cada
+  seccion, segun `picture_6.png`.
 
 ---
 

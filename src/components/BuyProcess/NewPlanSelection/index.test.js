@@ -165,6 +165,26 @@ describe('NewPlanSelection component', () => {
     expect(screen.getAllByText('Código de descuento').length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Elegir Plan' })).toBeInTheDocument();
     expect(screen.queryByText('Tipo de plan')).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/Accede a todas las funcionalidades desde el Plan b.sico/i),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ver m.s funcionalidades/i })).toBeInTheDocument();
+  });
+
+  it('should open and close included features modal', async () => {
+    const user = userEvent.setup();
+    await renderNewPlanSelection();
+
+    await user.click(screen.getByRole('button', { name: /Ver m.s funcionalidades/i }));
+
+    expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
+    expect(screen.getByText(/Carrito Abandonado/i)).toBeInTheDocument();
+
+    await user.click(screen.getByTestId('modal-close'));
+
+    await waitFor(() =>
+      expect(screen.queryByText(/Funcionalidades y Soluciones/i)).not.toBeInTheDocument(),
+    );
   });
 
   it('should prepopulate promocode input when Promo-code query param is present', async () => {

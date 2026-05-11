@@ -7,6 +7,7 @@ import { Loading } from '../../Loading/Loading';
 import { GoBackButton } from './GoBackButton';
 import { UnexpectedError } from '../UnexpectedError';
 import { ContactsPlan } from './ContactsPlan';
+import { IncludedFeatures } from './IncludedFeatures';
 import { NewPlanSelectionStyled } from './index.styles';
 
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
@@ -163,7 +164,7 @@ export const NewPlanSelection = InjectAppServices(
           </header>
 
           <div className="dp-rowflex">
-            <div className="col-lg-10 col-md-12">
+            <div className="col-lg-12 col-md-12">
               <ContactsPlan
                 plans={plans}
                 selectedPlanIndex={selectedPlanIndex}
@@ -173,8 +174,8 @@ export const NewPlanSelection = InjectAppServices(
                 selectedPlan={selectedPlan}
                 search={search}
               />
+              <IncludedFeatures />
             </div>
-            <div className="col-lg-1 col-md-1"></div>
           </div>
         </div>
       </NewPlanSelectionStyled>
