@@ -8,6 +8,7 @@ import { GoBackButton } from './GoBackButton';
 import { UnexpectedError } from '../UnexpectedError';
 import { ContactsPlan } from './ContactsPlan';
 import { IncludedFeatures } from './IncludedFeatures';
+import { StickyPlanSummary } from './StickyPlanSummary';
 import { NewPlanSelectionStyled } from './index.styles';
 
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
@@ -54,6 +55,7 @@ export const NewPlanSelection = InjectAppServices(
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [isMoreThan100kSelected, setIsMoreThan100kSelected] = useState(false);
+    const [stickySummaryData, setStickySummaryData] = useState(null);
 
     useEffect(() => {
       const contactsPromocode = getContactsPromocode();
@@ -149,7 +151,7 @@ export const NewPlanSelection = InjectAppServices(
 
     return (
       <NewPlanSelectionStyled>
-        <div className="dp-container p-b-48">
+        <div className="dp-container p-b-48 dp-new-plan-selection-layout">
           <header className="dp-new-plan-selection-header">
             <div className="dp-new-plan-selection-back">
               <GoBackButton />
@@ -165,11 +167,13 @@ export const NewPlanSelection = InjectAppServices(
 
           <div className="dp-rowflex">
             <div className="col-lg-12 col-md-12">
+              <StickyPlanSummary summary={stickySummaryData} />
               <ContactsPlan
                 plans={plans}
                 selectedPlanIndex={selectedPlanIndex}
                 isMoreThan100kSelected={isMoreThan100kSelected}
                 onPlanChange={handlePlanChange}
+                onStickySummaryChange={setStickySummaryData}
                 sessionPlan={sessionPlan}
                 selectedPlan={selectedPlan}
                 search={search}

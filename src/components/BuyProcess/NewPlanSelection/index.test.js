@@ -68,6 +68,18 @@ const amountDetailsWithPromocode = {
   },
 };
 
+const amountDetailsWithPromocodeNoDuration = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 10, amount: 1, duration: 0, extraCredits: 0 },
+    total: 9,
+    currentMonthTotal: 9,
+    nextMonthTotal: 9,
+  },
+};
+
 const contactsLabelPattern = /Cu[aá]ntos Contactos tienes\?/i;
 const textContentIncludes = (text) => (_content, node) => node?.textContent?.includes(text);
 const settleAsyncState = async () => {
@@ -158,13 +170,16 @@ describe('NewPlanSelection component', () => {
         name: /Elige el Plan ideal para hacer crecer tu negocio/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Plan Contactos')).toBeInTheDocument();
+    expect(screen.getAllByText('Plan Contactos').length).toBeGreaterThan(0);
     expect(screen.getByRole('combobox', { name: contactsLabelPattern })).toHaveValue('0');
     expect(screen.getByRole('option', { name: 'Más de 100.000' })).toBeInTheDocument();
     expect(screen.getByText('Suscripción')).toBeInTheDocument();
     expect(screen.getAllByText('Código de descuento').length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Elegir Plan' })).toBeInTheDocument();
     expect(screen.queryByText('Tipo de plan')).not.toBeInTheDocument();
+    expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument();
+    expect(screen.getAllByText(/Plan Contactos/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
     expect(
       screen.getByText(/Accede a todas las funcionalidades desde el Plan b.sico/i),
     ).toBeInTheDocument();
@@ -247,6 +262,7 @@ describe('NewPlanSelection component', () => {
         'selected-plan=10223',
       ),
     );
+    expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
   });
 
   it('should show monthly discounted price and selected discount in checkout URL', async () => {
@@ -260,12 +276,18 @@ describe('NewPlanSelection component', () => {
         '/checkout/premium/subscribers?selected-plan=10222&discountId=798&monthPlan=12',
       ),
     );
+    expect(screen.getByText(/US\$7,50\/mes/i)).toBeInTheDocument();
 
     expect(screen.getAllByText(textContentIncludes('US$7,50/mes*')).length).toBeGreaterThan(0);
     expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
     expect(
       screen.getAllByText(textContentIncludes('Ahorras 25% realizando 1 pago anual de US$90'))
         .length,
+    ).toBeGreaterThan(0);
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
+        textContentIncludes('Facturación Anual 25%OFF | 1 Pago anual de US$90'),
+      ).length,
     ).toBeGreaterThan(0);
   });
 
@@ -294,7 +316,27 @@ describe('NewPlanSelection component', () => {
     expect(screen.getByRole('link', { name: 'Contactar a Asesor' }).getAttribute('href')).toContain(
       '/upgrade-suggestion-form',
     );
+    expect(screen.getByText(/Plan Envios Personalizado/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Consultar con Doppler Team' })).toHaveAttribute(
+      'href',
+      '/upgrade-suggestion-form',
+    );
     expect(screen.queryByRole('link', { name: 'Elegir Plan' })).not.toBeInTheDocument();
+  });
+
+  it('should keep sticky CTA URL synchronized with contacts plan CTA URL', async () => {
+    await renderNewPlanSelection();
+
+    fireEvent.click(screen.getByRole('button', { name: /Anual/i }));
+    await settleAsyncState();
+
+    await waitFor(() => {
+      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      const stickyCtaHref = screen
+        .getByRole('link', { name: 'Comprar Ahora' })
+        .getAttribute('href');
+      expect(stickyCtaHref).toBe(choosePlanHref);
+    });
   });
 
   it('should apply valid promocode discount in price section with duration', async () => {
@@ -315,8 +357,47 @@ describe('NewPlanSelection component', () => {
         screen.getAllByText(textContentIncludes('Ahorras 10% durante 3 meses')).length,
       ).toBeGreaterThan(0),
     );
+    expect(screen.getAllByText(textContentIncludes('US$9/mes')).length).toBeGreaterThan(0);
 
     expect(screen.getAllByText(textContentIncludes('US$9/mes*')).length).toBeGreaterThan(0);
     expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
+        textContentIncludes('Descuento 10% OFF por 3 meses'),
+      ).length,
+    ).toBeGreaterThan(0);
+  });
+
+  it('should hide promocode months in sticky when duration is 0', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    forcedServices.dopplerAccountPlansApiClient.validatePromocode.mockResolvedValueOnce({
+      success: true,
+      value: {
+        canApply: true,
+        promotionApplied: { discountPercentage: 10, duration: 0 },
+      },
+    });
+
+    forcedServices.dopplerAccountPlansApiClient.getPlanBillingDetailsData.mockImplementation(
+      async (_planId, _planGroup, _discountId, promocode) =>
+        promocode ? amountDetailsWithPromocodeNoDuration : amountDetails,
+    );
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'PROMO50%' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Aplicar' }));
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(screen.getByTestId('dp-sticky-plan-summary')).getByText(/Descuento 10% OFF/i),
+      ).toBeInTheDocument(),
+    );
+
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).queryByText(/por.*mes/i),
+    ).not.toBeInTheDocument();
   });
 });

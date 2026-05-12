@@ -55,6 +55,7 @@ export const ContactsPlan = InjectAppServices(
     selectedPlanIndex,
     isMoreThan100kSelected,
     onPlanChange,
+    onStickySummaryChange,
     sessionPlan,
     selectedPlan,
     search,
@@ -120,6 +121,7 @@ export const ContactsPlan = InjectAppServices(
 
     const selectedDiscountPercentage = selectedPaymentFrequency?.discountPercentage ?? 0;
     const selectedNumberMonths = selectedPaymentFrequency?.numberMonths ?? 1;
+    const selectedSubscriptionType = selectedPaymentFrequency?.subscriptionType ?? null;
     const selectedPlanFee = selectedPlan?.fee ?? 0;
     const monthlyPrice = selectedPlanFee * (1 - selectedDiscountPercentage / 100);
     const periodTotal = monthlyPrice * selectedNumberMonths;
@@ -138,6 +140,71 @@ export const ContactsPlan = InjectAppServices(
     const checkoutUrl = selectedPlan
       ? getCheckoutUrl({ search, selectedPlan, selectedPaymentFrequency, promocodeApplied })
       : '#';
+    const stickyContactsLabel = selectedPlan
+      ? thousandSeparatorNumber(intl.defaultLocale, amountByPlanType(selectedPlan))
+      : '';
+
+    const stickyDiscountSummary = useMemo(() => {
+      if (isTailoredPlan) {
+        return null;
+      }
+
+      if (hasPromocodeDiscount) {
+        return {
+          type: 'promocode',
+          percentage: promocodeDiscountPercentage,
+          months: promocodeDuration,
+        };
+      }
+
+      if (selectedDiscountPercentage > 0 && selectedSubscriptionType) {
+        return {
+          type: 'frequency',
+          percentage: selectedDiscountPercentage,
+          period: intl.formatMessage({
+            id: `buy_process.new_plan_selection.payment_period_${selectedSubscriptionType.replace(
+              '-',
+              '_',
+            )}`,
+          }),
+          total: periodTotal,
+        };
+      }
+
+      return null;
+    }, [
+      hasPromocodeDiscount,
+      intl,
+      isTailoredPlan,
+      periodTotal,
+      promocodeDiscountPercentage,
+      promocodeDuration,
+      selectedDiscountPercentage,
+      selectedSubscriptionType,
+    ]);
+
+    const stickySummaryData = useMemo(
+      () => ({
+        contactsLabel: stickyContactsLabel,
+        ctaHref: isTailoredPlan ? '/upgrade-suggestion-form' : checkoutUrl,
+        discountSummary: stickyDiscountSummary,
+        displayPrice: displayedMonthlyPrice,
+        isCustomPlan: isTailoredPlan,
+        isDisabled: !isTailoredPlan && !canChoosePlan,
+      }),
+      [
+        canChoosePlan,
+        checkoutUrl,
+        displayedMonthlyPrice,
+        isTailoredPlan,
+        stickyContactsLabel,
+        stickyDiscountSummary,
+      ],
+    );
+
+    useEffect(() => {
+      onStickySummaryChange?.(stickySummaryData);
+    }, [onStickySummaryChange, stickySummaryData]);
 
     return (
       <section className="dp-new-plan-selection-card">

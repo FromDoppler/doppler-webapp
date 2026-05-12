@@ -9,6 +9,8 @@ Assets principales:
   (Plan Contactos).
 - `docs/assets/picture_8.jpeg`: referencia visual del sticky en estado
   "Mas de 100.000" (Plan Envios personalizado).
+- `docs/assets/picture_9.png`: referencia visual del sticky con descuento
+  aplicado (frecuencia de pago o promocode).
 
 Estandares relacionados:
 
@@ -104,6 +106,16 @@ actualizarse automaticamente:
 - descuentos aplicados por frecuencia,
 - descuentos aplicados por promocode (si corresponde al precio final mostrado).
 
+Adicionalmente, cuando exista un descuento activo, el sticky debe mostrar una
+leyenda de detalle en su bloque central:
+
+- Escenario frecuencia de pago: mostrar periodo, porcentaje y total del pago
+  (ej.: `Facturación Anual 25%OFF | 1 Pago anual de US$90`).
+- Escenario promocode: mostrar porcentaje y duración del beneficio
+  (ej.: `Descuento 10% OFF por 3 meses`).
+  - Excepcion: si la duracion del promocode es `0`, mostrar solo el
+    porcentaje (ej.: `Descuento 10% OFF`) sin referencia a meses.
+
 La fuente de verdad del sticky debe ser el estado ya calculado del flujo de
 `ContactsPlan`; no se deben recrear reglas paralelas en el sticky.
 
@@ -188,6 +200,7 @@ Actualizar/agregar tests en `NewPlanSelection` para cubrir:
 - sticky visible junto al contenido de la pagina;
 - actualizacion de texto/precio al cambiar plan en `ContactsPlan`;
 - actualizacion por cambio de frecuencia/promocode (cuando modifiquen precio);
+- validacion de promocode con duracion `0` (sin mostrar meses en el sticky);
 - click en CTA del sticky ejecuta la misma accion que CTA de `ContactsPlan`;
 - estado visual y funcional al seleccionar `Mas de 100.000`.
 

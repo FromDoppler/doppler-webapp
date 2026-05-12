@@ -54,6 +54,65 @@ export const NewPlanSelectionStyled = styled.div`
     max-width: 720px;
   }
 
+  .dp-new-plan-selection-sticky-summary {
+    background: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 0;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    z-index: 30;
+  }
+
+  .dp-new-plan-selection-layout {
+    padding-bottom: 145px;
+  }
+
+  .dp-new-plan-selection-sticky-summary-content {
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1250px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 12px 18px;
+  }
+
+  .dp-new-plan-selection-sticky-summary-copy {
+    min-width: 0;
+  }
+
+  .dp-new-plan-selection-sticky-summary-copy h5 {
+    text-transform: none;
+  }
+
+  .dp-new-plan-selection-sticky-summary-copy h1 {
+    padding-bottom: 0px;
+  }
+
+  .dp-new-plan-selection-sticky-summary-title {
+  }
+
+  .dp-new-plan-selection-sticky-summary-price {
+  }
+
+  .dp-new-plan-selection-sticky-summary-discount {
+    color: #333;
+    flex: 1 1 auto;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin: 0;
+    text-align: center;
+  }
+
+  .dp-new-plan-selection-sticky-summary .dp-button {
+    flex: 0 0 auto;
+    min-width: 230px;
+  }
+
   .dp-new-plan-selection-card {
     background: #fff;
     border: 1px solid #eaeaea;
@@ -636,6 +695,39 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   @media (max-width: 991px) {
+    .dp-new-plan-selection-sticky-summary-content {
+      align-items: flex-start;
+      display: block;
+    }
+
+    .dp-new-plan-selection-layout {
+      padding-bottom: 165px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-title {
+      font-size: 20px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-price {
+      font-size: 20px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-subtitle {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-discount {
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .dp-new-plan-selection-sticky-summary .dp-button {
+      min-width: 0;
+      width: 100%;
+    }
+
     .dp-new-plan-selection-card {
       padding: 18px;
     }
@@ -672,6 +764,37 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   @media (max-width: 767px) {
+    .dp-new-plan-selection-sticky-summary {
+      left: 0;
+      right: 0;
+    }
+
+    .dp-new-plan-selection-sticky-summary-title {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .dp-new-plan-selection-sticky-summary-price {
+      display: block;
+      font-size: 18px;
+      margin-top: 4px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-subtitle {
+      font-size: 14px;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .dp-new-plan-selection-sticky-summary-discount {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .dp-new-plan-selection-layout {
+      padding-bottom: 185px;
+    }
+
     .dp-new-plan-selection-card-header {
       display: block;
     }
