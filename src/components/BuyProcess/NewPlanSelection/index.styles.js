@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const NewPlanSelectionStyled = styled.div`
-
   .dp-new-plan-selection-header {
     padding: 24px 0 12px;
   }
