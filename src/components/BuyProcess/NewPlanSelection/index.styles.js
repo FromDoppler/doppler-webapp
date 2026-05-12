@@ -119,10 +119,7 @@ export const NewPlanSelectionStyled = styled.div`
     border-radius: 3px;
     margin-bottom: 24px;
     margin-top: 6px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    padding-left: 114px;
-    padding-right: 114px;
+    padding: 30px 114px;
   }
 
   .dp-new-plan-selection-card-header {
