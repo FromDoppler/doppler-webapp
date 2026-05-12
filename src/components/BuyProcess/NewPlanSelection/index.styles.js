@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const NewPlanSelectionStyled = styled.div`
+
   .dp-new-plan-selection-header {
     padding: 24px 0 12px;
   }
@@ -119,8 +120,10 @@ export const NewPlanSelectionStyled = styled.div`
     border-radius: 3px;
     margin-bottom: 24px;
     margin-top: 6px;
-    max-width: 900px;
-    padding: 24px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 114px;
+    padding-right: 114px;
   }
 
   .dp-new-plan-selection-card-header {
@@ -162,10 +165,10 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-fields {
     display: grid;
     gap: 16px;
+    padding-right: 64px;
   }
 
   .dp-new-plan-selection-select-wrap {
-    max-width: 350px;
     position: relative;
   }
 
@@ -205,7 +208,6 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-payment-frequency,
   .dp-new-plan-selection-promocode {
-    max-width: 350px;
   }
 
   .dp-new-plan-selection-main {
@@ -230,10 +232,13 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-price {
+    align-self: stretch;
     border-left: 1px solid #e4e4e4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-left: 0;
-    padding-left: 22px;
-    padding-top: 6px;
+    padding-left: 84px;
     padding-right: 28px;
   }
 
@@ -294,14 +299,37 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-promocode .dp-form-promocode {
     display: block;
+    margin: 0;
+    width: 100%;
+  }
+
+  .dp-new-plan-selection-promocode .dp-form-promocode .field-group {
+    align-items: flex-start;
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
 
   .dp-new-plan-selection-promocode .dp-form-promocode .field-item--70 {
-    padding-right: 6px;
+    flex: 1 1 auto;
+    margin: 0;
+    min-width: 0;
+    padding-right: 0;
+    width: auto;
   }
 
   .dp-new-plan-selection-promocode .dp-form-promocode .field-item--30 {
+    flex: 0 0 120px;
     margin: 0;
+    min-width: 0;
+    width: 120px;
+  }
+
+  .dp-new-plan-selection-promocode .field-item--30 .dp-button {
+    margin: 0;
+    width: 100%;
   }
 
   .dp-new-plan-selection-promocode .field-item--70 input {
@@ -352,6 +380,12 @@ export const NewPlanSelectionStyled = styled.div`
     &:disabled {
       cursor: default;
     }
+  }
+
+  .dp-new-plan-selection-promocode .dp-wrap-message,
+  .dp-new-plan-selection-promocode .dp-simulated-price {
+    margin-top: 12px;
+    width: 100%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency,
@@ -738,6 +772,7 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-price {
       border-left: 0;
+      justify-content: flex-start;
       margin-left: 0;
       margin-top: 24px;
       padding-left: 0;
@@ -842,6 +877,15 @@ export const NewPlanSelectionStyled = styled.div`
     .dp-new-plan-selection-promocode,
     .dp-new-plan-selection-select-wrap {
       max-width: none;
+    }
+
+    .dp-new-plan-selection-promocode .dp-form-promocode .field-group {
+      display: block;
+    }
+
+    .dp-new-plan-selection-promocode .dp-form-promocode .field-item--30 {
+      margin-top: 8px;
+      width: 100%;
     }
 
     .dp-new-plan-selection-included-features-grid {
