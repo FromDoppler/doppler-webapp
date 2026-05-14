@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { PLAN_TYPE } from '../../../../doppler-types';
 import { InjectAppServices } from '../../../../services/pure-di';

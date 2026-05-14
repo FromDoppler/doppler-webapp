@@ -10,6 +10,7 @@ const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlConversations = process.env.REACT_APP_DOPPLER_CONVERSATIONS_URL;
 const urlOnSite = process.env.REACT_APP_DOPPLER_ONSITE_URL;
+const formattedNumberPlaceholder = '{value}';
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -174,7 +175,7 @@ other {}}}}}}}}}}
       credits_option: '{credits}',
       credits_plan_description: 'Buy Credits and use them whenever you want. Ideal for one-off sendings or flexible needs.',
       credits_plan_title: 'Buy Credits and use them whenever you want',
-      credits_price_per_credit: 'Price per Credit: US${value}',
+      credits_price_per_credit: `Price per Credit: US$${formattedNumberPlaceholder}`,
       credits_promocode_savings_text: 'You save {percentage}% on this purchase',
       custom_price_value: 'Tailored*',
       empty_message: 'There are no Contacts plans available at the moment.',
