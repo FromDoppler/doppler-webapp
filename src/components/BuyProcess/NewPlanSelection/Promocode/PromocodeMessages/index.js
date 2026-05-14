@@ -35,22 +35,6 @@ export const PromocodeMessages = ({
     promotion?.planType,
   );
 
-  if (
-    !validationError &&
-    validated &&
-    !promocodeMessageAlreadyShowRef.current &&
-    (promotion?.planType === PLAN_TYPE.byCredit ||
-      (promotion?.planType !== PLAN_TYPE.byCredit && amountDetailsData?.value?.nextMonthTotal))
-  ) {
-    return (
-      <div className={`dp-simulated-price ${!promocodeApplied ? 'bounceIn' : 'bounceOut'}`}>
-        {!marketingPlanHasBillingCicle && (
-          <PromocodeMessageExtraCredits promotion={promotion?.promotionApplied} />
-        )}
-      </div>
-    );
-  }
-
   return null;
 };
 

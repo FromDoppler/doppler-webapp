@@ -6,6 +6,7 @@ import {
   BUY_ONSITE_PLAN,
   BUY_PUSH_NOTIFICATION_PLAN,
 } from '../../../doppler-types';
+import { useLocation } from 'react-router-dom';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Stepper } from '../Stepper';
@@ -75,11 +76,25 @@ export const getSteps = (buyType, user) => {
 
 export const BuyProcessLayout = InjectAppServices(
   ({ children, dependencies: { appSessionRef } }) => {
+    const { pathname } = useLocation();
     const query = useQueryParams();
     const buyType = query.get('buyType') ?? '1';
     let steps = getSteps(buyType, appSessionRef.current.userData.user).filter(
       (s) => s.visible === true,
     );
+    const isNewPlanSelection = pathname === '/new-plan-selection';
+
+    if (isNewPlanSelection) {
+      return (
+        <>
+          <div className="dp-container">
+            <Stepper steps={steps} />
+            <hr />
+          </div>
+          {children}
+        </>
+      );
+    }
 
     return (
       <div className="dp-container">

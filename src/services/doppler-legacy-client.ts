@@ -870,6 +870,7 @@ export function mapHeaderDataJson(json: any) {
       inviteCollaboratorsEnabled: !!(json.features && json.features.inviteCollaboratorsEnabled),
       bigBoxIntegrationEnabled: !!(json.features && json.features.bigBoxIntegrationEnabled),
       ecoIAEnabled: !!(json.features && json.features.ecoIAEnabled),
+      newPlanSelectionEnabled: !!(json.features && json.features.newPlanSelectionEnabled),
     },
   };
 }

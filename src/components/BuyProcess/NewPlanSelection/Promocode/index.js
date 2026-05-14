@@ -65,7 +65,6 @@ export const Promocode = InjectAppServices(
     const defaultPromocode = getPromocode(query, isArgentina);
     const promocodeFromUrl = getPromocodeFromQuery(query);
     const contactsPromocode = getContactsPromocode();
-    const selectedPlanType = PLAN_TYPE.byContact;
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
     const [manualPromocodeApplied, setManualPromocodeApplied] = useState(false);
 
@@ -234,14 +233,12 @@ export const Promocode = InjectAppServices(
             } else {
               dispatchPromocode(validateData);
             }
-          } else {
-            if (selectedPlanType === selectedMarketingPlan?.type) {
-              const validateData = await dopplerAccountPlansApiClient.validatePromocode(
-                selectedMarketingPlan?.id,
-                promocode,
-              );
-              dispatchPromocode(validateData);
-            }
+          } else if (selectedMarketingPlan?.id) {
+            const validateData = await dopplerAccountPlansApiClient.validatePromocode(
+              selectedMarketingPlan?.id,
+              promocode,
+            );
+            dispatchPromocode(validateData);
           }
         }
       },
@@ -255,7 +252,6 @@ export const Promocode = InjectAppServices(
         isFreeAccount,
         promocodeFromUrl,
         contactsPromocode,
-        selectedPlanType,
       ],
     );
 
@@ -363,7 +359,7 @@ export const Promocode = InjectAppServices(
         >
           {() => (
             <Form className="awa-form dp-form-promocode" aria-label="form">
-              <legend>{_('checkoutProcessForm.purchase_summary.promocode_header')}</legend>
+              <p>{_('checkoutProcessForm.purchase_summary.promocode_header')}</p>
               <fieldset>
                 <FieldGroup>
                   <PromocodeFieldItem
@@ -435,7 +431,15 @@ export const PromocodeFieldItem = ({
   return (
     <>
       <FieldItem className={`field-item field-item--70 ${validationError ? 'error' : ''}`}>
-        <label htmlFor="promocode" className="labelcontrol" aria-disabled={disabled}>
+        <label
+          htmlFor="promocode"
+          className={`labelcontrol ${validated ? 'is-approved' : ''}`}
+          aria-disabled={disabled}
+        >
+          <span
+            className={`dp-new-plan-selection-promocode-icon dpicon iconapp-discount-coupon`}
+            aria-hidden="true"
+          />
           <Field
             type="text"
             id={fieldName}
@@ -444,7 +448,6 @@ export const PromocodeFieldItem = ({
             aria-required={true}
             aria-invalid={!!validationError}
             disabled={disabled}
-            className={validated ? 'dp-approved' : ''}
             {...rest}
           />
           <div className="assistance-wrap">
@@ -453,7 +456,7 @@ export const PromocodeFieldItem = ({
         </label>
         <button
           type="button"
-          className="dp-btn-delete dpicon iconapp-delete"
+          className="dp-btn-delete"
           title="borrar"
           aria-label="borrar"
           disabled={!values[fieldName]}
@@ -463,7 +466,7 @@ export const PromocodeFieldItem = ({
       <FieldItem className="field-item field-item--30">
         <button
           type="submit"
-          className="dp-button button-big secondary-green button-medium"
+          className="dp-button button-big secondary-brown button-medium"
           disabled={disabled}
         >
           {_('buy_process.promocode.apply_btn')}

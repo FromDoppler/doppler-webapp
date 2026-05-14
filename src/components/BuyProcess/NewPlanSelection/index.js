@@ -7,6 +7,7 @@ import { Loading } from '../../Loading/Loading';
 import { GoBackButton } from './GoBackButton';
 import { UnexpectedError } from '../UnexpectedError';
 import { ContactsPlan } from './ContactsPlan';
+import { CreditsPlan } from './CreditsPlan';
 import { IncludedFeatures } from './IncludedFeatures';
 import { StickyPlanSummary } from './StickyPlanSummary';
 import { NewPlanSelectionStyled } from './index.styles';
@@ -27,7 +28,7 @@ const getPromocodeFromParams = (params) =>
   params.get('PromoCode')?.trim() ||
   '';
 
-const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan }) => {
+const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) => {
   const query = new URLSearchParams(search);
   const selectedPlanId = parseInt(query.get('selected-plan'), 10);
   const selectedPlanIndex = plans.findIndex((plan) => plan.id === selectedPlanId);
@@ -37,8 +38,7 @@ const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan }) => {
   }
 
   const currentPlanIndex = plans.findIndex(
-    (plan) =>
-      sessionPlan?.plan?.planType === PLAN_TYPE.byContact && plan.id === sessionPlan.plan.idPlan,
+    (plan) => sessionPlan?.plan?.planType === planType && plan.id === sessionPlan.plan.idPlan,
   );
 
   return currentPlanIndex >= 0 ? currentPlanIndex : 0;
@@ -50,8 +50,10 @@ export const NewPlanSelection = InjectAppServices(
     const navigate = useNavigate();
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
-    const [plans, setPlans] = useState([]);
-    const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
+    const [plansByContact, setPlansByContact] = useState([]);
+    const [plansByCredit, setPlansByCredit] = useState([]);
+    const [selectedContactPlanIndex, setSelectedContactPlanIndex] = useState(0);
+    const [selectedCreditPlanIndex, setSelectedCreditPlanIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [isMoreThan100kSelected, setIsMoreThan100kSelected] = useState(false);
@@ -83,11 +85,30 @@ export const NewPlanSelection = InjectAppServices(
       const fetchPlans = async () => {
         try {
           setLoading(true);
-          const plansByContact = await planService.getPlansByType(PLAN_TYPE.byContact);
-          setPlans(plansByContact);
-          setSelectedPlanIndex(
-            plansByContact.length
-              ? getPlanIndexByQueryOrSession({ plans: plansByContact, search, sessionPlan })
+          const [fetchedPlansByContact, fetchedPlansByCredit] = await Promise.all([
+            planService.getPlansByType(PLAN_TYPE.byContact),
+            planService.getPlansByType(PLAN_TYPE.byCredit),
+          ]);
+          setPlansByContact(fetchedPlansByContact);
+          setPlansByCredit(fetchedPlansByCredit);
+          setSelectedContactPlanIndex(
+            fetchedPlansByContact.length
+              ? getPlanIndexByQueryOrSession({
+                  plans: fetchedPlansByContact,
+                  search,
+                  sessionPlan,
+                  planType: PLAN_TYPE.byContact,
+                })
+              : 0,
+          );
+          setSelectedCreditPlanIndex(
+            fetchedPlansByCredit.length
+              ? getPlanIndexByQueryOrSession({
+                  plans: fetchedPlansByCredit,
+                  search,
+                  sessionPlan,
+                  planType: PLAN_TYPE.byCredit,
+                })
               : 0,
           );
           setIsMoreThan100kSelected(false);
@@ -102,19 +123,26 @@ export const NewPlanSelection = InjectAppServices(
       fetchPlans();
     }, [planService, search, sessionPlan]);
 
-    const selectedPlan = plans[selectedPlanIndex] ?? null;
+    const selectedContactPlan = plansByContact[selectedContactPlanIndex] ?? null;
+    const selectedCreditPlan = plansByCredit[selectedCreditPlanIndex] ?? null;
 
     const handlePlanChange = (event) => {
       const { value } = event.target;
 
       if (value === MORE_THAN_100K_OPTION_VALUE) {
         setIsMoreThan100kSelected(true);
-        setSelectedPlanIndex((currentPlanIndex) => Math.max(currentPlanIndex, plans.length - 1));
+        setSelectedContactPlanIndex((currentPlanIndex) =>
+          Math.max(currentPlanIndex, plansByContact.length - 1),
+        );
         return;
       }
 
       setIsMoreThan100kSelected(false);
-      setSelectedPlanIndex(parseInt(value, 10));
+      setSelectedContactPlanIndex(parseInt(value, 10));
+    };
+
+    const handleCreditsPlanChange = (event) => {
+      setSelectedCreditPlanIndex(parseInt(event.target.value, 10));
     };
 
     if (loading) {
@@ -125,7 +153,7 @@ export const NewPlanSelection = InjectAppServices(
       return <UnexpectedError />;
     }
 
-    if (plans.length === 0) {
+    if (plansByContact.length === 0 && plansByCredit.length === 0) {
       return (
         <NewPlanSelectionStyled>
           <div className="dp-container p-b-48">
@@ -169,19 +197,31 @@ export const NewPlanSelection = InjectAppServices(
             <div className="col-lg-12 col-md-12">
               <StickyPlanSummary summary={stickySummaryData} />
               <ContactsPlan
-                plans={plans}
-                selectedPlanIndex={selectedPlanIndex}
+                plans={plansByContact}
+                selectedPlanIndex={selectedContactPlanIndex}
                 isMoreThan100kSelected={isMoreThan100kSelected}
                 onPlanChange={handlePlanChange}
                 onStickySummaryChange={setStickySummaryData}
                 sessionPlan={sessionPlan}
-                selectedPlan={selectedPlan}
+                selectedPlan={selectedContactPlan}
                 search={search}
               />
               <IncludedFeatures />
             </div>
           </div>
         </div>
+        {!!plansByCredit.length && (
+          <div className="dp-new-plan-selection-credits-fullwidth">
+            <CreditsPlan
+              plans={plansByCredit}
+              selectedPlanIndex={selectedCreditPlanIndex}
+              onPlanChange={handleCreditsPlanChange}
+              sessionPlan={sessionPlan}
+              selectedPlan={selectedCreditPlan}
+              search={search}
+            />
+          </div>
+        )}
       </NewPlanSelectionStyled>
     );
   },

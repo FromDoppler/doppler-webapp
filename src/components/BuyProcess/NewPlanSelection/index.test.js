@@ -44,6 +44,23 @@ const contactPlans = [
   },
 ];
 
+const creditPlans = [
+  {
+    type: PLAN_TYPE.byCredit,
+    id: 20222,
+    name: '10000-CREDITS',
+    credits: 10000,
+    price: 80,
+  },
+  {
+    type: PLAN_TYPE.byCredit,
+    id: 20223,
+    name: '20000-CREDITS',
+    credits: 20000,
+    price: 140,
+  },
+];
+
 const amountDetails = {
   success: true,
   value: {
@@ -80,7 +97,56 @@ const amountDetailsWithPromocodeNoDuration = {
   },
 };
 
-const contactsLabelPattern = /Cu[aá]ntos Contactos tienes\?/i;
+const creditsAmountDetails = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 0, amount: 0, extraCredits: 0 },
+    total: 80,
+    currentMonthTotal: 80,
+    nextMonthTotal: 80,
+  },
+};
+
+const creditsAmountDetailsWithDiscount = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 10, amount: 8, extraCredits: 0 },
+    total: 72,
+    currentMonthTotal: 72,
+    nextMonthTotal: 72,
+  },
+};
+
+const creditsAmountDetailsWithExtraCredits = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 0, amount: 0, extraCredits: 5000 },
+    total: 80,
+    currentMonthTotal: 80,
+    nextMonthTotal: 80,
+  },
+};
+
+const creditsAmountDetailsWithDiscountAndExtraCredits = {
+  success: true,
+  value: {
+    discountPrepayment: { discountPercentage: 0, amount: 0 },
+    discountPaymentAlreadyPaid: 0,
+    discountPromocode: { discountPercentage: 10, amount: 8, extraCredits: 5000 },
+    total: 72,
+    currentMonthTotal: 72,
+    nextMonthTotal: 72,
+  },
+};
+
+const contactsLabelPattern = /cu[aá]ntos contactos tienes\?/i;
+const creditsLabelPattern = /cu[aá]ntos cr[eé]ditos necesitas\?/i;
 const textContentIncludes = (text) => (_content, node) => node?.textContent?.includes(text);
 const settleAsyncState = async () => {
   await act(async () => {
@@ -90,6 +156,9 @@ const settleAsyncState = async () => {
 const ACT_WARNING_PATTERN = /not wrapped in act/i;
 
 let consoleErrorSpy;
+
+const getContactsPlanSection = () => screen.getByTestId('dp-contacts-plan');
+const getCreditsPlanSection = () => screen.getByTestId('dp-credits-plan');
 
 const createForcedServices = () => ({
   appSessionRef: {
@@ -109,19 +178,34 @@ const createForcedServices = () => ({
     },
   },
   dopplerAccountPlansApiClient: {
-    getPlanBillingDetailsData: jest.fn(async (_planId, _planGroup, _discountId, promocode) =>
-      promocode ? amountDetailsWithPromocode : amountDetails,
-    ),
-    validatePromocode: jest.fn(async () => ({
+    getPlanBillingDetailsData: jest.fn(async (planId, _planGroup, _discountId, promocode) => {
+      const isCreditPlan = planId === creditPlans[0].id || planId === creditPlans[1].id;
+      if (isCreditPlan) {
+        return promocode ? creditsAmountDetailsWithDiscount : creditsAmountDetails;
+      }
+
+      return promocode ? amountDetailsWithPromocode : amountDetails;
+    }),
+    validatePromocode: jest.fn(async (planId) => ({
       success: true,
-      value: {
-        canApply: true,
-        promotionApplied: { discountPercentage: 10, duration: 3 },
-      },
+      value:
+        planId === creditPlans[0].id || planId === creditPlans[1].id
+          ? { canApply: true, promotionApplied: { discountPercentage: 10, extraCredits: 0 } }
+          : { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
     })),
   },
   planService: {
-    getPlansByType: jest.fn(async () => contactPlans),
+    getPlansByType: jest.fn(async (planType) => {
+      if (planType === PLAN_TYPE.byContact) {
+        return contactPlans;
+      }
+
+      if (planType === PLAN_TYPE.byCredit) {
+        return creditPlans;
+      }
+
+      return [];
+    }),
   },
 });
 
@@ -162,35 +246,39 @@ describe('NewPlanSelection component', () => {
     consoleErrorSpy.mockRestore();
   });
 
-  it('should render section 1 controls without plan type tabs', async () => {
+  it('should render section controls without plan type tabs', async () => {
     await renderNewPlanSelection();
 
     expect(
       screen.getByRole('heading', {
-        name: /Elige el Plan ideal para hacer crecer tu negocio/i,
+        name: /elige el plan ideal para hacer crecer tu negocio/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText('Plan Contactos').length).toBeGreaterThan(0);
-    expect(screen.getByRole('combobox', { name: contactsLabelPattern })).toHaveValue('0');
-    expect(screen.getByRole('option', { name: 'Más de 100.000' })).toBeInTheDocument();
-    expect(screen.getByText('Suscripción')).toBeInTheDocument();
-    expect(screen.getAllByText('Código de descuento').length).toBeGreaterThan(0);
-    expect(screen.getByRole('link', { name: 'Elegir Plan' })).toBeInTheDocument();
-    expect(screen.queryByText('Tipo de plan')).not.toBeInTheDocument();
-    expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument();
     expect(screen.getAllByText(/Plan Contactos/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('combobox', { name: contactsLabelPattern })).toHaveValue('0');
+    expect(screen.getByRole('option', { name: /m[aá]s de 100.000/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Suscripci[oó]n/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/C[oó]digo de descuento/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('link', { name: /Elegir Plan/i })).toBeInTheDocument();
+    expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
+    expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument();
     expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i })).toBeInTheDocument();
+
     expect(
-      screen.getByText(/Accede a todas las funcionalidades desde el Plan b.sico/i),
+      within(getCreditsPlanSection()).getByRole('heading', {
+        name: /Compra Cr[eé]ditos y usalos cuando quieras/i,
+      }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Ver m.s funcionalidades/i })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: creditsLabelPattern })).toHaveValue('0');
+    expect(screen.getByRole('link', { name: /Comprar Cr[eé]ditos/i })).toBeInTheDocument();
   });
 
   it('should open and close included features modal', async () => {
     const user = userEvent.setup();
     await renderNewPlanSelection();
 
-    await user.click(screen.getByRole('button', { name: /Ver m.s funcionalidades/i }));
+    await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
 
     expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrito Abandonado/i)).toBeInTheDocument();
@@ -202,10 +290,12 @@ describe('NewPlanSelection component', () => {
     );
   });
 
-  it('should prepopulate promocode input when Promo-code query param is present', async () => {
+  it('should prepopulate contacts promocode input when Promo-code query param is present', async () => {
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
 
-    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
+    await waitFor(() =>
+      expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+    );
   });
 
   it('should load REACT_APP_PROMOCODE_CONTACTS automatically for free accounts when URL has no promocode', async () => {
@@ -214,19 +304,23 @@ describe('NewPlanSelection component', () => {
     try {
       await renderNewPlanSelection(['/new-plan-selection']);
 
-      await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
+      await waitFor(() =>
+        expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+      );
     } finally {
       process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
     }
   });
 
-  it('should not reapply default promocode after removing it from input', async () => {
+  it('should not reapply default promocode after removing it from contacts input', async () => {
     const user = userEvent.setup();
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
 
-    await waitFor(() => expect(screen.getByRole('textbox')).toHaveValue('DOPPLER50X6'));
+    await waitFor(() =>
+      expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+    );
 
-    await user.click(screen.getByRole('button', { name: /borrar/i }));
+    await user.click(within(getContactsPlanSection()).getByRole('button', { name: /borrar/i }));
     await settleAsyncState();
 
     await waitFor(() => {
@@ -249,7 +343,7 @@ describe('NewPlanSelection component', () => {
     });
   });
 
-  it('should update selected plan in checkout URL when contacts dropdown changes', async () => {
+  it('should update selected contacts plan in checkout URL when contacts dropdown changes', async () => {
     await renderNewPlanSelection();
 
     fireEvent.change(screen.getByRole('combobox', { name: contactsLabelPattern }), {
@@ -265,10 +359,27 @@ describe('NewPlanSelection component', () => {
     expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
   });
 
-  it('should show monthly discounted price and selected discount in checkout URL', async () => {
+  it('should update selected credits plan in checkout URL when credits dropdown changes', async () => {
     await renderNewPlanSelection();
 
-    fireEvent.click(screen.getByRole('button', { name: /Anual/i }));
+    fireEvent.change(screen.getByRole('combobox', { name: creditsLabelPattern }), {
+      target: { value: '1' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(getCreditsPlanSection())
+          .getByRole('link', { name: /Comprar Cr[eé]ditos/i })
+          .getAttribute('href'),
+      ).toBe(`/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=20223`),
+    );
+  });
+
+  it('should show monthly discounted price and selected discount in contacts checkout URL', async () => {
+    await renderNewPlanSelection();
+
+    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: /Anual/i }));
     await settleAsyncState();
 
     await waitFor(() =>
@@ -327,7 +438,7 @@ describe('NewPlanSelection component', () => {
   it('should keep sticky CTA URL synchronized with contacts plan CTA URL', async () => {
     await renderNewPlanSelection();
 
-    fireEvent.click(screen.getByRole('button', { name: /Anual/i }));
+    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: /Anual/i }));
     await settleAsyncState();
 
     await waitFor(() => {
@@ -339,13 +450,13 @@ describe('NewPlanSelection component', () => {
     });
   });
 
-  it('should apply valid promocode discount in price section with duration', async () => {
+  it('should apply valid promocode discount in contacts price section with duration', async () => {
     const forcedServices = await renderNewPlanSelection();
 
-    fireEvent.change(screen.getByRole('textbox'), {
+    fireEvent.change(within(getContactsPlanSection()).getByRole('textbox'), {
       target: { value: 'PROMO50%' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: 'Aplicar' }));
     await settleAsyncState();
 
     await waitFor(() =>
@@ -380,14 +491,20 @@ describe('NewPlanSelection component', () => {
     });
 
     forcedServices.dopplerAccountPlansApiClient.getPlanBillingDetailsData.mockImplementation(
-      async (_planId, _planGroup, _discountId, promocode) =>
-        promocode ? amountDetailsWithPromocodeNoDuration : amountDetails,
+      async (planId, _planGroup, _discountId, promocode) => {
+        const isCreditPlan = planId === creditPlans[0].id || planId === creditPlans[1].id;
+        if (isCreditPlan) {
+          return promocode ? creditsAmountDetailsWithDiscount : creditsAmountDetails;
+        }
+
+        return promocode ? amountDetailsWithPromocodeNoDuration : amountDetails;
+      },
     );
 
-    fireEvent.change(screen.getByRole('textbox'), {
+    fireEvent.change(within(getContactsPlanSection()).getByRole('textbox'), {
       target: { value: 'PROMO50%' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: 'Aplicar' }));
     await settleAsyncState();
 
     await waitFor(() =>
@@ -399,5 +516,105 @@ describe('NewPlanSelection component', () => {
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).queryByText(/por.*mes/i),
     ).not.toBeInTheDocument();
+  });
+
+  it('should apply valid promocode discount in credits price section', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
+      target: { value: 'CREDITS10' },
+    });
+    fireEvent.click(within(getCreditsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(forcedServices.dopplerAccountPlansApiClient.validatePromocode).toHaveBeenCalledWith(
+        20222,
+        'CREDITS10',
+      ),
+    );
+
+    await waitFor(() =>
+      expect(
+        within(getCreditsPlanSection()).getAllByText(textContentIncludes('US$72/pago unico*'))
+          .length,
+      ).toBeGreaterThan(0),
+    );
+    expect(
+      within(getCreditsPlanSection()).getByText(/Ahorras 10% en esta compra/i),
+    ).toBeInTheDocument();
+  });
+
+  it('should show extra credits message when promocode has only extra credits', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    forcedServices.dopplerAccountPlansApiClient.validatePromocode.mockResolvedValueOnce({
+      success: true,
+      value: {
+        canApply: true,
+        promotionApplied: { discountPercentage: 0, extraCredits: 5000 },
+      },
+    });
+
+    forcedServices.dopplerAccountPlansApiClient.getPlanBillingDetailsData.mockImplementation(
+      async (planId, _planGroup, _discountId, promocode) => {
+        const isCreditPlan = planId === creditPlans[0].id || planId === creditPlans[1].id;
+        if (isCreditPlan) {
+          return promocode ? creditsAmountDetailsWithExtraCredits : creditsAmountDetails;
+        }
+
+        return promocode ? amountDetailsWithPromocode : amountDetails;
+      },
+    );
+
+    fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
+      target: { value: 'PLUS5000' },
+    });
+    fireEvent.click(within(getCreditsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(getCreditsPlanSection()).getByText(/Incluye 5.000 Creditos extra/i),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it('should show discount and extra credits when promocode has both benefits', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    forcedServices.dopplerAccountPlansApiClient.validatePromocode.mockResolvedValueOnce({
+      success: true,
+      value: {
+        canApply: true,
+        promotionApplied: { discountPercentage: 10, extraCredits: 5000 },
+      },
+    });
+
+    forcedServices.dopplerAccountPlansApiClient.getPlanBillingDetailsData.mockImplementation(
+      async (planId, _planGroup, _discountId, promocode) => {
+        const isCreditPlan = planId === creditPlans[0].id || planId === creditPlans[1].id;
+        if (isCreditPlan) {
+          return promocode ? creditsAmountDetailsWithDiscountAndExtraCredits : creditsAmountDetails;
+        }
+
+        return promocode ? amountDetailsWithPromocode : amountDetails;
+      },
+    );
+
+    fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
+      target: { value: 'CREDITSBONUS' },
+    });
+    fireEvent.click(within(getCreditsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(getCreditsPlanSection()).getByText(/Ahorras 10% en esta compra/i),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      within(getCreditsPlanSection()).getByText(/Incluye 5.000 Creditos extra/i),
+    ).toBeInTheDocument();
   });
 });
