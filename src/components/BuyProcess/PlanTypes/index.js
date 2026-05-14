@@ -98,6 +98,8 @@ export const PlanTypes = InjectAppServices(
     const { search } = useLocation();
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
     const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
+    const { features } = appSessionRef.current.userData;
+    const newPlanSelectionEnabled = features?.newPlanSelectionEnabled;
 
     if (!isFreeAccount) {
       return (
@@ -107,6 +109,10 @@ export const PlanTypes = InjectAppServices(
           }?${queryParams}&buyType=${BUY_MARKETING_PLAN}`}
         />
       );
+    }
+
+    if (newPlanSelectionEnabled) {
+      return <Navigate to={`/new-plan-selection`} />;
     }
 
     if (loading) {

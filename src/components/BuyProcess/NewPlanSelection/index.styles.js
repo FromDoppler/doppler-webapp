@@ -67,7 +67,6 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-layout {
-    padding-bottom: 145px;
   }
 
   .dp-new-plan-selection-sticky-summary-content {
@@ -122,6 +121,89 @@ export const NewPlanSelectionStyled = styled.div`
     padding: 30px 114px;
   }
 
+  .dp-new-plan-selection-card-credits {
+    background: #fdf5c8;
+    border-color: #e9dfaa;
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    padding: 24px 0 28px;
+  }
+
+  .dp-new-plan-selection-card-credits-content {
+    padding: 0;
+  }
+
+  .dp-new-plan-selection-credits-fullwidth {
+    margin: 0;
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .dp-new-plan-selection-credits-fullwidth .dp-new-plan-selection-card-credits {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-card-header {
+    margin-bottom: 14px;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-plan-title {
+    margin-bottom: 4px;
+  }
+
+  .dp-new-plan-selection-credits-description {
+    max-width: 540px;
+  }
+
+  .dp-new-plan-selection-main-credits {
+    gap: 16px;
+  }
+
+  .dp-new-plan-selection-fields-credits {
+    gap: 12px;
+    padding-right: 42px;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-select-wrap,
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-promocode {
+    max-width: 415px;
+    margin-top: 6px;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-price-credits {
+    border-left: 0;
+    justify-content: flex-start;
+    padding-left: 42px;
+    padding-top: 2px;
+    padding-right: 0;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-price-value {
+    margin-bottom: 10px;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-buy-credits-cta {
+    background-color: #fab221;
+    border-color: #e58900;
+    color: #302100;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-buy-credits-cta:hover {
+    background-color: #e58900;
+    border-color: #e58900;
+    color: #302100;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-disclaimer-credits {
+    line-height: 1.45;
+    margin-top: 14px;
+  }
+
   .dp-new-plan-selection-card-header {
     align-items: flex-start;
     display: flex;
@@ -171,12 +253,8 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-select-wrap .labelcontrol,
   .dp-new-plan-selection-payment-frequency h4,
   .dp-new-plan-selection-promocode legend {
-    color: #333;
     display: block;
-    font-size: 12px;
     font-weight: 700;
-    margin-bottom: 6px;
-    text-transform: none;
   }
 
   .dp-new-plan-selection-select-wrap .dropdown-arrow {
@@ -271,7 +349,6 @@ export const NewPlanSelectionStyled = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 12px;
   }
 
   .dp-new-plan-selection-old-price {
@@ -286,7 +363,11 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-price .dp-button {
-    min-width: 100%;
+    width: 250px;
+  }
+
+  .dp-new-plan-selection-extra-credits-message {
+    margin: 0 0 12px;
   }
 
   .dp-new-plan-selection-disclaimer {
@@ -328,19 +409,33 @@ export const NewPlanSelectionStyled = styled.div`
     width: 100%;
   }
 
+  .dp-new-plan-selection-promocode .field-item--70 .labelcontrol {
+    display: block;
+    position: relative;
+  }
+
+  .dp-new-plan-selection-promocode .field-item--70 .dp-new-plan-selection-promocode-icon {
+    font-size: 14px;
+    left: 8px;
+    pointer-events: none;
+    position: absolute;
+    top: 12px;
+    z-index: 1;
+  }
+
+  .dp-new-plan-selection-promocode .field-item--70 .labelcontrol.is-approved {
+    .dp-new-plan-selection-promocode-icon {
+      color: #33ad73;
+    }
+  }
+
   .dp-new-plan-selection-promocode .field-item--70 input {
     margin: 0;
     padding-left: 30px;
-    background-image: url('/images/discount-coupon.svg');
-    background-repeat: no-repeat;
-    background-position: 6px center;
+    box-shadow: 0 0 0 2px transparent;
 
     &::placeholder {
       color: #ccc;
-    }
-
-    &:disabled {
-      background-image: none;
     }
   }
 
@@ -352,16 +447,12 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-promocode .field-item--70 .dp-btn-delete {
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     right: 7px;
-    top: 7px;
-    padding: 11px;
-    border-radius: 100%;
-    box-shadow: hsla(0deg, 0%, 100%, 0) 0px 0px 0px 30px;
-    transition: box-shadow 0.4s ease 0s;
-    font-weight: normal;
-    font-size: 1rem;
+    top: 12px;
+    background-image: url('/images/actions-close-icon.svg');
+    background-repeat: no-repeat;
 
     &:hover {
       box-shadow: rgba(149, 157, 165, 0.5) 0 0 0 0;
@@ -731,7 +822,6 @@ export const NewPlanSelectionStyled = styled.div`
     }
 
     .dp-new-plan-selection-layout {
-      padding-bottom: 165px;
     }
 
     .dp-new-plan-selection-sticky-summary-title {
@@ -760,6 +850,15 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-card {
       padding: 18px;
+    }
+
+    .dp-new-plan-selection-card-credits .dp-new-plan-selection-fields-credits {
+      padding-right: 0;
+    }
+
+    .dp-new-plan-selection-card-credits .dp-new-plan-selection-select-wrap,
+    .dp-new-plan-selection-card-credits .dp-new-plan-selection-promocode {
+      max-width: none;
     }
 
     .dp-new-plan-selection-main {
@@ -823,7 +922,6 @@ export const NewPlanSelectionStyled = styled.div`
     }
 
     .dp-new-plan-selection-layout {
-      padding-bottom: 185px;
     }
 
     .dp-new-plan-selection-card-header {

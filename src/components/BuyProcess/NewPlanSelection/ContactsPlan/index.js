@@ -207,7 +207,7 @@ export const ContactsPlan = InjectAppServices(
     }, [onStickySummaryChange, stickySummaryData]);
 
     return (
-      <section className="dp-new-plan-selection-card">
+      <section className="dp-new-plan-selection-card" data-testid="dp-contacts-plan">
         <div className="dp-new-plan-selection-card-header">
           <div>
             <div className="dp-new-plan-selection-plan-title">

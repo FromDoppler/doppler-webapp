@@ -10,6 +10,7 @@ const urlHelp = `https://help.fromdoppler.com/en`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlConversations = process.env.REACT_APP_DOPPLER_CONVERSATIONS_URL;
 const urlOnSite = process.env.REACT_APP_DOPPLER_ONSITE_URL;
+const formattedNumberPlaceholder = '{value}';
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/advanced-reports`;
@@ -161,6 +162,7 @@ other {}}}}}}}}}}
     months_to_hire: 'Months to hire:',
     months_to_pay: 'Months to pay:',
     new_plan_selection: {
+      buy_credits: 'Buy Credits',
       choose_plan: 'Choose Plan',
       contact_advisor_cta: 'Contact an Advisor',
       contacts_label: 'How many Contacts do you have?',
@@ -168,6 +170,13 @@ other {}}}}}}}}}}
       contacts_option_more_than_100k: 'More than 100,000',
       contacts_plan_description: 'Reach all your Contacts at all times. The ideal plan if your Campaigns are frequent and your database is already established.',
       contacts_plan_title: 'Contacts Plan',
+      credits_extra_credits_text: 'Includes {credits} extra Credits',
+      credits_label: 'How many Credits do you need?',
+      credits_option: '{credits}',
+      credits_plan_description: 'Buy Credits and use them whenever you want. Ideal for one-off sendings or flexible needs.',
+      credits_plan_title: 'Buy Credits and use them whenever you want',
+      credits_price_per_credit: `Price per Credit: US$${formattedNumberPlaceholder}`,
+      credits_promocode_savings_text: 'You save {percentage}% on this purchase',
       custom_price_value: 'Tailored*',
       empty_message: 'There are no Contacts plans available at the moment.',
       included_features: {
@@ -199,6 +208,7 @@ other {}}}}}}}}}}
       price_label: 'Price',
       promocode_savings_text: 'You save {percentage}% for {months, plural, one {# month} other {# months}}',
       savings_text: 'You save {percentage}% with 1 {period} payment of {currency}{total}',
+      single_payment_period: 'one-time payment',
       sticky_contacts_subtitle: 'Up to {contacts} Contacts + Unlimited emails',
       sticky_custom_cta: 'Consult with Doppler Team',
       sticky_custom_subtitle: 'Unlimited contacts + Emails with tailored pricing',

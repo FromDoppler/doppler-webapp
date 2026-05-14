@@ -1,6 +1,6 @@
 # SPEC_20260513_plan-creditos-seccion-10
 
-Estado: Draft
+Estado: Implementado (pendiente QA)
 
 Assets principales:
 
@@ -64,8 +64,8 @@ Integracion:
 
 - `NewPlanSelection/index.js` debe renderizar `CreditsPlan` dentro de la misma
   pantalla de seleccion de planes.
-- El orden recomendado es: `ContactsPlan` -> `CreditsPlan` ->
-  `IncludedFeatures`.
+- El orden implementado es: `ContactsPlan` -> `IncludedFeatures` ->
+  `CreditsPlan`.
 
 ---
 
@@ -160,7 +160,10 @@ Si se decide mostrar datos en sticky o resumen comun, exponer callback
 ## 6) Estilos y UX
 
 - Reusar layout y patrones visuales de `NewPlanSelection` para consistencia.
-- Mantener card con radio estandar 3px y tipografia del style-guide.
+- Mantener tipografia del style-guide y alineacion visual con las secciones
+  superiores.
+- La seccion de `CreditsPlan` usa fondo amarillo en ancho completo, con
+  contenido interno alineado a grilla.
 - Mantener alineacion horizontal de input promocode + boton aplicar.
 - No introducir estilos globales; scopear en
   `src/components/BuyProcess/NewPlanSelection/index.styles.js` o styles locales
@@ -209,4 +212,3 @@ Agregar/actualizar tests en `NewPlanSelection` para cubrir:
 - CTA navega a checkout premium de Creditos con params correctos.
 - i18n ES/EN actualizado.
 - Tests en verde.
-

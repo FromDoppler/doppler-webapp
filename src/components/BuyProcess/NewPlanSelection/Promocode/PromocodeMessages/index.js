@@ -1,12 +1,5 @@
-import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
-import { PLAN_TYPE } from '../../../../../doppler-types';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { thousandSeparatorNumber } from '../../../../../utils';
-
-const numberFormatOptions = {
-  style: 'decimal',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-};
 
 export const PromocodeMessages = ({
   allowPromocode,
@@ -31,26 +24,6 @@ export const PromocodeMessages = ({
     return <PromocodeCanNotApplyMessage promotion={promotion}></PromocodeCanNotApplyMessage>;
   }
 
-  const marketingPlanHasBillingCicle = [PLAN_TYPE.byContact, PLAN_TYPE.byEmail].includes(
-    promotion?.planType,
-  );
-
-  if (
-    !validationError &&
-    validated &&
-    !promocodeMessageAlreadyShowRef.current &&
-    (promotion?.planType === PLAN_TYPE.byCredit ||
-      (promotion?.planType !== PLAN_TYPE.byCredit && amountDetailsData?.value?.nextMonthTotal))
-  ) {
-    return (
-      <div className={`dp-simulated-price ${!promocodeApplied ? 'bounceIn' : 'bounceOut'}`}>
-        {!marketingPlanHasBillingCicle && (
-          <PromocodeMessageExtraCredits promotion={promotion?.promotionApplied} />
-        )}
-      </div>
-    );
-  }
-
   return null;
 };
 
@@ -62,25 +35,6 @@ const PromocodeNotAllowed = () => (
     </div>
   </div>
 );
-
-const PromocodeMessageExtraCredits = ({ promotion }) => {
-  const intl = useIntl();
-  const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-  return (
-    <>
-      <span>
-        US$X
-        <FormattedNumber value={0} {...numberFormatOptions} />
-      </span>
-      <h3>
-        {_('buy_process.promocode.extra_credits_label')}{' '}
-        {thousandSeparatorNumber(intl.defaultLocale, promotion?.extraCredits)}
-      </h3>
-      <span>{_('buy_process.promocode.valid_until_label')}</span>
-    </>
-  );
-};
 
 const PromocodeCanNotApplyMessage = ({ promotion }) => {
   const intl = useIntl();

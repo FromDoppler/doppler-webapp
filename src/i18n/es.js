@@ -10,6 +10,7 @@ const urlHelp = `https://help.fromdoppler.com/es`;
 const urlShopify = process.env.REACT_APP_SHOPIFY_URL;
 const urlConversations = process.env.REACT_APP_DOPPLER_CONVERSATIONS_URL;
 const urlOnSite = process.env.REACT_APP_DOPPLER_ONSITE_URL;
+const formattedNumberPlaceholder = '{value}';
 
 // Common URLs
 const urlHelpAdvancedReports = `${urlHelp}/reportes-avanzados`;
@@ -162,6 +163,7 @@ other {}}}}}}}}}}
     months_to_hire: 'Meses a contratar:',
     months_to_pay: `Meses a abonar:`,
     new_plan_selection: {
+      buy_credits: 'Comprar Creditos',
       choose_plan: 'Elegir Plan',
       contact_advisor_cta: 'Contactar a Asesor',
       contacts_label: '¿Cuántos Contactos tienes?',
@@ -169,6 +171,13 @@ other {}}}}}}}}}}
       contacts_option_more_than_100k: 'Más de 100.000',
       contacts_plan_description: 'Llega a todos tus Contactos siempre. El plan ideal si tus Campañas son frecuentes y tu base ya está consolidada.',
       contacts_plan_title: 'Plan Contactos',
+      credits_extra_credits_text: 'Incluye {credits} Creditos extra',
+      credits_label: 'Cuantos Creditos necesitas?',
+      credits_option: '{credits}',
+      credits_plan_description: 'Compra Creditos y usalos cuando quieras. Ideal para envios puntuales o necesidades flexibles.',
+      credits_plan_title: 'Compra Creditos y usalos cuando quieras',
+      credits_price_per_credit: `Precio por Credito: US$${formattedNumberPlaceholder}`,
+      credits_promocode_savings_text: 'Ahorras {percentage}% en esta compra',
       custom_price_value: 'A medida*',
       empty_message: 'No hay planes por Contactos disponibles en este momento.',
       included_features: {
@@ -200,6 +209,7 @@ other {}}}}}}}}}}
       price_label: 'Precio',
       promocode_savings_text: 'Ahorras {percentage}% durante {months, plural, one {# mes} other {# meses}}',
       savings_text: 'Ahorras {percentage}% realizando 1 pago {period} de {currency}{total}',
+      single_payment_period: 'pago unico',
       sticky_contacts_subtitle: 'Hasta {contacts} Contactos + Envios ilimitados',
       sticky_custom_cta: 'Consultar con Doppler Team',
       sticky_custom_subtitle: 'Contactos ilimitados + Envios con precios a medida',
