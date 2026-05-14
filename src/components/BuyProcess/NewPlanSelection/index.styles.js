@@ -423,11 +423,10 @@ export const NewPlanSelectionStyled = styled.div`
     z-index: 1;
   }
 
-  .dp-new-plan-selection-promocode
-    .field-item--70
-    .labelcontrol.is-approved
+  .dp-new-plan-selection-promocode .field-item--70 .labelcontrol.is-approved {
     .dp-new-plan-selection-promocode-icon {
-    color: #33ad73;
+      color: #33ad73;
+    }
   }
 
   .dp-new-plan-selection-promocode .field-item--70 input {
