@@ -17,10 +17,12 @@ import { getFormInitialValues } from '../../utils';
 import { FAQSection } from '../BuyProcess/NewPlanSelection/FAQSection';
 import { NewPlanSelectionStyled } from '../BuyProcess/NewPlanSelection/index.styles';
 import { GoBackButton } from '../BuyProcess/NewPlanSelection/GoBackButton';
+import useTimeout from '../../hooks/useTimeout';
 
 const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const createTimeout = useTimeout();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -51,6 +53,9 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
       const result = await dopplerLegacyClient.requestSuggestionUpgradeForm(values);
       if (result) {
         setFormSubmitted(true);
+        createTimeout(() => {
+          window.history.back();
+        }, 3000);
       }
     } finally {
       setSubmitting(false);
