@@ -11,6 +11,7 @@ export const PromocodeMessages = ({
   amountDetailsData,
   validationError,
   promocodeMessageAlreadyShowRef,
+  hideCanNotApplyMessage = false,
 }) => {
   if (!allowPromocode) {
     return hasPromocodeAppliedItem ? <PromocodeNotAllowed /> : null;
@@ -20,7 +21,7 @@ export const PromocodeMessages = ({
     return null;
   }
 
-  if (promotion?.canApply === false && promotion?.promocode !== '') {
+  if (!hideCanNotApplyMessage && promotion?.canApply === false && promotion?.promocode !== '') {
     return <PromocodeCanNotApplyMessage promotion={promotion}></PromocodeCanNotApplyMessage>;
   }
 

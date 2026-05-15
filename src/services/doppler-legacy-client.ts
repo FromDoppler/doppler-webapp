@@ -374,6 +374,7 @@ interface PromotionEntry {
   duration: number;
   idUserTypePlan: number;
   idPromotion: number;
+  code: string;
 }
 
 interface ChatPlanEntry {
@@ -802,6 +803,7 @@ function mapPromotion(json: any): PromotionEntry {
     duration: json?.duration,
     idUserTypePlan: json?.idUserTypePlan,
     idPromotion: json?.idPromotion,
+    code: json?.code,
   };
 }
 

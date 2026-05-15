@@ -59,10 +59,11 @@ export const Promocode = InjectAppServices(
     defaultPromocodeDismissed,
     handleManualPromocodeIntervention,
     registerClearPromocodeInput,
+    hideCanNotApplyMessage,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const query = useQueryParams();
-    const defaultPromocode = getPromocode(query, isArgentina);
+    const defaultPromocode = getPromocode(query, isArgentina, isFreeAccount);
     const promocodeFromUrl = getPromocodeFromQuery(query);
     const contactsPromocode = getContactsPromocode();
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
@@ -306,17 +307,20 @@ export const Promocode = InjectAppServices(
         return;
       }
 
-      if (defaultPromocode && allowPromocode && selectedMarketingPlan?.id) {
+      const promoCodeFromState = currentPromocodeApplied?.promocode || '';
+      const promoCodeToInitialize = promoCodeFromState || defaultPromocode;
+
+      if (promoCodeToInitialize && allowPromocode && selectedMarketingPlan?.id) {
         const { setFieldValue } = promocodeInputRef.current;
         if (
           isArgentina &&
-          defaultPromocode === process.env.REACT_APP_PROMOCODE_ARGENTINA &&
+          promoCodeToInitialize === process.env.REACT_APP_PROMOCODE_ARGENTINA &&
           process.env.REACT_APP_PROMOCODE_ARGENTINA !== '' &&
           selectedMarketingPlan?.type !== PLAN_TYPE.byContact
         ) {
           setFieldValue(fieldNames.promocode, '');
         } else {
-          const promocodeToSet = currentPromocodeApplied?.promocode || defaultPromocode;
+          const promocodeToSet = promoCodeToInitialize;
 
           setFieldValue(fieldNames.promocode, promocodeToSet);
           const validatePercengePromocode = true;
@@ -336,7 +340,9 @@ export const Promocode = InjectAppServices(
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
-      initialValues[fieldNames.promocode] = defaultPromocodeDismissed ? '' : defaultPromocode || '';
+      initialValues[fieldNames.promocode] = defaultPromocodeDismissed
+        ? ''
+        : currentPromocodeApplied?.promocode || defaultPromocode || '';
 
       return initialValues;
     };
@@ -391,6 +397,7 @@ export const Promocode = InjectAppServices(
           amountDetailsData={amountDetailsData}
           validationError={error}
           promocodeMessageAlreadyShowRef={promocodeMessageAlreadyShowRef}
+          hideCanNotApplyMessage={hideCanNotApplyMessage}
         />
       </section>
     );
@@ -408,6 +415,7 @@ Promocode.propTypes = {
   defaultPromocodeDismissed: PropTypes.bool,
   handleManualPromocodeIntervention: PropTypes.func,
   registerClearPromocodeInput: PropTypes.func,
+  hideCanNotApplyMessage: PropTypes.bool,
 };
 
 export const PromocodeFieldItem = ({
@@ -476,10 +484,10 @@ export const PromocodeFieldItem = ({
   );
 };
 
-export const getPromocode = (query, isArgentina) => {
+export const getPromocode = (query, isArgentina, isFreeAccount) => {
   const promocodeFromUrl = getPromocodeFromQuery(query);
 
-  return !promocodeFromUrl && isArgentina
+  return !promocodeFromUrl && isArgentina && isFreeAccount
     ? process.env.REACT_APP_PROMOCODE_ARGENTINA
     : promocodeFromUrl;
 };

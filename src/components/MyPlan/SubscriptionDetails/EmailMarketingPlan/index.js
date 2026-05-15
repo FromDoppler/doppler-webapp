@@ -28,8 +28,7 @@ export const EmailMarketingPlan = ({ user, plan, features }) => {
     (typeof rawNewPlanSelectionFlag === 'string' &&
       rawNewPlanSelectionFlag.toLowerCase() === 'true');
   const isChangePlanAction = !plan.trialExpired && plan.planType !== PLAN_TYPE.byCredit;
-  const shouldGoToPlanSelection =
-    !plan.isFreeAccount && (!isContactPlan || !newPlanSelectionFlag);
+  const shouldGoToPlanSelection = !plan.isFreeAccount && (!isContactPlan || !newPlanSelectionFlag);
   const changePlanUrl = shouldGoToPlanSelection
     ? '/plan-selection/premium/by-contacts?buyType=1'
     : '/new-plan-selection';

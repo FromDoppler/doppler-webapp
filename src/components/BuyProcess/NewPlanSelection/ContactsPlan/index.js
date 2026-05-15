@@ -23,6 +23,45 @@ const getFormattedPriceOptions = (value) => ({
 
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
 
+const getSessionPromocodeApplied = (sessionPlan) => {
+  const promotion = sessionPlan?.plan?.promotion;
+  const sanitizeCode = (value) =>
+    value === undefined || value === null ? '' : String(value).trim();
+  const promocode =
+    sanitizeCode(promotion?.code) ||
+    sanitizeCode(promotion?.promocode) ||
+    sanitizeCode(promotion?.promoCode) ||
+    sanitizeCode(sessionPlan?.plan?.promotionCode) ||
+    sanitizeCode(sessionPlan?.plan?.promocode);
+
+  if (!promocode) {
+    return null;
+  }
+
+  return {
+    canApply: true,
+    promocode,
+    promotionApplied: {
+      discountPercentage: promotion?.discount ?? 0,
+      duration: promotion?.duration ?? 0,
+    },
+  };
+};
+
+const getSessionSavedPromocode = (sessionPlan) => {
+  const promotion = sessionPlan?.plan?.promotion;
+  const sanitizeCode = (value) =>
+    value === undefined || value === null ? '' : String(value).trim();
+
+  return (
+    sanitizeCode(promotion?.code) ||
+    sanitizeCode(promotion?.promocode) ||
+    sanitizeCode(promotion?.promoCode) ||
+    sanitizeCode(sessionPlan?.plan?.promotionCode) ||
+    sanitizeCode(sessionPlan?.plan?.promocode)
+  );
+};
+
 const getCheckoutUrl = ({ search, selectedPlan, selectedPaymentFrequency, promocodeApplied }) => {
   const params = new URLSearchParams(search);
   params.set('selected-plan', selectedPlan.id);
@@ -71,6 +110,12 @@ export const ContactsPlan = InjectAppServices(
     const [promocodeApplied, setPromocodeApplied] = useState(null);
     const [defaultPromocodeDismissed, setDefaultPromocodeDismissed] = useState(false);
     const clearPromocodeInputRef = useRef(null);
+    const sessionPromocodeApplied = useMemo(
+      () => getSessionPromocodeApplied(sessionPlan),
+      [sessionPlan],
+    );
+    const effectivePromocodeApplied =
+      promocodeApplied ?? (!defaultPromocodeDismissed ? sessionPromocodeApplied : null);
 
     const paymentFrequencies = useMemo(
       () => selectedPlan?.billingCycleDetails?.map(mapDiscount).sort(orderAscendingDiscount) ?? [],
@@ -84,7 +129,7 @@ export const ContactsPlan = InjectAppServices(
             selectedPlan.id,
             'Marketing',
             selectedPaymentFrequency?.id ?? 0,
-            promocodeApplied?.canApply ? promocodeApplied.promocode : '',
+            effectivePromocodeApplied?.canApply ? effectivePromocodeApplied.promocode : '',
           );
           setAmountDetailsData(amountDetails);
         } catch (error) {
@@ -95,7 +140,12 @@ export const ContactsPlan = InjectAppServices(
       if (selectedPlan?.id) {
         fetchAmountDetails();
       }
-    }, [dopplerAccountPlansApiClient, promocodeApplied, selectedPaymentFrequency, selectedPlan]);
+    }, [
+      dopplerAccountPlansApiClient,
+      effectivePromocodeApplied,
+      selectedPaymentFrequency,
+      selectedPlan,
+    ]);
 
     const handlePaymentFrequencyChange = useCallback(({ selectedPaymentFrequency }) => {
       setSelectedPaymentFrequency(selectedPaymentFrequency);
@@ -128,9 +178,11 @@ export const ContactsPlan = InjectAppServices(
     const promocodeDiscount = amountDetailsData?.value?.discountPromocode ?? null;
     const promocodeDiscountPercentage = promocodeDiscount?.discountPercentage ?? 0;
     const promocodeDuration =
-      promocodeApplied?.promotionApplied?.duration ?? promocodeDiscount?.duration ?? 0;
+      effectivePromocodeApplied?.promotionApplied?.duration ?? promocodeDiscount?.duration ?? 0;
     const hasPromocodeDiscount = Boolean(
-      promocodeApplied?.canApply && promocodeDiscountPercentage > 0 && !isMoreThan100kSelected,
+      effectivePromocodeApplied?.canApply &&
+      promocodeDiscountPercentage > 0 &&
+      !isMoreThan100kSelected,
     );
     const displayedMonthlyPrice =
       hasPromocodeDiscount && typeof amountDetailsData?.value?.nextMonthTotal === 'number'
@@ -138,11 +190,42 @@ export const ContactsPlan = InjectAppServices(
         : monthlyPrice;
     const canChoosePlan = selectedPlan && !isEqualPlan;
     const checkoutUrl = selectedPlan
-      ? getCheckoutUrl({ search, selectedPlan, selectedPaymentFrequency, promocodeApplied })
+      ? getCheckoutUrl({
+          search,
+          selectedPlan,
+          selectedPaymentFrequency,
+          promocodeApplied: effectivePromocodeApplied,
+        })
       : '#';
     const stickyContactsLabel = selectedPlan
       ? thousandSeparatorNumber(intl.defaultLocale, amountByPlanType(selectedPlan))
       : '';
+    const currentSessionContactPlan =
+      plans.find((plan) => plan.id === sessionPlan?.plan?.idPlan) ?? null;
+    const currentSessionContactCapacity = amountByPlanType(currentSessionContactPlan ?? {});
+    const selectedContactCapacity = amountByPlanType(selectedPlan ?? {});
+    const shouldShowDowngradeWarning =
+      !isFreeAccount &&
+      sessionPlan?.plan?.planType === PLAN_TYPE.byContact &&
+      currentSessionContactCapacity > 0 &&
+      selectedContactCapacity > 0 &&
+      selectedContactCapacity < currentSessionContactCapacity;
+    const isUpgradePlan =
+      !isFreeAccount &&
+      sessionPlan?.plan?.planType === PLAN_TYPE.byContact &&
+      currentSessionContactCapacity > 0 &&
+      selectedContactCapacity > 0 &&
+      selectedContactCapacity > currentSessionContactCapacity;
+    const savedPromocode = getSessionSavedPromocode(sessionPlan);
+    const appliedPromocode = (effectivePromocodeApplied?.promocode || '').trim();
+    const hasSavedPromocode = Boolean(savedPromocode);
+    const isAppliedPromocodeSameAsSaved =
+      hasSavedPromocode &&
+      appliedPromocode !== '' &&
+      appliedPromocode.toLowerCase() === savedPromocode.toLowerCase();
+    const shouldShowLosePromotionWarning =
+      !isTailoredPlan && isUpgradePlan && isAppliedPromocodeSameAsSaved;
+    const shouldUseAdvisorCta = isTailoredPlan || shouldShowDowngradeWarning;
 
     const stickyDiscountSummary = useMemo(() => {
       if (isTailoredPlan) {
@@ -186,17 +269,19 @@ export const ContactsPlan = InjectAppServices(
     const stickySummaryData = useMemo(
       () => ({
         contactsLabel: stickyContactsLabel,
-        ctaHref: isTailoredPlan ? '/upgrade-suggestion-form' : checkoutUrl,
+        ctaHref: shouldUseAdvisorCta ? '/upgrade-suggestion-form' : checkoutUrl,
         discountSummary: stickyDiscountSummary,
         displayPrice: displayedMonthlyPrice,
         isCustomPlan: isTailoredPlan,
-        isDisabled: !isTailoredPlan && !canChoosePlan,
+        isDisabled: !shouldUseAdvisorCta && !canChoosePlan,
+        useAdvisorCta: shouldUseAdvisorCta,
       }),
       [
         canChoosePlan,
         checkoutUrl,
         displayedMonthlyPrice,
         isTailoredPlan,
+        shouldUseAdvisorCta,
         stickyContactsLabel,
         stickyDiscountSummary,
       ],
@@ -261,7 +346,7 @@ export const ContactsPlan = InjectAppServices(
                   paymentFrequenciesList={paymentFrequencies}
                   onSelectPaymentFrequency={handlePaymentFrequencyChange}
                   currentSubscriptionUser={sessionPlan.plan.planSubscription}
-                  disabled={!isFreeAccount || isEqualPlan}
+                  disabled
                 />
               </div>
               <div className="dp-new-plan-selection-promocode">
@@ -273,15 +358,18 @@ export const ContactsPlan = InjectAppServices(
                   amountDetailsData={amountDetailsData}
                   selectedPaymentFrequency={selectedPaymentFrequency}
                   callback={handlePromocodeApplied}
-                  hasPromocodeAppliedItem={Boolean(promocodeApplied?.promocode)}
+                  hasPromocodeAppliedItem={Boolean(effectivePromocodeApplied?.promocode)}
                   isArgentina={sessionPlan.locationCountry === 'ar'}
                   isFreeAccount={isFreeAccount}
                   disabledPromocode={false}
                   handleRemovePromocodeApplied={handleRemovePromocodeApplied}
-                  currentPromocodeApplied={promocodeApplied}
+                  currentPromocodeApplied={effectivePromocodeApplied}
                   registerClearPromocodeInput={registerClearPromocodeInput}
                   defaultPromocodeDismissed={defaultPromocodeDismissed}
                   handleManualPromocodeIntervention={handleManualPromocodeIntervention}
+                  hideCanNotApplyMessage={
+                    shouldShowLosePromotionWarning || shouldShowDowngradeWarning || isTailoredPlan
+                  }
                 />
               </div>
               {isMoreThan100kSelected && (
@@ -301,6 +389,38 @@ export const ContactsPlan = InjectAppServices(
                   >
                     <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
                   </Link>
+                </div>
+              )}
+              {shouldShowLosePromotionWarning && (
+                <div className="dp-wrap-message dp-wrap-warning">
+                  <span className="dp-message-icon" />
+                  <div className="dp-content-message dp-content-full">
+                    <p>
+                      <FormattedMessage id="buy_process.plan_selection.lose_promotion_message" />
+                    </p>
+                  </div>
+                </div>
+              )}
+              {shouldShowDowngradeWarning && !shouldShowLosePromotionWarning && (
+                <div
+                  className="dp-wrap-message dp-wrap-info dp-new-plan-selection-more-than-message"
+                  data-testid="dp-contacts-downgrade-message"
+                >
+                  <span className="dp-message-icon" />
+                  <div className="dp-content-message">
+                    <p>
+                      <FormattedMessage
+                        id="buy_process.new_plan_selection.contacts_downgrade_warning_message"
+                        values={{ br: <br />, bold: (chunks) => <b>{chunks}</b> }}
+                      />
+                    </p>
+                    <Link
+                      to="/upgrade-suggestion-form"
+                      className="dp-new-plan-selection-more-than-link"
+                    >
+                      <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -389,7 +509,7 @@ export const ContactsPlan = InjectAppServices(
               </div>
             )}
 
-            {isTailoredPlan ? (
+            {shouldUseAdvisorCta ? (
               <Link
                 className="dp-button button-medium primary-green dp-new-plan-selection-contact-advisor-cta"
                 to="/upgrade-suggestion-form"

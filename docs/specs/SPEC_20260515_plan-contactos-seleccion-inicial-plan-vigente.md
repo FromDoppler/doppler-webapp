@@ -5,6 +5,8 @@ Estado: Draft
 Assets principales:
 
 - `docs/assets/picture_1.png`: pantalla general de `NewPlanSelection`.
+- `docs/assets/picture_12.png`: matriz de 3 escenarios para mensajes de
+  cambio de plan/promocode.
 
 Estandares relacionados:
 
@@ -161,6 +163,64 @@ Cuando la frecuencia seleccionada **no es mensual**:
 Cuando la frecuencia vuelva a mensual, el control puede reactivarse segun reglas
 actuales de `allowPromocode`.
 
+### 4.8 Reglas de mensajes (Picture 12 + escenario adicional)
+
+Aplica para usuarios con plan vigente de contactos (`PLAN_TYPE.byContact`) y no
+free, con comparacion de capacidad entre plan actual y plan seleccionado.
+
+Escenario 1 - plan mas chico (downgrade):
+
+- se considera **downgrade** cuando el plan seleccionado en el dropdown de
+  contactos tiene menor capacidad que el plan vigente del usuario;
+- la comparacion de capacidad debe realizarse con la misma fuente ya usada por
+  la UI (`subscriberLimit` o `subscribersQty`, segun disponibilidad del plan).
+- en este caso se muestra el cartel celeste de asesoramiento (`picture_12`,
+  bloque superior).
+
+Escenario 2 - plan mas grande + mismo promocode guardado:
+
+- si el usuario tiene promocode guardado en sesion y el promocode aplicado en
+  el control es el mismo, al cambiar a un plan mas grande debe mostrarse el
+  warning amarillo:
+  `buy_process.plan_selection.lose_promotion_message`.
+
+Escenario 3 - promocode aplicado distinto al guardado e invalido para el plan:
+
+- si el promocode aplicado en el control es distinto del guardado y no aplica
+  al plan seleccionado, debe mostrarse el mensaje de "este codigo aplica
+  unicamente a..." (cartel celeste de invalidacion de promo, como en
+  `picture_12` bloque inferior), proveniente del flujo normal de validacion de
+  `Promocode`.
+
+Escenario 4 - seleccion "mas de 100.000" contactos:
+
+- cuando el usuario selecciona la opcion "mas de 100.000", debe mostrarse
+  unicamente el mensaje celeste de asesoramiento para plan personalizado;
+- en este escenario no debe mostrarse el warning amarillo de perdida de
+  beneficios, aunque exista promocode guardado.
+- en este escenario tampoco debe mostrarse el mensaje celeste de
+  "este codigo aplica unicamente a..."; debe quedar visible solo el celeste de
+  plan personalizado.
+
+Reglas de prioridad entre mensajes:
+
+- escenario 2 (warning amarillo) no debe mostrarse si el escenario 3 ya aplica;
+- escenario 1 y escenario 2 son excluyentes entre si por direccion del cambio
+  de plan (menor vs mayor);
+- escenario 4 tiene prioridad sobre escenario 2 para evitar doble mensaje
+  cuando el usuario selecciona "mas de 100.000";
+- escenario 4 tambien tiene prioridad sobre escenario 3 (mensaje de promo no
+  aplicable), para evitar doble cartel celeste;
+- al volver a seleccionar un plan que no cumple la condicion del escenario
+  activo, el mensaje correspondiente debe ocultarse.
+
+Alcance de esta iteracion:
+
+- solo comportamiento informativo/visual asociado a `picture_12`;
+- no altera flujo de checkout ni reglas de precio;
+- no cambia por si sola el estado de habilitacion del CTA (salvo que picture 12
+  lo requiera explicitamente en una definicion posterior).
+
 ---
 
 ## 5) Impacto tecnico esperado
@@ -203,6 +263,17 @@ Agregar/ajustar tests en `NewPlanSelection/index.test.js` para validar:
   grisado;
 - con frecuencia no mensual, el campo de promocode y su boton `Aplicar` quedan
   deshabilitados.
+- al seleccionar un plan con menos contactos que el plan vigente, se muestra el
+  mensaje del escenario 1 de `picture_12`;
+- con plan mas grande y promocode aplicado igual al guardado, se muestra el
+  warning amarillo del escenario 2;
+- con promocode aplicado distinto al guardado e invalido para el plan, se
+  muestra el mensaje del escenario 3 y no el warning amarillo;
+- al seleccionar "mas de 100.000", se muestra solo el mensaje celeste de plan
+  personalizado y se ocultan el warning amarillo y el mensaje celeste de promo
+  no aplicable;
+- al seleccionar nuevamente un plan que no cumple la condicion del escenario
+  activo, el mensaje correspondiente se oculta.
 
 ---
 
@@ -212,5 +283,7 @@ Agregar/ajustar tests en `NewPlanSelection/index.test.js` para validar:
 - Bloque de precio y sticky sincronizados desde la carga inicial.
 - Reglas de bloqueo de frecuencia/promocode aplicadas para escenario con
   frecuencia de sesion no mensual.
+- Reglas de mensajes por escenarios de `picture_12` implementadas y cubiertas
+  por tests.
 - Sin regresiones en comportamiento actual de query param/fallback.
 - Tests en verde cubriendo escenario principal y casos borde.

@@ -10,6 +10,10 @@ export interface PlanInterface {
   getPlanList(): Promise<Plan[]>;
 }
 
+interface GetPlansByTypeOptions {
+  includeDowngrades?: boolean;
+}
+
 export interface DistinctPlan {
   type: PlanType;
   minPrice: number;
@@ -103,9 +107,17 @@ export class PlanService implements PlanInterface {
     return distinctPlansAllowed;
   }
 
-  async getPlansByType(planType: PlanType): Promise<Plan[]> {
-    const currentPlan: any = this.getCurrentPlan();
+  async getPlansByType(
+    planType: PlanType,
+    { includeDowngrades = false }: GetPlansByTypeOptions = {},
+  ): Promise<Plan[]> {
     const planList = await this.getPlanList();
+
+    if (includeDowngrades) {
+      return filterPlansByType(planType, planList).sort(compareByFee);
+    }
+
+    const currentPlan: any = this.getCurrentPlan();
 
     const potentialUpgradePlans = getPotentialUpgrades(currentPlan, planList);
     const plansByType = filterPlansByType(planType, potentialUpgradePlans);

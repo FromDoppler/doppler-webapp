@@ -174,6 +174,7 @@ other {}}}}}}}}}}
       buy_credits: 'Comprar Creditos',
       choose_plan: 'Elegir Plan',
       contact_advisor_cta: 'Contactar a Asesor',
+      contacts_downgrade_warning_message: '<bold>¿Necesitas disminuir los contactos?</bold>{br}Si deseas pasar a un Plan con menos Contactos, contáctanos para que podamos asesorarte.',
       contacts_label: '¿Cuántos Contactos tienes?',
       contacts_option: '{contacts}',
       contacts_option_more_than_100k: 'Más de 100.000',
