@@ -14,6 +14,9 @@ import {
 } from '../form-helpers/form-helpers';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { getFormInitialValues } from '../../utils';
+import { FAQSection } from '../BuyProcess/NewPlanSelection/FAQSection';
+import { NewPlanSelectionStyled } from '../BuyProcess/NewPlanSelection/index.styles';
+import { GoBackButton } from '../BuyProcess/NewPlanSelection/GoBackButton';
 
 const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
   const intl = useIntl();
@@ -62,15 +65,11 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
       </Helmet>
       <HeaderSection>
         <div className="col-sm-12 col-md-12 col-lg-12">
-          <nav className="dp-breadcrumb">
-            <ul>
-              <li>
-                <a href={_('common.breadcrumb_plans_url')}>{_('common.breadcrumb_plans')}</a>
-              </li>
-              <li>{_('upgrade_suggestion_form.breadcrumb_maximum_plan')}</li>
-              <li>{_('upgrade_suggestion_form.breadcrumb_increase_plan')}</li>
-            </ul>
-          </nav>
+          <NewPlanSelectionStyled>
+            <div className="dp-new-plan-selection-back p-b-12">
+              <GoBackButton />
+            </div>
+          </NewPlanSelectionStyled>
           <h2>{_('upgrade_suggestion_form.title')}</h2>
           <p>{_('upgrade_suggestion_form.description')}</p>
         </div>
@@ -78,7 +77,7 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
 
       <section className="dp-container">
         <div className="dp-rowflex">
-          <div className="col-lg-8 col-md-12 m-b-24">
+          <div className="col-lg-8 col-md-12">
             <div className="dp-wrapper-form-plans">
               <h3>{_('upgrade_suggestion_form.form_title')}</h3>
               <FormWithCaptcha
@@ -175,6 +174,9 @@ const UpgradeSuggestionForm = ({ dependencies: { dopplerLegacyClient, appSession
           </div>
         </div>
       </section>
+      <NewPlanSelectionStyled>
+        <FAQSection />
+      </NewPlanSelectionStyled>
     </>
   );
 };

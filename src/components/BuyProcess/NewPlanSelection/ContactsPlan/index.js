@@ -284,6 +284,25 @@ export const ContactsPlan = InjectAppServices(
                   handleManualPromocodeIntervention={handleManualPromocodeIntervention}
                 />
               </div>
+              {isMoreThan100kSelected && (
+                <div
+                  className="dp-wrap-message dp-wrap-info dp-new-plan-selection-more-than-message"
+                  data-testid="dp-more-than-100k-message"
+                >
+                  <span className="dp-message-icon" />
+                  <div className="dp-content-message">
+                    <p>
+                      <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_info_message" />
+                    </p>
+                  </div>
+                  <Link
+                    to="/upgrade-suggestion-form"
+                    className="dp-new-plan-selection-more-than-link"
+                  >
+                    <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
 
@@ -398,22 +417,6 @@ export const ContactsPlan = InjectAppServices(
             </p>
           </aside>
         </div>
-        {isMoreThan100kSelected && (
-          <div
-            className="dp-wrap-message dp-wrap-info dp-new-plan-selection-more-than-message"
-            data-testid="dp-more-than-100k-message"
-          >
-            <span className="dp-message-icon" />
-            <div className="dp-content-message">
-              <p>
-                <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_info_message" />
-              </p>
-            </div>
-            <Link to="/upgrade-suggestion-form" className="dp-new-plan-selection-more-than-link">
-              <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
-            </Link>
-          </div>
-        )}
       </section>
     );
   },

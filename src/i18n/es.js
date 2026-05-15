@@ -2424,7 +2424,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     meta_description: 'Formulario para sugerir upgrade de plan.',
     submit_button: 'Enviar',
     success: '¡Excelente! Nos pondremos en contacto a la brevedad',
-    title: 'Solicita un Plan mayor',
+    title: 'Solicita un Plan a tu medida',
   },
   validate_max_subscribers_form: {
     button_accept: 'Aceptar',

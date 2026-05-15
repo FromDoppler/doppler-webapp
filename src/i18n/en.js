@@ -2421,7 +2421,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     meta_description: 'Form to suggest plan upgrade.',
     submit_button: 'Send',
     success: 'Excellent! We will get in touch shortly',
-    title: 'Ask for a bigger Plan',
+    title: 'Request a Customized Plan',
   },
   validate_max_subscribers_form: {
     button_accept: 'Accept',
