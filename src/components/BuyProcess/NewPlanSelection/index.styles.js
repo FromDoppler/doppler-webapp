@@ -932,6 +932,16 @@ export const NewPlanSelectionStyled = styled.div`
     opacity: 0.35;
   }
 
+  .dp-new-plan-selection-faq {
+    background-color: #f2f1e9;
+    max-width: none;
+  }
+
+  .dp-new-plan-selection-faq .dp-accordion li .dp-accordion-thumb {
+    color: #333;
+    font-weight: 400;
+  }
+
   @media (max-width: 991px) {
     .dp-new-plan-selection-sticky-summary-content {
       align-items: flex-start;

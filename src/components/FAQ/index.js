@@ -8,7 +8,7 @@ export const FAQ = ({ topics }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
   return (
-    <section className="p-t-54 p-b-54">
+    <section className="p-t-54 p-b-84">
       <div className="dp-container">
         <div className="dp-rowflex">
           <div className="dp-align-center">
