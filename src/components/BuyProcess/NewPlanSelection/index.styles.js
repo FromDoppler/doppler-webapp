@@ -231,10 +231,10 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-badge {
     background: #33ad73;
-    border-radius: 3px;
+    border-radius: 12px;
     color: #fff;
     flex: 0 0 auto;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     line-height: 1;
     padding: 7px 10px;
@@ -524,7 +524,7 @@ export const NewPlanSelectionStyled = styled.div`
     background-color: #fddc79;
     border-radius: 30px;
     color: #333;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 700;
     line-height: 1;
     padding: 2px 4px;
