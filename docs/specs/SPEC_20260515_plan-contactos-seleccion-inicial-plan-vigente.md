@@ -34,6 +34,8 @@ Incluido:
 - Regla de preseleccion inicial para `ContactsPlan` en usuarios no free.
 - Sincronizacion inicial de precio, descuentos aplicables y estado de CTA.
 - Sincronizacion inicial del sticky con el plan preseleccionado.
+- Reglas de inicializacion para promocode/frecuencia en usuarios con promocion
+  asignada.
 - Casos borde cuando el plan vigente no exista en el listado.
 - Tests de no regresion para el flujo de inicializacion.
 
@@ -67,6 +69,7 @@ Campos relevantes consumidos por esta regla:
 - `planType`
 - `isFreeAccount`
 - `planSubscription` (solo para reglas complementarias ya existentes)
+- `promotion` (origen de promocion/promocode asignado al usuario)
 
 ---
 
@@ -124,6 +127,40 @@ Si `selected-plan` viene en query pero no matchea:
 - debe ignorarse ese valor;
 - aplicar regla de fallback a plan de sesion (si corresponde) o indice `0`.
 
+### 4.6 Regla de frecuencia desde plan del usuario (Contactos)
+
+La frecuencia vigente del usuario debe tomarse desde:
+
+- `appSessionRef.current.userData.user.plan.planSubscription`
+
+Regla requerida:
+
+- si `planSubscription !== 1` (es decir, no mensual), el control de frecuencia
+  debe iniciar deshabilitado y visualmente grisado;
+- el estado bloqueado debe reflejarse desde el primer render util;
+- no se debe recalcular este estado con datos de UI, solo con la sesion.
+
+Nota de mapeo:
+
+- `planSubscription === 1` representa ciclo mensual.
+- cualquier otro valor representa ciclo no mensual.
+
+Nota:
+
+- si ademas existe promocion asignada, se mantiene la misma politica de bloqueo
+  del control para evitar cambios de ciclo incompatibles.
+
+### 4.7 Regla de campo Promocode segun frecuencia
+
+Cuando la frecuencia seleccionada **no es mensual**:
+
+- el campo de promocode debe mostrarse deshabilitado (grisado);
+- el boton `Aplicar` del promocode debe quedar deshabilitado;
+- no deben dispararse validaciones/aplicaciones de promocode en ese estado.
+
+Cuando la frecuencia vuelva a mensual, el control puede reactivarse segun reglas
+actuales de `allowPromocode`.
+
 ---
 
 ## 5) Impacto tecnico esperado
@@ -162,6 +199,10 @@ Agregar/ajustar tests en `NewPlanSelection/index.test.js` para validar:
 - CTA deshabilitado si el plan inicial es el mismo plan actual del usuario;
 - fallback a indice `0` cuando `idPlan` de sesion no existe en el listado;
 - prioridad de query param valida sobre plan de sesion.
+- con `planSubscription !== 1`, el control de frecuencia inicia deshabilitado y
+  grisado;
+- con frecuencia no mensual, el campo de promocode y su boton `Aplicar` quedan
+  deshabilitados.
 
 ---
 
@@ -169,5 +210,7 @@ Agregar/ajustar tests en `NewPlanSelection/index.test.js` para validar:
 
 - Seleccion inicial de plan de contactos consistente para usuarios no free.
 - Bloque de precio y sticky sincronizados desde la carga inicial.
+- Reglas de bloqueo de frecuencia/promocode aplicadas para escenario con
+  frecuencia de sesion no mensual.
 - Sin regresiones en comportamiento actual de query param/fallback.
 - Tests en verde cubriendo escenario principal y casos borde.
