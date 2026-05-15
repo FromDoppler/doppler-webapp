@@ -181,6 +181,7 @@ let previousCanBuyPushNotificationPlan;
 const getContactsPlanSection = () => screen.getByTestId('dp-contacts-plan');
 const getCreditsPlanSection = () => screen.getByTestId('dp-credits-plan');
 const getAddOnsSection = () => screen.getByTestId('dp-addons-section');
+const getFaqSection = () => screen.getByTestId('dp-faq-section');
 const getContactsSelect = () => within(getContactsPlanSection()).getByRole('combobox');
 const getCreditsSelect = () => within(getCreditsPlanSection()).getByRole('combobox');
 const hasPriceInBold = (priceRegex) => (_content, node) =>
@@ -486,6 +487,21 @@ describe('NewPlanSelection component', () => {
         name: 'buy_process.new_plan_selection.addons_section.next',
       }),
     ).not.toBeInTheDocument();
+  });
+
+  it('should render faq section below add-ons with 9 faq items', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {}, { useI18nKeysAsValues: true });
+
+    const addOnsSection = getAddOnsSection();
+    const faqSection = getFaqSection();
+    expect(faqSection).toBeInTheDocument();
+    expect(within(faqSection).getByRole('heading', { name: 'faq.title' })).toBeInTheDocument();
+
+    const faqQuestions = within(faqSection).getAllByText(/faq\.question_/);
+    expect(faqQuestions).toHaveLength(9);
+    expect(
+      addOnsSection.compareDocumentPosition(faqSection) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it('should open and close included features modal', async () => {

@@ -991,28 +991,30 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     title: 'Servicios adicionales',
   },
   faq: {
-    answer_1: `**Tarjeta de crédito internacional** Visa, Mastercard o American Express; **transferencia bancaria** a partir de un monto mínimo (para clientes de Argentina, México y Colombia);
-    **tarjeta de crédito a través de Mercado Pago** (para Argentina).`,
+    answer_1: `**Tarjeta de crédito internacional** Visa, Mastercard o American Express; **transferencia bancaria** (para clientes de Argentina, México y Colombia); **débito automático** (para Argentina).`,
     answer_2: `**No, puedes darte de baja cuando quieras** y solo se cobrará el mes en curso. Si necesitas un contrato por la prestación del servicio, podemos hacerlo.`,
-    answer_3: `**Sí, todos los Planes se renuevan automáticamente** tanto si pagas todos los meses o por adelantado. La renovación se realiza el **primer día del mes**.`,
-    answer_4: `Podrías adquirir un **Plan por Envíos**, que ofrece un **costo unitario por Email más bajo** a medida que aumenta el tamaño del Plan.
-    Y si tienes alguna otra necesidad, podemos cotizar un **Plan con Servicios adicionales**.`,
-    answer_5: `No. **Los Créditos son acumulables y no se vencen**. Puedes utilizarlos para enviar Campañas y hacer recompras cuando quieras.`,
-    answer_6: `Una vez que **elijas el Plan**, al seleccionar el **Método de Pago** verás tu **resumen de compra** a la derecha de la pantalla.
-    Allí podrás ingresar tu Código de Promoción, y si este es válido verás el descuento que se aplicará a la compra del Plan. _**Los Códigos de Promoción no son acumulables con descuentos por pago adelantado**_.`,
-    answer_7: `**Sí. Cualquier Plan por Envíos, Contactos o Créditos** permite enviar Campañas de SMS y obtener Reportes sobre ellos. Ten en cuenta que **los SMS no vienen incluídos dentro del precio del Plan**.`,
-    answer_8: `En los Planes por Envíos, el total que hayas contratado se renovará el primer día del mes y **no se acumulan**.`,
+    answer_3: `**Sí, todos los Planes se renuevan automáticamente** tanto si pagas todos los meses o por adelantado. La renovación se realiza el **primer día del mes.**`,
+    answer_4: `Podrías adquirir un **Plan por Envíos**, que ofrece un **costo unitario por Email más bajo** a medida
+    que aumenta el tamaño del Plan. Y si tienes alguna otra necesidad, podemos cotizar un **Plan con Servicios
+    adicionales.**`,
+    answer_5: `No. **Los Créditos son acumulables y no tienen una fecha límite de uso.** Puedes enviar Campañas cuando quieras y hacer recompras cada vez que lo necesites.`,
+    answer_6: `Una vez que **elijas el Plan**, al seleccionar el **Método de Pago** verás tu **resumen de compra**
+    a la derecha de la pantalla. Allí podrás ingresar tu Código de Promoción, y si este es válido verás el
+    descuento que se aplicará a la compra del Plan.
+    **Los Códigos de Promoción no son acumulables con descuentos por pago adelantado.**`,
+    answer_7: `**Sí. Cualquier Plan por Envíos, Contactos o Créditos** permite enviar Campañas de SMS y obtener Reportes sobre ellos. Ten en cuenta que **los SMS no vienen incluídos dentro del precio del Plan.**`,
+    answer_8: `En los Planes por Envíos, el total que hayas contratado se renovará el primer día del mes y **no se acumulan.**`,
     answer_9: `No. Los Contactos que hayas importado en un primer momento en una cuenta gratuita se contabilizarán dentro del total que hayas contratado.`,
     question_1: `¿Cuáles son los métodos de pago disponibles?`,
     question_2: `¿Hay un tiempo mínimo de permanencia para solicitar la baja del servicio?`,
     question_3: `¿Los Planes se renuevan automáticamente?`,
     question_4: `Tengo más de 100.000 Contactos. ¿Qué Plan me conviene contratar?`,
-    question_5: `En los Planes por Créditos, ¿hay una fecha límite para usarlos?`,
-    question_6: `¿Cómo aplico un Código de Promoción para contratar un Plan?`,
+    question_5: `¿Los Créditos tienen vencimiento?`,
+    question_6: `¿Cómo aplico un Código de Promoción para la contratación de un Plan?`,
     question_7: `¿Es necesario un Plan Pago para hacer SMS Marketing?`,
-    question_8: `¿Qué pasa si no uso todos los Envíos que contraté por mes?`,
+    question_8: `¿Qué sucede si no hago todos los Envíos que contraté por mes?`,
     question_9: `Al comprar un Plan, ¿puedo reemplazar los Contactos que subí en la versión gratis?`,
-    title: `Preguntas frecuentes sobre Planes`,
+    title: `Preguntas frecuentes`,
   },
   feature_panel: {
     email_automation: `Email Automation`,
