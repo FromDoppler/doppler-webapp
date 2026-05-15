@@ -33,7 +33,7 @@ const getCheckoutUrl = ({ search, selectedPlan, promocodeApplied }) => {
     params.set('PromoCode', promocodeApplied.promocode);
   }
 
-  return `/checkout/premium/${PLAN_TYPE.byCredit}?${params.toString()}`;
+  return `/checkout/premium/${PLAN_TYPE.byCredit}?${params.toString()}&buyType=1`;
 };
 
 export const CreditsPlan = InjectAppServices(

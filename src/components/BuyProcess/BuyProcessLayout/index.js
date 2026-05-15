@@ -11,13 +11,16 @@ import { useQueryParams } from '../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Stepper } from '../Stepper';
 
-export const getSteps = (buyType, user) => {
+export const getSteps = (buyType, user, pathname) => {
+  const currentPathname = pathname.includes('/new-plan-selection')
+    ? '/new-plan-selection'
+    : '/plan-selection/premium';
   const steps = [
     {
       id: 1,
       label: 'buy_process.stepper.email_marketing_plan_step',
       icon: 'dpicon iconapp-email-alert',
-      pathname: '/plan-selection/premium',
+      pathname: currentPathname,
       visible: buyType === BUY_MARKETING_PLAN.toString(),
     },
     {
@@ -79,7 +82,7 @@ export const BuyProcessLayout = InjectAppServices(
     const { pathname } = useLocation();
     const query = useQueryParams();
     const buyType = query.get('buyType') ?? '1';
-    let steps = getSteps(buyType, appSessionRef.current.userData.user).filter(
+    let steps = getSteps(buyType, appSessionRef.current.userData.user, pathname).filter(
       (s) => s.visible === true,
     );
     const isNewPlanSelection = pathname === '/new-plan-selection';

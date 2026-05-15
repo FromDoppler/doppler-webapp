@@ -46,7 +46,7 @@ const getCheckoutUrl = ({ search, selectedPlan, selectedPaymentFrequency, promoc
     params.set('PromoCode', promocodeApplied.promocode);
   }
 
-  return `/checkout/premium/${PLAN_TYPE.byContact}?${params.toString()}`;
+  return `/checkout/premium/${PLAN_TYPE.byContact}?${params.toString()}&buyType=1`;
 };
 
 export const ContactsPlan = InjectAppServices(
@@ -211,9 +211,9 @@ export const ContactsPlan = InjectAppServices(
         <div className="dp-new-plan-selection-card-header">
           <div>
             <div className="dp-new-plan-selection-plan-title">
-              <h3 className="dp-second-order-title">
+              <h1 className="p-b-0">
                 <FormattedMessage id="buy_process.new_plan_selection.contacts_plan_title" />
-              </h3>
+              </h1>
               <span className="dp-new-plan-selection-badge">
                 <FormattedMessage id="buy_process.new_plan_selection.popular_label" />
               </span>
@@ -228,9 +228,9 @@ export const ContactsPlan = InjectAppServices(
           <div className="col-lg-6 col-md-12">
             <div className="dp-new-plan-selection-fields">
               <div className="dp-new-plan-selection-select-wrap">
-                <label htmlFor="new-plan-selection-contacts" className="labelcontrol">
+                <h2 className="labelcontrol">
                   <FormattedMessage id="buy_process.new_plan_selection.contacts_label" />
-                </label>
+                </h2>
                 <span className="dropdown-arrow" />
                 <select
                   id="new-plan-selection-contacts"

@@ -10,6 +10,7 @@ import { ContactsPlan } from './ContactsPlan';
 import { CreditsPlan } from './CreditsPlan';
 import { IncludedFeatures } from './IncludedFeatures';
 import { StickyPlanSummary } from './StickyPlanSummary';
+import { AddOnsSection } from './AddOnsSection';
 import { NewPlanSelectionStyled } from './index.styles';
 
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
@@ -222,6 +223,9 @@ export const NewPlanSelection = InjectAppServices(
             />
           </div>
         )}
+        <div className="dp-container">
+          <AddOnsSection />
+        </div>
       </NewPlanSelectionStyled>
     );
   },
