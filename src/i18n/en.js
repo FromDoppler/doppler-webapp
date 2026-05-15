@@ -997,7 +997,9 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
     answer_3: `**Yes, all Plans are automatically renewed** whether you pay every month or in advance. Renewal takes place on the **first day of the month**.`,
     answer_4: `You could purchase a **Plan by Emails**, which has a **lower unitary cost per Email** as your Plan grows. If you have any other need, we can estimate a **Plan with additional Services**.`,
     answer_5: `No. **Credits are accumulative and do not expire**. You can use then to send Campaigns and make buybacks whenever you want.`,
-    answer_6: `Once you **choose the Plan**, selecting the **Payment Method** you'll see your **purchase summary** at the right side of the screen. There you can enter your Promo Code, if it is valid you'll see the discount applied to the purchase of the Plan.
+    answer_6: `Once you **choose the Plan**, selecting the **Payment Method** you'll see your **purchase summary**
+    at the right side of the screen. There you can enter your Promo Code, if it is valid you'll see the discount
+    applied to the purchase of the Plan.
     **Promo Codes are not accumulative with prepayment discounts.**`,
     answer_7: `**Yes. Any Plan by Emails, Contacts or Credits** allows to send SMS Campaigns and get Reports about them. Remember that **SMS are not included in the price of the Plan**.`,
     answer_8: `In Plans by Emails, the total number you've hired will be renewed the first day of the month. **They aren't accumulative.**`,

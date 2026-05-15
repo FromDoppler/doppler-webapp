@@ -994,9 +994,13 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     answer_1: `**Tarjeta de crédito internacional** Visa, Mastercard o American Express; **transferencia bancaria** (para clientes de Argentina, México y Colombia); **débito automático** (para Argentina).`,
     answer_2: `**No, puedes darte de baja cuando quieras** y solo se cobrará el mes en curso. Si necesitas un contrato por la prestación del servicio, podemos hacerlo.`,
     answer_3: `**Sí, todos los Planes se renuevan automáticamente** tanto si pagas todos los meses o por adelantado. La renovación se realiza el **primer día del mes.**`,
-    answer_4: `Podrías adquirir un **Plan por Envíos**, que ofrece un **costo unitario por Email más bajo** a medida que aumenta el tamaño del Plan. Y si tienes alguna otra necesidad, podemos cotizar un **Plan con Servicios adicionales.**`,
+    answer_4: `Podrías adquirir un **Plan por Envíos**, que ofrece un **costo unitario por Email más bajo** a medida
+    que aumenta el tamaño del Plan. Y si tienes alguna otra necesidad, podemos cotizar un **Plan con Servicios
+    adicionales.**`,
     answer_5: `No. **Los Créditos son acumulables y no tienen una fecha límite de uso.** Puedes enviar Campañas cuando quieras y hacer recompras cada vez que lo necesites.`,
-    answer_6: `Una vez que **elijas el Plan**, al seleccionar el **Método de Pago** verás tu **resumen de compra** a la derecha de la pantalla. Allí podrás ingresar tu Código de Promoción, y si este es válido verás el descuento que se aplicará a la compra del Plan.
+    answer_6: `Una vez que **elijas el Plan**, al seleccionar el **Método de Pago** verás tu **resumen de compra**
+    a la derecha de la pantalla. Allí podrás ingresar tu Código de Promoción, y si este es válido verás el
+    descuento que se aplicará a la compra del Plan.
     **Los Códigos de Promoción no son acumulables con descuentos por pago adelantado.**`,
     answer_7: `**Sí. Cualquier Plan por Envíos, Contactos o Créditos** permite enviar Campañas de SMS y obtener Reportes sobre ellos. Ten en cuenta que **los SMS no vienen incluídos dentro del precio del Plan.**`,
     answer_8: `En los Planes por Envíos, el total que hayas contratado se renovará el primer día del mes y **no se acumulan.**`,
