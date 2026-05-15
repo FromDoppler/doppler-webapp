@@ -30,6 +30,7 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-back .dp-button.ctaTertiary .dp-new-plan-selection-back-text {
     text-decoration: underline;
+    text-transform: uppercase;
   }
 
   .dp-new-plan-selection-back .dp-button.ctaTertiary:hover {
@@ -257,11 +258,18 @@ export const NewPlanSelectionStyled = styled.div`
     font-weight: 700;
   }
 
-  .dp-new-plan-selection-select-wrap .dropdown-arrow {
+  .dp-new-plan-selection-card .dp-new-plan-selection-select-wrap .dropdown-arrow {
     pointer-events: none;
     position: absolute;
     right: 12px;
-    top: 39px;
+    top: 36px;
+  }
+
+  .dp-new-plan-selection-card-credits .dp-new-plan-selection-select-wrap .dropdown-arrow {
+    pointer-events: none;
+    position: absolute;
+    right: 12px;
+    top: 59px;
   }
 
   .dp-new-plan-selection-select {
@@ -702,7 +710,6 @@ export const NewPlanSelectionStyled = styled.div`
     gap: 6px;
     margin-top: 22px;
     padding: 0;
-    text-decoration: underline;
     text-transform: uppercase;
   }
 
@@ -815,6 +822,116 @@ export const NewPlanSelectionStyled = styled.div`
     flex: 0 0 auto;
   }
 
+  .dp-new-plan-selection-addons {
+    margin: 34px auto 36px;
+  }
+
+  .dp-new-plan-selection-addons-header {
+    margin-bottom: 22px;
+    text-align: center;
+  }
+
+  .dp-new-plan-selection-addons-header h2 {
+    text-transform: none;
+  }
+
+  .dp-new-plan-selection-addons-header p {
+    color: #666;
+    margin: 0;
+  }
+
+  .dp-new-plan-selection-addons-empty {
+    color: #666;
+    margin: 0;
+    text-align: center;
+  }
+
+  .dp-new-plan-selection-addons-carousel {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+  }
+
+  .dp-new-plan-selection-addons-cards {
+    display: flex;
+    flex: 1 1 auto;
+    gap: 18px;
+  }
+
+  .dp-new-plan-selection-addon-card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 calc((100% - 36px) / 3);
+    margin-bottom: 0;
+    min-height: 100%;
+  }
+
+  .dp-new-plan-selection-addon-card .card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 22px;
+  }
+
+  .dp-new-plan-selection-addon-card .dp-description-legend {
+    flex: 1 1 auto;
+  }
+
+  .dp-new-plan-selection-addon-card .card-title .icon-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+    color: #fff;
+
+    span {
+      font-size: 40px;
+      line-height: 1;
+    }
+  }
+
+  .dp-new-plan-selection-addon-card .dpicon {
+    color: #fab221;
+    flex: 0 0 auto;
+  }
+
+  .dp-new-plan-selection-addon-price {
+    border-top: 1px solid #ccc;
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+
+  .dp-new-plan-selection-addon-price .dp-legend-price {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .dp-new-plan-selection-addon-price h2 {
+    padding-bottom: 0;
+  }
+
+  .dp-new-plan-selection-addons-arrow {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #333;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 36px;
+    min-width: 28px;
+    padding: 0;
+  }
+
+  .dp-new-plan-selection-addons-arrow:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
+
   @media (max-width: 991px) {
     .dp-new-plan-selection-sticky-summary-content {
       align-items: flex-start;
@@ -890,6 +1007,10 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-included-features-item {
       max-width: none;
+    }
+
+    .dp-new-plan-selection-addon-card {
+      flex-basis: calc((100% - 18px) / 2);
     }
   }
 
@@ -990,6 +1111,14 @@ export const NewPlanSelectionStyled = styled.div`
     .dp-new-plan-selection-features-modal.modal-content--large {
       max-height: 90vh;
       overflow-y: auto;
+    }
+
+    .dp-new-plan-selection-addons-carousel {
+      gap: 10px;
+    }
+
+    .dp-new-plan-selection-addon-card {
+      flex-basis: 100%;
     }
   }
 `;

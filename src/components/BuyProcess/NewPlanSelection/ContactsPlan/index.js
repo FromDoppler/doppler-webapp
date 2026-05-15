@@ -46,7 +46,7 @@ const getCheckoutUrl = ({ search, selectedPlan, selectedPaymentFrequency, promoc
     params.set('PromoCode', promocodeApplied.promocode);
   }
 
-  return `/checkout/premium/${PLAN_TYPE.byContact}?${params.toString()}`;
+  return `/checkout/premium/${PLAN_TYPE.byContact}?${params.toString()}&buyType=1`;
 };
 
 export const ContactsPlan = InjectAppServices(

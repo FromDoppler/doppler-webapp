@@ -276,8 +276,8 @@ export const mapItemFromMarketingPlan = ({
   }
 
   if (
-    promocodeApplied?.planType === PLAN_TYPE.byCredit &&
-    promocodeApplied?.promotionApplied?.extraCredits > 0
+    marketingPlan.type === PLAN_TYPE.byCredit &&
+    amountDetailsData?.value?.discountPromocode?.extraCredits > 0
   ) {
     planInformation.featureList.push(
       <>
@@ -287,7 +287,7 @@ export const mapItemFromMarketingPlan = ({
             values={{
               units: thousandSeparatorNumber(
                 intl.defaultLocale,
-                promocodeApplied?.promotionApplied?.extraCredits,
+                amountDetailsData?.value?.discountPromocode?.extraCredits,
               ),
             }}
           />

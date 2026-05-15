@@ -10,7 +10,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
-import { PLAN_TYPE } from '../../../doppler-types';
+import { AddOnType, PLAN_TYPE } from '../../../doppler-types';
 import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { NewPlanSelection } from '.';
@@ -59,6 +59,27 @@ const creditPlans = [
     credits: 20000,
     price: 140,
   },
+];
+
+const addOnPlansByType = {
+  [AddOnType.OnSite]: [
+    { planId: 301, quantity: 5000, fee: 25 },
+    { planId: 302, quantity: 1000, fee: 15 },
+  ],
+  [AddOnType.Conversations]: [
+    { planId: 401, quantity: 1000, fee: 30 },
+    { planId: 402, quantity: 500, fee: 20 },
+  ],
+  [AddOnType.EcoAI]: [{ planId: 501, quantity: 1, fee: 49 }],
+  [AddOnType.PushNotifications]: [
+    { planId: 601, quantity: 1000, fee: 18 },
+    { planId: 602, quantity: 500, fee: 15 },
+  ],
+};
+
+const landingPacks = [
+  { planId: 701, description: 'PACK 25', landingsQty: 25, price: 8 },
+  { planId: 702, description: 'PACK 5', landingsQty: 5, price: 5 },
 ];
 
 const amountDetails = {
@@ -156,14 +177,19 @@ const settleAsyncState = async () => {
 const ACT_WARNING_PATTERN = /not wrapped in act/i;
 
 let consoleErrorSpy;
+let previousCanBuyPushNotificationPlan;
 
 const getContactsPlanSection = () => screen.getByTestId('dp-contacts-plan');
 const getCreditsPlanSection = () => screen.getByTestId('dp-credits-plan');
+const getAddOnsSection = () => screen.getByTestId('dp-addons-section');
+const hasPriceInBold = (price) => (_content, node) =>
+  node?.tagName === 'B' && node?.textContent?.includes(price);
 
-const createForcedServices = () => ({
+const createForcedServices = ({ features = {}, dopplerAccountPlansApiClient = {} } = {}) => ({
   appSessionRef: {
     current: {
       userData: {
+        features,
         user: {
           locationCountry: 'us',
           chat: { active: false },
@@ -193,6 +219,15 @@ const createForcedServices = () => ({
           ? { canApply: true, promotionApplied: { discountPercentage: 10, extraCredits: 0 } }
           : { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
     })),
+    getAddOnPlans: jest.fn(async (addOnType) => ({
+      success: true,
+      value: addOnPlansByType[addOnType] || [],
+    })),
+    getLandingPacks: jest.fn(async () => ({
+      success: true,
+      value: landingPacks,
+    })),
+    ...dopplerAccountPlansApiClient,
   },
   planService: {
     getPlansByType: jest.fn(async (planType) => {
@@ -209,8 +244,11 @@ const createForcedServices = () => ({
   },
 });
 
-const renderNewPlanSelection = async (initialEntries = ['/new-plan-selection']) => {
-  const forcedServices = createForcedServices();
+const renderNewPlanSelection = async (
+  initialEntries = ['/new-plan-selection'],
+  serviceOptions = {},
+) => {
+  const forcedServices = createForcedServices(serviceOptions);
 
   render(
     <AppServicesProvider forcedServices={forcedServices}>
@@ -232,6 +270,9 @@ const renderNewPlanSelection = async (initialEntries = ['/new-plan-selection']) 
 
 describe('NewPlanSelection component', () => {
   beforeEach(() => {
+    previousCanBuyPushNotificationPlan =
+      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN;
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN = 'false';
     const originalConsoleError = console.error;
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation((...args) => {
       if (typeof args[0] === 'string' && ACT_WARNING_PATTERN.test(args[0])) {
@@ -244,6 +285,8 @@ describe('NewPlanSelection component', () => {
 
   afterEach(() => {
     consoleErrorSpy.mockRestore();
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN =
+      previousCanBuyPushNotificationPlan;
   });
 
   it('should render section controls without plan type tabs', async () => {
@@ -272,6 +315,136 @@ describe('NewPlanSelection component', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('combobox', { name: creditsLabelPattern })).toHaveValue('0');
     expect(screen.getByRole('link', { name: /Comprar Cr[eé]ditos/i })).toBeInTheDocument();
+  });
+
+  it('should render informational add-ons cards with real minimum prices and no card actions', async () => {
+    await renderNewPlanSelection();
+
+    expect(
+      screen.getByText(/Explora nuestros Add-ons para potenciar tu Plan/i),
+    ).toBeInTheDocument();
+    expect(within(getAddOnsSection()).getByText(/OnSite Marketing/i)).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-conversations')).getByRole('heading', {
+        name: /Conversaciones/i,
+      }),
+    ).toBeInTheDocument();
+    expect(within(getAddOnsSection()).getByText(/Pack de Landing Pages/i)).toBeInTheDocument();
+
+    await waitFor(() =>
+      expect(
+        within(screen.getByTestId('dp-addon-card-onsite')).getByText(hasPriceInBold('US$ 15,00')),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      within(screen.getByTestId('dp-addon-card-conversations')).getByText(
+        hasPriceInBold('US$ 20,00'),
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-landing-pages')).getByText(
+        hasPriceInBold('US$ 5,00'),
+      ),
+    ).toBeInTheDocument();
+
+    screen.getAllByTestId(/dp-addon-card-/).forEach((card) => {
+      expect(within(card).queryByRole('link')).not.toBeInTheDocument();
+      expect(within(card).queryByRole('button')).not.toBeInTheDocument();
+    });
+  });
+
+  it('should render Eco IA only when ecoIAEnabled is true', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      features: { ecoIAEnabled: true },
+    });
+
+    await waitFor(() => expect(screen.getByTestId('dp-addon-card-eco-ai')).toBeInTheDocument());
+    expect(within(getAddOnsSection()).getByText(/Eco IA/i)).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-eco-ai')).getByText(hasPriceInBold('US$ 49,00')),
+    ).toBeInTheDocument();
+  });
+
+  it('should hide Eco IA when ecoIAEnabled is not true', async () => {
+    await renderNewPlanSelection();
+
+    expect(within(getAddOnsSection()).queryByText(/Eco IA/i)).not.toBeInTheDocument();
+  });
+
+  it('should render Push Notification only when can buy env var is true', async () => {
+    process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN = 'true';
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      features: { ecoIAEnabled: true },
+    });
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-addon-card-push-notification')).toBeInTheDocument(),
+    );
+    expect(
+      within(screen.getByTestId('dp-addon-card-push-notification')).getByRole('heading', {
+        name: /Notificaciones Push/i,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-push-notification')).getByText(
+        hasPriceInBold('US$ 15,00'),
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('should hide Push Notification when can buy env var is not true', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      features: { ecoIAEnabled: true },
+    });
+
+    fireEvent.click(within(getAddOnsSection()).getByRole('button', { name: /siguiente add-on/i }));
+
+    expect(within(getAddOnsSection()).queryByText(/Notificaciones Push/i)).not.toBeInTheDocument();
+  });
+
+  it('should keep add-ons section visible with fallback price when one add-on source fails', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      dopplerAccountPlansApiClient: {
+        getAddOnPlans: jest.fn(async (addOnType) => {
+          if (addOnType === AddOnType.OnSite) {
+            return { success: false, error: 'Unexpected error' };
+          }
+
+          return { success: true, value: addOnPlansByType[addOnType] || [] };
+        }),
+      },
+    });
+
+    await waitFor(() =>
+      expect(
+        within(screen.getByTestId('dp-addon-card-onsite')).getByText(/Precio no disponible/i),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      within(screen.getByTestId('dp-addon-card-conversations')).getByRole('heading', {
+        name: /Conversaciones/i,
+      }),
+    ).toBeInTheDocument();
+    expect(within(getAddOnsSection()).getByText(/Pack de Landing Pages/i)).toBeInTheDocument();
+  });
+
+  it('should hide add-ons carousel and show empty message when all sources fail', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      dopplerAccountPlansApiClient: {
+        getAddOnPlans: jest.fn(async () => ({ success: false, error: 'Unexpected error' })),
+        getLandingPacks: jest.fn(async () => ({ success: false, error: 'Unexpected error' })),
+      },
+    });
+
+    await waitFor(() =>
+      expect(
+        within(getAddOnsSection()).getByText(/No hay Add-ons disponibles en este momento/i),
+      ).toBeInTheDocument(),
+    );
+    expect(within(getAddOnsSection()).queryByTestId(/dp-addon-card-/)).not.toBeInTheDocument();
+    expect(
+      within(getAddOnsSection()).queryByRole('button', { name: /siguiente add-on/i }),
+    ).not.toBeInTheDocument();
   });
 
   it('should open and close included features modal', async () => {
@@ -372,7 +545,7 @@ describe('NewPlanSelection component', () => {
         within(getCreditsPlanSection())
           .getByRole('link', { name: /Comprar Cr[eé]ditos/i })
           .getAttribute('href'),
-      ).toBe(`/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=20223`),
+      ).toBe(`/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=20223&buyType=1`),
     );
   });
 
@@ -384,7 +557,7 @@ describe('NewPlanSelection component', () => {
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
-        '/checkout/premium/subscribers?selected-plan=10222&discountId=798&monthPlan=12',
+        '/checkout/premium/subscribers?selected-plan=10222&discountId=798&monthPlan=12&buyType=1',
       ),
     );
     expect(screen.getByText(/US\$7,50\/mes/i)).toBeInTheDocument();

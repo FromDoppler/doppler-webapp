@@ -163,6 +163,14 @@ other {}}}}}}}}}}
     months_to_hire: 'Meses a contratar:',
     months_to_pay: `Meses a abonar:`,
     new_plan_selection: {
+      addons_section: {
+        empty_message: 'No hay Add-ons disponibles en este momento.',
+        next: 'Siguiente Add-on',
+        previous: 'Anterior Add-on',
+        price_unavailable: 'Precio no disponible',
+        subtitle: 'Suma soluciones adicionales para ampliar el alcance de tu estrategia.',
+        title: 'Explora nuestros Add-ons para potenciar tu Plan',
+      },
       buy_credits: 'Comprar Creditos',
       choose_plan: 'Elegir Plan',
       contact_advisor_cta: 'Contactar a Asesor',
