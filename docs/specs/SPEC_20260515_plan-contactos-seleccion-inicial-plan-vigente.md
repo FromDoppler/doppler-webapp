@@ -57,6 +57,17 @@ Esta SPEC formaliza y prueba ese comportamiento para el escenario de usuario no
 free con plan de contactos vigente, asegurando que la vista inicial quede
 consistente en todos los bloques dependientes.
 
+Fuente de verdad del plan del usuario:
+
+- `appSessionRef.current.userData.user.plan`
+
+Campos relevantes consumidos por esta regla:
+
+- `idPlan`
+- `planType`
+- `isFreeAccount`
+- `planSubscription` (solo para reglas complementarias ya existentes)
+
 ---
 
 ## 4) Requisitos Funcionales
@@ -65,9 +76,10 @@ consistente en todos los bloques dependientes.
 
 Al cargar `NewPlanSelection`, si se cumplen todas estas condiciones:
 
-- `sessionPlan.plan.isFreeAccount === false`,
-- `sessionPlan.plan.planType === PLAN_TYPE.byContact`,
-- `sessionPlan.plan.idPlan` existe y esta presente en `plansByContact`,
+- `appSessionRef.current.userData.user.plan.isFreeAccount === false`,
+- `appSessionRef.current.userData.user.plan.planType === PLAN_TYPE.byContact`,
+- `appSessionRef.current.userData.user.plan.idPlan` existe y esta presente en
+  `plansByContact`,
 
 entonces el dropdown de contactos debe iniciar seleccionado en ese plan.
 
@@ -125,6 +137,13 @@ Componentes involucrados:
 
 No se requieren nuevos componentes ni cambios de estilos para esta iteracion.
 
+Nota de implementacion:
+
+- Se recomienda mantener una unica referencia local para evitar lecturas
+  dispersas del objeto de sesion (por ejemplo, `const currentUserPlan =
+  appSessionRef.current.userData.user.plan;`) y usar ese objeto en toda la
+  logica de seleccion inicial.
+
 ---
 
 ## 6) Internacionalizacion
@@ -152,4 +171,3 @@ Agregar/ajustar tests en `NewPlanSelection/index.test.js` para validar:
 - Bloque de precio y sticky sincronizados desde la carga inicial.
 - Sin regresiones en comportamiento actual de query param/fallback.
 - Tests en verde cubriendo escenario principal y casos borde.
-
