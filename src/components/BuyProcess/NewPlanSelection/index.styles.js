@@ -128,6 +128,8 @@ export const NewPlanSelectionStyled = styled.div`
     border-left: 0;
     border-radius: 0;
     border-right: 0;
+    box-shadow: 0 0 0 9999px #fdf5c8;
+    clip-path: inset(0 -9999px);
     padding: 24px 0 28px;
   }
 
