@@ -259,11 +259,11 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-select-wrap .dropdown-arrow {
-    bottom: auto;
+    bottom: 13px;
     pointer-events: none;
     position: absolute;
     right: 12px;
-    top: calc(100% - 16px);
+    top: auto;
   }
 
   .dp-new-plan-selection-select {

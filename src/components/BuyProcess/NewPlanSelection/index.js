@@ -195,6 +195,7 @@ export const NewPlanSelection = InjectAppServices(
 
     return (
       <NewPlanSelectionStyled>
+        {isCurrentPlanByCredit && creditsPlanSection}
         <div className="dp-container p-b-48 dp-new-plan-selection-layout">
           <header className="dp-new-plan-selection-header">
             <div className="dp-new-plan-selection-back">
@@ -208,8 +209,6 @@ export const NewPlanSelection = InjectAppServices(
               <FormattedMessage id="buy_process.new_plan_selection.subtitle" />
             </p>
           </header>
-
-          {isCurrentPlanByCredit && creditsPlanSection}
           <div className="dp-rowflex">
             <div className="col-lg-12 col-md-12">
               <StickyPlanSummary summary={stickySummaryData} />
