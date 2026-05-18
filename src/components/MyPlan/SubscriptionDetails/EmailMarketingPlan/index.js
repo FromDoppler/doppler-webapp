@@ -24,9 +24,7 @@ export const EmailMarketingPlan = ({ user, plan, features }) => {
   const newPlanSelectionFlag =
     features?.newPlanSelectionEnabled ?? user?.features?.newPlanSelectionEnabled;
   const shouldGoToPlanSelection = !plan.isFreeAccount && (!isContactPlan || !newPlanSelectionFlag);
-  const changePlanUrl = shouldGoToPlanSelection
-    ? plan.buttonUrl 
-    : '/new-plan-selection?buyType=1';
+  const changePlanUrl = shouldGoToPlanSelection ? plan.buttonUrl : '/new-plan-selection?buyType=1';
 
   return (
     <article className="dp-wrapper-plan">
