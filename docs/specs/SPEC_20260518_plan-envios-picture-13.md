@@ -133,6 +133,16 @@ el flujo existente.
   - precio visible,
   - estado habilitado/deshabilitado del CTA.
 
+Regla especifica para CTA comercial (referencia de comportamiento actual en
+`ContactsPlan`):
+
+- en escenarios de downgrade (4.8) y alto volumen (4.9), el sticky debe pasar
+  a CTA comercial (mismo destino asesor/comercial que la card principal);
+- en esos escenarios, el sticky debe mantener el resumen estandar del plan
+  seleccionado (titulo/subtitulo/precio) y no pasar a modo custom;
+- el texto del boton del sticky debe ser el de CTA comercial
+  (`sticky_custom_cta`).
+
 ### 4.7 Compatibilidad y no regresion
 
 - No romper comportamiento ya implementado para variantes de Contactos y
@@ -156,10 +166,11 @@ Comportamiento esperado:
 - el mensaje de `picture_15` aparece al seleccionar un plan menor;
 - la opcion menos de 100.000 debe comportarse como downgrade y mostrar el mismo
   mensaje de `picture_15`;
-- el mensaje se oculta automaticamente al volver a un plan igual o mayor;
-- el estado de CTA debe seguir la regla funcional definida para este escenario
-  (si el mensaje requiere CTA asesor/comercial, debe alinearse con esa misma
-  decision en sticky summary).
+- el CTA principal debe pasar a modo comercial (Contactar a Asesor), igual que
+  en el escenario de Mas de 10.000.000;
+- el sticky summary debe pasar a CTA comercial y mantener resumen estandar del
+  plan seleccionado (alineado al criterio de `ContactsPlan` para downgrade);
+- el mensaje se oculta automaticamente al volver a un plan igual o mayor.
 
 ### 4.9 Escenario alto volumen (picture_14)
 
@@ -172,7 +183,8 @@ Cuando el usuario selecciona la opcion Mas de 10.000.000 en el dropdown:
 - el destino del CTA comercial debe ser consistente con el flujo actual de
   asesor/comercial (por ejemplo `/upgrade-suggestion-form`);
 - en este escenario no debe navegar al checkout de compra directa;
-- sticky summary debe reflejar el mismo estado de CTA comercial.
+- sticky summary debe reflejar el mismo estado de CTA comercial y mantener
+  resumen estandar del plan seleccionado.
 
 Prioridad entre escenarios especiales:
 
@@ -231,10 +243,14 @@ Agregar/actualizar tests para validar:
 - visualizacion de mensaje `picture_15` al seleccionar plan menor (downgrade).
 - visualizacion de mensaje `picture_15` al seleccionar la opcion menos de
   100.000.
+- CTA principal en modo Contactar a Asesor para downgrade.
+- sticky summary en modo CTA comercial para downgrade, manteniendo resumen
+  estandar del plan.
 - ocultamiento del mensaje `picture_15` al volver a plan igual o mayor.
 - visualizacion de bloque `picture_14` al seleccionar Mas de 10.000.000.
 - CTA principal en modo Contactar a Asesor para Mas de 10.000.000.
-- sticky summary sincronizado en modo CTA comercial para Mas de 10.000.000.
+- sticky summary sincronizado en modo CTA comercial para Mas de 10.000.000,
+  manteniendo resumen estandar del plan.
 - prioridad de `picture_14` sobre `picture_15` cuando aplica el escenario de
   alto volumen.
 - no regresion de flujo actual en variantes de Contactos y Creditos.
@@ -246,10 +262,10 @@ Agregar/actualizar tests para validar:
 - Variante de `picture_13` implementada y visible solo para usuarios con plan
   vigente por Envios.
 - Plan/frecuencia/precio/promocode/CTA sincronizados.
-- Escenario downgrade implementado con mensaje de `picture_15` y comportamiento
-  consistente al cambiar seleccion.
-- Escenario alto volumen implementado con mensaje de `picture_14` y CTA
-  comercial sincronizado en card y sticky.
+- Escenario downgrade implementado con mensaje de `picture_15`, CTA comercial
+  y sticky alineado al patron de `ContactsPlan`.
+- Escenario alto volumen implementado con mensaje de `picture_14`, CTA
+  comercial y sticky alineado al patron de `ContactsPlan`.
 - i18n ES/EN completo para nuevos textos.
 - Tests en verde con cobertura de escenario principal y casos borde.
 - Sin regresiones funcionales en `NewPlanSelection`.
@@ -261,6 +277,7 @@ Agregar/actualizar tests para validar:
 - Confirmar copy final ES/EN exacto de todos los textos de `picture_13`.
 - Confirmar copy final ES/EN exacto del mensaje de `picture_15`.
 - Confirmar copy final ES/EN exacto del bloque y CTA de `picture_14`.
-- Confirmar destino final del CTA Contactar a Asesor para `picture_14`.
+- Confirmar destino final del CTA Contactar a Asesor para `picture_14` y
+  `picture_15`.
 - Confirmar si en variante por Envios deben mostrarse tambien bloques de
   `IncludedFeatures`, `AddOnsSection` y `FAQ` sin cambios.
