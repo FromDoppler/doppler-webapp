@@ -5,7 +5,7 @@ import { ContactInformation } from './ContactInformation/ContactInformation';
 import { BillingInformation } from './BillingInformation/BillingInformation';
 import { PaymentMethod } from './PaymentMethod/PaymentMethod';
 import { Step } from './Step/Step';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   AddOnType,
   BUY_CHAT_PLAN,
@@ -16,13 +16,8 @@ import {
   BUY_PUSH_NOTIFICATION_PLAN,
   PLAN_TYPE,
   PaymentMethodType,
-  URL_PLAN_TYPE,
 } from '../../../doppler-types';
-import {
-  getMonthsByCycle,
-  getQueryParamsWithAccountType,
-  orderPaymentFrequencies,
-} from '../../../utils';
+import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import { ShoppingCart } from '../../BuyProcess/ShoppingCart';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 import { useFetchLandingPacks } from '../../../hooks/useFetchtLandingPacks';
@@ -39,11 +34,6 @@ export const actionPage = {
   READONLY: 'readOnly',
   UPDATE: 'update',
 };
-
-const getPlanTypeFromLegacyPlanType = (planType) =>
-  Object.keys(URL_PLAN_TYPE).includes(planType)
-    ? URL_PLAN_TYPE[planType]
-    : URL_PLAN_TYPE[PLAN_TYPE.byContact];
 
 const Checkout = InjectAppServices(
   ({
@@ -65,7 +55,7 @@ const Checkout = InjectAppServices(
     const [selectedAddOnPlan, setSelectedAddOnPlan] = useState(null);
 
     const intl = useIntl();
-    const { pathType, planType } = useParams();
+    const { planType } = useParams();
     const query = useQueryParams();
     const selectedPlanId = query.get('selected-plan') ?? 0;
     const selectedAddOnPlanId = query.get('addOnPlanId') ?? 0;
@@ -73,13 +63,10 @@ const Checkout = InjectAppServices(
     const landingIdsStr = query.get('landing-ids') ?? '';
     const landingsQtyStr = query.get('landing-packs') ?? '';
     const buyType = parseInt(query.get('buyType') ?? '1');
-    const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
     const chat = appSessionRef.current.userData.user.chat;
     const { locationCountry } = sessionPlan;
     const isArgentina = locationCountry === 'ar';
-    const { isFreeAccount } = sessionPlan.plan;
-    const queryParams = getQueryParamsWithAccountType({ search, isFreeAccount });
     const { landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
     const skipStepsEnabledRef = useRef(true);
 
@@ -376,40 +363,13 @@ const Checkout = InjectAppServices(
             <div className="col-lg-12 col-md-6 col-sm-12 m-b-24"></div>
             <div className="col-sm-12 m-b-24">
               <hr className="dp-h-divider" />
-              {isBuyLandingPacks ? (
-                <Link
-                  to={`/landing-packages?buyType=${BUY_LANDING_PACK}`}
-                  className="dp-button button-medium primary-grey m-t-30 m-r-24"
-                >
-                  {_('checkoutProcessForm.button_back')}
-                </Link>
-              ) : isBuyAddOnPlan ? (
-                <Link
-                  to={`${
-                    buyType === BUY_ONSITE_PLAN
-                      ? '/buy-onsite-plans'
-                      : buyType === BUY_PUSH_NOTIFICATION_PLAN
-                        ? '/buy-push-notification'
-                        : buyType === BUY_CHAT_PLAN
-                          ? '/buy-conversation'
-                          : '/buy-ecoia-plan'
-                  }?buyType=${buyType}`}
-                  className="dp-button button-medium primary-grey m-t-30 m-r-24"
-                >
-                  {_('checkoutProcessForm.button_back')}
-                </Link>
-              ) : (
-                <Link
-                  to={`/${
-                    chat && chat.active ? `plan-chat` : `plan-selection`
-                  }/${pathType}/${getPlanTypeFromLegacyPlanType(planType)}${
-                    queryParams ? `?${queryParams}` : ''
-                  }`}
-                  className="dp-button button-medium primary-grey m-t-30 m-r-24"
-                >
-                  {_('checkoutProcessForm.button_back')}
-                </Link>
-              )}
+              <button
+                type="button"
+                className="dp-button button-medium primary-grey m-t-30 m-r-24"
+                onClick={() => window.history.back()}
+              >
+                {_('checkoutProcessForm.button_back')}
+              </button>
             </div>
           </div>
         </div>

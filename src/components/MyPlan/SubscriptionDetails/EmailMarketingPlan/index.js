@@ -20,19 +20,13 @@ export const EmailMarketingPlan = ({ user, plan, features }) => {
   };
 
   const cancelAccount = () => setStartCancellationFlow(false);
-  const isContactPlan = plan.planType === PLAN_TYPE.byContact || plan.isSubscribers === true;
-  const rawNewPlanSelectionFlag =
-    features?.newPlanSelectionEnabled ?? user?.features?.newPlanSelectionEnabled;
+  const isContactPlan = plan.planType === PLAN_TYPE.byContact;
   const newPlanSelectionFlag =
-    rawNewPlanSelectionFlag === true ||
-    (typeof rawNewPlanSelectionFlag === 'string' &&
-      rawNewPlanSelectionFlag.toLowerCase() === 'true');
-  const isChangePlanAction = !plan.trialExpired && plan.planType !== PLAN_TYPE.byCredit;
+    features?.newPlanSelectionEnabled ?? user?.features?.newPlanSelectionEnabled;
   const shouldGoToPlanSelection = !plan.isFreeAccount && (!isContactPlan || !newPlanSelectionFlag);
   const changePlanUrl = shouldGoToPlanSelection
-    ? '/plan-selection/premium/by-contacts?buyType=1'
-    : '/new-plan-selection';
-  const marketingPlanButtonUrl = isChangePlanAction ? changePlanUrl : plan.buttonUrl;
+    ? plan.buttonUrl 
+    : '/new-plan-selection?buyType=1';
 
   return (
     <article className="dp-wrapper-plan">
@@ -77,15 +71,8 @@ export const EmailMarketingPlan = ({ user, plan, features }) => {
               <a
                 type="button"
                 className="dp-button button-medium primary-green dp-w-100 m-b-12"
-                href={marketingPlanButtonUrl}
+                href={changePlanUrl}
               >
-                {/* {_(
-                  `my_plan.subscription_details.${
-                    plan.planType === PLAN_TYPE.byCredit
-                      ? 'buy_credits_button'
-                      : 'change_plan_button'
-                  }`,
-                )} */}
                 {_(
                   `my_plan.subscription_details.${
                     plan.trialExpired
