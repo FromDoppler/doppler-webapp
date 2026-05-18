@@ -88,7 +88,7 @@ export const NewPlanSelection = InjectAppServices(
         try {
           setLoading(true);
           const [fetchedPlansByContact, fetchedPlansByCredit] = await Promise.all([
-            planService.getPlansByType(PLAN_TYPE.byContact),
+            planService.getPlansByType(PLAN_TYPE.byContact, { includeDowngrades: true }),
             planService.getPlansByType(PLAN_TYPE.byCredit),
           ]);
           setPlansByContact(fetchedPlansByContact);
@@ -127,6 +127,7 @@ export const NewPlanSelection = InjectAppServices(
 
     const selectedContactPlan = plansByContact[selectedContactPlanIndex] ?? null;
     const selectedCreditPlan = plansByCredit[selectedCreditPlanIndex] ?? null;
+    const isCurrentPlanByCredit = sessionPlan?.plan?.planType === PLAN_TYPE.byCredit;
 
     const handlePlanChange = (event) => {
       const { value } = event.target;
@@ -161,7 +162,7 @@ export const NewPlanSelection = InjectAppServices(
           <div className="dp-container p-b-48">
             <div className="dp-new-plan-selection-header">
               <div className="dp-new-plan-selection-back">
-                <GoBackButton />
+                <GoBackButton goBackUrl="/my-plan" />
               </div>
               <h2 className="dp-first-order-title dp-new-plan-selection-title">
                 <FormattedMessage id="buy_process.new_plan_selection.title" />
@@ -179,12 +180,25 @@ export const NewPlanSelection = InjectAppServices(
       );
     }
 
+    const creditsPlanSection = !!plansByCredit.length && (
+      <div className="dp-new-plan-selection-credits-fullwidth">
+        <CreditsPlan
+          plans={plansByCredit}
+          selectedPlanIndex={selectedCreditPlanIndex}
+          onPlanChange={handleCreditsPlanChange}
+          sessionPlan={sessionPlan}
+          selectedPlan={selectedCreditPlan}
+          search={search}
+        />
+      </div>
+    );
+
     return (
       <NewPlanSelectionStyled>
         <div className="dp-container p-b-48 dp-new-plan-selection-layout">
           <header className="dp-new-plan-selection-header">
             <div className="dp-new-plan-selection-back">
-              <GoBackButton />
+              <GoBackButton goBackUrl="/my-plan" />
             </div>
             <h2 className="dp-first-order-title dp-new-plan-selection-title">
               <FormattedMessage id="buy_process.new_plan_selection.title" />
@@ -194,7 +208,7 @@ export const NewPlanSelection = InjectAppServices(
               <FormattedMessage id="buy_process.new_plan_selection.subtitle" />
             </p>
           </header>
-
+          {isCurrentPlanByCredit && creditsPlanSection}
           <div className="dp-rowflex">
             <div className="col-lg-12 col-md-12">
               <StickyPlanSummary summary={stickySummaryData} />
@@ -207,23 +221,13 @@ export const NewPlanSelection = InjectAppServices(
                 sessionPlan={sessionPlan}
                 selectedPlan={selectedContactPlan}
                 search={search}
+                keepControlsEnabled={isCurrentPlanByCredit}
               />
               <IncludedFeatures />
             </div>
           </div>
         </div>
-        {!!plansByCredit.length && (
-          <div className="dp-new-plan-selection-credits-fullwidth">
-            <CreditsPlan
-              plans={plansByCredit}
-              selectedPlanIndex={selectedCreditPlanIndex}
-              onPlanChange={handleCreditsPlanChange}
-              sessionPlan={sessionPlan}
-              selectedPlan={selectedCreditPlan}
-              search={search}
-            />
-          </div>
-        )}
+        {!isCurrentPlanByCredit && creditsPlanSection}
         <div className="dp-container">
           <AddOnsSection />
         </div>

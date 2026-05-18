@@ -131,17 +131,22 @@ export const SubscriptionDetails = InjectAppServices(({ dependencies: { appSessi
 
   const user = appSessionRef.current.userData.user;
   const { plan, sms } = user;
-  const addOns = getAddons(
-    appSessionRef.current.userData.user,
-    appSessionRef?.current?.userData?.features,
-  ).filter((a) => a.active);
+  const sessionFeatures =
+    appSessionRef?.current?.userData?.features ?? appSessionRef?.current?.userData?.user?.features;
+  const addOns = getAddons(appSessionRef.current.userData.user, sessionFeatures).filter(
+    (a) => a.active,
+  );
 
   return (
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
           <div className="dp-box-shadow m-b-24">
-            <EmailMarketingPlan user={user} plan={plan}></EmailMarketingPlan>
+            <EmailMarketingPlan
+              user={user}
+              plan={plan}
+              features={sessionFeatures}
+            ></EmailMarketingPlan>
           </div>
           {addOns.map((addon, index) => (
             <AddOnPlan

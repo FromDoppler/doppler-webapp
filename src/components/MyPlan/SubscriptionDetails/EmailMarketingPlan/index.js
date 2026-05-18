@@ -4,7 +4,7 @@ import { CancellationAccount } from '../../CancellationAccount';
 import { useState } from 'react';
 import { HeaderStyled } from './index.style';
 
-export const EmailMarketingPlan = ({ user, plan }) => {
+export const EmailMarketingPlan = ({ user, plan, features }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const [startCancellationFlow, setStartCancellationFlow] = useState(false);
@@ -20,6 +20,11 @@ export const EmailMarketingPlan = ({ user, plan }) => {
   };
 
   const cancelAccount = () => setStartCancellationFlow(false);
+  const isContactPlan = plan.planType === PLAN_TYPE.byContact;
+  const newPlanSelectionFlag =
+    features?.newPlanSelectionEnabled ?? user?.features?.newPlanSelectionEnabled;
+  const shouldGoToPlanSelection = !plan.isFreeAccount && (!isContactPlan || !newPlanSelectionFlag);
+  const changePlanUrl = shouldGoToPlanSelection ? plan.buttonUrl : '/new-plan-selection?buyType=1';
 
   return (
     <article className="dp-wrapper-plan">
@@ -64,15 +69,8 @@ export const EmailMarketingPlan = ({ user, plan }) => {
               <a
                 type="button"
                 className="dp-button button-medium primary-green dp-w-100 m-b-12"
-                href={plan.buttonUrl}
+                href={changePlanUrl}
               >
-                {/* {_(
-                  `my_plan.subscription_details.${
-                    plan.planType === PLAN_TYPE.byCredit
-                      ? 'buy_credits_button'
-                      : 'change_plan_button'
-                  }`,
-                )} */}
                 {_(
                   `my_plan.subscription_details.${
                     plan.trialExpired

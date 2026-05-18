@@ -187,7 +187,11 @@ const getCreditsSelect = () => within(getCreditsPlanSection()).getByRole('combob
 const hasPriceInBold = (priceRegex) => (_content, node) =>
   node?.tagName === 'B' && priceRegex.test(node?.textContent || '');
 
-const createForcedServices = ({ features = {}, dopplerAccountPlansApiClient = {} } = {}) => ({
+const createForcedServices = ({
+  features = {},
+  dopplerAccountPlansApiClient = {},
+  appSessionUser = {},
+} = {}) => ({
   appSessionRef: {
     current: {
       userData: {
@@ -201,6 +205,7 @@ const createForcedServices = ({ features = {}, dopplerAccountPlansApiClient = {}
             isFreeAccount: true,
             planSubscription: 1,
           },
+          ...appSessionUser,
         },
       },
     },
@@ -589,6 +594,154 @@ describe('NewPlanSelection component', () => {
     expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
   });
 
+  it('should show downgrade warning when paid user selects a smaller contacts plan and hide it when returns to current size', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 10223,
+            planType: PLAN_TYPE.byContact,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(screen.queryByTestId('dp-contacts-downgrade-message')).not.toBeInTheDocument();
+
+    fireEvent.change(getContactsSelect(), {
+      target: { value: '0' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-contacts-downgrade-message')).toBeInTheDocument(),
+    );
+    expect(
+      screen.getByText('buy_process.new_plan_selection.contacts_downgrade_warning_message'),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-contacts-downgrade-message')).getByRole('link', {
+        name: 'buy_process.new_plan_selection.more_than_100k_contact_link',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.contact_advisor_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.sticky_custom_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+
+    fireEvent.change(getContactsSelect(), {
+      target: { value: '1' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.queryByTestId('dp-contacts-downgrade-message')).not.toBeInTheDocument(),
+    );
+  });
+
+  it('should show lose promotion warning when selected contacts plan is different from promotion plan', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 10222,
+            planType: PLAN_TYPE.byContact,
+            isFreeAccount: false,
+            planSubscription: 1,
+            promotion: {
+              idUserTypePlan: 10222,
+              code: 'PROMOCODE',
+            },
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(
+      screen.queryByText('buy_process.plan_selection.lose_promotion_message'),
+    ).not.toBeInTheDocument();
+
+    fireEvent.change(getContactsSelect(), {
+      target: { value: '1' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        screen.getByText('buy_process.plan_selection.lose_promotion_message'),
+      ).toBeInTheDocument(),
+    );
+  });
+
+  it('should not show lose promotion warning when applied promocode is different from saved one and it is invalid', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 10222,
+            planType: PLAN_TYPE.byContact,
+            isFreeAccount: false,
+            planSubscription: 1,
+            promotion: {
+              idUserTypePlan: 10222,
+              code: 'PROMOCODE_SAVED',
+            },
+          },
+        },
+        dopplerAccountPlansApiClient: {
+          validatePromocode: jest.fn(async () => ({
+            success: true,
+            value: {
+              canApply: false,
+              promocode: 'PROMOCODE_OTHER',
+              planPromotions: [{ planType: 2, quantity: '100000,500000' }],
+            },
+          })),
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    fireEvent.change(getContactsSelect(), {
+      target: { value: '1' },
+    });
+    await settleAsyncState();
+
+    fireEvent.change(within(getContactsPlanSection()).getByRole('textbox'), {
+      target: { value: 'PROMOCODE_OTHER' },
+    });
+    fireEvent.click(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        screen.getByText(
+          'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+        ),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.queryByText('buy_process.plan_selection.lose_promotion_message'),
+    ).not.toBeInTheDocument();
+  });
+
   it('should update selected credits plan in checkout URL when credits dropdown changes', async () => {
     await renderNewPlanSelection();
 
@@ -606,30 +759,63 @@ describe('NewPlanSelection component', () => {
     );
   });
 
-  it('should show monthly discounted price and selected discount in contacts checkout URL', async () => {
+  it('should keep user subscription frequency selected and disable payment frequency controls', async () => {
     await renderNewPlanSelection();
 
-    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: /Anual/i }));
-    await settleAsyncState();
+    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
+      name: /Anual/i,
+    });
+    expect(annualFrequencyButton).toBeDisabled();
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
-        '/checkout/premium/subscribers?selected-plan=10222&discountId=798&monthPlan=12&buyType=1',
+        '/checkout/premium/subscribers?selected-plan=10222&discountId=795&monthPlan=1&buyType=1',
       ),
     );
-    expect(screen.getByText(/US\$7,50\/mes/i)).toBeInTheDocument();
+    expect(screen.getByText(/US\$10\/mes/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Facturación Anual/i)).not.toBeInTheDocument();
+  });
 
-    expect(screen.getAllByText(textContentIncludes('US$7,50/mes*')).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
+  it('should render credits plan before contacts plan for users with current credit plan', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 20222,
+            planType: PLAN_TYPE.byCredit,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    const creditsPlan = getCreditsPlanSection();
+    const contactsPlan = getContactsPlanSection();
+
     expect(
-      screen.getAllByText(textContentIncludes('Ahorras 25% realizando 1 pago anual de US$90'))
-        .length,
-    ).toBeGreaterThan(0);
-    expect(
-      within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
-        textContentIncludes('Facturación Anual 25%OFF | 1 Pago anual de US$90'),
-      ).length,
-    ).toBeGreaterThan(0);
+      creditsPlan.compareDocumentPosition(contactsPlan) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it('should keep contacts payment frequency enabled for users with current credit plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 20222,
+          planType: PLAN_TYPE.byCredit,
+          isFreeAccount: false,
+          planSubscription: 1,
+        },
+      },
+    });
+
+    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
+      name: /Anual/i,
+    });
+    expect(annualFrequencyButton).not.toBeDisabled();
   });
 
   it('should show tailored price and advisor CTA for more than 100k option', async () => {
@@ -661,11 +847,44 @@ describe('NewPlanSelection component', () => {
     expect(screen.queryByRole('link', { name: 'Elegir Plan' })).not.toBeInTheDocument();
   });
 
+  it('should show only the tailored blue message and hide lose promotion warning for more than 100k option', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 10222,
+            planType: PLAN_TYPE.byContact,
+            isFreeAccount: false,
+            planSubscription: 1,
+            promotion: {
+              idUserTypePlan: 10222,
+              code: 'PROMOCODE',
+            },
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    fireEvent.change(getContactsSelect(), {
+      target: { value: 'more-than-100000' },
+    });
+    await settleAsyncState();
+
+    expect(screen.getByTestId('dp-more-than-100k-message')).toBeInTheDocument();
+    expect(
+      screen.queryByText('buy_process.plan_selection.lose_promotion_message'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+      ),
+    ).not.toBeInTheDocument();
+  });
+
   it('should keep sticky CTA URL synchronized with contacts plan CTA URL', async () => {
     await renderNewPlanSelection();
-
-    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: /Anual/i }));
-    await settleAsyncState();
 
     await waitFor(() => {
       const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');

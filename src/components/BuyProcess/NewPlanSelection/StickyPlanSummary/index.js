@@ -94,7 +94,7 @@ export const StickyPlanSummary = ({ summary }) => {
           </p>
         )}
 
-        {summary.isCustomPlan ? (
+        {summary.useAdvisorCta ? (
           <Link className="dp-button button-medium primary-green" to={summary.ctaHref}>
             <FormattedMessage id="buy_process.new_plan_selection.sticky_custom_cta" />
           </Link>

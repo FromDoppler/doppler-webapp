@@ -6,7 +6,6 @@ import {
   PAYMENT_FREQUENCY_ACTIONS,
   paymentFrequencyReducer,
 } from './reducers/paymentFrequencyReducer';
-import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { EXCLUSIVE_DISCOUNT_PERCENTAGE_ARGENTINA } from '../../../../doppler-types';
 
 const subscriptionTypeMap = {
@@ -26,8 +25,6 @@ export const PaymentFrequency = ({
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  const query = useQueryParams();
-  const paymentFrequencyDefault = query.get('monthPlan');
   const lang = intl.locale;
   const [
     { paymentFrequencies, selectedPaymentFrequency, selectedPaymentFrequencyIndex },
@@ -40,10 +37,9 @@ export const PaymentFrequency = ({
       payload: {
         paymentFrequencies: paymentFrequenciesList,
         currentSubscriptionUser,
-        paymentFrequencyDefault,
       },
     });
-  }, [paymentFrequenciesList, currentSubscriptionUser, paymentFrequencyDefault]);
+  }, [paymentFrequenciesList, currentSubscriptionUser]);
 
   useEffect(() => {
     onSelectPaymentFrequency &&

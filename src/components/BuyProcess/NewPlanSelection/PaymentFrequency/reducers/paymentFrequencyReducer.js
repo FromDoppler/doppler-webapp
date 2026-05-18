@@ -12,13 +12,11 @@ export const PAYMENT_FREQUENCY_ACTIONS = {
 export const paymentFrequencyReducer = (state, action) => {
   switch (action.type) {
     case PAYMENT_FREQUENCY_ACTIONS.RECEIVE_PAYMENT_FREQUENCIES:
-      const { paymentFrequencies, currentSubscriptionUser, paymentFrequencyDefault } =
-        action.payload;
+      const { paymentFrequencies, currentSubscriptionUser } = action.payload;
 
       const selectPaymentFrequencyIndexByDefault = getSelectPaymentFrequencyIndexByDefault(
         paymentFrequencies,
         currentSubscriptionUser,
-        paymentFrequencyDefault,
         state.selectedPaymentFrequencyIndex,
       );
 
@@ -49,18 +47,14 @@ export const paymentFrequencyReducer = (state, action) => {
 const getSelectPaymentFrequencyIndexByDefault = (
   newPaymentFrequencies,
   currentSubscriptionUser,
-  paymentFrequencyQueryParam,
   selectedPaymentFrequencyIndex,
 ) => {
-  if (selectedPaymentFrequencyIndex > -1) {
-    if (newPaymentFrequencies[selectedPaymentFrequencyIndex]) {
-      return selectedPaymentFrequencyIndex;
-    } else {
-      return newPaymentFrequencies.length - 1;
-    }
+  if (!newPaymentFrequencies.length) {
+    return -1;
   }
+
   const index = newPaymentFrequencies.findIndex(
-    (pf) => pf.numberMonths === (parseInt(paymentFrequencyQueryParam) || currentSubscriptionUser),
+    (pf) => pf.numberMonths === currentSubscriptionUser,
   );
   return index < 0 ? newPaymentFrequencies.length - 1 : index;
 };

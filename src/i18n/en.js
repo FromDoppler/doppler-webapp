@@ -173,6 +173,7 @@ other {}}}}}}}}}}
       buy_credits: 'Buy Credits',
       choose_plan: 'Choose Plan',
       contact_advisor_cta: 'Contact an Advisor',
+      contacts_downgrade_warning_message: '<bold>Need to reduce contacts?</bold>{br}If you want to switch to a smaller Contacts Plan, contact us so we can advise you.',
       contacts_label: 'How many Contacts do you have?',
       contacts_option: '{contacts}',
       contacts_option_more_than_100k: 'More than 100,000',

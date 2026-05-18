@@ -128,6 +128,8 @@ export const NewPlanSelectionStyled = styled.div`
     border-left: 0;
     border-radius: 0;
     border-right: 0;
+    box-shadow: 0 0 0 9999px #fdf5c8;
+    clip-path: inset(0 -9999px);
     padding: 24px 0 28px;
   }
 
@@ -258,18 +260,12 @@ export const NewPlanSelectionStyled = styled.div`
     font-weight: 700;
   }
 
-  .dp-new-plan-selection-card .dp-new-plan-selection-select-wrap .dropdown-arrow {
+  .dp-new-plan-selection-select-wrap .dropdown-arrow {
+    bottom: 13px;
     pointer-events: none;
     position: absolute;
     right: 12px;
-    top: 36px;
-  }
-
-  .dp-new-plan-selection-card-credits .dp-new-plan-selection-select-wrap .dropdown-arrow {
-    pointer-events: none;
-    position: absolute;
-    right: 12px;
-    top: 59px;
+    top: auto;
   }
 
   .dp-new-plan-selection-select {
@@ -592,6 +588,29 @@ export const NewPlanSelectionStyled = styled.div`
     width: 25%;
   }
 
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency.dp-pf-disabled::before,
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en.dp-pf-disabled::before {
+    border-color: #d5d5d5;
+  }
+
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency.dp-pf-disabled button,
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en.dp-pf-disabled button {
+    color: #8c8c8c;
+    cursor: not-allowed;
+  }
+
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency.dp-pf-disabled .dp-discount,
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en.dp-pf-disabled .dp-discount {
+    background-color: #e3e3e3;
+    color: #9a9a9a;
+  }
+
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency.dp-pf-disabled .animation,
+  .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en.dp-pf-disabled .animation {
+    background: #ececec;
+    border-color: #c9c9c9;
+  }
+
   .dp-new-plan-selection-promocode .field-item {
     margin-bottom: 0;
   }
@@ -604,11 +623,22 @@ export const NewPlanSelectionStyled = styled.div`
     padding: 10px 12px;
   }
 
+  .dp-new-plan-selection-more-than-message .dp-message-icon {
+    flex: 0 0 auto;
+    margin-top: 0;
+  }
+
+  .dp-new-plan-selection-more-than-message .dp-content-message {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .dp-new-plan-selection-more-than-link {
     color: #333;
-    flex: 0 0 auto;
-    font-size: 11px;
-    font-weight: 700;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: 12px;
     text-decoration: underline;
     text-transform: uppercase;
   }
