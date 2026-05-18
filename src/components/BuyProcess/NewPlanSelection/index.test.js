@@ -776,6 +776,48 @@ describe('NewPlanSelection component', () => {
     expect(screen.queryByText(/Facturación Anual/i)).not.toBeInTheDocument();
   });
 
+  it('should render credits plan before contacts plan for users with current credit plan', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 20222,
+            planType: PLAN_TYPE.byCredit,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    const creditsPlan = getCreditsPlanSection();
+    const contactsPlan = getContactsPlanSection();
+
+    expect(
+      creditsPlan.compareDocumentPosition(contactsPlan) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it('should keep contacts payment frequency enabled for users with current credit plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 20222,
+          planType: PLAN_TYPE.byCredit,
+          isFreeAccount: false,
+          planSubscription: 1,
+        },
+      },
+    });
+
+    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
+      name: /Anual/i,
+    });
+    expect(annualFrequencyButton).not.toBeDisabled();
+  });
+
   it('should show tailored price and advisor CTA for more than 100k option', async () => {
     await renderNewPlanSelection();
 

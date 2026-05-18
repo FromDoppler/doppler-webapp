@@ -127,6 +127,7 @@ export const NewPlanSelection = InjectAppServices(
 
     const selectedContactPlan = plansByContact[selectedContactPlanIndex] ?? null;
     const selectedCreditPlan = plansByCredit[selectedCreditPlanIndex] ?? null;
+    const isCurrentPlanByCredit = sessionPlan?.plan?.planType === PLAN_TYPE.byCredit;
 
     const handlePlanChange = (event) => {
       const { value } = event.target;
@@ -179,6 +180,19 @@ export const NewPlanSelection = InjectAppServices(
       );
     }
 
+    const creditsPlanSection = !!plansByCredit.length && (
+      <div className="dp-new-plan-selection-credits-fullwidth">
+        <CreditsPlan
+          plans={plansByCredit}
+          selectedPlanIndex={selectedCreditPlanIndex}
+          onPlanChange={handleCreditsPlanChange}
+          sessionPlan={sessionPlan}
+          selectedPlan={selectedCreditPlan}
+          search={search}
+        />
+      </div>
+    );
+
     return (
       <NewPlanSelectionStyled>
         <div className="dp-container p-b-48 dp-new-plan-selection-layout">
@@ -195,6 +209,7 @@ export const NewPlanSelection = InjectAppServices(
             </p>
           </header>
 
+          {isCurrentPlanByCredit && creditsPlanSection}
           <div className="dp-rowflex">
             <div className="col-lg-12 col-md-12">
               <StickyPlanSummary summary={stickySummaryData} />
@@ -207,23 +222,13 @@ export const NewPlanSelection = InjectAppServices(
                 sessionPlan={sessionPlan}
                 selectedPlan={selectedContactPlan}
                 search={search}
+                keepControlsEnabled={isCurrentPlanByCredit}
               />
               <IncludedFeatures />
             </div>
           </div>
         </div>
-        {!!plansByCredit.length && (
-          <div className="dp-new-plan-selection-credits-fullwidth">
-            <CreditsPlan
-              plans={plansByCredit}
-              selectedPlanIndex={selectedCreditPlanIndex}
-              onPlanChange={handleCreditsPlanChange}
-              sessionPlan={sessionPlan}
-              selectedPlan={selectedCreditPlan}
-              search={search}
-            />
-          </div>
-        )}
+        {!isCurrentPlanByCredit && creditsPlanSection}
         <div className="dp-container">
           <AddOnsSection />
         </div>

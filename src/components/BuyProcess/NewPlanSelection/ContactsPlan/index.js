@@ -98,6 +98,7 @@ export const ContactsPlan = InjectAppServices(
     sessionPlan,
     selectedPlan,
     search,
+    keepControlsEnabled = false,
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const intl = useIntl();
@@ -226,6 +227,7 @@ export const ContactsPlan = InjectAppServices(
     const shouldShowLosePromotionWarning =
       !isTailoredPlan && isUpgradePlan && isAppliedPromocodeSameAsSaved;
     const shouldUseAdvisorCta = isTailoredPlan || shouldShowDowngradeWarning;
+    const shouldDisablePaymentFrequency = !keepControlsEnabled;
 
     const stickyDiscountSummary = useMemo(() => {
       if (isTailoredPlan) {
@@ -346,7 +348,7 @@ export const ContactsPlan = InjectAppServices(
                   paymentFrequenciesList={paymentFrequencies}
                   onSelectPaymentFrequency={handlePaymentFrequencyChange}
                   currentSubscriptionUser={sessionPlan.plan.planSubscription}
-                  disabled
+                  disabled={shouldDisablePaymentFrequency}
                 />
               </div>
               <div className="dp-new-plan-selection-promocode">

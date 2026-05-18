@@ -221,6 +221,23 @@ Alcance de esta iteracion:
 - no cambia por si sola el estado de habilitacion del CTA (salvo que picture 12
   lo requiera explicitamente en una definicion posterior).
 
+### 4.9 Orden de cards y controles para usuario con plan por Creditos
+
+Cuando `appSessionRef.current.userData.user.plan.planType === PLAN_TYPE.byCredit`
+y `isFreeAccount === false`:
+
+- en `NewPlanSelection` debe renderizarse primero la card `CreditsPlan`;
+- debajo debe renderizarse la card `ContactsPlan`;
+- en este escenario, dentro de `ContactsPlan`, los controles de
+  `PaymentFrequency` y `Promocode` deben permanecer disponibles para
+  interaccion del usuario (no bloqueados/grisados por la regla de frecuencia
+  del plan actual).
+
+Nota:
+
+- esta regla aplica solo para usuario vigente por Creditos;
+- para el resto de escenarios se mantiene el comportamiento actual.
+
 ---
 
 ## 5) Impacto tecnico esperado
@@ -274,6 +291,10 @@ Agregar/ajustar tests en `NewPlanSelection/index.test.js` para validar:
   no aplicable;
 - al seleccionar nuevamente un plan que no cumple la condicion del escenario
   activo, el mensaje correspondiente se oculta.
+- para usuario vigente por Creditos, `CreditsPlan` aparece antes que
+  `ContactsPlan` en el orden visual.
+- para usuario vigente por Creditos, la frecuencia de pago en `ContactsPlan`
+  permanece habilitada.
 
 ---
 
