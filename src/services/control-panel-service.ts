@@ -24,6 +24,7 @@ import google_analitics_icon from '../components/Integrations/images/google_anal
 import adobe_commerce_icon from '../components/Integrations/images/adobe_commerce_icon.png';
 import prestashop_icon from '../components/Integrations/images/prestashop_icon.png';
 import shopify_icon from '../components/Integrations/images/shopify_icon.png';
+import siigo_icon from '../components/Integrations/images/siigo_icon.png';
 import Tiendanube_icon from '../components/Integrations/images/Tiendanube_icon.svg';
 import tokko_icon from '../components/Integrations/images/tokko_icon.png';
 import Typeform_icon from '../components/Integrations/images/Typeform_icon.png';
@@ -194,6 +195,15 @@ export class ControlPanelService implements ControlPanelService {
               imgSrc: shopify_icon,
               imgAlt: _('integrations.native_integrations.shopify_title'),
               iconName: _('integrations.native_integrations.shopify_title'),
+            },
+            {
+              name: 'Siigo',
+              linkUrl: `${urlIntegrations}/SiigoSection`,
+              imgSrc: siigo_icon,
+              imgAlt: _('integrations.native_integrations.siigo_title'),
+              iconName: _('integrations.native_integrations.siigo_title'),
+              ribbonColor: 'violet',
+              ribbonText: _('promotional_ribbons.new'),
             },
             {
               linkUrl: `${urlIntegrations}/WebHookIntegration?integrationType=Unbounce`,
