@@ -45,6 +45,25 @@ const contactPlans = [
   },
 ];
 
+const emailPlans = [
+  {
+    type: PLAN_TYPE.byEmail,
+    id: 30222,
+    name: '300000-EMAILS',
+    emailsByMonth: 300000,
+    fee: 367,
+    extraEmailPrice: 0.0015,
+  },
+  {
+    type: PLAN_TYPE.byEmail,
+    id: 30223,
+    name: '1500000-EMAILS',
+    emailsByMonth: 1500000,
+    fee: 920,
+    extraEmailPrice: 0.0012,
+  },
+];
+
 const creditPlans = [
   {
     type: PLAN_TYPE.byCredit,
@@ -179,10 +198,12 @@ let consoleErrorSpy;
 let previousCanBuyPushNotificationPlan;
 
 const getContactsPlanSection = () => screen.getByTestId('dp-contacts-plan');
+const getEmailsPlanSection = () => screen.getByTestId('dp-emails-plan');
 const getCreditsPlanSection = () => screen.getByTestId('dp-credits-plan');
 const getAddOnsSection = () => screen.getByTestId('dp-addons-section');
 const getFaqSection = () => screen.getByTestId('dp-faq-section');
 const getContactsSelect = () => within(getContactsPlanSection()).getByRole('combobox');
+const getEmailsSelect = () => within(getEmailsPlanSection()).getByRole('combobox');
 const getCreditsSelect = () => within(getCreditsPlanSection()).getByRole('combobox');
 const hasPriceInBold = (priceRegex) => (_content, node) =>
   node?.tagName === 'B' && priceRegex.test(node?.textContent || '');
@@ -244,6 +265,10 @@ const createForcedServices = ({
 
       if (planType === PLAN_TYPE.byCredit) {
         return creditPlans;
+      }
+
+      if (planType === PLAN_TYPE.byEmail) {
+        return emailPlans;
       }
 
       return [];
@@ -592,6 +617,158 @@ describe('NewPlanSelection component', () => {
       ),
     );
     expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
+  });
+
+  it('should render emails plan variant for paid byEmail users', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30222,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(getEmailsPlanSection()).toBeInTheDocument();
+    expect(getEmailsSelect()).toBeInTheDocument();
+    expect(screen.queryByTestId('dp-contacts-plan')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('dp-credits-plan')).not.toBeInTheDocument();
+  });
+
+  it('should render less-than-100k as the first option in emails dropdown', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30222,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    const emailOptions = within(getEmailsSelect()).getAllByRole('option');
+    expect(emailOptions[0]).toHaveTextContent(
+      'buy_process.new_plan_selection.emails_option_less_than_100k',
+    );
+  });
+
+  it('should show downgrade message and use advisor CTA when selecting less than 100k emails', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30223,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: 'less-than-100000' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-emails-downgrade-message')).toBeInTheDocument(),
+    );
+    expect(
+      screen.getByText('buy_process.new_plan_selection.emails_downgrade_warning_message'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.contact_advisor_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.sticky_custom_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+  });
+
+  it('should prioritize more than 10m message and hide downgrade warning in emails plan', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30223,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: 'less-than-100000' },
+    });
+    await settleAsyncState();
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-emails-downgrade-message')).toBeInTheDocument(),
+    );
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: 'more-than-10000000' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-emails-more-than-10m-message')).toBeInTheDocument(),
+    );
+    expect(screen.queryByTestId('dp-emails-downgrade-message')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.contact_advisor_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.sticky_custom_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+  });
+
+  it('should build checkout URL for selected byEmail plan when no commercial scenario is active', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 30222,
+          planType: PLAN_TYPE.byEmail,
+          isFreeAccount: false,
+          planSubscription: 1,
+        },
+      },
+    });
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: '1' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
+        '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1',
+      ),
+    );
   });
 
   it('should show downgrade warning when paid user selects a smaller contacts plan and hide it when returns to current size', async () => {
