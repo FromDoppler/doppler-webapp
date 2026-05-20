@@ -104,11 +104,12 @@ export const NewPlanSelection = InjectAppServices(
       const fetchPlans = async () => {
         try {
           setLoading(true);
-          const [fetchedPlansByContact, fetchedPlansByCredit, fetchedPlansByEmail] = await Promise.all([
-            planService.getPlansByType(PLAN_TYPE.byContact, { includeDowngrades: true }),
-            planService.getPlansByType(PLAN_TYPE.byCredit),
-            planService.getPlansByType(PLAN_TYPE.byEmail, { includeDowngrades: true }),
-          ]);
+          const [fetchedPlansByContact, fetchedPlansByCredit, fetchedPlansByEmail] =
+            await Promise.all([
+              planService.getPlansByType(PLAN_TYPE.byContact, { includeDowngrades: true }),
+              planService.getPlansByType(PLAN_TYPE.byCredit),
+              planService.getPlansByType(PLAN_TYPE.byEmail, { includeDowngrades: true }),
+            ]);
           setPlansByContact(fetchedPlansByContact);
           setPlansByCredit(fetchedPlansByCredit);
           setPlansByEmail(fetchedPlansByEmail);

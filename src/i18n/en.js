@@ -196,8 +196,8 @@ other {}}}}}}}}}}
       emails_option_more_than_10m: 'More than 10,000,000',
       emails_plan_description: 'Send more and pay less. Unlimited Contacts with a lower unit cost per delivery.{br}Ideal for companies with large databases.',
       emails_plan_title: 'Email Plan',
-      empty_message: 'There are no Contacts plans available at the moment.',
       empty_emails_message: 'There are no Delivery plans available right now.',
+      empty_message: 'There are no Contacts plans available at the moment.',
       included_features: {
         item_1_description: 'Automate customer journeys, recover opportunities, and improve relationships with smart sendings.',
         item_1_title: 'Automate your marketing and connect more',

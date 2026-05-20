@@ -128,9 +128,9 @@ export const EmailsPlan = InjectAppServices(
     const selectedPlanFee = selectedPlan?.fee ?? 0;
     const hasPromocodeDiscount = Boolean(
       effectivePromocodeApplied?.canApply &&
-        promocodeDiscountPercentage > 0 &&
-        !isLessThan100kSelected &&
-        !isMoreThan10mSelected,
+      promocodeDiscountPercentage > 0 &&
+      !isLessThan100kSelected &&
+      !isMoreThan10mSelected,
     );
     const displayedMonthlyPrice =
       hasPromocodeDiscount && typeof amountDetailsData?.value?.nextMonthTotal === 'number'
@@ -147,7 +147,8 @@ export const EmailsPlan = InjectAppServices(
     const stickyEmailsLabel = selectedPlan
       ? thousandSeparatorNumber(intl.defaultLocale, amountByPlanType(selectedPlan))
       : '';
-    const currentSessionEmailPlan = plans.find((plan) => plan.id === sessionPlan?.plan?.idPlan) ?? null;
+    const currentSessionEmailPlan =
+      plans.find((plan) => plan.id === sessionPlan?.plan?.idPlan) ?? null;
     const currentSessionEmailCapacity = amountByPlanType(currentSessionEmailPlan ?? {});
     const selectedEmailCapacity = amountByPlanType(selectedPlan ?? {});
     const shouldShowDowngradeWarning =

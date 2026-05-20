@@ -658,15 +658,14 @@ describe('NewPlanSelection component', () => {
     );
 
     expect(getEmailsSelect()).toHaveValue('1');
-    expect(screen.getByText('buy_process.new_plan_selection.sticky_emails_subtitle')).toBeInTheDocument();
+    expect(
+      screen.getByText('buy_process.new_plan_selection.sticky_emails_subtitle'),
+    ).toBeInTheDocument();
     expect(
       screen.getByRole('link', {
         name: 'buy_process.new_plan_selection.choose_plan',
       }),
-    ).toHaveAttribute(
-      'href',
-      '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1',
-    );
+    ).toHaveAttribute('href', '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1');
   });
 
   it('should render less-than-100k as the first option in emails dropdown', async () => {

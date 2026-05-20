@@ -197,8 +197,8 @@ other {}}}}}}}}}}
       emails_option_more_than_10m: 'Mas de 10.000.000',
       emails_plan_description: 'Envia mas y paga menos. Contactos ilimitados con un costo por envio unitario mas bajo.{br}Ideal para empresas con grandes bases de datos.',
       emails_plan_title: 'Plan Envios',
-      empty_message: 'No hay planes por Contactos disponibles en este momento.',
       empty_emails_message: 'No hay planes por Envios disponibles en este momento.',
+      empty_message: 'No hay planes por Contactos disponibles en este momento.',
       included_features: {
         item_1_description: 'Automatiza recorridos, recupera oportunidades y mejora la relación con tus Contactos con envíos inteligentes.',
         item_1_title: 'Automatiza tu marketing y conecta más',
