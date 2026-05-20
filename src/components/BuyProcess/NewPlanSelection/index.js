@@ -46,6 +46,16 @@ const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) 
     (plan) => sessionPlan?.plan?.planType === planType && plan.id === sessionPlan.plan.idPlan,
   );
 
+  if (planType === PLAN_TYPE.byEmail && currentPlanIndex >= 0) {
+    const currentEmails =
+      plans[currentPlanIndex]?.emailsByMonth ?? plans[currentPlanIndex]?.emailQty ?? 0;
+    const nextPlanIndex = plans.findIndex(
+      (plan) => (plan.emailsByMonth ?? plan.emailQty ?? 0) > currentEmails,
+    );
+
+    return nextPlanIndex >= 0 ? nextPlanIndex : currentPlanIndex;
+  }
+
   return currentPlanIndex >= 0 ? currentPlanIndex : 0;
 };
 

@@ -641,6 +641,34 @@ describe('NewPlanSelection component', () => {
     expect(screen.queryByTestId('dp-credits-plan')).not.toBeInTheDocument();
   });
 
+  it('should preselect the next byEmail plan based on current emails quantity', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30222,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(getEmailsSelect()).toHaveValue('1');
+    expect(screen.getByText('buy_process.new_plan_selection.sticky_emails_subtitle')).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.choose_plan',
+      }),
+    ).toHaveAttribute(
+      'href',
+      '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1',
+    );
+  });
+
   it('should render less-than-100k as the first option in emails dropdown', async () => {
     await renderNewPlanSelection(
       ['/new-plan-selection'],
