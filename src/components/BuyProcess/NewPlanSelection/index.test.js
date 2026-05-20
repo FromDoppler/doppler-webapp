@@ -340,7 +340,7 @@ describe('NewPlanSelection component', () => {
     expect(screen.getAllByText(/C[oó]digo de descuento/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: /Elegir Plan/i })).toBeInTheDocument();
     expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
-    expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument());
     expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i })).toBeInTheDocument();
 
