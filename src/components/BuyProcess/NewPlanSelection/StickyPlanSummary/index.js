@@ -1,5 +1,6 @@
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { PLAN_TYPE } from '../../../../doppler-types';
 
 const numberFormatOptions = {
   maximumFractionDigits: 2,
@@ -21,6 +22,17 @@ export const StickyPlanSummary = ({ summary }) => {
     return null;
   }
 
+  const planType = summary.planType || PLAN_TYPE.byContact;
+  const planTitleMessageId =
+    planType === PLAN_TYPE.byEmail
+      ? 'buy_process.new_plan_selection.emails_plan_title'
+      : 'buy_process.new_plan_selection.contacts_plan_title';
+  const subtitleMessageId =
+    planType === PLAN_TYPE.byEmail
+      ? 'buy_process.new_plan_selection.sticky_emails_subtitle'
+      : 'buy_process.new_plan_selection.sticky_contacts_subtitle';
+  const amountLabel = summary.amountLabel ?? summary.contactsLabel;
+
   return (
     <section className="dp-new-plan-selection-sticky-summary" data-testid="dp-sticky-plan-summary">
       <div className="dp-new-plan-selection-sticky-summary-content">
@@ -30,7 +42,7 @@ export const StickyPlanSummary = ({ summary }) => {
               <FormattedMessage id="buy_process.new_plan_selection.sticky_custom_title" />
             ) : (
               <>
-                <FormattedMessage id="buy_process.new_plan_selection.contacts_plan_title" />{' '}
+                <FormattedMessage id={planTitleMessageId} />{' '}
                 <span className="dp-new-plan-selection-sticky-summary-price">
                   US$
                   <FormattedNumber
@@ -51,8 +63,11 @@ export const StickyPlanSummary = ({ summary }) => {
               <FormattedMessage id="buy_process.new_plan_selection.sticky_custom_subtitle" />
             ) : (
               <FormattedMessage
-                id="buy_process.new_plan_selection.sticky_contacts_subtitle"
-                values={{ contacts: summary.contactsLabel }}
+                id={subtitleMessageId}
+                values={{
+                  contacts: amountLabel,
+                  emails: amountLabel,
+                }}
               />
             )}
           </p>

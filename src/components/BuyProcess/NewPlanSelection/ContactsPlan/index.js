@@ -24,6 +24,15 @@ const getFormattedPriceOptions = (value) => ({
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
 
 const getSessionPromocodeApplied = (sessionPlan) => {
+  const isFreeAccount = Boolean(sessionPlan?.plan?.isFreeAccount);
+  const planSubscription = Number(sessionPlan?.plan?.planSubscription);
+  const hasNonMonthlySubscription = !Number.isNaN(planSubscription) && planSubscription !== 1;
+
+  // For paid users with non-monthly subscription we should not prepopulate promocode.
+  if (!isFreeAccount && hasNonMonthlySubscription) {
+    return null;
+  }
+
   const promotion = sessionPlan?.plan?.promotion;
   const sanitizeCode = (value) =>
     value === undefined || value === null ? '' : String(value).trim();
@@ -227,7 +236,7 @@ export const ContactsPlan = InjectAppServices(
     const shouldShowLosePromotionWarning =
       !isTailoredPlan && isUpgradePlan && isAppliedPromocodeSameAsSaved;
     const shouldUseAdvisorCta = isTailoredPlan || shouldShowDowngradeWarning;
-    const shouldDisablePaymentFrequency = !keepControlsEnabled;
+    const shouldDisablePaymentFrequency = !isFreeAccount && !keepControlsEnabled;
 
     const stickyDiscountSummary = useMemo(() => {
       if (isTailoredPlan) {

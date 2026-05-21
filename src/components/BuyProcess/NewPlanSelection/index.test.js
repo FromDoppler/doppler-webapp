@@ -45,6 +45,25 @@ const contactPlans = [
   },
 ];
 
+const emailPlans = [
+  {
+    type: PLAN_TYPE.byEmail,
+    id: 30222,
+    name: '300000-EMAILS',
+    emailsByMonth: 300000,
+    fee: 367,
+    extraEmailPrice: 0.0015,
+  },
+  {
+    type: PLAN_TYPE.byEmail,
+    id: 30223,
+    name: '1500000-EMAILS',
+    emailsByMonth: 1500000,
+    fee: 920,
+    extraEmailPrice: 0.0012,
+  },
+];
+
 const creditPlans = [
   {
     type: PLAN_TYPE.byCredit,
@@ -179,10 +198,12 @@ let consoleErrorSpy;
 let previousCanBuyPushNotificationPlan;
 
 const getContactsPlanSection = () => screen.getByTestId('dp-contacts-plan');
+const getEmailsPlanSection = () => screen.getByTestId('dp-emails-plan');
 const getCreditsPlanSection = () => screen.getByTestId('dp-credits-plan');
 const getAddOnsSection = () => screen.getByTestId('dp-addons-section');
 const getFaqSection = () => screen.getByTestId('dp-faq-section');
 const getContactsSelect = () => within(getContactsPlanSection()).getByRole('combobox');
+const getEmailsSelect = () => within(getEmailsPlanSection()).getByRole('combobox');
 const getCreditsSelect = () => within(getCreditsPlanSection()).getByRole('combobox');
 const hasPriceInBold = (priceRegex) => (_content, node) =>
   node?.tagName === 'B' && priceRegex.test(node?.textContent || '');
@@ -191,6 +212,7 @@ const createForcedServices = ({
   features = {},
   dopplerAccountPlansApiClient = {},
   appSessionUser = {},
+  planService = {},
 } = {}) => ({
   appSessionRef: {
     current: {
@@ -246,8 +268,13 @@ const createForcedServices = ({
         return creditPlans;
       }
 
+      if (planType === PLAN_TYPE.byEmail) {
+        return emailPlans;
+      }
+
       return [];
     }),
+    ...planService,
   },
 });
 
@@ -315,7 +342,7 @@ describe('NewPlanSelection component', () => {
     expect(screen.getAllByText(/C[oó]digo de descuento/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: /Elegir Plan/i })).toBeInTheDocument();
     expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
-    expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument());
     expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i })).toBeInTheDocument();
 
@@ -578,6 +605,29 @@ describe('NewPlanSelection component', () => {
     });
   });
 
+  it('should not prepopulate contacts promocode for paid users with non-monthly subscription', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10222,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 12,
+          promotion: {
+            idUserTypePlan: 10222,
+            code: 'PROMOCODE_ANNUAL',
+            discount: 20,
+            duration: 12,
+          },
+        },
+      },
+    });
+
+    const promocodeInput = within(getContactsPlanSection()).getByRole('textbox');
+    expect(promocodeInput).toHaveValue('');
+    expect(screen.queryByRole('link', { name: /Elegir Plan/i })).not.toBeInTheDocument();
+  });
+
   it('should update selected contacts plan in checkout URL when contacts dropdown changes', async () => {
     await renderNewPlanSelection();
 
@@ -592,6 +642,303 @@ describe('NewPlanSelection component', () => {
       ),
     );
     expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
+  });
+
+  it('should render emails plan variant for paid byEmail users', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30222,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(getEmailsPlanSection()).toBeInTheDocument();
+    expect(getEmailsSelect()).toBeInTheDocument();
+    expect(screen.queryByTestId('dp-contacts-plan')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('dp-credits-plan')).not.toBeInTheDocument();
+  });
+
+  it('should preselect the next byEmail plan based on current emails quantity', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30222,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(getEmailsSelect()).toHaveValue('1');
+    expect(
+      screen.getByText('buy_process.new_plan_selection.sticky_emails_subtitle'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.choose_plan',
+      }),
+    ).toHaveAttribute('href', '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1');
+  });
+
+  it('should preselect the next contact plan when subscribers count is lower than current plan capacity and a higher plan exists', async () => {
+    const contactPlansWithExtraLevel = [
+      {
+        type: PLAN_TYPE.byContact,
+        id: 10222,
+        name: '500-SUBSCRIBERS',
+        subscriberLimit: 500,
+        fee: 10,
+        billingCycleDetails: contactPlans[0].billingCycleDetails,
+      },
+      {
+        type: PLAN_TYPE.byContact,
+        id: 10223,
+        name: '1500-SUBSCRIBERS',
+        subscriberLimit: 1500,
+        fee: 20,
+        billingCycleDetails: contactPlans[1].billingCycleDetails,
+      },
+      {
+        type: PLAN_TYPE.byContact,
+        id: 10224,
+        name: '3000-SUBSCRIBERS',
+        subscriberLimit: 3000,
+        fee: 30,
+        billingCycleDetails: contactPlans[1].billingCycleDetails,
+      },
+    ];
+
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10223,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+          subscribersCount: 1300,
+        },
+      },
+      planService: {
+        getPlansByType: jest.fn(async (planType) => {
+          if (planType === PLAN_TYPE.byContact) {
+            return contactPlansWithExtraLevel;
+          }
+
+          if (planType === PLAN_TYPE.byCredit) {
+            return creditPlans;
+          }
+
+          if (planType === PLAN_TYPE.byEmail) {
+            return emailPlans;
+          }
+
+          return [];
+        }),
+      },
+    });
+
+    expect(getContactsSelect()).toHaveValue('2');
+    expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
+      'selected-plan=10224',
+    );
+  });
+
+  it('should not preselect a smaller contact plan when subscribers count is lower than current plan capacity and there is no higher plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10223,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+          subscribersCount: 1300,
+        },
+      },
+    });
+
+    expect(getContactsSelect()).toHaveValue('1');
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).queryByRole('link', {
+        name: 'Comprar Ahora',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).getByRole('button', {
+        name: 'Comprar Ahora',
+      }),
+    ).toBeDisabled();
+    expect(
+      within(getContactsPlanSection()).queryByRole('link', {
+        name: 'Elegir Plan',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: 'Elegir Plan',
+      }),
+    ).toBeDisabled();
+  });
+
+  it('should preselect a higher contact plan when subscribers count is greater than current plan capacity', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10222,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+          subscribersCount: 700,
+        },
+      },
+    });
+
+    expect(getContactsSelect()).toHaveValue('1');
+    expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
+      'selected-plan=10223',
+    );
+  });
+
+  it('should render less-than-100k as the first option in emails dropdown', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30222,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    const emailOptions = within(getEmailsSelect()).getAllByRole('option');
+    expect(emailOptions[0]).toHaveTextContent(
+      'buy_process.new_plan_selection.emails_option_less_than_100k',
+    );
+  });
+
+  it('should show downgrade message and use advisor CTA when selecting less than 100k emails', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30223,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: 'less-than-100000' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-emails-downgrade-message')).toBeInTheDocument(),
+    );
+    expect(
+      screen.getByText('buy_process.new_plan_selection.emails_downgrade_warning_message'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.contact_advisor_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.sticky_custom_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+  });
+
+  it('should prioritize more than 10m message and hide downgrade warning in emails plan', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30223,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: 'less-than-100000' },
+    });
+    await settleAsyncState();
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-emails-downgrade-message')).toBeInTheDocument(),
+    );
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: 'more-than-10000000' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByTestId('dp-emails-more-than-10m-message')).toBeInTheDocument(),
+    );
+    expect(screen.queryByTestId('dp-emails-downgrade-message')).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.contact_advisor_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.sticky_custom_cta',
+      }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+  });
+
+  it('should build checkout URL for selected byEmail plan when no commercial scenario is active', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 30222,
+          planType: PLAN_TYPE.byEmail,
+          isFreeAccount: false,
+          planSubscription: 1,
+        },
+      },
+    });
+
+    fireEvent.change(getEmailsSelect(), {
+      target: { value: '1' },
+    });
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
+        '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1',
+      ),
+    );
   });
 
   it('should show downgrade warning when paid user selects a smaller contacts plan and hide it when returns to current size', async () => {
@@ -759,13 +1106,13 @@ describe('NewPlanSelection component', () => {
     );
   });
 
-  it('should keep user subscription frequency selected and disable payment frequency controls', async () => {
+  it('should keep user subscription frequency selected and keep payment frequency enabled for free users', async () => {
     await renderNewPlanSelection();
 
     const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
       name: /Anual/i,
     });
-    expect(annualFrequencyButton).toBeDisabled();
+    expect(annualFrequencyButton).not.toBeDisabled();
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
@@ -774,6 +1121,24 @@ describe('NewPlanSelection component', () => {
     );
     expect(screen.getByText(/US\$10\/mes/i)).toBeInTheDocument();
     expect(screen.queryByText(/Facturación Anual/i)).not.toBeInTheDocument();
+  });
+
+  it('should keep contacts payment frequency disabled for users with current contact plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10222,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+        },
+      },
+    });
+
+    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
+      name: /Anual/i,
+    });
+    expect(annualFrequencyButton).toBeDisabled();
   });
 
   it('should render credits plan before contacts plan for users with current credit plan', async () => {
