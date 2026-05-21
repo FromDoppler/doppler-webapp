@@ -227,6 +227,7 @@ other {}}}}}}}}}}
       popular_label: 'POPULAR',
       price_label: 'Precio',
       promocode_savings_text: 'Ahorras {percentage}% durante {months, plural, one {# mes} other {# meses}}',
+      promocode_savings_text_without_months: 'Ahorras {percentage}%',
       savings_text: 'Ahorras {percentage}% realizando 1 pago {period} de {currency}{total}',
       single_payment_period: 'pago unico',
       sticky_contacts_subtitle: 'Hasta {contacts} Contactos + Envios ilimitados',
