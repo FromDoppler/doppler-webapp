@@ -605,6 +605,29 @@ describe('NewPlanSelection component', () => {
     });
   });
 
+  it('should not prepopulate contacts promocode for paid users with non-monthly subscription', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10222,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 12,
+          promotion: {
+            idUserTypePlan: 10222,
+            code: 'PROMOCODE_ANNUAL',
+            discount: 20,
+            duration: 12,
+          },
+        },
+      },
+    });
+
+    const promocodeInput = within(getContactsPlanSection()).getByRole('textbox');
+    expect(promocodeInput).toHaveValue('');
+    expect(screen.queryByRole('link', { name: /Elegir Plan/i })).not.toBeInTheDocument();
+  });
+
   it('should update selected contacts plan in checkout URL when contacts dropdown changes', async () => {
     await renderNewPlanSelection();
 

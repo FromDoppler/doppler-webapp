@@ -118,7 +118,7 @@ export const NewPlanSelectionStyled = styled.div`
     border: 1px solid #eaeaea;
     border-radius: 3px;
     margin-bottom: 24px;
-    margin-top: 6px;
+    margin-top: 24px;
     padding: 30px 114px;
   }
 
