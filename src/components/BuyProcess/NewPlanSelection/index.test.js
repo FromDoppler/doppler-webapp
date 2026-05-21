@@ -1324,6 +1324,10 @@ describe('NewPlanSelection component', () => {
     );
 
     expect(
+      within(getContactsPlanSection()).queryByText(/durante 0 meses/i),
+    ).not.toBeInTheDocument();
+    expect(within(getContactsPlanSection()).getByText(/Ahorras 10%/i)).toBeInTheDocument();
+    expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).queryByText(/por.*mes/i),
     ).not.toBeInTheDocument();
   });

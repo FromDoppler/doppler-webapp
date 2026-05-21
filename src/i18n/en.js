@@ -226,6 +226,7 @@ other {}}}}}}}}}}
       popular_label: 'POPULAR',
       price_label: 'Price',
       promocode_savings_text: 'You save {percentage}% for {months, plural, one {# month} other {# months}}',
+      promocode_savings_text_without_months: 'You save {percentage}%',
       savings_text: 'You save {percentage}% with 1 {period} payment of {currency}{total}',
       single_payment_period: 'one-time payment',
       sticky_contacts_subtitle: 'Up to {contacts} Contacts + Unlimited emails',

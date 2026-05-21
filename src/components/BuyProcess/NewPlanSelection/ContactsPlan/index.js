@@ -472,7 +472,11 @@ export const ContactsPlan = InjectAppServices(
                   <span> </span>
                   <span className="dp-new-plan-selection-savings">
                     <FormattedMessage
-                      id="buy_process.new_plan_selection.promocode_savings_text"
+                      id={
+                        Number(promocodeDuration) > 0
+                          ? 'buy_process.new_plan_selection.promocode_savings_text'
+                          : 'buy_process.new_plan_selection.promocode_savings_text_without_months'
+                      }
                       values={{
                         percentage: promocodeDiscountPercentage,
                         months: promocodeDuration,
