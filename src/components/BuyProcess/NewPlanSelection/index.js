@@ -49,17 +49,21 @@ const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) 
 
   if (planType === PLAN_TYPE.byContact && isCurrentPlanType) {
     const subscribersCount = Number(sessionPlan?.plan?.subscribersCount);
+    const currentPlanCapacity =
+      currentPlanIndex >= 0 ? (plans[currentPlanIndex]?.subscriberLimit ?? 0) : 0;
 
     if (!Number.isNaN(subscribersCount)) {
+      if (currentPlanIndex >= 0 && subscribersCount <= currentPlanCapacity) {
+        return currentPlanIndex + 1 < plans.length ? currentPlanIndex + 1 : currentPlanIndex;
+      }
+
       const firstPlanWithMoreCapacityIndex = plans.findIndex(
         (plan) => (plan.subscriberLimit ?? 0) > subscribersCount,
       );
 
       if (firstPlanWithMoreCapacityIndex >= 0) {
-        if (firstPlanWithMoreCapacityIndex === currentPlanIndex) {
-          return firstPlanWithMoreCapacityIndex + 1 < plans.length
-            ? firstPlanWithMoreCapacityIndex + 1
-            : firstPlanWithMoreCapacityIndex;
+        if (currentPlanIndex >= 0 && firstPlanWithMoreCapacityIndex <= currentPlanIndex) {
+          return currentPlanIndex + 1 < plans.length ? currentPlanIndex + 1 : currentPlanIndex;
         }
 
         return firstPlanWithMoreCapacityIndex;

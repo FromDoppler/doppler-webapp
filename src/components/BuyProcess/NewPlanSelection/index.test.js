@@ -670,7 +670,7 @@ describe('NewPlanSelection component', () => {
     ).toHaveAttribute('href', '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1');
   });
 
-  it('should preselect the next contact plan when first eligible plan matches current plan by subscribers count', async () => {
+  it('should preselect the next contact plan when subscribers count is lower than current plan capacity and a higher plan exists', async () => {
     const contactPlansWithExtraLevel = [
       {
         type: PLAN_TYPE.byContact,
@@ -730,6 +730,61 @@ describe('NewPlanSelection component', () => {
     expect(getContactsSelect()).toHaveValue('2');
     expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
       'selected-plan=10224',
+    );
+  });
+
+  it('should not preselect a smaller contact plan when subscribers count is lower than current plan capacity and there is no higher plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10223,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+          subscribersCount: 1300,
+        },
+      },
+    });
+
+    expect(getContactsSelect()).toHaveValue('1');
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).queryByRole('link', {
+        name: 'Comprar Ahora',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).getByRole('button', {
+        name: 'Comprar Ahora',
+      }),
+    ).toBeDisabled();
+    expect(
+      within(getContactsPlanSection()).queryByRole('link', {
+        name: 'Elegir Plan',
+      }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: 'Elegir Plan',
+      }),
+    ).toBeDisabled();
+  });
+
+  it('should preselect a higher contact plan when subscribers count is greater than current plan capacity', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10222,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+          subscribersCount: 700,
+        },
+      },
+    });
+
+    expect(getContactsSelect()).toHaveValue('1');
+    expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
+      'selected-plan=10223',
     );
   });
 
