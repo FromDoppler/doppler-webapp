@@ -37,14 +37,35 @@ const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) 
   const query = new URLSearchParams(search);
   const selectedPlanId = parseInt(query.get('selected-plan'), 10);
   const selectedPlanIndex = plans.findIndex((plan) => plan.id === selectedPlanId);
+  const isCurrentPlanType = sessionPlan?.plan?.planType === planType;
 
   if (selectedPlanIndex >= 0) {
     return selectedPlanIndex;
   }
 
   const currentPlanIndex = plans.findIndex(
-    (plan) => sessionPlan?.plan?.planType === planType && plan.id === sessionPlan.plan.idPlan,
+    (plan) => isCurrentPlanType && plan.id === sessionPlan.plan.idPlan,
   );
+
+  if (planType === PLAN_TYPE.byContact && isCurrentPlanType) {
+    const subscribersCount = Number(sessionPlan?.plan?.subscribersCount);
+
+    if (!Number.isNaN(subscribersCount)) {
+      const firstPlanWithMoreCapacityIndex = plans.findIndex(
+        (plan) => (plan.subscriberLimit ?? 0) > subscribersCount,
+      );
+
+      if (firstPlanWithMoreCapacityIndex >= 0) {
+        if (firstPlanWithMoreCapacityIndex === currentPlanIndex) {
+          return firstPlanWithMoreCapacityIndex + 1 < plans.length
+            ? firstPlanWithMoreCapacityIndex + 1
+            : firstPlanWithMoreCapacityIndex;
+        }
+
+        return firstPlanWithMoreCapacityIndex;
+      }
+    }
+  }
 
   if (planType === PLAN_TYPE.byEmail && currentPlanIndex >= 0) {
     const currentEmails =

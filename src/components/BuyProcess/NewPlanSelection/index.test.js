@@ -212,6 +212,7 @@ const createForcedServices = ({
   features = {},
   dopplerAccountPlansApiClient = {},
   appSessionUser = {},
+  planService = {},
 } = {}) => ({
   appSessionRef: {
     current: {
@@ -273,6 +274,7 @@ const createForcedServices = ({
 
       return [];
     }),
+    ...planService,
   },
 });
 
@@ -666,6 +668,69 @@ describe('NewPlanSelection component', () => {
         name: 'buy_process.new_plan_selection.choose_plan',
       }),
     ).toHaveAttribute('href', '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1');
+  });
+
+  it('should preselect the next contact plan when first eligible plan matches current plan by subscribers count', async () => {
+    const contactPlansWithExtraLevel = [
+      {
+        type: PLAN_TYPE.byContact,
+        id: 10222,
+        name: '500-SUBSCRIBERS',
+        subscriberLimit: 500,
+        fee: 10,
+        billingCycleDetails: contactPlans[0].billingCycleDetails,
+      },
+      {
+        type: PLAN_TYPE.byContact,
+        id: 10223,
+        name: '1500-SUBSCRIBERS',
+        subscriberLimit: 1500,
+        fee: 20,
+        billingCycleDetails: contactPlans[1].billingCycleDetails,
+      },
+      {
+        type: PLAN_TYPE.byContact,
+        id: 10224,
+        name: '3000-SUBSCRIBERS',
+        subscriberLimit: 3000,
+        fee: 30,
+        billingCycleDetails: contactPlans[1].billingCycleDetails,
+      },
+    ];
+
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10223,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+          subscribersCount: 1300,
+        },
+      },
+      planService: {
+        getPlansByType: jest.fn(async (planType) => {
+          if (planType === PLAN_TYPE.byContact) {
+            return contactPlansWithExtraLevel;
+          }
+
+          if (planType === PLAN_TYPE.byCredit) {
+            return creditPlans;
+          }
+
+          if (planType === PLAN_TYPE.byEmail) {
+            return emailPlans;
+          }
+
+          return [];
+        }),
+      },
+    });
+
+    expect(getContactsSelect()).toHaveValue('2');
+    expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
+      'selected-plan=10224',
+    );
   });
 
   it('should render less-than-100k as the first option in emails dropdown', async () => {
