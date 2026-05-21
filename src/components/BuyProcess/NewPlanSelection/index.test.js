@@ -1083,13 +1083,13 @@ describe('NewPlanSelection component', () => {
     );
   });
 
-  it('should keep user subscription frequency selected and disable payment frequency controls', async () => {
+  it('should keep user subscription frequency selected and keep payment frequency enabled for free users', async () => {
     await renderNewPlanSelection();
 
     const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
       name: /Anual/i,
     });
-    expect(annualFrequencyButton).toBeDisabled();
+    expect(annualFrequencyButton).not.toBeDisabled();
 
     await waitFor(() =>
       expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
@@ -1098,6 +1098,24 @@ describe('NewPlanSelection component', () => {
     );
     expect(screen.getByText(/US\$10\/mes/i)).toBeInTheDocument();
     expect(screen.queryByText(/Facturación Anual/i)).not.toBeInTheDocument();
+  });
+
+  it('should keep contacts payment frequency disabled for users with current contact plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      appSessionUser: {
+        plan: {
+          idPlan: 10222,
+          planType: PLAN_TYPE.byContact,
+          isFreeAccount: false,
+          planSubscription: 1,
+        },
+      },
+    });
+
+    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
+      name: /Anual/i,
+    });
+    expect(annualFrequencyButton).toBeDisabled();
   });
 
   it('should render credits plan before contacts plan for users with current credit plan', async () => {

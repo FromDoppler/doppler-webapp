@@ -227,7 +227,7 @@ export const ContactsPlan = InjectAppServices(
     const shouldShowLosePromotionWarning =
       !isTailoredPlan && isUpgradePlan && isAppliedPromocodeSameAsSaved;
     const shouldUseAdvisorCta = isTailoredPlan || shouldShowDowngradeWarning;
-    const shouldDisablePaymentFrequency = !keepControlsEnabled;
+    const shouldDisablePaymentFrequency = !isFreeAccount && !keepControlsEnabled;
 
     const stickyDiscountSummary = useMemo(() => {
       if (isTailoredPlan) {
