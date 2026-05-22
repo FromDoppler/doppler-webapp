@@ -161,7 +161,12 @@ export const EmailsPlan = InjectAppServices(
           selectedEmailCapacity < currentSessionEmailCapacity));
     const shouldShowHighVolumeMessage = isMoreThan10mSelected;
     const shouldUseAdvisorCta = shouldShowDowngradeWarning || shouldShowHighVolumeMessage;
-    const shouldShowPromocode = !shouldUseAdvisorCta;
+    const shouldShowCurrentPlanWarning =
+      !isFreeAccount &&
+      sessionPlan?.plan?.planType === PLAN_TYPE.byEmail &&
+      isEqualPlan &&
+      !shouldUseAdvisorCta;
+    const shouldShowPromocode = !shouldUseAdvisorCta && !shouldShowCurrentPlanWarning;
     const extraEmailPrice = selectedPlan?.extraEmailPrice ?? 0;
 
     const stickyDiscountSummary = useMemo(() => {
@@ -324,6 +329,19 @@ export const EmailsPlan = InjectAppServices(
                     >
                       <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
                     </Link>
+                  </div>
+                </div>
+              )}
+              {shouldShowCurrentPlanWarning && (
+                <div
+                  className="dp-wrap-message dp-wrap-warning"
+                  data-testid="dp-emails-current-plan-message"
+                >
+                  <span className="dp-message-icon" />
+                  <div className="dp-content-message dp-content-full">
+                    <p>
+                      <FormattedMessage id="buy_process.new_plan_selection.contacts_current_plan_warning_message" />
+                    </p>
                   </div>
                 </div>
               )}
