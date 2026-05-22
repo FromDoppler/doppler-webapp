@@ -1495,4 +1495,29 @@ describe('NewPlanSelection component', () => {
       within(getCreditsPlanSection()).getByText(/Incluye 5.000 Creditos extra/i),
     ).toBeInTheDocument();
   });
+
+  it('should keep prepayment breakdown in a new line for quarterly, semiannual and annual frequencies', async () => {
+    await renderNewPlanSelection();
+
+    const contactsSection = getContactsPlanSection();
+    const scenarios = [
+      { buttonName: /Trimestral/i, expectedText: '1 pago trimestral de' },
+      { buttonName: /Semestral/i, expectedText: '1 pago semestral de' },
+      { buttonName: /Anual/i, expectedText: '1 pago anual de' },
+    ];
+
+    for (const scenario of scenarios) {
+      fireEvent.click(within(contactsSection).getByRole('button', { name: scenario.buttonName }));
+      await settleAsyncState();
+
+      await waitFor(() => {
+        const savingsElement = contactsSection.querySelector(
+          '.dp-new-plan-selection-price-detail .dp-new-plan-selection-savings',
+        );
+        expect(savingsElement).toBeInTheDocument();
+        expect(savingsElement.textContent.toLowerCase()).toContain(scenario.expectedText);
+        expect(savingsElement.querySelector('br')).toBeInTheDocument();
+      });
+    }
+  });
 });

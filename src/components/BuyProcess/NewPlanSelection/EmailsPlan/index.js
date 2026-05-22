@@ -334,7 +334,7 @@ export const EmailsPlan = InjectAppServices(
               )}
               {shouldShowCurrentPlanWarning && (
                 <div
-                  className="dp-wrap-message dp-wrap-warning"
+                  className="dp-wrap-message dp-wrap-info dp-new-plan-selection-more-than-message"
                   data-testid="dp-emails-current-plan-message"
                 >
                   <span className="dp-message-icon" />
