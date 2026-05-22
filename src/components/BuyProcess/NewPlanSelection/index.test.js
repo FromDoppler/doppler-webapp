@@ -613,6 +613,7 @@ describe('NewPlanSelection component', () => {
           planType: PLAN_TYPE.byContact,
           isFreeAccount: false,
           planSubscription: 12,
+          subscribersCount: 900,
           promotion: {
             idUserTypePlan: 10222,
             code: 'PROMOCODE_ANNUAL',
@@ -625,7 +626,9 @@ describe('NewPlanSelection component', () => {
 
     const promocodeInput = within(getContactsPlanSection()).getByRole('textbox');
     expect(promocodeInput).toHaveValue('');
-    expect(screen.queryByRole('link', { name: /Elegir Plan/i })).not.toBeInTheDocument();
+    const choosePlanHref = screen.getByRole('link', { name: /Elegir Plan/i }).getAttribute('href');
+    expect(choosePlanHref).not.toContain('PromoCode=');
+    expect(choosePlanHref).not.toContain('promo-code=');
   });
 
   it('should update selected contacts plan in checkout URL when contacts dropdown changes', async () => {
@@ -691,6 +694,30 @@ describe('NewPlanSelection component', () => {
         name: 'buy_process.new_plan_selection.choose_plan',
       }),
     ).toHaveAttribute('href', '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1');
+  });
+
+  it('should show current plan warning and hide promocode when selected byEmail plan equals current one', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 30223,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(getEmailsSelect()).toHaveValue('1');
+    expect(screen.getByTestId('dp-emails-current-plan-message')).toBeInTheDocument();
+    expect(
+      screen.getByText('buy_process.new_plan_selection.contacts_current_plan_warning_message'),
+    ).toBeInTheDocument();
+    expect(within(getEmailsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
   });
 
   it('should preselect the next contact plan when subscribers count is lower than current plan capacity and a higher plan exists', async () => {
@@ -790,6 +817,34 @@ describe('NewPlanSelection component', () => {
         name: 'Elegir Plan',
       }),
     ).toBeDisabled();
+  });
+
+  it('should show current plan warning and hide subscription and promocode when selected plan equals current one', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: 10223,
+            planType: PLAN_TYPE.byContact,
+            isFreeAccount: false,
+            planSubscription: 1,
+            subscribersCount: 1300,
+          },
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    expect(getContactsSelect()).toHaveValue('1');
+    expect(screen.getByTestId('dp-contacts-current-plan-message')).toBeInTheDocument();
+    expect(
+      screen.getByText('buy_process.new_plan_selection.contacts_current_plan_warning_message'),
+    ).toBeInTheDocument();
+    expect(
+      within(getContactsPlanSection()).queryByRole('button', { name: /Mensual/i }),
+    ).not.toBeInTheDocument();
+    expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
   });
 
   it('should preselect a higher contact plan when subscribers count is greater than current plan capacity', async () => {
@@ -968,6 +1023,10 @@ describe('NewPlanSelection component', () => {
       expect(screen.getByTestId('dp-contacts-downgrade-message')).toBeInTheDocument(),
     );
     expect(
+      within(getContactsPlanSection()).queryByRole('button', { name: /Mensual/i }),
+    ).not.toBeInTheDocument();
+    expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
+    expect(
       screen.getByText('buy_process.new_plan_selection.contacts_downgrade_warning_message'),
     ).toBeInTheDocument();
     expect(
@@ -1135,10 +1194,11 @@ describe('NewPlanSelection component', () => {
       },
     });
 
-    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
-      name: /Anual/i,
-    });
-    expect(annualFrequencyButton).toBeDisabled();
+    expect(screen.getByTestId('dp-contacts-current-plan-message')).toBeInTheDocument();
+    expect(
+      within(getContactsPlanSection()).queryByRole('button', { name: /Anual/i }),
+    ).not.toBeInTheDocument();
+    expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
   });
 
   it('should render credits plan before contacts plan for users with current credit plan', async () => {
@@ -1195,6 +1255,10 @@ describe('NewPlanSelection component', () => {
 
     const infoBanner = screen.getByTestId('dp-more-than-100k-message');
     expect(infoBanner).toBeInTheDocument();
+    expect(
+      within(getContactsPlanSection()).queryByRole('button', { name: /Mensual/i }),
+    ).not.toBeInTheDocument();
+    expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
     expect(within(infoBanner).getByText(/base supera los 100k de Contactos/i)).toBeInTheDocument();
     expect(
       within(infoBanner).getByRole('link', { name: /cont[aá]ctanos|contact us/i }),
@@ -1430,5 +1494,30 @@ describe('NewPlanSelection component', () => {
     expect(
       within(getCreditsPlanSection()).getByText(/Incluye 5.000 Creditos extra/i),
     ).toBeInTheDocument();
+  });
+
+  it('should keep prepayment breakdown in a new line for quarterly, semiannual and annual frequencies', async () => {
+    await renderNewPlanSelection();
+
+    const contactsSection = getContactsPlanSection();
+    const scenarios = [
+      { buttonName: /Trimestral/i, expectedText: '1 pago trimestral de' },
+      { buttonName: /Semestral/i, expectedText: '1 pago semestral de' },
+      { buttonName: /Anual/i, expectedText: '1 pago anual de' },
+    ];
+
+    for (const scenario of scenarios) {
+      fireEvent.click(within(contactsSection).getByRole('button', { name: scenario.buttonName }));
+      await settleAsyncState();
+
+      await waitFor(() => {
+        const savingsElement = contactsSection.querySelector(
+          '.dp-new-plan-selection-price-detail .dp-new-plan-selection-savings',
+        );
+        expect(savingsElement).toBeInTheDocument();
+        expect(savingsElement.textContent.toLowerCase()).toContain(scenario.expectedText);
+        expect(savingsElement.querySelector('br')).toBeInTheDocument();
+      });
+    }
   });
 });

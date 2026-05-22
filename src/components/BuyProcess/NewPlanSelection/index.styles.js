@@ -367,6 +367,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-price .dp-button {
+    margin-top: 10px;
     width: 250px;
   }
 
@@ -644,7 +645,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-included-features {
-    margin: 28px auto 30px;
+    margin: 44px auto 30px;
     width: 100%;
   }
 
@@ -853,7 +854,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-addons {
-    margin: 34px auto 36px;
+    margin: 34px auto 52px;
   }
 
   .dp-new-plan-selection-addons-header {
@@ -886,6 +887,7 @@ export const NewPlanSelectionStyled = styled.div`
     display: flex;
     flex: 1 1 auto;
     gap: 18px;
+    padding: 6px 8px 10px;
   }
 
   .dp-new-plan-selection-addon-card {
@@ -894,6 +896,7 @@ export const NewPlanSelectionStyled = styled.div`
     flex: 0 0 calc((100% - 36px) / 3);
     margin-bottom: 0;
     min-height: 100%;
+    padding: 24px 24px 20px;
   }
 
   .dp-new-plan-selection-addon-card .card-title {
@@ -965,6 +968,14 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-faq {
     background-color: #f2f1e9;
     max-width: none;
+  }
+
+  .dp-new-plan-selection-faq section {
+    padding-top: 32px;
+  }
+
+  .dp-new-plan-selection-faq .dp-title-faq {
+    margin-top: 0;
   }
 
   .dp-new-plan-selection-faq .dp-accordion li .dp-accordion-thumb {

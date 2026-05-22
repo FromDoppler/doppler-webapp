@@ -235,7 +235,14 @@ export const ContactsPlan = InjectAppServices(
       appliedPromocode.toLowerCase() === savedPromocode.toLowerCase();
     const shouldShowLosePromotionWarning =
       !isTailoredPlan && isUpgradePlan && isAppliedPromocodeSameAsSaved;
+    const shouldShowCurrentPlanWarning =
+      !isFreeAccount &&
+      sessionPlan?.plan?.planType === PLAN_TYPE.byContact &&
+      isEqualPlan &&
+      !isTailoredPlan;
     const shouldUseAdvisorCta = isTailoredPlan || shouldShowDowngradeWarning;
+    const shouldHideSubscriptionAndPromocode =
+      isTailoredPlan || shouldShowDowngradeWarning || shouldShowCurrentPlanWarning;
     const shouldDisablePaymentFrequency = !isFreeAccount && !keepControlsEnabled;
 
     const stickyDiscountSummary = useMemo(() => {
@@ -352,37 +359,43 @@ export const ContactsPlan = InjectAppServices(
                   </option>
                 </select>
               </div>
-              <div className="dp-new-plan-selection-payment-frequency">
-                <PaymentFrequency
-                  paymentFrequenciesList={paymentFrequencies}
-                  onSelectPaymentFrequency={handlePaymentFrequencyChange}
-                  currentSubscriptionUser={sessionPlan.plan.planSubscription}
-                  disabled={shouldDisablePaymentFrequency}
-                />
-              </div>
-              <div className="dp-new-plan-selection-promocode">
-                <Promocode
-                  allowPromocode={
-                    !selectedPaymentFrequency?.id || selectedPaymentFrequency?.applyPromo
-                  }
-                  selectedMarketingPlan={selectedPlan}
-                  amountDetailsData={amountDetailsData}
-                  selectedPaymentFrequency={selectedPaymentFrequency}
-                  callback={handlePromocodeApplied}
-                  hasPromocodeAppliedItem={Boolean(effectivePromocodeApplied?.promocode)}
-                  isArgentina={sessionPlan.locationCountry === 'ar'}
-                  isFreeAccount={isFreeAccount}
-                  disabledPromocode={false}
-                  handleRemovePromocodeApplied={handleRemovePromocodeApplied}
-                  currentPromocodeApplied={effectivePromocodeApplied}
-                  registerClearPromocodeInput={registerClearPromocodeInput}
-                  defaultPromocodeDismissed={defaultPromocodeDismissed}
-                  handleManualPromocodeIntervention={handleManualPromocodeIntervention}
-                  hideCanNotApplyMessage={
-                    shouldShowLosePromotionWarning || shouldShowDowngradeWarning || isTailoredPlan
-                  }
-                />
-              </div>
+              {!shouldHideSubscriptionAndPromocode && (
+                <>
+                  <div className="dp-new-plan-selection-payment-frequency">
+                    <PaymentFrequency
+                      paymentFrequenciesList={paymentFrequencies}
+                      onSelectPaymentFrequency={handlePaymentFrequencyChange}
+                      currentSubscriptionUser={sessionPlan.plan.planSubscription}
+                      disabled={shouldDisablePaymentFrequency}
+                    />
+                  </div>
+                  <div className="dp-new-plan-selection-promocode">
+                    <Promocode
+                      allowPromocode={
+                        !selectedPaymentFrequency?.id || selectedPaymentFrequency?.applyPromo
+                      }
+                      selectedMarketingPlan={selectedPlan}
+                      amountDetailsData={amountDetailsData}
+                      selectedPaymentFrequency={selectedPaymentFrequency}
+                      callback={handlePromocodeApplied}
+                      hasPromocodeAppliedItem={Boolean(effectivePromocodeApplied?.promocode)}
+                      isArgentina={sessionPlan.locationCountry === 'ar'}
+                      isFreeAccount={isFreeAccount}
+                      disabledPromocode={false}
+                      handleRemovePromocodeApplied={handleRemovePromocodeApplied}
+                      currentPromocodeApplied={effectivePromocodeApplied}
+                      registerClearPromocodeInput={registerClearPromocodeInput}
+                      defaultPromocodeDismissed={defaultPromocodeDismissed}
+                      handleManualPromocodeIntervention={handleManualPromocodeIntervention}
+                      hideCanNotApplyMessage={
+                        shouldShowLosePromotionWarning ||
+                        shouldShowDowngradeWarning ||
+                        isTailoredPlan
+                      }
+                    />
+                  </div>
+                </>
+              )}
               {isMoreThan100kSelected && (
                 <div
                   className="dp-wrap-message dp-wrap-info dp-new-plan-selection-more-than-message"
@@ -391,15 +404,18 @@ export const ContactsPlan = InjectAppServices(
                   <span className="dp-message-icon" />
                   <div className="dp-content-message">
                     <p>
-                      <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_info_message" />
+                      <FormattedMessage
+                        id="buy_process.new_plan_selection.more_than_100k_info_message"
+                        values={{ br: <br />, bold: (chunks) => <b>{chunks}</b> }}
+                      />
                     </p>
+                    <Link
+                      to="/upgrade-suggestion-form"
+                      className="dp-new-plan-selection-more-than-link"
+                    >
+                      <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
+                    </Link>
                   </div>
-                  <Link
-                    to="/upgrade-suggestion-form"
-                    className="dp-new-plan-selection-more-than-link"
-                  >
-                    <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
-                  </Link>
                 </div>
               )}
               {shouldShowLosePromotionWarning && (
@@ -431,6 +447,19 @@ export const ContactsPlan = InjectAppServices(
                     >
                       <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
                     </Link>
+                  </div>
+                </div>
+              )}
+              {shouldShowCurrentPlanWarning && (
+                <div
+                  className="dp-wrap-message dp-wrap-info dp-new-plan-selection-more-than-message"
+                  data-testid="dp-contacts-current-plan-message"
+                >
+                  <span className="dp-message-icon" />
+                  <div className="dp-content-message dp-content-full">
+                    <p>
+                      <FormattedMessage id="buy_process.new_plan_selection.contacts_current_plan_warning_message" />
+                    </p>
                   </div>
                 </div>
               )}
@@ -503,6 +532,7 @@ export const ContactsPlan = InjectAppServices(
                     <FormattedMessage
                       id="buy_process.new_plan_selection.savings_text"
                       values={{
+                        br: <br />,
                         percentage: selectedDiscountPercentage,
                         currency: 'US$',
                         period: _(
