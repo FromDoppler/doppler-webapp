@@ -219,7 +219,7 @@ other {}}}}}}}}}}
       },
       month_period: 'month',
       more_than_100k_contact_link: 'CONTACT US',
-      more_than_100k_info_message: 'Do you exceed 100k contacts? The Email Plan gives you unlimited Contacts and a lower cost per send. Talk to our advisors and build a tailored Plan.',
+      more_than_100k_info_message: '<bold>Do you exceed 100k contacts?</bold>{br}The Email Plan gives you unlimited Contacts and a lower cost per send. Talk to our advisors and build a tailored Plan.',
       payment_period_half_yearly: 'semiannual',
       payment_period_monthly: 'monthly',
       payment_period_quarterly: 'quarterly',

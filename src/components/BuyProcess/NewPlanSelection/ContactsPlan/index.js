@@ -404,15 +404,18 @@ export const ContactsPlan = InjectAppServices(
                   <span className="dp-message-icon" />
                   <div className="dp-content-message">
                     <p>
-                      <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_info_message" />
+                      <FormattedMessage
+                        id="buy_process.new_plan_selection.more_than_100k_info_message"
+                        values={{ br: <br />, bold: (chunks) => <b>{chunks}</b> }}
+                      />
                     </p>
+                    <Link
+                      to="/upgrade-suggestion-form"
+                      className="dp-new-plan-selection-more-than-link"
+                    >
+                      <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
+                    </Link>
                   </div>
-                  <Link
-                    to="/upgrade-suggestion-form"
-                    className="dp-new-plan-selection-more-than-link"
-                  >
-                    <FormattedMessage id="buy_process.new_plan_selection.more_than_100k_contact_link" />
-                  </Link>
                 </div>
               )}
               {shouldShowLosePromotionWarning && (

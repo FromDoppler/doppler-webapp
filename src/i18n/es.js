@@ -220,7 +220,8 @@ other {}}}}}}}}}}
       },
       month_period: 'mes',
       more_than_100k_contact_link: 'CONTÁCTANOS',
-      more_than_100k_info_message: '¿Tu base supera los 100k de Contactos? El Plan Envíos te da Contactos ilimitados y el costo por Envío más bajo. Habla con nuestros asesores y arma el Plan personalizado.',
+      more_than_100k_info_message:
+        '<bold>¿Tu base supera los 100k de Contactos?</bold>{br}El Plan Envíos te da Contactos ilimitados y el costo por Envío más bajo. Habla con nuestros asesores y arma el Plan personalizado.',
       payment_period_half_yearly: 'semestral',
       payment_period_monthly: 'mensual',
       payment_period_quarterly: 'trimestral',
