@@ -46,7 +46,7 @@ export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {
               }`,
             )}
           </span>
-          <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
+          <h3>{quantity}</h3>
         </li>
         <li>
           {discount ? (

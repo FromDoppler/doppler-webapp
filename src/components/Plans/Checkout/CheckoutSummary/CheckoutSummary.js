@@ -222,7 +222,7 @@ const PlanMarketingInformation = ({
 
   return (
     <>
-      <h4 className="dp-tit-plan-purchased">Tu plan de email marketing</h4>
+      <h4 className="dp-tit-plan-purchased">{_(`checkoutProcessSuccess.plan_type_title`)}</h4>
       <ul className="dp-purchase-summary-list">
         <li>
           <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
@@ -238,12 +238,6 @@ const PlanMarketingInformation = ({
             <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
           </li>
         ) : null}
-        <li>
-          <span>
-            {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
-          </span>
-          <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
-        </li>
         <li>
           {planType === PLAN_TYPE.byContact && discount ? (
             <>
@@ -665,14 +659,34 @@ export const CheckoutSummary = InjectAppServices(
               ) : buyType && Number(buyType) === BUY_CHAT_PLAN ? (
                 chatUserPlan !== null && (
                   <AddOnPlanInformation
-                    quantity={addOnUserPlan.quantity}
+                    quantity={
+                      <FormattedMessage
+                        id={'checkoutProcessSuccess.chat_plan_quantity_title'}
+                        values={{
+                          quantity: thousandSeparatorNumber(
+                            intl.defaultLocale,
+                            addOnUserPlan.quantity,
+                          ),
+                        }}
+                      />
+                    }
                     discount={discount}
                     addOnType={AddOnType.Conversations}
                   />
                 )
               ) : buyType && Number(buyType) === BUY_ONSITE_PLAN && addOnUserPlan !== null ? (
                 <AddOnPlanInformation
-                  quantity={addOnUserPlan.quantity}
+                  quantity={
+                    <FormattedMessage
+                      id={'checkoutProcessSuccess.onsite_plan_quantity_title'}
+                      values={{
+                        quantity: thousandSeparatorNumber(
+                          intl.defaultLocale,
+                          addOnUserPlan.quantity,
+                        ),
+                      }}
+                    />
+                  }
                   discount={discount}
                   addOnType={AddOnType.OnSite}
                 />
@@ -680,7 +694,17 @@ export const CheckoutSummary = InjectAppServices(
                 Number(buyType) === BUY_PUSH_NOTIFICATION_PLAN &&
                 addOnUserPlan !== null ? (
                 <AddOnPlanInformation
-                  quantity={addOnUserPlan.quantity}
+                  quantity={
+                    <FormattedMessage
+                      id={'checkoutProcessSuccess.push_notification_plan_quantity_title'}
+                      values={{
+                        quantity: thousandSeparatorNumber(
+                          intl.defaultLocale,
+                          addOnUserPlan.quantity,
+                        ),
+                      }}
+                    />
+                  }
                   discount={discount}
                   addOnType={AddOnType.PushNotifications}
                 />
@@ -696,12 +720,12 @@ export const CheckoutSummary = InjectAppServices(
                 <MercadoPagoInformation upgradePending={upgradePending} />
               ) : null}
 
-              {isBuyMarketingPlan && (
+              {/* {isBuyMarketingPlan && (
                 <CheckoutSummaryButton
                   paymentMethod={paymentMethod}
                   upgradePending={upgradePending}
                 />
-              )}
+              )} */}
             </div>
             {landingsEditorEnabled && (
               <div className="col-sm-4 m-b-24">
@@ -719,7 +743,6 @@ export const CheckoutSummary = InjectAppServices(
               </div>
             )}
           </div>
-          {<ModalPromoAddons addOnPromotions={addOnPromotions} />}
         </section>
       </>
     );
