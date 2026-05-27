@@ -1,5 +1,4 @@
 import { useIntl } from 'react-intl';
-import { thousandSeparatorNumber } from '../../../../../utils';
 import { AddOnType } from '../../../../../doppler-types';
 
 export const AddOnPlanInformation = ({ addOnType, quantity, discount }) => {

@@ -17,7 +17,6 @@ import { exception } from 'react-ga';
 import { UnexpectedError } from '../../PlanCalculator/UnexpectedError';
 import { ACCOUNT_TYPE, thousandSeparatorNumber } from '../../../../utils';
 import { TransferInformation } from './TransferInformation/index';
-import { CheckoutSummaryButton } from './CheckoutSummaryButton';
 import { CheckoutSummaryTitle } from './CheckoutSummaryTitle/index';
 import { MercadoPagoInformation } from './MercadoPagoInformation';
 import {
@@ -501,7 +500,6 @@ export const CheckoutSummary = InjectAppServices(
         hasError,
         chatUserPlan,
         addOnUserPlan,
-        addOnPromotions,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);
@@ -622,7 +620,6 @@ export const CheckoutSummary = InjectAppServices(
     }
 
     const title = getTitle(paymentMethod, upgradePending);
-    const isBuyMarketingPlan = buyType && Number(buyType) !== BUY_LANDING_PACK;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
     const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
