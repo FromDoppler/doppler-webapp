@@ -1453,7 +1453,7 @@ describe('NewPlanSelection component', () => {
 
     await waitFor(() =>
       expect(
-        within(getCreditsPlanSection()).getByText(/Incluye 5.000 Creditos extra/i),
+        within(getCreditsPlanSection()).getByText(/Incluye 5.000 Créditos extra/i),
       ).toBeInTheDocument(),
     );
   });
@@ -1492,7 +1492,7 @@ describe('NewPlanSelection component', () => {
       ).toBeInTheDocument(),
     );
     expect(
-      within(getCreditsPlanSection()).getByText(/Incluye 5.000 Creditos extra/i),
+      within(getCreditsPlanSection()).getByText(/Incluye 5.000 Créditos extra/i),
     ).toBeInTheDocument();
   });
 
