@@ -160,6 +160,7 @@ export const EmailsPlan = InjectAppServices(
           selectedEmailCapacity > 0 &&
           selectedEmailCapacity < currentSessionEmailCapacity));
     const shouldShowHighVolumeMessage = isMoreThan10mSelected;
+    const shouldShowCustomPrice = isLessThan100kSelected || isMoreThan10mSelected;
     const shouldUseAdvisorCta = shouldShowDowngradeWarning || shouldShowHighVolumeMessage;
     const shouldShowCurrentPlanWarning =
       !isFreeAccount &&
@@ -352,18 +353,24 @@ export const EmailsPlan = InjectAppServices(
             <span className="dp-new-plan-selection-price-label">
               <FormattedMessage id="buy_process.new_plan_selection.price_label" />
             </span>
-            <div className="dp-new-plan-selection-price-value">
-              US$
-              <FormattedNumber
-                value={displayedMonthlyPrice}
-                {...getFormattedPriceOptions(displayedMonthlyPrice)}
-              />
-              <span className="dp-new-plan-selection-price-period">
-                /<FormattedMessage id="buy_process.new_plan_selection.month_period" />*
-              </span>
-            </div>
+            {shouldShowCustomPrice ? (
+              <div className="dp-new-plan-selection-price-value dp-new-plan-selection-custom-price">
+                <FormattedMessage id="buy_process.new_plan_selection.custom_price_value" />
+              </div>
+            ) : (
+              <div className="dp-new-plan-selection-price-value">
+                US$
+                <FormattedNumber
+                  value={displayedMonthlyPrice}
+                  {...getFormattedPriceOptions(displayedMonthlyPrice)}
+                />
+                <span className="dp-new-plan-selection-price-period">
+                  /<FormattedMessage id="buy_process.new_plan_selection.month_period" />*
+                </span>
+              </div>
+            )}
 
-            {!shouldUseAdvisorCta && hasPromocodeDiscount && (
+            {!shouldShowCustomPrice && !shouldUseAdvisorCta && hasPromocodeDiscount && (
               <div className="dp-new-plan-selection-price-detail">
                 <p>
                   <span className="dp-new-plan-selection-old-price">
@@ -413,15 +420,19 @@ export const EmailsPlan = InjectAppServices(
               <span>
                 <FormattedMessage id="buy_process.shopping_cart.renewal_description" />
               </span>
-              <br />
-              <b>
-                <FormattedMessage
-                  id="buy_process.new_plan_selection.emails_extra_email_price"
-                  values={{
-                    price: unitPriceDecimals(extraEmailPrice),
-                  }}
-                />
-              </b>
+              {!shouldShowCustomPrice && (
+                <>
+                  <br />
+                  <b>
+                    <FormattedMessage
+                      id="buy_process.new_plan_selection.emails_extra_email_price"
+                      values={{
+                        price: unitPriceDecimals(extraEmailPrice),
+                      }}
+                    />
+                  </b>
+                </>
+              )}
             </p>
           </aside>
         </div>

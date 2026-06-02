@@ -166,6 +166,8 @@ Comportamiento esperado:
 - el mensaje de `picture_15` aparece al seleccionar un plan menor;
 - la opcion menos de 100.000 debe comportarse como downgrade y mostrar el mismo
   mensaje de `picture_15`;
+- el precio principal de la card debe pasar a `A medida*` (ES) / `Tailored*`
+  (EN), siguiendo el patron visual de CTA comercial;
 - el CTA principal debe pasar a modo comercial (Contactar a Asesor), igual que
   en el escenario de Mas de 10.000.000;
 - el sticky summary debe pasar a CTA comercial y mantener resumen estandar del
@@ -178,6 +180,8 @@ Cuando el usuario selecciona la opcion Mas de 10.000.000 en el dropdown:
 
 - debe mostrarse el bloque informativo visual de `picture_14` (mensaje azul);
 - debe mostrarse un link/accion de contacto comercial dentro del bloque;
+- el precio principal de la card debe pasar a `A medida*` (ES) / `Tailored*`
+  (EN), manteniendo el sticky con resumen estandar del plan seleccionado;
 - el CTA principal de la card debe pasar a modo comercial (texto Contactar a
   Asesor);
 - el destino del CTA comercial debe ser consistente con el flujo actual de
@@ -243,11 +247,13 @@ Agregar/actualizar tests para validar:
 - visualizacion de mensaje `picture_15` al seleccionar plan menor (downgrade).
 - visualizacion de mensaje `picture_15` al seleccionar la opcion menos de
   100.000.
+- precio principal `A medida*` al seleccionar la opcion menos de 100.000.
 - CTA principal en modo Contactar a Asesor para downgrade.
 - sticky summary en modo CTA comercial para downgrade, manteniendo resumen
   estandar del plan.
 - ocultamiento del mensaje `picture_15` al volver a plan igual o mayor.
 - visualizacion de bloque `picture_14` al seleccionar Mas de 10.000.000.
+- precio principal `A medida*` al seleccionar Mas de 10.000.000.
 - CTA principal en modo Contactar a Asesor para Mas de 10.000.000.
 - sticky summary sincronizado en modo CTA comercial para Mas de 10.000.000,
   manteniendo resumen estandar del plan.
@@ -263,9 +269,11 @@ Agregar/actualizar tests para validar:
   vigente por Envios.
 - Plan/frecuencia/precio/promocode/CTA sincronizados.
 - Escenario downgrade implementado con mensaje de `picture_15`, CTA comercial
-  y sticky alineado al patron de `ContactsPlan`.
+  y card principal en modo precio personalizado, con sticky alineado al patron
+  de `ContactsPlan`.
 - Escenario alto volumen implementado con mensaje de `picture_14`, CTA
-  comercial y sticky alineado al patron de `ContactsPlan`.
+  comercial y card principal en modo precio personalizado, con sticky alineado
+  al patron de `ContactsPlan`.
 - i18n ES/EN completo para nuevos textos.
 - Tests en verde con cobertura de escenario principal y casos borde.
 - Sin regresiones funcionales en `NewPlanSelection`.
