@@ -46,9 +46,7 @@ export const getAddons = (user, features) => {
         channels: chat.plan.channels,
         trialExpired: chat.plan.trialExpired,
       },
-      active:
-        (chat.plan.active || plan.isFreeAccount || conversationPromotions.length > 0) &&
-        !user.plan.trialExpired,
+      active: chat.plan.active || plan.isFreeAccount || conversationPromotions.length > 0,
       addOnPromotions: conversationPromotions,
       buyUrl: `${plan.isFreeAccount ? chat.plan.buttonUrl : '/buy-conversation?buyType=2'}`,
     },
@@ -68,9 +66,7 @@ export const getAddons = (user, features) => {
         fee: onSite.plan.fee,
         trialExpired: onSite.plan.trialExpired,
       },
-      active:
-        (onSite.plan.active || plan.isFreeAccount || onSitePromotions.length > 0) &&
-        !user.plan.trialExpired,
+      active: onSite.plan.active || plan.isFreeAccount || onSitePromotions.length > 0,
       addOnPromotions: onSitePromotions,
       buyUrl: `${plan.isFreeAccount ? onSite.plan.buttonUrl : '/buy-onsite-plans?buyType=4'}`,
     },
@@ -87,8 +83,7 @@ export const getAddons = (user, features) => {
         (pushNotification.plan.active ||
           plan.isFreeAccount ||
           pushNotificationPromotions.length > 0) &&
-        canBuyPushNotificationPlan &&
-        !user.plan.trialExpired,
+        canBuyPushNotificationPlan,
       addOnPromotions: pushNotificationPromotions,
       buyUrl: `${
         plan.isFreeAccount
