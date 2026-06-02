@@ -921,6 +921,12 @@ describe('NewPlanSelection component', () => {
       }),
     ).toHaveAttribute('href', '/upgrade-suggestion-form');
     expect(
+      screen.getByText('buy_process.new_plan_selection.custom_price_value'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('buy_process.new_plan_selection.emails_extra_email_price'),
+    ).not.toBeInTheDocument();
+    expect(
       screen.getByRole('link', {
         name: 'buy_process.new_plan_selection.sticky_custom_cta',
       }),
@@ -965,6 +971,12 @@ describe('NewPlanSelection component', () => {
         name: 'buy_process.new_plan_selection.contact_advisor_cta',
       }),
     ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.getByText('buy_process.new_plan_selection.custom_price_value'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('buy_process.new_plan_selection.emails_extra_email_price'),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole('link', {
         name: 'buy_process.new_plan_selection.sticky_custom_cta',
