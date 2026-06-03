@@ -187,61 +187,51 @@ pais.
 Para cualquiera de los paises soportados por transferencia (`ar`, `mx`, `co`),
 el bloque debe mostrar:
 
-- los datos de la cuenta bancaria correspondiente a ese pais;
-- los identificadores fiscales o bancarios que apliquen a ese pais;
-- cualquier instruccion complementaria indispensable para concretar la
-  transferencia desde ese pais.
-
-La SPEC no debe asumir que todos los paises comparten exactamente los mismos
-campos visibles. Por ejemplo:
-
-- Argentina puede requerir `CUIT`, `CC`, `CBU`, `Alias`;
-- Mexico puede requerir otros campos bancarios o fiscales;
-- Colombia puede requerir otros campos bancarios o fiscales.
+- el mismo bloque bancario de referencia mostrado en `picture_16`;
+- los mismos identificadores fiscales y bancarios visibles;
+- las mismas instrucciones complementarias del proceso de transferencia.
 
 Lo obligatorio es:
 
 - mismo layout base;
 - mismo flujo de pasos;
-- contenido bancario/fiscal especifico por pais.
+- mismo contenido bancario/fiscal para `ar`, `mx` y `co`.
 
 #### Argentina (`ar`)
 
-Para `billingCountry = 'ar'`, el bloque debe tomar los datos de transferencia
-definidos por negocio para Argentina.
+Para `billingCountry = 'ar'`, el bloque debe mostrar estos valores:
 
-`picture_16` muestra como referencia visual un ejemplo de ese bloque para
-Argentina, pero el asset no debe tratarse como fuente independiente para
-inventar o mantener datos sensibles sin validacion.
+- Banco: `BBVA BANCO FRANCES S.A.`
+- Titular: `Biside SRL`
+- CUIT: `30-7119594-1`
+- CC: `090/408227/0`
+- CBU: `0170090920000040822703`
+- Alias: `BISIDE`
 
 #### Mexico (`mx`)
 
-Para `billingCountry = 'mx'`, debe mostrarse el mismo layout base de
-`picture_16`, reemplazando el bloque bancario por los datos especificos de
-transferencia definidos por negocio para Mexico.
+Para `billingCountry = 'mx'`, debe mostrarse exactamente el mismo bloque de
+datos e instrucciones definido para Argentina.
 
 #### Colombia (`co`)
 
-Para `billingCountry = 'co'`, debe mostrarse el mismo layout base de
-`picture_16`, reemplazando el bloque bancario por los datos especificos de
-transferencia definidos por negocio para Colombia.
+Para `billingCountry = 'co'`, debe mostrarse exactamente el mismo bloque de
+datos e instrucciones definido para Argentina.
 
 Reglas comunes:
 
 - los labels visibles deben vivir en i18n cuando apliquen;
-- si un pais requiere labels distintos a los de Argentina, esos labels tambien
-  deben salir de i18n;
-- los valores de las cuentas o instrucciones por pais deben quedar
+- los valores del bloque bancario y las instrucciones comunes deben quedar
   centralizados en una configuracion scopeada al bloque de transferencia y no
   desperdigados en JSX;
 - no inventar una fuente remota nueva para estos datos.
 
 Contrato esperado:
 
-- la implementacion debe poder resolver datos por `billingCountry` para `ar`,
-  `mx` y `co`;
-- si faltara algun dato puntual de negocio para cualquier pais, debe dejarse
-  explicitado antes de implementar, no inferido desde el asset argentino.
+- la implementacion debe poder resolver la misma variante para `billingCountry`
+  `ar`, `mx` y `co`;
+- no debe introducirse una diferenciacion de contenido entre esos tres paises
+  en esta iteracion.
 
 ### 6.6 Iconografia del bloque bancario
 
@@ -320,8 +310,6 @@ Reglas:
 - crear keys nuevas bajo `checkoutProcessSuccess` para:
   - intro del paso 1;
   - labels de datos bancarios;
-  - labels alternativos por pais, si `mx` o `co` no comparten exactamente los
-    mismos campos;
   - texto final de confirmacion si el actual no coincide exactamente;
   - cualquier copy adicional necesario para reflejar `picture_16`.
 
@@ -381,9 +369,8 @@ Agregar o actualizar tests para validar, como minimo:
   `billingCountry = 'mx'` y `upgradePending = true`;
 - render del bloque `picture_16` cuando `paymentMethod = TRANSF`,
   `billingCountry = 'co'` y `upgradePending = true`;
-- presencia de datos bancarios/instrucciones de Argentina en pantalla;
-- presencia de datos bancarios/instrucciones de Mexico en pantalla;
-- presencia de datos bancarios/instrucciones de Colombia en pantalla;
+- presencia del mismo bloque bancario/instrucciones en pantalla para
+  Argentina, Mexico y Colombia;
 - presencia del mail `billing@fromdoppler.com`;
 - presencia del mensaje final de confirmacion del pago;
 - preservacion del resumen de compra;
@@ -399,8 +386,8 @@ La tarea se considera completa cuando:
 
 - `CheckoutSummary` muestra la variante de `picture_16` en el escenario
   objetivo;
-- los datos de transferencia por pais (`ar`, `mx`, `co`) son visibles y
-  legibles;
+- el mismo bloque de datos de transferencia es visible y legible para `ar`,
+  `mx` y `co`;
 - el resumen de compra existente no se rompe;
 - el fallback de transferencia para escenarios fuera de alcance se mantiene;
 - i18n ES/EN queda actualizado;
@@ -417,8 +404,3 @@ Quedan explicitamente pendientes para futura validacion de producto/diseno:
 - confirmar si `CBU` y `Alias` deben tener accion real de copiado;
 - confirmar si el caso `TRANSF` con `upgradePending = false` tambien debe
   migrar al layout nuevo o debe conservar el fallback actual.
-
-Dato pendiente obligatorio antes de implementar si no estuviera definido en la
-tarea:
-
-- valores exactos de cuenta/instrucciones para Mexico y Colombia.
