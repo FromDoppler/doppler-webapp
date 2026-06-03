@@ -182,34 +182,53 @@ Los pasos 1, 2, 4, 5 y 6 mantienen la misma intencion funcional para `ar`,
 `mx` y `co`. Solo el contenido del bloque del paso 3 puede variar segun el
 pais.
 
+#### Regla comun para `ar`, `mx` y `co`
+
+Para cualquiera de los paises soportados por transferencia (`ar`, `mx`, `co`),
+el bloque debe mostrar:
+
+- los datos de la cuenta bancaria correspondiente a ese pais;
+- los identificadores fiscales o bancarios que apliquen a ese pais;
+- cualquier instruccion complementaria indispensable para concretar la
+  transferencia desde ese pais.
+
+La SPEC no debe asumir que todos los paises comparten exactamente los mismos
+campos visibles. Por ejemplo:
+
+- Argentina puede requerir `CUIT`, `CC`, `CBU`, `Alias`;
+- Mexico puede requerir otros campos bancarios o fiscales;
+- Colombia puede requerir otros campos bancarios o fiscales.
+
+Lo obligatorio es:
+
+- mismo layout base;
+- mismo flujo de pasos;
+- contenido bancario/fiscal especifico por pais.
+
 #### Argentina (`ar`)
 
-Para `billingCountry = 'ar'`, el bloque debe mostrar estos valores, alineados
-al asset `picture_16`:
+Para `billingCountry = 'ar'`, el bloque debe tomar los datos de transferencia
+definidos por negocio para Argentina.
 
-- Banco: `BBVA BANCO FRANCES S.A.`
-- Titular: `Biside SRL`
-- CUIT: `30-7119594-1`
-- CC: `090/408227/0`
-- CBU: `0170090920000040822703`
-- Alias: `BISIDE`
+`picture_16` muestra como referencia visual un ejemplo de ese bloque para
+Argentina, pero el asset no debe tratarse como fuente independiente para
+inventar o mantener datos sensibles sin validacion.
 
 #### Mexico (`mx`)
 
 Para `billingCountry = 'mx'`, debe mostrarse el mismo layout base de
 `picture_16`, reemplazando el bloque bancario por los datos especificos de
-transferencia definidos para Mexico.
+transferencia definidos por negocio para Mexico.
 
 #### Colombia (`co`)
 
 Para `billingCountry = 'co'`, debe mostrarse el mismo layout base de
 `picture_16`, reemplazando el bloque bancario por los datos especificos de
-transferencia definidos para Colombia.
+transferencia definidos por negocio para Colombia.
 
 Reglas comunes:
 
-- los labels visibles (`Banco`, `Titular`, `CUIT`, `CC`, `CBU`, `Alias`) deben
-  vivir en i18n cuando apliquen;
+- los labels visibles deben vivir en i18n cuando apliquen;
 - si un pais requiere labels distintos a los de Argentina, esos labels tambien
   deben salir de i18n;
 - los valores de las cuentas o instrucciones por pais deben quedar
@@ -221,7 +240,7 @@ Contrato esperado:
 
 - la implementacion debe poder resolver datos por `billingCountry` para `ar`,
   `mx` y `co`;
-- si faltara algun dato puntual de negocio para `mx` o `co`, debe dejarse
+- si faltara algun dato puntual de negocio para cualquier pais, debe dejarse
   explicitado antes de implementar, no inferido desde el asset argentino.
 
 ### 6.6 Iconografia del bloque bancario
