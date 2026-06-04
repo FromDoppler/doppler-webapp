@@ -308,6 +308,7 @@ const Checkout = InjectAppServices(
                   isEqualPlan={false}
                   hidePromocode={true}
                   buyType={BUY_LANDING_PACK}
+                  selectedPaymentMethod={selectedPaymentMethod}
                 />
               ) : isBuyAddOnPlan ? (
                 <ShoppingCart
@@ -331,6 +332,7 @@ const Checkout = InjectAppServices(
                   selectedAddOnPlan={selectedAddOnPlan}
                   canAddOnPlanRemove={false}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
+                  selectedPaymentMethod={selectedPaymentMethod}
                 />
               ) : (
                 <ShoppingCart
@@ -355,6 +357,7 @@ const Checkout = InjectAppServices(
                   buyType={parseInt(buyType)}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                   hasChatActive={chat && chat.active}
+                  selectedPaymentMethod={selectedPaymentMethod}
                 />
               )}
             </div>
