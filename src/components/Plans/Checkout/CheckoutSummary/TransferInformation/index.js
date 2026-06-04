@@ -1,6 +1,51 @@
+import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
+import useTimeout from '../../../../../hooks/useTimeout';
+import { getTransferBankingDetails } from './bankingDetails';
 
-export const TransferInformation = ({ upgradePending }) => {
+const SUPPORTED_TRANSFER_COUNTRIES = ['ar', 'mx', 'co'];
+const BILLING_SUPPORT_EMAIL = 'billing@fromdoppler.com';
+
+const steps = [
+  {
+    iconClassName: 'iconapp-mobile-payment1',
+    content: 'checkoutProcessSuccess.transfer_bank_transfer_message',
+  },
+  {
+    iconClassName: 'iconapp-receipt',
+    content: 'checkoutProcessSuccess.transfer_send_the_receipt_message',
+  },
+  {
+    iconClassName: 'iconapp-check-search',
+    content: 'checkoutProcessSuccess.transfer_confirmation_message',
+  },
+];
+
+const TransferReceiptMailLink = (chunks) => (
+  <a href={`mailto:${BILLING_SUPPORT_EMAIL}`}>{chunks}</a>
+);
+
+const COPY_FEEDBACK_DURATION = 1500;
+
+const copyTextToClipboard = async (text) => {
+  if (navigator?.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.setAttribute('readonly', '');
+  textArea.style.position = 'absolute';
+  textArea.style.left = '-9999px';
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textArea);
+};
+
+const LegacyTransferInformation = ({ upgradePending }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -8,7 +53,7 @@ export const TransferInformation = ({ upgradePending }) => {
     <>
       <h4 className="m-t-24">{_(`checkoutProcessSuccess.transfer_steps_title`)}</h4>
       <div className="dp-rowflex">
-        <div className="col-sm-7 m-b-24">
+        <div className="col-sm-10 m-b-24">
           <div className="dp-checkout-content">
             <div className="dp-plan-detail">
               <ul className="dp-list-detail">
@@ -52,4 +97,123 @@ export const TransferInformation = ({ upgradePending }) => {
       <hr className="dp-separator"></hr>
     </>
   );
+};
+
+const TransferBankingDetailsBlock = ({ billingCountry }) => {
+  const intl = useIntl();
+  const createTimeout = useTimeout();
+  const [copiedField, setCopiedField] = useState('');
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const bankingDetails = getTransferBankingDetails(billingCountry);
+  const bankingRows = [
+    ['transfer_bank_name_label', bankingDetails.bank, false],
+    ['transfer_bank_holder_label', bankingDetails.holder, false],
+    ['transfer_bank_tax_id_label', bankingDetails.cuit, false],
+    ['transfer_bank_account_label', bankingDetails.account, false],
+    ['transfer_bank_cbu_label', bankingDetails.cbu, true],
+    ['transfer_bank_alias_label', bankingDetails.alias, true],
+  ];
+
+  const handleCopy = async (labelId, value) => {
+    try {
+      await copyTextToClipboard(value);
+      setCopiedField(labelId);
+      createTimeout(() => setCopiedField(''), COPY_FEEDBACK_DURATION);
+    } catch {
+      setCopiedField('');
+    }
+  };
+
+  return (
+    <div className="m-t-12" data-testid="dp-transfer-banking-details">
+      <div>
+        {bankingRows.map(([labelId, value, isCopyable]) => (
+          <p key={labelId}>
+            <strong>{_(`checkoutProcessSuccess.${labelId}`)}:</strong> {value}
+            {isCopyable ? (
+              <>
+                <button
+                  type="button"
+                  className="dp-button link-green p-l-18"
+                  onClick={() => handleCopy(labelId, value)}
+                  aria-label={_('checkoutProcessSuccess.transfer_bank_copy_button', {
+                    label: _(`checkoutProcessSuccess.${labelId}`),
+                  })}
+                  title={_('checkoutProcessSuccess.transfer_bank_copy_button', {
+                    label: _(`checkoutProcessSuccess.${labelId}`),
+                  })}
+                >
+                  <span className="dpicon icon-action iconapp-copy-file" aria-hidden="true" />
+                </button>
+                {copiedField === labelId ? (
+                  <span className="m-l-12" aria-live="polite">
+                    {_('checkoutProcessSuccess.transfer_bank_copied_message')}
+                  </span>
+                ) : null}
+              </>
+            ) : null}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Picture16TransferInformation = ({ billingCountry }) => {
+  const intl = useIntl();
+  const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+  return (
+    <>
+      <h4 className="m-t-24">{_(`checkoutProcessSuccess.transfer_steps_title`)}</h4>
+      <div className="dp-rowflex">
+        <div className="col-sm-10 m-b-24">
+          <div className="dp-checkout-content">
+            <div className="dp-plan-detail" data-testid="dp-transfer-picture-16">
+              <ul className="dp-list-detail">
+                {steps.map(({ iconClassName, content }) => (
+                  <li key={content}>
+                    <h3 className={`dp-wrapp-icon dpicon ${iconClassName}`} aria-hidden="true" />
+                    <div>
+                      {content === 'checkoutProcessSuccess.transfer_bank_transfer_message' ? (
+                        <>
+                          <p>{_(content)}</p>
+                          <TransferBankingDetailsBlock billingCountry={billingCountry} />
+                        </>
+                      ) : (
+                        <FormattedMessage
+                          id={content}
+                          values={{
+                            Link: TransferReceiptMailLink,
+                          }}
+                        />
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <p className="m-t-18">{_(`checkoutProcessSuccess.transfer_explore_message`)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr className="dp-separator" />
+      <div className="m-t-24">
+        <Link to="/dashboard" className="dp-button button-medium primary-green">
+          {_('checkoutProcessSuccess.transfer_explore_button')}
+        </Link>
+      </div>
+    </>
+  );
+};
+
+export const TransferInformation = ({ billingCountry, upgradePending }) => {
+  const shouldShowPicture16Variant =
+    upgradePending && SUPPORTED_TRANSFER_COUNTRIES.includes(billingCountry);
+
+  if (!shouldShowPicture16Variant) {
+    return <LegacyTransferInformation upgradePending={upgradePending} />;
+  }
+
+  return <Picture16TransferInformation billingCountry={billingCountry} />;
 };
