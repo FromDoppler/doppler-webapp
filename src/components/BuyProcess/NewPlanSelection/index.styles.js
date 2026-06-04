@@ -567,25 +567,25 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en .dp-frequency-annual {
     background: #dff5ea;
-    left: 0;
+    left: 75%;
     width: 25%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en .dp-frequency-biannual {
     background: #dff5ea;
-    left: 25%;
+    left: 50%;
     width: 25%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en .dp-frequency-quarterly {
     background: #dff5ea;
-    left: 50%;
+    left: 25%;
     width: 25%;
   }
 
   .dp-new-plan-selection-payment-frequency .dp-payment-frequency-en .dp-frequency-monthly {
     background: #dff5ea;
-    left: 75%;
+    left: 0%;
     width: 25%;
   }
 
