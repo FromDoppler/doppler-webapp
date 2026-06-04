@@ -3,6 +3,7 @@ import { PLAN_TYPE } from '../../../../doppler-types';
 import { CheckoutSummary } from './CheckoutSummary';
 import IntlProvider from '../../../../i18n/DopplerIntlProvider';
 import IntlProviderWithIds from '../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
+import DopplerIntlProvider from '../../../../i18n/DopplerIntlProvider';
 import { AppServicesProvider } from '../../../../services/pure-di';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
@@ -165,14 +166,83 @@ describe('CheckoutSummury component', () => {
     expect(screen.getByText('Pago único')).toBeInTheDocument();
   });
 
-  it('should render the add-ons section from new plan selection when landing editor is enabled', async () => {
-    await renderCheckoutSummaryWithAddOns();
+  it('should render picture 16 transfer variant for supported transfer countries in checkout summary', async () => {
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            features: {
+              landingsEditorEnabled: false,
+            },
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.free,
+                upgradePending: true,
+              },
+              chat: {
+                plan: {
+                  buttonUrl: '',
+                },
+              },
+              onSite: {
+                plan: {
+                  idPlan: 3,
+                  printQty: 500,
+                },
+              },
+            },
+          },
+        },
+      },
+      dopplerBillingUserApiClient: {
+        getBillingInformationData: async () => ({
+          success: true,
+          value: { country: 'mx' },
+        }),
+        getCurrentUserPlanDataByType: async () => ({
+          success: true,
+          value: {
+            planType: PLAN_TYPE.byContact,
+            remainingCredits: 0,
+            subscribersQty: 5000,
+          },
+        }),
+      },
+    };
 
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <DopplerIntlProvider locale="es">
+          <Router
+            initialEntries={[`/checkout-summary?buyType=1&paymentMethod=TRANSF&discount=monthly`]}
+          >
+            <Routes>
+              <Route path="/checkout-summary" element={<CheckoutSummary />} />
+            </Routes>
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.getByTestId('dp-transfer-picture-16')).toBeInTheDocument();
     expect(
-      screen.getByText('buy_process.new_plan_selection.addons_section.title'),
+      screen.getByText(/Completa el pago realizando un depósito o transferencia/i),
     ).toBeInTheDocument();
+    expect(screen.getByText('BBVA BANCO FRANCES S.A.')).toBeInTheDocument();
+    expect(screen.getByText(/Una vez que realices el pago/i)).toBeInTheDocument();
     expect(
-      screen.getByText('buy_process.new_plan_selection.addons_section.subtitle'),
+      screen.getAllByText((_, node) => node?.textContent?.includes('Cuando confirmemos')),
+    ).not.toHaveLength(0);
+    expect(
+      screen.getByText(/Mientras tanto, te invitamos a continuar explorando tu cuenta/i),
     ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'billing@fromdoppler.com' })).toHaveAttribute(
+      'href',
+      'mailto:billing@fromdoppler.com',
+    );
   });
 });
