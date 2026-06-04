@@ -74,39 +74,57 @@ export const StickyPlanSummary = ({ summary }) => {
         </div>
 
         {!summary.isCustomPlan && summary.discountSummary && (
-          <p className="dp-new-plan-selection-sticky-summary-discount">
-            {summary.discountSummary.type === 'promocode' ? (
-              <FormattedMessage
-                id={
-                  Number(summary.discountSummary.months) > 0
-                    ? 'buy_process.new_plan_selection.sticky_promocode_discount_text'
-                    : 'buy_process.new_plan_selection.sticky_promocode_discount_text_without_months'
-                }
-                values={{
-                  months: summary.discountSummary.months,
-                  percentage: summary.discountSummary.percentage,
-                  bold: (chunks) => <b>{chunks}</b>,
-                }}
-              />
-            ) : (
-              <FormattedMessage
-                id="buy_process.new_plan_selection.sticky_frequency_discount_text"
-                values={{
-                  currency: 'US$',
-                  percentage: summary.discountSummary.percentage,
-                  period: summary.discountSummary.period,
-                  periodCapitalized: capitalize(summary.discountSummary.period),
-                  total: (
-                    <FormattedNumber
-                      value={summary.discountSummary.total}
-                      {...getFormattedPriceOptions(summary.discountSummary.total)}
-                    />
-                  ),
-                  bold: (chunks) => <b>{chunks}</b>,
-                }}
-              />
+          <div className="dp-new-plan-selection-sticky-summary-discount">
+            {summary.previousPrice != null && (
+              <p className="dp-new-plan-selection-sticky-summary-old-price">
+                <FormattedMessage id="buy_process.new_plan_selection.sticky_previous_price_label" />{' '}
+                US$
+                <span className="dp-new-plan-selection-old-price">
+                  <FormattedNumber
+                    value={summary.previousPrice}
+                    {...getFormattedPriceOptions(summary.previousPrice)}
+                  />
+                </span>
+                /
+                {intl.formatMessage({
+                  id: 'buy_process.new_plan_selection.month_period',
+                })}
+              </p>
             )}
-          </p>
+            <p className="dp-new-plan-selection-sticky-summary-discount-text">
+              {summary.discountSummary.type === 'promocode' ? (
+                <FormattedMessage
+                  id={
+                    Number(summary.discountSummary.months) > 0
+                      ? 'buy_process.new_plan_selection.sticky_promocode_discount_text'
+                      : 'buy_process.new_plan_selection.sticky_promocode_discount_text_without_months'
+                  }
+                  values={{
+                    months: summary.discountSummary.months,
+                    percentage: summary.discountSummary.percentage,
+                    bold: (chunks) => <b>{chunks}</b>,
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id="buy_process.new_plan_selection.sticky_frequency_discount_text"
+                  values={{
+                    currency: 'US$',
+                    percentage: summary.discountSummary.percentage,
+                    period: summary.discountSummary.period,
+                    periodCapitalized: capitalize(summary.discountSummary.period),
+                    total: (
+                      <FormattedNumber
+                        value={summary.discountSummary.total}
+                        {...getFormattedPriceOptions(summary.discountSummary.total)}
+                      />
+                    ),
+                    bold: (chunks) => <b>{chunks}</b>,
+                  }}
+                />
+              )}
+            </p>
+          </div>
         )}
 
         {summary.useAdvisorCta ? (

@@ -239,6 +239,7 @@ other {}}}}}}}}}}
       sticky_default_cta: 'Comprar Ahora',
       sticky_emails_subtitle: 'Hasta {emails} Envios por mes',
       sticky_frequency_discount_text: '<bold>Facturación {periodCapitalized} {percentage}%OFF</bold> | 1 Pago {period} de <bold>{currency}{total}</bold>',
+      sticky_previous_price_label: 'Antes',
       sticky_promocode_discount_text: '<bold>Descuento {percentage}% OFF</bold> por <bold>{months, plural, one {# mes} other {# meses}}</bold>',
       sticky_promocode_discount_text_without_months: '<bold>Descuento {percentage}% OFF</bold>',
       subscription_label: 'Suscripción',

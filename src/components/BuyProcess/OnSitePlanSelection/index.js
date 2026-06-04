@@ -15,6 +15,7 @@ import { BannerUpgrade } from '../BannerUpgrade';
 import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
 import { getPromotionInformationMessage } from '../utils';
 import { useIntl } from 'react-intl';
+import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const OnSitePlansSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -26,7 +27,15 @@ export const OnSitePlansSelection = InjectAppServices(
     const [showPromotionInformation, setShowPromotionInformation] = useState(false);
     const [item, setItem] = useState(null);
     const intl = useIntl();
+    const sessionPlan = appSessionRef.current.userData.user;
+    const { isFreeAccount } = sessionPlan.plan;
+
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    if (isFreeAccount) {
+      return <RedirectToExternalUrl to={sessionPlan.plan.buttonUrl} />;
+    }
+
     const [
       {
         addOnPlansValues,

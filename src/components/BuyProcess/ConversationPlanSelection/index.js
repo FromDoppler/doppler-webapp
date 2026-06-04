@@ -15,6 +15,7 @@ import { getPromotionInformationMessage } from '../utils';
 import { SelectedConversationPlan } from './SelectedConversationPlan';
 import { PlanBenefits } from './PlanBenefits';
 import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
+import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const ConversationPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -27,6 +28,13 @@ export const ConversationPlanSelection = InjectAppServices(
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const sessionPlan = appSessionRef.current.userData.user;
+    const { isFreeAccount } = sessionPlan.plan;
+
+    if (isFreeAccount) {
+      return <RedirectToExternalUrl to={sessionPlan.plan.buttonUrl} />;
+    }
+
     const [
       {
         addOnPlansValues,

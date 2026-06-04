@@ -292,6 +292,7 @@ export const ContactsPlan = InjectAppServices(
         displayPrice: displayedMonthlyPrice,
         isCustomPlan: isTailoredPlan,
         isDisabled: !shouldUseAdvisorCta && !canChoosePlan,
+        previousPrice: selectedPlanFee,
         useAdvisorCta: shouldUseAdvisorCta,
       }),
       [
@@ -299,6 +300,7 @@ export const ContactsPlan = InjectAppServices(
         checkoutUrl,
         displayedMonthlyPrice,
         isTailoredPlan,
+        selectedPlanFee,
         shouldUseAdvisorCta,
         stickyContactsLabel,
         stickyDiscountSummary,
