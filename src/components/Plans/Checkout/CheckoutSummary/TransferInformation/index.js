@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { getTransferBankingDetails } from './bankingDetails';
 
-const SUPPORTED_TRANSFER_COUNTRIES = ['ar', 'mx', 'co'];
+const SUPPORTED_TRANSFER_COUNTRY = 'ar';
 const BILLING_SUPPORT_EMAIL = 'billing@fromdoppler.com';
 
 const steps = [
@@ -209,7 +209,7 @@ const Picture16TransferInformation = ({ billingCountry }) => {
 
 export const TransferInformation = ({ billingCountry, upgradePending }) => {
   const shouldShowPicture16Variant =
-    upgradePending && SUPPORTED_TRANSFER_COUNTRIES.includes(billingCountry);
+    upgradePending && billingCountry === SUPPORTED_TRANSFER_COUNTRY;
 
   if (!shouldShowPicture16Variant) {
     return <LegacyTransferInformation upgradePending={upgradePending} />;
