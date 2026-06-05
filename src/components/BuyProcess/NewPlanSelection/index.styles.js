@@ -98,14 +98,8 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-sticky-summary-price {
   }
 
-  .dp-new-plan-selection-sticky-summary-discount {
-    color: #333;
-    flex: 1 1 auto;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.35;
+  .dp-new-plan-selection-sticky-summary-discount-text {
     margin: 0;
-    text-align: center;
   }
 
   .dp-new-plan-selection-sticky-summary .dp-button {

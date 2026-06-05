@@ -19,6 +19,7 @@ import { getMonthsByCycle, orderPaymentFrequencies } from '../../../utils';
 import { SelectedPushNotificationPlan } from './SelectedPushNotificationPlan';
 import { ShoppingCart } from '../ShoppingCart';
 import { getPromotionInformationMessage } from '../utils';
+import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const PushNotificationPlanSelection = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
@@ -31,6 +32,12 @@ export const PushNotificationPlanSelection = InjectAppServices(
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const sessionPlan = appSessionRef.current.userData.user;
+    const { isFreeAccount } = sessionPlan.plan;
+
+    if (isFreeAccount) {
+      return <RedirectToExternalUrl to={sessionPlan.plan.buttonUrl} />;
+    }
 
     const [
       {
