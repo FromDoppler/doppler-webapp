@@ -1,4 +1,4 @@
-import signupBannerImagePath from '../img/signup-en.png';
+﻿import signupBannerImagePath from '../img/signup-en.png';
 import loginBannerImagePath from '../img/login-en.png';
 
 // Basic constants
@@ -638,20 +638,19 @@ Payment details will be included in the invoice sent to the recipient you have i
     plan_type_monthly_deliveries: 'Amount of Emails',
     plan_type_monthly_deliveries_availables: 'Available Emails',
     plan_type_monthly_deliveries_label: 'Emails Plan',
-    plan_type_monthly_deliveries_unit: 'Emails',
     plan_type_monthly_deliveries_monthly_renovation: 'Monthly',
+    plan_type_monthly_deliveries_unit: 'Emails',
     plan_type_prepaid: 'Amount of Credits',
     plan_type_prepaid_availables: 'Available Credits',
     plan_type_prepaid_label: 'Credit Purchase',
-    plan_type_prepaid_unit: 'Credits',
-    plan_type_prepaid_single_payment: 'One-time payment',
     plan_type_prepaid_no_expiration: 'No expiration',
     plan_type_prepaid_promocode: 'Gift Credits',
+    plan_type_prepaid_single_payment: 'One-time payment',
+    plan_type_prepaid_unit: 'Credits',
     plan_type_subscribers: 'Quantity',
     plan_type_subscribers_availables: 'Available Contacts',
     plan_type_subscribers_label: 'Contacts Plan',
     plan_type_subscribers_unit: 'Contacts',
-    quantity_title: 'Quantity',
     plan_type_title: 'Summary of your purchase',
     purchase_finished_title: 'Purchase Finished',
     push_notification_plan_acquired_emails: 'Quantity',
@@ -661,6 +660,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     push_notification_plan_quantity_title: '{quantity} shipments',
     push_notification_plan_title: 'Summary of your purchase',
     push_notification_plan_type_label: 'Plan Type',
+    quantity_title: 'Quantity',
     renewal_type_title: 'Billing',
     start_using_new_plan_button: 'Start using your new Plan',
     title: `Your purchase has been successful!`,

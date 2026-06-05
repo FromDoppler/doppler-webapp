@@ -1,4 +1,4 @@
-import signupBannerImagePath from '../img/signup-es.png';
+﻿import signupBannerImagePath from '../img/signup-es.png';
 import loginBannerImagePath from '../img/login-es.png';
 
 // Basic constants
@@ -638,20 +638,19 @@ other {}}}}}}}}}}
     plan_type_monthly_deliveries: 'Cantidad de Envíos',
     plan_type_monthly_deliveries_availables: 'Envíos Disponibles',
     plan_type_monthly_deliveries_label: 'Plan Envíos',
-    plan_type_monthly_deliveries_unit: 'Envíos',
     plan_type_monthly_deliveries_monthly_renovation: 'Mensual',
+    plan_type_monthly_deliveries_unit: 'Envíos',
     plan_type_prepaid: 'Cantidad de Créditos',
     plan_type_prepaid_availables: 'Créditos Disponibles',
     plan_type_prepaid_label: 'Por Créditos',
-    plan_type_prepaid_unit: 'Créditos',
-    plan_type_prepaid_single_payment: 'Pago único',
     plan_type_prepaid_no_expiration: 'Sin vencimiento',
     plan_type_prepaid_promocode: 'Créditos de regalo',
+    plan_type_prepaid_single_payment: 'Pago único',
+    plan_type_prepaid_unit: 'Créditos',
     plan_type_subscribers: 'Cantidad',
     plan_type_subscribers_availables: 'Contactos disponibles',
     plan_type_subscribers_label: 'Plan Contactos',
     plan_type_subscribers_unit: 'Contactos',
-    quantity_title: 'Cantidad',
     plan_type_title: 'Resumen de tu compra',
     purchase_finished_title: 'Compra Finalizada',
     push_notification_plan_acquired_emails: 'Cantidad',
@@ -661,6 +660,7 @@ other {}}}}}}}}}}
     push_notification_plan_quantity_title: '{quantity} envíos',
     push_notification_plan_title: 'Resumen de tu compra',
     push_notification_plan_type_label: 'Tipo de Plan',
+    quantity_title: 'Cantidad',
     renewal_type_title: 'Facturación',
     start_using_new_plan_button: 'Comienza a usar tu nuevo Plan',
     title: `¡Tu compra ha sido exitosa!`,
