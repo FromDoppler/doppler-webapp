@@ -78,12 +78,12 @@ export const IncludedFeatures = () => {
         ))}
       </div>
 
-      <div className="dp-new-plan-selection-see-more">
+      {/* <div className="dp-new-plan-selection-see-more">
         <button type="button" onClick={() => setIsModalOpen(true)}>
           <FormattedMessage id="buy_process.new_plan_selection.included_features.see_more" />
           <span className="dpicon iconapp-arrow-right" />
         </button>
-      </div>
+      </div> */}
 
       <Modal
         isOpen={isModalOpen}

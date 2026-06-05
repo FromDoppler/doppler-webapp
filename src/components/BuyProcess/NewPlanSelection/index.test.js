@@ -344,7 +344,9 @@ describe('NewPlanSelection component', () => {
     expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
     await waitFor(() => expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument());
     expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Ver m[aá]s funcionalidades/i }),
+    ).not.toBeInTheDocument();
 
     expect(
       within(getCreditsPlanSection()).getByRole('heading', {
@@ -536,21 +538,21 @@ describe('NewPlanSelection component', () => {
     ).toBeTruthy();
   });
 
-  it('should open and close included features modal', async () => {
-    const user = userEvent.setup();
-    await renderNewPlanSelection();
+  // it('should open and close included features modal', async () => {
+  //   const user = userEvent.setup();
+  //   await renderNewPlanSelection();
 
-    await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
+  //   await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
 
-    expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
-    expect(screen.getByText(/Carrito Abandonado/i)).toBeInTheDocument();
+  //   expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
+  //   expect(screen.getByText(/Carrito Abandonado/i)).toBeInTheDocument();
 
-    await user.click(screen.getByTestId('modal-close'));
+  //   await user.click(screen.getByTestId('modal-close'));
 
-    await waitFor(() =>
-      expect(screen.queryByText(/Funcionalidades y Soluciones/i)).not.toBeInTheDocument(),
-    );
-  });
+  //   await waitFor(() =>
+  //     expect(screen.queryByText(/Funcionalidades y Soluciones/i)).not.toBeInTheDocument(),
+  //   );
+  // });
 
   it('should prepopulate contacts promocode input when Promo-code query param is present', async () => {
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
