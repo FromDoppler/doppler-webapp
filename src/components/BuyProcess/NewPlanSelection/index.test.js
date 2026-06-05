@@ -540,7 +540,7 @@ describe('NewPlanSelection component', () => {
     const user = userEvent.setup();
     await renderNewPlanSelection();
 
-    //await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
+    await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
 
     expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
     expect(screen.getByText(/Carrito Abandonado/i)).toBeInTheDocument();
