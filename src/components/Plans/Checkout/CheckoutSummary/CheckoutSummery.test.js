@@ -166,7 +166,87 @@ describe('CheckoutSummury component', () => {
     expect(screen.getByText('Pago único')).toBeInTheDocument();
   });
 
-  it('should render picture 16 transfer variant for supported transfer countries in checkout summary', async () => {
+  it('should render picture 16 transfer variant for Argentina in checkout summary', async () => {
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            features: {
+              landingsEditorEnabled: false,
+            },
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.free,
+                upgradePending: true,
+              },
+              chat: {
+                plan: {
+                  buttonUrl: '',
+                },
+              },
+              onSite: {
+                plan: {
+                  idPlan: 3,
+                  printQty: 500,
+                },
+              },
+            },
+          },
+        },
+      },
+      dopplerBillingUserApiClient: {
+        getBillingInformationData: async () => ({
+          success: true,
+          value: { country: 'ar' },
+        }),
+        getCurrentUserPlanDataByType: async () => ({
+          success: true,
+          value: {
+            planType: PLAN_TYPE.byContact,
+            remainingCredits: 0,
+            subscribersQty: 5000,
+          },
+        }),
+      },
+    };
+
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <DopplerIntlProvider locale="es">
+          <Router
+            initialEntries={[`/checkout-summary?buyType=1&paymentMethod=TRANSF&discount=monthly`]}
+          >
+            <Routes>
+              <Route path="/checkout-summary" element={<CheckoutSummary />} />
+            </Routes>
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.getByTestId('dp-transfer-picture-16')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Completa el pago realizando un depósito o transferencia/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText('BBVA BANCO FRANCES S.A.')).toBeInTheDocument();
+    expect(screen.getByText(/Una vez que realices el pago/i)).toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => node?.textContent?.includes('Cuando confirmemos')),
+    ).not.toHaveLength(0);
+    expect(
+      screen.getByText(/Mientras tanto, te invitamos a continuar explorando tu cuenta/i),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'billing@fromdoppler.com' })).toHaveAttribute(
+      'href',
+      'mailto:billing@fromdoppler.com',
+    );
+  });
+
+  it('should keep legacy transfer summary for Mexico in checkout summary', async () => {
     const forcedServices = {
       appSessionRef: {
         current: {
@@ -228,21 +308,11 @@ describe('CheckoutSummury component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByTestId('dp-transfer-picture-16')).toBeInTheDocument();
+    expect(screen.queryByTestId('dp-transfer-picture-16')).not.toBeInTheDocument();
     expect(
-      screen.getByText(/Completa el pago realizando un depósito o transferencia/i),
+      screen.getByText(
+        /Revisa tu correo, y dentro de las proximas 24 horas h[aá]biles recibir[aá]s la factura/i,
+      ),
     ).toBeInTheDocument();
-    expect(screen.getByText('BBVA BANCO FRANCES S.A.')).toBeInTheDocument();
-    expect(screen.getByText(/Una vez que realices el pago/i)).toBeInTheDocument();
-    expect(
-      screen.getAllByText((_, node) => node?.textContent?.includes('Cuando confirmemos')),
-    ).not.toHaveLength(0);
-    expect(
-      screen.getByText(/Mientras tanto, te invitamos a continuar explorando tu cuenta/i),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'billing@fromdoppler.com' })).toHaveAttribute(
-      'href',
-      'mailto:billing@fromdoppler.com',
-    );
   });
 });
