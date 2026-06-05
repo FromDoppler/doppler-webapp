@@ -218,6 +218,11 @@ const PlanMarketingInformation = ({
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const quantityUnitByPlanType = {
+    [PLAN_TYPE.byContact]: _('checkoutProcessSuccess.plan_type_subscribers_unit'),
+    [PLAN_TYPE.byEmail]: _('checkoutProcessSuccess.plan_type_monthly_deliveries_unit'),
+    [PLAN_TYPE.byCredit]: _('checkoutProcessSuccess.plan_type_prepaid_unit'),
+  };
 
   return (
     <>
@@ -228,8 +233,11 @@ const PlanMarketingInformation = ({
           <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
         </li>
         <li>
-          <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
-          <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
+          <span>{_('checkoutProcessSuccess.quantity_title')}</span>
+          <h3>
+            {thousandSeparatorNumber(intl.defaultLocale, quantity)}
+            {quantityUnitByPlanType[planType] ? ` ${quantityUnitByPlanType[planType]}` : ''}
+          </h3>
         </li>
         {extraCredits > 0 ? (
           <li>
@@ -247,6 +255,11 @@ const PlanMarketingInformation = ({
             <>
               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
               <h3>{_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}</h3>
+            </>
+          ) : planType === PLAN_TYPE.byCredit ? (
+            <>
+              <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
+              <h3>{_(`checkoutProcessSuccess.plan_type_prepaid_single_payment`)}</h3>
             </>
           ) : (
             <h3>{_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}</h3>
