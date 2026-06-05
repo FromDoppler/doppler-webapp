@@ -28,10 +28,10 @@ describe('TransferInformation', () => {
     });
   });
 
-  it('should render picture 16 variant for Argentina when upgrade is pending', () => {
+  it('should render new transfer details variant for Argentina when upgrade is pending', () => {
     const { container } = renderTransferInformation({ billingCountry: 'ar', upgradePending: true });
 
-    expect(screen.getByTestId('dp-transfer-picture-16')).toBeInTheDocument();
+    expect(screen.getByTestId('dp-new-transfer-details')).toBeInTheDocument();
     expect(
       screen.getByText(/Completa el pago realizando un dep[oó]sito o transferencia/i),
     ).toBeInTheDocument();
@@ -94,7 +94,7 @@ describe('TransferInformation', () => {
   it('should keep legacy transfer information when upgrade is not pending', () => {
     renderTransferInformation({ billingCountry: 'ar', upgradePending: false });
 
-    expect(screen.queryByTestId('dp-transfer-picture-16')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('dp-new-transfer-details')).not.toBeInTheDocument();
     expect(
       screen.getByText(
         /Revisa tu correo, y dentro de las proximas 24 horas h[aá]biles recibir[aá]s la factura/i,
@@ -109,7 +109,7 @@ describe('TransferInformation', () => {
     (billingCountry) => {
       renderTransferInformation({ billingCountry, upgradePending: true });
 
-      expect(screen.queryByTestId('dp-transfer-picture-16')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('dp-new-transfer-details')).not.toBeInTheDocument();
       expect(
         screen.getByText(
           /Revisa tu correo, y dentro de las proximas 24 horas h[aá]biles recibir[aá]s la factura/i,

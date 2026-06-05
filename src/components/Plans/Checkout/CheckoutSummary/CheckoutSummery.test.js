@@ -166,7 +166,7 @@ describe('CheckoutSummury component', () => {
     expect(screen.getByText('Pago único')).toBeInTheDocument();
   });
 
-  it('should render picture 16 transfer variant for Argentina in checkout summary', async () => {
+  it('should render new transfer details variant for Argentina in checkout summary', async () => {
     const forcedServices = {
       appSessionRef: {
         current: {
@@ -228,7 +228,7 @@ describe('CheckoutSummury component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.getByTestId('dp-transfer-picture-16')).toBeInTheDocument();
+    expect(screen.getByTestId('dp-new-transfer-details')).toBeInTheDocument();
     expect(
       screen.getByText(/Completa el pago realizando un depósito o transferencia/i),
     ).toBeInTheDocument();
@@ -308,7 +308,7 @@ describe('CheckoutSummury component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    expect(screen.queryByTestId('dp-transfer-picture-16')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('dp-new-transfer-details')).not.toBeInTheDocument();
     expect(
       screen.getByText(
         /Revisa tu correo, y dentro de las proximas 24 horas h[aá]biles recibir[aá]s la factura/i,

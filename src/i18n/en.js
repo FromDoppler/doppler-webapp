@@ -673,10 +673,8 @@ Payment details will be included in the invoice sent to the recipient you have i
     transfer_bank_name_label: 'Bank',
     transfer_bank_tax_id_label: 'CUIT',
     transfer_bank_transfer_message: 'Complete the payment by making a deposit or transfer to the following bank account:',
-    transfer_check_email_with_invoice_message:
-      "Check your email, and during the next 24 business hours you'll receive your invoice with all the information to make the payment.",
-    transfer_confirmation_message:
-      "Once we confirm the payment reception, we'll tell you by email so you can start enjoying your new Plan and all the benefits of Doppler.",
+    transfer_check_email_with_invoice_message: "Check your email, and during the next 24 business hours you'll receive your invoice with all the information to make the payment.",
+    transfer_confirmation_message: "Once we confirm the payment reception, we'll tell you by email so you can start enjoying your new Plan and all the benefits of Doppler.",
     transfer_explore_button: 'Explore Doppler',
     transfer_explore_message: 'Meanwhile, we invite you to keep exploring your account...',
     transfer_pay_the_invoice_message: 'Make the payment.',

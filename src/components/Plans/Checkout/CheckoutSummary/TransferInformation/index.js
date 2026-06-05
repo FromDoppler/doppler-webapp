@@ -169,7 +169,7 @@ const Picture16TransferInformation = ({ billingCountry }) => {
       <div className="dp-rowflex">
         <div className="col-sm-10 m-b-24">
           <div className="dp-checkout-content">
-            <div className="dp-plan-detail" data-testid="dp-transfer-picture-16">
+            <div className="dp-plan-detail" data-testid="dp-new-transfer-details">
               <ul className="dp-list-detail">
                 {steps.map(({ iconClassName, content }) => (
                   <li key={content}>
