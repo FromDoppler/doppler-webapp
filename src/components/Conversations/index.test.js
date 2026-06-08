@@ -45,9 +45,7 @@ describe('Conversations component', () => {
 
     // Assert
     expect(activateConversationPlan).toHaveBeenCalledTimes(1);
-    await waitFor(() =>
-      expect(screen.getByTestId('redirect-to-external-url')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByTestId('redirect-to-external-url')).toBeInTheDocument());
   });
 
   it('should activate the plan automatically and redirect for a paid account (case 5)', async () => {
@@ -73,9 +71,7 @@ describe('Conversations component', () => {
 
     // Assert
     expect(activateConversationPlan).toHaveBeenCalledTimes(1);
-    await waitFor(() =>
-      expect(screen.getByTestId('redirect-to-external-url')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByTestId('redirect-to-external-url')).toBeInTheDocument());
   });
 
   it('should show the promotional page with the error message when the automatic activation fails', async () => {
