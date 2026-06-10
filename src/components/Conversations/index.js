@@ -36,7 +36,9 @@ export const Conversations = InjectAppServices(
       if (await dopplerLegacyClient.activateConversationPlan()) {
         setRedirectToConversations(true);
       } else {
-        console.error('activateConversationPlan failed: the backend returned an unsuccessful response');
+        console.error(
+          'activateConversationPlan failed: the backend returned an unsuccessful response',
+        );
         if (!(isFreeAccount && trialExpired)) {
           setErrorMessage('validation_messages.error_unexpected_register_MD');
         }
