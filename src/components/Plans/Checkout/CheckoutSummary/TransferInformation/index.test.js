@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
@@ -89,6 +89,9 @@ describe('TransferInformation', () => {
     });
 
     expect(await screen.findByText('Copiado')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('Copiado')).not.toBeInTheDocument(), {
+      timeout: 2500,
+    });
   });
 
   it('should keep legacy transfer information when upgrade is not pending', () => {

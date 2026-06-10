@@ -322,13 +322,13 @@ export const PaymentMethod = InjectAppServices(
       selectedPlanDiscount: undefined,
       discounts: [],
       plan: {},
-      changed: false,
     });
     const [error, setError] = useState({ error: false, message: '' });
     const navigate = useNavigate();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType } = useParams();
     const eprotectClientRef = useRef(null);
+    const paymentMethodTouchedByUserRef = useRef(false);
     const useEprotect = process.env.REACT_APP_USE_EPROTECT === 'true';
 
     const handleEprotectClientReady = useCallback((client) => {
@@ -354,15 +354,15 @@ export const PaymentMethod = InjectAppServices(
           paymentMethodData.success &&
           ![none, ''].includes(paymentMethodData.value.paymentMethodName)
         ) {
-          if (
-            paymentMethodData.value.paymentMethodName === paymentType.transfer &&
-            !allowTransfer
-          ) {
-            handleChangeView(actionPage.UPDATE);
-          } else if (paymentMethodData.value.paymentMethodName !== paymentType.creditCard) {
-            handleChangePaymentMethod(paymentMethodToShow.paymentMethodName);
-          } else {
+          if (!paymentMethodTouchedByUserRef.current) {
             if (
+              paymentMethodData.value.paymentMethodName === paymentType.transfer &&
+              !allowTransfer
+            ) {
+              handleChangeView(actionPage.UPDATE);
+            } else if (paymentMethodData.value.paymentMethodName !== paymentType.creditCard) {
+              handleChangePaymentMethod(paymentMethodToShow.paymentMethodName);
+            } else if (
               paymentMethodData.value.paymentMethodName === paymentType.creditCard &&
               paymentMethodData.value.ccNumber === '' &&
               !paymentMethodData.value.lastFourDigitsCCNumber
@@ -371,7 +371,9 @@ export const PaymentMethod = InjectAppServices(
             }
           }
         } else {
-          handleChangeView(actionPage.UPDATE);
+          if (!paymentMethodTouchedByUserRef.current) {
+            handleChangeView(actionPage.UPDATE);
+          }
         }
 
         let discounts = [];
@@ -393,7 +395,6 @@ export const PaymentMethod = InjectAppServices(
           selectedPlanDiscount,
           discounts,
           plan: sessionPlan.plan,
-          changed: true,
         });
 
         setState({
@@ -417,7 +418,6 @@ export const PaymentMethod = InjectAppServices(
       planType,
       handleChangeDiscount,
       handleChangePaymentMethod,
-      discountsInformation.changed,
       selectedMonthPlan,
     ]);
 
@@ -441,6 +441,7 @@ export const PaymentMethod = InjectAppServices(
 
     const handleChange = (e, setFieldValue) => {
       const { value } = e.target;
+      paymentMethodTouchedByUserRef.current = true;
       setFieldValue(fieldNames.paymentMethodName, value);
       getDiscountData(selectedPlan, value);
       setError(false);

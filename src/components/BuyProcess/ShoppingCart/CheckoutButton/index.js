@@ -135,7 +135,7 @@ CheckoutButton.propTypes = {
   canBuy: PropTypes.bool,
   planId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   discount: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     description: PropTypes.string,
   }),
   promotion: PropTypes.oneOfType([
@@ -151,5 +151,6 @@ CheckoutButton.propTypes = {
     PaymentMethodType.creditCard,
     PaymentMethodType.mercadoPago,
     PaymentMethodType.transfer,
+    PaymentMethodType.automaticDebit,
   ]),
 };

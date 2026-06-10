@@ -30,6 +30,19 @@ import { Promocode } from './Promocode';
 import { NextInvoices } from './NextInvoices';
 import { useQueryParams } from '../../../hooks/useQueryParams';
 
+const isArgentinaTransfer = (billingCountry, selectedPaymentMethod) =>
+  billingCountry?.toLowerCase() === 'ar' && selectedPaymentMethod === PaymentMethodType.transfer;
+
+const buildAmountDetailsRequestKey = ({
+  selectedMarketingPlanId,
+  paymentFrequencyId,
+  effectivePromocode,
+  paymentMethodName,
+}) =>
+  [selectedMarketingPlanId ?? '', paymentFrequencyId, effectivePromocode, paymentMethodName].join(
+    '|',
+  );
+
 const numberFormatOptions = {
   style: 'decimal',
   minimumFractionDigits: 2,
@@ -77,6 +90,7 @@ export const ShoppingCart = InjectAppServices(
     canAddOnPlanRemove,
     canAddOnPlanContinueBuy = true,
     callbackHandlePromocodeApplied,
+    billingCountry,
     dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerBillingUserApiClient },
   }) => {
     const intl = useIntl();
@@ -94,6 +108,10 @@ export const ShoppingCart = InjectAppServices(
     );
     const [defaultPromocodeDismissed, setDefaultPromocodeDismissed] = useState(false);
     const clearPromocodeInputRef = useRef(null);
+    const lastAmountDetailsRequestRef = useRef({
+      key: '',
+      id: 0,
+    });
     const { planType: planTypeUrlSegment } = useParams();
     const { pathname, search } = useLocation();
     const paymentMethodName = usePaymentMethodData({
@@ -124,34 +142,61 @@ export const ShoppingCart = InjectAppServices(
       discountConfig?.selectedPaymentFrequency?.id ??
       discountConfig?.paymentFrequenciesList?.at(-1)?.id ??
       0;
+    const currencyRate = Number(amountDetailsData?.value?.currencyRate) || 1;
+    const currentMonthTotal = Number(amountDetailsData?.value?.currentMonthTotal) || 0;
+    const nextMonthTotalAmount = Number(amountDetailsData?.value?.nextMonthTotal) || 0;
+    const taxes = Number(amountDetailsData?.value?.taxes) || 0;
     const effectivePromocode = promocodeApplied?.canApply
       ? promocodeApplied.promocode
       : !defaultPromocodeDismissed
         ? promocodeFromUrl
         : '';
+    const resolvedPaymentMethod = paymentMethodName ?? PaymentMethodType.creditCard;
 
     useEffect(() => {
+      const currentRequestKey = buildAmountDetailsRequestKey({
+        selectedMarketingPlanId: selectedMarketingPlan?.id,
+        paymentFrequencyId,
+        effectivePromocode,
+        paymentMethodName: resolvedPaymentMethod,
+      });
+
+      if (!selectedMarketingPlan?.id || !paymentMethodName) {
+        return;
+      }
+
+      if (lastAmountDetailsRequestRef.current.key === currentRequestKey) {
+        return;
+      }
+
+      const requestId = lastAmountDetailsRequestRef.current.id + 1;
+      lastAmountDetailsRequestRef.current = {
+        key: currentRequestKey,
+        id: requestId,
+      };
+
       const fetchData = async () => {
         const _amountDetailsData = await dopplerAccountPlansApiClient.getPlanBillingDetailsData(
           selectedMarketingPlan?.id,
           'Marketing',
           paymentFrequencyId,
           effectivePromocode,
+          resolvedPaymentMethod,
         );
-        setAmountDetailsData(_amountDetailsData);
+
+        if (lastAmountDetailsRequestRef.current.id === requestId) {
+          setAmountDetailsData(_amountDetailsData);
+        }
       };
 
-      if (selectedMarketingPlan?.id && paymentMethodName) {
-        fetchData();
-      }
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      fetchData();
     }, [
       dopplerAccountPlansApiClient,
-      selectedMarketingPlan,
+      selectedMarketingPlan?.id,
       paymentFrequencyId,
       effectivePromocode,
       paymentMethodName,
+      resolvedPaymentMethod,
     ]);
 
     useEffect(() => {
@@ -291,6 +336,8 @@ export const ShoppingCart = InjectAppServices(
             selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
             promocodeApplied?.promocode === process.env.REACT_APP_PROMOCODE_ARGENTINA,
           hidePromocode,
+          selectedPaymentMethod,
+          billingCountry,
         }),
       );
 
@@ -329,12 +376,12 @@ export const ShoppingCart = InjectAppServices(
       );
 
     const total =
-      (addMarketingPlan ? (amountDetailsData?.value?.currentMonthTotal ?? 0) : 0) +
+      (addMarketingPlan ? currentMonthTotal : 0) +
       (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
       (amountDetailsAddOnPlanData?.value?.currentMonthTotal ?? 0);
 
     const nextMonthTotal =
-      (addMarketingPlan ? (amountDetailsData?.value?.nextMonthTotal ?? 0) : 0) +
+      (addMarketingPlan ? nextMonthTotalAmount : 0) +
       (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
       (amountDetailsAddOnPlanData?.value?.nextMonthTotal ?? 0);
 
@@ -423,9 +470,24 @@ export const ShoppingCart = InjectAppServices(
               <>
                 Total
                 <span>
-                  US${' '}
-                  <FormattedNumber value={(total < 0 ? 0 : total) || 0} {...numberFormatOptions} />
-                  {isTransfer ? '*' : ''}
+                  <>
+                    {isArgentinaTransfer(billingCountry, selectedPaymentMethod) ? (
+                      <>
+                        {'$ '}
+                        <FormattedNumber
+                          value={total * currencyRate + taxes * currencyRate}
+                          {...numberFormatOptions}
+                        />
+                        {'**'}
+                      </>
+                    ) : (
+                      <>
+                        {'US$ '}
+                        <FormattedNumber value={total} {...numberFormatOptions} />
+                        {'*'}
+                      </>
+                    )}
+                  </>
                 </span>
               </>
             )}
@@ -449,11 +511,15 @@ export const ShoppingCart = InjectAppServices(
             <NextInvoices
               pathname={pathname}
               search={search}
+              billingCountry={billingCountry}
+              selectedPaymentMethod={selectedPaymentMethod}
               nextMonthDate={
                 amountDetailsData?.value?.nextMonthDate ??
                 amountDetailsLandingPacksData?.value?.nextMonthDate
               }
               nextMonthTotal={nextMonthTotal}
+              currencyRate={currencyRate}
+              taxes={taxes}
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'
@@ -481,5 +547,5 @@ ShoppingCart.propTypes = {
   }),
   isEqualPlan: PropTypes.bool,
   canBuy: PropTypes.bool,
-  selectedPaymentMethod: PropTypes.object,
+  selectedPaymentMethod: PropTypes.string,
 };

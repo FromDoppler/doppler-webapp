@@ -277,7 +277,9 @@ other {}}}}}}}}}}
     },
     push_notification_plan_title: `Push Notifications Plan`,
     shopping_cart: {
+      amount_with_quote: `*Value in ARS according to the official dollar exchange rate as of {date}: <Bold>{quote}</Bold>.`,
       credits_renewal_description: `One-time payment.`,
+      final_price_including_taxes: `**Final price with taxes included.`,
       price_without_taxes: `*The price does not include taxes.`,
       promotional_code: `¿Tienes un código promocional?`,
       renewal_description: `Subscription with automatic renewal, you can cancel it whenever you want.`,
@@ -295,6 +297,7 @@ other {}}}}}}}}}}
       push_notification_plan_step: 'Push Notifications Plan',
     },
     subscriptions_title: `Subscriptions`,
+    taxes: 'Taxes (VAT {percentage}%)',
     upcoming_bills: {
       chat_plan_subtitle: `Conversation Plans`,
       ecoia_plan_subtitle: `Eco AI Plans`,

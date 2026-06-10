@@ -1,6 +1,10 @@
 import { FormattedNumber, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { numberFormatOptions } from '../../../../doppler-types';
+import { paymentType } from '../../../Plans/Checkout/PaymentMethod/PaymentMethod';
+
+const isArgentinaTransfer = (billingCountry, selectedPaymentMethod) =>
+  billingCountry?.toLowerCase() === 'ar' && selectedPaymentMethod === paymentType.transfer;
 
 export const NextInvoices = ({
   pathname,
@@ -8,6 +12,10 @@ export const NextInvoices = ({
   nextMonthTotal,
   nextMonthDate,
   subtitleBuyId = 'buy_process.upcoming_bills.marketing_plan_subtitle',
+  billingCountry,
+  currencyRate,
+  taxes,
+  selectedPaymentMethod,
 }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -17,6 +25,7 @@ export const NextInvoices = ({
     month: '2-digit',
     year: 'numeric',
   });
+  const normalizedTaxes = taxes ?? 0;
 
   return (
     <section className="dp-h-divider">
@@ -35,8 +44,27 @@ export const NextInvoices = ({
                     <li>
                       <p>{formatter.format(new Date(nextMonthDate))}</p>
                       <span>
-                        {' '}
-                        US$ <FormattedNumber value={nextMonthTotal} {...numberFormatOptions} />*
+                        <>
+                          {isArgentinaTransfer(billingCountry, selectedPaymentMethod) ? (
+                            <>
+                              {'$ '}
+                              <FormattedNumber
+                                value={
+                                  nextMonthTotal * (currencyRate ?? 1) +
+                                  normalizedTaxes * (currencyRate ?? 1)
+                                }
+                                {...numberFormatOptions}
+                              />
+                              {'**'}
+                            </>
+                          ) : (
+                            <>
+                              {'US$ '}
+                              <FormattedNumber value={nextMonthTotal} {...numberFormatOptions} />
+                              {'*'}
+                            </>
+                          )}
+                        </>
                       </span>
                     </li>
                   </ul>

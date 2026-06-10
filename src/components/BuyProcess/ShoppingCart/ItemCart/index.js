@@ -33,13 +33,30 @@ export const ItemCart = ({
           <ul className="dp-items-result">
             {billingList.map((billingItem, index) => (
               <li key={`billing-${index}`}>
-                <p className="dp-discount">{billingItem.label}</p>{' '}
-                <span className={billingItem.strike ? 'dp-strike' : ''}>{billingItem.amount}</span>
+                {billingItem.type !== 'tax' ? (
+                  <>
+                    <p className="dp-discount">{billingItem.label}</p>{' '}
+                    <span className={billingItem.strike ? 'dp-strike' : ''}>
+                      {billingItem.amount}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="dp-flex">
+                      <span className="dpicon iconapp-money-sack1 dp-taxes"></span>
+                      <p>{billingItem.label}</p>{' '}
+                    </div>
+                    <span className={billingItem.strike ? 'dp-strike' : ''}>
+                      {billingItem.amount}
+                    </span>
+                  </>
+                )}
               </li>
             ))}
           </ul>
         </>
       )}
+
       {subscriptionItems?.length > 0 && (
         <>
           <hr />

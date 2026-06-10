@@ -279,7 +279,9 @@ other {}}}}}}}}}}
     },
     push_notification_plan_title: `Plan Notificaciones Push`,
     shopping_cart: {
+      amount_with_quote: `*Valor en ARS según cotización del dólar oficial al día de la fecha {date}: <Bold>{quote}</Bold>.`,
       credits_renewal_description: `Pago único.`,
+      final_price_including_taxes: '**Precio final con impuestos incluidos.',
       price_without_taxes: `*El precio no incluye impuestos.`,
       promotional_code: `¿Tienes un código promocional?`,
       renewal_description: `Suscripción con renovación automática, puedes cancelarla cuando lo desees.`,
@@ -297,6 +299,7 @@ other {}}}}}}}}}}
       push_notification_plan_step: 'Plan Notificaciones Push',
     },
     subscriptions_title: `Suscripciones`,
+    taxes: 'Impuestos (IVA {percentage}%)',
     upcoming_bills: {
       chat_plan_subtitle: `Planes de conversaciones`,
       ecoia_plan_subtitle: `Planes de Eco IA`,

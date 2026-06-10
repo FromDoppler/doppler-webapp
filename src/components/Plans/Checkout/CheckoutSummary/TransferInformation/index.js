@@ -26,6 +26,8 @@ const TransferReceiptMailLink = (chunks) => (
   <a href={`mailto:${BILLING_SUPPORT_EMAIL}`}>{chunks}</a>
 );
 
+const TransferReceiptMailText = (chunks) => <>{chunks}</>;
+
 const COPY_FEEDBACK_DURATION = 1500;
 
 const copyTextToClipboard = async (text) => {
@@ -78,6 +80,7 @@ const LegacyTransferInformation = ({ upgradePending }) => {
                       }
                       values={{
                         Bold: (chunk) => <strong>{chunk}</strong>,
+                        Link: TransferReceiptMailText,
                       }}
                     />
                   </span>

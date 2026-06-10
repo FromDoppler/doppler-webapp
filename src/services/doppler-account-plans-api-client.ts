@@ -1,4 +1,4 @@
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { PaymentMethodType, ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -234,13 +234,14 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     planType: string,
     discountId: number,
     promocode: string,
+    paymentMethod: string,
   ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>> {
     try {
       const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/${planType}/${planId}/calculate-amount?discountId=${discountId}&promocode=${promocode}`,
+        url: `accounts/${email}/newplan/${planType}/${planId}/calculate-amount?discountId=${discountId}&promocode=${promocode}&paymentMethod=${paymentMethod ?? PaymentMethodType.creditCard}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

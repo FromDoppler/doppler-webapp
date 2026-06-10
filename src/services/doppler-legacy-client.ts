@@ -836,6 +836,7 @@ export function mapHeaderDataJson(json: any) {
       sms: json.user.sms?.description ? mapSmsEntry(json.user.sms) : {},
       hasCampaingSent: json.user.hasCampaingSent,
       locationCountry: json.user.locationCountry,
+      billingCountry: json.user.billingCountry,
       landings: json.user.landings,
       chat: {
         active:
