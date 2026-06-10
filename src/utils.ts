@@ -294,6 +294,7 @@ export function searchLinkByRel(links: Link[], rel: string): Link[] {
 export const thousandSeparatorNumber = (lang: string, value: number) =>
   new Intl.NumberFormat(lang === 'es' ? 'de' : lang, {
     minimumFractionDigits: value % 1 ? 2 : 0,
+    useGrouping: true,
   }).format(value);
 
 export const unitPriceDecimals = (value: number) => value.toFixed(5);

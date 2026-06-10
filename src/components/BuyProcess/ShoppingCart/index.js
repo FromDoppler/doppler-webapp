@@ -47,6 +47,7 @@ const numberFormatOptions = {
   style: 'decimal',
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
+  useGrouping: true,
 };
 
 const getEmptyPromocodeState = () => ({
@@ -390,7 +391,10 @@ export const ShoppingCart = InjectAppServices(
       pathname,
       isEqualPlan,
       sessionPlanType,
-      selectedMarketingPlan,
+      selectedMarketingPlan: {
+        ...selectedMarketingPlan,
+        total: (total + taxes) * currencyRate,
+      },
       canBuy,
       selectedDiscount: discountConfig?.selectedPaymentFrequency,
       promotion: promocodeApplied || { promocode: promocodeFromUrl, canApply: true },

@@ -3,6 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { getTransferBankingDetails } from './bankingDetails';
+import { thousandSeparatorNumber } from '../../../../../utils';
 
 const SUPPORTED_TRANSFER_COUNTRY = 'ar';
 const BILLING_SUPPORT_EMAIL = 'billing@fromdoppler.com';
@@ -11,16 +12,27 @@ const steps = [
   {
     iconClassName: 'iconapp-mobile-payment1',
     content: 'checkoutProcessSuccess.transfer_bank_transfer_message',
+    needUpgradePending: false,
   },
   {
     iconClassName: 'iconapp-receipt',
     content: 'checkoutProcessSuccess.transfer_send_the_receipt_message',
+    needUpgradePending: false,
   },
   {
     iconClassName: 'iconapp-check-search',
     content: 'checkoutProcessSuccess.transfer_confirmation_message',
+    needUpgradePending: true,
   },
 ];
+
+const getStepsForCustomTransferInformation = (upgradePending) => {
+  if (upgradePending) {
+    return steps;
+  } else {
+    return steps.filter(({ needUpgradePending }) => !needUpgradePending);
+  }
+};
 
 const TransferReceiptMailLink = (chunks) => (
   <a href={`mailto:${BILLING_SUPPORT_EMAIL}`}>{chunks}</a>
@@ -162,7 +174,7 @@ const TransferBankingDetailsBlock = ({ billingCountry }) => {
   );
 };
 
-const Picture16TransferInformation = ({ billingCountry }) => {
+const CustomTransferInformation = ({ upgradePending, billingCountry, lang, total }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -174,49 +186,74 @@ const Picture16TransferInformation = ({ billingCountry }) => {
           <div className="dp-checkout-content">
             <div className="dp-plan-detail" data-testid="dp-new-transfer-details">
               <ul className="dp-list-detail">
-                {steps.map(({ iconClassName, content }) => (
-                  <li key={content}>
-                    <h3 className={`dp-wrapp-icon dpicon ${iconClassName}`} aria-hidden="true" />
-                    <div>
-                      {content === 'checkoutProcessSuccess.transfer_bank_transfer_message' ? (
-                        <>
-                          <p>{_(content)}</p>
-                          <TransferBankingDetailsBlock billingCountry={billingCountry} />
-                        </>
-                      ) : (
-                        <FormattedMessage
-                          id={content}
-                          values={{
-                            Link: TransferReceiptMailLink,
-                          }}
-                        />
-                      )}
-                    </div>
-                  </li>
-                ))}
+                {getStepsForCustomTransferInformation(upgradePending).map(
+                  ({ iconClassName, content }) => (
+                    <li key={content}>
+                      <h3 className={`dp-wrapp-icon dpicon ${iconClassName}`} aria-hidden="true" />
+                      <div>
+                        {content === 'checkoutProcessSuccess.transfer_bank_transfer_message' ? (
+                          <>
+                            <p>
+                              <FormattedMessage
+                                id={content}
+                                values={{
+                                  Bold: (chunk) => <strong>{chunk}</strong>,
+                                  total: thousandSeparatorNumber(
+                                    new Intl.Locale(`${lang === 'es' ? 'es-ES' : 'en-US'}`),
+                                    total,
+                                  ),
+                                }}
+                              />
+                            </p>
+                            <TransferBankingDetailsBlock billingCountry={billingCountry} />
+                          </>
+                        ) : (
+                          <FormattedMessage
+                            id={content}
+                            values={{
+                              Link: TransferReceiptMailLink,
+                            }}
+                          />
+                        )}
+                      </div>
+                    </li>
+                  ),
+                )}
               </ul>
-              <p className="m-t-18">{_(`checkoutProcessSuccess.transfer_explore_message`)}</p>
+              {upgradePending && (
+                <p className="m-t-18">{_(`checkoutProcessSuccess.transfer_explore_message`)}</p>
+              )}
             </div>
           </div>
         </div>
       </div>
-      <hr className="dp-separator" />
-      <div className="m-t-24">
-        <Link to="/dashboard" className="dp-button button-medium primary-green">
-          {_('checkoutProcessSuccess.transfer_explore_button')}
-        </Link>
-      </div>
+      {upgradePending && (
+        <>
+          <hr className="dp-separator" />
+          <div className="m-t-24">
+            <Link to="/dashboard" className="dp-button button-medium primary-green">
+              {_('checkoutProcessSuccess.transfer_explore_button')}
+            </Link>
+          </div>
+        </>
+      )}
     </>
   );
 };
 
-export const TransferInformation = ({ billingCountry, upgradePending }) => {
-  const shouldShowPicture16Variant =
-    upgradePending && billingCountry === SUPPORTED_TRANSFER_COUNTRY;
+export const TransferInformation = ({ billingCountry, upgradePending, lang, total }) => {
+  const shouldShowCustomTransferInformation = billingCountry === SUPPORTED_TRANSFER_COUNTRY;
 
-  if (!shouldShowPicture16Variant) {
+  if (!shouldShowCustomTransferInformation) {
     return <LegacyTransferInformation upgradePending={upgradePending} />;
   }
 
-  return <Picture16TransferInformation billingCountry={billingCountry} />;
+  return (
+    <CustomTransferInformation
+      upgradePending={upgradePending}
+      billingCountry={billingCountry}
+      lang={lang}
+      total={total}
+    />
+  );
 };

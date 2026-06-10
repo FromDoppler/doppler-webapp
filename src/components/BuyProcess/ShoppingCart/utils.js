@@ -1297,6 +1297,7 @@ export const getBuyButton = ({
         buyType={buyType}
         hasChatActive={hasChatActive}
         selectedAddOnPlan={selectedAddOnPlan}
+        selectedMarketingPlan={selectedMarketingPlan}
       />
     );
   }

@@ -442,6 +442,7 @@ export const CheckoutSummary = InjectAppServices(
         hasError,
         chatUserPlan,
         addOnUserPlan,
+        currentUserPlan,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);
@@ -457,7 +458,7 @@ export const CheckoutSummary = InjectAppServices(
     const buyType = query.get('buyType') ?? '';
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
+    const total = sessionStorage.getItem('amount');
     const upgradePending = appSessionRef.current.userData.user.plan.upgradePending;
 
     useEffect(() => {
@@ -650,6 +651,8 @@ export const CheckoutSummary = InjectAppServices(
                 <TransferInformation
                   billingCountry={billingCountry}
                   upgradePending={upgradePending}
+                  lang={appSessionRef.current.userData.user.lang}
+                  total={total}
                 />
               ) : paymentMethod === paymentType.mercadoPago ? (
                 <MercadoPagoInformation upgradePending={upgradePending} />
