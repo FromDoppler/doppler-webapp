@@ -22,8 +22,7 @@ export const Conversations = InjectAppServices(
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-    const shouldAutoActivate =
-      !conversationsActive && !hasClientManager && !(isFreeAccount && trialExpired);
+    const shouldAutoActivate = !conversationsActive && !hasClientManager;
 
     const [redirectToConversations, setRedirectToConversations] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -37,7 +36,10 @@ export const Conversations = InjectAppServices(
       if (await dopplerLegacyClient.activateConversationPlan()) {
         setRedirectToConversations(true);
       } else {
-        setErrorMessage('validation_messages.error_unexpected_register_MD');
+        console.error('activateConversationPlan failed: the backend returned an unsuccessful response');
+        if (!(isFreeAccount && trialExpired)) {
+          setErrorMessage('validation_messages.error_unexpected_register_MD');
+        }
         setActivating(false);
       }
     };
