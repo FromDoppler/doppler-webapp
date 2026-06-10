@@ -103,7 +103,7 @@ describe('Conversations component', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render the promotional page without activating for a free account with expired trial (case 4)', () => {
+  it('should activate the plan automatically and redirect for a free account with expired trial (case 4)', async () => {
     // Arrange
     const activateConversationPlan = jest.fn().mockResolvedValue(true);
     const dependencies = {
@@ -125,9 +125,47 @@ describe('Conversations component', () => {
     renderConversations(dependencies);
 
     // Assert
-    expect(activateConversationPlan).not.toHaveBeenCalled();
-    expect(screen.getByText('conversations.title')).toBeInTheDocument();
+    expect(activateConversationPlan).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(screen.getByTestId('redirect-to-external-url')).toBeInTheDocument());
+  });
+
+  it('should fall back to the promotional page with the "choose a plan" link when activation fails for an expired free account (case 4)', async () => {
+    // Arrange
+    const activateConversationPlan = jest.fn().mockResolvedValue(false);
+    const dependencies = {
+      dopplerLegacyClient: { activateConversationPlan },
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              plan: { isFreeAccount: true, trialExpired: true },
+              chat: { active: false },
+              hasClientManager: false,
+            },
+          },
+        },
+      },
+    };
+
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    // Act
+    renderConversations(dependencies);
+
+    // Assert
+    expect(activateConversationPlan).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(screen.getByText('conversations.title')).toBeInTheDocument());
     expect(screen.getByText('conversations.paragraph_free_expired_MD')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /conversations.actiontext_expired/i })).toHaveAttribute(
+      'href',
+      'conversations.actionUrl',
+    );
+    expect(
+      screen.queryByText('validation_messages.error_unexpected_register_MD'),
+    ).not.toBeInTheDocument();
+    expect(consoleErrorSpy).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('should redirect to conversations external login if the user already has beplic account (case 1)', async () => {
