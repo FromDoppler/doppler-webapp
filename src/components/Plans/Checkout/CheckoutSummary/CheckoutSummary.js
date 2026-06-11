@@ -442,7 +442,6 @@ export const CheckoutSummary = InjectAppServices(
         hasError,
         chatUserPlan,
         addOnUserPlan,
-        currentUserPlan,
       },
       dispatch,
     ] = useReducer(checkoutSummaryReducer, INITIAL_STATE_CHECKOUT_SUMMARY);

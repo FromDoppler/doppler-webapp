@@ -177,6 +177,7 @@ const TransferBankingDetailsBlock = ({ billingCountry }) => {
 const CustomTransferInformation = ({ upgradePending, billingCountry, lang, total }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
+  const normalizedTotal = Number(total) || 0;
 
   return (
     <>
@@ -200,7 +201,7 @@ const CustomTransferInformation = ({ upgradePending, billingCountry, lang, total
                                   Bold: (chunk) => <strong>{chunk}</strong>,
                                   total: thousandSeparatorNumber(
                                     new Intl.Locale(`${lang === 'es' ? 'es-ES' : 'en-US'}`),
-                                    total,
+                                    normalizedTotal,
                                   ),
                                 }}
                               />
@@ -220,23 +221,17 @@ const CustomTransferInformation = ({ upgradePending, billingCountry, lang, total
                   ),
                 )}
               </ul>
-              {upgradePending && (
-                <p className="m-t-18">{_(`checkoutProcessSuccess.transfer_explore_message`)}</p>
-              )}
+              <p className="m-t-18">{_(`checkoutProcessSuccess.transfer_explore_message`)}</p>
             </div>
           </div>
         </div>
       </div>
-      {upgradePending && (
-        <>
-          <hr className="dp-separator" />
-          <div className="m-t-24">
-            <Link to="/dashboard" className="dp-button button-medium primary-green">
-              {_('checkoutProcessSuccess.transfer_explore_button')}
-            </Link>
-          </div>
-        </>
-      )}
+      <hr className="dp-separator" />
+      <div className="m-t-24">
+        <Link to="/dashboard" className="dp-button button-medium primary-green">
+          {_('checkoutProcessSuccess.transfer_explore_button')}
+        </Link>
+      </div>
     </>
   );
 };

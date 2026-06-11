@@ -1271,7 +1271,7 @@ export const getBuyButton = ({
     } else {
       return (
         <AddOnCheckoutLink
-          planId={selectedMarketingPlan?.id}
+          planId={selectedMarketingPlan?.id ?? ''}
           showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
           planType={sessionPlanType === PLAN_TYPE.free ? PLAN_TYPE.byContact : sessionPlanType}
           addOnPlanId={selectedAddOnPlan?.addOnPlan?.planId ?? '0'}
@@ -1288,7 +1288,7 @@ export const getBuyButton = ({
       <CheckoutButton
         keyTextButton={'buy_process.buy_now_title'}
         canBuy={canBuy}
-        planId={selectedMarketingPlan?.id}
+        planId={selectedMarketingPlan?.id ?? ''}
         discount={selectedDiscount}
         total={total}
         promotion={promotion}
@@ -1306,7 +1306,7 @@ export const getBuyButton = ({
     <CheckoutLink
       showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
       planType={selectedMarketingPlan?.type}
-      planId={selectedMarketingPlan?.id}
+      planId={selectedMarketingPlan?.id ?? ''}
       discountId={selectedDiscount?.id}
       promocode={promotion?.canApply ? (promotion?.promocode ?? '') : ''}
       monthPlan={selectedDiscount?.numberMonths}

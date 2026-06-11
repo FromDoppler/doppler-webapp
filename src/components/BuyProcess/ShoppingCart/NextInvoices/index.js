@@ -14,7 +14,7 @@ export const NextInvoices = ({
   subtitleBuyId = 'buy_process.upcoming_bills.marketing_plan_subtitle',
   billingCountry,
   currencyRate,
-  taxes,
+  nextMonthTaxes,
   selectedPaymentMethod,
 }) => {
   const intl = useIntl();
@@ -25,7 +25,8 @@ export const NextInvoices = ({
     month: '2-digit',
     year: 'numeric',
   });
-  const normalizedTaxes = taxes ?? 0;
+
+  const normalizedTaxes = nextMonthTaxes ?? 0;
 
   return (
     <section className="dp-h-divider">

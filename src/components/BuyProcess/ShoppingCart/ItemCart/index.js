@@ -57,7 +57,7 @@ export const ItemCart = ({
         </>
       )}
 
-      {subscriptionItems?.length > 0 && (
+      {/* {subscriptionItems?.length > 0 && (
         <>
           <hr />
           <div className="dp-subscription-items">
@@ -70,7 +70,7 @@ export const ItemCart = ({
             </ul>
           </div>
         </>
-      )}
+      )} */}
     </div>
   );
 };

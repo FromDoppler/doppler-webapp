@@ -230,8 +230,15 @@ describe('CheckoutSummury component', () => {
 
     expect(screen.getByTestId('dp-new-transfer-details')).toBeInTheDocument();
     expect(
-      screen.getByText(/Completa el pago realizando un depósito o transferencia/i),
-    ).toBeInTheDocument();
+      screen.getAllByText((_, node) => {
+        const text = node?.textContent ?? '';
+        return (
+          text.includes('Completa el pago de') &&
+          text.includes('(ARS)') &&
+          text.includes('realizando un depósito o transferencia')
+        );
+      }),
+    ).not.toHaveLength(0);
     expect(screen.getByText('BBVA BANCO FRANCES S.A.')).toBeInTheDocument();
     expect(screen.getByText(/Una vez que realices el pago/i)).toBeInTheDocument();
     expect(

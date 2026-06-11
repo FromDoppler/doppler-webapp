@@ -73,7 +73,7 @@ export const CheckoutButton = InjectAppServices(
 
       if (response.success) {
         setStatus(SAVED);
-        sessionStorage.setItem('amount', selectedMarketingPlan.total);
+        sessionStorage.setItem('amount', selectedMarketingPlan?.total ?? total);
         createTimeout(() => {
           window.location.href = `/checkout-summary?planId=${planId}&buyType=${buyType}&paymentMethod=${paymentMethod}&${ACCOUNT_TYPE}=${accountType}${
             discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
@@ -89,7 +89,7 @@ export const CheckoutButton = InjectAppServices(
       }
     };
 
-    const disabledBuy = !canBuy || [SAVING, SAVED].includes(status);
+    const disabledBuy = !canBuy || !planId || [SAVING, SAVED].includes(status);
     const showMessage = [SAVED, HAS_ERROR].includes(status);
 
     return (

@@ -523,7 +523,7 @@ export const ShoppingCart = InjectAppServices(
               }
               nextMonthTotal={nextMonthTotal}
               currencyRate={currencyRate}
-              taxes={taxes}
+              nextMonthTaxes={amountDetailsData?.value?.nextMonthTaxes}
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'
@@ -539,6 +539,32 @@ export const ShoppingCart = InjectAppServices(
               }
             />
           )}
+        {items.map((item, index) => (
+          <footer key={`footer-${index}`}>
+            <ul>
+              {item.subscriptionItems.map((subscriptionItem, index) => (
+                <li key={`subscription-item-${index}`}>
+                  <p>{subscriptionItem}</p>
+                </li>
+              ))}
+            </ul>
+          </footer>
+        ))}
+
+        {/* {subscriptionItems?.length > 0 && (
+                <>
+                  <hr />
+                  <div className="dp-subscription-items">
+                    <ul>
+                      {subscriptionItems.map((subscriptionItem, index) => (
+                        <li key={`subscription-item-${index}`}>
+                          <p>{subscriptionItem}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )} */}
       </div>
     );
   },
