@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Promotional } from '../shared/Promotional/Promotional';
 import { useIntl } from 'react-intl';
 import screenShot from './Conversaciones.png';
@@ -9,6 +9,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import ReactPlayer from 'react-player/youtube';
 import Modal from '../Modal/Modal';
 import { Navigate } from 'react-router-dom';
+import { Loading } from '../Loading/Loading';
 
 export const Conversations = InjectAppServices(
   ({ dependencies: { dopplerLegacyClient, appSessionRef } }) => {
@@ -16,9 +17,46 @@ export const Conversations = InjectAppServices(
       chat: { active: conversationsActive },
       hasClientManager,
     } = appSessionRef.current.userData.user;
+    const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan ?? {};
 
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    const shouldAutoActivate = !conversationsActive && !hasClientManager;
+
+    const [redirectToConversations, setRedirectToConversations] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [activating, setActivating] = useState(shouldAutoActivate);
+    const activationStartedRef = useRef(false);
+
+    const handleButtonClick = async () => {
+      setActivating(true);
+      setErrorMessage(null);
+      if (await dopplerLegacyClient.activateConversationPlan()) {
+        setRedirectToConversations(true);
+      } else {
+        console.error(
+          'activateConversationPlan failed: the backend returned an unsuccessful response',
+        );
+        if (!(isFreeAccount && trialExpired)) {
+          setErrorMessage('validation_messages.error_unexpected_register_MD');
+        }
+        setActivating(false);
+      }
+    };
+
+    useEffect(() => {
+      if (shouldAutoActivate && !activationStartedRef.current) {
+        activationStartedRef.current = true;
+        handleButtonClick();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleImgClick = async () => {
+      setModalIsOpen(true);
+    };
 
     if (conversationsActive) {
       return <RedirectToExternalUrl to={_('common.conversations_index_url')} />;
@@ -28,25 +66,12 @@ export const Conversations = InjectAppServices(
       return <Navigate to="/dashboard" />;
     }
 
-    const [redirectToConversations, setRedirectToConversations] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const { isFreeAccount, trialExpired } = appSessionRef.current.userData.user.plan;
-
-    const handleButtonClick = async () => {
-      if (await dopplerLegacyClient.activateConversationPlan()) {
-        setRedirectToConversations(true);
-      } else {
-        setErrorMessage('validation_messages.error_unexpected_register_MD');
-      }
-    };
-
-    const handleImgClick = async () => {
-      setModalIsOpen(true);
-    };
-
     if (redirectToConversations) {
       return <RedirectToExternalUrl to={_('common.conversations_index_url')} />;
+    }
+
+    if (activating) {
+      return <Loading page />;
     }
 
     return (
