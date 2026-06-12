@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { PLAN_TYPE } from '../../../doppler-types';
 import {
   fakeAccountPlanDiscounts,
@@ -9,6 +9,12 @@ import { OnSitePlansSelection } from '.';
 import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import '@testing-library/jest-dom/extend-expect';
+
+const settleAsyncState = async () => {
+  await act(async () => {
+    await Promise.resolve();
+  });
+};
 
 describe('OnSitePlansSelection component', () => {
   it('should render OnSitePlansSelection component', async () => {
@@ -57,5 +63,6 @@ describe('OnSitePlansSelection component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
+    await settleAsyncState();
   });
 });

@@ -675,7 +675,7 @@ other {}}}}}}}}}}
     transfer_bank_holder_label: 'Titular',
     transfer_bank_name_label: 'Banco',
     transfer_bank_tax_id_label: 'CUIT',
-    transfer_bank_transfer_message: 'Completa el pago de <Bold>{total}(ARS)</Bold> realizando un depósito o transferencia a la siguiente cuenta bancaria:',
+    transfer_bank_transfer_message: 'Completa el pago de <Bold>${total}(ARS)</Bold> realizando un depósito o transferencia a la siguiente cuenta bancaria:',
     transfer_check_email_with_invoice_message: 'Revisa tu correo, y dentro de las proximas 24 horas hábiles recibirás la factura con todos los datos para realizar el pago.',
     transfer_confirmation_message: 'Cuando confirmemos la recepción del pago te avisaremos por mail para que puedas comenzar a disfrutar de tu nuevo Plan y todos los beneficios de Doppler.',
     transfer_explore_button: 'Explorar Doppler',

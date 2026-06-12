@@ -246,7 +246,7 @@ describe('HttpDopplerAccountPlansApiClient', () => {
     const dopplerAccountPlansApiClient = createHttpDopplerAccountPlansApiClient({ request });
 
     // Act
-    const result = await dopplerAccountPlansApiClient.getAddOnPlanBillingDetailsData(1, 1, 1);
+    const result = await dopplerAccountPlansApiClient.getAddOnPlanBillingDetailsData(1, 1, 1, 'CC');
 
     // Assert
     expect(request).toBeCalledTimes(1);

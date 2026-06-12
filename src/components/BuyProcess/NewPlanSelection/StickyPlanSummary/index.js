@@ -5,6 +5,7 @@ import { PLAN_TYPE } from '../../../../doppler-types';
 const numberFormatOptions = {
   maximumFractionDigits: 2,
   minimumFractionDigits: 0,
+  useGrouping: true,
 };
 
 const getFormattedPriceOptions = (value) => ({

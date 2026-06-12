@@ -18,8 +18,10 @@ import { useAddOnPlans } from '../../../hooks/useFetchAddOnPlans';
 import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const ConversationPlanSelection = InjectAppServices(
-  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
-    const selectedPaymentMethod = PaymentMethodType.creditCard;
+  ({
+    dependencies: { dopplerAccountPlansApiClient, dopplerBillingUserApiClient, appSessionRef },
+  }) => {
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
@@ -30,6 +32,7 @@ export const ConversationPlanSelection = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
+    const { billingCountry } = sessionPlan;
 
     if (isFreeAccount) {
       return <RedirectToExternalUrl to={sessionPlan.plan.buttonUrl} />;
@@ -68,6 +71,19 @@ export const ConversationPlanSelection = InjectAppServices(
     const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+        let paymentMethod = paymentMethodData.success
+          ? paymentMethodData.value
+          : { paymentMethodName: PaymentMethodType.creditCard };
+
+        setSelectedPaymentMethod(paymentMethod.paymentMethodName);
+      };
+      fetchData();
+    }, [dopplerBillingUserApiClient]);
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
@@ -238,6 +254,8 @@ export const ConversationPlanSelection = InjectAppServices(
                 disabledPromocode={true}
                 addMarketingPlan={false}
                 canAddOnPlanRemove={true}
+                selectedPaymentMethod={selectedPaymentMethod}
+                billingCountry={billingCountry}
               />
             </div>
           </div>

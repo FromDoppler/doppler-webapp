@@ -143,10 +143,7 @@ export const ShoppingCart = InjectAppServices(
       discountConfig?.selectedPaymentFrequency?.id ??
       discountConfig?.paymentFrequenciesList?.at(-1)?.id ??
       0;
-    const currencyRate = Number(amountDetailsData?.value?.currencyRate) || 1;
-    const currentMonthTotal = Number(amountDetailsData?.value?.currentMonthTotal) || 0;
-    const nextMonthTotalAmount = Number(amountDetailsData?.value?.nextMonthTotal) || 0;
-    const taxes = Number(amountDetailsData?.value?.taxes) || 0;
+
     const effectivePromocode = promocodeApplied?.canApply
       ? promocodeApplied.promocode
       : !defaultPromocodeDismissed
@@ -206,9 +203,8 @@ export const ShoppingCart = InjectAppServices(
           await dopplerAccountPlansApiClient.getPlanBillingDetailsLandingPacksData(
             landingPacks.map((item) => item.planId).toString(),
             landingPacks.map((item) => item.packagesQty).toString(),
+            selectedPaymentMethod,
           );
-
-        console.log('_amountDetailsLandingPacksData', _amountDetailsLandingPacksData);
 
         setAmountDetailsLandingPacksData(_amountDetailsLandingPacksData);
         if (!initialAmountDetailsLandingPacksDataRef.current) {
@@ -256,6 +252,7 @@ export const ShoppingCart = InjectAppServices(
               : discountConfig.paymentFrequenciesList.at(-1)
                 ? discountConfig.paymentFrequenciesList.at(-1).id
                 : 0,
+            selectedPaymentMethod,
           );
 
         setAmountDetailsAddOnPlanData(_amountDetailsAddOnPlanData);
@@ -272,6 +269,7 @@ export const ShoppingCart = InjectAppServices(
       buyType,
       discountConfig?.selectedPaymentFrequency,
       discountConfig.paymentFrequenciesList,
+      selectedPaymentMethod,
     ]);
 
     const handlePromocodeApplied = useCallback(
@@ -350,6 +348,8 @@ export const ShoppingCart = InjectAppServices(
           amountDetailsData: amountDetailsLandingPacksData,
           sessionPlan: appSessionRef.current.userData.user.plan,
           intl,
+          selectedPaymentMethod,
+          billingCountry,
         }),
       );
 
@@ -373,18 +373,71 @@ export const ShoppingCart = InjectAppServices(
             handleRemoveAddOnPlan();
           },
           canAddOnPlanRemove: canAddOnPlanRemove,
+          selectedPaymentMethod,
+          billingCountry,
         }),
       );
 
-    const total =
-      (addMarketingPlan ? currentMonthTotal : 0) +
-      (amountDetailsLandingPacksData?.value?.currentMonthTotal ?? 0) +
-      (amountDetailsAddOnPlanData?.value?.currentMonthTotal ?? 0);
+    const currencyRate =
+      buyType === BUY_MARKETING_PLAN
+        ? Number(amountDetailsData?.value?.currencyRate) || 0
+        : buyType === BUY_LANDING_PACK
+          ? Number(amountDetailsLandingPacksData?.value?.currencyRate) || 0
+          : buyType === BUY_ONSITE_PLAN ||
+              buyType === BUY_PUSH_NOTIFICATION_PLAN ||
+              buyType === BUY_CHAT_PLAN ||
+              buyType === BUY_ECO_IA_PLAN
+            ? Number(amountDetailsAddOnPlanData?.value?.currencyRate) || 0
+            : 0;
+
+    const currentMonthTotal =
+      buyType === BUY_MARKETING_PLAN
+        ? Number(amountDetailsData?.value?.currentMonthTotal) || 0
+        : buyType === BUY_LANDING_PACK
+          ? Number(amountDetailsLandingPacksData?.value?.currentMonthTotal) || 0
+          : buyType === BUY_ONSITE_PLAN ||
+              buyType === BUY_PUSH_NOTIFICATION_PLAN ||
+              buyType === BUY_CHAT_PLAN ||
+              buyType === BUY_ECO_IA_PLAN
+            ? Number(amountDetailsAddOnPlanData?.value?.currentMonthTotal) || 0
+            : 0;
+
+    const taxes =
+      buyType === BUY_MARKETING_PLAN
+        ? Number(amountDetailsData?.value?.taxes) || 0
+        : buyType === BUY_LANDING_PACK
+          ? Number(amountDetailsLandingPacksData?.value?.taxes) || 0
+          : buyType === BUY_ONSITE_PLAN ||
+              buyType === BUY_PUSH_NOTIFICATION_PLAN ||
+              buyType === BUY_CHAT_PLAN ||
+              buyType === BUY_ECO_IA_PLAN
+            ? Number(amountDetailsAddOnPlanData?.value?.taxes) || 0
+            : 0;
 
     const nextMonthTotal =
-      (addMarketingPlan ? nextMonthTotalAmount : 0) +
-      (amountDetailsLandingPacksData?.value?.nextMonthTotal ?? 0) +
-      (amountDetailsAddOnPlanData?.value?.nextMonthTotal ?? 0);
+      buyType === BUY_MARKETING_PLAN
+        ? Number(amountDetailsData?.value?.nextMonthTotal) || 0
+        : buyType === BUY_LANDING_PACK
+          ? Number(amountDetailsLandingPacksData?.value?.nextMonthTotal) || 0
+          : buyType === BUY_ONSITE_PLAN ||
+              buyType === BUY_PUSH_NOTIFICATION_PLAN ||
+              buyType === BUY_CHAT_PLAN ||
+              buyType === BUY_ECO_IA_PLAN
+            ? Number(amountDetailsAddOnPlanData?.value?.nextMonthTotal) || 0
+            : 0;
+
+    const total = currentMonthTotal;
+    const nextMonthTaxes =
+      buyType === BUY_MARKETING_PLAN
+        ? Number(amountDetailsData?.value?.nextMonthTaxes) || 0
+        : buyType === BUY_LANDING_PACK
+          ? Number(amountDetailsLandingPacksData?.value?.nextMonthTaxes) || 0
+          : buyType === BUY_ONSITE_PLAN ||
+              buyType === BUY_PUSH_NOTIFICATION_PLAN ||
+              buyType === BUY_CHAT_PLAN ||
+              buyType === BUY_ECO_IA_PLAN
+            ? Number(amountDetailsAddOnPlanData?.value?.nextMonthTaxes) || 0
+            : 0;
 
     const checkoutLandingPackButtonEnabled = landingPagesRemoved && landingPacks?.length === 0;
     const buyButton = getBuyButton({
@@ -408,7 +461,11 @@ export const ShoppingCart = InjectAppServices(
       hasChatActive,
       selectedAddOnPlan: {
         addOnPlan: selectedAddOnPlan,
-        total: amountDetailsAddOnPlanData?.value?.currentMonthTotal ?? 0,
+        total: (total + taxes) * currencyRate,
+      },
+      selectedLandingsPlan: {
+        landingPacks: landingPacks,
+        total: (total + taxes) * currencyRate,
       },
       canAddOnPlanContinueBuy,
     });
@@ -479,7 +536,7 @@ export const ShoppingCart = InjectAppServices(
                       <>
                         {'$ '}
                         <FormattedNumber
-                          value={total * currencyRate + taxes * currencyRate}
+                          value={(total + taxes) * currencyRate}
                           {...numberFormatOptions}
                         />
                         {'**'}
@@ -523,7 +580,7 @@ export const ShoppingCart = InjectAppServices(
               }
               nextMonthTotal={nextMonthTotal}
               currencyRate={currencyRate}
-              nextMonthTaxes={amountDetailsData?.value?.nextMonthTaxes}
+              nextMonthTaxes={nextMonthTaxes}
               subtitleBuyId={
                 buyType === BUY_LANDING_PACK
                   ? 'buy_process.upcoming_bills.landing_pack_subtitle'

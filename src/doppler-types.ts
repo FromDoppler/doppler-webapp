@@ -228,6 +228,7 @@ export const numberFormatOptions = {
   style: 'decimal',
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
+  useGrouping: true,
 };
 
 export const paymentFrequenciesListFake = [
