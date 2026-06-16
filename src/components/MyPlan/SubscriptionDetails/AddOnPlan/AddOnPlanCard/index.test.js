@@ -3,11 +3,11 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import IntlProvider from '../../../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
-import { AppServicesProvider } from '../../../../../services/pure-di';
 import { AddOnType } from '../../../../../doppler-types';
-import { AddOnCancellationFlow } from '.';
+import { AppServicesProvider } from '../../../../../services/pure-di';
+import { AddOnPlanCard } from '.';
 
-describe('AddOnCancellationFlow component', () => {
+describe('AddOnPlanCard component', () => {
   it('should open the cancellation modal and show success after confirming', async () => {
     const cancellationAddOnPlan = jest.fn(async () => ({ success: true }));
     const user = userEvent.setup({ delay: null });
@@ -22,7 +22,14 @@ describe('AddOnCancellationFlow component', () => {
       >
         <BrowserRouter>
           <IntlProvider>
-            <AddOnCancellationFlow addOnType={AddOnType.OnSite} canCancel />
+            <AddOnPlanCard
+              addOnType={AddOnType.OnSite}
+              canCancel
+              actions={<></>}
+              description={<></>}
+              iconClassName="dpicon iconapp-online-clothing"
+              title="Test title"
+            />
           </IntlProvider>
         </BrowserRouter>
       </AppServicesProvider>,
@@ -36,7 +43,9 @@ describe('AddOnCancellationFlow component', () => {
 
     await act(async () => {
       await user.click(
-        screen.getByRole('button', { name: 'my_plan.cancellation.addon_modal.accept_button' }),
+        screen.getByRole('button', {
+          name: 'my_plan.cancellation.addon_modal.accept_button',
+        }),
       );
     });
 

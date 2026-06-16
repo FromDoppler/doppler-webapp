@@ -6,7 +6,6 @@ import { AddOnType } from '../../../../../doppler-types';
 import { Loading } from '../../../../Loading/Loading';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
-import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
 import { AddOnPlanCard } from '../AddOnPlanCard';
 
 export const PushNotificationPlan = InjectAppServices(
@@ -78,10 +77,6 @@ export const PushNotificationPlan = InjectAppServices(
                   }`,
                 )}
               </a>
-              <AddOnCancellationFlow
-                addOnType={AddOnType.PushNotifications}
-                canCancel={plan.active && plan.fee > 0}
-              />
             </>
           }
           showPromotionInformation={showPromotionInformation}
@@ -90,6 +85,8 @@ export const PushNotificationPlan = InjectAppServices(
             appSessionRef.current.userData.user,
             addOnPromotions,
           )}
+          addOnType={AddOnType.PushNotifications}
+          canCancel={plan.active && plan.fee > 0}
         >
           <ul className="dp-item--plan">
             <li>

@@ -2,7 +2,6 @@ import { useIntl } from 'react-intl';
 import { InjectAppServices } from '../../../../../services/pure-di';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
-import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
 import { AddOnType } from '../../../../../doppler-types';
 import { AddOnPlanCard } from '../AddOnPlanCard';
 
@@ -51,10 +50,6 @@ export const EcoAIPlan = InjectAppServices(
                   }`,
                 )}
               </button>
-              <AddOnCancellationFlow
-                addOnType={AddOnType.EcoAI}
-                canCancel={ecoAiPlan.active && ecoAiPlan.fee > 0}
-              />
             </>
           }
           showPromotionInformation={showPromotionInformation}
@@ -64,6 +59,8 @@ export const EcoAIPlan = InjectAppServices(
             addOnPromotions,
           )}
           promotionClassName="m-t-12 m-b-12"
+          addOnType={AddOnType.EcoAI}
+          canCancel={ecoAiPlan.active && ecoAiPlan.fee > 0}
         />
       </>
     );

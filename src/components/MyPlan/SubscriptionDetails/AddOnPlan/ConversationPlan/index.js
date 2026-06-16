@@ -6,7 +6,6 @@ import { formattedNumber } from '..';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnType, ConversationsEnvSource } from '../../../../../doppler-types';
-import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
 import { AddOnPlanCard } from '../AddOnPlanCard';
 
 export const ConversationPlan = InjectAppServices(
@@ -129,10 +128,6 @@ export const ConversationPlan = InjectAppServices(
                   }`,
                 )}
               </a>
-              <AddOnCancellationFlow
-                addOnType={AddOnType.Conversations}
-                canCancel={plan.active && plan.fee > 0}
-              />
             </>
           }
           showPromotionInformation={showPromotionInformation}
@@ -141,6 +136,8 @@ export const ConversationPlan = InjectAppServices(
             appSessionRef.current.userData.user,
             addOnPromotions,
           )}
+          addOnType={AddOnType.Conversations}
+          canCancel={plan.active && plan.fee > 0}
         >
           <ul className="dp-item--plan">
             <li>

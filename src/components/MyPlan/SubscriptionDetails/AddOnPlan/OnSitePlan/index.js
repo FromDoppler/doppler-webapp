@@ -6,7 +6,6 @@ import { formattedNumber } from '..';
 import { AddOnType } from '../../../../../doppler-types';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
-import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
 import { AddOnPlanCard } from '../AddOnPlanCard';
 
 export const OnSitePlan = InjectAppServices(
@@ -94,10 +93,6 @@ export const OnSitePlan = InjectAppServices(
                   }`,
                 )}
               </a>
-              <AddOnCancellationFlow
-                addOnType={AddOnType.OnSite}
-                canCancel={plan.active && plan.fee > 0}
-              />
             </>
           }
           showPromotionInformation={showPromotionInformation}
@@ -106,6 +101,8 @@ export const OnSitePlan = InjectAppServices(
             appSessionRef.current.userData.user,
             addOnPromotions,
           )}
+          addOnType={AddOnType.OnSite}
+          canCancel={plan.active && plan.fee > 0}
         >
           <ul className="dp-item--plan">
             <li>

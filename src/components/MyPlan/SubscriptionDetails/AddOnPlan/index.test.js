@@ -12,11 +12,39 @@ describe('AddOn component', () => {
     var addOnType = AddOnType.Conversations;
     var addOnPromotions = [];
     var conversationPlan = { active: false };
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              addOnPromotions: [],
+              plan: {
+                isFreeAccount: false,
+                planType: 'subscribers',
+                maxSubscribers: 500,
+                itemDescription: 'subscribers',
+                remainingCredits: 500,
+                planSubscription: 1,
+              },
+              conversationsEnvSource: 'DOPPLER',
+              chat: {
+                active: false,
+                plan: {
+                  conversationsQty: 200,
+                  fee: 0,
+                  trialExpired: false,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
 
     // Act
     render(
-      <AppServicesProvider>
-        <AppServicesProvider>
+      <AppServicesProvider forcedServices={dependencies}>
+        <AppServicesProvider forcedServices={dependencies}>
           <BrowserRouter>
             <IntlProvider>
               <AddOnPlan
@@ -41,11 +69,39 @@ describe('AddOn component', () => {
     var addOnType = AddOnType.Conversations;
     var addOnPromotions = [];
     var conversationPlan = { active: false };
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              addOnPromotions: [],
+              plan: {
+                isFreeAccount: false,
+                planType: 'subscribers',
+                maxSubscribers: 500,
+                itemDescription: 'subscribers',
+                remainingCredits: 500,
+                planSubscription: 1,
+              },
+              conversationsEnvSource: 'DOPPLER',
+              chat: {
+                active: false,
+                plan: {
+                  conversationsQty: 200,
+                  fee: 0,
+                  trialExpired: false,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
 
     // Act
     render(
-      <AppServicesProvider>
-        <AppServicesProvider>
+      <AppServicesProvider forcedServices={dependencies}>
+        <AppServicesProvider forcedServices={dependencies}>
           <BrowserRouter>
             <IntlProvider>
               <AddOnPlan
