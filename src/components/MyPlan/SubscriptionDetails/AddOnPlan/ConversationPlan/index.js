@@ -6,10 +6,8 @@ import { formattedNumber } from '..';
 import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
-import { ConversationsEnvSource } from '../../../../../doppler-types';
-import { AddOnCancellationModal } from '../../../CancellationAccount/Modals/AddOnCancellation';
-import { SuccessAddOnCancellation } from '../../../CancellationAccount/Modals/SuccessAddOnCancellation';
-import { AddOnType } from '../../../../../doppler-types';
+import { AddOnType, ConversationsEnvSource } from '../../../../../doppler-types';
+import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
 
 export const ConversationPlan = InjectAppServices(
   ({
@@ -30,10 +28,6 @@ export const ConversationPlan = InjectAppServices(
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [plan, setPlan] = useState(conversationPlan);
     const showPromotionInformation = addOnPromotions.length > 0 && !conversationPlan.active;
-    const [showAddOnCancellationModal, setShowAddOnCancellationModal] = useState(false);
-    const [showSuccessAddOnCancellationModal, setShowSuccessAddOnCancellationModal] =
-      useState(false);
-
     useEffect(() => {
       const fetchAddOnData = async () => {
         if (plan.active) {
@@ -98,19 +92,6 @@ export const ConversationPlan = InjectAppServices(
       appSessionRef,
     ]);
 
-    const handleCloseModal = () => {
-      setShowAddOnCancellationModal(false);
-    };
-
-    const handleSuccessCancelAddOn = () => {
-      setShowAddOnCancellationModal(false);
-      setShowSuccessAddOnCancellationModal(true);
-    };
-
-    const cancelAddOnPlan = async () => {
-      setShowAddOnCancellationModal(true);
-    };
-
     if (loading) {
       return <Loading page />;
     }
@@ -158,15 +139,10 @@ export const ConversationPlan = InjectAppServices(
                         }`,
                       )}
                     </a>
-                    {plan.active && plan.fee > 0 && (
-                      <button
-                        aria-label="cancel-plan"
-                        className="dp-button button-medium dp-w-100 btn-cancel"
-                        onClick={() => cancelAddOnPlan()}
-                      >
-                        {_(`my_plan.subscription_details.cancel_addon_button`)}
-                      </button>
-                    )}
+                    <AddOnCancellationFlow
+                      addOnType={AddOnType.Conversations}
+                      canCancel={plan.active && plan.fee > 0}
+                    />
                   </div>
                 </div>
               </HeaderStyled>
@@ -282,14 +258,6 @@ export const ConversationPlan = InjectAppServices(
             </ul>
           </article>
         </div>
-        {showAddOnCancellationModal && (
-          <AddOnCancellationModal
-            addOnType={AddOnType.Conversations}
-            handleCloseModal={handleCloseModal}
-            handleSuccessCancelAddOn={handleSuccessCancelAddOn}
-          ></AddOnCancellationModal>
-        )}
-        {showSuccessAddOnCancellationModal && <SuccessAddOnCancellation></SuccessAddOnCancellation>}
       </>
     );
   },

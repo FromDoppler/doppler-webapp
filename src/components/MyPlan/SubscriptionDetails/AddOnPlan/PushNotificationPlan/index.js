@@ -7,8 +7,7 @@ import { Loading } from '../../../../Loading/Loading';
 import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
-import { AddOnCancellationModal } from '../../../CancellationAccount/Modals/AddOnCancellation';
-import { SuccessAddOnCancellation } from '../../../CancellationAccount/Modals/SuccessAddOnCancellation';
+import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
 
 export const PushNotificationPlan = InjectAppServices(
   ({
@@ -24,10 +23,6 @@ export const PushNotificationPlan = InjectAppServices(
     const [plan, setPlan] = useState(pushNotificationPlan);
     const [loading, setLoading] = useState(true);
     const showPromotionInformation = addOnPromotions.length > 0 && !pushNotificationPlan.active;
-    const [showAddOnCancellationModal, setShowAddOnCancellationModal] = useState(false);
-    const [showSuccessAddOnCancellationModal, setShowSuccessAddOnCancellationModal] =
-      useState(false);
-
     useEffect(() => {
       const fetchAddOnData = async () => {
         if (!plan.active && (isFreeAccount || addOnPromotions.length > 0)) {
@@ -45,19 +40,6 @@ export const PushNotificationPlan = InjectAppServices(
 
       fetchAddOnData();
     }, [dopplerAccountPlansApiClient, plan.active, isFreeAccount, addOnPromotions]);
-
-    const handleCloseModal = () => {
-      setShowAddOnCancellationModal(false);
-    };
-
-    const handleSuccessCancelAddOn = () => {
-      setShowAddOnCancellationModal(false);
-      setShowSuccessAddOnCancellationModal(true);
-    };
-
-    const cancelAddOnPlan = async () => {
-      setShowAddOnCancellationModal(true);
-    };
 
     if (loading) {
       return <Loading page />;
@@ -106,15 +88,10 @@ export const PushNotificationPlan = InjectAppServices(
                         }`,
                       )}
                     </a>
-                    {plan.active && plan.fee > 0 && (
-                      <button
-                        aria-label="cancel-plan"
-                        className="dp-button button-medium dp-w-100 btn-cancel"
-                        onClick={() => cancelAddOnPlan()}
-                      >
-                        {_(`my_plan.subscription_details.cancel_addon_button`)}
-                      </button>
-                    )}
+                    <AddOnCancellationFlow
+                      addOnType={AddOnType.PushNotifications}
+                      canCancel={plan.active && plan.fee > 0}
+                    />
                   </div>
                 </div>
               </HeaderStyled>
@@ -124,13 +101,11 @@ export const PushNotificationPlan = InjectAppServices(
                 <span className="dp-message-icon"></span>
                 <div className="dp-content-message dp-content-full">
                   <p>
-                    <p>
-                      {getPromotionInformationMessage(
-                        'push_notification',
-                        appSessionRef.current.userData.user,
-                        addOnPromotions,
-                      )}
-                    </p>
+                    {getPromotionInformationMessage(
+                      'push_notification',
+                      appSessionRef.current.userData.user,
+                      addOnPromotions,
+                    )}
                   </p>
                 </div>
               </div>
@@ -180,14 +155,6 @@ export const PushNotificationPlan = InjectAppServices(
             </ul>
           </article>
         </div>
-        {showAddOnCancellationModal && (
-          <AddOnCancellationModal
-            addOnType={AddOnType.PushNotifications}
-            handleCloseModal={handleCloseModal}
-            handleSuccessCancelAddOn={handleSuccessCancelAddOn}
-          ></AddOnCancellationModal>
-        )}
-        {showSuccessAddOnCancellationModal && <SuccessAddOnCancellation></SuccessAddOnCancellation>}
       </>
     );
   },
