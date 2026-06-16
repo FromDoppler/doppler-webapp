@@ -3,11 +3,11 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import { Loading } from '../../../../Loading/Loading';
 import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
-import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnType, ConversationsEnvSource } from '../../../../../doppler-types';
 import { AddOnCancellationFlow } from '../AddOnCancellationFlow';
+import { AddOnPlanCard } from '../AddOnPlanCard';
 
 export const ConversationPlan = InjectAppServices(
   ({
@@ -98,166 +98,146 @@ export const ConversationPlan = InjectAppServices(
 
     return (
       <>
-        <div className="dp-box-shadow m-b-24">
-          <article className="dp-wrapper-plan">
-            <header>
-              <HeaderStyled className="dp-rowflex">
-                <div className="col-lg-9 col-md-12">
-                  <div className="dp-title-plan">
-                    <h3 className="dp-second-order-title">
-                      <span className="p-r-8 m-r-6">
-                        {_(`my_plan.subscription_details.addon.conversation_plan.title`)}
-                      </span>
-                      <span className={`dpicon iconapp-chatting`}></span>
-                    </h3>
-                    {plan.trialExpired && <AddOnExpiredMessage></AddOnExpiredMessage>}
-                    {!plan.trialExpired && plan.fee === 0 && (
-                      <p>
-                        {_(
-                          `my_plan.subscription_details.addon.conversation_plan.${
-                            isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
-                          }`,
-                        )}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-12">
-                  <div className="dp-buttons--plan">
-                    <a
-                      type="button"
-                      href={buyUrl}
-                      className="dp-button button-medium primary-green dp-w-100 m-b-12"
-                    >
-                      {_(
-                        `my_plan.subscription_details.${
-                          plan.trialExpired
-                            ? 'view_plans_button'
-                            : (isFreeAccount || addOnPromotions) && !plan.active
-                              ? 'activate_now_button'
-                              : 'change_plan_button'
-                        }`,
-                      )}
-                    </a>
-                    <AddOnCancellationFlow
-                      addOnType={AddOnType.Conversations}
-                      canCancel={plan.active && plan.fee > 0}
+        <AddOnPlanCard
+          title={_(`my_plan.subscription_details.addon.conversation_plan.title`)}
+          iconClassName="dpicon iconapp-chatting"
+          description={
+            !plan.trialExpired && plan.fee === 0 ? (
+              <p>
+                {_(
+                  `my_plan.subscription_details.addon.conversation_plan.${
+                    isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
+                  }`,
+                )}
+              </p>
+            ) : null
+          }
+          actions={
+            <>
+              <a
+                type="button"
+                href={buyUrl}
+                className="dp-button button-medium primary-green dp-w-100 m-b-12"
+              >
+                {_(
+                  `my_plan.subscription_details.${
+                    plan.trialExpired
+                      ? 'view_plans_button'
+                      : (isFreeAccount || addOnPromotions) && !plan.active
+                        ? 'activate_now_button'
+                        : 'change_plan_button'
+                  }`,
+                )}
+              </a>
+              <AddOnCancellationFlow
+                addOnType={AddOnType.Conversations}
+                canCancel={plan.active && plan.fee > 0}
+              />
+            </>
+          }
+          showPromotionInformation={showPromotionInformation}
+          promotionInformation={getPromotionInformationMessage(
+            'conversation',
+            appSessionRef.current.userData.user,
+            addOnPromotions,
+          )}
+        >
+          <ul className="dp-item--plan">
+            <li>
+              <p>
+                <strong>
+                  <FormattedMessage
+                    id={'my_plan.subscription_details.addon.conversation_plan.plan_message'}
+                    values={{
+                      total: plan.quantity,
+                    }}
+                  />
+                </strong>
+              </p>
+              <div className="dp-rowflex">
+                <div className="col-lg-5 col-md-12">
+                  <p className="plan-item">
+                    <FormattedMessage
+                      id={`my_plan.subscription_details.addon.conversation_plan.available_message`}
+                      values={{
+                        available: availableQuantity,
+                        total: plan.quantity,
+                      }}
                     />
-                  </div>
+                  </p>
                 </div>
-              </HeaderStyled>
-            </header>
-            {showPromotionInformation && (
-              <div className="dp-wrap-message dp-wrap-info m-t-12">
-                <span className="dp-message-icon"></span>
-                <div className="dp-content-message dp-content-full">
-                  <p>
-                    {getPromotionInformationMessage(
-                      'conversation',
-                      appSessionRef.current.userData.user,
-                      addOnPromotions,
+                <div className="col-lg-4 col-md-12">
+                  <p className="plan-item m-l-12">
+                    {!isFreeAccount && plan.fee > 0 ? (
+                      <FormattedMessage
+                        id={`my_plan.subscription_details.addon.conversation_plan.additional_conversation_message`}
+                        values={{
+                          price: formattedNumber(conversationPlan.additionalConversation, 3),
+                        }}
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id={`my_plan.subscription_details.addon.conversation_plan.free_additional_conversation_message`}
+                      />
                     )}
                   </p>
                 </div>
               </div>
-            )}
-            <ul className="dp-item--plan">
-              <li>
-                <p>
-                  <strong>
-                    <FormattedMessage
-                      id={'my_plan.subscription_details.addon.conversation_plan.plan_message'}
-                      values={{
-                        total: plan.quantity,
-                      }}
-                    />
-                  </strong>
-                </p>
-                <div className="dp-rowflex">
-                  <div className="col-lg-5 col-md-12">
-                    <p className="plan-item">
-                      <FormattedMessage
-                        id={`my_plan.subscription_details.addon.conversation_plan.available_message`}
-                        values={{
-                          available: availableQuantity,
-                          total: plan.quantity,
-                        }}
-                      />
-                    </p>
-                  </div>
-                  <div className="col-lg-4 col-md-12">
-                    <p className="plan-item m-l-12">
-                      {!isFreeAccount && plan.fee > 0 ? (
-                        <FormattedMessage
-                          id={`my_plan.subscription_details.addon.conversation_plan.additional_conversation_message`}
-                          values={{
-                            price: formattedNumber(conversationPlan.additionalConversation, 3),
-                          }}
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id={`my_plan.subscription_details.addon.conversation_plan.free_additional_conversation_message`}
-                        />
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <p>
-                  <strong>
-                    <FormattedMessage
-                      id={'my_plan.subscription_details.addon.conversation_plan.agents_title'}
-                      values={{
-                        agents: plan.agents,
-                      }}
-                    />
-                  </strong>
-                </p>
-                <p className="plan-item">
-                  {!isFreeAccount && plan.fee > 0 ? (
-                    <FormattedMessage
-                      id={`my_plan.subscription_details.addon.conversation_plan.additional_agent_message`}
-                      values={{
-                        price: formattedNumber(plan.additionalAgent, 2),
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id={`my_plan.subscription_details.addon.conversation_plan.free_additional_agent_message`}
-                    />
-                  )}
-                </p>
-              </li>
-              <li>
-                <p>
-                  <strong>
-                    <FormattedMessage
-                      id={'my_plan.subscription_details.addon.conversation_plan.rooms_title'}
-                      values={{
-                        rooms: plan.channels,
-                      }}
-                    />
-                  </strong>
-                </p>
-                <p className="plan-item">
-                  {!isFreeAccount && plan.fee > 0 ? (
-                    <FormattedMessage
-                      id={`my_plan.subscription_details.addon.conversation_plan.additional_room_message`}
-                      values={{
-                        price: formattedNumber(plan.additionalChannel, 2),
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id={`my_plan.subscription_details.addon.conversation_plan.free_additional_room_message`}
-                    />
-                  )}
-                </p>
-              </li>
-            </ul>
-          </article>
-        </div>
+            </li>
+            <li>
+              <p>
+                <strong>
+                  <FormattedMessage
+                    id={'my_plan.subscription_details.addon.conversation_plan.agents_title'}
+                    values={{
+                      agents: plan.agents,
+                    }}
+                  />
+                </strong>
+              </p>
+              <p className="plan-item">
+                {!isFreeAccount && plan.fee > 0 ? (
+                  <FormattedMessage
+                    id={`my_plan.subscription_details.addon.conversation_plan.additional_agent_message`}
+                    values={{
+                      price: formattedNumber(plan.additionalAgent, 2),
+                    }}
+                  />
+                ) : (
+                  <FormattedMessage
+                    id={`my_plan.subscription_details.addon.conversation_plan.free_additional_agent_message`}
+                  />
+                )}
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>
+                  <FormattedMessage
+                    id={'my_plan.subscription_details.addon.conversation_plan.rooms_title'}
+                    values={{
+                      rooms: plan.channels,
+                    }}
+                  />
+                </strong>
+              </p>
+              <p className="plan-item">
+                {!isFreeAccount && plan.fee > 0 ? (
+                  <FormattedMessage
+                    id={`my_plan.subscription_details.addon.conversation_plan.additional_room_message`}
+                    values={{
+                      price: formattedNumber(plan.additionalChannel, 2),
+                    }}
+                  />
+                ) : (
+                  <FormattedMessage
+                    id={`my_plan.subscription_details.addon.conversation_plan.free_additional_room_message`}
+                  />
+                )}
+              </p>
+            </li>
+          </ul>
+        </AddOnPlanCard>
       </>
     );
   },
