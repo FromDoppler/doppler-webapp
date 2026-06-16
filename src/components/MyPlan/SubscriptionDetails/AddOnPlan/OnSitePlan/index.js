@@ -66,7 +66,9 @@ export const OnSitePlan = InjectAppServices(
           title={_(`my_plan.subscription_details.addon.onsite_plan.title`)}
           iconClassName="dpicon iconapp-online-clothing"
           description={
-            !plan.trialExpired && plan.fee === 0 ? (
+            plan.trialExpired ? (
+              <AddOnExpiredMessage />
+            ) : !plan.trialExpired && plan.fee === 0 ? (
               <p>
                 {_(
                   `my_plan.subscription_details.addon.onsite_plan.${

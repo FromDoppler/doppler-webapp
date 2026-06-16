@@ -3,6 +3,7 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import { Loading } from '../../../../Loading/Loading';
 import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
+import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnType, ConversationsEnvSource } from '../../../../../doppler-types';
 import { AddOnPlanCard } from '../AddOnPlanCard';
@@ -100,7 +101,9 @@ export const ConversationPlan = InjectAppServices(
           title={_(`my_plan.subscription_details.addon.conversation_plan.title`)}
           iconClassName="dpicon iconapp-chatting"
           description={
-            !plan.trialExpired && plan.fee === 0 ? (
+            plan.trialExpired ? (
+              <AddOnExpiredMessage />
+            ) : !plan.trialExpired && plan.fee === 0 ? (
               <p>
                 {_(
                   `my_plan.subscription_details.addon.conversation_plan.${

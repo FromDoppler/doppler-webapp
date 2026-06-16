@@ -51,4 +51,55 @@ describe('OnSitePlan component', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
   });
+
+  it('should show the expired message when the plan is trial expired', async () => {
+    // Assert
+    var onSitePlan = {
+      active: true,
+      additional: 0,
+      trialExpired: true,
+    };
+
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              addOnPromotions: [],
+              plan: {
+                isFreeAccount: false,
+                planType: 'subscribers',
+                maxSubscribers: 500,
+                itemDescription: 'subscribers',
+                remainingCredits: 500,
+                planSubscription: 1,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <AppServicesProvider forcedServices={dependencies}>
+          <BrowserRouter>
+            <IntlProvider>
+              <OnSitePlan addOnPromotions={[]} onSitePlan={onSitePlan} />
+            </IntlProvider>
+          </BrowserRouter>
+        </AppServicesProvider>
+        ,
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(
+      screen.getByText('my_plan.subscription_details.addon_plan_expired_message'),
+    ).toBeInTheDocument();
+  });
 });

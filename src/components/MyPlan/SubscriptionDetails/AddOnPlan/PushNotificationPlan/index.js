@@ -4,6 +4,7 @@ import { formattedNumber } from '..';
 import { useEffect, useState } from 'react';
 import { AddOnType } from '../../../../../doppler-types';
 import { Loading } from '../../../../Loading/Loading';
+import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnPlanCard } from '../AddOnPlanCard';
 
@@ -49,7 +50,9 @@ export const PushNotificationPlan = InjectAppServices(
           title={_(`my_plan.subscription_details.addon.push_notification_plan.title`)}
           iconClassName="dpicon iconapp-bell1"
           description={
-            !plan.trialExpired && plan.fee === 0 ? (
+            plan.trialExpired ? (
+              <AddOnExpiredMessage />
+            ) : !plan.trialExpired && plan.fee === 0 ? (
               <p>
                 {_(
                   `my_plan.subscription_details.addon.push_notification_plan.${
