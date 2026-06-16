@@ -3,7 +3,6 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import { Loading } from '../../../../Loading/Loading';
 import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
-import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnType, ConversationsEnvSource } from '../../../../../doppler-types';
 import { AddOnPlanCard } from '../AddOnPlanCard';

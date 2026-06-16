@@ -4,7 +4,6 @@ import { formattedNumber } from '..';
 import { useEffect, useState } from 'react';
 import { AddOnType } from '../../../../../doppler-types';
 import { Loading } from '../../../../Loading/Loading';
-import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
 import { AddOnPlanCard } from '../AddOnPlanCard';
 
