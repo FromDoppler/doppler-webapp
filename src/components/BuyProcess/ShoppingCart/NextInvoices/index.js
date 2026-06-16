@@ -56,13 +56,11 @@ export const NextInvoices = ({
                                 }
                                 {...numberFormatOptions}
                               />
-                              {'**'}
                             </>
                           ) : (
                             <>
                               {'US$ '}
                               <FormattedNumber value={nextMonthTotal} {...numberFormatOptions} />
-                              {'*'}
                             </>
                           )}
                         </>

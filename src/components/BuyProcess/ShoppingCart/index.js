@@ -222,6 +222,7 @@ export const ShoppingCart = InjectAppServices(
       discountConfig?.selectedPaymentFrequency,
       discountConfig.paymentFrequenciesList,
       landingPacks,
+      selectedPaymentMethod,
     ]);
 
     useEffect(() => {

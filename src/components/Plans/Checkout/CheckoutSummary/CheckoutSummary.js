@@ -171,12 +171,20 @@ const getTitle = (paymentMethod, upgradePending) => {
       description: 'checkoutProcessSuccess.transfer_warning_message',
     };
   } else {
-    if (paymentMethod === paymentType.mercadoPago && upgradePending) {
+    if (paymentMethod === paymentType.transfer) {
       return {
-        smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
-        largeTitle: 'checkoutProcessSuccess.transfer_title',
-        description: 'checkoutProcessSuccess.mercado_pago_warning_message',
+        smallTitle: 'checkoutProcessSuccess.transfer_purchase_finished_title',
+        largeTitle: 'checkoutProcessSuccess.transfer_upgrade_title',
+        description: 'checkoutProcessSuccess.transfer_upgrade_warning_message',
       };
+    } else {
+      if (paymentMethod === paymentType.mercadoPago && upgradePending) {
+        return {
+          smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
+          largeTitle: 'checkoutProcessSuccess.transfer_title',
+          description: 'checkoutProcessSuccess.mercado_pago_warning_message',
+        };
+      }
     }
   }
   return {

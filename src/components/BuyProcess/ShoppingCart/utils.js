@@ -195,6 +195,37 @@ export const mapItemFromMarketingPlan = ({
         </>
       ),
     });
+  } else {
+    const amountMonthsToPay = numberMonths ? marketingPlan?.fee * 1 : marketingPlan?.fee;
+
+    planInformation.billingList.push({
+      label: (
+        <>
+          <FormattedMessage
+            id={`buy_process.plan_to_pay`}
+          />
+        </>
+      ),
+      amount: (
+        <>
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={amountMonthsToPay * (amountDetailsData?.value?.currencyRate ?? 1)}
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+            </>
+          )}
+        </>
+      ),
+    });
   }
 
   // Discount advanced pay
@@ -475,6 +506,10 @@ export const mapItemFromMarketingPlan = ({
 
         planInformation.subscriptionItems.push(
           _('buy_process.shopping_cart.final_price_including_taxes'),
+        );
+
+        planInformation.subscriptionItems.push(
+          _('buy_process.shopping_cart.next_invoices_estimate'),
         );
       }
     } else {

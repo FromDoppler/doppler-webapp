@@ -37,6 +37,7 @@ describe('TransferInformation', () => {
         const text = node?.textContent ?? '';
         return (
           text.includes('Completa el pago de') &&
+          text.includes('$') &&
           text.includes('(ARS)') &&
           text.includes('realizando un depósito o transferencia')
         );
@@ -72,13 +73,6 @@ describe('TransferInformation', () => {
     expect(
       screen.getByText(/Mientras tanto, te invitamos a continuar explorando tu cuenta/i),
     ).toBeInTheDocument();
-    const exploreLink = screen.getByRole('link', { name: /Explorar Doppler/i });
-    const separator = container.querySelector('hr.dp-separator');
-    expect(exploreLink).toHaveAttribute('href', '/dashboard');
-    expect(separator).not.toBeNull();
-    expect(
-      separator?.compareDocumentPosition(exploreLink) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
     expect(
       screen.queryByText(
         /Revisa tu correo, y dentro de las proximas 24 horas h[aÃ¡]biles recibir[aÃ¡]s la factura/i,
@@ -102,7 +96,10 @@ describe('TransferInformation', () => {
   });
 
   it('should render new transfer details variant for Argentina when upgrade is not pending', () => {
-    const { container } = renderTransferInformation({ billingCountry: 'ar', upgradePending: true });
+    const { container } = renderTransferInformation({
+      billingCountry: 'ar',
+      upgradePending: false,
+    });
 
     expect(screen.getByTestId('dp-new-transfer-details')).toBeInTheDocument();
     expect(
@@ -110,6 +107,7 @@ describe('TransferInformation', () => {
         const text = node?.textContent ?? '';
         return (
           text.includes('Completa el pago de') &&
+          text.includes('$') &&
           text.includes('(ARS)') &&
           text.includes('realizando un depósito o transferencia')
         );
@@ -145,13 +143,6 @@ describe('TransferInformation', () => {
     expect(
       screen.getByText(/Mientras tanto, te invitamos a continuar explorando tu cuenta/i),
     ).toBeInTheDocument();
-    const exploreLink = screen.getByRole('link', { name: /Explorar Doppler/i });
-    const separator = container.querySelector('hr.dp-separator');
-    expect(exploreLink).toHaveAttribute('href', '/dashboard');
-    expect(separator).not.toBeNull();
-    expect(
-      separator?.compareDocumentPosition(exploreLink) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
     expect(
       screen.queryByText(
         /Revisa tu correo, y dentro de las proximas 24 horas h[aÃ¡]biles recibir[aÃ¡]s la factura/i,

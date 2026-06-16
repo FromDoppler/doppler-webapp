@@ -234,6 +234,7 @@ describe('CheckoutSummury component', () => {
         const text = node?.textContent ?? '';
         return (
           text.includes('Completa el pago de') &&
+          text.includes('$') &&
           text.includes('(ARS)') &&
           text.includes('realizando un depósito o transferencia')
         );

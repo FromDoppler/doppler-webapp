@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
 import useTimeout from '../../../../../hooks/useTimeout';
 import { getTransferBankingDetails } from './bankingDetails';
 import { thousandSeparatorNumber } from '../../../../../utils';
@@ -8,30 +7,27 @@ import { thousandSeparatorNumber } from '../../../../../utils';
 const SUPPORTED_TRANSFER_COUNTRY = 'ar';
 const BILLING_SUPPORT_EMAIL = 'billing@fromdoppler.com';
 
-const steps = [
-  {
-    iconClassName: 'iconapp-mobile-payment1',
-    content: 'checkoutProcessSuccess.transfer_bank_transfer_message',
-    needUpgradePending: false,
-  },
-  {
-    iconClassName: 'iconapp-receipt',
-    content: 'checkoutProcessSuccess.transfer_send_the_receipt_message',
-    needUpgradePending: false,
-  },
-  {
-    iconClassName: 'iconapp-check-search',
-    content: 'checkoutProcessSuccess.transfer_confirmation_message',
-    needUpgradePending: true,
-  },
-];
-
 const getStepsForCustomTransferInformation = (upgradePending) => {
-  if (upgradePending) {
-    return steps;
-  } else {
-    return steps.filter(({ needUpgradePending }) => !needUpgradePending);
-  }
+  const steps = [
+    {
+      iconClassName: 'iconapp-mobile-payment1',
+      content: 'checkoutProcessSuccess.transfer_bank_transfer_message',
+    },
+    {
+      iconClassName: 'iconapp-receipt',
+      content: `${
+        upgradePending
+          ? 'checkoutProcessSuccess.transfer_send_the_receipt_message'
+          : 'checkoutProcessSuccess.transfer_send_the_receipt_not_upgrade_pending_message'
+      }`,
+    },
+    {
+      iconClassName: 'iconapp-check-search',
+      content: 'checkoutProcessSuccess.transfer_confirmation_message',
+    },
+  ];
+
+  return steps;
 };
 
 const TransferReceiptMailLink = (chunks) => (
@@ -97,12 +93,12 @@ const LegacyTransferInformation = ({ upgradePending }) => {
                     />
                   </span>
                 </li>
-                {upgradePending && (
-                  <li>
-                    <span className="dp-wrapp-icon dpicon iconapp-approve-money" />
-                    <span>{_(`checkoutProcessSuccess.transfer_confirmation_message`)}</span>
-                  </li>
-                )}
+                {/* {upgradePending && ( */}
+                <li>
+                  <span className="dp-wrapp-icon dpicon iconapp-approve-money" />
+                  <span>{_(`checkoutProcessSuccess.transfer_confirmation_message`)}</span>
+                </li>
+                {/* )} */}
               </ul>
             </div>
           </div>
@@ -225,12 +221,6 @@ const CustomTransferInformation = ({ upgradePending, billingCountry, lang, total
             </div>
           </div>
         </div>
-      </div>
-      <hr className="dp-separator" />
-      <div className="m-t-24">
-        <Link to="/dashboard" className="dp-button button-medium primary-green">
-          {_('checkoutProcessSuccess.transfer_explore_button')}
-        </Link>
       </div>
     </>
   );
