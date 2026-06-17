@@ -36,6 +36,8 @@ import { Slide } from '../../../Dashboard/LearnWithDoppler/Carousel/Slide/Slide'
 import { CheckoutSummaryCarousel } from './CheckoutSummaryCarousel';
 import { AddOnPlanInformation } from './AddOnPlanInformation';
 import { useAddOnPlans } from '../../../../hooks/useFetchAddOnPlans';
+import { AddOnsSection } from '../../../BuyProcess/NewPlanSelection/AddOnsSection';
+import { NewPlanSelectionStyled } from '../../../BuyProcess/NewPlanSelection/index.styles';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -635,10 +637,6 @@ export const CheckoutSummary = InjectAppServices(
     const title = getTitle(paymentMethod, upgradePending);
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
-    const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
-    const canBuyPushNotificationPlan =
-      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
-
     return (
       <>
         <Helmet>
@@ -729,30 +727,17 @@ export const CheckoutSummary = InjectAppServices(
               ) : paymentMethod === paymentType.mercadoPago ? (
                 <MercadoPagoInformation upgradePending={upgradePending} />
               ) : null}
-
-              {/* {isBuyMarketingPlan && (
-                <CheckoutSummaryButton
-                  paymentMethod={paymentMethod}
-                  upgradePending={upgradePending}
-                />
-              )} */}
             </div>
-            {landingsEditorEnabled && (
-              <div className="col-sm-4 m-b-24">
-                <div className="dp-wrapper-addons">
-                  <h2>
-                    {_('landing_selection.pack_addons_title')}
-                    <span className="dpicon iconapp-add-product" />
-                  </h2>
-                  <AddOnLandingPack />
-                  {canBuyOnSitePlan && <AddOnPlan addOnType={AddOnType.OnSite} />}
-                  {canBuyPushNotificationPlan && (
-                    <AddOnPlan addOnType={AddOnType.PushNotifications} />
-                  )}
-                </div>
-              </div>
-            )}
           </div>
+          {landingsEditorEnabled && (
+            <div className="m-t-48">
+              <NewPlanSelectionStyled>
+                <div className="dp-container">
+                  <AddOnsSection />
+                </div>
+              </NewPlanSelectionStyled>
+            </div>
+          )}
         </section>
       </>
     );
