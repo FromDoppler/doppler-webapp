@@ -124,7 +124,7 @@ export const ConversationPlan = InjectAppServices(
                   `my_plan.subscription_details.${
                     plan.trialExpired
                       ? 'view_plans_button'
-                      : (isFreeAccount || addOnPromotions) && !plan.active
+                      : (isFreeAccount || addOnPromotions.length > 0) && !plan.active
                         ? 'activate_now_button'
                         : 'change_plan_button'
                   }`,

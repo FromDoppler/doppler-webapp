@@ -135,6 +135,69 @@ describe('ConversationPlan component', () => {
     ).toBeInTheDocument();
   });
 
+  it('should keep the change plan label when there are no promotions and the plan is inactive', async () => {
+    // Assert
+    var conversationPlan = {
+      active: false,
+      additionalConversation: 0,
+    };
+
+    const dependencies = {
+      dopplerBeplicApiClient: {
+        getConversations: () => ({ success: true }),
+      },
+      dopplerConversationsApiClient: {
+        getConversations: () => ({ success: true }),
+      },
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              conversationsEnvSource: 'DOPPLER',
+              addOnPromotions: [],
+              plan: {
+                isFreeAccount: false,
+                planType: 'subscribers',
+                maxSubscribers: 500,
+                itemDescription: 'subscribers',
+                remainingCredits: 500,
+                planSubscription: 1,
+              },
+              chat: {
+                active: false,
+                plan: {
+                  conversationsQty: 200,
+                  fee: 0,
+                  trialExpired: false,
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <AppServicesProvider forcedServices={dependencies}>
+          <BrowserRouter>
+            <IntlProvider>
+              <ConversationPlan addOnPromotions={[]} conversationPlan={conversationPlan} />
+            </IntlProvider>
+          </BrowserRouter>
+        </AppServicesProvider>
+        ,
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.getByText('my_plan.subscription_details.change_plan_button')).toBeInTheDocument();
+  });
+
   it('should show the expired message when the plan is trial expired', async () => {
     // Assert
     var conversationPlan = {
