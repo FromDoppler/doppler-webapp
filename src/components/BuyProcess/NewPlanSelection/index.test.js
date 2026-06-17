@@ -369,27 +369,21 @@ describe('NewPlanSelection component', () => {
         name: 'my_plan.addons.conversations.title',
       }),
     ).toBeInTheDocument();
-    expect(
-      within(getAddOnsSection()).getByText('my_plan.addons.landing_pages.title'),
-    ).toBeInTheDocument();
+
+    const nextButton = within(getAddOnsSection()).getByRole('button', {
+      name: 'buy_process.new_plan_selection.addons_section.next',
+    });
+
+    fireEvent.click(nextButton);
+    await settleAsyncState();
+    fireEvent.click(nextButton);
+    await settleAsyncState();
 
     await waitFor(() =>
       expect(
-        within(screen.getByTestId('dp-addon-card-onsite')).getByText(
-          hasPriceInBold(/US\$\s*15[.,]00/),
-        ),
+        within(getAddOnsSection()).getByText('my_plan.addons.landing_pages.title'),
       ).toBeInTheDocument(),
     );
-    expect(
-      within(screen.getByTestId('dp-addon-card-conversations')).getByText(
-        hasPriceInBold(/US\$\s*20[.,]00/),
-      ),
-    ).toBeInTheDocument();
-    expect(
-      within(screen.getByTestId('dp-addon-card-landing-pages')).getByText(
-        hasPriceInBold(/US\$\s*5[.,]00/),
-      ),
-    ).toBeInTheDocument();
 
     screen.getAllByTestId(/dp-addon-card-/).forEach((card) => {
       expect(within(card).queryByRole('link')).not.toBeInTheDocument();
@@ -491,12 +485,29 @@ describe('NewPlanSelection component', () => {
         name: 'my_plan.addons.conversations.title',
       }),
     ).toBeInTheDocument();
+
+    const nextButton = within(getAddOnsSection()).getByRole('button', {
+      name: 'buy_process.new_plan_selection.addons_section.next',
+    });
+
+    fireEvent.click(nextButton);
+    await settleAsyncState();
+    fireEvent.click(nextButton);
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(getAddOnsSection()).getByText('my_plan.addons.landing_pages.title'),
+      ).toBeInTheDocument(),
+    );
     expect(
-      within(getAddOnsSection()).getByText('my_plan.addons.landing_pages.title'),
+      within(screen.getByTestId('dp-addon-card-landing-pages')).getByText(
+        hasPriceInBold(/US\$\s*5[.,]00/),
+      ),
     ).toBeInTheDocument();
   });
 
-  it('should hide add-ons carousel and show empty message when all sources fail', async () => {
+  it('should keep fixed-price add-ons visible when all API-backed sources fail', async () => {
     await renderNewPlanSelection(
       ['/new-plan-selection'],
       {
@@ -510,16 +521,24 @@ describe('NewPlanSelection component', () => {
 
     await waitFor(() =>
       expect(
-        within(getAddOnsSection()).getByText(
-          'buy_process.new_plan_selection.addons_section.empty_message',
+        within(screen.getByTestId('dp-addon-card-conversations')).getByText(
+          'buy_process.new_plan_selection.addons_section.price_unavailable',
         ),
       ).toBeInTheDocument(),
     );
-    expect(within(getAddOnsSection()).queryByTestId(/dp-addon-card-/)).not.toBeInTheDocument();
     expect(
-      within(getAddOnsSection()).queryByRole('button', {
-        name: 'buy_process.new_plan_selection.addons_section.next',
-      }),
+      within(screen.getByTestId('dp-addon-card-onsite')).getByText(
+        'buy_process.new_plan_selection.addons_section.price_unavailable',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('dp-addon-card-sms')).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-sms')).getByText(hasPriceInBold(/US\$\s*50[.,]00/)),
+    ).toBeInTheDocument();
+    expect(
+      within(getAddOnsSection()).queryByText(
+        'buy_process.new_plan_selection.addons_section.empty_message',
+      ),
     ).not.toBeInTheDocument();
   });
 
