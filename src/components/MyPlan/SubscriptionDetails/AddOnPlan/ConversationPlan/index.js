@@ -3,10 +3,10 @@ import { InjectAppServices } from '../../../../../services/pure-di';
 import { Loading } from '../../../../Loading/Loading';
 import { useEffect, useState } from 'react';
 import { formattedNumber } from '..';
-import { HeaderStyled } from '../index.style';
 import { AddOnExpiredMessage } from '../AddOnExpiredMessage';
 import { getPromotionInformationMessage } from '../utils';
-import { ConversationsEnvSource } from '../../../../../doppler-types';
+import { AddOnType, ConversationsEnvSource } from '../../../../../doppler-types';
+import { AddOnPlanCard } from '../AddOnPlanCard';
 
 export const ConversationPlan = InjectAppServices(
   ({
@@ -27,7 +27,6 @@ export const ConversationPlan = InjectAppServices(
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [plan, setPlan] = useState(conversationPlan);
     const showPromotionInformation = addOnPromotions.length > 0 && !conversationPlan.active;
-
     useEffect(() => {
       const fetchAddOnData = async () => {
         if (plan.active) {
@@ -97,65 +96,51 @@ export const ConversationPlan = InjectAppServices(
     }
 
     return (
-      <div className="dp-box-shadow m-b-24">
-        <article className="dp-wrapper-plan">
-          <header>
-            <HeaderStyled className="dp-rowflex">
-              <div className="col-lg-9 col-md-12">
-                <div className="dp-title-plan">
-                  <h3 className="dp-second-order-title">
-                    <span className="p-r-8 m-r-6">
-                      {_(`my_plan.subscription_details.addon.conversation_plan.title`)}
-                    </span>
-                    <span className={`dpicon iconapp-chatting`}></span>
-                  </h3>
-                  {plan.trialExpired && <AddOnExpiredMessage></AddOnExpiredMessage>}
-                  {!plan.trialExpired && plan.fee === 0 && (
-                    <p>
-                      {_(
-                        `my_plan.subscription_details.addon.conversation_plan.${
-                          isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
-                        }`,
-                      )}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-12">
-                <div className="dp-buttons--plan">
-                  <a
-                    type="button"
-                    href={buyUrl}
-                    className="dp-button button-medium primary-green dp-w-100 m-b-12"
-                  >
-                    {_(
-                      `my_plan.subscription_details.${
-                        plan.trialExpired
-                          ? 'view_plans_button'
-                          : (isFreeAccount || addOnPromotions) && !plan.active
-                            ? 'activate_now_button'
-                            : 'change_plan_button'
-                      }`,
-                    )}
-                  </a>
-                </div>
-              </div>
-            </HeaderStyled>
-          </header>
-          {showPromotionInformation && (
-            <div className="dp-wrap-message dp-wrap-info m-t-12">
-              <span className="dp-message-icon"></span>
-              <div className="dp-content-message dp-content-full">
-                <p>
-                  {getPromotionInformationMessage(
-                    'conversation',
-                    appSessionRef.current.userData.user,
-                    addOnPromotions,
-                  )}
-                </p>
-              </div>
-            </div>
+      <>
+        <AddOnPlanCard
+          title={_(`my_plan.subscription_details.addon.conversation_plan.title`)}
+          iconClassName="dpicon iconapp-chatting"
+          description={
+            plan.trialExpired ? (
+              <AddOnExpiredMessage />
+            ) : !plan.trialExpired && plan.fee === 0 ? (
+              <p>
+                {_(
+                  `my_plan.subscription_details.addon.conversation_plan.${
+                    isFreeAccount && !plan.active ? 'start_free_label' : 'free_label'
+                  }`,
+                )}
+              </p>
+            ) : null
+          }
+          actions={
+            <>
+              <a
+                type="button"
+                href={buyUrl}
+                className="dp-button button-medium primary-green dp-w-100 m-b-12"
+              >
+                {_(
+                  `my_plan.subscription_details.${
+                    plan.trialExpired
+                      ? 'view_plans_button'
+                      : (isFreeAccount || addOnPromotions.length > 0) && !plan.active
+                        ? 'activate_now_button'
+                        : 'change_plan_button'
+                  }`,
+                )}
+              </a>
+            </>
+          }
+          showPromotionInformation={showPromotionInformation}
+          promotionInformation={getPromotionInformationMessage(
+            'conversation',
+            appSessionRef.current.userData.user,
+            addOnPromotions,
           )}
+          addOnType={AddOnType.Conversations}
+          canCancel={plan.active && plan.fee > 0}
+        >
           <ul className="dp-item--plan">
             <li>
               <p>
@@ -251,8 +236,8 @@ export const ConversationPlan = InjectAppServices(
               </p>
             </li>
           </ul>
-        </article>
-      </div>
+        </AddOnPlanCard>
+      </>
     );
   },
 );

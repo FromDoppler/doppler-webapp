@@ -56,4 +56,54 @@ describe('PushNotificationPlan component', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('my_plan.subscription_details.change_plan_button')).toBeInTheDocument();
   });
+
+  it('should show the expired message when the plan is trial expired', async () => {
+    // Assert
+    var pushNotificationPlan = {
+      active: true,
+      additional: 0,
+      trialExpired: true,
+    };
+
+    const dependencies = {
+      appSessionRef: {
+        current: {
+          userData: {
+            user: {
+              addOnPromotions: [],
+              plan: {
+                isFreeAccount: false,
+                planType: 'subscribers',
+                maxSubscribers: 500,
+                itemDescription: 'subscribers',
+                remainingCredits: 500,
+                planSubscription: 1,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    // Act
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <AppServicesProvider forcedServices={dependencies}>
+          <BrowserRouter>
+            <IntlProvider>
+              <PushNotificationPlan
+                addOnPromotions={[]}
+                pushNotificationPlan={pushNotificationPlan}
+              />
+            </IntlProvider>
+          </BrowserRouter>
+        </AppServicesProvider>
+        ,
+      </AppServicesProvider>,
+    );
+
+    expect(
+      screen.getByText('my_plan.subscription_details.addon_plan_expired_message'),
+    ).toBeInTheDocument();
+  });
 });
