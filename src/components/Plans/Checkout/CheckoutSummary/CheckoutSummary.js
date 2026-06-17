@@ -637,10 +637,6 @@ export const CheckoutSummary = InjectAppServices(
     const title = getTitle(paymentMethod, upgradePending);
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
 
-    const canBuyOnSitePlan = process.env.REACT_APP_DOPPLER_CAN_BUY_ONSITE_PLAN === 'true';
-    const canBuyPushNotificationPlan =
-      process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
-
     return (
       <>
         <Helmet>
