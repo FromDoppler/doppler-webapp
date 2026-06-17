@@ -45,7 +45,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
           icon: 'dpicon icon-sparkle-ia',
           titleKey: 'my_plan.addons.eco_ai.title',
           descriptionKey: 'my_plan.addons.eco_ai.description',
-          priceLabelKey: 'my_plan.addons.eco_ai.access_by_legend',
+          priceLabelKey: <FormattedMessage
+            id={`my_plan.addons.eco_ai.access_by_legend`}
+          />,
           periodKey: 'my_plan.addons.eco_ai.month_legend',
           getPrice: (dopplerAccountPlansApiClient) =>
             getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.EcoAI),
@@ -57,7 +59,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     icon: 'dpicon iconapp-chatting',
     titleKey: 'my_plan.addons.conversations.title',
     descriptionKey: 'my_plan.addons.conversations.description',
-    priceLabelKey: 'my_plan.addons.conversations.plans_from_legend',
+    priceLabelKey: <FormattedMessage
+              id={`my_plan.addons.conversations.plans_from_legend`}
+            />,
     periodKey: 'my_plan.addons.conversations.month_legend',
     getPrice: (dopplerAccountPlansApiClient) =>
       getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.Conversations),
@@ -69,7 +73,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
           icon: 'dpicon iconapp-bell1',
           titleKey: 'my_plan.addons.push_notification.title',
           descriptionKey: 'my_plan.addons.push_notification.description',
-          priceLabelKey: 'my_plan.addons.push_notification.plans_from_legend',
+          priceLabelKey: <FormattedMessage
+            id={`my_plan.addons.push_notification.plans_from_legend`}
+          />,
           periodKey: 'my_plan.addons.push_notification.month_legend',
           getPrice: (dopplerAccountPlansApiClient) =>
             getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.PushNotifications),
@@ -81,19 +87,121 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     icon: 'dpicon iconapp-online-clothing',
     titleKey: 'my_plan.addons.onsite.title',
     descriptionKey: 'my_plan.addons.onsite.description',
-    priceLabelKey: 'my_plan.addons.onsite.plans_from_legend',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.onsite.plans_from_legend`}
+    />,
     periodKey: 'my_plan.addons.onsite.month_legend',
     getPrice: (dopplerAccountPlansApiClient) =>
       getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.OnSite),
+  },
+  {
+    id: 'sms',
+    icon: 'dpicon iconapp-checklist',
+    titleKey: 'my_plan.addons.sms.title',
+    descriptionKey: 'my_plan.addons.sms.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.sms.load_from_legend`}
+    />,
+    periodKey: 'my_plan.addons.sms.minimum_load_legend',
+    getPrice: () => {
+      return 50; /* As SMS add-on has a fixed price, we return it directly without making an API call */
+    },
+  },
+  {
+    id: 'transactional-emails',
+    icon: 'dpicon iconapp-send-mail',
+    titleKey: 'my_plan.addons.transactional_emails.title',
+    descriptionKey: 'my_plan.addons.transactional_emails.description',
+    priceLabelKey: <FormattedMessage
+              id={`my_plan.addons.transactional_emails.email_plan_legend`}
+              values={{
+                emails: 50000,
+              }}
+            />,
+    periodKey: 'my_plan.addons.transactional_emails.month_legend',
+    getPrice: () => {
+      return 26.5; /* As transactional emails add-on has a fixed price, we return it directly without making an API call */
+    },
   },
   {
     id: 'landing-pages',
     icon: 'dpicon iconapp-landing-page',
     titleKey: 'my_plan.addons.landing_pages.title',
     descriptionKey: 'my_plan.addons.landing_pages.description',
-    priceLabelKey: 'my_plan.addons.landing_pages.packs_from_legend',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.landing_pages.packs_from_legend`}
+    />,
     periodKey: 'my_plan.addons.landing_pages.month_legend',
     getPrice: getLandingPacksPrice,
+  },
+  {
+    id: 'collaborators',
+    icon: 'dpicon iconapp-add-friend',
+    titleKey: 'my_plan.addons.collaborators.title',
+    descriptionKey: 'my_plan.addons.collaborators.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.collaborators.access_by_legend`}
+    />,
+    periodKey: 'my_plan.addons.collaborators.collaborator_legend',
+    getPrice: () => { return 10; }, /* As collaborators add-on has a fixed price, we return it directly without making an API call */
+  },
+  {
+    id: 'list-conditioning',
+    icon: 'dpicon iconapp-checklist',
+    titleKey: 'my_plan.addons.list_conditioning.title',
+    descriptionKey: 'my_plan.addons.list_conditioning.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.list_conditioning.from_contact_legend`}
+      values={{
+        contacts: 2499,
+      }}
+    />,
+    periodKey: 'my_plan.addons.list_conditioning.price_legend',
+    getPrice: () => { return 0.008; }, /* As list conditioning add-on has a fixed price, we return it directly without making an API call */
+  },
+  {
+    id: 'custom-reports',
+    icon: 'dpicon iconapp-growth-chart',
+    titleKey: 'my_plan.addons.custom_reports.title',
+    descriptionKey: 'my_plan.addons.custom_reports.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.custom_reports.monthly_report_legend`}
+    />,
+    periodKey: 'my_plan.addons.custom_reports.monthly_legend',
+    getPrice: () => { return 50; }, /* As custom reports add-on has a fixed price, we return it directly without making an API call */
+  },
+  {
+    id: 'layout-service',
+    icon: 'dpicon iconapp-source-file',
+    titleKey: 'my_plan.addons.layout_service.title',
+    descriptionKey: 'my_plan.addons.layout_service.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.layout_service.editor_piece_from_legend`}
+    />,
+    periodKey: 'my_plan.addons.layout_service.editor_piece_legend',
+    getPrice: () => { return 80; }, /* As layout service add-on has a fixed price, we return it directly without making an API call */
+  },
+  {
+    id: 'dedicated-environment',
+    icon: 'dpicon iconapp-computer-setting',
+    titleKey: 'my_plan.addons.dedicated_environment.title',
+    descriptionKey: 'my_plan.addons.dedicated_environment.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.dedicated_environment.access_by_legend`}
+    />,
+    periodKey: 'my_plan.addons.dedicated_environment.month_legend',
+    getPrice: () => { return 150; }, /* As dedicated environment add-on has a fixed price, we return it directly without making an API call */
+  },
+  {
+    id: 'dedicated-ip',
+    icon: 'dpicon iconapp-dataserver',
+    titleKey: 'my_plan.addons.dedicated_ip.title',
+    descriptionKey: 'my_plan.addons.dedicated_ip.description',
+    priceLabelKey: <FormattedMessage
+      id={`my_plan.addons.dedicated_ip.access_by_legend`}
+    />,
+    periodKey: 'my_plan.addons.dedicated_ip.month_legend',
+    getPrice: () => { return 30; }, /* As dedicated ip add-on has a fixed price, we return it directly without making an API call */
   },
 ];
 
@@ -116,7 +224,7 @@ const AddOnCard = ({ addOn, price }) => {
       </header>
       <p className="dp-description-legend">{_(addOn.descriptionKey)}</p>
       <div className="dp-new-plan-selection-addon-price">
-        <span className="dp-legend-price">{_(addOn.priceLabelKey)}</span>
+        <span className="dp-legend-price">{addOn.priceLabelKey}</span>
         {price ? (
           <>
             <p>
@@ -125,9 +233,10 @@ const AddOnCard = ({ addOn, price }) => {
                 <FormattedNumber
                   value={price}
                   minimumFractionDigits={2}
-                  maximumFractionDigits={2}
+                  maximumFractionDigits={3}
                 />
               </b>
+              {' '}
               <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
             </p>
           </>
