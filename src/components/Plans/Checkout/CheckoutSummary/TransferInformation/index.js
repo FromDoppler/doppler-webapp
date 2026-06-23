@@ -8,6 +8,10 @@ const SUPPORTED_TRANSFER_COUNTRY = 'ar';
 const BILLING_SUPPORT_EMAIL = 'billing@fromdoppler.com';
 
 const getStepsForCustomTransferInformation = (upgradePending) => {
+  const receiptStep = upgradePending
+    ? 'checkoutProcessSuccess.transfer_send_the_receipt_message'
+    : 'checkoutProcessSuccess.transfer_send_the_receipt_not_upgrade_pending_message';
+
   const steps = [
     {
       iconClassName: 'iconapp-mobile-payment1',
@@ -15,17 +19,16 @@ const getStepsForCustomTransferInformation = (upgradePending) => {
     },
     {
       iconClassName: 'iconapp-receipt',
-      content: `${
-        upgradePending
-          ? 'checkoutProcessSuccess.transfer_send_the_receipt_message'
-          : 'checkoutProcessSuccess.transfer_send_the_receipt_not_upgrade_pending_message'
-      }`,
-    },
-    {
-      iconClassName: 'iconapp-check-search',
-      content: 'checkoutProcessSuccess.transfer_confirmation_message',
+      content: receiptStep,
     },
   ];
+
+  if (upgradePending) {
+    steps.push({
+      iconClassName: 'iconapp-check-search',
+      content: 'checkoutProcessSuccess.transfer_confirmation_message',
+    });
+  }
 
   return steps;
 };
