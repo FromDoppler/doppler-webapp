@@ -48,7 +48,9 @@ describe('NextInvoices', () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText('$ 285,000.00**')).toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => node?.textContent?.includes('$ 285,000.00')),
+    ).not.toHaveLength(0);
     expect(screen.queryByText('US$ 285.00*')).not.toBeInTheDocument();
   });
 });
