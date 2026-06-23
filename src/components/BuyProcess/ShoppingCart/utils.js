@@ -201,9 +201,7 @@ export const mapItemFromMarketingPlan = ({
     planInformation.billingList.push({
       label: (
         <>
-          <FormattedMessage
-            id={`buy_process.plan_to_pay`}
-          />
+          <FormattedMessage id={`buy_process.plan_to_pay`} />
         </>
       ),
       amount: (

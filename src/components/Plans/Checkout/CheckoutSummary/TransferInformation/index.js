@@ -227,7 +227,8 @@ const CustomTransferInformation = ({ upgradePending, billingCountry, lang, total
 };
 
 export const TransferInformation = ({ billingCountry, upgradePending, lang, total }) => {
-  const shouldShowCustomTransferInformation = billingCountry === SUPPORTED_TRANSFER_COUNTRY;
+  const shouldShowCustomTransferInformation =
+    billingCountry === SUPPORTED_TRANSFER_COUNTRY && upgradePending;
 
   if (!shouldShowCustomTransferInformation) {
     return <LegacyTransferInformation upgradePending={upgradePending} />;
