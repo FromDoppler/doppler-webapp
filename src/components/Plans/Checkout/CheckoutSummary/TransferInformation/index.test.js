@@ -95,15 +95,25 @@ describe('TransferInformation', () => {
     });
   });
 
-  it('should show custom transfer information for Argentina when upgrade is not pending', () => {
+  it('should keep legacy transfer information for Argentina when upgrade is not pending', () => {
     renderTransferInformation({
       billingCountry: 'ar',
       upgradePending: false,
     });
 
-    expect(screen.queryByTestId('dp-new-transfer-details')).toBeInTheDocument();
-    expect(screen.queryByText('BBVA BANCO FRANCES S.A.')).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'billing@fromdoppler.com' })).toBeInTheDocument();
+    expect(screen.queryByTestId('dp-new-transfer-details')).not.toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => {
+        const text = node?.textContent ?? '';
+        return (
+          text.includes('Revisa tu correo') &&
+          text.includes('24 horas hábiles') &&
+          text.includes('recibirás la factura')
+        );
+      }),
+    ).not.toHaveLength(0);
+    expect(screen.queryByText('BBVA BANCO FRANCES S.A.')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'billing@fromdoppler.com' })).not.toBeInTheDocument();
   });
 
   it.each(['mx', 'co'])(
