@@ -4,7 +4,8 @@
 
 Esta SPEC define la implementacion de la variante visual referenciada por
 `docs/assets/picture_16.png` dentro del flujo de `CheckoutSummary`, para el
-escenario en el que el metodo de pago del checkout es `TRANSF`.
+escenario en el que el metodo de pago del checkout es `TRANSF` y la factura
+corresponde a Argentina.
 
 La imagen corresponde al estado posterior a una compra/upgrade que todavia
 requiere acreditacion manual del pago por transferencia bancaria.
@@ -29,17 +30,17 @@ Nota de trazabilidad:
 
 ## 3) Objetivo
 
-Cuando el usuario llegue a `CheckoutSummary` con metodo de pago
-`TRANSF`, debe mostrarse una variante alineada con `picture_16.png`,
-reemplazando el bloque actual de instrucciones genericas por una presentacion
-mas guiada del proceso de pago.
+Cuando el usuario llegue a `CheckoutSummary` con metodo de pago `TRANSF` y
+`billingCountry = 'ar'`, debe mostrarse una variante alineada con
+`picture_16.png`, reemplazando el bloque actual de instrucciones genericas por
+una presentacion mas guiada del proceso de pago.
 
 La implementacion debe:
 
 - mantener el mensaje de estado del checkout;
 - mantener el resumen de compra existente;
 - mostrar pasos claros para completar el pago por transferencia;
-- mostrar los datos bancarios necesarios en pantalla segun pais de facturacion;
+- mostrar los datos bancarios necesarios en pantalla para Argentina;
 - preservar los flujos actuales no alcanzados por `picture_16`.
 
 ---
@@ -78,10 +79,7 @@ condiciones:
 - el usuario esta en `CheckoutSummary`;
 - el query param `paymentMethod` equivale a `TRANSF`;
 - `upgradePending` es `true`;
-- `billingCountry` es uno de estos valores:
-  - `ar`
-  - `mx`
-  - `co`
+- `billingCountry` es `ar`.
 
 ### 5.2 Fallback
 
@@ -95,10 +93,9 @@ de `picture_16`.
 
 Razon:
 
-- el nuevo layout debe cubrir todos los paises hoy soportados para
-  transferencia;
+- el nuevo layout cubre el caso actualmente soportado por `picture_16`;
 - el fallback actual debe seguir protegiendo cualquier pais futuro/no esperado y
-  el caso transferencia sin `upgradePending`.
+  los escenarios de transferencia fuera del alcance de esta variante.
 
 ---
 
@@ -149,17 +146,8 @@ No debe redisenarse el resumen de:
 El bloque actual de `TransferInformation` debe adaptarse al layout y contenido
 de `picture_16` para el caso objetivo.
 
-El layout base debe ser el mismo para Argentina, Mexico y Colombia. Lo que
-varia por pais es el contenido del bloque de datos bancarios/instrucciones
-especificas.
-
-Regla explicita:
-
-- los pasos para completar el proceso de pago aplican tambien para Mexico y
-  Colombia;
-- no debe existir una secuencia distinta de pasos por pais en esta iteracion;
-- la unica variacion permitida por pais dentro de esa secuencia comun es la
-  informacion bancaria o fiscal necesaria para concretar la transferencia.
+El layout base aplica a Argentina en esta iteracion. Mexico y Colombia
+conservan el bloque legacy de transferencia.
 
 Debe incluir:
 
@@ -167,7 +155,7 @@ Debe incluir:
    `checkoutProcessSuccess.transfer_steps_title`.
 2. Un paso inicial con texto introductorio para realizar el deposito o
    transferencia bancaria.
-3. Un bloque visual de datos bancarios del pais correspondiente.
+3. Un bloque visual de datos bancarios de Argentina.
 4. Un paso para enviar el comprobante a `billing@fromdoppler.com`.
 5. Un paso final indicando que, una vez confirmado el pago, el usuario podra
    comenzar a usar su nuevo plan.
@@ -178,24 +166,8 @@ Debe incluir:
 
 El bloque de datos bancarios debe resolverse segun `billingCountry`.
 
-Los pasos 1, 2, 4, 5 y 6 mantienen la misma intencion funcional para `ar`,
-`mx` y `co`. Solo el contenido del bloque del paso 3 puede variar segun el
-pais.
-
-#### Regla comun para `ar`, `mx` y `co`
-
-Para cualquiera de los paises soportados por transferencia (`ar`, `mx`, `co`),
-el bloque debe mostrar:
-
-- el mismo bloque bancario de referencia mostrado en `picture_16`;
-- los mismos identificadores fiscales y bancarios visibles;
-- las mismas instrucciones complementarias del proceso de transferencia.
-
-Lo obligatorio es:
-
-- mismo layout base;
-- mismo flujo de pasos;
-- mismo contenido bancario/fiscal para `ar`, `mx` y `co`.
+En esta iteracion, el bloque nuevo solo aplica a `billingCountry = 'ar'`.
+Mexico y Colombia conservan el bloque legacy de transferencia.
 
 #### Argentina (`ar`)
 
@@ -210,13 +182,13 @@ Para `billingCountry = 'ar'`, el bloque debe mostrar estos valores:
 
 #### Mexico (`mx`)
 
-Para `billingCountry = 'mx'`, debe mostrarse exactamente el mismo bloque de
-datos e instrucciones definido para Argentina.
+Para `billingCountry = 'mx'`, debe preservarse el bloque legacy de
+transferencia.
 
 #### Colombia (`co`)
 
-Para `billingCountry = 'co'`, debe mostrarse exactamente el mismo bloque de
-datos e instrucciones definido para Argentina.
+Para `billingCountry = 'co'`, debe preservarse el bloque legacy de
+transferencia.
 
 Reglas comunes:
 
@@ -228,10 +200,10 @@ Reglas comunes:
 
 Contrato esperado:
 
-- la implementacion debe poder resolver la misma variante para `billingCountry`
-  `ar`, `mx` y `co`;
-- no debe introducirse una diferenciacion de contenido entre esos tres paises
-  en esta iteracion.
+- la implementacion debe resolver la variante nueva solo para `billingCountry =
+  'ar'`;
+- `billingCountry = 'mx'` y `billingCountry = 'co'` deben conservar el bloque
+  legacy de transferencia.
 
 ### 6.6 Iconografia del bloque bancario
 
@@ -266,7 +238,8 @@ iteracion:
 - Replicar la composicion general de `docs/assets/picture_16.png`.
 - Mantener consistencia con el style-guide de Doppler y con el layout actual de
   `CheckoutSummary`.
-- Usar el mismo layout base para `ar`, `mx` y `co`.
+- Usar el mismo layout base nuevo para `ar`.
+- `mx` y `co` deben mantener el layout legacy.
 - Reusar clases existentes como `dp-wrap-message`, `dp-purchase-summary-list`,
   `dp-rowflex`, grilla y tipografias del style-guide.
 - Si se requieren estilos nuevos, scopearlos al bloque de transferencia dentro
@@ -288,8 +261,9 @@ Lineamientos visuales minimos:
 ## 8) Accesibilidad
 
 - Mantener orden semantico correcto de headings.
-- El email de envio de comprobante debe ser un link real (`mailto:`) o reutilizar
-  el patron accesible ya usado por el proyecto para emails clickeables.
+- El email de envio de comprobante debe ser un link real (`mailto:`) o
+  reutilizar el patron accesible ya usado por el proyecto para emails
+  clickeables.
 - Los pasos deben estar construidos con markup semantico legible para screen
   readers.
 - Los iconos decorativos no deben agregar ruido semantico.
@@ -348,8 +322,9 @@ Entradas relevantes ya disponibles:
 Salida esperada:
 
 - render de variante `picture_16` para `TRANSF + upgradePending` cuando
-  `billingCountry` sea `ar`, `mx` o `co`;
-- render de fallback actual para otros casos de transferencia.
+  `billingCountry` sea `ar`;
+- render de fallback actual para `billingCountry` distinto de `ar` o para
+  `upgradePending = false`.
 
 No deben agregarse:
 
@@ -365,16 +340,11 @@ Agregar o actualizar tests para validar, como minimo:
 
 - render del bloque `picture_16` cuando `paymentMethod = TRANSF`,
   `billingCountry = 'ar'` y `upgradePending = true`;
-- render del bloque `picture_16` cuando `paymentMethod = TRANSF`,
-  `billingCountry = 'mx'` y `upgradePending = true`;
-- render del bloque `picture_16` cuando `paymentMethod = TRANSF`,
-  `billingCountry = 'co'` y `upgradePending = true`;
-- presencia del mismo bloque bancario/instrucciones en pantalla para
-  Argentina, Mexico y Colombia;
+- presencia del bloque bancario/instrucciones en pantalla para Argentina;
 - presencia del mail `billing@fromdoppler.com`;
 - presencia del mensaje final de confirmacion del pago;
 - preservacion del resumen de compra;
-- fallback al bloque actual si `billingCountry` no es `ar`, `mx` ni `co`;
+- fallback al bloque actual si `billingCountry` no es `ar`;
 - fallback al bloque actual si `upgradePending = false`;
 - no regresion para Mercado Pago y tarjeta.
 
@@ -386,8 +356,8 @@ La tarea se considera completa cuando:
 
 - `CheckoutSummary` muestra la variante de `picture_16` en el escenario
   objetivo;
-- el mismo bloque de datos de transferencia es visible y legible para `ar`,
-  `mx` y `co`;
+- el bloque nuevo de transferencia es visible y legible para `ar`;
+- `mx` y `co` conservan el bloque legacy de transferencia;
 - el resumen de compra existente no se rompe;
 - el fallback de transferencia para escenarios fuera de alcance se mantiene;
 - i18n ES/EN queda actualizado;
@@ -401,6 +371,4 @@ La tarea se considera completa cuando:
 Quedan explicitamente pendientes para futura validacion de producto/diseno:
 
 - confirmar si el isotipo circular del bloque bancario tiene asset exportable;
-- confirmar si `CBU` y `Alias` deben tener accion real de copiado;
-- confirmar si el caso `TRANSF` con `upgradePending = false` tambien debe
-  migrar al layout nuevo o debe conservar el fallback actual.
+- confirmar si `CBU` y `Alias` deben tener accion real de copiado.

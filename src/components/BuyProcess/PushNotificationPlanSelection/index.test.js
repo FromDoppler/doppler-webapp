@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { act, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { PLAN_TYPE } from '../../../doppler-types';
 import {
   fakeAccountPlanDiscounts,
@@ -9,6 +9,12 @@ import { PushNotificationPlanSelection } from '.';
 import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import '@testing-library/jest-dom/extend-expect';
+
+const settleAsyncState = async () => {
+  await act(async () => {
+    await Promise.resolve();
+  });
+};
 
 describe('PushNotificationPlanSelection component', () => {
   it('should render PushNotificationPlanSelection component', async () => {
@@ -59,5 +65,6 @@ describe('PushNotificationPlanSelection component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
+    await settleAsyncState();
   });
 });

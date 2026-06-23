@@ -15,8 +15,10 @@ import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 import { GoBackButton } from '../PlanSelection/GoBackButton';
 
 export const EcoAIPlanSelection = InjectAppServices(
-  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
-    const selectedPaymentMethod = PaymentMethodType.creditCard;
+  ({
+    dependencies: { dopplerAccountPlansApiClient, dopplerBillingUserApiClient, appSessionRef },
+  }) => {
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
@@ -50,6 +52,7 @@ export const EcoAIPlanSelection = InjectAppServices(
     const selectedPlanId = appSessionRef.current.userData.user.plan.idPlan;
     const planType = appSessionRef.current.userData.user.plan.planType;
     const monthPlan = appSessionRef.current.userData.user.plan.planSubscription;
+    const { billingCountry } = appSessionRef.current.userData.user;
 
     const iaAgentPromotions = useMemo(
       () =>
@@ -60,6 +63,19 @@ export const EcoAIPlanSelection = InjectAppServices(
           : [],
       [appSessionRef],
     );
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+        let paymentMethod = paymentMethodData.success
+          ? paymentMethodData.value
+          : { paymentMethodName: PaymentMethodType.creditCard };
+
+        setSelectedPaymentMethod(paymentMethod.paymentMethodName);
+      };
+      fetchData();
+    }, [dopplerBillingUserApiClient]);
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
@@ -221,6 +237,8 @@ export const EcoAIPlanSelection = InjectAppServices(
                 addMarketingPlan={false}
                 canAddOnPlanRemove={false}
                 canAddOnPlanContinueBuy={canAddOnPlanContinueBuy}
+                selectedPaymentMethod={selectedPaymentMethod}
+                billingCountry={billingCountry}
               ></ShoppingCart>
             </div>
           </div>

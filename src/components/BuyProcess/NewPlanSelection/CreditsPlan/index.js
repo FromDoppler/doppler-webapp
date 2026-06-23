@@ -8,6 +8,7 @@ import { Promocode } from '../Promocode';
 const numberFormatOptions = {
   maximumFractionDigits: 2,
   minimumFractionDigits: 0,
+  useGrouping: true,
 };
 
 const getFormattedPriceOptions = (value) => ({

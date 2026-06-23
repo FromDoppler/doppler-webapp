@@ -24,6 +24,8 @@ export const LandingPackCheckoutButton = InjectAppServices(
     landingIds,
     landingPacksMapped,
     cancelLandings,
+    selectedLandingsPlan,
+    paymentMethod,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -34,6 +36,26 @@ export const LandingPackCheckoutButton = InjectAppServices(
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
     const accountType = (query.get(ACCOUNT_TYPE) ?? isFreeAccount) ? FREE_ACCOUNT : PAID_ACCOUNT;
 
+    const getCheckoutSummaryUrl = () => {
+      const queryParams = [`buyType=${BUY_LANDING_PACK}`];
+
+      if (paymentMethod) {
+        queryParams.push(`paymentMethod=${paymentMethod}`);
+      }
+
+      queryParams.push(`${ACCOUNT_TYPE}=${accountType}`);
+
+      if (landingIds) {
+        queryParams.push(`landing-ids=${landingIds}`);
+      }
+
+      if (landingPacksMapped) {
+        queryParams.push(`landing-packs=${landingPacksMapped}`);
+      }
+
+      return `/checkout-summary?${queryParams.join('&')}`;
+    };
+
     const proceedToBuy = async () => {
       setStatus(SAVING);
       const response = await dopplerBillingUserApiClient.purchaseLandings({
@@ -43,10 +65,9 @@ export const LandingPackCheckoutButton = InjectAppServices(
 
       if (response.success) {
         setStatus(SAVED);
+        sessionStorage.setItem('amount', selectedLandingsPlan?.total ?? total);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}${
-            landingIds ? `&landing-ids=${landingIds}` : ''
-          }${landingPacksMapped ? `&landing-packs=${landingPacksMapped}` : ''}`;
+          window.location.href = getCheckoutSummaryUrl();
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
@@ -60,9 +81,7 @@ export const LandingPackCheckoutButton = InjectAppServices(
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${BUY_LANDING_PACK}&${ACCOUNT_TYPE}=${accountType}${
-            landingIds ? `&landing-ids=${landingIds}` : ''
-          }${landingPacksMapped ? `&landing-packs=${landingPacksMapped}` : ''}`;
+          window.location.href = getCheckoutSummaryUrl();
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));

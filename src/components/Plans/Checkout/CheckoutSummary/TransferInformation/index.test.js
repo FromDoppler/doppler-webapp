@@ -1,0 +1,154 @@
+﻿import { render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom/extend-expect';
+import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+import DopplerIntlProvider from '../../../../../i18n/DopplerIntlProvider';
+import { TransferInformation } from '.';
+
+const renderTransferInformation = (props) =>
+  render(
+    <DopplerIntlProvider locale="es">
+      <BrowserRouter>
+        <TransferInformation {...props} />
+      </BrowserRouter>
+    </DopplerIntlProvider>,
+  );
+
+describe('TransferInformation', () => {
+  let writeTextMock;
+
+  beforeEach(() => {
+    writeTextMock = jest.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      get: () => ({
+        writeText: writeTextMock,
+      }),
+    });
+  });
+
+  it('should render new transfer details variant for Argentina when upgrade is pending', () => {
+    const { container } = renderTransferInformation({ billingCountry: 'ar', upgradePending: true });
+
+    expect(screen.getByTestId('dp-new-transfer-details')).toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => {
+        const text = node?.textContent ?? '';
+        return (
+          text.includes('Completa el pago de') &&
+          text.includes('$') &&
+          text.includes('(ARS)') &&
+          text.includes('realizando un depósito o transferencia')
+        );
+      }),
+    ).not.toHaveLength(0);
+    expect(screen.getByText('BBVA BANCO FRANCES S.A.')).toBeInTheDocument();
+    expect(screen.getByText('Biside SRL')).toBeInTheDocument();
+    expect(screen.getByText('30-7119594-1')).toBeInTheDocument();
+    expect(screen.getByText('090/408227/0')).toBeInTheDocument();
+    expect(screen.getByText('0170090920000040822703')).toBeInTheDocument();
+    expect(screen.getByText('BISIDE')).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Copiar/i })).toHaveLength(2);
+    expect(
+      Array.from(container.querySelectorAll('[data-testid="dp-transfer-banking-details"] p')).map(
+        (node) => node.textContent,
+      ),
+    ).toEqual([
+      'Banco: BBVA BANCO FRANCES S.A.',
+      'Titular: Biside SRL',
+      'CUIT: 30-7119594-1',
+      'CC: 090/408227/0',
+      'CBU: 0170090920000040822703',
+      'Alias: BISIDE',
+    ]);
+    expect(screen.getByRole('link', { name: 'billing@fromdoppler.com' })).toHaveAttribute(
+      'href',
+      'mailto:billing@fromdoppler.com',
+    );
+    expect(screen.getByText(/Una vez que realices el pago/i)).toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => node?.textContent?.includes('Cuando confirmemos')),
+    ).not.toHaveLength(0);
+    expect(
+      screen.getByText(/Mientras tanto, te invitamos a continuar explorando tu cuenta/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /Revisa tu correo, y dentro de las proximas 24 horas h[aÃ¡]biles recibir[aÃ¡]s la factura/i,
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should copy the transfer alias to clipboard', async () => {
+    const user = userEvent.setup();
+
+    renderTransferInformation({ billingCountry: 'ar', upgradePending: true });
+
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: 'Copiar Alias' }));
+    });
+
+    expect(await screen.findByText('Copiado')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText('Copiado')).not.toBeInTheDocument(), {
+      timeout: 2500,
+    });
+  });
+
+  it('should keep legacy transfer information for Argentina when upgrade is not pending', () => {
+    renderTransferInformation({
+      billingCountry: 'ar',
+      upgradePending: false,
+    });
+
+    expect(screen.queryByTestId('dp-new-transfer-details')).not.toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => {
+        const text = node?.textContent ?? '';
+        return (
+          text.includes('Revisa tu correo') &&
+          text.includes('24 horas hábiles') &&
+          text.includes('recibirás la factura')
+        );
+      }),
+    ).not.toHaveLength(0);
+    expect(screen.queryByText('BBVA BANCO FRANCES S.A.')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'billing@fromdoppler.com' })).not.toBeInTheDocument();
+    expect(
+      screen.getAllByText((_, node) => {
+        const text = node?.textContent ?? '';
+        return (
+          text.includes('Envía el comprobante de pago a') &&
+          text.includes('billing@fromdoppler.com') &&
+          text.includes('contabilizarlo')
+        );
+      }),
+    ).not.toHaveLength(0);
+    expect(
+      screen.getAllByText((_, node) => node?.textContent?.includes('Cuando confirmemos')),
+    ).not.toHaveLength(0);
+  });
+
+  it.each(['mx', 'co'])(
+    'should keep legacy transfer information for %s when upgrade is pending',
+    (billingCountry) => {
+      renderTransferInformation({ billingCountry, upgradePending: true });
+
+      expect(screen.queryByTestId('dp-new-transfer-details')).not.toBeInTheDocument();
+      expect(
+        screen.getAllByText((_, node) => {
+          const text = node?.textContent ?? '';
+          return (
+            text.includes('Revisa tu correo') &&
+            text.includes('24 horas hábiles') &&
+            text.includes('recibirás la factura')
+          );
+        }),
+      ).not.toHaveLength(0);
+      expect(screen.queryByText('BBVA BANCO FRANCES S.A.')).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('link', { name: 'billing@fromdoppler.com' }),
+      ).not.toBeInTheDocument();
+    },
+  );
+});

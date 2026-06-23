@@ -27,6 +27,8 @@ export const AddOnCheckoutButton = InjectAppServices(
     discount,
     addOnPlanId,
     buyType,
+    selectedAddOnPlan,
+    paymentMethod,
   }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
@@ -35,7 +37,27 @@ export const AddOnCheckoutButton = InjectAppServices(
     const createTimeout = useTimeout();
     const query = useQueryParams();
     const { isFreeAccount } = appSessionRef.current.userData.user.plan;
-    const accountType = (query.get(ACCOUNT_TYPE) ?? isFreeAccount) ? FREE_ACCOUNT : PAID_ACCOUNT;
+    const accountType = query.get(ACCOUNT_TYPE) ?? (isFreeAccount ? FREE_ACCOUNT : PAID_ACCOUNT);
+
+    const getCheckoutSummaryUrl = () => {
+      const queryParams = [`buyType=${buyType}`];
+
+      if (paymentMethod) {
+        queryParams.push(`paymentMethod=${paymentMethod}`);
+      }
+
+      queryParams.push(`${ACCOUNT_TYPE}=${accountType}`);
+
+      if (discount?.subscriptionType) {
+        queryParams.push(`discount=${discount.subscriptionType}`);
+      }
+
+      if (addOnPlanId) {
+        queryParams.push(`addOnPlanId=${addOnPlanId}`);
+      }
+
+      return `/checkout-summary?${queryParams.join('&')}`;
+    };
 
     const proceedToBuy = async () => {
       setStatus(SAVING);
@@ -54,10 +76,9 @@ export const AddOnCheckoutButton = InjectAppServices(
 
       if (response.success) {
         setStatus(SAVED);
+        sessionStorage.setItem('amount', selectedAddOnPlan?.total ?? total);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${buyType}&${ACCOUNT_TYPE}=${accountType}${
-            discount?.subscriptionType ? `&discount=${discount.subscriptionType}` : ''
-          }${addOnPlanId ? `&addOnPlanId=${addOnPlanId}` : ''}`;
+          window.location.href = getCheckoutSummaryUrl();
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));
@@ -80,9 +101,7 @@ export const AddOnCheckoutButton = InjectAppServices(
       if (response.success) {
         setStatus(SAVED);
         createTimeout(() => {
-          window.location.href = `/checkout-summary?buyType=${buyType}&${ACCOUNT_TYPE}=${accountType}${
-            addOnPlanId ? `&addOnPlanId=${addOnPlanId}` : ''
-          }`;
+          window.location.href = getCheckoutSummaryUrl();
         }, DELAY_BEFORE_REDIRECT_TO_SUMMARY);
       } else {
         setMessageError(getCheckoutErrorMesage(response.error.response?.data));

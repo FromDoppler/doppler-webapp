@@ -59,7 +59,7 @@ describe('ItemCart', () => {
     expect(removeFake).toHaveBeenCalledWith(props.data);
   });
 
-  it('should render ItemCart component with footer', async () => {
+  it('should ignore subscriptionItems when the footer is disabled', async () => {
     // Arrange
     const props = {
       name: 'Marketing Plan',
@@ -84,7 +84,7 @@ describe('ItemCart', () => {
       screen.getByText(billingItem.label);
     });
     expect(screen.queryByRole('button', { name: 'remove' })).not.toBeInTheDocument();
-    expect(container.querySelector(`.dp-subscription-items`)).toBeInTheDocument();
+    expect(container.querySelector('.dp-subscription-items')).not.toBeInTheDocument();
   });
 
   it('should render ItemCart component without footer', async () => {

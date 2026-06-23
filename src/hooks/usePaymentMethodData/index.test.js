@@ -66,4 +66,22 @@ describe('usePaymentMethodData', () => {
     await waitForNextUpdate();
     expect(result.current).toBe(PaymentMethodType.creditCard);
   });
+
+  it('should prefer the selected payment method without waiting for api sync', () => {
+    // Arrange
+    const dopplerBillingUserApiClientFake = {
+      getPaymentMethodData: jest.fn(),
+    };
+    const props = {
+      dopplerBillingUserApiClient: dopplerBillingUserApiClientFake,
+      selectedPaymentMethod: PaymentMethodType.automaticDebit,
+    };
+
+    // Act
+    const { result } = renderHook(() => usePaymentMethodData(props));
+
+    // Assert
+    expect(result.current).toBe(PaymentMethodType.automaticDebit);
+    expect(dopplerBillingUserApiClientFake.getPaymentMethodData).not.toHaveBeenCalled();
+  });
 });

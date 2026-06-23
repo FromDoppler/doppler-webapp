@@ -22,8 +22,10 @@ import { getPromotionInformationMessage } from '../utils';
 import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const PushNotificationPlanSelection = InjectAppServices(
-  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
-    const selectedPaymentMethod = PaymentMethodType.creditCard;
+  ({
+    dependencies: { dopplerAccountPlansApiClient, dopplerBillingUserApiClient, appSessionRef },
+  }) => {
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
@@ -34,6 +36,7 @@ export const PushNotificationPlanSelection = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
+    const { billingCountry } = sessionPlan;
 
     if (isFreeAccount) {
       return <RedirectToExternalUrl to={sessionPlan.plan.buttonUrl} />;
@@ -73,6 +76,19 @@ export const PushNotificationPlanSelection = InjectAppServices(
           : [],
       [appSessionRef],
     );
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+        let paymentMethod = paymentMethodData.success
+          ? paymentMethodData.value
+          : { paymentMethodName: PaymentMethodType.creditCard };
+
+        setSelectedPaymentMethod(paymentMethod.paymentMethodName);
+      };
+      fetchData();
+    }, [dopplerBillingUserApiClient]);
 
     useEffect(() => {
       itemRef.current = selectedPlanIndex >= 1 ? selectedPlan : null;
@@ -245,6 +261,8 @@ export const PushNotificationPlanSelection = InjectAppServices(
                 disabledPromocode={true}
                 addMarketingPlan={false}
                 canAddOnPlanRemove={true}
+                selectedPaymentMethod={selectedPaymentMethod}
+                billingCountry={billingCountry}
               />
             </div>
           </div>

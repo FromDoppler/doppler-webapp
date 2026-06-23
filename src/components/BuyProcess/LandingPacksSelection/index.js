@@ -16,7 +16,7 @@ import {
 } from './reducers/deleteLandingPagesReducer';
 import { LandingPacksMessages } from './LandingPacksMessages';
 import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../utils';
-import { AddOnType, BUY_LANDING_PACK } from '../../../doppler-types';
+import { AddOnType, BUY_LANDING_PACK, PaymentMethodType } from '../../../doppler-types';
 import { getPromotionInformationMessage } from '../utils';
 
 export const paymentFrequenciesListForLandingPacks = [
@@ -61,9 +61,17 @@ const verifyIsTheSameLandingPacks = (contractedLandingPages, selectedLandingPack
 };
 
 export const LandingPacksSelection = InjectAppServices(
-  ({ dependencies: { appSessionRef, dopplerAccountPlansApiClient, dopplerLegacyClient } }) => {
+  ({
+    dependencies: {
+      appSessionRef,
+      dopplerAccountPlansApiClient,
+      dopplerBillingUserApiClient,
+      dopplerLegacyClient,
+    },
+  }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [selectedLandingPacks, setSelectedLandingPacks] = useState(null);
     const [landingPacksFormValues, setLandingPacksFormValues] = useState([]);
     const [showArchiveLandings, setShowArchiveLandings] = useState(false);
@@ -97,6 +105,7 @@ export const LandingPacksSelection = InjectAppServices(
     const isMonthlySubscription = sessionPlan.plan.planSubscription === 1;
     const landingsEditorEnabled = appSessionRef?.current?.userData?.features?.landingsEditorEnabled;
     const { isFreeAccount } = sessionPlan.plan;
+    const { billingCountry } = sessionPlan;
 
     const landingPagesPromotions = useMemo(
       () =>
@@ -113,6 +122,19 @@ export const LandingPacksSelection = InjectAppServices(
       setSelectedLandingPacks([]);
       resetForm && resetForm();
     };
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+        let paymentMethod = paymentMethodData.success
+          ? paymentMethodData.value
+          : { paymentMethodName: PaymentMethodType.creditCard };
+
+        setSelectedPaymentMethod(paymentMethod.paymentMethodName);
+      };
+      fetchData();
+    }, [dopplerBillingUserApiClient]);
 
     useEffect(() => {
       const fetchLandingPagesPublished = async () => {
@@ -299,18 +321,6 @@ export const LandingPacksSelection = InjectAppServices(
                           appSessionRef.current.userData.user,
                           landingPagesPromotions,
                         )}
-                        {/* <FormattedMessage
-                          id={`${
-                            landingPagesPromotion !== undefined
-                              ? 'landing_selection.addon_promotion_one_plan_message'
-                              : 'landing_selection.addon_promotion_all_plans_message'
-                          }`}
-                          values={{
-                            discount: landingPagesPromotion?.discount,
-                            quantity: landingPagesPromotion?.quantity.replace('PACK ', ''),
-                            bold: (chunks) => <b>{chunks}</b>,
-                          }}
-                        /> */}
                       </p>
                     </div>
                   </div>
@@ -349,6 +359,8 @@ export const LandingPacksSelection = InjectAppServices(
                     ))
                 }
                 landingPagesRemoved={landingPagesRemoved}
+                selectedPaymentMethod={selectedPaymentMethod}
+                billingCountry={billingCountry}
               />
             </div>
           </div>

@@ -12,6 +12,7 @@ import {
   FirstDataError,
   MercadoPagoError,
   OnlySupportUpSelling,
+  PaymentMethodType,
   PLAN_TYPE,
   RaftApiError,
 } from '../../../doppler-types';
@@ -26,6 +27,7 @@ const numberFormatOptions = {
   style: 'decimal',
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
+  useGrouping: true,
 };
 
 const getLegacyCheckoutPurchaseUrl = ({
@@ -90,10 +92,13 @@ export const mapItemFromMarketingPlan = ({
   intl,
   isExclusiveDiscountArgentina,
   hidePromocode,
+  selectedPaymentMethod,
+  billingCountry,
 }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
   const numberMonths = selectedPaymentFrequency?.numberMonths;
+  const isArgentinaTransfer =
+    billingCountry?.toLowerCase() === 'ar' && selectedPaymentMethod === PaymentMethodType.transfer;
 
   const planInformation = {
     name: <FormattedMessage id={`buy_process.marketing_plan_title`} />,
@@ -114,7 +119,7 @@ export const mapItemFromMarketingPlan = ({
   // Months to hire
   if (marketingPlan.type === PLAN_TYPE.byContact) {
     const monthsCount = numberMonths ? numberMonths : 1;
-    const amount = numberMonths ? marketingPlan?.fee * monthsCount : marketingPlan?.fee;
+    const amount = numberMonths ? marketingPlan.fee * monthsCount : marketingPlan?.fee;
 
     planInformation.featureList.push(
       <>
@@ -125,7 +130,20 @@ export const mapItemFromMarketingPlan = ({
             values={{ months: monthsCount }}
           ></FormattedMessage>
         </strong>{' '}
-        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
+        {isArgentinaTransfer ? (
+          <>
+            {'$ '}
+            <FormattedNumber
+              value={amount * (amountDetailsData?.value?.currencyRate ?? 1)}
+              {...numberFormatOptions}
+            />
+          </>
+        ) : (
+          <>
+            {'US$ '}
+            <FormattedNumber value={amount} {...numberFormatOptions} />
+          </>
+        )}
       </>,
     );
   }
@@ -159,7 +177,50 @@ export const mapItemFromMarketingPlan = ({
       ),
       amount: (
         <>
-          US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={amountMonthsToPay * (amountDetailsData?.value?.currencyRate ?? 1)}
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+            </>
+          )}
+        </>
+      ),
+    });
+  } else {
+    const amountMonthsToPay = numberMonths ? marketingPlan?.fee * 1 : marketingPlan?.fee;
+
+    planInformation.billingList.push({
+      label: (
+        <>
+          <FormattedMessage id={`buy_process.plan_to_pay`} />
+        </>
+      ),
+      amount: (
+        <>
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={amountMonthsToPay * (amountDetailsData?.value?.currencyRate ?? 1)}
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+            </>
+          )}
         </>
       ),
     });
@@ -192,11 +253,26 @@ export const mapItemFromMarketingPlan = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPrepayment.amount}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPrepayment.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ -'}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPrepayment.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -241,12 +317,26 @@ export const mapItemFromMarketingPlan = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPromocode.amount}
-            {...numberFormatOptions}
-          />
-          *
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPromocode.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ -'}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPromocode.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -265,11 +355,26 @@ export const mapItemFromMarketingPlan = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPlanFeeAdmin.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ -'}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -308,13 +413,63 @@ export const mapItemFromMarketingPlan = ({
       label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPaymentAlreadyPaid *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPaymentAlreadyPaid}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
+    });
+  }
+
+  if (amountDetailsData?.value?.taxes > 0) {
+    planInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.taxes`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.taxesPercentage ?? 0}`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.taxes * (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amountDetailsData.value.taxes} {...numberFormatOptions} />
+            </>
+          )}
+        </>
+      ),
+      type: 'tax',
     });
   }
 
@@ -324,9 +479,41 @@ export const mapItemFromMarketingPlan = ({
     );
   } else {
     planInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
-  }
+    if (isArgentinaTransfer) {
+      if (amountDetailsData?.value?.currencyDate) {
+        planInformation.subscriptionItems.push(
+          <FormattedMessage
+            id={`buy_process.shopping_cart.amount_with_quote`}
+            values={{
+              quote:
+                '$' +
+                thousandSeparatorNumber(
+                  intl.defaultLocale,
+                  amountDetailsData?.value?.currencyRate ?? 0,
+                ),
+              date: intl.formatDate(new Date(amountDetailsData.value.currencyDate), {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric',
+                hour12: true,
+              }),
+              Bold: (chunk) => <strong>{chunk}</strong>,
+            }}
+          />,
+        );
 
-  planInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
+        planInformation.subscriptionItems.push(
+          _('buy_process.shopping_cart.final_price_including_taxes'),
+        );
+
+        planInformation.subscriptionItems.push(
+          _('buy_process.shopping_cart.next_invoices_estimate'),
+        );
+      }
+    } else {
+      planInformation.subscriptionItems.push(_('buy_process.shopping_cart.price_without_taxes'));
+    }
+  }
 
   return planInformation;
 };
@@ -362,9 +549,13 @@ export const mapItemFromLandingPackages = ({
   amountDetailsData,
   sessionPlan,
   intl,
+  selectedPaymentMethod,
+  billingCountry,
 }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const numberMonths = selectedPaymentFrequency?.numberMonths;
+  const isArgentinaTransfer =
+    billingCountry?.toLowerCase() === 'ar' && selectedPaymentMethod === PaymentMethodType.transfer;
 
   const LandingPackInformation = {
     name: <FormattedMessage id={`landing_selection.shopping_cart.title`} />,
@@ -413,7 +604,21 @@ export const mapItemFromLandingPackages = ({
     ),
     amount: (
       <>
-        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+        {isArgentinaTransfer ? (
+          <>
+            {'$ '}
+            <FormattedNumber
+              value={amountMonthsToPay * (amountDetailsData?.value?.currencyRate ?? 1)}
+              {...numberFormatOptions}
+            />
+            {'*'}
+          </>
+        ) : (
+          <>
+            {'US$ '}
+            <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+          </>
+        )}
       </>
     ),
   });
@@ -445,11 +650,27 @@ export const mapItemFromLandingPackages = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPrepayment.amount}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPrepayment.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPrepayment.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -478,12 +699,28 @@ export const mapItemFromLandingPackages = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPromocode.amount}
-            {...numberFormatOptions}
-          />
-          *
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPromocode.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPromocode.amount}
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          )}
         </>
       ),
     });
@@ -502,11 +739,26 @@ export const mapItemFromLandingPackages = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPlanFeeAdmin.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -518,13 +770,63 @@ export const mapItemFromLandingPackages = ({
       label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData?.value?.discountPaymentAlreadyPaid *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
+    });
+  }
+
+  if (amountDetailsData?.value?.taxes > 0) {
+    LandingPackInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.taxes`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.taxesPercentage ?? 0}`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.taxes * (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amountDetailsData.value.taxes} {...numberFormatOptions} />
+            </>
+          )}
+        </>
+      ),
+      type: 'tax',
     });
   }
 
@@ -744,9 +1046,13 @@ export const mapItemFromAddOnPlan = ({
   planType,
   handleRemove,
   canAddOnPlanRemove,
+  selectedPaymentMethod,
+  billingCountry,
 }) => {
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
   const numberMonths = selectedPaymentFrequency?.numberMonths;
+  const isArgentinaTransfer =
+    billingCountry?.toLowerCase() === 'ar' && selectedPaymentMethod === PaymentMethodType.transfer;
 
   const addOnPlanInformation = {
     name: (
@@ -762,24 +1068,7 @@ export const mapItemFromAddOnPlan = ({
         }`}
       />
     ),
-    featureList: [
-      // <FormattedMessage
-      //   id={`${
-      //     addOnType === AddOnType.OnSite
-      //       ? 'buy_process.feature_item_onsite_plan'
-      //       : addOnType === AddOnType.PushNotifications
-      //         ? 'buy_process.feature_item_push_notification_plan'
-      //         : addOnType === AddOnType.Conversations
-      //           ? 'buy_process.feature_item_chat_plan'
-      //           : 'buy_process.feature_item_ecoia_plan'
-      //   }`}
-      //   values={{
-      //     units: thousandSeparatorNumber(intl.defaultLocale, addOnPlan?.quantity ?? 0),
-      //     Strong: (chunk) => <strong>{chunk}</strong>,
-      //   }}
-      // />,
-    ],
-    // isRemovible: true,
+    featureList: [],
     data: addOnPlan,
     isRemovible: canAddOnPlanRemove,
     handleRemove,
@@ -823,7 +1112,23 @@ export const mapItemFromAddOnPlan = ({
             values={{ months: monthsCount }}
           ></FormattedMessage>
         </strong>{' '}
-        US$ <FormattedNumber value={amount} {...numberFormatOptions} />
+        <>
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={amount * (amountDetailsData?.value?.currencyRate ?? 1)}
+                {...numberFormatOptions}
+              />
+              {'*'}
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amount} {...numberFormatOptions} />
+            </>
+          )}
+        </>
       </>,
     );
   }
@@ -857,7 +1162,21 @@ export const mapItemFromAddOnPlan = ({
     ),
     amount: (
       <>
-        US$ <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+        {isArgentinaTransfer ? (
+          <>
+            {'$ '}
+            <FormattedNumber
+              value={amountMonthsToPay * (amountDetailsData?.value?.currencyRate ?? 1)}
+              {...numberFormatOptions}
+            />
+            {'*'}
+          </>
+        ) : (
+          <>
+            {'US$ '}
+            <FormattedNumber value={amountMonthsToPay} {...numberFormatOptions} />
+          </>
+        )}
       </>
     ),
   });
@@ -889,11 +1208,26 @@ export const mapItemFromAddOnPlan = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPrepayment.amount}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPrepayment.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPrepayment.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -922,12 +1256,26 @@ export const mapItemFromAddOnPlan = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPromocode.amount}
-            {...numberFormatOptions}
-          />
-          *
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPromocode.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPromocode.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -946,11 +1294,26 @@ export const mapItemFromAddOnPlan = ({
       ),
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData.value.discountPlanFeeAdmin.amount}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.discountPlanFeeAdmin.amount *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData.value.discountPlanFeeAdmin.amount}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
     });
@@ -962,13 +1325,63 @@ export const mapItemFromAddOnPlan = ({
       label: <FormattedMessage id="buy_process.discount_for_payment_paid" />,
       amount: (
         <>
-          US$ -
-          <FormattedNumber
-            value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
-            {...numberFormatOptions}
-          />
+          {isArgentinaTransfer ? (
+            <>
+              {'$ - '}
+              <FormattedNumber
+                value={
+                  amountDetailsData?.value?.discountPaymentAlreadyPaid *
+                  (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ - '}
+              <FormattedNumber
+                value={amountDetailsData?.value?.discountPaymentAlreadyPaid}
+                {...numberFormatOptions}
+              />
+            </>
+          )}
         </>
       ),
+    });
+  }
+
+  if (amountDetailsData?.value?.taxes > 0) {
+    addOnPlanInformation.billingList.push({
+      label: (
+        <FormattedMessage
+          id={`buy_process.taxes`}
+          values={{
+            Strong: (chunk) => <strong>{chunk}</strong>,
+            percentage: `${amountDetailsData?.value?.taxesPercentage ?? 0}`,
+          }}
+        />
+      ),
+      amount: (
+        <>
+          {isArgentinaTransfer ? (
+            <>
+              {'$ '}
+              <FormattedNumber
+                value={
+                  amountDetailsData.value.taxes * (amountDetailsData?.value?.currencyRate ?? 1)
+                }
+                {...numberFormatOptions}
+              />
+            </>
+          ) : (
+            <>
+              {'US$ '}
+              <FormattedNumber value={amountDetailsData.value.taxes} {...numberFormatOptions} />
+            </>
+          )}
+        </>
+      ),
+      type: 'tax',
     });
   }
 
@@ -1043,6 +1456,7 @@ export const getBuyButton = ({
   hasChatActive,
   selectedAddOnPlan,
   canAddOnPlanContinueBuy,
+  selectedLandingsPlan,
 }) => {
   const redirectNewCheckout = [
     PLAN_TYPE.free,
@@ -1068,6 +1482,8 @@ export const getBuyButton = ({
           landingIds={landingIdsMapped}
           landingPacksMapped={landingPacksMapped}
           total={total}
+          selectedLandingsPlan={selectedLandingsPlan}
+          paymentMethod={paymentMethodName}
         />
       );
     } else if (checkoutLandingPackButtonEnabled) {
@@ -1113,12 +1529,14 @@ export const getBuyButton = ({
           keyTextButton={'buy_process.buy_now_title'}
           canBuy={canBuy}
           buyType={buyType}
+          selectedAddOnPlan={selectedAddOnPlan}
+          paymentMethod={paymentMethodName}
         />
       );
     } else {
       return (
         <AddOnCheckoutLink
-          planId={selectedMarketingPlan?.id}
+          planId={selectedMarketingPlan?.id ?? ''}
           showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
           planType={sessionPlanType === PLAN_TYPE.free ? PLAN_TYPE.byContact : sessionPlanType}
           addOnPlanId={selectedAddOnPlan?.addOnPlan?.planId ?? '0'}
@@ -1135,7 +1553,7 @@ export const getBuyButton = ({
       <CheckoutButton
         keyTextButton={'buy_process.buy_now_title'}
         canBuy={canBuy}
-        planId={selectedMarketingPlan?.id}
+        planId={selectedMarketingPlan?.id ?? ''}
         discount={selectedDiscount}
         total={total}
         promotion={promotion}
@@ -1144,6 +1562,7 @@ export const getBuyButton = ({
         buyType={buyType}
         hasChatActive={hasChatActive}
         selectedAddOnPlan={selectedAddOnPlan}
+        selectedMarketingPlan={selectedMarketingPlan}
       />
     );
   }
@@ -1152,7 +1571,7 @@ export const getBuyButton = ({
     <CheckoutLink
       showTooltip={isEqualPlan && sessionPlanType !== PLAN_TYPE.byCredit}
       planType={selectedMarketingPlan?.type}
-      planId={selectedMarketingPlan?.id}
+      planId={selectedMarketingPlan?.id ?? ''}
       discountId={selectedDiscount?.id}
       promocode={promotion?.canApply ? (promotion?.promocode ?? '') : ''}
       monthPlan={selectedDiscount?.numberMonths}

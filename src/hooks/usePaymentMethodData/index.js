@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { PaymentMethodType } from '../../doppler-types';
 
 export const usePaymentMethodData = ({ dopplerBillingUserApiClient, selectedPaymentMethod }) => {
-  const [paymentMethodName, setPaymentMethodName] = useState(selectedPaymentMethod);
+  const [defaultPaymentMethodName, setDefaultPaymentMethodName] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,17 +12,13 @@ export const usePaymentMethodData = ({ dopplerBillingUserApiClient, selectedPaym
           ? paymentMethodData.value.paymentMethodName
           : PaymentMethodType.creditCard
         : PaymentMethodType.creditCard;
-      setPaymentMethodName(defaultPaymentMethodName);
+      setDefaultPaymentMethodName(defaultPaymentMethodName);
     };
 
-    if (!selectedPaymentMethod) {
-      if (!paymentMethodName) {
-        fetchData();
-      }
-    } else if (paymentMethodName !== selectedPaymentMethod) {
-      setPaymentMethodName(selectedPaymentMethod);
+    if (!selectedPaymentMethod && !defaultPaymentMethodName) {
+      fetchData();
     }
-  }, [dopplerBillingUserApiClient, paymentMethodName, selectedPaymentMethod]);
+  }, [dopplerBillingUserApiClient, defaultPaymentMethodName, selectedPaymentMethod]);
 
-  return paymentMethodName;
+  return selectedPaymentMethod ?? defaultPaymentMethodName;
 };

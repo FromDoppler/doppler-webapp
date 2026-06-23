@@ -1,4 +1,4 @@
-import { ResultWithoutExpectedErrors } from '../doppler-types';
+import { PaymentMethodType, ResultWithoutExpectedErrors } from '../doppler-types';
 import { AxiosInstance, AxiosStatic } from 'axios';
 import { AppSession } from './app-session';
 import { RefObject } from 'react';
@@ -39,6 +39,7 @@ export interface DopplerAccountPlansApiClient {
     planId: number,
     addOnType: number,
     discountId: number,
+    paymentMethod: string,
   ): Promise<ResultWithoutExpectedErrors<any>>;
 
   getFreeAddOnPlan(addOnType: any): Promise<ResultWithoutExpectedErrors<any>>;
@@ -234,13 +235,14 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     planType: string,
     discountId: number,
     promocode: string,
+    paymentMethod: string,
   ): Promise<ResultWithoutExpectedErrors<PlanAmountDetails>> {
     try {
       const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/${planType}/${planId}/calculate-amount?discountId=${discountId}&promocode=${promocode}`,
+        url: `accounts/${email}/newplan/${planType}/${planId}/calculate-amount?discountId=${discountId}&promocode=${promocode}&paymentMethod=${paymentMethod ?? PaymentMethodType.creditCard}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -257,13 +259,14 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
   public async getPlanBillingDetailsLandingPacksData(
     landingIds: string,
     landingPacks: string,
+    paymentMethod: string,
   ): Promise<ResultWithoutExpectedErrors<any>> {
     try {
       const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/landingplan/calculate?landingids=${landingIds}&landingpacks=${landingPacks}`,
+        url: `accounts/${email}/newplan/landingplan/calculate?landingids=${landingIds}&landingpacks=${landingPacks}&paymentMethod=${paymentMethod ?? PaymentMethodType.creditCard}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -435,13 +438,14 @@ export class HttpDopplerAccountPlansApiClient implements DopplerAccountPlansApiC
     planId: number,
     addOnType: number,
     discountId: number,
+    paymentMethod: string,
   ): Promise<ResultWithoutExpectedErrors<any>> {
     try {
       const { email, jwtToken } = this.getDopplerAccountPlansApiConnectionData();
 
       const response = await this.axios.request({
         method: 'GET',
-        url: `accounts/${email}/newplan/${addOnType}/${planId}/calculate-amount?discountId=${discountId}`,
+        url: `accounts/${email}/newplan/${addOnType}/${planId}/calculate-amount?discountId=${discountId}&paymentMethod=${paymentMethod ?? PaymentMethodType.creditCard}`,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

@@ -42,6 +42,7 @@ export const PlanSelection = InjectAppServices(
     const { locationCountry } = sessionPlan;
     const chat = appSessionRef.current.userData.user.chat;
     const isArgentina = locationCountry === 'ar';
+    const billingCountry = sessionPlan.billingCountry;
     const currentUserPlanType = appSessionRef.current.userData.user.plan.planType;
     const navigate = useNavigate();
 
@@ -328,6 +329,7 @@ export const PlanSelection = InjectAppServices(
                 isArgentina={isArgentina}
                 hasChatActive={chat && chat.active}
                 callbackHandlePromocodeApplied={handlePromocodeApplied}
+                billingCountry={billingCountry}
               />
             </div>
           </div>

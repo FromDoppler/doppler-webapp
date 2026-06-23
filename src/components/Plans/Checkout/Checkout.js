@@ -69,8 +69,42 @@ const Checkout = InjectAppServices(
     const isArgentina = locationCountry === 'ar';
     const { landingPacks } = useFetchLandingPacks(dopplerAccountPlansApiClient);
     const skipStepsEnabledRef = useRef(true);
-
+    const [billingCountry, setBillingCountry] = useState(sessionPlan.billingCountry);
+    const billingCountryRequestRef = useRef(null);
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+
+    const ensureBillingCountry = useCallback(async () => {
+      if (billingCountry) {
+        return billingCountry;
+      }
+
+      if (billingCountryRequestRef.current) {
+        return billingCountryRequestRef.current;
+      }
+
+      const billingCountryRequest = (async () => {
+        const billingInformationResult =
+          await dopplerBillingUserApiClient.getBillingInformationData();
+        const billingInformation = billingInformationResult.success
+          ? billingInformationResult.value
+          : null;
+        const nextBillingCountry = billingInformation?.country ?? '';
+
+        if (nextBillingCountry) {
+          setBillingCountry(nextBillingCountry);
+        }
+
+        return nextBillingCountry;
+      })();
+
+      billingCountryRequestRef.current = billingCountryRequest;
+
+      try {
+        return await billingCountryRequest;
+      } finally {
+        billingCountryRequestRef.current = null;
+      }
+    }, [billingCountry, dopplerBillingUserApiClient]);
 
     const setNextCheckoutStep = async () => {
       let nextStep = activeStep;
@@ -98,14 +132,25 @@ const Checkout = InjectAppServices(
       setCompleteContactInformationStep(true);
     }, []);
 
-    const handleBillingInformation = useCallback(() => {
+    const handleBillingInformation = useCallback(async () => {
+      await ensureBillingCountry();
       setActiveStep(() => checkoutSteps.paymentInformation);
       setCompleteBillingInformationStep(true);
-    }, []);
+    }, [ensureBillingCountry]);
 
     useEffect(() => {
       dopplerBillingUserApiClient.updatePurchaseIntention();
     });
+
+    useEffect(() => {
+      const fetchData = async () => {
+        await ensureBillingCountry();
+      };
+
+      if (!billingCountry) {
+        fetchData();
+      }
+    }, [billingCountry, ensureBillingCountry]);
 
     useEffect(() => {
       const fetchPlanData = async () => {
@@ -184,6 +229,10 @@ const Checkout = InjectAppServices(
       setSelectedDiscountId(discount?.selectedPaymentFrequency?.id);
       setSelectedMonthPlan(discount?.selectedPaymentFrequency?.monthsAmmount);
       setSelectedPaymentFrequency(discount?.selectedPaymentFrequency);
+    }, []);
+
+    const handleChangePaymentMethod = useCallback((paymentMethod) => {
+      setSelectedPaymentMethod(paymentMethod);
     }, []);
 
     const isMonthlySubscription = appSessionRef.current.userData.user.plan.planSubscription === 1;
@@ -276,9 +325,7 @@ const Checkout = InjectAppServices(
                         setPaymentInformationAction(actionPage.READONLY);
                       }}
                       handleChangeDiscount={handleChangeDiscount}
-                      handleChangePaymentMethod={(paymentMethod) => {
-                        setSelectedPaymentMethod(paymentMethod);
-                      }}
+                      handleChangePaymentMethod={handleChangePaymentMethod}
                     />
                   </Step>
                 </ul>
@@ -309,6 +356,7 @@ const Checkout = InjectAppServices(
                   hidePromocode={true}
                   buyType={BUY_LANDING_PACK}
                   selectedPaymentMethod={selectedPaymentMethod}
+                  billingCountry={billingCountry}
                 />
               ) : isBuyAddOnPlan ? (
                 <ShoppingCart
@@ -333,6 +381,7 @@ const Checkout = InjectAppServices(
                   canAddOnPlanRemove={false}
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                   selectedPaymentMethod={selectedPaymentMethod}
+                  billingCountry={billingCountry}
                 />
               ) : (
                 <ShoppingCart
@@ -358,6 +407,7 @@ const Checkout = InjectAppServices(
                   addMarketingPlan={parseInt(buyType) === BUY_MARKETING_PLAN}
                   hasChatActive={chat && chat.active}
                   selectedPaymentMethod={selectedPaymentMethod}
+                  billingCountry={billingCountry}
                 />
               )}
             </div>

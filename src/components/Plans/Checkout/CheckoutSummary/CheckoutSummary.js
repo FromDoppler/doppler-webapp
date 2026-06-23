@@ -171,12 +171,20 @@ const getTitle = (paymentMethod, upgradePending) => {
       description: 'checkoutProcessSuccess.transfer_warning_message',
     };
   } else {
-    if (paymentMethod === paymentType.mercadoPago && upgradePending) {
+    if (paymentMethod === paymentType.transfer) {
       return {
-        smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
-        largeTitle: 'checkoutProcessSuccess.transfer_title',
-        description: 'checkoutProcessSuccess.mercado_pago_warning_message',
+        smallTitle: 'checkoutProcessSuccess.transfer_purchase_finished_title',
+        largeTitle: 'checkoutProcessSuccess.transfer_upgrade_title',
+        description: 'checkoutProcessSuccess.transfer_upgrade_warning_message',
       };
+    } else {
+      if (paymentMethod === paymentType.mercadoPago && upgradePending) {
+        return {
+          smallTitle: 'checkoutProcessSuccess.mercado_pago_purchase_finished_title',
+          largeTitle: 'checkoutProcessSuccess.transfer_title',
+          description: 'checkoutProcessSuccess.mercado_pago_warning_message',
+        };
+      }
     }
   }
   return {
@@ -423,79 +431,6 @@ export const PlanLandingPagesInformation2 = InjectAppServices(
   },
 );
 
-// const PlanInformation = ({
-//   planType,
-//   quantity,
-//   discount,
-//   paymentMethod,
-//   extraCredits,
-//   remainingCredits,
-//   upgradePending,
-// }) => {
-//   const intl = useIntl();
-//   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
-//   return (
-//     <nav className="dp-kpi-success">
-//       <ul className="dp-rowflex">
-//         <li>
-//           <span className="dp-icon-kpis">
-//             <img
-//               src={_('common.ui_library_image', {
-//                 imageUrl: `${
-//                   paymentMethod === paymentType.creditCard ||
-//                   ([paymentType.transfer, paymentType.mercadoPago].includes(paymentMethod) &&
-//                     !upgradePending)
-//                     ? 'checkout-success.svg'
-//                     : 'three-points.svg'
-//                 }`,
-//               })}
-//               alt=""
-//             ></img>
-//           </span>
-//         </li>
-//         <li>
-//           <span>{_(`checkoutProcessSuccess.plan_type`)}</span>
-//           <h3>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_label`)}</h3>
-//         </li>
-//         <li>
-//           <span>{_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}`)}</span>
-//           <h3>{thousandSeparatorNumber(intl.defaultLocale, quantity)}</h3>
-//         </li>
-//         {extraCredits > 0 ? (
-//           <li>
-//             <span>{_(`checkoutProcessSuccess.plan_type_prepaid_promocode`)}</span>
-//             <h3>{thousandSeparatorNumber(intl.defaultLocale, extraCredits)}</h3>
-//           </li>
-//         ) : null}
-//         <li>
-//           <span>
-//             {_(`checkoutProcessSuccess.plan_type_${planType.replace('-', '_')}_availables`)}
-//           </span>
-//           <h3>{thousandSeparatorNumber(intl.defaultLocale, remainingCredits)}</h3>
-//         </li>
-//         <li>
-//           {planType === PLAN_TYPE.byContact && discount ? (
-//             <>
-//               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
-//               <h3>{_('checkoutProcessSuccess.discount_' + discount?.replace('-', '_'))}</h3>
-//             </>
-//           ) : planType === PLAN_TYPE.byEmail ? (
-//             <>
-//               <span>{_(`checkoutProcessSuccess.renewal_type_title`)}</span>
-//               <h3>{_(`checkoutProcessSuccess.plan_type_monthly_deliveries_monthly_renovation`)}</h3>
-//             </>
-//           ) : (
-//             <h3 className="m-t-36">
-//               {_(`checkoutProcessSuccess.plan_type_prepaid_no_expiration`)}
-//             </h3>
-//           )}
-//         </li>
-//       </ul>
-//     </nav>
-//   );
-// };
-
 export const CheckoutSummary = InjectAppServices(
   ({
     dependencies: { dopplerBillingUserApiClient, dopplerAccountPlansApiClient, appSessionRef },
@@ -530,7 +465,7 @@ export const CheckoutSummary = InjectAppServices(
     const buyType = query.get('buyType') ?? '';
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
-
+    const total = sessionStorage.getItem('amount');
     const upgradePending = appSessionRef.current.userData.user.plan.upgradePending;
 
     useEffect(() => {
@@ -723,6 +658,8 @@ export const CheckoutSummary = InjectAppServices(
                 <TransferInformation
                   billingCountry={billingCountry}
                   upgradePending={upgradePending}
+                  lang={appSessionRef.current.userData.user.lang}
+                  total={total}
                 />
               ) : paymentMethod === paymentType.mercadoPago ? (
                 <MercadoPagoInformation upgradePending={upgradePending} />

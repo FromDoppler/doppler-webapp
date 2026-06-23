@@ -18,17 +18,20 @@ import { useIntl } from 'react-intl';
 import RedirectToExternalUrl from '../../RedirectToExternalUrl';
 
 export const OnSitePlansSelection = InjectAppServices(
-  ({ dependencies: { dopplerAccountPlansApiClient, appSessionRef } }) => {
-    const selectedPaymentMethod = PaymentMethodType.creditCard;
+  ({
+    dependencies: { dopplerAccountPlansApiClient, dopplerBillingUserApiClient, appSessionRef },
+  }) => {
     const [paymentFrequenciesList, setPaymentFrequenciesList] = useState([]);
     const [selectedPaymentFrequency, setSelectedPaymentFrequency] = useState(null);
     const [selectedMarketingPlan, setSelectedMarketingPlan] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [showPromotionInformation, setShowPromotionInformation] = useState(false);
     const [item, setItem] = useState(null);
     const intl = useIntl();
     const sessionPlan = appSessionRef.current.userData.user;
     const { isFreeAccount } = sessionPlan.plan;
+    const { billingCountry } = sessionPlan;
 
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
@@ -128,6 +131,19 @@ export const OnSitePlansSelection = InjectAppServices(
 
       fetchPlanData();
     }, [dopplerAccountPlansApiClient, selectedPlanId, planType]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const paymentMethodData = await dopplerBillingUserApiClient.getPaymentMethodData();
+
+        let paymentMethod = paymentMethodData.success
+          ? paymentMethodData.value
+          : { paymentMethodName: PaymentMethodType.creditCard };
+
+        setSelectedPaymentMethod(paymentMethod.paymentMethodName);
+      };
+      fetchData();
+    }, [dopplerBillingUserApiClient]);
 
     const handleSliderChange = (e) => {
       const { value } = e.target;
@@ -247,6 +263,8 @@ export const OnSitePlansSelection = InjectAppServices(
                 disabledPromocode={true}
                 addMarketingPlan={false}
                 canAddOnPlanRemove={true}
+                selectedPaymentMethod={selectedPaymentMethod}
+                billingCountry={billingCountry}
               />
             </div>
           </div>
