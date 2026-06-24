@@ -772,7 +772,7 @@ describe('NewPlanSelection component', () => {
     const promocodeInput = within(getContactsPlanSection()).getByRole('textbox');
     expect(promocodeInput).toHaveValue('');
     const choosePlanHref = screen
-      .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+      .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
       .getAttribute('href');
     expect(choosePlanHref).not.toContain('PromoCode=');
     expect(choosePlanHref).not.toContain('promo-code=');
