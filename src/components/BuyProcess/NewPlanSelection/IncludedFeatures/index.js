@@ -4,51 +4,172 @@ import Modal from '../../../Modal/Modal';
 
 const FEATURE_ITEMS = [
   {
-    iconClassName: 'dpicon iconapp-sitemap',
+    iconClassName: 'dpicon iconapp-check-email',
     titleId: 'buy_process.new_plan_selection.included_features.item_1_title',
     descriptionId: 'buy_process.new_plan_selection.included_features.item_1_description',
   },
   {
-    iconClassName: 'dpicon icon-sparkle-ia',
+    iconClassName: 'dpicon iconapp-data-flow',
     titleId: 'buy_process.new_plan_selection.included_features.item_2_title',
     descriptionId: 'buy_process.new_plan_selection.included_features.item_2_description',
   },
   {
-    iconClassName: 'dpicon iconapp-persons',
+    iconClassName: 'dpicon iconapp-email-network',
     titleId: 'buy_process.new_plan_selection.included_features.item_3_title',
     descriptionId: 'buy_process.new_plan_selection.included_features.item_3_description',
   },
   {
-    iconClassName: 'dpicon iconapp-personal-network',
+    iconClassName: 'dpicon icon-sparkle-ia',
     titleId: 'buy_process.new_plan_selection.included_features.item_4_title',
     descriptionId: 'buy_process.new_plan_selection.included_features.item_4_description',
   },
   {
-    iconClassName: 'dpicon iconapp-growth-chart',
+    iconClassName: 'dpicon iconapp-teamwork',
     titleId: 'buy_process.new_plan_selection.included_features.item_5_title',
     descriptionId: 'buy_process.new_plan_selection.included_features.item_5_description',
   },
   {
-    iconClassName: 'dpicon iconapp-network-configuration',
+    iconClassName: 'dpicon iconapp-growth-chart',
     titleId: 'buy_process.new_plan_selection.included_features.item_6_title',
     descriptionId: 'buy_process.new_plan_selection.included_features.item_6_description',
   },
 ];
 
 const MODAL_SECTIONS = [
-  { key: 'automation', rows: 9 },
-  { key: 'campaings', rows: 10 },
-  { key: 'integrations', rows: 38 },
-  { key: 'editor', rows: 6 },
-  { key: 'forms', rows: 8 },
-  { key: 'omni', rows: 3 },
-  { key: 'report', rows: 7 },
-  { key: 'segmentation', rows: 5 },
+  {
+    key: 'email-marketing-ai',
+    titleId:
+      'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.title',
+    rows: [
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.name_1',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.description_1',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.name_2',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.description_2',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.name_3',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.description_3',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.name_4',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.description_4',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.name_5',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.description_5',
+      },
+    ],
+  },
+  {
+    key: 'automation-marketing',
+    titleId:
+      'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.title',
+    rows: [
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.name_1',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.description_1',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.name_2',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.description_2',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.name_3',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.description_3',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.name_4',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.description_4',
+      },
+    ],
+  },
+  {
+    key: 'segmentation-advanced',
+    titleId:
+      'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.title',
+    rows: [
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.name_1',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.description_1',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.name_2',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.description_2',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.name_3',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.description_3',
+      },
+    ],
+  },
+  {
+    key: 'reports-analytics',
+    titleId:
+      'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.title',
+    rows: [
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.name_1',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.description_1',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.name_2',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.description_2',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.name_3',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.description_3',
+      },
+      {
+        nameId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.name_4',
+        descriptionId:
+          'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.description_4',
+      },
+    ],
+  },
 ];
 
 export const IncludedFeatures = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSectionKey, setActiveSectionKey] = useState(MODAL_SECTIONS[0].key);
+
+  const handleOpenModal = () => {
+    setActiveSectionKey(MODAL_SECTIONS[0].key);
+    setIsModalOpen(true);
+  };
 
   return (
     <section className="dp-new-plan-selection-included-features">
@@ -78,12 +199,12 @@ export const IncludedFeatures = () => {
         ))}
       </div>
 
-      {/* <div className="dp-new-plan-selection-see-more">
-        <button type="button" onClick={() => setIsModalOpen(true)}>
+      <div className="dp-new-plan-selection-see-more">
+        <button type="button" onClick={handleOpenModal}>
           <FormattedMessage id="buy_process.new_plan_selection.included_features.see_more" />
           <span className="dpicon iconapp-arrow-right" />
         </button>
-      </div> */}
+      </div>
 
       <Modal
         isOpen={isModalOpen}
@@ -108,7 +229,7 @@ export const IncludedFeatures = () => {
                   onClick={() => setActiveSectionKey(section.key)}
                   aria-expanded={isActive}
                 >
-                  <FormattedMessage id={`plan_types.table.${section.key}.title`} />
+                  <FormattedMessage id={section.titleId} />
                   <span className="dp-new-plan-selection-features-accordion-arrow">
                     <span className={isActive ? 'is-active' : ''} />
                   </span>
@@ -121,29 +242,23 @@ export const IncludedFeatures = () => {
                     <div className="dp-table-responsive">
                       <table className="dp-c-table dp-nested-table">
                         <tbody>
-                          {Array.from({ length: section.rows }, (_, index) => index + 1).map(
-                            (rowNumber) => (
-                              <tr key={`${section.key}-${rowNumber}`}>
-                                <td>
-                                  <div className="dp-icon-lock">
-                                    <span className="dp-ico--ok" />
-                                    <span>
-                                      <FormattedMessage
-                                        id={`plan_types.table.${section.key}.name_${rowNumber}`}
-                                      />
-                                    </span>
-                                  </div>
-                                </td>
-                                <td>
+                          {section.rows.map((row) => (
+                            <tr key={`${section.key}-${row.nameId}`}>
+                              <td>
+                                <div className="dp-icon-lock">
+                                  <span className="dp-ico--ok" />
                                   <span>
-                                    <FormattedMessage
-                                      id={`plan_types.table.${section.key}.description_${rowNumber}`}
-                                    />
+                                    <FormattedMessage id={row.nameId} />
                                   </span>
-                                </td>
-                              </tr>
-                            ),
-                          )}
+                                </div>
+                              </td>
+                              <td>
+                                <span>
+                                  <FormattedMessage id={row.descriptionId} />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>

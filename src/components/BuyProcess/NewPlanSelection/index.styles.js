@@ -154,7 +154,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-credits-description {
-    max-width: 540px;
+    max-width: 640px;
   }
 
   .dp-new-plan-selection-main-credits {
@@ -695,27 +695,27 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-feature-icon-1 {
-    background-color: #e34f45;
-  }
-
-  .dp-feature-icon-2 {
-    background-color: #69c993;
-  }
-
-  .dp-feature-icon-3 {
     background-color: #e79433;
   }
 
-  .dp-feature-icon-4 {
+  .dp-feature-icon-2 {
+    background-color: #e34f45;
+  }
+
+  .dp-feature-icon-3 {
     background-color: #fcc338;
   }
 
+  .dp-feature-icon-4 {
+    background-color: #33ad73;
+  }
+
   .dp-feature-icon-5 {
-    background-color: #2a75db;
+    background-color: #b48fc1;
   }
 
   .dp-feature-icon-6 {
-    background-color: #8024ad;
+    background-color: #2a75db;
   }
 
   .dp-new-plan-selection-see-more {
@@ -743,18 +743,20 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-features-modal.modal-content--large {
-    max-width: 1020px;
-    padding: 30px 28px 26px;
+    max-width: 780px;
+    padding: 28px 24px 22px;
   }
 
   .dp-new-plan-selection-features-modal .close {
-    right: 18px;
+    right: 16px;
     top: 12px;
   }
 
   .dp-new-plan-selection-features-modal .modal-title {
     color: #333;
-    font-size: 34px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
     margin-bottom: 18px;
     text-align: center;
   }
@@ -792,12 +794,12 @@ export const NewPlanSelectionStyled = styled.div`
     color: #333;
     cursor: pointer;
     display: flex;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    gap: 8px;
+    gap: 10px;
     justify-content: flex-start;
     line-height: 1.2;
-    padding: 14px 18px;
+    padding: 15px 18px;
     text-align: left;
     width: 100%;
   }
@@ -832,8 +834,9 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-features-accordion .dp-accordion-panel td {
     border-top: 1px solid #eaeaea;
     color: #666;
-    font-size: 13px;
-    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.45;
+    padding: 11px 16px;
     vertical-align: middle;
   }
 
@@ -841,6 +844,15 @@ export const NewPlanSelectionStyled = styled.div`
     align-items: center;
     display: flex;
     gap: 10px;
+  }
+
+  .dp-new-plan-selection-features-accordion .dp-accordion-panel td:first-child {
+    width: 33%;
+  }
+
+  .dp-new-plan-selection-features-accordion .dp-accordion-panel td .dp-icon-lock > span:last-child {
+    color: #333;
+    font-weight: 600;
   }
 
   .dp-new-plan-selection-features-accordion .dp-accordion-panel td .dp-icon-lock .dp-ico--ok {
@@ -965,7 +977,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-faq section {
-    padding-top: 32px;
+    padding-top: 0px;
   }
 
   .dp-new-plan-selection-faq .dp-title-faq {
@@ -1155,7 +1167,13 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-features-modal.modal-content--large {
       max-height: 90vh;
+      max-width: calc(100vw - 32px);
       overflow-y: auto;
+      padding: 24px 18px 18px;
+    }
+
+    .dp-new-plan-selection-features-modal .modal-title {
+      font-size: 22px;
     }
 
     .dp-new-plan-selection-addons-carousel {

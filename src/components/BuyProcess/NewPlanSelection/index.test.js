@@ -557,6 +557,58 @@ describe('NewPlanSelection component', () => {
     ).toBeTruthy();
   });
 
+  it('should open and close included features modal', async () => {
+    const user = userEvent.setup();
+    await renderNewPlanSelection();
+
+    await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
+
+    expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Email Marketing impulsado con IA/i }),
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByText(/Generación de Contenido/i)).toBeInTheDocument();
+    expect(screen.getByText(/Crea el contenido de tus Emails en segundos/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Automation Marketing/i }));
+
+    expect(
+      screen.getByRole('button', { name: /Email Marketing impulsado con IA/i }),
+    ).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.getByRole('button', { name: /Automation Marketing/i })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    expect(screen.getByText(/Flujos Automatizados/i)).toBeInTheDocument();
+    expect(screen.getByText(/Diseña secuencias con múltiples caminos/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Segmentación Avanzada/i }));
+
+    expect(screen.getByRole('button', { name: /Segmentación Avanzada/i })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    expect(screen.getByText(/Puntuación de Contactos/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Asigna una puntuación automática a cada Contacto/i),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Reportes y Analítica/i }));
+
+    expect(screen.getByRole('button', { name: /Reportes y Analítica/i })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    expect(screen.getByText(/Rendimiento de Campañas/i)).toBeInTheDocument();
+    expect(screen.getByText(/Identifica qué Campañas funcionan mejor/i)).toBeInTheDocument();
+
+    await user.click(screen.getByTestId('modal-close'));
+
+    await waitFor(() =>
+      expect(screen.queryByText(/Funcionalidades y Soluciones/i)).not.toBeInTheDocument(),
+    );
+  });
+
   // it('should open and close included features modal', async () => {
   //   const user = userEvent.setup();
   //   await renderNewPlanSelection();
