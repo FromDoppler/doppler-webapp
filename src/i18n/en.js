@@ -289,7 +289,7 @@ other {}}}}}}}}}}
       sticky_promocode_discount_text_without_months: '<bold>{percentage}% OFF</bold>',
       subscription_label: 'Payment frequency',
       subtitle: "Select the Plan that best fits your Email Marketing strategy. Not sure which Plan works best for you? Contact us and we'll help you find it.",
-      tailored_plan_disclaimer: '**Our team will help you find the right Plan{br} and pricing for your business.',
+      tailored_plan_disclaimer: '*Our team will help you find the right Plan{br} and pricing for your business.',
       title: 'Choose the perfect Plan to grow your business',
     },
     onsite_plan_title: `OnSite plan`,

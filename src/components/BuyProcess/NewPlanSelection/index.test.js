@@ -344,9 +344,11 @@ describe('NewPlanSelection component', () => {
         name: 'buy_process.new_plan_selection.contacts_option_more_than_100k',
       }),
     ).toBeInTheDocument();
-    expect(
-      screen.getAllByText('buy_process.new_plan_selection.subscription_label').length,
-    ).toBeGreaterThan(0);
+    await waitFor(() =>
+      expect(
+        screen.getByText('buy_process.new_plan_selection.subscription_label'),
+      ).toBeInTheDocument(),
+    );
     expect(
       screen.getAllByText('checkoutProcessForm.purchase_summary.promocode_header').length,
     ).toBeGreaterThan(0);

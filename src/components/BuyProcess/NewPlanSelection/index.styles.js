@@ -68,6 +68,7 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-layout {
+    text-wrap: pretty;
   }
 
   .dp-new-plan-selection-sticky-summary-content {
@@ -749,6 +750,7 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-features-modal.modal-content--large {
     max-width: 740px;
     padding: 24px 20px 18px;
+    margin-top: 96px;
   }
 
   .dp-new-plan-selection-features-modal .close {
@@ -820,10 +822,8 @@ export const NewPlanSelectionStyled = styled.div`
     width: 6px;
   }
 
-  .dp-new-plan-selection-features-accordion
-    > li.active
-    .dp-new-plan-selection-features-accordion-arrow
-    span {
+  /* prettier-ignore */
+  .dp-new-plan-selection-features-accordion > li.active .dp-new-plan-selection-features-accordion-arrow span {
     transform: rotate(-135deg);
   }
 
@@ -1183,7 +1183,7 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-features-modal.modal-content--large {
       max-height: 90vh;
-      max-width: calc(100vw - 32px);
+      max-width: calc(100% - 32px);
       overflow-y: auto;
       padding: 22px 16px 18px;
     }
