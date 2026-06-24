@@ -350,11 +350,11 @@ describe('NewPlanSelection component', () => {
     expect(
       screen.getAllByText('checkoutProcessForm.purchase_summary.promocode_header').length,
     ).toBeGreaterThan(0);
+    expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument());
     expect(
       screen.getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' }),
     ).toBeInTheDocument();
-    expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
-    await waitFor(() => expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument());
     expect(
       screen.getByText('buy_process.new_plan_selection.sticky_default_cta'),
     ).toBeInTheDocument();
