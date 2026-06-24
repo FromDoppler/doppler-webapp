@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Modal from '../../../Modal/Modal';
 
@@ -165,9 +165,9 @@ const MODAL_SECTIONS = [
 export const IncludedFeatures = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSectionKey, setActiveSectionKey] = useState(MODAL_SECTIONS[0].key);
+  const panelRefs = useRef({});
 
   const handleOpenModal = () => {
-    setActiveSectionKey(MODAL_SECTIONS[0].key);
     setIsModalOpen(true);
   };
 
@@ -176,6 +176,27 @@ export const IncludedFeatures = () => {
       currentSectionKey === sectionKey ? null : sectionKey,
     );
   };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setActiveSectionKey(MODAL_SECTIONS[0].key);
+    }
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      return;
+    }
+
+    const activePanel = panelRefs.current[activeSectionKey];
+
+    if (activePanel && typeof activePanel.scrollIntoView === 'function') {
+      activePanel.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [activeSectionKey, isModalOpen]);
 
   return (
     <section className="dp-new-plan-selection-included-features">
@@ -228,7 +249,7 @@ export const IncludedFeatures = () => {
             const isActive = activeSectionKey === section.key;
 
             return (
-              <li key={section.key}>
+              <li key={section.key} className={isActive ? 'active' : ''}>
                 <button
                   type="button"
                   className="dp-accordion-thumb dp-new-plan-selection-features-accordion-thumb"
@@ -240,36 +261,43 @@ export const IncludedFeatures = () => {
                     <span className={isActive ? 'is-active' : ''} />
                   </span>
                 </button>
-                <div
-                  className="dp-accordion-panel"
-                  style={{ display: isActive ? 'block' : 'none' }}
-                >
-                  <div className="dp-table-plans">
-                    <div className="dp-table-responsive">
-                      <table className="dp-c-table dp-nested-table">
-                        <tbody>
-                          {section.rows.map((row) => (
-                            <tr key={`${section.key}-${row.nameId}`}>
-                              <td>
-                                <div className="dp-icon-lock">
-                                  <span className="dp-ico--ok" />
-                                  <span>
-                                    <FormattedMessage id={row.nameId} />
-                                  </span>
-                                </div>
-                              </td>
-                              <td>
-                                <span>
-                                  <FormattedMessage id={row.descriptionId} />
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                {isActive ? (
+                  <div
+                    className="dp-accordion-panel"
+                    ref={(node) => {
+                      panelRefs.current[section.key] = node;
+                    }}
+                    style={{ display: 'block', height: 'auto', overflow: 'visible' }}
+                  >
+                    <div className="dp-accordion-content">
+                      <div className="dp-table-plans">
+                        <div className="dp-table-responsive">
+                          <table className="dp-c-table dp-nested-table">
+                            <tbody>
+                              {section.rows.map((row) => (
+                                <tr key={`${section.key}-${row.nameId}`}>
+                                  <td>
+                                    <div className="dp-icon-lock">
+                                      <span className="dp-ico--ok" />
+                                      <span>
+                                        <FormattedMessage id={row.nameId} />
+                                      </span>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <span>
+                                      <FormattedMessage id={row.descriptionId} />
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : null}
               </li>
             );
           })}

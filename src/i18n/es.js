@@ -214,7 +214,6 @@ other {}}}}}}}}}}
         item_5_title: 'Segmentación Avanzada',
         item_6_description: 'Medí la Tasa de Apertura, Tasa de Clics y Tasa de Conversión de cada Campaña para optimizar tus próximos envíos.',
         item_6_title: 'Reportes y Analítica',
-        modal_title: 'Funcionalidades y Soluciones',
         modal_sections: {
           automation_marketing: {
             description_1: 'Diseña secuencias con múltiples caminos y condiciones según el comportamiento de cada Contacto.',
@@ -261,6 +260,7 @@ other {}}}}}}}}}}
             title: 'Segmentación Avanzada',
           },
         },
+        modal_title: 'Funcionalidades y Soluciones',
         see_more: 'Ver más funcionalidades',
         subtitle: 'Todos nuestros planes incluyen todas nuestras funcionalidades. ¡Conoce todo lo que puedes hacer con Doppler!',
         title: 'Accede a todas las funcionalidades desde el Plan más accesible de Doppler.',

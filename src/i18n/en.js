@@ -212,7 +212,6 @@ other {}}}}}}}}}}
         item_5_title: 'Measure and improve every action',
         item_6_description: 'Connect forms, sites, and analytics to increase conversions and grow your strategy.',
         item_6_title: 'Boost your results with integrations',
-        modal_title: 'Features and Solutions',
         modal_sections: {
           automation_marketing: {
             description_1: 'Design sequences with multiple paths and conditions based on each Contact’s behavior.',
@@ -259,6 +258,7 @@ other {}}}}}}}}}}
             title: 'Advanced Segmentation',
           },
         },
+        modal_title: 'Features and Solutions',
         see_more: 'See more features',
         subtitle: 'All our plans include all our features. Do you know everything you can do with Doppler?',
         title: 'Access all features from the basic Plan',

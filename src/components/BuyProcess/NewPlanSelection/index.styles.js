@@ -671,6 +671,10 @@ export const NewPlanSelectionStyled = styled.div`
     text-transform: none;
   }
 
+  .dp-new-plan-selection-included-features .dp-accordion-panel {
+    padding: 0;
+  }
+
   .dp-new-plan-selection-feature-icon-wrap {
     align-items: center;
     border-radius: 3px;
@@ -743,21 +747,21 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-features-modal.modal-content--large {
-    max-width: 780px;
-    padding: 28px 24px 22px;
+    max-width: 740px;
+    padding: 24px 20px 18px;
   }
 
   .dp-new-plan-selection-features-modal .close {
     right: 16px;
-    top: 12px;
+    top: 14px;
   }
 
   .dp-new-plan-selection-features-modal .modal-title {
     color: #333;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     text-align: center;
   }
 
@@ -772,6 +776,7 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-features-accordion > li {
     border-bottom: 1px solid #eaeaea;
+    overflow: visible;
     list-style: none;
     margin: 0;
     max-width: 100%;
@@ -794,12 +799,13 @@ export const NewPlanSelectionStyled = styled.div`
     color: #333;
     cursor: pointer;
     display: flex;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 700;
-    gap: 10px;
+    gap: 5px;
     justify-content: flex-start;
-    line-height: 1.2;
-    padding: 15px 18px;
+    line-height: 1;
+    min-height: 0;
+    padding: 8px 14px;
     text-align: left;
     width: 100%;
   }
@@ -808,10 +814,10 @@ export const NewPlanSelectionStyled = styled.div`
     border-bottom: 2px solid #666;
     border-right: 2px solid #666;
     display: block;
-    height: 8px;
+    height: 6px;
     transform: rotate(45deg);
     transition: transform 0.2s ease;
-    width: 8px;
+    width: 6px;
   }
 
   .dp-new-plan-selection-features-accordion-arrow span.is-active {
@@ -823,8 +829,15 @@ export const NewPlanSelectionStyled = styled.div`
     padding: 0;
   }
 
+  .dp-new-plan-selection-features-accordion .dp-accordion-panel {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+
   .dp-new-plan-selection-features-accordion .dp-accordion-panel .dp-table-responsive {
     overflow-x: auto;
+    padding: 0px;
   }
 
   .dp-new-plan-selection-features-accordion .dp-accordion-panel .dp-c-table {
@@ -834,9 +847,9 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-features-accordion .dp-accordion-panel td {
     border-top: 1px solid #eaeaea;
     color: #666;
-    font-size: 12px;
-    line-height: 1.45;
-    padding: 11px 16px;
+    font-size: 11px;
+    line-height: 1.35;
+    padding: 10px 12px;
     vertical-align: middle;
   }
 
@@ -847,12 +860,12 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-features-accordion .dp-accordion-panel td:first-child {
-    width: 33%;
+    width: 32%;
   }
 
   .dp-new-plan-selection-features-accordion .dp-accordion-panel td .dp-icon-lock > span:last-child {
-    color: #333;
-    font-weight: 600;
+    color: #212121;
+    font-weight: 400;
   }
 
   .dp-new-plan-selection-features-accordion .dp-accordion-panel td .dp-icon-lock .dp-ico--ok {
@@ -1169,11 +1182,11 @@ export const NewPlanSelectionStyled = styled.div`
       max-height: 90vh;
       max-width: calc(100vw - 32px);
       overflow-y: auto;
-      padding: 24px 18px 18px;
+      padding: 22px 16px 18px;
     }
 
     .dp-new-plan-selection-features-modal .modal-title {
-      font-size: 22px;
+      font-size: 20px;
     }
 
     .dp-new-plan-selection-addons-carousel {
