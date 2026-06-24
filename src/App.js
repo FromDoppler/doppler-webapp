@@ -102,9 +102,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
 
     const expectedLang = availableLanguageOrNull(langFromUrlParameter);
 
-    if (window.zE) {
-      window.zE('messenger:set', 'locale', expectedLang ?? 'es');
-    }
+    window.dopplerZendesk?.setLocale(expectedLang ?? 'es');
 
     if (!expectedLang) {
       langFromUrl.current = null;

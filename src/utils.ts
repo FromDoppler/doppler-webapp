@@ -14,7 +14,6 @@ import countriesEn from './i18n/countries-en.json';
 declare global {
   interface Window {
     _LTracker: any;
-    zE: any;
   }
 }
 
@@ -220,17 +219,6 @@ const urlsWebApp: any = [
 
 export function getCurrentPageForUrl(currentUrl: string): any {
   return urlsWebApp.find((item: any) => item.url === currentUrl);
-}
-
-export function isZendeskChatOnline() {
-  const currentDate = new Date();
-  // TODO: allow to configure the schedule in a settings file.
-  // (UTC-03:00) City of Buenos Aires from 8:00 to 20:00
-  return currentDate.getUTCHours() >= 11 && currentDate.getUTCHours() < 23;
-}
-
-export function openZendeskChatWithMessage(message: string) {
-  window.zE('messenger', 'open');
 }
 
 export function getPlanFee(plan: Plan): number {
