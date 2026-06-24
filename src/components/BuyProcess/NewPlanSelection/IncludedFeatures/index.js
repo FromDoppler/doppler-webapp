@@ -258,7 +258,7 @@ export const IncludedFeatures = () => {
                 >
                   <FormattedMessage id={section.titleId} />
                   <span className="dp-new-plan-selection-features-accordion-arrow">
-                    <span className={isActive ? 'is-active' : ''} />
+                    <span />
                   </span>
                 </button>
                 {isActive ? (

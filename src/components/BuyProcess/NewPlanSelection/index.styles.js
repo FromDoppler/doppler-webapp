@@ -820,7 +820,10 @@ export const NewPlanSelectionStyled = styled.div`
     width: 6px;
   }
 
-  .dp-new-plan-selection-features-accordion-arrow span.is-active {
+  .dp-new-plan-selection-features-accordion
+    > li.active
+    .dp-new-plan-selection-features-accordion-arrow
+    span {
     transform: rotate(-135deg);
   }
 
