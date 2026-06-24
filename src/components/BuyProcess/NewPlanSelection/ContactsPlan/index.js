@@ -575,13 +575,22 @@ export const ContactsPlan = InjectAppServices(
             )}
 
             <p className="dp-new-plan-selection-disclaimer">
-              <span>
-                <FormattedMessage id="buy_process.shopping_cart.price_without_taxes" />
-              </span>
-              <span> </span>
-              <span>
-                <FormattedMessage id="buy_process.shopping_cart.renewal_description" />
-              </span>
+              {isTailoredPlan ? (
+                <FormattedMessage
+                  id="buy_process.new_plan_selection.tailored_plan_disclaimer"
+                  values={{ br: <br /> }}
+                />
+              ) : (
+                <>
+                  <span>
+                    <FormattedMessage id="buy_process.shopping_cart.price_without_taxes" />
+                  </span>
+                  <span> </span>
+                  <span>
+                    <FormattedMessage id="buy_process.shopping_cart.renewal_description" />
+                  </span>
+                </>
+              )}
             </p>
           </aside>
         </div>
