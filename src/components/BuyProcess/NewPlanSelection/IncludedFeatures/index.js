@@ -171,7 +171,9 @@ export const IncludedFeatures = () => {
     setIsModalOpen(true);
   };
 
-  const handleToggleSection = (sectionKey) => {
+  const handleToggleSection = (sectionKey, event) => {
+    event.preventDefault();
+    event.stopPropagation();
     setActiveSectionKey((currentSectionKey) =>
       currentSectionKey === sectionKey ? null : sectionKey,
     );
@@ -253,7 +255,7 @@ export const IncludedFeatures = () => {
                 <button
                   type="button"
                   className="dp-accordion-thumb dp-new-plan-selection-features-accordion-thumb"
-                  onClick={() => handleToggleSection(section.key)}
+                  onClick={(event) => handleToggleSection(section.key, event)}
                   aria-expanded={isActive}
                 >
                   <FormattedMessage id={section.titleId} />
@@ -261,43 +263,45 @@ export const IncludedFeatures = () => {
                     <span />
                   </span>
                 </button>
-                {isActive ? (
-                  <div
-                    className="dp-accordion-panel"
-                    ref={(node) => {
-                      panelRefs.current[section.key] = node;
-                    }}
-                    style={{ display: 'block', height: 'auto', overflow: 'visible' }}
-                  >
-                    <div className="dp-accordion-content">
-                      <div className="dp-table-plans">
-                        <div className="dp-table-responsive">
-                          <table className="dp-c-table dp-nested-table">
-                            <tbody>
-                              {section.rows.map((row) => (
-                                <tr key={`${section.key}-${row.nameId}`}>
-                                  <td>
-                                    <div className="dp-icon-lock">
-                                      <span className="dp-ico--ok" />
-                                      <span>
-                                        <FormattedMessage id={row.nameId} />
-                                      </span>
-                                    </div>
-                                  </td>
-                                  <td>
+                <div
+                  className="dp-accordion-panel"
+                  ref={(node) => {
+                    panelRefs.current[section.key] = node;
+                  }}
+                  style={{
+                    display: isActive ? 'block' : 'none',
+                    height: 'auto',
+                    overflow: 'visible',
+                  }}
+                >
+                  <div className="dp-accordion-content">
+                    <div className="dp-table-plans">
+                      <div className="dp-table-responsive">
+                        <table className="dp-c-table dp-nested-table">
+                          <tbody>
+                            {section.rows.map((row) => (
+                              <tr key={`${section.key}-${row.nameId}`}>
+                                <td>
+                                  <div className="dp-icon-lock">
+                                    <span className="dp-ico--ok" />
                                     <span>
-                                      <FormattedMessage id={row.descriptionId} />
+                                      <FormattedMessage id={row.nameId} />
                                     </span>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <span>
+                                    <FormattedMessage id={row.descriptionId} />
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
-                ) : null}
+                </div>
               </li>
             );
           })}
