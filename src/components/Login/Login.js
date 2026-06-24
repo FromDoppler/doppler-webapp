@@ -19,13 +19,7 @@ import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { connect } from 'formik';
 import Promotions from '../shared/Promotions/Promotions';
 import queryString from 'query-string';
-import {
-  addLogEntry,
-  extractParameter,
-  getFormInitialValues,
-  isZendeskChatOnline,
-  openZendeskChatWithMessage,
-} from '../../utils';
+import { addLogEntry, extractParameter, getFormInitialValues } from '../../utils';
 import { useLinkedinInsightTag } from '../../hooks/useLinkedingInsightTag';
 import { useGetBannerData } from '../../hooks/useGetBannerData';
 import { useFingerPrinting } from '../../hooks/useFingerPrinting';
@@ -192,16 +186,13 @@ export const LoginErrorBasedOnCustomerSupport = ({ messages }) => {
       <p>
         <FormattedMessage id={messages.msgReasonId} />
       </p>
-      {isZendeskChatOnline() ? (
+      {window.dopplerZendesk?.isOnline() ? (
         <p>
           <FormattedMessage
             id={'validation_messages.error_account_contact_zoho_chat'}
             values={{
               button: (chunk) => (
-                <button
-                  type="button"
-                  onClick={() => openZendeskChatWithMessage(messages.msgZohoChat)}
-                >
+                <button type="button" onClick={() => window.dopplerZendesk?.open()}>
                   {chunk}
                 </button>
               ),

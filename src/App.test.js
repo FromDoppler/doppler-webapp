@@ -78,9 +78,7 @@ const createJsonParse = (item) => {
   });
 };
 
-const window = {
-  zE: () => null,
-};
+const window = {};
 
 const defaultDependencies = {
   sessionManager: createDoubleSessionManager(),
