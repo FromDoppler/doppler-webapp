@@ -171,6 +171,12 @@ export const IncludedFeatures = () => {
     setIsModalOpen(true);
   };
 
+  const handleToggleSection = (sectionKey) => {
+    setActiveSectionKey((currentSectionKey) =>
+      currentSectionKey === sectionKey ? null : sectionKey,
+    );
+  };
+
   return (
     <section className="dp-new-plan-selection-included-features">
       <h3 className="dp-second-order-title dp-new-plan-selection-included-features-title">
@@ -226,7 +232,7 @@ export const IncludedFeatures = () => {
                 <button
                   type="button"
                   className="dp-accordion-thumb dp-new-plan-selection-features-accordion-thumb"
-                  onClick={() => setActiveSectionKey(section.key)}
+                  onClick={() => handleToggleSection(section.key)}
                   aria-expanded={isActive}
                 >
                   <FormattedMessage id={section.titleId} />
