@@ -707,7 +707,20 @@ describe('NewPlanSelection component', () => {
     const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
     process.env.REACT_APP_PROMOCODE_CONTACTS = 'DOPPLER50X6';
     try {
-      await renderNewPlanSelection(['/new-plan-selection?Promo-code=URLPROMO']);
+      await renderNewPlanSelection(['/new-plan-selection?Promo-code=URLPROMO'], {
+        dopplerAccountPlansApiClient: {
+          validatePromocode: jest.fn(async (planId) => ({
+            success: planId === contactPlans[0].id || planId === contactPlans[1].id,
+            value: { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
+            error: {
+              response: {
+                status: 400,
+                data: { expiredPromocode: false },
+              },
+            },
+          })),
+        },
+      });
 
       await waitFor(() =>
         expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('URLPROMO'),
@@ -716,6 +729,235 @@ describe('NewPlanSelection component', () => {
     } finally {
       process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
     }
+  });
+
+  it('should use REACT_APP_PROMOCODE_CONTACTS when URL promocode has a smaller discount in contacts', async () => {
+    const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
+    process.env.REACT_APP_PROMOCODE_CONTACTS = 'DOPPLER50X6';
+    try {
+      await renderNewPlanSelection(['/new-plan-selection?Promo-code=URLPROMO'], {
+        dopplerAccountPlansApiClient: {
+          validatePromocode: jest.fn(async (_planId, promocode) => ({
+            success: true,
+            value:
+              promocode === 'DOPPLER50X6'
+                ? { canApply: true, promotionApplied: { discountPercentage: 20, duration: 3 } }
+                : { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
+          })),
+        },
+      });
+
+      await waitFor(() =>
+        expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+      );
+      expect(
+        screen
+          .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+          .getAttribute('href'),
+      ).toContain('PromoCode=DOPPLER50X6');
+    } finally {
+      process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
+    }
+  });
+
+  it('should apply Promo-code query param only in credits when it is valid only for credits', async () => {
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=CREDITSPROMO'], {
+      dopplerAccountPlansApiClient: {
+        validatePromocode: jest.fn(async (planId) => ({
+          success: planId === creditPlans[0].id || planId === creditPlans[1].id,
+          value: { canApply: true, promotionApplied: { discountPercentage: 10, extraCredits: 0 } },
+          error: {
+            response: {
+              status: 400,
+              data: { expiredPromocode: false },
+            },
+          },
+        })),
+      },
+    });
+
+    await waitFor(() =>
+      expect(within(getCreditsPlanSection()).getByRole('textbox')).toHaveValue('CREDITSPROMO'),
+    );
+    expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('');
+  });
+
+  it('should not show invalid Promo-code query param nor info message in credits', async () => {
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER60X6'], {
+      dopplerAccountPlansApiClient: {
+        validatePromocode: jest.fn(async (planId) => ({
+          success: true,
+          value:
+            planId === contactPlans[0].id || planId === contactPlans[1].id
+              ? { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } }
+              : {
+                  canApply: false,
+                  promocode: 'DOPPLER60X6',
+                  planPromotions: [{ planType: 'Marketing', quantity: '500' }],
+                  promotionApplied: { discountPercentage: 0, extraCredits: 0 },
+                },
+          error: {
+            response: {
+              status: 400,
+              data: { expiredPromocode: false },
+            },
+          },
+        })),
+      },
+    });
+
+    await waitFor(() =>
+      expect(within(getCreditsPlanSection()).getByRole('textbox')).toHaveValue(''),
+    );
+    expect(
+      within(getCreditsPlanSection()).queryByText(
+        'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should keep Promo-code query param visible in credits when it applies to another credits plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=CREDITS20000'], {
+      dopplerAccountPlansApiClient: {
+        validatePromocode: jest.fn(async (planId) => ({
+          success: true,
+          value:
+            planId === creditPlans[0].id
+              ? {
+                  canApply: false,
+                  promocode: 'CREDITS20000',
+                  planPromotions: [{ planType: 3, quantity: '20000' }],
+                  promotionApplied: { discountPercentage: 0, extraCredits: 0 },
+                }
+              : { canApply: true, promotionApplied: { discountPercentage: 10, extraCredits: 0 } },
+        })),
+      },
+    });
+
+    await waitFor(() =>
+      expect(within(getCreditsPlanSection()).getByRole('textbox')).toHaveValue('CREDITS20000'),
+    );
+    expect(
+      within(getCreditsPlanSection()).getByText(
+        'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(getCreditsPlanSection()).queryByText(
+        'buy_process.new_plan_selection.credits_promocode_savings_text',
+      ),
+    ).not.toBeInTheDocument();
+    expect(
+      within(getCreditsPlanSection()).queryByText(
+        'buy_process.new_plan_selection.credits_extra_credits_text',
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should keep Promo-code query param visible in contacts when it applies to another contacts plan', async () => {
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=CONTACTS1500'], {
+      dopplerAccountPlansApiClient: {
+        validatePromocode: jest.fn(async (planId) => ({
+          success: true,
+          value:
+            planId === contactPlans[0].id
+              ? {
+                  canApply: false,
+                  promocode: 'CONTACTS1500',
+                  planPromotions: [{ planType: 4, quantity: '1500' }],
+                  promotionApplied: { discountPercentage: 0, duration: 0 },
+                }
+              : { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
+        })),
+      },
+    });
+
+    await waitFor(() =>
+      expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('CONTACTS1500'),
+    );
+    expect(
+      within(getContactsPlanSection()).getByText(
+        'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('should keep Promo-code query param visible in emails when it applies to another emails plan', async () => {
+    await renderNewPlanSelection(
+      ['/new-plan-selection?Promo-code=EMAILS1500000'],
+      {
+        appSessionUser: {
+          plan: {
+            idPlan: emailPlans[0].id,
+            planType: PLAN_TYPE.byEmail,
+            isFreeAccount: false,
+            planSubscription: 1,
+            currentSubscribersQty: 0,
+          },
+        },
+        dopplerAccountPlansApiClient: {
+          validatePromocode: jest.fn(async (planId) => ({
+            success: true,
+            value:
+              planId === emailPlans[1].id
+                ? {
+                    canApply: false,
+                    promocode: 'EMAILS1500000',
+                    planPromotions: [{ planType: 2, quantity: '300000' }],
+                    promotionApplied: { discountPercentage: 0, duration: 0 },
+                  }
+                : { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
+          })),
+        },
+      },
+      { useI18nKeysAsValues: true },
+    );
+
+    await waitFor(() =>
+      expect(within(getEmailsPlanSection()).getByRole('textbox')).toHaveValue('EMAILS1500000'),
+    );
+    expect(
+      within(getEmailsPlanSection()).getByText(
+        'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it('should show info message when user manually applies a promocode that is not valid for credits', async () => {
+    await renderNewPlanSelection(['/new-plan-selection'], {
+      dopplerAccountPlansApiClient: {
+        validatePromocode: jest.fn(async (planId) => ({
+          success: true,
+          value:
+            planId === creditPlans[0].id || planId === creditPlans[1].id
+              ? {
+                  canApply: false,
+                  promocode: 'DOPPLER60X6',
+                  planPromotions: [{ planType: 'Marketing', quantity: '500' }],
+                  promotionApplied: { discountPercentage: 0, extraCredits: 0 },
+                }
+              : { canApply: true, promotionApplied: { discountPercentage: 10, duration: 3 } },
+        })),
+      },
+    });
+
+    fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
+      target: { value: 'DOPPLER60X6' },
+    });
+    fireEvent.click(
+      within(getCreditsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
+    await settleAsyncState();
+
+    await waitFor(() =>
+      expect(
+        within(getCreditsPlanSection()).getByText(
+          'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+        ),
+      ).toBeInTheDocument(),
+    );
   });
 
   it('should load REACT_APP_PROMOCODE_CONTACTS automatically for free accounts when URL has no promocode', async () => {

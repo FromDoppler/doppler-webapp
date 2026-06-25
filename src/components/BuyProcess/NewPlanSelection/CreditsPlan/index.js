@@ -176,7 +176,9 @@ export const CreditsPlan = InjectAppServices(
                     isArgentina={sessionPlan.locationCountry === 'ar'}
                     isFreeAccount={sessionPlan?.plan?.isFreeAccount}
                     defaultPromocode={null}
-                    allowDefaultPromocodeFromQuery={false}
+                    allowDefaultPromocodeFromQuery={true}
+                    availablePlanQuantities={plans.map((plan) => String(amountByPlanType(plan)))}
+                    modulePlanType={PLAN_TYPE.byCredit}
                     disabledPromocode={false}
                     handleRemovePromocodeApplied={handleRemovePromocodeApplied}
                     currentPromocodeApplied={promocodeApplied}

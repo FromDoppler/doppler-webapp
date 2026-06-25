@@ -34,7 +34,9 @@ el promocode.
 - `src/components/BuyProcess/NewPlanSelection/index.js`
 - `src/components/BuyProcess/NewPlanSelection/ContactsPlan/index.js`
 - `src/components/BuyProcess/NewPlanSelection/CreditsPlan/index.js`
+- `src/components/BuyProcess/NewPlanSelection/EmailsPlan/index.js`
 - `src/components/BuyProcess/NewPlanSelection/Promocode/index.js`
+- `src/components/BuyProcess/NewPlanSelection/Promocode/reducers/promocodeReducer.js`
 - `src/components/BuyProcess/NewPlanSelection/index.test.js`
 - keys nuevas o ajustes en:
   - `src/i18n/es.js`
@@ -65,6 +67,17 @@ La regla es simetrica:
   `Credits`;
 - si el promocode corresponde a `Credits`, no debe autocompletarse en
   `Contacts`.
+
+Adicionalmente, durante la implementacion se detecto un segundo nivel de
+alcance:
+
+- un promocode puede no aplicar al plan seleccionado actualmente, pero si
+  aplicar a otro plan del mismo modulo;
+- en ese caso, el modulo debe conservar el input con el promocode y mostrar el
+  mensaje azul informativo, pero no debe mostrar beneficios economicos como si
+  el promocode estuviera aplicado al plan actual;
+- si el promocode no aplica a ningun plan del modulo, el modulo debe ocultar el
+  autocompletado y el mensaje azul cuando ese promocode proviene de URL.
 
 ---
 
@@ -112,6 +125,14 @@ Reglas:
 - si el promocode manual es valido para el modulo actual, usar ese valor;
 - si el promocode manual no corresponde al modulo actual, no propagarlo al otro
   modulo.
+- si el promocode manual por URL no aplica al plan seleccionado pero si a otro
+  plan del mismo modulo, mantenerlo visible en el input del modulo correcto y
+  mostrar el mensaje azul informativo;
+- si el promocode manual por URL no aplica a ningun plan del modulo, no
+  autocompletarlo ni mostrar el mensaje azul en ese modulo;
+- si el usuario ingresa manualmente un promocode que no aplica al plan
+  seleccionado, se debe seguir mostrando el mensaje azul del modulo para indicar
+  a que planes si aplica.
 
 ### 5.3 Regla para Contacts
 
@@ -123,6 +144,12 @@ Cuando la vista activa sea `ContactsPlan`:
   debe aparecer alli;
 - si existe un promocode por URL, debe respetarse la prioridad de URL sobre
   default automatico.
+- si existe tanto un promocode por URL como `REACT_APP_PROMOCODE_CONTACTS`, y
+  ambos aplican al modulo de contactos, debe priorizarse el que otorgue el
+  mayor beneficio para el plan evaluado;
+- si el promocode por URL no aplica al plan de contactos seleccionado pero si a
+  otro plan de contactos, debe permanecer visible en el input y mostrar el
+  mensaje azul, sin mostrar beneficios economicos en el resumen del plan actual.
 
 ### 5.4 Regla para Credits
 
@@ -133,6 +160,13 @@ Cuando la vista activa sea `CreditsPlan`:
   debe derramarse hacia ese modulo;
 - el modulo de credits debe preservar su propia logica de promocode y no usar
   el default pensado para contactos.
+- si un promocode por URL no aplica al plan de creditos actualmente
+  seleccionado, pero si a otro plan de creditos, el input debe conservar ese
+  promocode y mostrar el mensaje azul;
+- en ese escenario, el resumen de precio de creditos no debe mostrar descuento,
+  precio promocional ni creditos extra del plan donde el promocode si aplicaba;
+- si el promocode por URL no aplica a ningun plan de creditos, el modulo debe
+  quedar sin autocompletado y sin mensaje azul.
 
 ### 5.5 Simetria del caso contrario
 
@@ -142,6 +176,23 @@ El comportamiento debe contemplar el caso contrario al de la imagen:
   aparecer en `Contacts`;
 - si la pantalla muestra ambos modulos, cada uno debe resolver su propio
   promocode sin contaminar al otro.
+
+### 5.6 Extension a Emails
+
+La misma regla de alcance por modulo debe aplicarse tambien al flujo
+`EmailsPlan`.
+
+Reglas:
+
+- un promocode por URL valido solo para `Emails` no debe aparecer en
+  `Contacts` ni en `Credits`;
+- si no aplica al plan de emails seleccionado pero si a otro plan de emails,
+  debe permanecer visible en el input del modulo y mostrar el mensaje azul;
+- si no aplica a ningun plan de emails, el modulo no debe autocompletarlo ni
+  mostrar el mensaje azul;
+- mientras el promocode no aplique al plan de emails actualmente seleccionado,
+  el resumen de precio no debe mostrar beneficios economicos del plan en el que
+  si aplicaria.
 
 ---
 
@@ -180,8 +231,22 @@ Responsabilidad:
 - mantener su logica propia de promocode;
 - no usar el default de contactos;
 - preservar el resumen de compra y la navegacion al checkout de credits.
+- limpiar cualquier beneficio visual previo cuando el promocode deje de aplicar
+  al plan de creditos actualmente seleccionado, aunque siga visible en el input
+  por aplicar a otro plan del mismo modulo.
 
-### 6.4 Promocode
+### 6.4 EmailsPlan
+
+- `src/components/BuyProcess/NewPlanSelection/EmailsPlan/index.js`
+
+Responsabilidad:
+
+- mantener la logica propia de promocode del flujo de emails;
+- resolver promocodes por URL respetando el alcance del modulo;
+- evitar que beneficios economicos queden visibles cuando el promocode no aplica
+  al plan de emails seleccionado.
+
+### 6.5 Promocode
 
 - `src/components/BuyProcess/NewPlanSelection/Promocode/index.js`
 
@@ -189,7 +254,14 @@ Responsabilidad:
 
 - aceptar un promocode por defecto recibido desde el modulo padre;
 - usar ese default solo cuando corresponda al contexto actual;
-- conservar la prioridad de promocode manual sobre el default.
+- conservar la prioridad de promocode manual sobre el default;
+- distinguir entre:
+  - promocode que aplica al plan actual;
+  - promocode que no aplica al plan actual pero si a otro plan del mismo
+    modulo;
+  - promocode que no aplica a ningun plan del modulo;
+- evitar revalidaciones automaticas redundantes de un mismo promocode para la
+  misma combinacion de plan/modulo.
 
 ---
 
@@ -200,6 +272,13 @@ Responsabilidad:
 - El bloque de aviso azul del promocode solo debe verse en el modulo correcto.
 - El otro modulo debe quedar sin autocompletado y sin mostrar un mensaje
   indebido.
+- Si el promocode no aplica al plan seleccionado pero si a otro plan del mismo
+  modulo, el modulo debe conservar el input y el mensaje azul, pero no debe
+  mostrar beneficios visuales del promocode como precio rebajado, ahorro,
+  duracion o creditos extra.
+- En `CreditsPlan`, la columna de precio puede alinearse verticalmente con el
+  contenido del modulo para evitar espacios muertos notorios, siempre que no se
+  altere el comportamiento responsive.
 
 No se requieren cambios de estilo nuevos salvo los necesarios para mantener
 coherencia con el estado vacio o sin promocode del modulo no afectado.
@@ -242,6 +321,19 @@ Agregar o actualizar tests para validar, como minimo:
 - que un promocode por URL tenga prioridad sobre el default automatico;
 - que el mensaje visual asociado al promocode solo aparezca en el modulo
   correspondiente;
+- que si un promocode por URL no aplica al plan seleccionado pero si a otro plan
+  del mismo modulo, el input y el mensaje azul se mantengan visibles en ese
+  modulo;
+- que si un promocode por URL no aplica a ningun plan del modulo, el modulo no
+  muestre autocompletado ni mensaje azul;
+- que si el usuario ingresa manualmente un promocode no aplicable al plan
+  seleccionado, se mantenga el mensaje azul del modulo;
+- que el resumen de precio elimine beneficios visuales cuando el promocode deje
+  de aplicar al plan seleccionado;
+- que remover el promocode no vuelva a sembrar automaticamente el valor por
+  defecto o de URL;
+- que no haya loops de validacion automatica para el mismo promocode y el mismo
+  plan;
 - no regresion en el comportamiento actual de checkout y seleccion de planes.
 
 Los tests deben escribirse desde la perspectiva del usuario, usando Testing
@@ -255,7 +347,10 @@ La tarea se considera completa cuando:
 
 - el promocode automatico o por URL se aplica solo al modulo correcto;
 - el modulo incorrecto no muestra promocode precargado ni mensaje asociado;
-- el comportamiento es simetrico para Contacts y Credits;
+- el comportamiento es simetrico para Contacts, Credits y Emails;
+- cuando un promocode no aplica al plan actual pero si a otro plan del mismo
+  modulo, el input y el mensaje azul se mantienen visibles sin mostrar un
+  beneficio economico incorrecto;
 - la pantalla de `picture_17.png` queda resuelta sin regresiones visibles;
 - los tests relevantes pasan;
 - i18n queda consistente con el comportamiento implementado.
