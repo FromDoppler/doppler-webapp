@@ -401,6 +401,7 @@ export const ContactsPlan = InjectAppServices(
                       isArgentina={sessionPlan.locationCountry === 'ar'}
                       isFreeAccount={isFreeAccount}
                       defaultPromocode={contactsPromocode}
+                      allowDefaultPromocodeFromQuery={true}
                       disabledPromocode={false}
                       handleRemovePromocodeApplied={handleRemovePromocodeApplied}
                       currentPromocodeApplied={effectivePromocodeApplied}

@@ -282,6 +282,7 @@ export const EmailsPlan = InjectAppServices(
                     isArgentina={sessionPlan.locationCountry === 'ar'}
                     isFreeAccount={isFreeAccount}
                     defaultPromocode={null}
+                    allowDefaultPromocodeFromQuery={true}
                     disabledPromocode={false}
                     handleRemovePromocodeApplied={handleRemovePromocodeApplied}
                     currentPromocodeApplied={effectivePromocodeApplied}

@@ -54,6 +54,7 @@ export const Promocode = InjectAppServices(
     isArgentina,
     isFreeAccount,
     defaultPromocode,
+    allowDefaultPromocodeFromQuery,
     disabledPromocode,
     handleRemovePromocodeApplied,
     currentPromocodeApplied,
@@ -64,10 +65,10 @@ export const Promocode = InjectAppServices(
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const query = useQueryParams();
-    const defaultPromocodeValue = defaultPromocode
-      ? defaultPromocode
-      : getPromocode(query, isArgentina, isFreeAccount);
     const promocodeFromUrl = getPromocodeFromQuery(query);
+    const defaultPromocodeValue = allowDefaultPromocodeFromQuery
+      ? promocodeFromUrl || defaultPromocode || getPromocode(query, isArgentina, isFreeAccount)
+      : defaultPromocode || '';
     const contactsPromocode = getContactsPromocode();
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
     const [manualPromocodeApplied, setManualPromocodeApplied] = useState(false);
@@ -416,6 +417,7 @@ Promocode.propTypes = {
   hasPromocodeAppliedItem: PropTypes.bool, // it allows to know if a promocode was applied or not in Shopping Cart
   isFreeAccount: PropTypes.bool,
   defaultPromocode: PropTypes.string,
+  allowDefaultPromocodeFromQuery: PropTypes.bool,
   defaultPromocodeDismissed: PropTypes.bool,
   handleManualPromocodeIntervention: PropTypes.func,
   registerClearPromocodeInput: PropTypes.func,

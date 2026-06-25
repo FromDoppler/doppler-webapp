@@ -703,6 +703,21 @@ describe('NewPlanSelection component', () => {
     );
   });
 
+  it('should prioritize Promo-code query param over REACT_APP_PROMOCODE_CONTACTS', async () => {
+    const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
+    process.env.REACT_APP_PROMOCODE_CONTACTS = 'DOPPLER50X6';
+    try {
+      await renderNewPlanSelection(['/new-plan-selection?Promo-code=URLPROMO']);
+
+      await waitFor(() =>
+        expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('URLPROMO'),
+      );
+      expect(within(getCreditsPlanSection()).getByRole('textbox')).toHaveValue('');
+    } finally {
+      process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
+    }
+  });
+
   it('should load REACT_APP_PROMOCODE_CONTACTS automatically for free accounts when URL has no promocode', async () => {
     const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
     process.env.REACT_APP_PROMOCODE_CONTACTS = 'DOPPLER50X6';
@@ -712,6 +727,7 @@ describe('NewPlanSelection component', () => {
       await waitFor(() =>
         expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
       );
+      expect(within(getCreditsPlanSection()).getByRole('textbox')).toHaveValue('');
     } finally {
       process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
     }
@@ -739,6 +755,7 @@ describe('NewPlanSelection component', () => {
       await waitFor(() =>
         expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
       );
+      expect(within(getCreditsPlanSection()).getByRole('textbox')).toHaveValue('');
     } finally {
       process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
     }
