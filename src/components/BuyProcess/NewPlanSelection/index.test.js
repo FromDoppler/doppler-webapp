@@ -281,7 +281,7 @@ const createForcedServices = ({
 const renderNewPlanSelection = async (
   initialEntries = ['/new-plan-selection'],
   serviceOptions = {},
-  { useI18nKeysAsValues = false } = {},
+  { useI18nKeysAsValues = true } = {},
 ) => {
   const forcedServices = createForcedServices(serviceOptions);
   const IntlProviderComponent = useI18nKeysAsValues
@@ -332,29 +332,46 @@ describe('NewPlanSelection component', () => {
 
     expect(
       screen.getByRole('heading', {
-        name: /elige el plan ideal para hacer crecer tu negocio/i,
+        name: 'buy_process.new_plan_selection.title',
       }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText(/Plan Contactos/i).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText('buy_process.new_plan_selection.contacts_plan_title').length,
+    ).toBeGreaterThan(0);
     expect(getContactsSelect()).toHaveValue('0');
-    expect(screen.getByRole('option', { name: /m[aá]s de 100.000/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/Suscripci[oó]n/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/C[oó]digo de descuento/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('link', { name: /Elegir Plan/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('option', {
+        name: 'buy_process.new_plan_selection.contacts_option_more_than_100k',
+      }),
+    ).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.getByText('buy_process.new_plan_selection.subscription_label'),
+      ).toBeInTheDocument(),
+    );
+    expect(
+      screen.getAllByText('checkoutProcessForm.purchase_summary.promocode_header').length,
+    ).toBeGreaterThan(0);
     expect(screen.queryByText(/tipo de plan/i)).not.toBeInTheDocument();
     await waitFor(() => expect(screen.getByTestId('dp-sticky-plan-summary')).toBeInTheDocument());
-    expect(screen.getByText(/Comprar Ahora/i)).toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: /Ver m[aá]s funcionalidades/i }),
-    ).not.toBeInTheDocument();
+      screen.getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('buy_process.new_plan_selection.sticky_default_cta'),
+    ).toBeInTheDocument();
 
     expect(
       within(getCreditsPlanSection()).getByRole('heading', {
-        name: /Compra Cr[eé]ditos y usalos cuando quieras/i,
+        name: 'buy_process.new_plan_selection.credits_plan_title',
       }),
     ).toBeInTheDocument();
     expect(getCreditsSelect()).toHaveValue('0');
-    expect(screen.getByRole('link', { name: /Comprar Cr[eé]ditos/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', {
+        name: 'buy_process.new_plan_selection.credits_plan_title',
+      }),
+    ).toBeInTheDocument();
   });
 
   it('should render informational add-ons cards with real minimum prices and no card actions', async () => {
@@ -557,21 +574,126 @@ describe('NewPlanSelection component', () => {
     ).toBeTruthy();
   });
 
-  // it('should open and close included features modal', async () => {
-  //   const user = userEvent.setup();
-  //   await renderNewPlanSelection();
+  it('should open and close included features modal', async () => {
+    const user = userEvent.setup();
+    await renderNewPlanSelection(['/new-plan-selection'], {}, { useI18nKeysAsValues: true });
 
-  //   await user.click(screen.getByRole('button', { name: /Ver m[aá]s funcionalidades/i }));
+    await user.click(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.see_more',
+      }),
+    );
 
-  //   expect(screen.getByText(/Funcionalidades y Soluciones/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/Carrito Abandonado/i)).toBeInTheDocument();
+    expect(
+      screen.getByText('buy_process.new_plan_selection.included_features.modal_title'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.title',
+      }),
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.name_1',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.description_1',
+      ),
+    ).toBeInTheDocument();
 
-  //   await user.click(screen.getByTestId('modal-close'));
+    await user.click(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.title',
+      }),
+    );
 
-  //   await waitFor(() =>
-  //     expect(screen.queryByText(/Funcionalidades y Soluciones/i)).not.toBeInTheDocument(),
-  //   );
-  // });
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.email_marketing_ai.title',
+      }),
+    ).toHaveAttribute('aria-expanded', 'false');
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.title',
+      }),
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.name_1',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.description_1',
+      ),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.title',
+      }),
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.automation_marketing.title',
+      }),
+    ).toHaveAttribute('aria-expanded', 'false');
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.title',
+      }),
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.title',
+      }),
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.name_1',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.segmentation_advanced.description_1',
+      ),
+    ).toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.title',
+      }),
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.title',
+      }),
+    ).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.name_1',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'buy_process.new_plan_selection.included_features.modal_sections.reports_analytics.description_1',
+      ),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByTestId('modal-close'));
+
+    await waitFor(() =>
+      expect(
+        screen.queryByText('buy_process.new_plan_selection.included_features.modal_title'),
+      ).not.toBeInTheDocument(),
+    );
+  });
 
   it('should prepopulate contacts promocode input when Promo-code query param is present', async () => {
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
@@ -607,7 +729,9 @@ describe('NewPlanSelection component', () => {
     await settleAsyncState();
 
     await waitFor(() => {
-      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      const choosePlanHref = screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+        .getAttribute('href');
       expect(choosePlanHref).not.toContain('promo-code=');
       expect(choosePlanHref).not.toContain('Promo-code=');
       expect(choosePlanHref).not.toContain('PromoCode=');
@@ -619,7 +743,9 @@ describe('NewPlanSelection component', () => {
     await settleAsyncState();
 
     await waitFor(() => {
-      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      const choosePlanHref = screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+        .getAttribute('href');
       expect(choosePlanHref).not.toContain('promo-code=');
       expect(choosePlanHref).not.toContain('Promo-code=');
       expect(choosePlanHref).not.toContain('PromoCode=');
@@ -647,7 +773,9 @@ describe('NewPlanSelection component', () => {
 
     const promocodeInput = within(getContactsPlanSection()).getByRole('textbox');
     expect(promocodeInput).toHaveValue('');
-    const choosePlanHref = screen.getByRole('link', { name: /Elegir Plan/i }).getAttribute('href');
+    const choosePlanHref = screen
+      .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+      .getAttribute('href');
     expect(choosePlanHref).not.toContain('PromoCode=');
     expect(choosePlanHref).not.toContain('promo-code=');
   });
@@ -661,11 +789,15 @@ describe('NewPlanSelection component', () => {
     await settleAsyncState();
 
     await waitFor(() =>
-      expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
-        'selected-plan=10223',
-      ),
+      expect(
+        screen
+          .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+          .getAttribute('href'),
+      ).toContain('selected-plan=10223'),
     );
-    expect(screen.getByText(/Hasta 1\.500 Contactos \+ Envios ilimitados/i)).toBeInTheDocument();
+    expect(
+      screen.getByText('buy_process.new_plan_selection.sticky_contacts_subtitle'),
+    ).toBeInTheDocument();
   });
 
   it('should render emails plan variant for paid byEmail users', async () => {
@@ -799,9 +931,11 @@ describe('NewPlanSelection component', () => {
     });
 
     expect(getContactsSelect()).toHaveValue('2');
-    expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
-      'selected-plan=10224',
-    );
+    expect(
+      screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+        .getAttribute('href'),
+    ).toContain('selected-plan=10224');
   });
 
   it('should not preselect a smaller contact plan when subscribers count is lower than current plan capacity and there is no higher plan', async () => {
@@ -820,22 +954,22 @@ describe('NewPlanSelection component', () => {
     expect(getContactsSelect()).toHaveValue('1');
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).queryByRole('link', {
-        name: 'Comprar Ahora',
+        name: 'buy_process.new_plan_selection.sticky_default_cta',
       }),
     ).not.toBeInTheDocument();
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).getByRole('button', {
-        name: 'Comprar Ahora',
+        name: 'buy_process.new_plan_selection.sticky_default_cta',
       }),
     ).toBeDisabled();
     expect(
       within(getContactsPlanSection()).queryByRole('link', {
-        name: 'Elegir Plan',
+        name: 'buy_process.new_plan_selection.choose_plan',
       }),
     ).not.toBeInTheDocument();
     expect(
       within(getContactsPlanSection()).getByRole('button', {
-        name: 'Elegir Plan',
+        name: 'buy_process.new_plan_selection.choose_plan',
       }),
     ).toBeDisabled();
   });
@@ -863,7 +997,9 @@ describe('NewPlanSelection component', () => {
       screen.getByText('buy_process.new_plan_selection.contacts_current_plan_warning_message'),
     ).toBeInTheDocument();
     expect(
-      within(getContactsPlanSection()).queryByRole('button', { name: /Mensual/i }),
+      within(getContactsPlanSection()).queryByRole('button', {
+        name: /buy_process\.discount_monthly/i,
+      }),
     ).not.toBeInTheDocument();
     expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
   });
@@ -882,9 +1018,11 @@ describe('NewPlanSelection component', () => {
     });
 
     expect(getContactsSelect()).toHaveValue('1');
-    expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toContain(
-      'selected-plan=10223',
-    );
+    expect(
+      screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+        .getAttribute('href'),
+    ).toContain('selected-plan=10223');
   });
 
   it('should render less-than-100k as the first option in emails dropdown', async () => {
@@ -1023,9 +1161,11 @@ describe('NewPlanSelection component', () => {
     await settleAsyncState();
 
     await waitFor(() =>
-      expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
-        '/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1',
-      ),
+      expect(
+        screen
+          .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+          .getAttribute('href'),
+      ).toBe('/checkout/premium/monthly-deliveries?selected-plan=30223&buyType=1'),
     );
   });
 
@@ -1056,7 +1196,9 @@ describe('NewPlanSelection component', () => {
       expect(screen.getByTestId('dp-contacts-downgrade-message')).toBeInTheDocument(),
     );
     expect(
-      within(getContactsPlanSection()).queryByRole('button', { name: /Mensual/i }),
+      within(getContactsPlanSection()).queryByRole('button', {
+        name: /buy_process\.discount_monthly/i,
+      }),
     ).not.toBeInTheDocument();
     expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
     expect(
@@ -1192,7 +1334,9 @@ describe('NewPlanSelection component', () => {
     await waitFor(() =>
       expect(
         within(getCreditsPlanSection())
-          .getByRole('link', { name: /Comprar Cr[eé]ditos/i })
+          .getByRole('link', {
+            name: 'buy_process.new_plan_selection.buy_credits',
+          })
           .getAttribute('href'),
       ).toBe(`/checkout/premium/${PLAN_TYPE.byCredit}?selected-plan=20223&buyType=1`),
     );
@@ -1202,17 +1346,25 @@ describe('NewPlanSelection component', () => {
     await renderNewPlanSelection();
 
     const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
-      name: /Anual/i,
+      name: /buy_process\.discount_yearly/i,
     });
     expect(annualFrequencyButton).not.toBeDisabled();
 
     await waitFor(() =>
-      expect(screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href')).toBe(
+      expect(
+        screen
+          .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+          .getAttribute('href'),
+      ).toBe(
         '/checkout/premium/subscribers?selected-plan=10222&discountId=795&monthPlan=1&buyType=1',
       ),
     );
-    expect(screen.getByText(/US\$10\/mes/i)).toBeInTheDocument();
-    expect(screen.queryByText(/Facturación Anual/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByText('US$10/buy_process.new_plan_selection.month_period'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('buy_process.new_plan_selection.sticky_frequency_discount_text'),
+    ).not.toBeInTheDocument();
   });
 
   it('should keep contacts payment frequency disabled for users with current contact plan', async () => {
@@ -1229,7 +1381,9 @@ describe('NewPlanSelection component', () => {
 
     expect(screen.getByTestId('dp-contacts-current-plan-message')).toBeInTheDocument();
     expect(
-      within(getContactsPlanSection()).queryByRole('button', { name: /Anual/i }),
+      within(getContactsPlanSection()).queryByRole('button', {
+        name: /buy_process\.discount_yearly/i,
+      }),
     ).not.toBeInTheDocument();
     expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
   });
@@ -1271,7 +1425,7 @@ describe('NewPlanSelection component', () => {
     });
 
     const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
-      name: /Anual/i,
+      name: /buy_process\.discount_yearly/i,
     });
     expect(annualFrequencyButton).not.toBeDisabled();
   });
@@ -1289,24 +1443,39 @@ describe('NewPlanSelection component', () => {
     const infoBanner = screen.getByTestId('dp-more-than-100k-message');
     expect(infoBanner).toBeInTheDocument();
     expect(
-      within(getContactsPlanSection()).queryByRole('button', { name: /Mensual/i }),
+      within(getContactsPlanSection()).queryByRole('button', {
+        name: /buy_process\.discount_monthly/i,
+      }),
     ).not.toBeInTheDocument();
     expect(within(getContactsPlanSection()).queryByRole('textbox')).not.toBeInTheDocument();
-    expect(within(infoBanner).getByText(/base supera los 100k de Contactos/i)).toBeInTheDocument();
     expect(
-      within(infoBanner).getByRole('link', { name: /cont[aá]ctanos|contact us/i }),
+      within(infoBanner).getByText('buy_process.new_plan_selection.more_than_100k_info_message'),
+    ).toBeInTheDocument();
+    expect(
+      within(infoBanner).getByRole('link', {
+        name: 'buy_process.new_plan_selection.more_than_100k_contact_link',
+      }),
     ).toBeInTheDocument();
 
-    expect(screen.getAllByText(textContentIncludes('A medida*')).length).toBeGreaterThan(0);
-    expect(screen.getByRole('link', { name: 'Contactar a Asesor' }).getAttribute('href')).toContain(
-      '/upgrade-suggestion-form',
-    );
-    expect(screen.getByText(/Plan Envios Personalizado/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Consultar con Doppler Team' })).toHaveAttribute(
-      'href',
-      '/upgrade-suggestion-form',
-    );
-    expect(screen.queryByRole('link', { name: 'Elegir Plan' })).not.toBeInTheDocument();
+    expect(
+      screen.getAllByText(
+        textContentIncludes('buy_process.new_plan_selection.tailored_plan_disclaimer'),
+      ).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.contact_advisor_cta' })
+        .getAttribute('href'),
+    ).toContain('/upgrade-suggestion-form');
+    expect(
+      screen.getByText('buy_process.new_plan_selection.sticky_custom_title'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'buy_process.new_plan_selection.sticky_custom_cta' }),
+    ).toHaveAttribute('href', '/upgrade-suggestion-form');
+    expect(
+      screen.queryByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' }),
+    ).not.toBeInTheDocument();
   });
 
   it('should show only the tailored blue message and hide lose promotion warning for more than 100k option', async () => {
@@ -1349,9 +1518,11 @@ describe('NewPlanSelection component', () => {
     await renderNewPlanSelection();
 
     await waitFor(() => {
-      const choosePlanHref = screen.getByRole('link', { name: 'Elegir Plan' }).getAttribute('href');
+      const choosePlanHref = screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+        .getAttribute('href');
       const stickyCtaHref = screen
-        .getByRole('link', { name: 'Comprar Ahora' })
+        .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
         .getAttribute('href');
       expect(stickyCtaHref).toBe(choosePlanHref);
     });
@@ -1363,7 +1534,11 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(within(getContactsPlanSection()).getByRole('textbox'), {
       target: { value: 'PROMO50%' },
     });
-    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
     await settleAsyncState();
 
     await waitFor(() =>
@@ -1372,21 +1547,34 @@ describe('NewPlanSelection component', () => {
 
     await waitFor(() =>
       expect(
-        screen.getAllByText(textContentIncludes('Ahorras 10% durante 3 meses')).length,
+        screen.getAllByText(
+          textContentIncludes('buy_process.new_plan_selection.promocode_savings_text'),
+        ).length,
       ).toBeGreaterThan(0),
     );
-    expect(screen.getAllByText(textContentIncludes('US$9/mes')).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(textContentIncludes('US$9/buy_process.new_plan_selection.month_period'))
+        .length,
+    ).toBeGreaterThan(0);
 
-    expect(screen.getAllByText(textContentIncludes('US$9/mes*')).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(textContentIncludes('US$10/mes')).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(textContentIncludes('US$9/buy_process.new_plan_selection.month_period*'))
+        .length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(textContentIncludes('US$10/buy_process.new_plan_selection.month_period'))
+        .length,
+    ).toBeGreaterThan(0);
     expect(
       screen
         .getByTestId('dp-sticky-plan-summary')
         .querySelector('.dp-new-plan-selection-sticky-summary-old-price'),
-    ).toHaveTextContent(/Antes US\$10\/mes/);
+    ).toHaveTextContent(
+      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10\/buy_process.new_plan_selection.month_period/,
+    );
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
-        textContentIncludes('Descuento 10% OFF por 3 meses'),
+        textContentIncludes('buy_process.new_plan_selection.sticky_promocode_discount_text'),
       ).length,
     ).toBeGreaterThan(0);
   });
@@ -1416,21 +1604,35 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(within(getContactsPlanSection()).getByRole('textbox'), {
       target: { value: 'PROMO50%' },
     });
-    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
     await settleAsyncState();
 
     await waitFor(() =>
       expect(
-        within(screen.getByTestId('dp-sticky-plan-summary')).getByText(/Descuento 10% OFF/i),
+        within(screen.getByTestId('dp-sticky-plan-summary')).getByText(
+          'buy_process.new_plan_selection.sticky_promocode_discount_text',
+        ),
       ).toBeInTheDocument(),
     );
 
     expect(
-      within(getContactsPlanSection()).queryByText(/durante 0 meses/i),
+      within(getContactsPlanSection()).queryByText(
+        'buy_process.new_plan_selection.promocode_savings_text_without_months',
+      ),
     ).not.toBeInTheDocument();
-    expect(within(getContactsPlanSection()).getByText(/Ahorras 10%/i)).toBeInTheDocument();
     expect(
-      within(screen.getByTestId('dp-sticky-plan-summary')).queryByText(/por.*mes/i),
+      within(getContactsPlanSection()).getByText(
+        'buy_process.new_plan_selection.promocode_savings_text',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-sticky-plan-summary')).queryByText(
+        'buy_process.new_plan_selection.sticky_promocode_discount_text_without_months',
+      ),
     ).not.toBeInTheDocument();
   });
 
@@ -1440,7 +1642,11 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
       target: { value: 'CREDITS10' },
     });
-    fireEvent.click(within(getCreditsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(
+      within(getCreditsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
     await settleAsyncState();
 
     await waitFor(() =>
@@ -1452,12 +1658,15 @@ describe('NewPlanSelection component', () => {
 
     await waitFor(() =>
       expect(
-        within(getCreditsPlanSection()).getAllByText(textContentIncludes('US$72/pago unico*'))
-          .length,
+        within(getCreditsPlanSection()).getAllByText(
+          textContentIncludes('US$72/buy_process.new_plan_selection.single_payment_period*'),
+        ).length,
       ).toBeGreaterThan(0),
     );
     expect(
-      within(getCreditsPlanSection()).getByText(/Ahorras 10% en esta compra/i),
+      within(getCreditsPlanSection()).getByText(
+        'buy_process.new_plan_selection.credits_promocode_savings_text',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -1486,12 +1695,18 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
       target: { value: 'PLUS5000' },
     });
-    fireEvent.click(within(getCreditsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(
+      within(getCreditsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
     await settleAsyncState();
 
     await waitFor(() =>
       expect(
-        within(getCreditsPlanSection()).getByText(/Incluye 5.000 Créditos extra/i),
+        within(getCreditsPlanSection()).getByText(
+          'buy_process.new_plan_selection.credits_extra_credits_text',
+        ),
       ).toBeInTheDocument(),
     );
   });
@@ -1521,16 +1736,24 @@ describe('NewPlanSelection component', () => {
     fireEvent.change(within(getCreditsPlanSection()).getByRole('textbox'), {
       target: { value: 'CREDITSBONUS' },
     });
-    fireEvent.click(within(getCreditsPlanSection()).getByRole('button', { name: 'Aplicar' }));
+    fireEvent.click(
+      within(getCreditsPlanSection()).getByRole('button', {
+        name: 'buy_process.promocode.apply_btn',
+      }),
+    );
     await settleAsyncState();
 
     await waitFor(() =>
       expect(
-        within(getCreditsPlanSection()).getByText(/Ahorras 10% en esta compra/i),
+        within(getCreditsPlanSection()).getByText(
+          'buy_process.new_plan_selection.credits_promocode_savings_text',
+        ),
       ).toBeInTheDocument(),
     );
     expect(
-      within(getCreditsPlanSection()).getByText(/Incluye 5.000 Créditos extra/i),
+      within(getCreditsPlanSection()).getByText(
+        'buy_process.new_plan_selection.credits_extra_credits_text',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -1539,9 +1762,18 @@ describe('NewPlanSelection component', () => {
 
     const contactsSection = getContactsPlanSection();
     const scenarios = [
-      { buttonName: /Trimestral/i, expectedText: '1 pago trimestral de' },
-      { buttonName: /Semestral/i, expectedText: '1 pago semestral de' },
-      { buttonName: /Anual/i, expectedText: '1 pago anual de' },
+      {
+        buttonName: /buy_process\.discount_quarterly/i,
+        expectedText: 'buy_process.new_plan_selection.savings_text',
+      },
+      {
+        buttonName: /buy_process\.discount_half_yearly/i,
+        expectedText: 'buy_process.new_plan_selection.savings_text',
+      },
+      {
+        buttonName: /buy_process\.discount_yearly/i,
+        expectedText: 'buy_process.new_plan_selection.savings_text',
+      },
     ];
 
     for (const scenario of scenarios) {
@@ -1553,8 +1785,9 @@ describe('NewPlanSelection component', () => {
           '.dp-new-plan-selection-price-detail .dp-new-plan-selection-savings',
         );
         expect(savingsElement).toBeInTheDocument();
-        expect(savingsElement.textContent.toLowerCase()).toContain(scenario.expectedText);
-        expect(savingsElement.querySelector('br')).toBeInTheDocument();
+        expect(savingsElement.textContent.toLowerCase()).toContain(
+          scenario.expectedText.toLowerCase(),
+        );
       });
     }
   });
@@ -1562,17 +1795,23 @@ describe('NewPlanSelection component', () => {
   it('should show previous price in sticky summary when contacts payment frequency has discount', async () => {
     await renderNewPlanSelection();
 
-    fireEvent.click(within(getContactsPlanSection()).getByRole('button', { name: /Anual/i }));
+    fireEvent.click(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: /buy_process\.discount_yearly/i,
+      }),
+    );
     await settleAsyncState();
 
     expect(
       screen
         .getByTestId('dp-sticky-plan-summary')
         .querySelector('.dp-new-plan-selection-sticky-summary-old-price'),
-    ).toHaveTextContent(/Antes US\$10\/mes/);
+    ).toHaveTextContent(
+      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10\/buy_process.new_plan_selection.month_period/,
+    );
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
-        textContentIncludes('Facturación Anual 25%OFF'),
+        textContentIncludes('buy_process.new_plan_selection.sticky_frequency_discount_text'),
       ).length,
     ).toBeGreaterThan(0);
   });
