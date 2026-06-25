@@ -175,6 +175,7 @@ export const CreditsPlan = InjectAppServices(
                     hasPromocodeAppliedItem={Boolean(promocodeApplied?.promocode)}
                     isArgentina={sessionPlan.locationCountry === 'ar'}
                     isFreeAccount={sessionPlan?.plan?.isFreeAccount}
+                    defaultPromocode={null}
                     disabledPromocode={false}
                     handleRemovePromocodeApplied={handleRemovePromocodeApplied}
                     currentPromocodeApplied={promocodeApplied}

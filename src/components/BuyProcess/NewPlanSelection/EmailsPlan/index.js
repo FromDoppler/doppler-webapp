@@ -281,6 +281,7 @@ export const EmailsPlan = InjectAppServices(
                     hasPromocodeAppliedItem={Boolean(effectivePromocodeApplied?.promocode)}
                     isArgentina={sessionPlan.locationCountry === 'ar'}
                     isFreeAccount={isFreeAccount}
+                    defaultPromocode={null}
                     disabledPromocode={false}
                     handleRemovePromocodeApplied={handleRemovePromocodeApplied}
                     currentPromocodeApplied={effectivePromocodeApplied}

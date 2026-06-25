@@ -717,6 +717,33 @@ describe('NewPlanSelection component', () => {
     }
   });
 
+  it('should load REACT_APP_PROMOCODE_CONTACTS automatically in contacts plan for paid users with credit plans when URL has no promocode', async () => {
+    const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
+    process.env.REACT_APP_PROMOCODE_CONTACTS = 'DOPPLER50X6';
+    try {
+      await renderNewPlanSelection(
+        ['/new-plan-selection'],
+        {
+          appSessionUser: {
+            plan: {
+              idPlan: 20222,
+              planType: PLAN_TYPE.byCredit,
+              isFreeAccount: false,
+              planSubscription: 1,
+            },
+          },
+        },
+        { useI18nKeysAsValues: true },
+      );
+
+      await waitFor(() =>
+        expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+      );
+    } finally {
+      process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
+    }
+  });
+
   it('should not reapply default promocode after removing it from contacts input', async () => {
     const user = userEvent.setup();
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);

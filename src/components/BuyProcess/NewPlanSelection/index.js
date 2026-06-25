@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../doppler-types';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
@@ -18,20 +18,6 @@ import { NewPlanSelectionStyled } from './index.styles';
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
 const LESS_THAN_100K_EMAILS_OPTION_VALUE = 'less-than-100000';
 const MORE_THAN_10M_EMAILS_OPTION_VALUE = 'more-than-10000000';
-const getContactsPromocode = () => {
-  const rawValue = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
-  if (!rawValue || rawValue === 'undefined' || rawValue === 'null') {
-    return '';
-  }
-
-  return rawValue;
-};
-
-const getPromocodeFromParams = (params) =>
-  params.get('promo-code')?.trim() ||
-  params.get('Promo-code')?.trim() ||
-  params.get('PromoCode')?.trim() ||
-  '';
 
 const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) => {
   const query = new URLSearchParams(search);
@@ -86,10 +72,8 @@ const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) 
 
 export const NewPlanSelection = InjectAppServices(
   ({ dependencies: { appSessionRef, planService } }) => {
-    const { pathname, search } = useLocation();
-    const navigate = useNavigate();
+    const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
-    const { isFreeAccount } = sessionPlan.plan;
     const [plansByContact, setPlansByContact] = useState([]);
     const [plansByCredit, setPlansByCredit] = useState([]);
     const [plansByEmail, setPlansByEmail] = useState([]);
@@ -102,28 +86,6 @@ export const NewPlanSelection = InjectAppServices(
     const [isLessThan100kEmailsSelected, setIsLessThan100kEmailsSelected] = useState(false);
     const [isMoreThan10mEmailsSelected, setIsMoreThan10mEmailsSelected] = useState(false);
     const [stickySummaryData, setStickySummaryData] = useState(null);
-
-    useEffect(() => {
-      const contactsPromocode = getContactsPromocode();
-      if (!contactsPromocode) {
-        return;
-      }
-
-      if (!isFreeAccount) {
-        return;
-      }
-
-      const params = new URLSearchParams(search);
-      const currentPromocode = getPromocodeFromParams(params);
-      if (currentPromocode) {
-        return;
-      }
-
-      params.delete('PromoCode');
-      params.delete('Promo-code');
-      params.set('promo-code', contactsPromocode);
-      navigate({ pathname, search: `?${params.toString()}` }, { replace: true });
-    }, [isFreeAccount, navigate, pathname, search]);
 
     useEffect(() => {
       const fetchPlans = async () => {
