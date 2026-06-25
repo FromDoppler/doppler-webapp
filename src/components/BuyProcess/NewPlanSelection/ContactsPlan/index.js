@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { PLAN_TYPE } from '../../../../doppler-types';
+import { useQueryParams } from '../../../../hooks/useQueryParams';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { amountByPlanType, thousandSeparatorNumber } from '../../../../utils';
 import {
@@ -112,6 +113,7 @@ export const ContactsPlan = InjectAppServices(
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const intl = useIntl();
+    const query = useQueryParams();
     const _ = (id, values) => intl.formatMessage({ id }, values);
     const isFreeAccount = sessionPlan?.plan?.isFreeAccount;
     const isEqualPlan = sessionPlan?.plan?.idPlan === selectedPlan?.id;
@@ -125,6 +127,20 @@ export const ContactsPlan = InjectAppServices(
       () => getSessionPromocodeApplied(sessionPlan),
       [sessionPlan],
     );
+    const contactsPromocode = useMemo(() => {
+      const rawValue = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
+      if (!rawValue || rawValue === 'undefined' || rawValue === 'null') {
+        return '';
+      }
+
+      const hasPromocodeInUrl = Boolean(
+        query.get('promo-code')?.trim() ||
+        query.get('Promo-code')?.trim() ||
+        query.get('PromoCode')?.trim(),
+      );
+      const isCreditPlan = sessionPlan?.plan?.planType === PLAN_TYPE.byCredit;
+      return !hasPromocodeInUrl && (isFreeAccount || isCreditPlan) ? rawValue : '';
+    }, [isFreeAccount, query, sessionPlan?.plan?.planType]);
     const effectivePromocodeApplied =
       promocodeApplied ?? (!defaultPromocodeDismissed ? sessionPromocodeApplied : null);
 
@@ -384,6 +400,7 @@ export const ContactsPlan = InjectAppServices(
                       hasPromocodeAppliedItem={Boolean(effectivePromocodeApplied?.promocode)}
                       isArgentina={sessionPlan.locationCountry === 'ar'}
                       isFreeAccount={isFreeAccount}
+                      defaultPromocode={contactsPromocode}
                       disabledPromocode={false}
                       handleRemovePromocodeApplied={handleRemovePromocodeApplied}
                       currentPromocodeApplied={effectivePromocodeApplied}

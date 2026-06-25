@@ -53,6 +53,7 @@ export const Promocode = InjectAppServices(
     hasPromocodeAppliedItem,
     isArgentina,
     isFreeAccount,
+    defaultPromocode,
     disabledPromocode,
     handleRemovePromocodeApplied,
     currentPromocodeApplied,
@@ -63,7 +64,9 @@ export const Promocode = InjectAppServices(
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const query = useQueryParams();
-    const defaultPromocode = getPromocode(query, isArgentina, isFreeAccount);
+    const defaultPromocodeValue = defaultPromocode
+      ? defaultPromocode
+      : getPromocode(query, isArgentina, isFreeAccount);
     const promocodeFromUrl = getPromocodeFromQuery(query);
     const contactsPromocode = getContactsPromocode();
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
@@ -308,7 +311,7 @@ export const Promocode = InjectAppServices(
       }
 
       const promoCodeFromState = currentPromocodeApplied?.promocode || '';
-      const promoCodeToInitialize = promoCodeFromState || defaultPromocode;
+      const promoCodeToInitialize = promoCodeFromState || defaultPromocodeValue;
 
       if (promoCodeToInitialize && allowPromocode && selectedMarketingPlan?.id) {
         const { setFieldValue } = promocodeInputRef.current;
@@ -330,7 +333,7 @@ export const Promocode = InjectAppServices(
     }, [
       validatePromocode,
       allowPromocode,
-      defaultPromocode,
+      defaultPromocodeValue,
       selectedMarketingPlan,
       isArgentina,
       defaultPromocodeDismissed,
@@ -342,7 +345,7 @@ export const Promocode = InjectAppServices(
       let initialValues = getFormInitialValues(fieldNames);
       initialValues[fieldNames.promocode] = defaultPromocodeDismissed
         ? ''
-        : currentPromocodeApplied?.promocode || defaultPromocode || '';
+        : currentPromocodeApplied?.promocode || defaultPromocodeValue || '';
 
       return initialValues;
     };
@@ -412,6 +415,7 @@ Promocode.propTypes = {
   selectedPaymentFrequency: PropTypes.object,
   hasPromocodeAppliedItem: PropTypes.bool, // it allows to know if a promocode was applied or not in Shopping Cart
   isFreeAccount: PropTypes.bool,
+  defaultPromocode: PropTypes.string,
   defaultPromocodeDismissed: PropTypes.bool,
   handleManualPromocodeIntervention: PropTypes.func,
   registerClearPromocodeInput: PropTypes.func,
