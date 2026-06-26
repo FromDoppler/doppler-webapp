@@ -31,7 +31,7 @@ const PriceSection = () => {
 export const OnSite = ({ onSite }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
-  var hasOnsite = onSite.plan?.active;
+  var hasOnsite = onSite.plan?.active && onSite.plan?.fee > 0;
 
   return (
     <Card

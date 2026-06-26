@@ -1334,6 +1334,8 @@ You'll find an Email with steps to follow.`,
   my_plan: {
     addons: {
       activate_now_button: 'Activate',
+      advantage_free_trial_label: 'Make the most of your free trial — limited time only',
+      beta_label: 'Beta',
       buy_button: 'Buy',
       cards: {
         card_1: {
@@ -1413,6 +1415,7 @@ You'll find an Email with steps to follow.`,
         title: 'List Conditioning',
       },
       more_information_link: 'More information',
+      new_feature_label: 'New feature',
       onsite: {
         description: 'Add Pop-ups, Forms, and other interactive tools. Encourage interaction on your Website and improve conversions in your E-commerce.',
         month_legend: '*Per month',
@@ -1427,6 +1430,7 @@ You'll find an Email with steps to follow.`,
         plans_from_legend: 'Plans from',
         title: 'Push Notifications',
       },
+      regular_price_label: '*Regular price:',
       request_quote_button: 'Request a quote',
       sms: {
         description: 'Implement SMS Marketing to reach your contacts immediately and strengthen your Marketing Automation strategy.',
@@ -1652,6 +1656,7 @@ confirmation email.Please note that any active add-ons associated with your acco
         type_3: `Quarterly`,
         type_6: `Biannual`,
       },
+      buy_button: 'Buy',
       buy_credits_button: 'Buy Credits',
       cancel_addon_button: 'Cancel Add-On',
       cancel_subscription_button: 'Unsubscribe',

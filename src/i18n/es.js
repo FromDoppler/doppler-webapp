@@ -1335,6 +1335,8 @@ Encontrarás un Email con los pasos a seguir.`,
   my_plan: {
     addons: {
       activate_now_button: 'Activar',
+      advantage_free_trial_label: 'Aprovecha la prueba gratuita por tiempo limitado',
+      beta_label: 'Beta',
       buy_button: 'Comprar',
       cards: {
         card_1: {
@@ -1414,6 +1416,7 @@ Encontrarás un Email con los pasos a seguir.`,
         title: 'Acondicionamiento de Listas',
       },
       more_information_link: 'Más información',
+      new_feature_label: 'Nueva funcionalidad',
       onsite: {
         description: 'Agrega Pop-ups, Formularios y otras herramientas interactivas. Fomenta la interacción en tu Sitio Web y mejora la Conversión en tu E-commerce.',
         month_legend: '*Por mes',
@@ -1428,6 +1431,7 @@ Encontrarás un Email con los pasos a seguir.`,
         plans_from_legend: 'Planes desde',
         title: 'Notificaciones Push',
       },
+      regular_price_label: '*Precio Regular:',
       request_quote_button: 'Solicitar cotización',
       sms: {
         description: 'Implementa SMS Marketing para llegar a tus Contactos de forma inmediata y refuerza tu estrategia de Marketing Automation.',
@@ -1654,6 +1658,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
         type_3: `Trimestral`,
         type_6: `Semestral`,
       },
+      buy_button: 'Comprar',
       buy_credits_button: 'Comprar Créditos',
       cancel_addon_button: 'Cancelar Add-On',
       cancel_subscription_button: 'Cancelar suscripción',
