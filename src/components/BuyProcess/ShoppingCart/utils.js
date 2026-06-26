@@ -477,6 +477,35 @@ export const mapItemFromMarketingPlan = ({
     planInformation.subscriptionItems.push(
       _('buy_process.shopping_cart.credits_renewal_description'),
     );
+
+    if (isArgentinaTransfer) {
+      if (amountDetailsData?.value?.currencyDate) {
+        planInformation.subscriptionItems.push(
+          <FormattedMessage
+            id={`buy_process.shopping_cart.amount_with_quote`}
+            values={{
+              quote:
+                '$' +
+                thousandSeparatorNumber(
+                  intl.defaultLocale,
+                  amountDetailsData?.value?.currencyRate ?? 0,
+                ),
+              date: intl.formatDate(new Date(amountDetailsData.value.currencyDate), {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric',
+                hour12: true,
+              }),
+              Bold: (chunk) => <strong>{chunk}</strong>,
+            }}
+          />,
+        );
+
+        planInformation.subscriptionItems.push(
+          _('buy_process.shopping_cart.final_price_including_taxes'),
+        );
+      }
+    }
   } else {
     planInformation.subscriptionItems.push(_('buy_process.shopping_cart.renewal_description'));
     if (isArgentinaTransfer) {
