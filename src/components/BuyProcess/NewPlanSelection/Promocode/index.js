@@ -34,14 +34,70 @@ const getPromocodeFromQuery = (query) =>
   query.get('PromoCode')?.trim() ||
   '';
 
-const getContactsPromocode = () => {
-  const rawValue = process.env.REACT_APP_PROMOCODE_CONTACTS?.trim() || '';
-  if (!rawValue || rawValue === 'undefined' || rawValue === 'null') {
-    return '';
+const getPromotionDiscountPercentage = (validatePromocodeData) =>
+  validatePromocodeData?.value?.promotionApplied?.discountPercentage ??
+  validatePromocodeData?.value?.discountPercentage ??
+  -1;
+
+const getNormalizedQuantities = (quantity) =>
+  String(quantity ?? '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+const getNormalizedPromotionModule = (planType) => {
+  const normalizedPlanType = String(planType ?? '')
+    .trim()
+    .toLowerCase();
+
+  if (
+    normalizedPlanType === '4' ||
+    normalizedPlanType === PLAN_TYPE.byContact ||
+    normalizedPlanType === 'contact' ||
+    normalizedPlanType === 'contacts' ||
+    normalizedPlanType === 'subscriber' ||
+    normalizedPlanType === 'subscribers'
+  ) {
+    return PLAN_TYPE.byContact;
   }
 
-  return rawValue;
+  if (
+    normalizedPlanType === '3' ||
+    normalizedPlanType === PLAN_TYPE.byCredit ||
+    normalizedPlanType === 'credit' ||
+    normalizedPlanType === 'credits' ||
+    normalizedPlanType === 'prepaid'
+  ) {
+    return PLAN_TYPE.byCredit;
+  }
+
+  if (
+    normalizedPlanType === '2' ||
+    normalizedPlanType === PLAN_TYPE.byEmail ||
+    normalizedPlanType === 'email' ||
+    normalizedPlanType === 'emails' ||
+    normalizedPlanType === 'monthly-deliveries'
+  ) {
+    return PLAN_TYPE.byEmail;
+  }
+
+  return null;
 };
+
+const canPromotionApplyToAnyPlanInModule = (
+  planPromotions,
+  availablePlanQuantities,
+  modulePlanType,
+) =>
+  (planPromotions ?? []).some((planPromotion) => {
+    const normalizedQuantities = getNormalizedQuantities(planPromotion?.quantity);
+
+    if (normalizedQuantities.length > 0) {
+      return normalizedQuantities.some((quantity) => availablePlanQuantities.includes(quantity));
+    }
+
+    return getNormalizedPromotionModule(planPromotion?.planType) === modulePlanType;
+  });
 
 export const Promocode = InjectAppServices(
   ({
@@ -54,6 +110,9 @@ export const Promocode = InjectAppServices(
     isArgentina,
     isFreeAccount,
     defaultPromocode,
+    allowDefaultPromocodeFromQuery,
+    availablePlanQuantities = [],
+    modulePlanType,
     disabledPromocode,
     handleRemovePromocodeApplied,
     currentPromocodeApplied,
@@ -64,11 +123,10 @@ export const Promocode = InjectAppServices(
     dependencies: { dopplerAccountPlansApiClient },
   }) => {
     const query = useQueryParams();
-    const defaultPromocodeValue = defaultPromocode
-      ? defaultPromocode
-      : getPromocode(query, isArgentina, isFreeAccount);
     const promocodeFromUrl = getPromocodeFromQuery(query);
-    const contactsPromocode = getContactsPromocode();
+    const defaultPromocodeValue = allowDefaultPromocodeFromQuery
+      ? promocodeFromUrl || defaultPromocode || getPromocode(query, isArgentina, isFreeAccount)
+      : defaultPromocode || '';
     const [currentPromotion, setCurrentPromotion] = useState(undefined);
     const [manualPromocodeApplied, setManualPromocodeApplied] = useState(false);
 
@@ -80,6 +138,9 @@ export const Promocode = InjectAppServices(
     const promocodeMessageAlreadyShowRef = useRef(false);
     const promocodeInputRef = useRef(null);
     const alreadyInitializedRef = useRef(null);
+    const autoInitializationSuppressedRef = useRef(false);
+    const autoInitializedValidationKeyRef = useRef('');
+    const planValidationKeyRef = useRef('');
     const validationRequestIdRef = useRef(0);
     const cancelledValidationRequestIdRef = useRef(0);
     alreadyInitializedRef.current = initialized;
@@ -104,6 +165,9 @@ export const Promocode = InjectAppServices(
 
       resetPromocodeState();
       setManualPromocodeApplied(false);
+      autoInitializationSuppressedRef.current = true;
+      autoInitializedValidationKeyRef.current = '__dismissed__';
+      planValidationKeyRef.current = '';
       // Ignore async validate responses started before manual remove.
       cancelledValidationRequestIdRef.current = validationRequestIdRef.current;
     }, [resetPromocodeState]);
@@ -118,7 +182,11 @@ export const Promocode = InjectAppServices(
     }, [createTimeout]);
 
     const validatePromocode = useCallback(
-      async (promocode, validatePercengePromocode) => {
+      async (
+        promocode,
+        validatePercengePromocode,
+        { silentlyClearOnInvalid = false, setInputOnSuccess = false } = {},
+      ) => {
         const requestId = validationRequestIdRef.current + 1;
         validationRequestIdRef.current = requestId;
 
@@ -134,7 +202,22 @@ export const Promocode = InjectAppServices(
               return;
             }
 
-            if (validatePromocodeData.success) {
+            const canApplyPromotion = validatePromocodeData?.value?.canApply !== false;
+            const canApplyToAnyPlanInModule = canPromotionApplyToAnyPlanInModule(
+              validatePromocodeData?.value?.planPromotions,
+              availablePlanQuantities,
+              modulePlanType,
+            );
+
+            if (validatePromocodeData.success && canApplyPromotion) {
+              if (setInputOnSuccess) {
+                const { setFieldValue } = promocodeInputRef.current || {};
+
+                if (setFieldValue) {
+                  setFieldValue(fieldNames.promocode, _promocode, false);
+                }
+              }
+
               dispatch({
                 type: PROMOCODE_ACTIONS.FINISH_FETCH,
                 payload: {
@@ -158,13 +241,74 @@ export const Promocode = InjectAppServices(
               createTimeout(() => {
                 markPromocodeAsApplied();
               }, 2000);
+            } else if (validatePromocodeData.success) {
+              if (silentlyClearOnInvalid && !canApplyToAnyPlanInModule) {
+                const { setFieldTouched, setFieldValue } = promocodeInputRef.current || {};
+
+                if (setFieldValue) {
+                  setFieldValue(fieldNames.promocode, '', false);
+                }
+
+                if (setFieldTouched) {
+                  setFieldTouched(fieldNames.promocode, false, false);
+                }
+
+                resetPromocodeState();
+                return;
+              }
+
+              if (setInputOnSuccess) {
+                const { setFieldValue } = promocodeInputRef.current || {};
+
+                if (setFieldValue) {
+                  setFieldValue(fieldNames.promocode, _promocode, false);
+                }
+              }
+
+              dispatch({
+                type: PROMOCODE_ACTIONS.FINISH_FETCH,
+                payload: {
+                  ...validatePromocodeData.value,
+                  promocode: _promocode,
+                  planType: selectedMarketingPlan.type,
+                },
+              });
+
+              setCurrentPromotion({
+                ...validatePromocodeData.value,
+                promocode: _promocode,
+                planType: selectedMarketingPlan.type,
+              });
+
+              callback &&
+                callback({
+                  ...validatePromocodeData.value,
+                  promocode: _promocode,
+                  planType: selectedMarketingPlan.type,
+                });
             } else {
               callback && callback('');
+
+              if (silentlyClearOnInvalid) {
+                const { setFieldTouched, setFieldValue } = promocodeInputRef.current || {};
+
+                if (setFieldValue) {
+                  setFieldValue(fieldNames.promocode, '', false);
+                }
+
+                if (setFieldTouched) {
+                  setFieldTouched(fieldNames.promocode, false, false);
+                }
+
+                resetPromocodeState();
+                return;
+              }
+
               dispatch({
                 type: PROMOCODE_ACTIONS.FETCH_FAILED,
                 payload:
-                  validatePromocodeData.error.response.status === 400 &&
-                  validatePromocodeData.error.response.data.expiredPromocode
+                  validatePromocodeData?.error?.response?.status === 400 &&
+                  validatePromocodeData?.error?.response?.data?.expiredPromocode
                     ? validationsErrorKey.expiredPromocode
                     : validationsErrorKey.invalidPromocode,
               });
@@ -176,31 +320,34 @@ export const Promocode = InjectAppServices(
           if (
             validatePercengePromocode &&
             promocodeFromUrl &&
-            contactsPromocode &&
-            isFreeAccount &&
+            defaultPromocode &&
             selectedMarketingPlan?.type === PLAN_TYPE.byContact &&
-            promocodeFromUrl !== contactsPromocode &&
             promocode === promocodeFromUrl
           ) {
             const { setFieldValue } = promocodeInputRef.current;
-            const [validateData, validateContactsData] = await Promise.all([
+            const [validateData, validateDefaultData] = await Promise.all([
               dopplerAccountPlansApiClient.validatePromocode(selectedMarketingPlan?.id, promocode),
               dopplerAccountPlansApiClient.validatePromocode(
                 selectedMarketingPlan?.id,
-                contactsPromocode,
+                defaultPromocode,
               ),
             ]);
-            if (validateData.success && !validateContactsData.success) {
-              dispatchPromocode(validateData);
-            } else if (validateContactsData.success && !validateData.success) {
-              setFieldValue(fieldNames.promocode, contactsPromocode);
-              dispatchPromocode(validateContactsData, contactsPromocode);
-            } else if (
-              (validateData?.value?.promotionApplied?.discountPercentage ?? -1) <
-              (validateContactsData?.value?.promotionApplied?.discountPercentage ?? -1)
+
+            if (
+              validateData.success &&
+              validateData?.value?.canApply !== false &&
+              (!validateDefaultData.success ||
+                validateDefaultData?.value?.canApply === false ||
+                getPromotionDiscountPercentage(validateData) >=
+                  getPromotionDiscountPercentage(validateDefaultData))
             ) {
-              setFieldValue(fieldNames.promocode, contactsPromocode);
-              dispatchPromocode(validateContactsData, contactsPromocode);
+              dispatchPromocode(validateData);
+            } else if (
+              validateDefaultData.success &&
+              validateDefaultData?.value?.canApply !== false
+            ) {
+              setFieldValue(fieldNames.promocode, defaultPromocode, false);
+              dispatchPromocode(validateDefaultData, defaultPromocode);
             } else {
               dispatchPromocode(validateData);
             }
@@ -253,9 +400,11 @@ export const Promocode = InjectAppServices(
         createTimeout,
         selectedMarketingPlan,
         isArgentina,
-        isFreeAccount,
+        resetPromocodeState,
+        availablePlanQuantities,
+        modulePlanType,
+        defaultPromocode,
         promocodeFromUrl,
-        contactsPromocode,
       ],
     );
 
@@ -281,13 +430,30 @@ export const Promocode = InjectAppServices(
       const shouldValidatePromocode =
         (selectedPaymentFrequency === undefined || selectedPaymentFrequency?.numberMonths === 1) &&
         currentPromocode;
-
-      if (!alreadyInitializedRef.current) {
-        resetPromocodeState();
-      }
+      const validationKey = [
+        selectedMarketingPlan?.id || '',
+        selectedPaymentFrequency?.id || selectedPaymentFrequency?.numberMonths || '',
+        currentPromocode || '',
+        manualPromocodeApplied ? 'manual' : 'auto',
+      ].join('|');
 
       if (shouldValidatePromocode) {
+        if (planValidationKeyRef.current === validationKey) {
+          return;
+        }
+
+        if (!alreadyInitializedRef.current) {
+          resetPromocodeState();
+        }
+
+        planValidationKeyRef.current = validationKey;
         validatePromocode(currentPromocode, !manualPromocodeApplied);
+      } else {
+        if (!alreadyInitializedRef.current) {
+          resetPromocodeState();
+        }
+
+        planValidationKeyRef.current = '';
       }
     }, [
       selectedPaymentFrequency,
@@ -310,27 +476,65 @@ export const Promocode = InjectAppServices(
         return;
       }
 
+      if (autoInitializationSuppressedRef.current && !currentPromocodeApplied?.promocode) {
+        return;
+      }
+
       const promoCodeFromState = currentPromocodeApplied?.promocode || '';
       const promoCodeToInitialize = promoCodeFromState || defaultPromocodeValue;
+      const initializationKey = [
+        selectedMarketingPlan?.id || '',
+        promoCodeToInitialize || '',
+        currentPromocodeApplied?.promocode || '',
+      ].join('|');
+      const currentPlanValidationKey = [
+        selectedMarketingPlan?.id || '',
+        selectedPaymentFrequency?.id || selectedPaymentFrequency?.numberMonths || '',
+        promoCodeToInitialize || '',
+        'auto',
+      ].join('|');
 
-      if (promoCodeToInitialize && allowPromocode && selectedMarketingPlan?.id) {
-        const { setFieldValue } = promocodeInputRef.current;
-        if (
-          isArgentina &&
-          promoCodeToInitialize === process.env.REACT_APP_PROMOCODE_ARGENTINA &&
-          process.env.REACT_APP_PROMOCODE_ARGENTINA !== '' &&
-          selectedMarketingPlan?.type !== PLAN_TYPE.byContact
-        ) {
-          setFieldValue(fieldNames.promocode, '');
+      if (!promoCodeToInitialize || !allowPromocode || !selectedMarketingPlan?.id) {
+        autoInitializedValidationKeyRef.current = '';
+        return;
+      }
+
+      if (autoInitializedValidationKeyRef.current === initializationKey) {
+        return;
+      }
+
+      autoInitializedValidationKeyRef.current = initializationKey;
+
+      const { setFieldValue } = promocodeInputRef.current;
+      if (
+        isArgentina &&
+        promoCodeToInitialize === process.env.REACT_APP_PROMOCODE_ARGENTINA &&
+        process.env.REACT_APP_PROMOCODE_ARGENTINA !== '' &&
+        selectedMarketingPlan?.type !== PLAN_TYPE.byContact
+      ) {
+        setFieldValue(fieldNames.promocode, '');
+      } else {
+        const promocodeToSet = promoCodeToInitialize;
+        const isPromocodeFromQuery =
+          allowDefaultPromocodeFromQuery &&
+          Boolean(promocodeFromUrl) &&
+          promocodeToSet === promocodeFromUrl;
+
+        const validatePercengePromocode = true;
+        if (isPromocodeFromQuery) {
+          planValidationKeyRef.current = currentPlanValidationKey;
+          validatePromocode(promocodeToSet, validatePercengePromocode, {
+            silentlyClearOnInvalid: true,
+            setInputOnSuccess: true,
+          });
         } else {
-          const promocodeToSet = promoCodeToInitialize;
-
           setFieldValue(fieldNames.promocode, promocodeToSet);
-          const validatePercengePromocode = true;
+          planValidationKeyRef.current = currentPlanValidationKey;
           validatePromocode(promocodeToSet, validatePercengePromocode);
         }
       }
     }, [
+      allowDefaultPromocodeFromQuery,
       validatePromocode,
       allowPromocode,
       defaultPromocodeValue,
@@ -339,13 +543,21 @@ export const Promocode = InjectAppServices(
       defaultPromocodeDismissed,
       hasPromocodeAppliedItem,
       currentPromocodeApplied?.promocode,
+      promocodeFromUrl,
+      selectedPaymentFrequency?.id,
+      selectedPaymentFrequency?.numberMonths,
     ]);
 
     const _getFormInitialValues = () => {
       let initialValues = getFormInitialValues(fieldNames);
+      const shouldHidePromocodeFromQueryInitially =
+        allowDefaultPromocodeFromQuery &&
+        Boolean(promocodeFromUrl) &&
+        !currentPromocodeApplied?.promocode;
       initialValues[fieldNames.promocode] = defaultPromocodeDismissed
         ? ''
-        : currentPromocodeApplied?.promocode || defaultPromocodeValue || '';
+        : currentPromocodeApplied?.promocode ||
+          (shouldHidePromocodeFromQueryInitially ? '' : defaultPromocodeValue || '');
 
       return initialValues;
     };
@@ -356,8 +568,7 @@ export const Promocode = InjectAppServices(
       validatePromocode(value.promocode, false);
     };
 
-    const promocodeIsDisabled =
-      !allowPromocode || currentPromotion?.promotionApplied || loading || disabledPromocode;
+    const promocodeIsDisabled = !allowPromocode || promocodeApplied || loading || disabledPromocode;
 
     return (
       <section className="dp-promocode">
@@ -416,6 +627,9 @@ Promocode.propTypes = {
   hasPromocodeAppliedItem: PropTypes.bool, // it allows to know if a promocode was applied or not in Shopping Cart
   isFreeAccount: PropTypes.bool,
   defaultPromocode: PropTypes.string,
+  allowDefaultPromocodeFromQuery: PropTypes.bool,
+  availablePlanQuantities: PropTypes.arrayOf(PropTypes.string),
+  modulePlanType: PropTypes.string,
   defaultPromocodeDismissed: PropTypes.bool,
   handleManualPromocodeIntervention: PropTypes.func,
   registerClearPromocodeInput: PropTypes.func,

@@ -175,9 +175,8 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-card-credits .dp-new-plan-selection-price-credits {
     border-left: 0;
-    justify-content: flex-start;
+    justify-content: center;
     padding-left: 42px;
-    padding-top: 2px;
     padding-right: 0;
   }
 

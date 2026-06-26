@@ -37,6 +37,7 @@ export const promocodeReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
+        promocodeApplied: false,
         promotion: {
           ...payload,
           isValid: payload.discountPercentage > 0 || payload.extraCredits > 0,
