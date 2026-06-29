@@ -47,6 +47,8 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
           descriptionKey: 'my_plan.addons.eco_ai.description',
           priceLabelKey: <FormattedMessage id={`my_plan.addons.eco_ai.access_by_legend`} />,
           periodKey: 'my_plan.addons.eco_ai.month_legend',
+          isNewFeature: true,
+          isBeta: true,
           getPrice: (dopplerAccountPlansApiClient) =>
             getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.EcoAI),
         },
@@ -208,24 +210,61 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
 const AddOnCard = ({ addOn, price }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
+  const hasNewFeatureRibbon = addOn.isNewFeature;
+  const hasBetaBadge = addOn.isBeta === true;
+  const hasPrice = Number.isFinite(price) && price > 0;
 
   return (
     <article
       className="dp-card-addons dp-new-plan-selection-addon-card"
       data-testid={`dp-addon-card-${addOn.id}`}
     >
+      {hasNewFeatureRibbon && (
+        <div role="alert" className="dp-new-plan-selection-addon-ribbon">
+          <span>{_('my_plan.addons.new_feature_label')}</span>
+        </div>
+      )}
       <header>
         <h3 className="card-title">
           <div className="icon-container">
             <span className={`p-l-6 ${addOn.icon}`} aria-hidden="true"></span>
           </div>
-          <span className="p-l-8 m-l-6">{_(addOn.titleKey)}</span>
+          <span className="dp-new-plan-selection-addon-title-copy">
+            <span className="p-l-8 m-l-6">{_(addOn.titleKey)}</span>
+            {hasBetaBadge && (
+              <span className="dp-new-plan-selection-addon-beta">
+                {_('my_plan.addons.beta_label')}
+              </span>
+            )}
+          </span>
         </h3>
       </header>
       <p className="dp-description-legend">{_(addOn.descriptionKey)}</p>
       <div className="dp-new-plan-selection-addon-price">
         <span className="dp-legend-price">{addOn.priceLabelKey}</span>
-        {price ? (
+        {hasPrice && hasBetaBadge ? (
+          <>
+            <p className="dp-new-plan-selection-addon-beta-price">
+              <b>
+                US${' '}
+                <FormattedNumber value={0} minimumFractionDigits={2} maximumFractionDigits={2} />
+              </b>
+              <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
+              <span className="dp-new-plan-selection-addon-regular-price">
+                {_('my_plan.addons.regular_price_label')}{' '}
+                <span className="dp-line-through">
+                  US${' '}
+                  <FormattedNumber
+                    value={price}
+                    minimumFractionDigits={2}
+                    maximumFractionDigits={2}
+                  />
+                </span>
+                <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
+              </span>
+            </p>
+          </>
+        ) : hasPrice ? (
           <>
             <p>
               <b>

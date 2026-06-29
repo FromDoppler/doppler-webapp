@@ -20,7 +20,7 @@ export const Card = ({
     <div className="dp-box-shadow m-b-24">
       <section className="dp-addons-wrapper">
         {isNewFeature && (
-          <div class="dp-ribbon dp-ribbon-top-right dp-ribbon-violet">
+          <div className="dp-ribbon dp-ribbon-top-right dp-ribbon-violet">
             <S.Text>{_(`my_plan.addons.new_feature_label`)}</S.Text>
           </div>
         )}

@@ -421,7 +421,26 @@ describe('NewPlanSelection component', () => {
     expect(within(getAddOnsSection()).getByText('my_plan.addons.eco_ai.title')).toBeInTheDocument();
     expect(
       within(screen.getByTestId('dp-addon-card-eco-ai')).getByText(
-        hasPriceInBold(/US\$\s*49[.,]00/),
+        hasPriceInBold(/US\$\s*0[.,]00/),
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-eco-ai')).getByText(/US\$\s*0[.,]00/i),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-eco-ai')).getByText(/US\$\s*49[.,]00/i),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-eco-ai')).getByText(
+        'my_plan.addons.regular_price_label',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-eco-ai')).getByText('my_plan.addons.beta_label'),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByTestId('dp-addon-card-eco-ai')).getByText(
+        'my_plan.addons.new_feature_label',
       ),
     ).toBeInTheDocument();
   });
