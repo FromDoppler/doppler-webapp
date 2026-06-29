@@ -30,6 +30,7 @@ const PriceSection = ({ isBeta }) => {
             <span className="dp-line-through">
               US$ <FormattedNumber value={price} {...numberFormatOptions} />
             </span>
+            <span className="dp-disclaimer">{_(`my_plan.addons.eco_ai.month_legend`)}</span>
             <S.PromotionAddOnFree>
               {_(`my_plan.addons.advantage_free_trial_label`)}
             </S.PromotionAddOnFree>
