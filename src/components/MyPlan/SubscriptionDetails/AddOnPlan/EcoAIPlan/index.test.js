@@ -170,61 +170,6 @@ describe('EcoAIPlan component', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render component - simulate change plan', async () => {
-    // Assert
-    var ecoAiPlan = {
-      active: true,
-      fee: 0,
-      trialExpired: false,
-    };
-
-    const dependencies = {
-      appSessionRef: {
-        current: {
-          userData: {
-            user: {
-              addOnPromotions: [],
-              plan: {
-                isFreeAccount: false,
-                planType: 'subscribers',
-                maxSubscribers: 500,
-                itemDescription: 'subscribers',
-                remainingCredits: 500,
-                planSubscription: 1,
-              },
-            },
-          },
-        },
-      },
-    };
-
-    const user = userEvent.setup({ delay: null });
-
-    // Act
-    render(
-      <AppServicesProvider forcedServices={dependencies}>
-        <BrowserRouter>
-          <IntlProvider>
-            <EcoAIPlan addOnPromotions={[]} ecoAiPlan={ecoAiPlan} isFreeAccount={false} />
-          </IntlProvider>
-        </BrowserRouter>
-      </AppServicesProvider>,
-    );
-
-    // Assert
-    const getBuyButton = () =>
-      screen.queryByRole('button', {
-        name: 'change-plan',
-      });
-
-    expect(getBuyButton()).toBeEnabled();
-
-    // simulate click to buy button
-    await act(() => user.click(getBuyButton()));
-
-    expect(window.location.href).toBe(`http://localhost/`);
-  });
-
   it('should render component - simulate cancel plan', async () => {
     // Assert
     var ecoAiPlan = {

@@ -34,7 +34,7 @@ export const EcoAIPlan = InjectAppServices(
           actions={
             <>
               <button
-                disabled={ecoAiPlan.active && ecoAiPlan.fee > 0}
+                disabled={true}
                 type="button"
                 aria-label="change-plan"
                 onClick={() => changeAddOnPlan()}
@@ -46,7 +46,7 @@ export const EcoAIPlan = InjectAppServices(
                       ? 'view_plans_button'
                       : (isFreeAccount || addOnPromotions.length > 0) && !ecoAiPlan.active
                         ? 'activate_now_button'
-                        : 'change_plan_button'
+                        : 'buy_button'
                   }`,
                 )}
               </button>

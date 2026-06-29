@@ -14,12 +14,15 @@ import { Sms } from './Sms';
 import { TransactionalEmails } from './TransactionalEmails';
 import { Collaborators } from './Collaborators';
 import { EcoAI } from './EcoAI';
+import { AddOnType } from '../../../doppler-types';
 
 export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id: id }, values);
 
-  const { sms, chat, onSite, pushNotification, plan } = appSessionRef.current.userData.user;
+  const { sms, chat, onSite, pushNotification, plan, addOnPlans } =
+    appSessionRef.current.userData.user;
+  const ecoIA = addOnPlans?.filter((aop) => aop.plan?.addOnTypeId === AddOnType.EcoAI)[0];
 
   const canBuyPushNotificationPlan =
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
@@ -34,7 +37,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
-          {canBuyAIAgentPlan && <EcoAI></EcoAI>}
+          {canBuyAIAgentPlan && <EcoAI ecoIA={ecoIA}></EcoAI>}
           <Conversations conversation={chat}></Conversations>
           {canBuyPushNotificationPlan && (
             <PushNotification pushNotification={pushNotification}></PushNotification>
