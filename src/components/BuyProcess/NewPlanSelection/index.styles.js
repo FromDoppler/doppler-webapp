@@ -917,7 +917,9 @@ export const NewPlanSelectionStyled = styled.div`
     flex: 0 0 calc((100% - 36px) / 3);
     margin-bottom: 0;
     min-height: 100%;
+    overflow: hidden;
     padding: 24px 24px 20px;
+    position: relative;
   }
 
   .dp-new-plan-selection-addon-card .card-title {
@@ -927,6 +929,28 @@ export const NewPlanSelectionStyled = styled.div`
     font-weight: 700;
     margin-bottom: 6px;
     font-size: 22px;
+    padding-right: 88px;
+    text-transform: none;
+  }
+
+  .dp-new-plan-selection-addon-title-copy {
+    align-items: center;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .dp-new-plan-selection-addon-beta {
+    background: #33ad73;
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    padding: 4px 11px;
+    text-transform: uppercase;
   }
 
   .dp-new-plan-selection-addon-card .dp-description-legend {
@@ -953,6 +977,34 @@ export const NewPlanSelectionStyled = styled.div`
     flex: 0 0 auto;
   }
 
+  .dp-new-plan-selection-addon-ribbon {
+    align-items: center;
+    background: #c7a1db;
+    box-shadow: 0 3px 8px rgb(0 0 0 / 18%);
+    display: flex;
+    height: 34px;
+    justify-content: center;
+    margin: 0;
+    position: absolute;
+    right: -46px;
+    top: 24px;
+    transform: rotate(45deg);
+    transform-origin: center;
+    width: 170px;
+    z-index: 2;
+  }
+
+  .dp-new-plan-selection-addon-ribbon span {
+    color: #fff;
+    display: block;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
   .dp-new-plan-selection-addon-price {
     border-top: 1px solid #ccc;
     margin-top: 14px;
@@ -962,6 +1014,28 @@ export const NewPlanSelectionStyled = styled.div`
   .dp-new-plan-selection-addon-price .dp-legend-price {
     font-size: 14px;
     line-height: 24px;
+  }
+
+  .dp-new-plan-selection-addon-beta-price {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+  }
+
+  .dp-new-plan-selection-addon-beta-price b {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .dp-new-plan-selection-addon-regular-price {
+    color: #666;
+    font-size: 14px;
+  }
+
+  .dp-new-plan-selection-addon-regular-price .dp-line-through {
+    text-decoration: line-through;
   }
 
   .dp-new-plan-selection-addon-price h2 {
