@@ -1394,6 +1394,8 @@ Encontrarás un Email con los pasos a seguir.`,
         more_information_link: 'https://www.fromdoppler.com/es/inteligencia-artificial/?utm_medium=none&utm_source=direct',
         title: 'Eco IA',
       },
+      free_user_buy_plan_message: 'ADQUIRIR PLAN',
+      free_user_message: 'Para acceder a los Add-ons, primero activa tu Plan de Marketing.',
       landing_pages: {
         description: 'Utiliza Páginas de Destino para captar a tus clientes en múltiples dispositivos y guíalos a la Conversión.',
         month_legend: '*Por mes',
