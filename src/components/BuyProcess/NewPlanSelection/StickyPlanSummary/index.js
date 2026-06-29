@@ -10,7 +10,7 @@ const numberFormatOptions = {
 
 const getFormattedPriceOptions = (value) => ({
   ...numberFormatOptions,
-  minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+  minimumFractionDigits: 2,
 });
 
 const capitalize = (value = '') =>
