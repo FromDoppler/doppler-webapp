@@ -15,6 +15,29 @@ import { TransactionalEmails } from './TransactionalEmails';
 import { Collaborators } from './Collaborators';
 import { EcoAI } from './EcoAI';
 import { AddOnType } from '../../../doppler-types';
+import { Link } from 'react-router-dom';
+
+export const BuyEmailMaeketingPlanMessage = () => {
+  return (
+    <div className="dp-wrap-message dp-wrap-info m-b-24">
+      <span className="dp-message-icon"></span>
+      <div className="dp-content-message dp-content-full">
+        <p>
+          <FormattedMessage
+            id={'my_plan.addons.free_user_message'}
+            values={{
+              bold: (chunks) => <b>{chunks}</b>,
+              br: <br />,
+            }}
+          />
+        </p>
+        <Link to="/new-plan-selection" className="dp-message-link">
+          <FormattedMessage id="my_plan.addons.free_user_buy_plan_message" />
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) => {
   const intl = useIntl();
@@ -37,6 +60,7 @@ export const AddOns = InjectAppServices(({ dependencies: { appSessionRef } }) =>
     <div className="dp-container col-p-l-0 col-p-r-0">
       <div className="dp-rowflex">
         <div className="col-lg-8 col-md-12 m-b-24">
+          {plan.isFreeAccount && <BuyEmailMaeketingPlanMessage></BuyEmailMaeketingPlanMessage>}
           {canBuyAIAgentPlan && <EcoAI ecoIA={ecoIA}></EcoAI>}
           <Conversations conversation={chat}></Conversations>
           {canBuyPushNotificationPlan && (

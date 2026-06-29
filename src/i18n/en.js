@@ -1393,6 +1393,8 @@ You'll find an Email with steps to follow.`,
         more_information_link: 'https://www.fromdoppler.com/es/inteligencia-artificial/?utm_medium=none&utm_source=direct',
         title: 'Eco AI',
       },
+      free_user_buy_plan_message: 'GET A PLAN',
+      free_user_message: 'To access Add-ons, first activate your Marketing Plan.',
       landing_pages: {
         description: 'Use Landing Pages to engage your customers on multiple devices and guide them to Conversion.',
         month_legend: '*Per month',
