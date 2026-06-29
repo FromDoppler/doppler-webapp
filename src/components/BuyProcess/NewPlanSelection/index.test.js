@@ -1646,7 +1646,7 @@ describe('NewPlanSelection component', () => {
       ),
     );
     expect(
-      screen.getByText('US$10/buy_process.new_plan_selection.month_period'),
+      screen.getByText('US$10.00/buy_process.new_plan_selection.month_period'),
     ).toBeInTheDocument();
     expect(
       screen.queryByText('buy_process.new_plan_selection.sticky_frequency_discount_text'),
@@ -1839,24 +1839,27 @@ describe('NewPlanSelection component', () => {
       ).toBeGreaterThan(0),
     );
     expect(
-      screen.getAllByText(textContentIncludes('US$9/buy_process.new_plan_selection.month_period'))
-        .length,
+      screen.getAllByText(
+        textContentIncludes('US$9.00/buy_process.new_plan_selection.month_period'),
+      ).length,
     ).toBeGreaterThan(0);
 
     expect(
-      screen.getAllByText(textContentIncludes('US$9/buy_process.new_plan_selection.month_period*'))
-        .length,
+      screen.getAllByText(
+        textContentIncludes('US$9.00/buy_process.new_plan_selection.month_period*'),
+      ).length,
     ).toBeGreaterThan(0);
     expect(
-      screen.getAllByText(textContentIncludes('US$10/buy_process.new_plan_selection.month_period'))
-        .length,
+      screen.getAllByText(
+        textContentIncludes('US$10.00/buy_process.new_plan_selection.month_period'),
+      ).length,
     ).toBeGreaterThan(0);
     expect(
       screen
         .getByTestId('dp-sticky-plan-summary')
         .querySelector('.dp-new-plan-selection-sticky-summary-old-price'),
     ).toHaveTextContent(
-      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10\/buy_process.new_plan_selection.month_period/,
+      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10.00\/buy_process.new_plan_selection.month_period/,
     );
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
@@ -1945,7 +1948,7 @@ describe('NewPlanSelection component', () => {
     await waitFor(() =>
       expect(
         within(getCreditsPlanSection()).getAllByText(
-          textContentIncludes('US$72/buy_process.new_plan_selection.single_payment_period*'),
+          textContentIncludes('US$72.00/buy_process.new_plan_selection.single_payment_period*'),
         ).length,
       ).toBeGreaterThan(0),
     );
@@ -2093,7 +2096,7 @@ describe('NewPlanSelection component', () => {
         .getByTestId('dp-sticky-plan-summary')
         .querySelector('.dp-new-plan-selection-sticky-summary-old-price'),
     ).toHaveTextContent(
-      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10\/buy_process.new_plan_selection.month_period/,
+      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10.00\/buy_process.new_plan_selection.month_period/,
     );
     expect(
       within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
