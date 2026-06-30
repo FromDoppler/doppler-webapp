@@ -15,6 +15,7 @@ import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider';
 import DopplerIntlProviderDoubleWithIdsAsValues from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { NewPlanSelection } from '.';
+import { AddOnCard } from './AddOnsSection';
 
 const contactPlans = [
   {
@@ -220,7 +221,13 @@ const createForcedServices = ({
         features,
         user: {
           locationCountry: 'us',
-          chat: { active: false },
+          chat: { active: false, plan: { buttonUrl: '/conversations?buyType=4' } },
+          onSite: { active: false, plan: { buttonUrl: '/buy-onsite-plan?buyType=7' } },
+          pushNotification: {
+            active: false,
+            plan: { buttonUrl: '/buy-push-notification-plan?buyType=8' },
+          },
+          sms: { buttonUrl: '/buy-sms?buyType=2' },
           plan: {
             idPlan: 1,
             planType: PLAN_TYPE.free,
@@ -393,19 +400,85 @@ describe('NewPlanSelection component', () => {
 
     fireEvent.click(nextButton);
     await settleAsyncState();
-    fireEvent.click(nextButton);
-    await settleAsyncState();
 
     await waitFor(() =>
       expect(
         within(getAddOnsSection()).getByText('my_plan.addons.landing_pages.title'),
       ).toBeInTheDocument(),
     );
+    expect(
+      within(getAddOnsSection()).queryByText('my_plan.addons.conversations.title'),
+    ).not.toBeInTheDocument();
 
     screen.getAllByTestId(/dp-addon-card-/).forEach((card) => {
       expect(within(card).queryByRole('link')).not.toBeInTheDocument();
       expect(within(card).queryByRole('button')).not.toBeInTheDocument();
     });
+  });
+
+  it('should render an optional add-on buy button with My Plan behavior when it is configured', () => {
+    render(
+      <DopplerIntlProviderDoubleWithIdsAsValues>
+        <AddOnCard
+          addOn={{
+            id: 'eco-ai',
+            icon: 'dpicon icon-sparkle-ia',
+            titleKey: 'my_plan.addons.eco_ai.title',
+            descriptionKey: 'my_plan.addons.eco_ai.description',
+            priceLabelKey: 'my_plan.addons.eco_ai.access_by_legend',
+            periodKey: 'my_plan.addons.eco_ai.month_legend',
+            showBuyButton: true,
+            buyButtonTextKey: 'buy_process.new_plan_selection.sticky_default_cta',
+            buyButtonUrl: '/checkout/addon/eco-ai',
+          }}
+          price={49}
+        />
+      </DopplerIntlProviderDoubleWithIdsAsValues>,
+    );
+
+    expect(
+      screen.getByRole('link', {
+        name: 'buy_process.new_plan_selection.sticky_default_cta',
+      }),
+    ).toHaveAttribute('href', '/checkout/addon/eco-ai');
+    expect(
+      screen.getByRole('button', {
+        name: 'buy_process.new_plan_selection.sticky_default_cta',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('should render the optional add-on buy button disabled when add-on is beta', () => {
+    render(
+      <DopplerIntlProviderDoubleWithIdsAsValues>
+        <AddOnCard
+          addOn={{
+            id: 'eco-ai',
+            icon: 'dpicon icon-sparkle-ia',
+            titleKey: 'my_plan.addons.eco_ai.title',
+            descriptionKey: 'my_plan.addons.eco_ai.description',
+            priceLabelKey: 'my_plan.addons.eco_ai.access_by_legend',
+            periodKey: 'my_plan.addons.eco_ai.month_legend',
+            showBuyButton: true,
+            buyButtonTextKey: 'my_plan.addons.activate_now_button',
+            buyButtonUrl: '/buy-ecoia-plan?buyType=6',
+            isBeta: true,
+          }}
+          price={49}
+        />
+      </DopplerIntlProviderDoubleWithIdsAsValues>,
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: 'my_plan.addons.activate_now_button',
+      }),
+    ).toBeDisabled();
+    expect(
+      screen.queryByRole('link', {
+        name: 'my_plan.addons.activate_now_button',
+      }),
+    ).not.toBeInTheDocument();
   });
 
   it('should render Eco IA only when ecoIAEnabled is true', async () => {
@@ -526,8 +599,6 @@ describe('NewPlanSelection component', () => {
       name: 'buy_process.new_plan_selection.addons_section.next',
     });
 
-    fireEvent.click(nextButton);
-    await settleAsyncState();
     fireEvent.click(nextButton);
     await settleAsyncState();
 

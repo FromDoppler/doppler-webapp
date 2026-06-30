@@ -929,7 +929,6 @@ export const NewPlanSelectionStyled = styled.div`
     font-weight: 700;
     margin-bottom: 6px;
     font-size: 22px;
-    padding-right: 88px;
     text-transform: none;
   }
 
@@ -1011,9 +1010,34 @@ export const NewPlanSelectionStyled = styled.div`
     padding-top: 12px;
   }
 
+  .dp-new-plan-selection-addon-price-content {
+    align-items: flex-end;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  .dp-new-plan-selection-addon-price-copy {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .dp-new-plan-selection-addon-price .dp-legend-price {
     font-size: 14px;
     line-height: 24px;
+  }
+
+  .dp-new-plan-selection-addon-price-action {
+    flex: 0 0 auto;
+  }
+
+  .dp-new-plan-selection-addon-price-action .dp-button,
+  .dp-new-plan-selection-addon-price-action .dp-button span {
+    white-space: nowrap;
+  }
+
+  .dp-new-plan-selection-addon-action-link {
+    display: inline-flex;
   }
 
   .dp-new-plan-selection-addon-beta-price {
@@ -1271,6 +1295,11 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-addon-card {
       flex-basis: 100%;
+    }
+
+    .dp-new-plan-selection-addon-price-content {
+      align-items: flex-start;
+      flex-direction: column;
     }
   }
 `;
