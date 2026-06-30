@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, FormattedNumber, useIntl } from 'react-intl';
 import { AddOnType } from '../../../../doppler-types';
 import { InjectAppServices } from '../../../../services/pure-di';
+import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../../utils';
 
 const CARDS_PER_PAGE = 3;
 
@@ -37,7 +38,17 @@ const getLandingPacksPrice = async (dopplerAccountPlansApiClient) => {
   return getCheapestPrice(response.value, 'price');
 };
 
-const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
+const getAddonConfigs = ({
+  canShowEcoIA,
+  canShowPushNotification,
+  isFreeAccount,
+  chat,
+  onSite,
+  pushNotification,
+  sms,
+  ecoIA,
+  showBuyButtons = false,
+}) => [
   ...(canShowEcoIA
     ? [
         {
@@ -49,8 +60,15 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
           periodKey: 'my_plan.addons.eco_ai.month_legend',
           isNewFeature: true,
           isBeta: true,
+          buyButtonTextKey: `${
+            ecoIA?.plan?.active && ecoIA?.plan?.fee > 0
+              ? 'my_plan.addons.change_plan_button'
+              : 'my_plan.addons.buy_button'
+          }`,
+          buyButtonUrl: '/buy-ecoia-plan?buyType=6',
           getPrice: (dopplerAccountPlansApiClient) =>
             getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.EcoAI),
+          showBuyButton: showBuyButtons,
         },
       ]
     : []),
@@ -61,6 +79,13 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.conversations.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.conversations.plans_from_legend`} />,
     periodKey: 'my_plan.addons.conversations.month_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: `${
+      chat?.plan?.active && chat?.plan?.fee > 0
+        ? 'my_plan.addons.change_plan_button'
+        : 'my_plan.addons.buy_button'
+    }`,
+    buyButtonUrl: chat?.plan?.buttonUrl,
     getPrice: (dopplerAccountPlansApiClient) =>
       getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.Conversations),
   },
@@ -75,6 +100,15 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
             <FormattedMessage id={`my_plan.addons.push_notification.plans_from_legend`} />
           ),
           periodKey: 'my_plan.addons.push_notification.month_legend',
+          showBuyButton: showBuyButtons,
+          buyButtonTextKey: `${
+            pushNotification?.plan?.active && pushNotification?.plan?.fee > 0
+              ? 'my_plan.addons.change_plan_button'
+              : pushNotification?.active
+                ? 'my_plan.addons.buy_button'
+                : 'my_plan.addons.activate_now_button'
+          }`,
+          buyButtonUrl: pushNotification?.plan?.buttonUrl,
           getPrice: (dopplerAccountPlansApiClient) =>
             getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.PushNotifications),
         },
@@ -87,6 +121,15 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.onsite.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.onsite.plans_from_legend`} />,
     periodKey: 'my_plan.addons.onsite.month_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: `${
+      onSite?.plan?.active && onSite?.plan?.fee > 0
+        ? 'my_plan.addons.change_plan_button'
+        : onSite?.active
+          ? 'my_plan.addons.buy_button'
+          : 'my_plan.addons.activate_now_button'
+    }`,
+    buyButtonUrl: onSite?.plan?.buttonUrl,
     getPrice: (dopplerAccountPlansApiClient) =>
       getAddOnPlansPrice(dopplerAccountPlansApiClient, AddOnType.OnSite),
   },
@@ -97,6 +140,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.sms.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.sms.load_from_legend`} />,
     periodKey: 'my_plan.addons.sms.minimum_load_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.buy_button',
+    buyButtonUrl: isFreeAccount ? `/plan-types?${ACCOUNT_TYPE}=${FREE_ACCOUNT}` : sms?.buttonUrl,
     getPrice: () => {
       return 50; /* As SMS add-on has a fixed price, we return it directly without making an API call */
     },
@@ -115,6 +161,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
       />
     ),
     periodKey: 'my_plan.addons.transactional_emails.month_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.activate_now_button',
+    buyButtonUrlKey: 'my_plan.addons.transactional_emails.buy_url',
     getPrice: () => {
       return 26.5; /* As transactional emails add-on has a fixed price, we return it directly without making an API call */
     },
@@ -126,6 +175,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.landing_pages.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.landing_pages.packs_from_legend`} />,
     periodKey: 'my_plan.addons.landing_pages.month_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.buy_button',
+    buyButtonUrl: '/landing-packages?buyType=3',
     getPrice: getLandingPacksPrice,
   },
   {
@@ -135,6 +187,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.collaborators.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.collaborators.access_by_legend`} />,
     periodKey: 'my_plan.addons.collaborators.collaborator_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.contact_advisor_button',
+    buyButtonUrl: '/additional-services?selected-feature=features12',
     getPrice: () => {
       return 10;
     } /* As collaborators add-on has a fixed price, we return it directly without making an API call */,
@@ -153,6 +208,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
       />
     ),
     periodKey: 'my_plan.addons.list_conditioning.price_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.contact_advisor_button',
+    buyButtonUrl: '/additional-services?selected-feature=features7',
     getPrice: () => {
       return 0.008;
     } /* As list conditioning add-on has a fixed price, we return it directly without making an API call */,
@@ -164,6 +222,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.custom_reports.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.custom_reports.monthly_report_legend`} />,
     periodKey: 'my_plan.addons.custom_reports.monthly_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.request_quote_button',
+    buyButtonUrl: '/additional-services?selected-feature=features10',
     getPrice: () => {
       return 50;
     } /* As custom reports add-on has a fixed price, we return it directly without making an API call */,
@@ -177,6 +238,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
       <FormattedMessage id={`my_plan.addons.layout_service.editor_piece_from_legend`} />
     ),
     periodKey: 'my_plan.addons.layout_service.editor_piece_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.contact_advisor_button',
+    buyButtonUrl: '/additional-services?selected-feature=features5',
     getPrice: () => {
       return 80;
     } /* As layout service add-on has a fixed price, we return it directly without making an API call */,
@@ -190,6 +254,9 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
       <FormattedMessage id={`my_plan.addons.dedicated_environment.access_by_legend`} />
     ),
     periodKey: 'my_plan.addons.dedicated_environment.month_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.contact_advisor_button',
+    buyButtonUrl: '/additional-services?selected-feature=features8',
     getPrice: () => {
       return 150;
     } /* As dedicated environment add-on has a fixed price, we return it directly without making an API call */,
@@ -201,18 +268,66 @@ const getAddonConfigs = ({ canShowEcoIA, canShowPushNotification }) => [
     descriptionKey: 'my_plan.addons.dedicated_ip.description',
     priceLabelKey: <FormattedMessage id={`my_plan.addons.dedicated_ip.access_by_legend`} />,
     periodKey: 'my_plan.addons.dedicated_ip.month_legend',
+    showBuyButton: showBuyButtons,
+    buyButtonTextKey: 'my_plan.addons.contact_advisor_button',
+    buyButtonUrl: '/additional-services?selected-feature=features11',
     getPrice: () => {
       return 30;
     } /* As dedicated ip add-on has a fixed price, we return it directly without making an API call */,
   },
 ];
 
-const AddOnCard = ({ addOn, price }) => {
+const renderBuyButton = (addOn, intl) => {
+  if (!addOn.showBuyButton) {
+    return null;
+  }
+
+  const buttonLabel = addOn.buyButtonTextKey
+    ? intl.formatMessage({ id: addOn.buyButtonTextKey }, addOn.buyButtonTextValues)
+    : addOn.buyButtonText;
+  const buttonUrl = addOn.buyButtonUrlKey
+    ? intl.formatMessage({ id: addOn.buyButtonUrlKey }, addOn.buyButtonUrlValues)
+    : addOn.buyButtonUrl;
+
+  if (!buttonLabel) {
+    return null;
+  }
+
+  const buttonClassName = addOn.buyButtonClassName || 'dp-button button-medium primary-green';
+
+  if (addOn.isBeta) {
+    return (
+      <button type="button" className={buttonClassName} disabled>
+        {buttonLabel}
+      </button>
+    );
+  }
+
+  if (buttonUrl) {
+    return (
+      <a
+        href={buttonUrl}
+        className="dp-new-plan-selection-addon-action-link"
+        target={addOn.buyButtonTarget}
+        rel={addOn.buyButtonRel}
+      >
+        <button type="button" className={buttonClassName}>
+          {buttonLabel}
+        </button>
+      </a>
+    );
+  }
+
+  return null;
+};
+
+export const AddOnCard = ({ addOn, price }) => {
   const intl = useIntl();
   const _ = (id, values) => intl.formatMessage({ id }, values);
   const hasNewFeatureRibbon = addOn.isNewFeature;
   const hasBetaBadge = addOn.isBeta === true;
   const hasPrice = Number.isFinite(price) && price > 0;
+  const buyButton = renderBuyButton(addOn, intl);
 
   return (
     <article
@@ -241,67 +356,95 @@ const AddOnCard = ({ addOn, price }) => {
       </header>
       <p className="dp-description-legend">{_(addOn.descriptionKey)}</p>
       <div className="dp-new-plan-selection-addon-price">
-        <span className="dp-legend-price">{addOn.priceLabelKey}</span>
-        {hasPrice && hasBetaBadge ? (
-          <>
-            <p className="dp-new-plan-selection-addon-beta-price">
-              <b>
-                US${' '}
-                <FormattedNumber value={0} minimumFractionDigits={2} maximumFractionDigits={2} />
-              </b>
-              <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
-              <span className="dp-new-plan-selection-addon-regular-price">
-                {_('my_plan.addons.regular_price_label')}{' '}
-                <span className="dp-line-through">
+        <div className="dp-new-plan-selection-addon-price-content">
+          <div className="dp-new-plan-selection-addon-price-copy">
+            <span className="dp-legend-price">{addOn.priceLabelKey}</span>
+            {hasPrice && hasBetaBadge ? (
+              <p className="dp-new-plan-selection-addon-beta-price">
+                <b>
+                  US${' '}
+                  <FormattedNumber value={0} minimumFractionDigits={2} maximumFractionDigits={2} />
+                </b>
+                <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
+                <span className="dp-new-plan-selection-addon-regular-price">
+                  {_('my_plan.addons.regular_price_label')}{' '}
+                  <span className="dp-line-through">
+                    US${' '}
+                    <FormattedNumber
+                      value={price}
+                      minimumFractionDigits={2}
+                      maximumFractionDigits={2}
+                    />
+                  </span>
+                  <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
+                </span>
+              </p>
+            ) : hasPrice ? (
+              <p>
+                <b>
                   US${' '}
                   <FormattedNumber
                     value={price}
                     minimumFractionDigits={2}
-                    maximumFractionDigits={2}
+                    maximumFractionDigits={3}
                   />
-                </span>
+                </b>{' '}
                 <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
+              </p>
+            ) : (
+              <span className="dp-disclaimer">
+                <FormattedMessage id="buy_process.new_plan_selection.addons_section.price_unavailable" />
               </span>
-            </p>
-          </>
-        ) : hasPrice ? (
-          <>
-            <p>
-              <b>
-                US${' '}
-                <FormattedNumber
-                  value={price}
-                  minimumFractionDigits={2}
-                  maximumFractionDigits={3}
-                />
-              </b>{' '}
-              <span className="dp-disclaimer">{_(addOn.periodKey)}</span>
-            </p>
-          </>
-        ) : (
-          <span className="dp-disclaimer">
-            <FormattedMessage id="buy_process.new_plan_selection.addons_section.price_unavailable" />
-          </span>
-        )}
+            )}
+          </div>
+          {buyButton ? (
+            <div className="dp-new-plan-selection-addon-price-action">{buyButton}</div>
+          ) : null}
+        </div>
       </div>
     </article>
   );
 };
 
 export const AddOnsSection = InjectAppServices(
-  ({ dependencies: { appSessionRef, dopplerAccountPlansApiClient } }) => {
+  ({ showBuyButtons = false, dependencies: { appSessionRef, dopplerAccountPlansApiClient } }) => {
     const intl = useIntl();
     const canShowEcoIA = appSessionRef.current.userData.features?.ecoIAEnabled === true;
     const canShowPushNotification =
       process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN === 'true';
+    const user = appSessionRef.current.userData.user;
+    const ecoIA = user.addOnPlans?.find(
+      (addOnPlan) => addOnPlan.plan?.addOnTypeId === AddOnType.EcoAI,
+    );
     const addOns = useMemo(
-      () => getAddonConfigs({ canShowEcoIA, canShowPushNotification }),
-      [canShowEcoIA, canShowPushNotification],
+      () =>
+        getAddonConfigs({
+          canShowEcoIA,
+          canShowPushNotification,
+          isFreeAccount: user.plan?.isFreeAccount,
+          chat: user.chat,
+          onSite: user.onSite,
+          pushNotification: user.pushNotification,
+          sms: user.sms,
+          ecoIA,
+          showBuyButtons,
+        }),
+      [
+        canShowEcoIA,
+        canShowPushNotification,
+        ecoIA,
+        showBuyButtons,
+        user.chat,
+        user.onSite,
+        user.plan,
+        user.pushNotification,
+        user.sms,
+      ],
     );
     const [prices, setPrices] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const maxIndex = Math.max(addOns.length - CARDS_PER_PAGE, 0);
+    const maxIndex = Math.max(Math.floor((addOns.length - 1) / CARDS_PER_PAGE) * CARDS_PER_PAGE, 0);
     const visibleAddOns = addOns.slice(currentIndex, currentIndex + CARDS_PER_PAGE);
     const hasAvailablePrice = Object.values(prices).some(
       (price) => Number.isFinite(price) && price > 0,
@@ -348,11 +491,11 @@ export const AddOnsSection = InjectAppServices(
     }, [maxIndex]);
 
     const handlePrevious = () => {
-      setCurrentIndex((index) => Math.max(index - 1, 0));
+      setCurrentIndex((index) => Math.max(index - CARDS_PER_PAGE, 0));
     };
 
     const handleNext = () => {
-      setCurrentIndex((index) => Math.min(index + 1, maxIndex));
+      setCurrentIndex((index) => Math.min(index + CARDS_PER_PAGE, maxIndex));
     };
 
     if (!addOns.length) {

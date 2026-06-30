@@ -670,7 +670,7 @@ export const CheckoutSummary = InjectAppServices(
             <div className="m-t-48">
               <NewPlanSelectionStyled>
                 <div className="dp-container">
-                  <AddOnsSection />
+                  <AddOnsSection showBuyButtons />
                 </div>
               </NewPlanSelectionStyled>
             </div>
