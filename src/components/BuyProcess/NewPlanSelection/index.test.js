@@ -850,6 +850,33 @@ describe('NewPlanSelection component', () => {
     }
   });
 
+  it('should remove contacts promocode from checkout URL when non-monthly frequency is selected', async () => {
+    const user = userEvent.setup();
+    await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
+
+    await waitFor(() =>
+      expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+    );
+
+    await user.click(
+      within(getContactsPlanSection()).getByRole('button', {
+        name: /buy_process\.discount_half_yearly/i,
+      }),
+    );
+    await settleAsyncState();
+
+    await waitFor(() => {
+      const choosePlanHref = screen
+        .getByRole('link', { name: 'buy_process.new_plan_selection.choose_plan' })
+        .getAttribute('href');
+
+      expect(choosePlanHref).toContain('discountId=797');
+      expect(choosePlanHref).toContain('monthPlan=6');
+      expect(choosePlanHref).not.toContain('PromoCode=');
+      expect(choosePlanHref).not.toContain('promo-code=');
+    });
+  });
+
   it('should apply Promo-code query param only in credits when it is valid only for credits', async () => {
     await renderNewPlanSelection(['/new-plan-selection?Promo-code=CREDITSPROMO'], {
       dopplerAccountPlansApiClient: {
