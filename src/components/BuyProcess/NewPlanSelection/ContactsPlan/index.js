@@ -74,6 +74,9 @@ const getSessionSavedPromocode = (sessionPlan) => {
 
 const getCheckoutUrl = ({ search, selectedPlan, selectedPaymentFrequency, promocodeApplied }) => {
   const params = new URLSearchParams(search);
+  const canApplyPromocodeToCheckout =
+    !selectedPaymentFrequency?.id || selectedPaymentFrequency?.applyPromo;
+
   params.set('selected-plan', selectedPlan.id);
   params.delete('promo-code');
   params.delete('Promo-code');
@@ -91,7 +94,7 @@ const getCheckoutUrl = ({ search, selectedPlan, selectedPaymentFrequency, promoc
     params.delete('monthPlan');
   }
 
-  if (promocodeApplied?.canApply && promocodeApplied.promocode) {
+  if (canApplyPromocodeToCheckout && promocodeApplied?.canApply && promocodeApplied.promocode) {
     params.set('PromoCode', promocodeApplied.promocode);
   }
 
