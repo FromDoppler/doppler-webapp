@@ -139,6 +139,7 @@ export const Promocode = InjectAppServices(
     const promocodeInputRef = useRef(null);
     const alreadyInitializedRef = useRef(null);
     const autoInitializationSuppressedRef = useRef(false);
+    const suppressValidationUntilPromocodeClearedRef = useRef(false);
     const autoInitializedValidationKeyRef = useRef('');
     const planValidationKeyRef = useRef('');
     const validationRequestIdRef = useRef(0);
@@ -166,6 +167,7 @@ export const Promocode = InjectAppServices(
       resetPromocodeState();
       setManualPromocodeApplied(false);
       autoInitializationSuppressedRef.current = true;
+      suppressValidationUntilPromocodeClearedRef.current = true;
       autoInitializedValidationKeyRef.current = '__dismissed__';
       planValidationKeyRef.current = '';
       // Ignore async validate responses started before manual remove.
@@ -427,6 +429,14 @@ export const Promocode = InjectAppServices(
     useEffect(() => {
       // In this case the user selects a payment frequency or an email marketing plan
       const currentPromocode = promocodeInputRef.current?.values[fieldNames.promocode];
+      if (suppressValidationUntilPromocodeClearedRef.current) {
+        if (!currentPromocode) {
+          suppressValidationUntilPromocodeClearedRef.current = false;
+        }
+
+        return;
+      }
+
       const shouldValidatePromocode =
         (selectedPaymentFrequency === undefined || selectedPaymentFrequency?.numberMonths === 1) &&
         currentPromocode;
@@ -473,6 +483,10 @@ export const Promocode = InjectAppServices(
     useEffect(() => {
       // In this case there is a promocode by default (By URL)
       if (defaultPromocodeDismissed) {
+        return;
+      }
+
+      if (suppressValidationUntilPromocodeClearedRef.current) {
         return;
       }
 

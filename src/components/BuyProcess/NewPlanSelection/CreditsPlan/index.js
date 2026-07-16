@@ -52,7 +52,9 @@ export const CreditsPlan = InjectAppServices(
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState(null);
     const [defaultPromocodeDismissed, setDefaultPromocodeDismissed] = useState(false);
+    const [ignoreSessionPromocode, setIgnoreSessionPromocode] = useState(false);
     const clearPromocodeInputRef = useRef(null);
+    const effectivePromocodeApplied = ignoreSessionPromocode ? promocodeApplied : promocodeApplied;
 
     useEffect(() => {
       const fetchAmountDetails = async () => {
@@ -61,7 +63,7 @@ export const CreditsPlan = InjectAppServices(
             selectedPlan.id,
             'Marketing',
             0,
-            promocodeApplied?.canApply ? promocodeApplied.promocode : '',
+            effectivePromocodeApplied?.canApply ? effectivePromocodeApplied.promocode : '',
           );
           setAmountDetailsData(amountDetails);
         } catch (error) {
@@ -72,16 +74,20 @@ export const CreditsPlan = InjectAppServices(
       if (selectedPlan?.id) {
         fetchAmountDetails();
       }
-    }, [dopplerAccountPlansApiClient, promocodeApplied, selectedPlan]);
+    }, [dopplerAccountPlansApiClient, effectivePromocodeApplied, selectedPlan]);
 
     const handlePromocodeApplied = useCallback((promotion) => {
+      if (promotion && typeof promotion === 'object') {
+        setIgnoreSessionPromocode(true);
+      }
       setPromocodeApplied(promotion && typeof promotion === 'object' ? promotion : null);
     }, []);
 
     const handleRemovePromocodeApplied = useCallback(() => {
-      clearPromocodeInputRef.current?.();
       setDefaultPromocodeDismissed(true);
+      setIgnoreSessionPromocode(true);
       setPromocodeApplied(null);
+      clearPromocodeInputRef.current?.();
     }, []);
 
     const handleManualPromocodeIntervention = useCallback(() => {
@@ -99,20 +105,20 @@ export const CreditsPlan = InjectAppServices(
     const promocodeDiscount = amountDetailsData?.value?.discountPromocode ?? null;
     const promocodeDiscountPercentage = promocodeDiscount?.discountPercentage ?? 0;
     const extraCredits = Math.max(
-      promocodeApplied?.promotionApplied?.extraCredits ?? 0,
+      effectivePromocodeApplied?.promotionApplied?.extraCredits ?? 0,
       promocodeDiscount?.extraCredits ?? 0,
     );
     const hasPromocodeDiscount = Boolean(
-      promocodeApplied?.canApply && promocodeDiscountPercentage > 0,
+      effectivePromocodeApplied?.canApply && promocodeDiscountPercentage > 0,
     );
-    const hasExtraCredits = Boolean(promocodeApplied?.canApply && extraCredits > 0);
+    const hasExtraCredits = Boolean(effectivePromocodeApplied?.canApply && extraCredits > 0);
     const displayedPrice =
       hasPromocodeDiscount && typeof amountDetailsData?.value?.total === 'number'
         ? amountDetailsData.value.total
         : planFee;
     const pricePerCredit = creditsAmount > 0 ? displayedPrice / creditsAmount : 0;
     const checkoutUrl = selectedPlan
-      ? getCheckoutUrl({ search, selectedPlan, promocodeApplied })
+      ? getCheckoutUrl({ search, selectedPlan, promocodeApplied: effectivePromocodeApplied })
       : '#';
 
     return (
@@ -172,7 +178,7 @@ export const CreditsPlan = InjectAppServices(
                     amountDetailsData={amountDetailsData}
                     selectedPaymentFrequency={undefined}
                     callback={handlePromocodeApplied}
-                    hasPromocodeAppliedItem={Boolean(promocodeApplied?.promocode)}
+                    hasPromocodeAppliedItem={Boolean(effectivePromocodeApplied?.promocode)}
                     isArgentina={sessionPlan.locationCountry === 'ar'}
                     isFreeAccount={sessionPlan?.plan?.isFreeAccount}
                     defaultPromocode={null}
@@ -181,7 +187,7 @@ export const CreditsPlan = InjectAppServices(
                     modulePlanType={PLAN_TYPE.byCredit}
                     disabledPromocode={false}
                     handleRemovePromocodeApplied={handleRemovePromocodeApplied}
-                    currentPromocodeApplied={promocodeApplied}
+                    currentPromocodeApplied={effectivePromocodeApplied}
                     registerClearPromocodeInput={registerClearPromocodeInput}
                     defaultPromocodeDismissed={defaultPromocodeDismissed}
                     handleManualPromocodeIntervention={handleManualPromocodeIntervention}

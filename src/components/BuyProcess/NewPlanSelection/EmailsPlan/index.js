@@ -78,13 +78,15 @@ export const EmailsPlan = InjectAppServices(
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState(null);
     const [defaultPromocodeDismissed, setDefaultPromocodeDismissed] = useState(false);
+    const [ignoreSessionPromocode, setIgnoreSessionPromocode] = useState(false);
     const clearPromocodeInputRef = useRef(null);
     const sessionPromocodeApplied = useMemo(
       () => getSessionPromocodeApplied(sessionPlan),
       [sessionPlan],
     );
-    const effectivePromocodeApplied =
-      promocodeApplied ?? (!defaultPromocodeDismissed ? sessionPromocodeApplied : null);
+    const effectivePromocodeApplied = ignoreSessionPromocode
+      ? promocodeApplied
+      : (promocodeApplied ?? (!defaultPromocodeDismissed ? sessionPromocodeApplied : null));
 
     useEffect(() => {
       const fetchAmountDetails = async () => {
@@ -107,13 +109,17 @@ export const EmailsPlan = InjectAppServices(
     }, [dopplerAccountPlansApiClient, effectivePromocodeApplied, selectedPlan]);
 
     const handlePromocodeApplied = useCallback((promotion) => {
+      if (promotion && typeof promotion === 'object') {
+        setIgnoreSessionPromocode(true);
+      }
       setPromocodeApplied(promotion && typeof promotion === 'object' ? promotion : null);
     }, []);
 
     const handleRemovePromocodeApplied = useCallback(() => {
-      clearPromocodeInputRef.current?.();
       setDefaultPromocodeDismissed(true);
+      setIgnoreSessionPromocode(true);
       setPromocodeApplied(null);
+      clearPromocodeInputRef.current?.();
     }, []);
 
     const handleManualPromocodeIntervention = useCallback(() => {

@@ -992,11 +992,13 @@ describe('NewPlanSelection component', () => {
     await waitFor(() =>
       expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('CONTACTS1500'),
     );
-    expect(
-      within(getContactsPlanSection()).getByText(
-        'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
-      ),
-    ).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        within(getContactsPlanSection()).getByText(
+          'checkoutProcessForm.purchase_summary.promocode_can_not_apply_error_message',
+        ),
+      ).toBeInTheDocument(),
+    );
   });
 
   it('should keep Promo-code query param visible in emails when it applies to another emails plan', async () => {
