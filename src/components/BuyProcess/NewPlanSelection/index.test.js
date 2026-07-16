@@ -15,6 +15,7 @@ import DopplerIntlProvider from '../../../i18n/DopplerIntlProvider';
 import DopplerIntlProviderDoubleWithIdsAsValues from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { AppServicesProvider } from '../../../services/pure-di';
 import { NewPlanSelection } from '.';
+import { NewPlanSelectionStyled } from './index.styles';
 import { AddOnCard } from './AddOnsSection';
 
 const contactPlans = [
@@ -208,6 +209,9 @@ const getEmailsSelect = () => within(getEmailsPlanSection()).getByRole('combobox
 const getCreditsSelect = () => within(getCreditsPlanSection()).getByRole('combobox');
 const hasPriceInBold = (priceRegex) => (_content, node) =>
   node?.tagName === 'B' && priceRegex.test(node?.textContent || '');
+const getInjectedStylesText = () =>
+  NewPlanSelectionStyled.componentStyle.rules.flat(Infinity).join('');
+const getNormalizedStylesText = () => getInjectedStylesText().replace(/\s+/g, ' ');
 
 const createForcedServices = ({
   features = {},
@@ -379,6 +383,43 @@ describe('NewPlanSelection component', () => {
         name: 'buy_process.new_plan_selection.credits_plan_title',
       }),
     ).toBeInTheDocument();
+  });
+
+  it('should declare mobile sticky layout and safe bottom spacing styles', async () => {
+    await renderNewPlanSelection();
+
+    const styles = getNormalizedStylesText();
+
+    expect(styles).toContain('@media (max-width: 767px) { padding-bottom: 170px;');
+    expect(styles).toContain('.dp-new-plan-selection-sticky-summary {');
+    expect(styles).toContain('position: fixed;');
+    expect(styles).toContain('bottom: env(safe-area-inset-bottom, 0px);');
+    expect(styles).toContain(
+      '.dp-new-plan-selection-sticky-summary-content { display: flex; flex-direction: column; gap: 6px;',
+    );
+  });
+
+  it('should declare mobile single-row promocode and add-ons single-card styles', async () => {
+    await renderNewPlanSelection();
+
+    const styles = getNormalizedStylesText();
+
+    expect(styles).toContain(
+      '.dp-new-plan-selection-promocode .dp-form-promocode .field-group { align-items: flex-start; display: flex; gap: 8px;',
+    );
+    expect(styles).toContain(
+      '.dp-new-plan-selection-promocode .dp-form-promocode .field-item--30 { flex: 0 0 104px; margin-top: 0; width: 104px;',
+    );
+    expect(styles).toContain(
+      '.dp-new-plan-selection-addons-carousel { align-items: start; display: grid; gap: 10px; grid-template-columns: 28px minmax(0, calc(100% - 76px)) 28px;',
+    );
+    expect(styles).toContain(
+      '.dp-new-plan-selection-addons-cards { overflow: hidden; gap: 0; padding: 0;',
+    );
+    expect(styles).toContain('.dp-new-plan-selection-addon-card { flex-basis: 100%;');
+    expect(styles).toContain(
+      '.dp-new-plan-selection-included-features-grid { gap: 16px; grid-template-columns: 100%;',
+    );
   });
 
   it('should render informational add-ons cards with real minimum prices and no card actions', async () => {
@@ -1121,38 +1162,44 @@ describe('NewPlanSelection component', () => {
   });
 
   it('should not reapply default promocode after removing it from contacts input', async () => {
+    const previousContactsPromocode = process.env.REACT_APP_PROMOCODE_CONTACTS;
+    process.env.REACT_APP_PROMOCODE_CONTACTS = '';
     const user = userEvent.setup();
-    await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
+    try {
+      await renderNewPlanSelection(['/new-plan-selection?Promo-code=DOPPLER50X6']);
 
-    await waitFor(() =>
-      expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
-    );
+      await waitFor(() =>
+        expect(within(getContactsPlanSection()).getByRole('textbox')).toHaveValue('DOPPLER50X6'),
+      );
 
-    await user.click(within(getContactsPlanSection()).getByRole('button', { name: /borrar/i }));
-    await settleAsyncState();
+      await user.click(within(getContactsPlanSection()).getByRole('button', { name: /borrar/i }));
+      await settleAsyncState();
 
-    await waitFor(() => {
-      const choosePlanHref = screen
-        .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
-        .getAttribute('href');
-      expect(choosePlanHref).not.toContain('promo-code=');
-      expect(choosePlanHref).not.toContain('Promo-code=');
-      expect(choosePlanHref).not.toContain('PromoCode=');
-    });
+      await waitFor(() => {
+        const choosePlanHref = screen
+          .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+          .getAttribute('href');
+        expect(choosePlanHref).not.toContain('promo-code=');
+        expect(choosePlanHref).not.toContain('Promo-code=');
+        expect(choosePlanHref).not.toContain('PromoCode=');
+      });
 
-    fireEvent.change(getContactsSelect(), {
-      target: { value: '1' },
-    });
-    await settleAsyncState();
+      fireEvent.change(getContactsSelect(), {
+        target: { value: '1' },
+      });
+      await settleAsyncState();
 
-    await waitFor(() => {
-      const choosePlanHref = screen
-        .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
-        .getAttribute('href');
-      expect(choosePlanHref).not.toContain('promo-code=');
-      expect(choosePlanHref).not.toContain('Promo-code=');
-      expect(choosePlanHref).not.toContain('PromoCode=');
-    });
+      await waitFor(() => {
+        const choosePlanHref = screen
+          .getByRole('link', { name: 'buy_process.new_plan_selection.sticky_default_cta' })
+          .getAttribute('href');
+        expect(choosePlanHref).not.toContain('promo-code=');
+        expect(choosePlanHref).not.toContain('Promo-code=');
+        expect(choosePlanHref).not.toContain('PromoCode=');
+      });
+    } finally {
+      process.env.REACT_APP_PROMOCODE_CONTACTS = previousContactsPromocode;
+    }
   });
 
   it('should not prepopulate contacts promocode for paid users with non-monthly subscription', async () => {

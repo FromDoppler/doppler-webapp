@@ -21,7 +21,8 @@ export const getSteps = (buyType, user, pathname) => {
       label: 'buy_process.stepper.email_marketing_plan_step',
       icon: 'dpicon iconapp-email-alert',
       pathname: currentPathname,
-      visible: buyType === BUY_MARKETING_PLAN.toString(),
+      visible:
+        pathname.includes('/new-plan-selection') || buyType === BUY_MARKETING_PLAN.toString(),
     },
     {
       id: 2,

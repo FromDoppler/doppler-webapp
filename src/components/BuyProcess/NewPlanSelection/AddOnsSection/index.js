@@ -4,7 +4,8 @@ import { AddOnType } from '../../../../doppler-types';
 import { InjectAppServices } from '../../../../services/pure-di';
 import { ACCOUNT_TYPE, FREE_ACCOUNT } from '../../../../utils';
 
-const CARDS_PER_PAGE = 3;
+const DESKTOP_CARDS_PER_PAGE = 3;
+const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
 
 const getCheapestPrice = (plans, priceField) => {
   const prices = plans
@@ -444,11 +445,40 @@ export const AddOnsSection = InjectAppServices(
     const [prices, setPrices] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const maxIndex = Math.max(Math.floor((addOns.length - 1) / CARDS_PER_PAGE) * CARDS_PER_PAGE, 0);
-    const visibleAddOns = addOns.slice(currentIndex, currentIndex + CARDS_PER_PAGE);
+    const [cardsPerPage, setCardsPerPage] = useState(DESKTOP_CARDS_PER_PAGE);
+    const maxIndex = Math.max(Math.floor((addOns.length - 1) / cardsPerPage) * cardsPerPage, 0);
+    const visibleAddOns = addOns.slice(currentIndex, currentIndex + cardsPerPage);
     const hasAvailablePrice = Object.values(prices).some(
       (price) => Number.isFinite(price) && price > 0,
     );
+
+    useEffect(() => {
+      if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+        return undefined;
+      }
+
+      const mediaQueryList = window.matchMedia(MOBILE_MEDIA_QUERY);
+      const updateCardsPerPage = (source) => {
+        const matches = source && typeof source.matches === 'boolean' ? source.matches : false;
+        setCardsPerPage(matches ? 1 : DESKTOP_CARDS_PER_PAGE);
+      };
+
+      updateCardsPerPage(mediaQueryList);
+
+      if (typeof mediaQueryList.addEventListener === 'function') {
+        mediaQueryList.addEventListener('change', updateCardsPerPage);
+
+        return () => {
+          mediaQueryList.removeEventListener('change', updateCardsPerPage);
+        };
+      }
+
+      mediaQueryList.addListener(updateCardsPerPage);
+
+      return () => {
+        mediaQueryList.removeListener(updateCardsPerPage);
+      };
+    }, []);
 
     useEffect(() => {
       let isMounted = true;
@@ -491,11 +521,11 @@ export const AddOnsSection = InjectAppServices(
     }, [maxIndex]);
 
     const handlePrevious = () => {
-      setCurrentIndex((index) => Math.max(index - CARDS_PER_PAGE, 0));
+      setCurrentIndex((index) => Math.max(index - cardsPerPage, 0));
     };
 
     const handleNext = () => {
-      setCurrentIndex((index) => Math.min(index + CARDS_PER_PAGE, maxIndex));
+      setCurrentIndex((index) => Math.min(index + cardsPerPage, maxIndex));
     };
 
     if (!addOns.length) {
