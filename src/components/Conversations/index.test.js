@@ -91,6 +91,7 @@ describe('Conversations component', () => {
         },
       },
     };
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     // Act
     renderConversations(dependencies);
@@ -101,6 +102,11 @@ describe('Conversations component', () => {
     expect(
       screen.getByText('validation_messages.error_unexpected_register_MD'),
     ).toBeInTheDocument();
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'activateConversationPlan failed: the backend returned an unsuccessful response',
+    );
+
+    consoleErrorSpy.mockRestore();
   });
 
   it('should activate the plan automatically and redirect for a free account with expired trial (case 4)', async () => {

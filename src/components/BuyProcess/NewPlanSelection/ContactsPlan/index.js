@@ -123,6 +123,7 @@ export const ContactsPlan = InjectAppServices(
     const [amountDetailsData, setAmountDetailsData] = useState(null);
     const [promocodeApplied, setPromocodeApplied] = useState(null);
     const [defaultPromocodeDismissed, setDefaultPromocodeDismissed] = useState(false);
+    const [ignoreSessionPromocode, setIgnoreSessionPromocode] = useState(false);
     const clearPromocodeInputRef = useRef(null);
     const sessionPromocodeApplied = useMemo(
       () => getSessionPromocodeApplied(sessionPlan),
@@ -137,8 +138,9 @@ export const ContactsPlan = InjectAppServices(
       const isCreditPlan = sessionPlan?.plan?.planType === PLAN_TYPE.byCredit;
       return isFreeAccount || isCreditPlan ? rawValue : '';
     }, [isFreeAccount, sessionPlan?.plan?.planType]);
-    const effectivePromocodeApplied =
-      promocodeApplied ?? (!defaultPromocodeDismissed ? sessionPromocodeApplied : null);
+    const effectivePromocodeApplied = ignoreSessionPromocode
+      ? promocodeApplied
+      : (promocodeApplied ?? (!defaultPromocodeDismissed ? sessionPromocodeApplied : null));
 
     const paymentFrequencies = useMemo(
       () => selectedPlan?.billingCycleDetails?.map(mapDiscount).sort(orderAscendingDiscount) ?? [],
@@ -175,13 +177,17 @@ export const ContactsPlan = InjectAppServices(
     }, []);
 
     const handlePromocodeApplied = useCallback((promotion) => {
+      if (promotion && typeof promotion === 'object') {
+        setIgnoreSessionPromocode(true);
+      }
       setPromocodeApplied(promotion && typeof promotion === 'object' ? promotion : null);
     }, []);
 
     const handleRemovePromocodeApplied = useCallback(() => {
-      clearPromocodeInputRef.current?.();
       setDefaultPromocodeDismissed(true);
+      setIgnoreSessionPromocode(true);
       setPromocodeApplied(null);
+      clearPromocodeInputRef.current?.();
     }, []);
 
     const handleManualPromocodeIntervention = useCallback(() => {
