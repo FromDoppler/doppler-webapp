@@ -45,9 +45,11 @@ export const PlanSelection = InjectAppServices(
     const billingCountry = sessionPlan.billingCountry;
     const currentUserPlanType = appSessionRef.current.userData.user.plan.planType;
     const navigate = useNavigate();
-
     const [showLosePromotionInformation, setShowLosePromotionInformation] = useState(false);
     const [chatPlan, setChatPlan] = useState({ cant: 10000 });
+    const { features } = appSessionRef.current.userData;
+    const newPlanSelectionEnabled = features?.newPlanSelectionEnabled;
+
     const [item, setItem] = useState({
       selectedMarketingPlan: null,
       discounts: [],
@@ -58,6 +60,7 @@ export const PlanSelection = InjectAppServices(
       planTypesReducer,
       INITIAL_STATE_PLAN_TYPES,
     );
+
     const [
       {
         selectedPlanIndex,
@@ -75,6 +78,10 @@ export const PlanSelection = InjectAppServices(
     useDefaultPlanType({ appSessionRef, planTypeUrlSegment, window });
 
     const addItem = useCallback((item) => setItem(item), []);
+
+    if (newPlanSelectionEnabled) {
+      return <Navigate to={`/new-plan-selection`} />;
+    }
 
     useEffect(() => {
       const fetchData = async () => {
