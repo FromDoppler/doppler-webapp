@@ -80,7 +80,7 @@ export const PlanSelection = InjectAppServices(
     const addItem = useCallback((item) => setItem(item), []);
 
     if (newPlanSelectionEnabled) {
-      return <Navigate to={`/new-plan-selection`} />;
+      return <Navigate to={{ pathname: '/new-plan-selection', search }} />;
     }
 
     useEffect(() => {
