@@ -112,7 +112,7 @@ export const PlanTypes = InjectAppServices(
     }
 
     if (newPlanSelectionEnabled) {
-      return <Navigate to={`/new-plan-selection`} />;
+      return <Navigate to={`/new-plan-selection?${queryParams}`} />;
     }
 
     if (loading) {
