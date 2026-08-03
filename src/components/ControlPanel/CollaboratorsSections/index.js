@@ -6,6 +6,7 @@ import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
 import { InjectAppServices } from '../../../services/pure-di';
 import { Loading } from '../../Loading/Loading';
 import { CollaboratorInviteForm } from './Forms/CollaboratorInviteForm';
+import { CollaboratorPermissionsForm } from './Forms/CollaboratorPermissionsForm';
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
 import { Navigate } from 'react-router-dom';
@@ -16,9 +17,12 @@ export const CollaboratorsSections = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [availablePermissions, setAvailablePermissions] = useState([]);
     const [activeMenu, setActiveMenus] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalError, setmodalError] = useState(null);
+    const [selectedEmail, setSelectedEmail] = useState('');
+    const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
     const [refreshTable, setRefreshTable] = useState(false);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
@@ -28,6 +32,12 @@ export const CollaboratorsSections = InjectAppServices(
       step: 'INITIAL_STEP',
       title: _('collaborators.add_collaborator'),
       description: _('collaborators.form_modal.description'),
+    };
+
+    const modalPermissionsStep = {
+      step: 'PERMISSIONS_STEP',
+      title: _('collaborators.form_modal.permissions_title'),
+      description: _('collaborators.form_modal.permissions_description'),
     };
 
     const modalFinalStep = {
@@ -40,8 +50,12 @@ export const CollaboratorsSections = InjectAppServices(
 
     const handleModalOpen = (open) => {
       if (open) {
+        setmodalError(null);
         setModalOpen(open);
       } else {
+        setSelectedEmail('');
+        setSelectedPermissionIds([]);
+        setmodalError(null);
         setModalStep(modalFirstStep);
         setModalOpen(open);
       }
@@ -49,9 +63,15 @@ export const CollaboratorsSections = InjectAppServices(
 
     useEffect(() => {
       const fetchData = async () => {
-        const invitations = await dopplerUserApiClient.getCollaborationInvites();
+        const [invitations, permissions] = await Promise.all([
+          dopplerUserApiClient.getCollaborationInvites(),
+          dopplerUserApiClient.getAvailableCollaboratorSections(),
+        ]);
         if (invitations.success) {
           setData(invitations.value);
+        }
+        if (permissions.success) {
+          setAvailablePermissions(permissions.value);
         }
 
         setLoading(false);
@@ -68,16 +88,35 @@ export const CollaboratorsSections = InjectAppServices(
       }
     };
 
-    const sendInvitation = async (email) => {
+    const sendInvitation = async (invitationData) => {
       setActiveMenus(false);
-      const result = await dopplerUserApiClient.sendCollaboratorInvite(email);
-      setRefreshTable(!refreshTable);
+      const result = await dopplerUserApiClient.sendCollaboratorInvite(invitationData);
+      if (result.success) {
+        setRefreshTable((currentValue) => !currentValue);
+      }
 
       return result.success;
     };
 
-    const formSendInvitation = async (email) => {
-      const success = sendInvitation(email);
+    const goToPermissionsStep = (email) => {
+      setmodalError(null);
+      setSelectedEmail(email);
+      setModalStep(modalPermissionsStep);
+    };
+
+    const goBackToInviteStep = (permissions = []) => {
+      setmodalError(null);
+      setSelectedPermissionIds(permissions);
+      setModalStep(modalFirstStep);
+    };
+
+    const formSendInvitation = async (permissions) => {
+      setmodalError(null);
+      setSelectedPermissionIds(permissions);
+      const success = await sendInvitation({
+        email: selectedEmail,
+        idSections: permissions.join(','),
+      });
       if (success) {
         setModalStep(modalFinalStep);
       } else {
@@ -209,7 +248,7 @@ export const CollaboratorsSections = InjectAppServices(
                                       <li role="menuitem">
                                         <button
                                           type="button"
-                                          onClick={() => sendInvitation(item.email)}
+                                          onClick={() => sendInvitation({ email: item.email })}
                                         >
                                           {_('collaborators.menu.invite')}
                                         </button>
@@ -256,12 +295,20 @@ export const CollaboratorsSections = InjectAppServices(
                   <></>
                 )}
                 {modalStep.step === 'INITIAL_STEP' ? (
-                  <CollaboratorInviteForm title={modalStep.title} onSubmit={formSendInvitation} />
-                ) : modalStep.step === 'FINAL_STEP' ? (
-                  <SuccessStepForm
-                    onBack={() => setModalStep(modalFirstStep)}
-                    onFinish={handleModalOpen}
+                  <CollaboratorInviteForm
+                    title={modalStep.title}
+                    initialEmail={selectedEmail}
+                    onSubmit={goToPermissionsStep}
                   />
+                ) : modalStep.step === 'PERMISSIONS_STEP' ? (
+                  <CollaboratorPermissionsForm
+                    permissions={availablePermissions}
+                    selectedPermissions={selectedPermissionIds}
+                    onBack={goBackToInviteStep}
+                    onSubmit={formSendInvitation}
+                  />
+                ) : modalStep.step === 'FINAL_STEP' ? (
+                  <SuccessStepForm onFinish={handleModalOpen} />
                 ) : (
                   <></>
                 )}
