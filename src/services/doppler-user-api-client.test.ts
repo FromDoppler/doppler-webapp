@@ -1,5 +1,8 @@
 import { AxiosStatic } from 'axios';
-import { HttpDopplerUserApiClient } from './doppler-user-api-client';
+import {
+  hardcodedCollaboratorSections,
+  HttpDopplerUserApiClient,
+} from './doppler-user-api-client';
 import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
@@ -7,6 +10,7 @@ import { DopplerLegacyUserData } from './doppler-legacy-client';
 const consoleError = console.error;
 const jwtToken = 'jwtToken';
 const accountEmail = 'email@mail.com';
+const idUser = 12345;
 
 function createHttpDopplerUserApiClient(axios: any) {
   const axiosStatic = {
@@ -17,7 +21,7 @@ function createHttpDopplerUserApiClient(axios: any) {
       status: 'authenticated',
       jwtToken,
       userData: {
-        user: { email: accountEmail },
+        user: { email: accountEmail, idUser },
         userAccount: { email: accountEmail },
       } as DopplerLegacyUserData,
     },
@@ -182,9 +186,23 @@ describe('HttpDopplerUserApiClient', () => {
     expect(result.success).toBe(true);
   });
 
+  it('should get available collaborator sections', async () => {
+    // Act
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request: jest.fn() });
+    const result = await dopplerUserApiClient.getAvailableCollaboratorSections();
+
+    // Assert
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+    expect(result.success && result.value).toEqual(hardcodedCollaboratorSections);
+  });
+
   it('should send collaboration invite', async () => {
     // Arrange
-    const value = 'test@makingsense.com';
+    const value = {
+      email: 'test@makingsense.com',
+      idSections: '1,2,3',
+    };
 
     const response = {
       status: 200,
@@ -198,13 +216,25 @@ describe('HttpDopplerUserApiClient', () => {
 
     // Assert
     expect(request).toBeCalledTimes(1);
+    expect(request).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: {
+          email: value.email,
+          idSections: value.idSections,
+          idUser,
+        },
+      }),
+    );
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
   });
 
   it('send collaboration endpoint should set error when failed request', async () => {
     // Arrange
-    const value = 'test@makingsense.com';
+    const value = {
+      email: 'test@makingsense.com',
+      idSections: '1,2,3',
+    };
 
     const response = {
       status: 400,

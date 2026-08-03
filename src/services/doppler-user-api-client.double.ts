@@ -4,6 +4,9 @@ import {
   Features,
   IntegrationsStatus,
   CollaboratorInvite,
+  CollaboratorSection,
+  SendCollaboratorInviteData,
+  hardcodedCollaboratorSections,
 } from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -72,6 +75,8 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
   },
 ];
 
+const collaboratorSectionsResult: Array<CollaboratorSection> = hardcodedCollaboratorSections;
+
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
   public async getContactInformationData(): Promise<
     ResultWithoutExpectedErrors<ContactInformation>
@@ -113,7 +118,19 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     };
   }
 
-  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+  public async getAvailableCollaboratorSections(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorSection>>
+  > {
+    await timeout(1500);
+    return {
+      success: true,
+      value: collaboratorSectionsResult,
+    };
+  }
+
+  public async sendCollaboratorInvite(
+    value: SendCollaboratorInviteData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
     console.log(value);
     return {
