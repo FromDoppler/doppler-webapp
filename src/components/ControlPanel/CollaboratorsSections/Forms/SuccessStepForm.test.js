@@ -20,5 +20,6 @@ describe('SuccessStepForm Component', () => {
 
     // Asserts
     expect(screen.getByTestId('success-form')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'common.back' })).not.toBeInTheDocument();
   });
 });
