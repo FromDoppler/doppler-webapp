@@ -12,7 +12,12 @@ export interface DopplerUserApiClient {
   updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
-  sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
+  getAvailableCollaboratorSections(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorSection>>
+  >;
+  sendCollaboratorInvite(
+    value: SendCollaboratorInviteData,
+  ): Promise<EmptyResultWithoutExpectedErrors>;
   updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
@@ -57,6 +62,33 @@ export interface CollaboratorInvite {
   expirationDate: string;
   invitationStatus: string;
 }
+
+export interface CollaboratorSection {
+  idSection: number;
+  name: string;
+}
+
+export interface SendCollaboratorInviteData {
+  email: string;
+  idSections?: string;
+}
+
+export const hardcodedCollaboratorSections: Array<CollaboratorSection> = [
+  { idSection: 1, name: 'Reports' },
+  { idSection: 2, name: 'Campaigns' },
+  { idSection: 3, name: 'Lists' },
+  { idSection: 4, name: 'ControlPanel' },
+  { idSection: 5, name: 'DownloadCenter' },
+  { idSection: 8, name: 'Steps' },
+  { idSection: 10, name: 'Automation' },
+  { idSection: 11, name: 'Integration' },
+  { idSection: 12, name: 'Templates' },
+  { idSection: 13, name: 'Approver' },
+  { idSection: 14, name: 'Dashboard' },
+  { idSection: 15, name: 'Conversations' },
+  { idSection: 16, name: 'PopUpHub' },
+  { idSection: 18, name: 'Landings' },
+];
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
   private readonly axios: AxiosInstance;
@@ -198,17 +230,32 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     }
   }
 
-  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+  public async getAvailableCollaboratorSections(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorSection>>
+  > {
+    return {
+      success: true,
+      value: hardcodedCollaboratorSections,
+    };
+  }
+
+  public async sendCollaboratorInvite(
+    value: SendCollaboratorInviteData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken, idUser } = this.getDopplerUserApiConnectionData();
+      const requestData: { email: string; idUser: number; idSections?: string } = {
+        email: value.email,
+        idUser: idUser,
+      };
+      if (value.idSections !== undefined) {
+        requestData.idSections = value.idSections;
+      }
 
       const response = await this.axios.request({
         method: 'POST',
         url: `/accounts/${email}/user-invitations`,
-        data: {
-          email: value,
-          idUser: idUser,
-        },
+        data: requestData,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
