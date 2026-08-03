@@ -1022,8 +1022,8 @@ export const CheckboxFieldItemAccessible = ({
       <label
         htmlFor={id || fieldName}
         className="dp-label-checkbox"
-        aria-errormessage={`err${fieldName}`}
-        aria-invalid={showError}
+        aria-errormessage={withErrors ? `err${fieldName}` : undefined}
+        aria-invalid={withErrors ? showError : undefined}
       >
         <Field
           type="checkbox"
@@ -1035,13 +1035,15 @@ export const CheckboxFieldItemAccessible = ({
         />
         <span>{label}</span>
       </label>
-      <MessageError
-        id={`err${fieldName}`}
-        fieldName={fieldName}
-        showError={showError}
-        errors={errors}
-        className="dp-errormessage"
-      />
+      {withErrors ? (
+        <MessageError
+          id={`err${fieldName}`}
+          fieldName={fieldName}
+          showError={showError}
+          errors={errors}
+          className="dp-errormessage"
+        />
+      ) : null}
       {/* <p id={`err${fieldName}`} className="dp-errormessage">
         ¡Ouch! Este checkbox no esta tildado
       </p> */}
