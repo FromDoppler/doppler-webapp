@@ -9,26 +9,31 @@ import {
 import { InjectAppServices } from '../../../../services/pure-di';
 
 export const CollaboratorInviteForm = InjectAppServices(
-  ({ title, onSubmit, dependencies: { appSessionRef } }) => {
+  ({ title, initialEmail = '', onSubmit, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const userEmail = appSessionRef.current.userData.user.email;
+    const fieldNames = {
+      email: 'Email',
+    };
 
     const handleSubmit = (values) => {
-      onSubmit(values.Email);
+      onSubmit(values[fieldNames.email]);
     };
 
     const validate = (values) => {
       const errors = {};
-      if (values.Email === userEmail) {
-        errors['Email'] = 'validation_messages.error_invalid_collaborator_email';
+      if (values[fieldNames.email] === userEmail) {
+        errors[fieldNames.email] = 'validation_messages.error_invalid_collaborator_email';
       }
       return errors;
     };
 
     const formikConfig = {
       enableReinitialize: true,
-      initialValues: {},
+      initialValues: {
+        [fieldNames.email]: initialEmail,
+      },
       validateOnChange: false,
       validateOnBlur: false,
       validate: validate,
@@ -44,7 +49,7 @@ export const CollaboratorInviteForm = InjectAppServices(
               <FieldGroup>
                 <EmailFieldItemAccessible
                   autoFocus
-                  fieldName={_('collaborators.form_modal.email')}
+                  fieldName={fieldNames.email}
                   label={_('collaborators.form_modal.email')}
                   required
                   placeholder={_('collaborators.form_modal.email_placeholder')}
