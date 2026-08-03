@@ -760,6 +760,26 @@ Payment details will be included in the invoice sent to the recipient you have i
       manage lists, edit automations and any other feature.`,
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
+      permissions_description: 'Choose which account accesses you will grant.',
+      permissions_error: 'Ouch! You have to select at least one permission.',
+      permissions_labels: {
+        1: 'Reports',
+        10: 'Automation',
+        11: 'Integrations',
+        12: 'Templates',
+        13: 'Approver',
+        14: 'Dashboard',
+        15: 'Conversations',
+        16: 'PopUp Hub',
+        18: 'Landings',
+        2: 'Campaigns',
+        3: 'Lists',
+        4: 'Control panel',
+        5: 'Download center',
+        8: 'Steps',
+      },
+      permissions_legend: 'Select the permissions you want to assign:',
+      permissions_title: 'Add new collaborator',
       success_subtitle: `Your Collaborator will receive the invitation in their email box.
     Once accepted the invitation, it will be able to manage your account.`,
       success_title: 'Collaborator successfully added',
@@ -2596,27 +2616,6 @@ With Doppler you can generate Segments with common interests, create Forms to at
     warning_ip_validation_notification_SignUp: `Doppler doesn't recognize this device. Try to log into this account first!`,
     warning_user_access_denied: `Ouch! Your login has been declined.`,
   },
-};
-
-messages_en.collaborators.form_modal.permissions_title = 'Add new collaborator';
-messages_en.collaborators.form_modal.permissions_description = 'Choose which account accesses you will grant.';
-messages_en.collaborators.form_modal.permissions_legend = 'Select the permissions you want to assign:';
-messages_en.collaborators.form_modal.permissions_error = 'Ouch! You have to select at least one permission.';
-messages_en.collaborators.form_modal.permissions_labels = {
-  1: 'Reports',
-  2: 'Campaigns',
-  3: 'Lists',
-  4: 'Control panel',
-  5: 'Download center',
-  8: 'Steps',
-  10: 'Automation',
-  11: 'Integrations',
-  12: 'Templates',
-  13: 'Approver',
-  14: 'Dashboard',
-  15: 'Conversations',
-  16: 'PopUp Hub',
-  18: 'Landings',
 };
 
 export default messages_en;

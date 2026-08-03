@@ -2622,4 +2622,32 @@ messages_es.collaborators.form_modal.permissions_labels = {
   18: 'Landings',
 };
 
+messages_es.collaborators.form_modal = {
+  description: messages_es.collaborators.form_modal.description,
+  email: messages_es.collaborators.form_modal.email,
+  email_placeholder: messages_es.collaborators.form_modal.email_placeholder,
+  permissions_description: 'Elige los accesos de tu cuenta que le otorgar\u00e1s.',
+  permissions_error: '\u00a1Ouch! Tienes que seleccionar al menos un permiso.',
+  permissions_labels: {
+    1: 'Reportes',
+    10: 'Automation',
+    11: 'Integraciones',
+    12: 'Plantillas',
+    13: 'Aprobador',
+    14: 'Dashboard',
+    15: 'Conversations',
+    16: 'PopUp Hub',
+    18: 'Landings',
+    2: 'Campa\u00f1as',
+    3: 'Listas',
+    4: 'Panel de control',
+    5: 'Centro de descargas',
+    8: 'Pasos',
+  },
+  permissions_legend: 'Selecciona los permisos que desea asignar:',
+  permissions_title: 'A\u00f1adir nuevo colaborador',
+  success_subtitle: messages_es.collaborators.form_modal.success_subtitle,
+  success_title: messages_es.collaborators.form_modal.success_title,
+};
+
 export default messages_es;
