@@ -6,7 +6,6 @@ import {
   CollaboratorInvite,
   CollaboratorSection,
   SendCollaboratorInviteData,
-  hardcodedCollaboratorSections,
 } from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -75,7 +74,22 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
   },
 ];
 
-const collaboratorSectionsResult: Array<CollaboratorSection> = hardcodedCollaboratorSections;
+const collaboratorSectionsResult: Array<CollaboratorSection> = [
+  { idSection: 1, name: 'Reports' },
+  { idSection: 2, name: 'Campaigns' },
+  { idSection: 3, name: 'Lists' },
+  { idSection: 4, name: 'ControlPanel' },
+  { idSection: 5, name: 'DownloadCenter' },
+  { idSection: 8, name: 'Steps' },
+  { idSection: 10, name: 'Automation' },
+  { idSection: 11, name: 'Integration' },
+  { idSection: 12, name: 'Templates' },
+  { idSection: 13, name: 'Approver' },
+  { idSection: 14, name: 'Dashboard' },
+  { idSection: 15, name: 'Conversations' },
+  { idSection: 16, name: 'PopUpHub' },
+  { idSection: 18, name: 'Landings' },
+];
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
   public async getContactInformationData(): Promise<

@@ -73,23 +73,6 @@ export interface SendCollaboratorInviteData {
   idSections?: string;
 }
 
-export const hardcodedCollaboratorSections: Array<CollaboratorSection> = [
-  { idSection: 1, name: 'Reports' },
-  { idSection: 2, name: 'Campaigns' },
-  { idSection: 3, name: 'Lists' },
-  { idSection: 4, name: 'ControlPanel' },
-  { idSection: 5, name: 'DownloadCenter' },
-  { idSection: 8, name: 'Steps' },
-  { idSection: 10, name: 'Automation' },
-  { idSection: 11, name: 'Integration' },
-  { idSection: 12, name: 'Templates' },
-  { idSection: 13, name: 'Approver' },
-  { idSection: 14, name: 'Dashboard' },
-  { idSection: 15, name: 'Conversations' },
-  { idSection: 16, name: 'PopUpHub' },
-  { idSection: 18, name: 'Landings' },
-];
-
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
   private readonly axios: AxiosInstance;
   private readonly baseUrl: string;
@@ -233,10 +216,23 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
   public async getAvailableCollaboratorSections(): Promise<
     ResultWithoutExpectedErrors<Array<CollaboratorSection>>
   > {
-    return {
-      success: true,
-      value: hardcodedCollaboratorSections,
-    };
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/viewersections`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return { success: true, value: response.data };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
   }
 
   public async sendCollaboratorInvite(

@@ -1,5 +1,5 @@
 import { AxiosStatic } from 'axios';
-import { hardcodedCollaboratorSections, HttpDopplerUserApiClient } from './doppler-user-api-client';
+import { HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
@@ -8,6 +8,22 @@ const consoleError = console.error;
 const jwtToken = 'jwtToken';
 const accountEmail = 'email@mail.com';
 const idUser = 12345;
+const collaboratorSections = [
+  { idSection: 1, name: 'Reports' },
+  { idSection: 2, name: 'Campaigns' },
+  { idSection: 3, name: 'Lists' },
+  { idSection: 4, name: 'ControlPanel' },
+  { idSection: 5, name: 'DownloadCenter' },
+  { idSection: 8, name: 'Steps' },
+  { idSection: 10, name: 'Automation' },
+  { idSection: 11, name: 'Integration' },
+  { idSection: 12, name: 'Templates' },
+  { idSection: 13, name: 'Approver' },
+  { idSection: 14, name: 'Dashboard' },
+  { idSection: 15, name: 'Conversations' },
+  { idSection: 16, name: 'PopUpHub' },
+  { idSection: 18, name: 'Landings' },
+];
 
 function createHttpDopplerUserApiClient(axios: any) {
   const axiosStatic = {
@@ -184,14 +200,29 @@ describe('HttpDopplerUserApiClient', () => {
   });
 
   it('should get available collaborator sections', async () => {
+    // Arrange
+    const response = {
+      data: collaboratorSections,
+      status: 200,
+    };
+    const request = jest.fn(async () => response);
+
     // Act
-    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request: jest.fn() });
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
     const result = await dopplerUserApiClient.getAvailableCollaboratorSections();
 
     // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(request).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'GET',
+        url: `/accounts/${accountEmail}/viewersections`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      }),
+    );
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
-    expect(result.success && result.value).toEqual(hardcodedCollaboratorSections);
+    expect(result.success && result.value).toEqual(collaboratorSections);
   });
 
   it('should send collaboration invite', async () => {

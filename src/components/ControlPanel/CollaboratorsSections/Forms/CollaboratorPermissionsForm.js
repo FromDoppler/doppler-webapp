@@ -30,7 +30,8 @@ export const CollaboratorPermissionsForm = ({
   };
 
   const getPermissionLabel = (permission) => {
-    const messageId = `collaborators.form_modal.permissions_labels.${permission.idSection}`;
+    const permissionId = `${permission.idSection}`.padStart(2, '0');
+    const messageId = `collaborators.form_modal.permissions_labels.section_${permissionId}`;
     const translatedLabel = _(messageId);
     return translatedLabel === messageId ? permission.name : translatedLabel;
   };
