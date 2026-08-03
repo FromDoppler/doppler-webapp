@@ -33,7 +33,9 @@ const availableCollaboratorSections = [
   { idSection: 999, name: 'Custom Permission' },
 ];
 
-const createDopplerUserApiClientDouble = ({ sendCollaboratorInviteResult = { success: true } } = {}) => ({
+const createDopplerUserApiClientDouble = ({
+  sendCollaboratorInviteResult = { success: true },
+} = {}) => ({
   getCollaborationInvites: jest.fn(async () => ({
     success: true,
     value: collaborationInvitesResult,
@@ -114,7 +116,9 @@ describe('CollaboratorsSections', () => {
 
     await openModalAndGoToPermissionsStep(user);
 
-    expect(screen.getByText('collaborators.form_modal.permissions_description')).toBeInTheDocument();
+    expect(
+      screen.getByText('collaborators.form_modal.permissions_description'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Reports')).toBeInTheDocument();
     expect(screen.getByText('Custom Permission')).toBeInTheDocument();
 
@@ -176,9 +180,7 @@ describe('CollaboratorsSections', () => {
     await user.click(screen.getByLabelText('Reports'));
     await user.click(screen.getByRole('button', { name: 'common.next' }));
 
-    await waitFor(() =>
-      expect(screen.getByText('common.unexpected_error')).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.getByText('common.unexpected_error')).toBeInTheDocument());
     expect(screen.getByTestId('collaboration-permissions-form')).toBeInTheDocument();
     expect(screen.queryByText('collaborators.form_modal.success_title')).not.toBeInTheDocument();
   });

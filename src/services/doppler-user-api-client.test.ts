@@ -1,8 +1,5 @@
 import { AxiosStatic } from 'axios';
-import {
-  hardcodedCollaboratorSections,
-  HttpDopplerUserApiClient,
-} from './doppler-user-api-client';
+import { hardcodedCollaboratorSections, HttpDopplerUserApiClient } from './doppler-user-api-client';
 import { RefObject } from 'react';
 import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';

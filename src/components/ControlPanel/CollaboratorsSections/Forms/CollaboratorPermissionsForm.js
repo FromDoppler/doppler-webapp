@@ -52,9 +52,7 @@ export const CollaboratorPermissionsForm = ({
         <Form className="awa-form" data-testid="collaboration-permissions-form">
           <fieldset>
             <legend>{_('collaborators.form_modal.permissions_title')}</legend>
-            <h3 className="m-t-30 m-b-24">
-              {_('collaborators.form_modal.permissions_legend')}
-            </h3>
+            <h3 className="m-t-30 m-b-24">{_('collaborators.form_modal.permissions_legend')}</h3>
             <div className="dp-rowflex">
               {permissions.map((permission) => (
                 <div className="col-sm-6 m-b-12" key={permission.idSection}>
@@ -87,7 +85,9 @@ export const CollaboratorPermissionsForm = ({
                   type="button"
                   className="dp-button button-medium ctaTertiary"
                   onClick={() =>
-                    onBack(values[fieldNames.permissions].map((permissionId) => Number(permissionId)))
+                    onBack(
+                      values[fieldNames.permissions].map((permissionId) => Number(permissionId)),
+                    )
                   }
                 >
                   {_('common.back')}

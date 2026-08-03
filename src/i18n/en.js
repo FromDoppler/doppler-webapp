@@ -2599,12 +2599,9 @@ With Doppler you can generate Segments with common interests, create Forms to at
 };
 
 messages_en.collaborators.form_modal.permissions_title = 'Add new collaborator';
-messages_en.collaborators.form_modal.permissions_description =
-  'Choose which account accesses you will grant.';
-messages_en.collaborators.form_modal.permissions_legend =
-  'Select the permissions you want to assign:';
-messages_en.collaborators.form_modal.permissions_error =
-  'Ouch! You have to select at least one permission.';
+messages_en.collaborators.form_modal.permissions_description = 'Choose which account accesses you will grant.';
+messages_en.collaborators.form_modal.permissions_legend = 'Select the permissions you want to assign:';
+messages_en.collaborators.form_modal.permissions_error = 'Ouch! You have to select at least one permission.';
 messages_en.collaborators.form_modal.permissions_labels = {
   1: 'Reports',
   2: 'Campaigns',

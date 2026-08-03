@@ -2602,12 +2602,9 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
 };
 
 messages_es.collaborators.form_modal.permissions_title = 'Añadir nuevo colaborador';
-messages_es.collaborators.form_modal.permissions_description =
-  'Elige los accesos de tu cuenta que le otorgarás.';
-messages_es.collaborators.form_modal.permissions_legend =
-  'Selecciona los permisos que desea asignar:';
-messages_es.collaborators.form_modal.permissions_error =
-  '¡Ouch! Tienes que seleccionar al menos un permiso.';
+messages_es.collaborators.form_modal.permissions_description = 'Elige los accesos de tu cuenta que le otorgarás.';
+messages_es.collaborators.form_modal.permissions_legend = 'Selecciona los permisos que desea asignar:';
+messages_es.collaborators.form_modal.permissions_error = '¡Ouch! Tienes que seleccionar al menos un permiso.';
 messages_es.collaborators.form_modal.permissions_labels = {
   1: 'Reportes',
   2: 'Campañas',
