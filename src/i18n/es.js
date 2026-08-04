@@ -443,7 +443,7 @@ other {}}}}}}}}}}
     more_option_tickmark_message: 'Más',
     plan_benefits: {
       additional_costs: {
-        additional_agent_message: 'Agente adicional.',
+        additional_agent_message: 'Operador adicional.',
         additional_channel_message: 'Canal adicional.',
         additional_conversation_message: 'Mensaje adicional.',
         additional_costs_message: 'Costos Adicionales',
@@ -483,7 +483,7 @@ other {}}}}}}}}}}
     quantity_label: 'mensajes',
     selected_plan_chat: {
       add_to_cart_button: 'Agregar al carrito',
-      agent_with_plural: `{agents, plural, one {# Agente}other {# Agentes} }`,
+      agent_with_plural: `{agents, plural, one {# Operador}other {# Operadores} }`,
       channel_with_plural: `{channels, plural, one {# Canal}other {# Canales} }`,
       conversations_plan_message: 'Plan Conversaciones*',
       includes_until_conversations_message: 'Incluye hasta {conversations} mensajes',
@@ -1581,7 +1581,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           title: 'Colaboradores ',
         },
         conversation_plan: {
-          additional_agent_message: 'Agente adicional: US$ {price}',
+          additional_agent_message: 'Operador adicional: US$ {price}',
           additional_conversation_message: 'Mensaje adicional: US$ {price}',
           additional_room_message: 'Sala adicional: US$ {price}',
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes</bold>.
@@ -1589,9 +1589,9 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de {quantity} mensajes</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
-          agents_title: '{agents, plural, one {# Agente}other {# Agentes} }',
+          agents_title: '{agents, plural, one {# Operador}other {# Operadores} }',
           available_message: '{available}/{total} Mensajes disponibles',
-          free_additional_agent_message: 'Agente adicional: --',
+          free_additional_agent_message: 'Operador adicional: --',
           free_additional_conversation_message: 'Mensaje adicional: --',
           free_additional_room_message: 'Sala adicional: --',
           free_label: 'Prueba Gratuita',
