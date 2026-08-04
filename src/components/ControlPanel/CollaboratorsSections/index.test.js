@@ -32,11 +32,14 @@ const collaborationInvitesResult = [
 const availableCollaboratorSections = [
   { idSection: 1, name: 'Reports' },
   { idSection: 2, name: 'Campaigns' },
+  { idSection: 10, name: 'Automation' },
+  { idSection: 18, name: 'Landings' },
   { idSection: 999, name: 'Custom Permission' },
 ];
 
 const createDopplerUserApiClientDouble = ({
   sendCollaboratorInviteResult = { success: true },
+  updateCollaboratorResult = { success: true },
 } = {}) => ({
   getCollaborationInvites: jest.fn(async () => ({
     success: true,
@@ -47,6 +50,7 @@ const createDopplerUserApiClientDouble = ({
     value: availableCollaboratorSections,
   })),
   sendCollaboratorInvite: jest.fn(async () => sendCollaboratorInviteResult),
+  updateCollaborator: jest.fn(async () => updateCollaboratorResult),
   cancelCollaboratorInvite: jest.fn(async () => ({
     success: true,
   })),
@@ -89,6 +93,11 @@ const openModalAndGoToPermissionsStep = async (user) => {
     'new.collaborator@fromdoppler.com',
   );
   await user.click(screen.getByRole('button', { name: 'common.next' }));
+};
+
+const openEditPermissionsModal = async (user, collaboratorIndex = 0) => {
+  await user.click(screen.getByTestId(`collaborator-menu-toggle-${collaboratorIndex}`));
+  await user.click(screen.getByTestId(`collaborator-menu-edit-${collaboratorIndex}`));
 };
 
 describe('CollaboratorsSections', () => {
@@ -186,5 +195,74 @@ describe('CollaboratorsSections', () => {
     await waitFor(() => expect(screen.getByText('common.unexpected_error')).toBeInTheDocument());
     expect(screen.getByTestId('collaboration-permissions-form')).toBeInTheDocument();
     expect(screen.queryByText('collaborators.form_modal.success_title')).not.toBeInTheDocument();
+  });
+
+  it('opens edit permissions with the current collaborator permissions selected', async () => {
+    const user = userEvent.setup();
+    renderComponent(createDopplerUserApiClientDouble());
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    await openEditPermissionsModal(user, 1);
+
+    expect(
+      screen.getByRole('heading', { name: 'collaborators.form_modal.edit_permissions_title' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'common.cancel' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'common.save' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Reports')).toBeChecked();
+    expect(screen.getByLabelText('Campaigns')).toBeChecked();
+    expect(screen.getByLabelText('Automation')).toBeChecked();
+    expect(screen.getByLabelText('Landings')).toBeChecked();
+    expect(screen.getByLabelText('Custom Permission')).not.toBeChecked();
+  });
+
+  it('updates collaborator permissions and shows the edit success state', async () => {
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    await openEditPermissionsModal(user, 1);
+    await user.click(screen.getByLabelText('Custom Permission'));
+    await user.click(screen.getByRole('button', { name: 'common.save' }));
+
+    await waitFor(() =>
+      expect(dopplerUserApiClient.updateCollaborator).toHaveBeenCalledWith({
+        email: 'test2@fromdoppler.com',
+        idUser: 1,
+        sections: [1, 2, 10, 18, 999],
+      }),
+    );
+    expect(screen.getByText('collaborators.form_modal.edit_success_title')).toBeInTheDocument();
+    expect(screen.getByText('collaborators.form_modal.edit_success_subtitle')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: 'collaborators.form_modal.edit_success_acknowledge',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('stays on edit permissions and shows an error when updating the collaborator fails', async () => {
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble({
+      updateCollaboratorResult: { success: false },
+    });
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    await openEditPermissionsModal(user, 1);
+    await user.click(screen.getByRole('button', { name: 'common.save' }));
+
+    await waitFor(() => expect(screen.getByText('common.unexpected_error')).toBeInTheDocument());
+    expect(screen.getByTestId('collaboration-permissions-form')).toBeInTheDocument();
+    expect(
+      screen.queryByText('collaborators.form_modal.edit_success_title'),
+    ).not.toBeInTheDocument();
   });
 });

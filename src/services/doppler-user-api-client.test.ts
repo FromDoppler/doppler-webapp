@@ -315,6 +315,62 @@ describe('HttpDopplerUserApiClient', () => {
     expect(result.success && result.value).toEqual(response.data);
   });
 
+  it('should update collaborator permissions', async () => {
+    // Arrange
+    const value = {
+      email: 'test1@fromdoppler.com',
+      idUser: 1,
+      sections: [1, 4, 8],
+    };
+
+    const response = {
+      status: 200,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.updateCollaborator(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(request).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'POST',
+        url: `/accounts/${accountEmail}/update-collaborator`,
+        data: value,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      }),
+    );
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(true);
+  });
+
+  it('update collaborator endpoint should set error when failed request', async () => {
+    // Arrange
+    const value = {
+      email: 'test1@fromdoppler.com',
+      idUser: 1,
+      sections: [1, 4, 8],
+    };
+
+    const response = {
+      status: 400,
+    };
+
+    const request = jest.fn(async () => response);
+    const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
+
+    // Act
+    const result = await dopplerUserApiClient.updateCollaborator(value);
+
+    // Assert
+    expect(request).toBeCalledTimes(1);
+    expect(result).not.toBe(undefined);
+    expect(result.success).toBe(false);
+  });
+
   it('should cancel collaboration invite', async () => {
     // Arrange
     const value = 'test@makingsense.com';

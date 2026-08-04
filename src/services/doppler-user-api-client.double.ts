@@ -6,6 +6,7 @@ import {
   CollaboratorInvite,
   CollaboratorSection,
   SendCollaboratorInviteData,
+  UpdateCollaboratorData,
 } from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -167,6 +168,16 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     return {
       success: true,
       value: collaborationInvitesResult,
+    };
+  }
+
+  public async updateCollaborator(
+    value: UpdateCollaboratorData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(value);
+    return {
+      success: true,
     };
   }
 
