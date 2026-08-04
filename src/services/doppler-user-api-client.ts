@@ -70,7 +70,7 @@ export interface CollaboratorSection {
 
 export interface SendCollaboratorInviteData {
   email: string;
-  idSections?: string;
+  sections?: number[];
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
@@ -240,12 +240,12 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
   ): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken, idUser } = this.getDopplerUserApiConnectionData();
-      const requestData: { email: string; idUser: number; idSections?: string } = {
+      const requestData: { email: string; idUser: number; sections?: number[] } = {
         email: value.email,
         idUser: idUser,
       };
-      if (value.idSections !== undefined) {
-        requestData.idSections = value.idSections;
+      if (value.sections !== undefined) {
+        requestData.sections = value.sections;
       }
 
       const response = await this.axios.request({

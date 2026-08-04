@@ -144,7 +144,7 @@ describe('CollaboratorsSections', () => {
     expect(screen.getByText('collaborators.form_modal.permissions_error')).toBeInTheDocument();
   });
 
-  it('sends the selected permissions as CSV and moves to success only when submit succeeds', async () => {
+  it('sends the selected permissions as an array and moves to success only when submit succeeds', async () => {
     const user = userEvent.setup();
     const dopplerUserApiClient = createDopplerUserApiClientDouble();
     renderComponent(dopplerUserApiClient);
@@ -160,7 +160,7 @@ describe('CollaboratorsSections', () => {
     await waitFor(() =>
       expect(dopplerUserApiClient.sendCollaboratorInvite).toHaveBeenCalledWith({
         email: 'new.collaborator@fromdoppler.com',
-        idSections: '1,2',
+        sections: [1, 2],
       }),
     );
     expect(dopplerUserApiClient.getAvailableCollaboratorSections).toHaveBeenCalledTimes(1);

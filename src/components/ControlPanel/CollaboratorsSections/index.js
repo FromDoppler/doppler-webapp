@@ -130,7 +130,7 @@ export const CollaboratorsSections = InjectAppServices(
       setSelectedPermissionIds(permissions);
       const success = await sendInvitation({
         email: selectedEmail,
-        idSections: permissions.join(','),
+        sections: permissions,
       });
       if (success) {
         setModalStep(modalFinalStep);

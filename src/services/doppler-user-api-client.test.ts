@@ -229,7 +229,7 @@ describe('HttpDopplerUserApiClient', () => {
     // Arrange
     const value = {
       email: 'test@makingsense.com',
-      idSections: '1,2,3',
+      sections: [1, 2, 3],
     };
 
     const response = {
@@ -248,7 +248,7 @@ describe('HttpDopplerUserApiClient', () => {
       expect.objectContaining({
         data: {
           email: value.email,
-          idSections: value.idSections,
+          sections: value.sections,
           idUser,
         },
       }),
@@ -261,7 +261,7 @@ describe('HttpDopplerUserApiClient', () => {
     // Arrange
     const value = {
       email: 'test@makingsense.com',
-      idSections: '1,2,3',
+      sections: [1, 2, 3],
     };
 
     const response = {
