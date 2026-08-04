@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 const collaborationInvitesResult = [
   {
     idUser: 1,
+    idUserAccount: 101,
     email: 'test@fromdoppler.com',
     firstname: 'Test',
     lastname: 'Test',
@@ -19,6 +20,7 @@ const collaborationInvitesResult = [
   },
   {
     idUser: 1,
+    idUserAccount: 202,
     email: 'test2@fromdoppler.com',
     firstname: 'Test 2',
     lastname: 'Test 2',
@@ -234,6 +236,7 @@ describe('CollaboratorsSections', () => {
       expect(dopplerUserApiClient.updateCollaborator).toHaveBeenCalledWith({
         email: 'test2@fromdoppler.com',
         idUser: 1,
+        idUserAccount: 202,
         sections: [1, 2, 10, 18, 999],
       }),
     );
@@ -264,5 +267,42 @@ describe('CollaboratorsSections', () => {
     expect(
       screen.queryByText('collaborators.form_modal.edit_success_title'),
     ).not.toBeInTheDocument();
+  });
+
+  it('sends null idUserAccount when the collaborator does not have one', async () => {
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    dopplerUserApiClient.getCollaborationInvites.mockResolvedValueOnce({
+      success: true,
+      value: [
+        {
+          idUser: 7,
+          idUserAccount: null,
+          email: 'null-account@fromdoppler.com',
+          firstname: 'Null',
+          lastname: 'Account',
+          invitationDate: '03-07-2024',
+          expirationDate: '03-07-2024',
+          sections: [1],
+          invitationStatus: 'APPROVED',
+        },
+      ],
+    });
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    await openEditPermissionsModal(user, 0);
+    await user.click(screen.getByRole('button', { name: 'common.save' }));
+
+    await waitFor(() =>
+      expect(dopplerUserApiClient.updateCollaborator).toHaveBeenCalledWith({
+        email: 'null-account@fromdoppler.com',
+        idUser: 7,
+        idUserAccount: null,
+        sections: [1],
+      }),
+    );
   });
 });

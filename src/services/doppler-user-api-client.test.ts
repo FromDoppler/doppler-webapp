@@ -290,6 +290,7 @@ describe('HttpDopplerUserApiClient', () => {
       data: [
         {
           idUser: 1,
+          idUserAccount: 202,
           email: 'test1@fromdoppler.com',
           firstname: 'name',
           lastname: 'lastname',
@@ -320,6 +321,7 @@ describe('HttpDopplerUserApiClient', () => {
     const value = {
       email: 'test1@fromdoppler.com',
       idUser: 1,
+      idUserAccount: 202,
       sections: [1, 4, 8],
     };
 
@@ -352,6 +354,7 @@ describe('HttpDopplerUserApiClient', () => {
     const value = {
       email: 'test1@fromdoppler.com',
       idUser: 1,
+      idUserAccount: 202,
       sections: [1, 4, 8],
     };
 

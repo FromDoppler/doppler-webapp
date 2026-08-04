@@ -56,6 +56,7 @@ export interface IntegrationsStatus {
 
 export interface CollaboratorInvite {
   idUser: number;
+  idUserAccount: number | null;
   email: string;
   firstname: string;
   lastname: string;
@@ -80,6 +81,7 @@ export interface SendCollaboratorInviteData {
 export interface UpdateCollaboratorData {
   email: string;
   idUser: number;
+  idUserAccount: number | null;
   sections: number[];
 }
 

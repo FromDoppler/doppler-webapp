@@ -31,6 +31,9 @@ export const CollaboratorsSections = InjectAppServices(
     const [modalError, setmodalError] = useState(null);
     const [selectedEmail, setSelectedEmail] = useState('');
     const [selectedCollaboratorUserId, setSelectedCollaboratorUserId] = useState(null);
+    const [selectedCollaboratorUserAccountId, setSelectedCollaboratorUserAccountId] = useState(
+      null,
+    );
     const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
     const [refreshTable, setRefreshTable] = useState(false);
     const [permissionsLoaded, setPermissionsLoaded] = useState(false);
@@ -78,6 +81,7 @@ export const CollaboratorsSections = InjectAppServices(
       } else {
         setSelectedEmail('');
         setSelectedCollaboratorUserId(null);
+        setSelectedCollaboratorUserAccountId(null);
         setSelectedPermissionIds([]);
         setmodalError(null);
         setModalStep(modalFirstStep);
@@ -146,6 +150,7 @@ export const CollaboratorsSections = InjectAppServices(
       setmodalError(null);
       setSelectedEmail(collaborator.email);
       setSelectedCollaboratorUserId(collaborator.idUser);
+      setSelectedCollaboratorUserAccountId(collaborator.idUserAccount);
       setSelectedPermissionIds(collaborator.sections || []);
       setModalStep(modalEditPermissionsStep);
       setModalOpen(true);
@@ -183,6 +188,7 @@ export const CollaboratorsSections = InjectAppServices(
       const result = await dopplerUserApiClient.updateCollaborator({
         email: selectedEmail,
         idUser: selectedCollaboratorUserId,
+        idUserAccount: selectedCollaboratorUserAccountId,
         sections: permissions,
       });
 

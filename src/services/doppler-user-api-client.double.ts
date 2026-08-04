@@ -57,6 +57,7 @@ const integrationsStatusResult: IntegrationsStatus = {
 const collaborationInvitesResult: Array<CollaboratorInvite> = [
   {
     idUser: 1,
+    idUserAccount: 101,
     email: 'test@fromdoppler.com',
     firstname: 'Test',
     lastname: 'Test',
@@ -67,6 +68,7 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
   },
   {
     idUser: 1,
+    idUserAccount: 202,
     email: 'test2@fromdoppler.com',
     firstname: 'Test 2',
     lastname: 'Test 2',
