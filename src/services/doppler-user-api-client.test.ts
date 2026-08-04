@@ -339,7 +339,7 @@ describe('HttpDopplerUserApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(request).toHaveBeenCalledWith(
       expect.objectContaining({
-        method: 'POST',
+        method: 'PUT',
         url: `/accounts/${accountEmail}/update-collaborator`,
         data: value,
         headers: { Authorization: `bearer ${jwtToken}` },

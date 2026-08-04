@@ -313,7 +313,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       const { email, jwtToken } = this.getDopplerUserApiConnectionData();
 
       const response = await this.axios.request({
-        method: 'POST',
+        method: 'PUT',
         url: `/accounts/${email}/update-collaborator`,
         data: value,
         headers: { Authorization: `bearer ${jwtToken}` },
