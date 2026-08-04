@@ -32,6 +32,12 @@ export const CollaboratorPermissionsForm = ({
   const getPermissionLabel = (permission) => {
     const permissionId = `${permission.idSection}`.padStart(2, '0');
     const messageId = `collaborators.form_modal.permissions_labels.section_${permissionId}`;
+    const hasTranslation = Object.prototype.hasOwnProperty.call(intl.messages, messageId);
+
+    if (!hasTranslation) {
+      return permission.name;
+    }
+
     const translatedLabel = _(messageId);
     return translatedLabel === messageId ? permission.name : translatedLabel;
   };
