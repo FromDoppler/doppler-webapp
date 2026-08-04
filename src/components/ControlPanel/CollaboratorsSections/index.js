@@ -31,9 +31,8 @@ export const CollaboratorsSections = InjectAppServices(
     const [modalError, setmodalError] = useState(null);
     const [selectedEmail, setSelectedEmail] = useState('');
     const [selectedCollaboratorUserId, setSelectedCollaboratorUserId] = useState(null);
-    const [selectedCollaboratorUserAccountId, setSelectedCollaboratorUserAccountId] = useState(
-      null,
-    );
+    const [selectedCollaboratorUserAccountId, setSelectedCollaboratorUserAccountId] =
+      useState(null);
     const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
     const [refreshTable, setRefreshTable] = useState(false);
     const [permissionsLoaded, setPermissionsLoaded] = useState(false);
