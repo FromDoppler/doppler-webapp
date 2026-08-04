@@ -61,6 +61,7 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
     lastname: 'Test',
     invitationDate: '2024-08-15T02:12:09',
     expirationDate: '2024-08-16T13:19:37',
+    sections: [1, 4, 8],
     invitationStatus: 'PENDING',
   },
   {
@@ -70,6 +71,7 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
     lastname: 'Test 2',
     invitationDate: '2024-07-03T00:00:00',
     expirationDate: '2024-07-04T00:00:00',
+    sections: [1, 2, 10, 18],
     invitationStatus: 'APPROVED',
   },
 ];

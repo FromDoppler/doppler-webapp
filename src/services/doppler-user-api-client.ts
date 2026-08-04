@@ -60,6 +60,7 @@ export interface CollaboratorInvite {
   lastname: string;
   invitationDate: string;
   expirationDate: string;
+  sections: number[];
   invitationStatus: string;
 }
 

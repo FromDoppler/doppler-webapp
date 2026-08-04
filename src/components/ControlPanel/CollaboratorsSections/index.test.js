@@ -14,6 +14,7 @@ const collaborationInvitesResult = [
     lastname: 'Test',
     invitationDate: '03-07-2024',
     expirationDate: '03-07-2024',
+    sections: [1, 4, 8],
     invitationStatus: 'PENDING',
   },
   {
@@ -23,6 +24,7 @@ const collaborationInvitesResult = [
     lastname: 'Test 2',
     invitationDate: '03-07-2024',
     expirationDate: '03-07-2024',
+    sections: [1, 2, 10, 18],
     invitationStatus: 'APPROVED',
   },
 ];

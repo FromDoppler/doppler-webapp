@@ -295,6 +295,7 @@ describe('HttpDopplerUserApiClient', () => {
           lastname: 'lastname',
           invitationDate: '03-07-2024',
           expirationDate: '03-07-2024',
+          sections: [1, 4, 8],
           invitationStatus: 'APPROVED',
         },
       ],
@@ -311,6 +312,7 @@ describe('HttpDopplerUserApiClient', () => {
     expect(request).toBeCalledTimes(1);
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
+    expect(result.success && result.value).toEqual(response.data);
   });
 
   it('should cancel collaboration invite', async () => {
