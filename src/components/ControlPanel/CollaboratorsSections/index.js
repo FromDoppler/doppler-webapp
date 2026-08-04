@@ -24,6 +24,8 @@ export const CollaboratorsSections = InjectAppServices(
     const [selectedEmail, setSelectedEmail] = useState('');
     const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
     const [refreshTable, setRefreshTable] = useState(false);
+    const [permissionsLoaded, setPermissionsLoaded] = useState(false);
+    const [invitationsLoaded, setInvitationsLoaded] = useState(false);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
@@ -62,23 +64,36 @@ export const CollaboratorsSections = InjectAppServices(
     };
 
     useEffect(() => {
-      const fetchData = async () => {
-        const [invitations, permissions] = await Promise.all([
-          dopplerUserApiClient.getCollaborationInvites(),
-          dopplerUserApiClient.getAvailableCollaboratorSections(),
-        ]);
-        if (invitations.success) {
-          setData(invitations.value);
-        }
+      const fetchPermissions = async () => {
+        const permissions = await dopplerUserApiClient.getAvailableCollaboratorSections();
         if (permissions.success) {
           setAvailablePermissions(permissions.value);
         }
 
-        setLoading(false);
+        setPermissionsLoaded(true);
       };
 
-      fetchData();
+      fetchPermissions();
+    }, [dopplerUserApiClient]);
+
+    useEffect(() => {
+      const fetchInvitations = async () => {
+        const invitations = await dopplerUserApiClient.getCollaborationInvites();
+        if (invitations.success) {
+          setData(invitations.value);
+        }
+
+        setInvitationsLoaded(true);
+      };
+
+      fetchInvitations();
     }, [dopplerUserApiClient, refreshTable]);
+
+    useEffect(() => {
+      if (permissionsLoaded && invitationsLoaded) {
+        setLoading(false);
+      }
+    }, [invitationsLoaded, permissionsLoaded]);
 
     const toggleMenu = (index) => {
       if (activeMenu === index) {

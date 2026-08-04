@@ -163,6 +163,7 @@ describe('CollaboratorsSections', () => {
         idSections: '1,2',
       }),
     );
+    expect(dopplerUserApiClient.getAvailableCollaboratorSections).toHaveBeenCalledTimes(1);
     expect(screen.getByText('collaborators.form_modal.success_title')).toBeInTheDocument();
   });
 
