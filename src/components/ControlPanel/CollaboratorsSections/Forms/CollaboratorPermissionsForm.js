@@ -50,7 +50,7 @@ export const CollaboratorPermissionsForm = ({
       }
     >
       {({ errors, submitCount, values }) => (
-        <Form className="awa-form" data-testid="collaboration-permissions-form">
+        <Form className="awa-form form-request" data-testid="collaboration-permissions-form">
           <fieldset>
             <legend>{_('collaborators.form_modal.permissions_title')}</legend>
             <h3 className="m-t-30 m-b-24">{_('collaborators.form_modal.permissions_legend')}</h3>
@@ -80,27 +80,21 @@ export const CollaboratorPermissionsForm = ({
                 </div>
               </div>
             ) : null}
-            <FieldGroup className="dp-group-buttons">
-              <li>
-                <button
-                  type="button"
-                  className="dp-button button-medium ctaTertiary"
-                  onClick={() =>
-                    onBack(
-                      values[fieldNames.permissions].map((permissionId) => Number(permissionId)),
-                    )
-                  }
-                >
-                  {_('common.back')}
-                </button>
-              </li>
-              <li>
-                <SubmitButton className="dp-button button-medium primary-green">
-                  {_('common.next')}
-                </SubmitButton>
-              </li>
-            </FieldGroup>
           </fieldset>
+          <div className="container-buttons">
+            <button
+              type="button"
+              className="dp-button button-medium secondary-green"
+              onClick={() =>
+                onBack(values[fieldNames.permissions].map((permissionId) => Number(permissionId)))
+              }
+            >
+              {_('common.back')}
+            </button>
+            <SubmitButton className="dp-button button-medium primary-green">
+              {_('common.next')}
+            </SubmitButton>
+          </div>
         </Form>
       )}
     </Formik>
