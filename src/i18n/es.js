@@ -2607,6 +2607,10 @@ messages_es.collaborators.form_modal.permissions_legend = 'Selecciona los permis
 messages_es.collaborators.form_modal.permissions_error = '¡Ouch! Tienes que seleccionar al menos un permiso.';
 messages_es.collaborators.form_modal = {
   description: messages_es.collaborators.form_modal.description,
+  edit_permissions_title: 'Editar Permisos',
+  edit_success_acknowledge: 'Entendido',
+  edit_success_subtitle: 'Editaste los permisos de tu colaborador con éxito.',
+  edit_success_title: 'Los cambios se guardaron',
   email: messages_es.collaborators.form_modal.email,
   email_placeholder: messages_es.collaborators.form_modal.email_placeholder,
   permissions_description: 'Elige los accesos de tu cuenta que le otorgar\u00e1s.',

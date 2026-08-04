@@ -758,6 +758,10 @@ Payment details will be included in the invoice sent to the recipient you have i
     form_modal: {
       description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
       manage lists, edit automations and any other feature.`,
+      edit_permissions_title: 'Edit Permissions',
+      edit_success_acknowledge: 'Got it',
+      edit_success_subtitle: "You successfully edited your collaborator's permissions.",
+      edit_success_title: 'Changes saved',
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
       permissions_description: 'Choose which account accesses you will grant.',
