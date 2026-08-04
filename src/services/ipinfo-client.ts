@@ -16,11 +16,12 @@ export class HttpIpinfoClient implements IpinfoClient {
     try {
       const response = await this.axios.request({
         method: 'GET',
-        url: 'https://ip.nf/me.json',
+        url: 'https://ipapi.co/country/',
       });
-      const countryCode = (response.data && response.data.ip.country_code) || defaultCountryCode;
-      return countryCode;
-    } catch (error) {
+      const countryCode =
+        typeof response.data === 'string' ? response.data.trim().toUpperCase() : '';
+      return /^[A-Z]{2}$/.test(countryCode) ? countryCode : defaultCountryCode;
+    } catch {
       return defaultCountryCode;
     }
   }
