@@ -1,0 +1,26 @@
+import styled from 'styled-components';
+
+export const CheckoutSummaryLayout = styled.div`
+  align-items: flex-start;
+  display: flex;
+  gap: 24px;
+
+  .checkout-summary-main {
+    flex: 2 1 0;
+    min-width: 0;
+  }
+
+  .checkout-summary-addons {
+    flex: 1 1 280px;
+    margin-top: -46px;
+    min-width: 0;
+  }
+
+  @media (max-width: 991px) {
+    display: block;
+
+    .checkout-summary-addons {
+      margin-top: 0;
+    }
+  }
+`;
