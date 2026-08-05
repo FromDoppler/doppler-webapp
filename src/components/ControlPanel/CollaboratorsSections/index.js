@@ -384,6 +384,7 @@ export const CollaboratorsSections = InjectAppServices(
                   <CollaboratorInviteForm
                     title={modalStep.title}
                     initialEmail={selectedEmail}
+                    onCancel={() => handleModalOpen(false)}
                     onSubmit={goToPermissionsStep}
                   />
                 ) : modalStep.step === modalSteps.addPermissions ||

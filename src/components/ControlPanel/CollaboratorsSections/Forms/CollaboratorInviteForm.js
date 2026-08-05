@@ -9,7 +9,7 @@ import {
 import { InjectAppServices } from '../../../../services/pure-di';
 
 export const CollaboratorInviteForm = InjectAppServices(
-  ({ title, initialEmail = '', onSubmit, dependencies: { appSessionRef } }) => {
+  ({ title, initialEmail = '', onSubmit, onCancel, dependencies: { appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const userEmail = appSessionRef.current.userData.user.email;
@@ -43,7 +43,7 @@ export const CollaboratorInviteForm = InjectAppServices(
     return (
       <>
         <Formik {...formikConfig}>
-          <Form className="awa-form" data-testid="collaboration-invite-form">
+          <Form className="awa-form form-request" data-testid="collaboration-invite-form">
             <legend>{title}</legend>
             <fieldset>
               <FieldGroup>
@@ -56,8 +56,19 @@ export const CollaboratorInviteForm = InjectAppServices(
                 />
               </FieldGroup>
               <FormMessages />
-              <SubmitButton>{_('common.next')}</SubmitButton>
             </fieldset>
+            <div className="container-buttons">
+              <button
+                type="button"
+                className="dp-button button-medium secondary-green"
+                onClick={onCancel}
+              >
+                {_('common.cancel')}
+              </button>
+              <SubmitButton className="dp-button button-medium primary-green">
+                {_('common.next')}
+              </SubmitButton>
+            </div>
           </Form>
         </Formik>
       </>
