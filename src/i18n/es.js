@@ -2601,4 +2601,36 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
   },
 };
 
+messages_es.collaborators.form_modal.permissions_title = 'Añadir nuevo colaborador';
+messages_es.collaborators.form_modal.permissions_description = 'Elige los accesos de tu cuenta que le otorgarás.';
+messages_es.collaborators.form_modal.permissions_legend = 'Selecciona los permisos que desea asignar:';
+messages_es.collaborators.form_modal.permissions_error = '¡Ouch! Tienes que seleccionar al menos un permiso.';
+messages_es.collaborators.form_modal = {
+  description: messages_es.collaborators.form_modal.description,
+  email: messages_es.collaborators.form_modal.email,
+  email_placeholder: messages_es.collaborators.form_modal.email_placeholder,
+  permissions_description: 'Elige los accesos de tu cuenta que le otorgar\u00e1s.',
+  permissions_error: '\u00a1Ouch! Tienes que seleccionar al menos un permiso.',
+  permissions_labels: {
+    section_01: 'Reportes',
+    section_02: 'Campa\u00f1as',
+    section_03: 'Listas',
+    section_04: 'Panel de control',
+    section_05: 'Centro de descargas',
+    section_08: 'Pasos',
+    section_10: 'Automation',
+    section_11: 'Integraciones',
+    section_12: 'Plantillas',
+    section_13: 'Aprobador',
+    section_14: 'Dashboard',
+    section_15: 'Conversations',
+    section_16: 'PopUp Hub',
+    section_18: 'Landings',
+  },
+  permissions_legend: 'Selecciona los permisos que desea asignar:',
+  permissions_title: 'A\u00f1adir nuevo colaborador',
+  success_subtitle: messages_es.collaborators.form_modal.success_subtitle,
+  success_title: messages_es.collaborators.form_modal.success_title,
+};
+
 export default messages_es;
