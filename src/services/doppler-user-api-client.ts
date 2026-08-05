@@ -314,7 +314,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
 
       const response = await this.axios.request({
         method: 'PUT',
-        url: `/accounts/${email}/update-collaborator`,
+        url: `/accounts/${email}/update-collaborator-permissions`,
         data: value,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
