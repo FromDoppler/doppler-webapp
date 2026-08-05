@@ -59,11 +59,11 @@ export const CollaboratorsSections = InjectAppServices(
       description: _('collaborators.form_modal.success_subtitle'),
     };
 
-    const modalEditPermissionsStep = {
+    const createModalEditPermissionsStep = (email) => ({
       step: modalSteps.editPermissions,
-      title: _('collaborators.form_modal.edit_permissions_title'),
+      title: `${_('collaborators.form_modal.edit_permissions_title')}: ${email}`,
       description: _('collaborators.form_modal.permissions_description'),
-    };
+    });
 
     const modalEditSuccessStep = {
       step: modalSteps.editSuccess,
@@ -151,7 +151,7 @@ export const CollaboratorsSections = InjectAppServices(
       setSelectedCollaboratorUserId(collaborator.idUser);
       setSelectedCollaboratorUserAccountId(collaborator.idUserAccount);
       setSelectedPermissionIds(collaborator.sections || []);
-      setModalStep(modalEditPermissionsStep);
+      setModalStep(createModalEditPermissionsStep(collaborator.email));
       setModalOpen(true);
     };
 

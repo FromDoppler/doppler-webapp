@@ -209,7 +209,9 @@ describe('CollaboratorsSections', () => {
     await openEditPermissionsModal(user, 1);
 
     expect(
-      screen.getByRole('heading', { name: 'collaborators.form_modal.edit_permissions_title' }),
+      screen.getByRole('heading', {
+        name: 'collaborators.form_modal.edit_permissions_title: test2@fromdoppler.com',
+      }),
     ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'common.cancel' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'common.save' })).toBeInTheDocument();
