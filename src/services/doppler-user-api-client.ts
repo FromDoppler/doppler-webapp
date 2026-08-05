@@ -68,6 +68,8 @@ export interface CollaboratorSection {
   name: string;
 }
 
+const APPROVER_COLLABORATOR_SECTION_ID = 13;
+
 export interface SendCollaboratorInviteData {
   email: string;
   sections?: number[];
@@ -226,7 +228,14 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       });
 
       if (response.status === 200 && response.data) {
-        return { success: true, value: response.data };
+        return {
+          success: true,
+          value: response.data.filter(
+            (section: CollaboratorSection) =>
+              // "Approver" is a CM campaign approval permission and does not apply in this case.
+              section.idSection !== APPROVER_COLLABORATOR_SECTION_ID,
+          ),
+        };
       } else {
         return { success: false, error: response.data.title };
       }

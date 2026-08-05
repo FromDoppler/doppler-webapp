@@ -25,6 +25,10 @@ const collaboratorSections = [
   { idSection: 18, name: 'Landings' },
 ];
 
+const collaboratorSectionsWithoutApprover = collaboratorSections.filter(
+  ({ idSection }) => idSection !== 13,
+);
+
 function createHttpDopplerUserApiClient(axios: any) {
   const axiosStatic = {
     create: () => axios,
@@ -222,7 +226,7 @@ describe('HttpDopplerUserApiClient', () => {
     );
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
-    expect(result.success && result.value).toEqual(collaboratorSections);
+    expect(result.success && result.value).toEqual(collaboratorSectionsWithoutApprover);
   });
 
   it('should send collaboration invite', async () => {

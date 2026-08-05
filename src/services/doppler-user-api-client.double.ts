@@ -91,6 +91,10 @@ const collaboratorSectionsResult: Array<CollaboratorSection> = [
   { idSection: 18, name: 'Landings' },
 ];
 
+const collaboratorSectionsWithoutApprover = collaboratorSectionsResult.filter(
+  ({ idSection }) => idSection !== 13,
+);
+
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
   public async getContactInformationData(): Promise<
     ResultWithoutExpectedErrors<ContactInformation>
@@ -138,7 +142,7 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     await timeout(1500);
     return {
       success: true,
-      value: collaboratorSectionsResult,
+      value: collaboratorSectionsWithoutApprover,
     };
   }
 
