@@ -367,7 +367,7 @@ export const CollaboratorsSections = InjectAppServices(
               </div>
               <Modal
                 isOpen={modalOpen}
-                type="medium"
+                type="large"
                 handleClose={() => handleModalOpen()}
                 modalId="modal-new-collaborator"
               >

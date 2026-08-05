@@ -62,10 +62,10 @@ export const CollaboratorPermissionsForm = ({
         <Form className="awa-form form-request" data-testid="collaboration-permissions-form">
           <fieldset>
             <legend>{title}</legend>
-            <h3 className="m-t-30 m-b-24">{_('collaborators.form_modal.permissions_legend')}</h3>
+            <h3 className="m-t-30 m-b-18" style={{margin: 0}}>{_('collaborators.form_modal.permissions_legend')}</h3>
             <div className="dp-rowflex">
               {permissions.map((permission) => (
-                <div className="col-sm-6 m-b-12" key={permission.idSection}>
+                <div className="col-sm-4" key={permission.idSection}>
                   <FieldGroup>
                     <CheckboxFieldItemAccessible
                       fieldName={fieldNames.permissions}
