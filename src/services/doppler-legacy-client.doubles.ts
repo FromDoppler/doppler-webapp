@@ -293,6 +293,7 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
         lastName: 'local',
         phone: '+54223564789',
         userProfileType: '',
+        collaboratorViewAccessRights: [],
       },
     };
   }

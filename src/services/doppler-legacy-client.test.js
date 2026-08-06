@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { HttpDopplerLegacyClient } from './doppler-legacy-client';
+import { HttpDopplerLegacyClient, mapHeaderDataJson } from './doppler-legacy-client';
 jest.mock('axios');
 
 const userData = {
@@ -661,5 +661,28 @@ describe('Doppler legacy client', () => {
     expect(result.success).toBe(true);
     expect(result.associatedAsAccountOwner).toBe(false);
     expect(result.associatedAsAccountCollaborator).toBe(true);
+  });
+
+  it('should map collaborator view access rights from user account data', () => {
+    const mappedHeaderData = mapHeaderDataJson({
+      ...userData.data,
+      jwtToken:
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.' +
+        'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRlc3QgdXNlciIsIm5hbWVpZCI6MTAwMCwianRpIjoiMjQ' +
+        '0N2M2YTItMzM2ZS00Mzc2LTljZDAtOGVmMmFkNmRhMDJjIiwiaWF0IjoxNjAxMzE4NDkwLCJleHAiOjE2MD' +
+        'EzOTI2OTJ9.tJJ4R-Co54pmMrxeBbMycSsu6FPtWqdISKPChUbx9bE',
+      userAccount: {
+        email: 'collaborator@test.com',
+        firstName: 'Test',
+        lastName: 'Collaborator',
+        userProfileType: 'COLLABORATOR',
+        phone: '+541112223333',
+        collaboratorViewAccessRights: [{ accessLevel: 25, idSection: 18, name: 'Landings' }],
+      },
+    });
+
+    expect(mappedHeaderData.userAccount.collaboratorViewAccessRights).toEqual([
+      { accessLevel: 25, idSection: 18, name: 'Landings' },
+    ]);
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import Footer from './Footer/Footer';
 import {
   SiteTrackingRequired,
@@ -11,14 +11,36 @@ import { InjectAppServices } from '../services/pure-di';
 import MenuDemo from './MenuDemo/MenuDemo';
 import { nonAuthenticatedBlockedUser } from '../doppler-types';
 
+const COLLABORATOR_PROFILE_TYPE = 'COLLABORATOR';
+
+const isCollaborator = (dopplerSession) =>
+  dopplerSession?.userData?.userAccount?.userProfileType === COLLABORATOR_PROFILE_TYPE;
+
+const hasAccessToSection = (dopplerSession, sectionId) => {
+  if (!sectionId || !isCollaborator(dopplerSession)) {
+    return true;
+  }
+
+  const collaboratorViewAccessRights =
+    dopplerSession.userData.userAccount?.collaboratorViewAccessRights || [];
+
+  return collaboratorViewAccessRights.some(
+    ({ idSection }) => Number(idSection) === Number(sectionId),
+  );
+};
+
+const getNoAccessRedirectUrl = () => '/dashboard';
+
 export default InjectAppServices(
   /**
    * @param { Object } props
    * @param { Boolean } props.requireSiteTracking
+   * @param { Number } props.sectionId
    * @param { import('../services/pure-di').AppServices } props.dependencies
    */
   ({
     requireSiteTracking,
+    sectionId,
     children,
     dependencies: {
       appSessionRef: { current: dopplerSession },
@@ -27,6 +49,10 @@ export default InjectAppServices(
     const location = useLocation();
 
     if (dopplerSession.status === 'authenticated') {
+      if (!hasAccessToSection(dopplerSession, sectionId)) {
+        return <Navigate to={getNoAccessRedirectUrl(dopplerSession, location.pathname)} replace />;
+      }
+
       return (
         <div className="dp-app-container">
           <MenuDemo />
