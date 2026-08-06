@@ -779,7 +779,7 @@ Payment details will be included in the invoice sent to the recipient you have i
         section_13: 'Approver',
         section_14: 'Dashboard',
         section_15: 'Conversations',
-        section_16: 'PopUp Hub',
+        section_16: 'OnSite',
         section_18: 'Landings',
       },
       permissions_legend: 'Select the permissions you want to assign:',
