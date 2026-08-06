@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import SafeRedirect from '../../../SafeRedirect';
 import { useLinkedinInsightTag } from '../../../../hooks/useLinkedingInsightTag';
 import HeaderSection from '../../../shared/HeaderSection/HeaderSection';
@@ -39,6 +39,8 @@ import { useAddOnPlans } from '../../../../hooks/useFetchAddOnPlans';
 import { AddOnsSection } from '../../../BuyProcess/NewPlanSelection/AddOnsSection';
 import { NewPlanSelectionStyled } from '../../../BuyProcess/NewPlanSelection/index.styles';
 import { CheckoutSummaryLayout } from './CheckoutSummary.styles';
+
+const MIN_ADD_ONS_PANEL_HEIGHT = 640;
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -438,6 +440,8 @@ export const CheckoutSummary = InjectAppServices(
     location,
   }) => {
     useLinkedinInsightTag();
+    const checkoutSummaryMainRef = useRef(null);
+    const [addOnsPanelHeight, setAddOnsPanelHeight] = useState(null);
     const [
       {
         loading,
@@ -468,6 +472,40 @@ export const CheckoutSummary = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const total = sessionStorage.getItem('amount');
     const upgradePending = appSessionRef.current.userData.user.plan.upgradePending;
+
+    useEffect(() => {
+      const mainPanel = checkoutSummaryMainRef.current;
+
+      if (!mainPanel) {
+        return undefined;
+      }
+
+      const updateAddOnsPanelHeight = () => {
+        const isMobile = window.matchMedia?.('(max-width: 991px)').matches ?? false;
+        const mainPanelHeight = mainPanel.getBoundingClientRect().height;
+
+        setAddOnsPanelHeight(
+          !isMobile && mainPanelHeight > 0
+            ? Math.max(mainPanelHeight + 46, MIN_ADD_ONS_PANEL_HEIGHT)
+            : null,
+        );
+      };
+
+      updateAddOnsPanelHeight();
+      window.addEventListener('resize', updateAddOnsPanelHeight);
+
+      if (!window.ResizeObserver) {
+        return () => window.removeEventListener('resize', updateAddOnsPanelHeight);
+      }
+
+      const resizeObserver = new window.ResizeObserver(updateAddOnsPanelHeight);
+      resizeObserver.observe(mainPanel);
+
+      return () => {
+        resizeObserver.disconnect();
+        window.removeEventListener('resize', updateAddOnsPanelHeight);
+      };
+    }, [loading, hasError]);
 
     useEffect(() => {
       const fetchBillingInformationData = async () => {
@@ -584,7 +622,7 @@ export const CheckoutSummary = InjectAppServices(
         </HeaderSection>
         <section className="dp-container">
           <CheckoutSummaryLayout>
-            <div className="checkout-summary-main m-b-24">
+            <div className="checkout-summary-main m-b-24" ref={checkoutSummaryMainRef}>
               <PlanBuyMessage
                 title={title}
                 paymentMethod={paymentMethod}
@@ -667,7 +705,11 @@ export const CheckoutSummary = InjectAppServices(
               ) : null}
             </div>
             {landingsEditorEnabled && (
-              <aside className="checkout-summary-addons" data-testid="checkout-summary-addons">
+              <aside
+                className="checkout-summary-addons"
+                data-testid="checkout-summary-addons"
+                style={addOnsPanelHeight ? { height: `${addOnsPanelHeight}px` } : undefined}
+              >
                 <NewPlanSelectionStyled>
                   <AddOnsSection displayMode="sidebar" showBuyButtons />
                 </NewPlanSelectionStyled>
