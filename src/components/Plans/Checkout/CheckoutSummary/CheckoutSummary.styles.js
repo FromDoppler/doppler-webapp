@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const CheckoutSummaryLayout = styled.div`
-  align-items: stretch;
+  align-items: flex-start;
   display: flex;
   gap: 24px;
+  padding-bottom: 48px;
 
   .checkout-summary-main {
     flex: 5 1 0;
@@ -14,6 +15,7 @@ export const CheckoutSummaryLayout = styled.div`
     flex: 1 1 280px;
     margin-top: -46px;
     min-width: 0;
+    overflow: hidden;
   }
 
   .checkout-summary-addons > div {
