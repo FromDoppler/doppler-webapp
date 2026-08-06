@@ -11,6 +11,10 @@ export const CheckoutSummaryLayout = styled.div`
     min-width: 0;
   }
 
+  .checkout-summary-main .dp-content-message p {
+    text-wrap: pretty;
+  }
+
   .checkout-summary-addons {
     flex: 1 1 280px;
     margin-top: -46px;
