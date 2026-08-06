@@ -38,6 +38,7 @@ import { AddOnPlanInformation } from './AddOnPlanInformation';
 import { useAddOnPlans } from '../../../../hooks/useFetchAddOnPlans';
 import { AddOnsSection } from '../../../BuyProcess/NewPlanSelection/AddOnsSection';
 import { NewPlanSelectionStyled } from '../../../BuyProcess/NewPlanSelection/index.styles';
+import { CheckoutSummaryLayout } from './CheckoutSummary.styles';
 
 export const AddOnLandingPack = InjectAppServices(
   ({ dependencies: { dopplerAccountPlansApiClient } }) => {
@@ -582,8 +583,8 @@ export const CheckoutSummary = InjectAppServices(
           <CheckoutSummaryTitle title={title} hideBreadcrumb={true} />
         </HeaderSection>
         <section className="dp-container">
-          <div className="dp-rowflex">
-            <div className="col-sm-8 m-b-24">
+          <CheckoutSummaryLayout>
+            <div className="checkout-summary-main m-b-24">
               <PlanBuyMessage
                 title={title}
                 paymentMethod={paymentMethod}
@@ -665,16 +666,14 @@ export const CheckoutSummary = InjectAppServices(
                 <MercadoPagoInformation upgradePending={upgradePending} />
               ) : null}
             </div>
-          </div>
-          {landingsEditorEnabled && (
-            <div className="m-t-48">
-              <NewPlanSelectionStyled>
-                <div className="dp-container">
-                  <AddOnsSection showBuyButtons />
-                </div>
-              </NewPlanSelectionStyled>
-            </div>
-          )}
+            {landingsEditorEnabled && (
+              <aside className="checkout-summary-addons" data-testid="checkout-summary-addons">
+                <NewPlanSelectionStyled>
+                  <AddOnsSection displayMode="sidebar" showBuyButtons />
+                </NewPlanSelectionStyled>
+              </aside>
+            )}
+          </CheckoutSummaryLayout>
         </section>
       </>
     );

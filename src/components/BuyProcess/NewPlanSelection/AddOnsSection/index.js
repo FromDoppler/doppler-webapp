@@ -407,7 +407,11 @@ export const AddOnCard = ({ addOn, price }) => {
 };
 
 export const AddOnsSection = InjectAppServices(
-  ({ showBuyButtons = false, dependencies: { appSessionRef, dopplerAccountPlansApiClient } }) => {
+  ({
+    displayMode = 'carousel',
+    showBuyButtons = false,
+    dependencies: { appSessionRef, dopplerAccountPlansApiClient },
+  }) => {
     const intl = useIntl();
     const canShowEcoIA = appSessionRef.current.userData.features?.ecoIAEnabled === true;
     const canShowPushNotification =
@@ -444,8 +448,10 @@ export const AddOnsSection = InjectAppServices(
     const [prices, setPrices] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const isSidebar = displayMode === 'sidebar';
     const maxIndex = Math.max(Math.floor((addOns.length - 1) / CARDS_PER_PAGE) * CARDS_PER_PAGE, 0);
     const visibleAddOns = addOns.slice(currentIndex, currentIndex + CARDS_PER_PAGE);
+    const addOnsToRender = isSidebar ? addOns : visibleAddOns;
     const hasAvailablePrice = Object.values(prices).some(
       (price) => Number.isFinite(price) && price > 0,
     );
@@ -504,47 +510,65 @@ export const AddOnsSection = InjectAppServices(
 
     return (
       <section
-        className="dp-new-plan-selection-addons"
+        className={`dp-new-plan-selection-addons${isSidebar ? ' dp-new-plan-selection-addons--sidebar' : ''}`}
         data-testid="dp-addons-section"
         aria-busy={isLoading}
       >
         <header className="dp-new-plan-selection-addons-header">
           <h2 className="dp-second-order-title">
-            <FormattedMessage id="buy_process.new_plan_selection.addons_section.title" />
+            <FormattedMessage
+              id={
+                isSidebar
+                  ? 'landing_selection.pack_addons_title'
+                  : 'buy_process.new_plan_selection.addons_section.title'
+              }
+            />
           </h2>
-          <p>
-            <FormattedMessage id="buy_process.new_plan_selection.addons_section.subtitle" />
-          </p>
+          {!isSidebar && (
+            <p>
+              <FormattedMessage id="buy_process.new_plan_selection.addons_section.subtitle" />
+            </p>
+          )}
         </header>
         {!isLoading && !hasAvailablePrice ? (
           <p className="dp-new-plan-selection-addons-empty">
             <FormattedMessage id="buy_process.new_plan_selection.addons_section.empty_message" />
           </p>
         ) : (
-          <div className="dp-new-plan-selection-addons-carousel">
-            <button
-              type="button"
-              className="ms-icon icon-arrow-prev dp-arrow-left"
-              aria-label={intl.formatMessage({
-                id: 'buy_process.new_plan_selection.addons_section.previous',
-              })}
-              disabled={currentIndex === 0}
-              onClick={handlePrevious}
-            ></button>
+          <div
+            className={
+              isSidebar
+                ? 'dp-new-plan-selection-addons-sidebar-list'
+                : 'dp-new-plan-selection-addons-carousel'
+            }
+          >
+            {!isSidebar && (
+              <button
+                type="button"
+                className="ms-icon icon-arrow-prev dp-arrow-left"
+                aria-label={intl.formatMessage({
+                  id: 'buy_process.new_plan_selection.addons_section.previous',
+                })}
+                disabled={currentIndex === 0}
+                onClick={handlePrevious}
+              ></button>
+            )}
             <div className="dp-new-plan-selection-addons-cards">
-              {visibleAddOns.map((addOn) => (
+              {addOnsToRender.map((addOn) => (
                 <AddOnCard key={addOn.id} addOn={addOn} price={prices[addOn.id]} />
               ))}
             </div>
-            <button
-              type="button"
-              className="ms-icon icon-arrow-next dp-arrow-right"
-              aria-label={intl.formatMessage({
-                id: 'buy_process.new_plan_selection.addons_section.next',
-              })}
-              disabled={currentIndex >= maxIndex}
-              onClick={handleNext}
-            ></button>
+            {!isSidebar && (
+              <button
+                type="button"
+                className="ms-icon icon-arrow-next dp-arrow-right"
+                aria-label={intl.formatMessage({
+                  id: 'buy_process.new_plan_selection.addons_section.next',
+                })}
+                disabled={currentIndex >= maxIndex}
+                onClick={handleNext}
+              ></button>
+            )}
           </div>
         )}
       </section>
