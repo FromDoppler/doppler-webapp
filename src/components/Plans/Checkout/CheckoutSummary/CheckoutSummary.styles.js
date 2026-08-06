@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CheckoutSummaryLayout = styled.div`
-  align-items: flex-start;
+  align-items: stretch;
   display: flex;
   gap: 24px;
 
@@ -16,11 +16,19 @@ export const CheckoutSummaryLayout = styled.div`
     min-width: 0;
   }
 
+  .checkout-summary-addons > div {
+    height: 100%;
+  }
+
   @media (max-width: 991px) {
     display: block;
 
     .checkout-summary-addons {
       margin-top: 0;
+    }
+
+    .checkout-summary-addons > div {
+      height: auto;
     }
   }
 `;
