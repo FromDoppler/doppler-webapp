@@ -879,6 +879,9 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-addons--sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     margin: 0;
   }
 
@@ -893,7 +896,8 @@ export const NewPlanSelectionStyled = styled.div`
   }
 
   .dp-new-plan-selection-addons-sidebar-list {
-    max-height: 510px;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
     padding-right: 8px;
   }
@@ -1320,6 +1324,8 @@ export const NewPlanSelectionStyled = styled.div`
     }
 
     .dp-new-plan-selection-addons-sidebar-list {
+      flex: none;
+      min-height: auto;
       max-height: none;
       overflow-y: visible;
       padding-right: 0;
