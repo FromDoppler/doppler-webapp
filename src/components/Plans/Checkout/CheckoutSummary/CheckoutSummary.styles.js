@@ -6,7 +6,7 @@ export const CheckoutSummaryLayout = styled.div`
   gap: 24px;
 
   .checkout-summary-main {
-    flex: 2 1 0;
+    flex: 5 1 0;
     min-width: 0;
   }
 
