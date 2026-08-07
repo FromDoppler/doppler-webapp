@@ -50,7 +50,10 @@ export default InjectAppServices(
     const location = useLocation();
 
     if (dopplerSession.status === 'authenticated') {
-      if (isCollaboratorPermissionsEnabled() && !hasAccessToSection(dopplerSession, sectionId)) {
+      if (
+        isCollaboratorPermissionsEnabled() &&
+        !hasAccessToSection(dopplerSession, sectionId)
+      ) {
         return <Navigate to={getNoAccessRedirectUrl()} replace />;
       }
 
