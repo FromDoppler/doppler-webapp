@@ -10,6 +10,7 @@ import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
 import MenuDemo from './MenuDemo/MenuDemo';
 import { nonAuthenticatedBlockedUser } from '../doppler-types';
+import { isCollaboratorPermissionsEnabled } from '../services/feature-collaborator-permissions-flag';
 
 const COLLABORATOR_PROFILE_TYPE = 'COLLABORATOR';
 
@@ -49,7 +50,7 @@ export default InjectAppServices(
     const location = useLocation();
 
     if (dopplerSession.status === 'authenticated') {
-      if (!hasAccessToSection(dopplerSession, sectionId)) {
+      if (isCollaboratorPermissionsEnabled() && !hasAccessToSection(dopplerSession, sectionId)) {
         return <Navigate to={getNoAccessRedirectUrl()} replace />;
       }
 
