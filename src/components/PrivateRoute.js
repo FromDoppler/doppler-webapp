@@ -50,7 +50,7 @@ export default InjectAppServices(
 
     if (dopplerSession.status === 'authenticated') {
       if (!hasAccessToSection(dopplerSession, sectionId)) {
-        return <Navigate to={getNoAccessRedirectUrl(dopplerSession, location.pathname)} replace />;
+        return <Navigate to={getNoAccessRedirectUrl()} replace />;
       }
 
       return (
