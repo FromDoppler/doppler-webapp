@@ -169,7 +169,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria listas, en local entre asi: http://localhost:3000/subscribers/test%40fromdoppler.com/history */}
             <Route
               path="/subscribers/:email/:section"
               element={
@@ -181,7 +180,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/control-panel/"
               element={
-                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
+                <PrivateRoute>
                   <ControlPanel />
                 </PrivateRoute>
               }
@@ -191,7 +190,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/reports/subscriber-:section"
               element={
-                <PrivateRoute sectionId={COLLABORATOR_SECTION.Reports}>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.Lists}>
                   <SubscribersLegacyUrlRedirect />
                 </PrivateRoute>
               }
@@ -207,7 +206,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/upgrade-suggestion-form"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <UpgradeSuggestionForm />
                 </PrivateRoute>
               }
@@ -216,73 +215,67 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/plan-selection/premium/:planType"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <PlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/new-plan-selection"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <NewPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/buy-conversation"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <ConversationPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/buy-onsite-plans"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <OnSitePlansSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/buy-ecoia-plan"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <EcoAIPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/checkout/:pathType/:planType"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <Checkout />
                   </BuyProcessLayout>
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/email-marketing-for-agencies"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <AgenciesForm />
                 </PrivateRoute>
               }
@@ -290,7 +283,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/email-marketing-exclusive"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel} >
                   <ExclusiveForm />
                 </PrivateRoute>
               }
@@ -303,7 +296,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/billing/invoices"
               element={
@@ -328,11 +320,10 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/checkout-summary"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <CheckoutSummary />
                   </BuyProcessLayout>
@@ -362,7 +353,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/forgot-password"
               element={<RedirectWithQuery to="/login/reset-password" />}
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/plan-selection"
               element={
@@ -374,7 +364,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             {/* TODO: Implement NotFound page in place of redirect all to reports */}
             {/* <Route component={NotFound} /> */}
             <Route path="/*" element={<Navigate to={newDashboard ? '/dashboard' : '/reports'} />} />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/update-payment-method"
               element={
@@ -383,7 +372,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/payment-information-summary"
               element={
@@ -392,20 +380,18 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/plan-types"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <PlanTypes />
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/landing-packages"
               element={
-                <PrivateRoute sectionId={COLLABORATOR_SECTION.Landings}>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <LandingPacksSelection />
                   </BuyProcessLayout>
@@ -460,7 +446,6 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
                 </PrivateRoute>
               }
             />
-            {/* chequear, creo que seria ControlPanel */}
             <Route
               path="/my-plan/"
               element={
@@ -472,7 +457,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/additional-services/"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <AdditionalServices />
                 </PrivateRoute>
               }
@@ -480,7 +465,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/push-notifications/"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <PushNotifications />
                 </PrivateRoute>
               }
@@ -488,8 +473,8 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/buy-push-notification-plans"
               element={
-                <PrivateRoute>
-                  <BuyProcessLayout>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
+                  <BuyProcessLayout >
                     <PushNotificationPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
