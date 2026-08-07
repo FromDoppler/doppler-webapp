@@ -1829,10 +1829,12 @@ describe('NewPlanSelection component', () => {
       },
     });
 
-    const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
-      name: /buy_process\.discount_yearly/i,
+    await waitFor(() => {
+      const annualFrequencyButton = within(getContactsPlanSection()).getByRole('button', {
+        name: /buy_process\.discount_yearly/i,
+      });
+      expect(annualFrequencyButton).not.toBeDisabled();
     });
-    expect(annualFrequencyButton).not.toBeDisabled();
   });
 
   it('should show tailored price and advisor CTA for more than 100k option', async () => {
