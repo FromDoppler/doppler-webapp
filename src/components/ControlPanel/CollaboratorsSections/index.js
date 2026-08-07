@@ -10,6 +10,7 @@ import { CollaboratorPermissionsForm } from './Forms/CollaboratorPermissionsForm
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
 import { Navigate } from 'react-router-dom';
+import { isCollaboratorPermissionsEnabled } from '../../../services/feature-collaborator-permissions-flag';
 
 const modalSteps = {
   initial: 'INITIAL_STEP',
@@ -23,6 +24,7 @@ export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const collaboratorPermissionsEnabled = isCollaboratorPermissionsEnabled();
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [availablePermissions, setAvailablePermissions] = useState([]);
@@ -35,7 +37,7 @@ export const CollaboratorsSections = InjectAppServices(
       useState(null);
     const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
     const [refreshTable, setRefreshTable] = useState(false);
-    const [permissionsLoaded, setPermissionsLoaded] = useState(false);
+    const [permissionsLoaded, setPermissionsLoaded] = useState(!collaboratorPermissionsEnabled);
     const [invitationsLoaded, setInvitationsLoaded] = useState(false);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
@@ -89,6 +91,10 @@ export const CollaboratorsSections = InjectAppServices(
     };
 
     useEffect(() => {
+      if (!collaboratorPermissionsEnabled) {
+        return;
+      }
+
       const fetchPermissions = async () => {
         const permissions = await dopplerUserApiClient.getAvailableCollaboratorSections();
         if (permissions.success) {
@@ -99,7 +105,7 @@ export const CollaboratorsSections = InjectAppServices(
       };
 
       fetchPermissions();
-    }, [dopplerUserApiClient]);
+    }, [collaboratorPermissionsEnabled, dopplerUserApiClient]);
 
     useEffect(() => {
       const fetchInvitations = async () => {
@@ -138,13 +144,30 @@ export const CollaboratorsSections = InjectAppServices(
       return result.success;
     };
 
-    const goToPermissionsStep = (email) => {
+    const goToPermissionsStep = async (email) => {
       setmodalError(null);
       setSelectedEmail(email);
+
+      if (!collaboratorPermissionsEnabled) {
+        const success = await sendInvitation({ email });
+
+        if (success) {
+          setModalStep(modalFinalStep);
+        } else {
+          setmodalError(_('common.unexpected_error'));
+        }
+
+        return;
+      }
+
       setModalStep(modalPermissionsStep);
     };
 
     const goToEditPermissionsStep = (collaborator) => {
+      if (!collaboratorPermissionsEnabled) {
+        return;
+      }
+
       setActiveMenus(false);
       setmodalError(null);
       setSelectedEmail(collaborator.email);
@@ -321,15 +344,19 @@ export const CollaboratorsSections = InjectAppServices(
                                   }}
                                 >
                                   <ul className="dp-list-dropdown" id="dropdown">
-                                    <li role="menuitem">
-                                      <button
-                                        type="button"
-                                        onClick={() => goToEditPermissionsStep(item)}
-                                        data-testid={`collaborator-menu-edit-${index}`}
-                                      >
-                                        {_('collaborators.menu.edit')}
-                                      </button>
-                                    </li>
+                                    {collaboratorPermissionsEnabled ? (
+                                      <li role="menuitem">
+                                        <button
+                                          type="button"
+                                          onClick={() => goToEditPermissionsStep(item)}
+                                          data-testid={`collaborator-menu-edit-${index}`}
+                                        >
+                                          {_('collaborators.menu.edit')}
+                                        </button>
+                                      </li>
+                                    ) : (
+                                      <></>
+                                    )}
                                     {item.invitationStatus !== 'APPROVED' ? (
                                       <li role="menuitem">
                                         <button
