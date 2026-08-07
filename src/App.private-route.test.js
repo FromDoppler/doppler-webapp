@@ -7,6 +7,9 @@ import App from './App';
 import { COLLABORATOR_SECTION } from './doppler-types';
 import { AppServicesProvider } from './services/pure-di';
 
+const collaboratorPermissionsFlagName = 'REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED';
+const originalCollaboratorPermissionsFlag = process.env[collaboratorPermissionsFlagName];
+
 jest.mock('./components/Dashboard/Dashboard', () => ({
   Dashboard: () => <div data-testid="dashboard-page" />,
 }));
@@ -89,7 +92,19 @@ const createCollaboratorSession = (sectionIds) => ({
 });
 
 describe('App private routes permissions', () => {
+  beforeEach(() => {
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'true';
+  });
+
   afterEach(cleanup);
+
+  afterAll(() => {
+    if (originalCollaboratorPermissionsFlag === undefined) {
+      delete process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED;
+    } else {
+      process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = originalCollaboratorPermissionsFlag;
+    }
+  });
 
   it('redirects collaborators to login when they do not have access to the requested section', async () => {
     const appSessionRef = { current: { status: 'unknown' } };
@@ -117,6 +132,37 @@ describe('App private routes permissions', () => {
 
     await waitFor(() => {
       expect(currentRouteState.location.pathname).toEqual('/login');
+    });
+  });
+
+  it('allows collaborators to stay in the route when the permissions flag is disabled', async () => {
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'false';
+    const appSessionRef = { current: { status: 'unknown' } };
+    const dependencies = {
+      appSessionRef,
+      sessionManager: createDoubleSessionManager(appSessionRef),
+      dopplerSitesClient: dopplerSitesClientDouble,
+    };
+    const currentRouteState = {};
+
+    render(
+      <AppServicesProvider forcedServices={dependencies}>
+        <Router initialEntries={['/reports']}>
+          <RouterInspector target={currentRouteState} />
+          <App window={windowDouble} locale="en" />
+        </Router>
+      </AppServicesProvider>,
+    );
+
+    act(() => {
+      dependencies.sessionManager.updateAppSession(
+        createCollaboratorSession([COLLABORATOR_SECTION.Dashboard]),
+      );
+    });
+
+    await waitFor(() => {
+      expect(currentRouteState.location.pathname).toEqual('/reports');
+      expect(screen.getByTestId('reports-page')).toBeInTheDocument();
     });
   });
 

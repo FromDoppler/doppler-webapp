@@ -281,7 +281,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/email-marketing-exclusive"
               element={
-                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel} >
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <ExclusiveForm />
                 </PrivateRoute>
               }
@@ -472,7 +472,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
               path="/buy-push-notification-plans"
               element={
                 <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
-                  <BuyProcessLayout >
+                  <BuyProcessLayout>
                     <PushNotificationPlanSelection />
                   </BuyProcessLayout>
                 </PrivateRoute>
