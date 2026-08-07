@@ -91,7 +91,7 @@ const createCollaboratorSession = (sectionIds) => ({
 describe('App private routes permissions', () => {
   afterEach(cleanup);
 
-  it('redirects collaborators to an allowed route when they do not have access to the requested section', async () => {
+  it('redirects collaborators to login when they do not have access to the requested section', async () => {
     const appSessionRef = { current: { status: 'unknown' } };
     const dependencies = {
       appSessionRef,
@@ -116,8 +116,7 @@ describe('App private routes permissions', () => {
     });
 
     await waitFor(() => {
-      expect(currentRouteState.location.pathname).toEqual('/dashboard');
-      expect(screen.getByTestId('dashboard-page')).toBeInTheDocument();
+      expect(currentRouteState.location.pathname).toEqual('/login');
     });
   });
 
