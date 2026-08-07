@@ -984,6 +984,7 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-addon-card .dp-description-legend {
     flex: 1 1 auto;
+    text-wrap: pretty;
   }
 
   .dp-new-plan-selection-addon-card .card-title .icon-container {
