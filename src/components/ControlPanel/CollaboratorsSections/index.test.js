@@ -6,6 +6,9 @@ import { AppServicesProvider } from '../../../services/pure-di';
 import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { BrowserRouter } from 'react-router-dom';
 
+const collaboratorPermissionsFlagName = 'REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED';
+const originalCollaboratorPermissionsFlag = process.env[collaboratorPermissionsFlagName];
+
 const collaborationInvitesResult = [
   {
     idUser: 1,
@@ -103,6 +106,18 @@ const openEditPermissionsModal = async (user, collaboratorIndex = 0) => {
 };
 
 describe('CollaboratorsSections', () => {
+  beforeEach(() => {
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'true';
+  });
+
+  afterAll(() => {
+    if (originalCollaboratorPermissionsFlag === undefined) {
+      delete process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED;
+    } else {
+      process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = originalCollaboratorPermissionsFlag;
+    }
+  });
+
   it('hides the loading box after the initial request', async () => {
     renderComponent(createDopplerUserApiClientDouble());
 
@@ -118,6 +133,50 @@ describe('CollaboratorsSections', () => {
 
     expect(screen.getByText('test@fromdoppler.com')).toBeInTheDocument();
     expect(screen.queryByRole('table')).toBeInTheDocument();
+  });
+
+  it('does not load collaborator permissions or show the edit action when the flag is disabled', async () => {
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'false';
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(dopplerUserApiClient.getAvailableCollaboratorSections).not.toHaveBeenCalled();
+
+    await user.click(screen.getByTestId('collaborator-menu-toggle-0'));
+
+    expect(screen.queryByTestId('collaborator-menu-edit-0')).not.toBeInTheDocument();
+    expect(screen.getByText('collaborators.menu.invite')).toBeInTheDocument();
+    expect(screen.getAllByText('collaborators.menu.disable').length).toBeGreaterThan(0);
+  });
+
+  it('sends the invite without permissions and skips the permissions step when the flag is disabled', async () => {
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'false';
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    await user.click(screen.getByRole('button', { name: 'collaborators.add_collaborator' }));
+    await user.type(
+      screen.getByLabelText('collaborators.form_modal.email'),
+      'new.collaborator@fromdoppler.com',
+    );
+    await user.click(screen.getByRole('button', { name: 'common.next' }));
+
+    await waitFor(() =>
+      expect(dopplerUserApiClient.sendCollaboratorInvite).toHaveBeenCalledWith({
+        email: 'new.collaborator@fromdoppler.com',
+      }),
+    );
+    expect(dopplerUserApiClient.getAvailableCollaboratorSections).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('collaboration-permissions-form')).not.toBeInTheDocument();
+    expect(screen.getByText('collaborators.form_modal.success_title')).toBeInTheDocument();
   });
 
   it('keeps the email when going back from permissions to the invite step', async () => {
