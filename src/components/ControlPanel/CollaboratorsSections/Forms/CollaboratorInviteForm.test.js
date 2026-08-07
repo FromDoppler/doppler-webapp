@@ -9,7 +9,7 @@ import { AppServicesProvider } from '../../../../services/pure-di';
 describe('CollaboratorInviteForm Component', () => {
   afterEach(cleanup);
 
-  it('should render success form', () => {
+  it('should render invite form actions', () => {
     //Arrange
     const forcedServices = {
       appSessionRef: {
@@ -36,5 +36,7 @@ describe('CollaboratorInviteForm Component', () => {
 
     // Asserts
     expect(screen.getByTestId('collaboration-invite-form')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'common.cancel' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'common.next' })).toBeInTheDocument();
   });
 });

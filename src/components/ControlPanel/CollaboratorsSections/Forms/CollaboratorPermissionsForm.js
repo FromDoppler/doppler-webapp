@@ -12,9 +12,12 @@ const fieldNames = {
 };
 
 export const CollaboratorPermissionsForm = ({
+  title,
   permissions,
   selectedPermissions = [],
-  onBack,
+  secondaryActionText,
+  submitButtonText,
+  onSecondaryAction,
   onSubmit,
 }) => {
   const intl = useIntl();
@@ -58,11 +61,13 @@ export const CollaboratorPermissionsForm = ({
       {({ errors, submitCount, values }) => (
         <Form className="awa-form form-request" data-testid="collaboration-permissions-form">
           <fieldset>
-            <legend>{_('collaborators.form_modal.permissions_title')}</legend>
-            <h3 className="m-t-30 m-b-24">{_('collaborators.form_modal.permissions_legend')}</h3>
+            <legend>{title}</legend>
+            <h3 className="m-t-30 m-b-18" style={{ margin: 0 }}>
+              {_('collaborators.form_modal.permissions_legend')}
+            </h3>
             <div className="dp-rowflex">
               {permissions.map((permission) => (
-                <div className="col-sm-6 m-b-12" key={permission.idSection}>
+                <div className="col-sm-4" key={permission.idSection}>
                   <FieldGroup>
                     <CheckboxFieldItemAccessible
                       fieldName={fieldNames.permissions}
@@ -92,13 +97,15 @@ export const CollaboratorPermissionsForm = ({
               type="button"
               className="dp-button button-medium secondary-green"
               onClick={() =>
-                onBack(values[fieldNames.permissions].map((permissionId) => Number(permissionId)))
+                onSecondaryAction(
+                  values[fieldNames.permissions].map((permissionId) => Number(permissionId)),
+                )
               }
             >
-              {_('common.back')}
+              {secondaryActionText}
             </button>
             <SubmitButton className="dp-button button-medium primary-green">
-              {_('common.next')}
+              {submitButtonText}
             </SubmitButton>
           </div>
         </Form>

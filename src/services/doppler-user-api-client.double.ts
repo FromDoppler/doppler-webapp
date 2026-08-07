@@ -6,6 +6,7 @@ import {
   CollaboratorInvite,
   CollaboratorSection,
   SendCollaboratorInviteData,
+  UpdateCollaboratorData,
 } from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -56,20 +57,24 @@ const integrationsStatusResult: IntegrationsStatus = {
 const collaborationInvitesResult: Array<CollaboratorInvite> = [
   {
     idUser: 1,
+    idUserAccount: 101,
     email: 'test@fromdoppler.com',
     firstname: 'Test',
     lastname: 'Test',
     invitationDate: '2024-08-15T02:12:09',
     expirationDate: '2024-08-16T13:19:37',
+    sections: [1, 4, 8],
     invitationStatus: 'PENDING',
   },
   {
     idUser: 1,
+    idUserAccount: 202,
     email: 'test2@fromdoppler.com',
     firstname: 'Test 2',
     lastname: 'Test 2',
     invitationDate: '2024-07-03T00:00:00',
     expirationDate: '2024-07-04T00:00:00',
+    sections: [1, 2, 10, 18],
     invitationStatus: 'APPROVED',
   },
 ];
@@ -165,6 +170,16 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     return {
       success: true,
       value: collaborationInvitesResult,
+    };
+  }
+
+  public async updateCollaborator(
+    value: UpdateCollaboratorData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(value);
+    return {
+      success: true,
     };
   }
 

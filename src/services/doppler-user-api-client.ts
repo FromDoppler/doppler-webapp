@@ -18,6 +18,7 @@ export interface DopplerUserApiClient {
   sendCollaboratorInvite(
     value: SendCollaboratorInviteData,
   ): Promise<EmptyResultWithoutExpectedErrors>;
+  updateCollaborator(value: UpdateCollaboratorData): Promise<EmptyResultWithoutExpectedErrors>;
   updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
@@ -55,11 +56,13 @@ export interface IntegrationsStatus {
 
 export interface CollaboratorInvite {
   idUser: number;
+  idUserAccount: number | null;
   email: string;
   firstname: string;
   lastname: string;
   invitationDate: string;
   expirationDate: string;
+  sections: number[];
   invitationStatus: string;
 }
 
@@ -73,6 +76,13 @@ const APPROVER_COLLABORATOR_SECTION_ID = 13;
 export interface SendCollaboratorInviteData {
   email: string;
   sections?: number[];
+}
+
+export interface UpdateCollaboratorData {
+  email: string;
+  idUser: number;
+  idUserAccount: number | null;
+  sections: number[];
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
@@ -290,6 +300,29 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         return { success: true, value: response.data };
       } else {
         return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updateCollaborator(
+    value: UpdateCollaboratorData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/update-collaborator-permissions`,
+        data: value,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false, error: response.data.message };
       }
     } catch (error) {
       return { success: false, error: error };
