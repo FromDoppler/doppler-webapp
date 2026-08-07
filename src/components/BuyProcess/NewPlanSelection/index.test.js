@@ -2203,24 +2203,25 @@ describe('NewPlanSelection component', () => {
   it('should show previous price in sticky summary when contacts payment frequency has discount', async () => {
     await renderNewPlanSelection();
 
-    fireEvent.click(
-      within(getContactsPlanSection()).getByRole('button', {
-        name: /buy_process\.discount_yearly/i,
-      }),
-    );
-    await settleAsyncState();
+    const annualFrequencyButton = await within(getContactsPlanSection()).findByRole('button', {
+      name: /buy_process\.discount_yearly/i,
+    });
 
-    expect(
-      screen
-        .getByTestId('dp-sticky-plan-summary')
-        .querySelector('.dp-new-plan-selection-sticky-summary-old-price'),
-    ).toHaveTextContent(
-      /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10.00\/buy_process.new_plan_selection.month_period/,
-    );
-    expect(
-      within(screen.getByTestId('dp-sticky-plan-summary')).getAllByText(
-        textContentIncludes('buy_process.new_plan_selection.sticky_frequency_discount_text'),
-      ).length,
-    ).toBeGreaterThan(0);
+    fireEvent.click(annualFrequencyButton);
+
+    await waitFor(() => {
+      const stickySummary = screen.getByTestId('dp-sticky-plan-summary');
+
+      expect(
+        stickySummary.querySelector('.dp-new-plan-selection-sticky-summary-old-price'),
+      ).toHaveTextContent(
+        /buy_process\.new_plan_selection\.sticky_previous_price_label US\$10.00\/buy_process.new_plan_selection.month_period/,
+      );
+      expect(
+        within(stickySummary).getAllByText(
+          textContentIncludes('buy_process.new_plan_selection.sticky_frequency_discount_text'),
+        ).length,
+      ).toBeGreaterThan(0);
+    });
   });
 });
