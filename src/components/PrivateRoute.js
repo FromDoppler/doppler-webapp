@@ -29,7 +29,7 @@ const hasAccessToSection = (dopplerSession, sectionId) => {
   );
 };
 
-const getNoAccessRedirectUrl = () => '/dashboard';
+const getNoAccessRedirectUrl = () => '/login';
 
 export default InjectAppServices(
   /**
