@@ -365,7 +365,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/update-payment-method"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <UpdatePaymentInformation />
                 </PrivateRoute>
               }
@@ -373,7 +373,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/payment-information-summary"
               element={
-                <PrivateRoute>
+                <PrivateRoute sectionId={COLLABORATOR_SECTION.ControlPanel}>
                   <UpdatePaymentInformationSummary />
                 </PrivateRoute>
               }
