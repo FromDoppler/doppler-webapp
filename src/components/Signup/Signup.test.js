@@ -185,6 +185,52 @@ describe('Signup', () => {
     );
   });
 
+  it('should open the country list again after closing it', async () => {
+    const location = { search: '', pathname: '/signup' };
+    const { container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="es">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const selectedFlag = container.querySelector('.iti__selected-flag');
+    fireEvent.click(selectedFlag);
+
+    await waitFor(() =>
+      expect(document.body.querySelector('.iti__country-list')).not.toHaveClass('iti__hide'),
+    );
+
+    fireEvent.click(document.body);
+    fireEvent.click(selectedFlag);
+
+    await waitFor(() =>
+      expect(document.body.querySelector('.iti__country-list')).not.toHaveClass('iti__hide'),
+    );
+  });
+
+  it('should select privacy policies with the first click', async () => {
+    const location = { search: '', pathname: '/signup' };
+    const { container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="es">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const privacyPoliciesCheckbox = container.querySelector('input#accept_privacy_policies');
+
+    fireEvent.click(privacyPoliciesCheckbox);
+
+    expect(privacyPoliciesCheckbox).toBeChecked();
+  });
+
   it('should redirect to confirmation page when submit', async () => {
     // Arrange
     const dependencies = defaultDependencies;
