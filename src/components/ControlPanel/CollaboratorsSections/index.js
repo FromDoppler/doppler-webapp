@@ -10,7 +10,7 @@ import { CollaboratorPermissionsForm } from './Forms/CollaboratorPermissionsForm
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
 import { Navigate } from 'react-router-dom';
-import { isCollaboratorPermissionsEnabled } from '../../../services/feature-collaborator-permissions-flag';
+import { isCollaboratorPermissionsEnabled } from '../../../services/collaborator-permissions-flag';
 
 const modalSteps = {
   initial: 'INITIAL_STEP',
