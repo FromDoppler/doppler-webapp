@@ -40,6 +40,8 @@ function createDoubleSessionManager(appSessionRef) {
       };
     },
     finalize: () => {},
+    restart: () => {},
+    redirectCollaboratorToAllowedSection: jest.fn(),
   };
 
   return double;
@@ -106,7 +108,7 @@ describe('App private routes permissions', () => {
     }
   });
 
-  it('redirects collaborators to login when they do not have access to the requested section', async () => {
+  it('delegates collaborator section access resolution when the flag is enabled', async () => {
     const appSessionRef = { current: { status: 'unknown' } };
     const dependencies = {
       appSessionRef,
@@ -131,7 +133,10 @@ describe('App private routes permissions', () => {
     });
 
     await waitFor(() => {
-      expect(currentRouteState.location.pathname).toEqual('/login');
+      expect(dependencies.sessionManager.redirectCollaboratorToAllowedSection).toHaveBeenCalledWith(
+        COLLABORATOR_SECTION.Reports,
+      );
+      expect(currentRouteState.location.pathname).toEqual('/reports');
     });
   });
 
@@ -166,7 +171,7 @@ describe('App private routes permissions', () => {
     });
   });
 
-  it('allows collaborators to stay in the route when they have access to its section', async () => {
+  it('delegates collaborator section access even when the session includes that section', async () => {
     const appSessionRef = { current: { status: 'unknown' } };
     const dependencies = {
       appSessionRef,
@@ -191,6 +196,9 @@ describe('App private routes permissions', () => {
     });
 
     await waitFor(() => {
+      expect(dependencies.sessionManager.redirectCollaboratorToAllowedSection).toHaveBeenCalledWith(
+        COLLABORATOR_SECTION.Reports,
+      );
       expect(currentRouteState.location.pathname).toEqual('/reports');
       expect(screen.getByTestId('reports-page')).toBeInTheDocument();
     });
