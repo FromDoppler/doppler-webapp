@@ -41,7 +41,7 @@ function createDoubleSessionManager(appSessionRef) {
     },
     finalize: () => {},
     restart: () => {},
-    redirectCollaboratorToAllowedSection: jest.fn(),
+    ensureCollaboratorHasAccessOrRedirect: jest.fn().mockReturnValue(true),
   };
 
   return double;
@@ -133,14 +133,16 @@ describe('App private routes permissions', () => {
     });
 
     await waitFor(() => {
-      expect(dependencies.sessionManager.redirectCollaboratorToAllowedSection).toHaveBeenCalledWith(
-        COLLABORATOR_SECTION.Reports,
-      );
+      expect(
+        dependencies.sessionManager.ensureCollaboratorHasAccessOrRedirect,
+      ).toHaveBeenCalledWith(COLLABORATOR_SECTION.Reports);
       expect(currentRouteState.location.pathname).toEqual('/reports');
     });
   });
 
-  it('allows collaborators to stay in the route when the permissions flag is disabled', async () => {
+  it(
+    'allows collaborators to stay in the route when the permissions flag is disabled',
+    async () => {
     process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'false';
     const appSessionRef = { current: { status: 'unknown' } };
     const dependencies = {
@@ -169,9 +171,12 @@ describe('App private routes permissions', () => {
       expect(currentRouteState.location.pathname).toEqual('/reports');
       expect(screen.getByTestId('reports-page')).toBeInTheDocument();
     });
-  });
+    },
+  );
 
-  it('delegates collaborator section access even when the session includes that section', async () => {
+  it(
+    'delegates collaborator section access even when the session includes that section',
+    async () => {
     const appSessionRef = { current: { status: 'unknown' } };
     const dependencies = {
       appSessionRef,
@@ -196,11 +201,12 @@ describe('App private routes permissions', () => {
     });
 
     await waitFor(() => {
-      expect(dependencies.sessionManager.redirectCollaboratorToAllowedSection).toHaveBeenCalledWith(
-        COLLABORATOR_SECTION.Reports,
-      );
+      expect(
+        dependencies.sessionManager.ensureCollaboratorHasAccessOrRedirect,
+      ).toHaveBeenCalledWith(COLLABORATOR_SECTION.Reports);
       expect(currentRouteState.location.pathname).toEqual('/reports');
       expect(screen.getByTestId('reports-page')).toBeInTheDocument();
     });
-  });
+    },
+  );
 });

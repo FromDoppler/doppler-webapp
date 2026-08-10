@@ -27,7 +27,7 @@ function createDoubleSessionManager(appSessionRef) {
     },
     finalize: () => {},
     restart: () => {},
-    redirectCollaboratorToAllowedSection: () => {},
+    ensureCollaboratorHasAccessOrRedirect: () => true,
     session: {
       status: 'unknown',
     },
