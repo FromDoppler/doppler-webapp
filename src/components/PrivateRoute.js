@@ -10,18 +10,18 @@ import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
 import MenuDemo from './MenuDemo/MenuDemo';
 import { nonAuthenticatedBlockedUser } from '../doppler-types';
-import { isCollaboratorPermissionsEnabled } from '../services/feature-collaborator-permissions-flag';
+import { isCollaboratorPermissionsEnabled } from '../services/collaborator-permissions-flag';
 
 export default InjectAppServices(
   /**
    * @param { Object } props
    * @param { Boolean } props.requireSiteTracking
-   * @param { Number } props.sectionId
+   * @param { Number } props.section
    * @param { import('../services/pure-di').AppServices } props.dependencies
    */
   ({
     requireSiteTracking,
-    sectionId,
+    section,
     children,
     dependencies: {
       appSessionRef: { current: dopplerSession },
@@ -31,10 +31,10 @@ export default InjectAppServices(
     const location = useLocation();
 
     if (dopplerSession.status === 'authenticated') {
-      if (isCollaboratorPermissionsEnabled() && sectionId) {
-        const wasRedirected = sessionManager.redirectCollaboratorToAllowedSection(sectionId);
+      if (isCollaboratorPermissionsEnabled() && section) {
+        const canAccessSection = sessionManager.ensureCollaboratorHasAccessOrRedirect(section);
 
-        if (wasRedirected) {
+        if (!canAccessSection) {
           return null;
         }
       }

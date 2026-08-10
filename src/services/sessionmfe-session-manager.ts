@@ -26,9 +26,7 @@ declare global {
   interface Window {
     dopplerSessionState: DopplerSessionState;
     restartDopplerSessionMonitor: () => void;
-    redirectCollaboratorToAllowedSection: (
-      idSection?: number | string | null,
-    ) => string | undefined;
+    ensureCollaboratorHasAccessOrRedirect: (idSection?: number | string | null) => boolean;
   }
 }
 // End Doppler Session MFE conventions
@@ -89,8 +87,8 @@ export class SessionMfeSessionManager implements SessionManager {
     window.restartDopplerSessionMonitor();
   }
 
-  public redirectCollaboratorToAllowedSection(idSection?: number | string | null) {
-    return !!window.redirectCollaboratorToAllowedSection(idSection);
+  public ensureCollaboratorHasAccessOrRedirect(idSection?: number | string | null) {
+    return window.ensureCollaboratorHasAccessOrRedirect(idSection);
   }
 
   public initialzeSessionWithBlockedUser(session: AppSession) {
