@@ -70,11 +70,12 @@ describe('Signup', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+    fireEvent.click(container.querySelector('.iti__selected-flag'));
 
     // Assert
     await waitFor(() => {
       expect(
-        container
+        document.body
           .querySelector('[data-country-code="dz"]')
           .nextElementSibling.getAttribute('data-country-code'),
       ).toBe('ar');
@@ -96,11 +97,12 @@ describe('Signup', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+    fireEvent.click(container.querySelector('.iti__selected-flag'));
 
     // Assert
     await waitFor(() => {
       expect(
-        container
+        document.body
           .querySelector('[data-country-code="io"]')
           .nextElementSibling.getAttribute('data-country-code'),
       ).toBe('ps');
@@ -122,11 +124,12 @@ describe('Signup', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+    fireEvent.click(container.querySelector('.iti__selected-flag'));
 
     // Assert
     await waitFor(() => {
       expect(
-        container
+        document.body
           .querySelector('[data-country-code="dz"]')
           .nextElementSibling.getAttribute('data-country-code'),
       ).toBe('as');
@@ -148,11 +151,12 @@ describe('Signup', () => {
         </DopplerIntlProvider>
       </AppServicesProvider>,
     );
+    fireEvent.click(container.querySelector('.iti__selected-flag'));
 
     // Assert
     await waitFor(() => {
       expect(
-        container
+        document.body
           .querySelector('[data-country-code="io"]')
           .nextElementSibling.getAttribute('data-country-code'),
       ).toBe('bn');

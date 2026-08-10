@@ -20,5 +20,20 @@ describe('SuccessStepForm Component', () => {
 
     // Asserts
     expect(screen.getByTestId('success-form')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'common.back' })).not.toBeInTheDocument();
+  });
+
+  it('should render a custom button label', () => {
+    render(
+      <BrowserRouter>
+        <DopplerIntlProvider>
+          <SuccessStepForm buttonLabelMessageId="collaborators.form_modal.edit_success_acknowledge" />
+        </DopplerIntlProvider>
+      </BrowserRouter>,
+    );
+
+    expect(
+      screen.getByRole('button', { name: 'collaborators.form_modal.edit_success_acknowledge' }),
+    ).toBeInTheDocument();
   });
 });

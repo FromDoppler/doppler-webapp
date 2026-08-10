@@ -4,6 +4,9 @@ import {
   Features,
   IntegrationsStatus,
   CollaboratorInvite,
+  CollaboratorSection,
+  SendCollaboratorInviteData,
+  UpdateCollaboratorData,
 } from './doppler-user-api-client';
 import { EmptyResultWithoutExpectedErrors, ResultWithoutExpectedErrors } from '../doppler-types';
 import { timeout } from '../utils';
@@ -54,23 +57,48 @@ const integrationsStatusResult: IntegrationsStatus = {
 const collaborationInvitesResult: Array<CollaboratorInvite> = [
   {
     idUser: 1,
+    idUserAccount: 101,
     email: 'test@fromdoppler.com',
     firstname: 'Test',
     lastname: 'Test',
     invitationDate: '2024-08-15T02:12:09',
     expirationDate: '2024-08-16T13:19:37',
+    sections: [1, 4, 8],
     invitationStatus: 'PENDING',
   },
   {
     idUser: 1,
+    idUserAccount: 202,
     email: 'test2@fromdoppler.com',
     firstname: 'Test 2',
     lastname: 'Test 2',
     invitationDate: '2024-07-03T00:00:00',
     expirationDate: '2024-07-04T00:00:00',
+    sections: [1, 2, 10, 18],
     invitationStatus: 'APPROVED',
   },
 ];
+
+const collaboratorSectionsResult: Array<CollaboratorSection> = [
+  { idSection: 1, name: 'Reports' },
+  { idSection: 2, name: 'Campaigns' },
+  { idSection: 3, name: 'Lists' },
+  { idSection: 4, name: 'ControlPanel' },
+  { idSection: 5, name: 'DownloadCenter' },
+  { idSection: 8, name: 'Steps' },
+  { idSection: 10, name: 'Automation' },
+  { idSection: 11, name: 'Integration' },
+  { idSection: 12, name: 'Templates' },
+  { idSection: 13, name: 'Approver' },
+  { idSection: 14, name: 'Dashboard' },
+  { idSection: 15, name: 'Conversations' },
+  { idSection: 16, name: 'PopUpHub' },
+  { idSection: 18, name: 'Landings' },
+];
+
+const collaboratorSectionsWithoutApprover = collaboratorSectionsResult.filter(
+  ({ idSection }) => idSection !== 13,
+);
 
 export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
   public async getContactInformationData(): Promise<
@@ -113,7 +141,19 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     };
   }
 
-  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+  public async getAvailableCollaboratorSections(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorSection>>
+  > {
+    await timeout(1500);
+    return {
+      success: true,
+      value: collaboratorSectionsWithoutApprover,
+    };
+  }
+
+  public async sendCollaboratorInvite(
+    value: SendCollaboratorInviteData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
     await timeout(1500);
     console.log(value);
     return {
@@ -130,6 +170,16 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     return {
       success: true,
       value: collaborationInvitesResult,
+    };
+  }
+
+  public async updateCollaborator(
+    value: UpdateCollaboratorData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    await timeout(1500);
+    console.log(value);
+    return {
+      success: true,
     };
   }
 

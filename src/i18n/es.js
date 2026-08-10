@@ -443,7 +443,7 @@ other {}}}}}}}}}}
     more_option_tickmark_message: 'Más',
     plan_benefits: {
       additional_costs: {
-        additional_agent_message: 'Agente adicional.',
+        additional_agent_message: 'Operador adicional.',
         additional_channel_message: 'Canal adicional.',
         additional_conversation_message: 'Mensaje adicional.',
         additional_costs_message: 'Costos Adicionales',
@@ -483,7 +483,7 @@ other {}}}}}}}}}}
     quantity_label: 'mensajes',
     selected_plan_chat: {
       add_to_cart_button: 'Agregar al carrito',
-      agent_with_plural: `{agents, plural, one {# Agente}other {# Agentes} }`,
+      agent_with_plural: `{agents, plural, one {# Operador}other {# Operadores} }`,
       channel_with_plural: `{channels, plural, one {# Canal}other {# Canales} }`,
       conversations_plan_message: 'Plan Conversaciones*',
       includes_until_conversations_message: 'Incluye hasta {conversations} mensajes',
@@ -1581,7 +1581,7 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           title: 'Colaboradores ',
         },
         conversation_plan: {
-          additional_agent_message: 'Agente adicional: US$ {price}',
+          additional_agent_message: 'Operador adicional: US$ {price}',
           additional_conversation_message: 'Mensaje adicional: US$ {price}',
           additional_room_message: 'Sala adicional: US$ {price}',
           addon_promotion_all_plans_message: `{br}● <bold>{discount}%</bold> para todos los <bold>Planes</bold>.
@@ -1589,9 +1589,9 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
           addon_promotion_one_plan_message: `{br}● <bold>{discount}%</bold> para el <bold>Plan de {quantity} mensajes</bold>.
           {expirationDate, select, null {} other { Válido hasta el <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Recuerda que tienes un descuento de:',
-          agents_title: '{agents, plural, one {# Agente}other {# Agentes} }',
+          agents_title: '{agents, plural, one {# Operador}other {# Operadores} }',
           available_message: '{available}/{total} Mensajes disponibles',
-          free_additional_agent_message: 'Agente adicional: --',
+          free_additional_agent_message: 'Operador adicional: --',
           free_additional_conversation_message: 'Mensaje adicional: --',
           free_additional_room_message: 'Sala adicional: --',
           free_label: 'Prueba Gratuita',
@@ -2599,6 +2599,42 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     warning_ip_validation_notification_SignUp: `Doppler no reconoce este dispositivo. Primero prueba iniciando sesión en la cuenta!`,
     warning_user_access_denied: `¡Ouch! Tu inicio de sesión ha sido rechazado.`,
   },
+};
+
+messages_es.collaborators.form_modal.permissions_title = 'Añadir nuevo colaborador';
+messages_es.collaborators.form_modal.permissions_description = 'Elige los accesos de tu cuenta que le otorgarás.';
+messages_es.collaborators.form_modal.permissions_legend = 'Selecciona los permisos que desea asignar:';
+messages_es.collaborators.form_modal.permissions_error = '¡Ouch! Tienes que seleccionar al menos un permiso.';
+messages_es.collaborators.form_modal = {
+  description: messages_es.collaborators.form_modal.description,
+  edit_permissions_title: 'Editar Permisos',
+  edit_success_acknowledge: 'Entendido',
+  edit_success_subtitle: 'Editaste los permisos de tu colaborador con éxito.',
+  edit_success_title: 'Los cambios se guardaron',
+  email: messages_es.collaborators.form_modal.email,
+  email_placeholder: messages_es.collaborators.form_modal.email_placeholder,
+  permissions_description: 'Elige los accesos de tu cuenta que le otorgar\u00e1s.',
+  permissions_error: '\u00a1Ouch! Tienes que seleccionar al menos un permiso.',
+  permissions_labels: {
+    section_01: 'Reportes',
+    section_02: 'Campa\u00f1as',
+    section_03: 'Listas',
+    section_04: 'Panel de control',
+    section_05: 'Centro de descargas',
+    section_08: 'Pasos',
+    section_10: 'Automation',
+    section_11: 'Integraciones',
+    section_12: 'Plantillas',
+    section_13: 'Aprobador',
+    section_14: 'Dashboard',
+    section_15: 'Conversaciones',
+    section_16: 'OnSite',
+    section_18: 'Landings',
+  },
+  permissions_legend: 'Selecciona los permisos que desea asignar:',
+  permissions_title: 'A\u00f1adir nuevo colaborador',
+  success_subtitle: messages_es.collaborators.form_modal.success_subtitle,
+  success_title: messages_es.collaborators.form_modal.success_title,
 };
 
 export default messages_es;

@@ -442,7 +442,7 @@ other {}}}}}}}}}}
     more_option_tickmark_message: 'More',
     plan_benefits: {
       additional_costs: {
-        additional_agent_message: 'Additional agent.',
+        additional_agent_message: 'Additional Operator.',
         additional_channel_message: 'Additional channel.',
         additional_conversation_message: 'Additional message.',
         additional_costs_message: 'Additional costs',
@@ -482,7 +482,7 @@ other {}}}}}}}}}}
     quantity_label: 'messages',
     selected_plan_chat: {
       add_to_cart_button: 'Add to cart',
-      agent_with_plural: `{agents, plural, one {# Agent}other {# Agents} }`,
+      agent_with_plural: `{agents, plural, one {# Operator}other {# Operators} }`,
       channel_with_plural: `{channels, plural, one {# Canal}other {# Canals} }`,
       conversations_plan_message: 'Plan Conversations*',
       includes_until_conversations_message: 'Includes up to {conversations} messages',
@@ -758,8 +758,32 @@ Payment details will be included in the invoice sent to the recipient you have i
     form_modal: {
       description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
       manage lists, edit automations and any other feature.`,
+      edit_permissions_title: 'Edit Permissions',
+      edit_success_acknowledge: 'Got it',
+      edit_success_subtitle: "You successfully edited your collaborator's permissions.",
+      edit_success_title: 'Changes saved',
       email: 'Email',
       email_placeholder: 'owner_user@example.com',
+      permissions_description: 'Choose which account accesses you will grant.',
+      permissions_error: 'Ouch! You have to select at least one permission.',
+      permissions_labels: {
+        section_01: 'Reports',
+        section_02: 'Campaigns',
+        section_03: 'Lists',
+        section_04: 'Control panel',
+        section_05: 'Download center',
+        section_08: 'Steps',
+        section_10: 'Automation',
+        section_11: 'Integrations',
+        section_12: 'Templates',
+        section_13: 'Approver',
+        section_14: 'Dashboard',
+        section_15: 'Conversations',
+        section_16: 'OnSite',
+        section_18: 'Landings',
+      },
+      permissions_legend: 'Select the permissions you want to assign:',
+      permissions_title: 'Add new collaborator',
       success_subtitle: `Your Collaborator will receive the invitation in their email box.
     Once accepted the invitation, it will be able to manage your account.`,
       success_title: 'Collaborator successfully added',
@@ -1579,7 +1603,7 @@ confirmation email.Please note that any active add-ons associated with your acco
           title: 'Collaborators ',
         },
         conversation_plan: {
-          additional_agent_message: 'Additional agent: US$ {price}',
+          additional_agent_message: 'Additional Operator: US$ {price}',
           additional_conversation_message: 'Additional message: US$ {price}',
           additional_room_message: 'Additional room: US$ {price}',
           addon_promotion_all_plans_message: `{br}● <bold>{discount}% discount</bold> for the all <bold>Plans</bold>.
@@ -1587,9 +1611,9 @@ confirmation email.Please note that any active add-ons associated with your acco
           addon_promotion_one_plan_message: `{br}● <bold>{discount}% discount</bold> on the <bold>Plan for {quantity} messages</bold>.
           {expirationDate, select, null {} other { Valid until <bold>{expirationDate}</bold>.}}`,
           addon_promotion_title: 'Remember that you have a:',
-          agents_title: '{agents, plural, one {# Agent}other {# Agents} }',
+          agents_title: '{agents, plural, one {# Operator}other {# Operators} }',
           available_message: '{available}/{total} Available messages',
-          free_additional_agent_message: 'Additional agent: --',
+          free_additional_agent_message: 'Additional Operator: --',
           free_additional_conversation_message: 'Additional message: --',
           free_additional_room_message: 'Additional room: --',
           free_label: 'Free trial',

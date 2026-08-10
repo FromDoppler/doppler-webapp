@@ -12,7 +12,13 @@ export interface DopplerUserApiClient {
   updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
-  sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
+  getAvailableCollaboratorSections(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorSection>>
+  >;
+  sendCollaboratorInvite(
+    value: SendCollaboratorInviteData,
+  ): Promise<EmptyResultWithoutExpectedErrors>;
+  updateCollaborator(value: UpdateCollaboratorData): Promise<EmptyResultWithoutExpectedErrors>;
   updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
@@ -50,12 +56,33 @@ export interface IntegrationsStatus {
 
 export interface CollaboratorInvite {
   idUser: number;
+  idUserAccount: number | null;
   email: string;
   firstname: string;
   lastname: string;
   invitationDate: string;
   expirationDate: string;
+  sections: number[];
   invitationStatus: string;
+}
+
+export interface CollaboratorSection {
+  idSection: number;
+  name: string;
+}
+
+const APPROVER_COLLABORATOR_SECTION_ID = 13;
+
+export interface SendCollaboratorInviteData {
+  email: string;
+  sections?: number[];
+}
+
+export interface UpdateCollaboratorData {
+  email: string;
+  idUser: number;
+  idUserAccount: number | null;
+  sections: number[];
 }
 
 export class HttpDopplerUserApiClient implements DopplerUserApiClient {
@@ -198,17 +225,52 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     }
   }
 
-  public async sendCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors> {
+  public async getAvailableCollaboratorSections(): Promise<
+    ResultWithoutExpectedErrors<Array<CollaboratorSection>>
+  > {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'GET',
+        url: `/accounts/${email}/viewersections`,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200 && response.data) {
+        return {
+          success: true,
+          value: response.data.filter(
+            (section: CollaboratorSection) =>
+              // "Approver" is a CM campaign approval permission and does not apply in this case.
+              section.idSection !== APPROVER_COLLABORATOR_SECTION_ID,
+          ),
+        };
+      } else {
+        return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async sendCollaboratorInvite(
+    value: SendCollaboratorInviteData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
     try {
       const { email, jwtToken, idUser } = this.getDopplerUserApiConnectionData();
+      const requestData: { email: string; idUser: number; sections?: number[] } = {
+        email: value.email,
+        idUser: idUser,
+      };
+      if (value.sections !== undefined) {
+        requestData.sections = value.sections;
+      }
 
       const response = await this.axios.request({
         method: 'POST',
         url: `/accounts/${email}/user-invitations`,
-        data: {
-          email: value,
-          idUser: idUser,
-        },
+        data: requestData,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 
@@ -238,6 +300,29 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
         return { success: true, value: response.data };
       } else {
         return { success: false, error: response.data.title };
+      }
+    } catch (error) {
+      return { success: false, error: error };
+    }
+  }
+
+  public async updateCollaborator(
+    value: UpdateCollaboratorData,
+  ): Promise<EmptyResultWithoutExpectedErrors> {
+    try {
+      const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+
+      const response = await this.axios.request({
+        method: 'PUT',
+        url: `/accounts/${email}/update-collaborator-permissions`,
+        data: value,
+        headers: { Authorization: `bearer ${jwtToken}` },
+      });
+
+      if (response.status === 200) {
+        return { success: true };
+      } else {
+        return { success: false, error: response.data.message };
       }
     } catch (error) {
       return { success: false, error: error };

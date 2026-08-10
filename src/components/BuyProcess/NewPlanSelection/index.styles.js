@@ -878,6 +878,36 @@ export const NewPlanSelectionStyled = styled.div`
     margin: 34px auto 52px;
   }
 
+  .dp-new-plan-selection-addons--sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+  }
+
+  .dp-new-plan-selection-addons--sidebar .dp-new-plan-selection-addons-header {
+    margin-bottom: 12px;
+    text-align: left;
+  }
+
+  .dp-new-plan-selection-addons--sidebar .dp-new-plan-selection-addons-header h2 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .dp-new-plan-selection-addons-sidebar-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+
+  .dp-new-plan-selection-addons--sidebar .dp-new-plan-selection-addons-cards {
+    display: grid;
+    gap: 10px;
+    padding: 0 0 4px;
+  }
+
   .dp-new-plan-selection-addons-header {
     margin-bottom: 22px;
     text-align: center;
@@ -954,6 +984,7 @@ export const NewPlanSelectionStyled = styled.div`
 
   .dp-new-plan-selection-addon-card .dp-description-legend {
     flex: 1 1 auto;
+    text-wrap: pretty;
   }
 
   .dp-new-plan-selection-addon-card .card-title .icon-container {
@@ -1291,6 +1322,14 @@ export const NewPlanSelectionStyled = styled.div`
 
     .dp-new-plan-selection-addons-carousel {
       gap: 10px;
+    }
+
+    .dp-new-plan-selection-addons-sidebar-list {
+      flex: none;
+      min-height: auto;
+      max-height: none;
+      overflow-y: visible;
+      padding-right: 0;
     }
 
     .dp-new-plan-selection-addon-card {

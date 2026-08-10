@@ -166,6 +166,15 @@ describe('CheckoutSummury component', () => {
     expect(screen.getByText('Pago único')).toBeInTheDocument();
   });
 
+  it('should render Add-ons in the checkout summary sidebar', async () => {
+    await renderCheckoutSummaryWithAddOns();
+
+    expect(screen.getByTestId('checkout-summary-addons')).toBeInTheDocument();
+    expect(screen.getByTestId('dp-addons-section')).toHaveClass(
+      'dp-new-plan-selection-addons--sidebar',
+    );
+  });
+
   it('should render new transfer details variant for Argentina in checkout summary', async () => {
     const forcedServices = {
       appSessionRef: {
