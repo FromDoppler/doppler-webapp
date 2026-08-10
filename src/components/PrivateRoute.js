@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Footer from './Footer/Footer';
 import {
   SiteTrackingRequired,
@@ -11,26 +11,6 @@ import { InjectAppServices } from '../services/pure-di';
 import MenuDemo from './MenuDemo/MenuDemo';
 import { nonAuthenticatedBlockedUser } from '../doppler-types';
 import { isCollaboratorPermissionsEnabled } from '../services/feature-collaborator-permissions-flag';
-
-const COLLABORATOR_PROFILE_TYPE = 'COLLABORATOR';
-
-const isCollaborator = (dopplerSession) =>
-  dopplerSession?.userData?.userAccount?.userProfileType === COLLABORATOR_PROFILE_TYPE;
-
-const hasAccessToSection = (dopplerSession, sectionId) => {
-  if (!sectionId || !isCollaborator(dopplerSession)) {
-    return true;
-  }
-
-  const collaboratorViewAccessRights =
-    dopplerSession.userData.userAccount?.collaboratorViewAccessRights || [];
-
-  return collaboratorViewAccessRights.some(
-    ({ idSection }) => Number(idSection) === Number(sectionId),
-  );
-};
-
-const getNoAccessRedirectUrl = () => '/login';
 
 export default InjectAppServices(
   /**
@@ -45,16 +25,18 @@ export default InjectAppServices(
     children,
     dependencies: {
       appSessionRef: { current: dopplerSession },
+      sessionManager,
     },
   }) => {
     const location = useLocation();
 
     if (dopplerSession.status === 'authenticated') {
-      if (
-        isCollaboratorPermissionsEnabled() &&
-        !hasAccessToSection(dopplerSession, sectionId)
-      ) {
-        return <Navigate to={getNoAccessRedirectUrl()} replace />;
+      if (isCollaboratorPermissionsEnabled() && sectionId) {
+        const wasRedirected = sessionManager.redirectCollaboratorToAllowedSection(sectionId);
+
+        if (wasRedirected) {
+          return null;
+        }
       }
 
       return (
