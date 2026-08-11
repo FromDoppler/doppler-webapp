@@ -16,6 +16,10 @@
   z-index: 100;
 }
 
+.iti .iti__flag-container {
+  z-index: 1;
+}
+
 @media (max-width: 500px) {
   .iti--container {
     position: fixed;
