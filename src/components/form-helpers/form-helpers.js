@@ -347,7 +347,6 @@ const _PhoneFieldItem = ({
       autoPlaceholder: 'aggressive',
       preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
       initialCountry: 'auto',
-      dropdownContainer: document.body,
       geoIpLookup: async (success) => {
         const countryCode = await ipinfoClient.getCountryCode();
         success(countryCode);
@@ -456,7 +455,6 @@ const _PhoneFieldItemAccessible = ({
       autoPlaceholder: 'aggressive',
       preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
       initialCountry: 'auto',
-      dropdownContainer: document.body,
       geoIpLookup: async (success) => {
         const countryCode = await ipinfoClient.getCountryCode();
         success(countryCode);
