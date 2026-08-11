@@ -2185,8 +2185,10 @@ describe('NewPlanSelection component', () => {
     ];
 
     for (const scenario of scenarios) {
-      fireEvent.click(within(contactsSection).getByRole('button', { name: scenario.buttonName }));
-      await settleAsyncState();
+      const paymentFrequencyButton = await within(contactsSection).findByRole('button', {
+        name: scenario.buttonName,
+      });
+      fireEvent.click(paymentFrequencyButton);
 
       await waitFor(() => {
         const savingsElement = contactsSection.querySelector(

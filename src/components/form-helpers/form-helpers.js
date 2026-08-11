@@ -18,8 +18,8 @@ import countriesLocalized from '../../i18n/countries-localized.json';
 import intlTelInput from 'intl-tel-input';
 // This import is required to add window.intlTelInputUtils, otherwise phone validation does not work
 import 'intl-tel-input/build/js/utils';
-import './form-helpers.scss';
 import 'intl-tel-input/build/css/intlTelInput.min.css';
+import './form-helpers.scss';
 import { FormattedMessageMarkdown } from '../../i18n/FormattedMessageMarkdown';
 import { InjectAppServices } from '../../services/pure-di';
 import { addLogEntry, concatClasses } from '../../utils';
@@ -347,7 +347,6 @@ const _PhoneFieldItem = ({
       autoPlaceholder: 'aggressive',
       preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
       initialCountry: 'auto',
-      dropdownContainer: document.body,
       geoIpLookup: async (success) => {
         const countryCode = await ipinfoClient.getCountryCode();
         success(countryCode);
@@ -456,7 +455,6 @@ const _PhoneFieldItemAccessible = ({
       autoPlaceholder: 'aggressive',
       preferredCountries: ['ar', 'mx', 'co', 'es', 'ec', 'cl', 'pe', 'us'],
       initialCountry: 'auto',
-      dropdownContainer: document.body,
       geoIpLookup: async (success) => {
         const countryCode = await ipinfoClient.getCountryCode();
         success(countryCode);
@@ -481,26 +479,26 @@ const _PhoneFieldItemAccessible = ({
     <FieldItemAccessible className={className}>
       <label htmlFor={fieldName} className="labelcontrol" data-required={!!required}>
         {label}
-        <Field
-          type="tel"
-          innerRef={inputElRef}
-          name={fieldName}
-          id={fieldName}
-          placeholder={placeholder}
-          aria-placeholder={placeholder}
-          aria-required={required}
-          aria-invalid={showError}
-          onChange={handleChange}
-          onBlur={(e) => {
-            formatFieldValueAsInternationalNumber();
-            handleBlur(e);
-          }}
-          value={values[fieldName]}
-          validate={combineValidations(createRequiredValidation(required), validatePhone)}
-          {...rest}
-        />
-        <MessageError fieldName={fieldName} showError={showError} errors={errors} />
       </label>
+      <Field
+        type="tel"
+        innerRef={inputElRef}
+        name={fieldName}
+        id={fieldName}
+        placeholder={placeholder}
+        aria-placeholder={placeholder}
+        aria-required={required}
+        aria-invalid={showError}
+        onChange={handleChange}
+        onBlur={(e) => {
+          formatFieldValueAsInternationalNumber();
+          handleBlur(e);
+        }}
+        value={values[fieldName]}
+        validate={combineValidations(createRequiredValidation(required), validatePhone)}
+        {...rest}
+      />
+      <MessageError fieldName={fieldName} showError={showError} errors={errors} />
     </FieldItemAccessible>
   );
 };
@@ -1030,11 +1028,22 @@ export const CheckboxFieldItemAccessible = ({
         <Field
           type="checkbox"
           name={fieldName}
-          id={id || fieldName}
+          value={rest.value}
           validate={(value) => checkRequired && validateCheckRequired(value)}
-          onClick={onChange}
-          {...rest}
-        />
+        >
+          {({ field }) => (
+            <input
+              {...field}
+              type="checkbox"
+              id={id || fieldName}
+              onChange={(event) => {
+                field.onChange(event);
+                onChange?.(event);
+              }}
+              {...rest}
+            />
+          )}
+        </Field>
         <span>{label}</span>
       </label>
       {withErrors ? (

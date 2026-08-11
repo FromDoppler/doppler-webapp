@@ -1,5 +1,6 @@
 import Signup from './Signup';
 import { render, cleanup, waitFor, fireEvent, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import DopplerIntlProvider from '../../i18n/DopplerIntlProvider';
 import DopplerIntlProviderWithIds from '../../i18n/DopplerIntlProvider.double-with-ids-as-values';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
@@ -183,6 +184,76 @@ describe('Signup', () => {
     await waitFor(() =>
       expect(container.querySelector('.iti__selected-flag').title).toBe('Puerto Rico: +1'),
     );
+  });
+
+  it('should open the country list again after closing it', async () => {
+    const location = { search: '', pathname: '/signup' };
+    const { container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="es">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const selectedFlag = container.querySelector('.iti__selected-flag');
+    fireEvent.click(selectedFlag);
+
+    await waitFor(() =>
+      expect(document.body.querySelector('.iti__country-list')).not.toHaveClass('iti__hide'),
+    );
+
+    fireEvent.click(document.body);
+    fireEvent.click(selectedFlag);
+
+    await waitFor(() =>
+      expect(document.body.querySelector('.iti__country-list')).not.toHaveClass('iti__hide'),
+    );
+  });
+
+  it('should open the country list when the phone input loses focus', async () => {
+    const user = userEvent.setup();
+    const location = { search: '', pathname: '/signup' };
+    const { container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="es">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const phoneInput = container.querySelector('input#phone');
+    const selectedFlag = container.querySelector('.iti__selected-flag');
+    phoneInput.focus();
+
+    await user.click(selectedFlag);
+
+    await waitFor(() =>
+      expect(document.body.querySelector('.iti__country-list')).not.toHaveClass('iti__hide'),
+    );
+  });
+
+  it('should select privacy policies with the first click', async () => {
+    const location = { search: '', pathname: '/signup' };
+    const { container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="es">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const privacyPoliciesCheckbox = container.querySelector('input#accept_privacy_policies');
+
+    fireEvent.click(privacyPoliciesCheckbox);
+
+    expect(privacyPoliciesCheckbox).toBeChecked();
   });
 
   it('should redirect to confirmation page when submit', async () => {
