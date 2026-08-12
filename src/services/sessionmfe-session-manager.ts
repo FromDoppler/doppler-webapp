@@ -5,7 +5,9 @@ import { mapHeaderDataJson } from './doppler-legacy-client';
 import { nonAuthenticatedBlockedUser } from '../doppler-types';
 
 // Doppler Session MFE conventions
-// from https://github.com/FromDoppler/doppler-menu-mfe/blob/main/src/session/doppler-session-mfe-conventions.ts
+// from
+// https://github.com/FromDoppler/doppler-menu-mfe/blob/main/src/session/
+// doppler-session-mfe-conventions.ts
 export const DOPPLER_SESSION_STATE_UPDATE_EVENT_TYPE = 'doppler-session-state-update';
 
 export type DopplerSessionState =
@@ -24,6 +26,7 @@ declare global {
   interface Window {
     dopplerSessionState: DopplerSessionState;
     restartDopplerSessionMonitor: () => void;
+    ensureCollaboratorHasAccessOrRedirect: (idSection?: number | string | null) => boolean;
   }
 }
 // End Doppler Session MFE conventions
@@ -82,6 +85,10 @@ export class SessionMfeSessionManager implements SessionManager {
 
   public restart() {
     window.restartDopplerSessionMonitor();
+  }
+
+  public ensureCollaboratorHasAccessOrRedirect(idSection?: number | string | null) {
+    return window.ensureCollaboratorHasAccessOrRedirect(idSection);
   }
 
   public initialzeSessionWithBlockedUser(session: AppSession) {

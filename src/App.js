@@ -25,7 +25,7 @@ import Subscribers from './components/Reports/Subscribers/Subscribers';
 import SubscribersLegacyUrlRedirect from './components/Reports/Subscribers/SubscribersLegacyUrlRedirect';
 import SafeRedirect from './components/SafeRedirect';
 import SignupConfirmation from './components/Signup/SignupConfirmation';
-import { PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
+import { COLLABORATOR_SECTION, PLAN_TYPE, URL_PLAN_TYPE } from './doppler-types';
 import DopplerIntlProvider from './i18n/DopplerIntlProvider';
 import { availableLanguageOrNull } from './i18n/utils';
 import { InjectAppServices } from './services/pure-di';
@@ -138,7 +138,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/dashboard/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Dashboard}>
                   <Dashboard />
                 </PrivateRoute>
               }
@@ -146,7 +146,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/reports/"
               element={
-                <PrivateRoute requireSiteTracking>
+                <PrivateRoute requireSiteTracking section={COLLABORATOR_SECTION.Reports}>
                   <Reports />
                 </PrivateRoute>
               }
@@ -154,7 +154,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/integrations/shopify"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Integration}>
                   <Shopify />
                 </PrivateRoute>
               }
@@ -162,7 +162,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/reports/master-subscriber"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Reports}>
                   <MasterSubscriber />
                 </PrivateRoute>
               }
@@ -170,7 +170,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/subscribers/:email/:section"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Lists}>
                   <Subscribers />
                 </PrivateRoute>
               }
@@ -188,7 +188,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/reports/subscriber-:section"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Lists}>
                   <SubscribersLegacyUrlRedirect />
                 </PrivateRoute>
               }
@@ -204,7 +204,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/upgrade-suggestion-form"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <UpgradeSuggestionForm />
                 </PrivateRoute>
               }
@@ -213,7 +213,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/plan-selection/premium/:planType"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <PlanSelection />
                   </BuyProcessLayout>
@@ -223,7 +223,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/new-plan-selection"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <NewPlanSelection />
                   </BuyProcessLayout>
@@ -233,7 +233,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/buy-conversation"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <ConversationPlanSelection />
                   </BuyProcessLayout>
@@ -243,7 +243,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/buy-onsite-plans"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <OnSitePlansSelection />
                   </BuyProcessLayout>
@@ -253,7 +253,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/buy-ecoia-plan"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <EcoAIPlanSelection />
                   </BuyProcessLayout>
@@ -263,7 +263,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/checkout/:pathType/:planType"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <Checkout />
                   </BuyProcessLayout>
@@ -273,7 +273,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/email-marketing-for-agencies"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <AgenciesForm />
                 </PrivateRoute>
               }
@@ -281,7 +281,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/email-marketing-exclusive"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <ExclusiveForm />
                 </PrivateRoute>
               }
@@ -289,7 +289,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/reports/partials-campaigns"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Reports}>
                   <ReportsPartialsCampaigns />
                 </PrivateRoute>
               }
@@ -297,7 +297,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/billing/invoices"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <InvoicesList />
                 </PrivateRoute>
               }
@@ -305,7 +305,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/sending-preferences/contact-policy"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <ContactPolicy />
                 </PrivateRoute>
               }
@@ -313,7 +313,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/integrations/big-query"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Integration}>
                   <AuthorizationPage />
                 </PrivateRoute>
               }
@@ -321,7 +321,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/checkout-summary"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <CheckoutSummary />
                   </BuyProcessLayout>
@@ -365,7 +365,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/update-payment-method"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <UpdatePaymentInformation />
                 </PrivateRoute>
               }
@@ -373,7 +373,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/payment-information-summary"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <UpdatePaymentInformationSummary />
                 </PrivateRoute>
               }
@@ -381,7 +381,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/plan-types"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <PlanTypes />
                 </PrivateRoute>
               }
@@ -389,7 +389,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/landing-packages"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <LandingPacksSelection />
                   </BuyProcessLayout>
@@ -399,7 +399,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/integrations/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Integration}>
                   <IntegrationsSection />
                 </PrivateRoute>
               }
@@ -407,7 +407,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/control-panel/collaborators/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <CollaboratorsSections />
                 </PrivateRoute>
               }
@@ -423,7 +423,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/control-panel/push-notification/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <PushNotificationSection />
                 </PrivateRoute>
               }
@@ -431,7 +431,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/conversations/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.Conversations}>
                   <Conversations />
                 </PrivateRoute>
               }
@@ -439,7 +439,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/onsite/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.PopUpHub}>
                   <OnSite />
                 </PrivateRoute>
               }
@@ -447,7 +447,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/my-plan/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <MyPlan />
                 </PrivateRoute>
               }
@@ -455,7 +455,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/additional-services/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <AdditionalServices />
                 </PrivateRoute>
               }
@@ -463,7 +463,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/push-notifications/"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <PushNotifications />
                 </PrivateRoute>
               }
@@ -471,7 +471,7 @@ const App = ({ locale, window, dependencies: { appSessionRef, sessionManager } }
             <Route
               path="/buy-push-notification-plans"
               element={
-                <PrivateRoute>
+                <PrivateRoute section={COLLABORATOR_SECTION.ControlPanel}>
                   <BuyProcessLayout>
                     <PushNotificationPlanSelection />
                   </BuyProcessLayout>

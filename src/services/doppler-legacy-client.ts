@@ -471,6 +471,13 @@ interface UserAccountEntry {
   lastName: string;
   userProfileType: string;
   phone: string;
+  collaboratorViewAccessRights: CollaboratorViewAccessRightEntry[];
+}
+
+interface CollaboratorViewAccessRightEntry {
+  accessLevel: number;
+  idSection: number;
+  name: string;
 }
 
 interface AlertEntry {
@@ -859,6 +866,7 @@ export function mapHeaderDataJson(json: any) {
       lastName: json.userAccount.lastName,
       userProfileType: json.userAccount.userProfileType,
       phone: json.userAccount.phone,
+      collaboratorViewAccessRights: json.userAccount.collaboratorViewAccessRights || [],
     },
     jwtToken: json.jwtToken,
     notifications: json.notifications || [],
@@ -1523,6 +1531,7 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
           lastName: response.data.userAccount.LastName ?? '',
           phone: response.data.userAccount.Phone ?? '',
           userProfileType: '',
+          collaboratorViewAccessRights: [],
         },
       };
     } catch (error) {

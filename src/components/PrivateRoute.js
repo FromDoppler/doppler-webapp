@@ -10,23 +10,35 @@ import { Loading } from './Loading/Loading';
 import { InjectAppServices } from '../services/pure-di';
 import MenuDemo from './MenuDemo/MenuDemo';
 import { nonAuthenticatedBlockedUser } from '../doppler-types';
+import { isCollaboratorPermissionsEnabled } from '../services/collaborator-permissions-flag';
 
 export default InjectAppServices(
   /**
    * @param { Object } props
    * @param { Boolean } props.requireSiteTracking
+   * @param { Number } props.section
    * @param { import('../services/pure-di').AppServices } props.dependencies
    */
   ({
     requireSiteTracking,
+    section,
     children,
     dependencies: {
       appSessionRef: { current: dopplerSession },
+      sessionManager,
     },
   }) => {
     const location = useLocation();
 
     if (dopplerSession.status === 'authenticated') {
+      if (isCollaboratorPermissionsEnabled() && section) {
+        const canAccessSection = sessionManager.ensureCollaboratorHasAccessOrRedirect(section);
+
+        if (!canAccessSection) {
+          return null;
+        }
+      }
+
       return (
         <div className="dp-app-container">
           <MenuDemo />
