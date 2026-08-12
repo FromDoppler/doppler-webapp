@@ -228,7 +228,9 @@ describe('Signup', () => {
 
     const phoneInput = container.querySelector('input#phone');
     const selectedFlag = container.querySelector('.iti__selected-flag');
-    phoneInput.focus();
+    await act(async () => {
+      phoneInput.focus();
+    });
 
     await user.click(selectedFlag);
 
@@ -238,6 +240,7 @@ describe('Signup', () => {
   });
 
   it('should select privacy policies with the first click', async () => {
+    const user = userEvent.setup();
     const location = { search: '', pathname: '/signup' };
     const { container } = render(
       <AppServicesProvider forcedServices={defaultDependencies}>
@@ -251,9 +254,34 @@ describe('Signup', () => {
 
     const privacyPoliciesCheckbox = container.querySelector('input#accept_privacy_policies');
 
-    fireEvent.click(privacyPoliciesCheckbox);
+    await user.click(privacyPoliciesCheckbox);
 
     expect(privacyPoliciesCheckbox).toBeChecked();
+  });
+
+  it('should select promotions when its label is clicked', async () => {
+    const user = userEvent.setup();
+    const location = { search: '', pathname: '/signup' };
+    const { container } = render(
+      <AppServicesProvider forcedServices={defaultDependencies}>
+        <DopplerIntlProvider locale="es">
+          <Router>
+            <Signup location={location} />
+          </Router>
+        </DopplerIntlProvider>
+      </AppServicesProvider>,
+    );
+
+    const promotionsCheckbox = container.querySelector('input#accept_promotions');
+    const promotionsLabel = container.querySelector('label[for="accept_promotions"]');
+
+    await user.click(promotionsLabel);
+
+    expect(promotionsCheckbox).toBeChecked();
+
+    await user.click(promotionsLabel);
+
+    expect(promotionsCheckbox).not.toBeChecked();
   });
 
   it('should redirect to confirmation page when submit', async () => {

@@ -1019,12 +1019,7 @@ export const CheckboxFieldItemAccessible = ({
 
   return (
     <FieldItemAccessible className={className}>
-      <label
-        htmlFor={id || fieldName}
-        className="dp-label-checkbox"
-        aria-errormessage={withErrors ? `err${fieldName}` : undefined}
-        aria-invalid={withErrors ? showError : undefined}
-      >
+      <div className="dp-checkbox-field">
         <Field
           type="checkbox"
           name={fieldName}
@@ -1036,6 +1031,10 @@ export const CheckboxFieldItemAccessible = ({
               {...field}
               type="checkbox"
               id={id || fieldName}
+              className="dp-checkbox-input"
+              checked={field.checked}
+              aria-errormessage={withErrors ? `err${fieldName}` : undefined}
+              aria-invalid={withErrors ? showError : undefined}
               onChange={(event) => {
                 field.onChange(event);
                 onChange?.(event);
@@ -1044,8 +1043,10 @@ export const CheckboxFieldItemAccessible = ({
             />
           )}
         </Field>
-        <span>{label}</span>
-      </label>
+        <label htmlFor={id || fieldName} className="dp-label-checkbox">
+          <span>{label}</span>
+        </label>
+      </div>
       {withErrors ? (
         <MessageError
           id={`err${fieldName}`}
