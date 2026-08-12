@@ -119,9 +119,8 @@ export class ControlPanelService implements ControlPanelService {
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
-    const isCollaborator = account !== 'none'
-      ? account.userAccount?.userProfileType === 'COLLABORATOR'
-      : false;
+    const isCollaborator =
+      account !== 'none' ? account.userAccount?.userProfileType === 'COLLABORATOR' : false;
     const hiddeCollaboratorsBox = !(account !== 'none'
       ? (account.userAccount?.userProfileType !== undefined
           ? account.userAccount.userProfileType === 'USER'
