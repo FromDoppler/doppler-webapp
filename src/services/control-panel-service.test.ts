@@ -88,4 +88,32 @@ describe('Control Panel Service', () => {
     expect(result[0].boxes[3].disabled).toBe(true);
     expect(result[0].boxes[4].disabled).toBe(true);
   });
+
+  it('should only show collaborator edition box for collaborators', async () => {
+    // Arrange
+    const userData = {
+      user: {
+        hasClientManager: false,
+        plan: {
+          isFreeAccount: false,
+        },
+      },
+      userAccount: {
+        userProfileType: 'COLLABORATOR',
+      },
+    };
+
+    const controlPanelService = createControlPanelService(userData);
+
+    // Act
+    const result = controlPanelService.getControlPanelSections((x) => x);
+    const visibleBoxes = result[0].boxes.filter((box) => !box.hidden);
+
+    // Assert
+    expect(result).toHaveLength(1);
+    expect(result[0].anchorLink).toBe('account-preferences');
+    expect(visibleBoxes).toHaveLength(1);
+    expect(visibleBoxes[0].linkUrl).toBe('/control-panel/collaborator-edition');
+    expect(visibleBoxes[0].hidden).toBe(false);
+  });
 });

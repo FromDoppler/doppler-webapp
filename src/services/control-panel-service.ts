@@ -72,6 +72,7 @@ const urlCampaignsPreferences = `${urlControlPanel}/CampaignsPreferences`;
 const urlSocialPreferences = `${urlControlPanel}/SocialPreferences`;
 const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
 const urlSitesHelp = process.env.REACT_APP_DOPPLER_HELP_URL;
+const collaboratorEditionLinkUrl = '/control-panel/collaborator-edition';
 
 export interface ControlPanelService {
   getControlPanelSections(
@@ -118,6 +119,9 @@ export class ControlPanelService implements ControlPanelService {
         : 'none';
     const isClientManager = account !== 'none' ? account.user.hasClientManager : false;
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
+    const isCollaborator = account !== 'none'
+      ? account.userAccount?.userProfileType === 'COLLABORATOR'
+      : false;
     const hiddeCollaboratorsBox = !(account !== 'none'
       ? (account.userAccount?.userProfileType !== undefined
           ? account.userAccount.userProfileType === 'USER'
@@ -462,7 +466,7 @@ export class ControlPanelService implements ControlPanelService {
       ];
     }
 
-    return [
+    const sections = [
       {
         title: _('control_panel.account_preferences.title'),
         anchorLink: 'account-preferences',
@@ -517,7 +521,7 @@ export class ControlPanelService implements ControlPanelService {
             hidden: hiddeCollaboratorsBox,
           },
           {
-            linkUrl: '/control-panel/collaborator-edition',
+            linkUrl: collaboratorEditionLinkUrl,
             imgSrc: collaborators_icon,
             imgAlt: _('control_panel.account_preferences.collaborator_edition_title'),
             iconName: _('control_panel.account_preferences.collaborator_edition_title'),
@@ -641,5 +645,19 @@ export class ControlPanelService implements ControlPanelService {
         ],
       },
     ];
+
+    if (isCollaborator) {
+      return sections
+        .map((section) => ({
+          ...section,
+          boxes: section.boxes.map((box) => ({
+            ...box,
+            hidden: box.linkUrl !== collaboratorEditionLinkUrl,
+          })),
+        }))
+        .filter((section) => section.boxes.some((box) => !box.hidden));
+    }
+
+    return sections;
   }
 }
