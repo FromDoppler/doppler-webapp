@@ -61,7 +61,9 @@ import zeus_icon from '../components/Integrations/images/zeus_icon.png';
 import bigbox_icon from '../components/Integrations/images/bigbox_icon.png';
 import tiendanegocio_icon from '../components/Integrations/images/tiendanegocio_icon.png';
 
+import { COLLABORATOR_SECTION } from '../doppler-types';
 import { AppSession } from './app-session';
+import { isCollaboratorPermissionsEnabled } from './collaborator-permissions-flag';
 import { RefObject } from 'react';
 
 const urlBase = process.env.REACT_APP_DOPPLER_LEGACY_URL;
@@ -121,6 +123,12 @@ export class ControlPanelService implements ControlPanelService {
     const isFreeAccount = account !== 'none' ? account.user.plan.isFreeAccount : false;
     const isCollaborator =
       account !== 'none' ? account.userAccount?.userProfileType === 'COLLABORATOR' : false;
+    const hasControlPanelAccess =
+      account !== 'none'
+        ? account.userAccount?.collaboratorViewAccessRights?.some(
+            ({ idSection }) => idSection === COLLABORATOR_SECTION.ControlPanel,
+          ) || false
+        : false;
     const hiddeCollaboratorsBox = !(account !== 'none'
       ? (account.userAccount?.userProfileType !== undefined
           ? account.userAccount.userProfileType === 'USER'
@@ -645,7 +653,7 @@ export class ControlPanelService implements ControlPanelService {
       },
     ];
 
-    if (isCollaborator) {
+    if (isCollaboratorPermissionsEnabled() && isCollaborator && !hasControlPanelAccess) {
       return sections
         .map((section) => ({
           ...section,

@@ -157,7 +157,7 @@
     "nav": [
       {
         "title": "Control Panel",
-        "url": "https://appint.fromdoppler.net/ControlPanel/ControlPanel/",
+        "url": "/control-panel",
         "isEnabled": false,
         "isSelected": false,
         "idHTML": "controlPanel"

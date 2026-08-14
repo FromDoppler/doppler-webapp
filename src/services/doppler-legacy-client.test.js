@@ -52,7 +52,7 @@ const userData = {
       nav: [
         {
           title: 'Panel de Control',
-          url: 'https://appint.fromdoppler.net/ControlPanel/ControlPanel/',
+          url: '/control-panel',
           isEnabled: false,
           isSelected: false,
           idHTML: 'controlPanel',
@@ -382,7 +382,7 @@ describe('Doppler legacy client', () => {
           nav: [
             {
               title: 'Panel de Control',
-              url: 'https://appint.fromdoppler.net/ControlPanel/ControlPanel/',
+              url: '/control-panel',
               isEnabled: false,
               isSelected: false,
               idHTML: 'controlPanel',
@@ -480,7 +480,7 @@ describe('Doppler legacy client', () => {
           nav: [
             {
               title: 'Panel de Control',
-              url: 'https://appint.fromdoppler.net/ControlPanel/ControlPanel/',
+              url: '/control-panel',
               isEnabled: false,
               isSelected: false,
               idHTML: 'controlPanel',
