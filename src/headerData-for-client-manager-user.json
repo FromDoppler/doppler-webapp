@@ -161,7 +161,7 @@
     "nav": [
       {
         "title": "Panel de Control",
-        "url": "https://app2.fromdoppler.com/ControlPanel/ControlPanel/",
+        "url": "/control-panel",
         "isEnabled": false,
         "isSelected": false,
         "idHTML": "controlPanel"
