@@ -70,6 +70,10 @@
   pointer-events: none;
 }
 
+.awa-form .dp-checkbox-field > .dp-label-checkbox {
+  cursor: pointer;
+}
+
 .awa-form .dp-checkbox-field > .dp-checkbox-input:checked + .dp-label-checkbox > span::before {
   border-color: #008046;
   background-color: #008046;
