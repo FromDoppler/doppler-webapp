@@ -3,6 +3,9 @@ import { AppSession } from './app-session';
 import { DopplerLegacyUserData } from './doppler-legacy-client';
 import { ControlPanelService } from './control-panel-service';
 
+const collaboratorPermissionsFlagName = 'REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED';
+const originalCollaboratorPermissionsFlag = process.env[collaboratorPermissionsFlagName];
+
 function createControlPanelService(userData: any) {
   const appSessionRef = {
     current: {
@@ -18,6 +21,14 @@ function createControlPanelService(userData: any) {
 }
 
 describe('Control Panel Service', () => {
+  afterEach(() => {
+    if (originalCollaboratorPermissionsFlag === undefined) {
+      delete process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED;
+    } else {
+      process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = originalCollaboratorPermissionsFlag;
+    }
+  });
+
   it('should get every box and titles content', async () => {
     // Arrange
     const userData = {
@@ -91,6 +102,8 @@ describe('Control Panel Service', () => {
 
   it('should only show collaborator edition box for collaborators', async () => {
     // Arrange
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'true';
+
     const userData = {
       user: {
         hasClientManager: false,
@@ -100,6 +113,7 @@ describe('Control Panel Service', () => {
       },
       userAccount: {
         userProfileType: 'COLLABORATOR',
+        collaboratorViewAccessRights: [],
       },
     };
 
@@ -115,5 +129,42 @@ describe('Control Panel Service', () => {
     expect(visibleBoxes).toHaveLength(1);
     expect(visibleBoxes[0].linkUrl).toBe('/control-panel/collaborator-edition');
     expect(visibleBoxes[0].hidden).toBe(false);
+  });
+
+  it('should show every box for collaborators with Control Panel access', async () => {
+    // Arrange
+    process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'true';
+
+    const userData = {
+      user: {
+        hasClientManager: false,
+        plan: {
+          isFreeAccount: false,
+        },
+      },
+      userAccount: {
+        userProfileType: 'COLLABORATOR',
+        collaboratorViewAccessRights: [
+          {
+            accessLevel: 25,
+            idSection: 4,
+            name: 'ControlPanel',
+          },
+        ],
+      },
+    };
+
+    const controlPanelService = createControlPanelService(userData);
+
+    // Act
+    const result = controlPanelService.getControlPanelSections((x) => x);
+    const visibleBoxes = result.flatMap((section) => section.boxes.filter((box) => !box.hidden));
+
+    // Assert
+    expect(result.length).toBeGreaterThan(1);
+    expect(visibleBoxes.some((box) => box.linkUrl.includes('GetAccountInformation'))).toBe(true);
+    expect(visibleBoxes.some((box) => box.linkUrl === '/control-panel/collaborator-edition')).toBe(
+      true,
+    );
   });
 });
