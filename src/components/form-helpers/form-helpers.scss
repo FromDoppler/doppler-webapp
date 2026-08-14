@@ -51,3 +51,89 @@
 .dp-flag-disabled .iti--allow-dropdown .iti__flag-container:hover .iti__selected-flag {
   background-color: transparent;
 }
+
+.awa-form .dp-checkbox-field {
+  position: relative;
+}
+
+.awa-form .dp-checkbox-field > .dp-checkbox-input {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.awa-form .dp-checkbox-field > .dp-checkbox-input:checked + .dp-label-checkbox > span::before {
+  border-color: #008046;
+  background-color: #008046;
+}
+
+.awa-form .dp-checkbox-field > .dp-checkbox-input:checked + .dp-label-checkbox > span::after {
+  border-color: #fff;
+}
+
+.awa-form
+  .dp-checkbox-field
+  > .dp-checkbox-input[aria-invalid='true']
+  + .dp-label-checkbox
+  > span::before {
+  border-color: #a63a33;
+}
+
+.awa-form .dp-checkbox-field > .dp-checkbox-input:focus + .dp-label-checkbox::before {
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 40px;
+  height: 40px;
+  outline: 3px solid #ffdc95;
+  content: '';
+}
+
+.awa-form
+  .dp-checkbox-field
+  > .dp-checkbox-input[aria-invalid='true']:focus
+  + .dp-label-checkbox::before {
+  outline-color: #ffd7d7;
+}
+
+.awa-form .dp-checkbox-field > .dp-label-checkbox:active::before {
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffdc95;
+  content: '';
+  opacity: 0.7;
+}
+
+.awa-form .dp-checkbox-field + .dp-errormessage {
+  display: flex;
+  align-items: center;
+  color: #a63a33;
+  font-size: 0.9rem;
+  line-height: 16px;
+}
+
+.awa-form .dp-checkbox-field + .dp-errormessage::before {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background-color: #a63a33;
+  color: #fff;
+  content: '!';
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  text-align: center;
+}
