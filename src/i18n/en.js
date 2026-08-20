@@ -753,7 +753,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     new_password: 'New password',
   },
   collaborators: {
-    add_collaborator: 'New Collaborator',
+    add_collaborator: 'Add new collaborator',
     edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
     form_modal: {
       description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
