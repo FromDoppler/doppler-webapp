@@ -162,9 +162,7 @@ describe('CollaboratorsSections', () => {
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
 
-    await user.click(
-      screen.getByRole('button', { name: 'collaborators.add_collaborator_button' }),
-    );
+    await user.click(screen.getByRole('button', { name: 'collaborators.add_collaborator_button' }));
     await user.type(
       screen.getByLabelText('collaborators.form_modal.email'),
       'new.collaborator@fromdoppler.com',
