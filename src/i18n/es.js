@@ -752,7 +752,8 @@ other {}}}}}}}}}}
     new_password: 'Nueva contraseña',
   },
   collaborators: {
-    add_collaborator: 'A\u00f1adir nuevo Colaborador',
+    add_collaborator_button: 'Añadir Colaborador',
+    add_collaborator: 'A\u00f1adir nuevo colaborador',
     edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
     ¡No olvides guardar tu información!`,
     form_modal: {
