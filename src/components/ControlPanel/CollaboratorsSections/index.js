@@ -11,7 +11,6 @@ import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
 import { Navigate } from 'react-router-dom';
 import { isCollaboratorPermissionsEnabled } from '../../../services/collaborator-permissions-flag';
-import { UnexpectedError } from '../../shared/UnexpectedError';
 
 const modalSteps = {
   initial: 'INITIAL_STEP',
@@ -399,7 +398,14 @@ export const CollaboratorsSections = InjectAppServices(
               >
                 <h2 className="modal-title">{modalStep.title}</h2>
                 <p>{modalStep.description}</p>
-                {modalError ? <UnexpectedError msg={modalError} /> : <></>}
+                {modalError ? (
+                  <div className="dp-wrap-message dp-wrap-cancel" role="alert">
+                    <span className="dp-message-icon" />
+                    <div className="dp-content-message">{modalError}</div>
+                  </div>
+                ) : (
+                  <></>
+                )}
                 {modalStep.step === modalSteps.initial ? (
                   <CollaboratorInviteForm
                     title={modalStep.title}
