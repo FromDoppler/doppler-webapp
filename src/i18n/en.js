@@ -2583,6 +2583,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_invalid_captcha: `Ouch! We couldn't validate you are a human, please reload the page and try again.`,
     error_invalid_card_number: `Ouch! Invalid number. Please check that it's correctly written.`,
     error_invalid_cbu: `Ouch! Enter a valid CBU`,
+    error_collaborator_invitation_approved: `Ouch! This collaborator has already accepted the invitation.`,
     error_invalid_collaborator_email: `¡Ouch! You cannot invite yourself.`,
     error_invalid_cuit: `Ouch! Enter a valid Cuit`,
     error_invalid_dni: `Ouch! Enter a valid DNI`,

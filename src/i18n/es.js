@@ -2586,6 +2586,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_invalid_captcha: `¡Ouch! No pudimos validar que seas humano, por favor refresca la pantalla e intenta nuevamente.`,
     error_invalid_card_number: '¡Ouch! Número inválido. Por favor, revisa que esté escrito correctamente.',
     error_invalid_cbu: `Ouch! El formato del CBU es incorrecto`,
+    error_collaborator_invitation_approved: `¡Ouch! Este colaborador ya aprobó la invitación.`,
     error_invalid_collaborator_email: `¡Ouch! No puedes invitarte a ti mismo.`,
     error_invalid_cuit: `¡Ouch! El formato del Cuit es incorrecto`,
     error_invalid_dni: `Ouch! El formato del DNI es incorrecto`,
