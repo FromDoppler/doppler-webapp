@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { extractParameter, getFormInitialValues } from '../../utils';
 import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LanguageSelector from '../shared/LanguageSelector/LanguageSelector';
 import {
   CheckboxFieldItemAccessible,
@@ -150,6 +150,15 @@ export const CollaboratorsInvite = InjectAppServices(
               <FormattedMessage
                 id={`signup.sign_up_sub`}
                 values={{
+                  Link: (chunk) => (
+                    <Link
+                      to={{ pathname: '/login', search: location.search }}
+                      className="link--title"
+                    >
+                      {chunk}
+                    </Link>
+                  ),
+                  Bold: (chunk) => <strong>{chunk}</strong>,
                   br: <br />,
                 }}
               />
