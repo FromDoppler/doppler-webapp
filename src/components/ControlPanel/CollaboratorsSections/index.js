@@ -186,7 +186,6 @@ export const CollaboratorsSections = InjectAppServices(
 
     const formSendInvitation = async (permissions) => {
       setmodalError(null);
-      setSelectedPermissionIds(permissions);
       const success = await sendInvitation({
         email: selectedEmail,
         sections: permissions,
@@ -200,7 +199,6 @@ export const CollaboratorsSections = InjectAppServices(
 
     const updateCollaboratorPermissions = async (permissions) => {
       setmodalError(null);
-      setSelectedPermissionIds(permissions);
 
       if (!selectedCollaboratorUserId) {
         setmodalError(_('common.unexpected_error'));
