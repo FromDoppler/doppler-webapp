@@ -405,6 +405,7 @@ export const CollaboratorsSections = InjectAppServices(
                 type="large"
                 handleClose={() => handleModalOpen()}
                 modalId="modal-new-collaborator"
+                isCenter
               >
                 <h2 className="modal-title">{modalStep.title}</h2>
                 <p>{modalStep.description}</p>
