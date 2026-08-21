@@ -250,7 +250,7 @@ export const CollaboratorsSections = InjectAppServices(
             </Breadcrumb>
             <h2>{_('collaborators.title')}</h2>
           </div>
-          <div className="col-sm-7">
+          <div className="col-sm-8">
             <p>
               {_('collaborators.subtitle')}
               <br />
@@ -263,7 +263,7 @@ export const CollaboratorsSections = InjectAppServices(
               </a>
             </p>
           </div>
-          <div className="col-sm-5 text-align--right">
+          <div className="col-sm-4 text-align--right">
             <button
               type="button"
               className="dp-button button-medium primary-green ng-binding"
