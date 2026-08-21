@@ -754,7 +754,7 @@ Payment details will be included in the invoice sent to the recipient you have i
   },
   collaborators: {
     add_collaborator: 'Add new collaborator',
-    add_collaborator_button: 'Add Collaborator',
+    add_collaborator_button: 'Invite collaborator',
     edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
     form_modal: {
       description: `Fill in the details of the person you want to add to your account.`,
@@ -784,14 +784,14 @@ Payment details will be included in the invoice sent to the recipient you have i
       },
       permissions_legend: 'Select the permissions you want to assign:',
       permissions_title: 'Add new collaborator',
-      success_subtitle: `Your Collaborator will receive the invitation in their email box.
+      success_subtitle: `Your collaborator will receive the invitation in their email box.
     Once accepted the invitation, it will be able to manage your account.`,
       success_title: 'Collaborator successfully added',
     },
     help_center: 'Learn more in the Help Center.',
     help_center_url: 'https://help.fromdoppler.com/en/how-to-manage-your-collaborators?utm_medium=none&utm_source=direct',
     menu: {
-      disable: 'Inactivate Collaborator',
+      disable: 'Inactivate collaborator',
       edit: 'Edit permissions',
       invite: 'Resend invitation',
     },
@@ -1601,7 +1601,7 @@ confirmation email.Please note that any active add-ons associated with your acco
       addon: {
         collaborators: {
           available_message: '{available}/{total} Available collaborators ',
-          plan_message: '{total} Collaborators',
+          plan_message: '{total} collaborators',
           title: 'Collaborators ',
         },
         conversation_plan: {
