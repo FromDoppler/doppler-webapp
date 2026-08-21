@@ -14,6 +14,7 @@ import { StickyPlanSummary } from './StickyPlanSummary';
 import { AddOnsSection } from './AddOnsSection';
 import { FAQSection } from './FAQSection';
 import { NewPlanSelectionStyled } from './index.styles';
+import { useTrackUpgradeIntention } from '../../../hooks/useTrackUpgradeIntention';
 
 const MORE_THAN_100K_OPTION_VALUE = 'more-than-100000';
 const LESS_THAN_100K_EMAILS_OPTION_VALUE = 'less-than-100000';
@@ -71,9 +72,11 @@ const getPlanIndexByQueryOrSession = ({ plans, search, sessionPlan, planType }) 
 };
 
 export const NewPlanSelection = InjectAppServices(
-  ({ dependencies: { appSessionRef, planService } }) => {
+  ({ dependencies: { appSessionRef, planService, dopplerLegacyClient } }) => {
     const { search } = useLocation();
     const sessionPlan = appSessionRef.current.userData.user;
+
+    useTrackUpgradeIntention({ dopplerLegacyClient });
     const [plansByContact, setPlansByContact] = useState([]);
     const [plansByCredit, setPlansByCredit] = useState([]);
     const [plansByEmail, setPlansByEmail] = useState([]);
