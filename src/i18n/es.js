@@ -2580,6 +2580,7 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     error_account_is_canceled_other_reason_contact_support_MD: `Por favor [contacta al equipo de Atención al Cliente](${mailtoAdmin + subjectCanceledAccountOtherReason}) para solucionarlo.`,
     error_account_is_canceled_other_reason_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada?`,
     error_checkbox_policy: `¡Ouch! No has aceptado la Política de Privacidad de Doppler.`,
+    error_collaborator_invitation_approved: `¡Ouch! Este colaborador ya aprobó la invitación.`,
     error_email_already_exists: `¡Ouch! Ya posees una cuenta en Doppler.`,
     error_expired_invitation_link: `¡Aviso Importante! La invitación como colaborador ha expirado o ha sido inhabilitada, deberás contactarte con el administrador.`,
     error_has_accents: `¡Ouch! El Email no debe contener tildes ni acentos.`,

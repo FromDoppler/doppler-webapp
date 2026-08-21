@@ -2577,6 +2577,7 @@ With Doppler you can generate Segments with common interests, create Forms to at
     error_account_is_canceled_other_reason_contact_support_MD: `Please [contact the Customer Support team](${mailtoAdmin + subjectCanceledAccountOtherReason}) for help.`,
     error_account_is_canceled_other_reason_zoho_chat_msg: `¡Hola! ¿Me ayudas con mi cuenta cancelada?`,
     error_checkbox_policy: `Ouch! You haven't accepted the Doppler's Privacy Policy.`,
+    error_collaborator_invitation_approved: `Ouch! This collaborator has already accepted the invitation.`,
     error_email_already_exists: `Ouch! You already have a Doppler account.`,
     error_expired_invitation_link: `Important announcement! Your collaborator invitation has expired or been disabled, you will need to contact the administrator.`,
     error_has_accents: `Ouch! The Email must not have any accent.`,
