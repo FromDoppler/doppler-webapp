@@ -752,14 +752,39 @@ other {}}}}}}}}}}
     new_password: 'Nueva contraseña',
   },
   collaborators: {
-    add_collaborator: 'Nuevo Colaborador',
+    add_collaborator: 'Añadir nuevo colaborador',
+    add_collaborator_button: 'Añadir Colaborador',
     edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
     ¡No olvides guardar tu información!`,
     form_modal: {
       description: `El colaborador tendrá acceso a gestionar tu cuenta de Doppler. Podrá realizar envio de campañas,
       gestión de listas, edición de automations y demás funcionalidades`,
+      edit_permissions_title: 'Editar Permisos',
+      edit_success_acknowledge: 'Entendido',
+      edit_success_subtitle: 'Editaste los permisos de tu colaborador con éxito.',
+      edit_success_title: 'Los cambios se guardaron',
       email: 'Email',
       email_placeholder: 'usuario_owner@ejemplo.com',
+      permissions_description: 'Elige los accesos de tu cuenta que le otorgarás.',
+      permissions_error: '¡Ouch! Tienes que seleccionar al menos un permiso.',
+      permissions_labels: {
+        section_01: 'Reportes',
+        section_02: 'Campañas',
+        section_03: 'Listas',
+        section_04: 'Panel de control',
+        section_05: 'Centro de descargas',
+        section_08: 'Pasos',
+        section_10: 'Automation',
+        section_11: 'Integraciones',
+        section_12: 'Plantillas',
+        section_13: 'Aprobador',
+        section_14: 'Dashboard',
+        section_15: 'Conversaciones',
+        section_16: 'OnSite',
+        section_18: 'Landings',
+      },
+      permissions_legend: 'Selecciona los permisos que desea asignar:',
+      permissions_title: 'Añadir nuevo colaborador',
       success_subtitle: `Tu Colaborador recibirá la invitación en su casilla de correo electrónico.
     Una vez aceptada la invitación, podrá comenzar a gestionar tu cuenta.`,
       success_title: 'Has añadido a tu Colaborador con éxito',
@@ -2600,42 +2625,6 @@ Con Doppler puedes generar Segmentos con intereses o características comunes, c
     warning_ip_validation_notification_SignUp: `Doppler no reconoce este dispositivo. Primero prueba iniciando sesión en la cuenta!`,
     warning_user_access_denied: `¡Ouch! Tu inicio de sesión ha sido rechazado.`,
   },
-};
-
-messages_es.collaborators.form_modal.permissions_title = 'Añadir nuevo colaborador';
-messages_es.collaborators.form_modal.permissions_description = 'Elige los accesos de tu cuenta que le otorgarás.';
-messages_es.collaborators.form_modal.permissions_legend = 'Selecciona los permisos que desea asignar:';
-messages_es.collaborators.form_modal.permissions_error = '¡Ouch! Tienes que seleccionar al menos un permiso.';
-messages_es.collaborators.form_modal = {
-  description: messages_es.collaborators.form_modal.description,
-  edit_permissions_title: 'Editar Permisos',
-  edit_success_acknowledge: 'Entendido',
-  edit_success_subtitle: 'Editaste los permisos de tu colaborador con éxito.',
-  edit_success_title: 'Los cambios se guardaron',
-  email: messages_es.collaborators.form_modal.email,
-  email_placeholder: messages_es.collaborators.form_modal.email_placeholder,
-  permissions_description: 'Elige los accesos de tu cuenta que le otorgar\u00e1s.',
-  permissions_error: '\u00a1Ouch! Tienes que seleccionar al menos un permiso.',
-  permissions_labels: {
-    section_01: 'Reportes',
-    section_02: 'Campa\u00f1as',
-    section_03: 'Listas',
-    section_04: 'Panel de control',
-    section_05: 'Centro de descargas',
-    section_08: 'Pasos',
-    section_10: 'Automation',
-    section_11: 'Integraciones',
-    section_12: 'Plantillas',
-    section_13: 'Aprobador',
-    section_14: 'Dashboard',
-    section_15: 'Conversaciones',
-    section_16: 'OnSite',
-    section_18: 'Landings',
-  },
-  permissions_legend: 'Selecciona los permisos que desea asignar:',
-  permissions_title: 'A\u00f1adir nuevo colaborador',
-  success_subtitle: messages_es.collaborators.form_modal.success_subtitle,
-  success_title: messages_es.collaborators.form_modal.success_title,
 };
 
 export default messages_es;

@@ -259,7 +259,7 @@ export const CollaboratorsSections = InjectAppServices(
               className="dp-button button-medium primary-green ng-binding"
               onClick={() => handleModalOpen(true)}
             >
-              {_('collaborators.add_collaborator')}
+              {_('collaborators.add_collaborator_button')}
             </button>
           </div>
         </HeaderSection>
