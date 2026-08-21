@@ -399,8 +399,9 @@ export const CollaboratorsSections = InjectAppServices(
                 <h2 className="modal-title">{modalStep.title}</h2>
                 <p>{modalStep.description}</p>
                 {modalError ? (
-                  <div className="dp-msj-error dpsg-slow-animation bounceIn">
-                    <p>{modalError}</p>
+                  <div className="dp-wrap-message dp-wrap-cancel" role="alert">
+                    <span className="dp-message-icon" />
+                    <div className="dp-content-message">{modalError}</div>
                   </div>
                 ) : (
                   <></>
