@@ -54,11 +54,17 @@ export const CollaboratorPermissionsForm = ({
       validateOnChange={false}
       validateOnBlur={false}
       validate={validate}
-      onSubmit={(values) =>
-        onSubmit(values[fieldNames.permissions].map((permissionId) => Number(permissionId)))
-      }
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          await onSubmit(
+            values[fieldNames.permissions].map((permissionId) => Number(permissionId)),
+          );
+        } finally {
+          setSubmitting(false);
+        }
+      }}
     >
-      {({ errors, submitCount, values }) => (
+      {({ errors, submitCount, values, isSubmitting }) => (
         <Form className="awa-form form-request" data-testid="collaboration-permissions-form">
           <fieldset>
             <legend>{title}</legend>
@@ -96,6 +102,7 @@ export const CollaboratorPermissionsForm = ({
             <button
               type="button"
               className="dp-button button-medium secondary-green"
+              disabled={isSubmitting}
               onClick={() =>
                 onSecondaryAction(
                   values[fieldNames.permissions].map((permissionId) => Number(permissionId)),
