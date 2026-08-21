@@ -91,9 +91,7 @@ export const CollaboratorPermissionsForm = ({
               <div className="dp-wrap-message dp-wrap-cancel m-b-12" role="alert">
                 <span className="dp-message-icon" />
                 <div className="dp-content-message">
-                  <p>
-                    <FormattedMessage id={errors[fieldNames.permissions]} />
-                  </p>
+                  <FormattedMessage id={errors[fieldNames.permissions]} />
                 </div>
               </div>
             ) : null}
