@@ -754,11 +754,10 @@ Payment details will be included in the invoice sent to the recipient you have i
   },
   collaborators: {
     add_collaborator: 'Add new collaborator',
-    add_collaborator_button: 'Add Collaborator',
+    add_collaborator_button: 'Invite collaborator',
     edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
     form_modal: {
-      description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
-      manage lists, edit automations and any other feature.`,
+      description: `Fill in the details of the person you want to add to your account.`,
       edit_permissions_title: 'Edit Permissions',
       edit_success_acknowledge: 'Got it',
       edit_success_subtitle: "You successfully edited your collaborator's permissions.",
@@ -785,17 +784,19 @@ Payment details will be included in the invoice sent to the recipient you have i
       },
       permissions_legend: 'Select the permissions you want to assign:',
       permissions_title: 'Add new collaborator',
-      success_subtitle: `Your Collaborator will receive the invitation in their email box.
+      success_subtitle: `Your collaborator will receive the invitation in their email box.
     Once accepted the invitation, it will be able to manage your account.`,
       success_title: 'Collaborator successfully added',
     },
+    help_center: 'Learn more in the Help Center.',
+    help_center_url: 'https://help.fromdoppler.com/en/how-to-manage-your-collaborators?utm_medium=none&utm_source=direct',
     menu: {
-      disable: 'Inactivate Collaborador',
+      disable: 'Deactivate collaborator',
       edit: 'Edit permissions',
       invite: 'Resend invitation',
     },
-    meta_title: 'Doppler | Profile Configuration',
-    subtitle: 'From this section you can assign collaborators to help you manage your account.',
+    meta_title: 'Doppler | Collaborator Management',
+    subtitle: 'From here, you assign collaborators to help manage your account and give them access based on their role.',
     table: {
       email: 'Email',
       firstname: 'Name',
@@ -810,7 +811,7 @@ Payment details will be included in the invoice sent to the recipient you have i
         REJECTED: 'Rejected',
       },
     },
-    title: 'Profile Configuration',
+    title: 'Collaborator Management',
     title_second: 'Your account collaborators',
   },
   common: {
@@ -910,7 +911,7 @@ Want to know more? Press [HELP](${urlHelp}/contact-policy).`,
       account_movements_title: 'Account History',
       billing_information_title: 'Billing Information',
       collaborator_edition_title: 'Edit collaborator data',
-      collaborators_title: 'Profiles configuration',
+      collaborators_title: 'Collaborator Management',
       contact_information_title: 'Contact Details',
       plans_and_specs_title: 'Pricing and Features',
       push_notification_title: 'Push Notifications Settings',
@@ -1600,7 +1601,7 @@ confirmation email.Please note that any active add-ons associated with your acco
       addon: {
         collaborators: {
           available_message: '{available}/{total} Available collaborators ',
-          plan_message: '{total} Collaborators',
+          plan_message: '{total} collaborators',
           title: 'Collaborators ',
         },
         conversation_plan: {

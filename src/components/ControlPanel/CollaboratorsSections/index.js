@@ -250,10 +250,20 @@ export const CollaboratorsSections = InjectAppServices(
             </Breadcrumb>
             <h2>{_('collaborators.title')}</h2>
           </div>
-          <div className="col-sm-7">
-            <p>{_('collaborators.subtitle')}</p>
+          <div className="col-sm-8">
+            <p>
+              {_('collaborators.subtitle')}
+              <br />
+              <a
+                href={_('collaborators.help_center_url')}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {_('collaborators.help_center')}
+              </a>
+            </p>
           </div>
-          <div className="col-sm-5 text-align--right">
+          <div className="col-sm-4 text-align--right">
             <button
               type="button"
               className="dp-button button-medium primary-green ng-binding"
@@ -395,6 +405,7 @@ export const CollaboratorsSections = InjectAppServices(
                 type="large"
                 handleClose={() => handleModalOpen()}
                 modalId="modal-new-collaborator"
+                isCenter
               >
                 <h2 className="modal-title">{modalStep.title}</h2>
                 <p>{modalStep.description}</p>

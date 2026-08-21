@@ -753,12 +753,11 @@ other {}}}}}}}}}}
   },
   collaborators: {
     add_collaborator: 'Añadir nuevo colaborador',
-    add_collaborator_button: 'Añadir Colaborador',
+    add_collaborator_button: 'Invita a un colaborador',
     edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
     ¡No olvides guardar tu información!`,
     form_modal: {
-      description: `El colaborador tendrá acceso a gestionar tu cuenta de Doppler. Podrá realizar envio de campañas,
-      gestión de listas, edición de automations y demás funcionalidades`,
+      description: `Completa con el Email de la persona que deseas agregar a tu cuenta.`,
       edit_permissions_title: 'Editar Permisos',
       edit_success_acknowledge: 'Entendido',
       edit_success_subtitle: 'Editaste los permisos de tu colaborador con éxito.',
@@ -785,17 +784,19 @@ other {}}}}}}}}}}
       },
       permissions_legend: 'Selecciona los permisos que desea asignar:',
       permissions_title: 'Añadir nuevo colaborador',
-      success_subtitle: `Tu Colaborador recibirá la invitación en su casilla de correo electrónico.
+      success_subtitle: `Tu colaborador recibirá la invitación en su casilla de correo electrónico.
     Una vez aceptada la invitación, podrá comenzar a gestionar tu cuenta.`,
-      success_title: 'Has añadido a tu Colaborador con éxito',
+      success_title: 'Has añadido a tu colaborador con éxito',
     },
+    help_center: 'Conoce más en el Centro de Ayuda.',
+    help_center_url: 'https://help.fromdoppler.com/es/como-administrar-tus-colaboradores',
     menu: {
-      disable: 'Inactivar Colaborador',
+      disable: 'Desactivar colaborador',
       edit: 'Editar permisos',
-      invite: 'Reenviar Invitación',
+      invite: 'Reenviar invitación',
     },
-    meta_title: 'Doppler | Configuración de perfiles',
-    subtitle: 'Desde esta sección podrás asignar colaboradores que te ayuden a gestionar tu cuenta.',
+    meta_title: 'Doppler | Administración de colaboradores',
+    subtitle: 'Desde esta sección asignas colaboradores que te ayudan a gestionar tu cuenta y les asignas accesos acordes a su rol.',
     table: {
       email: 'Email',
       firstname: 'Nombre',
@@ -810,7 +811,7 @@ other {}}}}}}}}}}
         REJECTED: 'Rechazada',
       },
     },
-    title: 'Configuración de perfiles',
+    title: 'Administración de colaboradores',
     title_second: 'Colaboradores de tu cuenta',
   },
   common: {
@@ -908,8 +909,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
       account_information_title: 'Información de la cuenta',
       account_movements_title: 'Movimientos de la Cuenta',
       billing_information_title: 'Información de Facturación',
-      collaborator_edition_title: 'Edición de datos Colaborador',
-      collaborators_title: 'Configuración de Perfiles',
+      collaborator_edition_title: 'Edición de datos colaborador',
+      collaborators_title: 'Administración de colaboradores',
       contact_information_title: 'Información de Contacto',
       plans_and_specs_title: 'Planes y Características',
       push_notification_title: 'Configuración de Notificaciones Push',
@@ -1601,8 +1602,8 @@ confirmación por Email. Recuerda que también se cancelarán los Add-ons activo
       activate_now_button: 'Activar',
       addon: {
         collaborators: {
-          available_message: '{available}/{total} Colaboradores disponibles',
-          plan_message: '{total} Colaboradores',
+          available_message: '{available}/{total} colaboradores disponibles',
+          plan_message: '{total} colaboradores',
           title: 'Colaboradores ',
         },
         conversation_plan: {
