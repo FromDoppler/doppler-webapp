@@ -251,7 +251,17 @@ export const CollaboratorsSections = InjectAppServices(
             <h2>{_('collaborators.title')}</h2>
           </div>
           <div className="col-sm-7">
-            <p>{_('collaborators.subtitle')}</p>
+            <p>
+              {_('collaborators.subtitle')}
+              <br />
+              <a
+                href={_('collaborators.help_center_url')}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {_('collaborators.help_center')}
+              </a>
+            </p>
           </div>
           <div className="col-sm-5 text-align--right">
             <button
