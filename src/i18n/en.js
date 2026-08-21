@@ -757,8 +757,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     add_collaborator_button: 'Add Collaborator',
     edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
     form_modal: {
-      description: `The collaborator will have access to manage your Doppler account. It will be able to send campaigns,
-      manage lists, edit automations and any other feature.`,
+      description: `Fill in the details of the person you want to add to your account.`,
       edit_permissions_title: 'Edit Permissions',
       edit_success_acknowledge: 'Got it',
       edit_success_subtitle: "You successfully edited your collaborator's permissions.",

@@ -757,8 +757,7 @@ other {}}}}}}}}}}
     edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
     ¡No olvides guardar tu información!`,
     form_modal: {
-      description: `El colaborador tendrá acceso a gestionar tu cuenta de Doppler. Podrá realizar envio de campañas,
-      gestión de listas, edición de automations y demás funcionalidades`,
+      description: `Completa con el Email de la persona que deseas agregar a tu cuenta.`,
       edit_permissions_title: 'Editar Permisos',
       edit_success_acknowledge: 'Entendido',
       edit_success_subtitle: 'Editaste los permisos de tu colaborador con éxito.',
