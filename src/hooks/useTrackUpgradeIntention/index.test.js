@@ -19,9 +19,7 @@ describe('useTrackUpgradeIntention', () => {
     const dopplerLegacyClient = { sendTrackUpgradeIntention: jest.fn(async () => true) };
 
     // Act
-    renderHook(() =>
-      useTrackUpgradeIntention({ dopplerLegacyClient, enabled: false }),
-    );
+    renderHook(() => useTrackUpgradeIntention({ dopplerLegacyClient, enabled: false }));
 
     // Assert
     expect(dopplerLegacyClient.sendTrackUpgradeIntention).not.toHaveBeenCalled();
