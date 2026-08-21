@@ -791,7 +791,7 @@ other {}}}}}}}}}}
     help_center: 'Conoce más en el Centro de Ayuda.',
     help_center_url: 'https://help.fromdoppler.com/es/como-administrar-tus-colaboradores',
     menu: {
-      disable: 'Inactivar colaborador',
+      disable: 'Desactivar colaborador',
       edit: 'Editar permisos',
       invite: 'Reenviar invitación',
     },

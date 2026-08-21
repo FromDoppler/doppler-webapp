@@ -791,7 +791,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     help_center: 'Learn more in the Help Center.',
     help_center_url: 'https://help.fromdoppler.com/en/how-to-manage-your-collaborators?utm_medium=none&utm_source=direct',
     menu: {
-      disable: 'Inactivate collaborator',
+      disable: 'Deactivate collaborator',
       edit: 'Edit permissions',
       invite: 'Resend invitation',
     },
