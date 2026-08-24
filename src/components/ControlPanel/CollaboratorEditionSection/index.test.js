@@ -1,10 +1,4 @@
-import {
-  render,
-  waitForElementToBeRemoved,
-  screen,
-  waitFor,
-  getByText,
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { CollaboratorEditionSection } from '.';
 import { AppServicesProvider } from '../../../services/pure-di';
@@ -28,7 +22,6 @@ const forcedServices = {
 
 describe('test for Collaborator Edition Section component ', () => {
   it('should render collaborator edition form', async () => {
-    //act
     render(
       <AppServicesProvider forcedServices={forcedServices}>
         <BrowserRouter>
@@ -39,7 +32,14 @@ describe('test for Collaborator Edition Section component ', () => {
       </AppServicesProvider>,
     );
 
-    // Assert
-    screen.getAllByText('control_panel.account_preferences.collaborator_edition_title');
+    expect(
+      screen.getByRole('heading', {
+        name: 'control_panel.account_preferences.account_information_title',
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('collaborator_edition.personal_data_title')).toBeInTheDocument();
+    expect(screen.getByText('collaborator_edition.change_password_title')).toBeInTheDocument();
+    expect(screen.getByText('collaborator_edition.account_reports_title')).toBeInTheDocument();
+    expect(screen.getByLabelText('collaborator_edition.language')).toBeInTheDocument();
   });
 });
