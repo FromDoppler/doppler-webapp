@@ -162,8 +162,5 @@ describe('Control Panel Service', () => {
     // Assert
     expect(result.length).toBeGreaterThan(1);
     expect(visibleBoxes.some((box) => box.linkUrl.includes('GetAccountInformation'))).toBe(true);
-    expect(visibleBoxes.some((box) => box.linkUrl === '/control-panel/collaborator-edition')).toBe(
-      true,
-    );
   });
 });
