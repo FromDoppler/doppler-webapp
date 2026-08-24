@@ -74,7 +74,7 @@ const urlCampaignsPreferences = `${urlControlPanel}/CampaignsPreferences`;
 const urlSocialPreferences = `${urlControlPanel}/SocialPreferences`;
 const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
 const urlSitesHelp = process.env.REACT_APP_DOPPLER_HELP_URL;
-const collaboratorEditionLinkUrl = '/control-panel/collaborator-edition';
+const accountInformationLinkUrl = `${urlAccountPreferences}/GetAccountInformation`;
 
 export interface ControlPanelService {
   getControlPanelSections(
@@ -479,7 +479,7 @@ export class ControlPanelService implements ControlPanelService {
         anchorLink: 'account-preferences',
         boxes: [
           {
-            linkUrl: `${urlAccountPreferences}/GetAccountInformation`,
+            linkUrl: accountInformationLinkUrl,
             imgSrc: account_information_icon,
             imgAlt: _('control_panel.account_preferences.account_information_title'),
             iconName: _('control_panel.account_preferences.account_information_title'),
@@ -526,13 +526,6 @@ export class ControlPanelService implements ControlPanelService {
             imgAlt: _('control_panel.account_preferences.collaborators_title'),
             iconName: _('control_panel.account_preferences.collaborators_title'),
             hidden: hiddeCollaboratorsBox,
-          },
-          {
-            linkUrl: collaboratorEditionLinkUrl,
-            imgSrc: collaborators_icon,
-            imgAlt: _('control_panel.account_preferences.collaborator_edition_title'),
-            iconName: _('control_panel.account_preferences.collaborator_edition_title'),
-            hidden: hiddeCollaboratorEditionBox,
           },
           {
             linkUrl: hasPushNotificationPlan
@@ -659,7 +652,7 @@ export class ControlPanelService implements ControlPanelService {
           ...section,
           boxes: section.boxes.map((box) => ({
             ...box,
-            hidden: box.linkUrl !== collaboratorEditionLinkUrl,
+            hidden: box.linkUrl !== accountInformationLinkUrl,
           })),
         }))
         .filter((section) => section.boxes.some((box) => !box.hidden));

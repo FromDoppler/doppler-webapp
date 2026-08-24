@@ -100,7 +100,7 @@ describe('Control Panel Service', () => {
     expect(result[0].boxes[4].disabled).toBe(true);
   });
 
-  it('should only show collaborator edition box for collaborators', async () => {
+  it('should only show account information for collaborators without Control Panel access', async () => {
     // Arrange
     process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'true';
 
@@ -121,14 +121,13 @@ describe('Control Panel Service', () => {
 
     // Act
     const result = controlPanelService.getControlPanelSections((x) => x);
-    const visibleBoxes = result[0].boxes.filter((box) => !box.hidden);
+    const visibleBoxes = result.flatMap((section) => section.boxes.filter((box) => !box.hidden));
 
     // Assert
     expect(result).toHaveLength(1);
     expect(result[0].anchorLink).toBe('account-preferences');
     expect(visibleBoxes).toHaveLength(1);
-    expect(visibleBoxes[0].linkUrl).toBe('/control-panel/collaborator-edition');
-    expect(visibleBoxes[0].hidden).toBe(false);
+    expect(visibleBoxes[0].linkUrl).toContain('GetAccountInformation');
   });
 
   it('should show every box for collaborators with Control Panel access', async () => {
