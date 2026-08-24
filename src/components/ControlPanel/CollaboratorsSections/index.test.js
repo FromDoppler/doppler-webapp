@@ -203,6 +203,31 @@ describe('CollaboratorsSections', () => {
     );
   });
 
+  it('hides the invalid email error when the user corrects the address', async () => {
+    const user = userEvent.setup();
+    renderComponent(createDopplerUserApiClientDouble());
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    await user.click(screen.getByRole('button', { name: 'collaborators.add_collaborator_button' }));
+
+    const emailField = screen.getByLabelText('collaborators.form_modal.email');
+    await user.type(emailField, 'invalid-email');
+    await user.click(screen.getByRole('button', { name: 'common.next' }));
+
+    expect(screen.getByText('validation_messages.error_invalid_email_address')).toBeInTheDocument();
+
+    await user.clear(emailField);
+    await user.type(emailField, 'new.collaborator@fromdoppler.com');
+
+    await waitFor(() =>
+      expect(
+        screen.queryByText('validation_messages.error_invalid_email_address'),
+      ).not.toBeInTheDocument(),
+    );
+  });
+
   it('does not allow advancing without selecting permissions', async () => {
     const user = userEvent.setup();
     renderComponent(createDopplerUserApiClientDouble());

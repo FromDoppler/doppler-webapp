@@ -49,7 +49,7 @@ export const CollaboratorInviteForm = InjectAppServices(
       initialValues: {
         [fieldNames.email]: initialEmail,
       },
-      validateOnChange: false,
+      validateOnChange: true,
       validateOnBlur: false,
       validate: validate,
       onSubmit: handleSubmit,
