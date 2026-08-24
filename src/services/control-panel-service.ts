@@ -75,6 +75,7 @@ const urlSocialPreferences = `${urlControlPanel}/SocialPreferences`;
 const urlAdvancedPreferences = `${urlControlPanel}/AdvancedPreferences`;
 const urlSitesHelp = process.env.REACT_APP_DOPPLER_HELP_URL;
 const accountInformationLinkUrl = `${urlAccountPreferences}/GetAccountInformation`;
+const collaboratorEditionLinkUrl = '/control-panel/collaborator-edition';
 
 export interface ControlPanelService {
   getControlPanelSections(
@@ -88,11 +89,11 @@ interface Box {
   imgSrc: string;
   imgAlt: string;
   iconName: string;
+  name?: string;
   disabled?: boolean;
   hidden?: boolean;
   status?: string;
   targetBlank?: boolean;
-  name?: string;
   ribbonColor?: string;
   ribbonText?: string;
 }
@@ -474,7 +475,8 @@ export class ControlPanelService implements ControlPanelService {
         anchorLink: 'account-preferences',
         boxes: [
           {
-            linkUrl: accountInformationLinkUrl,
+            name: 'AccountInformation',
+            linkUrl: isCollaborator ? collaboratorEditionLinkUrl : accountInformationLinkUrl,
             imgSrc: account_information_icon,
             imgAlt: _('control_panel.account_preferences.account_information_title'),
             iconName: _('control_panel.account_preferences.account_information_title'),
@@ -647,7 +649,7 @@ export class ControlPanelService implements ControlPanelService {
           ...section,
           boxes: section.boxes.map((box) => ({
             ...box,
-            hidden: box.linkUrl !== accountInformationLinkUrl,
+            hidden: box.name !== 'AccountInformation',
           })),
         }))
         .filter((section) => section.boxes.some((box) => !box.hidden));
