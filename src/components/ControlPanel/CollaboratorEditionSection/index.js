@@ -183,20 +183,20 @@ export const CollaboratorEditionSection = InjectAppServices(
         </HeaderSection>
         <section className="dp-container">
           <div className="dp-rowflex">
-            <div className="col-sm-8 m-b-36">
+            <div className="col-sm-6 m-b-36">
               <Formik {...formikConfig} validate={validate} onSubmit={handleSubmit}>
                 <Form data-testid="collaborator-edition-form">
                   <div className="awa-form signup-form" style={{ margin: '0px' }}>
                     <FieldGroup className="dp-rowflex">
                       <InputFieldItemAccessible
-                        className="col-sm-7"
+                        className="col-sm-12"
                         fieldName="email"
                         label={_('signup.label_email')}
                         withSubmitCount={false}
                         disabled
                         type="text"
                       />
-                      <FieldItemAccessible className="col-sm-7 m-b-0">
+                      <FieldItemAccessible className="col-sm-12 m-b-0">
                         <label htmlFor="language" className="labelcontrol">
                           {`${_('collaborator_edition.language')}:`}
                           <div className="dp-select">
