@@ -40,6 +40,6 @@ describe('test for Collaborator Edition Section component ', () => {
     expect(screen.getByText('collaborator_edition.personal_data_title')).toBeInTheDocument();
     expect(screen.getByText('collaborator_edition.change_password_title')).toBeInTheDocument();
     expect(screen.getByText('collaborator_edition.account_reports_title')).toBeInTheDocument();
-    expect(screen.getByLabelText('collaborator_edition.language')).toBeInTheDocument();
+    expect(screen.getByLabelText('collaborator_edition.language:')).toBeInTheDocument();
   });
 });
