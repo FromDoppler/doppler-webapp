@@ -35,6 +35,9 @@ describe('PlanSelection component', () => {
           })),
         getPlansByType: async () => plansByContacts,
       },
+      dopplerLegacyClient: {
+        sendTrackUpgradeIntention: jest.fn(async () => true),
+      },
     };
     // Act
     render(
@@ -54,5 +57,51 @@ describe('PlanSelection component', () => {
     // Assert
     const loader = screen.getByTestId('wrapper-loading');
     await waitForElementToBeRemoved(loader);
+    expect(forcedServices.dopplerLegacyClient.sendTrackUpgradeIntention).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not track upgrade intention when the new plan selection is enabled', async () => {
+    // Arrange
+    const forcedServices = {
+      appSessionRef: {
+        current: {
+          userData: {
+            features: { newPlanSelectionEnabled: true },
+            user: {
+              plan: {
+                idPlan: 3,
+                planType: PLAN_TYPE.free,
+              },
+            },
+          },
+        },
+      },
+      planService: {
+        getDistinctPlans: async () => [],
+        getPlansByType: async () => [],
+      },
+      dopplerLegacyClient: {
+        sendTrackUpgradeIntention: jest.fn(async () => true),
+      },
+    };
+    // Act
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <IntlProvider>
+          <Router
+            initialEntries={[`/plan-selection/premium/${URL_PLAN_TYPE[PLAN_TYPE.byContact]}`]}
+          >
+            <Routes>
+              <Route path="/plan-selection/premium/:planType" element={<PlanSelection />} />
+              <Route path="/new-plan-selection" element={<span>new plan selection</span>} />
+            </Routes>
+          </Router>
+        </IntlProvider>
+      </AppServicesProvider>,
+    );
+
+    // Assert
+    await screen.findByText('new plan selection');
+    expect(forcedServices.dopplerLegacyClient.sendTrackUpgradeIntention).not.toHaveBeenCalled();
   });
 });

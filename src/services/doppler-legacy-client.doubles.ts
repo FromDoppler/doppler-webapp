@@ -256,6 +256,11 @@ export class HardcodedDopplerLegacyClient implements DopplerLegacyClient {
     return true;
   }
 
+  public async sendTrackUpgradeIntention(): Promise<boolean> {
+    await 1500;
+    return true;
+  }
+
   public async confirmCollaborationinvite(
     token: string,
     model: RequestCollaborationInviteModel | undefined,

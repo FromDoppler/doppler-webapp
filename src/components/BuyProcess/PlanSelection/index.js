@@ -23,6 +23,7 @@ import {
   PLAN_TYPES_ACTIONS,
 } from './reducers/planTypesReducer';
 import { useDefaultPlanType } from '../../../hooks/useDefaultPlanType';
+import { useTrackUpgradeIntention } from '../../../hooks/useTrackUpgradeIntention';
 import { GoBackButton } from './GoBackButton';
 
 const planTypesLabels = {
@@ -32,7 +33,7 @@ const planTypesLabels = {
 };
 
 export const PlanSelection = InjectAppServices(
-  ({ dependencies: { planService, appSessionRef } }) => {
+  ({ dependencies: { planService, appSessionRef, dopplerLegacyClient } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
     const { planType: planTypeUrlSegment } = useParams();
@@ -82,6 +83,8 @@ export const PlanSelection = InjectAppServices(
     if (newPlanSelectionEnabled) {
       return <Navigate to={{ pathname: '/new-plan-selection', search }} />;
     }
+
+    useTrackUpgradeIntention({ dopplerLegacyClient, enabled: !newPlanSelectionEnabled });
 
     useEffect(() => {
       const fetchData = async () => {

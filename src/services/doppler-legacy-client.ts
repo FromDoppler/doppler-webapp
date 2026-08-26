@@ -39,6 +39,7 @@ export interface DopplerLegacyClient {
   getMaxSubscribersData(): Promise<MaxSubscribersData>;
   sendMaxSubscribersData(maxSubscribersData: MaxSubscribersData): Promise<boolean>;
   sendAcceptButtonAction(): Promise<boolean>;
+  sendTrackUpgradeIntention(): Promise<boolean>;
   confirmCollaborationinvite(
     token: string,
     model: RequestCollaborationInviteModel | undefined,
@@ -1471,6 +1472,11 @@ export class HttpDopplerLegacyClient implements DopplerLegacyClient {
 
   public async sendAcceptButtonAction(): Promise<boolean> {
     const response = await this.axios.post('accountpreferences/acceptbuttonaction');
+    return response.data;
+  }
+
+  public async sendTrackUpgradeIntention(): Promise<boolean> {
+    const response = await this.axios.post('accountpreferences/trackupgradeintention');
     return response.data;
   }
 

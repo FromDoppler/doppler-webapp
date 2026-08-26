@@ -214,6 +214,7 @@ const createForcedServices = ({
   dopplerAccountPlansApiClient = {},
   appSessionUser = {},
   planService = {},
+  dopplerLegacyClient = {},
 } = {}) => ({
   appSessionRef: {
     current: {
@@ -283,6 +284,10 @@ const createForcedServices = ({
     }),
     ...planService,
   },
+  dopplerLegacyClient: {
+    sendTrackUpgradeIntention: jest.fn(async () => true),
+    ...dopplerLegacyClient,
+  },
 });
 
 const renderNewPlanSelection = async (
@@ -332,6 +337,12 @@ describe('NewPlanSelection component', () => {
     consoleErrorSpy.mockRestore();
     process.env.REACT_APP_DOPPLER_CAN_BUY_PUSHNOTIFICATION_PLAN =
       previousCanBuyPushNotificationPlan;
+  });
+
+  it('should track upgrade intention once on mount', async () => {
+    const forcedServices = await renderNewPlanSelection();
+
+    expect(forcedServices.dopplerLegacyClient.sendTrackUpgradeIntention).toHaveBeenCalledTimes(1);
   });
 
   it('should render section controls without plan type tabs', async () => {
