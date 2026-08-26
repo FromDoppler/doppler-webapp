@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Field, Form, Formik } from 'formik';
 import { Navigate } from 'react-router-dom';
 
@@ -38,7 +38,13 @@ const languageOptions = [
 
 const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => (
   <li className={isOpen ? 'active' : ''}>
-    <button type="button" className="dp-accordion-thumb" aria-expanded={isOpen} onClick={onToggle}>
+    <button
+      type="button"
+      className="dp-accordion-thumb"
+      aria-expanded={isOpen}
+      onClick={onToggle}
+      style={{ borderTop: '1px solid #ccc' }}
+    >
       <span className="dp-accordion-header">
         <span>{title}</span>
         {status ? (
@@ -49,7 +55,7 @@ const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => (
         <span className="dp-accordion-icon" aria-hidden="true" />
       </span>
     </button>
-    <div className="dp-accordion-panel" style={{ display: isOpen ? 'block' : 'none' }}>
+    <div style={{ display: isOpen ? 'block' : 'none' }}>
       <div className="dp-accordion-content">{children}</div>
     </div>
   </li>
@@ -68,6 +74,13 @@ export const CollaboratorEditionSection = InjectAppServices(
     const [isPersonalDataOpen, setIsPersonalDataOpen] = useState(true);
     const [isPasswordOpen, setIsPasswordOpen] = useState(true);
     const [isAccountReportsOpen, setIsAccountReportsOpen] = useState(true);
+
+    const toggleAccordionSection = (setSectionState) => (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.nativeEvent?.stopImmediatePropagation?.();
+      setSectionState((current) => !current);
+    };
 
     const validate = (values) => {
       const errors = {};
@@ -165,48 +178,50 @@ export const CollaboratorEditionSection = InjectAppServices(
           </div>
           <div className="col-sm-7">
             <p>{_('collaborators.edition_subtitle')}</p>
+            <p>{_('collaborators.edition_subtitle_reminder')}</p>
           </div>
         </HeaderSection>
         <section className="dp-container">
           <div className="dp-rowflex">
-            <div className="col-sm-8 m-t-24 m-b-36">
+            <div className="col-sm-8 m-b-36">
               <Formik {...formikConfig} validate={validate} onSubmit={handleSubmit}>
                 <Form data-testid="collaborator-edition-form">
-                  <div className="awa-form signup-form">
+                  <div className="awa-form signup-form" style={{ margin: '0px' }}>
                     <FieldGroup className="dp-rowflex">
                       <InputFieldItemAccessible
-                        className="col-sm-12"
+                        className="col-sm-7"
                         fieldName="email"
                         label={_('signup.label_email')}
                         withSubmitCount={false}
                         disabled
                         type="text"
                       />
-                      <FieldItemAccessible className="col-sm-12 m-b-0">
+                      <FieldItemAccessible className="col-sm-7 m-b-0">
                         <label htmlFor="language" className="labelcontrol">
-                          {_('collaborator_edition.language')}
-                          <span className="dropdown-arrow" aria-hidden="true" />
-                          <Field as="select" id="language" name="language">
-                            {languageOptions.map((option) => (
-                              <option key={option.key} value={option.key}>
-                                {_(option.labelId)}
-                              </option>
-                            ))}
-                          </Field>
+                          {`${_('collaborator_edition.language')}:`}
+                          <div className="dp-select">
+                            <span className="dropdown-arrow" />
+                            <Field as="select" id="language" name="language">
+                              {languageOptions.map((option) => (
+                                <option key={option.key} value={option.key}>
+                                  {_(option.labelId)}
+                                </option>
+                              ))}
+                            </Field>
+                          </div>
                         </label>
                       </FieldItemAccessible>
                     </FieldGroup>
-
                     <ul className="dp-accordion dp-accordion-control-panel">
                       <CollapsibleSection
                         title={_('collaborator_edition.personal_data_title')}
                         isOpen={isPersonalDataOpen}
-                        onToggle={() => setIsPersonalDataOpen((current) => !current)}
+                        onToggle={toggleAccordionSection(setIsPersonalDataOpen)}
                       >
-                        <FieldGroup className="dp-rowflex">
+                        <FieldGroup>
                           <InputFieldItemAccessible
                             autoFocus
-                            className="col-sm-12 col-md-6"
+                            className="field-item--50 dp-p-r"
                             fieldName="firstname"
                             label={_('signup.label_firstname')}
                             placeholder={_('signup.placeholder_first_name')}
@@ -217,7 +232,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                             withSubmitCount={false}
                           />
                           <InputFieldItemAccessible
-                            className="col-sm-12 col-md-6"
+                            className="field-item--50"
                             fieldName="lastname"
                             label={_('signup.label_lastname')}
                             placeholder={_('signup.placeholder_last_name')}
@@ -228,7 +243,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                             withSubmitCount={false}
                           />
                           <PhoneFieldItemAccessible
-                            className="col-sm-12 m-b-0"
+                            className="m-b-0"
                             fieldName="phone"
                             label={_('signup.label_phone')}
                             placeholder={_('signup.placeholder_phone')}
@@ -237,11 +252,10 @@ export const CollaboratorEditionSection = InjectAppServices(
                           />
                         </FieldGroup>
                       </CollapsibleSection>
-
                       <CollapsibleSection
                         title={_('collaborator_edition.change_password_title')}
                         isOpen={isPasswordOpen}
-                        onToggle={() => setIsPasswordOpen((current) => !current)}
+                        onToggle={toggleAccordionSection(setIsPasswordOpen)}
                       >
                         <FieldGroup>
                           <PasswordFieldItem
@@ -258,12 +272,11 @@ export const CollaboratorEditionSection = InjectAppServices(
                           />
                         </FieldGroup>
                       </CollapsibleSection>
-
                       <CollapsibleSection
                         title={_('collaborator_edition.account_reports_title')}
                         status={_('collaborator_edition.account_reports_status_active')}
                         isOpen={isAccountReportsOpen}
-                        onToggle={() => setIsAccountReportsOpen((current) => !current)}
+                        onToggle={toggleAccordionSection(setIsAccountReportsOpen)}
                       >
                         <div className="dp-text-switch m-t-12">
                           <div className="dp-switch">
@@ -286,9 +299,12 @@ export const CollaboratorEditionSection = InjectAppServices(
                               {_('collaborator_edition.account_reports_weekly_description')}
                             </p>
                             <p className="m-b-0">
-                              <strong>
-                                {_('collaborator_edition.account_reports_weekly_note')}
-                              </strong>
+                              <FormattedMessage
+                                id="collaborator_edition.account_reports_weekly_note"
+                                values={{
+                                  strong: (chunks) => <strong>{chunks}</strong>,
+                                }}
+                              />
                             </p>
                           </div>
                         </div>
