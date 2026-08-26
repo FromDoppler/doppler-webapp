@@ -751,7 +751,8 @@ other {}}}}}}}}}}
     account_reports_title: 'Reportes de cuenta',
     account_reports_weekly_description: 'Recibes un resumen cada semana con el rendimiento de tu cuenta, con datos de la semana anterior. Desactivalo cuando quieras.',
     account_reports_weekly_label: 'Enviar reporte semanal de tu cuenta por email',
-    account_reports_weekly_note: 'Psst! Este envio no se descontara de tu Plan.',
+    account_reports_weekly_note:
+      '<strong>¡Psst!</strong> Este envio no se descontara de tu Plan.',
     change_password_title: '¿Deseas cambiar tu contraseña?',
     confirm_password: 'Confirmar contraseña',
     current_password: 'Contraseña actual',
@@ -764,8 +765,8 @@ other {}}}}}}}}}}
   collaborators: {
     add_collaborator: 'Añadir nuevo Colaborador',
     add_collaborator_button: 'Invita a un Colaborador',
-    edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
-    ¡No olvides guardar tu información!`,
+    edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.`,
+    edition_subtitle_reminder: `¡No olvides guardar tu información!`,
     form_modal: {
       description: `Completa con el Email de la persona que deseas agregar a tu cuenta.`,
       edit_permissions_title: 'Editar Permisos',

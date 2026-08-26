@@ -752,7 +752,8 @@ Payment details will be included in the invoice sent to the recipient you have i
     account_reports_title: 'Account reports',
     account_reports_weekly_description: 'You will receive a weekly summary with your account performance data from the previous week. Turn it off whenever you want.',
     account_reports_weekly_label: 'Send my weekly account report by email',
-    account_reports_weekly_note: 'Psst! This send will not be discounted from your plan.',
+    account_reports_weekly_note:
+      '<strong>Psst!</strong> This send will not be discounted from your plan.',
     change_password_title: 'Do you want to change your password?',
     confirm_password: 'Confirm password',
     current_password: 'Current password',
@@ -765,7 +766,8 @@ Payment details will be included in the invoice sent to the recipient you have i
   collaborators: {
     add_collaborator: 'Add new Collaborator',
     add_collaborator_button: 'Invite Collaborator',
-    edition_subtitle: 'Edit your data to keep using your account. Do not forget to save before leaving!',
+    edition_subtitle: `Edit your data to keep using your account.`,
+    edition_subtitle_reminder: `Do not forget to save before leaving!`,
     form_modal: {
       description: `Fill in the details of the person you want to add to your account.`,
       edit_permissions_title: 'Edit Permissions',
