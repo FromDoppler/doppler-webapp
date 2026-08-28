@@ -675,12 +675,16 @@ describe('Doppler legacy client', () => {
         email: 'collaborator@test.com',
         firstName: 'Test',
         lastName: 'Collaborator',
+        idLanguage: 1,
+        language: 'es',
         userProfileType: 'COLLABORATOR',
         phone: '+541112223333',
         collaboratorViewAccessRights: [{ accessLevel: 25, idSection: 18, name: 'Landings' }],
       },
     });
 
+    expect(mappedHeaderData.userAccount.idLanguage).toBe(1);
+    expect(mappedHeaderData.userAccount.language).toBe('es');
     expect(mappedHeaderData.userAccount.collaboratorViewAccessRights).toEqual([
       { accessLevel: 25, idSection: 18, name: 'Landings' },
     ]);

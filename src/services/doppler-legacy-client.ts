@@ -470,6 +470,8 @@ interface UserAccountEntry {
   email: string;
   firstName: string;
   lastName: string;
+  idLanguage?: number;
+  language?: string;
   userProfileType: string;
   phone: string;
   collaboratorViewAccessRights: CollaboratorViewAccessRightEntry[];
@@ -865,6 +867,8 @@ export function mapHeaderDataJson(json: any) {
       email: json.userAccount.email,
       firstName: json.userAccount.firstName,
       lastName: json.userAccount.lastName,
+      idLanguage: json.userAccount.idLanguage,
+      language: json.userAccount.language,
       userProfileType: json.userAccount.userProfileType,
       phone: json.userAccount.phone,
       collaboratorViewAccessRights: json.userAccount.collaboratorViewAccessRights || [],
