@@ -31,6 +31,11 @@ const fieldNames = {
   confirm_password: 'confirm_password',
 };
 
+const languageIdsByCode = {
+  es: 1,
+  en: 2,
+};
+
 const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
   const intl = useIntl();
 
@@ -149,6 +154,7 @@ export const CollaboratorEditionSection = InjectAppServices(
         Firstname: values.firstname,
         Lastname: values.lastname,
         Phone: values.phone,
+        IdLanguage: languageIdsByCode[values.language] || languageIdsByCode.es,
         CurrentPassword: values.current_password,
         NewPassword: values.new_password,
       };
