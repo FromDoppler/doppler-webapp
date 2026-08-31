@@ -1013,10 +1013,10 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: '👀 Activa tu Plan con 50% OFF durante los primeros 6 meses.',
-        link: 'https://app.fromdoppler.com/plan-selection/premium/by-contacts',
-        link_description: 'ACCEDE AL DESCUENTO',
-        title: '¿Tienes una cuenta Free? Esto podría interesarte',
+        description: 'Regístrate gratis al evento más grande de Marketing Digital de Latam. Te esperamos del 29 de septiembre al 1 de octubre.',
+        link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emms-26-cuentaregresiva-invitacion&utm_term=cta',
+        link_description: 'RESERVA TU LUGAR',
+        title: '⌛ Cuenta regresiva para el EMMS 2026',
       },
       post_2: {
         description: 'Capta la atención de tus visitantes con mensajes emergentes de productos más relevantes, artículos relacionados y mucho más, ¡en el momento exacto!',
