@@ -1013,7 +1013,8 @@ Define la **cantidad máxima de Emails** que tus Contactos podrán recibir en un
     learn_with_doppler: 'Aprende con Doppler',
     learn_with_doppler_posts: {
       post_1: {
-        description: 'Regístrate gratis al evento más grande de Marketing Digital de Latam. Te esperamos del 29 de septiembre al 1 de octubre.',
+        description:
+          'Regístrate gratis al evento más grande de Marketing Digital de Latam.\nTe esperamos del 29 de septiembre al 1 de octubre.',
         link: 'https://goemms.com/?utm_source=fromdoppler&utm_medium=destacadotablero&utm_campaign=cw-emms-26-cuentaregresiva-invitacion&utm_term=cta',
         link_description: 'RESERVA TU LUGAR',
         title: '⌛ Cuenta regresiva para el EMMS 2026',
