@@ -748,7 +748,6 @@ Payment details will be included in the invoice sent to the recipient you have i
     tag_limit_exceeded: `Can only add {max} tags.`,
   },
   collaborator_edition: {
-    account_reports_status_active: 'Active',
     account_reports_title: 'Account reports',
     account_reports_weekly_description: 'You will receive a weekly summary with your account performance data from the previous week. Turn it off whenever you want.',
     account_reports_weekly_label: 'Send my weekly account report by email',
@@ -830,6 +829,7 @@ Payment details will be included in the invoice sent to the recipient you have i
   },
   common: {
     accept: `Aceptar`,
+    active: 'Active',
     advanced_preferences: `Integrations and Advanced Preferences`,
     back: `Back`,
     breadcrumb_plans: 'Plans',
@@ -841,6 +841,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     control_panel_url: `${urlControlPanelMain}`,
     conversations_index_url: `${urlConversations}/external-login`,
     copyright_MD: `© ${year} Doppler LLC. All rights reserved. [Privacy Policy & Legals](${urlPrivacy}).`,
+    disabled: 'Disabled',
     emails: 'Emails',
     empty_data: `Your domain has no data to show in this section yet.`,
     feature_no_available: `The feature is not available yet`,

@@ -42,4 +42,28 @@ describe('test for Collaborator Edition Section component ', () => {
     expect(screen.getByText('collaborator_edition.account_reports_title')).toBeInTheDocument();
     expect(screen.getByLabelText('collaborator_edition.language:')).toBeInTheDocument();
   });
+
+  it('should update the account reports status pill when the toggle changes', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <AppServicesProvider forcedServices={forcedServices}>
+        <BrowserRouter>
+          <IntlProvider>
+            <CollaboratorEditionSection />
+          </IntlProvider>
+        </BrowserRouter>
+      </AppServicesProvider>,
+    );
+
+    const activeStatus = screen.getByText('common.active');
+    expect(activeStatus).toBeInTheDocument();
+    expect(activeStatus.closest('.pill')).toHaveClass('pill--green');
+
+    await user.click(screen.getByRole('checkbox'));
+
+    const inactiveStatus = screen.getByText('common.disabled');
+    expect(inactiveStatus).toBeInTheDocument();
+    expect(inactiveStatus.closest('.pill')).toHaveClass('pill--grey');
+  });
 });

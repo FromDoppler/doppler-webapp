@@ -747,7 +747,6 @@ other {}}}}}}}}}}
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
   collaborator_edition: {
-    account_reports_status_active: 'Activo',
     account_reports_title: 'Reportes de cuenta',
     account_reports_weekly_description: 'Recibes un resumen cada semana con el rendimiento de tu cuenta, con datos de la semana anterior. Desactivalo cuando quieras.',
     account_reports_weekly_label: 'Enviar reporte semanal de tu cuenta por email',
@@ -829,6 +828,7 @@ other {}}}}}}}}}}
   },
   common: {
     accept: `Aceptar`,
+    active: 'Activo',
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,
     breadcrumb_plans: 'Planes',
@@ -840,6 +840,7 @@ other {}}}}}}}}}}
     control_panel_url: `${urlControlPanelMain}`,
     conversations_index_url: `${urlConversations}/external-login`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
+    disabled: 'Desactivado',
     emails: 'Emails',
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     feature_no_available: `La funcionalidad no está disponible aún`,

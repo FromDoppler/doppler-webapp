@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import { Navigate } from 'react-router-dom';
 
 import { InjectAppServices } from '../../../services/pure-di';
@@ -36,30 +36,53 @@ const languageOptions = [
   { key: 'en', labelId: 'collaborator_edition.language_english' },
 ];
 
-const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => (
-  <li className={isOpen ? 'active' : ''}>
-    <button
-      type="button"
-      className="dp-accordion-thumb"
-      aria-expanded={isOpen}
-      onClick={onToggle}
-      style={{ borderTop: '1px solid #ccc' }}
+const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
+  const intl = useIntl();
+
+  return (
+    <li className={isOpen ? 'active' : ''}>
+      <button
+        type="button"
+        className="dp-accordion-thumb"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        style={{ borderTop: '1px solid #ccc' }}
+      >
+        <span className="dp-accordion-header">
+          <span>{title}</span>
+          {typeof status === 'boolean' ? (
+            <span className={`pill ${status ? 'pill--green' : 'pill--grey'}`}>
+              <span className="pill-text">
+                {intl.formatMessage({
+                  id: status ? 'common.active' : 'common.disabled',
+                })}
+              </span>
+            </span>
+          ) : null}
+          <span className="dp-accordion-icon" aria-hidden="true" />
+        </span>
+      </button>
+      <div style={{ display: isOpen ? 'block' : 'none' }}>
+        <div className="dp-accordion-content">{children}</div>
+      </div>
+    </li>
+  );
+};
+
+const AccountReportsSection = ({ formatMessage, isOpen, onToggle, children }) => {
+  const { values } = useFormikContext();
+
+  return (
+    <CollapsibleSection
+      title={formatMessage('collaborator_edition.account_reports_title')}
+      status={values.weekly_account_report_enabled}
+      isOpen={isOpen}
+      onToggle={onToggle}
     >
-      <span className="dp-accordion-header">
-        <span>{title}</span>
-        {status ? (
-          <span className="pill pill--green">
-            <span className="pill-text">{status}</span>
-          </span>
-        ) : null}
-        <span className="dp-accordion-icon" aria-hidden="true" />
-      </span>
-    </button>
-    <div style={{ display: isOpen ? 'block' : 'none' }}>
-      <div className="dp-accordion-content">{children}</div>
-    </div>
-  </li>
-);
+      {children}
+    </CollapsibleSection>
+  );
+};
 
 export const CollaboratorEditionSection = InjectAppServices(
   ({ dependencies: { appSessionRef, dopplerUserApiClient } }) => {
@@ -272,9 +295,8 @@ export const CollaboratorEditionSection = InjectAppServices(
                           />
                         </FieldGroup>
                       </CollapsibleSection>
-                      <CollapsibleSection
-                        title={_('collaborator_edition.account_reports_title')}
-                        status={_('collaborator_edition.account_reports_status_active')}
+                      <AccountReportsSection
+                        formatMessage={_}
                         isOpen={isAccountReportsOpen}
                         onToggle={toggleAccordionSection(setIsAccountReportsOpen)}
                       >
@@ -308,7 +330,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                             </p>
                           </div>
                         </div>
-                      </CollapsibleSection>
+                      </AccountReportsSection>
                     </ul>
 
                     <FormMessages />
