@@ -63,6 +63,7 @@ export const learnWithDopplerPosts = [
     linkDescription: `dashboard.learn_with_doppler_posts.post_1.link_description`,
     trackingId: `dashboard-learnWithDoppler-card1`,
     newTab: true,
+    params: '&email=<email>',
   },
   {
     id: `2`,
