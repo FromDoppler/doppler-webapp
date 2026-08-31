@@ -318,7 +318,7 @@ export const CollaboratorsSections = InjectAppServices(
           <div className="dp-rowflex">
             <div className="col-sm-12 m-t-24 m-b-36">
               <div className="dp-rowflex">
-                <div className="col-sm-12 col-md-4 col-lg-3 m-b-24">
+                <div className="col-sm-12 col-md-4 col-lg-4 m-b-24">
                   <div className="awa-form">
                     <label
                       htmlFor="collaborators-search"
@@ -350,7 +350,7 @@ export const CollaboratorsSections = InjectAppServices(
                   </div>
                 </div>
               </div>
-              <h3 className="m-b-30">{_('collaborators.title_second')}</h3>
+              <h6 className="m-b-18">{_('collaborators.title_second')}</h6>
               <div className="dp-table-responsive" aria-busy={tableLoading}>
                 {tableLoading && <Loading />}
                 <table

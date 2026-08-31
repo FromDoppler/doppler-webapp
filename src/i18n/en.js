@@ -798,7 +798,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     meta_title: 'Doppler | Collaborator Management',
     search: {
       label: 'Search collaborator',
-      placeholder: 'Search by last name or email',
+      placeholder: 'Search by Collaborator name or email',
     },
     subtitle: 'From here, you assign collaborators to help manage your account and give them access based on their role.',
     table: {
