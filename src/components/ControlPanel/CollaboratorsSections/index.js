@@ -47,7 +47,6 @@ export const CollaboratorsSections = InjectAppServices(
     const [searchTerm, setSearchTerm] = useState('');
     const [refreshTable, setRefreshTable] = useState(false);
     const [permissionsLoaded, setPermissionsLoaded] = useState(!collaboratorPermissionsEnabled);
-    const [invitationsLoaded, setInvitationsLoaded] = useState(false);
     const invitationsRequestIdRef = useRef(0);
     const hasLoadedInvitationsRef = useRef(false);
     const latestSearchValueRef = useRef('');
@@ -114,6 +113,10 @@ export const CollaboratorsSections = InjectAppServices(
         }
 
         setPermissionsLoaded(true);
+
+        if (hasLoadedInvitationsRef.current) {
+          setLoading(false);
+        }
       };
 
       fetchPermissions();
@@ -138,19 +141,16 @@ export const CollaboratorsSections = InjectAppServices(
           setActiveMenus(false);
         }
 
-        setInvitationsLoaded(true);
         hasLoadedInvitationsRef.current = true;
         setTableLoading(false);
+
+        if (permissionsLoaded) {
+          setLoading(false);
+        }
       };
 
       fetchInvitations();
-    }, [dopplerUserApiClient, refreshTable, searchTerm]);
-
-    useEffect(() => {
-      if (permissionsLoaded && invitationsLoaded) {
-        setLoading(false);
-      }
-    }, [invitationsLoaded, permissionsLoaded]);
+    }, [dopplerUserApiClient, permissionsLoaded, refreshTable, searchTerm]);
 
     const toggleMenu = (index) => {
       if (activeMenu === index) {
