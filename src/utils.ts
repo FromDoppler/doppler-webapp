@@ -21,6 +21,11 @@ export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export const languageOptions = [
+  { key: 'es', labelId: 'common.language.spanish' },
+  { key: 'en', labelId: 'common.language.english' },
+];
+
 export function getDataHubParams(partialUrl: string) {
   const parsedUrl = urlParse(partialUrl, false);
   return {

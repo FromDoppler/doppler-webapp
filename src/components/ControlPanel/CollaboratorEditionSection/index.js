@@ -5,7 +5,7 @@ import { Field, Form, Formik, useFormikContext } from 'formik';
 import { Navigate } from 'react-router-dom';
 
 import { InjectAppServices } from '../../../services/pure-di';
-import { getFormInitialValues } from '../../../utils';
+import { getFormInitialValues, languageOptions } from '../../../utils';
 import { validatePassword } from '../../../validations';
 import { GoBackButton } from '../../BuyProcess/PlanSelection/GoBackButton';
 import {
@@ -30,11 +30,6 @@ const fieldNames = {
   new_password: 'new_password',
   confirm_password: 'confirm_password',
 };
-
-const languageOptions = [
-  { key: 'es', labelId: 'collaborator_edition.language_spanish' },
-  { key: 'en', labelId: 'collaborator_edition.language_english' },
-];
 
 const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
   const intl = useIntl();
@@ -244,7 +239,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                         <FieldGroup>
                           <InputFieldItemAccessible
                             autoFocus
-                            className="field-item--50 dp-p-r"
+                            className="field-item--50"
                             fieldName="firstname"
                             label={_('signup.label_firstname')}
                             placeholder={_('signup.placeholder_first_name')}
