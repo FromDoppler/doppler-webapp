@@ -170,10 +170,9 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     const normalizedSearch = search?.trim().toLowerCase();
     const filteredInvitations = normalizedSearch
       ? collaborationInvitesResult.filter(
-          ({ email, firstname, lastname }) =>
+          ({ email, firstname }) =>
             email.toLowerCase().includes(normalizedSearch) ||
-            firstname.toLowerCase().includes(normalizedSearch) ||
-            lastname.toLowerCase().includes(normalizedSearch),
+            firstname.toLowerCase().includes(normalizedSearch),
         )
       : collaborationInvitesResult;
 
