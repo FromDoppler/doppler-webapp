@@ -748,7 +748,7 @@ Payment details will be included in the invoice sent to the recipient you have i
     tag_limit_exceeded: `Can only add {max} tags.`,
   },
   collaborator_edition: {
-    account_reports_title: 'Account reports',
+    account_reports_title: 'Account reports: {owner_email}',
     account_reports_weekly_description: 'You will receive a weekly summary with your account performance data from the previous week. Turn it off whenever you want.',
     account_reports_weekly_label: 'Send my weekly account report by email',
     account_reports_weekly_note: '<strong>Psst!</strong> This send will not be discounted from your plan.',
