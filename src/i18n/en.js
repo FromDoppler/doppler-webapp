@@ -803,9 +803,8 @@ Payment details will be included in the invoice sent to the recipient you have i
     subtitle: 'From here, you assign collaborators to help manage your account and give them access based on their role.',
     table: {
       email: 'Email',
-      firstname: 'Name',
+      full_name: 'Full name',
       invitation_date: 'Invitation date',
-      lastname: 'Lastname',
       status: 'Status',
       statusType: {
         APPROVED: 'Approved',
