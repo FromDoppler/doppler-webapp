@@ -763,7 +763,7 @@ other {}}}}}}}}}}
       edit_success_subtitle: 'Editaste los permisos de tu Colaborador con éxito.',
       edit_success_title: 'Los cambios se guardaron',
       email: 'Email',
-      email_placeholder: 'usuario_owner@ejemplo.com',
+      email_placeholder: 'nombre@ejemplo.com',
       permissions_description: 'Elige los accesos de tu cuenta que le otorgarás.',
       permissions_error: '¡Ouch! Tienes que seleccionar al menos un permiso.',
       permissions_labels: {

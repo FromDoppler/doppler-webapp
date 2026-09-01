@@ -763,7 +763,7 @@ Payment details will be included in the invoice sent to the recipient you have i
       edit_success_subtitle: "You successfully edited your Collaborator's permissions.",
       edit_success_title: 'Changes saved',
       email: 'Email',
-      email_placeholder: 'owner_user@example.com',
+      email_placeholder: 'name@example.com',
       permissions_description: 'Choose which account accesses you will grant.',
       permissions_error: 'Ouch! You have to select at least one permission.',
       permissions_labels: {
