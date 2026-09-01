@@ -364,11 +364,8 @@ export const CollaboratorsSections = InjectAppServices(
                       <th aria-label={_('collaborators.table.email')} scope="col">
                         <span>{_('collaborators.table.email')}</span>
                       </th>
-                      <th aria-label={_('collaborators.table.firstname')} scope="col">
-                        <span>{_('collaborators.table.firstname')}</span>
-                      </th>
-                      <th aria-label={_('collaborators.table.lastname')} scope="col">
-                        <span>{_('collaborators.table.lastname')}</span>
+                      <th aria-label={_('collaborators.table.full_name')} scope="col">
+                        <span>{_('collaborators.table.full_name')}</span>
                       </th>
                       <th aria-label={_('collaborators.table.invitation_date')} scope="col">
                         <span>{_('collaborators.table.invitation_date')}</span>
@@ -384,11 +381,8 @@ export const CollaboratorsSections = InjectAppServices(
                         <td aria-label="Email">
                           <span>{item.email}</span>
                         </td>
-                        <td aria-label="Nombre">
-                          <span>{item.firstname}</span>
-                        </td>
-                        <td aria-label="Apellido">
-                          <span>{item.lastname}</span>
+                        <td aria-label={_('collaborators.table.full_name')}>
+                          <span>{[item.firstname, item.lastname].filter(Boolean).join(' ')}</span>
                         </td>
                         <td aria-label="Fecha de Invitacion">
                           <div className="dp-icon-wrapper">

@@ -803,9 +803,8 @@ other {}}}}}}}}}}
     subtitle: 'Desde esta sección asignas colaboradores que te ayudan a gestionar tu cuenta y les asignas accesos acordes a su rol.',
     table: {
       email: 'Email',
-      firstname: 'Nombre',
+      full_name: 'Nombre y Apellido',
       invitation_date: 'Fecha de invitación',
-      lastname: 'Apellido',
       status: 'Estado',
       statusType: {
         APPROVED: 'Aprobada',
