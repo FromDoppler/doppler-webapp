@@ -796,6 +796,10 @@ other {}}}}}}}}}}
       invite: 'Reenviar invitación',
     },
     meta_title: 'Doppler | Administración de colaboradores',
+    search: {
+      label: 'Buscar colaborador',
+      placeholder: 'Buscar por nombre o email de Colaborador',
+    },
     subtitle: 'Desde esta sección asignas colaboradores que te ayudan a gestionar tu cuenta y les asignas accesos acordes a su rol.',
     table: {
       email: 'Email',

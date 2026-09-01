@@ -12,6 +12,9 @@ export interface DopplerUserApiClient {
   updateContactInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
+  getCollaborationInvites(
+    search?: string,
+  ): Promise<ResultWithoutExpectedErrors<Array<CollaboratorInvite>>>;
   getAvailableCollaboratorSections(): Promise<
     ResultWithoutExpectedErrors<Array<CollaboratorSection>>
   >;
@@ -19,6 +22,7 @@ export interface DopplerUserApiClient {
     value: SendCollaboratorInviteData,
   ): Promise<EmptyResultWithoutExpectedErrors>;
   updateCollaborator(value: UpdateCollaboratorData): Promise<EmptyResultWithoutExpectedErrors>;
+  cancelCollaboratorInvite(value: string): Promise<EmptyResultWithoutExpectedErrors>;
   updateUserAccountInformation(values: any): Promise<EmptyResultWithoutExpectedErrors>;
 }
 
@@ -284,15 +288,17 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
     }
   }
 
-  public async getCollaborationInvites(): Promise<
-    ResultWithoutExpectedErrors<Array<CollaboratorInvite>>
-  > {
+  public async getCollaborationInvites(
+    search?: string,
+  ): Promise<ResultWithoutExpectedErrors<Array<CollaboratorInvite>>> {
     try {
       const { email, jwtToken } = this.getDopplerUserApiConnectionData();
+      const normalizedSearch = search?.trim();
 
       const response = await this.axios.request({
         method: 'GET',
         url: `/accounts/${email}/user-invitations`,
+        params: normalizedSearch ? { search: normalizedSearch } : undefined,
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

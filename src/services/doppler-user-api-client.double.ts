@@ -161,15 +161,24 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
     };
   }
 
-  public async getCollaborationInvites(): Promise<
-    ResultWithoutExpectedErrors<Array<CollaboratorInvite>>
-  > {
+  public async getCollaborationInvites(
+    search?: string,
+  ): Promise<ResultWithoutExpectedErrors<Array<CollaboratorInvite>>> {
     console.log('getCollaborationInvites');
     await timeout(1500);
 
+    const normalizedSearch = search?.trim().toLowerCase();
+    const filteredInvitations = normalizedSearch
+      ? collaborationInvitesResult.filter(
+          ({ email, firstname }) =>
+            email.toLowerCase().includes(normalizedSearch) ||
+            firstname.toLowerCase().includes(normalizedSearch),
+        )
+      : collaborationInvitesResult;
+
     return {
       success: true,
-      value: collaborationInvitesResult,
+      value: filteredInvitations,
     };
   }
 

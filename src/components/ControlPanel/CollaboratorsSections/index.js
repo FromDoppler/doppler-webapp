@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import HeaderSection from '../../shared/HeaderSection/HeaderSection';
@@ -11,6 +11,7 @@ import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
 import { Navigate } from 'react-router-dom';
 import { isCollaboratorPermissionsEnabled } from '../../../services/collaborator-permissions-flag';
+import useTimeout from '../../../hooks/useTimeout';
 
 const modalSteps = {
   initial: 'INITIAL_STEP',
@@ -20,12 +21,18 @@ const modalSteps = {
   editSuccess: 'EDIT_SUCCESS_STEP',
 };
 
+const SEARCH_DEBOUNCE_DELAY = 700;
+
+const normalizeSearchValue = (value) => value.trim();
+
 export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const createTimeout = useTimeout();
     const collaboratorPermissionsEnabled = isCollaboratorPermissionsEnabled();
     const [loading, setLoading] = useState(true);
+    const [tableLoading, setTableLoading] = useState(false);
     const [data, setData] = useState([]);
     const [availablePermissions, setAvailablePermissions] = useState([]);
     const [activeMenu, setActiveMenus] = useState(false);
@@ -36,9 +43,13 @@ export const CollaboratorsSections = InjectAppServices(
     const [selectedCollaboratorUserAccountId, setSelectedCollaboratorUserAccountId] =
       useState(null);
     const [selectedPermissionIds, setSelectedPermissionIds] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [refreshTable, setRefreshTable] = useState(false);
-    const [permissionsLoaded, setPermissionsLoaded] = useState(!collaboratorPermissionsEnabled);
-    const [invitationsLoaded, setInvitationsLoaded] = useState(false);
+    const invitationsRequestIdRef = useRef(0);
+    const permissionsLoadedRef = useRef(!collaboratorPermissionsEnabled);
+    const hasLoadedInvitationsRef = useRef(false);
+    const latestSearchValueRef = useRef('');
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
@@ -101,7 +112,11 @@ export const CollaboratorsSections = InjectAppServices(
           setAvailablePermissions(permissions.value);
         }
 
-        setPermissionsLoaded(true);
+        permissionsLoadedRef.current = true;
+
+        if (hasLoadedInvitationsRef.current) {
+          setLoading(false);
+        }
       };
 
       fetchPermissions();
@@ -109,22 +124,33 @@ export const CollaboratorsSections = InjectAppServices(
 
     useEffect(() => {
       const fetchInvitations = async () => {
-        const invitations = await dopplerUserApiClient.getCollaborationInvites();
-        if (invitations.success) {
-          setData(invitations.value);
+        const currentRequestId = invitationsRequestIdRef.current + 1;
+        invitationsRequestIdRef.current = currentRequestId;
+
+        if (hasLoadedInvitationsRef.current) {
+          setTableLoading(true);
         }
 
-        setInvitationsLoaded(true);
+        const invitations = await dopplerUserApiClient.getCollaborationInvites(searchTerm);
+        if (invitationsRequestIdRef.current !== currentRequestId) {
+          return;
+        }
+
+        if (invitations.success) {
+          setData(invitations.value);
+          setActiveMenus(false);
+        }
+
+        hasLoadedInvitationsRef.current = true;
+        setTableLoading(false);
+
+        if (permissionsLoadedRef.current) {
+          setLoading(false);
+        }
       };
 
       fetchInvitations();
-    }, [dopplerUserApiClient, refreshTable]);
-
-    useEffect(() => {
-      if (permissionsLoaded && invitationsLoaded) {
-        setLoading(false);
-      }
-    }, [invitationsLoaded, permissionsLoaded]);
+    }, [dopplerUserApiClient, refreshTable, searchTerm]);
 
     const toggleMenu = (index) => {
       if (activeMenu === index) {
@@ -226,6 +252,21 @@ export const CollaboratorsSections = InjectAppServices(
       setRefreshTable((currentValue) => !currentValue);
     };
 
+    const handleSearchChange = ({ target: { value } }) => {
+      setSearchValue(value);
+      latestSearchValueRef.current = value;
+      setActiveMenus(false);
+      createTimeout(() => {
+        if (latestSearchValueRef.current === value) {
+          setSearchTerm(normalizeSearchValue(value));
+        }
+      }, SEARCH_DEBOUNCE_DELAY);
+    };
+
+    const handleSearchClick = () => {
+      setSearchTerm(normalizeSearchValue(searchValue));
+    };
+
     if (loading) {
       return <Loading page />;
     }
@@ -276,9 +317,44 @@ export const CollaboratorsSections = InjectAppServices(
         <section className="dp-container">
           <div className="dp-rowflex">
             <div className="col-sm-12 m-t-24 m-b-36">
-              <h3 className="m-t-24 m-b-30">{_('collaborators.title_second')}</h3>
-              <div className="dp-table-responsive">
+              <div className="dp-rowflex">
+                <div className="col-sm-12 col-md-4 col-lg-4 m-b-24">
+                  <div className="awa-form">
+                    <label
+                      htmlFor="collaborators-search"
+                      className="labelcontrol"
+                      aria-disabled="false"
+                    >
+                      <div className="dp-wrap-search">
+                        <button
+                          type="button"
+                          className="dp-button button-medium dp-button--search grey"
+                          onClick={handleSearchClick}
+                          aria-label={_('collaborators.search.label')}
+                        >
+                          <span className="ms-icon icon-search" aria-hidden="true"></span>
+                        </button>
+                        <input
+                          type="search"
+                          id="collaborators-search"
+                          placeholder={_('collaborators.search.placeholder')}
+                          aria-invalid="false"
+                          aria-label={_('collaborators.search.label')}
+                          aria-controls="collaborators-table"
+                          className="silver"
+                          value={searchValue}
+                          onChange={handleSearchChange}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <h6 className="m-b-18">{_('collaborators.title_second')}</h6>
+              <div className="dp-table-responsive" aria-busy={tableLoading}>
+                {tableLoading && <Loading />}
                 <table
+                  id="collaborators-table"
                   className="dp-table-multilogin"
                   aria-label="Resultado multilogin"
                   summary="Resultado de multilogin"
