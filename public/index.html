@@ -90,6 +90,11 @@
       #root > .wrapper-loading {
         min-height: 100vh;
       }
+
+      #root {
+        flex: 1;
+        min-width: 0;
+      }
     </style>
     <!-- Manifest Style Guide -->
     <script src="https://cdn.fromdoppler.com/mfe-loader/loader-v2.0.0.js"></script>
@@ -111,7 +116,7 @@
       });
       window['doppler-session-mfe-configuration'] = {
         dopplerLegacyBaseUrl: '%REACT_APP_DOPPLER_LEGACY_URL%',
-        useDummies: '%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true',
+        useDummies: false, //'%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true',
       };
       assetServices.load({
         manifestURL: '%REACT_APP_SESSION_MFE_MANIFEST_FILE%',
@@ -120,6 +125,7 @@
 
     <!-- Eco IA Widget -->
     <script src="https://ecoai.fromdoppler.com/eco-ia-widget.iife.js" defer></script>
+    <script src="https://ecoai.fromdoppler.com/eco-ia-widget-docked.iife.js" defer></script>
     <script>
       (function () {
         'use strict';
@@ -201,6 +207,76 @@
       })();
     </script>
     <!-- Fin Eco IA Widget -->
+    <!-- Eco IA Widget Docked -->
+    <script>
+      (function () {
+        'use strict';
+
+        function getAccountId() {
+          try {
+            var token = window.dopplerSessionState && window.dopplerSessionState.jwtToken;
+            if (!token) return null;
+            var payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.nameid ? String(payload.nameid) : null;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function insertDockedWidget() {
+          if (document.querySelector('eco-ia-widget-docked')) return true;
+
+          var accountId = getAccountId();
+          var shell = document.getElementById('eco-ia-docked-shell');
+          if (!accountId || !shell) return false;
+
+          var widget = document.createElement('eco-ia-widget-docked');
+          widget.setAttribute('account-id', accountId);
+          shell.appendChild(widget);
+          return true;
+        }
+
+        function openDockedWidget() {
+          if (!insertDockedWidget()) return;
+
+          var widget = document.querySelector('eco-ia-widget-docked');
+          if (widget && typeof widget.open === 'function') {
+            widget.open();
+            return;
+          }
+
+          window.customElements.whenDefined('eco-ia-widget-docked').then(function () {
+            var upgradedWidget = document.querySelector('eco-ia-widget-docked');
+            if (upgradedWidget && typeof upgradedWidget.open === 'function') {
+              upgradedWidget.open();
+            }
+          });
+        }
+
+        window.addEventListener('ecoia:open-requested', function () {
+          openDockedWidget();
+        });
+
+        function waitForSession() {
+          if (insertDockedWidget()) return;
+
+          var attempts = 0;
+          var interval = window.setInterval(function () {
+            attempts += 1;
+            if (insertDockedWidget() || attempts === 150) {
+              window.clearInterval(interval);
+            }
+          }, 100);
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', waitForSession);
+        } else {
+          waitForSession();
+        }
+      })();
+    </script>
+    <!-- Fin Eco IA Widget Docked -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -227,8 +303,10 @@
         <p class="flash">&nbsp;</p>
       </div>
     </div> -->
-    <div id="root" class="dp-hidden-page dp-show-page">
-      <!-- wrapper-loading -->
+    <div id="eco-ia-docked-shell" style="display: flex">
+      <main id="root" class="dp-hidden-page dp-show-page">
+        <!-- wrapper-loading -->
+      </main>
     </div>
     <!-- root -->
     <!--
