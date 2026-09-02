@@ -55,6 +55,22 @@
   visibility: hidden;
 }
 
+@media (min-width: 1440px) {
+  #root.eco-ia-docked-open .dp-app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #root.eco-ia-docked-open .private-route-content {
+    flex: 1;
+    min-height: 0;
+    margin-right: 420px;
+    overflow-y: auto;
+  }
+}
+
 .dp-plan-type-card .dp-price {
   text-align: left;
 }

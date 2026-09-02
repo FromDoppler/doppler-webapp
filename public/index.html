@@ -92,8 +92,20 @@
       }
 
       #root {
-        flex: 1;
         min-width: 0;
+      }
+
+      #eco-ia-docked-shell > eco-ia-widget-docked {
+        position: fixed !important;
+        top: 64px !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        height: calc(100vh - 64px) !important;
+        z-index: 10;
+      }
+
+      body.eco-ia-docked-open > .controller {
+        right: 440px !important;
       }
     </style>
     <!-- Manifest Style Guide -->
@@ -223,6 +235,11 @@
           }
         }
 
+        function setDockedLayout(isOpen) {
+          document.getElementById('root')?.classList.toggle('eco-ia-docked-open', isOpen);
+          document.body.classList.toggle('eco-ia-docked-open', isOpen);
+        }
+
         function insertDockedWidget() {
           if (document.querySelector('eco-ia-widget-docked')) return true;
 
@@ -232,6 +249,12 @@
 
           var widget = document.createElement('eco-ia-widget-docked');
           widget.setAttribute('account-id', accountId);
+          widget.addEventListener('ecoia:opened', function () {
+            setDockedLayout(true);
+          });
+          widget.addEventListener('ecoia:closed', function () {
+            setDockedLayout(false);
+          });
           shell.appendChild(widget);
           return true;
         }
@@ -242,6 +265,7 @@
           var widget = document.querySelector('eco-ia-widget-docked');
           if (widget && typeof widget.open === 'function') {
             widget.open();
+            setDockedLayout(true);
             return;
           }
 
@@ -249,12 +273,21 @@
             var upgradedWidget = document.querySelector('eco-ia-widget-docked');
             if (upgradedWidget && typeof upgradedWidget.open === 'function') {
               upgradedWidget.open();
+              setDockedLayout(true);
             }
           });
         }
 
         window.addEventListener('ecoia:open-requested', function () {
           openDockedWidget();
+        });
+
+        window.addEventListener('ecoia:opened', function () {
+          setDockedLayout(true);
+        });
+
+        window.addEventListener('ecoia:closed', function () {
+          setDockedLayout(false);
         });
 
         function waitForSession() {
@@ -303,7 +336,7 @@
         <p class="flash">&nbsp;</p>
       </div>
     </div> -->
-    <div id="eco-ia-docked-shell" style="display: flex">
+    <div id="eco-ia-docked-shell">
       <main id="root" class="dp-hidden-page dp-show-page">
         <!-- wrapper-loading -->
       </main>

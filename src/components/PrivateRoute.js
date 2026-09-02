@@ -44,20 +44,22 @@ export default InjectAppServices(
           <MenuDemo />
           {/* <Header userData={dopplerSession.userData} location={props.location} /> */}
           {/* TODO: remove all Header related code */}
-          {requireSiteTracking &&
-          !dopplerSession.userData.features.siteTrackingEnabled &&
-          !dopplerSession.userData.user.plan.isFreeAccount ? (
-            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.trialNotAccepted} />
-          ) : requireSiteTracking &&
+          <div className="private-route-content">
+            {requireSiteTracking &&
             !dopplerSession.userData.features.siteTrackingEnabled &&
-            dopplerSession.userData.user.plan.isFreeAccount ? (
-            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.freeAccount} />
-          ) : requireSiteTracking && !dopplerSession.userData.datahubCustomerId ? (
-            <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.noDatahubId} />
-          ) : (
-            children
-          )}
-          <Footer />
+            !dopplerSession.userData.user.plan.isFreeAccount ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.trialNotAccepted} />
+            ) : requireSiteTracking &&
+              !dopplerSession.userData.features.siteTrackingEnabled &&
+              dopplerSession.userData.user.plan.isFreeAccount ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.freeAccount} />
+            ) : requireSiteTracking && !dopplerSession.userData.datahubCustomerId ? (
+              <SiteTrackingRequired reason={SiteTrackingNotAvailableReasons.noDatahubId} />
+            ) : (
+              children
+            )}
+            <Footer />
+          </div>
         </div>
       );
     }
