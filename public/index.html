@@ -100,12 +100,27 @@
         top: 64px !important;
         right: 0 !important;
         bottom: 0 !important;
-        height: calc(100vh - 64px) !important;
+        height: calc(100vh - 112px) !important;
         z-index: 10;
+        margin-top: 48px;
+      }
+
+      body.eco-ia-docked-open #userpilot-checklist {
+        right: 520px !important;
+      }
+
+      body.eco-ia-docked-open #launcher {
+        right: 440px !important;
       }
 
       body.eco-ia-docked-open > .controller {
         right: 440px !important;
+      }
+
+      @media (max-width: 960px) {
+        body.eco-ia-docked-open > .controller {
+          display: none !important;
+        }
       }
     </style>
     <!-- Manifest Style Guide -->
@@ -128,7 +143,7 @@
       });
       window['doppler-session-mfe-configuration'] = {
         dopplerLegacyBaseUrl: '%REACT_APP_DOPPLER_LEGACY_URL%',
-        useDummies: false, //'%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true',
+        useDummies: '%NODE_ENV%' === 'development' || '%REACT_APP_IS_DEMO_ENABLED%' === 'true',
       };
       assetServices.load({
         manifestURL: '%REACT_APP_SESSION_MFE_MANIFEST_FILE%',
@@ -141,6 +156,8 @@
     <script>
       (function () {
         'use strict';
+
+        window.isDockedWidgetOpen = false;
 
         // Lee el account ID del JWT de dopplerSessionState
         function getAccountId() {
@@ -224,6 +241,10 @@
       (function () {
         'use strict';
 
+        var activeWidgetId = null;
+        var isClosingChatWidget = false;
+        var widgetClosers = {};
+
         function getAccountId() {
           try {
             var token = window.dopplerSessionState && window.dopplerSessionState.jwtToken;
@@ -235,9 +256,115 @@
           }
         }
 
+        function isVisible(element) {
+          if (!element) return false;
+
+          var style = window.getComputedStyle(element);
+          return style.display !== 'none' && style.visibility !== 'hidden';
+        }
+
+        function isChatWidgetOpen() {
+          return isVisible(document.querySelector('body > .controller'));
+        }
+
+        function closeChatWidget() {
+          if (!isChatWidgetOpen()) return;
+
+          var launcher = document.getElementById('launcher');
+          if (!launcher) return;
+
+          isClosingChatWidget = true;
+          launcher.click();
+          window.setTimeout(function () {
+            isClosingChatWidget = false;
+          });
+        }
+
+        function closeOnboardingWidget() {
+          var checklist = document.getElementById('userpilot-checklist');
+          if (!isVisible(checklist)) return;
+
+          var closeButton = Array.from(checklist.querySelectorAll('button')).find(
+            function (button) {
+              return /cerrar|close|minimizar|minimize|dismiss/i.test(
+                `${button.getAttribute('aria-label')} ${button.textContent}`,
+              );
+            },
+          );
+          closeButton?.click();
+        }
+
+        function closeDashboardEcoWidget() {
+          var container = document.getElementById('eco-ia-widget-container');
+          if (container) {
+            container.style.setProperty('display', 'none', 'important');
+          }
+        }
+
+        function activateWidget(widgetId) {
+          Object.entries(widgetClosers).forEach(function ([id, close]) {
+            if (id !== widgetId) close();
+          });
+          activeWidgetId = widgetId;
+        }
+
+        function notifyWidgetClosed(widgetId) {
+          if (activeWidgetId === widgetId) {
+            activeWidgetId = null;
+          }
+        }
+
+        widgetClosers['eco-ia'] = closeDockedWidget;
+        widgetClosers['eco-ia-dashboard'] = closeDashboardEcoWidget;
+        widgetClosers.chat = closeChatWidget;
+        widgetClosers.onboarding = closeOnboardingWidget;
+        window.dopplerWidgets = {
+          activate: activateWidget,
+          notifyClosed: notifyWidgetClosed,
+          register: function (widgetId, close) {
+            widgetClosers[widgetId] = close;
+          },
+        };
+
         function setDockedLayout(isOpen) {
+          window.isDockedWidgetOpen = isOpen;
           document.getElementById('root')?.classList.toggle('eco-ia-docked-open', isOpen);
           document.body.classList.toggle('eco-ia-docked-open', isOpen);
+          setExternalLaunchersPosition(isOpen);
+        }
+
+        function setExternalLaunchersPosition(isOpen) {
+          [
+            ['userpilot-checklist', '520px'],
+            ['launcher', '440px'],
+          ].forEach(function ([id, right]) {
+            var launcher = document.getElementById(id);
+            if (!launcher) return;
+
+            if (isOpen) {
+              if (!launcher.dataset.ecoIaOriginalRight) {
+                launcher.dataset.ecoIaOriginalRight = JSON.stringify([
+                  launcher.style.getPropertyValue('right'),
+                  launcher.style.getPropertyPriority('right'),
+                ]);
+              }
+              if (
+                launcher.style.getPropertyValue('right') !== right ||
+                launcher.style.getPropertyPriority('right') !== 'important'
+              ) {
+                launcher.style.setProperty('right', right, 'important');
+              }
+              return;
+            }
+
+            if (launcher.dataset.ecoIaOriginalRight) {
+              var [originalRight, originalPriority] = JSON.parse(
+                launcher.dataset.ecoIaOriginalRight,
+              );
+              launcher.style.setProperty('right', originalRight, originalPriority);
+              delete launcher.dataset.ecoIaOriginalRight;
+            }
+          });
         }
 
         function insertDockedWidget() {
@@ -254,6 +381,7 @@
           });
           widget.addEventListener('ecoia:closed', function () {
             setDockedLayout(false);
+            notifyWidgetClosed('eco-ia');
           });
           shell.appendChild(widget);
           return true;
@@ -278,9 +406,49 @@
           });
         }
 
+        function closeDockedWidget() {
+          var widget = document.querySelector('eco-ia-widget-docked');
+          if (widget && typeof widget.close === 'function') {
+            widget.close();
+          }
+        }
+
         window.addEventListener('ecoia:open-requested', function () {
-          openDockedWidget();
+          if (window.isDockedWidgetOpen) {
+            closeDockedWidget();
+          } else {
+            activateWidget('eco-ia');
+            openDockedWidget();
+          }
         });
+
+        document.addEventListener(
+          'click',
+          function (event) {
+            var dashboardEcoWidget = event.target.closest('eco-ia-widget');
+            var launcher = event.target.closest('#launcher');
+            var controller = event.target.closest('.controller');
+            var action = event.target.closest('button, a');
+            if (dashboardEcoWidget) {
+              activateWidget('eco-ia-dashboard');
+            }
+            if (launcher && !isClosingChatWidget) {
+              if (isChatWidgetOpen()) {
+                notifyWidgetClosed('chat');
+              } else {
+                activateWidget('chat');
+              }
+            }
+            if (
+              controller?.parentElement === document.body &&
+              action &&
+              /primeros pasos|get started/i.test(action.textContent)
+            ) {
+              activateWidget('onboarding');
+            }
+          },
+          true,
+        );
 
         window.addEventListener('ecoia:opened', function () {
           setDockedLayout(true);
@@ -288,9 +456,21 @@
 
         window.addEventListener('ecoia:closed', function () {
           setDockedLayout(false);
+          notifyWidgetClosed('eco-ia');
         });
 
         function waitForSession() {
+          new MutationObserver(function () {
+            if (document.body.classList.contains('eco-ia-docked-open')) {
+              setExternalLaunchersPosition(true);
+            }
+          }).observe(document.body, {
+            attributes: true,
+            attributeFilter: ['style'],
+            childList: true,
+            subtree: true,
+          });
+
           if (insertDockedWidget()) return;
 
           var attempts = 0;
