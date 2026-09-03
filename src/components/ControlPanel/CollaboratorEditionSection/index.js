@@ -36,6 +36,11 @@ const languageIdsByCode = {
   en: 2,
 };
 
+const maxOwnerEmailLength = 30;
+
+const truncateOwnerEmail = (email) =>
+  email.length > maxOwnerEmailLength ? `${email.slice(0, maxOwnerEmailLength)}...` : email;
+
 const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
   const intl = useIntl();
 
@@ -93,6 +98,7 @@ export const CollaboratorEditionSection = InjectAppServices(
 
     const accountData = appSessionRef.current.userData.userAccount;
     const owner_email = appSessionRef.current.userData.user?.email || '';
+    const truncatedOwnerEmail = truncateOwnerEmail(owner_email);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'COLLABORATOR';
@@ -301,7 +307,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                       </CollapsibleSection>
                       <AccountReportsSection
                         formatMessage={_}
-                        ownerEmail={owner_email}
+                        ownerEmail={truncatedOwnerEmail}
                         isOpen={isAccountReportsOpen}
                         onToggle={toggleAccordionSection(setIsAccountReportsOpen)}
                       >
