@@ -78,6 +78,36 @@ describe('Control Panel Service', () => {
     expect(result[0].boxes[4].disabled === true).toBe(true);
   });
 
+  it('should redirect account information to collaborator edition for collaborators', async () => {
+    // Arrange
+    const userData = {
+      user: {
+        hasClientManager: false,
+        plan: {
+          isFreeAccount: false,
+        },
+      },
+      userAccount: {
+        userProfileType: 'COLLABORATOR',
+        collaboratorViewAccessRights: [
+          {
+            accessLevel: 25,
+            idSection: 4,
+            name: 'ControlPanel',
+          },
+        ],
+      },
+    };
+
+    const controlPanelService = createControlPanelService(userData);
+
+    // Act
+    const result = controlPanelService.getControlPanelSections((x) => x);
+
+    // Assert
+    expect(result[0].boxes[0].linkUrl).toBe('/control-panel/collaborator-edition');
+  });
+
   it('Account history, billing information and SMS settings boxes should be disabled ', async () => {
     // Arrange
     const userData = {
@@ -127,7 +157,7 @@ describe('Control Panel Service', () => {
     expect(result).toHaveLength(1);
     expect(result[0].anchorLink).toBe('account-preferences');
     expect(visibleBoxes).toHaveLength(1);
-    expect(visibleBoxes[0].linkUrl).toContain('GetAccountInformation');
+    expect(visibleBoxes[0].linkUrl).toBe('/control-panel/collaborator-edition');
   });
 
   it('should show every box for collaborators with Control Panel access', async () => {
@@ -161,6 +191,8 @@ describe('Control Panel Service', () => {
 
     // Assert
     expect(result.length).toBeGreaterThan(1);
-    expect(visibleBoxes.some((box) => box.linkUrl.includes('GetAccountInformation'))).toBe(true);
+    expect(visibleBoxes.some((box) => box.linkUrl === '/control-panel/collaborator-edition')).toBe(
+      true,
+    );
   });
 });
