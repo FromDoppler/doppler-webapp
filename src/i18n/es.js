@@ -747,15 +747,22 @@ other {}}}}}}}}}}
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
   collaborator_edition: {
+    account_reports_title: 'Reportes de cuenta',
+    account_reports_weekly_description: 'Recibes un resumen cada semana con el rendimiento de tu cuenta, con datos de la semana anterior. Desactivalo cuando quieras.',
+    account_reports_weekly_label: 'Enviar reporte semanal de tu cuenta por email',
+    account_reports_weekly_note: '<strong>¡Psst!</strong> Este envio no se descontara de tu Plan.',
+    change_password_title: '¿Deseas cambiar tu contraseña?',
     confirm_password: 'Confirmar contraseña',
     current_password: 'Contraseña actual',
+    language: 'Idioma',
     new_password: 'Nueva contraseña',
+    personal_data_title: 'Datos Personales',
   },
   collaborators: {
     add_collaborator: 'Añadir nuevo Colaborador',
     add_collaborator_button: 'Invita a un Colaborador',
-    edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.
-    ¡No olvides guardar tu información!`,
+    edition_subtitle: `Edita los datos que necesitas para poder continuar utilizando tu cuenta.`,
+    edition_subtitle_reminder: `¡No olvides guardar tu información!`,
     form_modal: {
       description: `Completa con el Email de la persona que deseas agregar a tu cuenta.`,
       edit_permissions_title: 'Editar Permisos',
@@ -819,6 +826,7 @@ other {}}}}}}}}}}
   },
   common: {
     accept: `Aceptar`,
+    active: 'Activo',
     advanced_preferences: `Integraciones y Preferencias Avanzadas`,
     back: `Atrás`,
     breadcrumb_plans: 'Planes',
@@ -830,6 +838,7 @@ other {}}}}}}}}}}
     control_panel_url: `${urlControlPanelMain}`,
     conversations_index_url: `${urlConversations}/external-login`,
     copyright_MD: `© ${year} Doppler LLC. Todos los derechos reservados. [Política de Privacidad y Legales](${urlPrivacy}).`,
+    disabled: 'Desactivado',
     emails: 'Emails',
     empty_data: `Tu dominio no tiene datos para mostrar en esta sección aún.`,
     feature_no_available: `La funcionalidad no está disponible aún`,
@@ -838,6 +847,10 @@ other {}}}}}}}}}}
     homeUrl: `${urlDraft}`,
     hours_abbreviation: 'hrs',
     integrations: `Integraciones`,
+    language: {
+      english: 'Inglés',
+      spanish: 'Español',
+    },
     message: `Mensaje`,
     message_last_plan: `Cuéntanos tus necesidades y diseñaremos el Plan perfecto para ti`,
     message_success: `¡Hecho! Tu solicitud ha sido enviada`,

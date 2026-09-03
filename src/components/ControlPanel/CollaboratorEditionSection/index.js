@@ -1,41 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useIntl } from 'react-intl';
-import HeaderSection from '../../shared/HeaderSection/HeaderSection';
-import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Field, Form, Formik, useFormikContext } from 'formik';
+import { Navigate } from 'react-router-dom';
+
 import { InjectAppServices } from '../../../services/pure-di';
-import { Formik, Form } from 'formik';
+import { getFormInitialValues, languageOptions } from '../../../utils';
+import { validatePassword } from '../../../validations';
+import { GoBackButton } from '../../BuyProcess/PlanSelection/GoBackButton';
 import {
   FieldGroup,
+  FieldItemAccessible,
   FormMessages,
   InputFieldItemAccessible,
   PasswordFieldItem,
   PhoneFieldItemAccessible,
   SubmitButton,
 } from '../../form-helpers/form-helpers';
-import { getFormInitialValues } from '../../../utils';
-import { GoBackButton } from '../../BuyProcess/PlanSelection/GoBackButton';
-import { Navigate } from 'react-router-dom';
-import { validatePassword } from '../../../validations';
+import { Breadcrumb, BreadcrumbItem } from '../../shared/Breadcrumb/Breadcrumb';
+import HeaderSection from '../../shared/HeaderSection/HeaderSection';
 
 const minLength = {
   min: 2,
   errorMessageKey: 'validation_messages.error_min_length_2',
 };
+
 const fieldNames = {
   current_password: 'current_password',
   new_password: 'new_password',
   confirm_password: 'confirm_password',
 };
 
+const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
+  const intl = useIntl();
+
+  return (
+    <li className={isOpen ? 'active' : ''}>
+      <button
+        type="button"
+        className="dp-accordion-thumb"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        style={{ borderTop: '1px solid #ccc' }}
+      >
+        <span className="dp-accordion-header">
+          <span>{title}</span>
+          {typeof status === 'boolean' ? (
+            <span className={`pill ${status ? 'pill--green' : 'pill--grey'}`}>
+              <span className="pill-text">
+                {intl.formatMessage({
+                  id: status ? 'common.active' : 'common.disabled',
+                })}
+              </span>
+            </span>
+          ) : null}
+          <span className="dp-accordion-icon" aria-hidden="true" />
+        </span>
+      </button>
+      <div style={{ display: isOpen ? 'block' : 'none' }}>
+        <div className="dp-accordion-content">{children}</div>
+      </div>
+    </li>
+  );
+};
+
+const AccountReportsSection = ({ formatMessage, isOpen, onToggle, children }) => {
+  const { values } = useFormikContext();
+
+  return (
+    <CollapsibleSection
+      title={formatMessage('collaborator_edition.account_reports_title')}
+      status={values.weekly_account_report_enabled}
+      isOpen={isOpen}
+      onToggle={onToggle}
+    >
+      {children}
+    </CollapsibleSection>
+  );
+};
+
 export const CollaboratorEditionSection = InjectAppServices(
   ({ dependencies: { appSessionRef, dopplerUserApiClient } }) => {
     const intl = useIntl();
-    const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const _ = (id, values) => intl.formatMessage({ id }, values);
+
     const accountData = appSessionRef.current.userData.userAccount;
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'COLLABORATOR';
+
+    const [isPersonalDataOpen, setIsPersonalDataOpen] = useState(true);
+    const [isPasswordOpen, setIsPasswordOpen] = useState(true);
+    const [isAccountReportsOpen, setIsAccountReportsOpen] = useState(true);
+
+    const toggleAccordionSection = (setSectionState) => (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.nativeEvent?.stopImmediatePropagation?.();
+      setSectionState((current) => !current);
+    };
 
     const validate = (values) => {
       const errors = {};
@@ -65,13 +128,16 @@ export const CollaboratorEditionSection = InjectAppServices(
 
       return errors;
     };
+
     const formikConfig = {
       enableReinitialize: true,
       initialValues: {
-        email: accountData?.email,
-        firstname: accountData?.firstName,
-        lastname: accountData?.lastName,
-        phone: accountData?.phone,
+        email: accountData?.email || '',
+        language: intl.locale?.startsWith('en') ? 'en' : 'es',
+        firstname: accountData?.firstName || accountData?.firstname || '',
+        lastname: accountData?.lastName || accountData?.lastname || '',
+        phone: accountData?.phone || '',
+        weekly_account_report_enabled: true,
         ...getFormInitialValues(fieldNames),
       },
       validateOnChange: true,
@@ -86,6 +152,7 @@ export const CollaboratorEditionSection = InjectAppServices(
         CurrentPassword: values.current_password,
         NewPassword: values.new_password,
       };
+
       const response = await dopplerUserApiClient.updateUserAccountInformation(body);
 
       if (response.success) {
@@ -112,7 +179,7 @@ export const CollaboratorEditionSection = InjectAppServices(
     return (
       <>
         <Helmet>
-          <title>{_('collaborators.meta_title')}</title>
+          <title>{_('control_panel.account_preferences.account_information_title')}</title>
         </Helmet>
         <HeaderSection>
           <div className="col-sm-12 col-md-12 col-lg-12">
@@ -122,30 +189,53 @@ export const CollaboratorEditionSection = InjectAppServices(
                 text={_('common.control_panel')}
               />
               <BreadcrumbItem
-                text={_('control_panel.account_preferences.collaborator_edition_title')}
+                text={_('control_panel.account_preferences.account_information_title')}
               />
             </Breadcrumb>
-            <h2>{_('control_panel.account_preferences.collaborator_edition_title')}</h2>
+            <h2>{_('control_panel.account_preferences.account_information_title')}</h2>
           </div>
           <div className="col-sm-7">
             <p>{_('collaborators.edition_subtitle')}</p>
+            <p>{_('collaborators.edition_subtitle_reminder')}</p>
           </div>
         </HeaderSection>
         <section className="dp-container">
           <div className="dp-rowflex">
-            <div className="col-sm-8 m-t-24 m-b-36">
+            <div className="col-sm-6 m-b-36">
               <Formik {...formikConfig} validate={validate} onSubmit={handleSubmit}>
-                <Form className="awa-form signup-form" data-testid="collaborator-edition-form">
-                  <fieldset>
-                    <FieldGroup>
+                <Form data-testid="collaborator-edition-form">
+                  <div className="awa-form signup-form" style={{ margin: '0px' }}>
+                    <FieldGroup className="dp-rowflex">
                       <InputFieldItemAccessible
+                        className="col-sm-12"
                         fieldName="email"
                         label={_('signup.label_email')}
                         withSubmitCount={false}
-                        disabled={true}
+                        disabled
                         type="text"
-                      ></InputFieldItemAccessible>
-                      <li>
+                      />
+                      <FieldItemAccessible className="col-sm-12 m-b-0">
+                        <label htmlFor="language" className="labelcontrol">
+                          {`${_('collaborator_edition.language')}:`}
+                          <div className="dp-select">
+                            <span className="dropdown-arrow" />
+                            <Field as="select" id="language" name="language">
+                              {languageOptions.map((option) => (
+                                <option key={option.key} value={option.key}>
+                                  {_(option.labelId)}
+                                </option>
+                              ))}
+                            </Field>
+                          </div>
+                        </label>
+                      </FieldItemAccessible>
+                    </FieldGroup>
+                    <ul className="dp-accordion dp-accordion-control-panel">
+                      <CollapsibleSection
+                        title={_('collaborator_edition.personal_data_title')}
+                        isOpen={isPersonalDataOpen}
+                        onToggle={toggleAccordionSection(setIsPersonalDataOpen)}
+                      >
                         <FieldGroup>
                           <InputFieldItemAccessible
                             autoFocus
@@ -170,48 +260,85 @@ export const CollaboratorEditionSection = InjectAppServices(
                             withNameValidation
                             withSubmitCount={false}
                           />
+                          <PhoneFieldItemAccessible
+                            className="m-b-0"
+                            fieldName="phone"
+                            label={_('signup.label_phone')}
+                            placeholder={_('signup.placeholder_phone')}
+                            required="validation_messages.error_phone_required"
+                            withSubmitCount={false}
+                          />
                         </FieldGroup>
+                      </CollapsibleSection>
+                      <CollapsibleSection
+                        title={_('collaborator_edition.change_password_title')}
+                        isOpen={isPasswordOpen}
+                        onToggle={toggleAccordionSection(setIsPasswordOpen)}
+                      >
+                        <FieldGroup>
+                          <PasswordFieldItem
+                            fieldName="current_password"
+                            label={_('collaborator_edition.current_password')}
+                          />
+                          <PasswordFieldItem
+                            fieldName="new_password"
+                            label={_('collaborator_edition.new_password')}
+                          />
+                          <PasswordFieldItem
+                            fieldName="confirm_password"
+                            label={_('collaborator_edition.confirm_password')}
+                          />
+                        </FieldGroup>
+                      </CollapsibleSection>
+                      <AccountReportsSection
+                        formatMessage={_}
+                        isOpen={isAccountReportsOpen}
+                        onToggle={toggleAccordionSection(setIsAccountReportsOpen)}
+                      >
+                        <div className="dp-text-switch m-t-12">
+                          <div className="dp-switch">
+                            <Field
+                              type="checkbox"
+                              id="weekly_account_report_enabled"
+                              name="weekly_account_report_enabled"
+                            />
+                            <label htmlFor="weekly_account_report_enabled">
+                              <span />
+                            </label>
+                          </div>
+                          <div className="m-l-12">
+                            <p className="m-b-12">
+                              <strong>
+                                {_('collaborator_edition.account_reports_weekly_label')}
+                              </strong>
+                            </p>
+                            <p className="m-b-12">
+                              {_('collaborator_edition.account_reports_weekly_description')}
+                            </p>
+                            <p className="m-b-0">
+                              <FormattedMessage
+                                id="collaborator_edition.account_reports_weekly_note"
+                                values={{
+                                  strong: (chunks) => <strong>{chunks}</strong>,
+                                }}
+                              />
+                            </p>
+                          </div>
+                        </div>
+                      </AccountReportsSection>
+                    </ul>
+
+                    <FormMessages />
+
+                    <ul className="dp-group-buttons">
+                      <li>
+                        <GoBackButton />
                       </li>
-                    </FieldGroup>
-                  </fieldset>
-                  <fieldset>
-                    <FieldGroup>
-                      <PhoneFieldItemAccessible
-                        fieldName="phone"
-                        label={_('signup.label_phone')}
-                        placeholder={_('signup.placeholder_phone')}
-                        required="validation_messages.error_phone_required"
-                        withSubmitCount={false}
-                      />
-                    </FieldGroup>
-                  </fieldset>
-                  <hr className="dp-h-divider m-t-30 m-b-30"></hr>
-                  <h1>¿Quieres cambiar tu contraseña?</h1>
-                  <fieldset>
-                    <FieldGroup>
-                      <PasswordFieldItem
-                        fieldName="current_password"
-                        label={_('collaborator_edition.current_password')}
-                      />
-                      <PasswordFieldItem
-                        fieldName="new_password"
-                        label={_('collaborator_edition.new_password')}
-                      />
-                      <PasswordFieldItem
-                        fieldName="confirm_password"
-                        label={_('collaborator_edition.confirm_password')}
-                      />
-                    </FieldGroup>
-                  </fieldset>
-                  <FormMessages />
-                  <ul className="dp-group-buttons">
-                    <li>
-                      <GoBackButton />
-                    </li>
-                    <li>
-                      <SubmitButton>{_('common.save')}</SubmitButton>
-                    </li>
-                  </ul>
+                      <li>
+                        <SubmitButton>{_('common.save')}</SubmitButton>
+                      </li>
+                    </ul>
+                  </div>
                 </Form>
               </Formik>
             </div>
