@@ -13,8 +13,10 @@ export interface DopplerUserApiClient {
   getFeatures(): Promise<ResultWithoutExpectedErrors<Features>>;
   getIntegrationsStatus(): Promise<ResultWithoutExpectedErrors<IntegrationsStatus>>;
   getCollaborationInvites(
+    pageNumber?: number,
+    pageSize?: number,
     search?: string,
-  ): Promise<ResultWithoutExpectedErrors<Array<CollaboratorInvite>>>;
+  ): Promise<ResultWithoutExpectedErrors<BaseCollectionPage<CollaboratorInvite>>>;
   getAvailableCollaboratorSections(): Promise<
     ResultWithoutExpectedErrors<Array<CollaboratorSection>>
   >;
@@ -68,6 +70,14 @@ export interface CollaboratorInvite {
   expirationDate: string;
   sections: number[];
   invitationStatus: string;
+}
+
+export interface BaseCollectionPage<T> {
+  items: T[];
+  currentPage: number;
+  pageSize: number;
+  itemsCount: number;
+  pagesCount: number;
 }
 
 export interface CollaboratorSection {
@@ -289,8 +299,10 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
   }
 
   public async getCollaborationInvites(
+    pageNumber = 0,
+    pageSize = 10,
     search?: string,
-  ): Promise<ResultWithoutExpectedErrors<Array<CollaboratorInvite>>> {
+  ): Promise<ResultWithoutExpectedErrors<BaseCollectionPage<CollaboratorInvite>>> {
     try {
       const { email, jwtToken } = this.getDopplerUserApiConnectionData();
       const normalizedSearch = search?.trim();
@@ -298,7 +310,7 @@ export class HttpDopplerUserApiClient implements DopplerUserApiClient {
       const response = await this.axios.request({
         method: 'GET',
         url: `/accounts/${email}/user-invitations`,
-        params: normalizedSearch ? { search: normalizedSearch } : undefined,
+        params: { pageNumber, pageSize, ...(normalizedSearch ? { search: normalizedSearch } : {}) },
         headers: { Authorization: `bearer ${jwtToken}` },
       });
 

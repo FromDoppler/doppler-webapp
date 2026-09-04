@@ -1819,6 +1819,9 @@ continúa usando todas las herramientas de Doppler para que tu negocio crezca.`,
   pagination: {
     go_back_pages: 'Retroceder 5 páginas',
     go_foward_pages: 'Avanzar 5 páginas',
+    navigation: 'Paginacion',
+    next_page: 'Pagina siguiente',
+    previous_page: 'Pagina anterior',
   },
   plan_calculator: {
     advice_for_subscribers_large_plan: '¿Necesitas más Contactos? <Link>Escríbenos</Link>.',

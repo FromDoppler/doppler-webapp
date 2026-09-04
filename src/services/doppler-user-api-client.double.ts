@@ -5,6 +5,7 @@ import {
   IntegrationsStatus,
   CollaboratorInvite,
   CollaboratorSection,
+  BaseCollectionPage,
   SendCollaboratorInviteData,
   UpdateCollaboratorData,
 } from './doppler-user-api-client';
@@ -77,6 +78,21 @@ const collaborationInvitesResult: Array<CollaboratorInvite> = [
     sections: [1, 2, 10, 18],
     invitationStatus: 'APPROVED',
   },
+  ...Array.from({ length: 48 }, (_, index) => {
+    const collaboratorNumber = index + 3;
+
+    return {
+      idUser: collaboratorNumber,
+      idUserAccount: 200 + collaboratorNumber,
+      email: `test${collaboratorNumber}@fromdoppler.com`,
+      firstname: `Test ${collaboratorNumber}`,
+      lastname: `Test ${collaboratorNumber}`,
+      invitationDate: '2024-08-15T02:12:09',
+      expirationDate: '2024-08-16T13:19:37',
+      sections: [1, 4, 8],
+      invitationStatus: index % 2 === 0 ? 'PENDING' : 'APPROVED',
+    };
+  }),
 ];
 
 const collaboratorSectionsResult: Array<CollaboratorSection> = [
@@ -162,8 +178,10 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
   }
 
   public async getCollaborationInvites(
+    pageNumber = 0,
+    pageSize = 10,
     search?: string,
-  ): Promise<ResultWithoutExpectedErrors<Array<CollaboratorInvite>>> {
+  ): Promise<ResultWithoutExpectedErrors<BaseCollectionPage<CollaboratorInvite>>> {
     console.log('getCollaborationInvites');
     await timeout(1500);
 
@@ -178,7 +196,13 @@ export class HardcodedDopplerUserApiClient implements DopplerUserApiClient {
 
     return {
       success: true,
-      value: filteredInvitations,
+      value: {
+        items: filteredInvitations.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize),
+        currentPage: pageNumber,
+        pageSize,
+        itemsCount: filteredInvitations.length,
+        pagesCount: Math.ceil(filteredInvitations.length / pageSize),
+      },
     };
   }
 

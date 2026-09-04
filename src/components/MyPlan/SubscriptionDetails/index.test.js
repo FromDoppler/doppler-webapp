@@ -5,6 +5,14 @@ import IntlProvider from '../../../i18n/DopplerIntlProvider.double-with-ids-as-v
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
+const emptyInvitationsPage = {
+  items: [],
+  currentPage: 0,
+  pageSize: 10,
+  itemsCount: 0,
+  pagesCount: 0,
+};
+
 describe('SubscriptionDetails component', () => {
   it('should render component - Email Marketing Plan without AddOns Plan', async () => {
     // Assert
@@ -55,7 +63,7 @@ describe('SubscriptionDetails component', () => {
         },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] }),
+        getCollaborationInvites: async () => ({ success: true, value: emptyInvitationsPage }),
       },
     };
 
@@ -91,7 +99,7 @@ describe('SubscriptionDetails component', () => {
     // Assert
     const dopplerUserApiClientDouble = {
       getCollaborationInvites: async () => {
-        return { success: true, value: [] };
+        return { success: true, value: emptyInvitationsPage };
       },
     };
 
@@ -212,7 +220,7 @@ describe('SubscriptionDetails component', () => {
         },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] }),
+        getCollaborationInvites: async () => ({ success: true, value: emptyInvitationsPage }),
       },
     };
 
@@ -241,7 +249,7 @@ describe('SubscriptionDetails component', () => {
     // Assert
     const dopplerUserApiClientDouble = {
       getCollaborationInvites: async () => {
-        return { success: true, value: [] };
+        return { success: true, value: emptyInvitationsPage };
       },
     };
 
@@ -364,7 +372,7 @@ describe('SubscriptionDetails component', () => {
         },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] }),
+        getCollaborationInvites: async () => ({ success: true, value: emptyInvitationsPage }),
       },
     };
 
@@ -437,7 +445,7 @@ describe('SubscriptionDetails component', () => {
         },
       },
       dopplerUserApiClient: {
-        getCollaborationInvites: async () => ({ success: true, value: [] }),
+        getCollaborationInvites: async () => ({ success: true, value: emptyInvitationsPage }),
       },
     };
 

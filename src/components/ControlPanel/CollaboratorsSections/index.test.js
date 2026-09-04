@@ -42,13 +42,28 @@ const availableCollaboratorSections = [
   { idSection: 999, name: 'Custom Permission' },
 ];
 
+const paginatedCollaborationInvitesResult = Array.from({ length: 50 }, (_, index) => ({
+  ...collaborationInvitesResult[0],
+  idUser: index + 1,
+  idUserAccount: index + 1,
+  email: `test${index + 1}@fromdoppler.com`,
+}));
+
+const createInvitationsPage = (items, currentPage = 0) => ({
+  items,
+  currentPage,
+  pageSize: 10,
+  itemsCount: items.length,
+  pagesCount: Math.ceil(items.length / 10),
+});
+
 const createDopplerUserApiClientDouble = ({
   sendCollaboratorInviteResult = { success: true },
   updateCollaboratorResult = { success: true },
 } = {}) => ({
   getCollaborationInvites: jest.fn(async () => ({
     success: true,
-    value: collaborationInvitesResult,
+    value: createInvitationsPage(collaborationInvitesResult),
   })),
   getAvailableCollaboratorSections: jest.fn(async () => ({
     success: true,
@@ -133,6 +148,39 @@ describe('CollaboratorsSections', () => {
 
     expect(screen.getByText('test@fromdoppler.com')).toBeInTheDocument();
     expect(screen.queryByRole('table')).toBeInTheDocument();
+    expect(document.querySelector('.dp-pagination')).toBeInTheDocument();
+  });
+
+  it('shows the selected collaborators page and requests it from the API', async () => {
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    dopplerUserApiClient.getCollaborationInvites.mockImplementation(async (pageNumber) => ({
+      success: true,
+      value: {
+        items: paginatedCollaborationInvitesResult.slice(pageNumber * 10, (pageNumber + 1) * 10),
+        currentPage: pageNumber,
+        pageSize: 10,
+        itemsCount: paginatedCollaborationInvitesResult.length,
+        pagesCount: 5,
+      },
+    }));
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenCalledWith(0, 10);
+    expect(screen.getByText('test1@fromdoppler.com')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('link', { name: '2' }));
+
+    await waitFor(() =>
+      expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenLastCalledWith(1, 10),
+    );
+    expect(screen.getByText('test11@fromdoppler.com')).toBeInTheDocument();
+    expect(screen.queryByText('test1@fromdoppler.com')).not.toBeInTheDocument();
+    expect(screen.queryByTitle('pagination.go_foward_pages')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '5' })).toBeInTheDocument();
   });
 
   it('does not load collaborator permissions or show the edit action when the flag is disabled', async () => {
@@ -360,7 +408,7 @@ describe('CollaboratorsSections', () => {
     const dopplerUserApiClient = createDopplerUserApiClientDouble();
     dopplerUserApiClient.getCollaborationInvites.mockResolvedValueOnce({
       success: true,
-      value: [
+      value: createInvitationsPage([
         {
           idUser: 7,
           idUserAccount: null,
@@ -372,7 +420,7 @@ describe('CollaboratorsSections', () => {
           sections: [1],
           invitationStatus: 'APPROVED',
         },
-      ],
+      ]),
     });
     renderComponent(dopplerUserApiClient);
 

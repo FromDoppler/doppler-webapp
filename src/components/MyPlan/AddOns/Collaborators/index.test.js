@@ -10,7 +10,10 @@ describe('Collaborators component', () => {
     // Assert
     const dopplerUserApiClientDouble = {
       getCollaborationInvites: async () => {
-        return { success: true, value: [] };
+        return {
+          success: true,
+          value: { items: [], currentPage: 0, pageSize: 10, itemsCount: 0, pagesCount: 0 },
+        };
       },
     };
 

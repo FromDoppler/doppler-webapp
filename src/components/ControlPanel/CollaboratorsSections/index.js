@@ -9,9 +9,10 @@ import { CollaboratorInviteForm } from './Forms/CollaboratorInviteForm';
 import { CollaboratorPermissionsForm } from './Forms/CollaboratorPermissionsForm';
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { isCollaboratorPermissionsEnabled } from '../../../services/collaborator-permissions-flag';
 import useTimeout from '../../../hooks/useTimeout';
+import { Pagination } from '../../shared/Pagination/Pagination';
 
 const modalSteps = {
   initial: 'INITIAL_STEP',
@@ -24,16 +25,19 @@ const modalSteps = {
 const SEARCH_DEBOUNCE_DELAY = 700;
 
 const normalizeSearchValue = (value) => value.trim();
+const collaboratorsPageSize = 10;
 
 export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
     const createTimeout = useTimeout();
     const collaboratorPermissionsEnabled = isCollaboratorPermissionsEnabled();
     const [loading, setLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(false);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({ items: [], currentPage: 0, pagesCount: 0 });
     const [availablePermissions, setAvailablePermissions] = useState([]);
     const [activeMenu, setActiveMenus] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -50,6 +54,9 @@ export const CollaboratorsSections = InjectAppServices(
     const permissionsLoadedRef = useRef(!collaboratorPermissionsEnabled);
     const hasLoadedInvitationsRef = useRef(false);
     const latestSearchValueRef = useRef('');
+    const requestedPage = Number(searchParams.get('page'));
+    const currentPage =
+      Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage - 1 : 0;
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
@@ -131,7 +138,13 @@ export const CollaboratorsSections = InjectAppServices(
           setTableLoading(true);
         }
 
-        const invitations = await dopplerUserApiClient.getCollaborationInvites(searchTerm);
+        const invitations = searchTerm
+          ? await dopplerUserApiClient.getCollaborationInvites(
+              currentPage,
+              collaboratorsPageSize,
+              searchTerm,
+            )
+          : await dopplerUserApiClient.getCollaborationInvites(currentPage, collaboratorsPageSize);
         if (invitationsRequestIdRef.current !== currentRequestId) {
           return;
         }
@@ -150,7 +163,7 @@ export const CollaboratorsSections = InjectAppServices(
       };
 
       fetchInvitations();
-    }, [dopplerUserApiClient, refreshTable, searchTerm]);
+    }, [currentPage, dopplerUserApiClient, refreshTable, searchTerm]);
 
     const toggleMenu = (index) => {
       if (activeMenu === index) {
@@ -258,12 +271,14 @@ export const CollaboratorsSections = InjectAppServices(
       setActiveMenus(false);
       createTimeout(() => {
         if (latestSearchValueRef.current === value) {
+          setSearchParams({ page: '1' });
           setSearchTerm(normalizeSearchValue(value));
         }
       }, SEARCH_DEBOUNCE_DELAY);
     };
 
     const handleSearchClick = () => {
+      setSearchParams({ page: '1' });
       setSearchTerm(normalizeSearchValue(searchValue));
     };
 
@@ -376,7 +391,7 @@ export const CollaboratorsSections = InjectAppServices(
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((item, index) => (
+                    {data.items.map((item, index) => (
                       <tr key={index}>
                         <td aria-label="Email">
                           <span>{item.email}</span>
@@ -468,6 +483,19 @@ export const CollaboratorsSections = InjectAppServices(
                       </tr>
                     ))}
                   </tbody>
+                  {data.pagesCount > 0 ? (
+                    <tfoot>
+                      <tr>
+                        <td colSpan="4">
+                          <Pagination
+                            currentPage={currentPage + 1}
+                            pagesCount={data.pagesCount}
+                            urlToGo={`${location.pathname}?`}
+                          />
+                        </td>
+                      </tr>
+                    </tfoot>
+                  ) : null}
                 </table>
               </div>
               <Modal
@@ -491,7 +519,7 @@ export const CollaboratorsSections = InjectAppServices(
                   <CollaboratorInviteForm
                     title={modalStep.title}
                     initialEmail={selectedEmail}
-                    existingInvitations={data}
+                    existingInvitations={data.items}
                     onCancel={() => handleModalOpen(false)}
                     onSubmit={goToPermissionsStep}
                   />
