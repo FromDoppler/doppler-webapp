@@ -747,7 +747,7 @@ other {}}}}}}}}}}
     tag_limit_exceeded: `Solo puede agregar {max} tags.`,
   },
   collaborator_edition: {
-    account_reports_title: 'Reportes de cuenta',
+    account_reports_title: 'Reportes de la cuenta: {owner_email}',
     account_reports_weekly_description: 'Recibes un resumen cada semana con el rendimiento de tu cuenta, con datos de la semana anterior. Desactivalo cuando quieras.',
     account_reports_weekly_label: 'Enviar reporte semanal de tu cuenta por email',
     account_reports_weekly_note: '<strong>¡Psst!</strong> Este envio no se descontara de tu Plan.',

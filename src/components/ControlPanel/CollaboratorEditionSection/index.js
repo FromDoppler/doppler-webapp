@@ -36,6 +36,11 @@ const languageIdsByCode = {
   en: 2,
 };
 
+const maxOwnerEmailLength = 30;
+
+const truncateOwnerEmail = (email) =>
+  email.length > maxOwnerEmailLength ? `${email.slice(0, maxOwnerEmailLength)}...` : email;
+
 const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
   const intl = useIntl();
 
@@ -69,12 +74,14 @@ const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
   );
 };
 
-const AccountReportsSection = ({ formatMessage, isOpen, onToggle, children }) => {
+const AccountReportsSection = ({ formatMessage, ownerEmail, isOpen, onToggle, children }) => {
   const { values } = useFormikContext();
 
   return (
     <CollapsibleSection
-      title={formatMessage('collaborator_edition.account_reports_title')}
+      title={formatMessage('collaborator_edition.account_reports_title', {
+        owner_email: ownerEmail,
+      })}
       status={values.weekly_account_report_enabled}
       isOpen={isOpen}
       onToggle={onToggle}
@@ -90,6 +97,8 @@ export const CollaboratorEditionSection = InjectAppServices(
     const _ = (id, values) => intl.formatMessage({ id }, values);
 
     const accountData = appSessionRef.current.userData.userAccount;
+    const owner_email = appSessionRef.current.userData.user?.email || '';
+    const truncatedOwnerEmail = truncateOwnerEmail(owner_email);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'COLLABORATOR';
@@ -298,6 +307,7 @@ export const CollaboratorEditionSection = InjectAppServices(
                       </CollapsibleSection>
                       <AccountReportsSection
                         formatMessage={_}
+                        ownerEmail={truncatedOwnerEmail}
                         isOpen={isAccountReportsOpen}
                         onToggle={toggleAccordionSection(setIsAccountReportsOpen)}
                       >
