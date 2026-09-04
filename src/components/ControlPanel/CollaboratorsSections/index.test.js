@@ -183,6 +183,39 @@ describe('CollaboratorsSections', () => {
     expect(screen.getByRole('link', { name: '5' })).toBeInTheDocument();
   });
 
+  it('updates the pagination when the search reduces the number of pages', async () => {
+    window.history.pushState({}, '', '/');
+
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    dopplerUserApiClient.getCollaborationInvites.mockImplementation(async (_, __, search) => ({
+      success: true,
+      value: search
+        ? createInvitationsPage([collaborationInvitesResult[0]])
+        : {
+            items: paginatedCollaborationInvitesResult.slice(0, 10),
+            currentPage: 0,
+            pageSize: 10,
+            itemsCount: 20,
+            pagesCount: 2,
+          },
+    }));
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(screen.getByRole('link', { name: '2' })).toBeInTheDocument();
+
+    await user.type(screen.getByRole('searchbox'), 'juan');
+    await user.click(screen.getByRole('button', { name: 'collaborators.search.label' }));
+
+    await waitFor(() =>
+      expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenLastCalledWith(0, 10, 'juan'),
+    );
+    expect(screen.queryByRole('link', { name: '2' })).not.toBeInTheDocument();
+  });
+
   it('does not load collaborator permissions or show the edit action when the flag is disabled', async () => {
     process.env.REACT_APP_COLLABORATOR_PERMISSIONS_ENABLED = 'false';
     const user = userEvent.setup();
