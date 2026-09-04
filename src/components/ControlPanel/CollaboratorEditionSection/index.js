@@ -48,13 +48,12 @@ const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
     <li className={isOpen ? 'active' : ''}>
       <button
         type="button"
-        className="dp-accordion-thumb"
+        className="dp-accordion-thumb dp-accordion-thumb--with-top-border"
         aria-expanded={isOpen}
         onClick={onToggle}
-        style={{ borderTop: '1px solid #ccc' }}
       >
-        <span className="dp-accordion-header">
-          <span>{title}</span>
+        <span className="dp-accordion-header dp-accordion-header--nowrap">
+          <span className="dp-accordion-title">{title}</span>
           {typeof status === 'boolean' ? (
             <span className={`pill ${status ? 'pill--green' : 'pill--grey'}`}>
               <span className="pill-text">
@@ -67,7 +66,7 @@ const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
           <span className="dp-accordion-icon" aria-hidden="true" />
         </span>
       </button>
-      <div style={{ display: isOpen ? 'block' : 'none' }}>
+      <div hidden={!isOpen}>
         <div className="dp-accordion-content">{children}</div>
       </div>
     </li>
