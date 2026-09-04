@@ -133,11 +133,13 @@ export const CollaboratorsSections = InjectAppServices(
           setTableLoading(true);
         }
 
-        const invitations = await dopplerUserApiClient.getCollaborationInvites(
-          currentPage,
-          collaboratorsPageSize,
-          searchTerm,
-        );
+        const invitations = searchTerm
+          ? await dopplerUserApiClient.getCollaborationInvites(
+              currentPage,
+              collaboratorsPageSize,
+              searchTerm,
+            )
+          : await dopplerUserApiClient.getCollaborationInvites(currentPage, collaboratorsPageSize);
         if (invitationsRequestIdRef.current !== currentRequestId) {
           return;
         }
