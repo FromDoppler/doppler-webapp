@@ -36,22 +36,6 @@ const languageIdsByCode = {
   en: 2,
 };
 
-const getInitialLanguage = (accountData, locale) => {
-  if (accountData?.language) {
-    return accountData.language;
-  }
-
-  if (accountData?.idLanguage === languageIdsByCode.en) {
-    return 'en';
-  }
-
-  if (accountData?.idLanguage === languageIdsByCode.es) {
-    return 'es';
-  }
-
-  return locale?.startsWith('en') ? 'en' : 'es';
-};
-
 const CollapsibleSection = ({ title, isOpen, onToggle, children, status }) => {
   const intl = useIntl();
 
@@ -154,7 +138,7 @@ export const CollaboratorEditionSection = InjectAppServices(
       enableReinitialize: true,
       initialValues: {
         email: accountData?.email || '',
-        language: getInitialLanguage(accountData, intl.locale),
+        language: intl.locale?.startsWith('en') ? 'en' : 'es',
         firstname: accountData?.firstName || accountData?.firstname || '',
         lastname: accountData?.lastName || accountData?.lastname || '',
         phone: accountData?.phone || '',

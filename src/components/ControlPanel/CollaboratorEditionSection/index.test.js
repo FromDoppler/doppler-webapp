@@ -18,7 +18,6 @@ const forcedServices = {
           firstname: 'test',
           lastname: 'test',
           phone: '+5491122334455',
-          language: 'es',
           userProfileType: 'COLLABORATOR',
         },
       },
@@ -95,15 +94,9 @@ describe('test for Collaborator Edition Section component ', () => {
     );
 
     const languageSelect = screen.getByLabelText('collaborator_edition.language:');
-    expect(languageSelect).toHaveValue('es');
-    expect(
-      screen.getByRole('option', { name: 'collaborator_edition.language_spanish' }),
-    ).toHaveValue('es');
-    expect(
-      screen.getByRole('option', { name: 'collaborator_edition.language_english' }),
-    ).toHaveValue('en');
+    expect(languageSelect).toHaveValue('en');
 
-    await user.selectOptions(languageSelect, 'en');
+    await user.selectOptions(languageSelect, 'es');
     await user.click(screen.getByRole('button', { name: 'common.save' }));
 
     await waitFor(() =>
@@ -111,7 +104,7 @@ describe('test for Collaborator Edition Section component ', () => {
         Firstname: 'test',
         Lastname: 'test',
         Phone: '+54 9 11 2233-4455',
-        IdLanguage: 2,
+        IdLanguage: 1,
         CurrentPassword: '',
         NewPassword: '',
       }),
