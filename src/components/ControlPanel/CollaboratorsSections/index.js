@@ -488,6 +488,7 @@ export const CollaboratorsSections = InjectAppServices(
                       <tr>
                         <td colSpan="4">
                           <Pagination
+                            key={`${currentPage}-${data.pagesCount}`}
                             currentPage={currentPage + 1}
                             pagesCount={data.pagesCount}
                             urlToGo={`${location.pathname}?`}
