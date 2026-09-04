@@ -287,19 +287,25 @@ describe('HttpDopplerUserApiClient', () => {
   it('should get user collaboration invites', async () => {
     // Arrange
     const response = {
-      data: [
-        {
-          idUser: 1,
-          idUserAccount: 202,
-          email: 'test1@fromdoppler.com',
-          firstname: 'name',
-          lastname: 'lastname',
-          invitationDate: '03-07-2024',
-          expirationDate: '03-07-2024',
-          sections: [1, 4, 8],
-          invitationStatus: 'APPROVED',
-        },
-      ],
+      data: {
+        items: [
+          {
+            idUser: 1,
+            idUserAccount: 202,
+            email: 'test1@fromdoppler.com',
+            firstname: 'name',
+            lastname: 'lastname',
+            invitationDate: '03-07-2024',
+            expirationDate: '03-07-2024',
+            sections: [1, 4, 8],
+            invitationStatus: 'APPROVED',
+          },
+        ],
+        currentPage: 1,
+        pageSize: 10,
+        itemsCount: 11,
+        pagesCount: 2,
+      },
       status: 200,
     };
 

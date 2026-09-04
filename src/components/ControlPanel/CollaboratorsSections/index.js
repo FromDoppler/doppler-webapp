@@ -512,7 +512,10 @@ export const CollaboratorsSections = InjectAppServices(
                               {currentPageNumber > initialPage + pageLimit + 1 ? (
                                 <>
                                   <li>
-                                    <button type="button" onClick={() => handlePagination(initialPage)}>
+                                    <button
+                                      type="button"
+                                      onClick={() => handlePagination(initialPage)}
+                                    >
                                       1
                                     </button>
                                   </li>
@@ -534,11 +537,11 @@ export const CollaboratorsSections = InjectAppServices(
                                 <li key={page}>
                                   {page === currentPageNumber ? (
                                     <span className="dp-active-page" aria-current="page">
-                                      {page + 1}
+                                      {page}
                                     </span>
                                   ) : (
                                     <button type="button" onClick={() => handlePagination(page)}>
-                                      {page + 1}
+                                      {page}
                                     </button>
                                   )}
                                 </li>

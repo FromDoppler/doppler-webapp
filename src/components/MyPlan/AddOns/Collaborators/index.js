@@ -47,7 +47,7 @@ export const Collaborators = InjectAppServices(
         if (!isFreeAccount) {
           const invitations = await dopplerUserApiClient.getCollaborationInvites();
           if (invitations.success) {
-            setCollaborators(invitations.value);
+            setCollaborators(invitations.value.items);
           }
         }
 

@@ -49,13 +49,21 @@ const paginatedCollaborationInvitesResult = Array.from({ length: 50 }, (_, index
   email: `test${index + 1}@fromdoppler.com`,
 }));
 
+const createInvitationsPage = (items, currentPage = 0) => ({
+  items,
+  currentPage,
+  pageSize: 10,
+  itemsCount: items.length,
+  pagesCount: Math.ceil(items.length / 10),
+});
+
 const createDopplerUserApiClientDouble = ({
   sendCollaboratorInviteResult = { success: true },
   updateCollaboratorResult = { success: true },
 } = {}) => ({
   getCollaborationInvites: jest.fn(async () => ({
     success: true,
-    value: collaborationInvitesResult,
+    value: createInvitationsPage(collaborationInvitesResult),
   })),
   getAvailableCollaboratorSections: jest.fn(async () => ({
     success: true,
@@ -146,10 +154,16 @@ describe('CollaboratorsSections', () => {
   it('shows the selected collaborators page and requests it from the API', async () => {
     const user = userEvent.setup();
     const dopplerUserApiClient = createDopplerUserApiClientDouble();
-    dopplerUserApiClient.getCollaborationInvites.mockResolvedValue({
+    dopplerUserApiClient.getCollaborationInvites.mockImplementation(async (pageNumber) => ({
       success: true,
-      value: paginatedCollaborationInvitesResult,
-    });
+      value: {
+        items: paginatedCollaborationInvitesResult.slice(pageNumber * 10, (pageNumber + 1) * 10),
+        currentPage: pageNumber,
+        pageSize: 10,
+        itemsCount: paginatedCollaborationInvitesResult.length,
+        pagesCount: 5,
+      },
+    }));
     renderComponent(dopplerUserApiClient);
 
     const loader = screen.getByTestId('wrapper-loading');
@@ -165,7 +179,7 @@ describe('CollaboratorsSections', () => {
     );
     expect(screen.getByText('test11@fromdoppler.com')).toBeInTheDocument();
     expect(screen.queryByText('test1@fromdoppler.com')).not.toBeInTheDocument();
-    expect(screen.getByText('...')).toBeInTheDocument();
+    expect(screen.getByTitle('pagination.go_foward_pages')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument();
   });
 
@@ -394,7 +408,7 @@ describe('CollaboratorsSections', () => {
     const dopplerUserApiClient = createDopplerUserApiClientDouble();
     dopplerUserApiClient.getCollaborationInvites.mockResolvedValueOnce({
       success: true,
-      value: [
+      value: createInvitationsPage([
         {
           idUser: 7,
           idUserAccount: null,
@@ -406,7 +420,7 @@ describe('CollaboratorsSections', () => {
           sections: [1],
           invitationStatus: 'APPROVED',
         },
-      ],
+      ]),
     });
     renderComponent(dopplerUserApiClient);
 
