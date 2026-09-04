@@ -497,7 +497,7 @@ export const CollaboratorsSections = InjectAppServices(
                   {finalPage > 0 ? (
                     <tfoot>
                       <tr>
-                        <td colSpan="5">
+                        <td colSpan="4">
                           <nav className="dp-pagination" aria-label={_('pagination.navigation')}>
                             <ul>
                               {currentPageNumber > initialPage ? (
