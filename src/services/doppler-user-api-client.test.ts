@@ -307,10 +307,15 @@ describe('HttpDopplerUserApiClient', () => {
     const dopplerUserApiClient = createHttpDopplerUserApiClient({ request });
 
     // Act
-    const result = await dopplerUserApiClient.getCollaborationInvites();
+    const result = await dopplerUserApiClient.getCollaborationInvites(1, 10);
 
     // Assert
     expect(request).toBeCalledTimes(1);
+    expect(request).toHaveBeenCalledWith(
+      expect.objectContaining({
+        params: { pageNumber: 1, pageSize: 10 },
+      }),
+    );
     expect(result).not.toBe(undefined);
     expect(result.success).toBe(true);
     expect(result.success && result.value).toEqual(response.data);

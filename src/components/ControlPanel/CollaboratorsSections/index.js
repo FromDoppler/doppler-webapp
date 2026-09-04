@@ -24,6 +24,7 @@ const modalSteps = {
 const SEARCH_DEBOUNCE_DELAY = 700;
 
 const normalizeSearchValue = (value) => value.trim();
+const collaboratorsPageSize = 10;
 
 export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
@@ -33,7 +34,7 @@ export const CollaboratorsSections = InjectAppServices(
     const collaboratorPermissionsEnabled = isCollaboratorPermissionsEnabled();
     const [loading, setLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(false);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({ items: [], currentPage: 0, pagesCount: 0 });
     const [availablePermissions, setAvailablePermissions] = useState([]);
     const [activeMenu, setActiveMenus] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -50,6 +51,7 @@ export const CollaboratorsSections = InjectAppServices(
     const permissionsLoadedRef = useRef(!collaboratorPermissionsEnabled);
     const hasLoadedInvitationsRef = useRef(false);
     const latestSearchValueRef = useRef('');
+    const [currentPage, setCurrentPage] = useState(0);
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
@@ -131,7 +133,11 @@ export const CollaboratorsSections = InjectAppServices(
           setTableLoading(true);
         }
 
-        const invitations = await dopplerUserApiClient.getCollaborationInvites(searchTerm);
+        const invitations = await dopplerUserApiClient.getCollaborationInvites(
+          currentPage,
+          collaboratorsPageSize,
+          searchTerm,
+        );
         if (invitationsRequestIdRef.current !== currentRequestId) {
           return;
         }
@@ -150,7 +156,7 @@ export const CollaboratorsSections = InjectAppServices(
       };
 
       fetchInvitations();
-    }, [dopplerUserApiClient, refreshTable, searchTerm]);
+    }, [currentPage, dopplerUserApiClient, refreshTable, searchTerm]);
 
     const toggleMenu = (index) => {
       if (activeMenu === index) {
@@ -258,13 +264,31 @@ export const CollaboratorsSections = InjectAppServices(
       setActiveMenus(false);
       createTimeout(() => {
         if (latestSearchValueRef.current === value) {
+          setCurrentPage(0);
           setSearchTerm(normalizeSearchValue(value));
         }
       }, SEARCH_DEBOUNCE_DELAY);
     };
 
     const handleSearchClick = () => {
+      setCurrentPage(0);
       setSearchTerm(normalizeSearchValue(searchValue));
+    };
+
+    const initialPage = 1;
+    const currentPageNumber = data.currentPage + 1;
+    const finalPage = data.pagesCount;
+    const pageLimit = 2;
+    const initialVisiblePage = Math.max(initialPage, currentPageNumber - pageLimit);
+    const finalVisiblePage = Math.min(finalPage, currentPageNumber + pageLimit);
+    const visiblePages = Array.from(
+      { length: finalVisiblePage - initialVisiblePage + 1 },
+      (_, index) => initialVisiblePage + index,
+    );
+
+    const handlePagination = (pageNumber) => {
+      setActiveMenus(false);
+      setCurrentPage(pageNumber - 1);
     };
 
     if (loading) {
@@ -376,7 +400,7 @@ export const CollaboratorsSections = InjectAppServices(
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((item, index) => (
+                    {data.items.map((item, index) => (
                       <tr key={index}>
                         <td aria-label="Email">
                           <span>{item.email}</span>
@@ -468,6 +492,96 @@ export const CollaboratorsSections = InjectAppServices(
                       </tr>
                     ))}
                   </tbody>
+                  {finalPage > 0 ? (
+                    <tfoot>
+                      <tr>
+                        <td colSpan="5">
+                          <nav className="dp-pagination" aria-label={_('pagination.navigation')}>
+                            <ul>
+                              {currentPageNumber > initialPage ? (
+                                <li>
+                                  <button
+                                    type="button"
+                                    className="ms-icon icon-arrow-prev"
+                                    aria-label={_('pagination.previous_page')}
+                                    title={_('pagination.previous_page')}
+                                    onClick={() => handlePagination(currentPageNumber - 1)}
+                                  />
+                                </li>
+                              ) : null}
+                              {currentPageNumber > initialPage + pageLimit + 1 ? (
+                                <>
+                                  <li>
+                                    <button type="button" onClick={() => handlePagination(initialPage)}>
+                                      1
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button
+                                      type="button"
+                                      className="dp-pag-point"
+                                      title={_('pagination.go_back_pages')}
+                                      onClick={() =>
+                                        handlePagination(
+                                          Math.max(initialPage, currentPageNumber - 5),
+                                        )
+                                      }
+                                    />
+                                  </li>
+                                </>
+                              ) : null}
+                              {visiblePages.map((page) => (
+                                <li key={page}>
+                                  {page === currentPageNumber ? (
+                                    <span className="dp-active-page" aria-current="page">
+                                      {page + 1}
+                                    </span>
+                                  ) : (
+                                    <button type="button" onClick={() => handlePagination(page)}>
+                                      {page + 1}
+                                    </button>
+                                  )}
+                                </li>
+                              ))}
+                              {currentPageNumber + pageLimit < finalPage ? (
+                                <>
+                                  <li>
+                                    <button
+                                      type="button"
+                                      className="dp-pag-point"
+                                      title={_('pagination.go_foward_pages')}
+                                      onClick={() =>
+                                        handlePagination(Math.min(finalPage, currentPageNumber + 5))
+                                      }
+                                    />
+                                  </li>
+                                  <li>
+                                    <button
+                                      type="button"
+                                      onClick={() => handlePagination(finalPage)}
+                                    >
+                                      {finalPage}
+                                    </button>
+                                  </li>
+                                </>
+                              ) : null}
+                              {currentPageNumber < finalPage ? (
+                                <li>
+                                  <button
+                                    type="button"
+                                    className="ms-icon icon-arrow-next"
+                                    aria-label={_('pagination.next_page')}
+                                    title={_('pagination.next_page')}
+                                    onClick={() => handlePagination(currentPageNumber + 1)}
+                                  />
+                                </li>
+                              ) : null}
+                            </ul>
+                          </nav>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  ) : null}
                 </table>
               </div>
               <Modal
@@ -491,7 +605,7 @@ export const CollaboratorsSections = InjectAppServices(
                   <CollaboratorInviteForm
                     title={modalStep.title}
                     initialEmail={selectedEmail}
-                    existingInvitations={data}
+                    existingInvitations={data.items}
                     onCancel={() => handleModalOpen(false)}
                     onSubmit={goToPermissionsStep}
                   />

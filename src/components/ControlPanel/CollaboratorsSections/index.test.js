@@ -42,6 +42,13 @@ const availableCollaboratorSections = [
   { idSection: 999, name: 'Custom Permission' },
 ];
 
+const paginatedCollaborationInvitesResult = Array.from({ length: 50 }, (_, index) => ({
+  ...collaborationInvitesResult[0],
+  idUser: index + 1,
+  idUserAccount: index + 1,
+  email: `test${index + 1}@fromdoppler.com`,
+}));
+
 const createDopplerUserApiClientDouble = ({
   sendCollaboratorInviteResult = { success: true },
   updateCollaboratorResult = { success: true },
@@ -133,6 +140,33 @@ describe('CollaboratorsSections', () => {
 
     expect(screen.getByText('test@fromdoppler.com')).toBeInTheDocument();
     expect(screen.queryByRole('table')).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'pagination.navigation' })).toBeInTheDocument();
+  });
+
+  it('shows the selected collaborators page and requests it from the API', async () => {
+    const user = userEvent.setup();
+    const dopplerUserApiClient = createDopplerUserApiClientDouble();
+    dopplerUserApiClient.getCollaborationInvites.mockResolvedValue({
+      success: true,
+      value: paginatedCollaborationInvitesResult,
+    });
+    renderComponent(dopplerUserApiClient);
+
+    const loader = screen.getByTestId('wrapper-loading');
+    await waitForElementToBeRemoved(loader);
+
+    expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenCalledWith(0, 10);
+    expect(screen.getByText('test1@fromdoppler.com')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: '2' }));
+
+    await waitFor(() =>
+      expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenLastCalledWith(1, 10),
+    );
+    expect(screen.getByText('test11@fromdoppler.com')).toBeInTheDocument();
+    expect(screen.queryByText('test1@fromdoppler.com')).not.toBeInTheDocument();
+    expect(screen.getByText('...')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument();
   });
 
   it('does not load collaborator permissions or show the edit action when the flag is disabled', async () => {
