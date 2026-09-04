@@ -148,7 +148,7 @@ describe('CollaboratorsSections', () => {
 
     expect(screen.getByText('test@fromdoppler.com')).toBeInTheDocument();
     expect(screen.queryByRole('table')).toBeInTheDocument();
-    expect(screen.getByRole('navigation', { name: 'pagination.navigation' })).toBeInTheDocument();
+    expect(document.querySelector('.dp-pagination')).toBeInTheDocument();
   });
 
   it('shows the selected collaborators page and requests it from the API', async () => {
@@ -172,15 +172,15 @@ describe('CollaboratorsSections', () => {
     expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenCalledWith(0, 10);
     expect(screen.getByText('test1@fromdoppler.com')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: '2' }));
+    await user.click(screen.getByRole('link', { name: '2' }));
 
     await waitFor(() =>
       expect(dopplerUserApiClient.getCollaborationInvites).toHaveBeenLastCalledWith(1, 10),
     );
     expect(screen.getByText('test11@fromdoppler.com')).toBeInTheDocument();
     expect(screen.queryByText('test1@fromdoppler.com')).not.toBeInTheDocument();
-    expect(screen.getByTitle('pagination.go_foward_pages')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument();
+    expect(screen.queryByTitle('pagination.go_foward_pages')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '5' })).toBeInTheDocument();
   });
 
   it('does not load collaborator permissions or show the edit action when the flag is disabled', async () => {

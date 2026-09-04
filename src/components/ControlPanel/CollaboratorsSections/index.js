@@ -9,9 +9,10 @@ import { CollaboratorInviteForm } from './Forms/CollaboratorInviteForm';
 import { CollaboratorPermissionsForm } from './Forms/CollaboratorPermissionsForm';
 import { SuccessStepForm } from './Forms/SuccessStepForm';
 import Modal from '../../Modal/Modal';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { isCollaboratorPermissionsEnabled } from '../../../services/collaborator-permissions-flag';
 import useTimeout from '../../../hooks/useTimeout';
+import { Pagination } from '../../shared/Pagination/Pagination';
 
 const modalSteps = {
   initial: 'INITIAL_STEP',
@@ -30,6 +31,8 @@ export const CollaboratorsSections = InjectAppServices(
   ({ dependencies: { dopplerUserApiClient, appSessionRef } }) => {
     const intl = useIntl();
     const _ = (id, values) => intl.formatMessage({ id: id }, values);
+    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
     const createTimeout = useTimeout();
     const collaboratorPermissionsEnabled = isCollaboratorPermissionsEnabled();
     const [loading, setLoading] = useState(true);
@@ -51,7 +54,9 @@ export const CollaboratorsSections = InjectAppServices(
     const permissionsLoadedRef = useRef(!collaboratorPermissionsEnabled);
     const hasLoadedInvitationsRef = useRef(false);
     const latestSearchValueRef = useRef('');
-    const [currentPage, setCurrentPage] = useState(0);
+    const requestedPage = Number(searchParams.get('page'));
+    const currentPage =
+      Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage - 1 : 0;
     const redirectToDashboard =
       appSessionRef.current.userData.userAccount?.userProfileType &&
       appSessionRef.current.userData.userAccount.userProfileType !== 'USER';
@@ -266,31 +271,15 @@ export const CollaboratorsSections = InjectAppServices(
       setActiveMenus(false);
       createTimeout(() => {
         if (latestSearchValueRef.current === value) {
-          setCurrentPage(0);
+          setSearchParams({ page: '1' });
           setSearchTerm(normalizeSearchValue(value));
         }
       }, SEARCH_DEBOUNCE_DELAY);
     };
 
     const handleSearchClick = () => {
-      setCurrentPage(0);
+      setSearchParams({ page: '1' });
       setSearchTerm(normalizeSearchValue(searchValue));
-    };
-
-    const initialPage = 1;
-    const currentPageNumber = data.currentPage + 1;
-    const finalPage = data.pagesCount;
-    const pageLimit = 2;
-    const initialVisiblePage = Math.max(initialPage, currentPageNumber - pageLimit);
-    const finalVisiblePage = Math.min(finalPage, currentPageNumber + pageLimit);
-    const visiblePages = Array.from(
-      { length: finalVisiblePage - initialVisiblePage + 1 },
-      (_, index) => initialVisiblePage + index,
-    );
-
-    const handlePagination = (pageNumber) => {
-      setActiveMenus(false);
-      setCurrentPage(pageNumber - 1);
     };
 
     if (loading) {
@@ -494,95 +483,15 @@ export const CollaboratorsSections = InjectAppServices(
                       </tr>
                     ))}
                   </tbody>
-                  {finalPage > 0 ? (
+                  {data.pagesCount > 0 ? (
                     <tfoot>
                       <tr>
                         <td colSpan="4">
-                          <nav className="dp-pagination" aria-label={_('pagination.navigation')}>
-                            <ul>
-                              {currentPageNumber > initialPage ? (
-                                <li>
-                                  <button
-                                    type="button"
-                                    className="ms-icon icon-arrow-prev"
-                                    aria-label={_('pagination.previous_page')}
-                                    title={_('pagination.previous_page')}
-                                    onClick={() => handlePagination(currentPageNumber - 1)}
-                                  />
-                                </li>
-                              ) : null}
-                              {currentPageNumber > initialPage + pageLimit + 1 ? (
-                                <>
-                                  <li>
-                                    <button
-                                      type="button"
-                                      onClick={() => handlePagination(initialPage)}
-                                    >
-                                      1
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button
-                                      type="button"
-                                      className="dp-pag-point"
-                                      title={_('pagination.go_back_pages')}
-                                      onClick={() =>
-                                        handlePagination(
-                                          Math.max(initialPage, currentPageNumber - 5),
-                                        )
-                                      }
-                                    />
-                                  </li>
-                                </>
-                              ) : null}
-                              {visiblePages.map((page) => (
-                                <li key={page}>
-                                  {page === currentPageNumber ? (
-                                    <span className="dp-active-page" aria-current="page">
-                                      {page}
-                                    </span>
-                                  ) : (
-                                    <button type="button" onClick={() => handlePagination(page)}>
-                                      {page}
-                                    </button>
-                                  )}
-                                </li>
-                              ))}
-                              {currentPageNumber + pageLimit < finalPage ? (
-                                <>
-                                  <li>
-                                    <button
-                                      type="button"
-                                      className="dp-pag-point"
-                                      title={_('pagination.go_foward_pages')}
-                                      onClick={() =>
-                                        handlePagination(Math.min(finalPage, currentPageNumber + 5))
-                                      }
-                                    />
-                                  </li>
-                                  <li>
-                                    <button
-                                      type="button"
-                                      onClick={() => handlePagination(finalPage)}
-                                    >
-                                      {finalPage}
-                                    </button>
-                                  </li>
-                                </>
-                              ) : null}
-                              {currentPageNumber < finalPage ? (
-                                <li>
-                                  <button
-                                    type="button"
-                                    className="ms-icon icon-arrow-next"
-                                    aria-label={_('pagination.next_page')}
-                                    title={_('pagination.next_page')}
-                                    onClick={() => handlePagination(currentPageNumber + 1)}
-                                  />
-                                </li>
-                              ) : null}
-                            </ul>
-                          </nav>
+                          <Pagination
+                            currentPage={currentPage + 1}
+                            pagesCount={data.pagesCount}
+                            urlToGo={`${location.pathname}?`}
+                          />
                         </td>
                       </tr>
                     </tfoot>
