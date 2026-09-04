@@ -675,12 +675,14 @@ describe('Doppler legacy client', () => {
         email: 'collaborator@test.com',
         firstName: 'Test',
         lastName: 'Collaborator',
+        weeklyAccountReportEnabled: false,
         userProfileType: 'COLLABORATOR',
         phone: '+541112223333',
         collaboratorViewAccessRights: [{ accessLevel: 25, idSection: 18, name: 'Landings' }],
       },
     });
 
+    expect(mappedHeaderData.userAccount.weeklyAccountReportEnabled).toBe(false);
     expect(mappedHeaderData.userAccount.collaboratorViewAccessRights).toEqual([
       { accessLevel: 25, idSection: 18, name: 'Landings' },
     ]);

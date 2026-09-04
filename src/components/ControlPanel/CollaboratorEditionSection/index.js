@@ -151,7 +151,7 @@ export const CollaboratorEditionSection = InjectAppServices(
         firstname: accountData?.firstName || accountData?.firstname || '',
         lastname: accountData?.lastName || accountData?.lastname || '',
         phone: accountData?.phone || '',
-        weekly_account_report_enabled: true,
+        weekly_account_report_enabled: accountData?.weeklyAccountReportEnabled ?? true,
         ...getFormInitialValues(fieldNames),
       },
       validateOnChange: true,
@@ -164,6 +164,7 @@ export const CollaboratorEditionSection = InjectAppServices(
         Lastname: values.lastname,
         Phone: values.phone,
         IdLanguage: languageIdsByCode[values.language] || languageIdsByCode.es,
+        WeeklyAccountReportEnabled: values.weekly_account_report_enabled,
         CurrentPassword: values.current_password,
         NewPassword: values.new_password,
       };
